@@ -4,8 +4,11 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 import OsfModel from './osf-model';
 
 export enum ResourceTypes {
-    Data = 'data',
-    Materials = 'materials',
+    Data = '1',
+    Code = '2',
+    Materials = '3',
+    Papers = '4',
+    Supplements = '5'
 }
 
 export default class ResourceModel extends OsfModel {

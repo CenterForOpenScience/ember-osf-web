@@ -54,6 +54,15 @@ export function registrationScenario(
 
     server.create('registration', { id: 'beefs' });
 
+    server.create('resource', {
+        pid: '2',
+        name: 'Code',
+        description: 'Code Badge',
+        dateCreated: new Date(),
+        dateModified: new Date(),
+        finalized: true,
+    });
+
     const currentUserWrite = server.create('registration', {
         id: 'writr',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
@@ -123,13 +132,13 @@ export function registrationScenario(
 
     const decaf = server.create('registration', {
         id: 'decaf',
-        title: 'Pending Penguins',
+        title: 'Global Penguins',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         reviewsState: RegistrationReviewStates.Accepted,
         registeredBy: currentUser,
         revisionState: RevisionReviewStates.RevisionPendingModeration,
-        currentUserPermissions: Object.values(Permission),
+        currentUserPermissions: [Permission.Admin],
         providerSpecificMetadata: [
             { field_name: 'EGAP Registration ID', field_value: '' },
             { field_name: 'Another Field', field_value: 'aloha' },
@@ -138,7 +147,7 @@ export function registrationScenario(
             'page-one_long-text': 'aaaaa',
             'page-one_multi-select': ['Crocs'],
         },
-    }, 'withContributors', 'withReviewActions', 'withFiles');
+    }, 'withContributors', 'withReviewActions', 'withFiles', 'withResources');
 
     const silicon = server.create('registration', {
         id: 'silicon',
