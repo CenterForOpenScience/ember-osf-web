@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
@@ -18,6 +19,7 @@ import Ready from 'ember-osf-web/services/ready';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
+import ResourceModel from 'ember-osf-web/models/resource';
 
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
@@ -27,6 +29,7 @@ export default class Overview extends GuidRoute {
     @service ready!: Ready;
 
     headTags?: HeadTagDef[];
+    resources?: ResourceModel[];
 
     @restartableTask({ cancelOn: 'deactivate' })
     @waitFor
@@ -42,6 +45,7 @@ export default class Overview extends GuidRoute {
                 license = null,
                 identifiers = [],
                 provider = null,
+                resources = [],
             ] = await all([
                 registration.sparseLoadAll(
                     'bibliographicContributors',
@@ -54,6 +58,10 @@ export default class Overview extends GuidRoute {
                 registration.license,
                 registration.identifiers,
                 registration.provider,
+                registration.sparseLoadAll(
+                    'resources',
+                    { resource: ['name']},
+                ),
             ]);
 
             const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
@@ -76,6 +84,7 @@ export default class Overview extends GuidRoute {
                 ),
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
+            const resourcesArray = resources && (resources as SparseModel[]).map(resource => resource.name);
             const headTags = [...this.metaTags.getHeadTags(metaTagsData)];
             if (provider && provider.assets && provider.assets.favicon) {
                 headTags.push({
@@ -87,6 +96,8 @@ export default class Overview extends GuidRoute {
                 });
             }
             this.set('headTags', headTags);
+            this.set('resources', resourcesArray);
+            console.log('resourcesArray', resourcesArray);
             this.metaTags.updateHeadTags();
         }
 

@@ -59,7 +59,7 @@
                     />
                 </layout.heading>
 
-                <layout.leftNavOld as |leftNav|>
+                <layout.leftNavOld local-class='Registration_LeftNav' as |leftNav|>
                     <leftNav.link data-analytics-name='Overview' @route='registries.overview.index'
                         @models={{array this.registration.id}} @icon='home' @label={{t 'registries.overview.title'}} />
                     <leftNav.link data-analytics-name='Files' 
@@ -126,20 +126,21 @@
                         @label={{t 'registries.overview.comments.title'}} @count={{this.commentsCount}} />
 
                     <div data-test-resources-wrapper local-class='ResourcesWrapper'>
+                        
                         <leftNav.link data-analytics-name='Data' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='data'
+                        @models={{array this.registration.id}} @icon='home'
                         @label={{t 'registries.overview.resources.data_badge.title'}} @count={{this.resourceBadges}} />
                         <leftNav.link data-analytics-name='Code' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='code'
+                        @models={{array this.registration.id}} @icon='home'
                         @label={{t 'registries.overview.resources.code_badge.title'}} @count={{this.resourceBadges}} />
                         <leftNav.link data-analytics-name='Materials' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='materials'
+                        @models={{array this.registration.id}} @icon='home'
                         @label={{t 'registries.overview.resources.materials_badge.title'}} @count={{this.resourceBadges}} />
                         <leftNav.link data-analytics-name='Papers' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='papers'
+                        @models={{array this.registration.id}} @icon='home'
                         @label={{t 'registries.overview.resources.papers_badge.title'}} @count={{this.resourceBadges}} />
                         <leftNav.link data-analytics-name='Supplements' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='supplements'
+                        @models={{array this.registration.id}} @icon='home'
                         @label={{t 'registries.overview.resources.supplements_badge.title'}} @count={{this.resourceBadges}} />
                     </div>
                 </layout.leftNavOld>

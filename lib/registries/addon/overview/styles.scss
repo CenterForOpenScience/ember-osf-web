@@ -80,7 +80,19 @@
 }
 
 .ResourcesWrapper {
-    list-style: none;
+    background-color: #fff;
+    color: $primary-blue;
+    border-top: 1px solid #999;
+    padding-top: 6px;
+}
+
+.ResourcesWrapper * {
+    background-color: #fff;
+    color: $primary-blue;
+    font-weight: 300;
+}
+
+.Registration_LeftNav {
     background-color: #fff;
     color: $primary-blue;
 }
