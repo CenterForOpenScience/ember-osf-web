@@ -1,5 +1,8 @@
 {
   "name": "ember-quickfiles",
   "dependencies": {
+      "osf-style": "https://github.com/CenterforOpenScience/osf-style.git#1.3.0",
+      "dropzone": "~4.3.0",
+      "jquery": "^2.2.4"
   }
 }

@@ -1,5 +1,20 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-{{welcome-page}}
-{{!-- Feel free to remove this! --}}
+<div>
+{{new-osf-navbar}}
 
-{{outlet}}
+{{maintenance-banner}}
+</div>
+<br />
+<br />
+<br />
+
+<div id="main" class="container">
+    <div class="row">
+        <div class="col-md-12" role="main">
+            {{outlet}}
+        </div>
+    </div>
+</div>
+
+{{osf-footer}}
+{{osf-copyright class='text-center'}}
+{{osf-mode-footer}}
