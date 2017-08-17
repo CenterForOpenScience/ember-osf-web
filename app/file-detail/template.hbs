@@ -1,0 +1,26 @@
+<div class='row'>
+    <div class='col-sm-5'>
+        <h2>{{model.name}}</h2>
+    </div>
+    <div class='col-sm-7'>
+        <div class='pull-right'>
+            <button {{action 'download'}} class='btn btn-sm btn-primary'>
+                Download
+            </button>
+        </div>
+    </div>
+</div>
+<hr>
+<div class='row'>
+    <div class='col-md-3'>
+        {{file-browser
+            selectedFile=model
+            display=display
+        }}
+    </div>
+    <div class='col-md-9'>
+        {{#file-renderer download=model.links.download
+            width="800" height="1000"}}
+        {{/file-renderer}}
+    </div>
+</div>
