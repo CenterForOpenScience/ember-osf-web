@@ -15,7 +15,7 @@
     "test": "ember test"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "file:///Users/henriqueharman/Desktop/ember-osf",
+    "@centerforopenscience/ember-osf": "0.8.4",
     "bootstrap": "^3.3.7",
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^2.4.1",

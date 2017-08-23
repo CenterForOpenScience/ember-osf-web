@@ -15,7 +15,9 @@
     <div class='col-md-3'>
         {{file-browser
             selectedFile=model
-            display=display
+            display=displays
+            userId=userId
+            openFile=(action 'openFile')
         }}
     </div>
     <div class='col-md-9'>
