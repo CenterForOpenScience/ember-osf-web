@@ -10,8 +10,8 @@
 
     {{content-for "head"}}
 
-    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-    <link rel="stylesheet" href="{{rootURL}}assets/ember-quickfiles.css">
+    <!-- <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/ember-quickfiles.css"> -->
 
     {{content-for "head-footer"}}
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -20,8 +20,9 @@
   <body>
     {{content-for "body"}}
 
-    <script src="{{rootURL}}assets/vendor.js"></script>
-    <script src="{{rootURL}}assets/ember-quickfiles.js"></script>
+    <!-- <script src="{{rootURL}}assets/vendor.js"></script> -->
+    <!-- <script src="{{rootURL}}assets/ember-quickfiles.js"></script> -->
+    {{content-for "assets"}}
 
     {{content-for "body-footer"}}
   </body>
