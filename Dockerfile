@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:8
 
 RUN apt-get update \
     && apt-get install -y \
@@ -40,7 +40,7 @@ RUN mkdir -p /code
 WORKDIR /code
 
 COPY ./package.json ./yarn.lock /code/
-RUN yarn --pure-lockfile
+RUN yarn --pure-lockfile --ignore-engines
 
 COPY ./.bowerrc /code/.bowerrc
 COPY ./bower.json /code/bower.json
