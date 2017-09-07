@@ -1,7 +1,11 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
-    beforeModel() {
-        this.transitionTo('user-quickfiles', 'me');
+import CasAuthenticatedRouteMixin from 'ember-osf/mixins/cas-authenticated-route';
+
+export default Ember.Route.extend(CasAuthenticatedRouteMixin, {
+    currentUser: Ember.inject.service('currentUser'),
+    beforeModel(transition) {
+        this._super(transition);
+        this.transitionTo('user-quickfiles', this.get('currentUser').get('currentUserId'));
     }
 });
