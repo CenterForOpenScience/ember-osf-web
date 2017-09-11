@@ -39,6 +39,16 @@
             userId=userId
             openFile=(action 'openFile')
         }}
+        {{#if isAdmin}}
+        <div class="clearfix">
+            <label>Tags:</label>
+            {{tags-widget 
+                addATag=(action 'addTag') 
+                removeATag=(action 'removeTag') 
+                tags=fileTags
+            }}
+        </div>
+        {{/if}}
     </div>
     <div class='col-md-9'>
         <div id='mfrIframeParent'>
