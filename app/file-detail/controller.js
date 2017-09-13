@@ -6,6 +6,9 @@ export default Ember.Controller.extend({
     userId: Ember.computed('model', function() {
         return this.get('model.user');
     }),
+    versions: Ember.computed('model', function() {
+        return this.get('model.versions');
+    }),
     isAdmin: Ember.computed('model', function() {
         // True if the current user has admin permissions for the node that contains the preprint
         //return (this.get('model.user.currentUserPermissions') || []).includes(permissions.ADMIN);
