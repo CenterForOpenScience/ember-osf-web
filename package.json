@@ -1,8 +1,8 @@
 {
-  "name": "ember-quickfiles",
+  "name": "ember-osf-web",
   "version": "0.0.0",
-  "description": "Small description for ember-quickfiles goes here",
-  "license": "MIT",
+  "description": "Ember front-end for the Open Science Framework",
+  "license": "Apache-2.0",
   "author": "",
   "directories": {
     "doc": "doc",

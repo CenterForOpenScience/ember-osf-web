@@ -4,7 +4,7 @@ module.exports = function(environment) {
     const authorizationType = 'cookie';
 
     var ENV = {
-        modulePrefix: 'ember-quickfiles',
+        modulePrefix: 'ember-osf-web',
         environment: environment,
         locationType: 'auto',
         authorizationType: authorizationType,

@@ -1,5 +1,5 @@
 {
-  "name": "ember-quickfiles",
+  "name": "ember-osf-web",
   "dependencies": {
       "dropzone": "~4.3.0"
   }

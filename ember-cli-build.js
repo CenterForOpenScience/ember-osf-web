@@ -37,7 +37,7 @@ module.exports = function(defaults) {
                             var prefix = '/quickfiles/assets/';
                             [
                                 'vendor',
-                                'ember-quickfiles'
+                                'ember-osf-web'
                             ].forEach(function (name) {
                                 var script = document.createElement('script');
                                 script.src = prefix + name + window.assetSuffix + '.js';
