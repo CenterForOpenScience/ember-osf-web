@@ -7,6 +7,7 @@ const configFunc = require('./config/environment');
 const {
     EMBER_ENV
 } = process.env;
+const Funnel = require('broccoli-funnel');
 
 module.exports = function(defaults) {
     const config = configFunc(EMBER_ENV);
@@ -17,7 +18,12 @@ module.exports = function(defaults) {
         'ember-bootstrap': {
             'bootstrapVersion': 3,
             'importBootstrapFont': true,
-            'importBootstrapCSS': true
+            'importBootstrapCSS': false
+        },
+        sassOptions: {
+            includePaths: [
+                'node_modules/@centerforopenscience/osf-style/sass'
+            ]
         },
         inlineContent: {
             assets: {
@@ -49,19 +55,18 @@ module.exports = function(defaults) {
         }
     });
 
-    // osf-style
-    app.import(path.join(app.bowerDirectory, 'osf-style/vendor/prism/prism.css'));
-    app.import(path.join(app.bowerDirectory, 'osf-style/page.css'));
-    app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
-    app.import(path.join(app.bowerDirectory, 'loaders.css/loaders.min.css'));
-    app.import(path.join(app.bowerDirectory, 'osf-style/img/cos-white2.png'), {
-        destDir: 'img'
-    });
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/basic.css'));
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.css'));
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.js'));
 
     app.import('vendor/assets/ember-osf.css');
 
-    return app.toTree();
+    const assets = [
+        new Funnel('node_modules/@centerforopenscience/osf-style/img', {
+           srcDir: '/',
+           destDir: 'img',
+        })
+    ];
+
+    return app.toTree(assets);
 };
