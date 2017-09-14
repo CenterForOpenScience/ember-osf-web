@@ -7,53 +7,55 @@
         <div id='toggleBar' class='pull-right'>
             <div class='btn-toolbar m-t-md'>
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary' {{action 'share'}}>
+                    <button class='btn btn-sm btn-primary popover-toggler' {{action 'share'}}>
                         Share
-                        {{#bs-popover placement='bottom' title='Share'}}
-                            <div>
-                                <ul class='nav nav-tabs nav-justified'>
-                                    <li class='active'>
-                                        <a href='#share' data-toggle='tab'>Share</a>
-                                    </li>
-                                    <li>
-                                        <a href='#embed' data-toggle='tab'>Embed</a>
-                                    </li>
-                                </ul>
-                                <br>
+                        {{#bs-popover placement='bottom' class='share-popover' title='Share'}}
+                            {{#bs-tab customTabs=true as |tab|}}
+                                {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
+                                    {{#nav.item active=(bs-eq tab.activeId 'sharePane')}}
+                                        <a href='#sharePane' role='tab' {{action tab.select 'sharePane'}}>Share</a>
+                                    {{/nav.item}}
+                                    {{#nav.item active=(bs-eq tab.activeId "embedPane")}}
+                                        <a href='#sharePane' role='tab' {{action tab.select 'embedPane'}}>Embed<span class='badge'>{{badge}}</span></a>
+                                    {{/nav.item}}
+                                {{/bs-nav}}
+
                                 <div class='tab-content'>
-                                    <div id='share' class='tab-pane active'>
+                                    {{#tab.pane elementId='sharePane' title='Share'}}
+                                        <br>
                                         <div class='input-group'>
-                                            <span class='input-group-btn'>
-                                                <button type="button" data-clipboard-text="" class="btn btn-default btn-md">
-                                                    <div class="fa fa-copy"></div>
+                                            <span class='input-group-btn share-btn-container'>
+                                                <button type='button' data-clipboard-text='' class='btn btn-default btn-md'>
+                                                    <div class='fa fa-copy'></div>
                                                 </button>
                                             </span>
-                                            <input readonly='true' type='text' class='form-control'>
+                                            <input readonly='true' type='text' class='form-control' value='{{{mfrUrl}}}'>
+                                            <div class='share-buttons'>
+                                                <a href='{{twitterUrl}}' target='_blank'>
+                                                    <i aria-hidden='true' class='fa fa-twitter'></i>
+                                                </a>
+                                                <a href='{{facebookUrl}}' target='_blank'>
+                                                    <i aria-hidden='true' class='fa fa-facebook'></i>
+                                                </a>
+                                                <a href='{{linkedInUrl}}' target='_blank' data-toggle='tooltip' data-placement='bottom' data-original-title='Disable adblock for full sharing functionality'>
+                                                    <i aria-hidden='true' class='fa fa-linkedin'></i>
+                                                </a>
+                                                <a href='{{emailUrl}}' target='_blank'>
+                                                    <i aria-hidden='true' class='fa fa-envelope'></i>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="share-buttons ">
-                                            <a href="#" target="_blank">
-                                                <i aria-hidden="true" class="fa fa-twitter"></i>
-                                            </a>
-                                            <a href="#" target="_blank">
-                                                <i aria-hidden="true" class="fa fa-facebook"></i>
-                                            </a>
-                                            <a href="#" target="_blank" data-toggle="tooltip" data-placement="bottom" data-original-title="Disable adblock for full sharing functionality">
-                                                <i aria-hidden="true" class="fa fa-linkedin"></i>
-                                            </a>
-                                            <a href="#" target="_blank">
-                                                <i aria-hidden="true" class="fa fa-envelope"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div id="embed" class="tab-pane">
+                                    {{/tab.pane}}
+                                    {{#tab.pane elementId='embedPane' title='Embed'}}
+                                        <br>
                                         <p>Dynamically render iframe with JavaScript</p>
-                                        <textarea readonly="true" type="text" class="form-control"></textarea>
+                                        <textarea readonly='true' type='text' class='form-control'>{{{shareiFrameDynamic}}}</textarea>
                                         <br>
                                         <p>Direct iframe with fixed height and width</p>
-                                        <textarea readonly="true" class="form-control"></textarea>
-                                    </div>
+                                        <textarea readonly='true' class='form-control'>{{{shareiFrameDirect}}}</textarea>
+                                    {{/tab.pane}}
                                 </div>
-                            </div>
+                            {{/bs-tab}}
                         {{/bs-popover}}
                     </button>
                 </div>
@@ -85,16 +87,24 @@
             user=userId
             openFile=(action 'openFile')
         }}
-        {{#if isAdmin}}
-        <div class="clearfix">
-            <label>Tags:</label>
-            {{tags-widget 
-                addATag=(action 'addTag') 
-                removeATag=(action 'removeTag') 
-                tags=fileTags
-            }}
+        <div class='panel panel-default'>
+            <div class='panel-heading clearfix'>
+                <h3 class='panel-title'>Tags:</h3>
+            </div>
+            <div class='panel-body'>
+                <div id="fileTags_tagsinput" class="tagsinput" style="width: 100%; height: 100px;">
+                    <div id="fileTags_addTag">
+                        {{tags-widget 
+                            addATag=(action 'addTag') 
+                            removeATag=(action 'removeTag') 
+                            tags=model.tags
+                        }}                    
+                    </div>
+                <div class="tags_clear">
+                </div>
+                </div>
+            </div>
         </div>
-        {{/if}}
     </div>
     <div class='col-md-9'>
         <div id='mfrIframeParent'>
