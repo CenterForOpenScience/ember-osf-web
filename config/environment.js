@@ -1,4 +1,4 @@
-/* jshint node: true */
+/* eslint-env node */
 
 module.exports = function(environment) {
     const authorizationType = 'cookie';
@@ -39,6 +39,7 @@ module.exports = function(environment) {
 
     if (environment === 'test') {
         // Testem prefers this...
+        ENV.rootURL = '/';
         ENV.locationType = 'none';
 
         // keep test console output quieter
@@ -46,10 +47,6 @@ module.exports = function(environment) {
         ENV.APP.LOG_VIEW_LOOKUPS = false;
 
         ENV.APP.rootElement = '#ember-testing';
-    }
-
-    if (environment === 'production') {
-
     }
 
     return ENV;
