@@ -25,11 +25,11 @@
                                         <br>
                                         <div class='input-group'>
                                             <span class='input-group-btn share-btn-container'>
-                                                <button type='button' data-clipboard-text='' class='btn btn-default btn-md'>
+                                                <button type='button' class='btn btn-default btn-md' {{action 'share'}}>
                                                     <div class='fa fa-copy'></div>
                                                 </button>
                                             </span>
-                                            <input readonly='true' type='text' class='form-control' value='{{{mfrUrl}}}'>
+                                            <input readonly='true' type='text' class='form-control' value='{{{mfrUrl}}}' id='sharePaneUrl'>
                                             <div class='share-buttons'>
                                                 <a href='{{twitterUrl}}' target='_blank'>
                                                     <i aria-hidden='true' class='fa fa-twitter'></i>
@@ -94,11 +94,7 @@
             <div class='panel-body'>
                 <div id="fileTags_tagsinput" class="tagsinput" style="width: 100%; height: 100px;">
                     <div id="fileTags_addTag">
-                        {{tags-widget 
-                            addATag=(action 'addTag') 
-                            removeATag=(action 'removeTag') 
-                            tags=model.tags
-                        }}                    
+
                     </div>
                 <div class="tags_clear">
                 </div>
@@ -129,7 +125,7 @@
                     </thead>
                     <tbody>
                         {{file-version
-                         version=versions
+                         version=fileVersions
                          download='download'}}
                     </tbody>
                 </table>

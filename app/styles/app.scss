@@ -1,2 +1,60 @@
 @import 'bootstrap';
 @import 'osf-style';
+
+#versionLink {
+   cursor: pointer;
+}
+#revisionsPanel {
+   display: none;
+}
+.panel {
+   border: 1px solid transparent;
+   box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.panel-default {
+    border-bottom: 1px solid transparent;
+    border-color: #ddd;
+}
+.panel-default > .panel-heading {
+   text-align: left;
+   padding: 7px 10px;
+   background-color: #EFEFEF;
+   justify-content: flex-start;
+   color: #333;
+   border-color: #ddd;
+}
+.table {
+	margin-bottom: 0px;
+}
+.share-popover {
+  text-align: center;
+  max-width: 450px;
+  width: 450px;
+}
+.share-btn-container {
+  height: 34px;
+  vertical-align: top;
+}
+.share-buttons {
+  margin: 12px 4px 3px;
+  padding-top: 30px;
+}
+.share-buttons a {
+  display: inline-block;
+  padding: 0 2px;
+  width: 35px;
+  text-align: center;
+  margin: 0 2px;
+  background-color: #f0f0f0;
+}
+.share-buttons .fa {
+  color: #08c;
+  font-size: 1.6em;
+  line-height: 1.6em;
+}
+.col-md-3 .file-browser, .col-md-3 .file-browser-list {
+  margin-bottom: 20px;
+  height: auto;
+  max-height: 500px;
+  overflow-x: scroll;
+}

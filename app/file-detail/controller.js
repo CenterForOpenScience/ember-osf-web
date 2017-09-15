@@ -3,14 +3,15 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     displays: Ember.A([]),
-    fileUrl: Ember.computed('model', function() {
-        return encodeURIComponent(window.location.href);
-    }),
+
     userId: Ember.computed('model', function() {
         return this.get('model.user');
     }),
-    versions: Ember.computed('model', function() {
-        return this.get('model.versions');
+    fileTags: Ember.computed('model', function() {
+        return this.get('model.tags');
+    }),
+    fileUrl: Ember.computed('model', function() {
+        return encodeURIComponent(window.location.href);
     }),
     twitterUrl: Ember.computed('model', 'fileUrl', function() {
         return 'https://twitter.com/intent/tweet?url=' + this.get('fileUrl') + '&text=' + this.get('model.name') + '&via=OSFramework';
@@ -33,38 +34,34 @@ export default Ember.Controller.extend({
     shareiFrameDirect: Ember.computed('model', function() {
         return '<iframe src="' + this.get('mfrUrl') + '" width="100%" scrolling="yes" height="677px" marginheight="0" frameborder="0" allowfullscreen webkitallowfullscreen>';
     }),
+    fileVersions: Ember.computed('model', function() {
+        let versionId = this.get('model.versions.content.record._data.guid');
+        let versionSize = this.get('model.versions.content.record._data.size');
+
+        let versionArray = {'id': versionId, 'size': versionSize};
+        debugger;
+        return versionArray;
+    }),
+
     actions: {
+        share() {
+            document.querySelector("#sharePaneUrl").select();
+            document.execCommand('copy');    
+        },
+
         download() {
             window.location = this.get('model.links.download');
         },
+
         changeView() {
             Ember.$('#mfrIframeParent').toggle();
             Ember.$('#revisionsPanel').toggle();
             Ember.$('.view-button').toggleClass('btn-default btn-primary');
         },
+
         openFile(file) {
             let fileID = file.get('guid') ? file.get('guid') : file.id;
             this.transitionToRoute('file-detail', fileID);
-        },
-        addTag(tag) {
-            Ember.get(this, 'metrics')
-                .trackEvent({
-                    category: 'input',
-                    action: 'onchange',
-                    label: `${this.get('editMode') ? 'Edit' : 'Submit'} - Add Tag`
-                });
-
-            this.get('fileTags').pushObject(tag);
-        },
-        removeTag(tag) {
-            Ember.get(this, 'metrics')
-                .trackEvent({
-                    category: 'button',
-                    action: 'click',
-                    label: `${this.get('editMode') ? 'Edit' : 'Submit'} - Remove Tag`
-                });
-
-            this.get('fileTags').removeObject(tag);
-        },
+        }
     }
 });
