@@ -1,14 +1,12 @@
 import Ember from 'ember';
+import fixSpecialChar from 'ember-osf/utils/fix-special-char';
 
 
 export default Ember.Controller.extend({
     displays: Ember.A([]),
-
+    fileTags: Ember.A([]),
     userId: Ember.computed('model', function() {
         return this.get('model.user');
-    }),
-    fileTags: Ember.computed('model', function() {
-        return this.get('model.tags');
     }),
     fileUrl: Ember.computed('model', function() {
         return encodeURIComponent(window.location.href);
@@ -39,7 +37,6 @@ export default Ember.Controller.extend({
         let versionSize = this.get('model.versions.content.record._data.size');
 
         let versionArray = {'id': versionId, 'size': versionSize};
-        debugger;
         return versionArray;
     }),
 
@@ -62,6 +59,22 @@ export default Ember.Controller.extend({
         openFile(file) {
             let fileID = file.get('guid') ? file.get('guid') : file.id;
             this.transitionToRoute('file-detail', fileID);
+        },
+
+        addTag(tag) {
+            const model = this.get('model');
+            this.get('fileTags').pushObject(tag);
+            model.set('tags', this.get('fileTags'));    
+            model.save();        
+        },
+
+        removeTagAtIndex(index) {
+            let model = this.get('model');
+            this.get('fileTags').removeAt(index);
+            if (this.get('tagsChanged')) {
+                model.set('tags', this.get('fileTags'));
+                model.save();
+            }
         }
     }
 });

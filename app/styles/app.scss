@@ -14,14 +14,14 @@
 .panel-default {
     border-bottom: 1px solid transparent;
     border-color: #ddd;
-}
-.panel-default > .panel-heading {
-   text-align: left;
-   padding: 7px 10px;
-   background-color: #EFEFEF;
-   justify-content: flex-start;
-   color: #333;
-   border-color: #ddd;
+    & > .panel-heading {
+      text-align: left;
+      padding: 7px 10px;
+      background-color: #EFEFEF;
+      justify-content: flex-start;
+      color: #333;
+      border-color: #ddd;
+    }
 }
 .table {
 	margin-bottom: 0px;
@@ -38,23 +38,40 @@
 .share-buttons {
   margin: 12px 4px 3px;
   padding-top: 30px;
-}
-.share-buttons a {
-  display: inline-block;
-  padding: 0 2px;
-  width: 35px;
-  text-align: center;
-  margin: 0 2px;
-  background-color: #f0f0f0;
-}
-.share-buttons .fa {
-  color: #08c;
-  font-size: 1.6em;
-  line-height: 1.6em;
+  & > a {
+    display: inline-block;
+    padding: 0 2px;
+    width: 35px;
+    text-align: center;
+    margin: 0 2px;
+    background-color: #f0f0f0;
+  }
+  & > .fa {
+    color: #08c;
+    font-size: 1.6em;
+    line-height: 1.6em;
+  }
 }
 .col-md-3 .file-browser, .col-md-3 .file-browser-list {
   margin-bottom: 20px;
   height: auto;
   max-height: 500px;
   overflow-x: scroll;
+}
+.emberTagInput-tag {
+  background: #DEF;
+  border-radius: 0px;
+  color: black;
+  font-size: 13px;
+  cursor: pointer;
+  & > a {
+    color: black;
+  }
+  &:hover {
+    background: #337ab7;
+    color: #E0EBF3;
+    & > a {
+      color: #E0EBF3;
+    }
+  }
 }

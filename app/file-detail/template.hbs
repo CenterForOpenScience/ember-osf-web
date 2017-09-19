@@ -92,13 +92,17 @@
                 <h3 class='panel-title'>Tags:</h3>
             </div>
             <div class='panel-body'>
-                <div id="fileTags_tagsinput" class="tagsinput" style="width: 100%; height: 100px;">
-                    <div id="fileTags_addTag">
-
-                    </div>
-                <div class="tags_clear">
-                </div>
-                </div>
+                {{#tag-input
+                    tags=fileTags
+                    addTag=(action 'addTag')
+                    removeTagAtIndex=(action 'removeTagAtIndex')
+                    allowSpacesInTags=true
+                    as |tag|
+                }}
+                    {{tag}}
+                {{/tag-input}}
+            <div class="tags_clear">
+            </div>
             </div>
         </div>
     </div>
