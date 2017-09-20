@@ -7,8 +7,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-    this.route('my-quickfiles', {path: '/quickfiles'});
-    this.route('my-quickfiles', {path: '/me/quickfiles'});
+    this.route('quickfiles', {path: '/quickfiles'});
+    this.route('quickfiles', {path: '/me/quickfiles'});
     this.route('user-quickfiles', {path: '/:user_id/quickfiles'});
     this.route('file-detail', {path: '/:file_id'});
 });
