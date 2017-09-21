@@ -1,24 +1,32 @@
 ---
 language: node_js
-node_js:
-  - "4"
+node_js: 8.5
 
 sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
+
+env:
+  global:
+    - SUPPRESS_NO_CONFIG_WARNING=true
 
 cache:
+  yarn: true
   directories:
-    - $HOME/.npm
+    - node_modules
     - $HOME/.cache # includes bowers cache
 
 before_install:
-  - npm config set spin false
-  - npm install -g bower phantomjs-prebuilt
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn global add bower
   - bower --version
-  - phantomjs --version
 
 install:
-  - npm install
-  - bower install
+  - yarn --prefer-offline --pure-lockfile --ignore-engines
+  - bower install --config.interactive=false
 
 script:
-  - npm test
+  - yarn test
