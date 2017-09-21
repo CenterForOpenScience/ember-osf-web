@@ -93,7 +93,7 @@
             </div>
             <div class='panel-body'>
                 {{#tag-input
-                    tags=model.tags
+                    tags=fileTags
                     addTag=(action 'addTag')
                     removeTagAtIndex=(action 'removeTagAtIndex')
                     allowSpacesInTags=true
@@ -115,7 +115,7 @@
         <div id='revisionsPanel' class='panel panel-default'>
             <div class='panel-heading clearfix'>
                 <h3 class='panel-title'>
-                    Revision
+                    Revisions
                 </h3>
             </div>
             <div class='panel-body'>
@@ -130,8 +130,10 @@
                     <tbody>
                         {{#each fileVersions as |version|}}
                             {{file-version
-                             version=version
-                             download='download'}}
+                                version=version
+                                download='download'
+                                clickable=true
+                            }}
                         {{/each}}
                     </tbody>
                 </table>

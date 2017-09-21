@@ -59,7 +59,6 @@
   margin-bottom: 20px;
   height: auto;
   max-height: 500px;
-  overflow-x: scroll;
 }
 .emberTagInput-tag {
   background: #DEF;
@@ -77,4 +76,7 @@
       color: #E0EBF3;
     }
   }
+}
+.file-version a {
+  cursor: pointer;
 }

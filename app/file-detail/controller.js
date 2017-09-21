@@ -1,9 +1,11 @@
 import Ember from 'ember';
+import humanFileSize from 'ember-osf/utils/human-file-size';
 
 
 export default Ember.Controller.extend({
     displays: Ember.A([]),
-    fileTags: Ember.A([]),
+    queryParams: ['revision'],
+    revision: null,
 
     userId: Ember.computed('model', function() {
         return this.get('model.user');
@@ -42,18 +44,29 @@ export default Ember.Controller.extend({
     }),
     
     fileVersions: Ember.computed('model', function() {
-        let versionArray = Ember.A([]);
+        let versionArray = [];
         let versionId = ''; 
         let versionSize = '';
 
         this.get('model.versions').then(versions => {
             versions.currentState.forEach(function(version) {
                 versionId = version.id;
-                versionSize = version.__data.size;
+                versionSize = humanFileSize(version.__data.size, true);
                 versionArray.pushObject({'id': versionId, 'size': versionSize});
             });
         });
         return versionArray;
+    }),
+
+    filteredVersion: Ember.computed('revision', 'model', function() {
+        let revision = this.get('revision');
+        let file = this.get('model');
+
+        return file ? file.filterBy('revision', revision) : file;
+    }),
+
+    fileTags: Ember.computed('model', function() {
+        return this.get('model.tags');
     }),
 
     actions: {
@@ -80,15 +93,20 @@ export default Ember.Controller.extend({
         addTag(tag) {
             const model = this.get('model');
             this.get('fileTags').pushObject(tag);
-            model.set('tags', this.get('fileTags'));    
+            model.set('tags', this.get('fileTags')); 
             model.save();        
         },
 
         removeTagAtIndex(index) {
-            let model = this.get('model');
+            const model = this.get('model');
             this.get('fileTags').removeAt(index);
             model.set('tags', this.get('fileTags'));
             model.save();
+        },
+
+        changeVersion(version) {
+            this.set('revision', version);
         }
+
     }
 });
