@@ -45,14 +45,17 @@ export default Ember.Controller.extend({
     
     fileVersions: Ember.computed('model', function() {
         let versionArray = [];
-        let versionId = ''; 
+        let versionID = ''; 
         let versionSize = '';
+        let versionClickable = true;
+        const currentVersion = this.get('model.currentVersion');
 
         this.get('model.versions').then(versions => {
-            versions.currentState.forEach(function(version) {
-                versionId = version.id;
-                versionSize = humanFileSize(version.__data.size, true);
-                versionArray.pushObject({'id': versionId, 'size': versionSize});
+            versions.forEach(function(version) {
+                versionID = version.get('id');
+                versionSize = humanFileSize(version.get('size'), true);
+                versionClickable = versionID == currentVersion ? false : true;
+                versionArray.pushObject({'id': versionID, 'size': versionSize, 'clickable': versionClickable});
             });
         });
         return versionArray;
