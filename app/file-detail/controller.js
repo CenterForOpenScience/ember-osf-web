@@ -1,11 +1,8 @@
 import Ember from 'ember';
-import humanFileSize from 'ember-osf/utils/human-file-size';
 
 
 export default Ember.Controller.extend({
     displays: Ember.A([]),
-    queryParams: ['revision'],
-    revision: null,
 
     userId: Ember.computed('model', function() {
         return this.get('model.user');
@@ -42,34 +39,17 @@ export default Ember.Controller.extend({
     shareiFrameDirect: Ember.computed('model', function() {
         return '<iframe src="' + this.get('mfrUrl') + '" width="100%" scrolling="yes" height="677px" marginheight="0" frameborder="0" allowfullscreen webkitallowfullscreen>';
     }),
-    
-    fileVersions: Ember.computed('model', function() {
-        let versionArray = [];
-        let versionID = ''; 
-        let versionSize = '';
-        let versionClickable = true;
-        const currentVersion = this.get('model.currentVersion');
-
-        this.get('model.versions').then(versions => {
-            versions.forEach(function(version) {
-                versionID = version.get('id');
-                versionSize = humanFileSize(version.get('size'), true);
-                versionClickable = versionID == currentVersion ? false : true;
-                versionArray.pushObject({'id': versionID, 'size': versionSize, 'clickable': versionClickable});
-            });
-        });
-        return versionArray;
-    }),
-
-    filteredVersion: Ember.computed('revision', 'model', function() {
-        let revision = this.get('revision');
-        let file = this.get('model');
-
-        return file ? file.filterBy('revision', revision) : file;
-    }),
 
     fileTags: Ember.computed('model', function() {
         return this.get('model.tags');
+    }),
+
+    fileVersions: Ember.computed('model', function() {
+        let data = '';
+        const test = Ember.$.getJSON(this.get('model.links.download') + '?revisions=&').then(function(data) {
+            data = data;
+        });
+        debugger;
     }),
 
     actions: {
@@ -77,11 +57,12 @@ export default Ember.Controller.extend({
             document.querySelector("#sharePaneUrl").select();
             document.execCommand('copy');    
         },
-
-        download() {
-            window.location = this.get('model.links.download');
+/*
+        download(version) {
+            debugger;
+            //window.location = this.get('model.links.download');
         },
-
+*/
         changeView() {
             Ember.$('#mfrIframeParent').toggle();
             Ember.$('#revisionsPanel').toggle();
@@ -97,7 +78,7 @@ export default Ember.Controller.extend({
             const model = this.get('model');
             this.get('fileTags').pushObject(tag);
             model.set('tags', this.get('fileTags')); 
-            model.save();        
+            model.save();
         },
 
         removeTagAtIndex(index) {
@@ -105,10 +86,6 @@ export default Ember.Controller.extend({
             this.get('fileTags').removeAt(index);
             model.set('tags', this.get('fileTags'));
             model.save();
-        },
-
-        changeVersion(version) {
-            this.set('revision', version);
         }
 
     }

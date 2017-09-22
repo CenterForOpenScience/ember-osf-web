@@ -60,7 +60,7 @@
                     </button>
                 </div>
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary' {{action 'download'}}>
+                    <button class='btn btn-sm btn-primary' {{action 'download' model.currentVersion}}>
                         Download
                     </button>
                 </div>
@@ -123,16 +123,22 @@
                     <thead>
                         <tr>
                             <th>Version ID</th>
-                            <th>Size</th>
+                            <th>Date</th>
                             <th colspan='2'>Download</th>
+                            <th>MD5</th>
+                            <th>SHA2</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td>{{fileVersions}}</td>
+                        </tr>
                         {{#each fileVersions as |version|}}
                             {{file-version
                                 version=version
                                 download='download'
-                                clickable=version.clickable
+                                url=model.links.download
+                                currentVersion=model.currentVersion
                             }}
                         {{/each}}
                     </tbody>
