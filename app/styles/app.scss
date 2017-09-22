@@ -55,11 +55,16 @@
     line-height: 1.6em;
   }
 }
-.col-md-3 .file-browser, .col-md-3 .file-browser-list {
+
+.col-md-3 .file-browser {
+  height: 400px;
   margin-bottom: 20px;
-  height: auto;
-  max-height: 500px;
 }
+
+.file-browser {
+    height: 600px;
+}
+
 .emberTagInput-tag {
   background: #DEF;
   border-radius: 0px;

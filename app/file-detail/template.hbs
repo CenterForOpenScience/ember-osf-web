@@ -84,7 +84,7 @@
         {{file-browser
             selectedFile=model
             display=displays
-            user=userId
+            user=model.user
             openFile=(action 'openFile')
         }}
         <div class='panel panel-default'>
@@ -92,15 +92,28 @@
                 <h3 class='panel-title'>Tags:</h3>
             </div>
             <div class='panel-body'>
-                {{#tag-input
-                    tags=fileTags
-                    addTag=(action 'addTag')
-                    removeTagAtIndex=(action 'removeTagAtIndex')
-                    allowSpacesInTags=true
-                    as |tag|
-                }}
-                    {{tag}}
-                {{/tag-input}}
+                {{#if edit}}
+                    {{#tag-input
+                        tags=fileTags
+                        addTag=(action 'addTag')
+                        removeTagAtIndex=(action 'removeTagAtIndex')
+                        allowSpacesInTags=true
+                        as |tag|
+                    }}
+                        {{tag}}
+                    {{/tag-input}}
+                {{else}} <!-- Passing a mutable value to readOnly breaks tag-input. INstead render it with a set value -->
+                    {{#tag-input
+                        tags=fileTags
+                        addTag=(action 'addTag')
+                        removeTagAtIndex=(action 'removeTagAtIndex')
+                        allowSpacesInTags=true
+                        readOnly=true
+                        as |tag|
+                    }}
+                        {{tag}}
+                    {{/tag-input}}
+                {{/if}}
             <div class="tags_clear">
             </div>
             </div>
