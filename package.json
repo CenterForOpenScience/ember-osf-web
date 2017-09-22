@@ -45,6 +45,7 @@
     "ember-font-awesome": "3.0.5",
     "ember-load-initializers": "^0.6.0",
     "ember-page-title": "3.2.2",
+    "ember-promise-helpers": "1.0.3",
     "ember-resolver": "^2.0.3",
     "ember-source": "~2.11.0",
     "ember-welcome-page": "^2.0.2",
