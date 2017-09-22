@@ -1,9 +1,9 @@
 {{title model.name}}
 <div class='row'>
-    <div class='col-sm-5'>
-        <h2>{{model.name}} <a id='versionLink' onclick={{action 'changeView'}}>{{concat "(Version: " model.currentVersion ")"}}</a></h2>
+    <div class='col-sm-8'>
+        <h2 class='file-name'>{{model.name}} <a id='versionLink' onclick={{action 'changeView'}}>{{concat "(Version: " model.currentVersion ")"}}</a></h2>
     </div>
-    <div class='col-sm-7'>
+    <div class='col-sm-4'>
         <div id='toggleBar' class='pull-right'>
             <div class='btn-toolbar m-t-md'>
                 <div class='btn-group m-l-xs m-t-xs'>
