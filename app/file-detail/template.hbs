@@ -1,5 +1,6 @@
 {{title model.name}}
-<div class='row'>
+{{quickfile-nav user=model.user onQuickfiles=false}}
+<div class='quickfiles-content row'>
     <div class='col-sm-8'>
         <h2 class='file-name'>{{model.name}} <a id='versionLink' onclick={{action 'changeView'}}>{{concat "(Version: " model.currentVersion ")"}}</a></h2>
     </div>
