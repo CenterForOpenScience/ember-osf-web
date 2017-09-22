@@ -143,10 +143,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>{{fileVersions}}</td>
-                        </tr>
-                        {{#each fileVersions as |version|}}
+                        {{#each (await fileVersions) as |version|}}
                             {{file-version
                                 version=version
                                 download='download'

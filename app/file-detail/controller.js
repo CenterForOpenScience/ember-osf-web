@@ -39,24 +39,6 @@ export default Ember.Controller.extend({
         return '<iframe src="' + this.get('mfrUrl') + '" width="100%" scrolling="yes" height="677px" marginheight="0" frameborder="0" allowfullscreen webkitallowfullscreen>';
     }),
 
-    fileVersions: Ember.computed('model', function() {
-        let versionArray = [];
-        let versionID = '';
-        let versionSize = '';
-        let versionClickable = true;
-        const currentVersion = this.get('model.currentVersion');
-
-        this.get('model.versions').then(versions => {
-            versions.forEach(function(version) {
-                versionID = version.get('id');
-                versionSize = humanFileSize(version.get('size'), true);
-                versionClickable = versionID == currentVersion ? false : true;
-                versionArray.pushObject({'id': versionID, 'size': versionSize, 'clickable': versionClickable});
-            });
-        });
-        return versionArray;
-    }),
-
     filteredVersion: Ember.computed('revision', 'model', function() {
         let revision = this.get('revision');
         let file = this.get('model');
@@ -75,11 +57,9 @@ export default Ember.Controller.extend({
     }),
 
     fileVersions: Ember.computed('model', function() {
-        let data = '';
-        const test = Ember.$.getJSON(this.get('model.links.download') + '?revisions=&').then(function(data) {
-            data = data;
+        return Ember.$.getJSON(this.get('model.links.download') + '?revisions=&').then(function(data) {
+            return data.data;
         });
-        debugger;
     }),
 
     actions: {
