@@ -12,10 +12,6 @@ const Funnel = require('broccoli-funnel');
 const nonCdnEnvironments = ['development', 'test'];
 
 module.exports = function(defaults) {
-    const config = configFunc(EMBER_ENV);
-    const {
-        OSF: {url: osfUrl}
-    } = defaults.project.config(EMBER_ENV);
     const useCdn = (nonCdnEnvironments.indexOf(process.env.EMBER_ENV) === -1);
     var app = new EmberApp(defaults, {
         'ember-bootstrap': {
