@@ -7,47 +7,47 @@ export default Ember.Controller.extend({
     revision: null,
     currentUser: Ember.inject.service(),
 
-    fileUrl: Ember.computed('model', function() {
+    fileUrl: Ember.computed('model.file', function() {
         return encodeURIComponent(window.location.href);
     }),
 
-    twitterUrl: Ember.computed('model', 'fileUrl', function() {
-        return 'https://twitter.com/intent/tweet?url=' + this.get('fileUrl') + '&text=' + this.get('model.name') + '&via=OSFramework';
+    twitterUrl: Ember.computed('model.file', 'fileUrl', function() {
+        return 'https://twitter.com/intent/tweet?url=' + this.get('fileUrl') + '&text=' + this.get('model.file.name') + '&via=OSFramework';
     }),
 
-    facebookUrl: Ember.computed('model', 'fileUrl', function() {
+    facebookUrl: Ember.computed('model.file', 'fileUrl', function() {
         return 'https://www.facebook.com/sharer/sharer.php?u=' + this.get('fileUrl');
     }),
 
-    linkedInUrl: Ember.computed('model', 'fileUrl', function() {
-        return 'https://www.linkedin.com/cws/share?url=' + this.get('fileUrl') + '&title=' + this.get('model.name');
+    linkedInUrl: Ember.computed('model.file', 'fileUrl', function() {
+        return 'https://www.linkedin.com/cws/share?url=' + this.get('fileUrl') + '&title=' + this.get('model.file.name');
     }),
 
-    emailUrl: Ember.computed('model', 'fileUrl', function() {
-        return 'mailto:?subject=' + this.get('model.name') + '&body=' + this.get('fileUrl');
+    emailUrl: Ember.computed('model.file', 'fileUrl', function() {
+        return 'mailto:?subject=' + this.get('model.file.name') + '&body=' + this.get('fileUrl');
     }),
 
-    mfrUrl: Ember.computed('model', function() {
+    mfrUrl: Ember.computed('model.file', function() {
         return 'https://mfr.osf.io/render?url=' + window.location.href + '?action=download%26mode=render';
     }),
 
-    shareiFrameDynamic: Ember.computed('model', function() {
+    shareiFrameDynamic: Ember.computed('model.file', function() {
         return '<style>.embed-responsive{position:relative;height:100%;}.embed-responsive iframe{position:absolute;height:100%;}</style><script>window.jQuery || document.write(\'<script src="//code.jquery.com/jquery-1.11.2.min.js">\x3C/script>\') </script><link href="https://mfr.osf.io/static/css/mfr.css" media="all" rel="stylesheet"><div id="mfrIframe" class="mfr mfr-file"></div><script src="https://mfr.osf.io/static/js/mfr.js"></script> <script>var mfrRender = new mfr.Render("mfrIframe", "' + this.get('mfrUrl') + '");</script>';
     }),
 
-    shareiFrameDirect: Ember.computed('model', function() {
+    shareiFrameDirect: Ember.computed('model.file', function() {
         return '<iframe src="' + this.get('mfrUrl') + '" width="100%" scrolling="yes" height="677px" marginheight="0" frameborder="0" allowfullscreen webkitallowfullscreen>';
     }),
 
-    filteredVersion: Ember.computed('revision', 'model', function() {
+    filteredVersion: Ember.computed('revision', 'model.file', function() {
         let revision = this.get('revision');
-        let file = this.get('model');
+        let file = this.get('model.file');
 
         return file ? file.filterBy('revision', revision) : file;
     }),
 
-    fileTags: Ember.computed('model', function() {
-        return this.get('model.tags');
+    fileTags: Ember.computed('model.file', function() {
+        return this.get('model.file.tags');
     }),
     edit: false,
     _edit: Ember.observer('currentUser', 'model.user', function() {
@@ -56,8 +56,8 @@ export default Ember.Controller.extend({
         }
     }),
 
-    fileVersions: Ember.computed('model', function() {
-        return Ember.$.getJSON(this.get('model.links.download') + '?revisions=&').then(function(data) {
+    fileVersions: Ember.computed('model.file', function() {
+        return Ember.$.getJSON(this.get('model.file.links.download') + '?revisions=&').then(function(data) {
             return data.data;
         });
     }),
@@ -70,7 +70,7 @@ export default Ember.Controller.extend({
 /*
         download(version) {
             debugger;
-            //window.location = this.get('model.links.download');
+            //window.location = this.get('model.file.links.download');
         },
 */
         changeView() {
@@ -85,14 +85,14 @@ export default Ember.Controller.extend({
         },
 
         addTag(tag) {
-            const model = this.get('model');
+            const model = this.get('model.file');
             this.get('fileTags').pushObject(tag);
             model.set('tags', this.get('fileTags'));
             model.save();
         },
 
         removeTagAtIndex(index) {
-            const model = this.get('model');
+            const model = this.get('model.file');
             this.get('fileTags').removeAt(index);
             model.set('tags', this.get('fileTags'));
             model.save();
