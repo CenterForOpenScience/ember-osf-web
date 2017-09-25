@@ -3,9 +3,12 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     displays: Ember.A([]),
-    queryParams: ['revision'],
     revision: null,
     currentUser: Ember.inject.service(),
+
+    mfrVersion: Ember.computed('model', 'revision', function() {
+        return this.get('revision') ? this.get('revision') : this.get('model.currentVersion');
+    }),
 
     fileUrl: Ember.computed('model', function() {
         return encodeURIComponent(window.location.href);
@@ -39,19 +42,14 @@ export default Ember.Controller.extend({
         return '<iframe src="' + this.get('mfrUrl') + '" width="100%" scrolling="yes" height="677px" marginheight="0" frameborder="0" allowfullscreen webkitallowfullscreen>';
     }),
 
-    filteredVersion: Ember.computed('revision', 'model', function() {
-        let revision = this.get('revision');
-        let file = this.get('model');
-
-        return file ? file.filterBy('revision', revision) : file;
-    }),
-
     fileTags: Ember.computed('model', function() {
         return this.get('model.tags');
     }),
+
     edit: false,
+    
     _edit: Ember.observer('currentUser', 'model.user', function() {
-        if (this.get('model.user.id')) { //don;t change the value while id is not loaded.
+        if (this.get('model.user.id')) { //don't change the value while id is not loaded.
             this.set('edit', this.get('model.user.id') === this.get('currentUser.currentUserId'));
         }
     }),
@@ -67,12 +65,12 @@ export default Ember.Controller.extend({
             document.querySelector("#sharePaneUrl").select();
             document.execCommand('copy');
         },
-/*
+
         download(version) {
-            debugger;
-            //window.location = this.get('model.links.download');
+            const url = this.get('model.links.download') + '?revision=' + version;
+            window.location = url;
         },
-*/
+
         changeView() {
             Ember.$('#mfrIframeParent').toggle();
             Ember.$('#revisionsPanel').toggle();
@@ -80,7 +78,7 @@ export default Ember.Controller.extend({
         },
 
         openFile(file) {
-            let fileID = file.get('guid') ? file.get('guid') : file.id;
+            const fileID = file.get('guid') ? file.get('guid') : file.id;
             this.transitionToRoute('file-detail', fileID);
         },
 
@@ -96,7 +94,10 @@ export default Ember.Controller.extend({
             this.get('fileTags').removeAt(index);
             model.set('tags', this.get('fileTags'));
             model.save();
-        }
+        },
 
+        versionChange(version) {
+            this.set('revision', version);
+        },
     }
 });

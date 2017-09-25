@@ -1,7 +1,7 @@
 {{title model.name}}
 <div class='row'>
     <div class='col-sm-5'>
-        <h2>{{model.name}} <a id='versionLink' onclick={{action 'changeView'}}>{{concat "(Version: " model.currentVersion ")"}}</a></h2>
+        <h2>{{model.name}} <a id='versionLink' onclick={{action 'changeView'}}>{{concat "(Version: " mfrVersion ")"}}</a></h2>
     </div>
     <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
@@ -121,7 +121,7 @@
     </div>
     <div class='col-md-9'>
         <div id='mfrIframeParent'>
-            {{#file-renderer download=model.links.download
+            {{#file-renderer download=model.links.download version=mfrVersion
                 height="1000"}}
             {{/file-renderer}}
         </div>
@@ -148,7 +148,8 @@
                                 version=version
                                 download='download'
                                 url=model.links.download
-                                currentVersion=model.currentVersion
+                                currentVersion=mfrVersion
+                                versionChange='versionChange'
                             }}
                         {{/each}}
                     </tbody>
