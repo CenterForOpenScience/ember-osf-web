@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-    title: Ember.computed('model.givenName', function() {
+export default Controller.extend({
+    title: computed('model.givenName', function() {
         return `${this.get('model.givenName')}'s Quickfiles`
     }),
     actions: {

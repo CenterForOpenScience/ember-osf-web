@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { A } from '@ember/array';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-    displays: Ember.A([]),
-    userId: Ember.computed('model', function() {
+export default Controller.extend({
+    displays: A([]),
+    userId: computed('model', function() {
         // let link = this.get('model')._internalModel._relationships.initializedRelationships.user.link; //hack to get id without having to request it
         // return link.split('/')[link.split('/').indexOf('users') + 1]; 
         let model = this.get('model');
