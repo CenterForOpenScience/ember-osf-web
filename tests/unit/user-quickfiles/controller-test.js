@@ -7,6 +7,6 @@ moduleFor('controller:user-quickfiles', 'Unit | Controller | user quickfiles', {
 
 // Replace this with your real tests.
 test('it exists', function(assert) {
-    let controller = this.subject();
+    const controller = this.subject();
     assert.ok(controller);
 });

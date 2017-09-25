@@ -6,6 +6,6 @@ moduleFor('route:quickfiles', 'Unit | Route | quickfiles', {
 });
 
 test('it exists', function(assert) {
-    let route = this.subject();
+    const route = this.subject();
     assert.ok(route);
 });
