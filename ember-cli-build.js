@@ -3,10 +3,6 @@
 const path = require('path');
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const configFunc = require('./config/environment');
-const {
-    EMBER_ENV
-} = process.env;
 const Funnel = require('broccoli-funnel');
 
 const nonCdnEnvironments = ['development', 'test'];
