@@ -9,11 +9,14 @@ const {
 } = process.env;
 const Funnel = require('broccoli-funnel');
 
+const nonCdnEnvironments = ['development', 'test'];
+
 module.exports = function(defaults) {
     const config = configFunc(EMBER_ENV);
     const {
         OSF: {url: osfUrl}
     } = defaults.project.config(EMBER_ENV);
+    const useCdn = (nonCdnEnvironments.indexOf(process.env.EMBER_ENV) === -1);
     var app = new EmberApp(defaults, {
         'ember-bootstrap': {
             'bootstrapVersion': 3,
@@ -25,33 +28,22 @@ module.exports = function(defaults) {
                 'node_modules/@centerforopenscience/osf-style/sass'
             ]
         },
+        sourcemaps: {
+            enabled: true,
+            extensions: ['js']
+        },
         inlineContent: {
-            assets: {
-                enabled: true,
+            raven: {
+                enabled: useCdn,
                 content: `
+                    <script src="https://cdn.ravenjs.com/3.5.1/ember/raven.min.js"></script>
                     <script>
-                        window.assetSuffix = '${config.ASSET_SUFFIX ? '-' + config.ASSET_SUFFIX : ''}';
-                        (function(osfUrl) {
-                            var origin = window.location.origin;
-                            window.isProviderDomain = !~osfUrl.indexOf(origin);
-                            var prefix = '/quickfiles/assets/';
-                            [
-                                'vendor',
-                                'ember-osf-web'
-                            ].forEach(function (name) {
-                                var script = document.createElement('script');
-                                script.src = prefix + name + window.assetSuffix + '.js';
-                                script.async = false;
-                                document.body.appendChild(script);
-
-                                var link = document.createElement('link');
-                                link.rel = 'stylesheet';
-                                link.href = prefix + name + window.assetSuffix + '.css';
-                                document.head.appendChild(link);
-                            });
-                        })('${osfUrl}');
-                    </script>`
-            }
+                        var encodedConfig = document.head.querySelector("meta[name$='/config/environment']").content;
+                        var config = JSON.parse(unescape(encodedConfig));
+                        Raven.config(config.sentryDSN, {}).install();
+                    </script>
+                `.trim()
+            },
         }
     });
 

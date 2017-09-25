@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@centerforopenscience/ember-osf@0.8.4":
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/@centerforopenscience/ember-osf/-/ember-osf-0.8.4.tgz#52c27a20bcf56e015e5d5f8da03a3b0bcbbdee7d"
+"@centerforopenscience/ember-osf@https://github.com/hmoco/ember-osf.git#feature/file-widget":
+  version "0.10.2"
+  resolved "https://github.com/hmoco/ember-osf.git#010ce194fc632c07bbf86e8fe49f05656b1090b2"
   dependencies:
     broccoli-funnel "1.2.0"
     broccoli-merge-trees "2.0.0"
