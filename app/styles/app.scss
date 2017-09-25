@@ -97,3 +97,10 @@
 .file-version a {
   cursor: pointer;
 }
+td .input-group {
+  width: 180px;
+  .hashBox {
+    float: left;
+    height: 30px;
+  }
+}
