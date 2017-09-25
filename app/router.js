@@ -6,11 +6,15 @@ const Router = EmberRouter.extend({
     rootURL: config.rootURL,
 });
 
+/* eslint-disable array-callback-return */
+
 Router.map(function() {
     this.route('quickfiles', { path: '/quickfiles' });
     this.route('quickfiles', { path: '/me/quickfiles' });
     this.route('user-quickfiles', { path: '/:user_id/quickfiles' });
     this.route('file-detail', { path: '/:file_id' });
 });
+
+/* eslint-enable array-callback-return */
 
 export default Router;
