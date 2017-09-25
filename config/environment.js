@@ -6,6 +6,7 @@ module.exports = function(environment) {
     var ENV = {
         modulePrefix: 'ember-osf-web',
         environment: environment,
+        rootURL: '/',
         locationType: 'auto',
         authorizationType: authorizationType,
         'ember-simple-auth': {
@@ -39,7 +40,6 @@ module.exports = function(environment) {
 
     if (environment === 'test') {
         // Testem prefers this...
-        ENV.rootURL = '/';
         ENV.locationType = 'none';
 
         // keep test console output quieter
