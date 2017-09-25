@@ -32,8 +32,8 @@
     langs "1.0.2"
 
 "@centerforopenscience/eslint-config@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@centerforopenscience/eslint-config/-/eslint-config-1.0.0.tgz#f2bc6702ce0cda499b4b1b9180cce9497c446a85"
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@centerforopenscience/eslint-config/-/eslint-config-1.0.1.tgz#a5391802b91440ba0da8fef4a3a024b7e025bf2f"
   dependencies:
     babel-eslint "^7.2.3"
     eslint-config-airbnb-base "^11.1.3"
