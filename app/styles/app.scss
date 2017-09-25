@@ -65,6 +65,18 @@
     height: 600px;
 }
 
+.file-name {
+    word-wrap: break-word;
+}
+
+.quickfiles-content {
+    padding-top: 40px
+}
+
+.osf-project-navbar {
+    width: calc(100% + 20px);
+}
+
 .emberTagInput-tag {
   background: #DEF;
   border-radius: 0px;
