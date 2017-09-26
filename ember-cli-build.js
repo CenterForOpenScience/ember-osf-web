@@ -2,27 +2,27 @@
 
 const path = require('path');
 
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const Funnel = require('broccoli-funnel');
 
 const nonCdnEnvironments = ['development', 'test'];
 
 module.exports = function(defaults) {
     const useCdn = (nonCdnEnvironments.indexOf(process.env.EMBER_ENV) === -1);
-    var app = new EmberApp(defaults, {
+    const app = new EmberApp(defaults, {
         'ember-bootstrap': {
-            'bootstrapVersion': 3,
-            'importBootstrapFont': true,
-            'importBootstrapCSS': false
+            bootstrapVersion: 3,
+            importBootstrapFont: true,
+            importBootstrapCSS: false,
         },
         sassOptions: {
             includePaths: [
-                'node_modules/@centerforopenscience/osf-style/sass'
-            ]
+                'node_modules/@centerforopenscience/osf-style/sass',
+            ],
         },
         sourcemaps: {
             enabled: true,
-            extensions: ['js']
+            extensions: ['js'],
         },
         inlineContent: {
             raven: {
@@ -34,9 +34,9 @@ module.exports = function(defaults) {
                         var config = JSON.parse(unescape(encodedConfig));
                         Raven.config(config.sentryDSN, {}).install();
                     </script>
-                `.trim()
+                `.trim(),
             },
-        }
+        },
     });
 
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/basic.css'));
@@ -47,9 +47,9 @@ module.exports = function(defaults) {
 
     const assets = [
         new Funnel('node_modules/@centerforopenscience/osf-style/img', {
-           srcDir: '/',
-           destDir: 'img',
-        })
+            srcDir: '/',
+            destDir: 'img',
+        }),
     ];
 
     return app.toTree(assets);

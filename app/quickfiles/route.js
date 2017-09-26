@@ -8,5 +8,5 @@ export default Route.extend(CasAuthenticatedRouteMixin, {
     beforeModel(transition) {
         this._super(transition);
         this.transitionTo('user-quickfiles', this.get('currentUser').get('currentUserId'));
-    }
+    },
 });

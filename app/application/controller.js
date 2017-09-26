@@ -4,7 +4,7 @@ import OSFAgnosticAuthControllerMixin from 'ember-osf/mixins/osf-agnostic-auth-c
 export default Controller.extend(OSFAgnosticAuthControllerMixin, {
     actions: {
         login() {
-            return;
-        }
-    }
+
+        },
+    },
 });

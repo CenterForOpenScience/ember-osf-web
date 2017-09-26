@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@centerforopenscience/ember-osf": "https://github.com/hmoco/ember-osf.git#feature/file-widget",
+    "@centerforopenscience/eslint-config": "^1.0.0",
     "@centerforopenscience/osf-style": "1.5.0",
     "bootstrap": "^3.3.7",
     "broccoli-asset-rev": "^2.4.5",

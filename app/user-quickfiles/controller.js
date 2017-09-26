@@ -3,7 +3,7 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
     title: computed('model.givenName', function() {
-        return `${this.get('model.givenName')}'s Quickfiles`
+        return `${this.get('model.givenName')}'s Quickfiles`;
     }),
     actions: {
         openFile(file) {
@@ -12,6 +12,6 @@ export default Controller.extend({
             } else {
                 window.location = `/quickfiles${file.get('path')}`;
             }
-        }
-    }
+        },
+    },
 });

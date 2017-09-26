@@ -4,7 +4,7 @@ module.exports = {
         ecmaVersion: 2017,
         sourceType: 'module'
     },
-    extends: 'eslint:recommended',
+    extends: '@centerforopenscience/eslint-config/ember',
     env: {
         browser: true,
         es6: true

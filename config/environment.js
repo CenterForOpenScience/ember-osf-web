@@ -3,15 +3,15 @@
 module.exports = function(environment) {
     const authorizationType = 'cookie';
 
-    var ENV = {
+    const ENV = {
         modulePrefix: 'ember-osf-web',
-        environment: environment,
+        environment,
         rootURL: '/',
         locationType: 'auto',
-        authorizationType: authorizationType,
+        authorizationType,
         'ember-simple-auth': {
             authorizer: `authorizer:osf-${authorizationType}`,
-            authenticator: `authenticator:osf-${authorizationType}`
+            authenticator: `authenticator:osf-${authorizationType}`,
         },
         EmberENV: {
             FEATURES: {
@@ -20,14 +20,14 @@ module.exports = function(environment) {
             },
             EXTEND_PROTOTYPES: {
                 // Prevent Ember Data from overriding Date.parse.
-                Date: false
-            }
+                Date: false,
+            },
         },
 
         APP: {
             // Here you can pass flags/options to your application instance
             // when it is created
-        }
+        },
     };
 
     if (environment === 'development') {
