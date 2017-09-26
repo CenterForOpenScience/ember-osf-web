@@ -10,7 +10,7 @@ export default Controller.extend({
             if (file.get('guid')) {
                 this.transitionToRoute('file-detail', file.get('guid'));
             } else {
-                window.location = `/quickfiles${file.get('path')}`;
+                window.location = `/file_redirect${file.get('path')}`;
             }
         },
     },
