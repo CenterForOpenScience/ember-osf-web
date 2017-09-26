@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Controller from '@ember/controller';
 
 export default Ember.Controller.extend({
     title: Ember.computed('model.givenName', function() {
@@ -11,6 +12,6 @@ export default Ember.Controller.extend({
             } else {
                 window.location = `/quickfiles${file.get('path')}`;
             }
-        }
-    }
+        },
+    },
 });

@@ -1,16 +1,20 @@
-import Ember from 'ember';
+import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
-const Router = Ember.Router.extend({
-  location: config.locationType,
-  rootURL: config.rootURL
+const Router = EmberRouter.extend({
+    location: config.locationType,
+    rootURL: config.rootURL,
 });
 
+/* eslint-disable array-callback-return */
+
 Router.map(function() {
-    this.route('quickfiles', {path: '/quickfiles'});
-    this.route('quickfiles', {path: '/me/quickfiles'});
-    this.route('user-quickfiles', {path: '/:user_id/quickfiles'});
-    this.route('file-detail', {path: '/:file_id'});
+    this.route('quickfiles', { path: '/quickfiles' });
+    this.route('quickfiles', { path: '/me/quickfiles' });
+    this.route('user-quickfiles', { path: '/:user_id/quickfiles' });
+    this.route('file-detail', { path: '/:file_id' });
 });
+
+/* eslint-enable array-callback-return */
 
 export default Router;

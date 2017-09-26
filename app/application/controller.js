@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import OSFAgnosticAuthControllerMixin from 'ember-osf/mixins/osf-agnostic-auth-controller';
 
-export default Ember.Controller.extend(OSFAgnosticAuthControllerMixin, {
+export default Controller.extend(OSFAgnosticAuthControllerMixin, {
     actions: {
         login() {
-            return;
-        }
-    }
+
+        },
+    },
 });

@@ -1,5 +1,6 @@
-import Ember from 'ember';
-
+import { computed } from '@ember/object';
+import { A } from '@ember/array';
+import Controller from '@ember/controller';
 
 export default Ember.Controller.extend({
     displays: Ember.A([]),
