@@ -54,11 +54,8 @@ export default Controller.extend({
     }),
 
     edit: computed('currentUser', 'model.user', function() {
-        let _edit = false;
-        if (this.get('model.user.id')) {
-            _edit = (this.get('model.user.id') === this.get('currentUser.currentUserId'));
-        }
-        return _edit;
+        if (!this.get('model.user.id')) return false;
+        return (this.get('model.user.id') === this.get('currentUser.currentUserId'));
     }),
 
     actions: {
@@ -79,8 +76,11 @@ export default Controller.extend({
         },
 
         openFile(file) {
-            const fileID = file.get('guid') ? file.get('guid') : file.id;
-            this.transitionToRoute('file-detail', fileID);
+            if (file.get('guid')) {
+                this.transitionToRoute('file-detail', file.get('guid'));
+            } else {
+                window.location = `/file_redirect${file.get('path')}`;
+            }
         },
 
         addTag(tag) {

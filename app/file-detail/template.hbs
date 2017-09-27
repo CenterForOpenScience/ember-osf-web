@@ -2,13 +2,13 @@
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
     <div class='col-sm-8'>
-        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView'}}>{{concat "(Version: " mfrVersion ")"}}</a></h2>
+        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView'}}>(Version: {{mfrVersion}})</a></h2>
     </div>
     <div class='col-sm-4'>
         <div id='toggleBar' class='pull-right'>
             <div class='btn-toolbar m-t-md'>
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary popover-toggler' {{action 'share'}}>
+                    <button class='btn btn-sm btn-primary popover-toggler'>
                         Share
                         {{#bs-popover placement='bottom' class='share-popover' title='Share'}}
                             {{#bs-tab customTabs=true as |tab|}}
@@ -123,7 +123,7 @@
     <div class='col-md-9'>
         <div id='mfrIframeParent'>
             {{#file-renderer download=model.file.links.download version=mfrVersion
-                height="1000"}}
+                height="700" width="99%"}}
             {{/file-renderer}}
         </div>
         <div id='revisionsPanel' class='panel panel-default'>
