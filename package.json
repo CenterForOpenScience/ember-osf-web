@@ -16,7 +16,7 @@
     "test": "yarn run check-style && ember test"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "https://github.com/hmoco/ember-osf.git#feature/file-widget",
+    "@centerforopenscience/ember-osf": "https://github.com/baylee-d/ember-osf.git#feature/updated-versions-and-renderer-for-quickfiles",
     "@centerforopenscience/eslint-config": "^1.0.0",
     "@centerforopenscience/osf-style": "1.5.0",
     "bootstrap": "^3.3.7",
