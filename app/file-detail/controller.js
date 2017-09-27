@@ -1,13 +1,12 @@
 import $ from 'jquery';
 import { inject as service } from '@ember/service';
-import { computed, observer } from '@ember/object';
+import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 
 export default Controller.extend({
     currentUser: service(),
     revision: null,
-    edit: false,
     displays: A([]),
 
     mfrVersion: computed('model.file', 'revision', function() {
@@ -51,15 +50,15 @@ export default Controller.extend({
     }),
 
     fileVersions: computed('model.file', function() {
-        return $.getJSON(`${this.get('model.file.links.download')}?revisions=&`).then(function(data) {
-            return data.data;
-        });
+        return $.getJSON(`${this.get('model.file.links.download')}?revisions=&`).then(this._returnFileVersion.bind(this));
     }),
 
-    _edit: observer('currentUser', 'model.user', function() {
-        if (this.get('model.user.id')) { // don't change the value while id is not loaded.
-            this.set('edit', this.get('model.user.id') === this.get('currentUser.currentUserId'));
+    edit: computed('currentUser', 'model.user', function() {
+        let _edit = false;
+        if (this.get('model.user.id')) {
+            _edit = (this.get('model.user.id') === this.get('currentUser.currentUserId'));
         }
+        return _edit;
     }),
 
     actions: {
@@ -101,5 +100,9 @@ export default Controller.extend({
         versionChange(version) {
             this.set('revision', version);
         },
+    },
+
+    _returnFileVersion(result) {
+        return result.data;
     },
 });
