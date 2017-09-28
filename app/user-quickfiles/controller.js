@@ -2,7 +2,7 @@ import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-    title: computed('model.givenName', function() {
+    title: computed('model.fullName', function() {
         return `${this.get('model.fullName')}'s Quick Files`;
     }),
     actions: {
