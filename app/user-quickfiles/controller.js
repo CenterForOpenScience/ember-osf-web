@@ -3,7 +3,7 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
     title: computed('model.givenName', function() {
-        return `${this.get('model.givenName')}'s Quickfiles`;
+        return `${this.get('model.fullName')}'s Quick Files`;
     }),
     actions: {
         openFile(file) {

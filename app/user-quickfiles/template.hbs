@@ -1,4 +1,7 @@
 {{title title}}
 
-<h2>{{title}}</h2>
-{{file-browser user=model openFile=(action 'openFile')}}
+{{quickfile-nav user=model onQuickfiles=true}}
+<div class='quickfiles-content container'>
+    <h2>{{title}}</h2>
+    {{file-browser user=model openFile=(action 'openFile')}}
+</div>
