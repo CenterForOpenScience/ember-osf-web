@@ -49,14 +49,12 @@
     "ember-promise-helpers": "1.0.3",
     "ember-resolver": "^2.0.3",
     "ember-source": "~2.11.0",
+    "ember-tag-input": "^1.2.0",
     "ember-welcome-page": "^2.0.2",
     "loader.js": "^4.0.10"
   },
   "engines": {
     "node": ">= 0.12.0"
   },
-  "private": true,
-  "dependencies": {
-    "ember-tag-input": "^1.2.0"
-  }
+  "private": true
 }
