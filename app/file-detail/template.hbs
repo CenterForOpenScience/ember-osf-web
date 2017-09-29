@@ -1,10 +1,10 @@
 {{title model.file.name}}
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
-    <div class='col-sm-8'>
-        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView'}}>(Version: {{mfrVersion}})</a></h2>
+    <div class='col-sm-5'>
+        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeViewRevisionPane'}}>(Version: {{mfrVersion}})</a></h2>
     </div>
-    <div class='col-sm-4'>
+    <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
             <div class='btn-toolbar m-t-md'>
                 <div class='btn-group m-l-xs m-t-xs'>
@@ -65,13 +65,28 @@
                         Download
                     </button>
                 </div>
+                {{#if edit}}
+                    <div class='btn-group m-l-xs m-t-xs'>
+                        <button class='btn btn-sm btn-danger' {{action 'showModal'}}>
+                            Delete
+                        </button>
+                    </div>
+                {{/if}}
+                {{#if isEditableFile}}
+                    <div class='btn-group btn-group-sm m-t-xs'>
+                        <div class='btn btn-default disabled'>Toggle view: </div>
+                        <button class='btn btn-primary'>View</button>
+                        <button class='btn btn-default'>Edit</button>
+                    </div>
+                {{else}}
+                    <div class='btn-group m-l-xs m-t-xs'>
+                        <button class='btn btn-sm btn-primary view-button' {{action 'changeViewRevisionPane'}}>
+                            View
+                        </button>
+                    </div>
+                {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary view-button' {{action 'changeView'}}>
-                        View
-                    </button>
-                </div>
-                <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-default view-button' {{action 'changeView'}}>
+                    <button class='btn btn-sm btn-default view-button' {{action 'changeViewRevisionPane'}}>
                         Revisions
                     </button>
                 </div>
@@ -79,6 +94,18 @@
         </div>
     </div>
 </div>
+{{#bs-modal open=openModal onSubmit=(action 'delete') as |modal|}}
+    {{#modal.header onClose=(action 'closeModal')}}
+        <h4 class="modal-title">Delete file?</h4>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p>Are you sure you want to delete <b>{{model.file.name}}</b>?</p>
+    {{/modal.body}}
+    {{#modal.footer as |footer|}}
+        {{#bs-button onClick=(action 'closeModal') type="default"}}Cancel{{/bs-button}}
+        {{#bs-button onClick=(action modal.submit) type="danger"}}Delete{{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
 <hr>
 <div class='row'>
     <div class='col-md-3'>

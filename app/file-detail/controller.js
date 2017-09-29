@@ -3,10 +3,13 @@ import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 export default Controller.extend({
     currentUser: service(),
     revision: null,
+    openModal: false,
+    editableFileTypes: A(['txt']),
     displays: A([]),
 
     mfrVersion: computed('model.file', 'revision', function() {
@@ -58,6 +61,12 @@ export default Controller.extend({
         return (this.get('model.user.id') === this.get('currentUser.currentUserId'));
     }),
 
+    isEditableFile: computed('model.file', function() {
+        const fileExtension = this.get('model.file.name').split('.').pop();
+        if (this.get('editableFileTypes').includes(fileExtension)) return true;
+        return false;
+    }),
+
     actions: {
         share() {
             document.querySelector('#sharePaneUrl').select();
@@ -69,7 +78,26 @@ export default Controller.extend({
             window.location = url;
         },
 
-        changeView() {
+        delete() {
+            authenticatedAJAX({
+                url: this.get('model.file.links.download'),
+                type: 'DELETE',
+                xhrFields: { withCredentials: true },
+            }).done(() => {
+                this.set('openModal', false);
+                this.transitionToRoute('user-quickfiles', this.get('model.user.id'));
+            });
+        },
+
+        showModal() {
+            this.set('openModal', true);
+        },
+
+        closeModal() {
+            this.set('openModal', false);
+        },
+
+        changeViewRevisionPane() {
             $('#mfrIframeParent').toggle();
             $('#revisionsPanel').toggle();
             $('.view-button').toggleClass('btn-default btn-primary');
