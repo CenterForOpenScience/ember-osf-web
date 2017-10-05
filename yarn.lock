@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@centerforopenscience/ember-osf@https://github.com/baylee-d/ember-osf.git#feature/updated-versions-and-renderer-for-quickfiles":
+"@centerforopenscience/ember-osf@https://github.com/baylee-d/ember-osf.git#feature/updated-versions-and-renderer-for-quickfiles#2017-10-05T14:35:24Z":
   version "0.10.2"
-  resolved "https://github.com/baylee-d/ember-osf.git#bcf53871dc5ddb3401208ed2229f280371d2966f"
+  resolved "https://github.com/baylee-d/ember-osf.git#a64886b485a80aa1018997c2ff5d89f56d2547b8"
   dependencies:
     broccoli-funnel "1.2.0"
     broccoli-merge-trees "2.0.0"
@@ -2298,7 +2298,7 @@ ember-cli-babel@^5.1.10, ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6, ember-c
     ember-cli-version-checker "^1.0.2"
     resolve "^1.1.2"
 
-ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.1, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2:
+ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.1, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@~6.8.0:
   version "6.8.2"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.8.2.tgz#eac2785964f4743f4c815cd53c6288f00cc087d7"
   dependencies:
@@ -2839,6 +2839,12 @@ ember-page-title@3.2.2:
     ember-cli-babel "^6.0.0"
     ember-cli-head "^0.3.1"
     ember-cli-htmlbars "^2.0.1"
+
+ember-promise-helpers@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ember-promise-helpers/-/ember-promise-helpers-1.0.3.tgz#eb1a987aec4f4e9ad8b51519540c92299d1a5d71"
+  dependencies:
+    ember-cli-babel "^5.1.5"
 
 ember-qunit@^2.0.0-beta.1:
   version "2.2.0"
