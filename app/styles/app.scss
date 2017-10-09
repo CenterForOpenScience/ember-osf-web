@@ -4,8 +4,15 @@
 #versionLink {
    cursor: pointer;
 }
-#revisionsPanel {
+#revisionsPanel,
+#editPanel {
    display: none;
+}
+#editPanel {
+    padding:0px;
+}
+.disabled {
+    pointer-events: none;
 }
 .panel {
    border: 1px solid transparent;

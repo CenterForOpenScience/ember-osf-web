@@ -2,11 +2,18 @@
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
     <div class='col-sm-5'>
-        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeViewRevisionPane'}}>(Version: {{mfrVersion}})</a></h2>
+        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeViewPanel' 'revisionsPanel' 'revisionBtn'}}>(Version: {{mfrVersion}})</a></h2>
     </div>
     <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
             <div class='btn-toolbar m-t-md'>
+                {{#if edit}}
+                    <div class='btn-group m-l-xs m-t-xs'>
+                        <button class='btn btn-sm btn-danger' {{action 'showModal'}}>
+                            Delete
+                        </button>
+                    </div>
+                {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
                     <button class='btn btn-sm btn-primary popover-toggler'>
                         Share
@@ -65,28 +72,25 @@
                         Download
                     </button>
                 </div>
-                {{#if edit}}
-                    <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm btn-danger' {{action 'showModal'}}>
-                            Delete
-                        </button>
-                    </div>
-                {{/if}}
                 {{#if isEditableFile}}
-                    <div class='btn-group btn-group-sm m-t-xs'>
-                        <div class='btn btn-default disabled'>Toggle view: </div>
-                        <button class='btn btn-primary'>View</button>
-                        <button class='btn btn-default'>Edit</button>
-                    </div>
+                        <div class='btn-group btn-group-sm m-t-xs'>
+                            {{#if edit}}
+                                <div class='btn btn-default disabled'>Toggle view: </div>
+                                <button class='btn btn-primary view-button' id='mainViewBtn' {{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>View</button>
+                                <button class='btn btn-default view-button' id='editViewBtn' {{action 'changeViewPanel' 'editPanel' 'editViewBtn'}}>Edit</button>
+                            {{else}}
+                                <button class='btn btn-primary view-button' id='mainViewBtn' {{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>View</button>
+                            {{/if}}
+                        </div>
                 {{else}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm btn-primary view-button' {{action 'changeViewRevisionPane'}}>
+                        <button class='btn btn-sm btn-primary' id='mainViewBtn' {{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>
                             View
                         </button>
                     </div>
                 {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-default view-button' {{action 'changeViewRevisionPane'}}>
+                    <button class='btn btn-sm btn-default' id='revisionBtn' {{action 'changeViewPanel' 'revisionsPanel' 'revisionBtn'}}>
                         Revisions
                     </button>
                 </div>
@@ -131,7 +135,7 @@
                     }}
                         {{tag}}
                     {{/tag-input}}
-                {{else}} <!-- Passing a mutable value to readOnly breaks tag-input. INstead render it with a set value -->
+                {{else}} <!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value -->
                     {{#tag-input
                         tags=fileTags
                         addTag=(action 'addTag')
@@ -149,11 +153,23 @@
         </div>
     </div>
     <div class='col-md-9'>
-        <div id='mfrIframeParent'>
+        <div id='mfrIframeParent' class='panel-view'>
             {{#file-renderer download=model.file.links.download version=mfrVersion
                 height="700" width="99%"}}
             {{/file-renderer}}
         </div>
+        {{#if isEditableFile}}
+            {{#if edit}}
+                <div id='editPanel' class='panel-view panel panel-default'>
+                    {{#if (await fileText)}}
+                        {{#file-editor
+                            fileText=(await fileText)
+                            save='save'}}
+                        {{/file-editor}}
+                    {{/if}}
+                </div>
+            {{/if}}
+        {{/if}}
         <div id='revisionsPanel' class='panel panel-default'>
             <div class='panel-heading clearfix'>
                 <h3 class='panel-title'>
