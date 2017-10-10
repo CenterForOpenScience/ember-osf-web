@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@centerforopenscience/ember-osf@https://github.com/hmoco/ember-osf.git#feature/file-widget":
+"@centerforopenscience/ember-osf@https://github.com/baylee-d/ember-osf.git#feature/updated-versions-and-renderer-for-quickfiles#2017-10-05T14:35:24Z":
   version "0.10.2"
-  resolved "https://github.com/hmoco/ember-osf.git#010ce194fc632c07bbf86e8fe49f05656b1090b2"
+  resolved "https://github.com/baylee-d/ember-osf.git#a64886b485a80aa1018997c2ff5d89f56d2547b8"
   dependencies:
     broccoli-funnel "1.2.0"
     broccoli-merge-trees "2.0.0"
@@ -2298,7 +2298,7 @@ ember-cli-babel@^5.1.10, ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6, ember-c
     ember-cli-version-checker "^1.0.2"
     resolve "^1.1.2"
 
-ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@~6.8.0:
+ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.1, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@~6.8.0:
   version "6.8.2"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.8.2.tgz#eac2785964f4743f4c815cd53c6288f00cc087d7"
   dependencies:
@@ -2419,7 +2419,7 @@ ember-cli-htmlbars@^1.0.3, ember-cli-htmlbars@^1.1.1:
     json-stable-stringify "^1.0.0"
     strip-bom "^2.0.0"
 
-ember-cli-htmlbars@^2.0.1, ember-cli-htmlbars@^2.0.2:
+ember-cli-htmlbars@^2.0.1, ember-cli-htmlbars@^2.0.2, ember-cli-htmlbars@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-2.0.3.tgz#e116e1500dba12f29c94b05b9ec90f52cb8bb042"
   dependencies:
@@ -2840,6 +2840,12 @@ ember-page-title@3.2.2:
     ember-cli-head "^0.3.1"
     ember-cli-htmlbars "^2.0.1"
 
+ember-promise-helpers@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ember-promise-helpers/-/ember-promise-helpers-1.0.3.tgz#eb1a987aec4f4e9ad8b51519540c92299d1a5d71"
+  dependencies:
+    ember-cli-babel "^5.1.5"
+
 ember-qunit@^2.0.0-beta.1:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/ember-qunit/-/ember-qunit-2.2.0.tgz#3cdf400031c93a38de781a7304819738753b7f99"
@@ -2924,6 +2930,13 @@ ember-source@~2.11.0:
     resolve "^1.1.7"
     rsvp "^3.4.0"
     simple-dom "^0.3.0"
+
+ember-tag-input@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ember-tag-input/-/ember-tag-input-1.2.0.tgz#fb3867a61aec883a0e5c2e1be0b89d7397e24902"
+  dependencies:
+    ember-cli-babel "^6.7.1"
+    ember-cli-htmlbars "^2.0.3"
 
 ember-test-helpers@^0.6.3:
   version "0.6.3"

@@ -16,7 +16,7 @@
     "test": "yarn run check-style && ember test"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "https://github.com/hmoco/ember-osf.git#feature/file-widget",
+    "@centerforopenscience/ember-osf": "https://github.com/baylee-d/ember-osf.git#feature/updated-versions-and-renderer-for-quickfiles#2017-10-05T14:35:24Z",
     "@centerforopenscience/eslint-config": "^1.0.0",
     "@centerforopenscience/osf-style": "1.5.0",
     "bootstrap": "^3.3.7",
@@ -46,8 +46,10 @@
     "ember-font-awesome": "3.0.5",
     "ember-load-initializers": "^0.6.0",
     "ember-page-title": "3.2.2",
+    "ember-promise-helpers": "1.0.3",
     "ember-resolver": "^2.0.3",
     "ember-source": "~2.11.0",
+    "ember-tag-input": "^1.2.0",
     "ember-welcome-page": "^2.0.2",
     "loader.js": "^4.0.10"
   },
