@@ -99,6 +99,7 @@
                         addTag=(action 'addTag')
                         removeTagAtIndex=(action 'removeTagAtIndex')
                         allowSpacesInTags=true
+                        placeholder='add a tag'
                         as |tag|
                     }}
                         {{tag}}
@@ -147,10 +148,10 @@
                         {{#each (await fileVersions) as |version|}}
                             {{file-version
                                 version=version
-                                download='download'
+                                download=(action 'download')
                                 url=model.file.links.download
                                 currentVersion=mfrVersion
-                                versionChange='versionChange'
+                                versionChange=(action 'versionChange')
                             }}
                         {{/each}}
                     </tbody>
