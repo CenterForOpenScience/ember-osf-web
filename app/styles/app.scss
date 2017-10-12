@@ -70,7 +70,7 @@
 }
 
 .quickfiles-content {
-    padding-top: 40px
+    padding-top: 100px;
 }
 
 .osf-project-navbar {
@@ -103,4 +103,74 @@ td .input-group {
     float: left;
     height: 30px;
   }
+}
+
+.institutions-logo {
+    background: url('img/preprints-logo.png') top center no-repeat;
+    height: 70px;
+    background-size: contain;
+}
+
+.institutions-header {
+    background:#214661 url('img/preprints-bg.jpg') top center ;
+    background-position-y: -50px;
+    padding-top: 100px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #dddddd;
+    color: white;
+    h1 {
+        font-size: 41px;
+        font-weight: 300;
+    }
+    a:not(.btn) {
+        color: #80c2f7;
+        text-decoration: underline;
+    }
+    .btn-info {
+        color: #fff
+    }
+
+}
+
+.institutions-page {
+    width: 100%;
+}
+.quickSearch {
+    min-height: 700px;
+    background: #C5D6E6 url('/static/img/bg6.jpg') top center repeat-y;
+    background-size: cover;
+}
+.institution-table {
+    background: rgba(255, 255, 255, 0.49);
+    padding: 10px 15px;
+    border-radius: 2px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.institution-logo {
+    height: 100px;
+}
+.node-styling {
+    background-color: #fff;
+    box-shadow: 1px 1px 1px #ccc;
+    padding: 6px;
+    color: #555;
+    font-size: 25px;
+    text-align: center;
+    cursor: pointer;
+    .col-xs-9 {
+        margin-top: 4%;
+    }
+}
+.sorting {
+    cursor: pointer;
+    color: grey;
+}
+.sorting.active {
+    color: black;
+}
+.paginate-button {
+    font-size: 20px
+    cursor: pointer;
+    color: grey;
 }
