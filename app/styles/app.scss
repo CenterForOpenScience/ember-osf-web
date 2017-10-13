@@ -106,7 +106,7 @@ td .input-group {
 }
 
 .institutions-logo {
-    background: url('img/preprints-logo.png') top center no-repeat;
+    background: url('img/institutions-logo.jpeg') top center no-repeat;
     height: 70px;
     background-size: contain;
 }
@@ -159,7 +159,8 @@ td .input-group {
     text-align: center;
     cursor: pointer;
     .col-xs-9 {
-        margin-top: 4%;
+        padding-top: 30px;
+        padding-bottom: 30px;
     }
 }
 .sorting {
@@ -170,7 +171,7 @@ td .input-group {
     color: black;
 }
 .paginate-button {
-    font-size: 20px
+    font-size: 20px;
     cursor: pointer;
     color: grey;
 }
