@@ -13,7 +13,7 @@
     "build": "ember build",
     "start": "ember server",
     "check-style": "eslint .",
-    "test": "yarn run check-style && ember test"
+    "test": "yarn run check-style && ember test",
     "use-ember-osf-develop": "yarn upgrade @centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#$(date -u +%FT%TZ)"
   },
   "devDependencies": {
