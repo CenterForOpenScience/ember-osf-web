@@ -5,9 +5,9 @@ export default Ember.Controller.extend({
     sort: 'asc',
     page: 1,
     institutions: Ember.computed('model', 'sort', 'page', function() {
-        let sorted = this.get('model').sortBy('name');
+        const sorted = this.get('model').sortBy('name');
         if (this.get('sort') === 'des') { sorted.reverse(); }
-        return sorted.slice(0, 10*this.get('page'));
+        return sorted.slice(0, 10 * this.get('page'));
     }),
     hasMore: Ember.computed('institutions', 'model', function() {
         return this.get('institutions.length') !== this.get('model.length');
@@ -23,6 +23,6 @@ export default Ember.Controller.extend({
         },
         goTo(id) {
             window.location = id;
-        }
-    }
+        },
+    },
 });
