@@ -8,6 +8,7 @@ import { mimeTypes } from 'ember-osf/const/mime-types';
 
 export default Controller.extend({
     currentUser: service(),
+    toast: service(),
     revision: null,
     openModal: false,
     displays: A([]),
@@ -154,7 +155,10 @@ export default Controller.extend({
             }).done(() => {
                 controller.get('model.file').reload().then(
                     () => controller.set('revision', null),
+                    this.get('toast').success('File saved'),
                 );
+            }).fail(() => {
+                this.get('toast').error('Error, unable to save file');
             });
         },
 
