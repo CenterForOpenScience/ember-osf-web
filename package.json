@@ -57,5 +57,9 @@
   "engines": {
     "node": ">= 0.12.0"
   },
-  "private": true
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/CenterForOpenScience/ember-osf-web/issues"
+  },
+  "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme"
 }
