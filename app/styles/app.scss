@@ -104,3 +104,25 @@ td .input-group {
     height: 30px;
   }
 }
+::-webkit-input-placeholder {
+    /* Webkit, Blink, Edge */
+    color: rgb(102, 102, 102);
+}
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: rgb(102, 102, 102);
+    opacity: 1;
+}
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: rgb(102, 102, 102);
+    opacity: 1;
+}
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: rgb(102, 102, 102);
+}
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: rgb(102, 102, 102);
+}
