@@ -13,11 +13,12 @@
     "build": "ember build",
     "start": "ember server",
     "check-style": "eslint .",
-    "test": "yarn run check-style && ember test"
+    "test": "yarn run check-style && ember test",
+    "use-ember-osf-develop": "yarn upgrade @centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#$(date -u +%FT%TZ)"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "https://github.com/hmoco/ember-osf.git#feature/file-widget",
-    "@centerforopenscience/eslint-config": "^1.0.0",
+    "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-10-16T22:34:40Z",
+    "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.5.0",
     "bootstrap": "^3.3.7",
     "broccoli-asset-rev": "^2.4.5",
@@ -46,13 +47,19 @@
     "ember-font-awesome": "3.0.5",
     "ember-load-initializers": "^0.6.0",
     "ember-page-title": "3.2.2",
+    "ember-promise-helpers": "1.0.3",
     "ember-resolver": "^2.0.3",
     "ember-source": "~2.11.0",
+    "ember-tag-input": "^1.2.0",
     "ember-welcome-page": "^2.0.2",
     "loader.js": "^4.0.10"
   },
   "engines": {
     "node": ">= 0.12.0"
   },
-  "private": true
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/CenterForOpenScience/ember-osf-web/issues"
+  },
+  "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme"
 }

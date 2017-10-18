@@ -1,2 +1,128 @@
 @import 'bootstrap';
 @import 'osf-style';
+
+#versionLink {
+   cursor: pointer;
+}
+#revisionsPanel {
+   display: none;
+}
+.panel {
+   border: 1px solid transparent;
+   box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.panel-default {
+    border-bottom: 1px solid transparent;
+    border-color: #ddd;
+    & > .panel-heading {
+      text-align: left;
+      padding: 7px 10px;
+      background-color: #EFEFEF;
+      justify-content: flex-start;
+      color: #333;
+      border-color: #ddd;
+    }
+}
+.table {
+	margin-bottom: 0px;
+}
+.share-popover {
+  text-align: center;
+  max-width: 450px;
+  width: 450px;
+}
+.share-btn-container {
+  height: 34px;
+  vertical-align: top;
+}
+.share-buttons {
+  margin: 12px 4px 3px;
+  padding-top: 30px;
+  & > a {
+    display: inline-block;
+    padding: 0 2px;
+    width: 35px;
+    text-align: center;
+    margin: 0 2px;
+    background-color: #f0f0f0;
+  }
+  & > a:hover {
+    background-color: #e0e0e0;
+  }
+  .fa {
+    color: #08c;
+    font-size: 1.6em;
+    line-height: 1.6em;
+  }
+}
+
+.col-md-3 .file-browser {
+  height: 400px;
+  margin-bottom: 20px;
+}
+
+.file-browser {
+    height: 600px;
+}
+
+.file-name {
+    word-wrap: break-word;
+}
+
+.quickfiles-content {
+    padding-top: 40px
+}
+
+.osf-project-navbar {
+    width: calc(100% + 20px);
+}
+
+.emberTagInput-tag {
+  background: #DEF;
+  border-radius: 0px;
+  color: black;
+  font-size: 13px;
+  cursor: pointer;
+  & > a {
+    color: black;
+  }
+  &:hover {
+    background: #337ab7;
+    color: #E0EBF3;
+    & > a {
+      color: #E0EBF3;
+    }
+  }
+}
+.file-version a {
+  cursor: pointer;
+}
+td .input-group {
+  width: 180px;
+  .hashBox {
+    float: left;
+    height: 30px;
+  }
+}
+::-webkit-input-placeholder {
+    /* Webkit, Blink, Edge */
+    color: rgb(102, 102, 102);
+}
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: rgb(102, 102, 102);
+    opacity: 1;
+}
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: rgb(102, 102, 102);
+    opacity: 1;
+}
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: rgb(102, 102, 102);
+}
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: rgb(102, 102, 102);
+}

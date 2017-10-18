@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@centerforopenscience/ember-osf@https://github.com/hmoco/ember-osf.git#feature/file-widget":
-  version "0.10.2"
-  resolved "https://github.com/hmoco/ember-osf.git#010ce194fc632c07bbf86e8fe49f05656b1090b2"
+"@centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-10-16T22:34:40Z":
+  version "0.11.1"
+  resolved "https://github.com/CenterForOpenScience/ember-osf.git#285d77598bc4d95ef20a16e95ca3b20f657d8625"
   dependencies:
     broccoli-funnel "1.2.0"
     broccoli-merge-trees "2.0.0"
@@ -31,15 +31,15 @@
     keen-tracking "1.1.3"
     langs "1.0.2"
 
-"@centerforopenscience/eslint-config@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@centerforopenscience/eslint-config/-/eslint-config-1.0.1.tgz#a5391802b91440ba0da8fef4a3a024b7e025bf2f"
+"@centerforopenscience/eslint-config@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@centerforopenscience/eslint-config/-/eslint-config-2.0.0.tgz#557df51e4cad80f87e47cb4c26ad4810551b4c7e"
   dependencies:
     babel-eslint "^7.2.3"
-    eslint-config-airbnb-base "^11.1.3"
+    eslint-config-airbnb-base "^12.0.0"
     eslint-plugin-ember "^4.5.0"
     eslint-plugin-eslint-comments "^1.0.0"
-    eslint-plugin-import "^2.2.0"
+    eslint-plugin-import "^2.7.0"
 
 "@centerforopenscience/osf-style@1.5.0":
   version "1.5.0"
@@ -2298,7 +2298,7 @@ ember-cli-babel@^5.1.10, ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6, ember-c
     ember-cli-version-checker "^1.0.2"
     resolve "^1.1.2"
 
-ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@~6.8.0:
+ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.1, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@~6.8.0:
   version "6.8.2"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.8.2.tgz#eac2785964f4743f4c815cd53c6288f00cc087d7"
   dependencies:
@@ -2419,7 +2419,7 @@ ember-cli-htmlbars@^1.0.3, ember-cli-htmlbars@^1.1.1:
     json-stable-stringify "^1.0.0"
     strip-bom "^2.0.0"
 
-ember-cli-htmlbars@^2.0.1, ember-cli-htmlbars@^2.0.2:
+ember-cli-htmlbars@^2.0.1, ember-cli-htmlbars@^2.0.2, ember-cli-htmlbars@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-2.0.3.tgz#e116e1500dba12f29c94b05b9ec90f52cb8bb042"
   dependencies:
@@ -2840,6 +2840,12 @@ ember-page-title@3.2.2:
     ember-cli-head "^0.3.1"
     ember-cli-htmlbars "^2.0.1"
 
+ember-promise-helpers@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ember-promise-helpers/-/ember-promise-helpers-1.0.3.tgz#eb1a987aec4f4e9ad8b51519540c92299d1a5d71"
+  dependencies:
+    ember-cli-babel "^5.1.5"
+
 ember-qunit@^2.0.0-beta.1:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/ember-qunit/-/ember-qunit-2.2.0.tgz#3cdf400031c93a38de781a7304819738753b7f99"
@@ -2924,6 +2930,13 @@ ember-source@~2.11.0:
     resolve "^1.1.7"
     rsvp "^3.4.0"
     simple-dom "^0.3.0"
+
+ember-tag-input@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ember-tag-input/-/ember-tag-input-1.2.0.tgz#fb3867a61aec883a0e5c2e1be0b89d7397e24902"
+  dependencies:
+    ember-cli-babel "^6.7.1"
+    ember-cli-htmlbars "^2.0.3"
 
 ember-test-helpers@^0.6.3:
   version "0.6.3"
@@ -3101,9 +3114,9 @@ escape-string-regexp@^1.0.0, escape-string-regexp@^1.0.2, escape-string-regexp@^
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-eslint-config-airbnb-base@^11.1.3:
-  version "11.3.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-11.3.2.tgz#8703b11abe3c88ac7ec2b745b7fdf52e00ae680a"
+eslint-config-airbnb-base@^12.0.0:
+  version "12.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-12.0.2.tgz#45fea317d71b8f1da323c730f3a8471988757793"
   dependencies:
     eslint-restricted-globals "^0.1.1"
 
@@ -3135,7 +3148,7 @@ eslint-plugin-eslint-comments@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
-eslint-plugin-import@^2.2.0:
+eslint-plugin-import@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.7.0.tgz#21de33380b9efb55f5ef6d2e210ec0e07e7fa69f"
   dependencies:
