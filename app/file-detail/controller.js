@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 import { mimeTypes } from 'ember-osf/const/mime-types';
 
 export default Controller.extend({
@@ -70,13 +69,7 @@ export default Controller.extend({
     }),
 
     fileText: computed('model.file', function() {
-        return authenticatedAJAX({
-            url: this.get('model.file.links.download'),
-            type: 'GET',
-            xhrFields: { withCredentials: true },
-        }).done((data) => {
-            return data;
-        });
+        return this.get('model.file').getContents();
     }),
 
     actions: {
@@ -91,14 +84,9 @@ export default Controller.extend({
         },
 
         delete() {
-            authenticatedAJAX({
-                url: this.get('model.file.links.download'),
-                type: 'DELETE',
-                xhrFields: { withCredentials: true },
-            }).done(() => {
-                this.set('openModal', false);
-                this.transitionToRoute('user-quickfiles', this.get('model.user.id'));
-            });
+            this.get('model.file').destroyRecord()
+                .then(() => this._deleteFile('success'))
+                .catch(() => this._deleteFile('error'));
         },
 
         showModal() {
@@ -146,20 +134,9 @@ export default Controller.extend({
         },
 
         save(text) {
-            const controller = this;
-            authenticatedAJAX({
-                url: this.get('model.file.links.upload'),
-                type: 'PUT',
-                xhrFields: { withCredentials: true },
-                data: text,
-            }).done(() => {
-                controller.get('model.file').reload().then(
-                    () => controller.set('revision', null),
-                    this.get('toast').success('File saved'),
-                );
-            }).fail(() => {
-                this.get('toast').error('Error, unable to save file');
-            });
+            this.get('model.file').updateContents(text)
+                .then(() => this._saveFileMessage('success'))
+                .catch(() => this._saveFileMessage('error'));
         },
 
         openFile(file) {
@@ -192,4 +169,21 @@ export default Controller.extend({
     _returnFileVersion(result) {
         return result.data;
     },
+
+    _deleteFile(result) {
+        this.set('openModal', false);
+        if (result === 'success') {
+            this.transitionToRoute('user-quickfiles', this.get('model.user.id'));
+            return this.get('toast').success('File deleted');
+        }
+        return this.get('toast').error('Error, unable to delete file');
+    },
+
+    _saveFileMessage(result) {
+        if (result === 'success') {
+            return this.get('toast').success('File saved');
+        }
+        return this.get('toast').error('Error, unable to save file');
+    },
+
 });
