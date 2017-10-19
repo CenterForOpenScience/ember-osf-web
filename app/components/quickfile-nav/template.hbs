@@ -3,9 +3,9 @@
         <div class="">
             <ul class="nav navbar-nav">
                 <li class="{{if onQuickfiles 'active'}}">
-                    <a href="/{{user.id}}/quickfiles/" class="project-title">
+                    {{#link-to 'user-quickfiles' user class='project-title'}}
                         {{user.fullName}}'s Quick Files
-                    </a>
+                    {{/link-to}}
                 </li>
             </ul>
         </div>

@@ -47,9 +47,6 @@ WORKDIR /code
 COPY ./package.json ./yarn.lock /code/
 RUN yarn --pure-lockfile --ignore-engines
 
-COPY ./.bowerrc ./bower.json /code/
-RUN ./node_modules/.bin/bower install --allow-root --config.interactive=false
-
 COPY ./ /code/
 
 ARG GIT_COMMIT=
