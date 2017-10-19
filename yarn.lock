@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-10-16T22:34:40Z":
+"@centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-10-19T04:44:33Z":
   version "0.11.1"
-  resolved "https://github.com/CenterForOpenScience/ember-osf.git#285d77598bc4d95ef20a16e95ca3b20f657d8625"
+  resolved "https://github.com/CenterForOpenScience/ember-osf.git#585ec7d0296917f18d601df08d697e692aee18d5"
   dependencies:
     broccoli-funnel "1.2.0"
     broccoli-merge-trees "2.0.0"
@@ -19,17 +19,20 @@
     ember-data-has-many-query "^0.2.0"
     ember-get-config "0.2.1"
     ember-i18n "5.0.1"
+    ember-metrics "0.10.0"
     ember-moment "7.3.1"
     ember-radio-buttons "4.0.3"
     ember-simple-auth "^1.3.0"
     ember-sinon "0.7.0"
     ember-sinon-qunit "1.6.0"
+    ember-toastr "1.7.0"
     ember-truth-helpers "1.3.0"
     js-cookie "2.1.4"
     js-md5 "0.4.2"
     js-yaml "3.8.4"
     keen-tracking "1.1.3"
     langs "1.0.2"
+    toastr "^2.1.2"
 
 "@centerforopenscience/eslint-config@^2.0.0":
   version "2.0.0"
@@ -2310,7 +2313,7 @@ ember-cli-babel@6.4.1:
     clone "^2.0.0"
     ember-cli-version-checker "^2.0.0"
 
-ember-cli-babel@^5.1.10, ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6, ember-cli-babel@^5.1.7, ember-cli-babel@^5.2.1:
+ember-cli-babel@^5.0.0, ember-cli-babel@^5.1.10, ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6, ember-cli-babel@^5.1.7, ember-cli-babel@^5.2.1:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-5.2.4.tgz#5ce4f46b08ed6f6d21e878619fb689719d6e8e13"
   dependencies:
@@ -2828,7 +2831,7 @@ ember-get-config@0.2.1:
     broccoli-file-creator "^1.1.1"
     ember-cli-babel "^5.1.6"
 
-ember-getowner-polyfill@^1.1.0, ember-getowner-polyfill@^1.2.2:
+ember-getowner-polyfill@^1.0.0, ember-getowner-polyfill@^1.1.0, ember-getowner-polyfill@^1.2.2:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/ember-getowner-polyfill/-/ember-getowner-polyfill-1.2.5.tgz#ceff8a09897d0d7e05c821bb71666a95eb26dc92"
   dependencies:
@@ -2865,6 +2868,15 @@ ember-macro-helpers@^0.14.1:
     ember-cli-string-utils "^1.1.0"
     ember-cli-test-info "^1.0.0"
     ember-weakmap "^2.0.0"
+
+ember-metrics@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/ember-metrics/-/ember-metrics-0.10.0.tgz#b3400aa8f001af5f39691266bea1d10b943c3cf6"
+  dependencies:
+    broccoli-funnel "^1.0.1"
+    ember-cli-babel "^5.1.6"
+    ember-getowner-polyfill "^1.0.0"
+    ember-runtime-enumerable-includes-polyfill "^1.0.1"
 
 ember-moment@7.3.1:
   version "7.3.1"
@@ -2919,6 +2931,13 @@ ember-router-generator@^1.0.0, ember-router-generator@^1.2.3:
   resolved "https://registry.yarnpkg.com/ember-router-generator/-/ember-router-generator-1.2.3.tgz#8ed2ca86ff323363120fc14278191e9e8f1315ee"
   dependencies:
     recast "^0.11.3"
+
+ember-runtime-enumerable-includes-polyfill@^1.0.1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/ember-runtime-enumerable-includes-polyfill/-/ember-runtime-enumerable-includes-polyfill-1.0.4.tgz#16a7612e347a2edf07da8b2f2f09dbfee70deba0"
+  dependencies:
+    ember-cli-babel "^5.1.6"
+    ember-cli-version-checker "^1.1.6"
 
 ember-runtime-enumerable-includes-polyfill@^2.0.0:
   version "2.0.0"
@@ -2994,6 +3013,12 @@ ember-tag-input@^1.2.0:
 ember-test-helpers@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/ember-test-helpers/-/ember-test-helpers-0.6.3.tgz#f864cdf6f4e75f3f8768d6537785b5ab6e82d907"
+
+ember-toastr@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/ember-toastr/-/ember-toastr-1.7.0.tgz#74097611fe38c596b7ed6db4a2d00d47122cc8c7"
+  dependencies:
+    ember-cli-babel "^5.0.0"
 
 ember-truth-helpers@1.3.0:
   version "1.3.0"
@@ -6782,6 +6807,10 @@ to-array@0.1.4:
 to-fast-properties@^1.0.0, to-fast-properties@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-1.0.3.tgz#b83571fa4d8c25b82e231b06e3a3055de4ca1a47"
+
+toastr@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/toastr/-/toastr-2.1.2.tgz#fd69066ae7578a5b3357725fc9c7c335e9b681df"
 
 tough-cookie@~2.3.0, tough-cookie@~2.3.3:
   version "2.3.3"
