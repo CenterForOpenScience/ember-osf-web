@@ -8,7 +8,7 @@
                         OSF Institutions is a free scholarly web tool that enhances
                          transparency, fosters collaboration, and increases the
                          visibility of research outputs at the institutional level.
-                         <a href='https://cos.io/our-products/osf-institutions/'>Read More</a>
+                         <a href='https://cos.io/our-products/osf-institutions/'>Read more</a>
                     </p>
                 </div>
             </div>
@@ -21,10 +21,15 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="institution-table">
-                                <div>
-                                    Institution
-                                    {{fa-icon 'chevron-up' class='nameasc sorting' click=(action 'sort' 'asc')}}
-                                    {{fa-icon 'chevron-down' class='namedes sorting' click=(action 'sort' 'des')}}
+                                <div class='row'>
+                                    <div class='col-xs-3' style='padding-top: 8px'>
+                                        Institution
+                                        {{fa-icon 'chevron-up' class='nameasc sorting' click=(action 'sort' 'asc')}}
+                                        {{fa-icon 'chevron-down' class='namedes sorting' click=(action 'sort' 'des')}}
+                                    </div>
+                                    <div class="col-xs-9 filter-input">
+                                        {{input placeholder="Search institutions" class='form-control' value=textValue type="text"}}
+                                    </div>
                                 </div>
                                 {{#each institutions as |institution|}}
                                     <div class="m-v-sm node-styling row" {{action 'goTo' institution.id}}>
@@ -52,7 +57,7 @@
                 <div class="text-center col-xs-12">
                     <p class="lead">
                         Interested in setting up an OSF Institutions page for your research institution?
-                         <a href='mailto:contact@osf.io'>Contact Us</a>
+                         <a href='mailto:contact@osf.io'>Contact us</a>
                     </p>
                 </div>
             </div>
