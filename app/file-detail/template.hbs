@@ -164,7 +164,7 @@
                     {{#if (await fileText)}}
                         {{#file-editor
                             fileText=(await fileText)
-                            save='save'}}
+                            save=(action 'save')}}
                         {{/file-editor}}
                     {{/if}}
                 </div>
