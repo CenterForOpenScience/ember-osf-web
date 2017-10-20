@@ -2,22 +2,22 @@
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
     <div class='col-sm-8'>
-        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView'}}>(Version: {{mfrVersion}})</a></h2>
+        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
     </div>
     <div class='col-sm-4'>
         <div id='toggleBar' class='pull-right'>
             <div class='btn-toolbar m-t-md'>
                 <div class='btn-group m-l-xs m-t-xs'>
                     <button class='btn btn-sm btn-primary popover-toggler'>
-                        Share
+                        {{t "general.share"}}
                         {{#bs-popover placement='bottom' class='share-popover' title='Share'}}
                             {{#bs-tab customTabs=true as |tab|}}
                                 {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
                                     {{#nav.item active=(bs-eq tab.activeId 'sharePane')}}
-                                        <a href='#sharePane' role='tab' {{action tab.select 'sharePane'}}>Share</a>
+                                        <a href='#sharePane' role='tab' {{action tab.select 'sharePane'}}>{{t "general.share"}}</a>
                                     {{/nav.item}}
                                     {{#nav.item active=(bs-eq tab.activeId "embedPane")}}
-                                        <a href='#sharePane' role='tab' {{action tab.select 'embedPane'}}>Embed<span class='badge'>{{badge}}</span></a>
+                                        <a href='#sharePane' role='tab' {{action tab.select 'embedPane'}}>{{t "general.embed"}}<span class='badge'>{{badge}}</span></a>
                                     {{/nav.item}}
                                 {{/bs-nav}}
 
@@ -49,10 +49,10 @@
                                     {{/tab.pane}}
                                     {{#tab.pane elementId='embedPane' title='Embed'}}
                                         <br>
-                                        <p>Dynamically render iframe with JavaScript</p>
+                                        <p>{{t "file_detail.embed.dynamic"}}</p>
                                         <textarea readonly='true' type='text' class='form-control'>{{{shareiFrameDynamic}}}</textarea>
                                         <br>
-                                        <p>Direct iframe with fixed height and width</p>
+                                        <p>{{t "file_detail.embed.direct"}}</p>
                                         <textarea readonly='true' class='form-control'>{{{shareiFrameDirect}}}</textarea>
                                     {{/tab.pane}}
                                 </div>
@@ -62,17 +62,17 @@
                 </div>
                 <div class='btn-group m-l-xs m-t-xs'>
                     <button class='btn btn-sm btn-primary' {{action 'download' model.file.currentVersion}}>
-                        Download
+                        {{t "general.download"}}
                     </button>
                 </div>
                 <div class='btn-group m-l-xs m-t-xs'>
                     <button class='btn btn-sm btn-primary view-button' {{action 'changeView'}}>
-                        View
+                        {{t "general.view"}}
                     </button>
                 </div>
                 <div class='btn-group m-l-xs m-t-xs'>
                     <button class='btn btn-sm btn-default view-button' {{action 'changeView'}}>
-                        Revisions
+                        {{t "general.revisions"}}
                     </button>
                 </div>
             </div>
@@ -90,7 +90,7 @@
         }}
         <div class='panel panel-default'>
             <div class='panel-heading clearfix'>
-                <h3 class='panel-title'>Tags:</h3>
+                <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
             </div>
             <div class='panel-body'>
                 {{#if edit}}
@@ -130,16 +130,16 @@
         <div id='revisionsPanel' class='panel panel-default'>
             <div class='panel-heading clearfix'>
                 <h3 class='panel-title'>
-                    Revisions
+                    {{t "general.revisions"}}
                 </h3>
             </div>
             <div class='panel-body'>
                 <table class='table table-responsive'>
                     <thead>
                         <tr>
-                            <th>Version ID</th>
-                            <th>Date</th>
-                            <th colspan='2'>Download</th>
+                            <th>{{t "file_detail.view.id"}}</th>
+                            <th>{{t "general.date"}}</th>
+                            <th colspan='2'>{{t "general.download"}}</th>
                             <th>MD5</th>
                             <th>SHA2</th>
                         </tr>

@@ -45,6 +45,7 @@
     "ember-data": "~2.16.0",
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "3.0.5",
+    "ember-i18n": "^5.0.2",
     "ember-load-initializers": "^0.6.0",
     "ember-page-title": "3.2.2",
     "ember-promise-helpers": "1.0.3",
