@@ -2,7 +2,9 @@
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
     <div class='col-sm-8'>
+        {{! template-lint-disable }}
         <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
+        {{! template-lint-enable }}
     </div>
     <div class='col-sm-4'>
         <div id='toggleBar' class='pull-right'>
@@ -32,16 +34,16 @@
                                             </span>
                                             <input readonly='true' type='text' class='form-control' value='{{{mfrUrl}}}' id='sharePaneUrl'>
                                             <div class='share-buttons'>
-                                                <a href='{{twitterUrl}}' target='_blank'>
+                                                <a href='{{twitterUrl}}' target='_blank' rel='noopener'>
                                                     <i aria-hidden='true' class='fa fa-twitter'></i>
                                                 </a>
-                                                <a href='{{facebookUrl}}' target='_blank'>
+                                                <a href='{{facebookUrl}}' target='_blank' rel='noopener'>
                                                     <i aria-hidden='true' class='fa fa-facebook'></i>
                                                 </a>
-                                                <a href='{{linkedInUrl}}' target='_blank' data-toggle='tooltip' data-placement='bottom' data-original-title='Disable adblock for full sharing functionality'>
+                                                <a href='{{linkedInUrl}}' target='_blank' rel='noopener' data-toggle='tooltip' data-placement='bottom' data-original-title='Disable adblock for full sharing functionality'>
                                                     <i aria-hidden='true' class='fa fa-linkedin'></i>
                                                 </a>
-                                                <a href='{{emailUrl}}' target='_blank'>
+                                                <a href='{{emailUrl}}' target='_blank' rel='noopener'>
                                                     <i aria-hidden='true' class='fa fa-envelope'></i>
                                                 </a>
                                             </div>
@@ -104,7 +106,8 @@
                     }}
                         {{tag}}
                     {{/tag-input}}
-                {{else}} <!-- Passing a mutable value to readOnly breaks tag-input. INstead render it with a set value -->
+                {{else}}
+                    <!-- Passing a mutable value to readOnly breaks tag-input. INstead render it with a set value -->
                     {{#tag-input
                         tags=fileTags
                         addTag=(action 'addTag')
@@ -116,8 +119,8 @@
                         {{tag}}
                     {{/tag-input}}
                 {{/if}}
-            <div class="tags_clear">
-            </div>
+                <div class="tags_clear">
+                </div>
             </div>
         </div>
     </div>
@@ -140,8 +143,8 @@
                             <th>{{t "file_detail.view.id"}}</th>
                             <th>{{t "general.date"}}</th>
                             <th colspan='2'>{{t "general.download"}}</th>
-                            <th>MD5</th>
-                            <th>SHA2</th>
+                            <th>{{t "general.md5"}}</th>
+                            <th>{{t "general.sha2"}}</th>
                         </tr>
                     </thead>
                     <tbody>
