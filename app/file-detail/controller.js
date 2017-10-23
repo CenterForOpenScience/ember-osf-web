@@ -79,7 +79,7 @@ export default Controller.extend({
             if (file.get('guid')) {
                 this.transitionToRoute('file-detail', file.get('guid'));
             } else {
-                window.location = `/file_redirect${file.get('path')}`;
+                file.getGuid().then(() => this.transitionToRoute('file-detail', file.get('guid')));
             }
         },
 
