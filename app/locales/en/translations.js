@@ -16,7 +16,7 @@ export default {
     file_detail: {
         version: {
             id: 'Version ID',
-            title: 'Version: {{version-number}})',
+            title: '(Version: {{version-number}})',
         },
         embed: {
             dynamic: 'Dynamically render iframe with JavaScript',
