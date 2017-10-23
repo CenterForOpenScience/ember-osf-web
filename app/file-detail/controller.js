@@ -68,7 +68,7 @@ export default Controller.extend({
         return false;
     }),
 
-    fileText: computed('model.file', function() {
+    fileText: computed('model.file.currentVersion', function() {
         return this.get('model.file').getContents();
     }),
 
@@ -145,6 +145,7 @@ export default Controller.extend({
             } else {
                 file.getGuid().then(() => this.transitionToRoute('file-detail', file.get('guid')));
             }
+            this._resetPanels();
         },
 
         addTag(tag) {
@@ -184,6 +185,14 @@ export default Controller.extend({
             return this.get('toast').success('File saved');
         }
         return this.get('toast').error('Error, unable to save file');
+    },
+
+    _resetPanels() {
+        // Resets the panels to original states
+        $('#revisionsPanel, #editPanel').hide();
+        $('#mfrIframeParent').show().removeClass('col-sm-6');
+        $('#revisionBtn, #editViewBtn').removeClass('btn-primary').addClass('btn-default');
+        $('#mainViewBtn').removeClass('btn-default').addClass('btn-primary');
     },
 
 });
