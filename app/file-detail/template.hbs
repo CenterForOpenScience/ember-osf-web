@@ -9,13 +9,13 @@
             <div class='btn-toolbar m-t-md'>
                 {{#if edit}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm btn-danger' {{action 'showModal'}}>
+                        <button class='btn btn-sm btn-default' {{action 'showModal'}}>
                             Delete
                         </button>
                     </div>
                 {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary popover-toggler'>
+                    <button class='btn btn-sm btn-default popover-toggler'>
                         Share
                         {{#bs-popover placement='bottom' class='share-popover' title='Share'}}
                             {{#bs-tab customTabs=true as |tab|}}
