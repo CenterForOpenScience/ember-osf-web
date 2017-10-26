@@ -9,8 +9,10 @@ export default Controller.extend({
     currentUser: service(),
     toast: service(),
     revision: null,
-    openModal: false,
+    deleteModalOpen: false,
     displays: A([]),
+
+    canDelete: computed.alias('canEdit'),
 
     mfrVersion: computed('model.file.currentVersion', 'revision', function() {
         return this.get('revision') ? this.get('revision') : this.get('model.file.currentVersion');
@@ -56,12 +58,12 @@ export default Controller.extend({
         return $.getJSON(`${this.get('model.file.links.download')}?revisions=&`).then(this._returnFileVersion.bind(this));
     }),
 
-    edit: computed('currentUser', 'model.user', function() {
+    canEdit: computed('currentUser', 'model.user', function() {
         if (!this.get('model.user.id')) return false;
         return (this.get('model.user.id') === this.get('currentUser.currentUserId'));
     }),
 
-    isEditableFile: computed('model.file', function() {
+    isEditableFile: computed('model.file.name', function() {
         const fileName = this.get('model.file.name');
         const fileExtension = fileName.split('.').pop();
         if (fileExtension in mimeTypes) return true;
@@ -84,17 +86,18 @@ export default Controller.extend({
         },
 
         delete() {
+            this.set('deleteModalOpen', false);
             this.get('model.file').destroyRecord()
-                .then(() => this._deleteFile('success'))
-                .catch(() => this._deleteFile('error'));
+                .then(() => this._handleDeleteSuccess())
+                .catch(() => this._handleDeleteFail());
         },
 
-        showModal() {
-            this.set('openModal', true);
+        showDeleteModal() {
+            this.set('deleteModalOpen', true);
         },
 
-        closeModal() {
-            this.set('openModal', false);
+        closeDeleteModal() {
+            this.set('deleteModalOpen', false);
         },
 
         changeViewPanel(panel, button) {
@@ -104,15 +107,14 @@ export default Controller.extend({
                 return;
             }
 
-            if (button === 'revisionBtn' && $(`#${panel}`).css('display') === 'none') {
-                $('.panel-view').hide().removeClass('col-sm-6');
-                $('.view-button').removeClass('btn-primary').addClass('btn-default');
-                $(`#${panel}`).toggle();
-                $(`#${button}`).toggleClass('btn-default btn-primary');
-                return;
-            } else if (button === 'revisionBtn') {
-                $('#mfrIframeParent').toggle();
-                $('#mainViewBtn').toggleClass('btn-default btn-primary');
+            if (button === 'revisionBtn') {
+                if ($(`#${panel}`).css('display') === 'none') {
+                    $('.panel-view').hide().removeClass('col-sm-6');
+                    $('.view-button').removeClass('btn-primary').addClass('btn-default');
+                } else {
+                    $('#mfrIframeParent').toggle();
+                    $('#mainViewBtn').toggleClass('btn-default btn-primary');
+                }
                 $(`#${panel}`).toggle();
                 $(`#${button}`).toggleClass('btn-default btn-primary');
                 return;
@@ -135,8 +137,8 @@ export default Controller.extend({
 
         save(text) {
             this.get('model.file').updateContents(text)
-                .then(() => this._saveFileMessage('success'))
-                .catch(() => this._saveFileMessage('error'));
+                .then(() => this._handleSaveSuccess())
+                .catch(() => this._handleSaveFail());
         },
 
         openFile(file) {
@@ -171,19 +173,20 @@ export default Controller.extend({
         return result.data;
     },
 
-    _deleteFile(result) {
-        this.set('openModal', false);
-        if (result === 'success') {
-            this.transitionToRoute('user-quickfiles', this.get('model.user.id'));
-            return this.get('toast').success('File deleted');
-        }
+    _handleDeleteSuccess() {
+        this.transitionToRoute('user-quickfiles', this.get('model.user.id'));
+        return this.get('toast').success('File deleted');
+    },
+
+    _handleDeleteFail() {
         return this.get('toast').error('Error, unable to delete file');
     },
 
-    _saveFileMessage(result) {
-        if (result === 'success') {
-            return this.get('toast').success('File saved');
-        }
+    _handleSaveSuccess() {
+        return this.get('toast').success('File saved');
+    },
+
+    _handleSaveFail() {
         return this.get('toast').error('Error, unable to save file');
     },
 
