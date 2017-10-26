@@ -13,17 +13,18 @@
     "build": "ember build",
     "start": "ember server",
     "check-style": "eslint .",
-    "test": "yarn run check-style && ember test"
+    "test": "yarn run check-style && ember test",
+    "use-ember-osf-develop": "yarn upgrade @centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#$(date -u +%FT%TZ)"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "https://github.com/baylee-d/ember-osf.git#feature/updated-versions-and-renderer-for-quickfiles#2017-10-05T14:35:24Z",
+    "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-10-19T04:44:33Z",
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.5.0",
     "bootstrap": "^3.3.7",
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^2.4.1",
     "ember-bootstrap": "1.0.0-rc.1",
-    "ember-cli": "2.11.1",
+    "ember-cli": "~2.16.0",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-babel": "~6.8.0",
     "ember-cli-bootstrap-sassy": "0.5.6",
@@ -34,21 +35,21 @@
     "ember-cli-htmlbars-inline-precompile": "~0.4.0",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-inline-content": "0.4.1",
-    "ember-cli-qunit": "^3.0.1",
+    "ember-cli-qunit": "^4.0.0",
     "ember-cli-release": "^0.2.9",
     "ember-cli-sass": "7.0.0",
     "ember-cli-shims": "^1.0.2",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-test-loader": "^1.1.0",
     "ember-cli-uglify": "^1.2.0",
-    "ember-data": "2.13.0",
+    "ember-data": "~2.16.0",
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "3.0.5",
     "ember-load-initializers": "^0.6.0",
     "ember-page-title": "3.2.2",
     "ember-promise-helpers": "1.0.3",
     "ember-resolver": "^2.0.3",
-    "ember-source": "~2.11.0",
+    "ember-source": "~2.16.0",
     "ember-tag-input": "^1.2.0",
     "ember-welcome-page": "^2.0.2",
     "loader.js": "^4.0.10"
@@ -56,5 +57,9 @@
   "engines": {
     "node": ">= 0.12.0"
   },
-  "private": true
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/CenterForOpenScience/ember-osf-web/issues"
+  },
+  "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme"
 }

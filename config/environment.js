@@ -29,6 +29,10 @@ module.exports = function(environment) {
             // Here you can pass flags/options to your application instance
             // when it is created
         },
+        moment: {
+            includeTimezone: 'all',
+            outputFormat: 'YYYY-MM-DD h:mm A z',
+        },
     };
 
     if (environment === 'development') {

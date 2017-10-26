@@ -1,7 +1,5 @@
 /* eslint-env node */
 
-const path = require('path');
-
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const Funnel = require('broccoli-funnel');
 
@@ -38,10 +36,6 @@ module.exports = function(defaults) {
             },
         },
     });
-
-    app.import(path.join(app.bowerDirectory, 'dropzone/dist/basic.css'));
-    app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.css'));
-    app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.js'));
 
     app.import('vendor/assets/ember-osf.css');
 
