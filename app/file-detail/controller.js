@@ -14,6 +14,11 @@ export default Controller.extend({
 
     canDelete: computed.alias('canEdit'),
 
+    canEdit: computed('currentUser', 'model.user', function() {
+        if (!this.get('model.user.id')) return false;
+        return (this.get('model.user.id') === this.get('currentUser.currentUserId'));
+    }),
+
     mfrVersion: computed('model.file.currentVersion', 'revision', function() {
         return this.get('revision') ? this.get('revision') : this.get('model.file.currentVersion');
     }),
@@ -58,11 +63,6 @@ export default Controller.extend({
         return $.getJSON(`${this.get('model.file.links.download')}?revisions=&`).then(this._returnFileVersion.bind(this));
     }),
 
-    canEdit: computed('currentUser', 'model.user', function() {
-        if (!this.get('model.user.id')) return false;
-        return (this.get('model.user.id') === this.get('currentUser.currentUserId'));
-    }),
-
     isEditableFile: computed('model.file.name', function() {
         const fileName = this.get('model.file.name');
         const fileExtension = fileName.split('.').pop();
@@ -88,11 +88,11 @@ export default Controller.extend({
         delete() {
             this.set('deleteModalOpen', false);
             this.get('model.file').destroyRecord()
-                .then(() => this._handleDeleteSuccess())
-                .catch(() => this._handleDeleteFail());
+                .then(this._handleDeleteSuccess.bind(this))
+                .catch(this._handleDeleteFail.bind(this));
         },
 
-        showDeleteModal() {
+        openDeleteModal() {
             this.set('deleteModalOpen', true);
         },
 
@@ -137,8 +137,8 @@ export default Controller.extend({
 
         save(text) {
             this.get('model.file').updateContents(text)
-                .then(() => this._handleSaveSuccess())
-                .catch(() => this._handleSaveFail());
+                .then(this._handleSaveSuccess.bind(this))
+                .catch(this._handleSaveFail.bind(this));
         },
 
         openFile(file) {
