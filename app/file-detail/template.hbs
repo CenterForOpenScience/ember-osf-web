@@ -1,14 +1,21 @@
 {{title model.file.name}}
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
-    <div class='col-sm-8'>
-        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView'}}>(Version: {{mfrVersion}})</a></h2>
+    <div class='col-sm-5'>
+        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeViewPanel' 'revisionsPanel' 'revisionBtn'}}>(Version: {{mfrVersion}})</a></h2>
     </div>
-    <div class='col-sm-4'>
+    <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
             <div class='btn-toolbar m-t-md'>
+                {{#if canDelete}}
+                    <div class='btn-group m-l-xs m-t-xs'>
+                        <button class='btn btn-sm btn-default' onclick={{action 'openDeleteModal'}}>
+                            Delete
+                        </button>
+                    </div>
+                {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary popover-toggler'>
+                    <button class='btn btn-sm btn-default popover-toggler'>
                         Share
                         {{#bs-popover placement='bottom' class='share-popover' title='Share'}}
                             {{#bs-tab customTabs=true as |tab|}}
@@ -26,7 +33,7 @@
                                         <br>
                                         <div class='input-group'>
                                             <span class='input-group-btn share-btn-container'>
-                                                <button type='button' class='btn btn-default btn-md' {{action 'share'}}>
+                                                <button type='button' class='btn btn-default btn-md' onclick={{action 'share'}}>
                                                     <div class='fa fa-copy'></div>
                                                 </button>
                                             </span>
@@ -61,17 +68,29 @@
                     </button>
                 </div>
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary' {{action 'download' model.file.currentVersion}}>
+                    <button class='btn btn-sm btn-primary' onclick={{action 'download' model.file.currentVersion}}>
                         Download
                     </button>
                 </div>
+                {{#if isEditableFile}}
+                        <div class='btn-group btn-group-sm m-t-xs'>
+                            {{#if canEdit}}
+                                <div class='btn btn-default disabled'>Toggle view: </div>
+                                <button class='btn btn-primary view-button' id='mainViewBtn' onclick={{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>View</button>
+                                <button class='btn btn-default view-button' id='editViewBtn' onclick={{action 'changeViewPanel' 'editPanel' 'editViewBtn'}}>Edit</button>
+                            {{else}}
+                                <button class='btn btn-primary view-button' id='mainViewBtn' onclick={{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>View</button>
+                            {{/if}}
+                        </div>
+                {{else}}
+                    <div class='btn-group m-l-xs m-t-xs'>
+                        <button class='btn btn-sm btn-primary' id='mainViewBtn' onclick={{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>
+                            View
+                        </button>
+                    </div>
+                {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary view-button' {{action 'changeView'}}>
-                        View
-                    </button>
-                </div>
-                <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-default view-button' {{action 'changeView'}}>
+                    <button class='btn btn-sm btn-default' id='revisionBtn' onclick={{action 'changeViewPanel' 'revisionsPanel' 'revisionBtn'}}>
                         Revisions
                     </button>
                 </div>
@@ -79,6 +98,18 @@
         </div>
     </div>
 </div>
+{{#bs-modal open=deleteModalOpen onSubmit=(action 'delete') as |modal|}}
+    {{#modal.header onClose=(action 'closeDeleteModal')}}
+        <h4 class="modal-title">Delete file?</h4>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p>Are you sure you want to delete <b>{{model.file.name}}</b>?</p>
+    {{/modal.body}}
+    {{#modal.footer as |footer|}}
+        {{#bs-button onClick=(action 'closeDeleteModal') type='default'}}Cancel{{/bs-button}}
+        {{#bs-button onClick=(action modal.submit) type='danger'}}Delete{{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
 <hr>
 <div class='row'>
     <div class='col-md-3'>
@@ -93,7 +124,7 @@
                 <h3 class='panel-title'>Tags:</h3>
             </div>
             <div class='panel-body'>
-                {{#if edit}}
+                {{#if canEdit}}
                     {{#tag-input
                         tags=fileTags
                         addTag=(action 'addTag')
@@ -104,7 +135,8 @@
                     }}
                         {{tag}}
                     {{/tag-input}}
-                {{else}} <!-- Passing a mutable value to readOnly breaks tag-input. INstead render it with a set value -->
+                {{else}}
+                    {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
                     {{#tag-input
                         tags=fileTags
                         addTag=(action 'addTag')
@@ -122,11 +154,23 @@
         </div>
     </div>
     <div class='col-md-9'>
-        <div id='mfrIframeParent'>
+        <div id='mfrIframeParent' class='panel-view'>
             {{#file-renderer download=model.file.links.download version=mfrVersion
                 height="700" width="99%"}}
             {{/file-renderer}}
         </div>
+        {{#if isEditableFile}}
+            {{#if canEdit}}
+                <div id='editPanel' class='panel-view panel panel-default'>
+                    {{#if (await fileText)}}
+                        {{#file-editor
+                            fileText=(await fileText)
+                            save=(action 'save')}}
+                        {{/file-editor}}
+                    {{/if}}
+                </div>
+            {{/if}}
+        {{/if}}
         <div id='revisionsPanel' class='panel panel-default'>
             <div class='panel-heading clearfix'>
                 <h3 class='panel-title'>

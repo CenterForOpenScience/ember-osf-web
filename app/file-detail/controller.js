@@ -3,13 +3,23 @@ import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
+import { mimeTypes } from 'ember-osf/const/mime-types';
 
 export default Controller.extend({
     currentUser: service(),
+    toast: service(),
     revision: null,
+    deleteModalOpen: false,
     displays: A([]),
 
-    mfrVersion: computed('model.file', 'revision', function() {
+    canDelete: computed.alias('canEdit'),
+
+    canEdit: computed('currentUser', 'model.user', function() {
+        if (!this.get('model.user.id')) return false;
+        return (this.get('model.user.id') === this.get('currentUser.currentUserId'));
+    }),
+
+    mfrVersion: computed('model.file.currentVersion', 'revision', function() {
         return this.get('revision') ? this.get('revision') : this.get('model.file.currentVersion');
     }),
 
@@ -49,13 +59,19 @@ export default Controller.extend({
         return this.get('model.file.tags');
     }),
 
-    fileVersions: computed('model.file', function() {
+    fileVersions: computed('model.file.currentVersion', function() {
         return $.getJSON(`${this.get('model.file.links.download')}?revisions=&`).then(this._returnFileVersion.bind(this));
     }),
 
-    edit: computed('currentUser', 'model.user', function() {
-        if (!this.get('model.user.id')) return false;
-        return (this.get('model.user.id') === this.get('currentUser.currentUserId'));
+    isEditableFile: computed('model.file.name', function() {
+        const fileName = this.get('model.file.name');
+        const fileExtension = fileName.split('.').pop();
+        if (fileExtension in mimeTypes) return true;
+        return false;
+    }),
+
+    fileText: computed('model.file.currentVersion', function() {
+        return this.get('model.file').getContents();
     }),
 
     actions: {
@@ -69,10 +85,60 @@ export default Controller.extend({
             window.location = url;
         },
 
-        changeView() {
-            $('#mfrIframeParent').toggle();
-            $('#revisionsPanel').toggle();
-            $('.view-button').toggleClass('btn-default btn-primary');
+        delete() {
+            this.set('deleteModalOpen', false);
+            this.get('model.file').destroyRecord()
+                .then(this._handleDeleteSuccess.bind(this))
+                .catch(this._handleDeleteFail.bind(this));
+        },
+
+        openDeleteModal() {
+            this.set('deleteModalOpen', true);
+        },
+
+        closeDeleteModal() {
+            this.set('deleteModalOpen', false);
+        },
+
+        changeViewPanel(panel, button) {
+            if (!this.get('isEditableFile')) {
+                $('#mainViewBtn, #revisionBtn').toggleClass('btn-primary btn-default');
+                $('#mfrIframeParent, #revisionsPanel').toggle();
+                return;
+            }
+
+            if (button === 'revisionBtn') {
+                if ($(`#${panel}`).css('display') === 'none') {
+                    $('.panel-view').hide().removeClass('col-sm-6');
+                    $('.view-button').removeClass('btn-primary').addClass('btn-default');
+                } else {
+                    $('#mfrIframeParent').toggle();
+                    $('#mainViewBtn').toggleClass('btn-default btn-primary');
+                }
+                $(`#${panel}`).toggle();
+                $(`#${button}`).toggleClass('btn-default btn-primary');
+                return;
+            }
+
+            if ($(`#${button}`).hasClass('btn-primary') && $('.view-button.btn-primary').length === 1) {
+                return;
+            } else if ($('#revisionsPanel').css('display') !== 'none') {
+                $('#revisionsPanel').toggle();
+                $('#revisionBtn').toggleClass('btn-default btn-primary');
+            } else if ($('#mfrIframeParent').css('display') !== 'none' || $('#editPanel').css('display') !== 'none') {
+                $('.panel-view').toggleClass('col-sm-6');
+            } else {
+                $('.panel-view').removeClass('col-sm-6');
+            }
+
+            $(`#${panel}`).toggle();
+            $(`#${button}`).toggleClass('btn-default btn-primary');
+        },
+
+        save(text) {
+            this.get('model.file').updateContents(text)
+                .then(this._handleSaveSuccess.bind(this))
+                .catch(this._handleSaveFail.bind(this));
         },
 
         openFile(file) {
@@ -81,6 +147,7 @@ export default Controller.extend({
             } else {
                 file.getGuid().then(() => this.transitionToRoute('file-detail', file.get('guid')));
             }
+            this._resetPanels();
         },
 
         addTag(tag) {
@@ -105,4 +172,30 @@ export default Controller.extend({
     _returnFileVersion(result) {
         return result.data;
     },
+
+    _handleDeleteSuccess() {
+        this.transitionToRoute('user-quickfiles', this.get('model.user.id'));
+        return this.get('toast').success('File deleted');
+    },
+
+    _handleDeleteFail() {
+        return this.get('toast').error('Error, unable to delete file');
+    },
+
+    _handleSaveSuccess() {
+        return this.get('toast').success('File saved');
+    },
+
+    _handleSaveFail() {
+        return this.get('toast').error('Error, unable to save file');
+    },
+
+    _resetPanels() {
+        // Resets the panels to original states
+        $('#revisionsPanel, #editPanel').hide();
+        $('#mfrIframeParent').show().removeClass('col-sm-6');
+        $('#revisionBtn, #editViewBtn').removeClass('btn-primary').addClass('btn-default');
+        $('#mainViewBtn').removeClass('btn-default').addClass('btn-primary');
+    },
+
 });
