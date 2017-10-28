@@ -15,7 +15,11 @@
     "lint": "eslint .",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
+    "precommit": "lint-staged",
     "use-ember-osf-develop": "yarn upgrade @centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#$(date -u +%FT%TZ)"
+  },
+  "lint-staged": {
+    "*.js": "eslint"
   },
   "devDependencies": {
     "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-10-27T21:03:43Z",
@@ -55,6 +59,8 @@
     "ember-source": "~2.16.0",
     "ember-tag-input": "^1.2.0",
     "ember-welcome-page": "^2.0.2",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.3.0",
     "loader.js": "^4.0.10"
   },
   "engines": {
