@@ -25,4 +25,7 @@ install:
   - yarn --prefer-offline --pure-lockfile --ignore-engines
 
 script:
-  - yarn test
+  - yarn test:cover
+
+after_success:
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
