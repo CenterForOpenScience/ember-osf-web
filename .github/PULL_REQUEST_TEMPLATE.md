@@ -26,7 +26,7 @@ https://openscience.atlassian.net/browse/EOSF-
 - [ ] easy to understand
 - [ ] DRY
 - [ ] testable and includes test(s)
-- [ ] changes described in `CHANGELOG.md`
+- [ ] ~~changes described in `CHANGELOG.md`~~ *(don't have initial release yet)*
 
 <!-- Please strike through any checks that you think are not relevant for this PR and indicate why, e.g.
 
