@@ -98,7 +98,7 @@
         </div>
     </div>
 </div>
-{{#bs-modal open=deleteModalOpen onSubmit=(action 'delete') as |modal|}}
+{{#bs-modal open=deleteModalOpen onSubmit=(action 'delete') onHidden=(action 'closeDeleteModal') as |modal|}}
     {{#modal.header onClose=(action 'closeDeleteModal')}}
         <h4 class="modal-title">Delete file?</h4>
     {{/modal.header}}
