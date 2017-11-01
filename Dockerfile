@@ -27,7 +27,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 ARG APP_ENV=production
 ENV APP_ENV=${APP_ENV}
 
-ENV WATCHMAN_VERSION 4.7.0
+ENV WATCHMAN_VERSION 4.9.0
 RUN if [ "${APP_ENV}" != "production" ]; then \
         cd /tmp \
         && git clone https://github.com/facebook/watchman.git \
@@ -45,7 +45,7 @@ RUN mkdir -p /code
 WORKDIR /code
 
 COPY ./package.json ./yarn.lock /code/
-RUN yarn --pure-lockfile --ignore-engines
+RUN yarn --frozen-lockfile --ignore-engines
 
 COPY ./ /code/
 
@@ -54,4 +54,4 @@ ENV GIT_COMMIT ${GIT_COMMIT}
 
 RUN ./node_modules/.bin/ember build --env ${APP_ENV}
 
-CMD ["yarn", "test"]
+CMD ["yarn", "start"]
