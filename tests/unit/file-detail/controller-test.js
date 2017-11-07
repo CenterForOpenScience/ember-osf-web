@@ -1,7 +1,10 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:file-detail', 'Unit | Controller | file detail', {
-    needs: ['service:currentUser'],
+    needs: [
+        'service:currentUser',
+        'service:toast',
+    ],
 });
 
 // Replace this with your real tests.

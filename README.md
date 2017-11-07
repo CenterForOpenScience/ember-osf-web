@@ -1,5 +1,11 @@
 # ember-osf-web
 
+`master` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf-web.svg?branch=master)](https://travis-ci.org/CenterForOpenScience/ember-osf-web)
+[![Coverage Status](https://coveralls.io/repos/github/CenterForOpenScience/ember-osf-web/badge.svg?branch=master)](https://coveralls.io/github/CenterForOpenScience/ember-osf-web?branch=master)
+
+`develop` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf-web.svg?branch=develop)](https://travis-ci.org/CenterForOpenScience/ember-osf-web)
+[![Coverage Status](https://coveralls.io/repos/github/CenterForOpenScience/ember-osf-web/badge.svg?branch=develop)](https://coveralls.io/github/CenterForOpenScience/ember-osf-web?branch=develop)
+
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
 
@@ -10,13 +16,12 @@ You will need the following things properly installed on your computer.
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with NPM)
 * [Ember CLI](https://ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
 
 ## Installation
 
 * `git clone <repository-url>` this repository
 * `cd ember-osf-web`
-* `yarn install`
+* `yarn --frozen-lockfile`
 
 ## Running / Development
 
