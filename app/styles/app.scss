@@ -111,11 +111,10 @@ td .input-group {
     height: 30px;
   }
 }
-@media (min-width: 992px) {
-    .osf-project-navbar a.project-title {
-        max-width: 100%;
-    }
+.osf-project-navbar a.project-title {
+    max-width: 100%;
 }
+
 ::-webkit-input-placeholder {
     /* Webkit, Blink, Edge */
     color: rgb(102, 102, 102);
