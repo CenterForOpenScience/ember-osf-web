@@ -6,8 +6,9 @@ import Controller from '@ember/controller';
 import { mimeTypes } from 'ember-osf/const/mime-types';
 import outsideClick from 'ember-osf/utils/outside-click';
 import mime from 'npm:mime-types';
+import Analytics from 'ember-osf/mixins/analytics';
 
-export default Controller.extend({
+export default Controller.extend(Analytics, {
     currentUser: service(),
     toast: service(),
     revision: null,

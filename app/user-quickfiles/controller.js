@@ -1,8 +1,9 @@
 import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import Analytics from 'ember-osf/mixins/analytics';
 
-export default Controller.extend({
+export default Controller.extend(Analytics, {
     currentUser: service(),
 
     canEdit: computed('currentUser', 'model', function() {

@@ -3,6 +3,7 @@ import { moduleFor, test } from 'ember-qunit';
 moduleFor('controller:user-quickfiles', 'Unit | Controller | user quickfiles', {
     needs: [
         'service:currentUser',
+        'service:metrics',
     ],
 });
 
