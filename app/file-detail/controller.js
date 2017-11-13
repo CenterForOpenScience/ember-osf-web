@@ -4,12 +4,14 @@ import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { mimeTypes } from 'ember-osf/const/mime-types';
+import outsideClick from 'ember-osf/utils/outside-click';
 
 export default Controller.extend({
     currentUser: service(),
     toast: service(),
     revision: null,
     deleteModalOpen: false,
+    showPopup: false,
     displays: A([]),
 
     canDelete: computed.alias('canEdit'),
@@ -167,6 +169,25 @@ export default Controller.extend({
         versionChange(version) {
             this.set('revision', version);
         },
+
+        togglePopup() {
+            this.toggleProperty('showPopup');
+        },
+
+        dismissToggle() {
+            this.set('showPopup', false);
+        },
+    },
+
+    init() {
+        this._super(...arguments);
+        outsideClick(function() {
+            this.send('dismissToggle');
+        }.bind(this));
+
+        $(window).resize(function() {
+            this.send('dismissToggle');
+        }.bind(this));
     },
 
     _returnFileVersion(result) {

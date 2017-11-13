@@ -15,9 +15,9 @@
                     </div>
                 {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-default popover-toggler'>
+                    <button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
                         Share
-                        {{#bs-popover placement='bottom' class='share-popover' title='Share'}}
+                        {{#bs-popover placement='bottom' class='share-popover' title='Share' visible=showPopup}}
                             {{#bs-tab customTabs=true as |tab|}}
                                 {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
                                     {{#nav.item active=(bs-eq tab.activeId 'sharePane')}}
@@ -105,7 +105,7 @@
     {{#modal.body}}
         <p>Are you sure you want to delete <b>{{model.file.name}}</b>?</p>
     {{/modal.body}}
-    {{#modal.footer as |footer|}}
+    {{#modal.footer}}
         {{#bs-button onClick=(action 'closeDeleteModal') type='default'}}Cancel{{/bs-button}}
         {{#bs-button onClick=(action modal.submit) type='danger'}}Delete{{/bs-button}}
     {{/modal.footer}}
@@ -181,11 +181,11 @@
                 <table class='table table-responsive'>
                     <thead>
                         <tr>
-                            <th>Version ID</th>
-                            <th>Date</th>
-                            <th colspan='2'>Download</th>
-                            <th>MD5</th>
-                            <th>SHA2</th>
+                            <th class='col-md-4'>Version ID</th>
+                            <th class='col-md-6'>Date</th>
+                            <th colspan='2' class='col-xs-2'>Download</th>
+                            <th class='hidden-md hidden-sm hidden-xs'>MD5</th>
+                            <th class='hidden-md hidden-sm hidden-xs'>SHA2</th>
                         </tr>
                     </thead>
                     <tbody>
