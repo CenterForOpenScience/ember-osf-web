@@ -101,6 +101,12 @@
     }
   }
 }
+.emberTagInput-new {
+    width: 100%;
+    & > input {
+        width: inherit;
+    }
+}
 .file-version a {
   cursor: pointer;
 }
