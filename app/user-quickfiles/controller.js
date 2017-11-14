@@ -16,11 +16,12 @@ export default Controller.extend(Analytics, {
     }),
 
     actions: {
-        openFile(file) {
+        openFile(file, options) {
+            const view = options ? 'revision' : 'view';
             if (file.get('guid')) {
-                this.transitionToRoute('file-detail', file.get('guid'));
+                this.transitionToRoute('file-detail', file.get('guid'), { queryParams: { show: view } });
             } else {
-                file.getGuid().then(() => this.transitionToRoute('file-detail', file.get('guid')));
+                file.getGuid().then(() => this.transitionToRoute('file-detail', file.get('guid'), { queryParams: { show: view } }));
             }
         },
     },

@@ -2,7 +2,7 @@
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
     <div class='col-sm-5'>
-        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeViewPanel' 'revisionsPanel' 'revisionBtn'}}>(Version: {{mfrVersion}})</a></h2>
+        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'versionLinkToggle'}}>(Version: {{mfrVersion}})</a></h2>
     </div>
     <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
@@ -76,21 +76,21 @@
                         <div class='btn-group btn-group-sm m-t-xs'>
                             {{#if canEdit}}
                                 <div class='btn btn-default disabled'>Toggle view: </div>
-                                <button class='btn btn-primary view-button' id='mainViewBtn' onclick={{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>View</button>
-                                <button class='btn btn-default view-button' id='editViewBtn' onclick={{action 'changeViewPanel' 'editPanel' 'editViewBtn'}}>Edit</button>
+                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'viewBtnClick'}}>View</button>
+                                <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'editBtnClick'}}>Edit</button>
                             {{else}}
-                                <button class='btn btn-primary view-button' id='mainViewBtn' onclick={{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>View</button>
+                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'viewBtnClick'}}>View</button>
                             {{/if}}
                         </div>
                 {{else}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm btn-primary' id='mainViewBtn' onclick={{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>
+                        <button class='btn btn-sm {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'viewBtnClick'}}>
                             View
                         </button>
                     </div>
                 {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-default' id='revisionBtn' onclick={{action 'changeViewPanel' 'revisionsPanel' 'revisionBtn'}}>
+                    <button class='btn btn-sm {{if (eq show "revision") "btn-primary" "btn-default"}}' onclick={{action 'revisionBtnClick'}}>
                         Revisions
                     </button>
                 </div>
@@ -159,65 +159,71 @@
         {{/if}}
     </div>
     <div class='col-md-9'>
-        <div id='mfrIframeParent' class='panel-view'>
-            {{#file-renderer download=model.file.links.download version=mfrVersion
-                height="700" width="99%"}}
-            {{/file-renderer}}
-        </div>
-        {{#if isEditableFile}}
-            {{#if canEdit}}
-                <div id='editPanel' class='panel-view panel panel-default'>
-                    {{#if (await fileText)}}
-                        {{#file-editor
-                            fileText=(await fileText)
-                            save=(action 'save')}}
-                        {{/file-editor}}
-                    {{/if}}
-                </div>
+        {{#if (or (eq show 'view') (eq show 'view_edit'))}}
+            <div id='mfrIframeParent' class='{{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
+                {{#file-renderer download=model.file.links.download version=mfrVersion
+                    height="700" width="99%"}}
+                {{/file-renderer}}
+            </div>
+        {{/if}}
+        {{#if (or (eq show 'edit') (eq show 'view_edit'))}}
+            {{#if isEditableFile}}
+                {{#if canEdit}}
+                    <div id='editPanel' class='panel panel-default {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
+                        {{#if (await fileText)}}
+                            {{#file-editor
+                                fileText=(await fileText)
+                                save=(action 'save')}}
+                            {{/file-editor}}
+                        {{/if}}
+                    </div>
+                {{/if}}
             {{/if}}
         {{/if}}
-        <div id='revisionsPanel' class='panel panel-default'>
-            <div class='panel-heading clearfix'>
-                <h3 class='panel-title'>
-                    Revisions
-                </h3>
+        {{#if (eq show 'revision')}}
+            <div id='revisionsPanel' class='panel panel-default'>
+                <div class='panel-heading clearfix'>
+                    <h3 class='panel-title'>
+                        Revisions
+                    </h3>
+                </div>
+                <div class='panel-body'>
+                    <table class='table table-responsive'>
+                        <thead>
+                            <tr>
+                                <th class='col-md-4'>Version ID</th>
+                                <th class='col-md-6'>Date</th>
+                                <th colspan='2' class='col-xs-2'>Download</th>
+                                <th class='hidden-md hidden-sm hidden-xs'>
+                                    MD5
+                                    <span>
+                                        {{fa-icon "question-circle"}}
+                                        {{#bs-popover triggerEvents='hover' placement='top'}}MD5 is an algorithm used to verify data integrity.{{/bs-popover}}
+                                    </span>
+                                </th>
+                                <th class='hidden-md hidden-sm hidden-xs'>
+                                    SHA2
+                                    <span>
+                                        {{fa-icon "question-circle"}}
+                                        {{#bs-popover triggerEvents='hover' placement='top'}}SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.{{/bs-popover}}
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each (await fileVersions) as |version|}}
+                                {{file-version
+                                    version=version
+                                    download=(action 'download')
+                                    url=model.file.links.download
+                                    currentVersion=mfrVersion
+                                    versionChange=(action 'versionChange')
+                                }}
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class='panel-body'>
-                <table class='table table-responsive'>
-                    <thead>
-                        <tr>
-                            <th class='col-md-4'>Version ID</th>
-                            <th class='col-md-6'>Date</th>
-                            <th colspan='2' class='col-xs-2'>Download</th>
-                            <th class='hidden-md hidden-sm hidden-xs'>
-                                MD5
-                                <span>
-                                    {{fa-icon "question-circle"}}
-                                    {{#bs-popover triggerEvents='hover' placement='top'}}MD5 is an algorithm used to verify data integrity.{{/bs-popover}}
-                                </span>
-                            </th>
-                            <th class='hidden-md hidden-sm hidden-xs'>
-                                SHA2
-                                <span>
-                                    {{fa-icon "question-circle"}}
-                                    {{#bs-popover triggerEvents='hover' placement='top'}}SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.{{/bs-popover}}
-                                </span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each (await fileVersions) as |version|}}
-                            {{file-version
-                                version=version
-                                download=(action 'download')
-                                url=model.file.links.download
-                                currentVersion=mfrVersion
-                                versionChange=(action 'versionChange')
-                            }}
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        {{/if}}
     </div>
 </div>

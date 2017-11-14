@@ -11,6 +11,8 @@ import Analytics from 'ember-osf/mixins/analytics';
 export default Controller.extend(Analytics, {
     currentUser: service(),
     toast: service(),
+    queryParams: ['show'],
+    show: null,
     revision: null,
     deleteModalOpen: false,
     showPopup: false,
@@ -102,39 +104,36 @@ export default Controller.extend(Analytics, {
             this.set('deleteModalOpen', false);
         },
 
-        changeViewPanel(panel, button) {
-            if (!this.get('isEditableFile')) {
-                $('#mainViewBtn, #revisionBtn').toggleClass('btn-primary btn-default');
-                $('#mfrIframeParent, #revisionsPanel').toggle();
-                return;
-            }
+        revisionBtnClick() {
+            this.set('show', 'revision');
+        },
 
-            if (button === 'revisionBtn') {
-                if ($(`#${panel}`).css('display') === 'none') {
-                    $('.panel-view').hide().removeClass('col-sm-6');
-                    $('.view-button').removeClass('btn-primary').addClass('btn-default');
-                } else {
-                    $('#mfrIframeParent').toggle();
-                    $('#mainViewBtn').toggleClass('btn-default btn-primary');
-                }
-                $(`#${panel}`).toggle();
-                $(`#${button}`).toggleClass('btn-default btn-primary');
-                return;
+        editBtnClick() {
+            if (this.get('show') === 'view') {
+                this.set('show', 'view_edit');
+            } else if (this.get('show') === 'view_edit') {
+                this.set('show', 'view');
+            } else if (this.get('show') === 'revision') {
+                this.set('show', 'edit');
             }
+        },
 
-            if ($(`#${button}`).hasClass('btn-primary') && $('.view-button.btn-primary').length === 1) {
-                return;
-            } else if ($('#revisionsPanel').css('display') !== 'none') {
-                $('#revisionsPanel').toggle();
-                $('#revisionBtn').toggleClass('btn-default btn-primary');
-            } else if ($('#mfrIframeParent').css('display') !== 'none' || $('#editPanel').css('display') !== 'none') {
-                $('.panel-view').toggleClass('col-sm-6');
+        viewBtnClick() {
+            if (this.get('show') === 'edit') {
+                this.set('show', 'view_edit');
+            } else if (this.get('show') === 'view_edit') {
+                this.set('show', 'edit');
+            } else if (this.get('show') === 'revision') {
+                this.set('show', 'view');
+            }
+        },
+
+        versionLinkToggle() {
+            if (this.get('show') === 'revision') {
+                this.set('show', 'view');
             } else {
-                $('.panel-view').removeClass('col-sm-6');
+                this.set('show', 'revision');
             }
-
-            $(`#${panel}`).toggle();
-            $(`#${button}`).toggleClass('btn-default btn-primary');
         },
 
         save(text) {
@@ -145,11 +144,10 @@ export default Controller.extend(Analytics, {
 
         openFile(file) {
             if (file.get('guid')) {
-                this.transitionToRoute('file-detail', file.get('guid'));
+                this.transitionToRoute('file-detail', file.get('guid'), { queryParams: { show: 'view' } });
             } else {
-                file.getGuid().then(() => this.transitionToRoute('file-detail', file.get('guid')));
+                file.getGuid().then(() => this.transitionToRoute('file-detail', file.get('guid'), { queryParams: { show: 'view' } }));
             }
-            this._resetPanels();
         },
 
         addTag(tag) {
@@ -209,14 +207,6 @@ export default Controller.extend(Analytics, {
 
     _handleSaveFail() {
         return this.get('toast').error('Error, unable to save file');
-    },
-
-    _resetPanels() {
-        // Resets the panels to original states
-        $('#revisionsPanel, #editPanel').hide();
-        $('#mfrIframeParent').show().removeClass('col-sm-6');
-        $('#revisionBtn, #editViewBtn').removeClass('btn-primary').addClass('btn-default');
-        $('#mainViewBtn').removeClass('btn-default').addClass('btn-primary');
     },
 
 });
