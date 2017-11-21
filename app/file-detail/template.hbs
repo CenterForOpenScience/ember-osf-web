@@ -15,6 +15,11 @@
                     </div>
                 {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
+                    <button class='btn btn-sm btn-primary' onclick={{action 'download' model.file.currentVersion}}>
+                        Download
+                    </button>
+                </div>
+                <div class='btn-group m-l-xs m-t-xs'>
                     <button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
                         Share
                         {{#bs-popover placement='bottom' class='share-popover' title='Share' visible=showPopup}}
@@ -65,11 +70,6 @@
                                 </div>
                             {{/bs-tab}}
                         {{/bs-popover}}
-                    </button>
-                </div>
-                <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary' onclick={{action 'download' model.file.currentVersion}}>
-                        Download
                     </button>
                 </div>
                 {{#if isEditableFile}}
