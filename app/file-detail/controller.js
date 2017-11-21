@@ -16,6 +16,26 @@ export default Controller.extend(Analytics, {
     revision: null,
     deleteModalOpen: false,
     showPopup: false,
+    lookupTable: {
+        view: {
+            edit: 'view_edit',
+            revision: 'revision',
+        },
+        edit: {
+            view: 'view_edit',
+            revision: 'revision',
+        },
+        view_edit: {
+            view: 'edit',
+            edit: 'view',
+            revision: 'revision',
+        },
+        revision: {
+            view: 'view',
+            edit: 'edit',
+            revision: 'view',
+        },
+    },
     displays: A([]),
 
     canDelete: computed.alias('canEdit'),
@@ -104,35 +124,9 @@ export default Controller.extend(Analytics, {
             this.set('deleteModalOpen', false);
         },
 
-        revisionBtnClick() {
-            this.set('show', 'revision');
-        },
-
-        editBtnClick() {
-            if (this.get('show') === 'view') {
-                this.set('show', 'view_edit');
-            } else if (this.get('show') === 'view_edit') {
-                this.set('show', 'view');
-            } else if (this.get('show') === 'revision') {
-                this.set('show', 'edit');
-            }
-        },
-
-        viewBtnClick() {
-            if (this.get('show') === 'edit') {
-                this.set('show', 'view_edit');
-            } else if (this.get('show') === 'view_edit') {
-                this.set('show', 'edit');
-            } else if (this.get('show') === 'revision') {
-                this.set('show', 'view');
-            }
-        },
-
-        versionLinkToggle() {
-            if (this.get('show') === 'revision') {
-                this.set('show', 'view');
-            } else {
-                this.set('show', 'revision');
+        changeView(button) {
+            if (this.get('lookupTable')[this.get('show')][button]) {
+                this.set('show', this.get('lookupTable')[this.get('show')][button]);
             }
         },
 

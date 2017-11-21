@@ -2,7 +2,7 @@
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
     <div class='col-sm-5'>
-        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'versionLinkToggle'}}>(Version: {{mfrVersion}})</a></h2>
+        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView' 'revision'}}>(Version: {{mfrVersion}})</a></h2>
     </div>
     <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
@@ -76,21 +76,21 @@
                         <div class='btn-group btn-group-sm m-t-xs'>
                             {{#if canEdit}}
                                 <div class='btn btn-default disabled'>Toggle view: </div>
-                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'viewBtnClick'}}>View</button>
-                                <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'editBtnClick'}}>Edit</button>
+                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>View</button>
+                                <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'edit'}}>Edit</button>
                             {{else}}
-                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'viewBtnClick'}}>View</button>
+                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>View</button>
                             {{/if}}
                         </div>
                 {{else}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'viewBtnClick'}}>
+                        <button class='btn btn-sm {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>
                             View
                         </button>
                     </div>
                 {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm {{if (eq show "revision") "btn-primary" "btn-default"}}' onclick={{action 'revisionBtnClick'}}>
+                    <button class='btn btn-sm {{if (eq show "revision") "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'revision'}}>
                         Revisions
                     </button>
                 </div>
