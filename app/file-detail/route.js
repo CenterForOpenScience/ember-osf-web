@@ -14,7 +14,7 @@ export default Route.extend(Analytics, {
     },
     afterModel(model, transition) {
         if (model.user.id !== this.get('currentUser.currentUserId')) {
-            transition.send('track', 'page view', 'track', 'Quick Files - Non-owner page view');
+            transition.send('track', 'page view', 'track', 'Quick Files - File detail page view');
         }
     },
 });

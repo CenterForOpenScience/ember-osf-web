@@ -23,7 +23,7 @@ export default Route.extend(Analytics, {
     },
     afterModel(model, transition) {
         if (model.id !== this.get('currentUser.currentUserId')) {
-            transition.send('track', 'view', 'track', 'Quick Files - Non-owner page view');
+            transition.send('track', 'view', 'track', 'Quick Files - Main page view');
         }
     },
 });
