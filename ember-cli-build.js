@@ -35,6 +35,9 @@ module.exports = function(defaults) {
                 `.trim(),
             },
         },
+        'ember-cli-babel': {
+            includePolyfill: true,
+        },
     });
 
     app.import('vendor/assets/ember-osf.css');
