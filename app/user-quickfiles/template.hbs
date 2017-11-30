@@ -2,6 +2,10 @@
 
 {{quickfile-nav user=model onQuickfiles=true}}
 <div class='quickfiles-content container'>
-    <h5><i>Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.</i></h5>
+    {{#if canEdit}}
+        <h5><i>Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.</i></h5>
+    {{else}}
+        <div style='height:14px;'></div>
+    {{/if}}
     {{file-browser user=model openFile=(action 'openFile') dropZoneId='quickfiles-dropzone'}}
 </div>

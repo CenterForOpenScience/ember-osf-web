@@ -1,10 +1,19 @@
 import { computed } from '@ember/object';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+    currentUser: service(),
+
+    canEdit: computed('currentUser', 'model', function() {
+        if (!this.get('model.id')) return false;
+        return (this.get('model.id') === this.get('currentUser.currentUserId'));
+    }),
+
     title: computed('model.fullName', function() {
         return `${this.get('model.fullName')}'s Quick Files`;
     }),
+
     actions: {
         openFile(file) {
             if (file.get('guid')) {
