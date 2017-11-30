@@ -4,7 +4,7 @@
 
 "@centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-11-30T16:56:20Z":
   version "0.12.3"
-  resolved "https://github.com/CenterForOpenScience/ember-osf.git#9e409b321fef61cac4069c38b6b55e610d1e8602"
+  resolved "https://github.com/CenterForOpenScience/ember-osf.git#4190227cd41a40d3fef1d092e26907c50d25d81a"
   dependencies:
     broccoli-funnel "1.2.0"
     broccoli-merge-trees "2.0.0"
@@ -2167,11 +2167,11 @@ commander@2.9.0:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-commander@^2.11.0, commander@^2.6.0, commander@^2.9.0:
+commander@^2.11.0, commander@^2.6.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.11.0.tgz#157152fd1e7a6c8d98a5b715cf376df928004563"
 
-commander@^2.5.0:
+commander@^2.5.0, commander@^2.9.0:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.12.2.tgz#0f5946c427ed9ec0d91a46bb9def53e54650e555"
 
