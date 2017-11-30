@@ -5,6 +5,7 @@ import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { mimeTypes } from 'ember-osf/const/mime-types';
 import outsideClick from 'ember-osf/utils/outside-click';
+import mime from 'npm:mime-types';
 
 export default Controller.extend({
     currentUser: service(),
@@ -66,10 +67,8 @@ export default Controller.extend({
     }),
 
     isEditableFile: computed('model.file.name', function() {
-        const fileName = this.get('model.file.name');
-        const fileExtension = fileName.split('.').pop();
-        if (fileExtension in mimeTypes) return true;
-        return false;
+        $.extend(mime.types, mimeTypes);
+        return /^text\//.test(mime.lookup(this.get('model.file.name')));
     }),
 
     fileText: computed('model.file.currentVersion', function() {
