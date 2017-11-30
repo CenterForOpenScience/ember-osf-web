@@ -187,8 +187,20 @@
                             <th class='col-md-4'>Version ID</th>
                             <th class='col-md-6'>Date</th>
                             <th colspan='2' class='col-xs-2'>Download</th>
-                            <th class='hidden-md hidden-sm hidden-xs'>MD5</th>
-                            <th class='hidden-md hidden-sm hidden-xs'>SHA2</th>
+                            <th class='hidden-md hidden-sm hidden-xs'>
+                                MD5
+                                <span>
+                                    {{fa-icon "question-circle"}}
+                                    {{#bs-popover triggerEvents='hover' placement='top'}}MD5 is an algorithm used to verify data integrity.{{/bs-popover}}
+                                </span>
+                            </th>
+                            <th class='hidden-md hidden-sm hidden-xs'>
+                                SHA2
+                                <span>
+                                    {{fa-icon "question-circle"}}
+                                    {{#bs-popover triggerEvents='hover' placement='top'}}SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.{{/bs-popover}}
+                                </span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
