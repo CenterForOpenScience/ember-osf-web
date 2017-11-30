@@ -32,6 +32,16 @@ module.exports = function(environment) {
             includeTimezone: 'all',
             outputFormat: 'YYYY-MM-DD h:mm A z',
         },
+        metricsAdapters: [
+            {
+                name: 'GoogleAnalytics',
+                environments: ['all'],
+                config: {
+                    id: process.env.GOOGLE_ANALYTICS_ID
+                }
+            },
+        ],
+        FB_APP_ID: process.env.FB_APP_ID,
     };
 
     if (environment === 'development') {
@@ -40,6 +50,8 @@ module.exports = function(environment) {
         // ENV.APP.LOG_TRANSITIONS = true;
         // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
         // ENV.APP.LOG_VIEW_LOOKUPS = true;
+
+        ENV.metricsAdapters[0].config.cookieDomain = 'none';
     }
 
     if (environment === 'test') {
@@ -51,6 +63,12 @@ module.exports = function(environment) {
         ENV.APP.LOG_VIEW_LOOKUPS = false;
 
         ENV.APP.rootElement = '#ember-testing';
+    }
+
+    if (environment !== 'production') {
+        // Fallback to throwaway defaults if the environment variables are not set
+        ENV.metricsAdapters[0].config.id = ENV.metricsAdapters[0].config.id || 'UA-84580271-1';
+        ENV.FB_APP_ID = ENV.FB_APP_ID || '1039002926217080';
     }
 
     return ENV;
