@@ -122,39 +122,41 @@
             openOnSelect=true
             openFile=(action 'openFile')
         }}
-        <div class='panel panel-default'>
-            <div class='panel-heading clearfix'>
-                <h3 class='panel-title'>Tags:</h3>
+        {{#if (or canEdit fileTags)}}
+            <div class='panel panel-default'>
+                <div class='panel-heading clearfix'>
+                    <h3 class='panel-title'>Tags:</h3>
+                </div>
+                <div class='panel-body'>
+                    {{#if canEdit}}
+                        {{#tag-input
+                            tags=fileTags
+                            addTag=(action 'addTag')
+                            removeTagAtIndex=(action 'removeTagAtIndex')
+                            allowSpacesInTags=true
+                            placeholder='add a tag to enhance discoverability'
+                            as |tag|
+                        }}
+                            {{tag}}
+                        {{/tag-input}}
+                    {{else}}
+                        {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
+                        {{#tag-input
+                            tags=fileTags
+                            addTag=(action 'addTag')
+                            removeTagAtIndex=(action 'removeTagAtIndex')
+                            allowSpacesInTags=true
+                            readOnly=true
+                            as |tag|
+                        }}
+                            {{tag}}
+                        {{/tag-input}}
+                    {{/if}}
+                <div class="tags_clear">
+                </div>
+                </div>
             </div>
-            <div class='panel-body'>
-                {{#if canEdit}}
-                    {{#tag-input
-                        tags=fileTags
-                        addTag=(action 'addTag')
-                        removeTagAtIndex=(action 'removeTagAtIndex')
-                        allowSpacesInTags=true
-                        placeholder='add a tag to enhance discoverability'
-                        as |tag|
-                    }}
-                        {{tag}}
-                    {{/tag-input}}
-                {{else}}
-                    {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
-                    {{#tag-input
-                        tags=fileTags
-                        addTag=(action 'addTag')
-                        removeTagAtIndex=(action 'removeTagAtIndex')
-                        allowSpacesInTags=true
-                        readOnly=true
-                        as |tag|
-                    }}
-                        {{tag}}
-                    {{/tag-input}}
-                {{/if}}
-            <div class="tags_clear">
-            </div>
-            </div>
-        </div>
+        {{/if}}
     </div>
     <div class='col-md-9'>
         <div id='mfrIframeParent' class='panel-view'>
