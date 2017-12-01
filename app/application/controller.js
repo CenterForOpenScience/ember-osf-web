@@ -5,5 +5,5 @@ import pathJoin from 'ember-osf/utils/path-join';
 import OSFAgnosticAuthControllerMixin from 'ember-osf/mixins/osf-agnostic-auth-controller';
 
 export default Controller.extend(OSFAgnosticAuthControllerMixin, {
-    signupUrl: pathJoin(config.OSF.url, 'register?', $.param({ next: window.location.href })),
+    signupUrl: `${pathJoin(config.OSF.url, 'register')}?${$.param({ next: window.location.href })}`,
 });
