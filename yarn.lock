@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-11-30T16:56:20Z":
+"@centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-12-01T01:38:50Z":
   version "0.12.3"
-  resolved "https://github.com/CenterForOpenScience/ember-osf.git#4190227cd41a40d3fef1d092e26907c50d25d81a"
+  resolved "https://github.com/CenterForOpenScience/ember-osf.git#8eae3e0237e2e1e9df14d88d0f9e6e88480dfb80"
   dependencies:
     broccoli-funnel "1.2.0"
     broccoli-merge-trees "2.0.0"
@@ -177,10 +177,6 @@ acorn@^5.0.3, acorn@^5.2.1:
 acorn@^5.1.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.1.2.tgz#911cb53e036807cf0fa778dc5d370fbd864246d7"
-
-acorn@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.2.1.tgz#317ac7821826c22c702d66189ab8359675f135d7"
 
 after@0.8.1:
   version "0.8.1"
@@ -2616,7 +2612,7 @@ detective@^4.0.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/detective/-/detective-4.5.0.tgz#6e5a8c6b26e6c7a254b1c6b6d7490d98ec91edd1"
   dependencies:
-    acorn "^5.2.1"
+    acorn "^4.0.3"
     defined "^1.0.0"
 
 detective@^4.3.1:

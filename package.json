@@ -22,7 +22,7 @@
     "*.js": "eslint"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-11-30T16:56:20Z",
+    "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-12-01T01:38:50Z",
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.5.1",
     "bootstrap": "^3.3.7",
