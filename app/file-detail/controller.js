@@ -7,6 +7,8 @@ import { mimeTypes } from 'ember-osf/const/mime-types';
 import outsideClick from 'ember-osf/utils/outside-click';
 import mime from 'npm:mime-types';
 import Analytics from 'ember-osf/mixins/analytics';
+import config from 'ember-get-config';
+import pathJoin from 'ember-osf/utils/path-join';
 
 export default Controller.extend(Analytics, {
     currentUser: service(),
@@ -15,6 +17,8 @@ export default Controller.extend(Analytics, {
     deleteModalOpen: false,
     showPopup: false,
     displays: A([]),
+
+    searchUrl: pathJoin(config.OSF.url, 'search'),
 
     canDelete: computed.alias('canEdit'),
 
