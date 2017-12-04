@@ -86,6 +86,8 @@
   color: black;
   font-size: 13px;
   cursor: pointer;
+  max-width: 100%;
+  overflow-wrap: break-word;
   & > a {
     color: black;
   }
