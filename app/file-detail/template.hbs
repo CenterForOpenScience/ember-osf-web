@@ -128,30 +128,18 @@
                     <h3 class='panel-title'>Tags:</h3>
                 </div>
                 <div class='panel-body'>
-                    {{#if canEdit}}
-                        {{#tag-input
-                            tags=fileTags
-                            addTag=(action 'addTag')
-                            removeTagAtIndex=(action 'removeTagAtIndex')
-                            allowSpacesInTags=true
-                            placeholder='add a tag to enhance discoverability'
-                            as |tag|
-                        }}
-                            {{tag}}
-                        {{/tag-input}}
-                    {{else}}
-                        {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
-                        {{#tag-input
-                            tags=fileTags
-                            addTag=(action 'addTag')
-                            removeTagAtIndex=(action 'removeTagAtIndex')
-                            allowSpacesInTags=true
-                            readOnly=true
-                            as |tag|
-                        }}
-                            {{tag}}
-                        {{/tag-input}}
-                    {{/if}}
+                    {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
+                    {{#tag-input
+                        tags=fileTags
+                        addTag=(action 'addTag')
+                        removeTagAtIndex=(action 'removeTagAtIndex')
+                        allowSpacesInTags=true
+                        placeholder='add a tag to enhance discoverability'
+                        readOnly=(unless canEdit true false)
+                        as |tag|
+                    }}
+                        <a href='{{searchUrl}}?q=(tags:"{{tag}}")'>{{tag}}</a>
+                    {{/tag-input}}
                 <div class="tags_clear">
                 </div>
                 </div>
