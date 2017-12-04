@@ -8,6 +8,11 @@ export default Route.extend(Analytics, {
     model(params) {
         return this.store.findRecord('user', params.user_id);
     },
+    afterModel(model, transition) {
+        if (model.id !== this.get('currentUser.currentUserId')) {
+            transition.send('track', 'view', 'track', 'Quick Files - Main page view');
+        }
+    },
     actions: {
         didTransition() {
             window.addEventListener('dragover', e => this._preventDrop(e));
@@ -19,11 +24,6 @@ export default Route.extend(Analytics, {
             e.preventDefault();
             e.dataTransfer.effectAllowed = 'none';
             e.dataTransfer.dropEffect = 'none';
-        }
-    },
-    afterModel(model, transition) {
-        if (model.id !== this.get('currentUser.currentUserId')) {
-            transition.send('track', 'view', 'track', 'Quick Files - Main page view');
         }
     },
 });
