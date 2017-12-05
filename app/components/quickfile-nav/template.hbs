@@ -1,13 +1,11 @@
 <nav class="navbar osf-project-navbar row" role="navigation">
     <div class="container">
-        <div class="">
-            <ul class="nav navbar-nav">
-                <li class="{{if onQuickfiles 'active'}}">
-                    {{#link-to 'user-quickfiles' user class='project-title'}}
-                        {{user.fullName}}'s Quick Files
-                    {{/link-to}}
-                </li>
-            </ul>
-        </div>
+        <ul class="nav navbar-nav" id="quickfilesNav">
+            <li class="{{if onQuickfiles 'active'}}">
+                {{#link-to 'user-quickfiles' user class='project-title'}}
+                    {{user.fullName}}'s Quick Files
+                {{/link-to}}
+            </li>
+        </ul>
     </div>
 </nav>
