@@ -4,10 +4,6 @@
 #versionLink {
    cursor: pointer;
 }
-#revisionsPanel,
-#editPanel {
-   display: none;
-}
 #editPanel {
     padding:0px;
 }
@@ -82,6 +78,34 @@
 
 .osf-project-navbar {
     width: calc(100% + 20px);
+    min-height: 50px !important;
+    & .container {
+        min-height: inherit;
+    }
+}
+
+@media (max-width: 767px) {
+    #quickfilesNav .active {
+        margin-left: 30px;
+    }
+}
+
+#quickfilesNav {
+    margin: 0;
+    width: 100%;
+    min-height: inherit;
+    & .active {
+        float: left;
+        min-height: inherit;
+        max-width: calc(100% - 50px);
+        & .project-title {
+            max-width: 100%;
+            line-height: normal;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin: 0px;
+        }
+    }
 }
 
 .emberTagInput-tag {
@@ -90,6 +114,8 @@
   color: black;
   font-size: 13px;
   cursor: pointer;
+  max-width: 100%;
+  overflow-wrap: break-word;
   & > a {
     color: black;
   }
@@ -100,6 +126,12 @@
       color: #E0EBF3;
     }
   }
+}
+.emberTagInput-new {
+    width: 100%;
+    & > input {
+        width: inherit;
+    }
 }
 .file-version a {
   cursor: pointer;

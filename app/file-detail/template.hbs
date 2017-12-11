@@ -1,10 +1,11 @@
 {{title model.file.name}}
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
-    <div class='col-sm-8'>
+    <div class='col-sm-5'>
         {{! template-lint-disable }}
-        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeViewPanel' 'revisionsPanel' 'revisionBtn'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
+        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
         {{! template-lint-enable }}
+    </div>
     <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
             <div class='btn-toolbar m-t-md'>
@@ -16,9 +17,14 @@
                     </div>
                 {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-default popover-toggler'>
+                    <button class='btn btn-sm btn-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'download' model.file.currentVersion}}>
+                        {{t "general.download"}}
+                    </button>
+                </div>
+                <div class='btn-group m-l-xs m-t-xs'>
+                    <button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
                         {{t "general.share"}}
-                        {{#bs-popover placement='bottom' class='share-popover' title='Share'}}
+                        {{#bs-popover placement='bottom' class='share-popover' title='Share' visible=showPopup}}
                             {{#bs-tab customTabs=true as |tab|}}
                                 {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
                                     {{#nav.item active=(bs-eq tab.activeId 'sharePane')}}
@@ -34,22 +40,22 @@
                                         <br>
                                         <div class='input-group'>
                                             <span class='input-group-btn share-btn-container'>
-                                                <button type='button' class='btn btn-default btn-md' onclick={{action 'share'}}>
+                                                <button type='button' class='btn btn-default btn-md' onclick={{action 'click' 'button' 'Quick Files - Share file'}} {{action 'share'}}>
                                                     <div class='fa fa-copy'></div>
                                                 </button>
                                             </span>
                                             <input readonly='true' type='text' class='form-control' value='{{{mfrUrl}}}' id='sharePaneUrl'>
                                             <div class='share-buttons'>
-                                                <a href='{{twitterUrl}}' target='_blank' rel='noopener'>
+                                                <a href='{{twitterUrl}}' target='_blank' onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-twitter'></i>
                                                 </a>
-                                                <a href='{{facebookUrl}}' target='_blank' rel='noopener'>
+                                                <a href='{{facebookUrl}}' target='_blank' onclick={{action 'click' 'link' 'Quick Files - Share file on Facebook' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-facebook'></i>
                                                 </a>
-                                                <a href='{{linkedInUrl}}' target='_blank' rel='noopener' data-toggle='tooltip' data-placement='bottom' data-original-title='Disable adblock for full sharing functionality'>
+                                                <a href='{{linkedInUrl}}' target='_blank' data-toggle='tooltip' data-placement='bottom' data-original-title='Disable adblock for full sharing functionality' onclick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-linkedin'></i>
                                                 </a>
-                                                <a href='{{emailUrl}}' target='_blank' rel='noopener'>
+                                                <a href='{{emailUrl}}' target='_blank' onclick={{action 'click' 'link' 'Quick Files - Share file in email' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-envelope'></i>
                                                 </a>
                                             </div>
@@ -68,30 +74,25 @@
                         {{/bs-popover}}
                     </button>
                 </div>
-                <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-primary' onclick={{action 'download' model.file.currentVersion}}>
-                        {{t "general.download"}}
-                    </button>
-                </div>
                 {{#if isEditableFile}}
                         <div class='btn-group btn-group-sm m-t-xs'>
                             {{#if canEdit}}
                                 <div class='btn btn-default disabled'>Toggle view: </div>
-                                <button class='btn btn-primary view-button' id='mainViewBtn' onclick={{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>View</button>
-                                <button class='btn btn-default view-button' id='editViewBtn' onclick={{action 'changeViewPanel' 'editPanel' 'editViewBtn'}}>Edit</button>
+                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>View</button>
+                                <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'edit'}}>Edit</button>
                             {{else}}
-                                <button class='btn btn-primary view-button' id='mainViewBtn' onclick={{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>View</button>
+                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>View</button>
                             {{/if}}
                         </div>
                 {{else}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm btn-primary' id='mainViewBtn' onclick={{action 'changeViewPanel' 'mfrIframeParent' 'mainViewBtn'}}>
+                        <button class='btn btn-sm {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>
                             {{t "general.view"}}
                         </button>
                     </div>
                 {{/if}}
                 <div class='btn-group m-l-xs m-t-xs'>
-                    <button class='btn btn-sm btn-default' id='revisionBtn' onclick={{action 'changeViewPanel' 'revisionsPanel' 'revisionBtn'}}>
+                    <button class='btn btn-sm {{if (eq show "revision") "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'revision'}}>
                         {{t "general.revisions"}}
                     </button>
                 </div>
@@ -106,7 +107,7 @@
     {{#modal.body}}
         <p>Are you sure you want to delete <b>{{model.file.name}}</b>?</p>
     {{/modal.body}}
-    {{#modal.footer as |footer|}}
+    {{#modal.footer}}
         {{#bs-button onClick=(action 'closeDeleteModal') type='default'}}Cancel{{/bs-button}}
         {{#bs-button onClick=(action modal.submit) type='danger'}}Delete{{/bs-button}}
     {{/modal.footer}}
@@ -118,90 +119,101 @@
             selectedFile=model.file
             display=displays
             user=model.user
+            multiple=false
+            unselect=false
+            openOnSelect=true
             openFile=(action 'openFile')
         }}
-        <div class='panel panel-default'>
-            <div class='panel-heading clearfix'>
-                <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
-            </div>
-            <div class='panel-body'>
-                {{#if canEdit}}
-                    {{#tag-input
-                        tags=fileTags
-                        addTag=(action 'addTag')
-                        removeTagAtIndex=(action 'removeTagAtIndex')
-                        allowSpacesInTags=true
-                        placeholder='add a tag'
-                        as |tag|
-                    }}
-                        {{tag}}
-                    {{/tag-input}}
-                {{else}}
+        {{#if (or canEdit fileTags)}}
+            <div class='panel panel-default'>
+                <div class='panel-heading clearfix'>
+                    <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
+                </div>
+                <div class='panel-body'>
                     {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
                     {{#tag-input
                         tags=fileTags
                         addTag=(action 'addTag')
                         removeTagAtIndex=(action 'removeTagAtIndex')
                         allowSpacesInTags=true
-                        readOnly=true
+                        placeholder='add a tag to enhance discoverability'
+                        readOnly=(unless canEdit true false)
                         as |tag|
                     }}
-                        {{tag}}
+                        <a href='{{searchUrl}}?q=(tags:"{{tag}}")'>{{tag}}</a>
                     {{/tag-input}}
-                {{/if}}
-                <div class="tags_clear">
+                    <div class="tags_clear">
+                    </div>
                 </div>
             </div>
-        </div>
+        {{/if}}
     </div>
     <div class='col-md-9'>
-        <div id='mfrIframeParent' class='panel-view'>
-            {{#file-renderer download=model.file.links.download version=mfrVersion
-                height="700" width="99%"}}
-            {{/file-renderer}}
-        </div>
-        {{#if isEditableFile}}
-            {{#if canEdit}}
-                <div id='editPanel' class='panel-view panel panel-default'>
-                    {{#if (await fileText)}}
-                        {{#file-editor
-                            fileText=(await fileText)
-                            save=(action 'save')}}
-                        {{/file-editor}}
-                    {{/if}}
-                </div>
+        {{#if (or (eq show 'view') (eq show 'view_edit'))}}
+            <div id='mfrIframeParent' class='{{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
+                {{#file-renderer download=model.file.links.download version=mfrVersion
+                    height="700" width="99%"}}
+                {{/file-renderer}}
+            </div>
+        {{/if}}
+        {{#if (or (eq show 'edit') (eq show 'view_edit'))}}
+            {{#if isEditableFile}}
+                {{#if canEdit}}
+                    <div id='editPanel' class='panel panel-default {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
+                        {{#if (await fileText)}}
+                            {{#file-editor
+                                fileText=(await fileText)
+                                save=(action 'save')}}
+                            {{/file-editor}}
+                        {{/if}}
+                    </div>
+                {{/if}}
             {{/if}}
         {{/if}}
-        <div id='revisionsPanel' class='panel panel-default'>
-            <div class='panel-heading clearfix'>
-                <h3 class='panel-title'>
-                    {{t "general.revisions"}}
-                </h3>
+        {{#if (eq show 'revision')}}
+            <div id='revisionsPanel' class='panel panel-default'>
+                <div class='panel-heading clearfix'>
+                    <h3 class='panel-title'>
+                        {{t "general.revisions"}}
+                    </h3>
+                </div>
+                <div class='panel-body'>
+                    <table class='table table-responsive'>
+                        <thead>
+                            <tr>
+                                <th class='col-md-4'>{{t "file_detail.view.id"}}</th>
+                                <th class='col-md-6'>{{t "general.date"}}</th>
+                                <th colspan='2' class='col-xs-2'>{{t "general.download"}}</th>
+                                <th class='hidden-md hidden-sm hidden-xs'>
+                                    {{t "general.md5"}}
+                                    <span>
+                                        {{fa-icon "question-circle"}}
+                                        {{#bs-popover triggerEvents='hover' placement='top'}}MD5 is an algorithm used to verify data integrity.{{/bs-popover}}
+                                    </span>
+                                </th>
+                                <th class='hidden-md hidden-sm hidden-xs'>
+                                    {{t "general.sha2"}}
+                                    <span>
+                                        {{fa-icon "question-circle"}}
+                                        {{#bs-popover triggerEvents='hover' placement='top'}}SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.{{/bs-popover}}
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each (await fileVersions) as |version|}}
+                                {{file-version
+                                    version=version
+                                    download=(action 'download')
+                                    url=model.file.links.download
+                                    currentVersion=mfrVersion
+                                    versionChange=(action 'versionChange')
+                                }}
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class='panel-body'>
-                <table class='table table-responsive'>
-                    <thead>
-                        <tr>
-                            <th>{{t "file_detail.view.id"}}</th>
-                            <th>{{t "general.date"}}</th>
-                            <th colspan='2'>{{t "general.download"}}</th>
-                            <th>{{t "general.md5"}}</th>
-                            <th>{{t "general.sha2"}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each (await fileVersions) as |version|}}
-                            {{file-version
-                                version=version
-                                download=(action 'download')
-                                url=model.file.links.download
-                                currentVersion=mfrVersion
-                                versionChange=(action 'versionChange')
-                            }}
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        {{/if}}
     </div>
 </div>

@@ -4,6 +4,7 @@ moduleFor('controller:file-detail', 'Unit | Controller | file detail', {
     needs: [
         'service:currentUser',
         'service:toast',
+        'service:metrics',
     ],
 });
 

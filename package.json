@@ -22,7 +22,7 @@
     "*.js": "eslint"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-10-30T15:10:59Z",
+    "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2017-12-01T01:38:50Z",
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.5.1",
     "bootstrap": "^3.3.7",
@@ -30,6 +30,7 @@
     "coveralls": "^3.0.0",
     "ember-ajax": "^2.4.1",
     "ember-bootstrap": "1.0.0-rc.1",
+    "ember-browserify": "^1.2.0",
     "ember-cli": "~2.16.0",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-babel": "~6.8.0",
@@ -63,7 +64,8 @@
     "ember-welcome-page": "^2.0.2",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
-    "loader.js": "^4.0.10"
+    "loader.js": "^4.0.10",
+    "mime-types": "~2.1.17"
   },
   "engines": {
     "node": ">= 0.12.0"
