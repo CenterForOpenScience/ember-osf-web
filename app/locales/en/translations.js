@@ -3,7 +3,10 @@ export default {
         share: 'Share',
         embed: 'Embed',
         download: 'Download',
+        delete: 'Delete',
         view: 'View',
+        edit: 'Edit',
+        cancel: 'Cancel',
         revisions: 'Revisions',
         md5: 'MD5',
         date: 'Date',
@@ -23,5 +26,12 @@ export default {
             direct: 'Direct iframe with fixed height and width',
         },
         tags: 'Tags:',
+        toggle: 'Toggle view:',
+        delete_file: {
+            question: 'Delete file?',
+            confirm: 'Are you sure you want to delete <b>{{file-name}}</b>',
+        },
+        sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.',
+        md5_description: 'MD5 is an algorithm used to verify data integrity.',
     },
 };

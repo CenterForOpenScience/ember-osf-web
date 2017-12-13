@@ -12,7 +12,7 @@
                 {{#if canDelete}}
                     <div class='btn-group m-l-xs m-t-xs'>
                         <button class='btn btn-sm btn-default' onclick={{action 'openDeleteModal'}}>
-                            Delete
+                            {{t "general.delete"}}
                         </button>
                     </div>
                 {{/if}}
@@ -46,16 +46,16 @@
                                             </span>
                                             <input readonly='true' type='text' class='form-control' value='{{{mfrUrl}}}' id='sharePaneUrl'>
                                             <div class='share-buttons'>
-                                                <a href='{{twitterUrl}}' target='_blank' onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter' preventDefault=false}}>
+                                                <a href='{{twitterUrl}}' target='_blank' rel='noopener' onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-twitter'></i>
                                                 </a>
-                                                <a href='{{facebookUrl}}' target='_blank' onclick={{action 'click' 'link' 'Quick Files - Share file on Facebook' preventDefault=false}}>
+                                                <a href='{{facebookUrl}}' target='_blank' rel='noopener' onclick={{action 'click' 'link' 'Quick Files - Share file on Facebook' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-facebook'></i>
                                                 </a>
-                                                <a href='{{linkedInUrl}}' target='_blank' data-toggle='tooltip' data-placement='bottom' data-original-title='Disable adblock for full sharing functionality' onclick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn' preventDefault=false}}>
+                                                <a href='{{linkedInUrl}}' target='_blank' rel='noopener' data-toggle='tooltip' data-placement='bottom' data-original-title='Disable adblock for full sharing functionality' onclick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-linkedin'></i>
                                                 </a>
-                                                <a href='{{emailUrl}}' target='_blank' onclick={{action 'click' 'link' 'Quick Files - Share file in email' preventDefault=false}}>
+                                                <a href='{{emailUrl}}' target='_blank' rel='noopener' onclick={{action 'click' 'link' 'Quick Files - Share file in email' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-envelope'></i>
                                                 </a>
                                             </div>
@@ -75,15 +75,15 @@
                     </button>
                 </div>
                 {{#if isEditableFile}}
-                        <div class='btn-group btn-group-sm m-t-xs'>
-                            {{#if canEdit}}
-                                <div class='btn btn-default disabled'>Toggle view: </div>
-                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>View</button>
-                                <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'edit'}}>Edit</button>
-                            {{else}}
-                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>View</button>
-                            {{/if}}
-                        </div>
+                    <div class='btn-group btn-group-sm m-t-xs'>
+                        {{#if canEdit}}
+                            <div class='btn btn-default disabled'>{{t "file_detail.toggle"}}</div>
+                            <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>{{t "general.view"}}</button>
+                            <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'edit'}}>{{t "general.edit"}}</button>
+                        {{else}}
+                            <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>{{t "general.view"}}</button>
+                        {{/if}}
+                    </div>
                 {{else}}
                     <div class='btn-group m-l-xs m-t-xs'>
                         <button class='btn btn-sm {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>
@@ -102,14 +102,14 @@
 </div>
 {{#bs-modal open=deleteModalOpen onSubmit=(action 'delete') onHidden=(action 'closeDeleteModal') as |modal|}}
     {{#modal.header onClose=(action 'closeDeleteModal')}}
-        <h4 class="modal-title">Delete file?</h4>
+        <h4 class="modal-title">{{t "file_detail.delete_file.question"}}</h4>
     {{/modal.header}}
     {{#modal.body}}
-        <p>Are you sure you want to delete <b>{{model.file.name}}</b>?</p>
+        <p>{{t 'file_detail.delete_file.confirm' file-name=model.file.name}}</p>
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button onClick=(action 'closeDeleteModal') type='default'}}Cancel{{/bs-button}}
-        {{#bs-button onClick=(action modal.submit) type='danger'}}Delete{{/bs-button}}
+        {{#bs-button onClick=(action 'closeDeleteModal') type='default'}}{{t 'general.cancel'}}{{/bs-button}}
+        {{#bs-button onClick=(action modal.submit) type='danger'}}{{t 'general.delete'}}{{/bs-button}}
     {{/modal.footer}}
 {{/bs-modal}}
 <hr>
@@ -189,14 +189,14 @@
                                     {{t "general.md5"}}
                                     <span>
                                         {{fa-icon "question-circle"}}
-                                        {{#bs-popover triggerEvents='hover' placement='top'}}MD5 is an algorithm used to verify data integrity.{{/bs-popover}}
+                                        {{#bs-popover triggerEvents='hover' placement='top'}}{{t 'file_detail.md5_description'}}{{/bs-popover}}
                                     </span>
                                 </th>
                                 <th class='hidden-md hidden-sm hidden-xs'>
                                     {{t "general.sha2"}}
                                     <span>
                                         {{fa-icon "question-circle"}}
-                                        {{#bs-popover triggerEvents='hover' placement='top'}}SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.{{/bs-popover}}
+                                        {{#bs-popover triggerEvents='hover' placement='top'}}{{t 'file_detail.sha2_description'}}{{/bs-popover}}
                                     </span>
                                 </th>
                             </tr>

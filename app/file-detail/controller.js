@@ -14,6 +14,18 @@ export default Controller.extend(Analytics, {
     currentUser: service(),
     toast: service(),
     queryParams: ['show'],
+
+    init() {
+        this._super(...arguments);
+        outsideClick(function() {
+            this.send('dismissToggle');
+        }.bind(this));
+
+        $(window).resize(function() {
+            this.send('dismissToggle');
+        }.bind(this));
+    },
+
     show: null,
     revision: null,
     deleteModalOpen: false,
@@ -173,17 +185,6 @@ export default Controller.extend(Analytics, {
         dismissToggle() {
             this.set('showPopup', false);
         },
-    },
-
-    init() {
-        this._super(...arguments);
-        outsideClick(function() {
-            this.send('dismissToggle');
-        }.bind(this));
-
-        $(window).resize(function() {
-            this.send('dismissToggle');
-        }.bind(this));
     },
 
     _returnFileVersion(result) {
