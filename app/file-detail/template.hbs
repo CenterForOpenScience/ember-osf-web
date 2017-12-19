@@ -1,10 +1,9 @@
+{{! template-lint-disable triple-curlies invalid-interactive }}
 {{title model.file.name}}
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
     <div class='col-sm-5'>
-        {{! template-lint-disable }}
         <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
-        {{! template-lint-enable }}
     </div>
     <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
