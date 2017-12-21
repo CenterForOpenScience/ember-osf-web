@@ -14,7 +14,7 @@ export default Controller.extend(Analytics, {
     currentUser: service(),
     toast: service(),
     queryParams: ['show'],
-    show: null,
+    show: 'view',
     revision: null,
     deleteModalOpen: false,
     showPopup: false,
