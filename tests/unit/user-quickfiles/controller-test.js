@@ -1,8 +1,10 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:user-quickfiles', 'Unit | Controller | user quickfiles', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
+    needs: [
+        'service:currentUser',
+        'service:metrics',
+    ],
 });
 
 // Replace this with your real tests.
