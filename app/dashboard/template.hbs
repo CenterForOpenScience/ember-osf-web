@@ -24,12 +24,19 @@
                                         Go to <a href="/myprojects/">My Projects</a> to organize your work or <a href="/search/">search</a> the OSF
                                     </p>
                                     <div class='quick-search-table'>
+                                        <ul>
+                                        {{#each nodes as | node |}}
+                                            {{dashboard-item node=node}}
+                                        {{/each}}
+                                        </ul>
                                     </div>
-                                    <div class="text-center">
-                                        <button class="col-sm-12 text-muted">
-                                            {{fa-icon 'caret-down' class='m-b-xl' }}
-                                        </button>
-                                    </div>
+                                    {{#if hasMore}}
+                                        <div class="text-center">
+                                            <button class="col-sm-12 text-muted">
+                                                {{fa-icon 'caret-down' class='m-b-xl' click=(action 'more')}}
+                                            </button>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
