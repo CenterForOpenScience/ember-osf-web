@@ -13,6 +13,7 @@ Router.map(function() {
     this.route('quickfiles', { path: '/me/quickfiles' });
     this.route('user-quickfiles', { path: '/:user_id/quickfiles' });
     this.route('file-detail', { path: '/:file_id' });
+    this.route('institutions');
 });
 
 /* eslint-enable array-callback-return */

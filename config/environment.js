@@ -5,6 +5,7 @@ module.exports = function(environment) {
 
     const ENV = {
         modulePrefix: 'ember-osf-web',
+        appName: 'Ember OSF Web',
         environment,
         rootURL: '/',
         locationType: 'auto',

@@ -1,5 +1,6 @@
 {{title model.file.name}}
 {{quickfile-nav user=model.user onQuickfiles=false}}
+<div class='container'>
 <div class='quickfiles-content row'>
     <div class='col-sm-5'>
         <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView' 'revision'}}>(Version: {{mfrVersion}})</a></h2>
@@ -215,4 +216,5 @@
             </div>
         {{/if}}
     </div>
+</div>
 </div>
