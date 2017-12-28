@@ -24,6 +24,8 @@
                                         Go to <a href="/myprojects/">My Projects</a> to organize your work or <a href="/search/">search</a> the OSF
                                     </p>
                                     <div class='quick-search-table'>
+                                        <button onclick={{action 'sort' 'name' 'asc'}} class='btn btn-success btn-success-high-contrast m-t-md f-w-xl'>UP</button>
+                                        <button onclick={{action 'sort' 'name' 'desc'}} class='btn btn-success btn-success-high-contrast m-t-md f-w-xl'>DOWN</button>
                                         <ul>
                                         {{#each nodes as | node |}}
                                             {{dashboard-item node=node}}

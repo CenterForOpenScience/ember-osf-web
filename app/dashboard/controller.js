@@ -21,9 +21,19 @@ export default Controller.extend({
     }).enqueue(),
     curPage: 1,
     filter: '',
+    sortBy: 'date',
+    sortOrder: 'desc',
     _nodes: Ember.A([]),
-    nodes: Ember.computed('_nodes', 'filter', 'curPage', function() {
-        return this.get('_nodes').filter(each => each.get('title').toLowerCase().indexOf(this.get('filter').toLowerCase()) !== -1).slice(0, this.get('curPage') * 10);
+    nodes: Ember.computed('_nodes', 'filter', 'curPage', 'sortBy', 'sortOrder', function() {
+        const nodes = this.get('_nodes').filter(each => each.get('title').toLowerCase().indexOf(this.get('filter').toLowerCase()) !== -1).slice();
+        if (this.get('sortBy') === 'date' && this.get('sortOrder') === 'desc') {
+            nodes.reverse();
+        } else if (this.get('sortOrder') === 'asc') {
+            nodes.sort((a, b) => ((a.get('title').toLowerCase() < b.get('title').toLowerCase()) ? -1 : 1));
+        } else {
+            nodes.sort((a, b) => ((a.get('title').toLowerCase() < b.get('title').toLowerCase()) ? 1 : -1));
+        }
+        return nodes.slice(0, this.get('curPage') * 10);
     }),
     hasMore: Ember.computed('totalPages', 'curPage', function() {
         return this.get('totalPages') ? this.get('totalPages') > this.get('curPage') : false;
@@ -31,6 +41,10 @@ export default Controller.extend({
     actions: {
         more() {
             this.incrementProperty('curPage');
+        },
+        sort(by, order) {
+            this.set('sortBy', by);
+            this.set('sortOrder', order);
         },
     },
 });
