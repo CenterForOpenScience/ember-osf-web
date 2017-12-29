@@ -146,6 +146,7 @@ export default Controller.extend(Analytics, {
             } else {
                 file.getGuid().then(() => this.transitionToRoute('file-detail', file.get('guid'), { queryParams: { show: 'view' } }));
             }
+            this.set('revision', null);
         },
 
         addTag(tag) {
