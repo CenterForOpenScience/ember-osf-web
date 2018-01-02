@@ -1,9 +1,9 @@
-{{title title}}
+{{title (t 'quickfiles.title' user-name=model.fullName)}}
 
 {{quickfile-nav user=model onQuickfiles=true}}
 <div class='quickfiles-content container'>
     {{#if canEdit}}
-        <h5><i>Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.</i></h5>
+        <h5><i>{{t 'quickfiles.description'}}</i></h5>
     {{else}}
         <div style='height:14px;'></div>
     {{/if}}
