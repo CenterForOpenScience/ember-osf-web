@@ -25,9 +25,11 @@ export default Controller.extend({
     sortOrder: 'desc',
     _nodes: Ember.A([]),
     nodes: Ember.computed('_nodes', 'filter', 'curPage', 'sortBy', 'sortOrder', function() {
-        const nodes = this.get('_nodes').filter(each => each.get('title').toLowerCase().indexOf(this.get('filter').toLowerCase()) !== -1).slice();
-        if (this.get('sortBy') === 'date' && this.get('sortOrder') === 'desc') {
-            nodes.reverse();
+        const nodes = this.get('_nodes').filter(each => each.get('title').toLowerCase().indexOf(this.get('filter').toLowerCase()) !== -1);
+        if (this.get('sortBy') === 'date') {
+            if (this.get('sortOrder') === 'asc') {
+                nodes.reverse();
+            }
         } else if (this.get('sortOrder') === 'asc') {
             nodes.sort((a, b) => ((a.get('title').toLowerCase() < b.get('title').toLowerCase()) ? -1 : 1));
         } else {
@@ -44,6 +46,12 @@ export default Controller.extend({
         },
         sort(by, order) {
             this.set('sortBy', by);
+            this.set('sortOrder', order);
+        },
+        setSortBy(by) {
+            this.set('sortBy', by);
+        },
+        setSortOrder(order) {
             this.set('sortOrder', order);
         },
     },
