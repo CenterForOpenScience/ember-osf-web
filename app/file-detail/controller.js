@@ -26,7 +26,7 @@ export default Controller.extend(Analytics, {
         }.bind(this));
     },
 
-    show: null,
+    show: 'view',
     revision: null,
     deleteModalOpen: false,
     showPopup: false,
