@@ -23,6 +23,7 @@ export default Controller.extend({
     filter: '',
     sortBy: 'date',
     sortOrder: 'desc',
+    modalOpen: false,
     _nodes: Ember.A([]),
     nodes: Ember.computed('_nodes', 'filter', 'curPage', 'sortBy', 'sortOrder', function() {
         const nodes = this.get('_nodes').filter(each => each.get('title').toLowerCase().indexOf(this.get('filter').toLowerCase()) !== -1);
@@ -53,6 +54,9 @@ export default Controller.extend({
         },
         setSortOrder(order) {
             this.set('sortOrder', order);
+        },
+        toggleModal() {
+            this.toggleProperty('modalOpen');
         },
     },
 });

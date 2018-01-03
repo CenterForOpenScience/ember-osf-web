@@ -1,4 +1,7 @@
 <div class='dashboard-page'>
+    {{#if modalOpen}}
+        {{new-project-modal closeModal=(action 'toggleModal')}}
+    {{/if}}
     <div class="quickSearch">
         <div class="container p-t-lg">
             <div class="row m-t-lg">
@@ -8,7 +11,7 @@
                             <h2 class='col-xs-9'>Dashboard</h2>
                             <div class='m-b-lg col-xs-3'>
                                 <div class='pull-right'>
-                                    <button class='btn btn-success btn-success-high-contrast m-t-md f-w-xl'>Create new project</button>
+                                    <button onclick={{action 'toggleModal'}} class='btn btn-success btn-success-high-contrast m-t-md f-w-xl'>Create new project</button>
                                 </div>
                             </div>
                         </div>
