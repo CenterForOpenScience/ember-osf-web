@@ -6,31 +6,28 @@
         <div class="text-left">
             <div class="form-group m-v-sm">
                 <label for="&quot;projectName" class="f-w-lg text-bigger">Title</label>
-                <input type="text" placeholder="Enter project title" name="projectName" class="form-control project-name">
+                {{input placeholder="Enter project title" class='form-control project-name' value=nodeTitle type="text"}}
             </div>
             <div class="form-group m-v-sm">
                 <label class="f-w-lg text-bigger">Affiliation</label>
                 <a style="float: right;">Remove all</a>
                 <a style="float: right; margin-right: 12px;">Select all</a>
-                <table>
-                    <tr>
-                        <td>
-                            <a>
-                                <div width="45px" height="45px" style="position: relative; margin: 10px;">
-                                    <img name="Center For Open Science" width="45px" logopath="/static/img/institutions/shields-rounded-corners/cos-shield-rounded-corners.png" checked="true" height="45px" class="img-circle " src="/static/img/institutions/shields-rounded-corners/cos-shield-rounded-corners.png" alt="Center For Open Science" title="Center For Open Science">
-                                </div>
-                            </a>
-                        </td>
-                    </tr>
-                </table>
+                <table><tr>
+                    {{#each user.institutions as | institution | }}
+                        <td><a><div width="45px" height="45px" style="position: relative; margin: 10px;">
+                            <img name="{{institution.name}}" width="45px" checked="true" height="45px" class="img-circle" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
+                        </div></a></td>
+                    {{/each}}
+                </tr></table>
             </div>
-            <div class="text-muted pointer">
-                <i style="width: 10px;" class="fa fa-caret-down"></i> More
-            </div>
-            <div class="form-group m-v-sm">
-                <label for="&quot;projectDesc" class="f-w-lg text-bigger">Description</label>
-                <input type="text" name="projectDesc" placeholder="Enter project description" class="form-control noresize project-desc">
-            </div>
+            {{#if more}}
+                <div class="text-muted pointer" onclick={{action 'toggleMore'}}>
+                    {{fa-icon "caret-down"}} More
+                </div>
+                <div class="form-group m-v-sm">
+                    <label for="&quot;projectDesc" class="f-w-lg text-bigger">Description</label>
+                    {{input placeholder="Enter project description" class='form-control noresize project-desc' value=description type="text"}}
+                </div>
             <!-- <div class="form-group m-v-md">
                 <label for="&quot;projectTemplate" class="f-w-lg text-bigger">Template (optional)</label>
                 <p class="f-w-xs help-text">Start typing to search your projects. Selecting project as template will duplicate its structure in the new project without importing the content of that project.</p>
@@ -45,6 +42,11 @@
                     projects available
                 </select>
             </div> -->
+            {{else}}
+                <div class="text-muted pointer" onclick={{action 'toggleMore'}}>
+                    {{fa-icon "caret-right"}} More
+                </div>
+            {{/if}}
         </div>
     {{/modal.body}}
     {{#modal.footer}}
