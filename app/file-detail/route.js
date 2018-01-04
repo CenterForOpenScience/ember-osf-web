@@ -17,4 +17,9 @@ export default Route.extend(Analytics, {
             transition.send('track', 'page view', 'track', 'Quick Files - File detail page view');
         }
     },
+    resetController(controller, isExiting, transition) {
+        if (isExiting && transition.targetName !== 'error') {
+            controller.set('revision', null);
+        }
+    },
 });
