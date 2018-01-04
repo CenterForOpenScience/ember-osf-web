@@ -29,6 +29,17 @@
                         <label for="&quot;projectDesc" class="f-w-lg text-bigger">Description</label>
                         {{input placeholder="Enter project description" class='form-control noresize project-desc' value=description type="text"}}
                     </div>
+                    {{#power-select
+                        options=user.nodes
+                        selected=templateFrom
+                        noMatchesMessage="No matches found."
+                        searchMessage="Select a project to use as template"
+                        onchange=(action (mut templateFrom))
+                        renderInPlace=true
+                        as |node|
+                    }}
+                        {{node.title}}
+                    {{/power-select}}
                 <!-- <div class="form-group m-v-md">
                     <label for="&quot;projectTemplate" class="f-w-lg text-bigger">Template (optional)</label>
                     <p class="f-w-xs help-text">Start typing to search your projects. Selecting project as template will duplicate its structure in the new project without importing the content of that project.</p>
