@@ -357,6 +357,14 @@ h3, h4 {
     font-weight: bold;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
+.not-selected.img-circle {
+    opacity: 0.25;
+    filter: grayscale(100%);
+}
 
 ::-webkit-input-placeholder {
     /* Webkit, Blink, Edge */

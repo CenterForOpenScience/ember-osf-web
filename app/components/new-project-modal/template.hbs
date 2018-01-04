@@ -1,56 +1,67 @@
 {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
-    {{#modal.header onClose=(action 'closeModal')}}
-        <h3 class="modal-title">Create new project</h3>
-    {{/modal.header}}
-    {{#modal.body}}
-        <div class="text-left">
-            <div class="form-group m-v-sm">
-                <label for="&quot;projectName" class="f-w-lg text-bigger">Title</label>
-                {{input placeholder="Enter project title" class='form-control project-name' value=nodeTitle type="text"}}
-            </div>
-            <div class="form-group m-v-sm">
-                <label class="f-w-lg text-bigger">Affiliation</label>
-                <a style="float: right;">Remove all</a>
-                <a style="float: right; margin-right: 12px;">Select all</a>
-                <table><tr>
-                    {{#each user.institutions as | institution | }}
-                        <td><a><div width="45px" height="45px" style="position: relative; margin: 10px;">
-                            <img name="{{institution.name}}" width="45px" checked="true" height="45px" class="img-circle" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
-                        </div></a></td>
-                    {{/each}}
-                </tr></table>
-            </div>
-            {{#if more}}
-                <div class="text-muted pointer" onclick={{action 'toggleMore'}}>
-                    {{fa-icon "caret-down"}} More
+    {{#unless done}}
+        {{#modal.header onClose=(action 'closeModal')}}
+            <h3 class="modal-title">Create new project</h3>
+        {{/modal.header}}
+        {{#modal.body}}
+            <div class="text-left">
+                <div class="form-group m-v-sm">
+                    <label for="&quot;projectName" class="f-w-lg text-bigger">Title</label>
+                    {{input placeholder="Enter project title" class='form-control project-name' value=nodeTitle type="text"}}
                 </div>
                 <div class="form-group m-v-sm">
-                    <label for="&quot;projectDesc" class="f-w-lg text-bigger">Description</label>
-                    {{input placeholder="Enter project description" class='form-control noresize project-desc' value=description type="text"}}
+                    <label class="f-w-lg text-bigger">Affiliation</label>
+                    <a class='pointer' style="float: right;" onclick={{action 'removeAll'}}>Remove all</a>
+                    <a class='pointer' style="float: right; margin-right: 12px;" onclick={{action 'selectAll'}}>Select all</a>
+                    <table><tr>
+                        {{#each user.institutions as | institution | }}
+                            <td><a onclick={{action 'select' institution}}><div width="45px" height="45px" style="position: relative; margin: 10px;">
+                                <img name="{{institution.name}}" width="45px" height="45px" class="img-circle pointer {{if institution.selected 'selected' 'not-selected'}}" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
+                            </div></a></td>
+                        {{/each}}
+                    </tr></table>
                 </div>
-            <!-- <div class="form-group m-v-md">
-                <label for="&quot;projectTemplate" class="f-w-lg text-bigger">Template (optional)</label>
-                <p class="f-w-xs help-text">Start typing to search your projects. Selecting project as template will duplicate its structure in the new project without importing the content of that project.</p>
-                <div class="select2-container" id="s2id_autogen5" style="width: 100%;">
-                    <a href="javascript:void(0)" class="select2-choice select2-default" tabindex="-1">   <span class="select2-chosen" id="select2-chosen-6">Select a project to use as a template</span><abbr class="select2-search-choice-close"></abbr>   <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a>
-                    <label for="s2id_autogen6" class="select2-offscreen"></label>
-                    <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-6" id="s2id_autogen6">
-                    <div class="select2-drop select2-display-none select2-with-searchbox">   <div class="select2-search">       <label for="s2id_autogen6_search" class="select2-offscreen"></label>       <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-6" id="s2id_autogen6_search" placeholder="">   </div>  <ul class="select2-results" role="listbox" id="select2-results-6">   </ul>
+                {{#if more}}
+                    <div class="text-muted pointer" onclick={{action 'toggleMore'}}>
+                        {{fa-icon "caret-down"}} More
                     </div>
-                </div>
-                <select tabindex="-1" title="" class="select2-offscreen">
-                    projects available
-                </select>
-            </div> -->
-            {{else}}
-                <div class="text-muted pointer" onclick={{action 'toggleMore'}}>
-                    {{fa-icon "caret-right"}} More
-                </div>
-            {{/if}}
-        </div>
-    {{/modal.body}}
-    {{#modal.footer}}
-        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
-        {{#bs-button onClick=(action 'createNode') type='success'}}Create{{/bs-button}}
-    {{/modal.footer}}
+                    <div class="form-group m-v-sm">
+                        <label for="&quot;projectDesc" class="f-w-lg text-bigger">Description</label>
+                        {{input placeholder="Enter project description" class='form-control noresize project-desc' value=description type="text"}}
+                    </div>
+                <!-- <div class="form-group m-v-md">
+                    <label for="&quot;projectTemplate" class="f-w-lg text-bigger">Template (optional)</label>
+                    <p class="f-w-xs help-text">Start typing to search your projects. Selecting project as template will duplicate its structure in the new project without importing the content of that project.</p>
+                    <div class="select2-container" id="s2id_autogen5" style="width: 100%;">
+                        <a href="javascript:void(0)" class="select2-choice select2-default" tabindex="-1">   <span class="select2-chosen" id="select2-chosen-6">Select a project to use as a template</span><abbr class="select2-search-choice-close"></abbr>   <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a>
+                        <label for="s2id_autogen6" class="select2-offscreen"></label>
+                        <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-6" id="s2id_autogen6">
+                        <div class="select2-drop select2-display-none select2-with-searchbox">   <div class="select2-search">       <label for="s2id_autogen6_search" class="select2-offscreen"></label>       <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-6" id="s2id_autogen6_search" placeholder="">   </div>  <ul class="select2-results" role="listbox" id="select2-results-6">   </ul>
+                        </div>
+                    </div>
+                    <select tabindex="-1" title="" class="select2-offscreen">
+                        projects available
+                    </select>
+                </div> -->
+                {{else}}
+                    <div class="text-muted pointer" onclick={{action 'toggleMore'}}>
+                        {{fa-icon "caret-right"}} More
+                    </div>
+                {{/if}}
+            </div>
+        {{/modal.body}}
+        {{#modal.footer}}
+            {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+            {{#bs-button onClick=(action 'createNode') type='success'}}Create{{/bs-button}}
+        {{/modal.footer}}
+    {{else}}
+        {{#modal.body}}
+            <button data-dismiss="modal" aria-label="Close" class="close" onclick={{action 'closeModal'}}><span aria-hidden="true">×</span></button>
+            <h4 class="add-project-success text-success">New project created successfully!</h4>
+        {{/modal.body}}
+        {{#modal.footer}}
+            {{#bs-button onClick=(action 'reload') type='default'}}Keep working here{{/bs-button}}
+            <a href="/{{done}}/" class="btn btn-success">Go to new project</a>
+        {{/modal.footer}}
+    {{/unless}}
 {{/bs-modal}}
