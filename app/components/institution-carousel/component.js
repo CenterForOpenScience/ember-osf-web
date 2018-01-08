@@ -15,7 +15,7 @@ export default Component.extend({
         return new Array(numSlides).fill().map((_, i) => this.get('institutions').slice(i * itemsPerSlide, (i * itemsPerSlide) + itemsPerSlide));
     }),
     columnOffset: Ember.computed('institutions', 'itemsPerSlide', function() {
-        let offset;
+        let offset = 'col-sm-offset-1';
         const numInstitutions = this.get('institutions.length');
         if (numInstitutions <= this.get('itemsPerSlide')) {
             switch (numInstitutions) {

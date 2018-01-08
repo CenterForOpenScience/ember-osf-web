@@ -2,6 +2,10 @@ import Ember from 'ember';
 import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
 
+// const prodLinkedNodePath = id => `https://api.osf.io/v2/nodes/${id}/linked_nodes/?page[size]=5`;
+const popularNode = '57tnq';
+const noteworthyNode = 'z3sg2';
+
 export default Controller.extend({
     currentUser: Ember.inject.service(),
     init() {
@@ -14,6 +18,8 @@ export default Controller.extend({
             });
         });
         this.get('store').findAll('institution').then(institutions => this.set('institutions', institutions));
+        this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');
+        this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy');
     },
     findNodes: task(function* (page) {
         const user = yield this.get('currentUser.user');
@@ -42,6 +48,18 @@ export default Controller.extend({
     }),
     hasMore: Ember.computed('totalPages', 'curPage', function() {
         return this.get('totalPages') ? this.get('totalPages') > this.get('curPage') : false;
+    }),
+    popular: Ember.A([]),
+    noteworthy: Ember.A([]),
+    getPopularAndNoteworthy: task(function* (id, dest) {
+        // const url = prodLinkedNodePath(id);
+        try {
+            const node = yield this.get('store').findRecord('node', id);
+            const linkedNodes = yield node.query('linkedNodes', { page: { size: 5 }, embed: 'contributors' });
+            this.get(dest).pushObjects(linkedNodes);
+        } catch (e) {
+            this.set(`failedLoading-${dest}`, true);
+        }
     }),
     actions: {
         more() {
