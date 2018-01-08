@@ -1,6 +1,6 @@
 <div class='dashboard-page'>
     {{#if modalOpen}}
-        {{new-project-modal user=currentUser.user closeModal=(action 'toggleModal')}}
+        {{new-project-modal user=currentUser.user nodesAvailable=_nodes closeModal=(action 'toggleModal')}}
     {{/if}}
     <div class="quickSearch">
         <div class="container p-t-lg">

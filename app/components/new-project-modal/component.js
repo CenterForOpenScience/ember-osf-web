@@ -47,7 +47,7 @@ export default Component.extend({
                 description: this.get('description'),
             };
             if (this.get('templateFrom')) {
-                data.templateFrom = this.get('templateFrom');
+                data.templateFrom = this.get('templateFrom.id');
             }
             this.get('store').createRecord('node', data).save().then((node) => {
                 if (this.get('institutionsSelected.length')) {

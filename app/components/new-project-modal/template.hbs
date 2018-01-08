@@ -29,31 +29,23 @@
                         <label for="&quot;projectDesc" class="f-w-lg text-bigger">Description</label>
                         {{input placeholder="Enter project description" class='form-control noresize project-desc' value=description type="text"}}
                     </div>
-                    {{#power-select
-                        options=user.nodes
-                        selected=templateFrom
-                        noMatchesMessage="No matches found."
-                        searchMessage="Select a project to use as template"
-                        onchange=(action (mut templateFrom))
-                        renderInPlace=true
-                        as |node|
-                    }}
-                        {{node.title}}
-                    {{/power-select}}
-                <!-- <div class="form-group m-v-md">
-                    <label for="&quot;projectTemplate" class="f-w-lg text-bigger">Template (optional)</label>
-                    <p class="f-w-xs help-text">Start typing to search your projects. Selecting project as template will duplicate its structure in the new project without importing the content of that project.</p>
-                    <div class="select2-container" id="s2id_autogen5" style="width: 100%;">
-                        <a href="javascript:void(0)" class="select2-choice select2-default" tabindex="-1">   <span class="select2-chosen" id="select2-chosen-6">Select a project to use as a template</span><abbr class="select2-search-choice-close"></abbr>   <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a>
-                        <label for="s2id_autogen6" class="select2-offscreen"></label>
-                        <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-6" id="s2id_autogen6">
-                        <div class="select2-drop select2-display-none select2-with-searchbox">   <div class="select2-search">       <label for="s2id_autogen6_search" class="select2-offscreen"></label>       <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-6" id="s2id_autogen6_search" placeholder="">   </div>  <ul class="select2-results" role="listbox" id="select2-results-6">   </ul>
-                        </div>
+                    <div class="form-group m-v-md">
+                        <label for="&quot;projectTemplate" class="f-w-lg text-bigger">Template (optional)</label>
+                        <p class="f-w-xs help-text">Start typing to search your projects. Selecting project as template will duplicate its structure in the new project without importing the content of that project.</p>
+                        {{#power-select
+                            options=nodesAvailable
+                            selected=templateFrom
+                            noMatchesMessage="No matches found."
+                            searchMessage="Select a project to use as template"
+                            placeholder="Select a project to use as template"
+                            onchange=(action (mut templateFrom))
+                            searchField='title'
+                            renderInPlace=true
+                            as |node|
+                        }}
+                            {{node.title}}
+                        {{/power-select}}
                     </div>
-                    <select tabindex="-1" title="" class="select2-offscreen">
-                        projects available
-                    </select>
-                </div> -->
                 {{else}}
                     <div class="text-muted pointer" onclick={{action 'toggleMore'}}>
                         {{fa-icon "caret-right"}} More
@@ -63,7 +55,7 @@
         {{/modal.body}}
         {{#modal.footer}}
             {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
-            {{#bs-button onClick=(action 'createNode') type='success'}}Create{{/bs-button}}
+            <button onclick={{action 'createNode'}} class="btn btn-success {{unless nodeTitle.length 'disabled'}}">Create</button>
         {{/modal.footer}}
     {{else}}
         {{#modal.body}}
