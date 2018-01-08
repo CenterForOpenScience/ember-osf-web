@@ -68,8 +68,8 @@
                                     </div>
                                     {{#if hasMore}}
                                         <div class="text-center">
-                                            <button class="col-sm-12 text-muted">
-                                                {{fa-icon 'caret-down' class='m-b-xl' click=(action 'more')}}
+                                            <button class="col-sm-12 text-muted" onclick={{action 'more'}}>
+                                                {{fa-icon 'caret-down' class='m-b-xl'}}
                                             </button>
                                         </div>
                                     {{/if}}
@@ -81,4 +81,62 @@
             </div>
         </div>
     </div>
+    <div class="institutions-panel hidden-xs">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                    <!-- <div id="__carousel" controls="true" class="carousel slide">
+                        <div class="carousel-inner"><div class="item active"><div class="row" style="text-align: center;"><div class="col-sm-2" style="display: inline-block; float: none;">div><a href="#__carousel" data-slide="prev" class="left carousel-control" style="padding-top: 20px; font-size: 50px; width: 5%; background-image: none;">‹</a><a href="#__carousel" data-slide="next" class="right carousel-control" style="padding-top: 20px; font-size: 50px; width: 5%; background-image: none;">›</a></div></div></div></div></div></div> -->
+                    {{institution-carousel institutions=institutions}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="meetings">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                    <div class="p-v-sm">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="conference-centering">
+                                    <h3>Hosting a conference or meeting?</h3>
+                                </div>
+                                <div class="conference-centering m-t-lg">
+                                    <p class="text-bigger">Use the OSF for Meetings service to provide a central location for conference submissions.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div><a type="button" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">View meetings</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="preprints">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                    <div class="p-v-sm">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="conference-centering">
+                                    <h3>Browse the latest research</h3>
+                                </div>
+                                <div class="conference-centering m-t-lg">
+                                    <p
+                                     class="text-bigger">Check out the latest Preprints hosted on the OSF covering a variety of research areas.</p>
+                                 </div>
+                             </div>
+                             <div class="col-md-4 text-center">
+                                 <div><a type="button" href="/preprints/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">View preprints</a></div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
 </div>

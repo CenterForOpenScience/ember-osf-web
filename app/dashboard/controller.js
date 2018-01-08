@@ -13,6 +13,7 @@ export default Controller.extend({
                 for (let i = 2; i <= pages; i++) { this.get('findNodes').perform(i); }
             });
         });
+        this.get('store').findAll('institution').then(institutions => this.set('institutions', institutions));
     },
     findNodes: task(function* (page) {
         const user = yield this.get('currentUser.user');
@@ -25,6 +26,7 @@ export default Controller.extend({
     sortOrder: 'desc',
     modalOpen: false,
     _nodes: Ember.A([]),
+    institutions: Ember.A([]),
     nodes: Ember.computed('_nodes', 'filter', 'curPage', 'sortBy', 'sortOrder', function() {
         const nodes = this.get('_nodes').filter(each => each.get('title').toLowerCase().indexOf(this.get('filter').toLowerCase()) !== -1);
         if (this.get('sortBy') === 'date') {
