@@ -9,18 +9,20 @@
                     <label for="&quot;projectName" class="f-w-lg text-bigger">Title</label>
                     {{input placeholder="Enter project title" class='form-control project-name' value=nodeTitle type="text"}}
                 </div>
-                <div class="form-group m-v-sm">
-                    <label class="f-w-lg text-bigger">Affiliation</label>
-                    <a class='pointer' style="float: right;" onclick={{action 'removeAll'}}>Remove all</a>
-                    <a class='pointer' style="float: right; margin-right: 12px;" onclick={{action 'selectAll'}}>Select all</a>
-                    <table><tr>
-                        {{#each user.institutions as | institution | }}
-                            <td><a onclick={{action 'select' institution}}><div width="45px" height="45px" style="position: relative; margin: 10px;">
-                                <img name="{{institution.name}}" width="45px" height="45px" class="img-circle pointer {{if institution.selected 'selected' 'not-selected'}}" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
-                            </div></a></td>
-                        {{/each}}
-                    </tr></table>
-                </div>
+                {{#if user.institutions.length}}
+                    <div class="form-group m-v-sm">
+                        <label class="f-w-lg text-bigger">Affiliation</label>
+                        <a class='pointer' style="float: right;" onclick={{action 'removeAll'}}>Remove all</a>
+                        <a class='pointer' style="float: right; margin-right: 12px;" onclick={{action 'selectAll'}}>Select all</a>
+                        <table><tr>
+                            {{#each user.institutions as | institution | }}
+                                <td><a onclick={{action 'select' institution}}><div width="45px" height="45px" style="position: relative; margin: 10px;">
+                                    <img name="{{institution.name}}" width="45px" height="45px" class="img-circle pointer {{if institution.selected 'selected' 'not-selected'}}" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
+                                </div></a></td>
+                            {{/each}}
+                        </tr></table>
+                    </div>
+                {{/if}}
                 {{#if more}}
                     <div class="text-muted pointer" onclick={{action 'toggleMore'}}>
                         {{fa-icon "caret-down"}} More

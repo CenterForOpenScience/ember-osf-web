@@ -3,6 +3,14 @@
         <div class="row"><div>
             <div class="col-sm-3 col-md-6 p-v-xs">
                 <div class="quick-search-col">
+                    {{#if (eq ancestry '--private')}}
+                    {{#unless _ancestry}}
+                        <i>Private Project / Private / </i>
+                    {{else}}
+                        <i>Private Project / </i>{{_ancestry}}
+                    {{else}}
+                        {{ancestry}}
+                    {{/if}}
                     <strong>{{node.title}}</strong>
                 </div>
             </div>
