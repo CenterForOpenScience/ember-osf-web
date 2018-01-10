@@ -7,5 +7,5 @@ moduleForComponent('institution-carousel', 'Integration | Component | institutio
 
 test('it renders', function(assert) {
     this.render(hbs`{{institution-carousel}}`);
-    assert.ok(this.$().text().trim());
+    assert.equal(this.$().text().trim(), '');
 });

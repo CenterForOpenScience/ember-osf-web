@@ -4,6 +4,9 @@ import Component from '@ember/component';
 export default Component.extend({
     contributors: Ember.computed('project', function() {
         const contribs = this.get('project.contributors.content.canonicalState');
+        if (!contribs) {
+            return;
+        }
         const len = contribs.length;
         const namePath = index => this.get(`project._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.family_name`) || this.get(`project._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.given_name`);
         switch (len) {
@@ -15,6 +18,9 @@ export default Component.extend({
     }),
     compactDescription: Ember.computed('project.description', function() {
         const desc = this.get('project.description');
+        if (!desc) {
+            return '';
+        }
         return desc.length > 115 ? `${desc.slice(0, 111)}...` : desc;
     }),
 });

@@ -7,5 +7,5 @@ moduleForComponent('new-project-modal', 'Integration | Component | new project m
 
 test('it renders', function(assert) {
     this.render(hbs`{{new-project-modal}}`);
-    assert.equal(this.$().text().trim(), '');
+    assert.ok(this.$().text().trim());
 });

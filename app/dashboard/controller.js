@@ -10,6 +10,9 @@ export default Controller.extend({
     currentUser: Ember.inject.service(),
     init() {
         this.get('currentUser.user').then((user) => {
+            if (!user) {
+                return;
+            }
             user.query('nodes', { embed: 'contributors' }).then((nodes) => {
                 this.set('_nodes', nodes.slice());
                 const pages = Math.ceil(nodes.meta.pagination.total / nodes.meta.pagination.per_page);
@@ -17,6 +20,7 @@ export default Controller.extend({
                 for (let i = 2; i <= pages; i++) { this.get('findNodes').perform(i); }
             });
         });
+
         this.get('store').findAll('institution').then(institutions => this.set('institutions', institutions));
         this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');
         this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy');

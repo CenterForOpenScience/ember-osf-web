@@ -31,6 +31,9 @@ export default Component.extend({
     contributors: Ember.computed('node.contributors', function() {
         // Trust contributors are cached due to emdedding done on dashboard
         const contribs = this.get('node.contributors.content.canonicalState');
+        if (!contribs) {
+            return;
+        }
         const len = contribs.length;
         const namePath = index => this.get(`node._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.family_name`) || this.get(`node._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.given_name`);
         switch (len) {
