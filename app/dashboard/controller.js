@@ -56,7 +56,7 @@ export default Controller.extend({
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.query('linkedNodes', { page: { size: 5 }, embed: 'contributors' });
-            this.get(dest).pushObjects(linkedNodes);
+            this.get(dest).pushObjects(linkedNodes.slice());
         } catch (e) {
             this.set(`failedLoading-${dest}`, true);
         }

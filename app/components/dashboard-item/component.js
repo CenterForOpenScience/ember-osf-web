@@ -32,7 +32,7 @@ export default Component.extend({
         // Trust contributors are cached due to emdedding done on dashboard
         const contribs = this.get('node.contributors.content.canonicalState');
         const len = contribs.length;
-        const namePath = index => this.get(`node._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.family_name`);
+        const namePath = index => this.get(`node._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.family_name`) || this.get(`node._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.given_name`);
         switch (len) {
         case 1: return namePath(0);
         case 2: return `${namePath(0)} and ${namePath(1)}`;

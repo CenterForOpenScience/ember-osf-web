@@ -5,7 +5,7 @@ export default Component.extend({
     contributors: Ember.computed('project', function() {
         const contribs = this.get('project.contributors.content.canonicalState');
         const len = contribs.length;
-        const namePath = index => this.get(`project._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.family_name`);
+        const namePath = index => this.get(`project._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.family_name`) || this.get(`project._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.given_name`);
         switch (len) {
         case 1: return namePath(0);
         case 2: return `${namePath(0)}, ${namePath(1)}`;

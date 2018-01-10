@@ -128,7 +128,7 @@
                                     <h4 class="m-b-md">New and Noteworthy</h4>
                                     {{#unless failedLoading-noteworthy}}
                                         {{#if noteworthy.length}}
-                                            {{#each as noteworthy as | project | }}
+                                            {{#each noteworthy as | project | }}
                                                 {{noteworthy-and-popular-project project=project}}
                                             {{/each}}
                                         {{else}}
@@ -144,7 +144,7 @@
                                     <h4 class="m-b-md">Most Popular</h4>
                                     {{#unless failedLoading-popular}}
                                         {{#if popular.length}}
-                                            {{#each as popular as | project | }}
+                                            {{#each popular as | project | }}
                                                 {{noteworthy-and-popular-project project=project}}
                                             {{/each}}
                                         {{else}}
