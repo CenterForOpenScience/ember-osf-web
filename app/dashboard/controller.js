@@ -20,6 +20,7 @@ export default Controller.extend({
                 this.set('_nodes', nodes.slice());
                 const pages = Math.ceil(nodes.meta.pagination.total / nodes.meta.pagination.per_page);
                 this.set('totalPages', pages);
+                this.set('loading', false);
                 for (let i = 2; i <= pages; i++) { this.get('findNodes').perform(i); }
             });
         });
@@ -29,6 +30,7 @@ export default Controller.extend({
         this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy');
     },
 
+    loading: true,
     curPage: 1,
     filter: '',
     sortBy: 'date',

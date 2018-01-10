@@ -39,63 +39,77 @@
                         </div>
                         <div class="col-xs-12">
                             <div class='row quick-project'>
-                                <div class='col-xs-12'>
-                                    <div class='m-b-sm text-center'>
-                                        <div class="m-v-sm quick-search-input">
-                                            {{input placeholder="Search your projects" class='form-control' value=filter type="text"}}
-                                        </div>
-                                    </div>
-                                    <p class="text-center f-w-lg">
-                                        Go to <a href="/myprojects/">My Projects</a> to organize your work or <a href="/search/">search</a> the OSF
-                                    </p>
-                                    <div class='quick-search-table'>
-                                        <div class="row node-col-headers m-t-md">
-                                            <div class="col-sm-3 col-md-6">
-                                                <div class="quick-search-col">
-                                                    Title
-                                                    <button onclick={{action 'sort' 'name' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'name')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
-                                                    <button onclick={{action 'sort' 'name' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'name')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                {{#if loading}}
+                                    Loading...
+                                {{else}}
+                                    {{#if _nodes.length}}
+                                        <div class='col-xs-12'>
+                                            <div class='m-b-sm text-center'>
+                                                <div class="m-v-sm quick-search-input">
+                                                    {{input placeholder="Search your projects" class='form-control' value=filter type="text"}}
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3 col-md-3">
-                                                <div class="quick-search-col">Contributors</div>
-                                            </div>
-                                            <div class="col-sm-3 col-md-3">
-                                                <div class="quick-search-col">
-                                                    Modified
-                                                    <span class="sort-group">
-                                                        <button onclick={{action 'sort' 'date' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'date')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
-                                                        <button onclick={{action 'sort' 'date' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'date')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
-                                                    </span>
+                                            <p class="text-center f-w-lg">
+                                                Go to <a href="/myprojects/">My Projects</a> to organize your work or <a href="/search/">search</a> the OSF
+                                            </p>
+                                            <div class='quick-search-table'>
+                                                <div class="row node-col-headers m-t-md">
+                                                    <div class="col-sm-3 col-md-6">
+                                                        <div class="quick-search-col">
+                                                            Title
+                                                            <button onclick={{action 'sort' 'name' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'name')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
+                                                            <button onclick={{action 'sort' 'name' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'name')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3 col-md-3">
+                                                        <div class="quick-search-col">Contributors</div>
+                                                    </div>
+                                                    <div class="col-sm-3 col-md-3">
+                                                        <div class="quick-search-col">
+                                                            Modified
+                                                            <span class="sort-group">
+                                                                <button onclick={{action 'sort' 'date' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'date')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
+                                                                <button onclick={{action 'sort' 'date' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'date')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 f-w-xl node-sort-dropdown text-right">
+                                                        <span>
+                                                            <button onclick={{action 'setSortOrder' 'asc'}} class="{{if (eq sortOrder 'asc') 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
+                                                            <button onclick={{action 'setSortOrder' 'desc'}} class="{{if (eq sortOrder 'desc') 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                                        </span>
+                                                        <label>
+                                                            <select onchange={{action "setSortBy" value="target.value"}}>
+                                                                <option selected={{if (eq sortBy 'name') 'selected'}} value="title">Title</option>
+                                                                <option selected={{if (eq sortBy 'date') 'selected'}} value="date">Modified</option>
+                                                            </select>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                {{#each nodes as | node |}}
+                                                    {{dashboard-item node=node}}
+                                                {{/each}}
                                             </div>
+                                            {{#if hasMore}}
+                                                <div class="text-center">
+                                                    <button class="col-sm-12 text-muted" onclick={{action 'more'}}>
+                                                        {{fa-icon 'caret-down' class='m-b-xl'}}
+                                                    </button>
+                                                </div>
+                                            {{/if}}
                                         </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 f-w-xl node-sort-dropdown text-right">
-                                                <span>
-                                                    <button onclick={{action 'setSortOrder' 'asc'}} class="{{if (eq sortOrder 'asc') 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
-                                                    <button onclick={{action 'setSortOrder' 'desc'}} class="{{if (eq sortOrder 'desc') 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
-                                                </span>
-                                                <label>
-                                                    <select onchange={{action "setSortBy" value="target.value"}}>
-                                                        <option selected={{if (eq sortBy 'name') 'selected'}} value="title">Title</option>
-                                                        <option selected={{if (eq sortBy 'date') 'selected'}} value="date">Modified</option>
-                                                    </select>
-                                                </label>
+                                    {{else}}
+                                        <div class="row quick-project">
+                                            <div class="col-sm-12 text-center">
+                                                <p>You have no projects yet. Create a project with the button on the top right.</p>
+                                                <p>This feature allows you to search and quickly access your projects.</p>
+                                                <img src="/static/img/quicksearch-min.png" alt="Preview of a full quick projects screen" class="img-responsive center-block">
                                             </div>
-                                        </div>
-                                        {{#each nodes as | node |}}
-                                            {{dashboard-item node=node}}
-                                        {{/each}}
-                                    </div>
-                                    {{#if hasMore}}
-                                        <div class="text-center">
-                                            <button class="col-sm-12 text-muted" onclick={{action 'more'}}>
-                                                {{fa-icon 'caret-down' class='m-b-xl'}}
-                                            </button>
                                         </div>
                                     {{/if}}
-                                </div>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
