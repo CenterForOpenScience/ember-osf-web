@@ -1,3 +1,4 @@
+import { alias } from '@ember/object/computed';
 import $ from 'jquery';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
@@ -13,6 +14,18 @@ import pathJoin from 'ember-osf/utils/path-join';
 export default Controller.extend(Analytics, {
     currentUser: service(),
     toast: service(),
+
+    init() {
+        this._super(...arguments);
+        outsideClick(function() {
+            this.send('dismissToggle');
+        }.bind(this));
+
+        $(window).resize(function() {
+            this.send('dismissToggle');
+        }.bind(this));
+    },
+
     queryParams: ['show'],
     show: 'view',
     revision: null,
@@ -42,7 +55,7 @@ export default Controller.extend(Analytics, {
 
     searchUrl: pathJoin(config.OSF.url, 'search'),
 
-    canDelete: computed.alias('canEdit'),
+    canDelete: alias('canEdit'),
 
     canEdit: computed('currentUser', 'model.user', function() {
         if (!this.get('model.user.id')) return false;
@@ -173,17 +186,6 @@ export default Controller.extend(Analytics, {
         dismissToggle() {
             this.set('showPopup', false);
         },
-    },
-
-    init() {
-        this._super(...arguments);
-        outsideClick(function() {
-            this.send('dismissToggle');
-        }.bind(this));
-
-        $(window).resize(function() {
-            this.send('dismissToggle');
-        }.bind(this));
     },
 
     _returnFileVersion(result) {

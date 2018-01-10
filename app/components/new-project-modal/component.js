@@ -1,12 +1,14 @@
-import Ember from 'ember';
+import { observer } from '@ember/object';
+import { A } from '@ember/array';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default Component.extend({
-    store: Ember.inject.service(),
-    institutionsSelected: Ember.A([]),
+    store: service(),
     done: false,
     more: false,
-    _initialSelection: Ember.observer('user.institutions', function() {
+    institutionsSelected: A([]),
+    _initialSelection: observer('user.institutions', function() {
         this.get('user.institutions').forEach(inst => inst.set('selected', true));
         this.set('institutionsSelected', this.get('user.institutions').slice());
     }),
@@ -27,7 +29,7 @@ export default Component.extend({
         },
         removeAll() {
             this.get('user.institutions').forEach(inst => inst.set('selected', false));
-            this.set('institutionsSelected', Ember.A([]));
+            this.set('institutionsSelected', A([]));
         },
         toggleMore() {
             this.toggleProperty('more');

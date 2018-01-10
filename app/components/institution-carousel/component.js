@@ -1,20 +1,22 @@
+import $ from 'jquery';
+import { computed } from '@ember/object';
+import { A } from '@ember/array';
 import Component from '@ember/component';
-import Ember from 'ember';
 
 // TODO generalize this as carousel-somehting and add it to ember-osf, to be used by both providers and institutions
 // lot of this logic is copied over from ember-osf-preprints/app/components/provider-carousel (h/t @pattisdr)
 export default Component.extend({
-    institutions: Ember.A(),
     itemsPerSlide: 5,
-    numSlides: Ember.computed('institutions', 'itemsPerSlide', function() {
+    institutions: A(),
+    numSlides: computed('institutions', 'itemsPerSlide', function() {
         return Math.ceil(this.get('institutions.length') / this.get('itemsPerSlide'));
     }),
-    slides: Ember.computed('numSlides', 'itemsPerSlide', function() {
+    slides: computed('numSlides', 'itemsPerSlide', function() {
         const numSlides = this.get('numSlides');
         const itemsPerSlide = this.get('itemsPerSlide');
         return new Array(numSlides).fill().map((_, i) => this.get('institutions').slice(i * itemsPerSlide, (i * itemsPerSlide) + itemsPerSlide));
     }),
-    columnOffset: Ember.computed('institutions', 'itemsPerSlide', function() {
+    columnOffset: computed('institutions', 'itemsPerSlide', function() {
         let offset = 'col-sm-offset-1';
         const numInstitutions = this.get('institutions.length');
         if (numInstitutions <= this.get('itemsPerSlide')) {
@@ -41,7 +43,7 @@ export default Component.extend({
         return offset;
     }),
     didInsertElement() {
-        Ember.$('.carousel').carousel();
+        $('.carousel').carousel();
     },
     actions: {
         prev() {

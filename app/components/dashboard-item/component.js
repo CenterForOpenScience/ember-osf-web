@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
 import moment from 'moment';
 import Component from '@ember/component';
 
 export default Component.extend({
-    ancestry: Ember.computed('node', 'node.{parent,root}', function() {
+    ancestry: computed('node', 'node.{parent,root}', function() {
         const rootId = this.get('node._internalModel.__data.links.relationships.root.errors.length') ? undefined : this.get('node.root.id');
         const parentId = this.get('node._internalModel.__data.links.relationships.parent.errors.length') ? undefined : this.get('node.parent.id');
         const grandpaLink = this.get('node.parent.content._internalModel._data.links.relationships.parent.links.related.href');
@@ -25,10 +25,10 @@ export default Component.extend({
         }
         return `${this.get('node.root.title')} / ... / ${this.get('node.parent.title')} / `;
     }),
-    date: Ember.computed('node.dateModified', function() {
+    date: computed('node.dateModified', function() {
         return moment(this.get('node.dateModified')).utc().format('YYYY-MM-DD h:mm A');
     }),
-    contributors: Ember.computed('node.contributors', function() {
+    contributors: computed('node.contributors', function() {
         // Trust contributors are cached due to emdedding done on dashboard
         const contribs = this.get('node.contributors.content.canonicalState');
         if (!contribs) {

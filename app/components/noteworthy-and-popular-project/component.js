@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
-    contributors: Ember.computed('project', function() {
+    contributors: computed('project', function() {
         const contribs = this.get('project.contributors.content.canonicalState');
         if (!contribs) {
             return;
@@ -16,7 +16,7 @@ export default Component.extend({
         default: return `${namePath(0)}, ${namePath(1)}, ${namePath(2)} +${len - 3}`;
         }
     }),
-    compactDescription: Ember.computed('project.description', function() {
+    compactDescription: computed('project.description', function() {
         const desc = this.get('project.description');
         if (!desc) {
             return '';

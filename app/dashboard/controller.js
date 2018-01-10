@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { A } from '@ember/array';
+import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
 
@@ -7,7 +9,8 @@ const popularNode = '57tnq';
 const noteworthyNode = 'z3sg2';
 
 export default Controller.extend({
-    currentUser: Ember.inject.service(),
+    currentUser: service(),
+
     init() {
         this.get('currentUser.user').then((user) => {
             if (!user) {
@@ -25,19 +28,18 @@ export default Controller.extend({
         this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');
         this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy');
     },
-    findNodes: task(function* (page) {
-        const user = yield this.get('currentUser.user');
-        const nodes = yield user.query('nodes', { page, embed: 'contributors' });
-        this.get('_nodes').pushObjects(nodes.slice());
-    }).enqueue(),
+
     curPage: 1,
     filter: '',
     sortBy: 'date',
     sortOrder: 'desc',
     modalOpen: false,
-    _nodes: Ember.A([]),
-    institutions: Ember.A([]),
-    nodes: Ember.computed('_nodes', 'filter', 'curPage', 'sortBy', 'sortOrder', function() {
+    _nodes: A([]),
+    institutions: A([]),
+    popular: A([]),
+    noteworthy: A([]),
+
+    nodes: computed('_nodes', 'filter', 'curPage', 'sortBy', 'sortOrder', function() {
         const nodes = this.get('_nodes').filter(each => each.get('title').toLowerCase().indexOf(this.get('filter').toLowerCase()) !== -1);
         if (this.get('sortBy') === 'date') {
             if (this.get('sortOrder') === 'asc') {
@@ -50,21 +52,11 @@ export default Controller.extend({
         }
         return nodes.slice(0, this.get('curPage') * 10);
     }),
-    hasMore: Ember.computed('totalPages', 'curPage', function() {
+
+    hasMore: computed('totalPages', 'curPage', function() {
         return this.get('totalPages') ? this.get('totalPages') > this.get('curPage') : false;
     }),
-    popular: Ember.A([]),
-    noteworthy: Ember.A([]),
-    getPopularAndNoteworthy: task(function* (id, dest) {
-        // const url = prodLinkedNodePath(id);
-        try {
-            const node = yield this.get('store').findRecord('node', id);
-            const linkedNodes = yield node.query('linkedNodes', { page: { size: 5 }, embed: 'contributors' });
-            this.get(dest).pushObjects(linkedNodes.slice());
-        } catch (e) {
-            this.set(`failedLoading-${dest}`, true);
-        }
-    }),
+
     actions: {
         more() {
             this.incrementProperty('curPage');
@@ -83,4 +75,21 @@ export default Controller.extend({
             this.toggleProperty('modalOpen');
         },
     },
+
+    findNodes: task(function* (page) {
+        const user = yield this.get('currentUser.user');
+        const nodes = yield user.query('nodes', { page, embed: 'contributors' });
+        this.get('_nodes').pushObjects(nodes.slice());
+    }).enqueue(),
+
+    getPopularAndNoteworthy: task(function* (id, dest) {
+        // const url = prodLinkedNodePath(id);
+        try {
+            const node = yield this.get('store').findRecord('node', id);
+            const linkedNodes = yield node.query('linkedNodes', { page: { size: 5 }, embed: 'contributors' });
+            this.get(dest).pushObjects(linkedNodes.slice());
+        } catch (e) {
+            this.set(`failedLoading-${dest}`, true);
+        }
+    }),
 });
