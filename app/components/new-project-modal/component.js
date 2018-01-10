@@ -49,11 +49,14 @@ export default Component.extend({
             if (this.get('templateFrom')) {
                 data.templateFrom = this.get('templateFrom.id');
             }
+            // TODO(hmoco): refactor using a task
             this.get('store').createRecord('node', data).save().then((node) => {
                 if (this.get('institutionsSelected.length')) {
-                    this.get('institutionsSelected').forEach(inst => node.get('affiliatedInstitutions').pushObject(inst));
-                    node.save().then(() => {
-                        this.set('done', node.get('id'));
+                    node.get('affiliatedInstitutions').then(() => {
+                        this.get('institutionsSelected').forEach(inst => node.get('affiliatedInstitutions').pushObject(inst));
+                        node.save().then(() => {
+                            this.set('done', node.get('id'));
+                        });
                     });
                 } else {
                     this.set('done', node.get('id'));
