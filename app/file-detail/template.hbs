@@ -1,9 +1,8 @@
-{{! template-lint-disable triple-curlies invalid-interactive }}
 {{title model.file.name}}
 {{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='quickfiles-content row'>
     <div class='col-sm-5'>
-        <h2>{{model.file.name}} <a id='versionLink' onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
+        <h2>{{model.file.name}} <a id='versionLink' role="button" onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
     </div>
     <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
@@ -43,7 +42,7 @@
                                                     <div class='fa fa-copy'></div>
                                                 </button>
                                             </span>
-                                            <input readonly='true' type='text' class='form-control' value='{{{mfrUrl}}}' id='sharePaneUrl'>
+                                            <input readonly='true' type='text' class='form-control' value='{{mfrUrl}}' id='sharePaneUrl'>
                                             <div class='share-buttons'>
                                                 <a href='{{twitterUrl}}' target='_blank' rel='noopener' onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-twitter'></i>
@@ -63,10 +62,10 @@
                                     {{#tab.pane elementId='embedPane' title='Embed'}}
                                         <br>
                                         <p>{{t "file_detail.embed.dynamic"}}</p>
-                                        <textarea readonly='true' type='text' class='form-control'>{{{shareiFrameDynamic}}}</textarea>
+                                        <textarea readonly='true' type='text' class='form-control'>{{shareiFrameDynamic}}</textarea>
                                         <br>
                                         <p>{{t "file_detail.embed.direct"}}</p>
-                                        <textarea readonly='true' class='form-control'>{{{shareiFrameDirect}}}</textarea>
+                                        <textarea readonly='true' class='form-control'>{{shareiFrameDirect}}</textarea>
                                     {{/tab.pane}}
                                 </div>
                             {{/bs-tab}}
