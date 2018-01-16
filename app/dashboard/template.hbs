@@ -69,8 +69,8 @@
                                                         <div class="quick-search-col">
                                                             Modified
                                                             <span class="sort-group">
-                                                                <button onclick={{action 'sort' 'modified' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'modified')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
-                                                                <button onclick={{action 'sort' 'modified' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'modified')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                                                <button onclick={{action 'sort' 'last_logged' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'last_logged')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
+                                                                <button onclick={{action 'sort' 'last_logged' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'last_logged')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -84,7 +84,7 @@
                                                         <label>
                                                             <select onchange={{action "setSortBy" value="target.value"}}>
                                                                 <option selected={{if (eq sortBy 'title') 'selected'}} value="title">Title</option>
-                                                                <option selected={{if (eq sortBy 'modified') 'selected'}} value="modified">Modified</option>
+                                                                <option selected={{if (eq sortBy 'last_logged') 'selected'}} value="last_logged">Modified</option>
                                                             </select>
                                                         </label>
                                                     </div>

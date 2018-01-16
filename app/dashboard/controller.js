@@ -34,7 +34,7 @@ export default Controller.extend({
     initialLoading: true,
     curPage: 1,
     filter: '',
-    sortBy: 'date',
+    sortBy: 'last_logged',
     sortOrder: 'desc',
     modalOpen: false,
     nodes: A([]),
@@ -103,7 +103,6 @@ export default Controller.extend({
     }).restartable(),
 
     getPopularAndNoteworthy: task(function* (id, dest) {
-        // const url = prodLinkedNodePath(id);
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.query('linkedNodes', { page: { size: 5 }, embed: 'contributors' });
