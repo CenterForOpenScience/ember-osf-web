@@ -34,6 +34,9 @@
   max-width: 450px;
   width: 450px;
 }
+#sharePaneUrl {
+    height: 33px;
+}
 .share-btn-container {
   height: 34px;
   vertical-align: top;
@@ -397,6 +400,10 @@ h3, h4 {
 .not-selected.img-circle {
     opacity: 0.25;
     filter: grayscale(100%);
+}
+
+.osf-project-navbar a.project-title {
+    max-width: 100%;
 }
 
 ::-webkit-input-placeholder {
