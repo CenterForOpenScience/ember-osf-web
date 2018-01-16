@@ -39,14 +39,15 @@
                         </div>
                         <div class="col-xs-12">
                             <div class='row quick-project'>
-                                {{#if loading}}
+                                {{#if initialLoading}}
                                     <div class='ball-scale ball-light' style='text-align: center'><div></div></div>
                                 {{else}}
-                                    {{#if _nodes.length}}
+                                    {{#if totalNodes}}
                                         <div class='col-xs-12'>
                                             <div class='m-b-sm text-center'>
                                                 <div class="m-v-sm quick-search-input">
-                                                    {{input placeholder="Search your projects" class='form-control' value=filter type="text"}}
+                                                    <!-- {{input placeholder="Search your projects" class='form-control' value=filter type="text"}} -->
+                                                    <input class='form-control' placeholder="Search your projects" type="text" oninput={{perform filterNodes value="target.value"}}>
                                                 </div>
                                             </div>
                                             <p class="text-center f-w-lg">
@@ -57,8 +58,8 @@
                                                     <div class="col-sm-3 col-md-6">
                                                         <div class="quick-search-col">
                                                             Title
-                                                            <button onclick={{action 'sort' 'name' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'name')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
-                                                            <button onclick={{action 'sort' 'name' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'name')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                                            <button onclick={{action 'sort' 'title' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'title')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
+                                                            <button onclick={{action 'sort' 'title' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'title')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3 col-md-3">
@@ -68,8 +69,8 @@
                                                         <div class="quick-search-col">
                                                             Modified
                                                             <span class="sort-group">
-                                                                <button onclick={{action 'sort' 'date' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'date')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
-                                                                <button onclick={{action 'sort' 'date' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'date')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                                                <button onclick={{action 'sort' 'modified' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'modified')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
+                                                                <button onclick={{action 'sort' 'modified' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'modified')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -82,22 +83,35 @@
                                                         </span>
                                                         <label>
                                                             <select onchange={{action "setSortBy" value="target.value"}}>
-                                                                <option selected={{if (eq sortBy 'name') 'selected'}} value="title">Title</option>
-                                                                <option selected={{if (eq sortBy 'date') 'selected'}} value="date">Modified</option>
+                                                                <option selected={{if (eq sortBy 'title') 'selected'}} value="title">Title</option>
+                                                                <option selected={{if (eq sortBy 'modified') 'selected'}} value="modified">Modified</option>
                                                             </select>
                                                         </label>
                                                     </div>
                                                 </div>
-                                                {{#each nodes as | node |}}
-                                                    {{dashboard-item node=node}}
-                                                {{/each}}
+                                                {{#unless loading}}
+                                                    {{#each nodes as | node |}}
+                                                        {{dashboard-item node=node}}
+                                                    {{/each}}
+                                                    {{#unless nodes.length}}
+                                                        <br>
+                                                        <i>No results found!</i>
+                                                        <br>
+                                                    {{/unless}}
+                                                {{else}}
+                                                    <div class='ball-scale ball-light' style='text-align: center'><div></div></div>
+                                                {{/unless}}
                                             </div>
                                             {{#if hasMore}}
-                                                <div class="text-center">
-                                                    <button class="col-sm-12 text-muted" onclick={{action 'more'}}>
-                                                        {{fa-icon 'caret-down' class='m-b-xl'}}
-                                                    </button>
-                                                </div>
+                                                {{#unless loadingMore}}
+                                                    <div class="text-center">
+                                                        <button class="col-sm-12 text-muted" onclick={{action 'more'}}>
+                                                            {{fa-icon 'caret-down' class='load-nodes m-b-xl'}}
+                                                        </button>
+                                                    </div>
+                                                {{else}}
+                                                    <div class='ball-scale ball-light' style='text-align: center'><div></div></div>
+                                                {{/unless}}
                                             {{/if}}
                                         </div>
                                     {{else}}
