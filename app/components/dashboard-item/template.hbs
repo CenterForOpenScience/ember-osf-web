@@ -1,26 +1,28 @@
 <a href="/{{node.id}}">
     <div class="m-v-sm node-styling">
-        <div class="row"><div>
-            <div class="col-sm-3 col-md-6 p-v-xs">
-                <div class="quick-search-col">
-                    {{#if (eq ancestry '--private')}}
-                        {{#unless _ancestry}}
-                            <i>Private Project / Private / </i>
+        <div class="row">
+            <div>
+                <div class="col-sm-3 col-md-6 p-v-xs">
+                    <div class="quick-search-col">
+                        {{#if (eq ancestry '--private')}}
+                            {{#if _ancestry}}
+                                <i>{{t 'dashboard.quicksearch.private_parent'}}</i>{{_ancestry}}
+                            {{else}}
+                                <i>{{t 'dashboard.quicksearch.private_grandparent'}}</i>
+                            {{/if}}
                         {{else}}
-                            <i>Private Project / </i>{{_ancestry}}
-                        {{/unless}}
-                    {{else}}
-                        {{ancestry}}
-                    {{/if}}
-                    <strong>{{node.title}}</strong>
+                            {{ancestry}}
+                        {{/if}}
+                        <strong>{{node.title}}</strong>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3 p-v-xs">
+                    <div class="quick-search-col">{{contributors}}</div>
+                </div>
+                <div class="col-sm-3 col-md-3 p-v-xs">
+                    <div class="quick-search-col">{{date}}</div>
                 </div>
             </div>
-            <div class="col-sm-3 col-md-3 p-v-xs">
-                <div class="quick-search-col">{{contributors}}</div>
-            </div>
-            <div class="col-sm-3 col-md-3 p-v-xs">
-                <div class="quick-search-col">{{date}}</div>
-            </div>
-        </div></div>
+        </div>
     </div>
 </a>

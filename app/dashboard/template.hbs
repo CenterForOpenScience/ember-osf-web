@@ -10,12 +10,12 @@
                         <div class="row prereg-banner">
                             <div class="col-md-9 m-v-sm">
                                 <div class="conference-centering">
-                                    <p>Improve your next study. Enter the Prereg Challenge and you could win $1,000.</p>
+                                    <p>{{t 'banners.prereg.description'}}</p>
                                 </div>
                             </div>
                             <div class="col-md-3 text-center m-v-sm">
                                 <div>
-                                    <a type="button" href="/prereg/" class="btn btn-success btn-success-high-contrast f-w-xl">Start Prereg Challenge</a>
+                                    <a type="button" href="/prereg/" class="btn btn-success btn-success-high-contrast f-w-xl">{{t 'banners.prereg.button'}}</a>
                                 </div>
                             </div>
                         </div>
@@ -30,10 +30,10 @@
                 <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                     <div class="row">
                         <div class="col-xs-12">
-                            <h2 class='col-xs-9'>Dashboard</h2>
+                            <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
                             <div class='m-b-lg col-xs-3'>
                                 <div class='pull-right'>
-                                    <button onclick={{action 'toggleModal'}} class='btn btn-success btn-success-high-contrast m-t-md f-w-xl'>Create new project</button>
+                                    <button onclick={{action 'toggleModal'}} class='btn btn-success btn-success-high-contrast m-t-md f-w-xl'>{{t 'dashboard.create_new_project_button'}}</button>
                                 </div>
                             </div>
                         </div>
@@ -46,28 +46,25 @@
                                         <div class='col-xs-12'>
                                             <div class='m-b-sm text-center'>
                                                 <div class="m-v-sm quick-search-input">
-                                                    <!-- {{input placeholder="Search your projects" class='form-control' value=filter type="text"}} -->
-                                                    <input class='form-control' placeholder="Search your projects" type="text" oninput={{perform filterNodes value="target.value"}}>
+                                                    <input class='form-control' placeholder="{{t 'dashboard.quicksearch.search'}}" type="text" oninput={{perform filterNodes value="target.value"}}>
                                                 </div>
                                             </div>
-                                            <p class="text-center f-w-lg">
-                                                Go to <a href="/myprojects/">My Projects</a> to organize your work or <a href="/search/">search</a> the OSF
-                                            </p>
+                                            <p class="text-center f-w-lg">{{t 'dashboard.quicksearch.other_links'}}</p>
                                             <div class='quick-search-table'>
                                                 <div class="row node-col-headers m-t-md">
                                                     <div class="col-sm-3 col-md-6">
                                                         <div class="quick-search-col">
-                                                            Title
+                                                            {{t 'general.title'}}
                                                             <button onclick={{action 'sort' 'title' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'title')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
                                                             <button onclick={{action 'sort' 'title' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'title')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3 col-md-3">
-                                                        <div class="quick-search-col">Contributors</div>
+                                                        <div class="quick-search-col">{{t 'general.contributors'}}</div>
                                                     </div>
                                                     <div class="col-sm-3 col-md-3">
                                                         <div class="quick-search-col">
-                                                            Modified
+                                                            {{t 'general.modified'}}
                                                             <span class="sort-group">
                                                                 <button onclick={{action 'sort' 'last_logged' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'last_logged')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
                                                                 <button onclick={{action 'sort' 'last_logged' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'last_logged')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
@@ -83,43 +80,41 @@
                                                         </span>
                                                         <label>
                                                             <select onchange={{action "setSortBy" value="target.value"}}>
-                                                                <option selected={{if (eq sortBy 'title') 'selected'}} value="title">Title</option>
-                                                                <option selected={{if (eq sortBy 'last_logged') 'selected'}} value="last_logged">Modified</option>
+                                                                <option selected={{if (eq sortBy 'title') 'selected'}} value="title">{{t 'general.title'}}</option>
+                                                                <option selected={{if (eq sortBy 'last_logged') 'selected'}} value="last_logged">{{t 'general.modified'}}</option>
                                                             </select>
                                                         </label>
                                                     </div>
                                                 </div>
-                                                {{#unless loading}}
+                                                {{#if loading}}
+                                                    <div class='ball-scale ball-light' style='text-align: center'><div></div></div>
+                                                {{else}}
                                                     {{#each nodes as | node |}}
                                                         {{dashboard-item node=node}}
                                                     {{/each}}
                                                     {{#unless nodes.length}}
-                                                        <br>
-                                                        <i>No results found!</i>
-                                                        <br>
+                                                        <br><i>{{t 'dashboard.quickfiles.no_results'}}</i><br>
                                                     {{/unless}}
-                                                {{else}}
-                                                    <div class='ball-scale ball-light' style='text-align: center'><div></div></div>
-                                                {{/unless}}
+                                                {{/if}}
                                             </div>
                                             {{#if hasMore}}
-                                                {{#unless loadingMore}}
+                                                {{#if loadingMore}}
+                                                    <div class='ball-scale ball-light' style='text-align: center'><div></div></div>
+                                                {{else}}
                                                     <div class="text-center">
                                                         <button class="col-sm-12 text-muted" onclick={{action 'more'}}>
                                                             {{fa-icon 'caret-down' class='load-nodes m-b-xl'}}
                                                         </button>
                                                     </div>
-                                                {{else}}
-                                                    <div class='ball-scale ball-light' style='text-align: center'><div></div></div>
-                                                {{/unless}}
+                                                {{/if}}
                                             {{/if}}
                                         </div>
                                     {{else}}
                                         <div class="row quick-project">
                                             <div class="col-sm-12 text-center">
-                                                <p>You have no projects yet. Create a project with the button on the top right.</p>
-                                                <p>This feature allows you to search and quickly access your projects.</p>
-                                                <img src="/static/img/quicksearch-min.png" alt="Preview of a full quick projects screen" class="img-responsive center-block">
+                                                <p>{{t 'dashboard.quickfiles.line1'}}</p>
+                                                <p>{{t 'dashboard.quickfiles.line2'}}</p>
+                                                <img src="/static/img/quicksearch-min.png" alt="{{t 'dashboard.quickfiles.preview_alt'}}" class="img-responsive center-block">
                                             </div>
                                         </div>
                                     {{/if}}
@@ -144,7 +139,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                    <h3>Discover Public Projects</h3>
+                    <h3>{{t 'dashboard.noteworthy.description'}}</h3>
                 </div>
             </div>
             <div class="row">
@@ -153,8 +148,10 @@
                         <div class="row">
                             <div class="col-xs-12 col-md-6">
                                 <div class="public-projects-box">
-                                    <h4 class="m-b-md">New and Noteworthy</h4>
-                                    {{#unless failedLoading-noteworthy}}
+                                    <h4 class="m-b-md">{{t 'dashboard.noteworthy.new_and_noteworthy'}}</h4>
+                                    {{#if failedLoading-noteworthy}}
+                                        {{t 'dashboard.noteworthy.failed_noteworthy'}}
+                                    {{else}}
                                         {{#if noteworthy.length}}
                                             {{#each noteworthy as | project | }}
                                                 {{noteworthy-and-popular-project project=project}}
@@ -162,15 +159,15 @@
                                         {{else}}
                                             <div class='ball-scale ball-light' style='text-align: center;'><div></div></div>
                                         {{/if}}
-                                    {{else}}
-                                        Failed loading "New and Noteworthy" projects
-                                    {{/unless}}
+                                    {{/if}}
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6">
                                 <div class="public-projects-box">
-                                    <h4 class="m-b-md">Most Popular</h4>
-                                    {{#unless failedLoading-popular}}
+                                    <h4 class="m-b-md">{{t 'dashboard.noteworthy.most_popular'}}</h4>
+                                    {{#if failedLoading-popular}}
+                                        {{t 'dashboard.noteworthy.failed_popular'}}
+                                    {{else}}
                                         {{#if popular.length}}
                                             {{#each popular as | project | }}
                                                 {{noteworthy-and-popular-project project=project}}
@@ -178,15 +175,13 @@
                                         {{else}}
                                             <div class='ball-scale ball-light' style='text-align: center'><div></div></div>
                                         {{/if}}
-                                    {{else}}
-                                        Failed loading "Most Popular" projects
-                                    {{/unless}}
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="text-center col-sm-12">
-                                <a type="button" href="/search/?q=* " class="btn btn-default m-v-lg">Search for more projects</a>
+                                <a type="button" href="/search/?q=* " class="btn btn-default m-v-lg">{{t 'dashboard.noteworthy.search_more'}}</a>
                             </div>
                         </div>
                     </div>
@@ -202,14 +197,14 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="conference-centering">
-                                    <h3>Hosting a conference or meeting?</h3>
+                                    <h3>{{t 'dashboard.meetings.title'}}</h3>
                                 </div>
                                 <div class="conference-centering m-t-lg">
-                                    <p class="text-bigger">Use the OSF for Meetings service to provide a central location for conference submissions.</p>
+                                    <p class="text-bigger">{{t 'dashboard.meetings.description'}}</p>
                                 </div>
                             </div>
                             <div class="col-md-4 text-center">
-                                <div><a type="button" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">View meetings</a></div>
+                                <div><a type="button" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">{{t 'dashboard.meetings.button'}}</a></div>
                             </div>
                         </div>
                     </div>
@@ -225,20 +220,19 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="conference-centering">
-                                    <h3>Browse the latest research</h3>
+                                    <h3>{{t 'dashboard.preprints.title'}}</h3>
                                 </div>
                                 <div class="conference-centering m-t-lg">
-                                    <p
-                                     class="text-bigger">Check out the latest Preprints hosted on the OSF covering a variety of research areas.</p>
-                                 </div>
-                             </div>
-                             <div class="col-md-4 text-center">
-                                 <div><a type="button" href="/preprints/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">View preprints</a></div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
+                                    <p class="text-bigger">{{t 'dashboard.preprints.description'}}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div><a type="button" href="/preprints/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">{{t 'dashboard.preprints.button'}}</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
