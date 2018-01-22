@@ -15,10 +15,10 @@ export default Controller.extend({
             if (!user) {
                 return;
             }
-            user.query('nodes', { embed: 'contributors' }).then((nodes) => {
+            user.queryHasMany('nodes', { embed: 'contributors' }).then((nodes) => {
                 this.set('nodes', nodes.slice());
                 this.set('totalNodes', nodes.meta.total);
-                const pages = Math.ceil(nodes.meta.pagination.total / nodes.meta.pagination.per_page);
+                const pages = Math.ceil(nodes.meta.total / nodes.meta.per_page);
                 this.set('totalPages', pages);
                 this.set('initialLoading', false);
             });
@@ -91,8 +91,8 @@ export default Controller.extend({
             query.page = 1;
             this.set('curPage', 1);
         }
-        const nodes = yield user.query('nodes', query);
-        const pages = Math.ceil(nodes.meta.pagination.total / nodes.meta.pagination.per_page);
+        const nodes = yield user.queryHasMany('nodes', query);
+        const pages = Math.ceil(nodes.meta.total / nodes.meta.per_page);
         this.set('totalPages', pages);
         this.set(more ? 'loadingMore' : 'loading', false);
         if (more) {
@@ -105,7 +105,7 @@ export default Controller.extend({
     getPopularAndNoteworthy: task(function* (id, dest) {
         try {
             const node = yield this.get('store').findRecord('node', id);
-            const linkedNodes = yield node.query('linkedNodes', { page: { size: 5 }, embed: 'contributors' });
+            const linkedNodes = yield node.queryHasMany('linkedNodes', { page: { size: 5 }, embed: 'contributors' });
             this.get(dest).pushObjects(linkedNodes.slice());
         } catch (e) {
             this.set(`failedLoading-${dest}`, true);
