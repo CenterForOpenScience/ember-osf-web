@@ -1,0 +1,36 @@
+.osf-project-navbar {
+    width: calc(100% + 20px);
+    min-height: 50px !important;
+
+    .container {
+        min-height: inherit;
+    }
+
+    a.project-title {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    #quickfilesNav .active {
+        margin-left: 30px;
+    }
+}
+
+#quickfilesNav {
+    margin: 0;
+    width: 100%;
+    min-height: inherit;
+    & .active {
+        float: left;
+        min-height: inherit;
+        max-width: calc(100% - 50px);
+        & .project-title {
+            max-width: 100%;
+            line-height: normal;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin: 0px;
+        }
+    }
+}

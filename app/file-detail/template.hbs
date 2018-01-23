@@ -22,7 +22,7 @@
                 <div class='btn-group m-l-xs m-t-xs'>
                     <button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
                         {{t "general.share"}}
-                        {{#bs-popover placement='bottom' class='share-popover' title='Share' visible=showPopup}}
+                        {{#bs-popover placement='bottom' class=(concat 'share-popover ' styleNamespace) title='Share' visible=showPopup}}
                             {{#bs-tab customTabs=true as |tab|}}
                                 {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
                                     {{#nav.item active=(bs-eq tab.activeId 'sharePane')}}
