@@ -4,9 +4,9 @@ import Component from '@ember/component';
 
 export default Component.extend({
     ancestry: computed('node', 'node.{parent,root}', function() {
-        const rootId = this.get('node._internalModel.__data.links.relationships.root.errors.length') ? undefined : this.get('node.root.id');
-        const parentId = this.get('node._internalModel.__data.links.relationships.parent.errors.length') ? undefined : this.get('node.parent.id');
-        const grandpaLink = this.get('node.parent.content._internalModel._data.links.relationships.parent.links.related.href');
+        const rootId = this.get('node.root.id');
+        const parentId = this.get('node.parent.id');
+        const grandpaLink = this.get('node.parent.links.relationships.parent.links.related.href');
         const grandpaId = grandpaLink ? grandpaLink.split('nodes')[1].split('/').filter(e => e)[0] : undefined;
         if (!rootId) {
             if (parentId) {

@@ -7,5 +7,5 @@ moduleForComponent('loading-indicator', 'Integration | Component | loading indic
 
 test('it renders', function(assert) {
     this.render(hbs`{{loading-indicator}}`);
-    assert.ok(this.$().text().trim());
+    assert.equal(this.$().text().trim(), '');
 });

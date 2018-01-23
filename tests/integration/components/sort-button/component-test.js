@@ -7,5 +7,5 @@ moduleForComponent('sort-button', 'Integration | Component | sort button', {
 
 test('it renders', function(assert) {
     this.render(hbs`{{sort-button}}`);
-    assert.ok(this.$().text().trim());
+    assert.equal(this.$().text().trim(), '');
 });

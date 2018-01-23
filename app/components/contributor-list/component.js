@@ -7,13 +7,13 @@ export default Component.extend({
     i18n: service(),
 
     contributorList: computed('node.contributors', function() {
-        const node = this.get('node');
-        const contribs = node.get('contributors.content.canonicalState');
+        let contribs = this.get('node.contributors');
         if (!contribs) {
             return;
         }
+        contribs = contribs.toArray();
         const len = contribs.length;
-        const namePath = index => node.get(`_internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.family_name`) || node.get(`_internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.given_name`);
+        const namePath = index => contribs[index].get('users.familyName') || contribs[index].get('users.givenName');
         switch (len) {
         case 1: return namePath(0);
         case 2: return `${namePath(0)} ${this.get('i18n').t('general.and')} ${namePath(1)}`;

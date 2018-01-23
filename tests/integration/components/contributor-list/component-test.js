@@ -7,5 +7,5 @@ moduleForComponent('contributor-list', 'Integration | Component | contributor li
 
 test('it renders', function(assert) {
     this.render(hbs`{{contributor-list}}`);
-    assert.ok(this.$().text().trim(), '');
+    assert.equal(this.$().text().trim(), '');
 });

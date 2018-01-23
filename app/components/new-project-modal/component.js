@@ -1,4 +1,4 @@
-import { observer } from '@ember/object';
+import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
@@ -8,10 +8,7 @@ export default Component.extend({
     store: service(),
     newNode: null,
     more: false,
-    institutionsSelected: A([]),
-    _initialSelection: observer('user.institutions', function() {
-        this.set('institutionsSelected', this.get('user.institutions').slice());
-    }),
+    institutionsSelected: computed.oneWay('user.institutions'),
 
     actions: {
         select(institution) {
@@ -40,6 +37,11 @@ export default Component.extend({
             this.get('closeModal')();
             this.get('reloadNodes')();
         },
+        pushEnter() {
+            if (this.get('nodeTitle.length')) {
+                this.get('createNode').perform();
+            }
+        },
     },
 
     findNodes: task(function* (term) {
@@ -67,5 +69,5 @@ export default Component.extend({
             yield node.save();
         }
         this.set('newNode', node);
-    }),
+    }).drop(),
 });

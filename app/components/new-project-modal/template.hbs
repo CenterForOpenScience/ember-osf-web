@@ -8,7 +8,7 @@
             <div class="text-left">
                 <div class="form-group m-v-sm">
                     <label for="projectName" class="f-w-lg text-bigger">{{t 'general.title'}}</label>
-                    {{input placeholder=(t 'new_project.title_placeholder') autofocus='autofocus' class='form-control project-name' value=nodeTitle type="text"}}
+                    {{input placeholder=(t 'new_project.title_placeholder') autofocus='autofocus' class='form-control project-name' value=nodeTitle type="text" enter='pushEnter'}}
                 </div>
                 {{#if user.institutions.length}}
                     <div class="form-group m-v-sm affiliation-selector">
