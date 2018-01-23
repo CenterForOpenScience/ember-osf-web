@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
@@ -52,7 +51,7 @@ export default Component.extend({
         return offset;
     }),
     didInsertElement() {
-        $('.carousel').carousel();
+        this.$('.carousel').carousel();
     },
     actions: {
         prev() {

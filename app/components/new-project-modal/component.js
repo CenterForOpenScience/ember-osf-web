@@ -39,7 +39,9 @@ export default Component.extend({
             this.get('closeModal')();
         },
         reload() {
-            window.location.reload(true);
+            this.set('done', false);
+            this.get('closeModal')();
+            this.get('reloadNodes')();
         },
         createNode() {
             const data = {

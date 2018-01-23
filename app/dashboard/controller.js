@@ -11,19 +11,7 @@ export default Controller.extend({
     currentUser: service(),
 
     init() {
-        this.get('currentUser.user').then((user) => {
-            if (!user) {
-                return;
-            }
-            user.queryHasMany('nodes', { embed: 'contributors' }).then((nodes) => {
-                this.set('nodes', nodes.slice());
-                this.set('totalNodes', nodes.meta.total);
-                const pages = Math.ceil(nodes.meta.total / nodes.meta.per_page);
-                this.set('totalPages', pages);
-                this.set('initialLoading', false);
-            });
-        });
-
+        this.get('initialLoad').perform();
         this.get('store').findAll('institution').then(institutions => this.set('institutions', institutions));
         this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');
         this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy');
@@ -70,7 +58,24 @@ export default Controller.extend({
         toggleModal() {
             this.toggleProperty('modalOpen');
         },
+        reloadNodes() {
+            this.set('loading', true);
+            this.set('curPage', 1);
+            this.get('initialLoad').perform();
+        },
     },
+
+    initialLoad: task(function* () {
+        const user = yield this.get('currentUser.user');
+        if (!user) { return; }
+        const nodes = yield user.queryHasMany('nodes', { embed: 'contributors' });
+        this.set('nodes', nodes.slice());
+        this.set('totalNodes', nodes.meta.total);
+        const pages = Math.ceil(nodes.meta.total / nodes.meta.per_page);
+        this.set('totalPages', pages);
+        this.set('initialLoading', false);
+        this.set('loading', false);
+    }),
 
     filterNodes: task(function* (term) {
         this.set('filter', term);
@@ -87,7 +92,6 @@ export default Controller.extend({
         if (more) {
             query.page = this.get('curPage');
         } else {
-            this.set('loading', true);
             query.page = 1;
             this.set('curPage', 1);
         }
