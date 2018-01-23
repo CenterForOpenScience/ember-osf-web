@@ -3,6 +3,10 @@ import Component from '@ember/component';
 import contributorList from '../../utils/contributor-list';
 
 export default Component.extend({
+    didInsertElement() {
+        this._super(...arguments);
+        this.$('.prevent-overflow').tooltip();
+    },
     contributors: computed('project', function() {
         return contributorList(this.get('project'));
     }),
