@@ -1,20 +1,10 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import contributorList from '../../utils/contributor-list';
 
 export default Component.extend({
     contributors: computed('project', function() {
-        const contribs = this.get('project.contributors.content.canonicalState');
-        if (!contribs) {
-            return;
-        }
-        const len = contribs.length;
-        const namePath = index => this.get(`project._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.family_name`) || this.get(`project._internalModel.__relationships.initializedRelationships.contributors.canonicalState.${index}.__data.links.relationships.users.data.attributes.given_name`);
-        switch (len) {
-        case 1: return namePath(0);
-        case 2: return `${namePath(0)}, ${namePath(1)}`;
-        case 3: return `${namePath(0)}, ${namePath(1)}, ${namePath(2)}`;
-        default: return `${namePath(0)}, ${namePath(1)}, ${namePath(2)} +${len - 3}`;
-        }
+        return contributorList(this.get('project'));
     }),
     compactDescription: computed('project.description', function() {
         const desc = this.get('project.description');
