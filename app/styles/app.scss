@@ -397,6 +397,10 @@ h3, h4 {
     cursor: pointer;
 }
 
+.ball-scale.ball-light {
+    text-align: center;
+}
+
 .not-selected.img-circle {
     opacity: 0.25;
     filter: grayscale(100%);
