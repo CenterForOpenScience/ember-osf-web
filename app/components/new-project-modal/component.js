@@ -2,10 +2,11 @@ import { observer } from '@ember/object';
 import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
+import { task, timeout } from 'ember-concurrency';
 
 export default Component.extend({
     store: service(),
-    done: false,
+    newNode: null,
     more: false,
     institutionsSelected: A([]),
     _initialSelection: observer('user.institutions', function() {
@@ -35,37 +36,40 @@ export default Component.extend({
             this.toggleProperty('more');
         },
         closeModal() {
-            this.set('done', false);
+            this.set('newNode', null);
             this.get('closeModal')();
         },
         reload() {
-            this.set('done', false);
+            this.set('newNode', null);
             this.get('closeModal')();
             this.get('reloadNodes')();
         },
-        createNode() {
-            const data = {
-                public: false,
-                category: 'project',
-                title: this.get('nodeTitle'),
-                description: this.get('description'),
-            };
-            if (this.get('templateFrom')) {
-                data.templateFrom = this.get('templateFrom.id');
-            }
-            // TODO(hmoco): refactor using a task
-            this.get('store').createRecord('node', data).save().then((node) => {
-                if (this.get('institutionsSelected.length')) {
-                    node.get('affiliatedInstitutions').then(() => {
-                        this.get('institutionsSelected').forEach(inst => node.get('affiliatedInstitutions').pushObject(inst));
-                        node.save().then(() => {
-                            this.set('done', node.get('id'));
-                        });
-                    });
-                } else {
-                    this.set('done', node.get('id'));
-                }
-            });
-        },
     },
+
+    findNodes: task(function* (term) {
+        yield timeout(500);
+        const user = yield this.get('user');
+        const nodes = yield user.queryHasMany('nodes', { 'filter[title]': term });
+        return nodes;
+    }).restartable(),
+
+    createNode: task(function* () {
+        const data = {
+            public: false,
+            category: 'project',
+            title: this.get('nodeTitle'),
+            description: this.get('description'),
+        };
+        if (this.get('templateFrom')) {
+            data.templateFrom = this.get('templateFrom.id');
+        }
+        const store = yield this.get('store');
+        const node = yield store.createRecord('node', data).save();
+        if (this.get('institutionsSelected.length')) {
+            yield node.get('affiliatedInstitutions');
+            this.get('institutionsSelected').forEach(inst => node.get('affiliatedInstitutions').pushObject(inst));
+            yield node.save();
+        }
+        this.set('newNode', node);
+    }),
 });
