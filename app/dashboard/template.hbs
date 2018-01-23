@@ -56,8 +56,8 @@
                                                     <div class="col-sm-3 col-md-6">
                                                         <div class="quick-search-col">
                                                             {{t 'general.title'}}
-                                                            <button onclick={{action 'sort' 'title' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'title')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
-                                                            <button onclick={{action 'sort' 'title' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'title')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                                            {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortOrder='asc' sortBy='title'}}
+                                                            {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortOrder='desc' sortBy='title'}}
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3 col-md-3">
@@ -67,8 +67,8 @@
                                                         <div class="quick-search-col">
                                                             {{t 'general.modified'}}
                                                             <span class="sort-group">
-                                                                <button onclick={{action 'sort' 'last_logged' 'asc'}} class="{{if (and (eq sortOrder 'asc') (eq sortBy 'last_logged')) 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
-                                                                <button onclick={{action 'sort' 'last_logged' 'desc'}} class="{{if (and (eq sortOrder 'desc') (eq sortBy 'last_logged')) 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                                                {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortOrder='asc' sortBy='last_logged'}}
+                                                                {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortOrder='desc' sortBy='last_logged'}}
                                                             </span>
                                                         </div>
                                                     </div>
@@ -76,8 +76,8 @@
                                                 <div class="row">
                                                     <div class="col-xs-12 f-w-xl node-sort-dropdown text-right">
                                                         <span>
-                                                            <button onclick={{action 'setSortOrder' 'asc'}} class="{{if (eq sortOrder 'asc') 'selected' 'not-selected'}}">{{fa-icon 'angle-up'}}</button>
-                                                            <button onclick={{action 'setSortOrder' 'desc'}} class="{{if (eq sortOrder 'desc') 'selected' 'not-selected'}}">{{fa-icon 'angle-down'}}</button>
+                                                            {{sort-button sortAction=(action 'setSortOrder') curOrder=sortOrder sortOrder='asc'}}
+                                                            {{sort-button sortAction=(action 'setSortOrder') curOrder=sortOrder sortOrder='desc'}}
                                                         </span>
                                                         <label>
                                                             <select onchange={{action "setSortBy" value="target.value"}}>

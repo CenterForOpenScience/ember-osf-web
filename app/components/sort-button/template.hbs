@@ -1,0 +1,3 @@
+<button onclick={{action 'sort'}} class="{{if (and (eq curOrder sortOrder) (if sortBy (eq curBy sortBy) true)) 'selected' 'not-selected'}}">
+    {{fa-icon (if (eq sortOrder 'asc') 'angle-up' 'angle-down')}}
+</button>
