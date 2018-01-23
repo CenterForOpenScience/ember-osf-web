@@ -168,13 +168,6 @@ h3, h4 {
     padding-top: 50px;
 }
 
-.prevent-overflow {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display:block;
-}
-
 .public-projects-box {
     background: rgba(255, 255, 255, 0.22);
     padding: 10px 15px;
@@ -409,6 +402,36 @@ h3, h4 {
 .osf-project-navbar a.project-title {
     max-width: 100%;
 }
+
+.institution-carousel.carousel-control {
+    padding-top: 20px;
+    font-size: 50px;
+    width: 5%;
+    background-image: none;
+}
+
+.institution-item {
+    display: inline-block;
+    float: none;
+    .thumbnail {
+        background: inherit;
+        border: none;
+        .img-circle {
+            background-color: white;
+        }
+    }
+}
+
+.institution-select {
+    position: relative;
+    margin: 10px;
+}
+
+.affiliation-selector .pointer {
+    margin-right: 12px;
+    float: right;
+}
+
 
 ::-webkit-input-placeholder {
     /* Webkit, Blink, Edge */
