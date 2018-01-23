@@ -10,27 +10,22 @@ export default Component.extend({
     more: false,
     institutionsSelected: A([]),
     _initialSelection: observer('user.institutions', function() {
-        this.get('user.institutions').forEach(inst => inst.set('selected', true));
         this.set('institutionsSelected', this.get('user.institutions').slice());
     }),
 
     actions: {
         select(institution) {
-            const i = this.get('institutionsSelected').indexOf(institution);
-            if (i !== -1) {
-                institution.set('selected', false);
-                this.get('institutionsSelected').splice(i, 1);
+            if (this.get('institutionsSelected').includes(institution)) {
+                this.get('institutionsSelected').removeObject(institution);
             } else {
-                institution.set('selected', true);
-                this.get('institutionsSelected').push(institution);
+                this.get('institutionsSelected').pushObject(institution);
             }
+            this.notifyPropertyChange('institutionsSelected');
         },
         selectAll() {
-            this.get('user.institutions').forEach(inst => inst.set('selected', true));
             this.set('institutionsSelected', this.get('user.institutions').slice());
         },
         removeAll() {
-            this.get('user.institutions').forEach(inst => inst.set('selected', false));
             this.set('institutionsSelected', A([]));
         },
         toggleMore() {

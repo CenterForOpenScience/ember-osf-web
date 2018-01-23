@@ -21,7 +21,7 @@
                                     <td>
                                         <a onclick={{action 'select' institution}}>
                                             <div width="45px" height="45px" style="position: relative; margin: 10px;">
-                                                <img name="{{institution.name}}" width="45px" height="45px" class="img-circle pointer {{if institution.selected 'selected' 'not-selected'}}" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
+                                                <img name="{{institution.name}}" width="45px" height="45px" class="img-circle pointer {{if (if-filter institution institutionsSelected) 'selected' 'not-selected'}}" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
                                             </div>
                                         </a>
                                     </td>
