@@ -13,6 +13,7 @@ export default Component.extend({
         this.get('user.institutions').forEach(inst => inst.set('selected', true));
         this.set('institutionsSelected', this.get('user.institutions').slice());
     }),
+
     actions: {
         select(institution) {
             const i = this.get('institutionsSelected').indexOf(institution);
