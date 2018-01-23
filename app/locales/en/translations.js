@@ -17,6 +17,7 @@ export default {
         description: 'Description',
         create: 'Create',
         and: 'and',
+        more: 'more',
     },
     quickfiles: {
         title: '{{user-name}}\'s Quick Files',
