@@ -12,6 +12,7 @@ export default Component.extend({
 
     actions: {
         select(institution) {
+            this.set('institutionsSelected', this.get('institutionsSelected').slice());
             if (this.get('institutionsSelected').includes(institution)) {
                 this.get('institutionsSelected').removeObject(institution);
             } else {
