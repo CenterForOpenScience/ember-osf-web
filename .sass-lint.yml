@@ -93,7 +93,6 @@ rules:
     quotes: 2
     shorthand-values: 2
     url-quotes: 2
-    # TODO require variables for color properties?
     variable-for-property: 2
     zero-unit: 2
 

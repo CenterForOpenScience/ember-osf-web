@@ -1,21 +1,5 @@
-// Global styles
+// Global styles (Think: Do you really need to?)
 
 #toast-container > div { // sass-lint:disable-line no-ids
     opacity: 1;
-}
-
-@mixin quickfiles-panel {
-    border: 1px solid transparent;
-    border-bottom: 1px solid transparent;
-    border-color: $color-border-gray;
-    box-shadow: 0 1px 1px $color-shadow-light;
-
-    .panel-heading { // sass-lint:disable-line class-name-format
-        background-color: $color-bg-gray-light;
-        border-color: $color-border-gray;
-        color: $color-text-black;
-        justify-content: flex-start;
-        padding: 7px 10px;
-        text-align: left;
-    }
 }
