@@ -20,7 +20,7 @@
   },
   "lint-staged": {
     "*.js": "eslint",
-    "app/**/*.scss": "sass-lint"
+    "*.scss": "sass-lint"
   },
   "devDependencies": {
     "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2018-01-04T16:45:33Z",

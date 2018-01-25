@@ -2,15 +2,14 @@
     <div class="container">
         <ul class="nav navbar-nav">
             <li class="{{if onQuickfiles 'active'}} {{styleNamespace}}__navbar-item{{if onQuickfiles '--active'}}">
-                {{#link-to 
-                    'user-quickfiles' 
-                    user 
+                {{#link-to
+                    'user-quickfiles'
+                    user
                     class=(concat styleNamespace '__project-title' (if onQuickfiles '--active'))
                 }}
                     {{t 'quickfiles.title' user-name=user.fullName}}
                 {{/link-to}}
             </li>
-            too
         </ul>
     </div>
 </nav>

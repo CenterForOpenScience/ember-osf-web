@@ -75,7 +75,7 @@
                 {{#if isEditableFile}}
                     <div class='btn-group btn-group-sm m-t-xs'>
                         {{#if canEdit}}
-                            <div class='btn btn-default {{styleNamespace}}__button-label'>{{t "file_detail.toggle"}}</div>
+                            <div class='btn btn-default disabled {{styleNamespace}}__button-label'>{{t "file_detail.toggle"}}</div>
                             <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>{{t "general.view"}}</button>
                             <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'edit'}}>{{t "general.edit"}}</button>
                         {{else}}

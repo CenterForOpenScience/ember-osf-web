@@ -13,9 +13,6 @@ module.exports = function(environment) {
             authorizer: `authorizer:osf-${authorizationType}`,
             authenticator: `authenticator:osf-${authorizationType}`,
         },
-        'ember-component-css': {
-            namespacing: false,
-        },
         EmberENV: {
             FEATURES: {
                 // Here you can enable experimental features on an ember canary build
