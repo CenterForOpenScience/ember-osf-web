@@ -13,6 +13,9 @@ module.exports = function(environment) {
             authorizer: `authorizer:osf-${authorizationType}`,
             authenticator: `authenticator:osf-${authorizationType}`,
         },
+        'ember-component-css': {
+            namespacing: false,
+        },
         EmberENV: {
             FEATURES: {
                 // Here you can enable experimental features on an ember canary build
@@ -37,8 +40,8 @@ module.exports = function(environment) {
                 name: 'GoogleAnalytics',
                 environments: ['all'],
                 config: {
-                    id: process.env.GOOGLE_ANALYTICS_ID
-                }
+                    id: process.env.GOOGLE_ANALYTICS_ID,
+                },
             },
         ],
         FB_APP_ID: process.env.FB_APP_ID,

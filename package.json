@@ -12,14 +12,15 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "eslint .",
-    "test": "ember test",
+    "lint": "eslint . && sass-lint -v",
+    "test": "yarn run lint && ember test",
     "test:cover": "COVERAGE=true ember test",
     "precommit": "lint-staged",
     "use-ember-osf-develop": "yarn upgrade @centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#$(date -u +%FT%TZ)"
   },
   "lint-staged": {
-    "*.js": "eslint"
+    "*.js": "eslint",
+    "app/**/*.scss": "sass-lint"
   },
   "devDependencies": {
     "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2018-01-04T16:45:33Z",
@@ -66,7 +67,8 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "loader.js": "^4.0.10",
-    "mime-types": "~2.1.17"
+    "mime-types": "~2.1.17",
+    "sass-lint": "^1.12.1"
   },
   "engines": {
     "node": ">= 0.12.0"
