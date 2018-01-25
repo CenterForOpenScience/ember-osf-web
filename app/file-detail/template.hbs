@@ -1,8 +1,8 @@
 {{title model.file.name}}
 {{quickfile-nav user=model.user onQuickfiles=false}}
-<div class='quickfiles-content row'>
+<div class='row {{styleNamespace}}__content'>
     <div class='col-sm-5'>
-        <h2>{{model.file.name}} <a id='versionLink' role="button" onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
+        <h2>{{model.file.name}} <a class='{{styleNamespace}}__version-link' role="button" onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
     </div>
     <div class='col-sm-7'>
         <div id='toggleBar' class='pull-right'>
@@ -22,28 +22,28 @@
                 <div class='btn-group m-l-xs m-t-xs'>
                     <button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
                         {{t "general.share"}}
-                        {{#bs-popover placement='bottom' class=(concat 'share-popover ' styleNamespace) title='Share' visible=showPopup}}
+                        {{#bs-popover placement='bottom' class=(concat styleNamespace '__share-popover') title='Share' visible=showPopup}}
                             {{#bs-tab customTabs=true as |tab|}}
                                 {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
                                     {{#nav.item active=(bs-eq tab.activeId 'sharePane')}}
-                                        <a href='#sharePane' role='tab' {{action tab.select 'sharePane'}}>{{t "general.share"}}</a>
+                                        <a role='tab' {{action tab.select 'sharePane'}}>{{t "general.share"}}</a>
                                     {{/nav.item}}
                                     {{#nav.item active=(bs-eq tab.activeId "embedPane")}}
-                                        <a href='#sharePane' role='tab' {{action tab.select 'embedPane'}}>{{t "general.embed"}}<span class='badge'>{{badge}}</span></a>
+                                        <a role='tab' {{action tab.select 'embedPane'}}>{{t "general.embed"}}<span class='badge'>{{badge}}</span></a>
                                     {{/nav.item}}
                                 {{/bs-nav}}
 
                                 <div class='tab-content'>
-                                    {{#tab.pane elementId='sharePane' title='Share'}}
+                                    {{#tab.pane elementId='sharePane' title='Share' class=(concat styleNamespace '__share-pane')}}
                                         <br>
                                         <div class='input-group'>
-                                            <span class='input-group-btn share-btn-container'>
+                                            <span class='input-group-btn {{styleNamespace}}__copy-url-container'>
                                                 <button type='button' class='btn btn-default btn-md' onclick={{action 'click' 'button' 'Quick Files - Share file'}} {{action 'share'}}>
                                                     <div class='fa fa-copy'></div>
                                                 </button>
                                             </span>
-                                            <input readonly='true' type='text' class='form-control' value='{{mfrUrl}}' id='sharePaneUrl'>
-                                            <div class='share-buttons'>
+                                            <input readonly='true' type='text' class='form-control {{styleNamespace}}__mfr-url' value='{{mfrUrl}}'>
+                                            <div class='{{styleNamespace}}__share-buttons'>
                                                 <a href='{{twitterUrl}}' target='_blank' rel='noopener' onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter' preventDefault=false}}>
                                                     <i aria-hidden='true' class='fa fa-twitter'></i>
                                                 </a>
@@ -75,7 +75,7 @@
                 {{#if isEditableFile}}
                     <div class='btn-group btn-group-sm m-t-xs'>
                         {{#if canEdit}}
-                            <div class='btn btn-default disabled'>{{t "file_detail.toggle"}}</div>
+                            <div class='btn btn-default {{styleNamespace}}__button-label'>{{t "file_detail.toggle"}}</div>
                             <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>{{t "general.view"}}</button>
                             <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'edit'}}>{{t "general.edit"}}</button>
                         {{else}}
@@ -112,7 +112,7 @@
 {{/bs-modal}}
 <hr>
 <div class='row'>
-    <div class='col-md-3'>
+    <div class='col-md-3 {{styleNamespace}}__sidebar'>
         {{file-browser
             selectedFile=model.file
             display=displays
@@ -124,7 +124,7 @@
             dropzone=false
         }}
         {{#if (or canEdit fileTags)}}
-            <div class='panel panel-default'>
+            <div class='panel panel-default {{styleNamespace}}__tags-panel'>
                 <div class='panel-heading clearfix'>
                     <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
                 </div>
@@ -158,7 +158,7 @@
         {{#if (or (eq show 'edit') (eq show 'view_edit'))}}
             {{#if isEditableFile}}
                 {{#if canEdit}}
-                    <div id='editPanel' class='panel panel-default {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
+                    <div class='panel panel-default {{styleNamespace}}__edit-panel {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
                         {{#if (await fileText)}}
                             {{#file-editor
                                 fileText=(await fileText)
@@ -170,14 +170,14 @@
             {{/if}}
         {{/if}}
         {{#if (eq show 'revision')}}
-            <div id='revisionsPanel' class='panel panel-default'>
+            <div id='revisionsPanel' class='panel panel-default {{styleNamespace}}__revisions-panel'>
                 <div class='panel-heading clearfix'>
                     <h3 class='panel-title'>
                         {{t "general.revisions"}}
                     </h3>
                 </div>
                 <div class='panel-body'>
-                    <table class='table table-responsive'>
+                    <table class='table table-responsive {{styleNamespace}}__revisions-table'>
                         <thead>
                             <tr>
                                 <th class='col-md-4'>{{t "file_detail.version.id"}}</th>

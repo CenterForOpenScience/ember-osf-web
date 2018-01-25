@@ -1,7 +1,7 @@
-.file-browser {
-    height: 600px;
-}
+&__content {
+    padding-top: 40px;
 
-.quickfiles-content {
-    padding-top: 40px
+    .file-browser { // sass-lint:disable-line class-name-format
+        height: 600px;
+    }
 }

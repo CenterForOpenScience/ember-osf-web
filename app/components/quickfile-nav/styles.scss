@@ -1,36 +1,31 @@
-.osf-project-navbar {
+&__navbar {
     width: calc(100% + 20px);
-    min-height: 50px !important;
 
-    .container {
-        min-height: inherit;
-    }
-
-    a.project-title {
-        max-width: 100%;
+    .navbar-nav { // sass-lint:disable-line class-name-format
+        margin: 0;
+        width: 100%;
     }
 }
 
+&__navbar-item {
+    max-width: calc(100% - 50px);
+    min-height: 50px;
+}
+
 @media (max-width: 767px) {
-    #quickfilesNav .active {
+    &__navbar-item {
         margin-left: 30px;
     }
 }
 
-#quickfilesNav {
+&__project-title,
+&__project-title--active {
+    max-width: 100%;
+}
+
+&__project-title--active {
+    line-height: normal;
     margin: 0;
-    width: 100%;
-    min-height: inherit;
-    & .active {
-        float: left;
-        min-height: inherit;
-        max-width: calc(100% - 50px);
-        & .project-title {
-            max-width: 100%;
-            line-height: normal;
-            padding-left: 15px;
-            padding-right: 15px;
-            margin: 0px;
-        }
-    }
+    padding-left: 15px;
+    padding-right: 15px;
 }
