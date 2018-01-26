@@ -12,15 +12,15 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "eslint . && sass-lint -v",
-    "test": "yarn run lint && ember test",
+    "lint": "eslint . && stylelint 'app/**/*.scss'",
+    "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
     "precommit": "lint-staged",
     "use-ember-osf-develop": "yarn upgrade @centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#$(date -u +%FT%TZ)"
   },
   "lint-staged": {
     "*.js": "eslint",
-    "*.scss": "sass-lint"
+    "*.scss": "stylelint"
   },
   "devDependencies": {
     "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2018-01-04T16:45:33Z",
@@ -49,6 +49,7 @@
     "ember-cli-sass": "7.0.0",
     "ember-cli-shims": "^1.0.2",
     "ember-cli-sri": "^2.1.0",
+    "ember-cli-stylelint": "^1.0.0",
     "ember-cli-template-lint": "^0.7.5",
     "ember-cli-test-loader": "^1.1.0",
     "ember-cli-uglify": "^1.2.0",
@@ -68,7 +69,9 @@
     "lint-staged": "^4.3.0",
     "loader.js": "^4.0.10",
     "mime-types": "~2.1.17",
-    "sass-lint": "^1.12.1"
+    "stylelint-config-sass-guidelines": "^4.1.0",
+    "stylelint-order": "^0.8.0",
+    "stylelint-scss": "^2.2.0"
   },
   "engines": {
     "node": ">= 0.12.0"

@@ -1,16 +1,17 @@
 &__button-label {
+
     pointer-events: none;
 }
 
 &__edit-panel {
-    @include quickfiles-panel
+    @include quickfiles-panel;
     padding: 0;
 }
 
 &__tags-panel {
-    @include quickfiles-panel
+    @include quickfiles-panel;
 
-    .emberTagInput-tag { // sass-lint:disable-line class-name-format
+    .emberTagInput-tag { // stylelint-disable-line selector-class-pattern
         background: $color-bg-blue-light;
         border-radius: 0;
         color: $color-text-black;
@@ -19,29 +20,28 @@
         max-width: 100%;
         overflow-wrap: break-word;
 
-        & > a {
+        > a {
             color: $color-text-black;
         }
 
-        &:hover {
+        :hover {
             background: $color-bg-blue-dark;
             color: $color-text-gray-cool;
 
-            & > a {
+            > a {
                 color: $color-text-gray-cool;
             }
         }
     }
 
-    .emberTagInput-new { // sass-lint:disable-line class-name-format
-        // sass-lint:disable-block no-vendor-prefixes
-        //
+    .emberTagInput-new { // stylelint-disable-line selector-class-pattern
         width: 100%;
 
-        & > input {
+        > input {
             width: inherit;
         }
 
+        // stylelint-disable selector-no-vendor-prefix
         ::-webkit-input-placeholder {
             // Webkit, Blink, Edge
             color: $color-text-gray-light;
@@ -68,23 +68,24 @@
             // Microsoft Edge
             color: $color-text-gray-light;
         }
+        // stylelint-enable selector-no-vendor-prefix
     }
 }
 
 &__revisions-table {
-    @include quickfiles-panel
+    @include quickfiles-panel;
     margin-bottom: 0;
 
     a {
         cursor: pointer;
     }
 
-    .file-version { // sass-lint:disable-line class-name-format
-        .input-group { // sass-lint:disable-line class-name-format
+    .file-version {
+        .input-group {
             width: 180px;
         }
 
-        .hashBox { // sass-lint:disable-line class-name-format
+        .hashBox { // stylelint-disable-line selector-class-pattern
             float: left;
             height: 30px;
         }
@@ -110,7 +111,7 @@
     margin: 12px 4px 3px;
     padding-top: 30px;
 
-    & > a {
+    > a {
         background-color: $color-bg-gray-light;
         display: inline-block;
         margin: 0 2px;
@@ -123,7 +124,7 @@
         }
     }
 
-    .fa { // sass-lint:disable-line class-name-format
+    .fa {
         color: $color-link-light;
         font-size: 1.6em;
         line-height: 1.6em;
@@ -131,7 +132,7 @@
 }
 
 &__sidebar {
-    .file-browser { // sass-lint:disable-line class-name-format
+    .file-browser {
         height: 400px;
         margin-bottom: 20px;
     }
