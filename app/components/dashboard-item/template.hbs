@@ -4,11 +4,11 @@
             <div>
                 <div class="col-sm-3 col-md-6 p-v-xs">
                     <div class="quick-search-col">
-                        {{#if (eq ancestry '--private')}}
-                            {{#if _ancestry}}
-                                <i>{{t 'dashboard.quicksearch.private_parent'}}</i>{{_ancestry}}
+                        {{#if private}}
+                            {{#if ancestry}}
+                                <span class='ancestry'>{{t 'dashboard.quicksearch.private_parent'}}</span>{{ancestry}}
                             {{else}}
-                                <i>{{t 'dashboard.quicksearch.private_grandparent'}}</i>
+                                <span class='ancestry'>{{t 'dashboard.quicksearch.private_grandparent'}}</span>
                             {{/if}}
                         {{else}}
                             {{ancestry}}

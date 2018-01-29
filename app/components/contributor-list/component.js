@@ -11,14 +11,15 @@ export default Component.extend({
         if (!contribs) {
             return;
         }
+        const and = this.get('i18n').t('general.and');
         contribs = contribs.toArray();
         const len = contribs.length;
-        const namePath = index => contribs[index].get('users.familyName') || contribs[index].get('users.givenName');
+        const name = index => contribs[index].get('users.familyName') || contribs[index].get('users.givenName');
         switch (len) {
-        case 1: return namePath(0);
-        case 2: return `${namePath(0)} ${this.get('i18n').t('general.and')} ${namePath(1)}`;
-        case 3: return `${namePath(0)}, ${namePath(1)} ${this.get('i18n').t('general.and')} ${namePath(2)}`;
-        default: return `${namePath(0)}, ${namePath(1)}, ${namePath(2)} ${this.get('i18n').t('general.and')} ${len - 3} ${this.get('i18n').t('general.more')}`;
+        case 1: return name(0);
+        case 2: return `${name(0)} ${and} ${name(1)}`;
+        case 3: return `${name(0)}, ${name(1)}, ${and} ${name(2)}`;
+        default: return `${name(0)}, ${name(1)}, ${name(2)}, ${and} ${len - 3} ${this.get('i18n').t('general.more')}`;
         }
     }),
 });

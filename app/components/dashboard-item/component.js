@@ -3,16 +3,17 @@ import moment from 'moment';
 import Component from '@ember/component';
 
 export default Component.extend({
+    private: false,
     ancestry: computed('node', 'node.{parent,root}', function() {
         const rootId = this.get('node.root.id');
         const parentId = this.get('node.parent.id');
         const grandpaLink = this.get('node.parent.links.relationships.parent.links.related.href');
         const grandpaId = grandpaLink ? grandpaLink.split('nodes')[1].split('/').filter(e => e)[0] : undefined;
         if (!rootId) {
+            this.set('private', true);
             if (parentId) {
-                this.set('_ancestry', this.get('node.parent.title'));
+                return parentId ? this.get('node.parent.title') : '';
             }
-            return '--private';
         }
         if (!parentId) {
             return '';

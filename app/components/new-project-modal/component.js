@@ -62,7 +62,7 @@ export default Component.extend({
         if (this.get('templateFrom')) {
             data.templateFrom = this.get('templateFrom.id');
         }
-        const store = yield this.get('store');
+        const store = this.get('store');
         const node = yield store.createRecord('node', data).save();
         if (this.get('institutionsSelected.length')) {
             yield node.get('affiliatedInstitutions');

@@ -369,6 +369,9 @@ h3, h4 {
 
 .quick-search-col {
     padding-left: 5px;
+    .ancestry {
+        font-style: italic;
+    }
 }
 
 .quick-search-table {
@@ -427,7 +430,7 @@ h3, h4 {
     margin: 10px;
 }
 
-.affiliation-selector .pointer {
+.affiliation-selector a {
     margin-right: 12px;
     float: right;
 }

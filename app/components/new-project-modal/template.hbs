@@ -7,19 +7,19 @@
         {{#modal.body}}
             <div class="text-left">
                 <div class="form-group m-v-sm">
-                    <label for="projectName" class="f-w-lg text-bigger">{{t 'general.title'}}</label>
+                    <label class="f-w-lg text-bigger">{{t 'general.title'}}</label>
                     {{input placeholder=(t 'new_project.title_placeholder') autofocus='autofocus' class='form-control project-name' value=nodeTitle type="text" enter='pushEnter'}}
                 </div>
                 {{#if user.institutions.length}}
                     <div class="form-group m-v-sm affiliation-selector">
                         <label class="f-w-lg text-bigger">{{t 'new_project.affiliation'}}</label>
-                        <a class='pointer' onclick={{action 'removeAll'}}>{{t 'new_project.remove_all'}}</a>
-                        <a class='pointer' onclick={{action 'selectAll'}}>{{t 'new_project.select_all'}}</a>
+                        <a role='button' onclick={{action 'removeAll'}}>{{t 'new_project.remove_all'}}</a>
+                        <a role='button' onclick={{action 'selectAll'}}>{{t 'new_project.select_all'}}</a>
                         <table>
                             <tr>
                                 {{#each user.institutions as | institution | }}
                                     <td>
-                                        <a onclick={{action 'select' institution}}>
+                                        <a role='button' onclick={{action 'select' institution}}>
                                             <div width="45px" height="45px" class='institution-select'>
                                                 <img name="{{institution.name}}" width="45px" height="45px" class="img-circle pointer {{if (if-filter institution institutionsSelected) 'selected' 'not-selected'}}" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
                                             </div>
@@ -39,7 +39,7 @@
                         {{input placeholder=(t 'new_project.description_placeholder') class='form-control noresize project-desc' value=description type="text"}}
                     </div>
                     <div class="form-group m-v-md">
-                        <label for="projectTemplate" class="f-w-lg text-bigger">{{t 'new_project.template_title'}}</label>
+                        <label class="f-w-lg text-bigger">{{t 'new_project.template_title'}}</label>
                         <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
                         {{#power-select
                             search=(perform findNodes)
@@ -62,7 +62,7 @@
             </div>
         {{/modal.body}}
         {{#modal.footer}}
-            {{#bs-button onClick=(action 'closeModal') type='default'}}{{t 'general.cancel'}}{{/bs-button}}
+            <button onclick={{action 'closeModal'}} class="btn btn-default">{{t 'general.cancel'}}</button>
             <button onclick={{perform createNode}} class="btn btn-success {{unless nodeTitle.length 'disabled'}}">{{t 'general.create'}}</button>
         {{/modal.footer}}
     {{else}}
@@ -71,8 +71,8 @@
             <h4 class="add-project-success text-success">{{t 'new_project.success_message'}}</h4>
         {{/modal.body}}
         {{#modal.footer}}
-            {{#bs-button onClick=(action 'reload') type='default'}}{{t 'new_project.stay_here'}}{{/bs-button}}
-            <a href="{{newNode.links.html}}" class="btn btn-success">{{t 'new_project.go_to_new'}}</a>
+            <button onclick={{action 'reload'}} class="btn btn-default">{{t 'new_project.stay_here'}}</button>
+            <a role='button' href="{{newNode.links.html}}" class="btn btn-success">{{t 'new_project.go_to_new'}}</a>
         {{/modal.footer}}
     {{/if}}
 {{/bs-modal}}

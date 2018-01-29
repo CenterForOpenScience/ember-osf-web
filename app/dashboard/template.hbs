@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-xs-12">
                             <div class='row quick-project'>
-                                {{#if initialLoading}}
+                                {{#if initialLoad.isRunning}}
                                     {{loading-indicator}}
                                 {{else}}
                                     {{#if totalNodes}}
@@ -56,8 +56,7 @@
                                                     <div class="col-sm-3 col-md-6">
                                                         <div class="quick-search-col">
                                                             {{t 'general.title'}}
-                                                            {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortOrder='asc' sortBy='title'}}
-                                                            {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortOrder='desc' sortBy='title'}}
+                                                            {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortBy='title'}}
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3 col-md-3">
@@ -67,8 +66,7 @@
                                                         <div class="quick-search-col">
                                                             {{t 'general.modified'}}
                                                             <span class="sort-group">
-                                                                {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortOrder='asc' sortBy='last_logged'}}
-                                                                {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortOrder='desc' sortBy='last_logged'}}
+                                                                {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortBy='last_logged'}}
                                                             </span>
                                                         </div>
                                                     </div>
@@ -76,8 +74,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-12 f-w-xl node-sort-dropdown text-right">
                                                         <span>
-                                                            {{sort-button sortAction=(action 'setSortOrder') curOrder=sortOrder sortOrder='asc'}}
-                                                            {{sort-button sortAction=(action 'setSortOrder') curOrder=sortOrder sortOrder='desc'}}
+                                                            {{sort-button sortAction=(action 'setSortOrder') curOrder=sortOrder}}
                                                         </span>
                                                         <label>
                                                             <select onchange={{action "setSortBy" value="target.value"}}>

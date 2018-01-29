@@ -19,7 +19,6 @@ export default Controller.extend({
 
     loading: false,
     loadingMore: false,
-    initialLoading: true,
     curPage: 1,
     filter: '',
     sortBy: 'last_logged',
@@ -73,7 +72,6 @@ export default Controller.extend({
         this.set('totalNodes', nodes.meta.total);
         const pages = Math.ceil(nodes.meta.total / nodes.meta.per_page);
         this.set('totalPages', pages);
-        this.set('initialLoading', false);
         this.set('loading', false);
     }),
 
