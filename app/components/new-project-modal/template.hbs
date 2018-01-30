@@ -7,8 +7,10 @@
         {{#modal.body}}
             <div class="text-left">
                 <div class="form-group m-v-sm">
-                    <label class="f-w-lg text-bigger">{{t 'general.title'}}</label>
-                    {{input placeholder=(t 'new_project.title_placeholder') autofocus='autofocus' class='form-control project-name' value=nodeTitle type="text" enter='pushEnter'}}
+                    <label class="f-w-lg text-bigger wide">
+                        {{t 'general.title'}}
+                        {{input placeholder=(t 'new_project.title_placeholder') autofocus='autofocus' class='form-control project-name' value=nodeTitle type="text" enter='pushEnter'}}
+                    </label>
                 </div>
                 {{#if user.institutions.length}}
                     <div class="form-group m-v-sm affiliation-selector">
@@ -35,24 +37,28 @@
                         {{fa-icon "caret-down"}}{{t 'new_project.more'}}
                     </div>
                     <div class="form-group m-v-sm">
-                        <label for="projectDesc" class="f-w-lg text-bigger">{{t 'general.description'}}</label>
-                        {{input placeholder=(t 'new_project.description_placeholder') class='form-control noresize project-desc' value=description type="text"}}
+                        <label for="projectDesc" class="f-w-lg text-bigger wide">
+                            {{t 'general.description'}}
+                            {{input placeholder=(t 'new_project.description_placeholder') class='form-control noresize project-desc' value=description type="text"}}
+                        </label>
                     </div>
                     <div class="form-group m-v-md">
-                        <label class="f-w-lg text-bigger">{{t 'new_project.template_title'}}</label>
-                        <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
-                        {{#power-select
-                            search=(perform findNodes)
-                            selected=templateFrom
-                            noMatchesMessage=(t 'new_project.no_matches')
-                            searchMessage=(t 'new_project.template_placeholder')
-                            placeholder=(t 'new_project.template_placeholder')
-                            onchange=(action (mut templateFrom))
-                            renderInPlace=true
-                            as |node|
-                        }}
-                            {{node.title}}
-                        {{/power-select}}
+                        <label class="f-w-lg text-bigger wide">
+                            {{t 'new_project.template_title'}}
+                            <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
+                            {{#power-select
+                                search=(perform findNodes)
+                                selected=templateFrom
+                                noMatchesMessage=(t 'new_project.no_matches')
+                                searchMessage=(t 'new_project.template_placeholder')
+                                placeholder=(t 'new_project.template_placeholder')
+                                onchange=(action (mut templateFrom))
+                                renderInPlace=true
+                                as |node|
+                            }}
+                                {{node.title}}
+                            {{/power-select}}
+                        </label>
                     </div>
                 {{else}}
                     <div class="text-muted" role="button" onclick={{action 'toggleMore'}}>
