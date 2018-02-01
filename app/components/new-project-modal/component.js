@@ -18,7 +18,6 @@ export default Component.extend({
             } else {
                 this.get('institutionsSelected').pushObject(institution);
             }
-            this.notifyPropertyChange('institutionsSelected');
         },
         selectAll() {
             this.set('institutionsSelected', this.get('user.institutions').slice());
@@ -48,7 +47,7 @@ export default Component.extend({
     findNodes: task(function* (term) {
         yield timeout(500);
         const user = yield this.get('user');
-        const nodes = yield user.queryHasMany('nodes', { 'filter[title]': term });
+        const nodes = yield user.queryHasMany('nodes', { filter: { title: term } });
         return nodes;
     }).restartable(),
 

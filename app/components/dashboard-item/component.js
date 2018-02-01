@@ -4,7 +4,7 @@ import Component from '@ember/component';
 
 export default Component.extend({
     private: computed('node.root', function() {
-        return !!this.get('node.root.id');
+        return !this.get('node.root.id');
     }),
     ancestry: computed('node', 'node.{parent,root}', function() {
         const rootId = this.get('node.root.id');

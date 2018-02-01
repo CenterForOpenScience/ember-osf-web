@@ -374,6 +374,17 @@ h3, h4 {
     }
 }
 
+@media (min-width: 768px) {
+    .quick-search-contents {
+        min-height: 880px;
+    }
+}
+@media (max-width: 768px) {
+    .quick-search-contents {
+        min-height: 1450px;
+    }
+}
+
 .quick-search-table {
     background: rgba(255, 255, 255, 0.49);
     padding: 10px 15px;
