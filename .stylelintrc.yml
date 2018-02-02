@@ -4,5 +4,5 @@ rules:
     max-nesting-depth: 2
     scss/selector-no-redundant-nesting-selector: null
     selector-class-pattern:
-      - "^[A-Za-z]+(__[a-z-]+)*(--[a-z-]+)*$"
+      - "^([A-Z][a-z]*)+(__[a-z-]+)*(--[a-z-]+)*$"
       - { resolveNestedSelectors: true }
