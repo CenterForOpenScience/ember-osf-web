@@ -1,3 +1,4 @@
+/* stylelint-disable */
 &__button-label {
 
     pointer-events: none;
@@ -11,7 +12,7 @@
 &__tags-panel {
     @include quickfiles-panel;
 
-    .emberTagInput-tag { // stylelint-disable-line selector-class-pattern
+    .emberTagInput-tag {
         background: $color-bg-blue-light;
         border-radius: 0;
         color: $color-text-black;
@@ -34,14 +35,13 @@
         }
     }
 
-    .emberTagInput-new { // stylelint-disable-line selector-class-pattern
+    .emberTagInput-new {
         width: 100%;
 
         > input {
             width: inherit;
         }
 
-        // stylelint-disable selector-no-vendor-prefix
         ::-webkit-input-placeholder {
             // Webkit, Blink, Edge
             color: $color-text-gray-light;
@@ -68,7 +68,6 @@
             // Microsoft Edge
             color: $color-text-gray-light;
         }
-        // stylelint-enable selector-no-vendor-prefix
     }
 }
 
@@ -85,7 +84,7 @@
             width: 180px;
         }
 
-        .hashBox { // stylelint-disable-line selector-class-pattern
+        .hashBox {
             float: left;
             height: 30px;
         }
@@ -145,3 +144,4 @@
 &__version-link {
     cursor: pointer;
 }
+/* stylelint-enable */

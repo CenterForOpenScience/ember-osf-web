@@ -1,7 +1,7 @@
-&__content {
+.Content {
     padding-top: 40px;
 
-    .file-browser {
+    .file-browser { // stylelint-disable-line selector-class-pattern
         height: 600px;
     }
 }

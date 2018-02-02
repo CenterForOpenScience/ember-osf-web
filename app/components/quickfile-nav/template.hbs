@@ -1,15 +1,13 @@
-<nav class="navbar osf-project-navbar row {{styleNamespace}}__navbar" role="navigation">
-    <div class="container">
-        <ul class="nav navbar-nav">
-            <li class="{{if onQuickfiles 'active'}} {{styleNamespace}}__navbar-item{{if onQuickfiles '--active'}}">
-                {{#link-to
-                    'user-quickfiles'
-                    user
-                    class=(concat styleNamespace '__project-title' (if onQuickfiles '--active'))
-                }}
-                    {{t 'quickfiles.title' user-name=user.fullName}}
-                {{/link-to}}
-            </li>
-        </ul>
-    </div>
-</nav>
+<div class="container">
+    <ul class="nav navbar-nav NavbarList">
+        <li class="NavbarList__item {{if onQuickfiles 'active'}}">
+            {{#link-to
+                'user-quickfiles'
+                user
+                class=(concat 'NavbarList__item__title' (if onQuickfiles '--active'))
+            }}
+                {{t 'quickfiles.title' user-name=user.fullName}}
+            {{/link-to}}
+        </li>
+    </ul>
+</div>

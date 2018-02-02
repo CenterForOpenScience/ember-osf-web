@@ -6,7 +6,7 @@
     border-color: $color-border-gray;
     box-shadow: 0 1px 1px $color-shadow-light;
 
-    .panel-heading { // sass-lint:disable-line class-name-format
+    .panel-heading { // stylelint-disable-line selector-class-pattern
         background-color: $color-bg-gray-light;
         border-color: $color-border-gray;
         color: $color-text-black;
