@@ -9,6 +9,10 @@ module.exports = function(environment) {
         rootURL: '/',
         locationType: 'auto',
         authorizationType,
+        sentryDSN: null,
+        sentryOptions: {
+            release: process.env.GIT_COMMIT,
+        },
         'ember-simple-auth': {
             authorizer: `authorizer:osf-${authorizationType}`,
             authenticator: `authenticator:osf-${authorizationType}`,
@@ -37,8 +41,8 @@ module.exports = function(environment) {
                 name: 'GoogleAnalytics',
                 environments: ['all'],
                 config: {
-                    id: process.env.GOOGLE_ANALYTICS_ID
-                }
+                    id: process.env.GOOGLE_ANALYTICS_ID,
+                },
             },
         ],
         FB_APP_ID: process.env.FB_APP_ID,
