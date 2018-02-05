@@ -27,7 +27,7 @@
     </div>
     <div class="quickSearch">
         <div class="container p-t-lg">
-            <div class="row m-t-lg {{if (gt  nodes.length 9) 'quick-search-contents'}}">
+            <div class="row m-t-lg {{if (or (gt nodes.length 9) loading) 'quick-search-contents'}}">
                 <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                     <div class="row">
                         <div class="col-xs-12">
