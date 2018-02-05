@@ -14,18 +14,17 @@ A short introduction of this app could easily go here.
 You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with NPM)
-* [Ember CLI](https://ember-cli.com/)
+* [Node.js](https://nodejs.org/) (with Yarn and NPM)
 
 ## Installation
 
-* `git clone <repository-url>` this repository
+* `git clone https://github.com/CenterForOpenScience/ember-osf-web.git` this repository
 * `cd ember-osf-web`
 * `yarn --frozen-lockfile`
 
 ## Running / Development
 
-* `ember serve`
+* `npx ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
 ### Code Generators
@@ -34,13 +33,13 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Running Tests
 
-* `ember test`
-* `ember test --server`
+* `npx ember test`
+* `npx ember test --server`
 
 ### Building
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+* `npx ember build` (development)
+* `npx ember build --environment production` (production)
 
 ### Deploying
 
