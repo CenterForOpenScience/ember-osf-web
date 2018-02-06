@@ -4,9 +4,9 @@
         {{#each slides as |slide index|}}
             <div class={{if (not index) "item active" "item"}}>
                 {{#each slide as |institution index|}}
-                    <div class="{{if (not index) (concat "col-sm-2 " columnOffset) "col-sm-2"}} institution-item">
-                        <a href="/institutions/{{institution.id}}" class="thumbnail">
-                            <img class="img-circle img-responsive" name={{institution.title}} logopath="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.title}}" title="{{institution.title}}">
+                    <div class="{{if (not index) (concat "col-sm-2 " columnOffset) "col-sm-2"}} InstitutionCarousel__item">
+                        <a href="/institutions/{{institution.id}}" class="InstitutionCarousel__item__thumbnail">
+                            <img class="img-circle img-responsive InstitutionCarousel__item__image" name={{institution.title}} logopath="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.title}}" title="{{institution.title}}">
                         </a>
                     </div>
                 {{/each}}
@@ -14,7 +14,7 @@
         {{/each}}
     </div>
     {{#if (gt institutions.length itemsPerSlide)}}
-        <a href="#__carousel" role='button' data-slide="prev" class="left carousel-control institution-carousel">{{fa-icon 'angle-left'}}</a>
-        <a href="#__carousel" role='button' data-slide="next" class="right carousel-control institution-carousel">{{fa-icon 'angle-right'}}</a>
+        <a href="#__carousel" role='button' data-slide="prev" class="left carousel-control InstitutionCarousel__control">{{fa-icon 'angle-left'}}</a>
+        <a href="#__carousel" role='button' data-slide="next" class="right carousel-control InstitutionCarousel__control">{{fa-icon 'angle-right'}}</a>
     {{/if}}
 </div>

@@ -44,6 +44,10 @@ export default Component.extend({
         },
     },
 
+    modalClass: computed('styleNamespace', function() {
+        return `${this.get('styleNamespace')}__modal`;
+    }),
+
     findNodes: task(function* (term) {
         yield timeout(500);
         const user = yield this.get('user');

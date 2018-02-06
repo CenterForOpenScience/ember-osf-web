@@ -1,5 +1,5 @@
 {{! template-lint-disable invalid-interactive }}
-{{#bs-modal onHidden=(action 'closeModal') as |modal|}}
+{{#bs-modal class=modalClass onHidden=(action 'closeModal') as |modal|}}
     {{#if (not newNode)}}
         {{#modal.header onClose=(action 'closeModal')}}
             <h3 class="modal-title">{{t 'new_project.header'}}</h3>
@@ -7,13 +7,13 @@
         {{#modal.body}}
             <div class="text-left">
                 <div class="form-group m-v-sm">
-                    <label class="f-w-lg text-bigger wide">
+                    <label class="f-w-lg text-bigger NewProject__label">
                         {{t 'general.title'}}
                         {{input placeholder=(t 'new_project.title_placeholder') autofocus='autofocus' class='form-control project-name' value=nodeTitle type="text" enter='pushEnter'}}
                     </label>
                 </div>
                 {{#if user.institutions.length}}
-                    <div class="form-group m-v-sm affiliation-selector">
+                    <div class="form-group m-v-sm NewProject__institution-selector">
                         <label class="f-w-lg text-bigger">{{t 'new_project.affiliation'}}</label>
                         <a role='button' onclick={{action 'removeAll'}}>{{t 'new_project.remove_all'}}</a>
                         <a role='button' onclick={{action 'selectAll'}}>{{t 'new_project.select_all'}}</a>
@@ -22,7 +22,7 @@
                                 {{#each user.institutions as | institution | }}
                                     <td>
                                         <a role='button' onclick={{action 'select' institution}}>
-                                            <div width="45px" height="45px" class='institution-select'>
+                                            <div width="45px" height="45px" class='NewProject__institution-item'>
                                                 <img name="{{institution.name}}" width="45px" height="45px" class="img-circle pointer {{if (if-filter institution institutionsSelected) 'selected' 'not-selected'}}" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
                                             </div>
                                         </a>
@@ -37,13 +37,13 @@
                         {{fa-icon "caret-down"}} {{t 'new_project.more'}}
                     </div>
                     <div class="form-group m-v-sm">
-                        <label for="projectDesc" class="f-w-lg text-bigger wide">
+                        <label for="projectDesc" class="f-w-lg text-bigger NewProject__label">
                             {{t 'general.description'}}
                             {{input placeholder=(t 'new_project.description_placeholder') class='form-control noresize project-desc' value=description type="text"}}
                         </label>
                     </div>
                     <div class="form-group m-v-md">
-                        <label class="f-w-lg text-bigger wide">
+                        <label class="f-w-lg text-bigger NewProject__label">
                             {{t 'new_project.template_title'}}
                             <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
                             {{#power-select
