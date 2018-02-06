@@ -7,9 +7,16 @@ export default Component.extend({
         const buttonColor = this.get('buttonColor') || '#52A452';
         let url = config.MICROFEEDBACK_URL;
         // Add componentID to query params if provided
-        if (url && this.get('componentID')) {
-            const params = $.param({ componentID: this.get('componentID') });
-            url += `?${params}`;
+        if (url) {
+            const params = {};
+            if (this.get('componentID')) {
+                params.componentID = this.get('componentID');
+            }
+            if (this.get('priorityID')) {
+                params.priorityID = this.get('priorityID');
+            }
+            const query = $.param(params);
+            url += `?${query}`;
         }
         const btn = microfeedback({
             url,
