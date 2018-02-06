@@ -5,8 +5,14 @@ import config from '../../config/environment';
 export default Component.extend({
     didInsertElement() {
         const buttonColor = this.get('buttonColor') || '#52A452';
+        let url = config.MICROFEEDBACK_URL;
+        // Add componentID to query params if provided
+        if (url && this.get('componentID')) {
+            const params = $.param({ componentID: this.get('componentID') });
+            url += `?${params}`;
+        }
         const btn = microfeedback({
-            url: config.MICROFEEDBACK_URL,
+            url,
             backgroundColor: buttonColor,
             showDialog: (btn) => {
                 const text = this.get('text') || '';
