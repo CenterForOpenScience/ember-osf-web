@@ -1,10 +1,22 @@
 import Component from '@ember/component';
 import microfeedback from 'microfeedback-button';
-import config from '../../config/environment';
+import { inject as service } from '@ember/service';
+import { translationMacro as t } from 'ember-i18n';
+import $ from 'jquery';
+import config from 'ember-get-config';
 
 export default Component.extend({
+    i18n: service('i18n'),
+    text: '',
+    buttonColor: '#52A452',
+    placeholder: t('feedback.placeholder'),
+    followUpLabel: t('feedback.follow_up_label'),
+    title: t('feedback.title'),
+    confirmButtonText: t('feedback.confirm_button_text'),
+    cancelButtonText: t('general.cancel'),
     didInsertElement() {
-        const buttonColor = this.get('buttonColor') || '#52A452';
+        const buttonColor = this.get('buttonColor');
+        const styleNamespace = this.get('styleNamespace');
         let url = config.MICROFEEDBACK_URL;
         // Add componentID to query params if provided
         if (url) {
@@ -21,18 +33,28 @@ export default Component.extend({
         const btn = microfeedback({
             url,
             backgroundColor: buttonColor,
+            buttonAriaLabel: this.get('title'),
             showDialog: (btn) => {
-                const text = this.get('text') || '';
-                const placeholder = this.get('placeholder') || 'Describe your issue or share your ideas';
-                const followUpLabel = this.get('followUpLabel') || 'Contact me about opportunities to improve the OSF';
+                const text = this.get('text');
+                const placeholder = this.get('placeholder');
+                const followUpLabel = this.get('followUpLabel');
+                const title = this.get('title');
+                const confirmButtonText = this.get('confirmButtonText');
+                const cancelButtonText = this.get('cancelButtonText');
                 return btn.alert({
-                    html: `<h2 class="swal2-title">Send feedback</h2>
-                    <div id="swal2-content" style="display: block;">${text}</div>
-                    <textarea id="microfeedback-input" class="swal2-textarea" style="display: block;margin-bottom: 0;" placeholder="${placeholder}"></textarea>
-                    <label style="font-weight: 300;" id="microfeedback-followup" for="swal2-checkbox" class="swal2-checkbox">
-                    <input style="display:block" type="checkbox">
-                    <span>${followUpLabel}</span>
-                    </label>`,
+                    html: `
+                        <h2 class="swal2-title">${title}</h2>
+                        <div id="swal2-content" style="display: block;">${text}</div>
+                        <textarea id="microfeedback-input" class="${styleNamespace}Input swal2-textarea" placeholder="${placeholder}"></textarea>
+                        <label id="microfeedback-followup" for="swal2-checkbox" class="${styleNamespace}CheckboxLabel swal2-checkbox">
+                            <input class="${styleNamespace}Checkbox" type="checkbox">
+                            <span>${followUpLabel}</span>
+                        </label>
+                    `,
+                    customClass: styleNamespace,
+                    buttonsStyling: false,
+                    cancelButtonClass: 'btn btn-default',
+                    confirmButtonClass: 'btn btn-success',
                     focusConfirm: false,
                     preConfirm() {
                         const input = document.getElementById('microfeedback-input');
@@ -43,8 +65,8 @@ export default Component.extend({
                         };
                     },
                     showCancelButton: true,
-                    confirmButtonText: 'Send',
-                    confirmButtonColor: buttonColor,
+                    confirmButtonText,
+                    cancelButtonText,
                     reverseButtons: true,
                 });
             },
@@ -60,9 +82,9 @@ export default Component.extend({
                 };
             },
         });
-        this.set('microfeedback-button', btn);
+        this.set('microfeedbackButton', btn);
     },
     willDestroyElement() {
-        this.get('microfeedback-button').destroy();
+        this.get('microfeedbackButton').destroy();
     },
 });

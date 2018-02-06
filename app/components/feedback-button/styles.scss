@@ -1,0 +1,21 @@
+&Input {
+    display: block;
+}
+
+// Use Bootstrap 4's button spacing
+& .btn {  // stylelint-disable-line selector-class-pattern
+    margin: 0 0.5rem;
+}
+
+// Override sweetalert2 styling to reduce space under textarea
+& &Input.swal2-textarea { // stylelint-disable-line selector-class-pattern,selector-no-qualifying-type
+    margin-bottom: 0;
+}
+
+&Checkbox {
+    display: block;
+}
+
+&CheckboxLabel {
+    font-weight: 300;
+}
