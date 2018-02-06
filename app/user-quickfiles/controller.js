@@ -1,6 +1,7 @@
 import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import config from 'ember-get-config';
 import Analytics from 'ember-osf/mixins/analytics';
 
 export default Controller.extend(Analytics, {
@@ -24,4 +25,6 @@ export default Controller.extend(Analytics, {
             }
         },
     },
+
+    jiraComponent: config.microfeedback.JIRA.components.QuickFiles,
 });

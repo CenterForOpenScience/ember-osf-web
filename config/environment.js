@@ -46,6 +46,17 @@ module.exports = function(environment) {
             },
         ],
         FB_APP_ID: process.env.FB_APP_ID,
+        microfeedback: {
+            url: process.env.MICROFEEDBACK_URL,
+            JIRA: {
+                components: {
+                    QuickFiles: '13836',
+                },
+                priorities: {
+                    Not_Selected: '10100',
+                },
+            },
+        },
     };
 
     if (environment === 'development') {
