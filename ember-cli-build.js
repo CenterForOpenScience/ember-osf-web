@@ -43,7 +43,10 @@ module.exports = function(defaults) {
     });
 
     app.import('vendor/assets/ember-osf.css');
-
+    app.import(
+        'node_modules/microfeedback-button/dist/microfeedback-button.js',
+        { using: [{ transformation: 'amd', as: 'microfeedback-button' }] },
+    );
     const assets = [
         new Funnel('node_modules/@centerforopenscience/osf-style/img', {
             srcDir: '/',
