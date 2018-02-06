@@ -118,7 +118,7 @@ export default Controller.extend(Analytics, {
 
     actions: {
         share() {
-            document.querySelector('#sharePaneUrl').select();
+            document.querySelector(`.${this.get('styleNamespace')}__mfr-url`).select();
             document.execCommand('copy');
         },
 
