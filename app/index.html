@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OSF</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/basic.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{rootURL}}ember_osf_web/assets/vendor.css" class="notranslate">
+    <link rel="stylesheet" href="{{rootURL}}ember_osf_web/assets/ember-osf-web.css" class="notranslate">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.js"></script>
+    {{content-for "head"}}
+    {{content-for "head-footer"}}
+  </head>
+  <body>
+    {{content-for "assets"}}
+    <noscript>
+      <p>
+        For full functionality of this site it is necessary to enable JavaScript.
+        Here are
+        <a href='https://www.enable-javascript.com/' target='_blank'> instructions for enabling JavaScript in your web browser</a>.
+      </p>
+    </noscript>
+    {{content-for "body"}}
+
+    <script src="{{rootURL}}ember_osf_web/assets/vendor.js"></script>
+    <script src="{{rootURL}}ember_osf_web/assets/ember-osf-web.js"></script>
+
+    {{content-for "raven"}}
+    {{content-for "body-footer"}}
+  </body>
+</html>

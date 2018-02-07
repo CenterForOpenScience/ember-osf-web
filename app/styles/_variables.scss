@@ -1,0 +1,33 @@
+// Bootstrap Variables
+// https://github.com/twbs/bootstrap-sass/blob/master/templates/project/_bootstrap-variables.sass
+
+// $gray-darker:            #222222
+// $gray-dark:              #333333
+// $gray:                   #555555
+// $gray-light:             #777777
+// $gray-lighter:           #eeeeee
+
+
+// Internal variables
+// Color variations ordered darkest to lightest within each section.
+
+$color-border-gray-dark: #e5e5e5;
+$color-border-gray: #ddd;
+$color-border-gray-light: #d9d9d9;
+$color-border-gray-cool: #d6dbdc;
+
+$color-text-black: #333;
+$color-text-gray: #555;
+$color-text-gray-light: #777;
+$color-text-gray-cool: #e0ebf3;
+
+$color-link-light: #08c;
+
+$color-bg-gray-dark: #4c4c4c;
+$color-bg-gray: #e0e0e0;
+$color-bg-gray-light: #efefef;
+
+$color-bg-blue-dark: #337ab7;
+$color-bg-blue-light: #def;
+
+$color-shadow-light: rgba(0, 0, 0, 0.05);

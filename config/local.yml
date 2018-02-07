@@ -1,0 +1,30 @@
+######## ember-osf settings ########
+## This file is solely for developer convenience. Any of these settings may alternately be passed in as
+# environment variables in your deployment environment
+
+### Login settings
+# Default is ability to read and write all data associated with a user's account. Some apps may not need full account
+#  privileges. If your app only reads data, best practice is to limit permission requests to only what you need.
+OAUTH_SCOPES: osf.full_write
+# Where to send the user on the site after they authenticated. Usually this is a page enabled to handle the oauth flow.
+REDIRECT_URI: http://localhost:4200/login
+# The developer app client ID (not client secret!). This is needed for your app to let users log in via the OSF.
+CLIENT_ID: null
+# Credentials for only a single user. This setting will be ignored except for local development; NEVER commit to github
+PERSONAL_ACCESS_TOKEN: null
+
+### In general, you can leave the items below commented out; ember-osf already knows how to talk to many common OSF
+##    backends. Only use the below if running against a new or custom OSF instance where you need to control the URLs.
+##    These values WILL be ignored unless you explicitly specify `BACKEND=env`.
+#OSF_URL: 'http://localhost:5000/'
+#OSF_API_URL: 'http://localhost:8000'
+#OSF_RENDER_URL: 'http://localhost:7778/render'
+#OSF_FILE_URL: 'http://localhost:7777/'
+#OSF_HELP_URL: 'http://localhost:4200/help'
+
+
+## Where to direct the user for cookie based authentication
+#OSF_COOKIE_LOGIN_URL: 'http://localhost:8080/login'
+
+## Where to direct the user for oauth-based authentication
+#OSF_OAUTH_URL: 'http://localhost:8080/oauth2/profile'
