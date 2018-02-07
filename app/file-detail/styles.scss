@@ -26,45 +26,6 @@
     }
 }
 
-.SharePopover {
-    max-width: 450px;
-    text-align: center;
-    width: 450px;
-
-    &__copy-url-container {
-        height: 34px;
-        vertical-align: top;
-    }
-
-    &__mfr-url {
-        height: 33px;
-    }
-
-    &__button-group {
-        margin: 12px 4px 3px;
-        padding-top: 30px;
-    }
-
-    &__share-link {
-        background-color: $color-bg-gray-light;
-        display: inline-block;
-        margin: 0 2px;
-        padding: 0 2px;
-        text-align: center;
-        width: 35px;
-
-        :hover {
-            background-color: $color-bg-gray;
-        }
-
-        i {
-            color: $color-link-light;
-            font-size: 1.6em;
-            line-height: 1.6em;
-        }
-    }
-}
-
 .Sidebar {
     // TODO: don't impose style on other components
     .file-browser { // stylelint-disable-line selector-class-pattern
