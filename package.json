@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "",
@@ -23,7 +23,7 @@
     "*.scss": "stylelint"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#develop#2018-02-07T20:03:23Z",
+    "@centerforopenscience/ember-osf": "0.14.0",
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.5.1",
     "bootstrap": "^3.3.7",
