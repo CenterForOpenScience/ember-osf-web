@@ -5,10 +5,6 @@
     background-size: cover;
 }
 
-.dashboard-page {
-    padding-top: 50px;
-}
-
 .public-projects-box {
     background: rgba(255, 255, 255, 0.22);
     padding: 10px 15px;
@@ -22,21 +18,22 @@
 
 .newAndNoteworthy {
     min-height: 650px;
-    background: #34495e;
+    background: $color-bg-gray-blue-dark;
     padding-top: 25px;
-    color: #FFF;
+    color: $color-text-white;
 }
 
 .institutions-panel {
     background: #166595 url("/static/img/front-page/bg-web.png") no-repeat center top;
     background-size: cover;
-    padding-top: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .meetings {
     background: #166595 url("/static/img/front-page/bg-web.png") no-repeat center top;
     background-size: cover;
-    color: #fff;
+    color: $color-text-white;
 }
 
 .prereg {
@@ -46,13 +43,13 @@
 }
 
 .prereg-banner {
-    background: #337AB7;
-    color: #FFF;
+    background: $color-bg-blue-dark;
+    color: $color-text-white;
 }
 
 .preprints {
-    background: #34495e;
-    color: #FFF;
+    background: $color-bg-gray-blue-dark;
+    color: $color-text-white;
 }
 
 .btn-banner {
@@ -76,21 +73,21 @@
 }
 
 .load-nodes:hover {
-    color: #333;
+    color: $color-text-black;
 }
 
 .quick-project .selected {
-    color: #000000;
+    color: $color-text-black;
 }
 
 .quick-project img {
     margin-top: 30px;
-    border: 3px solid #fff;
+    border: 3px solid $color-border-white;
     opacity: 0.6;
 }
 
 .quick-project .not-selected {
-    color: #347BB7;
+    color: $color-text-blue-dark;
 }
 
 .sort-group {
@@ -140,10 +137,10 @@
 }
 
 .quick-search-input span {
-    color: #888;
+    color: $color-text-gray-dark;
     display: inline-block;
     margin-left: -36px;
-    background: #eee;
+    background: $color-bg-gray-light;
     border-radius: 12px;
     font-size: 13px;
     padding: 1px;
@@ -187,10 +184,6 @@
     cursor: pointer;
 }
 
-.ball-scale.ball-light {
-    text-align: center;
-}
-
 .not-selected.img-circle {
     opacity: 0.25;
     filter: grayscale(100%);
@@ -202,26 +195,23 @@
 
 ::-webkit-input-placeholder {
     /* Webkit, Blink, Edge */
-    color: rgb(102, 102, 102);
+    color: $color-text-placeholder-grey-dark;
 }
 :-moz-placeholder {
     /* Mozilla Firefox 4 to 18 */
-    color: rgb(102, 102, 102);
+    color: $color-text-placeholder-grey-dark;
     opacity: 1;
 }
 ::-moz-placeholder {
     /* Mozilla Firefox 19+ */
-    color: rgb(102, 102, 102);
+    color: $color-text-placeholder-grey-dark;
     opacity: 1;
 }
 :-ms-input-placeholder {
     /* Internet Explorer 10-11 */
-    color: rgb(102, 102, 102);
+    color: $color-text-placeholder-grey-dark;
 }
 ::-ms-input-placeholder {
     /* Microsoft Edge */
-    color: rgb(102, 102, 102);
-}
-#toast-container > div {
-    opacity: 1;
+    color: $color-text-placeholder-grey-dark;
 }

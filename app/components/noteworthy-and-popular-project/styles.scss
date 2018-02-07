@@ -1,15 +1,15 @@
 .NoteworthyProject {
     &__item {
-        color: #555;
-        background-color: #fff;
-        box-shadow: 1px 1px 1px #898787;
+        color: $color-text-gray;
+        background-color: $color-bg-white;
+        box-shadow: 1px 1px 1px $color-shadow-gray-dark;
         padding: 8px 15px;
         margin-bottom: 5px;
     }
 
     &__item:hover {
-        color: #fff;
-        background-color: #337ab7;
+        color: $color-text-white;
+        background-color: $color-bg-blue-dark;
         cursor: pointer;
     }
 }

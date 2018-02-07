@@ -1,7 +1,7 @@
 .DashboardItem {
-    background-color: #fff;
-    box-shadow: 1px 1px 1px #ccc;
-    color: #555;
+    background-color: $color-bg-white;
+    box-shadow: 1px 1px 1px $color-shadow-gray-light;
+    color: $color-text-gray;
     padding: 6px;
 
     &__col {
@@ -14,7 +14,7 @@
 }
 
 .DashboardItem:hover {
-    background-color: #337ab7;
-    color: #fff;
+    background-color: $color-bg-blue-dark;
+    color: $color-text-white;
     cursor: pointer;
 }
