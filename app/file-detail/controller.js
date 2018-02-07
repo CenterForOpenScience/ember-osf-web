@@ -4,33 +4,19 @@ import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { mimeTypes } from 'ember-osf/const/mime-types';
-import outsideClick from 'ember-osf/utils/outside-click';
 import mime from 'npm:mime-types';
 import Analytics from 'ember-osf/mixins/analytics';
 import config from 'ember-get-config';
 import pathJoin from 'ember-osf/utils/path-join';
-import { htmlSafe } from '@ember/string';
 
 export default Controller.extend(Analytics, {
     currentUser: service(),
     toast: service(),
     queryParams: ['show'],
 
-    init() {
-        this._super(...arguments);
-        outsideClick(function() {
-            this.send('dismissToggle');
-        }.bind(this));
-
-        $(window).resize(function() {
-            this.send('dismissToggle');
-        }.bind(this));
-    },
-
     show: 'view',
     revision: null,
     deleteModalOpen: false,
-    showPopup: false,
     lookupTable: {
         view: {
             edit: 'view_edit',
@@ -66,37 +52,6 @@ export default Controller.extend(Analytics, {
         return this.get('revision') ? this.get('revision') : this.get('model.file.currentVersion');
     }),
 
-    fileUrl: computed('model.file', function() {
-        return encodeURIComponent(window.location.href);
-    }),
-
-    twitterUrl: computed('model.file', 'fileUrl', function() {
-        return `https://twitter.com/intent/tweet?url=${this.get('fileUrl')}&text=${this.get('model.file.name')}&via=OSFramework`;
-    }),
-
-    facebookUrl: computed('model.file', 'fileUrl', function() {
-        return `https://www.facebook.com/sharer/sharer.php?u=${this.get('fileUrl')}`;
-    }),
-
-    linkedInUrl: computed('model.file', 'fileUrl', function() {
-        return `https://www.linkedin.com/cws/share?url=${this.get('fileUrl')}&title=${this.get('model.file.name')}`;
-    }),
-
-    emailUrl: computed('model.file', 'fileUrl', function() {
-        return `mailto:?subject=${this.get('model.file.name')}&body=${this.get('fileUrl')}`;
-    }),
-
-    mfrUrl: computed('model.file', function() {
-        return `https://mfr.osf.io/render?url=${window.location.href}?action=download%26mode=render`;
-    }),
-
-    shareiFrameDynamic: computed('model.file', function() {
-        return htmlSafe(`<style>.embed-responsive{position:relative;height:100%;}.embed-responsive iframe{position:absolute;height:100%;}</style><script>window.jQuery || document.write('<script src="//code.jquery.com/jquery-1.11.2.min.js">\x3C/script>') </script><link href="https://mfr.osf.io/static/css/mfr.css" media="all" rel="stylesheet"><div id="mfrIframe" class="mfr mfr-file"></div><script src="https://mfr.osf.io/static/js/mfr.js"></script> <script>var mfrRender = new mfr.Render("mfrIframe", "${this.get('mfrUrl')}");</script>`);
-    }),
-
-    shareiFrameDirect: computed('model.file', function() {
-        return htmlSafe(`<iframe src="${this.get('mfrUrl')}" width="100%" scrolling="yes" height="677px" marginheight="0" frameborder="0" allowfullscreen webkitallowfullscreen>`);
-    }),
 
     fileTags: computed('model.file', function() {
         return this.get('model.file.tags');
@@ -116,11 +71,6 @@ export default Controller.extend(Analytics, {
     }),
 
     actions: {
-        share() {
-            document.querySelector(`.${this.get('styleNamespace')}__mfr-url`).select();
-            document.execCommand('copy');
-        },
-
         download(version) {
             const url = `${this.get('model.file.links.download')}?revision=${version}`;
             window.location = url;
@@ -178,14 +128,6 @@ export default Controller.extend(Analytics, {
 
         versionChange(version) {
             this.set('revision', version);
-        },
-
-        togglePopup() {
-            this.toggleProperty('showPopup');
-        },
-
-        dismissToggle() {
-            this.set('showPopup', false);
         },
     },
 
