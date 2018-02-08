@@ -2,6 +2,8 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import Analytics from 'ember-osf/mixins/analytics';
+import config from 'ember-get-config';
+import pathJoin from 'ember-osf/utils/path-join';
 
 export default Component.extend(Analytics, {
     // -- Component arguments -- //
@@ -24,7 +26,7 @@ export default Component.extend(Analytics, {
     }),
 
     fileUrl: computed('file', function() {
-        return encodeURIComponent(window.location.href);
+        return encodeURIComponent(pathJoin(config.OSF.url, this.get('file.guid')));
     }),
 
     twitterUrl: computed('file.name', 'fileUrl', function() {
@@ -44,7 +46,8 @@ export default Component.extend(Analytics, {
     }),
 
     mfrUrl: computed('file', function() {
-        return `https://mfr.osf.io/render?url=${window.location.href}?action=download%26mode=render`;
+        const encodedDownloadUrl = encodeURIComponent(pathJoin(config.OSF.url, this.get('file.guid'), 'download'));
+        return `${config.OSF.renderUrl}?url=${encodedDownloadUrl}`;
     }),
 
     shareiFrameDynamic: computed('mfrUrl', function() {
