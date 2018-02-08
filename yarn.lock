@@ -6714,6 +6714,12 @@ methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
 
+microfeedback-button@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/microfeedback-button/-/microfeedback-button-1.0.1.tgz#9842343fcd8b42b7a287eb626d2edaf03cd3b81d"
+  dependencies:
+    sweetalert2 "^7.7.0"
+
 micromatch@^2.1.5, micromatch@^2.3.11, micromatch@^2.3.7:
   version "2.3.11"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-2.3.11.tgz#86677c97d1720b363431d04d0d15293bd38c1565"
@@ -8910,6 +8916,10 @@ supports-color@^5.1.0:
 svg-tags@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/svg-tags/-/svg-tags-1.0.0.tgz#58f71cee3bd519b59d4b2a843b6c7de64ac04764"
+
+sweetalert2@^7.7.0:
+  version "7.9.2"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-7.9.2.tgz#7be75d48c73ca51f97725422fc17f60536fec863"
 
 symbol-observable@1.0.1:
   version "1.0.1"

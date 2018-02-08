@@ -69,6 +69,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "loader.js": "^4.0.10",
+    "microfeedback-button": "^1.0.1",
     "mime-types": "~2.1.17",
     "stylelint-config-sass-guidelines": "^4.1.0",
     "stylelint-order": "^0.8.0",

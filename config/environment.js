@@ -46,6 +46,7 @@ module.exports = function(environment) {
             },
         ],
         FB_APP_ID: process.env.FB_APP_ID,
+        MICROFEEDBACK_URL: process.env.MICROFEEDBACK_URL,
     };
 
     if (environment === 'development') {

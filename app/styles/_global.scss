@@ -3,3 +3,14 @@
 #toast-container > div { // stylelint-disable-line selector-max-id
     opacity: 1;
 }
+
+// microfeedback-button styling
+// Needed because ember-bootstrap sets the root font at 10px,
+// and sweetalert2 uses rem for font-size
+.swal2-popup { // stylelint-disable-line selector-class-pattern
+    font-size: 1.1em !important;
+}
+
+.microfeedback-button { // stylelint-disable-line selector-class-pattern
+    font-size: 1em !important;
+}
