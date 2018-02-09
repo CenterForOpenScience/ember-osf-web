@@ -48,12 +48,15 @@ module.exports = function(environment) {
         FB_APP_ID: process.env.FB_APP_ID,
         microfeedback: {
             url: process.env.MICROFEEDBACK_URL,
+            // Optional JIRA configuration
+            // If these are set, MicroFeedback will add
+            // components and priorities to posted issues
             JIRA: {
                 components: {
-                    QuickFiles: '13836',
+                    QuickFiles: null,
                 },
                 priorities: {
-                    Not_Selected: '10100',
+                    Not_Selected: null,
                 },
             },
         },
