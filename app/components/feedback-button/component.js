@@ -4,13 +4,22 @@ import { computed } from '@ember/object';
 import config from 'ember-get-config';
 
 
-function sendFeedback(body, followup, { componentID, priorityID, extra } = {}) {
+function sendFeedback(body, {
+    user,
+    followup,
+    componentID,
+    priorityID,
+    extra,
+} = {}) {
     let { url } = config.microfeedback;
+    const extraBase = { followup };
+    if (user) {
+        const userLink = `[${user.get('fullName')}|${user.get('profileURL')}]`;
+        extraBase.user = userLink;
+    }
     const payload = {
         body,
-        extra: Object.assign({}, {
-            followup,
-        }, extra),
+        extra: Object.assign({}, extraBase, extra),
     };
     if (url) {
         // Add componentID to query params if provided
@@ -43,6 +52,7 @@ export default Component.extend({
     body: '',
     text: '',
     followup: false,
+    user: null,
     // Valid states: null (unopened), 'active', 'success'
     state: null,
     dialogRows: 5,
@@ -76,18 +86,18 @@ export default Component.extend({
                 this.reset();
                 return;
             }
-            const followup = this.get('followup');
             // Optimistically display success message
             this.set('state', 'success');
-            this.reset();
             sendFeedback(
                 body,
-                followup,
                 {
+                    followup: this.get('followup'),
+                    user: this.get('user'),
                     componentID: this.get('componentID'),
                     priorityID: this.get('priorityID'),
                 },
             );
+            this.reset();
         },
     },
     reset() {
