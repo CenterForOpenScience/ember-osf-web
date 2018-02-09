@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Ignore `order/properties-alphabetical-order` rule in stylelint.
 
+### Fixed
+- Inject jQuery properly in `file-share-button` dynamic iframe code
+
 ## [0.1.1] - 2018-02-08
 ### Changed
 - In the `file-share-button` component:
