@@ -7,8 +7,7 @@ import config from 'ember-get-config';
 function sendFeedback(body, {
     user,
     followup,
-    componentID,
-    priorityID,
+    pageName,
     extra,
 } = {}) {
     let { url } = config.microfeedback;
@@ -22,16 +21,12 @@ function sendFeedback(body, {
         extra: Object.assign({}, extraBase, extra),
     };
     if (url) {
-        // Add componentID to query params if provided
-        const params = {};
-        if (componentID) {
-            params.componentID = componentID;
+        // Add page-specific query params
+        const params = config.microfeedback.pageParams[pageName];
+        if (params) {
+            const query = $.param(params);
+            url += `?${query}`;
         }
-        if (priorityID) {
-            params.priorityID = priorityID;
-        }
-        const query = $.param(params);
-        url += `?${query}`;
 
         return $.ajax(url, {
             method: 'POST',
@@ -51,12 +46,12 @@ function sendFeedback(body, {
 export default Component.extend({
     body: '',
     text: '',
+    pageName: null,
     followup: false,
     user: null,
     // Valid states: null (unopened), 'active', 'success'
     state: null,
     dialogRows: 5,
-    componentID: null,
     open: computed('state', function() {
         const state = this.get('state');
         return state === 'active' || state === 'success';
@@ -93,8 +88,7 @@ export default Component.extend({
                 {
                     followup: this.get('followup'),
                     user: this.get('user'),
-                    componentID: this.get('componentID'),
-                    priorityID: this.get('priorityID'),
+                    pageName: this.get('pageName'),
                 },
             );
             this.reset();
@@ -104,5 +98,4 @@ export default Component.extend({
         this.set('body', '');
         this.set('followup', false);
     },
-    priorityID: config.microfeedback.JIRA.priorities.Not_Selected,
 });
