@@ -6,3 +6,4 @@ rules:
     selector-class-pattern:
       - "^([A-Z][a-z]*)+(__[a-z-]+)*(--[a-z-]+)*$"
       - { resolveNestedSelectors: true }
+    order/properties-alphabetical-order: null
