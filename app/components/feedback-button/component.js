@@ -21,9 +21,19 @@ function sendFeedback(body, {
         extra: Object.assign({}, extraBase, extra),
     };
     if (url) {
+        const params = [];
+        if (config.OSF.backend !== 'prod') {
+            params.push({ name: 'label', value: 'testing' });
+        }
+        if (followup) {
+            params.push({ name: 'label', value: 'followup' });
+        }
         // Add page-specific query params
-        const params = config.microfeedback.pageParams[pageName];
-        if (params) {
+        const pageParams = config.microfeedback.pageParams[pageName] || {};
+        Object.entries(pageParams).forEach((entry) => {
+            params.push({ name: entry[0], value: entry[1] });
+        });
+        if (params.length) {
             const query = $.param(params);
             url += `?${query}`;
         }
