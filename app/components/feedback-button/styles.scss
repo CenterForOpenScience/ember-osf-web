@@ -1,0 +1,40 @@
+.FeedbackButton {
+    background-color: $btn-success-bg;
+    border-radius: $border-radius-base $border-radius-base 0 0;
+    bottom: 0;
+    color: $btn-success-color;
+    cursor: pointer;
+    padding: 4px 7px;
+    position: fixed;
+    right: 3.125em;
+    text-decoration: none;
+    transition: all 0.15s ease-in-out;
+    z-index: 1001;
+
+    /* Button reset */
+    border: 0;
+    margin: 0;
+    width: auto;
+    overflow: visible;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+}
+
+.FeedbackButton:hover,
+.FeedbackButton--open {
+    background-color: darken($btn-success-bg, 10%);
+    padding-bottom: 10px;
+}
+
+// Because the modal uses ember-wormhole, it isn't within the styleNamespace block
+// We work around this by applying `.{styleNameSpace}Modal` to it.
+&Modal {
+    & .Modal__text {
+        margin: 1.5em 0 1em;
+    }
+}

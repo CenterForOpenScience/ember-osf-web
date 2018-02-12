@@ -46,6 +46,20 @@ module.exports = function(environment) {
             },
         ],
         FB_APP_ID: process.env.FB_APP_ID,
+        microfeedback: {
+            url: process.env.MICROFEEDBACK_URL,
+            pageParams: {
+                // Mapping of pageName to query params to add
+                // to the base MicroFeedback URL
+                // e.g. {
+                //    QuickFiles: {
+                //        componentID: '13836',
+                //        priorityID: '10100',
+                //    }
+                // }
+                QuickFiles: {},
+            },
+        },
     };
 
     if (environment === 'development') {
