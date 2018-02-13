@@ -8,12 +8,14 @@
             <div class="form-group">
                 {{textarea class="form-control" rows=dialogRows autofocus="true" placeholder=(t 'feedback.placeholder') value=body}}
             </div>
-            <div class="checkbox">
-                <label>
-                    {{input type="checkbox" checked=followup}}
-                    {{t 'feedback.follow_up_label'}}
-                </label>
-            </div>
+            {{#if currentUser.currentUserId}}
+                <div class="checkbox">
+                    <label>
+                        {{input type="checkbox" checked=followup}}
+                        {{t 'feedback.follow_up_label'}}
+                    </label>
+                </div>
+            {{/if}}
         {{/if}}
         {{#if success}}
             {{success-icon}}
@@ -40,7 +42,6 @@
     {{/modal.footer}}
 {{/bs-modal}}
 
-
-<button class="FeedbackButton {{if open 'FeedbackButton--open'}}" onclick={{action 'showDialog'}} aria-label={{t 'feedback.title'}}>
+<button class="FeedbackButton {{if open 'FeedbackButton--open'}}" onclick={{action 'showDialog'}} aria-label={{t 'feedback.title'}} hidden={{not enabled}}>
     {{t 'feedback.button_text'}}
 </button>

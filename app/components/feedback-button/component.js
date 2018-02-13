@@ -1,3 +1,4 @@
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import $ from 'jquery';
 import { computed } from '@ember/object';
@@ -5,15 +6,15 @@ import config from 'ember-get-config';
 
 
 function sendFeedback(body, {
-    user,
+    userID,
     followup,
     pageName,
     extra,
 } = {}) {
     let { url } = config.microfeedback;
     const extraBase = { followup };
-    if (user) {
-        const userLink = `[${user.get('fullName')}|${user.get('profileURL')}]`;
+    if (userID) {
+        const userLink = `[${userID}|${window.location.origin}/${userID}/]`;
         extraBase.user = userLink;
     }
     const payload = {
@@ -54,11 +55,11 @@ function sendFeedback(body, {
 }
 
 export default Component.extend({
+    currentUser: service(),
     body: '',
     text: '',
     pageName: null,
     followup: false,
-    user: null,
     // Valid states: null (unopened), 'active', 'success'
     state: null,
     dialogRows: 5,
@@ -97,7 +98,7 @@ export default Component.extend({
                 body,
                 {
                     followup: this.get('followup'),
-                    user: this.get('user'),
+                    userID: this.get('currentUser.currentUserId'),
                     pageName: this.get('pageName'),
                 },
             );
@@ -108,4 +109,5 @@ export default Component.extend({
         this.set('body', '');
         this.set('followup', false);
     },
+    enabled: config.microfeedback.enabled,
 });
