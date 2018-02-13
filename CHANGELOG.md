@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Inject jQuery properly in `file-share-button` dynamic iframe code
 
+### Added
+- Analytics tracking on all page transitions
+
 ## [0.1.1] - 2018-02-08
 ### Changed
 - In the `file-share-button` component:

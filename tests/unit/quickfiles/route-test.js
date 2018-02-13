@@ -1,7 +1,11 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('route:quickfiles', 'Unit | Route | quickfiles', {
-    needs: ['service:session', 'service:currentUser'],
+    needs: [
+        'service:session',
+        'service:currentUser',
+        'service:metrics',
+    ],
 });
 
 test('it exists', function(assert) {
