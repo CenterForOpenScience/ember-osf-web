@@ -1,3 +1,5 @@
+/* tslint:disable:object-literal-sort-keys max-line-length */
+
 export default {
     general: {
         share: 'Share',
@@ -44,5 +46,10 @@ export default {
         },
         sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.',
         md5_description: 'MD5 is an algorithm used to verify data integrity.',
+        // toast messages
+        delete_success: 'File deleted',
+        delete_fail: 'Error, unable to delete file',
+        save_success: 'File saved',
+        save_fail: 'Error, unable to save file',
     },
 };

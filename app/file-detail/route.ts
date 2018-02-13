@@ -1,25 +1,31 @@
-import { hash } from 'rsvp';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Analytics from 'ember-osf/mixins/analytics';
+import { hash } from 'rsvp';
 
-export default Route.extend(Analytics, {
-    currentUser: service(),
+export default class FileDetail extends Route.extend(Analytics) {
+    private currentUser = service('currentUser');
 
-    model(params) {
-        return hash({
-            file: this.store.findRecord('file', params.file_id),
-            user: this.store.findRecord('file', params.file_id).then(file => file.get('user')).then(user => user.reload()),
-        });
-    },
-    afterModel(model, transition) {
-        if (model.user.id !== this.get('currentUser.currentUserId')) {
-            transition.send('track', 'page view', 'track', 'Quick Files - File detail page view');
-        }
-    },
-    resetController(controller, isExiting, transition) {
+    private async model({ file_id }) {
+        const file = await this.store.findRecord('file', file_id);
+        const fileUser = await file.get('user');
+        const user = await fileUser.reload();
+
+        return {
+            file,
+            user,
+        };
+    }
+
+    private resetController(controller, isExiting, transition) {
         if (isExiting && transition.targetName !== 'error') {
             controller.set('revision', null);
         }
-    },
-});
+    }
+}
+
+declare module '@ember/routing/route' {
+    interface IRegistry {
+        'file-detail': FileDetail;
+    }
+}

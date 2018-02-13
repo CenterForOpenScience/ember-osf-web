@@ -1,5 +1,10 @@
 {
   "defaultSeverity": "warning",
+  "linterOptions": {
+    "exclude": [
+        "**/*.js"
+    ]
+  },
   "extends": [
       "tslint:recommended"
   ],

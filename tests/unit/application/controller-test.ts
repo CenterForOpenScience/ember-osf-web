@@ -8,7 +8,7 @@ moduleFor('controller:application', 'Unit | Controller | application', {
 });
 
 // Replace this with your real tests.
-test('it exists', function(assert) {
+test('it exists', function(this: test, assert) {
     const controller = this.subject();
     assert.ok(controller);
 });
