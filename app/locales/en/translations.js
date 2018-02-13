@@ -25,7 +25,7 @@ export default {
         confirm_button_text: 'Send',
         thank_you: 'Thank you!',
         success: 'Your feedback has been submitted.',
-        dismiss: 'Continue',
+        dismiss: 'Got it',
     },
     file_detail: {
         version: {
