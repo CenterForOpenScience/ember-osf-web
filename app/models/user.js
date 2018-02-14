@@ -20,7 +20,7 @@ import OsfModel from './osf-model';
 export default OsfModel.extend({
     fullName: DS.attr('fixstring'),
     givenName: DS.attr('fixstring'),
-    middleNames: DS.attr(),
+    middleNames: DS.attr('array'),
     familyName: DS.attr('fixstring'),
 
     dateRegistered: DS.attr('date'),

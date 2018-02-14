@@ -10,15 +10,15 @@ export default OsfModel.extend({
     example: DS.attr('fixstring'),
     advisoryBoard: DS.attr('string'),
     emailSupport: DS.attr('fixstring'),
-    subjectsAcceptable: DS.attr(),
+    subjectsAcceptable: DS.attr('array'),
     footerLinks: DS.attr('string'),
     allowSubmissions: DS.attr('boolean'),
-    additionalProviders: DS.attr(),
+    additionalProviders: DS.attr(''),
     shareSource: DS.attr('string'),
     preprintWord: DS.attr('string'),
 
     // Reviews settings
-    permissions: DS.attr(),
+    permissions: DS.attr('array'),
     reviewsWorkflow: DS.attr('string'),
     reviewsCommentsPrivate: DS.attr('boolean', { allowNull: true }),
     reviewsCommentsAnonymous: DS.attr('boolean', { allowNull: true }),

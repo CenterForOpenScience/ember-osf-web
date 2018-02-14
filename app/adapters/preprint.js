@@ -9,7 +9,7 @@ export default OsfAdapter.extend({
 
         serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
 
-        const {id} = snapshot;
+        const { id } = snapshot;
         const url = this.buildURL(type.modelName, id, snapshot, 'updateRecord');
 
         return this.ajax(url, 'PATCH', { data });

@@ -16,7 +16,7 @@ import OsfModel from './osf-model';
  */
 export default OsfModel.extend({
     registrationSupplement: DS.attr('fixstring'),
-    registrationMetadata: DS.attr(),
+    registrationMetadata: DS.attr('object'),
     datetimeInitiated: DS.attr('date'),
     datetimeUpdated: DS.attr('date'),
     branchedFrom: DS.belongsTo('node', {

@@ -27,7 +27,7 @@ export default OsfModel.extend(FileItemMixin, {
     category: DS.attr('fixstring'),
 
     // List of strings
-    currentUserPermissions: DS.attr(),
+    currentUserPermissions: DS.attr('array'),
 
     fork: DS.attr('boolean'),
     collection: DS.attr('boolean'),
@@ -39,8 +39,8 @@ export default OsfModel.extend(FileItemMixin, {
 
     forkedDate: DS.attr('date'),
 
-    nodeLicense: DS.attr(),
-    tags: DS.attr(),
+    nodeLicense: DS.attr('object'),
+    tags: DS.attr('array'),
 
     templateFrom: DS.attr('fixstring'),
 
@@ -223,9 +223,7 @@ export default OsfModel.extend(FileItemMixin, {
         }).then((resp) => {
             this.store.pushPayload(resp);
             const createdContribs = Ember.A();
-            resp.data.map((contrib) => {
-                createdContribs.push(this.store.peekRecord('contributor', contrib.id));
-            });
+            resp.data.map(contrib => createdContribs.push(this.store.peekRecord('contributor', contrib.id)));
             return createdContribs;
         });
     },

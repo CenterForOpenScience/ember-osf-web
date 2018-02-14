@@ -29,10 +29,11 @@ export default Node.extend({
 
     draftRegistration: DS.attr('fixstring'),
     registrationChoice: DS.attr('fixstring'),
-    liftEmbargo: DS.attr(),
+    // TODO: doesnt seem to be an actual field
+    liftEmbargo: DS.attr('object'),
 
     registrationSupplement: DS.attr('fixstring'),
-    registeredMeta: DS.attr(),
+    registeredMeta: DS.attr('object'),
 
     registeredFrom: DS.belongsTo('node', {
         inverse: 'registrations',

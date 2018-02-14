@@ -33,8 +33,8 @@ export default OsfModel.extend(FileItemMixin, {
     lastTouched: DS.attr('date'),
     dateModified: DS.attr('date'),
     dateCreated: DS.attr('date'),
-    extra: DS.attr(),
-    tags: DS.attr(),
+    extra: DS.attr('object'),
+    tags: DS.attr('array'),
     checkout: DS.attr('fixstring'),
 
     parentFolder: DS.belongsTo('file', { inverse: 'files' }),

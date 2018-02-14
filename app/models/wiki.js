@@ -6,7 +6,7 @@ export default OsfModel.extend({
     name: DS.attr('string'),
     dateModified: DS.attr('date'),
 
-    extra: DS.attr(),
+    extra: DS.attr('object'),
     contentType: DS.attr('string'),
     path: DS.attr('string'),
     currentUserCanComment: DS.attr('boolean'),

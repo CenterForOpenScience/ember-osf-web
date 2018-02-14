@@ -20,7 +20,7 @@ export default OsfModel.extend({
 
     title: DS.attr('fixstring'),
     // TODO: May be a relationship in the future pending APIv2 changes
-    subjects: DS.attr(),
+    subjects: DS.attr('object'),
     dateCreated: DS.attr('date'),
     datePublished: DS.attr('date'),
     originalPublicationDate: DS.attr('date'),
@@ -28,7 +28,7 @@ export default OsfModel.extend({
     doi: DS.attr('fixstring'),
     isPublished: DS.attr('boolean'),
     isPreprintOrphan: DS.attr('boolean'),
-    licenseRecord: DS.attr(),
+    licenseRecord: DS.attr('object'),
     reviewsState: DS.attr('string'),
     dateLastTransitioned: DS.attr('date'),
     preprintDoiCreated: DS.attr('date'),
@@ -41,17 +41,17 @@ export default OsfModel.extend({
     reviewActions: DS.hasMany('review-action', { inverse: 'target', async: true }),
     contributors: DS.hasMany('contributors', { async: true }),
 
+    articleDoiUrl: Ember.computed.alias('links.doi'),
+    preprintDoiUrl: Ember.computed.alias('links.preprint_doi'),
+
     uniqueSubjects: Ember.computed('subjects', function() {
         if (!this.get('subjects')) return [];
         return this.get('subjects').reduce((acc, val) => acc.concat(val), []).uniqBy('id');
     }),
 
-    articleDoiUrl: Ember.computed.alias('links.doi'),
-    preprintDoiUrl: Ember.computed.alias('links.preprint_doi'),
-
     licenseText: Ember.computed('license', function() {
         const text = this.get('license.text') || '';
-        const { year = '', copyright_holders = [] } = this.get('licenseRecord');
+        const { year = '', copyright_holders = [] } = this.get('licenseRecord'); // eslint-disable-line camelcase
 
         return text
             .replace(/({{year}})/g, year)

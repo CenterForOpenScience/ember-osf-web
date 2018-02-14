@@ -19,5 +19,5 @@ import OsfModel from './osf-model';
 export default OsfModel.extend({
     name: DS.attr('fixstring'),
     schemaVersion: DS.attr('number'),
-    schema: DS.attr(),
+    schema: DS.attr('object'),
 });

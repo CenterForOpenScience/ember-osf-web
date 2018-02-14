@@ -19,7 +19,7 @@ import OsfModel from './osf-model';
 export default OsfModel.extend({
     date: DS.attr('date'),
     action: DS.attr('fixstring'),
-    params: DS.attr(),
+    params: DS.attr('object'),
     node: DS.belongsTo('node', {
         inverse: null,
     }),

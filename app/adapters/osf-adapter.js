@@ -58,7 +58,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
                 url = snapshot.record.get('links.self');
             }
         } else if (options.url) {
-            ({url} = options);
+            ({ url } = options);
         }
 
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
