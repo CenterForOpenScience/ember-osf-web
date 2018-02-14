@@ -15,6 +15,17 @@ export default {
     quickfiles: {
         title: '{{user-name}}\'s Quick Files',
         description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.',
+        feedback_dialog_text: 'Tell us what you think of Quick Files',
+    },
+    feedback: {
+        button_text: 'Feedback',
+        placeholder: 'Share your feedback',
+        follow_up_label: 'Contact me about further opportunities to improve the OSF',
+        title: 'Send feedback',
+        confirm_button_text: 'Send',
+        thank_you: 'Thank you!',
+        success: 'Your feedback has been submitted.',
+        dismiss: 'Got it',
     },
     file_detail: {
         version: {

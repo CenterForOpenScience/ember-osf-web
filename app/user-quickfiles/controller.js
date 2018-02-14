@@ -5,7 +5,7 @@ import Analytics from 'ember-osf/mixins/analytics';
 
 export default Controller.extend(Analytics, {
     currentUser: service(),
-
+    pageName: 'QuickFiles',
     canEdit: computed('currentUser', 'model', function() {
         if (!this.get('model.id')) return false;
         return (this.get('model.id') === this.get('currentUser.currentUserId'));
