@@ -1,4 +1,6 @@
-import Ember from 'ember';
+
+import { resolve, Promise as EmberPromise } from 'rsvp';
+import { run, begin, end } from '@ember/runloop';
 
 import { moduleFor, skip } from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
@@ -154,11 +156,11 @@ test('#_buildRelationshipURL uses relationshipLinks', function (assert) {
 test('#_createRelated maps over each createdSnapshots and adds records to the parent\'s canonical state', function (assert) {
     assert.expect(5);
     this.inject.service('store');
-    const store = this.store;
+    const { store } = this;
 
     const node = FactoryGuy.make('node');
     let contributors;
-    Ember.run(() => {
+    run(() => {
         contributors = [
             store.createRecord('contributor', {
                 title: 'Foo',
@@ -170,7 +172,7 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
     });
     node.get('contributors').pushObjects(contributors);
     const saveStubs = contributors.map(c => this.stub(c, 'save', () => {
-        return Ember.RSVP.resolve();
+        return resolve();
     }));
 
     const addCanonicalStub = this.stub();
@@ -180,7 +182,7 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
         };
     });
 
-    Ember.run(() => {
+    run(() => {
         node.save().then(() => {
             saveStubs.forEach(s => assert.ok(s.called));
             assert.ok(addCanonicalStub.calledTwice);
@@ -196,10 +198,10 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
 
 test('#_createRelated passes the nested:true as an adapterOption to save', function (assert) {
     this.inject.service('store');
-    const store = this.store;
+    const { store } = this;
 
     const node = FactoryGuy.make('node');
-    Ember.run.begin();
+    begin();
     const contributors = [
         store.createRecord('contributor', {
             title: 'Foo',
@@ -208,10 +210,10 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
             title: 'Bar',
         }),
     ];
-    Ember.run.end();
+    end();
     node.get('contributors').pushObjects(contributors);
     const saveStubs = contributors.map(c => this.stub(c, 'save', () => {
-        return Ember.RSVP.resolve();
+        return resolve();
     }));
     this.stub(node, 'resolveRelationship', () => {
         return {
@@ -219,7 +221,7 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
         };
     });
 
-    Ember.run(() => {
+    run(() => {
         node.save().then(() => {
             saveStubs.forEach(s => assert.ok(s.called));
             saveStubs.forEach(s => assert.ok(s.calledWith({
@@ -243,13 +245,13 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
     node.get('affiliatedInstitutions').pushObject(institution);
 
     const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return Ember.RSVP.resolve();
+        return resolve();
     });
     const relation = node.resolveRelationship('affiliatedInstitutions');
     relation.hasLoaded = true;
     const addCanonicalStub = this.stub(relation, 'addCanonicalRecord');
 
-    Ember.run(() => {
+    run(() => {
         node.save().then(() => {
             assert.ok(doRelatedStub.called, 'doRelated should be called');
             assert.ok(addCanonicalStub.calledOnce, 'addCanonical should be called');
@@ -262,7 +264,7 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
 
 test('#_updateRelated defers to _doRelatedRequest, pushes the update response into the store, and updates the parent\'s canonicalState', function (assert) {
     this.inject.service('store');
-    const store = this.store;
+    const { store } = this;
 
     const node = FactoryGuy.make('node', 'hasContributors');
     const contribs = node.get('contributors');
@@ -271,7 +273,7 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
     contrib.set('bibliographic', !contrib.get('bibliographic'));
 
     const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return Ember.RSVP.resolve({
+        return resolve({
             data: [
                 // A slight hack-- ingore the value returned from _doRelatedRequest
                 true,
@@ -287,7 +289,7 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
     const pushStub = this.stub(store, 'push', () => contrib);
     const normalizeStub = this.stub(store, 'normalize');
 
-    Ember.run(() => {
+    run(() => {
         node.save().then(() => {
             assert.ok(doRelatedStub.calledOnce);
             assert.ok(addCanonicalStub.calledOnce);
@@ -308,14 +310,15 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
     node.get('affiliatedInstitutions').removeObject(inst);
 
     const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return Ember.RSVP.resolve();
+        return resolve();
     });
 
     const rel = node.resolveRelationship('affiliatedInstitutions');
-    var removeCanonicalStub = this.stub(rel, 'removeCanonicalRecord', removeCanonicalStub);
+    let removeCanonicalStub = null;
+    removeCanonicalStub = this.stub(rel, 'removeCanonicalRecord', removeCanonicalStub);
     rel.hasLoaded = true;
 
-    Ember.run(() => {
+    run(() => {
         node.save().then(() => {
             assert.ok(doRelatedStub.calledOnce, 'doRelated should be called');
             assert.ok(removeCanonicalStub.calledOnce, 'removeCanonical should be called');
@@ -334,10 +337,10 @@ test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted recor
 
     const unloadStub = this.stub(contrib, 'unloadRecord');
     const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return Ember.RSVP.resolve();
+        return resolve();
     });
 
-    Ember.run(() => {
+    run(() => {
         node.save().then(() => {
             assert.ok(doRelatedStub.calledOnce);
             assert.ok(unloadStub.calledOnce);
@@ -351,17 +354,17 @@ test('#_doRelatedRequest with array', function (assert) {
     const adapter = this.subject();
 
     this.inject.service('store');
-    const store = this.store;
+    const { store } = this;
 
     const node = FactoryGuy.make('node');
-    Ember.run.begin();
+    begin();
     const children = FactoryGuy.buildList('node', 3).data.map((json) => {
         return store.createRecord('node', store.normalize('node', json).data.attributes);
     });
-    Ember.run.end();
+    end();
 
     const mockAjax = this.stub(adapter, 'ajax', () => {
-        return Ember.RSVP.resolve({});
+        return resolve({});
     });
     adapter._doRelatedRequest(
         store,
@@ -371,7 +374,7 @@ test('#_doRelatedRequest with array', function (assert) {
         'http://localhost:8000/v2/nodes/foobar/children/',
         'POST',
     );
-    const data = mockAjax.args[0][2].data.data;
+    const { data } = mockAjax.args[0][2].data;
     assert.equal(data[0].attributes.title, children[0].get('title'));
     assert.equal(data[1].attributes.title, children[1].get('title'));
     assert.equal(data[2].attributes.title, children[2].get('title'));
@@ -381,18 +384,18 @@ test('#_doRelatedRequest with single snapshot', function (assert) {
     const adapter = this.subject();
 
     this.inject.service('store');
-    const store = this.store;
+    const { store } = this;
 
     const node = FactoryGuy.make('node');
-    Ember.run.begin();
+    begin();
     const child = store.createRecord(
         'node',
         store.normalize('node', FactoryGuy.build('node').data).data.attributes,
     );
-    Ember.run.end();
+    end();
 
     const mockAjax = this.stub(adapter, 'ajax', () => {
-        return Ember.RSVP.resolve({});
+        return resolve({});
     });
     adapter._doRelatedRequest(
         store,
@@ -402,7 +405,7 @@ test('#_doRelatedRequest with single snapshot', function (assert) {
         'http://localhost:8000/v2/nodes/foobar/children/',
         'POST',
     );
-    const data = mockAjax.args[0][2].data.data;
+    const { data } = mockAjax.args[0][2].data;
     assert.equal(data.attributes.title, child.get('title'));
 });
 
@@ -410,7 +413,7 @@ test('#_handleRelatedRequest makes correct calls for each change argument', func
     const adapter = this.subject();
 
     this.inject.service('store');
-    const store = this.store;
+    const { store } = this;
 
     const node = FactoryGuy.make('node');
     const changes = {
@@ -446,7 +449,7 @@ test('#_handleRelatedRequest checks if relationship supports bulk', function (as
     const adapter = this.subject();
 
     this.inject.service('store');
-    const store = this.store;
+    const { store } = this;
 
     const node = FactoryGuy.make('node');
     const changes = {
@@ -488,11 +491,11 @@ test('#updateRecord handles both dirtyRelationships and the parent record', func
 
     this.inject.service('store');
 
-    const store = this.store;
+    const { store } = this;
     const adapter = this.subject();
     const node = FactoryGuy.make('node');
 
-    Ember.run(() => node.set('title', 'The meaning of life'));
+    run(() => node.set('title', 'The meaning of life'));
 
     node.set('_dirtyRelationships', {
         children: {
@@ -502,7 +505,7 @@ test('#updateRecord handles both dirtyRelationships and the parent record', func
 
     const handleRelatedStub = this.stub(adapter, '_handleRelatedRequest', () => []);
     // Have to stub apply due to ...arguments usage
-    this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => Ember.RSVP.resolve(42));
+    this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => resolve(42));
 
     const ss = node._internalModel.createSnapshot();
 
@@ -532,13 +535,14 @@ skip('#findRecord can embed(via include) data with findRecord', function (assert
     const done = assert.async();
     assert.expect(1);
 
-    Ember.run(() => {
+    run(() => {
         this.inject.service('store');
-        const store = this.store;
+        const { store } = this;
+
         const node = FactoryGuy.make('node');
         let children;
 
-        return Ember.RSVP.Promise
+        return EmberPromise
             .all([
                 store.createRecord('node', {
                     title: 'Foo',

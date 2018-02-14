@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
 import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('preprint', 'Unit | Model | preprint', {
@@ -95,7 +95,7 @@ test('it has an attribute: dateLastTransitioned', function(assert) {
 
 test('node relationship', function(assert) {
     const model = this.store().modelFor('preprint');
-    const relationship = Ember.get(model, 'relationshipsByName').get('node');
+    const relationship = get(model, 'relationshipsByName').get('node');
 
     assert.equal(relationship.key, 'node');
     assert.equal(relationship.type, 'node');
@@ -104,7 +104,7 @@ test('node relationship', function(assert) {
 
 test('license relationship', function(assert) {
     const model = this.store().modelFor('preprint');
-    const relationship = Ember.get(model, 'relationshipsByName').get('license');
+    const relationship = get(model, 'relationshipsByName').get('license');
 
     assert.equal(relationship.key, 'license');
     assert.equal(relationship.type, 'license');
@@ -113,7 +113,7 @@ test('license relationship', function(assert) {
 
 test('file relationship', function(assert) {
     const model = this.store().modelFor('preprint');
-    const relationship = Ember.get(model, 'relationshipsByName').get('primaryFile');
+    const relationship = get(model, 'relationshipsByName').get('primaryFile');
 
     assert.equal(relationship.key, 'primaryFile');
     assert.equal(relationship.type, 'file');
@@ -122,7 +122,7 @@ test('file relationship', function(assert) {
 
 test('preprint-provider relationship', function(assert) {
     const model = this.store().modelFor('preprint');
-    const relationship = Ember.get(model, 'relationshipsByName').get('provider');
+    const relationship = get(model, 'relationshipsByName').get('provider');
 
     assert.equal(relationship.key, 'provider');
     assert.equal(relationship.type, 'preprint-provider');
@@ -131,7 +131,7 @@ test('preprint-provider relationship', function(assert) {
 
 test('review-action relationship', function(assert) {
     const model = this.store().modelFor('preprint');
-    const relationship = Ember.get(model, 'relationshipsByName').get('reviewActions');
+    const relationship = get(model, 'relationshipsByName').get('reviewActions');
 
     assert.equal(relationship.key, 'reviewActions');
     assert.equal(relationship.type, 'review-action');
@@ -140,7 +140,7 @@ test('review-action relationship', function(assert) {
 
 test('contributors relationship', function(assert) {
     const model = this.store().modelFor('preprint');
-    const relationship = Ember.get(model, 'relationshipsByName').get('contributors');
+    const relationship = get(model, 'relationshipsByName').get('contributors');
 
     assert.equal(relationship.key, 'contributors');
     assert.equal(relationship.type, 'contributor');

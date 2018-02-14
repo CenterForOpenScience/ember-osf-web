@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
@@ -39,6 +39,6 @@ export default OsfModel.extend({
     }),
 
     // Calculated fields
-    profileURL: Ember.computed.alias('links.html'),
-    profileImage: Ember.computed.alias('links.profile_image'),
+    profileURL: alias('links.html'),
+    profileImage: alias('links.profile_image'),
 });

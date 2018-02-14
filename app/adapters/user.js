@@ -1,5 +1,5 @@
+import $ from 'jquery';
 import OsfAdapter from './osf-adapter';
-import Ember from 'ember';
 
 export default OsfAdapter.extend({
     findHasMany(store, snapshot, url_, relationship) {
@@ -12,10 +12,10 @@ export default OsfAdapter.extend({
         if (relationship.type === 'node') {
             url += '?embed=parent&embed=root';
             if (snapshot.record.get('query-params')) {
-                url += `&${Ember.$.param(snapshot.record.get('query-params'))}`;
+                url += `&${$.param(snapshot.record.get('query-params'))}`;
             }
         } else if (snapshot.record.get('query-params')) {
-            url += `?${Ember.$.param(snapshot.record.get('query-params'))}`;
+            url += `?${$.param(snapshot.record.get('query-params'))}`;
         }
         return this.ajax(url, 'GET');
     },

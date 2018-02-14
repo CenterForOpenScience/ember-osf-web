@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
 import {
     moduleForModel,
     test,
@@ -72,7 +72,7 @@ test('it has an attribute: canViewReviews', function(assert) {
 
 test('nodes relationship', function(assert) {
     const model = this.store().modelFor('user');
-    const relationship = Ember.get(model, 'relationshipsByName').get('nodes');
+    const relationship = get(model, 'relationshipsByName').get('nodes');
 
     assert.equal(relationship.key, 'nodes');
     assert.equal(relationship.type, 'node');
@@ -81,7 +81,7 @@ test('nodes relationship', function(assert) {
 
 test('registrations relationship', function(assert) {
     const model = this.store().modelFor('user');
-    const relationship = Ember.get(model, 'relationshipsByName').get('registrations');
+    const relationship = get(model, 'relationshipsByName').get('registrations');
 
     assert.equal(relationship.key, 'registrations');
     assert.equal(relationship.type, 'registration');
@@ -90,7 +90,7 @@ test('registrations relationship', function(assert) {
 
 test('files relationship', function(assert) {
     const model = this.store().modelFor('user');
-    const relationship = Ember.get(model, 'relationshipsByName').get('quickfiles');
+    const relationship = get(model, 'relationshipsByName').get('quickfiles');
 
     assert.equal(relationship.key, 'quickfiles');
     assert.equal(relationship.type, 'file');
@@ -99,7 +99,7 @@ test('files relationship', function(assert) {
 
 test('institutions relationship', function(assert) {
     const model = this.store().modelFor('user');
-    const relationship = Ember.get(model, 'relationshipsByName').get('affiliatedInstitutions');
+    const relationship = get(model, 'relationshipsByName').get('affiliatedInstitutions');
 
     assert.equal(relationship.key, 'affiliatedInstitutions');
     assert.equal(relationship.type, 'institution');

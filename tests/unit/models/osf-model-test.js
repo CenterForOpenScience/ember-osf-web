@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import $ from 'jquery';
 import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('osf-model', 'Unit | Model | osf model', {
@@ -59,7 +60,7 @@ test('queryHasMany works', function(assert) {
 
     const queryParams = { param: 7 };
 
-    Ember.$.mockjax({
+    $.mockjax({
         url: userNodesUrl,
         responseText: {
             data: nodePayloads,
@@ -75,7 +76,7 @@ test('queryHasMany works', function(assert) {
     assert.expect(3 + nodeIds.length);
 
     const done = assert.async();
-    Ember.run(function() {
+    run(function() {
         store.pushPayload(userPayload);
         const user = store.peekRecord('user', userId);
         assert.ok(!!user);

@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 import OsfModel from './osf-model';
 
@@ -41,15 +42,15 @@ export default OsfModel.extend({
     reviewActions: DS.hasMany('review-action', { inverse: 'target', async: true }),
     contributors: DS.hasMany('contributors', { async: true }),
 
-    articleDoiUrl: Ember.computed.alias('links.doi'),
-    preprintDoiUrl: Ember.computed.alias('links.preprint_doi'),
+    articleDoiUrl: alias('links.doi'),
+    preprintDoiUrl: alias('links.preprint_doi'),
 
-    uniqueSubjects: Ember.computed('subjects', function() {
+    uniqueSubjects: computed('subjects', function() {
         if (!this.get('subjects')) return [];
         return this.get('subjects').reduce((acc, val) => acc.concat(val), []).uniqBy('id');
     }),
 
-    licenseText: Ember.computed('license', function() {
+    licenseText: computed('license', function() {
         const text = this.get('license.text') || '';
         const { year = '', copyright_holders = [] } = this.get('licenseRecord'); // eslint-disable-line camelcase
 

@@ -10,12 +10,13 @@ export default OsfSerializer.extend({
      * This override lets us always treat `checkout` as a string attribute.
      */
     normalize(modelClass, resourceHash) {
-        const checkoutRel = resourceHash.relationships.checkout;
+        const hash = resourceHash;
+        const checkoutRel = hash.relationships.checkout;
         if (checkoutRel) {
-            const {id} = checkoutRel.links.related.meta;
-            resourceHash.attributes.checkout = id;
-            delete resourceHash.relationships.checkout;
+            const { id } = checkoutRel.links.related.meta;
+            hash.attributes.checkout = id;
+            delete hash.relationships.checkout;
         }
-        return this._super(modelClass, resourceHash);
+        return this._super(modelClass, hash);
     },
 });

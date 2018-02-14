@@ -1,4 +1,7 @@
-import Ember from 'ember';
+import { isEmpty } from '@ember/utils';
+import { A } from '@ember/array';
+import { Promise as EmberPromise } from 'rsvp';
+import { equal, bool } from '@ember/object/computed';
 import DS from 'ember-data';
 import OsfModel from './osf-model';
 
@@ -106,20 +109,20 @@ export default OsfModel.extend(FileItemMixin, {
      * @property isProject
      * @type boolean
      */
-    isProject: Ember.computed.equal('constructor.modelName', 'node'),
+    isProject: equal('constructor.modelName', 'node'),
     /**
      * Is this a registration? Flag can be used to provide template-specific behavior for different resource types.
      * @property isRegistration
      * @type boolean
      */
-    isRegistration: Ember.computed.equal('constructor.modelName', 'registration'),
+    isRegistration: equal('constructor.modelName', 'registration'),
 
     /**
      * Is this node being viewed through an anonymized, view-only link?
      * @property isAnonymous
      * @type boolean
      */
-    isAnonymous: Ember.computed.bool('meta.anonymous'),
+    isAnonymous: bool('meta.anonymous'),
 
     /**
      * Determine whether the specified user ID is a contributor on this node
@@ -130,7 +133,7 @@ export default OsfModel.extend(FileItemMixin, {
     isContributor(userId) {
         // Return true if there is at least one matching contributor for this user ID
         if (!userId) {
-            return new Ember.RSVP.Promise(resolve => resolve(false));
+            return new EmberPromise(resolve => resolve(false));
         }
         const contribId = `${this.get('id')}-${userId}`;
         return this.store.findRecord('contributor', contribId).then(() => true, () => false);
@@ -222,7 +225,7 @@ export default OsfModel.extend(FileItemMixin, {
             isBulk: true,
         }).then((resp) => {
             this.store.pushPayload(resp);
-            const createdContribs = Ember.A();
+            const createdContribs = A();
             resp.data.map(contrib => createdContribs.push(this.store.peekRecord('contributor', contrib.id)));
             return createdContribs;
         });
@@ -233,8 +236,8 @@ export default OsfModel.extend(FileItemMixin, {
     },
 
     updateContributor(contributor, permissions, bibliographic) {
-        if (!Ember.isEmpty(permissions)) { contributor.set('permission', permissions); }
-        if (!Ember.isEmpty(bibliographic)) { contributor.set('bibliographic', bibliographic); }
+        if (!isEmpty(permissions)) { contributor.set('permission', permissions); }
+        if (!isEmpty(bibliographic)) { contributor.set('bibliographic', bibliographic); }
         return contributor.save();
     },
 

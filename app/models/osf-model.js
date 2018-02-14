@@ -1,4 +1,10 @@
-import Ember from 'ember';
+import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
+import ArrayProxy from '@ember/array/proxy';
+import { bind } from '@ember/runloop';
+import { Promise as EmberPromise } from 'rsvp';
+import { merge } from '@ember/polyfills';
+import EmberObject, { get } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
@@ -17,14 +23,14 @@ export default DS.Model.extend({
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
-    relationshipLinks: Ember.computed.alias('links.relationships'),
+    relationshipLinks: alias('links.relationships'),
     _dirtyRelationships: null,
     isNewOrDirty() {
         return this.get('isNew') || Object.keys(this.changedAttributes()).length;
     },
     init() {
         this._super(...arguments);
-        this.set('_dirtyRelationships', Ember.Object.create({}));
+        this.set('_dirtyRelationships', EmberObject.create({}));
     },
     /**
      * Looks up relationship on model and returns hasManyRelationship
@@ -65,7 +71,7 @@ export default DS.Model.extend({
                 };
 
                 const other = this.get(`_dirtyRelationships.${rel}`) || {};
-                Ember.merge(other, changes);
+                merge(other, changes);
                 this.set(`_dirtyRelationships.${rel}`, other);
             }
         });
@@ -83,7 +89,7 @@ export default DS.Model.extend({
      */
     queryHasMany(propertyName, queryParams, ajaxOptions) {
         const reference = this.hasMany(propertyName);
-        const promise = new Ember.RSVP.Promise((resolve, reject) => {
+        const promise = new EmberPromise((resolve, reject) => {
             // HACK: ember-data discards/ignores the link if an object on the belongsTo side
             // came first. In that case, grab the link where we expect it from OSF's API
             const url = reference.link() || this.get(`links.relationships.${propertyName}.links.related.href`);
@@ -91,19 +97,19 @@ export default DS.Model.extend({
                 reject(`Could not find a link for '${propertyName}' relationship`);
                 return;
             }
-            const options = Ember.merge({
+            const options = merge({
                 url,
                 data: queryParams,
-                headers: Ember.get(this.store.adapterFor(this.constructor.modelName), 'headers'),
+                headers: get(this.store.adapterFor(this.constructor.modelName), 'headers'),
             }, ajaxOptions);
 
             authenticatedAJAX(options).then(
-                Ember.run.bind(this, this.__queryHasManyDone, resolve),
+                bind(this, this.__queryHasManyDone, resolve),
                 reject,
             );
         });
 
-        const ArrayPromiseProxy = Ember.ArrayProxy.extend(Ember.PromiseProxyMixin);
+        const ArrayPromiseProxy = ArrayProxy.extend(PromiseProxyMixin);
         return ArrayPromiseProxy.create({ promise });
     },
 

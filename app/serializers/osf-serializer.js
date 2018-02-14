@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { underscore, camelize } from '@ember/string';
+import $ from 'jquery';
 import DS from 'ember-data';
 
 /**
@@ -31,13 +32,16 @@ export default DS.JSONAPISerializer.extend({
      * @return {Array}
      * @private
      */
+    // TODO: refactor using resource hash like how we are using it here: (stuff like _mergeFields should be as easy as just assigning a copy object)
+
+    /* eslint-disable no-param-reassign */
     _extractEmbeds(resourceHash) {
         if (!resourceHash.embeds) {
             return []; // Nothing to do
         }
         let included = [];
         resourceHash.relationships = resourceHash.relationships || {};
-        for (const embedded in resourceHash.embeds) {
+        for (const embedded of Object.keys(resourceHash.embeds)) {
             if (!(embedded || resourceHash.embeds[embedded])) {
                 continue;
             }
@@ -71,33 +75,35 @@ export default DS.JSONAPISerializer.extend({
         this._extractEmbeds(resourceHash);
 
         if (resourceHash.relationships && resourceHash.attributes.links) {
-            resourceHash.attributes.links = Ember.$.extend(resourceHash.attributes.links, {
+            resourceHash.attributes.links = $.extend(resourceHash.attributes.links, {
                 relationships: resourceHash.relationships,
             });
         }
         return resourceHash;
     },
 
+    /* eslint-enable no-param-reassign */
+
     extractAttributes(modelClass, resourceHash) {
-        resourceHash = this._mergeFields(resourceHash);
-        return this._super(modelClass, resourceHash);
+        const hash = this._mergeFields(resourceHash);
+        return this._super(modelClass, hash);
     },
 
     keyForAttribute(key) {
-        return Ember.String.underscore(key);
+        return underscore(key);
     },
 
     keyForRelationship(key) {
-        return Ember.String.underscore(key);
+        return underscore(key);
     },
 
     serialize(snapshot, options) {
         const serialized = this._super(snapshot, options);
-        serialized.data.type = Ember.String.underscore(serialized.data.type);
+        serialized.data.type = underscore(serialized.data.type);
         // Only send dirty attributes in request
         if (!snapshot.record.get('isNew')) {
-            for (const attribute in serialized.data.attributes) {
-                if (!(Ember.String.camelize(attribute) in snapshot.record.changedAttributes())) {
+            for (const attribute of Object.keys(serialized.data.attributes)) {
+                if (!(camelize(attribute) in snapshot.record.changedAttributes())) {
                     delete serialized.data.attributes[attribute];
                 }
             }
@@ -105,14 +111,14 @@ export default DS.JSONAPISerializer.extend({
 
         // Only serialize dirty, whitelisted relationships
         serialized.data.relationships = {};
-        for (const relationship in snapshot.record._dirtyRelationships) {
+        for (const relationship of Object.keys(snapshot.record._dirtyRelationships)) {
             // https://stackoverflow.com/questions/29004314/why-are-object-keys-and-for-in-different
-            if (!snapshot.record._dirtyRelationships.hasOwnProperty(relationship)) continue;
+            if (!snapshot.record._dirtyRelationships.hasOwnProperty(relationship)) continue; // eslint-disable-line no-prototype-builtins
             const type = this.get('relationshipTypes')[relationship];
             if (type) {
                 const changeLists = Object.values(snapshot.record._dirtyRelationships[relationship]);
                 if (changeLists.any(l => l.length)) {
-                    serialized.data.relationships[Ember.String.underscore(relationship)] = {
+                    serialized.data.relationships[underscore(relationship)] = {
                         data: {
                             id: snapshot.belongsTo(relationship, { id: true }),
                             type,

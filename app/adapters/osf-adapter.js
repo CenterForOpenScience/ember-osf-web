@@ -1,3 +1,9 @@
+import { allSettled, hashSettled } from 'rsvp';
+import { isArray } from '@ember/array';
+import { underscore, capitalize } from '@ember/string';
+import $ from 'jquery';
+import { getWithDefault } from '@ember/object';
+import { merge } from '@ember/polyfills';
 import Ember from 'ember';
 import DS from 'ember-data';
 
@@ -41,7 +47,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
             query.embed = query.include;
         }
         delete query.include;
-        return Ember.merge(query, Ember.getWithDefault(snapshot, 'adapterOptions.query', {}));
+        return merge(query, getWithDefault(snapshot, 'adapterOptions.query', {}));
     },
     buildURL(modelName, id, snapshot, requestType) {
         let url = this._super(...arguments);
@@ -68,7 +74,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
         }
         // Allow a query to be passed along in the adapterOptions.
         if (options && options.query) {
-            url += `?${Ember.$.param(options.query)}`;
+            url += `?${$.param(options.query)}`;
         }
         return url;
     },
@@ -82,7 +88,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @return {String} a URL
      * */
     _buildRelationshipURL(snapshot, relationship) {
-        const links = relationship ? snapshot.record.get(`relationshipLinks.${Ember.String.underscore(relationship)}.links`) : false;
+        const links = relationship ? snapshot.record.get(`relationshipLinks.${underscore(relationship)}.links`) : false;
         if (links && (links.self || links.related)) {
             return links.self ? links.self.href : links.related.href;
         }
@@ -216,7 +222,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
         if (relatedMeta.options.serializerType) {
             serializer = store.serializerFor(relatedMeta.options.serializerType);
         }
-        if (Ember.isArray(relatedSnapshots)) {
+        if (isArray(relatedSnapshots)) {
             data.data = relatedSnapshots.map((relatedSnapshot) => {
                 const item = {};
                 serializer.serializeIntoHash(
@@ -227,7 +233,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
                         isBulk,
                     },
                 );
-                if (Ember.isArray(item.data) && item.data.length === 1) {
+                if (isArray(item.data) && item.data.length === 1) {
                     return item.data[0];
                 }
                 return item.data;
@@ -246,7 +252,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
             data,
             isBulk,
         }).then((res) => {
-            if (res && !Ember.$.isArray(res.data)) {
+            if (res && !$.isArray(res.data)) {
                 res.data = [res.data];
             }
             return res;
@@ -278,7 +284,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
         const relatedMeta = snapshot.record[relationship].meta();
         const url = this._buildRelationshipURL(snapshot, relationship);
         const adapter = store.adapterFor(type.modelName);
-        const allowBulk = relatedMeta.options[`allowBulk${Ember.String.capitalize(change)}`];
+        const allowBulk = relatedMeta.options[`allowBulk${capitalize(change)}`];
 
         if (related.record) {
             related = [related];
@@ -304,10 +310,10 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
                 promises = promises.concat(this._handleRelatedRequest(store, type, snapshot, relationship, change) || []);
             });
             if (promises.length) {
-                relatedRequests[relationship] = Ember.RSVP.allSettled(promises);
+                relatedRequests[relationship] = allSettled(promises);
             }
         });
-        const relatedPromise = Ember.RSVP.hashSettled(relatedRequests);
+        const relatedPromise = hashSettled(relatedRequests);
         if (Object.keys(snapshot.record.changedAttributes()).length) {
             return this._super(...arguments).then(response => relatedPromise.then(() => response));
         } else {
@@ -322,7 +328,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
         return ret;
     },
     pathForType(modelName) {
-        const underscored = Ember.String.underscore(modelName);
+        const underscored = underscore(modelName);
         return Ember.String.pluralize(underscored);
     },
 });

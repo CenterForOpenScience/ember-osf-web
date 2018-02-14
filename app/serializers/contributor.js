@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { merge } from '@ember/polyfills';
 import OsfSerializer from './osf-serializer';
 
 export default OsfSerializer.extend({
@@ -13,7 +13,7 @@ export default OsfSerializer.extend({
                 includeUser: true,
             };
         }
-        Ember.merge(opts, options);
+        merge(opts, options);
 
         // APIv2 expects contributor information to be nested under relationships.
         if (opts.includeUser) {

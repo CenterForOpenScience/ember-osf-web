@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
@@ -29,7 +29,7 @@ export default OsfModel.extend({
         inverse: 'contributors',
     }),
 
-    userId: Ember.computed('_userId', {
+    userId: computed('_userId', {
         get() {
             if (this.get('isNew')) {
                 return this.get('_userId');
@@ -42,7 +42,7 @@ export default OsfModel.extend({
         },
     }).volatile(),
 
-    nodeId: Ember.computed('_nodeId', {
+    nodeId: computed('_nodeId', {
         get() {
             if (this.get('isNew')) {
                 return this.get('_nodeId');

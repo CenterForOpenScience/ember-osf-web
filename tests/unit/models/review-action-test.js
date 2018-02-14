@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
 import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('review-action', 'Unit | Model | review-action', {
@@ -60,7 +60,7 @@ test('it has an attribute: actionTrigger', function(assert) {
 
 test('preprint-provider relationship', function(assert) {
     const model = this.store().modelFor('review-action');
-    const relationship = Ember.get(model, 'relationshipsByName').get('provider');
+    const relationship = get(model, 'relationshipsByName').get('provider');
 
     assert.equal(relationship.key, 'provider');
     assert.equal(relationship.type, 'preprint-provider');
@@ -69,7 +69,7 @@ test('preprint-provider relationship', function(assert) {
 
 test('target relationship', function(assert) {
     const model = this.store().modelFor('review-action');
-    const relationship = Ember.get(model, 'relationshipsByName').get('target');
+    const relationship = get(model, 'relationshipsByName').get('target');
 
     assert.equal(relationship.key, 'target');
     assert.equal(relationship.type, 'preprint');
@@ -78,7 +78,7 @@ test('target relationship', function(assert) {
 
 test('user relationship', function(assert) {
     const model = this.store().modelFor('review-action');
-    const relationship = Ember.get(model, 'relationshipsByName').get('creator');
+    const relationship = get(model, 'relationshipsByName').get('creator');
 
     assert.equal(relationship.key, 'creator');
     assert.equal(relationship.type, 'user');
