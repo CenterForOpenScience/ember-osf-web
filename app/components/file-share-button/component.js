@@ -2,6 +2,8 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import Analytics from 'ember-osf/mixins/analytics';
+import config from 'ember-get-config';
+import pathJoin from 'ember-osf/utils/path-join';
 
 export default Component.extend(Analytics, {
     // -- Component arguments -- //
@@ -24,7 +26,7 @@ export default Component.extend(Analytics, {
     }),
 
     fileUrl: computed('file', function() {
-        return encodeURIComponent(window.location.href);
+        return encodeURIComponent(pathJoin(config.OSF.url, this.get('file.guid')));
     }),
 
     twitterUrl: computed('file.name', 'fileUrl', function() {
@@ -44,15 +46,54 @@ export default Component.extend(Analytics, {
     }),
 
     mfrUrl: computed('file', function() {
-        return `https://mfr.osf.io/render?url=${window.location.href}?action=download%26mode=render`;
+        const encodedDownloadUrl = encodeURIComponent(pathJoin(config.OSF.url, this.get('file.guid'), 'download'));
+        return `${config.OSF.renderUrl}?url=${encodedDownloadUrl}`;
     }),
 
     shareiFrameDynamic: computed('mfrUrl', function() {
-        return htmlSafe(`<style>.embed-responsive{position:relative;height:100%;}.embed-responsive iframe{position:absolute;height:100%;}</style><script>window.jQuery || document.write('<script src="//code.jquery.com/jquery-1.11.2.min.js">\x3C/script>') </script><link href="https://mfr.osf.io/static/css/mfr.css" media="all" rel="stylesheet"><div id="mfrIframe" class="mfr mfr-file"></div><script src="https://mfr.osf.io/static/js/mfr.js"></script> <script>var mfrRender = new mfr.Render("mfrIframe", "${this.get('mfrUrl')}");</script>`);
+        return htmlSafe(`
+            <style>
+                .embed-responsive {
+                    position:relative;
+                    height:100%;
+                }
+                .embed-responsive iframe {
+                    position:absolute;
+                    height:100%;
+                }
+            </style>
+            <link href="https://mfr.osf.io/static/css/mfr.css" media="all" rel="stylesheet">
+            <div id="mfrIframe" class="mfr mfr-file"></div>
+            <script src="https://mfr.osf.io/static/js/mfr.js"></script>
+            <script>
+                function renderMfr() {
+                    var mfrRender = new mfr.Render("mfrIframe", "${this.get('mfrUrl')}");
+                }
+                if (window.jQuery) {
+                    renderMfr();
+                } else {
+                    var jq = document.createElement('script');
+                    document.head.appendChild(jq);
+                    jq.onload = function() {
+                        renderMfr();
+                    }
+                    jq.src = 'http://code.jquery.com/jquery-1.11.2.min.js';
+                }
+            </script>
+        `.trim().replace(/^\s{12}/mg, ''));
     }),
 
     shareiFrameDirect: computed('mfrUrl', function() {
-        return htmlSafe(`<iframe src="${this.get('mfrUrl')}" width="100%" scrolling="yes" height="677px" marginheight="0" frameborder="0" allowfullscreen webkitallowfullscreen>`);
+        return htmlSafe(`
+            <iframe src="${this.get('mfrUrl')}"
+                    width="100%"
+                    scrolling="yes"
+                    height="677px"
+                    marginheight="0"
+                    frameborder="0"
+                    allowfullscreen
+                    webkitallowfullscreen>
+        `.trim().replace(/^\s{12}/mg, ''));
     }),
 
     actions: {
