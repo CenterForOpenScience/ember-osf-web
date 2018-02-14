@@ -27,15 +27,6 @@ export default OsfModel.extend({
     targetID: DS.attr('fixstring'),
     targetType: DS.attr('fixstring'),
 
-    // TODO dynamic belongsTo
-    user: DS.belongsTo('user'),
-    node: DS.belongsTo('node'),
-    replies: DS.hasMany('comment', {
-        inverse: null,
-    }),
-
-    // reports: DS.hasMany('comment-report'),
-
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
     modified: DS.attr('boolean'),
@@ -43,4 +34,11 @@ export default OsfModel.extend({
     isAbuse: DS.attr('boolean'),
     hasChildren: DS.attr('boolean'),
     canEdit: DS.attr('boolean'),
+
+    // TODO dynamic belongsTo
+    user: DS.belongsTo('user'),
+    node: DS.belongsTo('node'),
+    replies: DS.hasMany('comment', {
+        inverse: null,
+    }),
 });

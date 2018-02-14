@@ -27,9 +27,10 @@ export default OsfModel.extend({
     // email
     username: DS.attr('fixstring'),
 
+    canViewReviews: DS.attr('boolean', { defaultValue: false }),
+
     nodes: DS.hasMany('nodes'),
     registrations: DS.hasMany('registrations'),
-    canViewReviews: DS.attr('boolean', { defaultValue: false }),
 
     quickfiles: DS.hasMany('files'),
 

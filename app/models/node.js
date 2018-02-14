@@ -22,8 +22,6 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
  * @class Node
  */
 export default OsfModel.extend(FileItemMixin, {
-    isNode: true,
-
     title: DS.attr('fixstring'),
     description: DS.attr('fixstring'),
     category: DS.attr('fixstring'),
@@ -270,4 +268,6 @@ export default OsfModel.extend(FileItemMixin, {
             return contributors;
         });
     },
+
+    isNode: true,
 });

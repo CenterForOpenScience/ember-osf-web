@@ -12,7 +12,7 @@ export default OsfSerializer.extend({
     normalize(modelClass, resourceHash) {
         const checkoutRel = resourceHash.relationships.checkout;
         if (checkoutRel) {
-            const id = checkoutRel.links.related.meta.id;
+            const {id} = checkoutRel.links.related.meta;
             resourceHash.attributes.checkout = id;
             delete resourceHash.relationships.checkout;
         }

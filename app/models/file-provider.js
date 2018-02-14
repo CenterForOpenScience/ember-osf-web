@@ -18,12 +18,12 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
  * @class FileProvider
  */
 export default OsfModel.extend(FileItemMixin, {
-    isProvider: true,
-
     name: DS.attr('fixstring'),
     kind: DS.attr('fixstring'),
     path: DS.attr('string'),
     provider: DS.attr('fixstring'),
     files: DS.hasMany('file'),
     node: DS.belongsTo('node'),
+
+    isProvider: true,
 });

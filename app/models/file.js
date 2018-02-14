@@ -22,8 +22,6 @@ import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
  * @class File
  */
 export default OsfModel.extend(FileItemMixin, {
-    _isFileModel: true,
-
     name: DS.attr('fixstring'),
     kind: DS.attr('fixstring'),
     guid: DS.attr('fixstring'),
@@ -37,6 +35,7 @@ export default OsfModel.extend(FileItemMixin, {
     dateCreated: DS.attr('date'),
     extra: DS.attr(),
     tags: DS.attr(),
+    checkout: DS.attr('fixstring'),
 
     parentFolder: DS.belongsTo('file', { inverse: 'files' }),
 
@@ -48,7 +47,6 @@ export default OsfModel.extend(FileItemMixin, {
     comments: DS.hasMany('comment'),
     node: DS.belongsTo('node'), // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
     user: DS.belongsTo('user'),
-    checkout: DS.attr('fixstring'),
 
     rename(newName, conflict = 'replace') {
         return authenticatedAJAX({
@@ -116,4 +114,6 @@ export default OsfModel.extend(FileItemMixin, {
             }),
         }).then(() => this.reload());
     },
+
+    _isFileModel: true,
 });

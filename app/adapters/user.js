@@ -2,11 +2,11 @@ import OsfAdapter from './osf-adapter';
 import Ember from 'ember';
 
 export default OsfAdapter.extend({
-    findHasMany(store, snapshot, url, relationship) {
-        const id = snapshot.id;
+    findHasMany(store, snapshot, url_, relationship) {
+        const {id} = snapshot;
         const type = snapshot.modelName;
 
-        url = this.urlPrefix(url, this.buildURL(type, id, snapshot, 'findHasMany'));
+        url = this.urlPrefix(url_, this.buildURL(type, id, snapshot, 'findHasMany'));
 
         // If fetching user nodes, will embed root and parent.
         if (relationship.type === 'node') {

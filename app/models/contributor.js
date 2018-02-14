@@ -18,7 +18,6 @@ export default OsfModel.extend({
     bibliographic: DS.attr('boolean'),
     permission: DS.attr('fixstring'),
 
-    _userId: null,
     userId: Ember.computed('_userId', {
         get() {
             if (this.get('isNew')) {
@@ -31,7 +30,7 @@ export default OsfModel.extend({
             this.set('_userId', userId);
         },
     }).volatile(),
-    _nodeId: null,
+
     nodeId: Ember.computed('_nodeId', {
         get() {
             if (this.get('isNew')) {
@@ -45,14 +44,17 @@ export default OsfModel.extend({
         },
     }).volatile(),
 
-    users: DS.belongsTo('user'),
     unregisteredContributor: DS.attr('fixstring'),
     index: DS.attr('number'),
     fullName: DS.attr('fixstring'),
     email: DS.attr('fixstring'),
     sendEmail: DS.attr('boolean'),
 
+    users: DS.belongsTo('user'),
     node: DS.belongsTo('node', {
         inverse: 'contributors',
     }),
+
+    _userId: null,
+    _nodeId: null,
 });

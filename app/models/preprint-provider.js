@@ -22,13 +22,12 @@ export default OsfModel.extend({
     reviewsWorkflow: DS.attr('string'),
     reviewsCommentsPrivate: DS.attr('boolean', { allowNull: true }),
     reviewsCommentsAnonymous: DS.attr('boolean', { allowNull: true }),
-    reviewableStatusCounts: Ember.computed.alias('links.relationships.preprints.links.related.meta'),
-
     // Relationships
     taxonomies: DS.hasMany('taxonomy'),
     highlightedTaxonomies: DS.hasMany('taxonomy'),
     preprints: DS.hasMany('preprint', { inverse: 'provider', async: true }),
     licensesAcceptable: DS.hasMany('license', { inverse: null }),
 
+    reviewableStatusCounts: Ember.computed.alias('links.relationships.preprints.links.related.meta'),
     hasHighlightedSubjects: Ember.computed.alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects'),
 });

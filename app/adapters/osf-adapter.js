@@ -58,7 +58,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
                 url = snapshot.record.get('links.self');
             }
         } else if (options.url) {
-            url = options.url;
+            ({url} = options);
         }
 
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
@@ -284,8 +284,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
             related = [related];
         }
 
-        let response;
-        response = adapter[`_${change}Related`](
+        const response = adapter[`_${change}Related`](
             store,
             snapshot,
             related,
