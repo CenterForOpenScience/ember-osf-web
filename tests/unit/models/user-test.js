@@ -13,7 +13,9 @@ moduleForModel('user', 'Unit | Model | user', {
         'model:review-action',
         'transform:fixstring',
         'transform:links',
-        'transform:embed'],
+        'transform:embed',
+        'transform:array',
+    ],
 });
 
 test('it exists', function(assert) {

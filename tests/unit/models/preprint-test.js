@@ -12,7 +12,9 @@ moduleForModel('preprint', 'Unit | Model | preprint', {
         'model:license',
         'transform:fixstring',
         'transform:links',
-        'transform:embed'],
+        'transform:embed',
+        'transform:object',
+    ],
 });
 
 test('it exists', function(assert) {

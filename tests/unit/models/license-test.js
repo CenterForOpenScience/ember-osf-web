@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('license', 'Unit | Model | license', {
     // Specify the other units that are required for this test.
-    needs: [],
+    needs: ['transform:array'],
 });
 
 test('it exists', function(assert) {

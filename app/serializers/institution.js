@@ -5,7 +5,8 @@ import {
 } from 'ember-inflector';
 
 export default OsfSerializer.extend({
-    serializeIntoHash(hash, typeClass, snapshot, options) {
+    serializeIntoHash(hash_, typeClass, snapshot, options) {
+        const hash = hash_;
         if (options.forRelationship) {
             hash.data = [{
                 id: snapshot.record.get('id'),

@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('taxonomy', 'Unit | Model | taxonomy', {
     // Specify the other units that are required for this test.
-    needs: [],
+    needs: ['transform:object'],
 });
 
 test('it exists', function(assert) {
