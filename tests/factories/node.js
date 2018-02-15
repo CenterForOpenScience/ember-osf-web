@@ -1,7 +1,7 @@
 import FactoryGuy from 'ember-data-factory-guy';
 import faker from 'faker';
 
-import permissions from 'ember-osf/const/permissions';
+import permissions from 'ember-osf-web/const/permissions';
 
 FactoryGuy.define('node', {
     default: {
