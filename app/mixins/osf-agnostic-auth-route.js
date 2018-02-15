@@ -24,7 +24,7 @@ const AuthMixin = authType === 'token' ? OsfTokenLoginRoute : OsfCookieLoginRout
  *
  * @class OsfAgnosticAuthRoute
  * @extends Ember.Mixin
- * @uses ember-osf/OsfCookieLoginRoute
- * @uses ember-osf/OsfTokenLoginRoute
+ * @uses ember-osf-web/OsfCookieLoginRoute
+ * @uses ember-osf-web/OsfTokenLoginRoute
  */
 export default AuthMixin;

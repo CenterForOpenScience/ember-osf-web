@@ -8,7 +8,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 import config from 'ember-get-config';
-import GenericDataAdapterMixin from 'ember-osf/mixins/generic-data-adapter';
+import GenericDataAdapterMixin from 'ember-osf-web/mixins/generic-data-adapter';
 
 import {
     singularize,

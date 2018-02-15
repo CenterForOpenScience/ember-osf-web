@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-import FileItemMixin from 'ember-osf/mixins/file-item';
+import FileItemMixin from 'ember-osf-web/mixins/file-item';
 
 /**
  * @module ember-osf

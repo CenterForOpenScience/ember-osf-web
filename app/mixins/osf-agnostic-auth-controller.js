@@ -24,7 +24,7 @@ const AuthMixin = authType === 'token' ? OsfTokenLoginController : OsfCookieLogi
  *
  * @class OsfAgnosticAuthController
  * @extends Ember.Mixin
- * @uses ember-osf/OsfCookieLoginController
- * @uses ember-osf/OsfTokenLoginController
+ * @uses ember-osf-web/OsfCookieLoginController
+ * @uses ember-osf-web/OsfTokenLoginController
  */
 export default AuthMixin;
