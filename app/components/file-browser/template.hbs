@@ -12,7 +12,7 @@
     {{else}}
         <div class='pull-right'>
             {{#if (and edit (if-filter 'upload-button' display))}}
-                <button class='btn text-success dz-upload-button' disabled={{isUploading}}>{{fa-icon "upload"}} Upload</button>
+                <button class='btn text-success dz-upload-button' disabled={{isUploading}}>{{fa-icon "upload"}} {{t 'general.upload'}}</button>
             {{/if}}
             {{#if selectedItems}}
                 {{! TODO: show available actions for selected files }}
@@ -20,7 +20,7 @@
                     {{#if (if-filter 'share-button' display)}}
                         <button id="shareButton" class='btn text-primary popover-toggler' {{action 'copyLink'}}>
                             {{fa-icon 'share-alt'}}
-                            Share
+                            {{t 'general.share'}}
                             {{#bs-popover placement='bottom' title='Share' visible=popupOpen}}
                                 {{#if link}}
                                     <div class="input-group">
@@ -34,37 +34,37 @@
                                         {{! template-lint-enable }}
                                     </div>
                                 {{else}}
-                                    Loading...
+                                    {{t 'file_browser.loading'}}
                                 {{/if}}
                             {{/bs-popover}}
                         </button>
                     {{/if}}
                     {{#if (if-filter 'download-button' display)}}
-                        <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'downloadItem'}} class='btn text-primary'>{{fa-icon "download"}} Download</button>
+                        <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'downloadItem'}} class='btn text-primary'>{{fa-icon "download"}} {{t 'general.download'}}</button>
                     {{/if}}
                     {{#if (if-filter 'view-button' display)}}
-                        <button {{action 'viewItem'}} class='btn text-primary'>{{fa-icon "file-o"}} View</button>
+                        <button {{action 'viewItem'}} class='btn text-primary'>{{fa-icon "file-o"}} {{t 'general.view'}}</button>
                     {{/if}}
                     {{#if (if-filter 'move-button' display)}}
-                        <button {{action 'openModal' 'move'}} class='btn text-primary'>{{fa-icon "level-up"}} Move</button>
+                        <button {{action 'openModal' 'move'}} class='btn text-primary'>{{fa-icon "level-up"}} {{t 'general.move'}}</button>
                     {{/if}}
                     {{#if (and edit (if-filter 'delete-button' display))}}
-                        <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+                        <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} {{t 'general.delete'}}</button>
                     {{/if}}
                     {{#if (and edit (if-filter 'rename-button' display))}}
-                        <button {{action 'toggleText' 'renaming'}} class='btn text-primary'>{{fa-icon "pencil"}} Rename</button>
+                        <button {{action 'toggleText' 'renaming'}} class='btn text-primary'>{{fa-icon "pencil"}} {{t 'general.rename'}}</button>
                     {{/if}}
                 {{else}}
                     {{#if (and edit (if-filter 'delete-button' display))}}
-                        <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
+                        <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} {{t 'file_browser.delete_multiple'}}</button>
                     {{/if}}
                 {{/if}}
             {{else}}
                 {{#if (and (eq browserState 'show') (if-filter 'download-button' display))}}
-                    <a href='{{downloadUrl}}' class='btn text-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} Download as zip</a>
+                    <a href='{{downloadUrl}}' class='btn text-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} {{t 'file_browser.download_zip'}}</a>
                 {{/if}}
             {{/if}}
-            <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
+            <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} {{t 'general.filter'}}</button>
             {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
         </div>
     {{/if}}
@@ -73,28 +73,28 @@
     <div class="column-labels-wrapper">
         <div class="row column-labels-header">
             <div class="col-lg-{{nameColumnWidth}} col-md-9 col-sm-9 col-xs-12 file-browser-header header">
-                <span class="sortable-column">Name</span>
+                <span class="sortable-column">{{t 'general.name'}}</span>
                 {{fa-icon 'chevron-up' class='itemNameasc sorting' click=(action 'sort' 'itemName' 'asc')}}
                 {{fa-icon 'chevron-down' class='itemNamedes sorting' click=(action 'sort' 'itemName' 'des')}}
             </div>
             {{#if (if-filter 'size-column' display)}}
                 <div class="col-lg-1 col-md-1 hidden-sm hidden-xs file-browser-header header">
-                    <span class="sortable-column">Size</span>
+                    <span class="sortable-column">{{t 'general.size'}}</span>
                 </div>
             {{/if}}
             {{#if (if-filter 'version-column' display)}}
                 <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
-                    <span class="sortable-column">Version</span>
+                    <span class="sortable-column">{{t 'general.version'}}</span>
                 </div>
             {{/if}}
             {{#if (if-filter 'downloads-column' display)}}
                 <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
-                    <span class="sortable-column">Downloads</span>
+                    <span class="sortable-column">{{t 'general.downloads'}}</span>
                 </div>
             {{/if}}
             {{#if (if-filter 'modified-column'  display)}}
                 <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs file-browser-header header">
-                    <span class="sortable-column">Modified</span>
+                    <span class="sortable-column">{{t 'general.modified'}}</span>
                     {{fa-icon 'chevron-up' class='dateModifiedasc sorting' click=(action 'sort' 'dateModified' 'asc')}}
                     {{fa-icon 'chevron-down' class='dateModifieddes sorting' click=(action 'sort' 'dateModified' 'des')}}
                 </div>
@@ -104,65 +104,65 @@
 {{/if}}
 {{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'info') as |modal|}}
     {{#modal.header onClose=(action 'closeModal')}}
-        <h3 class="modal-title">How to use the file browser</h3>
+        <h3 class="modal-title">{{t 'file_browser.info.title'}}</h3>
     {{/modal.header}}
     {{#modal.body}}
-        <p><b>Upload:</b> Single file uploads via drag and drop or by clicking the upload button.</p>
-        <p><b>Select rows:</b> Click on a row to show further actions in the toolbar. Use Command or Shift keys to select multiple files.</p>
-        <p><b>Folders:</b> Not supported; consider an OSF project for uploading and managing many files.</p>
-        <p><b>Open files:</b> Click a file name to go to view the file in the OSF.</p>
-        <p><b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.</p>
-        <p><b>Download as zip:</b> Click the Download as Zip button in the toolbar to download all files as a .zip.</p>
+        <p>{{t 'file_browser.info.upload'}}</p>
+        <p>{{t 'file_browser.info.select'}}</p>
+        <p>{{t 'file_browser.info.folders'}}</p>
+        <p>{{t 'file_browser.info.open1'}}</p>
+        <p>{{t 'file_browser.info.open2'}}</p>
+        <p>{{t 'file_browser.info.download'}}</p>
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button onClick=(action 'closeModal') type='default'}}Close{{/bs-button}}
+        {{#bs-button onClick=(action 'closeModal') type='default'}}{{t 'general.close'}}{{/bs-button}}
     {{/modal.footer}}
 {{/bs-modal}}
 {{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'delete') as |modal|}}
     {{#modal.header onClose=(action 'closeModal')}}
-        <h3 class="modal-title break-word">Delete "{{selectedItems.firstObject.itemName}}"?</h3>
+        <h3 class="modal-title break-word">{{t 'file_browser.delete_modal.title'}}</h3>
     {{/modal.header}}
     {{#modal.body}}
-        <p>This action is irreversible.</p>
+        <p>{{t 'file_browser.delete_modal.body'}}</p>
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
-        {{#bs-button onClick=(action 'deleteItem') type='danger'}}Delete{{/bs-button}}
+        {{#bs-button onClick=(action 'closeModal') type='default'}}{{t 'general.cancel'}}{{/bs-button}}
+        {{#bs-button onClick=(action 'deleteItem') type='danger'}}{{t 'general.delete'}}{{/bs-button}}
     {{/modal.footer}}
 {{/bs-modal}}
 {{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'deleteMultiple') as |modal|}}
     {{#modal.header onClose=(action 'closeModal')}}
-        <h3 class="modal-title break-word">Delete multiple?</h3>
+        <h3 class="modal-title break-word">{{t 'file_browser.delete_modal.title_multiple'}}</h3>
     {{/modal.header}}
     {{#modal.body}}
-        <p>This action is irreversible.</p>
+        <p>{{t 'file_browser.delete_modal.body'}}</p>
         {{#each selectedItems as | item |}}
             <b>{{item.itemName}}</b>
             <hr style='margin-top: 5px'>
         {{/each}}
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
-        {{#bs-button onClick=(action 'deleteItems') type='danger'}}Delete{{/bs-button}}
+        {{#bs-button onClick=(action 'closeModal') type='default'}}{{t 'general.cancel'}}{{/bs-button}}
+        {{#bs-button onClick=(action 'deleteItems') type='danger'}}{{t 'general.delete'}}{{/bs-button}}
     {{/modal.footer}}
 {{/bs-modal}}
 {{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'renameConflict') as |modal|}}
     {{#modal.header onClose=(action 'closeModal')}}
-        <h3 class="modal-title break-word">An item named {{textValue}} already exists in this location.</h3>
+        <h3 class="modal-title break-word">{{t 'file_browser.conflict_modal.title'}}</h3>
     {{/modal.header}}
     {{#modal.body}}
-        <p>"Keep Both" will retain both files (and their version histories) in this location.</p>
-        <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
+        <p>{{t 'file_browser.conflict_modal.keep_info'}}</p>
+        <p>{{t 'file_browser.conflict_modal.replace_info'}}</p>
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
-        {{#bs-button onClick=(action '_rename' 'keep') type='primary'}}Keep both{{/bs-button}}
-        {{#bs-button onClick=(action '_rename' 'replace') type='primary'}}Replace{{/bs-button}}
+        {{#bs-button onClick=(action 'closeModal') type='default'}}{{t 'general.cancel'}}{{/bs-button}}
+        {{#bs-button onClick=(action '_rename' 'keep') type='primary'}}{{t 'file_browser.conflict_modal.keep_button'}}{{/bs-button}}
+        {{#bs-button onClick=(action '_rename' 'replace') type='primary'}}{{t 'file_browser.conflict_modal.replace_button'}}{{/bs-button}}
     {{/modal.footer}}
 {{/bs-modal}}
 {{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'move') class='moveQuickfileModal' as |modal|}}
     {{#modal.header onClose=(action 'closeModal')}}
-        <h3 class="modal-title break-word">Move file to project</h3>
+        <h3 class="modal-title break-word">{{t 'file_browser.move_modal.title'}}</h3>
     {{/modal.header}}
     {{#modal.body}}
         {{project-selector
@@ -178,10 +178,10 @@
         }}
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button disabled=isMoving onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+        {{#bs-button disabled=isMoving onClick=(action 'closeModal') type='default'}}{{t 'general.cancel'}}{{/bs-button}}
         {{#if (not-eq projectSelectState 'main')}}
-            {{#bs-button disabled=isMoving onClick=(action 'changeProjectSelectState' 'main') type='default'}}Back{{/bs-button}}
-            {{#bs-button disabled=(or isInputInvalid isMoving) onClick=(action 'setMoveFile') type='primary'}}Move file{{/bs-button}}
+            {{#bs-button disabled=isMoving onClick=(action 'changeProjectSelectState' 'main') type='default'}}{{t 'general.back'}}{{/bs-button}}
+            {{#bs-button disabled=(or isInputInvalid isMoving) onClick=(action 'setMoveFile') type='primary'}}{{t 'file_browser.move_modal.move_button'}}{{/bs-button}}
         {{/if}}
     {{/modal.footer}}
 {{/bs-modal}}
@@ -223,7 +223,7 @@
         <div class='shade {{if (not dropping) "transparent"}}'>
             <div class='upload-drop'>
                 <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
-                <div class='upload-text'>Drop file to upload</div>
+                <div class='upload-text'>{{t 'file_browser.drop_reminder'}}</div>
             </div>
         </div>
         {{#if (eq browserState 'loading')}}
@@ -250,12 +250,12 @@
                     <div class='file-placeholder'>
                         <div class='file-placeholder-content'>
                             <div>{{fa-icon 'upload' size=5}}</div>
-                            <div class='file-placeholder-text'>Drop files here to upload</div>
+                            <div class='file-placeholder-text'>{{t 'file_browser.drop_placeholder'}}</div>
                         </div>
                     </div>
                 {{else}}
                     <div class='file-placeholder'>
-                        <div class='file-placeholder-text file-placeholder-content'>This user has not uploaded any quickfiles</div>
+                        <div class='file-placeholder-text file-placeholder-content'>{{t 'file_browser.no_files'}}</div>
                     </div>
                 {{/if}}
             {{/if}}
