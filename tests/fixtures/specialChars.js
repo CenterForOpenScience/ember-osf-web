@@ -5,5 +5,5 @@ export default [
     ['also the brackets &lt; and &gt; are changed', 'also the brackets < and > are changed'],
     ['', ''],
     ['for now, intentionally limit which characters are fixed &amp; &lt; &gt;', 'for now, intentionally limit which characters are fixed & < >'],
-    [null, null]
+    [null, null],
 ];
