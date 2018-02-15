@@ -6,7 +6,8 @@ import { merge } from '@ember/polyfills';
 import EmberObject, { get } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
+import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+
 
 /**
  * @module ember-osf

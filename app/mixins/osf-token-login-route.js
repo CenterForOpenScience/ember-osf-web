@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 import config from 'ember-get-config';
 
-import { getTokenFromHash } from 'ember-osf/utils/auth';
+import { getTokenFromHash } from 'ember-osf-web/utils/auth';
 
 /**
  * @module ember-osf

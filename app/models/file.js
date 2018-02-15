@@ -2,7 +2,8 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 import FileItemMixin from 'ember-osf/mixins/file-item';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
+import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+
 
 /**
  * @module ember-osf
