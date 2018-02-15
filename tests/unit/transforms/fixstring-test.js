@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-import { fixStringTestCases } from '../../fixtures/specialChars';
+import fixStringTestCases from '../../fixtures/specialChars';
 
 moduleFor('transform:fixstring', 'Unit | Transform | fixstring', {
     // Specify the other units that are required for this test.

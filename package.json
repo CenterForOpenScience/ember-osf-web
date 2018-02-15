@@ -63,6 +63,7 @@
     "ember-font-awesome": "3.0.5",
     "ember-i18n": "^5.0.2",
     "ember-load-initializers": "^0.6.0",
+    "ember-metrics": "^0.12.1",
     "ember-page-title": "3.2.2",
     "ember-power-select": "^2.0.0-beta.0",
     "ember-promise-helpers": "1.0.3",
