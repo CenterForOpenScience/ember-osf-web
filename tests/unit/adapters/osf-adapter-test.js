@@ -9,7 +9,7 @@ import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
 import DS from 'ember-data';
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
 
-import OsfAdapter from 'ember-osf/adapters/osf-adapter';
+import OsfAdapter from 'ember-osf-web/adapters/osf-adapter';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [

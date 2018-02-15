@@ -1,6 +1,6 @@
 import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
-import OsfModel from 'ember-osf/models/osf-model';
+import OsfModel from 'ember-osf-web/models/osf-model';
 
 export default OsfModel.extend({
     name: DS.attr('fixstring'),

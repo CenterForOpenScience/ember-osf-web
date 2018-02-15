@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import AnalyticsMixin from 'ember-osf/mixins/analytics';
+import AnalyticsMixin from 'ember-osf-web/mixins/analytics';
 import { moduleFor, test } from 'ember-qunit';
 
 const { getOwner } = Ember;
