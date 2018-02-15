@@ -1,0 +1,293 @@
+<div class="row actions-header {{if (not display.length) 'small-display'}}">
+    {{#if textFieldOpen}}
+        <div class="col-xs-9 filter-input">
+            {{input placeholder=(if filtering "Filter" selectedItems.firstObject.itemName) class='form-control' value=textValue type="text" enter=(action "textValueKeypress")}}
+        </div>
+        <div class='col-xs-3'>
+            <button {{action 'toggleText' textFieldOpen}} class='btn pull-right'>{{fa-icon "times"}}</button>
+            {{#if renaming}}
+                <button {{action 'rename'}} class='btn pull-right'>{{fa-icon "pencil"}}</button>
+            {{/if}}
+        </div>
+    {{else}}
+        <div class='pull-right'>
+            {{#if (and edit (if-filter 'upload-button' display))}}
+                <button class='btn text-success dz-upload-button' disabled={{isUploading}}>{{fa-icon "upload"}} Upload</button>
+            {{/if}}
+            {{#if selectedItems}}
+                {{! TODO: show available actions for selected files }}
+                {{#if (eq selectedItems.length 1)}}
+                    {{#if (if-filter 'share-button' display)}}
+                        <button id="shareButton" class='btn text-primary popover-toggler' {{action 'copyLink'}}>
+                            {{fa-icon 'share-alt'}}
+                            Share
+                            {{#bs-popover placement='bottom' title='Share' visible=popupOpen}}
+                                {{#if link}}
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            {{#copy-button success=(action 'dismissPop') class='btn btn-default copy-btn' clipboardText=link}}
+                                                {{fa-icon 'files-o'}}
+                                            {{/copy-button}}
+                                        </span>
+                                        {{! template-lint-disable }}
+                                        <input readonly="true" type="text" value="{{link}}" class="form-control share-link">
+                                        {{! template-lint-enable }}
+                                    </div>
+                                {{else}}
+                                    Loading...
+                                {{/if}}
+                            {{/bs-popover}}
+                        </button>
+                    {{/if}}
+                    {{#if (if-filter 'download-button' display)}}
+                        <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'downloadItem'}} class='btn text-primary'>{{fa-icon "download"}} Download</button>
+                    {{/if}}
+                    {{#if (if-filter 'view-button' display)}}
+                        <button {{action 'viewItem'}} class='btn text-primary'>{{fa-icon "file-o"}} View</button>
+                    {{/if}}
+                    {{#if (if-filter 'move-button' display)}}
+                        <button {{action 'openModal' 'move'}} class='btn text-primary'>{{fa-icon "level-up"}} Move</button>
+                    {{/if}}
+                    {{#if (and edit (if-filter 'delete-button' display))}}
+                        <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+                    {{/if}}
+                    {{#if (and edit (if-filter 'rename-button' display))}}
+                        <button {{action 'toggleText' 'renaming'}} class='btn text-primary'>{{fa-icon "pencil"}} Rename</button>
+                    {{/if}}
+                {{else}}
+                    {{#if (and edit (if-filter 'delete-button' display))}}
+                        <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
+                    {{/if}}
+                {{/if}}
+            {{else}}
+                {{#if (and (eq browserState 'show') (if-filter 'download-button' display))}}
+                    <a href='{{downloadUrl}}' class='btn text-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} Download as zip</a>
+                {{/if}}
+            {{/if}}
+            <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
+            {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
+        </div>
+    {{/if}}
+</div>
+{{#if (if-filter 'header' display)}}
+    <div class="column-labels-wrapper">
+        <div class="row column-labels-header">
+            <div class="col-lg-{{nameColumnWidth}} col-md-9 col-sm-9 col-xs-12 file-browser-header header">
+                <span class="sortable-column">Name</span>
+                {{fa-icon 'chevron-up' class='itemNameasc sorting' click=(action 'sort' 'itemName' 'asc')}}
+                {{fa-icon 'chevron-down' class='itemNamedes sorting' click=(action 'sort' 'itemName' 'des')}}
+            </div>
+            {{#if (if-filter 'size-column' display)}}
+                <div class="col-lg-1 col-md-1 hidden-sm hidden-xs file-browser-header header">
+                    <span class="sortable-column">Size</span>
+                </div>
+            {{/if}}
+            {{#if (if-filter 'version-column' display)}}
+                <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
+                    <span class="sortable-column">Version</span>
+                </div>
+            {{/if}}
+            {{#if (if-filter 'downloads-column' display)}}
+                <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
+                    <span class="sortable-column">Downloads</span>
+                </div>
+            {{/if}}
+            {{#if (if-filter 'modified-column'  display)}}
+                <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs file-browser-header header">
+                    <span class="sortable-column">Modified</span>
+                    {{fa-icon 'chevron-up' class='dateModifiedasc sorting' click=(action 'sort' 'dateModified' 'asc')}}
+                    {{fa-icon 'chevron-down' class='dateModifieddes sorting' click=(action 'sort' 'dateModified' 'des')}}
+                </div>
+            {{/if}}
+        </div>
+    </div>
+{{/if}}
+{{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'info') as |modal|}}
+    {{#modal.header onClose=(action 'closeModal')}}
+        <h3 class="modal-title">How to use the file browser</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p><b>Upload:</b> Single file uploads via drag and drop or by clicking the upload button.</p>
+        <p><b>Select rows:</b> Click on a row to show further actions in the toolbar. Use Command or Shift keys to select multiple files.</p>
+        <p><b>Folders:</b> Not supported; consider an OSF project for uploading and managing many files.</p>
+        <p><b>Open files:</b> Click a file name to go to view the file in the OSF.</p>
+        <p><b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.</p>
+        <p><b>Download as zip:</b> Click the Download as Zip button in the toolbar to download all files as a .zip.</p>
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button onClick=(action 'closeModal') type='default'}}Close{{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'delete') as |modal|}}
+    {{#modal.header onClose=(action 'closeModal')}}
+        <h3 class="modal-title break-word">Delete "{{selectedItems.firstObject.itemName}}"?</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p>This action is irreversible.</p>
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+        {{#bs-button onClick=(action 'deleteItem') type='danger'}}Delete{{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'deleteMultiple') as |modal|}}
+    {{#modal.header onClose=(action 'closeModal')}}
+        <h3 class="modal-title break-word">Delete multiple?</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p>This action is irreversible.</p>
+        {{#each selectedItems as | item |}}
+            <b>{{item.itemName}}</b>
+            <hr style='margin-top: 5px'>
+        {{/each}}
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+        {{#bs-button onClick=(action 'deleteItems') type='danger'}}Delete{{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'renameConflict') as |modal|}}
+    {{#modal.header onClose=(action 'closeModal')}}
+        <h3 class="modal-title break-word">An item named {{textValue}} already exists in this location.</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p>"Keep Both" will retain both files (and their version histories) in this location.</p>
+        <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+        {{#bs-button onClick=(action '_rename' 'keep') type='primary'}}Keep both{{/bs-button}}
+        {{#bs-button onClick=(action '_rename' 'replace') type='primary'}}Replace{{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'move') class='moveQuickfileModal' as |modal|}}
+    {{#modal.header onClose=(action 'closeModal')}}
+        <h3 class="modal-title break-word">Move file to project</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        {{project-selector
+            user=user
+            projectList=projectList
+            isLoadingProjects=isLoadingProjects
+            file=selectedItems.firstObject
+            projectSelectState=projectSelectState
+            showErrorMessage=showErrorMessage
+            setSelectedNode=(action 'setSelectedNode')
+            changeProjectSelectState=(action 'changeProjectSelectState')
+            checkNodeTitleKeypress=(action 'checkNodeTitleKeypress')
+        }}
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button disabled=isMoving onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+        {{#if (not-eq projectSelectState 'main')}}
+            {{#bs-button disabled=isMoving onClick=(action 'changeProjectSelectState' 'main') type='default'}}Back{{/bs-button}}
+            {{#bs-button disabled=(or isInputInvalid isMoving) onClick=(action 'setMoveFile') type='primary'}}Move file{{/bs-button}}
+        {{/if}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'successMove') class='successMoveQuickfileModal' as |modal|}}
+    {{#modal.body}}
+        <h4 class="add-project-success text-success">{{t "eosf.components.moveToProject.fileSuccessfullyMoved"}}</h4>
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button type='default' onClick=(action 'closeModal')}}{{t "eosf.components.moveToProject.keepWorkingHere"}}{{/bs-button}}
+        <a class="btn btn-success" href="{{nodeLink}}">
+            {{#if newProject}}
+                {{t "eosf.components.moveToProject.goToNewProject"}}
+            {{else if isChildNode}}
+                {{t "eosf.components.moveToProject.goToComponent"}}
+            {{else}}
+                {{t "eosf.components.moveToProject.goToProject"}}
+            {{/if}}
+        </a>
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#dropzone-widget
+    buildUrl=(action 'buildUrl')
+    options=dropzoneOptions
+    addedfile=(action 'addedFile')
+    uploadprogress=(action 'uploadProgress')
+    success=(action 'success')
+    error=(action 'error')
+    dropzone=false
+    dragenter=(action 'dragStart')
+    dragover=(action 'dragStart')
+    drop=(action 'dragEnd')
+    dragleave=(action 'dragEnd')
+    enable=dropzone
+    class='dropzone-area'
+    id=dropZoneId
+    clickable=clickable
+}}
+    <div class='file-browser-list'>
+        <div class='shade {{if (not dropping) "transparent"}}'>
+            <div class='upload-drop'>
+                <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
+                <div class='upload-text'>Drop file to upload</div>
+            </div>
+        </div>
+        {{#if (eq browserState 'loading')}}
+            <br><br>
+            <div class='ball-scale ball-dark' style='text-align: center'><div></div></div>
+        {{else if (eq browserState 'empty')}}
+            {{#if uploading.length}}
+                {{#each uploading as |file|}}
+                    <div class="row">
+                        <div class="col-xs-5 file-browser-header">
+                            {{file-browser-icon item=file}}
+                            {{file.name}}
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="progress">
+                                <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 file-browser-header"></div>
+                    </div>
+                {{/each}}
+            {{else}}
+                {{#if edit}}
+                    <div class='file-placeholder'>
+                        <div class='file-placeholder-content'>
+                            <div>{{fa-icon 'upload' size=5}}</div>
+                            <div class='file-placeholder-text'>Drop files here to upload</div>
+                        </div>
+                    </div>
+                {{else}}
+                    <div class='file-placeholder'>
+                        <div class='file-placeholder-text file-placeholder-content'>This user has not uploaded any quickfiles</div>
+                    </div>
+                {{/if}}
+            {{/if}}
+        {{else}}
+            <div class='items'>
+                {{#each uploading as |file|}}
+                    <div class="file-browser-item">
+                        <div class="col-xs-5 file-browser-header file-row-col">
+                            {{file-browser-icon item=file}}
+                            <span class="upload-file-header">{{file.name}}</span>
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="progress">
+                                <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 file-browser-header"></div>
+                    </div>
+                {{/each}}
+                {{#each items as |item|}}
+                    {{file-browser-item
+                        item=item
+                        flash=(get flashStatus item.id)
+                        selectItem=(action 'selectItem')
+                        openItem=(action 'openItem')
+                        class=(if item.isSelected 'selected')
+                        selectMultiple=(action 'selectMultiple')
+                        display=display
+                        nameColumnWidth=nameColumnWidth
+                    }}
+                {{/each}}
+            </div>
+        {{/if}}
+    </div>
+{{/dropzone-widget}}
