@@ -43,7 +43,9 @@ module.exports = function(defaults) {
     });
 
     app.import('vendor/assets/ember-osf.css');
-
+    app.import({
+        test: 'node_modules/jquery-mockjax/dist/jquery.mockjax.js',
+    });
     const assets = [
         new Funnel('node_modules/@centerforopenscience/osf-style/img', {
             srcDir: '/',

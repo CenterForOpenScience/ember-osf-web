@@ -297,13 +297,10 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
     const inst = node.get('affiliatedInstitutions').objectAt(0);
     node.get('affiliatedInstitutions').removeObject(inst);
 
-    const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest').callsFake(() => {
-        return resolve();
-    });
+    const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest');
 
     const rel = node.resolveRelationship('affiliatedInstitutions');
-    let removeCanonicalStub = null;
-    removeCanonicalStub = this.stub(rel, 'removeCanonicalRecord', removeCanonicalStub);
+    const removeCanonicalStub = this.stub(rel, 'removeCanonicalRecord');
     rel.hasLoaded = true;
 
     run(() => {
@@ -324,13 +321,13 @@ test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted recor
     node.get('contributors').removeObject(contrib);
 
     const unloadStub = this.stub(contrib, 'unloadRecord');
-    const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest').callsFake(() => {
+    const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
         return resolve();
     });
 
     run(() => {
         node.save().then(() => {
-            // assert.ok(doRelatedStub.calledOnce);
+            assert.ok(doRelatedStub.calledOnce);
             assert.ok(unloadStub.calledOnce);
         }).catch((err) => {
             assert.ok(false, `An error occurred while running this test: ${err}`);
