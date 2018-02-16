@@ -187,17 +187,17 @@
 {{/bs-modal}}
 {{#bs-modal onHide=(action 'closeModal') open=(eq modalOpen 'successMove') class='successMoveQuickfileModal' as |modal|}}
     {{#modal.body}}
-        <h4 class="add-project-success text-success">{{t "eosf.components.moveToProject.fileSuccessfullyMoved"}}</h4>
+        <h4 class="add-project-success text-success">{{t "move_to_project.file_successfully_moved"}}</h4>
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button type='default' onClick=(action 'closeModal')}}{{t "eosf.components.moveToProject.keepWorkingHere"}}{{/bs-button}}
+        {{#bs-button type='default' onClick=(action 'closeModal')}}{{t "move_to_project.keep_working_here"}}{{/bs-button}}
         <a class="btn btn-success" href="{{nodeLink}}">
             {{#if newProject}}
-                {{t "eosf.components.moveToProject.goToNewProject"}}
+                {{t "move_to_project.go_to_new_project"}}
             {{else if isChildNode}}
-                {{t "eosf.components.moveToProject.goToComponent"}}
+                {{t "move_to_project.go_to_component"}}
             {{else}}
-                {{t "eosf.components.moveToProject.goToProject"}}
+                {{t "move_to_project.go_to_project"}}
             {{/if}}
         </a>
     {{/modal.footer}}

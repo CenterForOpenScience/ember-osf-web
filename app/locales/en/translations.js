@@ -153,4 +153,28 @@ export default {
             button: 'Start Prereg Challenge',
         },
     },
+    move_to_project: {
+        create_new_project: 'Create new project',
+        connect_to_existing: 'Connect file to existing OSF project',
+        enter_project_title: 'Enter project title',
+        new_project_message: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.',
+        choose_project: 'Choose project',
+        project_select_message: 'The list of projects appearing are projects and components for which you have write access. Registrations are not included here.',
+        no_projects_exist_error: 'You have no available projects. Go back to create a new project.',
+        could_not_create_project: 'Could not create project. Please try again.',
+        convert_or_copy_message: {
+            project: 'Clicking "Move file" will immediately make changes to your OSF project and move your file.',
+            component: 'Clicking "Move file" will immediately make changes to your OSF component and move your file.',
+        },
+        no_longer_public_warning: {
+            project: 'Files moved to private projects will no longer be public or discoverable by others.',
+            component: 'Files moved to private components will no longer be public or discoverable by others.',
+        },
+        file_successfully_moved: 'File was moved successfully!',
+        could_not_move_file: 'Could not move file. Please try again',
+        keep_working_here: 'Keep working here',
+        go_to_new_project: 'Go to new project',
+        go_to_component: 'Go to component',
+        go_to_project: 'Go to project',
+    },
 };

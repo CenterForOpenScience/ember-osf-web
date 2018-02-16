@@ -450,7 +450,7 @@ export default Ember.Component.extend(Analytics, {
             category: 'project',
             title,
         }).save()
-            .catch(() => this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotCreateProject')));
+            .catch(() => this.get('toast').error(this.get('i18n').t('move_to_project.could_not_create_project')));
     },
     _moveFile(item, node) {
         item.move(node)
@@ -465,7 +465,7 @@ export default Ember.Component.extend(Analytics, {
                 this.set('willCreateComponent', false);
                 this.send('track', 'move', 'track', 'Quick Files - Move to project');
             })
-            .catch(() => this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotMoveFile')))
+            .catch(() => this.get('toast').error(this.get('i18n').t('move_to_project.could_not_move_file')))
             .then(() => this.set('isMoving', false));
     },
 });
