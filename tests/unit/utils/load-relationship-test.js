@@ -1,4 +1,4 @@
-// import loadAll from 'dummy/utils/load-relationship';
+// import loadAll from 'ember-osf-web/utils/load-relationship';
 import {
     module,
     test,

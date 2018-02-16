@@ -1,4 +1,4 @@
-import fixSpecialChar from 'dummy/utils/fix-special-char';
+import fixSpecialChar from 'ember-osf-web/utils/fix-special-char';
 import { module, test } from 'qunit';
 
 import { fixStringTestCases } from '../../fixtures/specialChars';

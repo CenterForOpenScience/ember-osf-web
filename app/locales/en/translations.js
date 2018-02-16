@@ -203,6 +203,7 @@ export default {
         settings: 'Settings',
         sign_up: 'Sign Up',
         sign_in: 'Sign in',
+        user_gravatar: 'User gravatar',
         toggle_auth_dropdown: 'Toggle auth dropdown',
     },
     search_help_modal: {

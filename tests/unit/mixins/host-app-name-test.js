@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import hostAppName from 'dummy/mixins/host-app-name';
+import hostAppName from 'ember-osf-web/mixins/host-app-name';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | host app name');

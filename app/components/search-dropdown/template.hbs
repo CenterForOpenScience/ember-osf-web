@@ -27,6 +27,7 @@
         {{/bs-modal-header}}
         {{#bs-modal-body}}
             <h4> {{t 'search_help_modal.queries'}} </h4>
+            {{! template-lint-disable bare-strings }}
             <p>
                 {{t 'search_help_modal.search_uses_the'}} <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene {{t 'search_help_modal.search_syntax'}}</a>.
                 {{t 'search_help_modal.help_description'}}
@@ -36,6 +37,7 @@
                 <li><a href="{{host}}search/?q=brian+AND+title%3Amany">brian AND title:many</a></li>
                 <li><a href="{{host}}search/?q=tags%3A%28psychology%29">tags:(psychology)</a></li>
             </ul>
+            {{! template-lint-enable bare-strings }}
         {{/bs-modal-body}}
 
         {{#bs-modal-footer}}
