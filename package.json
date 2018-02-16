@@ -15,15 +15,13 @@
     "lint": "stylelint 'app/**/*.scss' && eslint .",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
-    "precommit": "lint-staged",
-    "use-ember-osf-develop": "yarn upgrade @centerforopenscience/ember-osf@https://github.com/CenterForOpenScience/ember-osf.git#develop#$(date -u +%FT%TZ)"
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.js": "eslint",
     "*.scss": "stylelint"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#f70a3f65b145dc6dc8182a840d61a1a90a989f78",
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.5.1",
     "bootstrap": "^3.3.7",
@@ -44,6 +42,7 @@
     "ember-cli-htmlbars-inline-precompile": "~0.4.0",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-inline-content": "0.4.1",
+    "ember-cli-moment-shim": "^3.5.0",
     "ember-cli-qunit": "^4.0.0",
     "ember-cli-release": "^0.2.9",
     "ember-cli-sass": "7.0.0",
@@ -61,9 +60,11 @@
     "ember-export-application-global": "^1.0.5",
     "ember-faker": "^1.2.1",
     "ember-font-awesome": "3.0.5",
+    "ember-get-config": "^0.2.4",
     "ember-i18n": "^5.0.2",
     "ember-load-initializers": "^0.6.0",
     "ember-metrics": "^0.12.1",
+    "ember-moment": "^7.6.0",
     "ember-page-title": "3.2.2",
     "ember-power-select": "^2.0.0-beta.0",
     "ember-promise-helpers": "1.0.3",

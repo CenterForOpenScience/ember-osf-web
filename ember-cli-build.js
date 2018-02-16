@@ -42,7 +42,6 @@ module.exports = function(defaults) {
         },
     });
 
-    app.import('vendor/assets/ember-osf.css');
     app.import('node_modules/dropzone/dist/dropzone.css');
     app.import('node_modules/dropzone/dist/dropzone.js');
     app.import({
