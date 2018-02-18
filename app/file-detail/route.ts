@@ -1,13 +1,12 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Analytics from 'ember-osf/mixins/analytics';
-import { hash } from 'rsvp';
 
 export default class FileDetail extends Route.extend(Analytics) {
     currentUser = service('currentUser');
 
-    async model({ file_id }) {
-        const file = await this.store.findRecord('file', file_id);
+    async model(params) {
+        const file = await this.store.findRecord('file', params.file_id);
         const fileUser = await file.get('user');
         const user = await fileUser.reload();
 

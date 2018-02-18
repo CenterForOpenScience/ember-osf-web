@@ -10,10 +10,10 @@ const {
 } = config;
 
 interface IFeedbackOptionalArgs {
-    extra?: object,
-    followup?: boolean,
-    pageName?: string,
-    userID?: string,
+    extra?: object;
+    followup?: boolean;
+    pageName?: string;
+    userID?: string;
 }
 
 function sendFeedback(body: string, {
@@ -35,7 +35,7 @@ function sendFeedback(body: string, {
         (backend !== 'prod') ? { name: 'label', value: 'testing' } : undefined,
         followup ? { name: 'label', value: 'followup' } : undefined,
         ...Object.entries(pageParams[pageName] || {})
-            .map(([ name, value ]) => ({ name, value })),
+            .map(([name, value]) => ({ name, value })),
     ].filter((val) => !!val);
 
     if (!url) {
