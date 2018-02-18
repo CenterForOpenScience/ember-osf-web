@@ -18,6 +18,7 @@ export default {
         title: '{{user-name}}\'s Quick Files',
         description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.',
         feedback_dialog_text: 'Tell us what you think of Quick Files',
+        transition_auth: 'You must be logged in to view your Quick Files. Redirecting to the login page.',
     },
     feedback: {
         button_text: 'Feedback',

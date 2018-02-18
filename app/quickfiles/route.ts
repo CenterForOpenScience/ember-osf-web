@@ -3,13 +3,18 @@ import { inject as service } from '@ember/service';
 
 import CasAuthenticatedRouteMixin from 'ember-osf/mixins/cas-authenticated-route';
 
-export default class Quickfiles extends Route.extend(CasAuthenticatedRouteMixin, {
-    async beforeModel(this: Quickfiles, transition) {
-        await this._super(transition);
-        this.transitionTo('user-quickfiles', this.get('currentUser').get('currentUserId'));
-    },
-}) {
-    private currentUser = service('currentUser');
+export default class Quickfiles extends Route.extend(CasAuthenticatedRouteMixin) {
+    currentUser = service('currentUser');
+
+    model() {
+        return this.get('currentUser').get('currentUserId');
+    }
+
+    afterModel(model) {
+        if (model) {
+            return this.transitionTo('user-quickfiles', model);
+        }
+    }
 }
 
 declare module '@ember/routing/route' {

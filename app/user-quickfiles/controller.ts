@@ -11,10 +11,10 @@ export default class UserQuickfiles extends Controller.extend(Analytics, {
         },
     },
 }) {
-    private currentUser = service('currentUser');
-    private pageName = 'QuickFiles';
+    currentUser = service('currentUser');
+    pageName = 'QuickFiles';
 
-    private canEdit = computed('currentUser', 'model', function(this: UserQuickfiles): boolean {
+    canEdit = computed('currentUser', 'model', function(this: UserQuickfiles): boolean {
         const modelId = this.get('model.id');
 
         return modelId && modelId === this.get('currentUser.currentUserId');

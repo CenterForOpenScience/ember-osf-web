@@ -14,8 +14,6 @@ const {
 } = config;
 
 export default class FileShareButton extends Component.extend(Analytics, {
-    file: null,
-
     actions: {
         share(this: FileShareButton) {
             const textArea: HTMLTextAreaElement = document.querySelector('.SharePane__mfr-url');
@@ -32,25 +30,26 @@ export default class FileShareButton extends Component.extend(Analytics, {
         },
     },
 }) {
-    private showPopup = false;
+    file: any; // Change when models are typed
+    showPopup = false;
 
-    private popoverClass = computed('styleNamespace', function() {
+    popoverClass = computed('styleNamespace', function() {
         return `${this.get('styleNamespace')}__popover`;
     });
 
-    private sharePaneId = computed('elementId', function() {
+    sharePaneId = computed('elementId', function() {
         return `${this.get('elementId')}__share-pane`;
     });
 
-    private embedPaneId = computed('elementId', function() {
+    embedPaneId = computed('elementId', function() {
         return `${this.get('elementId')}__embed-pane`;
     });
 
-    private fileUrl = computed('file', function() {
+    fileUrl = computed('file', function() {
         return pathJoin(config.OSF.url, this.get('file.guid'));
     });
 
-    private twitterUrl = computed('file.name', 'fileUrl', function() {
+    twitterUrl = computed('file.name', 'fileUrl', function() {
         const params = {
             text: this.get('file.name'),
             url: this.get('fileUrl'),
@@ -60,7 +59,7 @@ export default class FileShareButton extends Component.extend(Analytics, {
         return `https://twitter.com/intent/tweet?${$.param(params)}`;
     });
 
-    private facebookUrl = computed('fileUrl', function() {
+    facebookUrl = computed('fileUrl', function() {
         const params = {
             u: this.get('fileUrl'),
         };
@@ -68,7 +67,7 @@ export default class FileShareButton extends Component.extend(Analytics, {
         return `https://www.facebook.com/sharer/sharer.php?${$.param(params)}`;
     });
 
-    private linkedInUrl = computed('file.name', 'fileUrl', function() {
+    linkedInUrl = computed('file.name', 'fileUrl', function() {
         const params = {
             title: this.get('file.name'),
             url: this.get('fileUrl'),
@@ -77,7 +76,7 @@ export default class FileShareButton extends Component.extend(Analytics, {
         return `https://www.linkedin.com/cws/share?${$.param(params)}`;
     });
 
-    private emailUrl = computed('file.name', 'fileUrl', function() {
+    emailUrl = computed('file.name', 'fileUrl', function() {
         const params = {
             body: this.get('fileUrl'),
             subejct: this.get('file.name'),
@@ -86,7 +85,7 @@ export default class FileShareButton extends Component.extend(Analytics, {
         return `mailto:?${$.param(params)}`;
     });
 
-    private mfrUrl = computed('file', function() {
+    mfrUrl = computed('file', function() {
         const file = this.get('file');
 
         const params = {
@@ -96,7 +95,7 @@ export default class FileShareButton extends Component.extend(Analytics, {
         return `${config.OSF.renderUrl}?${$.param(params)}`;
     });
 
-    private shareiFrameDynamic = computed('mfrUrl', function() {
+    shareiFrameDynamic = computed('mfrUrl', function() {
         const mfrStaticUrl = config.OSF.renderUrl.replace('/render', '/static');
 
         return htmlSafe(`
@@ -131,7 +130,7 @@ export default class FileShareButton extends Component.extend(Analytics, {
         `.trim().replace(/^\s{12}/mg, ''));
     });
 
-    private shareiFrameDirect = computed('mfrUrl', function() {
+    shareiFrameDirect = computed('mfrUrl', function() {
         return htmlSafe(`
             <iframe src="${this.get('mfrUrl')}"
                     width="100%"

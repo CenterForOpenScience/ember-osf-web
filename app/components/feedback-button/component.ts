@@ -9,22 +9,24 @@ const {
     OSF: { backend },
 } = config;
 
+interface IFeedbackOptionalArgs {
+    extra?: object,
+    followup?: boolean,
+    pageName?: string,
+    userID?: string,
+}
+
 function sendFeedback(body: string, {
     extra,
     followup,
     pageName,
     userID,
-}: {
-    extra?: object,
-    followup: boolean,
-    pageName: string,
-    userID: string,
-}): Promise<any> {
+}: IFeedbackOptionalArgs): Promise<any> {
     const payload = {
         body,
         extra: {
             followup,
-            user: userID ? `[${userID}|${window.location.origin}/${userID}/]` : undefined,
+            user: userID ? `[${userID}|${config.OSF.url}${userID}/]` : undefined,
             ...extra,
         },
     };
@@ -55,9 +57,6 @@ enum DialogState {
 }
 
 export default class FeedbackButton extends Component.extend({
-    pageName:  null,
-    text: '',
-
     actions: {
         showDialog(this: FeedbackButton) {
             this.set('state', DialogState.active);
@@ -92,35 +91,38 @@ export default class FeedbackButton extends Component.extend({
         },
     },
 }) {
-    private currentUser = service('currentUser');
+    pageName: string;
+    text: string;
 
-    private enabled: boolean = enabled;
+    currentUser = service('currentUser');
 
-    private body: string = '';
+    enabled: boolean = enabled;
 
-    private followup: boolean = false;
+    body: string = '';
 
-    private state: DialogState = DialogState.empty;
-    private dialogRows = 5;
+    followup: boolean = false;
 
-    private open = computed('state', function(): boolean {
+    state: DialogState = DialogState.empty;
+    dialogRows = 5;
+
+    open = computed('state', function(): boolean {
         const state = this.get('state');
         return state === DialogState.active || state === DialogState.success;
     });
 
-    private active = computed('state', function(): boolean {
+    active = computed('state', function(): boolean {
         return this.get('state') === DialogState.active;
     });
 
-    private success = computed('state', function(): boolean {
+    success = computed('state', function(): boolean {
         return this.get('state') === DialogState.success;
     });
 
-    private modalClass = computed('styleNamespace', function(): string {
+    modalClass = computed('styleNamespace', function(): string {
         return `${this.get('styleNamespace')}Modal`;
     });
 
-    private reset(): void {
+    reset(): void {
         this.set('body', '');
         this.set('followup', false);
     }

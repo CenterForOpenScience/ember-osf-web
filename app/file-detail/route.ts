@@ -4,9 +4,9 @@ import Analytics from 'ember-osf/mixins/analytics';
 import { hash } from 'rsvp';
 
 export default class FileDetail extends Route.extend(Analytics) {
-    private currentUser = service('currentUser');
+    currentUser = service('currentUser');
 
-    private async model({ file_id }) {
+    async model({ file_id }) {
         const file = await this.store.findRecord('file', file_id);
         const fileUser = await file.get('user');
         const user = await fileUser.reload();
@@ -17,7 +17,7 @@ export default class FileDetail extends Route.extend(Analytics) {
         };
     }
 
-    private resetController(controller, isExiting, transition) {
+    resetController(controller, isExiting, transition) {
         if (isExiting && transition.targetName !== 'error') {
             controller.set('revision', null);
         }

@@ -109,48 +109,48 @@ export default class FileDetail extends Controller.extend(Analytics, {
         },
     },
 }) {
-    private currentUser = service('currentUser');
-    private i18n = service('i18n');
-    private toast = service('toast');
+    currentUser = service('currentUser');
+    i18n = service('i18n');
+    toast = service('toast');
 
-    private queryParams = ['show'];
+    queryParams = ['show'];
 
-    private deleteModalOpen = false;
-    private revision = null;
-    private show = 'view';
+    deleteModalOpen = false;
+    revision = null;
+    show = 'view';
 
-    private displays = A([]);
+    displays = A([]);
 
-    private searchUrl = pathJoin(config.OSF.url, 'search');
+    searchUrl = pathJoin(config.OSF.url, 'search');
 
-    private canDelete = computed.alias('canEdit');
+    canDelete = computed.alias('canEdit');
 
-    private canEdit = computed('currentUser', 'model.user', function(this: FileDetail) {
+    canEdit = computed('currentUser', 'model.user', function(this: FileDetail) {
         const modelUserId = this.get('model.user.id');
 
         return modelUserId && modelUserId === this.get('currentUser.currentUserId');
     });
 
-    private mfrVersion = computed('model.file.currentVersion', 'revision', function(this: FileDetail) {
+    mfrVersion = computed('model.file.currentVersion', 'revision', function(this: FileDetail) {
         return this.get('revision') || this.get('model.file.currentVersion');
     });
 
-    private fileTags = computed('model.file', function(this: FileDetail)  {
+    fileTags = computed('model.file', function(this: FileDetail) {
         return this.get('model.file.tags');
     });
 
-    private fileVersions = computed('model.file.currentVersion', async function(this: FileDetail) {
+    fileVersions = computed('model.file.currentVersion', async function(this: FileDetail) {
         const { data } = await $.getJSON(`${this.get('model.file.links.download')}?revisions=&`);
         return data;
     });
 
-    private isEditableFile = computed('model.file.name', function(this: FileDetail) {
+    isEditableFile = computed('model.file.name', function(this: FileDetail) {
         const filename = this.get('model.file.name');
         const mimeType = mime.lookup(filename);
         return /^text\//.test(mimeType);
     });
 
-    private fileText = computed('model.file.currentVersion', function(this: FileDetail)  {
+    fileText = computed('model.file.currentVersion', function(this: FileDetail) {
         return this.get('model.file').getContents();
     });
 }
