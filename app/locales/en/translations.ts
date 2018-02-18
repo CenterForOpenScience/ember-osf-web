@@ -1,3 +1,5 @@
+/* tslint:disable:object-literal-sort-keys max-line-length */
+
 export default {
     general: {
         share: 'Share',
@@ -16,6 +18,7 @@ export default {
         title: '{{user-name}}\'s Quick Files',
         description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.',
         feedback_dialog_text: 'Tell us what you think of Quick Files',
+        transition_auth: 'You must be logged in to view your Quick Files. Redirecting to the login page.',
     },
     feedback: {
         button_text: 'Feedback',
@@ -44,5 +47,10 @@ export default {
         },
         sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.',
         md5_description: 'MD5 is an algorithm used to verify data integrity.',
+        // toast messages
+        delete_success: 'File deleted',
+        delete_fail: 'Error, unable to delete file',
+        save_success: 'File saved',
+        save_fail: 'Error, unable to save file',
     },
 };

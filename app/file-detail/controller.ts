@@ -1,155 +1,162 @@
-import $ from 'jquery';
-import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
-import { mimeTypes } from 'ember-osf/const/mime-types';
-import mime from 'npm:mime-types';
-import Analytics from 'ember-osf/mixins/analytics';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
+import { mimeTypes } from 'ember-osf/const/mime-types';
+import Analytics from 'ember-osf/mixins/analytics';
 import pathJoin from 'ember-osf/utils/path-join';
+import $ from 'jquery';
+import mime from 'npm:mime-types';
 
-export default Controller.extend(Analytics, {
-    currentUser: service(),
-    toast: service(),
-    queryParams: ['show'],
+Object.assign(mime.types, mimeTypes);
 
-    show: 'view',
-    revision: null,
-    deleteModalOpen: false,
-    lookupTable: {
-        view: {
-            edit: 'view_edit',
-            revision: 'revision',
-        },
-        edit: {
-            view: 'view_edit',
-            revision: 'revision',
-        },
-        view_edit: {
-            view: 'edit',
-            edit: 'view',
-            revision: 'revision',
-        },
-        revision: {
-            view: 'view',
-            edit: 'edit',
-            revision: 'view',
-        },
+const lookupTable = {
+    edit: {
+        revision: 'revision',
+        view: 'view_edit',
     },
-    displays: A([]),
+    revision: {
+        edit: 'edit',
+        revision: 'view',
+        view: 'view',
+    },
+    view: {
+        edit: 'view_edit',
+        revision: 'revision',
+    },
+    view_edit: {
+        edit: 'view',
+        revision: 'revision',
+        view: 'edit',
+    },
+};
 
-    searchUrl: pathJoin(config.OSF.url, 'search'),
-
-    canDelete: computed.alias('canEdit'),
-
-    canEdit: computed('currentUser', 'model.user', function() {
-        if (!this.get('model.user.id')) return false;
-        return (this.get('model.user.id') === this.get('currentUser.currentUserId'));
-    }),
-
-    mfrVersion: computed('model.file.currentVersion', 'revision', function() {
-        return this.get('revision') ? this.get('revision') : this.get('model.file.currentVersion');
-    }),
-
-
-    fileTags: computed('model.file', function() {
-        return this.get('model.file.tags');
-    }),
-
-    fileVersions: computed('model.file.currentVersion', function() {
-        return $.getJSON(`${this.get('model.file.links.download')}?revisions=&`).then(this._returnFileVersion.bind(this));
-    }),
-
-    isEditableFile: computed('model.file.name', function() {
-        $.extend(mime.types, mimeTypes);
-        return /^text\//.test(mime.lookup(this.get('model.file.name')));
-    }),
-
-    fileText: computed('model.file.currentVersion', function() {
-        return this.get('model.file').getContents();
-    }),
-
+export default class FileDetail extends Controller.extend(Analytics, {
     actions: {
-        download(version) {
+        download(this: FileDetail, version) {
             const url = `${this.get('model.file.links.download')}?revision=${version}`;
-            window.location = url;
+            window.location.href = url;
         },
 
-        delete() {
+        async delete(this: FileDetail) {
             this.set('deleteModalOpen', false);
-            this.get('model.file').destroyRecord()
-                .then(this._handleDeleteSuccess.bind(this))
-                .catch(this._handleDeleteFail.bind(this));
+
+            try {
+                await this.get('model.file').destroyRecord();
+                this.transitionToRoute('user-quickfiles', this.get('model.user.id'));
+                const message: string = this.get('i18n').t('file_detail.delete_success');
+                return this.get('toast').success(message);
+            } catch (e) {
+                const message: string = this.get('i18n').t('file_detail.delete_fail');
+                return this.get('toast').error(message);
+            }
         },
 
-        openDeleteModal() {
+        openDeleteModal(this: FileDetail) {
             this.set('deleteModalOpen', true);
         },
 
-        closeDeleteModal() {
+        closeDeleteModal(this: FileDetail) {
             this.set('deleteModalOpen', false);
         },
 
-        changeView(button) {
-            if (this.get('lookupTable')[this.get('show')][button]) {
-                this.set('show', this.get('lookupTable')[this.get('show')][button]);
+        changeView(this: FileDetail, button) {
+            const show = lookupTable[this.get('show')][button];
+
+            if (show) {
+                this.set('show', show);
             }
         },
 
-        save(text) {
-            this.get('model.file').updateContents(text)
-                .then(this._handleSaveSuccess.bind(this))
-                .catch(this._handleSaveFail.bind(this));
+        async save(this: FileDetail, text) {
+            const toast = this.get('toast');
+            const i18n = this.get('i18n');
+
+            try {
+                await this.get('model.file').updateContents(text);
+                const message: string = i18n.t('file_detail.save_success');
+                return toast.success(message);
+            } catch (e) {
+                const message: string = i18n.t('file_detail.save_fail');
+                return toast.error(message);
+            }
         },
 
-        openFile(file) {
-            if (file.get('guid')) {
-                this.transitionToRoute('file-detail', file.get('guid'), { queryParams: { show: 'view' } });
-            } else {
-                file.getGuid().then(() => this.transitionToRoute('file-detail', file.get('guid'), { queryParams: { show: 'view' } }));
-            }
+        async openFile(this: FileDetail, file) {
+            const guid = file.get('guid') || await file.getGuid();
+
             this.set('revision', null);
+            this.transitionToRoute('file-detail', guid, { queryParams: { show: 'view' } });
         },
 
-        addTag(tag) {
+        addTag(this: FileDetail, tag) {
             const model = this.get('model.file');
             this.get('fileTags').pushObject(tag);
             model.set('tags', this.get('fileTags'));
             model.save();
         },
 
-        removeTagAtIndex(index) {
+        removeTagAtIndex(this: FileDetail, index) {
             const model = this.get('model.file');
             this.get('fileTags').removeAt(index);
             model.set('tags', this.get('fileTags'));
             model.save();
         },
 
-        versionChange(version) {
+        versionChange(this: FileDetail, version) {
             this.set('revision', version);
         },
     },
+}) {
+    currentUser = service('currentUser');
+    i18n = service('i18n');
+    toast = service('toast');
 
-    _returnFileVersion(result) {
-        return result.data;
-    },
+    queryParams = ['show'];
 
-    _handleDeleteSuccess() {
-        this.transitionToRoute('user-quickfiles', this.get('model.user.id'));
-        return this.get('toast').success('File deleted');
-    },
+    deleteModalOpen = false;
+    revision = null;
+    show = 'view';
 
-    _handleDeleteFail() {
-        return this.get('toast').error('Error, unable to delete file');
-    },
+    displays = A([]);
 
-    _handleSaveSuccess() {
-        return this.get('toast').success('File saved');
-    },
+    searchUrl = pathJoin(config.OSF.url, 'search');
 
-    _handleSaveFail() {
-        return this.get('toast').error('Error, unable to save file');
-    },
+    canDelete = computed.alias('canEdit');
 
-});
+    canEdit = computed('currentUser', 'model.user', function(this: FileDetail) {
+        const modelUserId = this.get('model.user.id');
+
+        return modelUserId && modelUserId === this.get('currentUser.currentUserId');
+    });
+
+    mfrVersion = computed('model.file.currentVersion', 'revision', function(this: FileDetail) {
+        return this.get('revision') || this.get('model.file.currentVersion');
+    });
+
+    fileTags = computed('model.file', function(this: FileDetail) {
+        return this.get('model.file.tags');
+    });
+
+    fileVersions = computed('model.file.currentVersion', async function(this: FileDetail) {
+        const { data } = await $.getJSON(`${this.get('model.file.links.download')}?revisions=&`);
+        return data;
+    });
+
+    isEditableFile = computed('model.file.name', function(this: FileDetail) {
+        const filename = this.get('model.file.name');
+        const mimeType = mime.lookup(filename);
+        return /^text\//.test(mimeType);
+    });
+
+    fileText = computed('model.file.currentVersion', function(this: FileDetail) {
+        return this.get('model.file').getContents();
+    });
+}
+
+declare module '@ember/controller' {
+    interface IRegistry {
+        'file-detail': FileDetail;
+    }
+}

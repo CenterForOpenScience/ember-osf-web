@@ -61,6 +61,11 @@ module.exports = function(environment) {
                 QuickFiles: {},
             },
         },
+        social: {
+            twitter: {
+                viaHandle: 'OSFramework',
+            },
+        },
     };
 
     if (environment === 'development') {

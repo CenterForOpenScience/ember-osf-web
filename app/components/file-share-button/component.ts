@@ -1,56 +1,103 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
-import Analytics from 'ember-osf/mixins/analytics';
 import config from 'ember-get-config';
+import Analytics from 'ember-osf/mixins/analytics';
 import pathJoin from 'ember-osf/utils/path-join';
 
-export default Component.extend(Analytics, {
-    // -- Component arguments -- //
-    file: null,
+const {
+    social: {
+        twitter: {
+            viaHandle: via,
+        },
+    },
+} = config;
 
-    // -- Class properties -- //
-    showPopup: false,
+export default class FileShareButton extends Component.extend(Analytics, {
+    actions: {
+        share(this: FileShareButton) {
+            const textArea: HTMLTextAreaElement = document.querySelector('.SharePane__mfr-url');
+            textArea.select();
+            document.execCommand('copy');
+        },
 
-    // -- Computed properties -- //
-    popoverClass: computed('styleNamespace', function() {
+        togglePopup(this: FileShareButton) {
+            this.toggleProperty('showPopup');
+        },
+
+        hidePopup(this: FileShareButton) {
+            this.set('showPopup', false);
+        },
+    },
+}) {
+    file: any; // Change when models are typed
+    showPopup = false;
+
+    popoverClass = computed('styleNamespace', function() {
         return `${this.get('styleNamespace')}__popover`;
-    }),
+    });
 
-    sharePaneId: computed('elementId', function() {
+    sharePaneId = computed('elementId', function() {
         return `${this.get('elementId')}__share-pane`;
-    }),
+    });
 
-    embedPaneId: computed('elementId', function() {
+    embedPaneId = computed('elementId', function() {
         return `${this.get('elementId')}__embed-pane`;
-    }),
+    });
 
-    fileUrl: computed('file', function() {
-        return encodeURIComponent(pathJoin(config.OSF.url, this.get('file.guid')));
-    }),
+    fileUrl = computed('file', function() {
+        return pathJoin(config.OSF.url, this.get('file.guid'));
+    });
 
-    twitterUrl: computed('file.name', 'fileUrl', function() {
-        return `https://twitter.com/intent/tweet?url=${this.get('fileUrl')}&text=${this.get('file.name')}&via=OSFramework`;
-    }),
+    twitterUrl = computed('file.name', 'fileUrl', function() {
+        const params = {
+            text: this.get('file.name'),
+            url: this.get('fileUrl'),
+            via,
+        };
 
-    facebookUrl: computed('fileUrl', function() {
-        return `https://www.facebook.com/sharer/sharer.php?u=${this.get('fileUrl')}`;
-    }),
+        return `https://twitter.com/intent/tweet?${$.param(params)}`;
+    });
 
-    linkedInUrl: computed('file.name', 'fileUrl', function() {
-        return `https://www.linkedin.com/cws/share?url=${this.get('fileUrl')}&title=${this.get('file.name')}`;
-    }),
+    facebookUrl = computed('fileUrl', function() {
+        const params = {
+            u: this.get('fileUrl'),
+        };
 
-    emailUrl: computed('file.name', 'fileUrl', function() {
-        return `mailto:?subject=${this.get('file.name')}&body=${this.get('fileUrl')}`;
-    }),
+        return `https://www.facebook.com/sharer/sharer.php?${$.param(params)}`;
+    });
 
-    mfrUrl: computed('file', function() {
-        const encodedDownloadUrl = encodeURIComponent(pathJoin(config.OSF.url, this.get('file.guid'), 'download'));
-        return `${config.OSF.renderUrl}?url=${encodedDownloadUrl}`;
-    }),
+    linkedInUrl = computed('file.name', 'fileUrl', function() {
+        const params = {
+            title: this.get('file.name'),
+            url: this.get('fileUrl'),
+        };
 
-    shareiFrameDynamic: computed('mfrUrl', function() {
+        return `https://www.linkedin.com/cws/share?${$.param(params)}`;
+    });
+
+    emailUrl = computed('file.name', 'fileUrl', function() {
+        const params = {
+            body: this.get('fileUrl'),
+            subejct: this.get('file.name'),
+        };
+
+        return `mailto:?${$.param(params)}`;
+    });
+
+    mfrUrl = computed('file', function() {
+        const file = this.get('file');
+
+        const params = {
+            url: encodeURIComponent(pathJoin(config.OSF.url, file.get('guid'), 'download')),
+        };
+
+        return `${config.OSF.renderUrl}?${$.param(params)}`;
+    });
+
+    shareiFrameDynamic = computed('mfrUrl', function() {
+        const mfrStaticUrl = config.OSF.renderUrl.replace('/render', '/static');
+
         return htmlSafe(`
             <style>
                 .embed-responsive {
@@ -62,9 +109,9 @@ export default Component.extend(Analytics, {
                     height:100%;
                 }
             </style>
-            <link href="https://mfr.osf.io/static/css/mfr.css" media="all" rel="stylesheet">
+            <link href="${mfrStaticUrl}/css/mfr.css" media="all" rel="stylesheet">
             <div id="mfrIframe" class="mfr mfr-file"></div>
-            <script src="https://mfr.osf.io/static/js/mfr.js"></script>
+            <script src="${mfrStaticUrl}/js/mfr.js"></script>
             <script>
                 function renderMfr() {
                     var mfrRender = new mfr.Render("mfrIframe", "${this.get('mfrUrl')}");
@@ -81,9 +128,9 @@ export default Component.extend(Analytics, {
                 }
             </script>
         `.trim().replace(/^\s{12}/mg, ''));
-    }),
+    });
 
-    shareiFrameDirect: computed('mfrUrl', function() {
+    shareiFrameDirect = computed('mfrUrl', function() {
         return htmlSafe(`
             <iframe src="${this.get('mfrUrl')}"
                     width="100%"
@@ -94,20 +141,11 @@ export default Component.extend(Analytics, {
                     allowfullscreen
                     webkitallowfullscreen>
         `.trim().replace(/^\s{12}/mg, ''));
-    }),
+    });
+}
 
-    actions: {
-        share() {
-            document.querySelector('.SharePane__mfr-url').select();
-            document.execCommand('copy');
-        },
-
-        togglePopup() {
-            this.toggleProperty('showPopup');
-        },
-
-        hidePopup() {
-            this.set('showPopup', false);
-        },
-    },
-});
+declare module '@ember/component' {
+    interface IRegistry {
+        'file-share-button': FileShareButton;
+    }
+}

@@ -2,28 +2,33 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Analytics from 'ember-osf/mixins/analytics';
 
-export default Route.extend(Analytics, {
-    currentUser: service(),
+export default class UserQuickfiles extends Route.extend(Analytics) {
+    currentUser = service('currentUser');
+
+    actions = {
+        didTransition(this: UserQuickfiles) {
+            window.addEventListener('dragover', this.preventDrop);
+            window.addEventListener('drop', this.preventDrop);
+        },
+    };
 
     model(params) {
         return this.store.findRecord('user', params.user_id);
-    },
-    afterModel(model, transition) {
-        if (model.id !== this.get('currentUser.currentUserId')) {
-            transition.send('track', 'view', 'track', 'Quick Files - Main page view');
+    }
+
+    preventDrop(e) {
+        if (e.target.id === 'quickfiles-dropzone') {
+            return;
         }
-    },
-    actions: {
-        didTransition() {
-            window.addEventListener('dragover', e => this._preventDrop(e));
-            window.addEventListener('drop', e => this._preventDrop(e));
-        },
-    },
-    _preventDrop(e) {
-        if (e.target.id !== 'quickfiles-dropzone') {
-            e.preventDefault();
-            e.dataTransfer.effectAllowed = 'none';
-            e.dataTransfer.dropEffect = 'none';
-        }
-    },
-});
+
+        e.preventDefault();
+        e.dataTransfer.effectAllowed = 'none';
+        e.dataTransfer.dropEffect = 'none';
+    }
+}
+
+declare module '@ember/routing/route' {
+    interface IRegistry {
+        'user-quickfiles': UserQuickfiles;
+    }
+}
