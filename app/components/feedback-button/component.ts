@@ -36,7 +36,7 @@ function sendFeedback(body: string, {
         followup ? { name: 'label', value: 'followup' } : undefined,
         ...Object.entries(pageParams[pageName] || {})
             .map(([name, value]) => ({ name, value })),
-    ].filter((val) => !!val);
+    ].filter(val => !!val);
 
     if (!url) {
         return;
@@ -105,16 +105,16 @@ export default class FeedbackButton extends Component.extend({
     state: DialogState = DialogState.empty;
     dialogRows = 5;
 
-    open = computed('state', function(): boolean {
+    isOpen = computed('state', function(): boolean {
         const state = this.get('state');
         return state === DialogState.active || state === DialogState.success;
     });
 
-    active = computed('state', function(): boolean {
+    isActive = computed('state', function(): boolean {
         return this.get('state') === DialogState.active;
     });
 
-    success = computed('state', function(): boolean {
+    isSuccessful = computed('state', function(): boolean {
         return this.get('state') === DialogState.success;
     });
 

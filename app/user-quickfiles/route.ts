@@ -2,28 +2,28 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Analytics from 'ember-osf/mixins/analytics';
 
-export default class UserQuickfiles extends Route.extend(Analytics) {
-    currentUser = service('currentUser');
+function preventDrop(e: DragEvent) {
+    if ((e.target as HTMLDivElement).id === 'quickfiles-dropzone') {
+        return;
+    }
 
-    actions = {
+    e.preventDefault();
+    e.dataTransfer.effectAllowed = 'none';
+    e.dataTransfer.dropEffect = 'none';
+}
+
+export default class UserQuickfiles extends Route.extend(Analytics, {
+    actions: {
         didTransition(this: UserQuickfiles) {
-            window.addEventListener('dragover', this.preventDrop);
-            window.addEventListener('drop', this.preventDrop);
+            window.addEventListener('dragover', preventDrop);
+            window.addEventListener('drop', preventDrop);
         },
-    };
+    },
+}) {
+    currentUser = service('currentUser');
 
     model(params) {
         return this.store.findRecord('user', params.user_id);
-    }
-
-    preventDrop(e) {
-        if (e.target.id === 'quickfiles-dropzone') {
-            return;
-        }
-
-        e.preventDefault();
-        e.dataTransfer.effectAllowed = 'none';
-        e.dataTransfer.dropEffect = 'none';
     }
 }
 

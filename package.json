@@ -12,7 +12,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "eslint . && stylelint 'app/**/*.scss'",
+    "lint": "eslint --ext js,ts . && tslint -p . && stylelint 'app/**/*.scss'",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
     "precommit": "lint-staged",
@@ -20,6 +20,10 @@
   },
   "lint-staged": {
     "*.js": "eslint",
+    "*.ts": [
+      "eslint",
+      "tslint"
+    ],
     "*.scss": "stylelint"
   },
   "devDependencies": {
@@ -78,7 +82,10 @@
     "stylelint-config-sass-guidelines": "^4.1.0",
     "stylelint-order": "^0.8.0",
     "stylelint-scss": "^2.2.0",
-    "typescript": "^2.7.1"
+    "tslint-consistent-codestyle": "^1.11.1",
+    "tslint-eslint-rules": "^5.0.0",
+    "typescript": "^2.7.1",
+    "typescript-eslint-parser": "^13.0.0"
   },
   "engines": {
     "node": ">= 0.12.0"
