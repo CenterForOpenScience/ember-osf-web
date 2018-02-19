@@ -25,7 +25,7 @@ export default OsfModel.extend({
     authUrl: DS.attr('string'),
 
     users: DS.hasMany('users', {
-        inverse: 'affiliatedInstitutions',
+        inverse: 'institutions',
     }),
     nodes: DS.hasMany('nodes', {
         inverse: 'affiliatedInstitutions',

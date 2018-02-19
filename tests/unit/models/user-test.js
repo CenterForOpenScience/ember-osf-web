@@ -101,9 +101,9 @@ test('files relationship', function(assert) {
 
 test('institutions relationship', function(assert) {
     const model = this.store().modelFor('user');
-    const relationship = get(model, 'relationshipsByName').get('affiliatedInstitutions');
+    const relationship = get(model, 'relationshipsByName').get('institutions');
 
-    assert.equal(relationship.key, 'affiliatedInstitutions');
+    assert.equal(relationship.key, 'institutions');
     assert.equal(relationship.type, 'institution');
     assert.equal(relationship.kind, 'hasMany');
 });

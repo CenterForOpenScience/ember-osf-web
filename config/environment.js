@@ -183,7 +183,7 @@ module.exports = function(environment) {
     };
 
     ENV.OSF = {
-        clientId: 'a7e9fe600d764985b6dcfd21389e470b',
+        clientId: '',
         scope: 'osf.full_write',
         apiNamespace: 'v2', // URL suffix (after host)
         backend: BACKEND,
@@ -198,7 +198,7 @@ module.exports = function(environment) {
     }
 
     if (BACKEND === 'local') {
-        backendUrlConfig.accessToken = '02QoOzxEGu4uob4kzJsNe9O6dSgtfi3NPEXKiFhvcAPkr8y19fngVHzcccMFzFDiKcxXiZ';
+        backendUrlConfig.accessToken = '';
         backendUrlConfig.isLocal = true;
     } else if (BACKEND === 'prod') {
         console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
