@@ -15,7 +15,7 @@ export default {
         sha2: 'SHA2',
     },
     quickfiles: {
-        title: '{{user-name}}\'の クイックファイル',
+        title: '{{user-name}} のクイックファイル',
         description: 'ここにアップロードされたファイルは<b>一般公開</b>されており、共有リンクを使用して他のユーザーと簡単に共有できます。',
         feedback_dialog_text: 'クイックファイルの考え方を我々に教えて下さい',
         transition_auth: 'クイックファイルを表示するには、ログインしている必要があります。ログインページにリダイレクトします。',
