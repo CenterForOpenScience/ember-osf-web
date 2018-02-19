@@ -159,14 +159,14 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
         ];
     });
     node.get('contributors').pushObjects(contributors);
-    const saveStubs = contributors.map(c => this.stub(c, 'save', () => {
+    const saveStubs = contributors.map(c => this.stub(c, 'save').callsFake(() => {
         return resolve();
     }));
 
     const addCanonicalStub = this.stub();
     this.stub(node, 'resolveRelationship').callsFake(() => {
         return {
-            addCanonicalRecord: addCanonicalStub,
+            addCanonicalInternalModel: addCanonicalStub,
         };
     });
 
@@ -205,7 +205,7 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
     }));
     this.stub(node, 'resolveRelationship').callsFake(() => {
         return {
-            addCanonicalRecord: this.stub(),
+            addCanonicalInternalModel: this.stub(),
         };
     });
 
@@ -237,7 +237,7 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
     });
     const relation = node.resolveRelationship('affiliatedInstitutions');
     relation.hasLoaded = true;
-    const addCanonicalStub = this.stub(relation, 'addCanonicalRecord');
+    const addCanonicalStub = this.stub(relation, 'addCanonicalInternalModel');
 
     run(() => {
         node.save().then(() => {
@@ -271,7 +271,7 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
     const addCanonicalStub = this.stub();
     this.stub(node, 'resolveRelationship').callsFake(() => {
         return {
-            addCanonicalRecord: addCanonicalStub,
+            addCanonicalInternalModel: addCanonicalStub,
         };
     });
     const pushStub = this.stub(store, 'push').callsFake(() => contrib);
@@ -297,10 +297,10 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
     const inst = node.get('affiliatedInstitutions').objectAt(0);
     node.get('affiliatedInstitutions').removeObject(inst);
 
-    const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest');
+    const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest').callsFake(() => resolve());
 
     const rel = node.resolveRelationship('affiliatedInstitutions');
-    const removeCanonicalStub = this.stub(rel, 'removeCanonicalRecord');
+    const removeCanonicalStub = this.stub(rel, 'removeCanonicalInternalModel');
     rel.hasLoaded = true;
 
     run(() => {
@@ -321,7 +321,7 @@ test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted recor
     node.get('contributors').removeObject(contrib);
 
     const unloadStub = this.stub(contrib, 'unloadRecord');
-    const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
+    const doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest').callsFake(() => {
         return resolve();
     });
 
@@ -348,7 +348,7 @@ test('#_doRelatedRequest with array', function (assert) {
     });
     end();
 
-    const mockAjax = this.stub(adapter, 'ajax', () => {
+    const mockAjax = this.stub(adapter, 'ajax').callsFake(() => {
         return resolve({});
     });
     adapter._doRelatedRequest(
@@ -379,7 +379,7 @@ test('#_doRelatedRequest with single snapshot', function (assert) {
     );
     end();
 
-    const mockAjax = this.stub(adapter, 'ajax', () => {
+    const mockAjax = this.stub(adapter, 'ajax').callsFake(() => {
         return resolve({});
     });
     adapter._doRelatedRequest(
@@ -451,7 +451,7 @@ test('#_handleRelatedRequest checks if relationship supports bulk', function (as
         allowBulkCreate: false,
         allowBulkAdd: true,
     };
-    this.stub(rel, 'meta', () => opts);
+    this.stub(rel, 'meta').callsFake(() => opts);
 
     for (const verb of ['update', 'add', 'create']) {
         const NodeAdapter = store.adapterFor('node');
@@ -488,9 +488,9 @@ test('#updateRecord handles both dirtyRelationships and the parent record', func
         },
     });
 
-    const handleRelatedStub = this.stub(adapter, '_handleRelatedRequest', () => []);
+    const handleRelatedStub = this.stub(adapter, '_handleRelatedRequest').callsFake(() => []);
     // Have to stub apply due to ...arguments usage
-    this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => resolve(42));
+    this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply').callsFake(() => resolve(42));
 
     const ss = node._internalModel.createSnapshot();
 

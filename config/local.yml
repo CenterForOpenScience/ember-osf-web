@@ -9,9 +9,9 @@ OAUTH_SCOPES: osf.full_write
 # Where to send the user on the site after they authenticated. Usually this is a page enabled to handle the oauth flow.
 REDIRECT_URI: http://localhost:4200/login
 # The developer app client ID (not client secret!). This is needed for your app to let users log in via the OSF.
-CLIENT_ID: null
+CLIENT_ID: a7e9fe600d764985b6dcfd21389e470b
 # Credentials for only a single user. This setting will be ignored except for local development; NEVER commit to github
-PERSONAL_ACCESS_TOKEN: null
+PERSONAL_ACCESS_TOKEN: 02QoOzxEGu4uob4kzJsNe9O6dSgtfi3NPEXKiFhvcAPkr8y19fngVHzcccMFzFDiKcxXiZ
 
 ### In general, you can leave the items below commented out; ember-osf already knows how to talk to many common OSF
 ##    backends. Only use the below if running against a new or custom OSF instance where you need to control the URLs.

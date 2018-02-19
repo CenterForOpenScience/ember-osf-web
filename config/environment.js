@@ -86,7 +86,6 @@ const knownBackends = {
     },
 };
 
-
 module.exports = function(environment) {
     const authorizationType = 'cookie';
 
@@ -183,13 +182,12 @@ module.exports = function(environment) {
         defaultLocale: 'en-US',
     };
 
-    const eitherConfig = process.env;// configFileSettings);
     ENV.OSF = {
-        clientId: eitherConfig.CLIENT_ID,
-        scope: eitherConfig.OAUTH_SCOPES,
+        clientId: 'a7e9fe600d764985b6dcfd21389e470b',
+        scope: 'osf.full_write',
         apiNamespace: 'v2', // URL suffix (after host)
         backend: BACKEND,
-        redirectUri: eitherConfig.REDIRECT_URI,
+        redirectUri: 'http://localhost:4200/login',
     };
 
     // Fetch configuration information for the application
@@ -200,7 +198,7 @@ module.exports = function(environment) {
     }
 
     if (BACKEND === 'local') {
-        backendUrlConfig.accessToken = eitherConfig.PERSONAL_ACCESS_TOKEN;
+        backendUrlConfig.accessToken = '02QoOzxEGu4uob4kzJsNe9O6dSgtfi3NPEXKiFhvcAPkr8y19fngVHzcccMFzFDiKcxXiZ';
         backendUrlConfig.isLocal = true;
     } else if (BACKEND === 'prod') {
         console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
@@ -211,7 +209,7 @@ module.exports = function(environment) {
         // Map internal config names to the corresponding env var names, eg {url: OSF_URL}. All keys must be present
         Object.keys(backendUrlConfig).forEach((internalName) => {
             const envVarName = backendUrlConfig[internalName];
-            newConfig[internalName] = eitherConfig(envVarName);
+            newConfig[internalName] = envVarName;
         });
         backendUrlConfig = newConfig;
     }
@@ -223,7 +221,7 @@ module.exports = function(environment) {
     // Combine URLs + auth settings into final auth config
     Object.assign(ENV.OSF, backendUrlConfig);
 
-    const defaultAuthorizationType = 'token';
+    const defaultAuthorizationType = 'cookie';
     ENV.authorizationType = defaultAuthorizationType;
 
     ENV['ember-simple-auth'] = {

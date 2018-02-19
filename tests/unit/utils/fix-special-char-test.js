@@ -1,7 +1,7 @@
 import fixSpecialChar from 'ember-osf-web/utils/fix-special-char';
 import { module, test } from 'qunit';
 
-import { fixStringTestCases } from '../../fixtures/specialChars';
+import fixStringTestCases from '../../fixtures/specialChars';
 
 module('Unit | Utility | fix special char');
 

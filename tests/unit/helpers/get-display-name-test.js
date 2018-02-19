@@ -1,5 +1,5 @@
 
-import { getDisplayName } from 'dummy/helpers/get-display-name';
+import { getDisplayName } from 'ember-osf-web/helpers/get-display-name';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | get display name');

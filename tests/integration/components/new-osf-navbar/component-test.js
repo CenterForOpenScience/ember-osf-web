@@ -9,6 +9,5 @@ moduleForComponent('new-osf-navbar', 'Integration | Component | new osf navbar',
 test('it renders', function(assert) {
     this.set('loginAction', () => {});
     this.render(hbs`{{new-osf-navbar loginAction=loginAction}}`);
-
-    assert.ok(this.$('primary-nav').context.innerText.replace(/\s+/g, ' ').includes('OSF'));
+    assert.ok(this.$().text().replace(/\s+/g, ' ').includes('OSF'));
 });

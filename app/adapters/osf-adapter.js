@@ -118,7 +118,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
                 requestType: 'create',
             },
         }).then((res) => {
-            snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record._internalModel);
+            snapshot.record.resolveRelationship(relationship).addCanonicalInternalModel(s.record._internalModel);
             return res;
         }));
     },
@@ -138,7 +138,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then((res) => {
             addedSnapshots.forEach(function(s) {
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record._internalModel);
+                snapshot.record.resolveRelationship(relationship).addCanonicalInternalModel(s.record._internalModel);
             });
             return res;
         });
@@ -160,7 +160,8 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
             const relatedType = singularize(snapshot.record[relationship].meta().type);
             res.data.forEach((item) => {
                 const record = store.push(store.normalize(relatedType, item));
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record._internalModel);
+                // TODO: This is now called addCanonicalInternalModel :|
+                snapshot.record.resolveRelationship(relationship).addCanonicalInternalModel(record._internalModel);
             });
             return res;
         });
@@ -180,7 +181,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * */
     _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then((res) => {
-            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalRecord(s.record._internalModel));
+            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalInternalModel(s.record._internalModel));
             return res || [];
         });
     },

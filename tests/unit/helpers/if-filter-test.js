@@ -1,4 +1,4 @@
-import { ifFilter } from 'dummy/helpers/if-filter';
+import { ifFilter } from 'ember-osf-web/helpers/if-filter';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | if filter');
