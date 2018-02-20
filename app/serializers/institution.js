@@ -1,8 +1,6 @@
 import OsfSerializer from './osf-serializer';
 
-import {
-    pluralize,
-} from 'ember-inflector';
+import { pluralize } from 'ember-inflector';
 
 export default OsfSerializer.extend({
     serializeIntoHash(hash_, typeClass, snapshot, options) {

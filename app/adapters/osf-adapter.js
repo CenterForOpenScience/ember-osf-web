@@ -10,9 +10,7 @@ import DS from 'ember-data';
 import config from 'ember-get-config';
 import GenericDataAdapterMixin from 'ember-osf-web/mixins/generic-data-adapter';
 
-import {
-    singularize,
-} from 'ember-inflector';
+import { singularize } from 'ember-inflector';
 
 /**
  * @module ember-osf-web

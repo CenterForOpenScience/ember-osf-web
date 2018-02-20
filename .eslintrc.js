@@ -19,6 +19,8 @@ module.exports = {
         'no-undef': 0,
         'no-unused-vars': ['error', { argsIgnorePattern: '^this' }],
         strict: 0,
+        indent: 'off',
+        'indent-legacy': 'error',
     },
     overrides: [
         {

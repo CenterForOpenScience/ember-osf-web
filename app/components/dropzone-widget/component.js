@@ -37,7 +37,6 @@ export default Ember.Component.extend({
     loadDropzone() {
         const preUpload = this.get('preUpload');
         const dropzoneOptions = this.get('options') || {};
-        /* eslint-disable no-undef */
         function CustomDropzone() {
             Dropzone.call(this, ...arguments);
         }
@@ -66,7 +65,6 @@ export default Ember.Component.extend({
             }
             return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
         };
-        /* eslint-enable no-undef */
         const drop = new CustomDropzone(`#${this.elementId}`, {
             url: file => (typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl')),
             autoProcessQueue: false,
