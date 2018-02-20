@@ -9,12 +9,12 @@
         --ratio: 1.2;
     }
 }
-@media (min-width: 480px) and (max-width: 760px) {
+@media (min-width: 480px) and (max-width: 768px) {
     :root {
         --ratio: 1.414;
     }
 }
-@media (min-width: 760px) {
+@media (min-width: 768px) {
     :root {
         --ratio: 1.5;
     }
