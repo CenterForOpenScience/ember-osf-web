@@ -3,7 +3,7 @@ import layout from './template';
 import config from 'ember-get-config';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule components
  */
 

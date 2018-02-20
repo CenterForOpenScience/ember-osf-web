@@ -6,7 +6,7 @@ import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule models
  */
 

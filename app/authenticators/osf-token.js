@@ -4,7 +4,7 @@ import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 import config from 'ember-get-config';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule authenticators
  */
 

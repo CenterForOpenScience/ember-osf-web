@@ -3,7 +3,7 @@ import DS from 'ember-data';
 import fixSpecialChars from '../utils/fix-special-char';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule transforms
  */
 

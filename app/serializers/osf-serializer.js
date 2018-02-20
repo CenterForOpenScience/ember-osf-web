@@ -3,7 +3,7 @@ import $ from 'jquery';
 import DS from 'ember-data';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule serializers
  */
 

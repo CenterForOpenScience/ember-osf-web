@@ -6,7 +6,7 @@ import config from 'ember-get-config';
 import AnalyticsMixin from 'ember-osf-web/mixins/analytics';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule components
  */
 

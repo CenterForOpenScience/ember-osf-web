@@ -20,7 +20,7 @@ for (const icon of Object.keys(iconForType)) {
     }
 }
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule components
  */
 

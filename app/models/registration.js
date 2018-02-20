@@ -3,7 +3,7 @@ import DS from 'ember-data';
 import Node from './node';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule models
  */
 

@@ -1,6 +1,6 @@
-{{#bs-modal class=modalClass open=open onSubmit=(action "submit") onHidden=(action 'hideDialog') as |modal|}}
+{{#bs-modal class=modalClass open=isOpen onSubmit=(action "submit") onHidden=(action 'hideDialog') as |modal|}}
     {{#modal.body}}
-        {{#if active}}
+        {{#if isActive}}
             <div class="text-center">
                 <h2 class="Modal__title">{{ t 'feedback.title' }}</h2>
                 <h4 class="Modal__text">{{text}}</h4>
@@ -17,7 +17,7 @@
                 </div>
             {{/if}}
         {{/if}}
-        {{#if success}}
+        {{#if isSuccessful}}
             {{success-icon}}
             <div class="text-center">
                 <h2>{{t 'feedback.thank_you'}}</h2>
@@ -26,7 +26,7 @@
         {{/if}}
     {{/modal.body}}
     {{#modal.footer}}
-        {{#if active}}
+        {{#if isActive}}
             {{#bs-button onClick=(action modal.close)}}
                 {{t 'general.cancel'}}
             {{/bs-button}}
@@ -34,7 +34,7 @@
                 {{t 'feedback.confirm_button_text'}}
             {{/bs-button}}
         {{/if}}
-        {{#if success}}
+        {{#if isSuccessful}}
             {{#bs-button type="primary" onClick=(action modal.close)}}
                 {{t 'feedback.dismiss'}}
             {{/bs-button}}
@@ -42,6 +42,6 @@
     {{/modal.footer}}
 {{/bs-modal}}
 
-<button class="FeedbackButton {{if open 'FeedbackButton--open'}}" onclick={{action 'showDialog'}} aria-label={{t 'feedback.title'}} hidden={{not enabled}}>
+<button class="FeedbackButton {{if isOpen 'FeedbackButton--open'}}" onclick={{action 'showDialog'}} aria-label={{t 'feedback.title'}} hidden={{not enabled}}>
     {{t 'feedback.button_text'}}
 </button>

@@ -5,7 +5,7 @@ import config from 'ember-get-config';
 import { getTokenFromHash } from 'ember-osf-web/utils/auth';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule mixins
  */
 

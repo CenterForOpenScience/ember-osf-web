@@ -2,7 +2,7 @@ import config from 'ember-get-config';
 import Ember from 'ember';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule mixins
  */
 

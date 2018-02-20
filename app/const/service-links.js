@@ -1,7 +1,7 @@
 import config from 'ember-get-config';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule const
  */
 

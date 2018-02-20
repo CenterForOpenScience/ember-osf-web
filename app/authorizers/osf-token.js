@@ -1,7 +1,7 @@
 import Base from 'ember-simple-auth/authorizers/base';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule authorizers
  */
 

@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "",
@@ -12,19 +12,27 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "stylelint 'app/**/*.scss' && eslint .",
+    "lint": "eslint --ext js,ts . --fix && tslint -p . && stylelint 'app/**/*.scss'",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
     "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.js": "eslint",
+    "*.ts": [
+      "eslint",
+      "tslint"
+    ],
     "*.scss": "stylelint"
   },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.5.1",
     "bootstrap-sass": "^3.3.7",
+    "@types/ember": "^2.8.8",
+    "@types/ember-testing-helpers": "^0.0.3",
+    "@types/rsvp": "^4.0.1",
+    "bootstrap": "^3.3.7",
     "broccoli-asset-rev": "^2.4.5",
     "coveralls": "^3.0.0",
     "ember-ajax": "^2.4.1",
@@ -51,6 +59,8 @@
     "ember-cli-stylelint": "^1.0.0",
     "ember-cli-template-lint": "^0.7.5",
     "ember-cli-test-loader": "^1.1.0",
+    "ember-cli-tslint": "^0.1.3",
+    "ember-cli-typescript": "^1.0.6",
     "ember-cli-uglify": "^1.2.0",
     "ember-click-outside": "^0.1.12",
     "ember-component-css": "^0.5.0",
@@ -63,6 +73,7 @@
     "ember-font-awesome": "3.0.5",
     "ember-get-config": "^0.2.4",
     "ember-i18n": "^5.0.2",
+    "ember-i18n-inject": "^0.0.2",
     "ember-load-initializers": "^0.6.0",
     "ember-metrics": "^0.12.1",
     "ember-moment": "^7.6.0",
@@ -85,7 +96,11 @@
     "stylelint-config-sass-guidelines": "^4.1.0",
     "stylelint-order": "^0.8.0",
     "stylelint-scss": "^2.2.0",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "tslint-consistent-codestyle": "^1.11.1",
+    "tslint-eslint-rules": "^5.0.0",
+    "typescript": "^2.7.1",
+    "typescript-eslint-parser": "^13.0.0"
   },
   "engines": {
     "node": ">= 0.12.0"

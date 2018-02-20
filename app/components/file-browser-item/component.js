@@ -6,7 +6,7 @@ import humanFileSize from 'ember-osf-web/utils/human-file-size';
 import Analytics from 'ember-osf-web/mixins/analytics';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule components
  */
 /**

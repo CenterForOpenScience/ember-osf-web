@@ -5,7 +5,7 @@ import diffAttrs from 'ember-diff-attrs';
 import layout from './template';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule components
  */
 

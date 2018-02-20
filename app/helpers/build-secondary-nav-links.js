@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { serviceLinks } from '../const/service-links';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule helpers
  */
 

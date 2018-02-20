@@ -5,7 +5,7 @@ import { serviceLinks } from 'ember-osf-web/const/service-links';
 import AnalyticsMixin from 'ember-osf-web/mixins/analytics';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule components
  */
 

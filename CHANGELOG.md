@@ -5,14 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- TypeScript: Add ember-cli-typscript and ember-cli-tslint
+
+### Changed
+- TypeScript: Rename files to .ts
+
+## [0.2.0] - 2018-02-14
+### Added
+- Analytics tracking on all page transitions
+
 ### Changed
 - Ignore `order/properties-alphabetical-order` rule in stylelint.
+- Use latest ember-osf@develop (which includes Quick Files move-to-project)
 
 ### Fixed
 - Inject jQuery properly in `file-share-button` dynamic iframe code
-
-### Added
-- Analytics tracking on all page transitions
 
 ## [0.1.1] - 2018-02-08
 ### Changed

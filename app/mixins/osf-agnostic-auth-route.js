@@ -5,7 +5,7 @@ import OsfTokenLoginRoute from '../mixins/osf-token-login-route';
 import OsfCookieLoginRoute from '../mixins/osf-cookie-login-route';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule mixins
  */
 const authType = config.authorizationType;

@@ -8,7 +8,7 @@ import OsfModel from './osf-model';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule models
  */
 

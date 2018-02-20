@@ -3,7 +3,7 @@ const READ = 'read';
 const WRITE = 'write';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule const
  */
 

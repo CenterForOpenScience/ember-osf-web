@@ -1,5 +1,5 @@
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule utils
  */
 

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { getAuthUrl } from 'ember-osf-web/utils/auth';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule mixins
  */
 

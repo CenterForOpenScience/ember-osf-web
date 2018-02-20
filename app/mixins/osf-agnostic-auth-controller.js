@@ -5,7 +5,7 @@ import OsfTokenLoginController from '../mixins/osf-token-login-controller';
 import OsfCookieLoginController from '../mixins/osf-cookie-login-controller';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule mixins
  */
 const authType = config.authorizationType;

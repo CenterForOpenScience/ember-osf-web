@@ -4,7 +4,7 @@ import config from 'ember-get-config';
 /**
  * Helper functions for asynchronous behavior
  *
- * @module ember-osf
+ * @module ember-osf-web
  * @module utils
  */
 

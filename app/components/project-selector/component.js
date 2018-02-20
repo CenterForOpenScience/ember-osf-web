@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule components
  */
 

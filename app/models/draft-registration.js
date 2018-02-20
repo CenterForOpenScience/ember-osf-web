@@ -2,7 +2,7 @@ import DS from 'ember-data';
 import OsfModel from './osf-model';
 
 /**
- * @module ember-osf
+ * @module ember-osf-web
  * @submodule models
  */
 
