@@ -3903,6 +3903,12 @@ ember-getowner-polyfill@^1.0.0, ember-getowner-polyfill@^1.2.2:
     ember-cli-version-checker "^2.1.0"
     ember-factory-for-polyfill "^1.3.1"
 
+ember-i18n-inject@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/ember-i18n-inject/-/ember-i18n-inject-0.0.2.tgz#5c95a687b9b51fae7b2885ccfb80450ac9166e89"
+  dependencies:
+    ember-cli-babel "^5.0.0"
+
 ember-i18n@5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/ember-i18n/-/ember-i18n-5.0.1.tgz#6e20732ff5c825b50ca08aa49025964dacc100c4"
