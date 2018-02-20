@@ -1,7 +1,8 @@
-import { Promise } from 'rsvp';
 import { module } from 'qunit';
-import startApp from '../helpers/start-app';
+import { Promise } from 'rsvp';
+
 import destroyApp from '../helpers/destroy-app';
+import startApp from '../helpers/start-app';
 
 export default function(name, options = {}) {
     module(name, {

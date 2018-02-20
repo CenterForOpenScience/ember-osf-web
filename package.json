@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "",
@@ -12,7 +12,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "eslint . && stylelint 'app/**/*.scss'",
+    "lint": "eslint --ext js,ts . && tslint -p . && stylelint 'app/**/*.scss'",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
     "precommit": "lint-staged",
@@ -20,12 +20,19 @@
   },
   "lint-staged": {
     "*.js": "eslint",
+    "*.ts": [
+      "eslint",
+      "tslint"
+    ],
     "*.scss": "stylelint"
   },
   "devDependencies": {
-    "@centerforopenscience/ember-osf": "0.14.0",
+    "@centerforopenscience/ember-osf": "https://github.com/CenterForOpenScience/ember-osf.git#f70a3f65b145dc6dc8182a840d61a1a90a989f78",
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.5.1",
+    "@types/ember": "^2.8.8",
+    "@types/ember-testing-helpers": "^0.0.3",
+    "@types/rsvp": "^4.0.1",
     "bootstrap": "^3.3.7",
     "broccoli-asset-rev": "^2.4.5",
     "coveralls": "^3.0.0",
@@ -52,6 +59,8 @@
     "ember-cli-stylelint": "^1.0.0",
     "ember-cli-template-lint": "^0.7.5",
     "ember-cli-test-loader": "^1.1.0",
+    "ember-cli-tslint": "^0.1.3",
+    "ember-cli-typescript": "^1.0.6",
     "ember-cli-uglify": "^1.2.0",
     "ember-concurrency": "^0.8.12",
     "ember-click-outside": "^0.1.12",
@@ -60,6 +69,7 @@
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "3.0.5",
     "ember-i18n": "^5.0.2",
+    "ember-i18n-inject": "^0.0.2",
     "ember-load-initializers": "^0.6.0",
     "ember-page-title": "3.2.2",
     "ember-power-select": "^2.0.0-beta.0",
@@ -74,7 +84,11 @@
     "mime-types": "~2.1.17",
     "stylelint-config-sass-guidelines": "^4.1.0",
     "stylelint-order": "^0.8.0",
-    "stylelint-scss": "^2.2.0"
+    "stylelint-scss": "^2.2.0",
+    "tslint-consistent-codestyle": "^1.11.1",
+    "tslint-eslint-rules": "^5.0.0",
+    "typescript": "^2.7.1",
+    "typescript-eslint-parser": "^13.0.0"
   },
   "engines": {
     "node": ">= 0.12.0"
