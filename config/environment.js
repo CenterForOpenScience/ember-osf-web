@@ -1,4 +1,6 @@
 /* eslint-env node */
+const local = require('./local');
+
 const knownBackends = {
     local: {
         url: 'http://localhost:5000/',
@@ -85,6 +87,13 @@ const knownBackends = {
         shareSearchUrl: 'SHARE_SEARCH_URL',
     },
 };
+
+function envOrSource(env, source) {
+    function getKey(keyName) {
+        return env[keyName] || source[keyName];
+    }
+    return getKey;
+}
 
 module.exports = function(environment) {
     const authorizationType = 'cookie';
@@ -180,19 +189,23 @@ module.exports = function(environment) {
         ENV.metricsAdapters[0].config.id = ENV.metricsAdapters[0].config.id || 'UA-84580271-1';
         ENV.FB_APP_ID = ENV.FB_APP_ID || '1039002926217080';
     }
-    const BACKEND = process.env.BACKEND || 'local';
-    // Settings required to configure the developer application, primarily for OAuth2
-    // For i18n
     ENV.i18n = {
         defaultLocale: 'en-US',
     };
 
+    const BACKEND = process.env.BACKEND || 'local';
+
+    // if no local.js, env vars need to be passed
+    const configFileSettings = BACKEND === 'local' ? local : {};
+
+    const eitherConfig = envOrSource(process.env, configFileSettings);
+
     ENV.OSF = {
-        clientId: '',
-        scope: 'osf.full_write',
+        clientId: eitherConfig('CLIENT_ID'),
+        scope: eitherConfig('OAUTH_SCOPES'),
         apiNamespace: 'v2', // URL suffix (after host)
         backend: BACKEND,
-        redirectUri: 'http://localhost:4200/login',
+        redirectUri: eitherConfig('REDIRECT_URI'),
     };
 
     // Fetch configuration information for the application
@@ -203,7 +216,7 @@ module.exports = function(environment) {
     }
 
     if (BACKEND === 'local') {
-        backendUrlConfig.accessToken = '';
+        backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
         backendUrlConfig.isLocal = true;
     } else if (BACKEND === 'prod') {
         console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
@@ -225,13 +238,5 @@ module.exports = function(environment) {
 
     // Combine URLs + auth settings into final auth config
     Object.assign(ENV.OSF, backendUrlConfig);
-
-    const defaultAuthorizationType = 'cookie';
-    ENV.authorizationType = defaultAuthorizationType;
-
-    ENV['ember-simple-auth'] = {
-        authorizer: `authorizer:osf-${defaultAuthorizationType}`,
-        authenticator: `authenticator:osf-${defaultAuthorizationType}`,
-    };
     return ENV;
 };
