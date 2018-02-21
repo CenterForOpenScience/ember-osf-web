@@ -18,7 +18,7 @@ export default {
         modified: '修改时间',
         description: '描述',
         create: '创建',
-        and: '与',
+        and: 'and',
         more: '更多',
     },
     quickfiles: {
@@ -47,7 +47,7 @@ export default {
             direct: '直接使用固定高度和宽度的 iframe',
         },
         tags: '标签：',
-        toggle: '切换时图：',
+        toggle: '切换视图：',
         delete_file: {
             question: '删除文件？',
             confirm: '您是否确定要删除该文件：<b>{{file-name}}</b>',
@@ -86,7 +86,7 @@ export default {
         },
         meetings: {
             title: '需要举办会议？',
-            description: '使用 OSF for Meetings 为您的会议提供文件提交服务',
+            description: '使用 OSF for Meetings 为您的会议提供统一文件提交服务',
             button: '查看会议',
         },
         preprints: {
