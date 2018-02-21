@@ -1,6 +1,4 @@
 /* eslint-env node */
-const local = require('./local');
-
 const knownBackends = {
     local: {
         url: 'http://localhost:5000/',
@@ -196,7 +194,7 @@ module.exports = function(environment) {
     const BACKEND = process.env.BACKEND || 'local';
 
     // if no local.js, env vars need to be passed
-    const configFileSettings = BACKEND === 'local' ? local : {};
+    const configFileSettings = BACKEND === 'local' && environment === 'local' ? require('./local') : {}; // eslint-disable-line global-require
 
     const eitherConfig = envOrSource(process.env, configFileSettings);
 
