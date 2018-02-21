@@ -32,6 +32,7 @@ export default {
         back: 'Back',
         filter: 'Filter',
         revert: 'Revert',
+        save: 'Save',
     },
     quickfiles: {
         title: '{{user-name}}\'s Quick Files',
