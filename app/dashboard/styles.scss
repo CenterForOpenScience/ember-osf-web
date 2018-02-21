@@ -1,0 +1,217 @@
+/* stylelint-disable */
+.quickSearch {
+    min-height: 700px;
+    background: #C5D6E6 url('/static/img/bg6.jpg') top center repeat-y;
+    background-size: cover;
+}
+
+.public-projects-box {
+    background: rgba(255, 255, 255, 0.22);
+    padding: 10px 15px;
+    border-radius: 2px;
+    margin-top: 20px;
+}
+
+.public-projects-box > a:hover {
+    text-decoration: none;
+}
+
+.newAndNoteworthy {
+    min-height: 650px;
+    background: $color-bg-gray-blue-dark;
+    padding-top: 25px;
+    color: $color-text-white;
+}
+
+.institutions-panel {
+    background: #166595 url("/static/img/front-page/bg-web.png") no-repeat center top;
+    background-size: cover;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.meetings {
+    background: #166595 url("/static/img/front-page/bg-web.png") no-repeat center top;
+    background-size: cover;
+    color: $color-text-white;
+}
+
+.prereg {
+    background: #C5D6E6 url("/static/img/bg6.jpg") no-repeat center top;
+    background-size: cover;
+
+}
+
+.prereg-banner {
+    background: $color-bg-blue-dark;
+    color: $color-text-white;
+}
+
+.preprints {
+    background: $color-bg-gray-blue-dark;
+    color: $color-text-white;
+}
+
+.btn-banner {
+    box-shadow: 0 0 9px -4px #000;
+    width: 70%;
+}
+
+.footer {
+    margin-top: 0; /* Override footer margin for this page only */
+}
+
+.quick-project button {
+    -webkit-appearance: none;
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+
+.load-nodes {
+    font-size: 2em;
+}
+
+.load-nodes:hover {
+    color: $color-text-black;
+}
+
+.quick-project .selected {
+    color: $color-text-black;
+}
+
+.quick-project img {
+    margin-top: 30px;
+    border: 3px solid $color-border-white;
+    opacity: 0.6;
+}
+
+.quick-project .not-selected {
+    color: $color-text-blue-dark;
+}
+
+.sort-group {
+  display: inline-block;
+
+}
+.node-col-headers {
+    font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+    .node-col-headers {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .node-sort-dropdown {
+        display: none;
+    }
+}
+
+.quick-project label {
+    font-weight: normal;
+}
+
+.prevent-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.blank-line {
+    margin-bottom: 15px;
+}
+
+.quick-search-input {
+    width: 70%;
+    margin: 10px auto;
+}
+
+.quick-search-input input {
+    height: 38px;
+    border-radius: 5px;
+    display: inline-block;
+    padding-right: 40px;
+}
+
+.quick-search-input span {
+    color: $color-text-gray-dark;
+    display: inline-block;
+    margin-left: -36px;
+    background: $color-bg-gray-light;
+    border-radius: 12px;
+    font-size: 13px;
+    padding: 1px;
+    width: 26px;
+}
+
+.quick-search-col {
+    padding-left: 5px;
+    .ancestry {
+        font-style: italic;
+    }
+}
+
+@media (min-width: 768px) {
+    .quick-search-contents {
+        min-height: 880px;
+    }
+}
+@media (max-width: 768px) {
+    .quick-search-contents {
+        min-height: 1450px;
+    }
+}
+
+.quick-search-table {
+    background: rgba(255, 255, 255, 0.49);
+    padding: 10px 15px;
+    border-radius: 2px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.prereg-banner p {
+    margin: 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-weight: bold;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.not-selected.img-circle {
+    opacity: 0.25;
+    filter: grayscale(100%);
+}
+
+.osf-project-navbar a.project-title {
+    max-width: 100%;
+}
+
+::-webkit-input-placeholder {
+    /* Webkit, Blink, Edge */
+    color: $color-text-placeholder-grey-dark;
+}
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: $color-text-placeholder-grey-dark;
+    opacity: 1;
+}
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: $color-text-placeholder-grey-dark;
+    opacity: 1;
+}
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: $color-text-placeholder-grey-dark;
+}
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: $color-text-placeholder-grey-dark;
+}

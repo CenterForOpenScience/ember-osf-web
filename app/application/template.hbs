@@ -1,22 +1,11 @@
 {{title 'OSF'}}
-<div>
+<div class="{{routeStyleNamespaceClassSet}} Application">
     {{new-osf-navbar signupUrl=signupUrl loginAction=(action 'login')}}
-
     {{maintenance-banner}}
-</div>
-
-<br>
-<br>
-<br>
-
-<div id="main" class="container">
-    <div class="row">
-        <div class="col-md-12 {{routeStyleNamespaceClassSet}}" role="main">
-            {{outlet}}
-        </div>
+    <div class="Application__page">
+        {{outlet}}
     </div>
+    {{osf-footer}}
+    {{osf-copyright class='text-center'}}
+    {{osf-mode-footer}}
 </div>
-
-{{osf-footer}}
-{{osf-copyright class='text-center'}}
-{{osf-mode-footer}}

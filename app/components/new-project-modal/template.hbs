@@ -1,0 +1,84 @@
+{{! template-lint-disable invalid-interactive }}
+{{#bs-modal class=modalClass onHidden=(action 'closeModal') as |modal|}}
+    {{#if (not newNode)}}
+        {{#modal.header onClose=(action 'closeModal')}}
+            <h3 class="modal-title">{{t 'new_project.header'}}</h3>
+        {{/modal.header}}
+        {{#modal.body}}
+            <div class="text-left">
+                <div class="form-group m-v-sm">
+                    <label class="f-w-lg text-bigger NewProject__label">
+                        {{t 'general.title'}}
+                        {{input placeholder=(t 'new_project.title_placeholder') autofocus='autofocus' class='form-control project-name' value=nodeTitle type="text" enter='pushEnter'}}
+                    </label>
+                </div>
+                {{#if user.institutions.length}}
+                    <div class="form-group m-v-sm NewProject__institution-selector">
+                        <label class="f-w-lg text-bigger">{{t 'new_project.affiliation'}}</label>
+                        <a role='button' onclick={{action 'removeAll'}}>{{t 'new_project.remove_all'}}</a>
+                        <a role='button' onclick={{action 'selectAll'}}>{{t 'new_project.select_all'}}</a>
+                        <table>
+                            <tr>
+                                {{#each user.institutions as | institution | }}
+                                    <td>
+                                        <a role='button' onclick={{action 'select' institution}}>
+                                            <div width="45px" height="45px" class='NewProject__institution-item'>
+                                                <img name="{{institution.name}}" width="45px" height="45px" class="img-circle pointer {{if (if-filter institution institutionsSelected) 'selected' 'not-selected'}}" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.name}}" title="{{institution.name}}">
+                                            </div>
+                                        </a>
+                                    </td>
+                                {{/each}}
+                            </tr>
+                        </table>
+                    </div>
+                {{/if}}
+                {{#if more}}
+                    <div class="text-muted" role="button" onclick={{action 'toggleMore'}}>
+                        {{fa-icon "caret-down"}} {{t 'new_project.more'}}
+                    </div>
+                    <div class="form-group m-v-sm">
+                        <label for="projectDesc" class="f-w-lg text-bigger NewProject__label">
+                            {{t 'general.description'}}
+                            {{input placeholder=(t 'new_project.description_placeholder') class='form-control noresize project-desc' value=description type="text"}}
+                        </label>
+                    </div>
+                    <div class="form-group m-v-md">
+                        <label class="f-w-lg text-bigger NewProject__label">
+                            {{t 'new_project.template_title'}}
+                            <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
+                            {{#power-select
+                                search=(perform findNodes)
+                                selected=templateFrom
+                                noMatchesMessage=(t 'new_project.no_matches')
+                                searchMessage=(t 'new_project.template_placeholder')
+                                placeholder=(t 'new_project.template_placeholder')
+                                onchange=(action (mut templateFrom))
+                                renderInPlace=true
+                                as |node|
+                            }}
+                                {{node.title}}
+                            {{/power-select}}
+                        </label>
+                    </div>
+                {{else}}
+                    <div class="text-muted" role="button" onclick={{action 'toggleMore'}}>
+                        {{fa-icon "caret-right"}} {{t 'new_project.more'}}
+                    </div>
+                {{/if}}
+            </div>
+        {{/modal.body}}
+        {{#modal.footer}}
+            <button onclick={{action 'closeModal'}} class="btn btn-default">{{t 'general.cancel'}}</button>
+            <button onclick={{perform createNode}} class="btn btn-success {{unless nodeTitle.length 'disabled'}}">{{t 'general.create'}}</button>
+        {{/modal.footer}}
+    {{else}}
+        {{#modal.body}}
+            <button data-dismiss="modal" aria-label="Close" class="close" onclick={{action 'closeModal'}}>{{fa-icon 'times' size='sm'}}</button>
+            <h4 class="add-project-success text-success">{{t 'new_project.success_message'}}</h4>
+        {{/modal.body}}
+        {{#modal.footer}}
+            <button onclick={{action 'reload'}} class="btn btn-default">{{t 'new_project.stay_here'}}</button>
+            <a role='button' href="{{newNode.links.html}}" class="btn btn-success">{{t 'new_project.go_to_new'}}</a>
+        {{/modal.footer}}
+    {{/if}}
+{{/bs-modal}}

@@ -1,0 +1,28 @@
+<a href="{{node.links.html}}">
+    <div class="m-v-sm DashboardItem">
+        <div class="row">
+            <div>
+                <div class="col-sm-3 col-md-6 p-v-xs">
+                    <div class="DashboardItem__col">
+                        {{#if private}}
+                            {{#if ancestry}}
+                                <span class='DashboardItem__ancestry'>{{t 'dashboard.quicksearch.private_parent'}}</span>{{ancestry}}
+                            {{else}}
+                                <span class='DashboardItem__ancestry'>{{t 'dashboard.quicksearch.private_grandparent'}}</span>
+                            {{/if}}
+                        {{else}}
+                            {{ancestry}}
+                        {{/if}}
+                        <strong>{{node.title}}</strong>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3 p-v-xs">
+                    <div class="DashboardItem__col">{{contributor-list node=node}}</div>
+                </div>
+                <div class="col-sm-3 col-md-3 p-v-xs">
+                    <div class="DashboardItem__col">{{date}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

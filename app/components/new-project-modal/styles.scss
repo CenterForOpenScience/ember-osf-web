@@ -1,0 +1,17 @@
+&__modal {
+    .NewProject {
+        &__label {
+            width: 100%;
+        }
+
+        &__institution-selector {
+            margin-right: 12px;
+            float: right;
+        }
+
+        &__institution-item {
+            position: relative;
+            margin: 10px;
+        }
+    }
+}
