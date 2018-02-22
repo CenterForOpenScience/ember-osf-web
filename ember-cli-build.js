@@ -50,6 +50,10 @@ module.exports = function(defaults) {
     app.import({
         test: 'node_modules/jquery-mockjax/dist/jquery.mockjax.js',
     });
+    app.import({
+        test: 'vendor/ember/ember-template-compiler.js',
+    });
+
     const assets = [
         new Funnel('node_modules/@centerforopenscience/osf-style/img', {
             srcDir: '/',
