@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - TypeScript: Add ember-cli-typscript and ember-cli-tslint
+- CSS: Add _typography.scss with responsive font styling
 
 ### Changed
 - TypeScript: Rename files to .ts
