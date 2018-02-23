@@ -4004,7 +4004,7 @@ ember-promise-helpers@1.0.3:
   dependencies:
     ember-cli-babel "^5.1.5"
 
-ember-qunit@^3.3.1, ember-qunit@^3.3.2:
+ember-qunit@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/ember-qunit/-/ember-qunit-3.3.2.tgz#cb48e9deaffa3b4c90983f28c5cf8590894c8ea3"
   dependencies:
