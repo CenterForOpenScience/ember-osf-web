@@ -40,9 +40,3 @@ export default class Application extends Route.extend(OSFAgnosticAuthRouteMixin,
         }
     }
 }
-
-declare module '@ember/routing/route' {
-    interface IRegistry {
-        application: Application;
-    }
-}

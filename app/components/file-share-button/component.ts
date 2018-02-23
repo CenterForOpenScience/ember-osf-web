@@ -143,9 +143,3 @@ export default class FileShareButton extends Component.extend(Analytics, {
         `.trim().replace(/^\s{12}/mg, ''));
     });
 }
-
-declare module '@ember/component' {
-    interface IRegistry {
-        'file-share-button': FileShareButton;
-    }
-}

@@ -26,9 +26,3 @@ export default class UserQuickfiles extends Route.extend(Analytics, {
         return this.store.findRecord('user', params.user_id);
     }
 }
-
-declare module '@ember/routing/route' {
-    interface IRegistry {
-        'user-quickfiles': UserQuickfiles;
-    }
-}

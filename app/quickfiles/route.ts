@@ -16,9 +16,3 @@ export default class Quickfiles extends Route.extend(CasAuthenticatedRouteMixin)
         }
     }
 }
-
-declare module '@ember/routing/route' {
-    interface IRegistry {
-        quickfiles: Quickfiles;
-    }
-}

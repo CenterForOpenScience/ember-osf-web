@@ -22,9 +22,3 @@ export default class FileDetail extends Route.extend(Analytics) {
         }
     }
 }
-
-declare module '@ember/routing/route' {
-    interface IRegistry {
-        'file-detail': FileDetail;
-    }
-}

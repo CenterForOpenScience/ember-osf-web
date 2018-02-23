@@ -9,7 +9,7 @@ export default class Application extends Controller.extend(OSFAgnosticAuthContro
 }
 
 declare module '@ember/controller' {
-    interface IRegistry {
+    interface Registry {
         application: Application;
     }
 }
