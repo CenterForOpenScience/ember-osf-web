@@ -155,7 +155,7 @@ export default class FileDetail extends Controller.extend(Analytics, {
 }
 
 declare module '@ember/controller' {
-    interface IRegistry {
+    interface Registry {
         'file-detail': FileDetail;
     }
 }

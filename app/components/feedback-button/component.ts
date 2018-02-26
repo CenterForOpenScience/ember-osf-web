@@ -9,7 +9,7 @@ const {
     OSF: { backend },
 } = config;
 
-interface IFeedbackOptionalArgs {
+interface FeedbackOptionalArgs {
     extra?: object;
     followup?: boolean;
     pageName?: string;
@@ -21,7 +21,7 @@ function sendFeedback(body: string, {
     followup,
     pageName,
     userID,
-}: IFeedbackOptionalArgs): Promise<any> {
+}: FeedbackOptionalArgs): Promise<any> {
     const payload = {
         body,
         extra: {
@@ -125,11 +125,5 @@ export default class FeedbackButton extends Component.extend({
     reset(): void {
         this.set('body', '');
         this.set('followup', false);
-    }
-}
-
-declare module '@ember/component' {
-    interface IRegistry {
-        'feedback-button': FeedbackButton;
     }
 }

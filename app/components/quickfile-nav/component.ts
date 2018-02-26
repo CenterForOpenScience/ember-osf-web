@@ -9,9 +9,3 @@ export default class QuickfileNav extends Component.extend({
 
     role: 'navigation',
 }) {}
-
-declare module '@ember/component' {
-    interface IRegistry {
-        'quickfile-nav': QuickfileNav;
-    }
-}

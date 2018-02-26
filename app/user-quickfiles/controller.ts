@@ -22,7 +22,7 @@ export default class UserQuickfiles extends Controller.extend(Analytics, {
 }
 
 declare module '@ember/controller' {
-    interface IRegistry {
+    interface Registry {
         'user-quickfiles': UserQuickfiles;
     }
 }
