@@ -3557,9 +3557,9 @@ ember-cli-tslint@^0.1.3:
     tslint "^5.5.0"
     walk-sync "^0.3.2"
 
-ember-cli-typescript@^1.0.6:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-1.1.3.tgz#025ae62f2779decd5f8bd60a0d125ca1106dbf62"
+ember-cli-typescript@1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-1.1.6.tgz#b4686343cc38f74405f5064a71afa0645d9ff75f"
   dependencies:
     broccoli-debug "^0.6.4"
     broccoli-funnel "^2.0.1"
@@ -3579,6 +3579,7 @@ ember-cli-typescript@^1.0.6:
     ember-router-generator "^1.2.3"
     execa "^0.9.0"
     exists-sync "^0.0.4"
+    fs-extra "^5.0.0"
     inflection "^1.12.0"
     mkdirp "^0.5.1"
     resolve "^1.5.0"
@@ -3708,6 +3709,14 @@ ember-click-outside@^0.1.12:
   dependencies:
     ember-cli-babel "^6.3.0"
     ember-cli-htmlbars "^2.0.1"
+
+ember-collapsible-panel@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/ember-collapsible-panel/-/ember-collapsible-panel-2.1.1.tgz#2ab8b564f221a284079bd2a049a5f8f29b3fef44"
+  dependencies:
+    ember-cli-babel "^5.1.6"
+    ember-cli-htmlbars "^1.0.3"
+    ember-cli-version-checker "^1.1.6"
 
 ember-compatibility-helpers@^0.1.0, ember-compatibility-helpers@^0.1.1, ember-compatibility-helpers@^0.1.2, ember-compatibility-helpers@^0.1.3:
   version "0.1.3"
@@ -5036,6 +5045,14 @@ fs-extra@^2.0.0:
 fs-extra@^4.0.0, fs-extra@^4.0.1:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.3.tgz#0d852122e5bc5beb453fb028e9c0c9bf36340c94"
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
+fs-extra@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-5.0.0.tgz#414d0110cdd06705734d055652c5411260c31abd"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^4.0.0"
