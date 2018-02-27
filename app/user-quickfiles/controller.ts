@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Analytics from 'ember-osf/mixins/analytics';
+import Analytics from 'ember-osf-web/mixins/analytics';
 
 export default class UserQuickfiles extends Controller.extend(Analytics, {
     actions: {

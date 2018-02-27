@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import Analytics from 'ember-osf/mixins/analytics';
+import Analytics from 'ember-osf-web/mixins/analytics';
 
 export default class FileDetail extends Route.extend(Analytics) {
     currentUser = service('currentUser');

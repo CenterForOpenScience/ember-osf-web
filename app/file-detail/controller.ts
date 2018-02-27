@@ -3,9 +3,9 @@ import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
-import { mimeTypes } from 'ember-osf/const/mime-types';
-import Analytics from 'ember-osf/mixins/analytics';
-import pathJoin from 'ember-osf/utils/path-join';
+import mimeTypes from 'ember-osf-web/const/mime-types';
+import Analytics from 'ember-osf-web/mixins/analytics';
+import pathJoin from 'ember-osf-web/utils/path-join';
 import $ from 'jquery';
 import mime from 'npm:mime-types';
 
