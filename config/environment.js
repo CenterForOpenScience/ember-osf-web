@@ -159,6 +159,19 @@ module.exports = function(environment) {
                 viaHandle: 'OSFramework',
             },
         },
+
+        support: {
+            preregUrl: 'https://cos.io/prereg/',
+            statusPageUrl: 'https://status.cos.io',
+            faqPageUrl: 'http://help.osf.io/m/faqs/l/726460-faqs',
+            supportEmail: 'support@osf.io',
+            contactEmail: 'contact@osf.io',
+            consultationUrl: 'https://cos.io/stats_consulting/',
+            twitterUrl: 'https://twitter.com/OSFSupport',
+            mailingUrl: 'https://groups.google.com/forum/#!forum/openscienceframework',
+            facebookUrl: 'https://www.facebook.com/CenterForOpenScience/',
+            githubUrl: 'https://github.com/centerforopenscience',
+        },
     };
 
     if (environment === 'development') {
