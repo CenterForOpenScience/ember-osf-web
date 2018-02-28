@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import Analytics from 'ember-osf/mixins/analytics';
+import Analytics from 'ember-osf-web/mixins/analytics';
 
 function preventDrop(e: DragEvent) {
     if ((e.target as HTMLDivElement).id === 'quickfiles-dropzone') {

@@ -1,3 +1,4 @@
+import { oneWay } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
@@ -8,7 +9,7 @@ export default Component.extend({
     store: service(),
     newNode: null,
     more: false,
-    institutionsSelected: computed.oneWay('user.institutions'),
+    institutionsSelected: oneWay('user.institutions'),
 
     actions: {
         select(institution) {

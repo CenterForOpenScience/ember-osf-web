@@ -2,8 +2,8 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import config from 'ember-get-config';
-import Analytics from 'ember-osf/mixins/analytics';
-import pathJoin from 'ember-osf/utils/path-join';
+import Analytics from 'ember-osf-web/mixins/analytics';
+import pathJoin from 'ember-osf-web/utils/path-join';
 
 const {
     social: {
