@@ -3,20 +3,18 @@
     background-color: $brand-success;
     border-color: darken($brand-success, 5%);
 }
+/* stylelint-disable selector-class-pattern */
+.btn-success.disabled,
+.btn-success.disabled:hover {
+    color: darken($brand-success, 85%);
+    background-color: lighten($brand-success, 50%);
+    border-color: lighten($brand-success, 45%);
+    opacity: 1;
+}
+/* stylelint-enable */
 
 .btn-info { // stylelint-disable-line selector-class-pattern
     color: $btn-info-high-contrast-color;
     background-color: $brand-info;
     border-color: darken($brand-info, 5%);
-}
-
-.visuallyhidden { // stylelint-disable-line selector-class-pattern
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
 }
