@@ -19,7 +19,8 @@ import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
  * @class OsfModel
  * @public
  */
-export default class OsfModel extends DS.Model.extend({
+
+const OsfModel = DS.Model.extend({
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
@@ -121,9 +122,10 @@ export default class OsfModel extends DS.Model.extend({
         resolve(records);
     },
     _dirtyRelationships: null,
-}) {
-}
+});
 
+
+export default OsfModel;
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.
 declare module 'ember-data' {
     interface ModelRegistry {

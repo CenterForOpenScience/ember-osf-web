@@ -5,6 +5,7 @@ import { A } from '@ember/array';
 import { Promise as EmberPromise } from 'rsvp';
 import { equal, bool } from '@ember/object/computed';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
+import Contributor from './contributor'; // eslint-disable-line no-unused-vars
 
 /**
  * @module ember-osf-web

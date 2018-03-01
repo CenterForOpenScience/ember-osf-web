@@ -12,7 +12,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "eslint --ext js,ts . --fix && tslint -p . && stylelint 'app/**/*.scss'",
+    "lint": "eslint --ext js,ts . && tslint -p . && stylelint 'app/**/*.scss'",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
     "precommit": "lint-staged"
