@@ -65,7 +65,7 @@
                 {{/if}}
             {{/if}}
             <button {{action 'toggleText' 'filtering'}} class='btn btn-light'>{{fa-icon "search"}} {{t 'general.filter'}}</button>
-            {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn btn-light'>{{fa-icon "info"}} Help</button>{{/if}}
+            {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn btn-light'>{{fa-icon "info"}} {{t 'general.help'}}</button>{{/if}}
         </div>
     {{/if}}
 </div>

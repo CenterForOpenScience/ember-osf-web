@@ -25,6 +25,7 @@ export default {
         sort_desc: 'Sort descending',
         next: 'next',
         previous: 'previous',
+        help: 'help',
     },
     quickfiles: {
         title: '{{user-name}} のクイックファイル',
