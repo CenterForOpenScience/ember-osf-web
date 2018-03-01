@@ -23,7 +23,8 @@
       "eslint",
       "tslint"
     ],
-    "*.scss": "stylelint"
+    "*.scss": "stylelint",
+    "*.hbs": "ember-template-lint"
   },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
