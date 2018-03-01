@@ -14,7 +14,7 @@
         {{/each}}
     </div>
     {{#if (gt institutions.length itemsPerSlide)}}
-        <a href="#__carousel" role='button' data-slide="prev" aria-label= "previous" class="left carousel-control InstitutionCarousel__control">{{fa-icon 'angle-left'}}</a>
-        <a href="#__carousel" role='button' data-slide="next" aria-label= "next" class="right carousel-control InstitutionCarousel__control">{{fa-icon 'angle-right'}}</a>
+        <a href="#__carousel" role='button' data-slide="prev" aria-label={{t "general.previous"}} class="left carousel-control InstitutionCarousel__control">{{fa-icon 'angle-left'}}</a>
+        <a href="#__carousel" role='button' data-slide="next" aria-label={{t "general.next"}} class="right carousel-control InstitutionCarousel__control">{{fa-icon 'angle-right'}}</a>
     {{/if}}
 </div>

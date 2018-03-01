@@ -1,8 +1,8 @@
 .FeedbackButton {
-    background-color: $btn-success-high-contrast-bg;
+    background-color: $brand-success;
     border-radius: $border-radius-base $border-radius-base 0 0;
     bottom: 0;
-    color: $btn-success-high-contrast-color;
+    color: #fff;
     cursor: pointer;
     padding: 4px 7px;
     position: fixed;
@@ -27,7 +27,7 @@
 
 .FeedbackButton:hover,
 .FeedbackButton--open {
-    background-color: darken($btn-success-bg, 10%);
+    background-color: $brand-success;
     padding-bottom: 10px;
 }
 

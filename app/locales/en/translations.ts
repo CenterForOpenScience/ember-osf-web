@@ -33,6 +33,11 @@ export default {
         filter: 'Filter',
         revert: 'Revert',
         save: 'Save',
+        clipboard_copy: 'Copy to clipboard',
+        sort_asc: 'Sort ascending',
+        sort_desc: 'Sort descending',
+        next: 'next',
+        previous: 'previous',
     },
     quickfiles: {
         title: '{{user-name}}\'s Quick Files',
@@ -72,6 +77,8 @@ export default {
         delete_fail: 'Error, unable to delete file',
         save_success: 'File saved',
         save_fail: 'Error, unable to save file',
+        mfr_iframe_title: 'Rendering of document',
+        add_tag: 'add a tag to enhance discoverability',
     },
     file_browser: {
         loading: 'Loading...',
@@ -80,6 +87,8 @@ export default {
         drop_placeholder: 'Drop files here to upload',
         drop_reminder: 'Drop file to upload',
         no_files: 'This user has not uploaded any quickfiles',
+        share_title: 'Share',
+        clipboard_copy: 'Copy to clipboard',
         info: {
             title: 'How to use the file browser',
             upload: '<b>Upload:</b> Single file uploads via drag and drop or by clicking the upload button.',

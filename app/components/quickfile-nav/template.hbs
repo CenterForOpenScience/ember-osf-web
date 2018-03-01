@@ -1,13 +1,10 @@
 <div class="container">
-    <ul class="nav navbar-nav NavbarList">
-        <li class="NavbarList__item {{if onQuickfiles 'active'}}">
-            {{#link-to
+           <h3>
+               {{#link-to
                 'user-quickfiles'
                 user
-                class=(concat 'NavbarList__item__title' (if onQuickfiles '--active'))
             }}
                 {{t 'quickfiles.title' user-name=user.fullName}}
             {{/link-to}}
-        </li>
-    </ul>
+           </h3>
 </div>
