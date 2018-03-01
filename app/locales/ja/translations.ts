@@ -61,6 +61,7 @@ export default {
         save_fail: 'エラー、ファイルを保存できません',
     },
     dashboard: {
+        page_title: 'Home',
         title: 'ダッシュボード',
         create_new_project_button: '新規プロジェクト作成',
         quicksearch: {

@@ -93,6 +93,12 @@ function envOrSource(env, source) {
     return getKey;
 }
 
+const {
+    POPULAR_LINKS_NODE = '57tnq',
+    // POPULAR_LINKS_REGISTRATIONS = '',
+    NEW_AND_NOTEWORTHY_LINKS_NODE = 'z3sg2',
+} = process.env;
+
 module.exports = function(environment) {
     const authorizationType = 'cookie';
 
@@ -159,7 +165,6 @@ module.exports = function(environment) {
                 viaHandle: 'OSFramework',
             },
         },
-
         support: {
             preregUrl: 'https://cos.io/prereg/',
             statusPageUrl: 'https://status.cos.io',
@@ -171,6 +176,10 @@ module.exports = function(environment) {
             mailingUrl: 'https://groups.google.com/forum/#!forum/openscienceframework',
             facebookUrl: 'https://www.facebook.com/CenterForOpenScience/',
             githubUrl: 'https://github.com/centerforopenscience',
+        },
+        dashboard: {
+            popularNode: POPULAR_LINKS_NODE,
+            noteworthyNode: NEW_AND_NOTEWORTHY_LINKS_NODE,
         },
     };
 

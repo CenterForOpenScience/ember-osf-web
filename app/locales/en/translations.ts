@@ -33,6 +33,7 @@ export default {
         filter: 'Filter',
         revert: 'Revert',
         save: 'Save',
+        ellipses: '\u2026',
     },
     quickfiles: {
         title: '{{user-name}}\'s Quick Files',
@@ -108,6 +109,7 @@ export default {
 
     },
     dashboard: {
+        page_title: 'Home',
         title: 'Dashboard',
         create_new_project_button: 'Create new project',
         quicksearch: {

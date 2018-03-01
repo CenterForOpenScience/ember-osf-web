@@ -61,6 +61,7 @@ export default {
         save_fail: '错误，无法保存文件',
     },
     dashboard: {
+        page_title: 'Home',
         title: '仪表盘',
         create_new_project_button: '创建新项目',
         quicksearch: {
