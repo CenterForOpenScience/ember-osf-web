@@ -46,7 +46,7 @@
     "ember-bootstrap": "^1.2.1",
     "ember-bootstrap-datepicker": "^2.0.8",
     "ember-browserify": "^1.2.0",
-    "ember-cli": "~2.16.0",
+    "ember-cli": "~3.0.0",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-babel": "~6.8.0",
     "ember-cli-bootstrap-sassy": "0.5.6",

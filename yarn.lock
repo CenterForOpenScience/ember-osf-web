@@ -2429,7 +2429,7 @@ cli-spinners@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/cli-spinners/-/cli-spinners-0.1.2.tgz#bb764d88e185fb9e1e6a2a1f19772318f605e31c"
 
-cli-spinners@^1.0.1:
+cli-spinners@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/cli-spinners/-/cli-spinners-1.1.0.tgz#f1847b168844d917a671eb9d147e3df497c90d06"
 
@@ -2494,6 +2494,10 @@ clone@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/clone/-/clone-0.2.0.tgz#c6126a90ad4f72dbf5acdb243cc37724fe93fc1f"
 
+clone@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.3.tgz#298d7e2231660f40c003c2ed3140decf3f53085f"
+
 clone@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.1.tgz#d217d1e961118e3ac9a4b8bba3285553bf647cdb"
@@ -2532,8 +2536,8 @@ colors@1.0.3, colors@1.0.x:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
 
 colors@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.2.1.tgz#f4a3d302976aaf042356ba1ade3b1a2c62d9d794"
 
 combine-source-map@~0.7.1:
   version "0.7.2"
@@ -2680,14 +2684,14 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
 
-console-ui@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-2.1.0.tgz#e1d5279d27621a75123d7d594f9fa59f866ea3e3"
+console-ui@^2.0.0, console-ui@^2.1.0:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-2.2.2.tgz#b294a2934de869dd06789ab4be69555411edef29"
   dependencies:
     chalk "^2.1.0"
     inquirer "^2"
     json-stable-stringify "^1.0.1"
-    ora "^1.3.0"
+    ora "^2.0.0"
     through "^2.3.8"
     user-info "^1.0.0"
 
@@ -2963,6 +2967,12 @@ deep-extend@~0.4.0:
 deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
+
+defaults@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/defaults/-/defaults-1.0.3.tgz#c656051e9817d9ff08ed881477f3fe4019f3ef7d"
+  dependencies:
+    clone "^1.0.2"
 
 define-property@^0.2.5:
   version "0.2.5"
@@ -3541,28 +3551,6 @@ ember-cli-is-package-missing@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ember-cli-is-package-missing/-/ember-cli-is-package-missing-1.0.0.tgz#6e6184cafb92635dd93ca6c946b104292d4e3390"
 
-ember-cli-legacy-blueprints@^0.1.2:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/ember-cli-legacy-blueprints/-/ember-cli-legacy-blueprints-0.1.5.tgz#93c15ca242ec5107d62a8af7ec30f6ac538f3ad9"
-  dependencies:
-    chalk "^1.1.1"
-    ember-cli-get-component-path-option "^1.0.0"
-    ember-cli-get-dependency-depth "^1.0.0"
-    ember-cli-is-package-missing "^1.0.0"
-    ember-cli-lodash-subset "^1.0.7"
-    ember-cli-normalize-entity-name "^1.0.0"
-    ember-cli-path-utils "^1.0.0"
-    ember-cli-string-utils "^1.0.0"
-    ember-cli-test-info "^1.0.0"
-    ember-cli-valid-component-name "^1.0.0"
-    ember-cli-version-checker "^1.1.7"
-    ember-router-generator "^1.0.0"
-    exists-sync "0.0.3"
-    fs-extra "^0.24.0"
-    inflection "^1.7.1"
-    rsvp "^3.0.17"
-    silent-error "^1.0.0"
-
 ember-cli-legacy-blueprints@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/ember-cli-legacy-blueprints/-/ember-cli-legacy-blueprints-0.2.1.tgz#480f37cb83f1eda2d46bbc7d07c59ea2e8ce9b84"
@@ -3799,7 +3787,7 @@ ember-cli-valid-component-name@^1.0.0:
   dependencies:
     silent-error "^1.0.0"
 
-ember-cli-version-checker@^1.0.2, ember-cli-version-checker@^1.1.4, ember-cli-version-checker@^1.1.6, ember-cli-version-checker@^1.1.7, ember-cli-version-checker@^1.2.0, ember-cli-version-checker@^1.3.1:
+ember-cli-version-checker@^1.0.2, ember-cli-version-checker@^1.1.4, ember-cli-version-checker@^1.1.6, ember-cli-version-checker@^1.2.0, ember-cli-version-checker@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/ember-cli-version-checker/-/ember-cli-version-checker-1.3.1.tgz#0bc2d134c830142da64bf9627a0eded10b61ae72"
   dependencies:
@@ -3811,95 +3799,6 @@ ember-cli-version-checker@^2.0.0, ember-cli-version-checker@^2.1.0:
   dependencies:
     resolve "^1.3.3"
     semver "^5.3.0"
-
-ember-cli@~2.16.0:
-  version "2.16.2"
-  resolved "https://registry.yarnpkg.com/ember-cli/-/ember-cli-2.16.2.tgz#53b922073a8e6f34255a6e0dcb1794a91ba3e1b7"
-  dependencies:
-    amd-name-resolver "1.0.0"
-    babel-plugin-transform-es2015-modules-amd "^6.24.0"
-    bower-config "^1.3.0"
-    bower-endpoint-parser "0.2.2"
-    broccoli-babel-transpiler "^6.0.0"
-    broccoli-brocfile-loader "^0.18.0"
-    broccoli-builder "^0.18.8"
-    broccoli-concat "^3.2.2"
-    broccoli-config-loader "^1.0.0"
-    broccoli-config-replace "^1.1.2"
-    broccoli-debug "^0.6.3"
-    broccoli-funnel "^2.0.0"
-    broccoli-funnel-reducer "^1.0.0"
-    broccoli-merge-trees "^2.0.0"
-    broccoli-middleware "^1.0.0"
-    broccoli-source "^1.1.0"
-    broccoli-stew "^1.2.0"
-    calculate-cache-key-for-tree "^1.0.0"
-    capture-exit "^1.1.0"
-    chalk "^2.0.1"
-    clean-base-url "^1.0.0"
-    compression "^1.4.4"
-    configstore "^3.0.0"
-    console-ui "^2.0.0"
-    core-object "^3.1.3"
-    dag-map "^2.0.2"
-    diff "^3.2.0"
-    ember-cli-broccoli-sane-watcher "^2.0.4"
-    ember-cli-is-package-missing "^1.0.0"
-    ember-cli-legacy-blueprints "^0.1.2"
-    ember-cli-lodash-subset "^2.0.1"
-    ember-cli-normalize-entity-name "^1.0.0"
-    ember-cli-preprocess-registry "^3.1.0"
-    ember-cli-string-utils "^1.0.0"
-    ember-try "^0.2.15"
-    ensure-posix-path "^1.0.2"
-    execa "^0.8.0"
-    exists-sync "0.0.4"
-    exit "^0.1.2"
-    express "^4.12.3"
-    filesize "^3.1.3"
-    find-up "^2.1.0"
-    fs-extra "^4.0.0"
-    fs-tree-diff "^0.5.2"
-    get-caller-file "^1.0.0"
-    git-repo-info "^1.4.1"
-    glob "7.1.1"
-    heimdalljs "^0.2.3"
-    heimdalljs-fs-monitor "^0.1.0"
-    heimdalljs-graph "^0.3.1"
-    heimdalljs-logger "^0.1.7"
-    http-proxy "^1.9.0"
-    inflection "^1.7.0"
-    is-git-url "^1.0.0"
-    isbinaryfile "^3.0.0"
-    js-yaml "^3.6.1"
-    json-stable-stringify "^1.0.1"
-    leek "0.0.24"
-    lodash.template "^4.2.5"
-    markdown-it "^8.3.0"
-    markdown-it-terminal "0.1.0"
-    minimatch "^3.0.0"
-    morgan "^1.8.1"
-    node-modules-path "^1.0.0"
-    nopt "^3.0.6"
-    npm-package-arg "^4.1.1"
-    portfinder "^1.0.7"
-    promise-map-series "^0.2.1"
-    quick-temp "^0.1.8"
-    resolve "^1.3.0"
-    rsvp "^3.6.0"
-    sane "^1.6.0"
-    semver "^5.1.1"
-    silent-error "^1.0.0"
-    sort-package-json "^1.4.0"
-    symlink-or-copy "^1.1.8"
-    temp "0.8.3"
-    testem "^1.18.0"
-    tiny-lr "^1.0.3"
-    tree-sync "^1.2.1"
-    uuid "^3.0.0"
-    validate-npm-package-name "^3.0.0"
-    walk-sync "^0.3.0"
-    yam "0.0.22"
 
 ember-cli@~2.18.2:
   version "2.18.2"
@@ -3988,6 +3887,93 @@ ember-cli@~2.18.2:
     uuid "^3.0.0"
     validate-npm-package-name "^3.0.0"
     walk-sync "^0.3.0"
+    yam "0.0.22"
+
+ember-cli@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ember-cli/-/ember-cli-3.0.0.tgz#3d44be3ea88345d4d03c95453eb3527b15dbaeb2"
+  dependencies:
+    amd-name-resolver "1.0.0"
+    babel-plugin-transform-es2015-modules-amd "^6.24.0"
+    bower-config "^1.3.0"
+    bower-endpoint-parser "0.2.2"
+    broccoli-babel-transpiler "^6.0.0"
+    broccoli-builder "^0.18.8"
+    broccoli-concat "^3.2.2"
+    broccoli-config-loader "^1.0.0"
+    broccoli-config-replace "^1.1.2"
+    broccoli-debug "^0.6.3"
+    broccoli-funnel "^2.0.0"
+    broccoli-funnel-reducer "^1.0.0"
+    broccoli-merge-trees "^2.0.0"
+    broccoli-middleware "^1.0.0"
+    broccoli-source "^1.1.0"
+    broccoli-stew "^1.2.0"
+    calculate-cache-key-for-tree "^1.0.0"
+    capture-exit "^1.1.0"
+    chalk "^2.0.1"
+    clean-base-url "^1.0.0"
+    compression "^1.4.4"
+    configstore "^3.0.0"
+    console-ui "^2.1.0"
+    core-object "^3.1.3"
+    dag-map "^2.0.2"
+    diff "^3.2.0"
+    ember-cli-broccoli-sane-watcher "^2.0.4"
+    ember-cli-is-package-missing "^1.0.0"
+    ember-cli-lodash-subset "^2.0.1"
+    ember-cli-normalize-entity-name "^1.0.0"
+    ember-cli-preprocess-registry "^3.1.0"
+    ember-cli-string-utils "^1.0.0"
+    ensure-posix-path "^1.0.2"
+    execa "^0.8.0"
+    exists-sync "0.0.4"
+    exit "^0.1.2"
+    express "^4.12.3"
+    filesize "^3.1.3"
+    find-up "^2.1.0"
+    fs-extra "^4.0.0"
+    fs-tree-diff "^0.5.2"
+    get-caller-file "^1.0.0"
+    git-repo-info "^1.4.1"
+    glob "7.1.1"
+    heimdalljs "^0.2.3"
+    heimdalljs-fs-monitor "^0.1.0"
+    heimdalljs-graph "^0.3.1"
+    heimdalljs-logger "^0.1.7"
+    http-proxy "^1.9.0"
+    inflection "^1.7.0"
+    is-git-url "^1.0.0"
+    isbinaryfile "^3.0.0"
+    js-yaml "^3.6.1"
+    json-stable-stringify "^1.0.1"
+    leek "0.0.24"
+    lodash.template "^4.2.5"
+    markdown-it "^8.3.0"
+    markdown-it-terminal "0.1.0"
+    minimatch "^3.0.0"
+    morgan "^1.8.1"
+    node-modules-path "^1.0.0"
+    nopt "^3.0.6"
+    npm-package-arg "^6.0.0"
+    portfinder "^1.0.7"
+    promise-map-series "^0.2.1"
+    quick-temp "^0.1.8"
+    resolve "^1.3.0"
+    rsvp "^4.7.0"
+    sane "^2.2.0"
+    semver "^5.1.1"
+    silent-error "^1.0.0"
+    sort-package-json "^1.4.0"
+    symlink-or-copy "^1.1.8"
+    temp "0.8.3"
+    testem "^2.0.0"
+    tiny-lr "^1.0.3"
+    tree-sync "^1.2.1"
+    uuid "^3.0.0"
+    validate-npm-package-name "^3.0.0"
+    walk-sync "^0.3.0"
+    watch-detector "^0.1.0"
     yam "0.0.22"
 
 ember-click-outside@^0.1.12:
@@ -5938,7 +5924,7 @@ heimdalljs-graph@^0.3.1:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/heimdalljs-graph/-/heimdalljs-graph-0.3.4.tgz#0bd75797beeaa20b0ed59017aed3b2d95312acee"
 
-heimdalljs-logger@^0.1.7:
+heimdalljs-logger@^0.1.7, heimdalljs-logger@^0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/heimdalljs-logger/-/heimdalljs-logger-0.1.9.tgz#d76ada4e45b7bb6f786fc9c010a68eb2e2faf176"
   dependencies:
@@ -5993,7 +5979,7 @@ homedir-polyfill@^1.0.0, homedir-polyfill@^1.0.1:
   dependencies:
     parse-passwd "^1.0.0"
 
-hosted-git-info@^2.1.4, hosted-git-info@^2.1.5, hosted-git-info@^2.5.0:
+hosted-git-info@^2.1.4, hosted-git-info@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.5.0.tgz#6d60e34b3abbc8313062c3b798ef8d901a07af3c"
 
@@ -7350,7 +7336,7 @@ log-symbols@^1.0.2:
   dependencies:
     chalk "^1.0.0"
 
-log-symbols@^2.0.0, log-symbols@^2.1.0:
+log-symbols@^2.0.0, log-symbols@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-2.2.0.tgz#5740e1c5d6f0dfda4ad9323b5332107ef6b4c40a"
   dependencies:
@@ -7997,13 +7983,6 @@ npm-git-info@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/npm-git-info/-/npm-git-info-1.0.3.tgz#a933c42ec321e80d3646e0d6e844afe94630e1d5"
 
-npm-package-arg@^4.1.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/npm-package-arg/-/npm-package-arg-4.2.1.tgz#593303fdea85f7c422775f17f9eb7670f680e3ec"
-  dependencies:
-    hosted-git-info "^2.1.5"
-    semver "^5.1.0"
-
 npm-package-arg@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/npm-package-arg/-/npm-package-arg-6.0.0.tgz#8cce04b49d3f9faec3f56b0fe5f4391aeb9d2fac"
@@ -8154,14 +8133,16 @@ ora@^0.2.3:
     cli-spinners "^0.1.2"
     object-assign "^4.0.1"
 
-ora@^1.3.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/ora/-/ora-1.4.0.tgz#884458215b3a5d4097592285f93321bb7a79e2e5"
+ora@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ora/-/ora-2.0.0.tgz#8ec3a37fa7bffb54a3a0c188a1f6798e7e1827cd"
   dependencies:
-    chalk "^2.1.0"
+    chalk "^2.3.1"
     cli-cursor "^2.1.0"
-    cli-spinners "^1.0.1"
-    log-symbols "^2.1.0"
+    cli-spinners "^1.1.0"
+    log-symbols "^2.2.0"
+    strip-ansi "^4.0.0"
+    wcwidth "^1.0.1"
 
 os-browserify@~0.1.1:
   version "0.1.2"
@@ -9245,7 +9226,7 @@ route-recognizer@^0.3.3:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/route-recognizer/-/route-recognizer-0.3.3.tgz#1d365e27fa6995e091675f7dc940a8c00353bd29"
 
-rsvp@^3.0.14, rsvp@^3.0.16, rsvp@^3.0.17, rsvp@^3.0.18, rsvp@^3.0.21, rsvp@^3.0.6, rsvp@^3.1.0, rsvp@^3.2.1, rsvp@^3.3.3, rsvp@^3.5.0, rsvp@^3.6.0:
+rsvp@^3.0.14, rsvp@^3.0.16, rsvp@^3.0.17, rsvp@^3.0.18, rsvp@^3.0.21, rsvp@^3.0.6, rsvp@^3.1.0, rsvp@^3.2.1, rsvp@^3.3.3, rsvp@^3.5.0:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
 
@@ -9304,18 +9285,6 @@ safe-regex@^1.1.0:
 samsam@1.3.0, samsam@1.x, samsam@^1.1.3:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/samsam/-/samsam-1.3.0.tgz#8d1d9350e25622da30de3e44ba692b5221ab7c50"
-
-sane@^1.6.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/sane/-/sane-1.7.0.tgz#b3579bccb45c94cf20355cc81124990dfd346e30"
-  dependencies:
-    anymatch "^1.3.0"
-    exec-sh "^0.2.0"
-    fb-watchman "^2.0.0"
-    minimatch "^3.0.2"
-    minimist "^1.1.1"
-    walker "~1.0.5"
-    watch "~0.10.0"
 
 sane@^2.2.0, sane@^2.4.1:
   version "2.4.1"
@@ -10128,37 +10097,6 @@ temp@0.8.3:
     os-tmpdir "^1.0.0"
     rimraf "~2.2.6"
 
-testem@^1.18.0:
-  version "1.18.4"
-  resolved "https://registry.yarnpkg.com/testem/-/testem-1.18.4.tgz#e45fed922bec2f54a616c43f11922598ac97eb41"
-  dependencies:
-    backbone "^1.1.2"
-    bluebird "^3.4.6"
-    charm "^1.0.0"
-    commander "^2.6.0"
-    consolidate "^0.14.0"
-    cross-spawn "^5.1.0"
-    express "^4.10.7"
-    fireworm "^0.7.0"
-    glob "^7.0.4"
-    http-proxy "^1.13.1"
-    js-yaml "^3.2.5"
-    lodash.assignin "^4.1.0"
-    lodash.clonedeep "^4.4.1"
-    lodash.find "^4.5.1"
-    lodash.uniqby "^4.7.0"
-    mkdirp "^0.5.1"
-    mustache "^2.2.1"
-    node-notifier "^5.0.1"
-    npmlog "^4.0.0"
-    printf "^0.2.3"
-    rimraf "^2.4.4"
-    socket.io "1.6.0"
-    spawn-args "^0.2.0"
-    styled_string "0.0.1"
-    tap-parser "^5.1.0"
-    xmldom "^0.1.19"
-
 testem@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/testem/-/testem-2.0.0.tgz#b05c96200c7ac98bae998d71c94c0c5345907d13"
@@ -10735,9 +10673,15 @@ walker@1.x, walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
-watch@~0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/watch/-/watch-0.10.0.tgz#77798b2da0f9910d595f1ace5b0c2258521f21dc"
+watch-detector@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/watch-detector/-/watch-detector-0.1.0.tgz#e37b410d149e2a8bf263a4f8b71e2f667633dbf8"
+  dependencies:
+    heimdalljs-logger "^0.1.9"
+    quick-temp "^0.1.8"
+    rsvp "^4.7.0"
+    semver "^5.4.1"
+    silent-error "^1.1.0"
 
 watch@~0.18.0:
   version "0.18.0"
@@ -10745,6 +10689,12 @@ watch@~0.18.0:
   dependencies:
     exec-sh "^0.2.0"
     minimist "^1.2.0"
+
+wcwidth@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/wcwidth/-/wcwidth-1.0.1.tgz#f0b0dcf915bc5ff1528afadb2c0e17b532da2fe8"
+  dependencies:
+    defaults "^1.0.3"
 
 websocket-driver@>=0.5.1:
   version "0.7.0"
