@@ -173,11 +173,21 @@
     "@glimmer/wire-format" "^0.30.5"
     simple-html-tokenizer "^0.4.1"
 
+"@glimmer/di@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@glimmer/di/-/di-0.2.0.tgz#73bfd4a6ee4148a80bf092e8a5d29bcac9d4ce7e"
+
 "@glimmer/interfaces@^0.30.5":
   version "0.30.5"
   resolved "https://registry.yarnpkg.com/@glimmer/interfaces/-/interfaces-0.30.5.tgz#9fd391ff4b9e4b29cf56495a2c3f5f660e45497a"
   dependencies:
     "@glimmer/wire-format" "^0.30.5"
+
+"@glimmer/resolver@^0.4.1":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@glimmer/resolver/-/resolver-0.4.2.tgz#60c9b492e90bc3956ac82b3134649bd337e1651c"
+  dependencies:
+    "@glimmer/di" "^0.2.0"
 
 "@glimmer/syntax@^0.30.2", "@glimmer/syntax@^0.30.5":
   version "0.30.5"
@@ -908,7 +918,7 @@ babel-plugin-dead-code-elimination@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/babel-plugin-dead-code-elimination/-/babel-plugin-dead-code-elimination-1.0.2.tgz#5f7c451274dcd7cccdbfbb3e0b85dd28121f0f65"
 
-babel-plugin-debug-macros@^0.1.11:
+babel-plugin-debug-macros@^0.1.10, babel-plugin-debug-macros@^0.1.11:
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/babel-plugin-debug-macros/-/babel-plugin-debug-macros-0.1.11.tgz#6c562bf561fccd406ce14ab04f42c218cf956605"
   dependencies:
@@ -3670,16 +3680,6 @@ ember-cli-sass@7.0.0:
     broccoli-sass-source-maps "^2.0.0"
     ember-cli-version-checker "^1.0.2"
 
-ember-cli-shims@^1.0.2:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-shims/-/ember-cli-shims-1.2.0.tgz#0f53aff0aab80b5f29da3a9731bac56169dd941f"
-  dependencies:
-    broccoli-file-creator "^1.1.1"
-    broccoli-merge-trees "^2.0.0"
-    ember-cli-version-checker "^2.0.0"
-    ember-rfc176-data "^0.3.1"
-    silent-error "^1.0.1"
-
 ember-cli-sri@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ember-cli-sri/-/ember-cli-sri-2.1.1.tgz#971620934a4b9183cf7923cc03e178b83aa907fd"
@@ -4171,14 +4171,14 @@ ember-feature-flags@^5.0.0:
     node-fetch "^2.0.0-alpha.9"
     whatwg-fetch "^2.0.3"
 
-ember-font-awesome@3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/ember-font-awesome/-/ember-font-awesome-3.0.5.tgz#e1a7370e68b201bdf3b222c680a2cbcd184107cb"
+ember-font-awesome@^3.1.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/ember-font-awesome/-/ember-font-awesome-3.1.1.tgz#f4bd5ece8e36417ae3ea76ca9bccfc96e5154d9a"
   dependencies:
-    broccoli-funnel "^1.1.0"
+    broccoli-funnel "^1.2.0"
     chalk "^1.1.3"
-    ember-cli-babel "^5.1.7"
-    ember-cli-htmlbars "^1.1.1"
+    ember-cli-babel "^6.6.0"
+    ember-cli-htmlbars "^2.0.2"
     font-awesome "^4.7.0"
 
 ember-g-recaptcha@^0.5.0:
@@ -4373,18 +4373,23 @@ ember-require-module@^0.1.2:
   dependencies:
     ember-cli-babel "^6.9.2"
 
-ember-resolver@^2.0.3:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/ember-resolver/-/ember-resolver-2.1.1.tgz#5e4c1fffe9f5f48fc2194ad7592274ed0cd74f72"
+ember-resolver@^4.0.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/ember-resolver/-/ember-resolver-4.5.0.tgz#9248bf534dfc197fafe3118fff538d436078bf99"
   dependencies:
-    ember-cli-babel "^5.1.6"
-    ember-cli-version-checker "^1.1.6"
+    "@glimmer/resolver" "^0.4.1"
+    babel-plugin-debug-macros "^0.1.10"
+    broccoli-funnel "^1.1.0"
+    broccoli-merge-trees "^2.0.0"
+    ember-cli-babel "^6.8.1"
+    ember-cli-version-checker "^2.0.0"
+    resolve "^1.3.3"
 
 ember-rfc176-data@^0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.2.7.tgz#bd355bc9b473e08096b518784170a23388bc973b"
 
-ember-rfc176-data@^0.3.0, ember-rfc176-data@^0.3.1:
+ember-rfc176-data@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.1.tgz#6a5a4b8b82ec3af34f3010965fa96b936ca94519"
 
