@@ -19,12 +19,19 @@ const Router = EmberRouter.extend({
         scheduleOnce('afterRender', this, () => {
             const page = this.get('url');
             const title = this.getWithDefault('currentRouteName', 'unknown');
-            const authenticated = this.get('session.isAuthenticated') ? 'Logged in' : 'Logged out';
-            const isPublic = 'true'; // This will have to be changed when we have private things
             const metrics = this.get('metrics');
+            const {
+                authenticated,
+                isPublic,
+                resource,
+            } = config.metricsAdapters[0].dimensions;
 
             metrics.trackPage({
-                page, title, dimension1: authenticated, dimension2: 'undefined', dimension3: isPublic,
+                [authenticated]: this.get('session.isAuthenticated') ? 'Logged in' : 'Logged out',
+                [isPublic]: title === 'dashboard' ? 'false' : 'true',
+                page,
+                [resource]: 'undefined',
+                title,
             });
         });
     },
