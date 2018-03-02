@@ -1,0 +1,13 @@
+<a role='button' title={{t 'zoom_to_guid.title'}} {{action (mut showModal) true}}>{{fa-icon 'rocket'}}</a>
+{{#if showModal}}
+    {{#bs-modal-simple
+        onHide=(action (mut showModal) false)
+        title=(t 'zoom_to_guid.title')
+        closeTitle=(t 'general.cancel')
+        submitTitle=(t 'zoom_to_guid.zoom')
+    }}
+        {{#bs-form onSubmit=(action 'zoom')}}
+            {{input type='text' value=guid placeholder=(t 'zoom_to_guid.placeholder') autofocus=true}}
+        {{/bs-form}}
+    {{/bs-modal-simple}}
+{{/if}}

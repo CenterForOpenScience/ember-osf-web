@@ -34,6 +34,7 @@ export default {
         revert: 'Revert',
         save: 'Save',
         ellipses: '\u2026',
+        warning: 'Warning',
     },
     quickfiles: {
         title: '{{user-name}}\'s Quick Files',
@@ -256,5 +257,17 @@ export default {
         social_mailing: 'Join our mailing list',
         social_facebook: 'Follow us on Facebook',
         social_github: 'Connect with COS on GitHub',
+    },
+    not_found: {
+        title: 'Page not found',
+        body: 'The requested resource could not be found. If this should not have occurred and the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>',
+    },
+    zoom_to_guid: {
+        title: 'Zoom to a GUID within this app',
+        zoom: 'Zoom!',
+        placeholder: 'Enter a GUID',
+    },
+    osf_mode_footer: {
+        dev_mode: 'This site is running in development mode.',
     },
 };
