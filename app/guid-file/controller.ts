@@ -44,7 +44,7 @@ export default class FileDetail extends Controller.extend(Analytics, {
 
             try {
                 await this.get('model.file').destroyRecord();
-                this.transitionToRoute('user-quickfiles', this.get('model.user.id'));
+                this.transitionToRoute('guid-user.quickfiles', this.get('model.user.id'));
                 const message: string = this.get('i18n').t('file_detail.delete_success');
                 return this.get('toast').success(message);
             } catch (e) {
@@ -87,7 +87,7 @@ export default class FileDetail extends Controller.extend(Analytics, {
             const guid = file.get('guid') || await file.getGuid();
 
             this.set('revision', null);
-            this.transitionToRoute('file-detail', guid, { queryParams: { show: 'view' } });
+            this.transitionToRoute('guid-file', guid, { queryParams: { show: 'view' } });
         },
 
         addTag(this: FileDetail, tag) {
@@ -156,6 +156,6 @@ export default class FileDetail extends Controller.extend(Analytics, {
 
 declare module '@ember/controller' {
     interface Registry {
-        'file-detail': FileDetail;
+        'guid-file': FileDetail;
     }
 }

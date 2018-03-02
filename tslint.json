@@ -17,7 +17,9 @@
     "member-access": false,
     "no-namespace": [true, "allow-declarations"],
     "interface-name": [true, "never-prefix"],
-    "space-before-function-paren": [true, { "anonymous": false }]
+    "space-before-function-paren": [true, { "anonymous": false }],
+    "object-literal-sort-keys": false,
+    "object-literal-key-quotes": [true, "as-needed"]
   },
   "rulesDirectory": []
 }

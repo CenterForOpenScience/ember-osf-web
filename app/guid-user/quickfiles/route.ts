@@ -22,7 +22,7 @@ export default class UserQuickfiles extends Route.extend(Analytics, {
 }) {
     currentUser = service('currentUser');
 
-    model(params) {
-        return this.store.findRecord('user', params.user_id);
+    model(this: UserQuickfiles) {
+        return this.modelFor('guid-user');
     }
 }

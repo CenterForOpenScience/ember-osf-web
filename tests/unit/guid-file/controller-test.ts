@@ -1,8 +1,9 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('controller:user-quickfiles', 'Unit | Controller | user quickfiles', {
+moduleFor('controller:guid-file', 'Unit | Controller | guid file', {
     needs: [
         'service:currentUser',
+        'service:toast',
         'service:metrics',
     ],
 });
