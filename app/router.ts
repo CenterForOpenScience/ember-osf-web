@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
 const Router = EmberRouter.extend({
+    session: service('session'),
     metrics: service('metrics'),
 
     location: config.locationType,
@@ -18,8 +19,13 @@ const Router = EmberRouter.extend({
         scheduleOnce('afterRender', this, () => {
             const page = this.get('url');
             const title = this.getWithDefault('currentRouteName', 'unknown');
+            const authenticated = this.get('session.isAuthenticated') ? 'Logged in' : 'Logged out';
+            const isPublic = 'true'; // This will have to be changed when we have private things
+            const metrics = this.get('metrics');
 
-            this.get('metrics').trackPage({ page, title });
+            metrics.trackPage({
+                page, title, dimension1: authenticated, dimension2: 'undefined', dimension3: isPublic,
+            });
         });
     },
 });
