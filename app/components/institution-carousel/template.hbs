@@ -4,7 +4,7 @@
         {{#each slides as |slide index|}}
             <div class={{if (not index) "item active" "item"}}>
                 {{#each slide as |institution index|}}
-                    <div class="{{if (not index) (concat "col-sm-2 " columnOffset) "col-sm-2"}} InstitutionCarousel__item">
+                    <div class="{{if (not index) (concat "col-sm-2 col-sm-offset-" columnOffset) "col-sm-2"}} InstitutionCarousel__item">
                         <a href="/institutions/{{institution.id}}" class="InstitutionCarousel__item__thumbnail">
                             <img class="img-circle img-responsive InstitutionCarousel__item__image" name={{institution.title}} logopath="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png" alt="{{institution.title}}" title="{{institution.title}}">
                         </a>
