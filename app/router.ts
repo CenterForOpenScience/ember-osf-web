@@ -26,9 +26,18 @@ const Router = EmberRouter.extend({
                 resource,
             } = config.metricsAdapters[0].dimensions;
 
+            /*
+              There's supposed to be a document describing how dimensions should be handled, but it doesn't exist yet.
+              When it does, we'll replace out this comment with the link to that documentation. For now:
+                  1) isPublic: Public, Private, or n/a (for pages that aren't covered by app permissions like the
+                  dashboard;
+                  2) authenticated: Logged in or Logged out
+                  3) resource: the JSONAPI type (node, file, user, etc) or n/a
+            */
+
             metrics.trackPage({
                 [authenticated]: this.get('session.isAuthenticated') ? 'Logged in' : 'Logged out',
-                [isPublic]: title === 'dashboard' ? 'false' : 'true',
+                [isPublic]: title === 'file-detail' ? 'Public' : 'n/a',
                 page,
                 [resource]: 'undefined',
                 title,
