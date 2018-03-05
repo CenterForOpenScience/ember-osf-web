@@ -1,6 +1,18 @@
-{{title 'OSF | Home'}}
+{{title (t 'dashboard.page_title')}}
 {{#if modalOpen}}
-    {{new-project-modal user=currentUser.user closeModal=(action 'toggleModal') reloadNodes=(action 'reloadNodes')}}
+    {{new-project-modal
+        newNode=newNode
+        institutions=user.institutions
+        institutionsSelected=institutionsSelected
+        closeModal=(action 'closeModal')
+        selectInstitution=(action 'selectInstitution')
+        selectAll=(action 'selectAllInstitutions')
+        removeAll=(action 'removeAllInstitutions')
+        search=(perform searchNodes)
+        searchSelected=templateFrom
+        searchChange=(action (mut templateFrom))
+        create=(perform createNode)
+    }}
 {{/if}}
 <div class="prereg-banner">
     <div class="container">
@@ -33,7 +45,9 @@
                         <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
                         <div class='m-b-lg col-xs-3'>
                             <div class='pull-right'>
-                                <button onclick={{action 'toggleModal'}} class='btn btn-success btn-success-high-contrast m-t-md f-w-xl'>{{t 'dashboard.create_new_project_button'}}</button>
+                                <button onclick={{action 'toggleModal'}} class="btn btn-success btn-success-high-contrast m-t-md f-w-xl">
+                                    {{t 'dashboard.create_new_project_button'}}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -42,7 +56,7 @@
                             {{#if initialLoad.isRunning}}
                                 {{loading-indicator}}
                             {{else}}
-                                {{#if totalNodes}}
+                                {{#if hasNodes}}
                                     <div class='col-xs-12'>
                                         <div class='m-b-sm text-center'>
                                             <div class="m-v-sm quick-search-input">
@@ -55,7 +69,7 @@
                                                 <div class="col-sm-3 col-md-6">
                                                     <div class="quick-search-col">
                                                         {{t 'general.title'}}
-                                                        {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortBy='title'}}
+                                                        {{sort-button sortAction=(action 'sort') sort=sort sortBy='title'}}
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3 col-md-3">
@@ -64,19 +78,17 @@
                                                 <div class="col-sm-3 col-md-3">
                                                     <div class="quick-search-col">
                                                         {{t 'general.modified'}}
-                                                        <span class="sort-group">
-                                                            {{sort-button sortAction=(action 'sort') curOrder=sortOrder curBy=sortBy sortBy='last_logged'}}
-                                                        </span>
+                                                        {{sort-button sortAction=(action 'sort') sort=sort sortBy='last_logged'}}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-12 f-w-xl node-sort-dropdown text-right">
                                                     <span>
-                                                        {{sort-button sortAction=(action 'setSortOrder') curOrder=sortOrder}}
+                                                        {{!-- {{sort-button sortAction=(action 'sort') curOrder=sortOrder}} --}}
                                                     </span>
                                                     <label>
-                                                        <select onchange={{action "setSortBy" value="target.value"}}>
+                                                        <select onchange={{action "sort" value="target.value"}}>
                                                             <option selected={{if (eq sortBy 'title') 'selected'}} value="title">{{t 'general.title'}}</option>
                                                             <option selected={{if (eq sortBy 'last_logged') 'selected'}} value="last_logged">{{t 'general.modified'}}</option>
                                                         </select>
@@ -89,7 +101,9 @@
                                                 {{#each nodes as | node |}}
                                                     {{dashboard-item node=node}}
                                                 {{else}}
-                                                    <br><i>{{t 'dashboard.quicksearch.no_results'}}</i><br>
+                                                    <br>
+                                                    <i>{{t 'dashboard.quicksearch.no_results'}}</i>
+                                                    <br>
                                                 {{/each}}
                                             {{/if}}
                                         </div>
@@ -98,7 +112,7 @@
                                                 {{loading-indicator}}
                                             {{else}}
                                                 <div class="text-center">
-                                                    <button aria-label='More' class="col-sm-12 text-muted" onclick={{action 'more'}}>
+                                                    <button aria-label='More' class="col-sm-12 text-muted" onclick= {{action 'more'}}>
                                                         {{fa-icon 'caret-down' class='load-nodes m-b-xl'}}
                                                     </button>
                                                 </div>
@@ -200,7 +214,9 @@
                             </div>
                         </div>
                         <div class="col-md-4 text-center">
-                            <div><a role="button" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">{{t 'dashboard.meetings.button'}}</a></div>
+                            <div>
+                                <a role="button" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">{{t 'dashboard.meetings.button'}}</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -223,7 +239,9 @@
                             </div>
                         </div>
                         <div class="col-md-4 text-center">
-                            <div><a role="button" href="/preprints/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">{{t 'dashboard.preprints.button'}}</a></div>
+                            <div>
+                                <a role="button" href="/preprints/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl">{{t 'dashboard.preprints.button'}}</a>
+                            </div>
                         </div>
                     </div>
                 </div>

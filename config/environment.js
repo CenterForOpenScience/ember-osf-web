@@ -1,97 +1,36 @@
 /* eslint-env node */
-const knownBackends = {
-    local: {
-        url: 'http://localhost:5000/',
-        apiUrl: 'http://localhost:8000',
-        renderUrl: 'http://localhost:7778/render',
-        waterbutlerUrl: 'http://localhost:7777/',
-        helpUrl: 'http://localhost:4200/help',
-        cookieLoginUrl: 'http://localhost:8080/login',
-        oauthUrl: 'http://localhost:8080/oauth2/profile',
-        shareBaseUrl: 'https://staging-share.osf.io/',
-        shareApiUrl: 'https://staging-share.osf.io/api/v2',
-        shareSearchUrl: 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
-    },
-    stage: {
-        url: 'https://staging.osf.io/',
-        apiUrl: 'https://staging-api.osf.io',
-        renderUrl: 'https://staging-mfr.osf.io/render',
-        waterbutlerUrl: 'https://staging-files.osf.io/',
-        helpUrl: 'http://help.osf.io',
-        cookieLoginUrl: 'https://staging-accounts.osf.io/login',
-        oauthUrl: 'https://staging-accounts.osf.io/oauth2/authorize',
-        shareBaseUrl: 'https://staging-share.osf.io/',
-        shareApiUrl: 'https://staging-share.osf.io/api/v2',
-        shareSearchUrl: 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
-    },
-    stage2: {
-        url: 'https://staging2.osf.io/',
-        apiUrl: 'https://staging2-api.osf.io',
-        renderUrl: 'https://staging2-mfr.osf.io/render',
-        waterbutlerUrl: 'https://staging2-files.osf.io/',
-        helpUrl: 'http://help.osf.io',
-        cookieLoginUrl: 'https://staging2-accounts.osf.io/login',
-        oauthUrl: 'https://staging2-accounts.osf.io/oauth2/authorize',
-        shareBaseUrl: 'https://staging-share.osf.io/',
-        shareApiUrl: 'https://staging-share.osf.io/api/v2',
-        shareSearchUrl: 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
-    },
-    stage3: {
-        url: 'https://staging3.osf.io/',
-        apiUrl: 'https://staging3-api.osf.io',
-        renderUrl: 'https://staging3-mfr.osf.io/render',
-        waterbutlerUrl: 'https://staging3-files.osf.io/',
-        helpUrl: 'http://help.osf.io',
-        cookieLoginUrl: 'https://staging3-accounts.osf.io/login',
-        oauthUrl: 'https://staging3-accounts.osf.io/oauth2/authorize',
-        shareBaseUrl: 'https://staging-share.osf.io/',
-        shareApiUrl: 'https://staging-share.osf.io/api/v2',
-        shareSearchUrl: 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
-    },
-    prod: {
-        url: 'https://osf.io/',
-        apiUrl: 'https://api.osf.io',
-        renderUrl: 'https://mfr.osf.io/render',
-        waterbutlerUrl: 'https://files.osf.io/',
-        helpUrl: 'http://help.osf.io',
-        cookieLoginUrl: 'https://accounts.osf.io/login',
-        oauthUrl: 'https://accounts.osf.io/oauth2/authorize',
-        shareBaseUrl: 'https://share.osf.io/',
-        shareApiUrl: 'https://share.osf.io/api/v2',
-        shareSearchUrl: 'https://share.osf.io/api/v2/search/creativeworks/_search',
-    },
-    test: {
-        url: 'https://test.osf.io/',
-        apiUrl: 'https://test-api.osf.io',
-        renderUrl: 'https://test-mfr.osf.io/render',
-        waterbutlerUrl: 'https://test-files.osf.io/',
-        helpUrl: 'http://help.osf.io',
-        cookieLoginUrl: 'https://test-accounts.osf.io/login',
-        oauthUrl: 'https://test-accounts.osf.io/oauth2/authorize',
-        shareBaseUrl: 'https://staging-share.osf.io/',
-        shareApiUrl: 'https://staging-share.osf.io/api/v2',
-        shareSearchUrl: 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
-    },
-    env: {
-        url: 'OSF_URL',
-        apiUrl: 'OSF_API_URL',
-        renderUrl: 'OSF_RENDER_URL',
-        waterbutlerUrl: 'OSF_FILE_URL',
-        helpUrl: 'OSF_HELP_URL',
-        cookieLoginUrl: 'OSF_COOKIE_LOGIN_URL',
-        oauthUrl: 'OSF_OAUTH_URL',
-        shareBaseUrl: 'SHARE_BASE_URL',
-        shareApiUrl: 'SHARE_API_URL',
-        shareSearchUrl: 'SHARE_SEARCH_URL',
-    },
-};
 
-function envOrSource(env, source) {
-    function getKey(keyName) {
-        return env[keyName] || source[keyName];
-    }
-    return getKey;
+let localConfig;
+
+try {
+    localConfig = require('./local'); // eslint-disable-line global-require
+} catch (ex) {
+    localConfig = {};
 }
+
+const {
+    BACKEND: backend = 'local',
+    CLIENT_ID: clientId,
+    FB_APP_ID,
+    GIT_COMMIT: release,
+    GOOGLE_ANALYTICS_ID,
+    OAUTH_SCOPES: scope,
+    OSF_URL: url = 'http://localhost:5000/',
+    OSF_API_URL: apiUrl = 'http://localhost:8000',
+    OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
+    OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
+    OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
+    OSF_COOKIE_LOGIN_URL: cookieLoginUrl = 'http://localhost:8080/login',
+    OSF_OAUTH_URL: oauthUrl = 'http://localhost:8080/oauth2/profile',
+    PERSONAL_ACCESS_TOKEN: accessToken,
+    POPULAR_LINKS_NODE: popularNode = '57tnq',
+    // POPULAR_LINKS_REGISTRATIONS = '',
+    NEW_AND_NOTEWORTHY_LINKS_NODE: noteworthyNode = 'z3sg2',
+    REDIRECT_URI: redirectUri,
+    SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
+    SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
+    SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
+} = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
     const authorizationType = 'cookie';
@@ -104,7 +43,7 @@ module.exports = function(environment) {
         authorizationType,
         sentryDSN: null,
         sentryOptions: {
-            release: process.env.GIT_COMMIT,
+            release,
         },
         'ember-simple-auth': {
             authorizer: `authorizer:osf-${authorizationType}`,
@@ -125,6 +64,9 @@ module.exports = function(environment) {
             // Here you can pass flags/options to your application instance
             // when it is created
         },
+        i18n: {
+            defaultLocale: 'en-US',
+        },
         moment: {
             includeTimezone: 'all',
             outputFormat: 'YYYY-MM-DD h:mm A z',
@@ -134,11 +76,11 @@ module.exports = function(environment) {
                 name: 'GoogleAnalytics',
                 environments: ['all'],
                 config: {
-                    id: process.env.GOOGLE_ANALYTICS_ID,
+                    id: GOOGLE_ANALYTICS_ID,
                 },
             },
         ],
-        FB_APP_ID: process.env.FB_APP_ID,
+        FB_APP_ID,
         microfeedback: {
             enabled: true,
             url: null,
@@ -154,10 +96,44 @@ module.exports = function(environment) {
                 QuickFiles: {},
             },
         },
+        OSF: {
+            clientId,
+            scope,
+            apiNamespace: 'v2', // URL suffix (after host)
+            backend,
+            redirectUri,
+            url,
+            apiUrl,
+            renderUrl,
+            waterbutlerUrl,
+            helpUrl,
+            cookieLoginUrl,
+            oauthUrl,
+            shareBaseUrl,
+            shareApiUrl,
+            shareSearchUrl,
+            accessToken,
+        },
         social: {
             twitter: {
                 viaHandle: 'OSFramework',
             },
+        },
+        support: {
+            preregUrl: 'https://cos.io/prereg/',
+            statusPageUrl: 'https://status.cos.io',
+            faqPageUrl: 'http://help.osf.io/m/faqs/l/726460-faqs',
+            supportEmail: 'support@osf.io',
+            contactEmail: 'contact@osf.io',
+            consultationUrl: 'https://cos.io/stats_consulting/',
+            twitterUrl: 'https://twitter.com/OSFSupport',
+            mailingUrl: 'https://groups.google.com/forum/#!forum/openscienceframework',
+            facebookUrl: 'https://www.facebook.com/CenterForOpenScience/',
+            githubUrl: 'https://github.com/centerforopenscience',
+        },
+        dashboard: {
+            popularNode,
+            noteworthyNode,
         },
     };
 
@@ -187,54 +163,6 @@ module.exports = function(environment) {
         ENV.metricsAdapters[0].config.id = ENV.metricsAdapters[0].config.id || 'UA-84580271-1';
         ENV.FB_APP_ID = ENV.FB_APP_ID || '1039002926217080';
     }
-    ENV.i18n = {
-        defaultLocale: 'en-US',
-    };
 
-    const BACKEND = process.env.BACKEND || 'local';
-
-    // if no local.js, env vars need to be passed
-    const configFileSettings = BACKEND === 'local' && environment === 'local' ? require('./local') : {}; // eslint-disable-line global-require
-
-    const eitherConfig = envOrSource(process.env, configFileSettings);
-
-    ENV.OSF = {
-        clientId: eitherConfig('CLIENT_ID'),
-        scope: eitherConfig('OAUTH_SCOPES'),
-        apiNamespace: 'v2', // URL suffix (after host)
-        backend: BACKEND,
-        redirectUri: eitherConfig('REDIRECT_URI'),
-    };
-
-    // Fetch configuration information for the application
-    let backendUrlConfig = knownBackends[BACKEND] || {};
-
-    if (!Object.keys(knownBackends).includes(BACKEND)) {
-        console.warn('WARNING: You have specified an unknown backend environment. If you need to customize URL settings, specify BACKEND=env');
-    }
-
-    if (BACKEND === 'local') {
-        backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
-        backendUrlConfig.isLocal = true;
-    } else if (BACKEND === 'prod') {
-        console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
-    } else if (BACKEND === 'env') {
-        // Optionally draw backend URL settings entirely from environment variables.
-        //   This is all or nothing: If you want to specify a custom backend, you must provide ALL URLs.
-        const newConfig = {};
-        // Map internal config names to the corresponding env var names, eg {url: OSF_URL}. All keys must be present
-        Object.keys(backendUrlConfig).forEach((internalName) => {
-            const envVarName = backendUrlConfig[internalName];
-            newConfig[internalName] = envVarName;
-        });
-        backendUrlConfig = newConfig;
-    }
-    // Warn the user if some URL entries not present
-    Object.keys(backendUrlConfig).forEach((key) => {
-        if (!backendUrlConfig[key]) console.error(`This backend must define a value for: ${key}`);
-    });
-
-    // Combine URLs + auth settings into final auth config
-    Object.assign(ENV.OSF, backendUrlConfig);
     return ENV;
 };

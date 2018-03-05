@@ -3,6 +3,12 @@ import { inject as service } from '@ember/service';
 import OSFAgnosticAuthRouteMixin from 'ember-osf-web/mixins/osf-agnostic-auth-route';
 
 export default class Application extends Route.extend(OSFAgnosticAuthRouteMixin, {
+    beforeModel(...args) {
+        this.get('moment').setTimeZone('UTC');
+
+        return this._super(...args);
+    },
+
     actions: {
         didTransition() {
             Object.assign(window, { prerenderReady: true });
@@ -11,12 +17,6 @@ export default class Application extends Route.extend(OSFAgnosticAuthRouteMixin,
     },
 }) {
     moment = service('moment');
-
-    beforeModel(...args) {
-        this.get('moment').setTimeZone('UTC');
-
-        return this._super(...args);
-    }
 
     afterModel() {
         const availableLocales: [string] = this.get('i18n.locales').toArray();

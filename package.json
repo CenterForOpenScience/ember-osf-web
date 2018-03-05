@@ -23,7 +23,8 @@
       "eslint",
       "tslint"
     ],
-    "*.scss": "stylelint"
+    "*.scss": "stylelint",
+    "*.hbs": "ember-template-lint"
   },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
@@ -107,7 +108,7 @@
     "typescript-eslint-parser": "^13.0.0"
   },
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">= 8"
   },
   "private": true,
   "bugs": {
