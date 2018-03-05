@@ -5,7 +5,7 @@ export default class FileProvider extends OsfSerializer {
         return 'file-provider';
     };
 }
-// DO NOT DELETE: this is how TypeScript knows how to look up your serializers.
+
 declare module 'ember-data' {
     interface SerializerRegistry {
         'file-provider': FileProvider;

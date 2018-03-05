@@ -84,12 +84,12 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @param {String} relationship the relationship to build a url for
      * @return {String} a URL
      * */
-    _buildRelationshipURL(snapshot: DS.Snapshot, relationship: string): void | string {
-        const links: {self?: {href: string}, related?: {href: string}} | boolean = relationship ? snapshot.record.get(`relationshipLinks.${underscore(relationship)}.links`) : false;
-        if (links && (links.self || links.related)) {
-            return links.self ? links.self.href : links.related.href;
+    _buildRelationshipURL(snapshot: DS.Snapshot, relationship: string): null | string {
+        if (!relationship) {
+            return null;
         }
-        return null;
+        const links: {self?: {href: string}, related?: {href: string}} = snapshot.record.get(`relationshipLinks.${underscore(relationship)}.links`);
+        return links.self ? links.self.href : links.related.href;
     },
     /**
      * Handle creation of related resources
@@ -212,7 +212,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @param {String} requestMethod
      * @param {Boolean} isBulk
      * */
-    _doRelatedRequest(store: DS.Store, snapshot: DS.Snapshot, relatedSnapshots?: Array<DS.Snapshot>, relationship: string, url: string, requestMethod: string, isBulk: boolean = false) {
+    _doRelatedRequest(store: DS.Store, snapshot: DS.Snapshot, relatedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, requestMethod: string, isBulk: boolean = false) {
         const data: { data?: Array<any> } = {};
         const relatedMeta: any = snapshot.record[relationship].meta();
         const type: string = singularize(relatedMeta.type);
@@ -269,7 +269,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @param {String} change
      * */
     _handleRelatedRequest(store: DS.Store, type: {modelName: string}, snapshot: DS.Snapshot, relationship: string, change: string): any {
-        let related: Array<any> = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(function(r) {
+        let related: Array<any> | {record?: any} = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(function(r) {
             if (r._internalModel) {
                 return r._internalModel.createSnapshot();
             }
@@ -332,7 +332,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
 });
 
 export default OsfAdapter;
-// DO NOT DELETE: this is how TypeScript knows how to look up your adapters.
+
 declare module 'ember-data' {
   interface AdapterRegistry {
     'osf-adapter': OsfAdapter;

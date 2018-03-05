@@ -25,8 +25,8 @@ const OsfModel = DS.Model.extend({
     embeds: DS.attr('embed'),
 
     relationshipLinks: alias('links.relationships'),
-    isNewOrDirty(): boolean | number {
-        return this.get('isNew') || Object.keys(this.changedAttributes()).length;
+    isNewOrDirty(): boolean {
+        return this.get('isNew') || !!Object.keys(this.changedAttributes()).length;
     },
 
     init(): void {
@@ -126,7 +126,7 @@ const OsfModel = DS.Model.extend({
 
 
 export default OsfModel;
-// DO NOT DELETE: this is how TypeScript knows how to look up your models.
+
 declare module 'ember-data' {
     interface ModelRegistry {
         'osf-model': OsfModel;

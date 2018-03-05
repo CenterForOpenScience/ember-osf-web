@@ -3,7 +3,7 @@ import DS from 'ember-data'; // eslint-disable-line no-unused-vars
 import OsfAdapter from './osf-adapter';
 
 export default class User extends OsfAdapter {
-    findHasMany = function(store: DS.Store, snapshot: DS.Snapshot, url_: string, relationship: { type: string }): Promise<any> {
+    findHasMany = function(this: User, store: DS.Store, snapshot: DS.Snapshot, url_: string, relationship: { type: string }): Promise<any> {
         const { id } = snapshot;
         const type: string = snapshot.modelName;
 
@@ -22,7 +22,7 @@ export default class User extends OsfAdapter {
     };
 }
 
-// DO NOT DELETE: this is how TypeScript knows how to look up your adapters.
+
 declare module 'ember-data' {
     interface AdapterRegistry {
         'user': User;

@@ -43,7 +43,7 @@ export default class User extends OsfModel.extend({
     profileImage = alias('links.profile_image');
 }
 
-// DO NOT DELETE: this is how TypeScript knows how to look up your models.
+
 declare module 'ember-data' {
     interface ModelRegistry {
         'user': User;

@@ -32,7 +32,7 @@ export default class PreprintProvider extends OsfModel.extend({
     hasHighlightedSubjects = alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects');
 }
 
-// DO NOT DELETE: this is how TypeScript knows how to look up your models.
+
 declare module 'ember-data' {
     interface ModelRegistry {
         'preprint-provider': PreprintProvider;

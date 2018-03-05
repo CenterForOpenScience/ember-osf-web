@@ -57,7 +57,7 @@ export default class Contributor extends OsfModel.extend({
     }).volatile();
 }
 
-// DO NOT DELETE: this is how TypeScript knows how to look up your models.
+
 declare module 'ember-data' {
     interface ModelRegistry {
         'contributor': Contributor;

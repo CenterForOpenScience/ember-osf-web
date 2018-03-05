@@ -114,6 +114,7 @@
   },
   "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme",
   "dependencies": {
+    "@types/ember-data": "^2.14.12",
     "dropzone": "^5.3.0",
     "jquery-mockjax": "^2.3.0"
   }

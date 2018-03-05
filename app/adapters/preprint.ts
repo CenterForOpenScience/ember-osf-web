@@ -2,7 +2,7 @@ import DS from 'ember-data'; // eslint-disable-line no-unused-vars
 import OsfAdapter from './osf-adapter';
 
 export default class Preprint extends OsfAdapter {
-    updateRecord = function(store: DS.Store, type: {modelName: string}, snapshot: DS.Snapshot): Promise<any> {
+    updateRecord = function(this: Preprint, store: DS.Store, type: {modelName: string}, snapshot: DS.Snapshot): Promise<any> {
         const data: object = {};
         const serializer: DS.Serializer = store.serializerFor(type.modelName);
 
@@ -15,7 +15,7 @@ export default class Preprint extends OsfAdapter {
     };
 }
 
-// DO NOT DELETE: this is how TypeScript knows how to look up your adapters.
+
 declare module 'ember-data' {
     interface AdapterRegistry {
         'preprint': Preprint;

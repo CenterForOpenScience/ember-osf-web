@@ -126,11 +126,11 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
 
     /**
      * Determine whether the specified user ID is a contributor on this node
-     * @method isContributor
+     * @method contributorCheck
      * @param {String} userId
-     * @return {boolean} Whether the specified user is a contributor on this node
+     * @return {Promise<boolean>} Whether the specified user is a contributor on this node
      */
-    isContributor(userId: string): Promise<any> | Promise<boolean> {
+    contributorCheck(userId: string): Promise<boolean> {
         // Return true if there is at least one matching contributor for this user ID
         if (!userId) {
             return new EmberPromise(resolve => resolve(false));
@@ -273,7 +273,7 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
 }) {
 }
 
-// DO NOT DELETE: this is how TypeScript knows how to look up your models.
+
 declare module 'ember-data' {
     interface ModelRegistry {
         'node': Node;
