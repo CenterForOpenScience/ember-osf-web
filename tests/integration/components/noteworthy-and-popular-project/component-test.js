@@ -6,6 +6,7 @@ moduleForComponent('noteworthy-and-popular-project', 'Integration | Component | 
 });
 
 test('it renders', function(assert) {
-    this.render(hbs`{{noteworthy-and-popular-project}}`);
+    this.set('project', FactoryGuy.make('node'));
+    this.render(hbs`{{noteworthy-and-popular-project project=project}}`);
     assert.ok(this.$().text().trim());
 });
