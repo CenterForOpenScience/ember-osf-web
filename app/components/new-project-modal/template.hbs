@@ -48,8 +48,8 @@
                         </table>
                     </div>
                 {{/if}}
-                <div class="text" role="button" onclick={{action 'toggleMore'}}>
-                    {{fa-icon "caret-down"}} {{t 'new_project.more'}}
+                <div class="text" role="button" onclick={{action 'toggle' 'more'}}>
+                    {{fa-icon (concat 'caret-' (if more 'down' 'right'))}} {{t 'new_project.more'}}
                 </div>
                 {{#if more}}
                     <div class="form-group m-v-sm">
