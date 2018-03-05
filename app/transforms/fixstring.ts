@@ -28,3 +28,10 @@ export default DS.StringTransform.extend({
         return fixSpecialChars(this._super(serialized));
     },
 });
+
+
+declare module 'ember-data' {
+  interface TransformRegistry {
+      'fixstring': string;
+  }
+}

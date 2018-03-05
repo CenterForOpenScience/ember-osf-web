@@ -9,3 +9,10 @@ export default Transform.extend({
         return deserialized;
     },
 });
+
+
+declare module 'ember-data' {
+  interface TransformRegistry {
+      'embed': any;
+  }
+}

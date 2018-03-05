@@ -1,6 +1,3 @@
-/*
- An empty stub. For now just leave links as a vanilla JS Object
-*/
 import Transform from 'ember-data/transform';
 
 export default Transform.extend({
@@ -11,3 +8,9 @@ export default Transform.extend({
         return deserialized;
     },
 });
+
+declare module 'ember-data' {
+  interface TransformRegistry {
+      'links': any;
+  }
+}

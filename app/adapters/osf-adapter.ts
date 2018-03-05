@@ -23,7 +23,7 @@ import { singularize } from 'ember-inflector';
  * @extends DS.JSONAPIAdapter
  * @uses GenericDataAdapterMixin
  */
-const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
+export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdapterMixin).extend({
     headers: {
         ACCEPT: 'application/vnd.api+json; version=2.4',
     },
@@ -38,7 +38,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      *
      * @method buildQuery
      */
-    buildQuery(snapshot: DS.Snapshot): object {
+    buildQuery(this: OsfAdapter, snapshot: DS.Snapshot): object {
         const query: { include?: any, embed?: any } = this._super(...arguments);
         if (query.include) {
             query.embed = query.include;
@@ -46,7 +46,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
         delete query.include;
         return merge(query, getWithDefault(snapshot, 'adapterOptions.query', {}));
     },
-    buildURL(modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
+    buildURL(this: OsfAdapter, modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
         let url: string = this._super(...arguments);
         const options: {url?: string, query?: object} = (snapshot ? snapshot.adapterOptions : false) || {};
 
@@ -132,7 +132,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @param {String} url
      * @param {Boolean} isBulk
      * */
-    _addRelated(store: DS.Store, snapshot: DS.Snapshot, addedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, isBulk: boolean = false): Promise<any> {
+    _addRelated(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, addedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, isBulk: boolean = false): Promise<any> {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then((res) => {
             addedSnapshots.forEach(function(s) {
                 snapshot.record.resolveRelationship(relationship).addCanonicalInternalModel(s.record._internalModel);
@@ -152,7 +152,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @param {String} url
      * @param {Boolean} isBulk
      * */
-    _updateRelated(store: DS.Store, snapshot: DS.Snapshot, updatedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, isBulk: boolean = false): Promise<any> {
+    _updateRelated(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, updatedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, isBulk: boolean = false): Promise<any> {
         return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk).then((res) => {
             const relatedType = singularize(snapshot.record[relationship].meta().type);
             res.data.forEach((item) => {
@@ -176,7 +176,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @param {String} url
      * @param {Boolean} isBulk
      * */
-    _removeRelated(store: DS.Store, snapshot: DS.Snapshot, removedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, isBulk: boolean = false): Promise<any> {
+    _removeRelated(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, removedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, isBulk: boolean = false): Promise<any> {
         return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then((res) => {
             removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalInternalModel(s.record._internalModel));
             return res || [];
@@ -194,7 +194,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @param {String} url
      * @param {Boolean} isBulk
      * */
-    _deleteRelated(store: DS.Store, snapshot: DS.Snapshot, deletedSnapshots: Array<DS.Snapshot>): Promise<void> { // , relationship, url, isBulk = false) {
+    _deleteRelated(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, deletedSnapshots: Array<DS.Snapshot>): Promise<void> { // , relationship, url, isBulk = false) {
         return this._removeRelated(...arguments).then(() => {
             deletedSnapshots.forEach(s => s.record.unloadRecord());
         });
@@ -212,7 +212,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @param {String} requestMethod
      * @param {Boolean} isBulk
      * */
-    _doRelatedRequest(store: DS.Store, snapshot: DS.Snapshot, relatedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, requestMethod: string, isBulk: boolean = false) {
+    _doRelatedRequest(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, relatedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, requestMethod: string, isBulk: boolean = false) {
         const data: { data?: Array<any> } = {};
         const relatedMeta: any = snapshot.record[relationship].meta();
         const type: string = singularize(relatedMeta.type);
@@ -268,7 +268,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
      * @param {String} relationship
      * @param {String} change
      * */
-    _handleRelatedRequest(store: DS.Store, type: {modelName: string}, snapshot: DS.Snapshot, relationship: string, change: string): any {
+    _handleRelatedRequest(this: OsfAdapter, store: DS.Store, type: {modelName: string}, snapshot: DS.Snapshot, relationship: string, change: string): any {
         let related: Array<any> | {record?: any} = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(function(r) {
             if (r._internalModel) {
                 return r._internalModel.createSnapshot();
@@ -298,7 +298,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
         );
         return response;
     },
-    updateRecord(store: DS.Store, type: string, snapshot: DS.Snapshot): any {
+    updateRecord(this: OsfAdapter, store: DS.Store, type: {modelName: string}, snapshot: DS.Snapshot): any {
         const relatedRequests = {};
         const dirtyRelationships = snapshot.record.get('_dirtyRelationships');
         Object.keys(dirtyRelationships).forEach((relationship) => {
@@ -318,7 +318,7 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
             return relatedPromise.then(() => null);
         }
     },
-    ajaxOptions(_: any, __: any, options?: {isBulk?: boolean}): any {
+    ajaxOptions(this: OsfAdapter, _: any, __: any, options?: {isBulk?: boolean}): any {
         const ret = this._super(...arguments);
         if (options && options.isBulk) {
             ret.contentType = 'application/vnd.api+json; ext=bulk';
@@ -329,12 +329,11 @@ const OsfAdapter = DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
         const underscored: string = underscore(modelName);
         return Ember.String.pluralize(underscored);
     },
-});
+}) {}
 
-export default OsfAdapter;
 
 declare module 'ember-data' {
   interface AdapterRegistry {
-    'osf-adapter': OsfAdapter;
+      'osf-adapter': OsfAdapter;
   }
 }

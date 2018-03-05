@@ -15,3 +15,10 @@ export default DS.Transform.extend({
         return A();
     },
 });
+
+
+declare module 'ember-data' {
+  interface TransformRegistry {
+      'array': Array<any>;
+  }
+}

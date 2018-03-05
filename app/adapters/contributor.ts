@@ -1,8 +1,9 @@
 import DS from 'ember-data'; // eslint-disable-line no-unused-vars
 import OsfAdapter from './osf-adapter';
+import Node from 'ember-osf-web/models/node'; // eslint-disable-line no-unused-vars
 
 export default class Contributor extends OsfAdapter.extend({
-    buildURL(modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
+    buildURL(this: Contributor, modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
         if (requestType === 'createRecord' || requestType === 'findRecord') {
             let nodeId: string;
             let sendEmail: boolean | string = true;
@@ -40,8 +41,7 @@ export default class Contributor extends OsfAdapter.extend({
         }
         return this._super(...arguments);
     },
-}) {
-}
+}) {}
 
 
 declare module 'ember-data' {

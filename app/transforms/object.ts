@@ -16,3 +16,9 @@ export default DS.Transform.extend({
         return {};
     },
 });
+
+declare module 'ember-data' {
+  interface TransformRegistry {
+      'object': any;
+  }
+}

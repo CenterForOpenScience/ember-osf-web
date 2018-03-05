@@ -3,7 +3,7 @@ import OsfAdapter from './osf-adapter';
 const requestTypes = ['createRecord', 'updateRecord', 'deleteRecord'];
 
 export default class Collection extends OsfAdapter.extend({
-    buildURL(_: any, __: any, ___: any, requestType: string): string {
+    buildURL(this: Collection, _: any, __: any, ___: any, requestType: string): string {
         // Embed linked_nodes
         const base: string = this._super(...arguments);
         if (requestTypes.indexOf(requestType) === -1) {
