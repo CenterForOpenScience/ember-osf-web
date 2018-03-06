@@ -18,11 +18,11 @@ export default class Collection extends OsfModel.extend({
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
     bookmarks: DS.attr('boolean'),
-    linkedNodes: DS.hasMany('nodes', {
+    linkedNodes: DS.hasMany('node', {
         inverse: null,
         serializerType: 'linked-node',
     }),
-    linkedRegistrations: DS.hasMany('registrations', {
+    linkedRegistrations: DS.hasMany('registration', {
         inverse: null,
         serializerType: 'linked-node',
     }),

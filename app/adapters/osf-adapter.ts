@@ -84,11 +84,11 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {String} relationship the relationship to build a url for
      * @return {String} a URL
      * */
-    _buildRelationshipURL(snapshot: DS.Snapshot, relationship: string): null | string {
-        if (!relationship) {
+    _buildRelationshipURL(snapshot: DS.Snapshot, relationship: string | null): null | string {
+        const links: {self?: {href: string}, related?: {href: string}} = snapshot.record.get(`relationshipLinks.${underscore(relationship)}.links`);
+        if (!links) {
             return null;
         }
-        const links: {self?: {href: string}, related?: {href: string}} = snapshot.record.get(`relationshipLinks.${underscore(relationship)}.links`);
         return links.self ? links.self.href : links.related.href;
     },
     /**
@@ -216,7 +216,7 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
         const data: { data?: Array<any> } = {};
         const relatedMeta: any = snapshot.record[relationship].meta();
         const type: string = singularize(relatedMeta.type);
-        let serializer: DS.Serializer = store.serializerFor(type);
+        let serializer: DS.Serializer & { serializeIntoHash: any } = store.serializerFor(type);
         if (relatedMeta.options.serializerType) {
             serializer = store.serializerFor(relatedMeta.options.serializerType);
         }

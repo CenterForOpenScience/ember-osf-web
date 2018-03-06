@@ -40,8 +40,8 @@ export default class Registration extends Node.extend({
     registeredBy: DS.belongsTo('user', {
         inverse: null,
     }),
-    contributors: DS.hasMany('contributors'),
-    comments: DS.hasMany('comments'),
+    contributors: DS.hasMany('contributor'),
+    comments: DS.hasMany('comment'),
 }) {
   // normal class body definition here
 }

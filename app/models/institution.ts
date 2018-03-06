@@ -21,13 +21,13 @@ export default class Institution extends OsfModel.extend({
     description: DS.attr('fixstring'),
     logoPath: DS.attr('string'),
     authUrl: DS.attr('string'),
-    users: DS.hasMany('users', {
+    users: DS.hasMany('user', {
         inverse: 'institutions',
     }),
-    nodes: DS.hasMany('nodes', {
+    nodes: DS.hasMany('node', {
         inverse: 'affiliatedInstitutions',
     }),
-    registrations: DS.hasMany('registrations', {
+    registrations: DS.hasMany('registration', {
         inverse: 'affiliatedInstitutions',
     }),
 }) {

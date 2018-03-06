@@ -41,8 +41,8 @@ const OsfModel = DS.Model.extend({
      * @private
      * @param {String} rel Name of the relationship on the model
      * */
-    resolveRelationship(rel: string): DS.hasMany | DS.belongsTo {
-        let relation: DS.hasMany | DS.belongsTo;
+    resolveRelationship(rel: string): typeof DS.hasMany | typeof DS.belongsTo {
+        let relation: typeof DS.hasMany | typeof DS.belongsTo;
         const meta: {kind: string} = this[rel].meta();
         if (meta.kind === 'hasMany') {
             relation = this.hasMany(rel).hasManyRelationship;
@@ -59,7 +59,7 @@ const OsfModel = DS.Model.extend({
 
         this.set('_dirtyRelationships', {});
         this.eachRelationship((rel) => {
-            const relation: DS.hasMany | DS.belongsTo = this.resolveRelationship(rel);
+            const relation: typeof DS.hasMany | typeof DS.belongsTo = this.resolveRelationship(rel);
 
             if (relation.hasData) {
                 const canonicalIds: string[] = relation.canonicalMembers.list.map(member => member.getRecord().get('id'));
@@ -88,8 +88,8 @@ const OsfModel = DS.Model.extend({
      * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
      */
     queryHasMany(propertyName: string, queryParams: object, ajaxOptions: object): any | null {
-        const reference: DS.hasMany = this.hasMany(propertyName);
-        const promise: PromiseLike<any> = new EmberPromise((resolve, reject) => {
+        const reference: typeof DS.hasMany = this.hasMany(propertyName);
+        const promise: Promise<any> = new EmberPromise((resolve, reject) => {
             // HACK: ember-data discards/ignores the link if an object on the belongsTo side
             // came first. In that case, grab the link where we expect it from OSF's API
             const url: string = reference.link() || this.get(`links.relationships.${propertyName}.links.related.href`);
@@ -109,7 +109,7 @@ const OsfModel = DS.Model.extend({
             );
         });
 
-        const ArrayPromiseProxy = ArrayProxy.extend(PromiseProxyMixin);
+        const ArrayPromiseProxy: PromiseProxyMixin = ArrayProxy.extend(PromiseProxyMixin);
         return ArrayPromiseProxy.create({ promise });
     },
 

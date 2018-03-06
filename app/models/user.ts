@@ -29,12 +29,12 @@ export default class User extends OsfModel.extend({
 
     canViewReviews: DS.attr('boolean', { defaultValue: false }),
 
-    nodes: DS.hasMany('nodes'),
-    registrations: DS.hasMany('registrations'),
+    nodes: DS.hasMany('node'),
+    registrations: DS.hasMany('registration'),
 
-    quickfiles: DS.hasMany('files'),
+    quickfiles: DS.hasMany('file'),
 
-    institutions: DS.hasMany('institutions', {
+    institutions: DS.hasMany('institution', {
         inverse: 'users',
     }),
 }) {

@@ -50,17 +50,17 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
     parent: DS.belongsTo('node', {
         inverse: 'children',
     }),
-    children: DS.hasMany('nodes', {
+    children: DS.hasMany('node', {
         inverse: 'parent',
     }),
-    preprints: DS.hasMany('preprints', {
+    preprints: DS.hasMany('preprint', {
         inverse: 'node',
     }),
-    affiliatedInstitutions: DS.hasMany('institutions', {
+    affiliatedInstitutions: DS.hasMany('institution', {
         inverse: 'nodes',
     }),
-    comments: DS.hasMany('comments'),
-    contributors: DS.hasMany('contributors', {
+    comments: DS.hasMany('comment'),
+    contributors: DS.hasMany('contributor', {
         allowBulkUpdate: true,
         allowBulkRemove: true,
         inverse: 'node',
@@ -73,19 +73,19 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
 
     files: DS.hasMany('file-provider'),
     // forkedFrom: DS.belongsTo('node'),
-    linkedNodes: DS.hasMany('nodes', {
+    linkedNodes: DS.hasMany('node', {
         inverse: null,
         serializerType: 'linked-node',
     }),
-    registrations: DS.hasMany('registrations', {
+    registrations: DS.hasMany('registration', {
         inverse: 'registeredFrom',
     }),
 
-    draftRegistrations: DS.hasMany('draft-registrations', {
+    draftRegistrations: DS.hasMany('draft-registration', {
         inverse: 'branchedFrom',
     }),
 
-    forks: DS.hasMany('nodes', {
+    forks: DS.hasMany('node', {
         inverse: 'forkedFrom',
     }),
 
@@ -97,11 +97,11 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
         inverse: null,
     }),
 
-    wikis: DS.hasMany('wikis', {
+    wikis: DS.hasMany('wiki', {
         inverse: 'node',
     }),
 
-    logs: DS.hasMany('logs'),
+    logs: DS.hasMany('log'),
 
     // These are only computeds because maintaining separate flag values on different classes would be a headache TODO: Improve.
     /**
@@ -139,16 +139,16 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
         return this.store.findRecord('contributor', contribId).then(() => true, () => false);
     },
 
-    save(): Promise<any> {
+    save(): Promise<Node> {
         // Some duplicate logic from osf-model#save needed to support
         // contributor edits being saved through the node
         // Note: order is important here so _dirtyRelationships gets set by the _super call
-        const promise: Array<any> = this._super(...arguments);
+        const promise: Promise<Node> = this._super(...arguments);
         if (!this.get('_dirtyRelationships.contributors')) {
             this.set('_dirtyRelationships.contributors', {});
         }
 
-        const contributors: DS.hasMany = this.hasMany('contributors').hasManyRelationship;
+        const contributors: typeof DS.hasMany = this.hasMany('contributors').hasManyRelationship;
         this.set(
             '_dirtyRelationships.contributors.update',
             contributors.members.list.filter(m => !m.getRecord().get('isNew') && Object.keys(m.getRecord().changedAttributes()).length > 0),

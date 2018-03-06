@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import OsfModel from './osf-model';
+import Node from './node'; // eslint-disable-line no-unused-vars
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 
@@ -50,7 +51,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
 
 }) {
     // normal class body definition here
-    rename = function(newName: string, conflict = 'replace'): Promise<null> {
+    rename = function(this: File, newName: string, conflict = 'replace'): Promise<null> {
         return authenticatedAJAX({
             url: this.get('links.upload'),
             type: 'POST',
@@ -69,7 +70,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
             this.set('name', response.data.attributes.name);
         });
     };
-    getGuid = function(): Promise<any> {
+    getGuid = function(this: File): Promise<any> {
         return this.store.findRecord(
             this.constructor.modelName,
             this.id,
@@ -83,7 +84,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
             },
         );
     };
-    getContents = function(): Promise<object> {
+    getContents = function(this: File): Promise<object> {
         return authenticatedAJAX({
             url: this.get('links.download'),
             type: 'GET',
@@ -93,7 +94,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
             },
         });
     };
-    updateContents = function(data: object): Promise<null> {
+    updateContents = function(this: File, data: object): Promise<null> {
         return authenticatedAJAX({
             url: this.get('links.upload'),
             type: 'PUT',
@@ -101,7 +102,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
             data,
         }).then(() => this.reload());
     };
-    move = function(node: Node): Promise<null> {
+    move = function(this: File, node: Node): Promise<null> {
         return authenticatedAJAX({
             url: this.get('links.move'),
             type: 'POST',

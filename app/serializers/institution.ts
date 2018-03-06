@@ -3,7 +3,7 @@ import { pluralize } from 'ember-inflector';
 import OsfSerializer from './osf-serializer';
 
 export default class Institution extends OsfSerializer.extend({
-    serializeIntoHash(hash_: any, typeClass: {modelName: string}, snapshot: DS.Snapshot, options: object): any {
+    serializeIntoHash(hash_: any, typeClass: {modelName: string}, snapshot: DS.Snapshot, options: {forRelationship?: boolean}): any {
         const hash = hash_;
         if (options.forRelationship) {
             hash.data = [{

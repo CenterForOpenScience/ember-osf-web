@@ -39,7 +39,7 @@ export default class Preprint extends OsfModel.extend({
     primaryFile: DS.belongsTo('file', { inverse: null }),
     provider: DS.belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
     reviewActions: DS.hasMany('review-action', { inverse: 'target', async: true }),
-    contributors: DS.hasMany('contributors', { async: true }),
+    contributors: DS.hasMany('contributor', { async: true }),
 }) {
     articleDoiUrl = alias('links.doi');
     preprintDoiUrl = alias('links.preprint_doi');

@@ -13,7 +13,7 @@ export default class PreprintProvider extends OsfModel.extend({
     subjectsAcceptable: DS.attr('array'),
     footerLinks: DS.attr('string'),
     allowSubmissions: DS.attr('boolean'),
-    additionalProviders: DS.attr(''),
+    additionalProviders: DS.attr('array'),
     shareSource: DS.attr('string'),
     preprintWord: DS.attr('string'),
 
