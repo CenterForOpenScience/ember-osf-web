@@ -11,5 +11,5 @@ import config from 'ember-get-config';
  * @class osf-mode-footer
  */
 export default class OsfModeFooter extends Component {
-    isDevMode: boolean = config.OSF.backend !== 'prod';
+    isDevMode: boolean = config.OSF.devMode;
 }

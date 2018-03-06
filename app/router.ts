@@ -42,11 +42,11 @@ Router.map(function() {
      * Nested routes that begin with a guid should be unique across all types.
      * Do not add duplicate nested routes, like `guid-node/quickfiles`.
      */
-    this.route('guid-file', { path: '/:file_id' });
-    this.route('guid-node', { path: '/:node_id' });
-    this.route('guid-preprint', { path: '/:preprint_id' });
-    this.route('guid-registration', { path: '/:registration_id' });
-    this.route('guid-user', { path: '/:user_id' }, function() {
+    this.route('guid-file', { path: '/:file_guid' });
+    this.route('guid-node', { path: '/:node_guid' });
+    this.route('guid-preprint', { path: '/:preprint_guid' });
+    this.route('guid-registration', { path: '/:registration_guid' });
+    this.route('guid-user', { path: '/:user_guid' }, function() {
         this.route('quickfiles');
     });
 

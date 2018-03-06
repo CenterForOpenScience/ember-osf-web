@@ -12,11 +12,12 @@ import OsfModel from './osf-model';
  * @class Guid
  */
 export default class Guid extends OsfModel.extend({
-    referentType: computed(function() {
-        return singularize(this.get('links.relationships.referent.data.type'));
-    }),
 }) {
-    resolve() {
+    referentType = computed(function(this: Guid): string {
+        return singularize(foo, this.get('links.relationships.referent.data.type'));
+    });
+
+    resolve(this: Guid): RSVP.Promise<any> {
         return this.get('store').findRecord(this.get('referentType'), this.get('id'));
     }
 }

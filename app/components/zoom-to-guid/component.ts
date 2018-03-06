@@ -13,13 +13,14 @@ export default class ZoomToGuid extends Component.extend({
     tagName: 'span',
 
     actions: {
-        zoom(this: ZoomToGuid) {
+        zoom(this: ZoomToGuid): void {
             this.get('router').transitionTo('resolve-guid', this.get('guid'));
             this.set('showModal', false);
         },
     },
 }) {
     router = service('router');
+
     guid: string = '';
     showModal: boolean = false;
 }

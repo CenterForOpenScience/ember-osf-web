@@ -34,6 +34,7 @@ const {
 
 module.exports = function(environment) {
     const authorizationType = 'cookie';
+    const devMode = environment !== 'production';
 
     const ENV = {
         modulePrefix: 'ember-osf-web',
@@ -113,6 +114,7 @@ module.exports = function(environment) {
             shareApiUrl,
             shareSearchUrl,
             accessToken,
+            devMode,
         },
         social: {
             twitter: {
@@ -158,7 +160,7 @@ module.exports = function(environment) {
         ENV.APP.rootElement = '#ember-testing';
     }
 
-    if (environment !== 'production') {
+    if (devMode) {
         // Fallback to throwaway defaults if the environment variables are not set
         ENV.metricsAdapters[0].config.id = ENV.metricsAdapters[0].config.id || 'UA-84580271-1';
         ENV.FB_APP_ID = ENV.FB_APP_ID || '1039002926217080';

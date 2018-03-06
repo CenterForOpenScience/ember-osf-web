@@ -7,7 +7,7 @@ export default class FileDetail extends Route.extend(Analytics) {
 
     async model(params) {
         try {
-            const file = await this.store.findRecord('file', params.file_id);
+            const file = await this.store.findRecord('file', params.file_guid);
             const fileUser = await file.get('user');
             const user = await fileUser.reload();
 
