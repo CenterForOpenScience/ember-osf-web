@@ -27,7 +27,7 @@
         <span class='input-group-btn'>
             {{#copy-button
                 clipboardTarget=(concat '#sha256-' version.id)
-                title='Copy to clipboard'
+                title=(t 'clipboard_copy')
                 class="btn btn-default btn-sm"
             }}
                 {{fa-icon 'copy'}}

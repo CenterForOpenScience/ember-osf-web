@@ -1,6 +1,6 @@
-<button onclick={{action sortAction sortBy}} class="{{if (eq sort sortBy) 'selected' 'not-selected'}}">
+<button onclick={{action sortAction sortBy}} title={{t 'general.sort_asc'}} class="{{if (eq sort sortBy) 'selected' 'not-selected'}}">
     {{fa-icon 'angle-up'}}
 </button>
-<button onclick={{action sortAction sortByDesc}} class="{{if (eq sort sortByDesc) 'selected' 'not-selected'}}">
+<button onclick={{action sortAction sortByDesc}} title={{t 'general.sort_desc'}} class="{{if (eq sort sortByDesc) 'selected' 'not-selected'}}">
     {{fa-icon 'angle-down'}}
 </button>
