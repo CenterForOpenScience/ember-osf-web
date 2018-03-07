@@ -4,13 +4,12 @@ import { underscore, capitalize } from '@ember/string';
 import $ from 'jquery';
 import { getWithDefault } from '@ember/object';
 import { merge } from '@ember/polyfills';
-import Ember from 'ember';
 import DS from 'ember-data';
 
 import config from 'ember-get-config';
 import GenericDataAdapterMixin from 'ember-osf-web/mixins/generic-data-adapter';
 
-import { singularize } from 'ember-inflector';
+import { pluralize, singularize } from 'ember-inflector';
 
 /**
  * @module ember-osf-web
@@ -328,6 +327,6 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
     },
     pathForType(modelName) {
         const underscored = underscore(modelName);
-        return Ember.String.pluralize(underscored);
+        return pluralize(underscored);
     },
 });

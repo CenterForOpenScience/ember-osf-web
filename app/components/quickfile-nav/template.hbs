@@ -2,8 +2,8 @@
     <ul class="nav navbar-nav NavbarList">
         <li class="NavbarList__item {{if onQuickfiles 'active'}}">
             {{#link-to
-                'user-quickfiles'
-                user
+                'guid-user.quickfiles'
+                user.id
                 class=(concat 'NavbarList__item__title' (if onQuickfiles '--active'))
             }}
                 {{t 'quickfiles.title' user-name=user.fullName}}

@@ -1,7 +1,7 @@
 <a href="{{project.links.html}}">
     <div class="NoteworthyProject__item">
         <h5>{{project.title}}</h5>
-        <span class="prevent-overflow"><i>{{t 'dashboard.noteworthy.by'}} {{contributor-list node=project}}</i></span>
+        <span class="prevent-overflow"><i>{{t 'dashboard.noteworthy.by'}} {{contributor-list contributors=project.contributors}}</i></span>
         <p title="{{compactDescription}}" data-placement="top" data-toggle="tooltip" class="prevent-overflow">{{project.description}}</p>
     </div>
 </a>
