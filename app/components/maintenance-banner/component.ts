@@ -33,7 +33,7 @@ export default class MaintenanceBanner extends Component.extend({
     });
 
     utc = computed('maintenance.start', function(): string {
-        return `${moment(this.get('maintenance.start')).format('ZZ')} UTC`;
+        return moment(this.get('maintenance.start')).format('ZZ');
     });
 
     alertClass = computed('maintenance.level', function(): string {

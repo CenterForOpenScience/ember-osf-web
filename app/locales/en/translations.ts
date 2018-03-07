@@ -37,7 +37,7 @@ export default {
         warning: 'Warning',
     },
     maintenance: {
-        line1: 'The site will undergo maintenance between',
+        line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
         line2: 'Thank you for your patience.',
         title: 'Notice:',
     },
