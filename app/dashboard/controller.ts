@@ -65,8 +65,10 @@ export default class Dashboard extends Controller.extend({
             this.toggleProperty('modalOpen');
         },
         closeModal(reload = false) {
-            this.closeModal();
+            // Need to explicitly pass reload when the action in the onclick event of a button
+            // otherwise the first argument is a mouse event which in turn is always truthy
 
+            this.closeModal();
             if (reload) {
                 this.get('findNodes').perform();
             }
