@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('route:user-quickfiles', 'Unit | Route | user quickfiles', {
+moduleFor('route:guid-user/quickfiles', 'Unit | Route | guid-user/quickfiles', {
     needs: [
         'service:currentUser',
         'service:metrics',
