@@ -14,7 +14,7 @@ import OsfModel from './osf-model';
 export default class Guid extends OsfModel.extend({
 }) {
     referentType = computed(function(this: Guid): string {
-        return singularize(foo, this.get('links.relationships.referent.data.type'));
+        return singularize(this.get('links.relationships.referent.data.type'));
     });
 
     resolve(this: Guid): RSVP.Promise<any> {
