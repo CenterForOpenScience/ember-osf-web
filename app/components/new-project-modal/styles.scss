@@ -4,14 +4,19 @@
             width: 100%;
         }
 
-        &__institution-selector {
-            margin-right: 12px;
+        &__institution-selector > a {
             float: right;
+            margin-right: 12px;
         }
 
         &__institution-item {
             position: relative;
             margin: 10px;
+        }
+
+        &__institution-img-not-selected {
+            opacity: 0.25;
+            filter: grayscale(100%);
         }
     }
 }

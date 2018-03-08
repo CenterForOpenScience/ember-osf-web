@@ -27,11 +27,36 @@ const Router = EmberRouter.extend({
 /* eslint-disable array-callback-return */
 
 Router.map(function() {
+    // All non-guid routes (except `not-found`) belong above "Guid Routing"
     this.route('dashboard', { path: '/' });
-    this.route('quickfiles', { path: '/quickfiles' });
-    this.route('quickfiles', { path: '/me/quickfiles' });
-    this.route('user-quickfiles', { path: '/:user_id/quickfiles' });
-    this.route('file-detail', { path: '/:file_id' });
+    this.route('quickfiles');
+    this.route('support');
+
+    /*
+     * Guid Routing
+     *
+     * Root guid URLs (e.g. "/mst3k/") will match the `resolve-guid` route, which
+     * will ask the API what type of object the guid refers to, then transition
+     * to the appropriate `guid-<type>` route below.
+     *
+     * Nested routes that begin with a guid should be unique across all types.
+     * Do not add duplicate nested routes, like `guid-node/quickfiles`.
+     */
+    this.route('guid-file', { path: '/:file_guid' });
+    this.route('guid-node', { path: '/:node_guid' });
+    this.route('guid-preprint', { path: '/:preprint_guid' });
+    this.route('guid-registration', { path: '/:registration_guid' });
+    this.route('guid-user', { path: '/:user_guid' }, function() {
+        this.route('quickfiles');
+    });
+
+    // If there are multiple routes with the same path pattern (e.g. `resolve-guid`
+    // and all the `guid-*` routes above), URLs that match will resolve to the
+    // route defined last. It's very intuitive.
+    this.route('resolve-guid', { path: '/:guid' });
+
+    // Catch-all 404 page
+    this.route('not-found', { path: '*path' });
 });
 
 /* eslint-enable array-callback-return */

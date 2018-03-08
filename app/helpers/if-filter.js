@@ -20,10 +20,10 @@ export function ifFilter(params) {
         const match = element.filter(each => filter.includes(each));
         return match.length;
     }
-    if ((typeof filter === 'object')) {
+    if (typeof filter === 'object') {
         return filter.includes(element);
     }
-    if ((typeof filter === 'undefined') || ((element.toLowerCase()).includes(filter.toLowerCase()))) {
+    if (typeof filter === 'undefined' || element.toLowerCase().includes(filter.toLowerCase())) {
         return true;
     }
     return false;
