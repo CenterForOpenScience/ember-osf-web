@@ -3,7 +3,7 @@ import DS from 'ember-data'; // eslint-disable-line no-unused-vars
 import OsfAdapter from './osf-adapter';
 
 export default class User extends OsfAdapter {
-    findHasMany = function(this: User, store: DS.Store, snapshot: DS.Snapshot, url_: string, relationship: { type: string }): Promise<any> {
+    findHasMany(this: User, store: DS.Store, snapshot: DS.Snapshot, url_: string, relationship: { type: string }): Promise<any> {
         const { id } = snapshot;
         const type: string = snapshot.modelName;
 
@@ -19,7 +19,7 @@ export default class User extends OsfAdapter {
             url += `?${$.param(snapshot.record.get('query-params'))}`;
         }
         return this.ajax(url, 'GET');
-    };
+    }
 }
 
 

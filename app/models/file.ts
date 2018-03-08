@@ -51,7 +51,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
 
 }) {
     // normal class body definition here
-    rename = function(this: File, newName: string, conflict = 'replace'): Promise<null> {
+    rename(this: File, newName: string, conflict = 'replace'): Promise<null> {
         return authenticatedAJAX({
             url: this.get('links.upload'),
             type: 'POST',
@@ -69,8 +69,8 @@ export default class File extends OsfModel.extend(FileItemMixin, {
         }).done((response) => {
             this.set('name', response.data.attributes.name);
         });
-    };
-    getGuid = function(this: File): Promise<any> {
+    }
+    getGuid(this: File): Promise<any> {
         return this.store.findRecord(
             this.constructor.modelName,
             this.id,
@@ -83,8 +83,8 @@ export default class File extends OsfModel.extend(FileItemMixin, {
                 },
             },
         );
-    };
-    getContents = function(this: File): Promise<object> {
+    }
+    getContents(this: File): Promise<object> {
         return authenticatedAJAX({
             url: this.get('links.download'),
             type: 'GET',
@@ -93,16 +93,16 @@ export default class File extends OsfModel.extend(FileItemMixin, {
                 mode: 'render',
             },
         });
-    };
-    updateContents = function(this: File, data: object): Promise<null> {
+    }
+    updateContents(this: File, data: object): Promise<null> {
         return authenticatedAJAX({
             url: this.get('links.upload'),
             type: 'PUT',
             xhrFields: { withCredentials: true },
             data,
         }).then(() => this.reload());
-    };
-    move = function(this: File, node: Node): Promise<null> {
+    }
+    move(this: File, node: Node): Promise<null> {
         return authenticatedAJAX({
             url: this.get('links.move'),
             type: 'POST',
@@ -116,7 +116,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
                 resource: node.id,
             }),
         }).then(() => this.reload());
-    };
+    }
 }
 
 
