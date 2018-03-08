@@ -32,6 +32,7 @@ export default {
         back: '戻る',
         filter: 'フィルター',
         revert: '復帰',
+<<<<<<< HEAD
         save: '保存',
         ellipses: '\u2026',	
         warning: '警告',	
@@ -41,6 +42,9 @@ export default {
         next: '次へ',	
         previous: '戻る',	
         help: 'ヘルプ',
+=======
+        save: '保存',        
+>>>>>>> origin/develop
     },
     quickfiles: {
         title: '{{user-name}} のクイックファイル',
@@ -92,6 +96,40 @@ export default {
         no_files: 'このユーザーはクイックファイルをアップロードしていません',
         share_title: '共有',
         clipboard_copy: 'クリップボードへコピー',
+        info: {
+            title: 'ファイルブラウザの使い方',
+            upload: '<b>アップロード:</b>ドラッグアンドドロップまたはアップロードボタンをクリックして、ファイルをアップロードします。',
+            select: '<b>行を選択:</b>行をクリックすると、ツールバーにさらにアクションが表示されます。 複数のファイルを選択するには、CommandキーまたはShiftキーを使用します。',
+            folders: '<b>フォルダ:</b>サポートされていません; 多くのファイルをアップロードおよび管理するためのOSFプロジェクトを検討してください。',
+            open1: '<b>ファイルを開く:</b>ファイル名をクリックすると、OSF内のファイルが表示されます。',
+            open2: '<b>新規タブでファイルを開く:</b> command（WindowsではCtrl）を押し、ファイル名をクリックして新しいタブで開きます。',
+            download: '<b>Zipとしてダウンロード:</b> ツールバーの[Zipとしてダウンロード]ボタンをクリックすると、すべてのファイルが.zipとしてダウンロードされます。',
+        },
+        delete_modal: {
+            title: '"{{selectedItems.firstObject.itemName}}"を削除しますか?',
+            title_multiple: '複数削除しますか？',
+            body: 'この操作は不可逆的です',
+        },
+        conflict_modal: {
+            title: '{{textValue}}という名前のアイテムは、この場所に既に存在します。',
+            keep_info: '"両方を保持"は、両方のファイル（およびそのバージョン履歴）をこの場所に保持します。',
+            replace_info: '"置換"は、この場所にある既存のファイルを上書きします。 上書きされたファイルの以前のバージョンは失われます。 移動したファイルの以前のバージョンを保持します。',
+            keep_button: '両方を保持',
+            replace_button: '置換',
+        },
+        move_modal: {
+            title: 'プロジェクトへファイルを移動',
+            move_button: 'ファイルを移動',
+        },
+
+    },
+    file_browser: {
+        loading: 'ローディング中...',
+        delete_multiple: '複数削除',
+        download_zip: 'Zipとしてダウンロード',
+        drop_placeholder: 'アップロードするファイルをここにドロップ',
+        drop_reminder: 'アップロードするファイルをドロップ',
+        no_files: 'このユーザーはクイックファイルをアップロードしていません',
         info: {
             title: 'ファイルブラウザの使い方',
             upload: '<b>アップロード:</b>ドラッグアンドドロップまたはアップロードボタンをクリックして、ファイルをアップロードします。',
@@ -216,8 +254,13 @@ export default {
         search_the_OSF: 'OSF中を検索',
         send_search: '検索クエリの送信',
         support: 'サポート',
+<<<<<<< HEAD
         toggle_primary: 'プライマリー・ナビゲーション切替',
         toggle_secondary: 'セカンダリー・ナビゲーション切替',
+=======
+        toggle_primary: 'トグル・プライマリー・ナビゲーション',
+        toggle_secondary: 'トグル・セカンダリー・ナビゲーション',
+>>>>>>> origin/develop
     },
     auth_dropdown: {
         log_out: 'ログアウト',
@@ -227,7 +270,11 @@ export default {
         sign_up: '新規登録',
         sign_in: 'ログイン',
         user_gravatar: 'ユーザーgravatar',
+<<<<<<< HEAD
         toggle_auth_dropdown: 'authドロップダウンの切り替え',
+=======
+        toggle_auth_dropdown: 'トグルauthドロップダウン',
+>>>>>>> origin/develop
     },
     search_help_modal: {
         close: '閉じる',
@@ -241,8 +288,13 @@ export default {
         title: 'サポート',
         faq_title: 'よくあるご質問',
         faq_paragraph: 'どうすれば無料になるのですか？ OSFは私の研究にどのように役立つでしょうか？ 登録とは何ですか？ Open Science Frameworkに関する質問は、',
+<<<<<<< HEAD
         faq_link_text: 'FAQ.',
         faq_button: 'FAQへ',
+=======
+        faq_link_text: 'FAQページ.',
+        faq_button: 'FAQを訪問',
+>>>>>>> origin/develop
         guides_title: 'OSFガイド',
         guides_paragraph_1: '研究ワークフローを改善するためにOSFを使用する方法を学びます。 私たちを読む',
         guides_link_text: 'ガイド',
@@ -268,6 +320,7 @@ export default {
         social_facebook: 'Facebookでフォロー',
         social_github: 'GitHubのCOSとコンタクト',
     },
+<<<<<<< HEAD
     not_found: {
         title: 'ぺーじが見つかりません',
         body: '要求されたリソースが見つかりませんでした。これが発生してはならず、問題が解決しない場合は、サポート<a href="mailto:{{supportEmail}}">{{supportEmail}}</a>へ報告してください',
@@ -280,4 +333,6 @@ export default {
     osf_mode_footer: {
         dev_mode: 'このサイトは開発モードで動作しています。',
     },
+=======
+>>>>>>> origin/develop
 };
