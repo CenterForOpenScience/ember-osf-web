@@ -1,0 +1,37 @@
+/* stylelint-disable selector-class-pattern */
+
+input:not(:placeholder-shown):not(:focus):invalid {
+    border: 1px solid #a94442;
+}
+
+button,
+input,
+.help-block {
+    z-index: 9;
+    position: relative;
+}
+
+.CreatePassword {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: inherit;
+}
+
+label {
+    display: none;
+}
+
+.RecaptchaParent {
+    z-index: 9;
+
+    .g-recaptcha {
+        display: inline-block;
+        margin: 0 auto;
+    }
+}
+
+@for $i from 0 through 5 {
+    .progress-bar-#{$i} {
+        width: #{$i * 20%};
+    }
+}

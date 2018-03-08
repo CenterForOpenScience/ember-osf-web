@@ -23,9 +23,11 @@ const {
     OSF_COOKIE_LOGIN_URL: cookieLoginUrl = 'http://localhost:8080/login',
     OSF_OAUTH_URL: oauthUrl = 'http://localhost:8080/oauth2/profile',
     PERSONAL_ACCESS_TOKEN: accessToken,
+    POLICY_URL_PREFIX = 'https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/',
     POPULAR_LINKS_NODE: popularNode = '57tnq',
     // POPULAR_LINKS_REGISTRATIONS = '',
     NEW_AND_NOTEWORTHY_LINKS_NODE: noteworthyNode = 'z3sg2',
+    RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI', // https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha-v2-what-should-i-do
     REDIRECT_URI: redirectUri,
     SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
@@ -121,6 +123,11 @@ module.exports = function(environment) {
                 viaHandle: 'OSFramework',
             },
         },
+        signUpPolicy: {
+            termsLink: `${POLICY_URL_PREFIX}TERMS_OF_USE.md`,
+            privacyPolicyLink: `${POLICY_URL_PREFIX}PRIVACY_POLICY.md`,
+            cookiesLink: `${POLICY_URL_PREFIX}PRIVACY_POLICY.md#f-cookies`,
+        },
         support: {
             preregUrl: 'https://cos.io/prereg/',
             statusPageUrl: 'https://status.cos.io',
@@ -136,6 +143,9 @@ module.exports = function(environment) {
         dashboard: {
             popularNode,
             noteworthyNode,
+        },
+        gReCaptcha: {
+            siteKey: RECAPTCHA_SITE_KEY,
         },
     };
 

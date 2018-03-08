@@ -3517,6 +3517,15 @@ ember-cli-normalize-entity-name@^1.0.0:
   dependencies:
     silent-error "^1.0.0"
 
+ember-cli-password-strength@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-password-strength/-/ember-cli-password-strength-2.0.0.tgz#f6f16d5c42ac16a4605305244f15f092f15224b3"
+  dependencies:
+    broccoli-funnel "^1.1.0"
+    broccoli-merge-trees "^2.0.0"
+    ember-cli-babel "^6.8.0"
+    zxcvbn "^4.3.0"
+
 ember-cli-path-utils@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ember-cli-path-utils/-/ember-cli-path-utils-1.0.0.tgz#4e39af8b55301cddc5017739b77a804fba2071ed"
@@ -4030,6 +4039,12 @@ ember-font-awesome@3.0.5:
     ember-cli-babel "^5.1.7"
     ember-cli-htmlbars "^1.1.1"
     font-awesome "^4.7.0"
+
+ember-g-recaptcha@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/ember-g-recaptcha/-/ember-g-recaptcha-0.5.0.tgz#10b97b91232e43ff8f8a48ef596b91ebbaaa2ed2"
+  dependencies:
+    ember-cli-babel "^5.1.6"
 
 ember-get-config@^0.2.3, ember-get-config@^0.2.4:
   version "0.2.4"
@@ -10732,3 +10747,7 @@ yargs@~3.27.0:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
+
+zxcvbn@^4.3.0:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/zxcvbn/-/zxcvbn-4.4.2.tgz#28ec17cf09743edcab056ddd8b1b06262cc73c30"
