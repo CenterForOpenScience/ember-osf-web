@@ -32,7 +32,6 @@ export default {
         back: '戻る',
         filter: 'フィルター',
         revert: '復帰',
-<<<<<<< HEAD
         save: '保存',
         ellipses: '\u2026',	
         warning: '警告',	
@@ -42,9 +41,6 @@ export default {
         next: '次へ',	
         previous: '戻る',	
         help: 'ヘルプ',
-=======
-        save: '保存',        
->>>>>>> origin/develop
     },
     quickfiles: {
         title: '{{user-name}} のクイックファイル',
@@ -254,13 +250,8 @@ export default {
         search_the_OSF: 'OSF中を検索',
         send_search: '検索クエリの送信',
         support: 'サポート',
-<<<<<<< HEAD
         toggle_primary: 'プライマリー・ナビゲーション切替',
         toggle_secondary: 'セカンダリー・ナビゲーション切替',
-=======
-        toggle_primary: 'トグル・プライマリー・ナビゲーション',
-        toggle_secondary: 'トグル・セカンダリー・ナビゲーション',
->>>>>>> origin/develop
     },
     auth_dropdown: {
         log_out: 'ログアウト',
@@ -270,11 +261,7 @@ export default {
         sign_up: '新規登録',
         sign_in: 'ログイン',
         user_gravatar: 'ユーザーgravatar',
-<<<<<<< HEAD
-        toggle_auth_dropdown: 'authドロップダウンの切り替え',
-=======
-        toggle_auth_dropdown: 'トグルauthドロップダウン',
->>>>>>> origin/develop
+        toggle_auth_dropdown: 'authドロップダウンの切替',
     },
     search_help_modal: {
         close: '閉じる',
@@ -288,13 +275,8 @@ export default {
         title: 'サポート',
         faq_title: 'よくあるご質問',
         faq_paragraph: 'どうすれば無料になるのですか？ OSFは私の研究にどのように役立つでしょうか？ 登録とは何ですか？ Open Science Frameworkに関する質問は、',
-<<<<<<< HEAD
         faq_link_text: 'FAQ.',
         faq_button: 'FAQへ',
-=======
-        faq_link_text: 'FAQページ.',
-        faq_button: 'FAQを訪問',
->>>>>>> origin/develop
         guides_title: 'OSFガイド',
         guides_paragraph_1: '研究ワークフローを改善するためにOSFを使用する方法を学びます。 私たちを読む',
         guides_link_text: 'ガイド',
@@ -320,7 +302,6 @@ export default {
         social_facebook: 'Facebookでフォロー',
         social_github: 'GitHubのCOSとコンタクト',
     },
-<<<<<<< HEAD
     not_found: {
         title: 'ぺーじが見つかりません',
         body: '要求されたリソースが見つかりませんでした。これが発生してはならず、問題が解決しない場合は、サポート<a href="mailto:{{supportEmail}}">{{supportEmail}}</a>へ報告してください',
@@ -333,6 +314,4 @@ export default {
     osf_mode_footer: {
         dev_mode: 'このサイトは開発モードで動作しています。',
     },
-=======
->>>>>>> origin/develop
 };
