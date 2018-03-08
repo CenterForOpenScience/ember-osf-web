@@ -90,6 +90,8 @@ export default {
         drop_placeholder: 'アップロードするファイルをここにドロップ',
         drop_reminder: 'アップロードするファイルをドロップ',
         no_files: 'このユーザーはクイックファイルをアップロードしていません',
+        share_title: '共有',
+        clipboard_copy: 'クリップボードへコピー',
         info: {
             title: 'ファイルブラウザの使い方',
             upload: '<b>アップロード:</b>ドラッグアンドドロップまたはアップロードボタンをクリックして、ファイルをアップロードします。',
@@ -115,7 +117,6 @@ export default {
             title: 'プロジェクトへファイルを移動',
             move_button: 'ファイルを移動',
         },
-
     },
     dashboard: {
         page_title: 'ホーム',
