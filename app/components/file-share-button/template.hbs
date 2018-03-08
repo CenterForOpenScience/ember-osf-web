@@ -1,6 +1,6 @@
 <button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
     {{t "general.share"}}
-    {{#bs-popover placement='bottom' class=popoverClass title='Share' visible=showPopup}}
+    {{#bs-popover placement='bottom' class=popoverClass title=(t 'general.share') visible=showPopup}}
         {{#click-outside action=(action 'hidePopup')}}
             {{#bs-tab customTabs=true as |tab|}}
                 {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
@@ -13,7 +13,7 @@
                 {{/bs-nav}}
 
                 <div class='tab-content'>
-                    {{#tab.pane elementId=sharePaneId title='Share' class='SharePane'}}
+                    {{#tab.pane elementId=sharePaneId title=(t 'general.share') class='SharePane'}}
                         <br>
                         <div class='input-group'>
                             <span class='input-group-btn SharePane__copy-url-container'>
