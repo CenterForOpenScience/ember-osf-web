@@ -2,16 +2,18 @@ import { camelize, underscore } from '@ember/string';
 import DS from 'ember-data';
 import $ from 'jquery';
 
+const { JSONAPISerializer } = DS;
+
 interface ResourceHash {
     attributes: {
-        links?: any;
+        links?: any,
     };
     links?: any;
     relationships?: any;
     embeds?: any;
 }
 
-const OsfSerializer = DS.JSONAPISerializer.extend({
+const OsfSerializer = JSONAPISerializer.extend({
     attrs: {
         links: {
             serialize: false,
@@ -20,9 +22,6 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
             serialize: false,
         },
     },
-
-    // Map from relationship field name to type. Override to serialize relationships.
-    relationshipTypes: {},
 
     /**
      * Extract information about records embedded inside this request
@@ -57,7 +56,8 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
                 included.push(data);
             }
             resourceHash.embeds[embedded].type = embedded;
-            // Merges links returned from embedded object with relationship links, so all returned links are available.
+            // Merges links returned from embedded object with relationship links,
+            // so all returned links are available.
             const embeddedLinks = resourceHash.embeds[embedded].links || {};
             resourceHash.embeds[embedded].links = Object.assign(
                 embeddedLinks,
@@ -68,7 +68,12 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
         }
         delete resourceHash.embeds;
         // Recurse in, includeds are only processed on the top level. Embeds are nested.
-        return included.concat(included.reduce((acc, include) => acc.concat(this._extractEmbeds(include)), []));
+        return included.concat(
+            included.reduce(
+                (acc, include) => acc.concat(this._extractEmbeds(include)),
+                [],
+            ),
+        );
     },
 
     _mergeFields(resourceHash: ResourceHash): ResourceHash {
@@ -106,42 +111,34 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
         serialized.data.type = underscore(serialized.data.type);
         // Only send dirty attributes in request
         if (!snapshot.record.get('isNew')) {
+            const changedAttributes = snapshot.record.changedAttributes();
             for (const attribute of Object.keys(serialized.data.attributes)) {
-                if (!(camelize(attribute) in snapshot.record.changedAttributes())) {
+                if (!(camelize(attribute) in changedAttributes)) {
                     delete serialized.data.attributes[attribute];
                 }
             }
-        }
 
-        // Only serialize dirty, whitelisted relationships
-        serialized.data.relationships = {};
-        const dirtyRelationships = snapshot.record._dirtyRelationships;
-
-        for (const relationship of Object.keys(dirtyRelationships)) {
-            // https://stackoverflow.com/questions/29004314/why-are-object-keys-and-for-in-different
-            if (!dirtyRelationships.hasOwnProperty(relationship)) { // eslint-disable-line no-prototype-builtins
-                continue;
-            }
-            const type = this.get('relationshipTypes')[relationship];
-            if (type) {
-                const changeLists = Object.values(dirtyRelationships[relationship]);
-                if (changeLists.any(l => l.length)) {
-                    serialized.data.relationships[underscore(relationship)] = {
-                        data: {
-                            id: snapshot.belongsTo(relationship, { id: true }),
-                            type,
-                        },
-                    };
+            // HACK: There's no way in the public API to tell whether a relationship has been changed.
+            const relationships = snapshot._internalModel._relationships.initializedRelationships;
+            for (const key of Object.keys(serialized.data.relationships)) {
+                const rel = relationships[camelize(key)];
+                if (rel
+                    && rel.members.length === rel.canonicalMembers.length
+                    && rel.members.list.every((v, i) => v === rel.canonicalMembers.list[i])
+                ) {
+                    delete serialized.data.relationships[key];
                 }
             }
         }
+
         return serialized;
     },
 
     serializeAttribute(snapshot: DS.Snapshot, json: any, key: string): void {
-        // In certain cases, a field may be omitted from the server payload, but have a value (undefined)
-        // when serialized from the model. (eg node.template_from)
-        // Omit fields with a value of undefined before sending to the server. (but still allow null to be sent)
+        // In certain cases, a field may be omitted from the server payload, but have
+        // a value (undefined) when serialized from the model. (e.g. node.template_from)
+        // Omit fields with a value of undefined before sending to the server, but still
+        // allow null to be sent.
         const val = snapshot.attr(key);
         if (val !== undefined) {
             this._super(...arguments);

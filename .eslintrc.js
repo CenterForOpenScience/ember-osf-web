@@ -30,6 +30,7 @@ module.exports = {
         strict: 0,
         indent: 0,
         'indent-legacy': 'error',
+        'function-paren-newline': ['error', 'consistent'],
     },
     overrides: [
         {

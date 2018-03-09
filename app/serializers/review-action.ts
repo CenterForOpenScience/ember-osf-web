@@ -5,10 +5,6 @@ export default class ReviewAction extends OsfSerializer {
     attrs: {actionTrigger: string} = {
         actionTrigger: 'trigger',
     };
-    // Serialize `target` relationship
-    relationshipTypes: {target: string} = {
-        target: 'preprints',
-    };
 }
 
 declare module 'ember-data' {
