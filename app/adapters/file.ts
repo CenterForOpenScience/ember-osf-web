@@ -1,4 +1,3 @@
-import DS from 'ember-data'; // eslint-disable-line no-unused-vars
 import OsfAdapter from './osf-adapter';
 import FileCacheBypassMixin from 'ember-osf-web/mixins/file-cache-bypass';
 

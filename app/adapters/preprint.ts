@@ -1,8 +1,7 @@
-import DS from 'ember-data'; // eslint-disable-line no-unused-vars
 import OsfAdapter from './osf-adapter';
 
 export default class Preprint extends OsfAdapter {
-    updateRecord(this: Preprint, store: DS.Store, type: {modelName: string}, snapshot: DS.Snapshot): Promise<any> {
+    updateRecord(this: Preprint, store: DS.Store, type: {modelName: 'preprint' | 'node'}, snapshot: DS.Snapshot): Promise<any> {
         const data: object = {};
         const serializer: DS.Serializer = store.serializerFor(type.modelName);
 

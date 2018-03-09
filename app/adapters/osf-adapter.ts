@@ -83,7 +83,7 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {String} relationship the relationship to build a url for
      * @return {String} a URL
      * */
-    _buildRelationshipURL(snapshot: DS.Snapshot, relationship: string | null): null | string {
+    _buildRelationshipURL(snapshot: DS.Snapshot, relationship?: string): null | string {
         const links: {self?: {href: string}, related?: {href: string}} = snapshot.record.get(`relationshipLinks.${underscore(relationship)}.links`);
         if (!links) {
             return null;

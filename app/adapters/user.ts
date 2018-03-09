@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import DS from 'ember-data'; // eslint-disable-line no-unused-vars
 import OsfAdapter from './osf-adapter';
 
 export default class User extends OsfAdapter {
