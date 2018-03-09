@@ -1,6 +1,6 @@
+{{title model.file.name}}
+{{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='container'>
-    {{title model.file.name}}
-    {{quickfile-nav user=model.user onQuickfiles=false}}
     <div class='row TitleBar'>
         <div class='col-sm-5'>
             <h2>{{model.file.name}} <a class='TitleBar__version-link' role="button" onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>

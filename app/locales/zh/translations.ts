@@ -280,4 +280,9 @@ export default {
     osf_mode_footer: {
         dev_mode: 'This site is running in development mode.',
     },
+    maintenance: {
+        line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
+        line2: 'Thank you for your patience.',
+        title: 'Notice:',
+    },
 };
