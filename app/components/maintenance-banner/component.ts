@@ -24,19 +24,13 @@ export default class MaintenanceBanner extends Component.extend({
         this.set('maintenance', data.maintenance);
     }).restartable(),
 }) {
-    start = computed('maintenance.start', function(): string {
-        return moment(this.get('maintenance.start')).format('lll');
-    });
+    start = computed('maintenance.start', (): string => moment(this.get('maintenance.start')).format('lll'));
 
-    end = computed('maintenance.end', function(): string {
-        return moment(this.get('maintenance.end')).format('lll');
-    });
+    end = computed('maintenance.end', (): string => moment(this.get('maintenance.end')).format('lll'));
 
-    utc = computed('maintenance.start', function(): string {
-        return moment(this.get('maintenance.start')).format('ZZ');
-    });
+    utc = computed('maintenance.start', (): string => moment(this.get('maintenance.start')).format('ZZ'));
 
-    alertClass = computed('maintenance.level', function(): string {
+    alertClass = computed('maintenance.level', (): string => {
         const levelMap = ['info', 'warning', 'danger'];
         return `alert-${levelMap[this.get('maintenance.level') - 1]}`;
     });
