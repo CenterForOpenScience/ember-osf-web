@@ -1,20 +1,7 @@
-{{#ember-wormhole to="secondaryNavbar"}}
-    <div class="{{styleNamespace}}">
-        <nav class='navbar osf-project-navbar row Navbar' role='navigation'>
-            <div class="container">
-                <ul class="nav navbar-nav NavbarList">
-                    <li class="NavbarList__item {{if onQuickfiles 'active'}}">
-                        {{#link-to
-                            'guid-user.quickfiles'
-                            user.id
-                            class=(concat 'NavbarList__item__title' (if onQuickfiles '--active'))
-                        }}
-                            {{t 'quickfiles.title' user-name=user.fullName}}
-                        {{/link-to}}
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class='NavBarBuffer'></div>
-    </div>
-{{/ember-wormhole}}
+<div class="container">
+    <h3>
+        {{#link-to 'guid-user.quickfiles' user.id}}
+            {{t 'quickfiles.title' user-name=user.fullName}}
+        {{/link-to}}
+    </h3>
+</div>

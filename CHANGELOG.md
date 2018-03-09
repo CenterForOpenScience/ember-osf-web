@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Maintenance Banner: shows maintenance messages
 - TypeScript: Add ember-cli-typscript and ember-cli-tslint
-- CSS: Add _typography.scss with responsive font styling
+- CSS: Add _typography.scss with responsive font styling and _accessibility.scss for accessibility-related styling
+- Addon: ember-a11y-testing
 
 ### Changed
 - TypeScript: Rename files to .ts
+- Modified several templates and css properties for increased accessibility
 
 ## [0.2.0] - 2018-02-14
 ### Added
