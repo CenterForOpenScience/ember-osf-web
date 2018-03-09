@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - TypeScript: Add ember-cli-typscript and ember-cli-tslint
 - CSS: Add _typography.scss with responsive font styling and _accessibility.scss for accessibility-related styling
 - Addon: ember-a11y-testing
+- Test: make sure all translations files contain all terms
 
 ### Changed
 - TypeScript: Rename files to .ts

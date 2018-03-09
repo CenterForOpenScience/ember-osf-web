@@ -259,7 +259,7 @@ export default {
         status_link_text: 'ステータスページ',
         status_paragraph_2: '私たちのサービスがどのように動作しているかについての更新情報。',
         consultation_title: '統計コンサルティングをお探しですか',
-        consultation_paragraph: 'COSは統計コンサルティングを無料で提供しています。 このサービスの詳細については、',
+        consultation_paragraph: 'COSは統計コンサルティングを提供します。 このサービスの詳細については、',
         consultation_link_text: 'COS統計コンサルティングページ。',
         social_title: '助けを得るための他の方法',
         social_twitter: 'Twitterで質問する',
@@ -278,5 +278,10 @@ export default {
     },
     osf_mode_footer: {
         dev_mode: 'このサイトは開発モードで動作しています。',
+    },
+    maintenance: {
+        line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
+        line2: 'Thank you for your patience.',
+        title: 'Notice:',
     },
 };

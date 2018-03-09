@@ -1,6 +1,13 @@
+/* stylelint-disable selector-class-pattern */
+
+a:not(.btn),
+.btn-link {
+    font-weight: bold;
+}
+
 .SupportCol {
     background: $color-bg-white;
-    box-shadow: 0 0 2px $color-shadow-gray-light;
+    box-shadow: 5px 5px 20px $color-shadow-gray-dark;
     min-height: 300px;
     display: block;
     color: $color-text-black;
@@ -11,6 +18,7 @@
 
     h4,
     h4 > a {
+        font-weight: bold;
         color: $color-text-white;
     }
 }
