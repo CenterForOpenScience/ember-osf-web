@@ -260,7 +260,7 @@ export default {
         status_link_text: 'status page',
         status_paragraph_2: 'for updates on how our services are operating.',
         consultation_title: 'Are you looking for statistics consultations?',
-        consultation_paragraph: 'COS provides statistics consulation for free. To learn more about this service visit the',
+        consultation_paragraph: 'COS provides statistics consultation. To learn more about this service visit the',
         consultation_link_text: 'COS statistics consulting page.',
         social_title: 'Other ways to get help',
         social_twitter: 'Ask us a question on twitter',
