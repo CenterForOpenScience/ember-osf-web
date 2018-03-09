@@ -13,7 +13,9 @@ module.exports = {
     rules: {
         'class-methods-use-this': [ 'error', {
             exceptMethods: [
-                'resetController'
+                'resetController',
+                'pathForType',
+                'modelNameFromPayloadKey',
             ],
         }],
         'no-undef': 0,

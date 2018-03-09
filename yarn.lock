@@ -3904,8 +3904,8 @@ ember-data-factory-guy@^2.13.23:
     resolve "^1.2.0"
 
 ember-data@~2.16.0:
-  version "2.16.3"
-  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.16.3.tgz#0853ed86bf813fcdbc97319d2c22abccf87b5093"
+  version "2.16.4"
+  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.16.4.tgz#9412598546b44639064889f0f2c591aaf5faeca0"
   dependencies:
     amd-name-resolver "0.0.7"
     babel-plugin-feature-flags "^0.3.1"
@@ -5176,6 +5176,14 @@ fs-extra@^2.0.0:
 fs-extra@^4.0.0, fs-extra@^4.0.1:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.3.tgz#0d852122e5bc5beb453fb028e9c0c9bf36340c94"
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
+fs-extra@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-5.0.0.tgz#414d0110cdd06705734d055652c5411260c31abd"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^4.0.0"
