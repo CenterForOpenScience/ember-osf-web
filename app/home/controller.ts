@@ -4,7 +4,7 @@ import Analytics from 'ember-osf-web/mixins/analytics';
 
 function chunk(arr: any[], limit: number): any[][] {
     const original = arr.slice();
-    const result = [];
+    const result: any[][] = [];
 
     while (original.length) {
         result.push(original.splice(0, limit));
@@ -14,6 +14,9 @@ function chunk(arr: any[], limit: number): any[][] {
 }
 
 export default class Home extends Controller.extend(Analytics) {
+    queryParams = ['goodbye'];
+    goodbye = null;
+
     integrationsList = [
         'dropbox',
         'github',

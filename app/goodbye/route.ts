@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class DashboardUnauth extends Route.extend({
     session: service('session'),
@@ -6,10 +7,14 @@ export default class DashboardUnauth extends Route.extend({
     async beforeModel(...args) {
         await this._super(...args);
 
-        if (this.get('session.isAuthenticated')) {
-            this.transitionTo('dashboard');
+        const session = this.get('session');
+
+        if (session.get('isAuthenticated')) {
+            await session.invalidate();
         }
+
+        this.transitionTo('home', {
+            queryParams: { goodbye: true },
+        });
     },
-}) {
-    // normal class body definition here
-}
+}) {}

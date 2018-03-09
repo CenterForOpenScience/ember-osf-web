@@ -1,4 +1,12 @@
 {{title (t 'home.title')}}
+{{#if goodbye}}
+    <div id="alert-container" class="m-t-md alert alert-block alert-success fade in alert-front text-center" role="alert">
+        <button class="close" data-dismiss="alert" aria-label="{{t 'general.close'}}">
+            <span aria-hidden="true">{{t 'general.times'}}</span>
+        </button>
+        <p>{{t 'home.alert_logged_out'}}</p>
+    </div>
+{{/if}}
 <div id="home-hero">
     <div class="container text-center">
         <div class="visible-xs-block visible-sm-block visible-md-block network-bg"></div>

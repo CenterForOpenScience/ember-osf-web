@@ -41,6 +41,7 @@ export default {
         next: 'next',
         previous: 'previous',
         help: 'help',
+        times: '&times;',
     },
     quickfiles: {
         title: '{{user-name}}\'s Quick Files',
@@ -282,6 +283,7 @@ export default {
     },
     home: {
         title: 'Home',
+        alert_logged_out: 'You have successfully logged out.',
         brand: 'Open Science Framework',
         tagline: 'A scholarly commons to connect the entire research cycle',
         youtube_label: 'OSF YouTube Video',
