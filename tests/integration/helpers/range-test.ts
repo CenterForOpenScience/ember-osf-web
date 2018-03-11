@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-module('Integration | Helper | range', function(hooks) {
+module('Integration | Helper | range', hooks => {
     setupRenderingTest(hooks);
 
     // Replace this with your real tests.

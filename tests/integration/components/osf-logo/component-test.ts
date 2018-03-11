@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
-module('Integration | Component | osf-logo', function(hooks) {
+module('Integration | Component | osf-logo', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async function(assert) {
