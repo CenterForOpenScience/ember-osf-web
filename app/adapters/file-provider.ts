@@ -6,7 +6,6 @@ export default class FileProvider extends OsfAdapter {
     }
 }
 
-
 declare module 'ember-data' {
     interface AdapterRegistry {
       'file-provider': FileProvider;

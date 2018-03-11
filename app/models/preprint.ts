@@ -3,6 +3,8 @@ import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 import OsfModel from './osf-model';
 
+const { attr, belongsTo, hasMany } = DS;
+
 /**
  * @module ember-osf-web
  * @submodule models
@@ -18,35 +20,40 @@ import OsfModel from './osf-model';
  * @class Preprint
  */
 export default class Preprint extends OsfModel.extend({
-    title: DS.attr('fixstring'),
+    title: attr('fixstring'),
     // TODO: May be a relationship in the future pending APIv2 changes
-    subjects: DS.attr('object'),
-    dateCreated: DS.attr('date'),
-    datePublished: DS.attr('date'),
-    originalPublicationDate: DS.attr('date'),
-    dateModified: DS.attr('date'),
-    doi: DS.attr('fixstring'),
-    isPublished: DS.attr('boolean'),
-    isPreprintOrphan: DS.attr('boolean'),
-    licenseRecord: DS.attr('object'),
-    reviewsState: DS.attr('string'),
-    dateLastTransitioned: DS.attr('date'),
-    preprintDoiCreated: DS.attr('date'),
+    subjects: attr('object'),
+    dateCreated: attr('date'),
+    datePublished: attr('date'),
+    originalPublicationDate: attr('date'),
+    dateModified: attr('date'),
+    doi: attr('fixstring'),
+    isPublished: attr('boolean'),
+    isPreprintOrphan: attr('boolean'),
+    licenseRecord: attr('object'),
+    reviewsState: attr('string'),
+    dateLastTransitioned: attr('date'),
+    preprintDoiCreated: attr('date'),
 
     // Relationships
-    node: DS.belongsTo('node', { inverse: null, async: true }),
-    license: DS.belongsTo('license', { inverse: null }),
-    primaryFile: DS.belongsTo('file', { inverse: null }),
-    provider: DS.belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
-    reviewActions: DS.hasMany('review-action', { inverse: 'target', async: true }),
-    contributors: DS.hasMany('contributor', { async: true }),
+    node: belongsTo('node', { inverse: null, async: true }),
+    license: belongsTo('license', { inverse: null }),
+    primaryFile: belongsTo('file', { inverse: null }),
+    provider: belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
+    reviewActions: hasMany('review-action', { inverse: 'target', async: true }),
+    contributors: hasMany('contributor', { async: true }),
 }) {
     articleDoiUrl = alias('links.doi');
     preprintDoiUrl = alias('links.preprint_doi');
 
-    uniqueSubjects = computed('subjects', function(): Array<any> {
-        if (!this.get('subjects')) return [];
-        return this.get('subjects').reduce((acc, val) => acc.concat(val), []).uniqBy('id');
+    uniqueSubjects = computed('subjects', function(): any[] {
+        if (!this.get('subjects')) {
+            return [];
+        }
+
+        return this.get('subjects')
+            .reduce((acc, val) => acc.concat(val), [])
+            .uniqBy('id');
     });
 
     licenseText = computed('license', function(): string {
@@ -58,7 +65,6 @@ export default class Preprint extends OsfModel.extend({
             .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
     });
 }
-
 
 declare module 'ember-data' {
     interface ModelRegistry {

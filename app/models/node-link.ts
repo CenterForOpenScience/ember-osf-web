@@ -1,6 +1,8 @@
 import DS from 'ember-data';
 import OsfModel from './osf-model';
 
+const { belongsTo } = DS;
+
 /**
  * @module ember-osf-web
  * @submodule models
@@ -17,11 +19,8 @@ import OsfModel from './osf-model';
  * @class NodeLink
  */
 export default class NodeLink extends OsfModel.extend({
-    targetNode: DS.belongsTo('node'),
-}) {
-  // normal class body definition here
-}
-
+    targetNode: belongsTo('node'),
+}) {}
 
 declare module 'ember-data' {
     interface ModelRegistry {

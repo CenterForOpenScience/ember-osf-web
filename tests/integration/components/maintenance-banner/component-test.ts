@@ -1,11 +1,11 @@
-import { module } from 'qunit';
-import test from 'ember-sinon-qunit/test-support/test';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import { setupRenderingTest } from 'ember-qunit';
+import test from 'ember-sinon-qunit/test-support/test';
 import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
+import { module } from 'qunit';
 
-module('Integration | Component | maintenance-banner', function(hooks) {
+module('Integration | Component | maintenance-banner', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders no maintenance', async function(assert) {
