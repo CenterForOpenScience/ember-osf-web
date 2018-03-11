@@ -1,11 +1,13 @@
-import DS from 'ember-data';
-import OsfModel from './osf-model';
-import { isEmpty } from '@ember/utils';
 import { A } from '@ember/array';
-import { Promise as EmberPromise } from 'rsvp';
-import { equal, bool } from '@ember/object/computed';
+import { bool, equal } from '@ember/object/computed';
+import { isEmpty } from '@ember/utils';
+import DS from 'ember-data';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
-import Contributor from './contributor'; // eslint-disable-line no-unused-vars
+import { Promise as EmberPromise } from 'rsvp';
+import Contributor from './contributor';
+import OsfModel from './osf-model';
+
+const { attr, belongsTo, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -25,85 +27,86 @@ import Contributor from './contributor'; // eslint-disable-line no-unused-vars
  * @class Node
  */
 export default class Node extends OsfModel.extend(FileItemMixin, {
-    title: DS.attr('fixstring'),
-    description: DS.attr('fixstring'),
-    category: DS.attr('fixstring'),
+    title: attr('fixstring'),
+    description: attr('fixstring'),
+    category: attr('fixstring'),
 
     // List of strings
-    currentUserPermissions: DS.attr('array'),
+    currentUserPermissions: attr('array'),
 
-    fork: DS.attr('boolean'),
-    collection: DS.attr('boolean'),
-    registration: DS.attr('boolean'),
-    public: DS.attr('boolean'),
+    fork: attr('boolean'),
+    collection: attr('boolean'),
+    registration: attr('boolean'),
+    public: attr('boolean'),
 
-    dateCreated: DS.attr('date'),
-    dateModified: DS.attr('date'),
+    dateCreated: attr('date'),
+    dateModified: attr('date'),
 
-    forkedDate: DS.attr('date'),
+    forkedDate: attr('date'),
 
-    nodeLicense: DS.attr('object'),
-    tags: DS.attr('array'),
+    nodeLicense: attr('object'),
+    tags: attr('array'),
 
-    templateFrom: DS.attr('fixstring'),
+    templateFrom: attr('fixstring'),
 
-    parent: DS.belongsTo('node', {
+    parent: belongsTo('node', {
         inverse: 'children',
     }),
-    children: DS.hasMany('node', {
+    children: hasMany('node', {
         inverse: 'parent',
     }),
-    preprints: DS.hasMany('preprint', {
+    preprints: hasMany('preprint', {
         inverse: 'node',
     }),
-    affiliatedInstitutions: DS.hasMany('institution', {
+    affiliatedInstitutions: hasMany('institution', {
         inverse: 'nodes',
     }),
-    comments: DS.hasMany('comment'),
-    contributors: DS.hasMany('contributor', {
+    comments: hasMany('comment'),
+    contributors: hasMany('contributor', {
         allowBulkUpdate: true,
         allowBulkRemove: true,
         inverse: 'node',
     }),
-    citation: DS.belongsTo('citation'),
+    citation: belongsTo('citation'),
 
-    license: DS.belongsTo('license', {
+    license: belongsTo('license', {
         inverse: null,
     }),
 
-    files: DS.hasMany('file-provider'),
-    // forkedFrom: DS.belongsTo('node'),
-    linkedNodes: DS.hasMany('node', {
+    files: hasMany('file-provider'),
+    // forkedFrom: belongsTo('node'),
+    linkedNodes: hasMany('node', {
         inverse: null,
         serializerType: 'linked-node',
     }),
-    registrations: DS.hasMany('registration', {
+    registrations: hasMany('registration', {
         inverse: 'registeredFrom',
     }),
 
-    draftRegistrations: DS.hasMany('draft-registration', {
+    draftRegistrations: hasMany('draft-registration', {
         inverse: 'branchedFrom',
     }),
 
-    forks: DS.hasMany('node', {
+    forks: hasMany('node', {
         inverse: 'forkedFrom',
     }),
 
-    forkedFrom: DS.belongsTo('node', {
+    forkedFrom: belongsTo('node', {
         inverse: 'forks',
     }),
 
-    root: DS.belongsTo('node', {
+    root: belongsTo('node', {
         inverse: null,
     }),
 
-    wikis: DS.hasMany('wiki', {
+    wikis: hasMany('wiki', {
         inverse: 'node',
     }),
 
-    logs: DS.hasMany('log'),
+    logs: hasMany('log'),
 
-    // These are only computeds because maintaining separate flag values on different classes would be a headache TODO: Improve.
+    // These are only computeds because maintaining separate flag values on different classes would be a
+    // headache TODO: Improve.
     /**
      * Is this a project? Flag can be used to provide template-specific behavior for different resource types.
      * @property isProject
@@ -148,10 +151,11 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
             this.set('_dirtyRelationships.contributors', {});
         }
 
-        const contributors: typeof DS.hasMany = this.hasMany('contributors').hasManyRelationship;
+        const contributors: typeof hasMany = this.hasMany('contributors').hasManyRelationship;
         this.set(
             '_dirtyRelationships.contributors.update',
-            contributors.members.list.filter(m => !m.getRecord().get('isNew') && Object.keys(m.getRecord().changedAttributes()).length > 0),
+            contributors.members.list
+                .filter(m => !m.getRecord().get('isNew') && Object.keys(m.getRecord().changedAttributes()).length > 0),
         );
         // Need to included created contributors even in relationship
         // hasLoaded is false
@@ -180,7 +184,14 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
         return child.save();
     },
 
-    addContributor(userId: string, permission: string, isBibliographic: boolean, sendEmail: boolean, fullName: string, email: string): Promise<Contributor> {
+    addContributor(
+        userId: string,
+        permission: string,
+        isBibliographic: boolean,
+        sendEmail: boolean,
+        fullName: string,
+        email: string,
+    ): Promise<Contributor> {
         const contrib: Contributor = this.store.createRecord('contributor', {
             permission,
             bibliographic: isBibliographic,
@@ -194,8 +205,8 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
         return contrib.save();
     },
 
-    addContributors(contributors: Array<Contributor>, sendEmail?: string): Promise<Contributor[]> {
-        const payload: Array<object> = contributors.map((contrib) => {
+    async addContributors(contributors: Contributor[], sendEmail?: string): Promise<Contributor[]> {
+        const payload: object[] = contributors.map(contrib => {
             const c = this.store.createRecord('contributor', {
                 permission: contrib.permission,
                 bibliographic: contrib.bibliographic,
@@ -218,17 +229,19 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
         }
 
         // TODO Get this working properly - should not be an ajax request in the future.
-        return this.store.adapterFor('contributor').ajax(this.get('links.relationships.contributors.links.related.href') + emailQuery, 'POST', {
-            data: {
-                data: payload,
-            },
-            isBulk: true,
-        }).then((resp) => {
-            this.store.pushPayload(resp);
-            const createdContribs = A();
-            resp.data.map(contrib => createdContribs.push(this.store.peekRecord('contributor', contrib.id)));
-            return createdContribs;
-        });
+        const resp = await this.store.adapterFor('contributor')
+            .ajax(this.get('links.relationships.contributors.links.related.href') + emailQuery, 'POST', {
+                data: {
+                    data: payload,
+                },
+                isBulk: true,
+            });
+
+        this.store.pushPayload(resp);
+        const createdContribs = A();
+        resp.data.map(contrib => createdContribs.push(this.store.peekRecord('contributor', contrib.id)));
+
+        return createdContribs;
     },
 
     removeContributor(contributor: Contributor): Promise<null> {
@@ -241,10 +254,14 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
         return contributor.save();
     },
 
-    updateContributors(contributors: Array<Contributor>, permissionsChanges: object, bibliographicChanges: object): Promise<Contributor[]> {
-        const payload: Array<object> = contributors
+    async updateContributors(
+        contributors: Contributor[],
+        permissionsChanges: object,
+        bibliographicChanges: object,
+    ): Promise<Contributor[]> {
+        const payload: object[] = contributors
             .filter(contrib => contrib.id in permissionsChanges || contrib.id in bibliographicChanges)
-            .map((contrib) => {
+            .map(contrib => {
                 if (contrib.id in permissionsChanges) {
                     contrib.set('permission', permissionsChanges[contrib.id]);
                 }
@@ -259,20 +276,21 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
                 }).data;
             });
 
-        return this.store.adapterFor('contributor').ajax(this.get('links.relationships.contributors.links.related.href'), 'PATCH', {
-            data: {
-                data: payload,
-            },
-            isBulk: true,
-        }).then((resp) => {
-            this.store.pushPayload(resp);
-            return contributors;
-        });
+        const resp = await this.store.adapterFor('contributor')
+            .ajax(this.get('links.relationships.contributors.links.related.href'), 'PATCH', {
+                data: {
+                    data: payload,
+                },
+                isBulk: true,
+            });
+
+        this.store.pushPayload(resp);
+
+        return contributors;
     },
     isNode: true,
 }) {
 }
-
 
 declare module 'ember-data' {
     interface ModelRegistry {

@@ -1,0 +1,14 @@
+{{#if maintenance}}
+    <div class="scripted alert alert-dismissible {{alertClass}} MaintenanceBanner" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            {{fa-icon 'times'}}
+        </button>
+        <strong>{{t 'maintenance.title'}}</strong>
+        {{#if maintenance.message.length}}
+            {{maintenance.message}}
+        {{else}}
+            {{t 'maintenance.line1' start=start end=end utc=utc}}
+            {{t 'maintenance.line2'}}
+        {{/if}}
+    </div>
+{{/if}}

@@ -1,8 +1,6 @@
 import OsfAdapter from './osf-adapter';
 
-export default class Registration extends OsfAdapter {
-}
-
+export default class Registration extends OsfAdapter {}
 
 declare module 'ember-data' {
     interface AdapterRegistry {

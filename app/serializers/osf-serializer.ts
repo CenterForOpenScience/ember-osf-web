@@ -1,14 +1,14 @@
-import { underscore, camelize } from '@ember/string';
-import $ from 'jquery';
+import { camelize, underscore } from '@ember/string';
 import DS from 'ember-data';
+import $ from 'jquery';
 
 interface ResourceHash {
     attributes: {
-        links?: any,
-    },
-    links?: any,
-    relationships?: any,
-    embeds?: any,
+        links?: any;
+    };
+    links?: any;
+    relationships?: any;
+    embeds?: any;
 }
 
 const OsfSerializer = DS.JSONAPISerializer.extend({
@@ -31,7 +31,9 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
      * @return {Array}
      * @private
      */
-    // TODO: refactor using resource hash like how we are using it here: (stuff like _mergeFields should be as easy as just assigning a copy object)
+
+    // TODO: refactor using resource hash like how we are using it here:
+    // (stuff like _mergeFields should be as easy as just assigning a copy object)
 
     /* eslint-disable no-param-reassign */
     _extractEmbeds(resourceHash: ResourceHash): any {
@@ -57,7 +59,10 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
             resourceHash.embeds[embedded].type = embedded;
             // Merges links returned from embedded object with relationship links, so all returned links are available.
             const embeddedLinks = resourceHash.embeds[embedded].links || {};
-            resourceHash.embeds[embedded].links = Object.assign(embeddedLinks, resourceHash.relationships[embedded].links);
+            resourceHash.embeds[embedded].links = Object.assign(
+                embeddedLinks,
+                resourceHash.relationships[embedded].links,
+            );
             resourceHash.relationships[embedded] = resourceHash.embeds[embedded];
             resourceHash.relationships[embedded].is_embedded = true;
         }
@@ -110,12 +115,16 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
 
         // Only serialize dirty, whitelisted relationships
         serialized.data.relationships = {};
-        for (const relationship of Object.keys(snapshot.record._dirtyRelationships)) {
+        const dirtyRelationships = snapshot.record._dirtyRelationships;
+
+        for (const relationship of Object.keys(dirtyRelationships)) {
             // https://stackoverflow.com/questions/29004314/why-are-object-keys-and-for-in-different
-            if (!snapshot.record._dirtyRelationships.hasOwnProperty(relationship)) continue; // eslint-disable-line no-prototype-builtins
+            if (!dirtyRelationships.hasOwnProperty(relationship)) { // eslint-disable-line no-prototype-builtins
+                continue;
+            }
             const type = this.get('relationshipTypes')[relationship];
             if (type) {
-                const changeLists = Object.values(snapshot.record._dirtyRelationships[relationship]);
+                const changeLists = Object.values(dirtyRelationships[relationship]);
                 if (changeLists.any(l => l.length)) {
                     serialized.data.relationships[underscore(relationship)] = {
                         data: {
@@ -141,7 +150,7 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
 
     normalizeArrayResponse(): any {
         const documentHash: any = this._super(...arguments);
-        if (documentHash.meta !== undefined && documentHash.meta.total !== undefined && documentHash.meta.per_page !== undefined) {
+        if (documentHash.meta && documentHash.meta.total && documentHash.meta.per_page) {
             // For any request that returns more than one result, calculate total pages to be loaded.
             documentHash.meta.total_pages = Math.ceil(documentHash.meta.total / documentHash.meta.per_page);
         }
@@ -150,7 +159,6 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
 });
 
 export default OsfSerializer;
-
 
 declare module 'ember-data' {
     interface SerializerRegistry {

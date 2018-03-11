@@ -1,5 +1,8 @@
 import DS from 'ember-data';
 import OsfModel from './osf-model';
+
+const { attr, belongsTo } = DS;
+
 /**
  * @module ember-osf-web
  * @submodule models
@@ -13,12 +16,9 @@ import OsfModel from './osf-model';
  * @class CommentReport
  */
 export default class CommentReport extends OsfModel.extend({
-    category: DS.attr('fixstring'),
-    text: DS.belongsTo('comment'),
-}) {
-  // normal class body definition here
-}
-
+    category: attr('fixstring'),
+    text: belongsTo('comment'),
+}) {}
 
 declare module 'ember-data' {
     interface ModelRegistry {

@@ -1,9 +1,16 @@
+import DS from 'ember-data';
 import OsfAdapter from './osf-adapter';
 
 const requestTypes = ['createRecord', 'updateRecord', 'deleteRecord'];
 
 export default class Collection extends OsfAdapter.extend({
-    buildURL(this: Collection, modelName: 'collection', id: string, snapshot: DS.Snapshot, requestType: string): string {
+    buildURL(
+        this: Collection,
+        modelName: 'collection',
+        id: string,
+        snapshot: DS.Snapshot,
+        requestType: string,
+    ): string {
         // Embed linked_nodes
         const base: string = this._super(...arguments);
         if (requestTypes.indexOf(requestType) === -1) {
@@ -14,7 +21,6 @@ export default class Collection extends OsfAdapter.extend({
     },
 }) {
 }
-
 
 declare module 'ember-data' {
     interface AdapterRegistry {

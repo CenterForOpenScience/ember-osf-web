@@ -1,7 +1,8 @@
 import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
-
 import OsfModel from './osf-model';
+
+const { attr, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -18,23 +19,23 @@ import OsfModel from './osf-model';
  * @class User
  */
 export default class User extends OsfModel.extend({
-    fullName: DS.attr('fixstring'),
-    givenName: DS.attr('fixstring'),
-    middleNames: DS.attr('array'),
-    familyName: DS.attr('fixstring'),
+    fullName: attr('fixstring'),
+    givenName: attr('fixstring'),
+    middleNames: attr('array'),
+    familyName: attr('fixstring'),
 
-    dateRegistered: DS.attr('date'),
+    dateRegistered: attr('date'),
     // email
-    username: DS.attr('fixstring'),
+    username: attr('fixstring'),
 
-    canViewReviews: DS.attr('boolean', { defaultValue: false }),
+    canViewReviews: attr('boolean', { defaultValue: false }),
 
-    nodes: DS.hasMany('node'),
-    registrations: DS.hasMany('registration'),
+    nodes: hasMany('node'),
+    registrations: hasMany('registration'),
 
-    quickfiles: DS.hasMany('file'),
+    quickfiles: hasMany('file'),
 
-    institutions: DS.hasMany('institution', {
+    institutions: hasMany('institution', {
         inverse: 'users',
     }),
 }) {
@@ -42,7 +43,6 @@ export default class User extends OsfModel.extend({
     profileURL = alias('links.html');
     profileImage = alias('links.profile_image');
 }
-
 
 declare module 'ember-data' {
     interface ModelRegistry {

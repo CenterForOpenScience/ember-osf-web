@@ -1,7 +1,13 @@
+import DS from 'ember-data';
 import OsfAdapter from './osf-adapter';
 
 export default class Preprint extends OsfAdapter {
-    updateRecord(this: Preprint, store: DS.Store, type: {modelName: 'preprint' | 'node'}, snapshot: DS.Snapshot): Promise<any> {
+    updateRecord(
+        this: Preprint,
+        store: DS.Store,
+        type: {modelName: 'preprint' | 'node'},
+        snapshot: DS.Snapshot,
+    ): Promise<any> {
         const data: object = {};
         const serializer: DS.Serializer = store.serializerFor(type.modelName);
 
@@ -13,7 +19,6 @@ export default class Preprint extends OsfAdapter {
         return this.ajax(url, 'PATCH', { data });
     }
 }
-
 
 declare module 'ember-data' {
     interface AdapterRegistry {

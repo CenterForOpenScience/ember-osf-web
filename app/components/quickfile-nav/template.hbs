@@ -1,9 +1,6 @@
 <div class="container">
     <h3>
-        {{#link-to
-            'guid-user-quickfiles'
-            user.id
-        }}
+        {{#link-to 'guid-user.quickfiles' user.id}}
             {{t 'quickfiles.title' user-name=user.fullName}}
         {{/link-to}}
     </h3>

@@ -1,13 +1,16 @@
 import DS from 'ember-data';
 import OsfModel from './osf-model';
+
+const { attr, hasMany } = DS;
+
 /**
  * @module ember-osf-web
  * @submodule models
  */
 
 /**
- * Model for OSF APIv2 institutions. This model may be used with one of several API endpoints. It may be queried directly,
- *  or accessed via relationship fields.
+ * Model for OSF APIv2 institutions. This model may be used with one of several API endpoints. It may be queried
+ * directly, or accessed via relationship fields.
  * For field and usage information, see:
  * * https://api.osf.io/v2/docs/#!/v2/Institution_List_GET
  * * https://api.osf.io/v2/docs/#!/v2/Institution_Detail_GET
@@ -17,23 +20,20 @@ import OsfModel from './osf-model';
  * @class Institution
  */
 export default class Institution extends OsfModel.extend({
-    name: DS.attr('string'),
-    description: DS.attr('fixstring'),
-    logoPath: DS.attr('string'),
-    authUrl: DS.attr('string'),
-    users: DS.hasMany('user', {
+    name: attr('string'),
+    description: attr('fixstring'),
+    logoPath: attr('string'),
+    authUrl: attr('string'),
+    users: hasMany('user', {
         inverse: 'institutions',
     }),
-    nodes: DS.hasMany('node', {
+    nodes: hasMany('node', {
         inverse: 'affiliatedInstitutions',
     }),
-    registrations: DS.hasMany('registration', {
+    registrations: hasMany('registration', {
         inverse: 'affiliatedInstitutions',
     }),
-}) {
-  // normal class body definition here
-}
-
+}) {}
 
 declare module 'ember-data' {
     interface ModelRegistry {

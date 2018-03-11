@@ -1,4 +1,4 @@
-import DS from 'ember-data'; // eslint-disable-line no-unused-vars
+import DS from 'ember-data';
 import OsfSerializer from './osf-serializer';
 
 export default class NodeLink extends OsfSerializer.extend({
@@ -16,7 +16,6 @@ export default class NodeLink extends OsfSerializer.extend({
         return serialized;
     },
 }) {}
-
 
 declare module 'ember-data' {
     interface SerializerRegistry {

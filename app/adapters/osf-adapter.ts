@@ -1,15 +1,17 @@
-import { allSettled, hashSettled } from 'rsvp';
 import { isArray } from '@ember/array';
-import { underscore, capitalize } from '@ember/string';
-import $ from 'jquery';
 import { getWithDefault } from '@ember/object';
 import { merge } from '@ember/polyfills';
+import { capitalize, underscore } from '@ember/string';
 import DS from 'ember-data';
+import $ from 'jquery';
+import { allSettled, hashSettled } from 'rsvp';
 
 import config from 'ember-get-config';
 import GenericDataAdapterMixin from 'ember-osf-web/mixins/generic-data-adapter';
 
 import { pluralize, singularize } from 'ember-inflector';
+
+const { JSONAPIAdapter } = DS;
 
 /**
  * @module ember-osf-web
@@ -22,13 +24,13 @@ import { pluralize, singularize } from 'ember-inflector';
  * @extends DS.JSONAPIAdapter
  * @uses GenericDataAdapterMixin
  */
-export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdapterMixin).extend({
+export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapterMixin, {
     headers: {
         ACCEPT: 'application/vnd.api+json; version=2.4',
     },
-    authorizer: <any> config['ember-simple-auth'].authorizer,
-    host: <string> config.OSF.apiUrl,
-    namespace: <string> config.OSF.apiNamespace,
+    authorizer: config['ember-simple-auth'].authorizer,
+    host: config.OSF.apiUrl,
+    namespace: config.OSF.apiNamespace,
     /**
      * Overrides buildQuery method - Allows users to embed resources with findRecord
      * OSF APIv2 does not have "include" functionality, instead we use 'embed'.
@@ -47,7 +49,7 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
     },
     buildURL(this: OsfAdapter, modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
         let url: string = this._super(...arguments);
-        const options: {url?: string, query?: object} = (snapshot ? snapshot.adapterOptions : false) || {};
+        const options: { url?: string, query?: object } = (snapshot ? snapshot.adapterOptions : false) || {};
 
         if (requestType === 'deleteRecord') {
             if (snapshot.record.get('links.delete')) {
@@ -82,12 +84,15 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {DS.Snapshot} snapshot
      * @param {String} relationship the relationship to build a url for
      * @return {String} a URL
-     * */
+     */
     _buildRelationshipURL(snapshot: DS.Snapshot, relationship?: string): null | string {
-        const links: {self?: {href: string}, related?: {href: string}} = snapshot.record.get(`relationshipLinks.${underscore(relationship)}.links`);
+        const links: { self?: { href: string }, related?: { href: string } } = snapshot.record
+            .get(`relationshipLinks.${underscore(relationship)}.links`);
+
         if (!links) {
             return null;
         }
+
         return links.self ? links.self.href : links.related.href;
     },
     /**
@@ -101,8 +106,14 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {String} relationship
      * @param {String} url
      * @param {Boolean} isBulk
-     * */
-    _createRelated(store: DS.Store, snapshot: DS.Snapshot, createdSnapshots: Array<any>, relationship: string, url: string): Array<any> { // , isBulk = false) {
+     */
+    _createRelated(
+        store: DS.Store,
+        snapshot: DS.Snapshot,
+        createdSnapshots: any[],
+        relationship: string,
+        url: string,
+    ) { // , isBulk = false) {
         // TODO support bulk create?
         // if (isBulk) {
         //
@@ -113,7 +124,7 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
                 url,
                 requestType: 'create',
             },
-        }).then((res) => {
+        }).then(res => {
             snapshot.record.resolveRelationship(relationship).addCanonicalInternalModel(s.record._internalModel);
             return res;
         }));
@@ -130,14 +141,25 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {String} relationship
      * @param {String} url
      * @param {Boolean} isBulk
-     * */
-    _addRelated(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, addedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, isBulk: boolean = false): Promise<any> {
-        return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then((res) => {
-            addedSnapshots.forEach(function(s) {
-                snapshot.record.resolveRelationship(relationship).addCanonicalInternalModel(s.record._internalModel);
+     */
+    _addRelated(
+        this: OsfAdapter,
+        store: DS.Store,
+        snapshot: DS.Snapshot,
+        addedSnapshots: DS.Snapshot[],
+        relationship: string,
+        url: string,
+        isBulk: boolean = false,
+    ): Promise<any> {
+        return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk)
+            .then(res => {
+                addedSnapshots.forEach(s => {
+                    snapshot.record
+                        .resolveRelationship(relationship)
+                        .addCanonicalInternalModel(s.record._internalModel);
+                });
+                return res;
             });
-            return res;
-        });
     },
     /**
      * Handle update(s) of related resources
@@ -150,11 +172,20 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {String} relationship
      * @param {String} url
      * @param {Boolean} isBulk
-     * */
-    _updateRelated(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, updatedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, isBulk: boolean = false): Promise<any> {
-        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk).then((res) => {
+     */
+    _updateRelated(
+        this: OsfAdapter,
+        store: DS.Store,
+        snapshot: DS.Snapshot,
+        updatedSnapshots: DS.Snapshot[],
+        relationship: string,
+        url: string,
+        isBulk: boolean = false,
+    ): Promise<any> {
+        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk)
+            .then(res => {
             const relatedType = singularize(snapshot.record[relationship].meta().type);
-            res.data.forEach((item) => {
+            res.data.forEach(item => {
                 const record = store.push(store.normalize(relatedType, item));
                 // TODO: This is now called addCanonicalInternalModel :|
                 snapshot.record.resolveRelationship(relationship).addCanonicalInternalModel(record._internalModel);
@@ -174,12 +205,24 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {String} relationship
      * @param {String} url
      * @param {Boolean} isBulk
-     * */
-    _removeRelated(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, removedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, isBulk: boolean = false): Promise<any> {
-        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then((res) => {
-            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalInternalModel(s.record._internalModel));
-            return res || [];
-        });
+     */
+    _removeRelated(
+        this: OsfAdapter,
+        store: DS.Store,
+        snapshot: DS.Snapshot,
+        removedSnapshots: DS.Snapshot[],
+        relationship: string,
+        url: string,
+        isBulk: boolean = false,
+    ): Promise<any> {
+        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk)
+            .then(res => {
+                removedSnapshots.forEach(s =>
+                    snapshot.record
+                        .resolveRelationship(relationship)
+                        .removeCanonicalInternalModel(s.record._internalModel));
+                return res || [];
+            });
     },
     /**
      * Handle deletion of related resources
@@ -192,8 +235,13 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {String} relationship
      * @param {String} url
      * @param {Boolean} isBulk
-     * */
-    _deleteRelated(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, deletedSnapshots: Array<DS.Snapshot>): Promise<void> { // , relationship, url, isBulk = false) {
+     */
+    _deleteRelated(
+        this: OsfAdapter,
+        store: DS.Store,
+        snapshot: DS.Snapshot,
+        deletedSnapshots: DS.Snapshot[],
+    ): Promise<void> { // , relationship, url, isBulk = false) {
         return this._removeRelated(...arguments).then(() => {
             deletedSnapshots.forEach(s => s.record.unloadRecord());
         });
@@ -210,9 +258,18 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {String} url
      * @param {String} requestMethod
      * @param {Boolean} isBulk
-     * */
-    _doRelatedRequest(this: OsfAdapter, store: DS.Store, snapshot: DS.Snapshot, relatedSnapshots: Array<DS.Snapshot>, relationship: string, url: string, requestMethod: string, isBulk: boolean = false) {
-        const data: { data?: Array<any> } = {};
+     */
+    _doRelatedRequest(
+        this: OsfAdapter,
+        store: DS.Store,
+        snapshot: DS.Snapshot,
+        relatedSnapshots: DS.Snapshot[],
+        relationship: string,
+        url: string,
+        requestMethod: string,
+        isBulk: boolean = false,
+    ) {
+        const data: { data?: any[] } = {};
         const relatedMeta: any = snapshot.record[relationship].meta();
         const type: string = singularize(relatedMeta.type);
         let serializer: DS.Serializer & { serializeIntoHash: any } = store.serializerFor(type);
@@ -220,8 +277,8 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
             serializer = store.serializerFor(relatedMeta.options.serializerType);
         }
         if (isArray(relatedSnapshots)) {
-            data.data = relatedSnapshots.map((relatedSnapshot) => {
-                const item: { data?: Array<any> } = {};
+            data.data = relatedSnapshots.map(relatedSnapshot => {
+                const item: { data?: any[] } = {};
                 serializer.serializeIntoHash(
                     item,
                     store.modelFor(type),
@@ -248,10 +305,11 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
         return this.ajax(url, requestMethod, {
             data,
             isBulk,
-        }).then((res) => {
+        }).then(res => {
             if (res && !$.isArray(res.data)) {
                 res.data = [res.data];
             }
+
             return res;
         });
     },
@@ -266,19 +324,24 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
      * @param {DS.Snapshot} snapshot
      * @param {String} relationship
      * @param {String} change
-     * */
-    _handleRelatedRequest(this: OsfAdapter, store: DS.Store, type: {modelName: string}, snapshot: DS.Snapshot, relationship: string, change: string): any {
-        let related: Array<any> | {record?: any} = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(function(r) {
-            if (r._internalModel) {
-                return r._internalModel.createSnapshot();
-            }
-            return r.createSnapshot();
-        });
+     */
+    _handleRelatedRequest(
+        this: OsfAdapter,
+        store: DS.Store,
+        type: { modelName: string },
+        snapshot: DS.Snapshot,
+        relationship: string,
+        change: string,
+    ): any {
+        let related: any[] | { record?: any } = snapshot.record
+            .get(`_dirtyRelationships.${relationship}.${change}`)
+            .map(r => r._internalModel ? r._internalModel.createSnapshot() : r.createSnapshot());
+
         if (!related.length) {
             return [];
         }
 
-        const relatedMeta: {options: any} = snapshot.record[relationship].meta();
+        const relatedMeta: { options: any } = snapshot.record[relationship].meta();
         const url: string = this._buildRelationshipURL(snapshot, relationship);
         const adapter: DS.Adapter = store.adapterFor(type.modelName);
         const allowBulk: boolean = relatedMeta.options[`allowBulk${capitalize(change)}`];
@@ -297,27 +360,29 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
         );
         return response;
     },
-    updateRecord(this: OsfAdapter, store: DS.Store, type: {modelName: string}, snapshot: DS.Snapshot): any {
+    updateRecord(this: OsfAdapter, store: DS.Store, type: { modelName: string }, snapshot: DS.Snapshot): any {
         const relatedRequests = {};
         const dirtyRelationships = snapshot.record.get('_dirtyRelationships');
-        Object.keys(dirtyRelationships).forEach((relationship) => {
+        Object.keys(dirtyRelationships).forEach(relationship => {
             let promises = [];
             const changed = dirtyRelationships[relationship];
-            Object.keys(changed).forEach((change) => {
-                promises = promises.concat(this._handleRelatedRequest(store, type, snapshot, relationship, change) || []);
+            Object.keys(changed).forEach(change => {
+                promises = promises
+                    .concat(this._handleRelatedRequest(store, type, snapshot, relationship, change) || []);
             });
             if (promises.length) {
                 relatedRequests[relationship] = allSettled(promises);
             }
         });
         const relatedPromise = hashSettled(relatedRequests);
+
         if (Object.keys(snapshot.record.changedAttributes()).length) {
             return this._super(...arguments).then(response => relatedPromise.then(() => response));
-        } else {
-            return relatedPromise.then(() => null);
         }
+
+        return relatedPromise.then(() => null);
     },
-    ajaxOptions(this: OsfAdapter, _: any, __: any, options?: {isBulk?: boolean}): any {
+    ajaxOptions(this: OsfAdapter, _: any, __: any, options?: { isBulk?: boolean }): any {
         const ret = this._super(...arguments);
         if (options && options.isBulk) {
             ret.contentType = 'application/vnd.api+json; ext=bulk';
@@ -328,8 +393,11 @@ export default class OsfAdapter extends DS.JSONAPIAdapter.extend(GenericDataAdap
         const underscored: string = underscore(modelName);
         return pluralize(underscored);
     },
-}) {}
-
+}) {
+    authorizer: any;
+    host: string;
+    namespace: string;
+}
 
 declare module 'ember-data' {
   interface AdapterRegistry {

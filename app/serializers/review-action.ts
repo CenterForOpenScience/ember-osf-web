@@ -11,7 +11,6 @@ export default class ReviewAction extends OsfSerializer {
     };
 }
 
-
 declare module 'ember-data' {
     interface SerializerRegistry {
         'review-action': ReviewAction;

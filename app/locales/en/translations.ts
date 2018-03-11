@@ -43,6 +43,11 @@ export default {
         help: 'help',
         times: '&times;',
     },
+    maintenance: {
+        line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
+        line2: 'Thank you for your patience.',
+        title: 'Notice:',
+    },
     quickfiles: {
         title: '{{user-name}}\'s Quick Files',
         description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.',
