@@ -33,6 +33,7 @@
     "@centerforopenscience/osf-style": "1.5.1",
     "@types/ember": "^2.8.8",
     "@types/ember-data": "^2.14.12",
+    "@types/ember-qunit": "^3.0.1",
     "@types/ember-testing-helpers": "^0.0.3",
     "@types/rsvp": "^4.0.1",
     "bootstrap-sass": "^3.3.7",

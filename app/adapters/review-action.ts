@@ -6,7 +6,6 @@ export default class ReviewAction extends OsfAdapter {
     }
 }
 
-
 declare module 'ember-data' {
     interface AdapterRegistry {
         'review-action': ReviewAction;

@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
-module('Unit | Adapter | metaschema', function(hooks) {
+module('Unit | Adapter | metaschema', hooks => {
     setupTest(hooks);
 
   // Replace this with your real tests.

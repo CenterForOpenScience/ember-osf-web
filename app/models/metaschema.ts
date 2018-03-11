@@ -1,6 +1,8 @@
 import DS from 'ember-data';
 import OsfModel from './osf-model';
 
+const { attr } = DS;
+
 /**
  * @module ember-osf-web
  * @submodule models
@@ -15,13 +17,10 @@ import OsfModel from './osf-model';
  * @class Metaschema
  */
 export default class Metaschema extends OsfModel.extend({
-    name: DS.attr('fixstring'),
-    schemaVersion: DS.attr('number'),
-    schema: DS.attr('object'),
-}) {
-  // normal class body definition here
-}
-
+    name: attr('fixstring'),
+    schemaVersion: attr('number'),
+    schema: attr('object'),
+}) {}
 
 declare module 'ember-data' {
     interface ModelRegistry {

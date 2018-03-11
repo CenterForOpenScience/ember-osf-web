@@ -1,5 +1,5 @@
-import OsfAdapter from './osf-adapter';
 import FileCacheBypassMixin from 'ember-osf-web/mixins/file-cache-bypass';
+import OsfAdapter from './osf-adapter';
 
 export default class File extends OsfAdapter.extend(FileCacheBypassMixin).extend({
     buildURL(this: File, modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
@@ -11,7 +11,6 @@ export default class File extends OsfAdapter.extend(FileCacheBypassMixin).extend
         return url;
     },
 }) {}
-
 
 declare module 'ember-data' {
     interface AdapterRegistry {

@@ -8,7 +8,6 @@ export default class Guid extends OsfAdapter.extend({
     },
 }) {}
 
-
 declare module 'ember-data' {
   interface AdapterRegistry {
     'guid': Guid;

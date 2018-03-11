@@ -1,8 +1,10 @@
 import DS from 'ember-data';
-import OsfModel from './osf-model';
-import Node from './node'; // eslint-disable-line no-unused-vars
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import Node from './node';
+import OsfModel from './osf-model';
+
+const { attr, belongsTo, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -22,37 +24,37 @@ import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
  * @class File
  */
 export default class File extends OsfModel.extend(FileItemMixin, {
-    name: DS.attr('fixstring'),
-    kind: DS.attr('fixstring'),
-    guid: DS.attr('fixstring'),
-    path: DS.attr('string'),
-    size: DS.attr('number'),
-    currentVersion: DS.attr('number'),
-    provider: DS.attr('fixstring'),
-    materializedPath: DS.attr('string'),
-    lastTouched: DS.attr('date'),
-    dateModified: DS.attr('date'),
-    dateCreated: DS.attr('date'),
-    extra: DS.attr('object'),
-    tags: DS.attr('array'),
-    checkout: DS.attr('fixstring'),
+    name: attr('fixstring'),
+    kind: attr('fixstring'),
+    guid: attr('fixstring'),
+    path: attr('string'),
+    size: attr('number'),
+    currentVersion: attr('number'),
+    provider: attr('fixstring'),
+    materializedPath: attr('string'),
+    lastTouched: attr('date'),
+    dateModified: attr('date'),
+    dateCreated: attr('date'),
+    extra: attr('object'),
+    tags: attr('array'),
+    checkout: attr('fixstring'),
 
-    parentFolder: DS.belongsTo('file', { inverse: 'files' }),
+    parentFolder: belongsTo('file', { inverse: 'files' }),
 
     // Folder attributes
-    files: DS.hasMany('file', { inverse: 'parentFolder' }),
+    files: hasMany('file', { inverse: 'parentFolder' }),
 
     // File attributes
-    versions: DS.hasMany('file-version'),
-    comments: DS.hasMany('comment'),
-    node: DS.belongsTo('node'), // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    user: DS.belongsTo('user'),
+    versions: hasMany('file-version'),
+    comments: hasMany('comment'),
+    // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
+    node: belongsTo('node'),
+    user: belongsTo('user'),
     _isFileModel: true,
 
 }) {
-    // normal class body definition here
-    rename(this: File, newName: string, conflict = 'replace'): Promise<null> {
-        return authenticatedAJAX({
+    async rename(this: File, newName: string, conflict = 'replace'): Promise<null> {
+        const { data } = await authenticatedAJAX({
             url: this.get('links.upload'),
             type: 'POST',
             xhrFields: {
@@ -66,9 +68,9 @@ export default class File extends OsfModel.extend(FileItemMixin, {
                 rename: newName,
                 conflict,
             }),
-        }).done((response) => {
-            this.set('name', response.data.attributes.name);
         });
+
+        this.set('name', data.attributes.name);
     }
     getGuid(this: File): Promise<any> {
         return this.store.findRecord(
@@ -118,7 +120,6 @@ export default class File extends OsfModel.extend(FileItemMixin, {
         }).then(() => this.reload());
     }
 }
-
 
 declare module 'ember-data' {
     interface ModelRegistry {

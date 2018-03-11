@@ -11,6 +11,7 @@ module.exports = {
         es6: true,
     },
     rules: {
+        'arrow-parens': [ 'warn', 'as-needed' ],
         'class-methods-use-this': [ 'error', {
             exceptMethods: [
                 'resetController',
@@ -18,15 +19,17 @@ module.exports = {
                 'modelNameFromPayloadKey',
             ],
         }],
+        'ember/named-functions-in-promises': 'off',
+        'max-len': [ 'warn', { code: 120 } ],
+        'no-confusing-arrow': 0,
         'no-undef': 0,
         'no-unused-vars': ['error', { argsIgnorePattern: '^this' }],
         strict: 0,
         indent: 'off',
-        'indent-legacy': 'error',
     },
     overrides: [
         {
-            files: ['**/*.d.ts'],
+            files: ['**/*.ts'],
             rules: {
                 'no-unused-vars': 0,
             }

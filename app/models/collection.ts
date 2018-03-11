@@ -1,6 +1,8 @@
 import DS from 'ember-data';
 import OsfModel from './osf-model';
 
+const { attr, hasMany } = DS;
+
 /**
  * @module ember-osf-web
  * @submodule models
@@ -14,22 +16,19 @@ import OsfModel from './osf-model';
  * @class Collection
  */
 export default class Collection extends OsfModel.extend({
-    title: DS.attr('fixstring'),
-    dateCreated: DS.attr('date'),
-    dateModified: DS.attr('date'),
-    bookmarks: DS.attr('boolean'),
-    linkedNodes: DS.hasMany('node', {
+    title: attr('fixstring'),
+    dateCreated: attr('date'),
+    dateModified: attr('date'),
+    bookmarks: attr('boolean'),
+    linkedNodes: hasMany('node', {
         inverse: null,
         serializerType: 'linked-node',
     }),
-    linkedRegistrations: DS.hasMany('registration', {
+    linkedRegistrations: hasMany('registration', {
         inverse: null,
         serializerType: 'linked-node',
     }),
-}) {
-  // normal class body definition here
-}
-
+}) {}
 
 declare module 'ember-data' {
     interface ModelRegistry {

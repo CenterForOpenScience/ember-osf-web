@@ -1,5 +1,5 @@
-import $ from 'jquery';
 import DS from 'ember-data';
+import $ from 'jquery';
 
 export default DS.Transform.extend({
     deserialize(value) {

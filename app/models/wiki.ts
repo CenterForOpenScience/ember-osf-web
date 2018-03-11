@@ -1,25 +1,24 @@
 import DS from 'ember-data';
 import OsfModel from './osf-model';
 
+const { attr, belongsTo } = DS;
+
 export default class Wiki extends OsfModel.extend({
-    kind: DS.attr('string'),
-    name: DS.attr('string'),
-    dateModified: DS.attr('date'),
+    kind: attr('string'),
+    name: attr('string'),
+    dateModified: attr('date'),
 
-    extra: DS.attr('object'),
-    contentType: DS.attr('string'),
-    path: DS.attr('string'),
-    currentUserCanComment: DS.attr('boolean'),
-    materializedPath: DS.attr('string'),
-    size: DS.attr('number'),
+    extra: attr('object'),
+    contentType: attr('string'),
+    path: attr('string'),
+    currentUserCanComment: attr('boolean'),
+    materializedPath: attr('string'),
+    size: attr('number'),
 
-    node: DS.belongsTo('node', {
+    node: belongsTo('node', {
         inverse: 'wikis',
     }),
-}) {
-  // normal class body definition here
-}
-
+}) {}
 
 declare module 'ember-data' {
     interface ModelRegistry {
