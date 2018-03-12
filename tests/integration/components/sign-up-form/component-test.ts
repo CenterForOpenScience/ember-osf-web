@@ -7,8 +7,12 @@ module('Integration | Component | sign-up-form', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async function(assert) {
-        await render(hbs`{{sign-up-form}}`);
+        this.set('submit', () => {
+            assert.ok(true);
+        });
 
-        assert.ok(this.element.textContent.trim());
+        await render(hbs`{{sign-up-form submit=submit}}`);
+
+        assert.ok((this.element.textContent || '').trim());
     });
 });

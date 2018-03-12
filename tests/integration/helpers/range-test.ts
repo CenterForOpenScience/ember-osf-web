@@ -12,6 +12,6 @@ module('Integration | Helper | range', hooks => {
             {{#each (range 1 5) as | i | }}{{i}}{{/each}}
         `);
 
-        assert.equal(this.element.textContent.trim(), '12345');
+        assert.equal((this.element.textContent || '').trim(), '12345');
     });
 });

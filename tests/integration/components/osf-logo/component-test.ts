@@ -9,6 +9,6 @@ module('Integration | Component | osf-logo', hooks => {
     test('it renders', async function(assert) {
         await render(hbs`{{osf-logo}}`);
 
-        assert.equal(this.element.textContent.trim(), '');
+        assert.equal((this.element.textContent || '').trim(), '');
     });
 });

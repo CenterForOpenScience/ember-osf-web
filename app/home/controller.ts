@@ -1,6 +1,9 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
+import { task, timeout } from 'ember-concurrency';
 import Analytics from 'ember-osf-web/mixins/analytics';
+import UserRegistration from 'ember-osf-web/models/user-registration';
+import HomeRoute from './route';
 
 function chunk(arr: any[], limit: number): any[][] {
     const original = arr.slice();
@@ -13,9 +16,27 @@ function chunk(arr: any[], limit: number): any[][] {
     return result;
 }
 
-export default class Home extends Controller.extend(Analytics) {
+export default class Home extends Controller.extend(Analytics, {
+    submit: task(function* (this: Home) {
+        const model = this.get('model');
+        const { validations } = yield model.validate();
+        this.set('didValidate', true);
+
+        if (!validations.get('isValid')) {
+            return;
+            // show error
+        }
+
+        yield model.save();
+
+        this.set('hasSubmitted', true);
+    }).drop(),
+}) {
+    hasSubmitted = false;
+    model: UserRegistration;
     queryParams = ['goodbye'];
     goodbye = null;
+    didValidate: boolean;
 
     integrationsList = [
         'dropbox',

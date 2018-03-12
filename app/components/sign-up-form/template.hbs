@@ -1,108 +1,85 @@
 <form {{action 'submit' on='submit'}}>
-    <div class="form-group {{if fullNameError 'has-error'}}">
-        <label class="placeholder-replace">
-            {{t 'sign_up_form.full_name'}}
-        </label>
-        {{input
-            id="fullName"
-            class="form-control"
-            placeholder=(t 'sign_up_form.full_name')
-            minlength=fullNameMinimum
-            maxlength=fullNameMaximum
-            required="true"
-            value=fullName
-            focus-out=(action 'setBool' 'fullNameBlurred' true)
-        }}
-        <p class="help-block osf-box-lt">
-            {{fullNameError}}
-        </p>
-    </div>
-    <div class="form-group {{if emailContactError 'has-error'}}">
-        <label class="placeholder-replace">
-            {{t 'sign_up_form.contact_email'}}
-        </label>
-        {{input
-            id="emailContact"
-            class="form-control"
-            placeholder=(t 'sign_up_form.contact_email')
-            type="email"
-            required="true"
-            value=emailContact
-            focus-out=(action 'setBool' 'emailContactBlurred' true)
-        }}
-        <p class="help-block osf-box-lt">
-            {{emailContactError}}
-        </p>
-    </div>
-    <div class="form-group {{if emailConfirmError 'has-error'}}">
-        <label class="placeholder-replace">
-            {{t 'sign_up_form.confirm_email'}}
-        </label>
-        {{input
-            id="emailConfirm"
-            class="form-control"
-            placeholder=(t 'sign_up_form.confirm_email')
-            type="email"
-            required="true"
-            value=emailConfirm
-            focus-out=(action 'setBool' 'emailConfirmBlurred' true)
-        }}
-        <p class="help-block osf-box-lt">
-            {{emailConfirmError}}
-        </p>
-    </div>
-    <div class="form-group {{if passwordError 'has-error'}}">
-        <label class="placeholder-replace">
-            {{t 'sign_up_form.password'}}
-        </label>
-        {{input
-            id="password"
-            class="form-control"
-            placeholder=(t 'sign_up_form.password_placeholder' min=passwordMinimum max=passwordMaximum)
-            type="text"
-            minlength=passwordMinimum
-            maxlength=passwordMaximum
-            required="true"
-            value=password
-            key-up=(perform strength value='target.value')
-            focus-out=(action 'setBool' 'passwordBlurred' true)
-        }}
-        <div class="row" hidden={{not progress}}>
-            <div class="col-xs-8">
-                <div class="progress CreatePassword">
-                    <div class="progress-bar progress-bar-sm progress-bar-{{progress}} progress-bar-{{progressStyle}}"
-                        role="progressbar">
-                    </div>
+    <label for="fullName">
+        {{t 'sign_up_form.full_name'}}
+    </label>
+    {{validated-input
+        model=model
+        didValidate=didValidate
+        valuePath='fullName'
+        placeholder=(t 'sign_up_form.full_name')
+        disabled=hasSubmitted
+    }}
+    <label for="email1">
+        {{t 'sign_up_form.contact_email'}}
+    </label>
+    {{validated-input
+        model=model
+        didValidate=didValidate
+        valuePath='email1'
+        placeholder=(t 'sign_up_form.contact_email')
+        disabled=hasSubmitted
+    }}
+    <label for="email2">
+        {{t 'sign_up_form.confirm_email'}}
+    </label>
+    {{validated-input
+        model=model
+        didValidate=didValidate
+        valuePath='email2'
+        placeholder=(t 'sign_up_form.confirm_email')
+        disabled=hasSubmitted
+    }}
+    <label for="password">
+        {{t 'sign_up_form.password'}}
+    </label>
+    {{validated-input
+        type='password'
+        model=model
+        didValidate=didValidate
+        valuePath='password'
+        placeholder=(t 'sign_up_form.password')
+        key-up=(perform strength value=model.password)
+        disabled=hasSubmitted
+    }}
+    <div class="row" hidden={{not progress}}>
+        <div class="col-xs-8">
+            <div class="progress CreatePassword">
+                <div class="progress-bar progress-bar-sm progress-bar-{{progress}} progress-bar-{{progressStyle}}"
+                    role="progressbar">
                 </div>
             </div>
-            <div class="col-xs-4 f-w-xl text-left pv-darkbg">
-                <p id="front-password-info" class="text-{{progressStyle}}">
-                    {{if progress (t (concat 'sign_up_form.progress_' progress))}}
-                </p>
-            </div>
         </div>
-        <div class="pv-darkbg">
-            <p class="help-block osf-box-lt {{if passwordError 'p-xs'}}">
-                {{passwordError}}
+        <div class="col-xs-4 f-w-xl text-left pv-darkbg">
+            <p id="front-password-info" class="text-{{progressStyle}}">
+                {{if progress (t (concat 'sign_up_form.progress_' progress))}}
             </p>
-            <p class="osf-box-lt p-xs" hidden={{not passwordWarning}}>{{passwordWarning}}</p>
         </div>
     </div>
-    {{sign-up-policy}}
-    {{#if password}}
-        <div class="help-block osf-box-lt">
-            <p class="text-danger p-xs" hidden>{{t 'sign_up_form.error_recaptcha'}}</p>
-        </div>
+    {{#if (not hasSubmitted)}}
+        {{sign-up-policy}}
+    {{/if}}
+    {{#if (and
+        (not hasSubmitted)
+        model.password
+    )}}
         <div class="col-md-12 m-t-sm RecaptchaParent">
-            {{g-recaptcha
-                onSuccess=(action 'setBool' 'recaptchaValid' true)
-                onExpired=(action 'setBool' 'recaptchaValid' false)
+            {{validated-input
+                type='reCaptcha'
+                model=model
+                didValidate=didValidate
+                valuePath='g-recaptcha-response'
             }}
         </div>
     {{/if}}
-    <div>
-        <button type="submit" class="btn btn-warning m-t-sm" {{action "submit"}} disabled={{not formValid}}>
-            {{t 'sign_up_form.sign_up_free'}}
-        </button>
-    </div>
+    {{#if hasSubmitted}}
+        <div class="help-block osf-box-lt">
+            <p class="ext-success p-xs">{{t 'sign_up_form.registration_success' email=model.email1}}</p>
+        </div>
+    {{else}}
+        <div>
+            <button type="submit" class="btn btn-warning m-t-sm" {{action submit}}>
+                {{t 'sign_up_form.sign_up_free'}}
+            </button>
+        </div>
+    {{/if}}
 </form>

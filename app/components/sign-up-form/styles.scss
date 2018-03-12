@@ -1,7 +1,11 @@
 /* stylelint-disable selector-class-pattern */
 
-input:not(:placeholder-shown):not(:focus):invalid {
+.has-error input:not(:placeholder-shown) {
     border: 1px solid #a94442;
+}
+
+.error {
+    background-color: #e0ebf3;
 }
 
 button,
@@ -15,10 +19,6 @@ input,
     margin-top: 5px;
     margin-bottom: 5px;
     height: inherit;
-}
-
-label {
-    display: none;
 }
 
 .RecaptchaParent {

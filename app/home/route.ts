@@ -11,4 +11,24 @@ export default class Home extends Route.extend({
             this.transitionTo('dashboard');
         }
     },
-}) {}
+
+    setupController(...args) {
+        const [ controller ] = args;
+
+        controller.setProperties({
+            didValidate: false,
+        });
+
+        this._super(...args);
+    },
+
+    actions: {
+        reset() {
+            this.refresh();
+        },
+    },
+}) {
+    model() {
+        return this.store.createRecord('user-registration');
+    }
+}

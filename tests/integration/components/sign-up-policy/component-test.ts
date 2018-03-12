@@ -9,6 +9,6 @@ module('Integration | Component | sign-up-policy', hooks => {
     test('it renders', async function(assert) {
         await render(hbs`{{sign-up-policy}}`);
 
-        assert.ok(this.element.textContent.trim());
+        assert.ok((this.element.textContent || '').trim());
     });
 });

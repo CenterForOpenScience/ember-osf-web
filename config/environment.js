@@ -9,6 +9,7 @@ try {
 }
 
 const {
+    A11Y_AUDIT = 'true',
     BACKEND: backend = 'local',
     CLIENT_ID: clientId,
     FB_APP_ID,
@@ -62,7 +63,6 @@ module.exports = function(environment) {
                 Date: false,
             },
         },
-
         APP: {
             // Here you can pass flags/options to your application instance
             // when it is created
@@ -157,6 +157,14 @@ module.exports = function(environment) {
         // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
         ENV.metricsAdapters[0].config.cookieDomain = 'none';
+
+        Object.assign(ENV, {
+            'ember-a11y-testing': {
+                componentOptions: {
+                    turnAuditOff: A11Y_AUDIT !== 'true',
+                },
+            },
+        });
     }
 
     if (environment === 'test') {
