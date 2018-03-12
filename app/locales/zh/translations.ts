@@ -26,6 +26,9 @@ export default {
         next: 'next',
         previous: 'previous',
         help: 'help',
+        api: 'API',
+        cos: 'Center for Open Science',
+        home: 'Home',
     },
     quickfiles: {
         title: '{{user-name}} 的 Quick Files',
@@ -192,5 +195,16 @@ export default {
         social_mailing: 'Join our mailing list',
         social_facebook: 'Follow us on Facebook',
         social_github: 'Connect with COS on GitHub',
+    },
+    footer: {
+        status: 'Status',
+        faq: 'FAQ/Guides',
+        source_code: 'Source Code',
+        rpp: 'Reproducibility Project: Psychology',
+        rpcb: 'Reproducibility Project: Cancer Biology',
+        top: 'TOP Guidelines',
+        donate: 'Donate',
+        socialize: 'Socialize',
+        contact: 'Contact',
     },
 };
