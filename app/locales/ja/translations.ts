@@ -293,4 +293,9 @@ export default {
         socialize: 'Socialize',
         contact: 'Contact',
     },
+    maintenance: {
+        line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
+        line2: 'Thank you for your patience.',
+        title: 'Notice:',
+    },
 };

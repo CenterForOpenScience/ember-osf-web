@@ -1,4 +1,4 @@
-& {
+.Navbar {
     width: calc(100% + 20px);
 }
 
@@ -28,4 +28,8 @@
     .NavbarList__item {
         margin-left: 30px;
     }
+}
+
+.NavBarBuffer {
+    height: 50px;
 }

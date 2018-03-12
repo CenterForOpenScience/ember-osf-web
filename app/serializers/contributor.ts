@@ -1,5 +1,5 @@
 import { merge } from '@ember/polyfills';
-import DS from 'ember-data'; // eslint-disable-line no-unused-vars
+import DS from 'ember-data';
 import OsfSerializer from './osf-serializer';
 
 export default class Contributor extends OsfSerializer.extend({
@@ -30,7 +30,6 @@ export default class Contributor extends OsfSerializer.extend({
         return serialized;
     },
 }) {}
-
 
 declare module 'ember-data' {
     interface SerializerRegistry {

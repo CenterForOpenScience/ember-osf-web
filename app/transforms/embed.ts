@@ -10,7 +10,6 @@ export default Transform.extend({
     },
 });
 
-
 declare module 'ember-data' {
   interface TransformRegistry {
       'embed': any;

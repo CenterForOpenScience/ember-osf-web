@@ -1,4 +1,4 @@
-import { isArray, A } from '@ember/array';
+import { A, isArray } from '@ember/array';
 import DS from 'ember-data';
 
 export default DS.Transform.extend({
@@ -16,9 +16,8 @@ export default DS.Transform.extend({
     },
 });
 
-
 declare module 'ember-data' {
   interface TransformRegistry {
-      'array': Array<any>;
+      'array': any[];
   }
 }

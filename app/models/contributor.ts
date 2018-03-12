@@ -1,7 +1,9 @@
 import { computed } from '@ember/object';
 import DS from 'ember-data';
-
 import OsfModel from './osf-model';
+
+const { attr, belongsTo } = DS;
+
 /**
  * @module ember-osf-web
  * @submodule models
@@ -14,16 +16,16 @@ import OsfModel from './osf-model';
  * @class Contributor
  */
 export default class Contributor extends OsfModel.extend({
-    permission: DS.attr('fixstring'),
-    bibliographic: DS.attr('boolean'),
+    permission: attr('fixstring'),
+    bibliographic: attr('boolean'),
 
-    unregisteredContributor: DS.attr('fixstring'),
-    index: DS.attr('number'),
-    fullName: DS.attr('fixstring'),
-    email: DS.attr('fixstring'),
-    sendEmail: DS.attr('boolean'),
-    users: DS.belongsTo('user'),
-    node: DS.belongsTo('node', {
+    unregisteredContributor: attr('fixstring'),
+    index: attr('number'),
+    fullName: attr('fixstring'),
+    email: attr('fixstring'),
+    sendEmail: attr('boolean'),
+    users: belongsTo('user'),
+    node: belongsTo('node', {
         inverse: 'contributors',
     }),
 
@@ -38,7 +40,7 @@ export default class Contributor extends OsfModel.extend({
                 return this.get('id').split('-').pop();
             }
         },
-        set(_:any, userId: string): void {
+        set(_: any, userId: string): void {
             this.set('_userId', userId);
         },
     }).volatile();
@@ -56,7 +58,6 @@ export default class Contributor extends OsfModel.extend({
         },
     }).volatile();
 }
-
 
 declare module 'ember-data' {
     interface ModelRegistry {

@@ -3,7 +3,7 @@ import OsfSerializer from './osf-serializer';
 interface ResourceHash {
     attributes: {
         checkout?: string,
-    },
+    };
     relationships: {
         checkout?: {
             links: {
@@ -14,7 +14,7 @@ interface ResourceHash {
                 },
             },
         },
-    },
+    };
 }
 
 export default class File extends OsfSerializer.extend({
@@ -29,7 +29,6 @@ export default class File extends OsfSerializer.extend({
         return this._super(modelClass, hash);
     },
 }) {}
-
 
 declare module 'ember-data' {
     interface SerializerRegistry {

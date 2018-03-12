@@ -1,5 +1,4 @@
 {
-  "defaultSeverity": "warning",
   "linterOptions": {
     "exclude": [
         "**/*.js"

@@ -1,8 +1,6 @@
 import OsfAdapter from './osf-adapter';
 
-export default class PreprintProvider extends OsfAdapter {
-}
-
+export default class PreprintProvider extends OsfAdapter {}
 
 declare module 'ember-data' {
     interface AdapterRegistry {
