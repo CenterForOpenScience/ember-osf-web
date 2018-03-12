@@ -1,0 +1,171 @@
+{{title model.file.name}}
+{{quickfile-nav user=model.user onQuickfiles=false}}
+<div class='container'>
+    <div class='row TitleBar'>
+        <div class='col-sm-5'>
+            <h2>{{model.file.name}} <a class='TitleBar__version-link' role="button" onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
+        </div>
+        <div class='col-sm-7'>
+            <div id='toggleBar' class='pull-right'>
+                <div class='btn-toolbar m-t-md'>
+                    {{#if canDelete}}
+                        <div class='btn-group m-l-xs m-t-xs'>
+                            <button class='btn btn-sm btn-default' onclick={{action 'openDeleteModal'}}>
+                                {{t "general.delete"}}
+                            </button>
+                        </div>
+                    {{/if}}
+                    <div class='btn-group m-l-xs m-t-xs'>
+                        <button class='btn btn-sm btn-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'download' model.file.currentVersion}}>
+                            {{t "general.download"}}
+                        </button>
+                    </div>
+                    <div class='btn-group m-l-xs m-t-xs'>
+                        {{file-share-button file=model.file}}
+                    </div>
+                    {{#if isEditableFile}}
+                        <div class='btn-group btn-group-sm m-t-xs'>
+                            {{#if canEdit}}
+                                <div class='btn btn-default disabled TitleBar__button-label'>{{t "file_detail.toggle"}}</div>
+                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>{{t "general.view"}}</button>
+                                <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'edit'}}>{{t "general.edit"}}</button>
+                            {{else}}
+                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>{{t "general.view"}}</button>
+                            {{/if}}
+                        </div>
+                    {{else}}
+                        <div class='btn-group m-l-xs m-t-xs'>
+                            <button class='btn btn-sm {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>
+                                {{t "general.view"}}
+                            </button>
+                        </div>
+                    {{/if}}
+                    <div class='btn-group m-l-xs m-t-xs'>
+                        <button class='btn btn-sm {{if (eq show "revision") "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'revision'}}>
+                            {{t "general.revisions"}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#bs-modal open=deleteModalOpen onSubmit=(action 'delete') onHidden=(action 'closeDeleteModal') as |modal|}}
+        {{#modal.header onClose=(action 'closeDeleteModal')}}
+            <h4 class="modal-title">{{t "file_detail.delete_file.question"}}</h4>
+        {{/modal.header}}
+        {{#modal.body}}
+            <p>{{t 'file_detail.delete_file.confirm' file-name=model.file.name}}</p>
+        {{/modal.body}}
+        {{#modal.footer}}
+            {{#bs-button onClick=(action 'closeDeleteModal') type='default'}}{{t 'general.cancel'}}{{/bs-button}}
+            {{#bs-button onClick=(action modal.submit) type='danger'}}{{t 'general.delete'}}{{/bs-button}}
+        {{/modal.footer}}
+    {{/bs-modal}}
+    <hr>
+    <div class='row'>
+        <div class='col-md-3 Sidebar'>
+            {{file-browser
+                selectedFile=model.file
+                display=displays
+                user=model.user
+                multiple=false
+                unselect=false
+                openOnSelect=true
+                openFile=(action 'openFile')
+                dropzone=false
+            }}
+            {{#if (or canEdit fileTags)}}
+                <div class='panel panel-default TagsPanel'>
+                    <div class='panel-heading clearfix TagsPanel__heading'>
+                        <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
+                    </div>
+                    <div class='panel-body'>
+                        {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
+                        {{#tag-input
+                            tags=fileTags
+                            addTag=(action 'addTag')
+                            removeTagAtIndex=(action 'removeTagAtIndex')
+                            allowSpacesInTags=true
+                            placeholder=(t 'file_detail.add_tag')
+                            aria_label=(t 'file_detial.tags')
+                            readOnly=(unless canEdit true false)
+                            as |tag|
+                        }}
+                            <a href='{{searchUrl}}?q=(tags:"{{tag}}")'>{{tag}}</a>
+                        {{/tag-input}}
+                        <div class="tags_clear">
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+        <div class='col-md-9'>
+            {{#if (or (eq show 'view') (eq show 'view_edit'))}}
+                <div id='mfrIframeParent' class='{{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
+                    {{#file-renderer download=model.file.links.download version=mfrVersion
+                        height="700" width="99%"}}
+                    {{/file-renderer}}
+                </div>
+            {{/if}}
+            {{#if (or (eq show 'edit') (eq show 'view_edit'))}}
+                {{#if isEditableFile}}
+                    {{#if canEdit}}
+                        <div class='panel panel-default EditPanel {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
+                            {{#if (await fileText)}}
+                                {{#file-editor
+                                    fileText=(await fileText)
+                                    save=(action 'save')}}
+                                {{/file-editor}}
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+            {{#if (eq show 'revision')}}
+                <div id='revisionsPanel' class='panel panel-default RevisionsPanel'>
+                    <div class='panel-heading clearfix TagsPanel__heading'>
+                        <h3 class='panel-title'>
+                            {{t "general.revisions"}}
+                        </h3>
+                    </div>
+                    <div class='panel-body'>
+                        <table class='table table-responsive RevisionsPanel__table'>
+                            <thead>
+                                <tr>
+                                    <th class='col-md-4'>{{t "file_detail.version.id"}}</th>
+                                    <th class='col-md-6'>{{t "general.date"}}</th>
+                                    <th colspan='2' class='col-xs-2'>{{t "general.download"}}</th>
+                                    <th class='hidden-md hidden-sm hidden-xs'>
+                                        {{t "general.md5"}}
+                                        <span>
+                                            {{fa-icon "question-circle"}}
+                                            {{#bs-popover triggerEvents='hover' placement='top'}}{{t 'file_detail.md5_description'}}{{/bs-popover}}
+                                        </span>
+                                    </th>
+                                    <th class='hidden-md hidden-sm hidden-xs'>
+                                        {{t "general.sha2"}}
+                                        <span>
+                                            {{fa-icon "question-circle"}}
+                                            {{#bs-popover triggerEvents='hover' placement='top'}}{{t 'file_detail.sha2_description'}}{{/bs-popover}}
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each (await fileVersions) as |version|}}
+                                    {{file-version
+                                        version=version
+                                        download=(action 'download')
+                                        url=model.file.links.download
+                                        currentVersion=mfrVersion
+                                        versionChange=(action 'versionChange')
+                                    }}
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</div>

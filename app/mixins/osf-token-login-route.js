@@ -24,7 +24,7 @@ export default Ember.Mixin.create({
         this._super(...arguments);
 
         let accessToken;
-        if (config.OSF.isLocal) {
+        if (config.OSF.backend === 'local') {
             ({ accessToken } = config.OSF);
         } else {
             accessToken = getTokenFromHash(window.location.hash);

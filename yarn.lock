@@ -161,10 +161,40 @@
   dependencies:
     samsam "1.3.0"
 
+"@types/ember-data@^2.14.12":
+  version "2.14.12"
+  resolved "https://registry.yarnpkg.com/@types/ember-data/-/ember-data-2.14.12.tgz#015aa5e7fd561023f626eb0001c2203fafd27525"
+  dependencies:
+    "@types/rsvp" "*"
+
+"@types/ember-qunit@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-3.0.1.tgz#ddf7f25e75eb0a91f18e159369876bf02496dd38"
+  dependencies:
+    "@types/ember" "*"
+    "@types/ember-test-helpers" "*"
+
+"@types/ember-test-helpers@*":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@types/ember-test-helpers/-/ember-test-helpers-0.7.1.tgz#14b9f132e9c60c2dfaf7a10ace937bfb7157fb26"
+  dependencies:
+    "@types/ember" "*"
+    "@types/htmlbars-inline-precompile" "*"
+    "@types/jquery" "*"
+    "@types/rsvp" "*"
+
 "@types/ember-testing-helpers@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@types/ember-testing-helpers/-/ember-testing-helpers-0.0.3.tgz#1a6cfc484b63d19ddd822c87e4dd710597db17d9"
   dependencies:
+    "@types/jquery" "*"
+    "@types/rsvp" "*"
+
+"@types/ember@*":
+  version "2.8.15"
+  resolved "https://registry.yarnpkg.com/@types/ember/-/ember-2.8.15.tgz#1d0931c2906d026a2b5c034cf5f2177e226be071"
+  dependencies:
+    "@types/handlebars" "*"
     "@types/jquery" "*"
     "@types/rsvp" "*"
 
@@ -179,6 +209,10 @@
 "@types/handlebars@*":
   version "4.0.36"
   resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.36.tgz#ff57c77fa1ab6713bb446534ddc4d979707a3a79"
+
+"@types/htmlbars-inline-precompile@*":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/htmlbars-inline-precompile/-/htmlbars-inline-precompile-1.0.0.tgz#4c283da1a7e303b269de3c6aa953acc8d8736949"
 
 "@types/jquery@*":
   version "3.3.0"
@@ -480,6 +514,10 @@ assert@^1.4.0:
   dependencies:
     util "0.10.3"
 
+assertion-error@^1.0.1:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/assertion-error/-/assertion-error-1.1.0.tgz#e60b6b0e8f301bd97e5375215bda406c85118c0b"
+
 assign-symbols@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
@@ -585,6 +623,10 @@ aws-sign2@~0.7.0:
 aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
+
+axe-core@^2.4.2:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-2.6.1.tgz#28772c4f76966d373acda35b9a409299dc00d1b5"
 
 babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -2191,6 +2233,17 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
+chai@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/chai/-/chai-4.1.2.tgz#0f64584ba642f0f2ace2806279f4f06ca23ad73c"
+  dependencies:
+    assertion-error "^1.0.1"
+    check-error "^1.0.1"
+    deep-eql "^3.0.0"
+    get-func-name "^2.0.0"
+    pathval "^1.0.0"
+    type-detect "^4.0.0"
+
 chalk@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-0.5.1.tgz#663b3a648b68b55d04690d49167aa837858f2174"
@@ -2248,6 +2301,10 @@ charm@^1.0.0:
   resolved "https://registry.yarnpkg.com/charm/-/charm-1.0.2.tgz#8add367153a6d9a581331052c4090991da995e35"
   dependencies:
     inherits "^2.0.1"
+
+check-error@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
 
 chokidar@1.7.0:
   version "1.7.0"
@@ -2453,9 +2510,17 @@ combined-stream@1.0.6, combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
+commander@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-0.6.1.tgz#fa68a14f6a945d54dbbe50d8cdb3320e9e3b1a06"
+
 commander@2.12.2:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.12.2.tgz#0f5946c427ed9ec0d91a46bb9def53e54650e555"
+
+commander@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.3.0.tgz#fd430e889832ec353b9acd1de217c11cb3eef873"
 
 commander@2.8.x:
   version "2.8.1"
@@ -2832,6 +2897,12 @@ decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
 
+deep-eql@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-3.0.1.tgz#dfc9404400ad1c8fe023e7da1df1c147c4b444df"
+  dependencies:
+    type-detect "^4.0.0"
+
 deep-extend@~0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.2.tgz#48b699c27e334bf89f10892be432f6e4c7d34a7f"
@@ -2975,6 +3046,10 @@ detective@^4.0.0, detective@^4.3.1:
     acorn "^5.2.1"
     defined "^1.0.0"
 
+diff@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-1.4.0.tgz#7f28d2eb9ee7b15a97efd89ce63dcfdaa3ccbabf"
+
 diff@^3.1.0, diff@^3.2.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.4.0.tgz#b1d85507daf3964828de54b37d0d73ba67dda56c"
@@ -3095,6 +3170,15 @@ elliptic@^6.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
+
+ember-a11y-testing@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/ember-a11y-testing/-/ember-a11y-testing-0.5.1.tgz#30cc67119a0c49b4138a8a5dec08175caa187e8f"
+  dependencies:
+    axe-core "^2.4.2"
+    broccoli-funnel "^2.0.1"
+    ember-cli-babel "^6.8.2"
+    ember-cli-version-checker "^2.1.0"
 
 ember-ace@^1.3.1:
   version "1.3.1"
@@ -3398,6 +3482,28 @@ ember-cli-legacy-blueprints@^0.1.2:
     rsvp "^3.0.17"
     silent-error "^1.0.0"
 
+ember-cli-legacy-blueprints@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-legacy-blueprints/-/ember-cli-legacy-blueprints-0.2.1.tgz#480f37cb83f1eda2d46bbc7d07c59ea2e8ce9b84"
+  dependencies:
+    chalk "^2.3.0"
+    ember-cli-get-component-path-option "^1.0.0"
+    ember-cli-get-dependency-depth "^1.0.0"
+    ember-cli-is-package-missing "^1.0.0"
+    ember-cli-lodash-subset "^2.0.1"
+    ember-cli-normalize-entity-name "^1.0.0"
+    ember-cli-path-utils "^1.0.0"
+    ember-cli-string-utils "^1.0.0"
+    ember-cli-test-info "^1.0.0"
+    ember-cli-valid-component-name "^1.0.0"
+    ember-cli-version-checker "^2.1.0"
+    ember-router-generator "^1.0.0"
+    exists-sync "0.0.3"
+    fs-extra "^4.0.0"
+    inflection "^1.7.1"
+    rsvp "^4.7.0"
+    silent-error "^1.0.0"
+
 ember-cli-lodash-subset@^1.0.7:
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/ember-cli-lodash-subset/-/ember-cli-lodash-subset-1.0.12.tgz#af2e77eba5dcb0d77f3308d3a6fd7d3450f6e537"
@@ -3557,9 +3663,9 @@ ember-cli-tslint@^0.1.3:
     tslint "^5.5.0"
     walk-sync "^0.3.2"
 
-ember-cli-typescript@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-1.1.5.tgz#64dc940abd5273e1ad108209bf6fcb78dcc0a162"
+ember-cli-typescript@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-1.2.0.tgz#0a46f72b92fee8ac3b1669933cdb83c57c9ed43f"
   dependencies:
     broccoli-debug "^0.6.4"
     broccoli-funnel "^2.0.1"
@@ -3568,6 +3674,7 @@ ember-cli-typescript@^1.1.5:
     broccoli-stew "^1.4.0"
     chalk "^2.3.0"
     debug "^3.1.0"
+    ember-cli "~2.18.2"
     ember-cli-get-component-path-option "^1.0.0"
     ember-cli-is-package-missing "^1.0.0"
     ember-cli-normalize-entity-name "^1.0.0"
@@ -3579,6 +3686,7 @@ ember-cli-typescript@^1.1.5:
     ember-router-generator "^1.2.3"
     execa "^0.9.0"
     exists-sync "^0.0.4"
+    fs-extra "^5.0.0"
     inflection "^1.12.0"
     mkdirp "^0.5.1"
     resolve "^1.5.0"
@@ -3702,6 +3810,95 @@ ember-cli@~2.16.0:
     walk-sync "^0.3.0"
     yam "0.0.22"
 
+ember-cli@~2.18.2:
+  version "2.18.2"
+  resolved "https://registry.yarnpkg.com/ember-cli/-/ember-cli-2.18.2.tgz#bb15313a15139a85248a86d203643f918ba40f57"
+  dependencies:
+    amd-name-resolver "1.0.0"
+    babel-plugin-transform-es2015-modules-amd "^6.24.0"
+    bower-config "^1.3.0"
+    bower-endpoint-parser "0.2.2"
+    broccoli-babel-transpiler "^6.0.0"
+    broccoli-brocfile-loader "^0.18.0"
+    broccoli-builder "^0.18.8"
+    broccoli-concat "^3.2.2"
+    broccoli-config-loader "^1.0.0"
+    broccoli-config-replace "^1.1.2"
+    broccoli-debug "^0.6.3"
+    broccoli-funnel "^2.0.0"
+    broccoli-funnel-reducer "^1.0.0"
+    broccoli-merge-trees "^2.0.0"
+    broccoli-middleware "^1.0.0"
+    broccoli-source "^1.1.0"
+    broccoli-stew "^1.2.0"
+    calculate-cache-key-for-tree "^1.0.0"
+    capture-exit "^1.1.0"
+    chalk "^2.0.1"
+    clean-base-url "^1.0.0"
+    compression "^1.4.4"
+    configstore "^3.0.0"
+    console-ui "^2.0.0"
+    core-object "^3.1.3"
+    dag-map "^2.0.2"
+    diff "^3.2.0"
+    ember-cli-broccoli-sane-watcher "^2.0.4"
+    ember-cli-is-package-missing "^1.0.0"
+    ember-cli-legacy-blueprints "^0.2.0"
+    ember-cli-lodash-subset "^2.0.1"
+    ember-cli-normalize-entity-name "^1.0.0"
+    ember-cli-preprocess-registry "^3.1.0"
+    ember-cli-string-utils "^1.0.0"
+    ember-try "^0.2.15"
+    ensure-posix-path "^1.0.2"
+    execa "^0.8.0"
+    exists-sync "0.0.4"
+    exit "^0.1.2"
+    express "^4.12.3"
+    filesize "^3.1.3"
+    find-up "^2.1.0"
+    fs-extra "^4.0.0"
+    fs-tree-diff "^0.5.2"
+    get-caller-file "^1.0.0"
+    git-repo-info "^1.4.1"
+    glob "7.1.1"
+    heimdalljs "^0.2.3"
+    heimdalljs-fs-monitor "^0.1.0"
+    heimdalljs-graph "^0.3.1"
+    heimdalljs-logger "^0.1.7"
+    http-proxy "^1.9.0"
+    inflection "^1.7.0"
+    is-git-url "^1.0.0"
+    isbinaryfile "^3.0.0"
+    js-yaml "^3.6.1"
+    json-stable-stringify "^1.0.1"
+    leek "0.0.24"
+    lodash.template "^4.2.5"
+    markdown-it "^8.3.0"
+    markdown-it-terminal "0.1.0"
+    minimatch "^3.0.0"
+    morgan "^1.8.1"
+    node-modules-path "^1.0.0"
+    nopt "^3.0.6"
+    npm-package-arg "^6.0.0"
+    portfinder "^1.0.7"
+    promise-map-series "^0.2.1"
+    quick-temp "^0.1.8"
+    resolve "^1.3.0"
+    rsvp "^4.7.0"
+    sane "^2.2.0"
+    semver "^5.1.1"
+    silent-error "^1.0.0"
+    sort-package-json "^1.4.0"
+    symlink-or-copy "^1.1.8"
+    temp "0.8.3"
+    testem "^2.0.0"
+    tiny-lr "^1.0.3"
+    tree-sync "^1.2.1"
+    uuid "^3.0.0"
+    validate-npm-package-name "^3.0.0"
+    walk-sync "^0.3.0"
+    yam "0.0.22"
+
 ember-click-outside@^0.1.12:
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/ember-click-outside/-/ember-click-outside-0.1.12.tgz#4b78ab675b613c2a989e792ca396cb19331e5ad8"
@@ -3772,8 +3969,8 @@ ember-data-factory-guy@^2.13.23:
     resolve "^1.2.0"
 
 ember-data@~2.16.0:
-  version "2.16.3"
-  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.16.3.tgz#0853ed86bf813fcdbc97319d2c22abccf87b5093"
+  version "2.16.4"
+  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.16.4.tgz#9412598546b44639064889f0f2c591aaf5faeca0"
   dependencies:
     amd-name-resolver "0.0.7"
     babel-plugin-feature-flags "^0.3.1"
@@ -4327,6 +4524,10 @@ es6-weak-map@^2.0.1:
 escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
+
+escape-string-regexp@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.2.tgz#4dbc2fe674e71949caf3fb2695ce7f2dc1d9a8d1"
 
 escape-string-regexp@^1.0.0, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
@@ -4939,6 +5140,12 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
+flat@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/flat/-/flat-4.0.0.tgz#3abc7f3b588e64ce77dc42fd59aa35806622fea8"
+  dependencies:
+    is-buffer "~1.1.5"
+
 font-awesome@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
@@ -5146,6 +5353,10 @@ get-caller-file@^1.0.0, get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
 
+get-func-name@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/get-func-name/-/get-func-name-2.0.0.tgz#ead774abee72e20409433a066366023dd6887a41"
+
 get-own-enumerable-property-symbols@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/get-own-enumerable-property-symbols/-/get-own-enumerable-property-symbols-2.0.1.tgz#5c4ad87f2834c4b9b4e84549dc1e0650fb38c24b"
@@ -5204,6 +5415,13 @@ glob-parent@^2.0.0:
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-2.0.0.tgz#81383d72db054fcccf5336daa902f182f6edbb28"
   dependencies:
     is-glob "^2.0.0"
+
+glob@3.2.11:
+  version "3.2.11"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-3.2.11.tgz#4a973f635b9190f715d10987d5c00fd2815ebe3d"
+  dependencies:
+    inherits "2"
+    minimatch "0.3"
 
 glob@7.1.1:
   version "7.1.1"
@@ -5346,6 +5564,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.3, graceful-fs@^4.1.4,
 "graceful-readlink@>= 1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
+
+growl@1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/growl/-/growl-1.9.2.tgz#0ea7743715db8d8de2c5ede1775e1b45ac85c02f"
 
 growly@^1.3.0:
   version "1.3.0"
@@ -5578,7 +5800,7 @@ homedir-polyfill@^1.0.0, homedir-polyfill@^1.0.1:
   dependencies:
     parse-passwd "^1.0.0"
 
-hosted-git-info@^2.1.4, hosted-git-info@^2.1.5:
+hosted-git-info@^2.1.4, hosted-git-info@^2.1.5, hosted-git-info@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.5.0.tgz#6d60e34b3abbc8313062c3b798ef8d901a07af3c"
 
@@ -5832,7 +6054,7 @@ is-binary-path@^1.0.0:
   dependencies:
     binary-extensions "^1.0.0"
 
-is-buffer@^1.1.0, is-buffer@^1.1.4, is-buffer@^1.1.5, is-buffer@~1.1.1:
+is-buffer@^1.1.0, is-buffer@^1.1.4, is-buffer@^1.1.5, is-buffer@~1.1.1, is-buffer@~1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
 
@@ -6148,6 +6370,13 @@ istextorbinary@2.1.0:
     binaryextensions "1 || 2"
     editions "^1.1.1"
     textextensions "1 || 2"
+
+jade@0.26.3:
+  version "0.26.3"
+  resolved "https://registry.yarnpkg.com/jade/-/jade-0.26.3.tgz#8f10d7977d8d79f2f6ff862a81b0513ccb25686c"
+  dependencies:
+    commander "0.6.1"
+    mkdirp "0.3.0"
 
 jest-get-type@^21.2.0:
   version "21.2.0"
@@ -6690,6 +6919,10 @@ lodash.bind@~2.3.0:
     lodash._renative "~2.3.0"
     lodash._slice "~2.3.0"
 
+lodash.castarray@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.castarray/-/lodash.castarray-4.4.0.tgz#c02513515e309daddd4c24c60cfddcf5976d9115"
+
 lodash.clonedeep@^4.3.2, lodash.clonedeep@^4.4.1:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
@@ -6966,6 +7199,10 @@ lower-case@^1.1.1:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-1.1.4.tgz#9a2cabd1b9e8e0ae993a4bf7d5875c39c42e8eac"
 
+lru-cache@2:
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-2.7.3.tgz#6d4524e8b955f95d4f5b58851ce21dd72fb4e952"
+
 lru-cache@^4.0.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.1.1.tgz#622e32e82488b49279114a4f9ecf45e7cd6bba55"
@@ -7222,6 +7459,13 @@ minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
 
+minimatch@0.3:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-0.3.0.tgz#275d8edaac4f1bb3326472089e7949c8394699dd"
+  dependencies:
+    lru-cache "2"
+    sigmund "~1.0.0"
+
 "minimatch@2 || 3", minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4, minimatch@~3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
@@ -7264,7 +7508,11 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
-mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0:
+mkdirp@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.3.0.tgz#1bbf5ab1ba827af23575143490426455f481fe1e"
+
+mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -7277,6 +7525,21 @@ mkdirp@^0.3.5:
 mktemp@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/mktemp/-/mktemp-0.4.0.tgz#6d0515611c8a8c84e484aa2000129b98e981ff0b"
+
+mocha@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-2.5.3.tgz#161be5bdeb496771eb9b35745050b622b5aefc58"
+  dependencies:
+    commander "2.3.0"
+    debug "2.2.0"
+    diff "1.4.0"
+    escape-string-regexp "1.0.2"
+    glob "3.2.11"
+    growl "1.9.2"
+    jade "0.26.3"
+    mkdirp "0.5.1"
+    supports-color "1.2.0"
+    to-iso-string "0.0.2"
 
 module-deps@^4.0.8:
   version "4.1.1"
@@ -7547,6 +7810,15 @@ npm-package-arg@^4.1.1:
   dependencies:
     hosted-git-info "^2.1.5"
     semver "^5.1.0"
+
+npm-package-arg@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/npm-package-arg/-/npm-package-arg-6.0.0.tgz#8cce04b49d3f9faec3f56b0fe5f4391aeb9d2fac"
+  dependencies:
+    hosted-git-info "^2.5.0"
+    osenv "^0.1.4"
+    semver "^5.4.1"
+    validate-npm-package-name "^3.0.0"
 
 npm-path@^2.0.2:
   version "2.0.4"
@@ -7929,6 +8201,10 @@ path-type@^3.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-3.0.0.tgz#cef31dc8e0a1a3bb0d105c0cd97cf3bf47f4e36f"
   dependencies:
     pify "^3.0.0"
+
+pathval@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/pathval/-/pathval-1.1.0.tgz#b942e6d4bde653005ef6b71361def8727d0645e0"
 
 pbkdf2@^3.0.3:
   version "3.0.14"
@@ -8844,7 +9120,7 @@ sane@^1.6.0:
     walker "~1.0.5"
     watch "~0.10.0"
 
-sane@^2.4.1:
+sane@^2.2.0, sane@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/sane/-/sane-2.4.1.tgz#29f991208cf28636720efdc584293e7fd66663a5"
   dependencies:
@@ -8997,6 +9273,10 @@ shelljs@^0.2.6:
 shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
+
+sigmund@~1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/sigmund/-/sigmund-1.0.1.tgz#3ff21f198cad2175f9f3b781853fd94d0d19b590"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
@@ -9561,6 +9841,10 @@ sum-up@^1.0.1:
   dependencies:
     chalk "^1.0.0"
 
+supports-color@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-1.2.0.tgz#ff1ed1e61169d06b3cf2d588e188b18d8847e17e"
+
 supports-color@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-0.2.0.tgz#d92de2694eb3f67323973d7ae3d8b55b4c22190a"
@@ -9678,6 +9962,38 @@ testem@^1.18.0:
     tap-parser "^5.1.0"
     xmldom "^0.1.19"
 
+testem@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/testem/-/testem-2.0.0.tgz#b05c96200c7ac98bae998d71c94c0c5345907d13"
+  dependencies:
+    backbone "^1.1.2"
+    bluebird "^3.4.6"
+    charm "^1.0.0"
+    commander "^2.6.0"
+    consolidate "^0.14.0"
+    execa "^0.9.0"
+    express "^4.10.7"
+    fireworm "^0.7.0"
+    glob "^7.0.4"
+    http-proxy "^1.13.1"
+    js-yaml "^3.2.5"
+    lodash.assignin "^4.1.0"
+    lodash.castarray "^4.4.0"
+    lodash.clonedeep "^4.4.1"
+    lodash.find "^4.5.1"
+    lodash.uniqby "^4.7.0"
+    mkdirp "^0.5.1"
+    mustache "^2.2.1"
+    node-notifier "^5.0.1"
+    npmlog "^4.0.0"
+    printf "^0.2.3"
+    rimraf "^2.4.4"
+    socket.io "1.6.0"
+    spawn-args "^0.2.0"
+    styled_string "0.0.1"
+    tap-parser "^5.1.0"
+    xmldom "^0.1.19"
+
 text-encoding@0.6.4, text-encoding@^0.6.4:
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.6.4.tgz#e399a982257a276dae428bb92845cb71bdc26d19"
@@ -9763,6 +10079,10 @@ to-fast-properties@^1.0.0, to-fast-properties@^1.0.3:
 to-fast-properties@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
+
+to-iso-string@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/to-iso-string/-/to-iso-string-0.0.2.tgz#4dc19e664dfccbe25bd8db508b00c6da158255d1"
 
 to-object-path@^0.3.0:
   version "0.3.0"

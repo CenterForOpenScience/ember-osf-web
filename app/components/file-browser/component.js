@@ -310,6 +310,10 @@ export default Ember.Component.extend(Analytics, {
             const downloadLink = this.get('selectedItems.firstObject.links.download');
             window.location = downloadLink;
         },
+        downloadZip() {
+            const downloadLink = this.get('downloadUrl');
+            window.location = downloadLink;
+        },
         _deleteItem(item) {
             item.destroyRecord().then(() => {
                 this.flash(item, 'This file has been deleted.', 'danger');
