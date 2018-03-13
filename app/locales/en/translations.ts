@@ -42,6 +42,11 @@ export default {
         previous: 'previous',
         help: 'help',
     },
+    maintenance: {
+        line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
+        line2: 'Thank you for your patience.',
+        title: 'Notice:',
+    },
     quickfiles: {
         title: '{{user-name}}\'s Quick Files',
         description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.',
@@ -260,7 +265,7 @@ export default {
         status_link_text: 'status page',
         status_paragraph_2: 'for updates on how our services are operating.',
         consultation_title: 'Are you looking for statistics consultations?',
-        consultation_paragraph: 'COS provides statistics consulation for free. To learn more about this service visit the',
+        consultation_paragraph: 'COS provides statistics consultation. To learn more about this service visit the',
         consultation_link_text: 'COS statistics consulting page.',
         social_title: 'Other ways to get help',
         social_twitter: 'Ask us a question on twitter',

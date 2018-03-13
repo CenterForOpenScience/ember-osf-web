@@ -11,8 +11,7 @@ import OsfModel from './osf-model';
  * Model for GUIDs
  * @class Guid
  */
-export default class Guid extends OsfModel.extend({
-}) {
+export default class Guid extends OsfModel {
     referentType = computed(function(this: Guid): string {
         return singularize(this.get('links.relationships.referent.data.type'));
     });
@@ -23,7 +22,7 @@ export default class Guid extends OsfModel.extend({
 }
 
 declare module 'ember-data' {
-  interface ModelRegistry {
-    'guid': Guid;
-  }
+    interface ModelRegistry {
+        guid: Guid;
+    }
 }

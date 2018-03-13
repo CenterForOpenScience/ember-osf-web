@@ -1,8 +1,9 @@
 {{title (t 'general.OSF')}}
-<div class="{{routeStyleNamespaceClassSet}} Application">
+<div class="Application">
     {{new-osf-navbar signupUrl=signupUrl loginAction=(action 'login')}}
+    <div id="secondaryNavbar"></div>
     {{maintenance-banner}}
-    <div class="Application__page">
+    <div class="{{routeStyleNamespaceClassSet}} Application__page">
         {{outlet}}
     </div>
     {{osf-footer}}

@@ -33,13 +33,13 @@ export default {
         filter: 'フィルター',
         revert: '復帰',
         save: '保存',
-        ellipses: '\u2026',	
-        warning: '警告',	
-        clipboard_copy: 'クリップボードへコピー',	
-        sort_asc: '昇順ソート',	
-        sort_desc: '降順ソート',	
-        next: '次へ',	
-        previous: '戻る',	
+        ellipses: '\u2026',
+        warning: '警告',
+        clipboard_copy: 'クリップボードへコピー',
+        sort_asc: '昇順ソート',
+        sort_desc: '降順ソート',
+        next: '次へ',
+        previous: '戻る',
         help: 'ヘルプ',
     },
     quickfiles: {
@@ -117,41 +117,6 @@ export default {
             title: 'プロジェクトへファイルを移動',
             move_button: 'ファイルを移動',
         },
-
-    },
-    file_browser: {
-        loading: 'ローディング中...',
-        delete_multiple: '複数削除',
-        download_zip: 'Zipとしてダウンロード',
-        drop_placeholder: 'アップロードするファイルをここにドロップ',
-        drop_reminder: 'アップロードするファイルをドロップ',
-        no_files: 'このユーザーはクイックファイルをアップロードしていません',
-        info: {
-            title: 'ファイルブラウザの使い方',
-            upload: '<b>アップロード:</b>ドラッグアンドドロップまたはアップロードボタンをクリックして、ファイルをアップロードします。',
-            select: '<b>行を選択:</b>行をクリックすると、ツールバーにさらにアクションが表示されます。 複数のファイルを選択するには、CommandキーまたはShiftキーを使用します。',
-            folders: '<b>フォルダ:</b>サポートされていません; 多くのファイルをアップロードおよび管理するためのOSFプロジェクトを検討してください。',
-            open1: '<b>ファイルを開く:</b>ファイル名をクリックすると、OSF内のファイルが表示されます。',
-            open2: '<b>新規タブでファイルを開く:</b> command（WindowsではCtrl）を押し、ファイル名をクリックして新しいタブで開きます。',
-            download: '<b>Zipとしてダウンロード:</b> ツールバーの[Zipとしてダウンロード]ボタンをクリックすると、すべてのファイルが.zipとしてダウンロードされます。',
-        },
-        delete_modal: {
-            title: '"{{selectedItems.firstObject.itemName}}"を削除しますか?',
-            title_multiple: '複数削除しますか？',
-            body: 'この操作は不可逆的です',
-        },
-        conflict_modal: {
-            title: '{{textValue}}という名前のアイテムは、この場所に既に存在します。',
-            keep_info: '"両方を保持"は、両方のファイル（およびそのバージョン履歴）をこの場所に保持します。',
-            replace_info: '"置換"は、この場所にある既存のファイルを上書きします。 上書きされたファイルの以前のバージョンは失われます。 移動したファイルの以前のバージョンを保持します。',
-            keep_button: '両方を保持',
-            replace_button: '置換',
-        },
-        move_modal: {
-            title: 'プロジェクトへファイルを移動',
-            move_button: 'ファイルを移動',
-        },
-
     },
     dashboard: {
         page_title: 'ホーム',
@@ -294,7 +259,7 @@ export default {
         status_link_text: 'ステータスページ',
         status_paragraph_2: '私たちのサービスがどのように動作しているかについての更新情報。',
         consultation_title: '統計コンサルティングをお探しですか',
-        consultation_paragraph: 'COSは統計コンサルティングを無料で提供しています。 このサービスの詳細については、',
+        consultation_paragraph: 'COSは統計コンサルティングを提供します。 このサービスの詳細については、',
         consultation_link_text: 'COS統計コンサルティングページ。',
         social_title: '助けを得るための他の方法',
         social_twitter: 'Twitterで質問する',
@@ -313,5 +278,10 @@ export default {
     },
     osf_mode_footer: {
         dev_mode: 'このサイトは開発モードで動作しています。',
+    },
+    maintenance: {
+        line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
+        line2: 'ご不自由をおかけいたしますが、ご協力どうぞよろしくお願いいたします。',
+        title: 'お知らせ:',
     },
 };
