@@ -32,7 +32,7 @@ export default Base.extend({
             xhrFields: {
                 withCredentials: true,
             },
-        }).then((res) => {
+        }).then(res => {
             // Push the result into the store for later use by the current-user service
             // Note: we have to deepcopy res because pushPayload mutates our data
             // and causes an infinite loop because reasons

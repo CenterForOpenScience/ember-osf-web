@@ -100,6 +100,8 @@
     "ember-welcome-page": "^2.0.2",
     "ember-wormhole": "^0.5.4",
     "flat": "^4.0.0",
+    "eslint-plugin-ember": "^5.0.0",
+    "eslint-plugin-typescript": "^0.10.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "loader.js": "^4.0.10",
