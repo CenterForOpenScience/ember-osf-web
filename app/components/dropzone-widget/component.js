@@ -97,7 +97,7 @@ export default Ember.Component.extend({
         dropzoneOptions.withCredentials = (config.authorizationType === 'cookie');
 
         // Attach preUpload to addedfile event
-        drop.on('addedfile', (file) => {
+        drop.on('addedfile', file => {
             if (preUpload) {
                 preUpload(this, drop, file).then(() => drop.processFile(file));
             } else {
@@ -109,7 +109,7 @@ export default Ember.Component.extend({
         drop.options = Ember.merge(drop.options, dropzoneOptions);
 
         // Attach dropzone event listeners: http://www.dropzonejs.com/#events
-        drop.events.forEach((event) => {
+        drop.events.forEach(event => {
             if (typeof this.get(event) === 'function') {
                 drop.on(event, (...args) => this.get(event)(this, drop, ...args));
             }

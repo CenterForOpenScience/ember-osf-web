@@ -29,7 +29,7 @@ const sessionStubAuthenticated = Ember.Service.extend({
 
 // currentUser Stub !canViewReviews
 const currentUserStubNoReviews = Ember.Service.extend({
-    user: new Ember.RSVP.Promise((resolve) => {
+    user: new Ember.RSVP.Promise(resolve => {
         const user = Ember.Object.create({
             canViewReviews: false,
         });
