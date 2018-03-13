@@ -3,7 +3,7 @@ import faker from 'faker';
 
 moduleFor('serializer:osf-serializer');
 
-test('#_mergeFields adds links to attributes if included in payload', function (assert) {
+test('#_mergeLinks adds links to attributes if included in payload', function (assert) {
     const payload = {
         id: faker.random.uuid(),
         type: 'base',
@@ -15,7 +15,7 @@ test('#_mergeFields adds links to attributes if included in payload', function (
         },
     };
     const serializer = this.container.lookup('serializer:osf-serializer');
-    const normalized = serializer._mergeFields(payload);
+    const normalized = serializer._mergeLinks(payload);
     assert.equal(normalized.attributes.links, payload.links);
 });
 /* TODO fixme

@@ -134,7 +134,6 @@
   "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme",
   "dependencies": {
     "dropzone": "^5.3.0",
-    "eslint-plugin-typescript": "^0.10.0",
     "jquery-mockjax": "^2.3.0"
   }
 }

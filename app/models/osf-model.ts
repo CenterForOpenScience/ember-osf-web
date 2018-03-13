@@ -29,7 +29,6 @@ interface QueryHasManyResult extends Array<any> {
 
 const OsfModel = Model.extend({
     links: attr('links'),
-    embeds: attr('embed'),
 
     relationshipLinks: alias('links.relationships'),
 
