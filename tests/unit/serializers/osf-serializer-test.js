@@ -16,24 +16,5 @@ test('#_mergeLinks adds links to attributes if included in payload', function (a
     };
     const serializer = this.container.lookup('serializer:osf-serializer');
     const normalized = serializer._mergeLinks(payload);
-    assert.equal(normalized.attributes.links, payload.links);
+    assert.propEqual(normalized.attributes.links, payload.links);
 });
-/* TODO fixme
-test('#_mergeFields adds embeds to attributes if included in payload', function(assert) {
-    let payload = {
-        id: faker.random.uuid(),
-        attributes: {
-            key: 'value'
-        },
-        embeds: {
-            embedded: {
-                data: [faker.random.arrayElement()]
-            }
-        }
-    };
-    let serializer = this.container.lookup('serializer:osf-serializer');
-    let normalized = serializer._mergeFields(payload);
-
-    assert.equal(normalized.attributes.embeds, payload.embeds);
-});
-*/
