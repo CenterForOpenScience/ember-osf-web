@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
+import { task } from 'ember-concurrency';
 
 /**
  * @module ember-osf-web
@@ -14,6 +16,7 @@ import Ember from 'ember';
 export default Ember.Service.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
+    features: Ember.inject.service(),
 
     /**
      * If logged in, return the ID of the current user, else return null.
@@ -59,8 +62,22 @@ export default Ember.Service.extend({
      */
     user: Ember.computed('currentUserId', function() {
         const ObjectPromiseProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
+        this.get('_setWaflle').perform();
         return ObjectPromiseProxy.create({
             promise: this.load().catch(() => null),
         });
     }),
+
+    _setWaflle: task(function* () {
+        const url = `${config.OSF.apiUrl}/v2/_waffle/`;
+        const { data } = yield $.ajax(url, 'GET');
+        for (const flag of data) {
+            const { name } = flag.attributes;
+            if (flag.attributes.active) {
+                this.get('features').enable(name);
+            } else {
+                this.get('features').disable(name);
+            }
+        }
+    }).restartable(),
 });

@@ -137,6 +137,8 @@ module.exports = function(environment) {
             popularNode,
             noteworthyNode,
         },
+        featureFlags: { // default flags (whether they be switches, flags, or polls) go here with default value.
+        },
     };
 
     if (environment === 'development') {
