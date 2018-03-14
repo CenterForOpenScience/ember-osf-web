@@ -62,7 +62,7 @@ test('#buildURL uses relationship links if available for delete, update, and fin
             self: url,
         },
     });
-    ['delete', 'update', 'find'].forEach((verb) => {
+    ['delete', 'update', 'find'].forEach(verb => {
         const result = adapter.buildURL(
             'user',
             'me',
@@ -178,7 +178,7 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
             // infinite recursive calls when comparing the Ember DS.Models
             assert.equal(addCanonicalStub.args[0][0], contributors[0]._internalModel, 'First contributor did not match');
             assert.equal(addCanonicalStub.args[1][0], contributors[1]._internalModel, 'Second contributor did not match');
-        }).catch((err) => {
+        }).catch(err => {
             assert.ok(false, `An error occurred while running this test: ${err}`);
         });
     });
@@ -219,7 +219,7 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
                     requestType: 'create',
                 },
             })));
-        }).catch((err) => {
+        }).catch(err => {
             assert.ok(false, `An error occurred while running this test: ${err}`);
         });
     });
@@ -244,7 +244,7 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
             assert.ok(doRelatedStub.called, 'doRelated should be called');
             assert.ok(addCanonicalStub.calledOnce, 'addCanonical should be called');
             assert.ok(addCanonicalStub.calledWith(institution._internalModel), 'addCanonical should be called with the institution');
-        }).catch((err) => {
+        }).catch(err => {
             assert.ok(false, `An error occurred while running this test: ${err}`);
         });
     });
@@ -283,7 +283,7 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
             assert.ok(addCanonicalStub.calledOnce);
             assert.ok(pushStub.calledOnce);
             assert.ok(normalizeStub.calledOnce);
-        }).catch((err) => {
+        }).catch(err => {
             assert.ok(false, `An error occurred while running this test: ${err}`);
         });
     });
@@ -308,7 +308,7 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
             assert.ok(doRelatedStub.calledOnce, 'doRelated should be called');
             assert.ok(removeCanonicalStub.calledOnce, 'removeCanonical should be called');
             assert.ok(removeCanonicalStub.calledWith(inst._internalModel), 'removeCanonical should be called with institution as an argument');
-        }).catch((err) => {
+        }).catch(err => {
             assert.ok(false, `An error occurred while running this test: ${err}`);
         });
     });
@@ -329,7 +329,7 @@ test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted recor
         node.save().then(() => {
             assert.ok(doRelatedStub.calledOnce);
             assert.ok(unloadStub.calledOnce);
-        }).catch((err) => {
+        }).catch(err => {
             assert.ok(false, `An error occurred while running this test: ${err}`);
         });
     });
@@ -343,7 +343,7 @@ test('#_doRelatedRequest with array', function (assert) {
 
     const node = FactoryGuy.make('node');
     begin();
-    const children = FactoryGuy.buildList('node', 3).data.map((json) => {
+    const children = FactoryGuy.buildList('node', 3).data.map(json => {
         return store.createRecord('node', store.normalize('node', json).data.attributes);
     });
     end();
@@ -495,7 +495,7 @@ test('#updateRecord handles both dirtyRelationships and the parent record', func
     const ss = node._internalModel.createSnapshot();
 
     return adapter
-        .updateRecord(store, node, ss).then((res) => {
+        .updateRecord(store, node, ss).then(res => {
             // Note: 42 comes from promise resolution of stubbed updateRecord above
             assert.equal(res, 42);
             assert.ok(handleRelatedStub.calledWith(
@@ -536,7 +536,7 @@ skip('#findRecord can embed(via include) data with findRecord', function (assert
                     title: 'Bar',
                 }),
             ])
-            .then((res) => {
+            .then(res => {
                 children = res;
                 return node.get('children').pushObjects(res);
             })
@@ -544,7 +544,7 @@ skip('#findRecord can embed(via include) data with findRecord', function (assert
                 node.set('title', 'Parent');
                 return store.findRecord('node', node.id, { include: 'children' });
             })
-            .then((res) => {
+            .then(res => {
                 assert.equal(
                     res.get('children').toArray()[0].get('title'),
                     children[0].get('title'),

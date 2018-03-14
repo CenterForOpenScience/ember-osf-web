@@ -12,7 +12,7 @@ fs.unlinkSync('tmp/locales/en/translations.js');
 fs.rmdirSync('tmp/locales/en/');
 const englishTerms = flatten(english);
 
-fs.readdirSync('tmp/locales/').forEach((locale) => {
+fs.readdirSync('tmp/locales/').forEach(locale => {
     if (locale === 'en') return;
     describe(`locale: ${locale}`, () => {
         it('contains all terms', () => {

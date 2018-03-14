@@ -70,7 +70,7 @@ export default Ember.Component.extend(Analytics, {
         loadAll(user, 'quickfiles', this.get('_items')).then(() => {
             this.set('loaded', true);
             this.set('_items', this.get('_items').sortBy('itemName'));
-            this.get('_items').forEach((item) => {
+            this.get('_items').forEach(item => {
                 if (this.get('selectedFile.id') && this.get('selectedFile.id') === item.id) {
                     item.isSelected = true; // eslint-disable-line no-param-reassign
                 }
@@ -94,7 +94,7 @@ export default Ember.Component.extend(Analytics, {
         }
         // items need to be reloaded when attrs are received
         // TODO: think about replacing _items with user.items, provided it's loaded properly
-        const _load = (user_) => {
+        const _load = user_ => {
             Ember.run(() => {
                 this.set('_items', Ember.A());
                 Ember.run.next(() => {
@@ -103,7 +103,7 @@ export default Ember.Component.extend(Analytics, {
             });
         };
         if (user.then) {
-            user.then((user_) => {
+            user.then(user_ => {
                 _load(user_);
             });
         } else {
@@ -437,7 +437,7 @@ export default Ember.Component.extend(Analytics, {
 
             if (this.get('projectSelectState') === 'newProject') {
                 this.set('newProject', true);
-                this._createProject(title).then((project) => {
+                this._createProject(title).then(project => {
                     this.set('node', project);
                     this._addNewNodeToList(this.get('user'), project);
                     this._moveFile(selectedItem, project);

@@ -104,7 +104,7 @@ export default Ember.Helper.extend({ // Helper defined using a class, so can inj
                     href: serviceLinks.myProjects,
                 },
             );
-            this.get('currentUser.user').then((user) => {
+            this.get('currentUser.user').then(user => {
                 if (user.get('canViewReviews')) {
                     links.PREPRINTS.insertAt(1, {
                         name: 'navbar.reviews',

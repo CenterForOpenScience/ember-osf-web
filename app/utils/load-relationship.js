@@ -11,7 +11,7 @@ export default function loadAll(model, relationship, dest, options = {}) {
     query = Ember.merge(query, options || {});
     Ember.set(model, 'query-params', query);
 
-    return model.queryHasMany(relationship, query).then((results) => {
+    return model.queryHasMany(relationship, query).then(results => {
         dest.pushObjects(results.toArray());
         if (results.meta) {
             const { total } = results.meta;
