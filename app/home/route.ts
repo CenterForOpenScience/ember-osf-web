@@ -13,19 +13,13 @@ export default class Home extends Route.extend({
     },
 
     setupController(...args) {
-        const [ controller ] = args;
+        const [controller] = args;
 
         controller.setProperties({
             didValidate: false,
         });
 
         this._super(...args);
-    },
-
-    actions: {
-        reset() {
-            this.refresh();
-        },
     },
 }) {
     model() {

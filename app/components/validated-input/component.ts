@@ -38,18 +38,7 @@ export default class ValidatedInput extends Component.extend({
         defineProperty(this, 'value', alias(`model.${valuePath}`));
     },
 
-    keyPress(e) {
-        if (e.keyCode === 13 && !this.get('large')) {
-            e.preventDefault();
-            this.send('pressSubmit');
-        }
-    },
-
     actions: {
-        pressSubmit() {
-            this.sendAction('pressSubmit');
-        },
-
         forceParse(component) {
             component._forceParse();
         },
@@ -58,7 +47,7 @@ export default class ValidatedInput extends Component.extend({
             this.get('model').set(this.get('valuePath'), reCaptchaResponse);
         },
 
-        onCaptchaExpired(reCaptchaResponse) {
+        onCaptchaExpired() {
             this.get('model').set(this.get('valuePath'), null);
         },
     },

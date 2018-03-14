@@ -1,5 +1,5 @@
 import { assert } from '@ember/debug';
-import EmberObject, { get } from '@ember/object';
+import { get } from '@ember/object';
 import { isEmpty, isEqual, isPresent } from '@ember/utils';
 import BaseValidator from 'ember-cp-validations/validators/base';
 import DS from 'ember-data';

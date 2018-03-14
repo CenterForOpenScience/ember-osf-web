@@ -1,9 +1,8 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { task, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency';
 import Analytics from 'ember-osf-web/mixins/analytics';
 import UserRegistration from 'ember-osf-web/models/user-registration';
-import HomeRoute from './route';
 
 function chunk(arr: any[], limit: number): any[][] {
     const original = arr.slice();
@@ -24,7 +23,6 @@ export default class Home extends Controller.extend(Analytics, {
 
         if (!validations.get('isValid')) {
             return;
-            // show error
         }
 
         yield model.save();

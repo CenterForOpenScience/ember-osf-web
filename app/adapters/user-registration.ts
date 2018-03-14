@@ -1,6 +1,5 @@
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import { v4 } from 'uuid';
 
 const { RESTAdapter } = DS;
 

@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
 import UserRegistration from 'ember-osf-web/models/user-registration';
@@ -29,16 +28,16 @@ export default class SignUpForm extends Component.extend({
 
     progressStyle = computed('progress', function (): string {
         switch (this.get('progress')) {
-            case 1:
-            case 2:
-                return 'danger';
-            case 3:
-                return 'warning';
-            case 4:
-            case 5:
-                return 'success';
-            default:
-                return 'none';
+        case 1:
+        case 2:
+            return 'danger';
+        case 3:
+            return 'warning';
+        case 4:
+        case 5:
+            return 'success';
+        default:
+            return 'none';
         }
     });
 }
