@@ -3,9 +3,9 @@
         <div class="container">
             <div class="navbar-header">
                 {{!OSF BRAND}}
-                <a class="navbar-brand" href="/" aria-label={{t 'navbar.go_home'}}>
+                {{#link-to 'dashboard' class='navbar-brand' ariaLabel=(t 'navbar.go_home')}}
                     <span class="osf-navbar-logo"></span>
-                </a>
+                {{/link-to}}
 
                 {{!NAME OF CURRENT SERVICE - HOME, PREPRINTS, REGISTRIES, or MEETINGS}}
                 <div class="service-name">

@@ -15,7 +15,9 @@
             <a href="{{serviceLinks.profile}}" onclick={{action 'click' 'link' 'Navbar - MyProfile'}}><i class="fa fa-user fa-lg p-r-xs"></i> {{t 'auth_dropdown.my_profile'}}</a>
         </li>
         <li>
-            <a href="{{serviceLinks.osfSupport}}" onclick={{action 'click' 'link' 'Navbar - Support'}}><i class="fa fa-life-ring fa-lg p-r-xs"></i> {{t 'auth_dropdown.osf_support'}}</a>
+            {{#link-to 'support' onClick=(action 'click' 'link' 'Navbar - Support')}}
+                <i class="fa fa-life-ring fa-lg p-r-xs"></i> {{t 'auth_dropdown.osf_support'}}
+            {{/link-to}}
         </li>
 
         <li>
