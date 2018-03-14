@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
-    "@centerforopenscience/osf-style": "1.5.1",
+    "@centerforopenscience/osf-style": "https://github.com/CenterForOpenScience/osf-style#b09451d759c8544d2fab4bd7dbd5ca8b6dc242b8",
     "@types/ember": "^2.8.8",
     "@types/ember-data": "^2.14.12",
     "@types/ember-qunit": "^3.0.1",
