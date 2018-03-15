@@ -19,7 +19,10 @@ h6 {
 @font-face {
     font-family: 'icomoon';
     src: url('/static/fonts/icomoon.eot?qy5el1');
-    src: url('/static/fonts/icomoon.eot?#iefixqy5el1') format('embedded-opentype'), url('/static/fonts/icomoon.ttf?qy5el1') format('truetype'), url('/static/fonts/icomoon.woff?qy5el1') format('woff'), url('/static/fonts/icomoon.svg?qy5el1#icomoon') format('svg');
+    src: url('/static/fonts/icomoon.eot?#iefixqy5el1') format('embedded-opentype'),
+        url('/static/fonts/icomoon.ttf?qy5el1') format('truetype'),
+        url('/static/fonts/icomoon.woff?qy5el1') format('woff'),
+        url('/static/fonts/icomoon.svg?qy5el1#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -75,10 +78,10 @@ h6 {
     background: linear-gradient(35deg, #67a3bf 0%, #166596 18%, #000 100%);
     height: 900px;
     color: #fff;
-    padding-top: 100px;
     position: relative;
 
     h1 {
+        padding-top: 100px;
         font-size: 3.5em;
         margin-bottom: -15px;
     }
@@ -410,10 +413,6 @@ footer {
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
-    canvas {
-        display: none;
-    }
-
     .student-wrap {
         padding: 0 10%;
     }
@@ -475,7 +474,7 @@ footer {
         padding-bottom: 100%;
     }
     
-    #home-hero {
+    #home-hero h1 {
         padding-top: 0;
     }
 
@@ -501,16 +500,8 @@ footer {
 }
 
 @media (max-width: 767px) {
-    canvas {
-        display: none;
-    }
-    
     #hero-signup {
         width: 100%;
-    }
-    
-    #home-hero canvas {
-        top: 80px;
     }
     
     .student-wrap {

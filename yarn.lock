@@ -3965,6 +3965,12 @@ ember-compatibility-helpers@^0.1.0, ember-compatibility-helpers@^0.1.1, ember-co
     ember-cli-version-checker "^2.0.0"
     semver "^5.4.1"
 
+ember-component-attributes@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ember-component-attributes/-/ember-component-attributes-0.1.1.tgz#bbe8ede23f08d56013905f8b105052cd5479969e"
+  dependencies:
+    ember-cli-babel "^6.7.0"
+
 ember-component-css@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/ember-component-css/-/ember-component-css-0.5.0.tgz#5de2d70a951bf74a38c8cefeaa3f1a88ccd13393"

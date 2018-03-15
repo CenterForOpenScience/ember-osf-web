@@ -43,6 +43,11 @@ export default {
         help: 'ヘルプ',
         times: '&times;',
     },
+    maintenance: {
+        line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
+        line2: 'Thank you for your patience.',
+        title: 'Notice:',
+    },
     quickfiles: {
         title: '{{user-name}} のクイックファイル',
         description: 'ここにアップロードされたファイルは<b>一般公開</b>されており、共有リンクを使用して他のユーザーと簡単に共有できます。',
@@ -280,11 +285,6 @@ export default {
     osf_mode_footer: {
         dev_mode: 'このサイトは開発モードで動作しています。',
     },
-    maintenance: {
-        line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
-        line2: 'Thank you for your patience.',
-        title: 'Notice:',
-    },
     home: {
         title: 'Home',
         alert_logged_out: 'You have successfully logged out.',
@@ -373,12 +373,7 @@ export default {
         registration_success: 'Registration successful. Please check {{email}} to confirm your email address.',
     },
     sign_up_policy: {
-        p1: 'By clicking "Sign up free", you agree to our',
-        terms: 'Terms',
-        p2: 'and that you have read our',
-        privacy_policy: 'Privacy Policy',
-        p3: ', including our information on',
-        cookie_use: 'Cookie Use.',
+        paragraph: 'By clicking "Sign up free", you agree to our <a href="{{link1}}">Terms</a> and that you have read our <a href="{{link2}}">Privacy Policy</a>, including our information on <a href="{{link3}}">Cookie Use.</a>',
     },
     validationErrors: {
         description: 'This field',

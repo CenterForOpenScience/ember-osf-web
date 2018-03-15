@@ -374,12 +374,7 @@ export default {
         registration_success: 'Registration successful. Please check {{email}} to confirm your email address.',
     },
     sign_up_policy: {
-        p1: 'By clicking "Sign up free", you agree to our',
-        terms: 'Terms',
-        p2: 'and that you have read our',
-        privacy_policy: 'Privacy Policy',
-        p3: ', including our information on',
-        cookie_use: 'Cookie Use.',
+        paragraph: 'By clicking "Sign up free", you agree to our <a href="{{link1}}">Terms</a> and that you have read our <a href="{{link2}}">Privacy Policy</a>, including our information on <a href="{{link3}}">Cookie Use.</a>',
     },
     validationErrors: {
         description: 'This field',

@@ -51,13 +51,11 @@
         transform: translate(75px, 75px)
             rotate(calc(1turn * #{$i - 1} / 8))
             translate(0, -75px);
-
-        @if $i % 2 == 0 {
-            &::after {
-                z-index: -1;
-            }
-        }
     }
+}
+
+:nth-child(even)::after {
+    z-index: -1;
 }
 
 &.Double {

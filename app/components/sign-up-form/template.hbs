@@ -1,37 +1,28 @@
 <form {{action 'submit' on='submit'}}>
-    <label for="fullName">
-        {{t 'sign_up_form.full_name'}}
-    </label>
     {{validated-input
         model=model
         didValidate=didValidate
         valuePath='fullName'
         placeholder=(t 'sign_up_form.full_name')
         disabled=hasSubmitted
+        aria-label=(t 'sign_up_form.full_name')
     }}
-    <label for="email1">
-        {{t 'sign_up_form.contact_email'}}
-    </label>
     {{validated-input
         model=model
         didValidate=didValidate
         valuePath='email1'
         placeholder=(t 'sign_up_form.contact_email')
         disabled=hasSubmitted
+        aria-label=(t 'sign_up_form.contact_email')
     }}
-    <label for="email2">
-        {{t 'sign_up_form.confirm_email'}}
-    </label>
     {{validated-input
         model=model
         didValidate=didValidate
         valuePath='email2'
         placeholder=(t 'sign_up_form.confirm_email')
         disabled=hasSubmitted
+        aria-label=(t 'sign_up_form.confirm_email')
     }}
-    <label for="password">
-        {{t 'sign_up_form.password'}}
-    </label>
     {{validated-input
         type='password'
         model=model
@@ -40,6 +31,7 @@
         placeholder=(t 'sign_up_form.password')
         key-up=(perform strength value=model.password)
         disabled=hasSubmitted
+        aria-label=(t 'sign_up_form.password')
     }}
     <div class="row" hidden={{not progress}}>
         <div class="col-xs-8">
@@ -77,7 +69,7 @@
         </div>
     {{else}}
         <div>
-            <button type="submit" class="btn btn-warning m-t-sm" {{action submit}}>
+            <button type="submit" class="btn btn-success m-t-sm" {{action submit}}>
                 {{t 'sign_up_form.sign_up_free'}}
             </button>
         </div>
