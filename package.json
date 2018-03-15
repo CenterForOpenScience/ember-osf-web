@@ -105,6 +105,7 @@
     "ember-toastr": "^1.7.1",
     "ember-welcome-page": "^2.0.2",
     "ember-wormhole": "^0.5.4",
+    "ember-youtube": "^0.8.2",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-typescript": "^0.10.0",
     "flat": "^4.0.0",

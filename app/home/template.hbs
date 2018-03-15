@@ -7,6 +7,21 @@
         <p>{{t 'home.alert_logged_out'}}</p>
     </div>
 {{/if}}
+{{#bs-modal
+    open=modalOpen
+    backdrop=true
+    as | modal |
+}}
+    {{#modal.header}}
+        <h4>{{t 'home.youtube_modal_title'}}</h4>
+    {{/modal.header}}
+    {{#modal.body}}
+        {{ember-youtube
+            ytid=youtubeId
+            playerVars=playerVars
+        }}
+    {{/modal.body}}
+{{/bs-modal}}
 <div id="home-hero">
     <div class="container text-center">
         <div class="network-bg"></div>
@@ -16,7 +31,7 @@
         <div id="hero-signup" class="container">
             <div class="row">
                 <div class="col-sm-6 hidden-xs">
-                    <a class="youtube" href="//www.youtube.com/watch?v=2TV21gOzfhw" aria-label="{{t 'home.youtube_label'}}">
+                    <a class="youtube" href="//www.youtube.com/watch?v={{youtubeId}}" aria-label="{{t 'home.youtube_label'}}" {{action (mut modalOpen) true}}>
                         <i class="icon icon-play"></i>
                     </a>
                     <img src="/static/img/front-page/screenshot.png" class="img-responsive" id="screenshot" alt="{{t 'home.osf_screenshot_alt'}}">

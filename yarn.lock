@@ -4503,6 +4503,12 @@ ember-wormhole@^0.5.4:
     ember-cli-babel "^6.10.0"
     ember-cli-htmlbars "^2.0.1"
 
+ember-youtube@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/ember-youtube/-/ember-youtube-0.8.2.tgz#df701addb0a184cb4f1d64be717f9d1c4bef317d"
+  dependencies:
+    ember-cli-babel "^5.1.6"
+
 encodeurl@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"

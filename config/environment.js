@@ -147,6 +147,9 @@ module.exports = function(environment) {
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,
         },
+        home: {
+            youtubeId: '2TV21gOzfhw',
+        },
     };
 
     if (environment === 'development') {

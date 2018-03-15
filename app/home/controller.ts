@@ -1,11 +1,19 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
+import config from 'ember-get-config';
 import Analytics from 'ember-osf-web/mixins/analytics';
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 export default class Home extends Controller.extend(Analytics, {
+    modalOpen: false,
+
+    playerVars: {
+        autoplay: 1,
+        showinfo: 0,
+    },
+
     submit: task(function* (this: Home) {
         const model = this.get('model');
         const { validations } = yield model.validate();
@@ -20,11 +28,12 @@ export default class Home extends Controller.extend(Analytics, {
         this.set('hasSubmitted', true);
     }).drop(),
 }) {
+    didValidate: boolean;
+    goodbye = null;
     hasSubmitted = false;
+    modalOpen: boolean;
     model: UserRegistration;
     queryParams = ['goodbye'];
-    goodbye = null;
-    didValidate: boolean;
 
     integrationsList = [
         'dropbox',
@@ -57,6 +66,11 @@ export default class Home extends Controller.extend(Analytics, {
 
         return chunkArray(featuresList, Math.ceil(featuresList.length / 2));
     });
+
+    constructor() {
+        super();
+        Object.assign(this, config.home);
+    }
 }
 
 declare module '@ember/controller' {

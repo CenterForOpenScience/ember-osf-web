@@ -288,6 +288,7 @@ export default {
     },
     home: {
         title: 'Home',
+        youtube_modal_title: 'Getting Started with the Open Science Framework',
         alert_logged_out: 'You have successfully logged out.',
         brand: 'Open Science Framework',
         tagline: 'A scholarly commons to connect the entire research cycle',
