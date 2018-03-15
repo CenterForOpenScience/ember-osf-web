@@ -44,9 +44,9 @@ export default {
         times: '&times;',
     },
     maintenance: {
-        line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
-        line2: 'Thank you for your patience.',
-        title: 'Notice:',
+        line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
+        line2: 'ご不自由をおかけいたしますが、ご協力どうぞよろしくお願いいたします。',
+        title: 'お知らせ:',
     },
     quickfiles: {
         title: '{{user-name}} のクイックファイル',
