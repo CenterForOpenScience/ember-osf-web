@@ -2,6 +2,7 @@ import { A } from '@ember/array';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 // TODO generalize this as carousel-somehting and add it to ember-osf, to be used by both providers
 // and institutions lot of this logic is copied over from
@@ -35,16 +36,7 @@ export default class InstitutionCarousel extends Component.extend({
     });
 
     slides = computed('institutions', 'itemsPerSlide', function() {
-        const itemsPerSlide = this.get('itemsPerSlide');
-        const institutions = this.get('filteredInstitutions').toArray();
-
-        const groups = [];
-
-        while (institutions.length) {
-            groups.push(institutions.splice(0, itemsPerSlide));
-        }
-
-        return A(groups);
+        return A(chunkArray(this.get('filteredInstitutions').toArray(), this.get('itemsPerSlide')));
     });
 
     columnOffset = computed('institutions.[]', 'itemsPerSlide', function() {

@@ -3,17 +3,7 @@ import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
 import Analytics from 'ember-osf-web/mixins/analytics';
 import UserRegistration from 'ember-osf-web/models/user-registration';
-
-function chunk(arr: any[], limit: number): any[][] {
-    const original = arr.slice();
-    const result: any[][] = [];
-
-    while (original.length) {
-        result.push(original.splice(0, limit));
-    }
-
-    return result;
-}
+import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 export default class Home extends Controller.extend(Analytics, {
     submit: task(function* (this: Home) {
@@ -59,13 +49,13 @@ export default class Home extends Controller.extend(Analytics, {
     ];
 
     integrations = computed('integrationsList', function (): string[][] {
-        return chunk(this.get('integrationsList'), 4);
+        return chunkArray(this.get('integrationsList'), 4);
     });
 
     features = computed('featuresList', function (): string[][] {
         const featuresList = this.get('featuresList');
 
-        return chunk(featuresList, Math.ceil(featuresList.length / 2));
+        return chunkArray(featuresList, Math.ceil(featuresList.length / 2));
     });
 }
 
