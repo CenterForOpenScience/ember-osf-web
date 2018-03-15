@@ -13,6 +13,9 @@ module.exports = function(defaults) {
             importBootstrapFont: true,
             importBootstrapCSS: false,
         },
+        'ember-cli-password-strength': {
+            bundleZxcvbn: false,
+        },
         sassOptions: {
             includePaths: [
                 'node_modules/@centerforopenscience/osf-style/sass',
