@@ -1,15 +1,11 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import config from 'ember-get-config';
 import { osfServices } from 'ember-osf-web/const/service-links';
 import AnalyticsMixin from 'ember-osf-web/mixins/analytics';
 
 const HOME_APP = 'HOME';
-
-/**
- * @module ember-osf-web
- * @submodule components
- */
 
 /**
  * Display the OSF navbar

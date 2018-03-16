@@ -66,8 +66,6 @@ export default class NavbarAuthDropdown extends Component.extend(AnalyticsMixin,
     logout = task(function* (this: NavbarAuthDropdown) {
         const redirectUrl = this.get('redirectUrl');
         const query = redirectUrl ? `?${Ember.$.param({ next_url: redirectUrl })}` : '';
-
-        // TODO: May not work well if logging out from page that requires login- check?
         yield this.get('session').invalidate();
         window.location.href = `${config.OSF.url}logout/${query}`;
     });

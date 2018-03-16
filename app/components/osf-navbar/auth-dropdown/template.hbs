@@ -1,5 +1,4 @@
 {{# if session.isAuthenticated }}
-    {{! TODO: Replace display name functionality if possible- for now truncate via CSS at end of label }}
     <a class="btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'auth_dropdown.toggle_auth_dropdown'}} onclick={{action dropdownOpened}}>
         <div class="osf-profile-image">
             <img src="{{gravatarUrl}}" alt="{{t 'auth_dropdown.user_gravatar'}}">

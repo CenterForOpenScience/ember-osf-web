@@ -25,7 +25,7 @@ export default class CurrentUserService extends Service {
      * @property currentUserId
      * @type {String|null}
      */
-    currentUserId: string|null = computed('session.data.authenticated', function(this: CurrentUserService) {
+    currentUserId = computed('session.data.authenticated', function(this: CurrentUserService): string|null {
         const session = this.get('session');
         if (session.get('isAuthenticated')) {
             return session.get('data.authenticated.id');
@@ -42,7 +42,7 @@ export default class CurrentUserService extends Service {
      * @property user
      * @return Promise proxy object that resolves to a user or null
      */
-    user: User|null|EmberPromise<User|null> = computed('currentUserId', function(this: CurrentUserService) {
+    user = computed('currentUserId', function(this: CurrentUserService) {
         const ObjectPromiseProxy = ObjectProxy.extend(PromiseProxyMixin);
         return ObjectPromiseProxy.create({
             promise: this.load().catch(() => null),
