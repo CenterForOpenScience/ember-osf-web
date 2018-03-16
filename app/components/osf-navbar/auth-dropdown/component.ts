@@ -10,7 +10,7 @@ import User from 'ember-osf-web/models/user';
 /**
  * Display the login dropdown on the navbar
  *
- * @class new-osf-navbar/auth-dropdown
+ * @class osf-navbar/auth-dropdown
  */
 export default class NavbarAuthDropdown extends Component.extend(AnalyticsMixin, {
     tagName: 'li',
@@ -35,12 +35,11 @@ export default class NavbarAuthDropdown extends Component.extend(AnalyticsMixin,
 
     /**
      * The URL to use for signup
-     * May be overridden, e.g. for special campaign pages
      *
      * @property signupUrl
      * @type {String}
      */
-    signupUrl: string = this.signupUrl || `${config.OSF.url}register`;
+    signupUrl: string;
 
     /**
      * The URL to redirect to after logout
@@ -48,7 +47,7 @@ export default class NavbarAuthDropdown extends Component.extend(AnalyticsMixin,
      * @property redirectUrl
      * @type {String}
      */
-    redirectUrl: string = this.redirectUrl || '';
+    redirectUrl: string;
 
     // Private properties
     session = service('session');

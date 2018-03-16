@@ -1,0 +1,87 @@
+<div class="osf-nav-wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                {{! Navigation toggle - XS screen }}
+                <a
+                    role="button"
+                    class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#secondary-navigation"
+                    onclick={{action 'closeSearch'}}
+                    aria-label={{t 'navbar.toggle_secondary'}}
+                >
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                {{! OSF logo }}
+                {{#if inHomeApp}}
+                    {{#link-to indexRoute class='navbar-brand' ariaLabel=(t 'navbar.go_home')}}
+                        <span class="osf-navbar-logo"></span>
+                    {{/link-to}}
+                {{else}}
+                    <a href="/" class="navbar-brand" aria-label={{t 'navbar.go_home'}}>
+                        <span class="osf-navbar-logo"></span>
+                    </a>
+                {{/if}}
+
+                {{! Current app }}
+                <div class="service-name">
+                    {{#link-to indexRoute}}
+                        <span class="hidden-xs"> {{t 'general.OSF'}} </span>
+                        <span class="current-service"><strong>{{currentApp}}</strong></span>
+                    {{/link-to}}
+                </div>
+
+                {{! App list dropdown }}
+                <div class="dropdown primary-nav">
+                    <button
+                        class="dropdown-toggle btn-link"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
+                        aria-label={{t 'navbar.toggle_primary'}}
+                        {{action 'closeSecondaryAndSearch'}}
+                        {{action 'click' 'button' 'Navbar - Dropdown Arrow'}}
+                    >
+                        <span class="fa fa-caret-down fa-2x"></span>
+                    </button>
+                    <ul class="dropdown-menu service-dropdown" role="menu">
+                        {{#each osfApps as |app|}}
+                            <li>
+                                {{#if (eq app.name currentApp)}}
+                                    {{#link-to indexRoute onClick=(action 'click' 'link' (concat 'Navbar - ' app.name))}}
+                                        {{t 'general.OSF'}}<b>{{app.name}}</b>
+                                    {{/link-to}}
+                                {{else}}
+                                    <a href="{{app.url}}" onclick={{action 'click' 'link' (concat 'Navbar - ' app.name)}}>
+                                        {{t 'general.OSF'}}<b>{{app.name}}</b>
+                                    </a>
+                                {{/if}}
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+
+            {{! Secondary nav links }}
+            <div class="navbar-collapse collapse navbar-right" id="secondary-navigation">
+                <ul class="nav navbar-nav">
+                    {{component linksComponent}}
+
+                    {{osf-navbar/auth-dropdown
+                        signupUrl=signupUrl
+                        loginAction=loginAction
+                        redirectUrl=redirectUrl
+                        dropdownOpened=(action 'closeSearch')
+                    }}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {{#if showSearch}}
+        {{search-dropdown action=(action 'toggleSearch')}}
+    {{/if}}
+</div>
+<div class='NavBarBuffer'></div>

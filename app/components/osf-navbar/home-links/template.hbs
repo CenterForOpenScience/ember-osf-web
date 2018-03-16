@@ -1,0 +1,34 @@
+{{#if session.isAuthenticated}}
+    {{#if currentUser.user.canViewReviews}}
+        <li>
+            <a href={{reviewsUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.reviews'}}>
+                {{t 'navbar.reviews'}}
+            </a>
+        </li>
+    {{/if}}
+    <li>
+        {{#link-to 'quickfiles' onClick=(action 'click' 'link' 'Navbar - navbar.my_quick_files')}}
+            {{t 'navbar.my_quick_files'}}
+        {{/link-to}}
+    </li>
+    <li>
+        <a href={{myProjectsUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.my_projects'}}>
+            {{t 'navbar.my_projects'}}
+        </a>
+    </li>
+{{/if}}
+<li>
+    <a href={{searchUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.search'}}>
+        {{t 'navbar.search'}}
+    </a>
+</li>
+<li>
+    {{#link-to 'support' onClick=(action 'click' 'link' 'Navbar - navbar.support')}}
+        {{t 'navbar.support'}}
+    {{/link-to}}
+</li>
+<li class="navbar-donate-button">
+    <a href={{donateUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.donate'}}>
+        {{t 'navbar.donate'}}
+    </a>
+</li>
