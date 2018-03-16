@@ -70,7 +70,11 @@
                         {{/if}}
                     {{/each}}
                     {{!AUTH NAVBAR}}
-                    {{new-navbar-auth-dropdown signupUrl=signupUrl loginAction=loginAction closeOtherNavigation=(action 'closeSearch')}}
+                    {{new-osf-navbar/auth-dropdown
+                        signupUrl=signupUrl
+                        loginAction=loginAction
+                        dropdownOpened=(action 'closeSearch')
+                    }}
                 </ul>
             </div>
         </div>
