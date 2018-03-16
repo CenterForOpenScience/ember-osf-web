@@ -14,7 +14,7 @@ import User from 'ember-osf-web/models/user';
  */
 export default class NavbarAuthDropdown extends Component.extend(AnalyticsMixin, {
     tagName: 'li',
-    classNames: ['dropdown'],
+    classNames: ['dropdown', 'secondary-nav-dropdown'],
     classNameBindings: ['notAuthenticated:sign-in'],
 }) {
     /**

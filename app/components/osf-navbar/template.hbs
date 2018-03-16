@@ -2,20 +2,6 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                {{! Navigation toggle - XS screen }}
-                <a
-                    role="button"
-                    class="navbar-toggle collapsed"
-                    data-toggle="collapse"
-                    data-target="#secondary-navigation"
-                    onclick={{action 'closeSearch'}}
-                    aria-label={{t 'navbar.toggle_secondary'}}
-                >
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-
                 {{! OSF logo }}
                 {{#if inHomeApp}}
                     {{#link-to indexRoute class='navbar-brand' ariaLabel=(t 'navbar.go_home')}}
@@ -63,6 +49,20 @@
                         {{/each}}
                     </ul>
                 </div>
+
+                {{! Navigation toggle - XS screen }}
+                <a
+                    role="button"
+                    class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#secondary-navigation"
+                    onclick={{action 'closeSearch'}}
+                    aria-label={{t 'navbar.toggle_secondary'}}
+                >
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
             </div>
 
             {{! Secondary nav links }}
