@@ -19,7 +19,7 @@ const { JSONAPIAdapter, Snapshot } = DS;
  * @extends DS.JSONAPIAdapter
  * @uses GenericDataAdapterMixin
  */
-export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapterMixin).extend({
+export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapterMixin, {
     headers: {
         ACCEPT: 'application/vnd.api+json; version=2.4',
     },

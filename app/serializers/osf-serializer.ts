@@ -52,16 +52,15 @@ const OsfSerializer = JSONAPISerializer.extend({
             this.get('store').pushPayload(embeddedObj);
 
             // Merge links on the embedded object with links on the relationship, so all returned links are available
-            const embeddedLinks = Object.assign(
-                {},
-                embeddedObj.links,
-                resourceHash.relationships[relName].links,
-            );
+            const embeddedLinks = {
+                ...embeddedObj.links,
+                ...resourceHash.relationships[relName].links,
+            };
 
             // Construct a new relationship in JSON API format
             if (Array.isArray(embeddedObj.data)) {
                 relationships[relName] = {
-                    data: embeddedObj.data.map(o => ({ id: o.id, type: o.type })),
+                    data: embeddedObj.data.map(({ id, type }) => ({ id, type })),
                     links: embeddedLinks,
                 };
             } else {
@@ -88,12 +87,12 @@ const OsfSerializer = JSONAPISerializer.extend({
      * @private
      */
     _mergeLinks(this: OsfSerializer, resourceHash: ResourceHash): ResourceHash {
-        const links = Object.assign({}, resourceHash.links || {});
+        const links = { ...(resourceHash.links || {}) };
         if (resourceHash.relationships) {
             links.relationships = resourceHash.relationships;
         }
         return {
-            attributes: Object.assign({}, resourceHash.attributes, { links }),
+            attributes: { ...resourceHash.attributes, links },
         };
     },
 
