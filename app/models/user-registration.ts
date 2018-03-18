@@ -22,7 +22,7 @@ const Validations = buildValidations({
             min: 3,
         }),
     ],
-    'g-recaptcha-response': [
+    recaptchaResponse: [
         validator('presence', {
             presence: true,
             messageKey: 'validationErrors.recaptcha',
@@ -50,7 +50,7 @@ export default class UserRegistration extends Model.extend(Validations, {
     email1: attr('string'),
     email2: attr('string'),
     fullName: attr('string'),
-    'g-recaptcha-response': attr('string'),
+    recaptchaResponse: attr('string'),
     password: attr('string'),
 }) {}
 

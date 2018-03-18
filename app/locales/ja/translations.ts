@@ -324,7 +324,7 @@ export default {
         features_changes_title: 'See project changes',
         features_changes_paragraph: 'See the latest project changes, who is contributing and <strong>historical file versions.</strong>',
         features_analytics_title: 'View project analytics',
-        features_analytics_paragraph: 'Access<strong>project data</strong> ranging from visits over time to top referring websites.',
+        features_analytics_paragraph: 'Access <strong>project data</strong> ranging from visits over time to top referring websites.',
         features_archive_title: 'Archive your data',
         features_archive_paragraph: 'Computer or collaborator explode? With the OSF <strong>you will never lose your project data.</strong>',
         features_collaboration_title: 'Control access and collaboration',

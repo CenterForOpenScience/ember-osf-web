@@ -4,6 +4,10 @@ import DS from 'ember-data';
 const { RESTSerializer } = DS;
 
 export default class UserRegistration extends RESTSerializer.extend({
+    attrs: {
+        recaptchaResponse: 'g-recaptcha-response',
+    },
+
     normalize({ modelName }) {
         return {
             data: {
