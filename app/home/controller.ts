@@ -7,13 +7,6 @@ import UserRegistration from 'ember-osf-web/models/user-registration';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 export default class Home extends Controller.extend(Analytics, {
-    modalOpen: false,
-
-    playerVars: {
-        autoplay: 1,
-        showinfo: 0,
-    },
-
     submit: task(function* (this: Home) {
         const model = this.get('model');
         const { validations } = yield model.validate();
@@ -31,8 +24,12 @@ export default class Home extends Controller.extend(Analytics, {
     didValidate: boolean;
     goodbye = null;
     hasSubmitted = false;
-    modalOpen: boolean;
+    modalOpen: boolean = this.modalOpen || false;
     model: UserRegistration;
+    playerVars = {
+        autoplay: 1,
+        showinfo: 0,
+    };
     queryParams = ['goodbye'];
 
     integrationsList = [

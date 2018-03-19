@@ -18,15 +18,6 @@ export default class ValidatedInput extends Component.extend({
     classNames: ['validated-input'],
     classNameBindings: ['showErrorClass:has-error', 'isValid:has-success'],
 
-    disabled: false,
-    model: null,
-    value: null,
-    type: 'text',
-    valuePath: '',
-    placeholder: '',
-    validation: null,
-    isTyping: false,
-
     didValidate: oneWay('targetObject.didValidate'),
     isInvalid: oneWay('validation.isInvalid'),
     isValid: and('hasContent', 'validation.isValid', 'notValidating'),
@@ -52,14 +43,14 @@ export default class ValidatedInput extends Component.extend({
         },
     },
 }) {
-    disabled: boolean;
-    model: DS.Model;
-    value: string;
-    type: InputType;
-    valuePath: string;
-    placeholder: string;
-    validation: any;
-    isTyping: boolean;
+    disabled: boolean = this.disabled || false;
+    model: DS.Model|null = this.model || null;
+    value: string = this.value || '';
+    type: InputType = this.type || InputType.Text;
+    valuePath: string = this.valuePath || '';
+    placeholder: string = this.placeholder || '';
+    validation: any = this.validation || null;
+    isTyping: boolean = this.isTyping || false;
 
     notValidating = not('validation.isValidating');
     hasContent = notEmpty('value');
