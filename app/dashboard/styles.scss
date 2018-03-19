@@ -61,22 +61,11 @@
     margin-top: 0; /* Override footer margin for this page only */
 }
 
-.quick-project button {
-    -webkit-appearance: none;
-    outline: none;
-    border: 0;
-    background: transparent;
-}
-
 .load-nodes {
     font-size: 2em;
 }
 
 .load-nodes:hover {
-    color: $color-text-black;
-}
-
-.quick-project .selected {
     color: $color-text-black;
 }
 
@@ -86,14 +75,6 @@
     opacity: 0.6;
 }
 
-.quick-project .not-selected {
-    color: $color-text-blue-dark;
-}
-
-.sort-group {
-  display: inline-block;
-
-}
 .node-col-headers {
     font-weight: bold;
 }

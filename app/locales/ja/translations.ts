@@ -125,7 +125,12 @@ export default {
             title: 'プロジェクトへファイルを移動',
             move_button: 'ファイルを移動',
         },
-
+        filtering: 'Filtering',
+        file_added: 'This file has been added.',
+        file_replaced: 'This file has been replaced',
+        file_deleted: 'This file has been deleted.',
+        delete_failed: 'Delete failed.',
+        successfully_moved: 'Successfully moved',
     },
     dashboard: {
         page_title: 'ホーム',
@@ -191,6 +196,7 @@ export default {
         enter_project_title: 'プロジェクトタイトルの入力',
         new_project_message: 'ファイル用の新しいパブリックプロジェクトを作成することを選択しました。 プロジェクトがプライベートにならない限り、ユーザーは引き続きファイルにアクセスできます。',
         choose_project: 'プロジェクトを選択',
+        select_placeholder: 'Click to select',
         project_select_message: '表示されるプロジェクトのリストは、書き込みアクセス権を持つプロジェクトとコンポーネントです。 登録はここには含まれていません。',
         no_projects_exist_error: '利用可能なプロジェクトはありません。 新しいプロジェクトを作成するには、元に戻ってください。',
         could_not_create_project: 'プロジェクトを作成できませんでした。 もう一度お試しください。',
