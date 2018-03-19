@@ -2,12 +2,6 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                {{!TOGGLE NAVIGATION BUTTON - XS SCREEN}}
-                <a type="button" role="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondary-navigation" onclick={{action 'closeSearch'}} aria-label={{t 'navbar.toggle_secondary'}}>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
                 {{!OSF BRAND}}
                 <a class="navbar-brand" href="/" aria-label={{t 'navbar.go_home'}}>
                     <span class="osf-navbar-logo"></span>
@@ -32,6 +26,12 @@
                         {{/each}}
                     </ul>
                 </div>
+                {{!TOGGLE NAVIGATION BUTTON - XS SCREEN}}
+                <a type="button" role="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondary-navigation" onclick={{action 'closeSearch'}} aria-label={{t 'navbar.toggle_secondary'}}>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
             </div>
             <div class="navbar-collapse collapse navbar-right" id="secondary-navigation">
                 <ul class="nav navbar-nav">

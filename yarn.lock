@@ -81,9 +81,9 @@
     eslint-plugin-eslint-comments "^1.0.0"
     eslint-plugin-import "^2.7.0"
 
-"@centerforopenscience/osf-style@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@centerforopenscience/osf-style/-/osf-style-1.5.1.tgz#3ea1a0807c02d06d32bf346620a538613880bc59"
+"@centerforopenscience/osf-style@https://github.com/CenterForOpenScience/osf-style#b09451d759c8544d2fab4bd7dbd5ca8b6dc242b8":
+  version "1.6.0"
+  resolved "https://github.com/CenterForOpenScience/osf-style#b09451d759c8544d2fab4bd7dbd5ca8b6dc242b8"
 
 "@ember-decorators/argument@^0.8.10":
   version "0.8.12"

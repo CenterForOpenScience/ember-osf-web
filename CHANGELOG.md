@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - TypeScript: Rename files to .ts
 - Modified several templates and css properties for increased accessibility
+- Navbar to fit new styles in `osf-style`
 
 ## [0.2.0] - 2018-02-14
 ### Added
