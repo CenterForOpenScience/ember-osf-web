@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | osf-footer', function(hooks) {
+module('Integration | Component | osf-footer', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async function(assert) {
