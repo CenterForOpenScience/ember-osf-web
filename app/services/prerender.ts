@@ -4,10 +4,11 @@ import Service from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
 
 export default class Prerender extends Service {
-    pending = A();
+    private pending = A();
 
-    ready = task(function* () {
-        yield waitForQueue('afterRender');
+    private ready = task(function* () {
+        // Wait until any DOM manipulation in `afterRender` is definitely finished
+        yield waitForQueue('destroy');
         if (!this.get('pending.length')) {
             window.prerenderReady = true;
         }
