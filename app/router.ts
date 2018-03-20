@@ -10,14 +10,6 @@ const Router = EmberRouter.extend({
     location: config.locationType,
     rootURL: config.rootURL,
 
-    init() {
-        this._super(...arguments);
-        const ready = this.get('ready');
-        ready.onReady(() => {
-            window.prerenderReady = true;
-        });
-    },
-
     willTransition() {
         this._super(...arguments);
         this.set('readyHandle', this.get('ready').wait());
