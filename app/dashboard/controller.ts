@@ -6,6 +6,8 @@ import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 
+const PRERENDER_KEY = 'dashboard controller';
+
 // TODO pull these from the database
 const {
     dashboard: {
@@ -16,6 +18,7 @@ const {
 
 export default class Dashboard extends Controller.extend({
     currentUser: service('currentUser'),
+    prerender: service('prerender'),
 
     filter: null,
     loading: false,
@@ -81,6 +84,7 @@ export default class Dashboard extends Controller.extend({
 
     initialLoad: task(function* (this: Dashboard) {
         yield this.get('findNodes').perform();
+        this.get('prerender').finished(PRERENDER_KEY);
     }),
 
     filterNodes: task(function* (this: Dashboard, filter) {
@@ -177,7 +181,9 @@ export default class Dashboard extends Controller.extend({
         return this.get('nodes.length') < this.get('nodes.meta.total');
     });
 
-    init() {
+    constructor() {
+        super(...arguments);
+        this.get('prerender').waitOn(PRERENDER_KEY);
         this.get('initialLoad').perform();
         this.get('getInstitutions').perform();
         this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');

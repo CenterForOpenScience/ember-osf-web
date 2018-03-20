@@ -8,13 +8,6 @@ export default class Application extends Route.extend(OSFAgnosticAuthRouteMixin,
 
         return this._super(...args);
     },
-
-    actions: {
-        didTransition() {
-            Object.assign(window, { prerenderReady: true });
-            return true; // Bubble the didTransition event
-        },
-    },
 }) {
     moment = service('moment');
 
