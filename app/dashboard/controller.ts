@@ -86,11 +86,14 @@ export default class Dashboard extends Controller.extend({
     filterNodes: task(function* (this: Dashboard, filter) {
         yield timeout(500);
         this.setProperties({ filter });
-        yield this.get('findNodes').perform();
+        yield this.get('findNodes').perform(false, true);
     }).restartable(),
 
-    findNodes: task(function* (this: Dashboard, more?: boolean) {
-        const indicatorProperty = `loading${more ? 'More' : ''}`;
+    findNodes: task(function* (this: Dashboard, more?: boolean, search?: boolean) {
+        let indicatorProperty = 'loading';
+        if (more || search) {
+            indicatorProperty += more ? 'More' : 'Search';
+        }
         const filter = this.get('filter');
 
         this.set(indicatorProperty, true);

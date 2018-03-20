@@ -180,6 +180,20 @@
     font-weight: bold;
 }
 
+.inline-loading {
+    position: absolute;
+    padding-top: 12px;
+    width: 65%;
+    top: 0;
+    div > .ball-scale {
+        float: right;
+    }
+    div > .ball-scale > div {
+        width: 30px;
+        height: 30px;
+    }
+}
+
 .pointer {
     cursor: pointer;
 }
