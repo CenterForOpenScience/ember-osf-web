@@ -1,9 +1,10 @@
 {{# if session.isAuthenticated }}
     {{! TODO: Replace display name functionality if possible- for now truncate via CSS at end of label }}
     <a class="btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'auth_dropdown.toggle_auth_dropdown'}} onclick={{action closeOtherNavigation}}>
-        <span class="osf-gravatar">
+        <div class="osf-profile-image">
             <img src="{{gravatarUrl}}" alt="{{t 'auth_dropdown.user_gravatar'}}">
-        </span> {{get-display-name user.fullName}}
+        </div>
+        <div class="nav-profile-name">{{user.fullName}}</div>
         <span class="caret"></span>
     </a>
     <ul class="dropdown-menu auth-dropdown" role="menu">
