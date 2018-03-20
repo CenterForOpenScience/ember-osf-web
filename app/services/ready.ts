@@ -1,15 +1,18 @@
 import { A } from '@ember/array';
-import { Evented } from '@ember/object';
+import Evented from '@ember/object/evented';
 import Service from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
+import { Promise as EmberPromise } from 'rsvp';
 
 interface ReadyHandle {
     id: number;
     finished: () => void;
+    errored: (e: any) => void;
 }
 
 const READY_EVENT = 'ready';
 const RESET_EVENT = 'reset';
+const ERROR_EVENT = 'error';
 
 export default class Ready extends Service.extend(Evented) {
     isReady = false;
@@ -32,6 +35,7 @@ export default class Ready extends Service.extend(Evented) {
             return {
                 id: null,
                 finished: () => null,
+                errored: () => null,
             };
         }
         const id = this.incrementProperty('lastId');
@@ -40,26 +44,34 @@ export default class Ready extends Service.extend(Evented) {
         return {
             id,
             finished: this.finishedCallback(id),
+            errored: this.errorCallback(),
         };
-    }
-
-    onReady(this: Ready, callback: () => void, autoReset: boolean = false): void {
-        this.on(READY_EVENT, () => {
-            callback();
-            if (autoReset) {
-                this.reset();
-            }
-        });
-    }
-
-    onReset(this: Ready, callback: () => void): void {
-        this.on(RESET_EVENT, callback);
     }
 
     reset(this: Ready): void {
         this.get('pendingIds').clear();
         this.set('isReady', false);
         this.trigger(RESET_EVENT);
+    }
+
+    ready(this: Ready) {
+        return new EmberPromise((resolve, reject) => {
+            this.on(READY_EVENT, resolve);
+            this.on(RESET_EVENT, reject);
+            this.on(ERROR_EVENT, reject);
+        });
+    }
+
+    onReady(this: Ready, callback: () => void): void {
+        this.on(READY_EVENT, callback);
+    }
+
+    onReset(this: Ready, callback: () => void): void {
+        this.on(RESET_EVENT, callback);
+    }
+
+    onError(this: Ready, callback: () => void): void {
+        this.on(ERROR_EVENT, callback);
     }
 
     private finishedCallback(this: Ready, id: int): void {
@@ -69,6 +81,12 @@ export default class Ready extends Service.extend(Evented) {
             if (!pending.length) {
                 this.get('tryReady').perform();
             }
+        };
+    }
+
+    private errorCallback(this: Ready): void {
+        return (e: any) => {
+            this.trigger(ERROR_EVENT, e);
         };
     }
 }

@@ -82,8 +82,12 @@ export default class Dashboard extends Controller.extend({
 
     initialLoad: task(function* (this: Dashboard) {
         const readyHandle = this.get('ready').wait();
-        yield this.get('findNodes').perform();
-        readyHandle.finished();
+        try {
+            yield this.get('findNodes').perform();
+            readyHandle.finished();
+        } catch (e) {
+            readyHandle.errored(e);
+        }
     }),
 
     filterNodes: task(function* (this: Dashboard, filter) {
@@ -128,6 +132,7 @@ export default class Dashboard extends Controller.extend({
             readyHandle.finished();
         } catch (e) {
             this.set(`failedLoading-${dest}`, true);
+            readyHandle.errored(e);
         }
     }),
 

@@ -16,7 +16,8 @@ export default Route.extend({
             const model = yield this.get('store').findRecord(typeName, id);
             readyHandle.finished();
             return model;
-        } catch (error) {
+        } catch (e) {
+            readyHandle.errored(e);
             this.transitionTo('not-found', this.get('router.currentURL').slice(1));
         }
     }),

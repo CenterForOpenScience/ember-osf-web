@@ -77,7 +77,7 @@ export default Ember.Component.extend(Analytics, {
                 }
             });
             this.get('readyHandle').finished();
-        });
+        }).catch(this.get('readyHandle').errored);
     },
     _loadProjects(user) {
         loadAll(user, 'nodes', this.get('projectList')).then(() => {
