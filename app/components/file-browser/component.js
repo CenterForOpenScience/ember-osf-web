@@ -33,7 +33,7 @@ export default Ember.Component.extend(Analytics, {
     i18n: Ember.inject.service(),
     store: Ember.inject.service(),
     toast: Ember.inject.service(),
-    prerender: Ember.inject.service(),
+    ready: Ember.inject.service(),
     classNames: ['file-browser'],
     multiple: true,
     unselect: true,
@@ -76,7 +76,7 @@ export default Ember.Component.extend(Analytics, {
                     item.isSelected = true; // eslint-disable-line no-param-reassign
                 }
             });
-            this.get('prerender').finished(this.get('elementId'));
+            this.get('readyHandle').finished();
         });
     },
     _loadProjects(user) {
@@ -90,7 +90,7 @@ export default Ember.Component.extend(Analytics, {
         this.get('projectList').unshiftObject(node);
     },
     _loadUser: task(function* () {
-        this.get('prerender').waitOn(this.get('elementId'));
+        this.set('readyHandle', this.get('ready').wait());
         const user = yield this.get('user');
         if (!user || this.get('loaded')) {
             return;

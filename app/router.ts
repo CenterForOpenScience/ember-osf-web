@@ -3,24 +3,30 @@ import { scheduleOnce } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
-const PRERENDER_KEY = 'route transition';
-
 const Router = EmberRouter.extend({
     metrics: service('metrics'),
-    prerender: service('prerender'),
+    ready: service('ready'),
 
     location: config.locationType,
     rootURL: config.rootURL,
 
-    willTransition(this: Router) {
+    init() {
         this._super(...arguments);
-        this.get('prerender').waitOn(PRERENDER_KEY);
+        const ready = this.get('ready');
+        ready.onReady(() => {
+            window.prerenderReady = true;
+        });
+    },
+
+    willTransition() {
+        this._super(...arguments);
+        this.set('readyHandle', this.get('ready').wait());
     },
 
     didTransition() {
         this._super(...arguments);
         this._trackPage();
-        this.get('prerender').finished(PRERENDER_KEY);
+        this.get('readyHandle').finished();
     },
 
     _trackPage() {

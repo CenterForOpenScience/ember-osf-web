@@ -6,8 +6,6 @@ import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 
-const PRERENDER_KEY = 'dashboard controller';
-
 // TODO pull these from the database
 const {
     dashboard: {
@@ -18,7 +16,7 @@ const {
 
 export default class Dashboard extends Controller.extend({
     currentUser: service('currentUser'),
-    prerender: service('prerender'),
+    ready: service('ready'),
 
     filter: null,
     loading: false,
@@ -83,8 +81,9 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     initialLoad: task(function* (this: Dashboard) {
+        const readyHandle = this.get('ready').wait();
         yield this.get('findNodes').perform();
-        this.get('prerender').finished(PRERENDER_KEY);
+        readyHandle.finished();
     }),
 
     filterNodes: task(function* (this: Dashboard, filter) {
@@ -118,6 +117,7 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     getPopularAndNoteworthy: task(function* (this: Dashboard, id, dest) {
+        const readyHandle = this.get('ready').wait();
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.queryHasMany('linkedNodes', {
@@ -125,6 +125,7 @@ export default class Dashboard extends Controller.extend({
                 page: { size: 5 },
             });
             this.set(dest, linkedNodes);
+            readyHandle.finished();
         } catch (e) {
             this.set(`failedLoading-${dest}`, true);
         }
@@ -183,7 +184,6 @@ export default class Dashboard extends Controller.extend({
 
     constructor() {
         super(...arguments);
-        this.get('prerender').waitOn(PRERENDER_KEY);
         this.get('initialLoad').perform();
         this.get('getInstitutions').perform();
         this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');
