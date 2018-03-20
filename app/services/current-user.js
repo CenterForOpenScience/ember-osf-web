@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import config from 'ember-get-config';
 import { task } from 'ember-concurrency';
+import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 
 /**
  * @module ember-osf-web
@@ -18,6 +19,15 @@ export default Ember.Service.extend({
     session: Ember.inject.service(),
     features: Ember.inject.service(),
 
+    constructor() {
+        this._super(...arguments);
+        this.get('session').on('authenticationSucceeded', this, function() {
+            this.get('_setWaffle').perform();
+        });
+        this.get('session').on('invalidationSucceeded', this, function() {
+            this.get('_setWaffle').perform();
+        });
+    },
     /**
      * If logged in, return the ID of the current user, else return null.
      *
@@ -62,15 +72,20 @@ export default Ember.Service.extend({
      */
     user: Ember.computed('currentUserId', function() {
         const ObjectPromiseProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
-        this.get('_setWaflle').perform();
         return ObjectPromiseProxy.create({
             promise: this.load().catch(() => null),
         });
     }),
 
-    _setWaflle: task(function* () {
+    _setWaffle: task(function* () {
+        if (this.get('features').isEnabled('_loaded')) {
+            return;
+        }
         const url = `${config.OSF.apiUrl}/v2/_waffle/`;
-        const { data } = yield $.ajax(url, 'GET');
+        const { data } = yield authenticatedAJAX({
+            url,
+            method: 'GET',
+        });
         for (const flag of data) {
             const { name } = flag.attributes;
             if (flag.attributes.active) {
@@ -79,5 +94,6 @@ export default Ember.Service.extend({
                 this.get('features').disable(name);
             }
         }
+        this.get('features').enable('_loaded');
     }).restartable(),
 });

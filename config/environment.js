@@ -138,7 +138,11 @@ module.exports = function(environment) {
             noteworthyNode,
         },
         featureFlags: { // default flags (whether they be switches, flags, or polls) go here with default value.
+            ember_support_page: true,
+            ember_dashboard_page: true,
+            _loaded: false,
         },
+
     };
 
     if (environment === 'development') {

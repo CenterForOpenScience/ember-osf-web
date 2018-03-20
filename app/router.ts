@@ -5,9 +5,24 @@ import config from 'ember-get-config';
 
 const Router = EmberRouter.extend({
     metrics: service('metrics'),
+    currentUser: service('currentUser'),
+    features: service('features'),
 
     location: config.locationType,
     rootURL: config.rootURL,
+
+    willTransition(oldInfo, newInfo, transition) {
+        const to = transition.targetName;
+        const flag = `ember_${to}_page`;
+        if (flag in config.featureFlags) {
+            this.get('currentUser._setWaffle').perform().then(() => {
+                if (!this.get('features').isEnabled(flag)) {
+                    window.location.reload();
+                }
+            });
+        }
+        this._super(...arguments);
+    },
 
     didTransition() {
         this._super(...arguments);
