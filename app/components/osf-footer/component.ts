@@ -4,9 +4,9 @@ import { serviceLinks } from 'ember-osf-web/const/service-links';
 
 export default class OsfFooter extends Component {
     serviceLinks = serviceLinks;
-
+    supportEmail: string = '';
     constructor() {
-        super();
-        Object.defineProperty(this, 'supportEmail', { value: config.support.supportEmail });
+        super(...arguments);
+        this.supportEmail = config.support.supportEmail;
     }
 }

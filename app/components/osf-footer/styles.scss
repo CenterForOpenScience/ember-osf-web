@@ -1,10 +1,10 @@
 .Footer {
     margin-top: 0;
-    text-shadow: 0 1px 0 #fff;
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
+    text-shadow: 0 1px 0 $color-shadow-white;
+    border-top: 1px solid $color-border-gray-dark;
+    border-bottom: 1px solid $color-border-gray-dark;
     width: 100%;
-    color: #555;
+    color: $color-text-gray;
 
     &__link-item {
         padding: 0;
