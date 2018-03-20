@@ -6,9 +6,13 @@
     width: 100%;
     color: $color-text-gray;
 
-    &__link-item {
+    &__link-list {
         padding: 0;
         margin: 0;
         list-style-type: none;
+    }
+
+    &__header {
+        font-weight: 400;
     }
 }
