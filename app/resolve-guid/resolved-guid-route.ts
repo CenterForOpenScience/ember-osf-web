@@ -11,13 +11,13 @@ export default Route.extend({
     ready: service('ready'),
 
     loadModel: task(function* (this: Route, typeName: string, id: string) {
-        const readyHandle = this.get('ready').wait();
+        const blocker = this.get('ready').block();
         try {
             const model = yield this.get('store').findRecord(typeName, id);
-            readyHandle.finished();
+            blocker.done();
             return model;
         } catch (e) {
-            readyHandle.errored(e);
+            blocker.errored(e);
             this.transitionTo('not-found', this.get('router.currentURL').slice(1));
         }
     }),

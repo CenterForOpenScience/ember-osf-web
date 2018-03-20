@@ -12,13 +12,13 @@ const Router = EmberRouter.extend({
 
     willTransition() {
         this._super(...arguments);
-        this.set('readyHandle', this.get('ready').wait());
+        this.set('readyBlocker', this.get('ready').block());
     },
 
     didTransition() {
         this._super(...arguments);
         this._trackPage();
-        this.get('readyHandle').finished();
+        this.get('readyBlocker').done();
     },
 
     _trackPage() {

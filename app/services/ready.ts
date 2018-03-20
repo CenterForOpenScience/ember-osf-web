@@ -4,9 +4,9 @@ import Service from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
 import { Promise as EmberPromise } from 'rsvp';
 
-interface ReadyHandle {
-    id: number;
-    finished: () => void;
+interface Blocker {
+    readonly id: number;
+    done: () => void;
     errored: (e: any) => void;
 }
 
@@ -30,11 +30,11 @@ export default class Ready extends Service.extend(Evented) {
         }
     }).drop();
 
-    wait(this: Ready): ReadyHandle {
+    block(this: Ready): Blocker {
         if (this.get('isReady')) {
             return {
                 id: null,
-                finished: () => null,
+                done: () => null,
                 errored: () => null,
             };
         }
@@ -43,7 +43,7 @@ export default class Ready extends Service.extend(Evented) {
         pending.pushObject(id);
         return {
             id,
-            finished: this.finishedCallback(id),
+            done: this.doneCallback(id),
             errored: this.errorCallback(),
         };
     }
@@ -74,7 +74,7 @@ export default class Ready extends Service.extend(Evented) {
         this.on(ERROR_EVENT, callback);
     }
 
-    private finishedCallback(this: Ready, id: int): void {
+    private doneCallback(this: Ready, id: int): void {
         return () => {
             const pending = this.get('pendingIds');
             pending.removeObject(id);

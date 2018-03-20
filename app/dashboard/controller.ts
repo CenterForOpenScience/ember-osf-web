@@ -81,12 +81,12 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     initialLoad: task(function* (this: Dashboard) {
-        const readyHandle = this.get('ready').wait();
+        const blocker = this.get('ready').block();
         try {
             yield this.get('findNodes').perform();
-            readyHandle.finished();
+            blocker.done();
         } catch (e) {
-            readyHandle.errored(e);
+            blocker.errored(e);
         }
     }),
 
@@ -121,7 +121,7 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     getPopularAndNoteworthy: task(function* (this: Dashboard, id, dest) {
-        const readyHandle = this.get('ready').wait();
+        const blocker = this.get('ready').block();
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.queryHasMany('linkedNodes', {
@@ -129,10 +129,10 @@ export default class Dashboard extends Controller.extend({
                 page: { size: 5 },
             });
             this.set(dest, linkedNodes);
-            readyHandle.finished();
+            blocker.done();
         } catch (e) {
             this.set(`failedLoading-${dest}`, true);
-            readyHandle.errored(e);
+            blocker.errored(e);
         }
     }),
 
