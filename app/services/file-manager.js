@@ -106,7 +106,7 @@ export default Ember.Service.extend({
         return Ember.run(() => {
             const userID = this.get('session.data.authenticated.id');
             file.set('checkout', userID);
-            return file.save().catch((error) => {
+            return file.save().catch(error => {
                 file.rollbackAttributes();
                 throw error;
             });
@@ -124,7 +124,7 @@ export default Ember.Service.extend({
     checkIn(file) {
         return Ember.run(() => {
             file.set('checkout', null);
-            return file.save().catch((error) => {
+            return file.save().catch(error => {
                 file.rollbackAttributes();
                 throw error;
             });
@@ -251,7 +251,7 @@ export default Ember.Service.extend({
         options.data = JSON.stringify(defaultData);
 
         const p = this._waterbutlerRequest('POST', url, options);
-        return p.then((wbResponse) => {
+        return p.then(wbResponse => {
             const { name } = wbResponse.data.attributes;
             return this._getNewFileInfo(targetFolder, name);
         });
@@ -307,7 +307,7 @@ export default Ember.Service.extend({
         const options = options_;
         const url = file.get('links').delete;
         const p = this._waterbutlerRequest('DELETE', url, options);
-        return p.then(() => file.get('parentFolder').then((parent) => {
+        return p.then(() => file.get('parentFolder').then(parent => {
             if (parent) {
                 return this._reloadModel(parent.get('files'));
             } else {
@@ -362,12 +362,12 @@ export default Ember.Service.extend({
             this._reloadingUrls[reloadUrl] = true;
         }
 
-        return model.reload().then((freshModel) => {
+        return model.reload().then(freshModel => {
             if (reloadUrl) {
                 delete this._reloadingUrls[reloadUrl];
             }
             return freshModel;
-        }).catch((error) => {
+        }).catch(error => {
             if (reloadUrl) {
                 delete this._reloadingUrls[reloadUrl];
             }
@@ -430,7 +430,7 @@ export default Ember.Service.extend({
         const p = parentFolder.queryHasMany('files', {
             'filter[name]': name,
         });
-        return p.then((files) => {
+        return p.then(files => {
             const file = files.findBy('name', name);
             if (!file) {
                 throw 'Cannot load metadata for uploaded file.'; // eslint-disable-line no-throw-literal

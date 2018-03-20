@@ -184,14 +184,14 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
     ): Promise<any> {
         return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk)
             .then(res => {
-            const relatedType = singularize(snapshot.record[relationship].meta().type);
-            res.data.forEach(item => {
-                const record = store.push(store.normalize(relatedType, item));
-                // TODO: This is now called addCanonicalInternalModel :|
-                snapshot.record.resolveRelationship(relationship).addCanonicalInternalModel(record._internalModel);
+                const relatedType = singularize(snapshot.record[relationship].meta().type);
+                res.data.forEach(item => {
+                    const record = store.push(store.normalize(relatedType, item));
+                    // TODO: This is now called addCanonicalInternalModel :|
+                    snapshot.record.resolveRelationship(relationship).addCanonicalInternalModel(record._internalModel);
+                });
+                return res;
             });
-            return res;
-        });
     },
     /**
      * Handle removal of related resources. This differs from DELETEs in that the related
@@ -335,7 +335,7 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
     ): any {
         let related: any[] | { record?: any } = snapshot.record
             .get(`_dirtyRelationships.${relationship}.${change}`)
-            .map(r => r._internalModel ? r._internalModel.createSnapshot() : r.createSnapshot());
+            .map(r => (r._internalModel ? r._internalModel.createSnapshot() : r.createSnapshot()));
 
         if (!related.length) {
             return [];
