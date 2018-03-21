@@ -9,10 +9,10 @@ export default class LinkTo extends LinkComponent {
     /**
      * Action called when the link is clicked
      *
-     * @property onClick
+     * @property clickAction
      * @type Action
      */
-    onClick: () => void;
+    clickAction: () => void;
 
     /**
      * Value for the link's aria-label attribute
@@ -27,8 +27,8 @@ export default class LinkTo extends LinkComponent {
         const bindings = this.get('attributeBindings');
         this.set('attributeBindings', [...bindings, 'ariaLabel:aria-label']);
 
-        if (this.onClick) {
-            this.on('click', this, this.onClick);
+        if (this.clickAction) {
+            this.on(this.get('eventName'), this, this.clickAction);
         }
     }
 }

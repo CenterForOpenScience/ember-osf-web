@@ -7,7 +7,7 @@
         </li>
     {{/if}}
     <li>
-        {{#link-to 'quickfiles' onClick=(action 'click' 'link' 'Navbar - navbar.my_quick_files')}}
+        {{#link-to 'quickfiles' clickAction=(action 'click' 'link' 'Navbar - navbar.my_quick_files')}}
             {{t 'navbar.my_quick_files'}}
         {{/link-to}}
     </li>
@@ -23,7 +23,7 @@
     </a>
 </li>
 <li>
-    {{#link-to 'support' onClick=(action 'click' 'link' 'Navbar - navbar.support')}}
+    {{#link-to 'support' clickAction=(action 'click' 'link' 'Navbar - navbar.support')}}
         {{t 'navbar.support'}}
     {{/link-to}}
 </li>

@@ -37,7 +37,7 @@
                         {{#each osfApps as |app|}}
                             <li>
                                 {{#if (eq app.name currentApp)}}
-                                    {{#link-to indexRoute onClick=(action 'click' 'link' (concat 'Navbar - ' app.name))}}
+                                    {{#link-to indexRoute clickAction=(action 'click' 'link' (concat 'Navbar - ' app.name))}}
                                         {{t 'general.OSF'}}<b>{{app.name}}</b>
                                     {{/link-to}}
                                 {{else}}

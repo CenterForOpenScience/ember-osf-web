@@ -26,7 +26,7 @@ module('Integration | Component | link-to', hooks => {
         assert.equal(this.element.firstChild.getAttribute('aria-label'), ariaLabel);
     });
 
-    test('onClick fires', async function(assert) {
+    test('clickAction fires', async function(assert) {
         assert.expect(1);
         this.set('actions', {
             clickAction: () => {
@@ -34,7 +34,7 @@ module('Integration | Component | link-to', hooks => {
             },
         });
 
-        await render(hbs`{{#link-to 'foo' onClick=(action 'clickAction')}}This is a link!{{/link-to}}`);
+        await render(hbs`{{#link-to 'foo' clickAction=(action 'clickAction')}}This is a link!{{/link-to}}`);
 
         await click(this.element.firstChild);
     });
