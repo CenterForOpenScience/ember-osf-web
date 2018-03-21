@@ -4,6 +4,8 @@ moduleFor('controller:application', 'Unit | Controller | application', {
     needs: [
         'service:session',
         'service:metrics',
+        'service:features',
+        'service:currentUser',
     ],
 });
 
