@@ -1,6 +1,12 @@
-import Ember from 'ember';
-import layout from './template';
+import { A } from '@ember/array';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { run } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import { isBlank } from '@ember/utils';
+
 import { task } from 'ember-concurrency';
+import $ from 'jquery';
 
 import loadAll from 'ember-osf-web/utils/load-relationship';
 import outsideClick from 'ember-osf-web/utils/outside-click';
@@ -24,20 +30,21 @@ const dropzoneOptions = {
  * ```
  * @class file-browser
  */
-export default Ember.Component.extend(Analytics, {
+export default Component.extend(Analytics, {
     // TODO: Improve documentation in the future
-    layout,
+
+    i18n: service(),
+    store: service(),
+    toast: service(),
+    currentUser: service(),
+
     dropzoneOptions,
-    // Can be overwritten to have a trimmed down display, these are all the options available to be displayed
-    display: Ember.A(['header', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'move-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button', 'share-button']),
-    i18n: Ember.inject.service(),
-    store: Ember.inject.service(),
-    toast: Ember.inject.service(),
+
     classNames: ['file-browser'],
+
     multiple: true,
     unselect: true,
     openOnSelect: false,
-    projectList: Ember.A(),
     isLoadingProjects: null,
     selectedFile: null,
     node: null,
@@ -45,126 +52,84 @@ export default Ember.Component.extend(Analytics, {
     newProject: false,
     projectSelectState: 'main',
     isInputInvalid: true,
-    nodeLink: Ember.computed.alias('node.links.html'),
     isMoving: false,
-
-    init() {
-        this._super(...arguments);
-        this.set('_items', Ember.A());
-        outsideClick(function() {
-            this.send('dismissPop');
-        }.bind(this));
-        Ember.$(window).resize(function() {
-            this.send('dismissPop');
-        }.bind(this));
-        this.get('_loadUser').perform();
-        this._loadProjects(this.get('user'));
-    },
-    currentUser: Ember.inject.service(),
-    dropzone: Ember.computed.alias('edit'),
-    edit: Ember.computed('user', 'currentUser.currentUserId', function() {
-        return this.get('user.id') === this.get('currentUser.currentUserId');
-    }),
-    _loadFiles(user) {
-        // pagination? when?
-        loadAll(user, 'quickfiles', this.get('_items')).then(() => {
-            this.set('loaded', true);
-            this.set('_items', this.get('_items').sortBy('itemName'));
-            this.get('_items').forEach(item => {
-                if (this.get('selectedFile.id') && this.get('selectedFile.id') === item.id) {
-                    item.isSelected = true; // eslint-disable-line no-param-reassign
-                }
-            });
-        });
-    },
-    _loadProjects(user) {
-        loadAll(user, 'nodes', this.get('projectList')).then(() => {
-            const onlyWriteNodes = this.get('projectList').filter(item => item.get('currentUserPermissions').includes(permissions.WRITE));
-            this.set('projectList', onlyWriteNodes);
-            this.set('isLoadingProjects', false);
-        });
-    },
-    _addNewNodeToList(user, node) {
-        this.get('projectList').unshiftObject(node);
-    },
-    _loadUser: task(function* () {
-        const user = yield this.get('user');
-        if (!user || this.get('loaded')) {
-            return;
-        }
-        // items need to be reloaded when attrs are received
-        // TODO: think about replacing _items with user.items, provided it's loaded properly
-        const _load = user_ => {
-            Ember.run(() => {
-                this.set('_items', Ember.A());
-                Ember.run.next(() => {
-                    this._loadFiles(user_);
-                });
-            });
-        };
-        if (user.then) {
-            user.then(user_ => {
-                _load(user_);
-            });
-        } else {
-            _load(user);
-        }
-    }),
-    uploadUrl: Ember.computed('user', function() {
-        return this.get('user.links.relationships.quickfiles.links.upload.href');
-    }),
-    downloadUrl: Ember.computed('user', function() {
-        return this.get('user.links.relationships.quickfiles.links.download.href');
-    }),
     loaded: false,
     filtering: false,
     renaming: false,
     sortingBy: 'itemName',
     sortingOrder: 'asc',
-    uploading: Ember.A(),
-    isUploading: Ember.computed.notEmpty('uploading'),
     filter: null,
     modalOpen: false,
     popupOpen: false,
-    itemsLoaded: true,
-    selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
-    loadedChanged: Ember.observer('itemsLoaded', function() {
-        const containerWidth = this.$().width();
-        this.set('itemWidth', containerWidth);
+
+    projectList: A(),
+    uploading: A(),
+
+    // Computed properties
+    nodeLink: computed.alias('node.links.html'),
+    dropzone: computed.alias('edit'),
+    isUploading: computed.notEmpty('uploading'),
+    selectedItems: computed.filterBy('items', 'isSelected', true),
+    edit: computed('user.id', 'currentUser.currentUserId', function() {
+        return this.get('user.id') === this.get('currentUser.currentUserId');
     }),
-    link: Ember.computed('selectedItems.firstObject.guid', function() {
+
+    // Can be overwritten to have a trimmed down display, these are all the options available to be displayed
+    display: Object.freeze([
+        'header', 'size-column', 'version-column', 'downloads-column', 'modified-column',
+        'delete-button', 'move-button', 'rename-button', 'download-button', 'view-button',
+        'info-button', 'upload-button', 'share-button',
+    ]),
+
+    uploadUrl: computed('user', function() {
+        return this.get('user.links.relationships.quickfiles.links.upload.href');
+    }),
+
+    downloadUrl: computed('user', function() {
+        return this.get('user.links.relationships.quickfiles.links.download.href');
+    }),
+
+    link: computed('selectedItems.firstObject.guid', function() {
         const guid = this.get('selectedItems.firstObject.guid');
         return guid ? pathJoin(window.location.origin, guid) : undefined;
     }),
-    flash(item, message, type, time) {
-        item.set('flash', {
-            message,
-            type: type || 'success',
-        });
-        Ember.run.later(() => item.set('flash', null), time || 2000);
-    },
-    items: Ember.computed('_items', 'textValue', 'filtering', 'sortingBy', 'sortingOrder', function() {
+
+    items: computed('_items', 'textValue', 'filtering', 'sortingBy', 'sortingOrder', function() {
         // look at ways to use the api to filter
-        const items = this.get('textValue') && this.get('filtering') ? this.get('_items').filter(i => i.get('name').toLowerCase().indexOf(this.get('textValue').toLowerCase()) !== -1) : this.get('_items');
+        let items = this.get('_items');
+        if (this.get('textValue') && this.get('filtering')) {
+            const searchValue = this.get('textValue').toLowerCase();
+            items = items.filter(
+                i => i.get('name').toLowerCase().indexOf(searchValue) !== -1,
+            );
+        }
         const sorted = items.sortBy(this.get('sortingBy'));
         return this.get('sortingOrder') === 'des' ? sorted.reverse() : sorted;
     }),
-    textFieldOpen: Ember.computed('filtering', 'renaming', function() {
+
+    textFieldOpen: computed('filtering', 'renaming', function() {
         if (!this.get('filtering')) {
             return this.get('renaming') ? 'renaming' : false;
         }
         return 'filtering';
     }),
-    nameColumnWidth: Ember.computed('display', function() {
+
+    nameColumnWidth: computed('display', function() {
         const display = this.get('display');
-        const width = 6 + !display.includes('share-link-column') + !display.includes('size-column') + !display.includes('version-column') + !display.includes('downloads-column') + (2 * !display.includes('modified-column'));
+        const width = 6
+            + !display.includes('share-link-column')
+            + !display.includes('size-column')
+            + !display.includes('version-column')
+            + !display.includes('downloads-column')
+            + (2 * !display.includes('modified-column'));
         if (!display.includes('header')) { // Allows scrollable elements to use extra space occupied by header
-            const height = Ember.$('.file-browser-list').height();
-            Ember.$('.file-browser-list').height(height + 50);
+            const height = $('.file-browser-list').height();
+            $('.file-browser-list').height(height + 50);
         }
         return width;
     }),
-    browserState: Ember.computed('loaded', '_items', function() {
+
+    browserState: computed('loaded', '_items', function() {
         if (this.get('loaded')) {
             if (this.get('_items').length) {
                 return this.get('items').length ? 'show' : 'filtered';
@@ -173,20 +138,35 @@ export default Ember.Component.extend(Analytics, {
         }
         return 'loading';
     }),
-    clickable: Ember.computed('browserState', function() {
+
+    clickable: computed('browserState', function() {
         const clickable = ['.dz-upload-button'];
         if (this.get('browserState') === 'empty') {
             clickable.push('.file-browser-list');
         }
         return clickable;
     }),
+
+    init() {
+        this._super(...arguments);
+        this.set('_items', A());
+        outsideClick(function() {
+            this.send('dismissPop');
+        }.bind(this));
+        $(window).resize(function() {
+            this.send('dismissPop');
+        }.bind(this));
+        this.get('_loadUser').perform();
+        this._loadProjects(this.get('user'));
+    },
+
     actions: {
         // dropzone listeners
         addedFile(_, __, file) {
             this.get('uploading').pushObject(file);
         },
         uploadProgress(_, __, file, progress) {
-            Ember.$(`#uploading-${file.size}`).css('width', `${progress}%`);
+            $(`#uploading-${file.size}`).css('width', `${progress}%`);
         },
         dragStart() {
             this.set('dropping', true);
@@ -203,7 +183,8 @@ export default Ember.Component.extend(Analytics, {
             this.get('uploading').removeObject(file);
             const data = response.data.attributes;
             // OPTIONS (some not researched)
-            // Ember store method for passing updated attributes (either with a query for the object, or iterating to find matching)
+            // Ember store method for passing updated attributes
+            // (either with a query for the object, or iterating to find matching)
             // Manually updating the object based on new attrs
             // Making an additional request anytime success is done, finding the file detail page based on path
             const { path } = data; // THERE SHOULD BE A BETTER WAY OF DOING THIS
@@ -231,7 +212,7 @@ export default Ember.Component.extend(Analytics, {
             this.get('_items').unshiftObject(item);
             this.notifyPropertyChange('_items');
             item.getGuid();
-            Ember.run.next(() => {
+            run.next(() => {
                 this.flash(item, 'This file has been added.');
                 this.get('toast').success('A file has been added');
             });
@@ -248,7 +229,7 @@ export default Ember.Component.extend(Analytics, {
             if (conflictingItem) {
                 return conflictingItem.get('links.upload');
             }
-            return `${this.get('uploadUrl')}?${Ember.$.param({
+            return `${this.get('uploadUrl')}?${$.param({
                 name: files[0].name,
             })}`;
         },
@@ -288,12 +269,15 @@ export default Ember.Component.extend(Analytics, {
                     const max = Math.max(items.indexOf(anchor), items.indexOf(item));
                     const min = Math.min(items.indexOf(anchor), items.indexOf(item));
                     for (const item_ of this.get('items')) {
-                        item_.set('isSelected', item_ === item || item_ === anchor || (items.indexOf(item_) > min && items.indexOf(item_) < max));
+                        const selected = item_ === item
+                            || item_ === anchor
+                            || (items.indexOf(item_) > min && items.indexOf(item_) < max);
+                        item_.set('isSelected', selected);
                     }
                 }
                 item.set('isSelected', true);
             }
-            Ember.run.next(this, function() {
+            run.next(this, function() {
                 if (this.get('selectedItems.length') === 1) {
                     this.set('shiftAnchor', item);
                 }
@@ -317,7 +301,7 @@ export default Ember.Component.extend(Analytics, {
         _deleteItem(item) {
             item.destroyRecord().then(() => {
                 this.flash(item, 'This file has been deleted.', 'danger');
-                Ember.run.later(() => {
+                run.later(() => {
                     this.get('_items').removeObject(item);
                     this.notifyPropertyChange('_items');
                 }, 1800);
@@ -349,7 +333,7 @@ export default Ember.Component.extend(Analytics, {
                         this.notifyPropertyChange('_items');
                     }, 1800);
                     // Later to avoid flash() trying to set on a destroyed item.
-                    Ember.run.later(() => replacedItem.unloadRecord(), 2200);
+                    run.later(() => replacedItem.unloadRecord(), 2200);
                 }
             }).catch(() => this.flash(item, 'Failed to rename item', 'danger'));
             this.set('textValue', null);
@@ -419,7 +403,7 @@ export default Ember.Component.extend(Analytics, {
         },
         checkNodeTitleKeypress(value) {
             this.set('nodeTitle', value);
-            this.set('isInputInvalid', Ember.isBlank(value));
+            this.set('isInputInvalid', isBlank(value));
         },
         changeProjectSelectState(state) {
             this.set('projectSelectState', state);
@@ -448,6 +432,66 @@ export default Ember.Component.extend(Analytics, {
             }
         },
     },
+
+    flash(item, message, type, time) {
+        item.set('flash', {
+            message,
+            type: type || 'success',
+        });
+        run.later(() => item.set('flash', null), time || 2000);
+    },
+
+    _loadFiles(user) {
+        // pagination? when?
+        loadAll(user, 'quickfiles', this.get('_items')).then(() => {
+            this.set('loaded', true);
+            this.set('_items', this.get('_items').sortBy('itemName'));
+            this.get('_items').forEach(item => {
+                if (this.get('selectedFile.id') && this.get('selectedFile.id') === item.id) {
+                    item.isSelected = true; // eslint-disable-line no-param-reassign
+                }
+            });
+        });
+    },
+
+    _loadProjects(user) {
+        loadAll(user, 'nodes', this.get('projectList')).then(() => {
+            const onlyWriteNodes = this.get('projectList').filter(
+                item => item.get('currentUserPermissions').includes(permissions.WRITE),
+            );
+            this.set('projectList', onlyWriteNodes);
+            this.set('isLoadingProjects', false);
+        });
+    },
+
+    _addNewNodeToList(user, node) {
+        this.get('projectList').unshiftObject(node);
+    },
+
+    _loadUser: task(function* () {
+        const user = yield this.get('user');
+        if (!user || this.get('loaded')) {
+            return;
+        }
+        // items need to be reloaded when attrs are received
+        // TODO: think about replacing _items with user.items, provided it's loaded properly
+        const _load = user_ => {
+            run(() => {
+                this.set('_items', A());
+                run.next(() => {
+                    this._loadFiles(user_);
+                });
+            });
+        };
+        if (user.then) {
+            user.then(user_ => {
+                _load(user_);
+            });
+        } else {
+            _load(user);
+        }
+    }),
+
     _createProject(title) {
         return this.get('store').createRecord('node', {
             public: true,
@@ -456,11 +500,12 @@ export default Ember.Component.extend(Analytics, {
         }).save()
             .catch(() => this.get('toast').error(this.get('i18n').t('move_to_project.could_not_create_project')));
     },
+
     _moveFile(item, node) {
         item.move(node)
             .then(() => {
                 this.flash(item, 'Successfully moved');
-                Ember.run.later(() => {
+                run.later(() => {
                     this.get('_items').removeObject(item);
                     this.notifyPropertyChange('_items');
                 }, 1800);

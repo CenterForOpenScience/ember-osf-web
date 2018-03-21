@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
 import { getAuthUrl } from 'ember-osf-web/utils/auth';
 
 /**
@@ -10,11 +11,12 @@ import { getAuthUrl } from 'ember-osf-web/utils/auth';
  * Replacement for Ember-simple-auth AuthenticatedRouteMixin. Instead of redirecting to an internal route,
  *   this mixin redirects to CAS login URL, and brings the user back to the last requested page afterwards
  *
- * For OAuth this is done via the state parameter, and for cookies this is done via the service parameter. (TODO: Need a mixin that detects this!)
+ * For OAuth this is done via the state parameter, and for cookies this is done via the service parameter.
+ * (TODO: Need a mixin that detects this!)
  *
  * @class CasAuthenticatedRouteMixin
  */
-export default Ember.Mixin.create({
+export default Mixin.create({
     /**
       The session service.
       @property session
@@ -22,8 +24,8 @@ export default Ember.Mixin.create({
       @type SessionService
       @public
     */
-    session: Ember.inject.service('session'),
-    routing: Ember.inject.service('-routing'),
+    session: service('session'),
+    router: service('router'),
 
     /**
       Checks whether the session is authenticated, and if it is not, attempts to authenticate it, and if that fails,
@@ -41,9 +43,9 @@ export default Ember.Mixin.create({
             return this._super(...arguments);
         }).catch(() => {
             // Reference: http://stackoverflow.com/a/39054607/414097
-            const routing = this.get('routing');
+            const router = this.get('router');
             const params = Object.values(transition.params).filter(param => Object.values(param).length);
-            const url = routing.generateURL(transition.targetName, params, transition.queryParams);
+            const url = router.urlFor(transition.targetName, params, transition.queryParams);
             window.location = getAuthUrl(window.location.origin + url);
         });
     },

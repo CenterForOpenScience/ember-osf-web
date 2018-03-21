@@ -21,7 +21,8 @@ fs.readdirSync('tmp/locales/').forEach(locale => {
             fs.unlinkSync(`tmp/locales/${locale}/translations.js`);
             fs.rmdirSync(`tmp/locales/${locale}/`);
             const terms = flatten(translations);
-            Object.keys(englishTerms).forEach(term => expect(terms, `${term} not defined for locale: ${locale}.`).to.have.property(term));
+            Object.keys(englishTerms).forEach(term =>
+                expect(terms, `${term} not defined for locale: ${locale}.`).to.have.property(term));
         }).timeout(5000);
     });
 });

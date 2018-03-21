@@ -1,5 +1,6 @@
-import Ember from 'ember';
 import config from 'ember-get-config';
+import $ from 'jquery';
+import { Promise as EmberPromise } from 'rsvp';
 
 /**
  * Helper functions for asynchronous behavior
@@ -22,13 +23,15 @@ import config from 'ember-get-config';
  * @param {Object} options
  * @return {Promise}
  */
-export default function authenticatedAJAX(options) {
+export default function authenticatedAJAX(options: object): Promise<any> {
+    let tmpOptions = options;
     if (config.authorizationType === 'cookie') {
-        Ember.merge(options, {
+        tmpOptions = {
+            ...options,
             xhrFields: {
                 withCredentials: true,
             },
-        });
+        };
     }
-    return Ember.$.ajax(options);
+    return new EmberPromise((resolve, reject) => $.ajax(tmpOptions).then(resolve, reject));
 }

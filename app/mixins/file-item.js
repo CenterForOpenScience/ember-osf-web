@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { or, and, equal } from '@ember/object/computed';
 
 /**
  * @module ember-osf-web
@@ -12,19 +13,19 @@ import Ember from 'ember';
  * @class FileItemMixin
  * @extends Ember.Mixin
  */
-export default Ember.Mixin.create({
-    itemName: Ember.computed.or('name', 'title'),
+export default Mixin.create({
+    itemName: or('name', 'title'),
     // https://github.com/emberjs/ember.js/issues/14014
-    // isNode: Ember.computed.equal('constructor.modelName', 'node'),
-    // isProvider: Ember.computed.equal('constructor.modelName', 'file-provider'),
+    // isNode: equal('constructor.modelName', 'node'),
+    // isProvider: equal('constructor.modelName', 'file-provider'),
     isNode: false,
     isProvider: false,
-    isFolder: Ember.computed.and('_isFileModel', '_isFolder'),
-    isFile: Ember.computed.and('_isFileModel', '_isFile'),
-    canHaveChildren: Ember.computed.or('isNode', 'isProvider', 'isFolder'),
+    isFolder: and('_isFileModel', '_isFolder'),
+    isFile: and('_isFileModel', '_isFile'),
+    canHaveChildren: or('isNode', 'isProvider', 'isFolder'),
 
-    // _isFileModel: Ember.computed.equal('constructor.modelName', 'file'),
+    // _isFileModel: equal('constructor.modelName', 'file'),
     _isFileModel: false,
-    _isFolder: Ember.computed.equal('kind', 'folder'),
-    _isFile: Ember.computed.equal('kind', 'file'),
+    _isFolder: equal('kind', 'folder'),
+    _isFile: equal('kind', 'file'),
 });

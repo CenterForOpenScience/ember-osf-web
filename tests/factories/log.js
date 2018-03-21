@@ -19,11 +19,13 @@ FactoryGuy.define('log', {
             'comment_removed', 'comment_updated', 'made_contributor_visible', 'made_contributor_invisible',
             'external_ids_added', 'embargo_approved', 'embargo_cancelled', 'embargo_completed',
             'embargo_initiated', 'retraction_approved', 'retraction_cancelled', 'retraction_initiated',
-            'registration_cancelled', 'registration_initiated', 'registration_approved', 'prereg_registration_initiated',
+            'registration_cancelled', 'registration_initiated', 'registration_approved',
+            'prereg_registration_initiated',
             'citation_added', 'citation_edited', 'citation_removed', 'primary_institution_changed',
             'primary_institution_removed',
         ]),
         params: {}, // Correct info from this field will depend on the log type
-        // TODO: Figure out node vs originalnode vs linkedNode vs templateNode, and add sample traits with correct values
+        // TODO: Figure out node vs originalnode vs linkedNode vs templateNode,
+        // and add sample traits with correct values
     },
 });

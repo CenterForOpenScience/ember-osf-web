@@ -1,5 +1,8 @@
-import Ember from 'ember';
-import layout from './template';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 /**
  * @module ember-osf-web
@@ -23,21 +26,21 @@ import layout from './template';
  * @class project-selector
  */
 
-export default Ember.Component.extend({
-    layout,
-    i18n: Ember.inject.service(),
-    store: Ember.inject.service(),
-    panelActions: Ember.inject.service('panelActions'),
+export default Component.extend({
+    i18n: service(),
+    store: service(),
+
     user: null,
     nodeTitle: null,
     projectSelectState: 'main',
     selectedProject: null,
     isLoadingProjects: true,
     showErrorMessage: null,
-    projectList: Ember.A(),
-    isProjectPublic: Ember.computed.alias('selectedProject.public'),
+    projectList: A(),
 
-    isChildNode: Ember.computed('selectedProject', function() {
+    isProjectPublic: alias('selectedProject.public'),
+
+    isChildNode: computed('selectedProject', function() {
         // sets the selected node and determines if node is child
         const isChild = this.get('selectedProject.links.relationships.parent');
         this.setSelectedNode(this.get('selectedProject'), isChild);

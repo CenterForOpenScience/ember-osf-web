@@ -1,13 +1,16 @@
-import Ember from 'ember';
+import Service from '@ember/service';
+import $ from 'jquery';
 import { module, skip, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { // mockFindRecord, mockUpdate, mockReload,
     setupFactoryGuy, make,
 } from 'ember-data-factory-guy';
 
-// TODO: All the tests here that expect a failed request/assertion are failing. Those fail with "assertion called after test is finished".
+// TODO: All the tests here that expect a failed request/assertion are failing.
+// Those fail with "assertion called after test is finished".
 // Tests expecting all assertions to pass were working under the "old" way of writing tests, now some pass, some fail.
-// Maybe the whole file manager needs to be looked at. Here is the ticket looking at refactoring tests: https://openscience.atlassian.net/browse/EMB-134
+// Maybe the whole file manager needs to be looked at.
+// Here is the ticket looking at refactoring tests: https://openscience.atlassian.net/browse/EMB-134
 
 // assert once for the path and once if queryParams is specified
 async function assertURL(assert, actual, expected, queryParams) {
@@ -54,7 +57,7 @@ async function assertSettings(assert, actual, expected) {
  *  - once for each key in expectedRequest.settings
  */
 function mockWaterbutler(assert, expectedRequest, response) {
-    Ember.$.mockjax(function (requestSettings) {
+    $.mockjax(function (requestSettings) {
         if (requestSettings.url.indexOf(expectedRequest.url) === 0) {
             return {
                 response () {
@@ -72,7 +75,7 @@ function mockWaterbutler(assert, expectedRequest, response) {
 
 const fakeAccessToken = 'thisisafakeaccesstoken';
 const fakeUserID = 'thisisafakeuseridbanana';
-const sessionStub = Ember.Service.extend({
+const sessionStub = Service.extend({
     authorize(_, setHeader) {
         setHeader('Authorization', `Bearer ${fakeAccessToken}`);
     },

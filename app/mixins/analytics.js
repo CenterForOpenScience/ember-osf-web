@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
+import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
 
 /**
  * @module ember-osf-web
@@ -11,15 +13,15 @@ import Ember from 'ember';
  *
  * @class Analytics
  */
-export default Ember.Mixin.create({
-    metrics: Ember.inject.service(),
+export default Mixin.create({
+    metrics: service(),
     actions: {
         click(category, label, extra_) {
             let extra = extra_;
             if (extra && typeof extra !== 'string') {
                 extra = null;
             }
-            Ember.get(this, 'metrics')
+            get(this, 'metrics')
                 .trackEvent({
                     category,
                     action: 'click',
@@ -34,7 +36,7 @@ export default Ember.Mixin.create({
             if (extra && typeof extra !== 'string') {
                 extra = null;
             }
-            Ember.get(this, 'metrics')
+            get(this, 'metrics')
                 .trackEvent({
                     category,
                     action,

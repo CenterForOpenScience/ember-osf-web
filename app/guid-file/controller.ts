@@ -111,6 +111,7 @@ export default class FileDetail extends Controller.extend(Analytics, {
 }) {
     currentUser = service('currentUser');
     toast = service('toast');
+    i18n = service('i18n');
 
     queryParams = ['show'];
 
