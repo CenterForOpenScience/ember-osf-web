@@ -30,6 +30,7 @@ module.exports = {
         indent: 0,
         'indent-legacy': 'error',
         'ember/named-functions-in-promises': 0,
+        'function-paren-newline': ['error', 'consistent'],
     },
     overrides: [
         {

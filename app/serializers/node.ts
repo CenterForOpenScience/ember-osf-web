@@ -1,10 +1,6 @@
 import OsfSerializer from './osf-serializer';
 
-export default class Node extends OsfSerializer {
-    relationshipTypes = {
-        license: 'licenses',
-    };
-}
+export default class Node extends OsfSerializer {}
 
 declare module 'ember-data' {
     interface SerializerRegistry {
