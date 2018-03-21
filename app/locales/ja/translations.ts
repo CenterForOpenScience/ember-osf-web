@@ -41,7 +41,9 @@ export default {
         next: '次へ',
         previous: '戻る',
         help: 'ヘルプ',
-        times: '&times;',
+        api: 'API',
+        cos: 'Center for Open Science',
+        home: 'Home',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
@@ -284,6 +286,17 @@ export default {
     },
     osf_mode_footer: {
         dev_mode: 'このサイトは開発モードで動作しています。',
+    },
+    footer: {
+        status: 'Status',
+        faq: 'FAQ/Guides',
+        source_code: 'Source Code',
+        rpp: 'Reproducibility Project: Psychology',
+        rpcb: 'Reproducibility Project: Cancer Biology',
+        top: 'TOP Guidelines',
+        donate: 'Donate',
+        socialize: 'Socialize',
+        contact: 'Contact',
     },
     home: {
         title: 'Home',

@@ -41,7 +41,9 @@ export default {
         next: 'next',
         previous: 'previous',
         help: 'help',
-        times: '&times;',
+        api: 'API',
+        cos: 'Center for Open Science',
+        home: 'Home',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -285,6 +287,17 @@ export default {
     },
     osf_mode_footer: {
         dev_mode: 'This site is running in development mode.',
+    },
+    footer: {
+        status: 'Status',
+        faq: 'FAQ/Guides',
+        source_code: 'Source Code',
+        rpp: 'Reproducibility Project: Psychology',
+        rpcb: 'Reproducibility Project: Cancer Biology',
+        top: 'TOP Guidelines',
+        donate: 'Donate',
+        socialize: 'Socialize',
+        contact: 'Contact',
     },
     home: {
         title: 'Home',

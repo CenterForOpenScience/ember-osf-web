@@ -41,7 +41,9 @@ export default {
         next: 'next',
         previous: 'previous',
         help: 'help',
-        times: '&times;',
+        api: 'API',
+        cos: 'Center for Open Science',
+        home: 'Home',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -273,6 +275,17 @@ export default {
         social_mailing: 'Join our mailing list',
         social_facebook: 'Follow us on Facebook',
         social_github: 'Connect with COS on GitHub',
+    },
+    footer: {
+        status: 'Status',
+        faq: 'FAQ/Guides',
+        source_code: 'Source Code',
+        rpp: 'Reproducibility Project: Psychology',
+        rpcb: 'Reproducibility Project: Cancer Biology',
+        top: 'TOP Guidelines',
+        donate: 'Donate',
+        socialize: 'Socialize',
+        contact: 'Contact',
     },
     not_found: {
         title: 'Page not found',
