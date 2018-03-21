@@ -90,11 +90,9 @@ export default class Dashboard extends Controller.extend({
         yield this.get('findNodes').perform(false, true);
     }).restartable(),
 
-    findNodes: task(function* (this: Dashboard, more?: boolean, search?: boolean) {
+    findNodes: task(function* (this: Dashboard, more?: boolean) {
         const indicatorProperty = `loading${more ? 'More' : ''}`;
-        if (search) {
-            this.set('loadingSearch', true);
-        }
+
         const filter = this.get('filter');
 
         this.set(indicatorProperty, true);
@@ -114,7 +112,6 @@ export default class Dashboard extends Controller.extend({
             this.set('nodes', nodes);
         }
 
-        this.set('loadingSearch', false);
         this.set(indicatorProperty, false);
     }).restartable(),
 

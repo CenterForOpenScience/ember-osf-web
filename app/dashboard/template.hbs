@@ -61,11 +61,6 @@
                                         <div class='m-b-sm text-center'>
                                             <div class="m-v-sm quick-search-input">
                                                 <input class='form-control' placeholder="{{t 'dashboard.quicksearch.search'}}" type="text" oninput={{perform filterNodes value="target.value"}}>
-                                                <div class='inline-loading'>
-                                                    {{#if loadingSearch}}
-                                                        {{loading-indicator blue=true pulse=true dark=true}}
-                                                    {{/if}}
-                                                </div>
                                             </div>
                                         </div>
                                         <p class="text-center f-w-lg">{{t 'dashboard.quicksearch.other_links'}}</p>
@@ -105,9 +100,13 @@
                                                     {{dashboard-item node=node}}
                                                 </div>
                                             {{else}}
-                                                <br>
-                                                <i>{{t 'dashboard.quicksearch.no_results'}}</i>
-                                                <br>
+                                                {{#if loading}}
+                                                    {{loading-indicator}}
+                                                {{else}}
+                                                    <br>
+                                                    <i>{{t 'dashboard.quicksearch.no_results'}}</i>
+                                                    <br>
+                                                {{/if}}
                                             {{/each}}
                                         </div>
                                         {{#if hasMore}}
