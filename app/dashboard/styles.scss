@@ -182,16 +182,21 @@
 
 .inline-loading {
     position: absolute;
-    padding-top: 12px;
+    padding-top: 18px;
     width: 65%;
     top: 0;
-    div > .ball-scale {
+    div > .ball-pulse {
         float: right;
     }
-    div > .ball-scale > div {
-        width: 30px;
-        height: 30px;
+    div > .ball-pulse > div {
+        width: 15px;
+        height: 15px;
     }
+}
+
+.loading-dashboard-item {
+    opacity: .5;
+    pointer-events: none;
 }
 
 .pointer {

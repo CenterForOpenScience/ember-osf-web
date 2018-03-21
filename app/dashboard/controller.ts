@@ -20,6 +20,7 @@ export default class Dashboard extends Controller.extend({
     filter: null,
     loading: false,
     loadingMore: false,
+    loadingSearch: false,
     modalOpen: false,
     newNode: null,
     page: 1,
@@ -90,9 +91,9 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     findNodes: task(function* (this: Dashboard, more?: boolean, search?: boolean) {
-        let indicatorProperty = 'loading';
-        if (more || search) {
-            indicatorProperty += more ? 'More' : 'Search';
+        const indicatorProperty = `loading${more ? 'More' : ''}`;
+        if (search) {
+            this.set('loadingSearch', true);
         }
         const filter = this.get('filter');
 
@@ -113,6 +114,7 @@ export default class Dashboard extends Controller.extend({
             this.set('nodes', nodes);
         }
 
+        this.set('loadingSearch', false);
         this.set(indicatorProperty, false);
     }).restartable(),
 

@@ -63,7 +63,7 @@
                                                 <input class='form-control' placeholder="{{t 'dashboard.quicksearch.search'}}" type="text" oninput={{perform filterNodes value="target.value"}}>
                                                 <div class='inline-loading'>
                                                     {{#if loadingSearch}}
-                                                        {{loading-indicator dark=true}}
+                                                        {{loading-indicator blue=true pulse=true dark=true}}
                                                     {{/if}}
                                                 </div>
                                             </div>
@@ -100,17 +100,15 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            {{#if loading}}
-                                                {{loading-indicator}}
-                                            {{else}}
-                                                {{#each nodes as | node |}}
+                                            {{#each nodes as | node |}}
+                                                <div class='{{if loading "loading-dashboard-item"}}'>
                                                     {{dashboard-item node=node}}
-                                                {{else}}
-                                                    <br>
-                                                    <i>{{t 'dashboard.quicksearch.no_results'}}</i>
-                                                    <br>
-                                                {{/each}}
-                                            {{/if}}
+                                                </div>
+                                            {{else}}
+                                                <br>
+                                                <i>{{t 'dashboard.quicksearch.no_results'}}</i>
+                                                <br>
+                                            {{/each}}
                                         </div>
                                         {{#if hasMore}}
                                             {{#if loadingMore}}
