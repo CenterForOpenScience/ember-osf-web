@@ -32,8 +32,6 @@ export default class Dashboard extends Controller.extend({
 
     user: alias('currentUser.user'),
 
-    institutionsSelected: oneWay('user.institutions'),
-
     actions: {
         more() {
             this.get('findNodes').perform(true);
@@ -136,9 +134,7 @@ export default class Dashboard extends Controller.extend({
         if (!title) {
             return;
         }
-
         const store = this.get('store');
-
         const data = {
             category: 'project',
             description,
@@ -146,14 +142,12 @@ export default class Dashboard extends Controller.extend({
             templateFrom,
             title,
         };
-
-        const node = yield store.createRecord('node', data).save();
-
-        if (this.get('institutionsSelected.length')) {
-            const affiliatedInstitutions = yield node.get('affiliatedInstitutions');
-            this.get('institutionsSelected').forEach(inst => affiliatedInstitutions.pushObject(inst));
-            yield node.save();
+        const node = store.createRecord('node', data);
+        const institutions = this.get('institutionsSelected');
+        if (institutions.length) {
+            node.set('affiliatedInstitutions', institutions.slice());
         }
+        yield node.save();
 
         this.set('newNode', node);
     }).drop(),
@@ -167,7 +161,7 @@ export default class Dashboard extends Controller.extend({
 
     store = service('store');
 
-    institutionsSelected = computed.oneWay('user.institutions');
+    institutionsSelected = oneWay('user.institutions');
 
     hasNodes = computed('filter', 'nodes.meta.total', function (): boolean {
         return this.get('nodes.meta.total') || this.get('filter') !== null;

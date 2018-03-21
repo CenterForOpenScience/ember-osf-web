@@ -1,96 +1,109 @@
 import { camelize, underscore } from '@ember/string';
 import DS from 'ember-data';
-import $ from 'jquery';
+
+const { JSONAPISerializer } = DS;
 
 interface ResourceHash {
     attributes: {
-        links?: any;
+        links?: any,
     };
     links?: any;
     relationships?: any;
     embeds?: any;
 }
 
-const OsfSerializer = DS.JSONAPISerializer.extend({
+const OsfSerializer = JSONAPISerializer.extend({
     attrs: {
         links: {
             serialize: false,
         },
-        embeds: {
-            serialize: false,
-        },
     },
-
-    // Map from relationship field name to type. Override to serialize relationships.
-    relationshipTypes: {},
 
     /**
-     * Extract information about records embedded inside this request
+     * Get embedded objects from the response and push them into the store.
+     * Return a new resource hash that only contains relationships in JSON API format,
+     * or the original resource hash, unchanged.
+     *
      * @method _extractEmbeds
-     * @param {Object} resourceHash
-     * @return {Array}
+     * @param {ResourceHash} resourceHash
+     * @return {ResourceHash}
      * @private
      */
-
-    // TODO: refactor using resource hash like how we are using it here:
-    // (stuff like _mergeFields should be as easy as just assigning a copy object)
-
-    /* eslint-disable no-param-reassign */
-    _extractEmbeds(resourceHash: ResourceHash): any {
+    _extractEmbeds(this: OsfSerializer, resourceHash: ResourceHash): ResourceHash {
         if (!resourceHash.embeds) {
-            return []; // Nothing to do
+            return resourceHash;
         }
-        let included = [];
-        resourceHash.relationships = resourceHash.relationships || {};
-        for (const embedded of Object.keys(resourceHash.embeds)) {
-            if (!(embedded || resourceHash.embeds[embedded])) {
+        const relationships = {};
+        for (const relName of Object.keys(resourceHash.relationships)) {
+            const embeddedObj = resourceHash.embeds[relName];
+
+            if (!embeddedObj) {
+                // Non-embedded relationship; let it pass through unchanged
+                relationships[relName] = resourceHash.relationships[relName];
                 continue;
             }
-            // TODO Pagination probably breaks here
-            const data = resourceHash.embeds[embedded].data || resourceHash.embeds[embedded];
-            if (!('errors' in data)) {
-                this.store.pushPayload({ data });
+            if ('errors' in embeddedObj) {
+                // Should already be logged elsewhere
+                continue;
             }
-            if (Array.isArray(data)) {
-                included = included.concat(data);
+
+            // Push the embedded data into the store.  Since it will use this serializer again,
+            // this is indirectly recursive and will extract nested embeds.
+            this.get('store').pushPayload(embeddedObj);
+
+            // Merge links on the embedded object with links on the relationship, so all returned links are available
+            const embeddedLinks = {
+                ...embeddedObj.links,
+                ...resourceHash.relationships[relName].links,
+            };
+
+            // Construct a new relationship in JSON API format
+            if (Array.isArray(embeddedObj.data)) {
+                relationships[relName] = {
+                    data: embeddedObj.data.map(({ id, type }) => ({ id, type })),
+                    links: embeddedLinks,
+                };
             } else {
-                included.push(data);
+                relationships[relName] = {
+                    data: {
+                        id: embeddedObj.data.id,
+                        type: embeddedObj.data.type,
+                    },
+                    links: embeddedLinks,
+                };
             }
-            resourceHash.embeds[embedded].type = embedded;
-            // Merges links returned from embedded object with relationship links, so all returned links are available.
-            const embeddedLinks = resourceHash.embeds[embedded].links || {};
-            resourceHash.embeds[embedded].links = Object.assign(
-                embeddedLinks,
-                resourceHash.relationships[embedded].links,
-            );
-            resourceHash.relationships[embedded] = resourceHash.embeds[embedded];
-            resourceHash.relationships[embedded].is_embedded = true;
         }
-        delete resourceHash.embeds;
-        // Recurse in, includeds are only processed on the top level. Embeds are nested.
-        return included.concat(included.reduce((acc, include) => acc.concat(this._extractEmbeds(include)), []));
+        return { relationships };
     },
 
-    _mergeFields(resourceHash: ResourceHash): ResourceHash {
-        // ApiV2 `links` exist outside the attributes field; make them accessible to the data model
-        if (resourceHash.links) { // TODO: Should also test whether model class defines a links field
-            resourceHash.attributes.links = resourceHash.links;
+    /**
+     * Make all links available in the model's `links` attr.
+     * Return a new resource hash that only contains attributes, with `attributes.links` set to
+     * the combination of `resourceHash.links` and `resourceHash.relationships`
+     *
+     * @method _mergeLinks
+     * @param {ResourceHash} resourceHash
+     * @return {ResourceHash}
+     * @private
+     */
+    _mergeLinks(this: OsfSerializer, resourceHash: ResourceHash): ResourceHash {
+        const links = { ...(resourceHash.links || {}) };
+        if (resourceHash.relationships) {
+            links.relationships = resourceHash.relationships;
         }
-        this._extractEmbeds(resourceHash);
-
-        if (resourceHash.relationships && resourceHash.attributes.links) {
-            resourceHash.attributes.links = $.extend(resourceHash.attributes.links, {
-                relationships: resourceHash.relationships,
-            });
-        }
-        return resourceHash;
+        return {
+            attributes: { ...resourceHash.attributes, links },
+        };
     },
 
-    /* eslint-enable no-param-reassign */
+    extractAttributes(this: OsfSerializer, modelClass: any, resourceHash: ResourceHash): any {
+        const attributeHash = this._mergeLinks(resourceHash);
+        return this._super(modelClass, attributeHash);
+    },
 
-    extractAttributes(modelClass: any, resourceHash: ResourceHash): any {
-        const hash = this._mergeFields(resourceHash);
-        return this._super(modelClass, hash);
+    extractRelationships(this: OsfSerializer, modelClass: any, resourceHash: ResourceHash): any {
+        const relationshipHash = this._extractEmbeds(resourceHash);
+        return this._super(modelClass, relationshipHash);
     },
 
     keyForAttribute(key: string): string {
@@ -104,43 +117,35 @@ const OsfSerializer = DS.JSONAPISerializer.extend({
     serialize(snapshot: DS.Snapshot, options: object): any {
         const serialized = this._super(snapshot, options);
         serialized.data.type = underscore(serialized.data.type);
-        // Only send dirty attributes in request
+
+        // Only send dirty attributes and relationships in request
         if (!snapshot.record.get('isNew')) {
+            const changedAttributes = snapshot.record.changedAttributes();
             for (const attribute of Object.keys(serialized.data.attributes)) {
-                if (!(camelize(attribute) in snapshot.record.changedAttributes())) {
+                if (!(camelize(attribute) in changedAttributes)) {
                     delete serialized.data.attributes[attribute];
                 }
             }
-        }
 
-        // Only serialize dirty, whitelisted relationships
-        serialized.data.relationships = {};
-        const dirtyRelationships = snapshot.record._dirtyRelationships;
-
-        for (const relationship of Object.keys(dirtyRelationships)) {
-            // https://stackoverflow.com/questions/29004314/why-are-object-keys-and-for-in-different
-            if (!dirtyRelationships.hasOwnProperty(relationship)) { // eslint-disable-line no-prototype-builtins
-                continue;
-            }
-            const type = this.get('relationshipTypes')[relationship];
-            if (type) {
-                const changeLists = Object.values(dirtyRelationships[relationship]);
-                if (changeLists.any(l => l.length)) {
-                    serialized.data.relationships[underscore(relationship)] = {
-                        data: {
-                            id: snapshot.belongsTo(relationship, { id: true }),
-                            type,
-                        },
-                    };
+            // HACK: There's no public-API way to tell whether a relationship has been changed.
+            const relationships = snapshot._internalModel._relationships.initializedRelationships;
+            for (const key of Object.keys(serialized.data.relationships)) {
+                const rel = relationships[camelize(key)];
+                if (rel
+                    && rel.members.length === rel.canonicalMembers.length
+                    && rel.members.list.every((v, i) => v === rel.canonicalMembers.list[i])
+                ) {
+                    delete serialized.data.relationships[key];
                 }
             }
         }
+
         return serialized;
     },
 
     serializeAttribute(snapshot: DS.Snapshot, json: any, key: string): void {
         // In certain cases, a field may be omitted from the server payload, but have a value (undefined)
-        // when serialized from the model. (eg node.template_from)
+        // when serialized from the model. (e.g. node.template_from)
         // Omit fields with a value of undefined before sending to the server. (but still allow null to be sent)
         const val = snapshot.attr(key);
         if (val !== undefined) {
