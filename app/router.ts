@@ -43,7 +43,9 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
     // All non-guid routes (except `not-found`) belong above "Guid Routing"
-    this.route('dashboard', { path: '/' });
+    this.route('home', { path: '/' });
+    this.route('goodbye');
+    this.route('dashboard');
     this.route('quickfiles');
     this.route('support');
 
