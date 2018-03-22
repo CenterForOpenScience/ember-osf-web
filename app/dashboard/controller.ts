@@ -87,7 +87,7 @@ export default class Dashboard extends Controller.extend({
     filterNodes: task(function* (this: Dashboard, filter) {
         yield timeout(500);
         this.setProperties({ filter });
-        yield this.get('findNodes').perform(false, true);
+        yield this.get('findNodes').perform();
     }).restartable(),
 
     findNodes: task(function* (this: Dashboard, more?: boolean) {
