@@ -13,10 +13,11 @@ const Router = EmberRouter.extend({
 
     willTransition(oldInfo, newInfo, transition) {
         const to = transition.targetName;
-        const flag = `ember_${to}_page`;
-        if (flag in config.featureFlags) {
-            this.get('currentUser._setWaffle').perform().then(() => {
-                if (!this.get('features').isEnabled(flag)) {
+        const flag = config.featureFlags[to];
+
+        if (flag) {
+            this.get('currentUser').getWaffle(flag).then(enabled => {
+                if (!enabled) {
                     window.location.reload();
                 }
             });

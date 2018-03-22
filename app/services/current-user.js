@@ -18,13 +18,14 @@ export default Ember.Service.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
     features: Ember.inject.service(),
+    waffleLoaded: false,
 
     constructor() {
         this._super(...arguments);
-        this.get('session').on('authenticationSucceeded', this, function() {
+        this.get('session').on('authenticationSucceeded', () => {
             this.get('_setWaffle').perform();
         });
-        this.get('session').on('invalidationSucceeded', this, function() {
+        this.get('session').on('invalidationSucceeded', () => {
             this.get('_setWaffle').perform();
         });
     },
@@ -77,10 +78,15 @@ export default Ember.Service.extend({
         });
     }),
 
-    _setWaffle: task(function* () {
-        if (this.get('features').isEnabled('_loaded')) {
-            return;
+    getWaffle(feature) {
+        if (this.get('waffleLoaded')) {
+            return Promise.resolve(this.get('features').isEnabled(feature));
+        } else {
+            return this.get('_setWaffle').perform().then(() => this.get('features').isEnabled(feature));
         }
+    },
+
+    _setWaffle: task(function* () {
         const url = `${config.OSF.apiUrl}/v2/_waffle/`;
         const { data } = yield authenticatedAJAX({
             url,
@@ -94,6 +100,6 @@ export default Ember.Service.extend({
                 this.get('features').disable(name);
             }
         }
-        this.get('features').enable('_loaded');
+        this.set('waffleLoaded', true);
     }).restartable(),
 });
