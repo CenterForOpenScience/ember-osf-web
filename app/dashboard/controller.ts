@@ -20,6 +20,7 @@ export default class Dashboard extends Controller.extend({
     filter: null,
     loading: false,
     loadingMore: false,
+    loadingSearch: false,
     modalOpen: false,
     newNode: null,
     page: 1,
@@ -89,6 +90,7 @@ export default class Dashboard extends Controller.extend({
 
     findNodes: task(function* (this: Dashboard, more?: boolean) {
         const indicatorProperty = `loading${more ? 'More' : ''}`;
+
         const filter = this.get('filter');
 
         this.set(indicatorProperty, true);
