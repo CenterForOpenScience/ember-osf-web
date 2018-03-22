@@ -27,6 +27,7 @@ const Router = EmberRouter.extend({
 
     didTransition() {
         this._super(...arguments);
+        window.scrollTo(0, 0);
         this._trackPage();
     },
 

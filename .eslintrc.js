@@ -22,7 +22,6 @@ module.exports = {
                 'modelNameFromPayloadKey',
             ],
         }],
-        'ember/named-functions-in-promises': 'warn',
         'max-len': [ 'warn', { code: 120 } ],
         'no-undef': 0,
         'no-unused-vars': ['error', { argsIgnorePattern: '^this' }],
@@ -30,6 +29,8 @@ module.exports = {
         strict: 0,
         indent: 0,
         'indent-legacy': 'error',
+        'ember/named-functions-in-promises': 0,
+        'function-paren-newline': ['error', 'consistent'],
     },
     overrides: [
         {

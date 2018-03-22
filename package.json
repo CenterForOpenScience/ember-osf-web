@@ -135,6 +135,7 @@
   "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme",
   "dependencies": {
     "dropzone": "^5.3.0",
+    "ember-decorators": "2.0.0-beta.2",
     "jquery-mockjax": "^2.3.0"
   }
 }
