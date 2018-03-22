@@ -6,6 +6,7 @@ import { module, test } from 'qunit';
 
 const sessionStub = Service.extend({
     isAuthenticated: false,
+    on: () => {},
 });
 
 module('Integration | Component | osf-navbar/auth-dropdown', hooks => {

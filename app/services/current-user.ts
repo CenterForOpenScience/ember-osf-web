@@ -74,10 +74,10 @@ export default class CurrentUserService extends Service {
 
     constructor() {
         super();
-        this.get('session').on('authenticationSucceeded', () => {
+        this.get('session').on('authenticationSucceeded', this, function() {
             this.get('setWaffle').perform();
         });
-        this.get('session').on('invalidationSucceeded', () => {
+        this.get('session').on('invalidationSucceeded', this, function() {
             this.get('setWaffle').perform();
         });
     }
