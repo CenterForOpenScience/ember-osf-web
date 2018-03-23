@@ -56,7 +56,7 @@ test('revert button', function(assert) {
 test('save new text', function(assert) {
     // Tests that the save function works
 
-    this.set('externalSaveAction', (actual) => {
+    this.set('externalSaveAction', actual => {
         const expected = 'Test to save this new text!';
         assert.equal(actual, expected, 'Save function properly passes new value');
     });

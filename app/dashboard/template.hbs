@@ -95,17 +95,19 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            {{#if loading}}
-                                                {{loading-indicator}}
-                                            {{else}}
-                                                {{#each nodes as | node |}}
+                                            {{#each nodes as | node |}}
+                                                <div class='{{if loading "loading-dashboard-item"}}'>
                                                     {{dashboard-item node=node}}
+                                                </div>
+                                            {{else}}
+                                                {{#if loading}}
+                                                    {{loading-indicator}}
                                                 {{else}}
                                                     <br>
                                                     <i>{{t 'dashboard.quicksearch.no_results'}}</i>
                                                     <br>
-                                                {{/each}}
-                                            {{/if}}
+                                                {{/if}}
+                                            {{/each}}
                                         </div>
                                         {{#if hasMore}}
                                             {{#if loadingMore}}

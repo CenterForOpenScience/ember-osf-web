@@ -1,0 +1,59 @@
+<div class="form-group {{if showErrorMessage 'has-error'}}">
+    {{#if (or
+        (eq type 'text')
+        (eq type 'password')
+    )}}
+        {{input
+            (html-attributes aria-label=aria-label)
+            id=valuePath
+            type=type
+            value=value
+            placeholder=placeholder
+            class='form-control'
+            name=valuePath
+            key-up=key-up
+            disabled=disabled
+        }}
+    {{else if (eq type 'textarea')}}
+        {{textarea
+            (html-attributes aria-label=aria-label)
+            id=valuePath
+            type=type
+            value=value
+            placeholder=placeholder
+            class='form-control'
+            name=valuePath
+            disabled=disabled
+        }}
+    {{else if (eq type 'date')}}
+        {{bootstrap-datepicker
+            (html-attributes aria-label=aria-label)
+            id=valuePath
+            type=type
+            value=value
+            placeholder=placeholder
+            class='form-control'
+            name=valuePath
+            focus-out='forceParse'
+            disabled=disabled
+        }}
+    {{else if (eq type 'reCaptcha')}}
+        {{g-recaptcha
+            onSuccess=(action 'onCaptchaResolved')
+            onExpired=(action 'onCaptchaExpired')
+            disabled=disabled
+        }}
+    {{/if}}
+
+    {{#if isValid}}
+        <span class="valid-input"></span>
+    {{/if}}
+
+    <div class="input-error help-block">
+        {{#if showErrorMessage}}
+            <div class="error">
+                {{v-get model valuePath 'message'}}
+            </div>
+        {{/if}}
+    </div>
+</div>

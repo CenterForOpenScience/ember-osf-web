@@ -45,7 +45,7 @@
                     {{#if (if-filter 'view-button' display)}}
                         <button {{action 'viewItem'}} class='btn btn-light'>{{fa-icon "file-o"}} {{t 'general.view'}}</button>
                     {{/if}}
-                    {{#if (if-filter 'move-button' display)}}
+                    {{#if (and edit (if-filter 'move-button' display))}}
                         <button {{action 'openModal' 'move'}} class='btn btn-light'>{{fa-icon "level-up"}} {{t 'general.move'}}</button>
                     {{/if}}
                     {{#if (and edit (if-filter 'delete-button' display))}}

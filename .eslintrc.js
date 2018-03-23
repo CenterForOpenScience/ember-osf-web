@@ -6,12 +6,15 @@ module.exports = {
         sourceType: 'module',
     },
     extends: '@centerforopenscience/eslint-config/ember',
+    plugins: [
+        'typescript',
+    ],
     env: {
         browser: true,
         es6: true,
     },
     rules: {
-        'arrow-parens': [ 'warn', 'as-needed' ],
+        'arrow-parens': [ 'error', 'as-needed' ],
         'class-methods-use-this': [ 'error', {
             exceptMethods: [
                 'resetController',
@@ -19,20 +22,28 @@ module.exports = {
                 'modelNameFromPayloadKey',
             ],
         }],
-        'ember/named-functions-in-promises': 'off',
         'max-len': [ 'warn', { code: 120 } ],
-        'no-confusing-arrow': 0,
         'no-undef': 0,
         'no-unused-vars': ['error', { argsIgnorePattern: '^this' }],
+        'typescript/no-unused-vars': 'error',
         strict: 0,
-        indent: 'off',
+        indent: 0,
+        'indent-legacy': 'error',
+        'ember/named-functions-in-promises': 0,
+        'function-paren-newline': ['error', 'consistent'],
     },
     overrides: [
         {
-            files: ['**/*.ts'],
+            files: ['**/*.d.ts'],
             rules: {
                 'no-unused-vars': 0,
             }
-        }
+        },
+        {
+            files: ['app/locales/*/translations.ts'],
+            rules: {
+                'max-len': 0,
+            },
+        },
     ]
 };

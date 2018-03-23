@@ -180,6 +180,11 @@
     font-weight: bold;
 }
 
+.loading-dashboard-item {
+    opacity: .5;
+    pointer-events: none;
+}
+
 .pointer {
     cursor: pointer;
 }
