@@ -82,6 +82,7 @@
     "ember-diff-attrs": "^0.2.1",
     "ember-export-application-global": "^1.0.5",
     "ember-faker": "^1.2.1",
+    "ember-feature-flags": "^5.0.0",
     "ember-font-awesome": "3.0.5",
     "ember-g-recaptcha": "^0.5.0",
     "ember-get-config": "^0.2.4",

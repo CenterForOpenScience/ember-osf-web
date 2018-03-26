@@ -144,6 +144,12 @@ module.exports = function(environment) {
             popularNode,
             noteworthyNode,
         },
+        featureFlags: { // default flags (whether they be switches, flags, or polls) go here with default value.
+            routes: {
+                support: 'ember_support_page',
+                dashboard: 'ember_dashboard_page',
+            },
+        },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,
         },

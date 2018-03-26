@@ -5,6 +5,8 @@ moduleFor('route:dashboard', 'Unit | Route | dashboard', {
     needs: [
         'service:metrics',
         'service:session',
+        'service:features',
+        'service:currentUser',
     ],
 });
 
