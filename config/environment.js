@@ -145,9 +145,10 @@ module.exports = function(environment) {
             noteworthyNode,
         },
         featureFlags: { // default flags (whether they be switches, flags, or polls) go here with default value.
-            support: 'ember_support_page',
-            dashboard: 'ember_dashboard_page',
-            _loaded: false,
+            routes: {
+                support: 'ember_support_page',
+                dashboard: 'ember_dashboard_page',
+            },
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,

@@ -12,8 +12,7 @@ const Router = EmberRouter.extend({
     rootURL: config.rootURL,
 
     willTransition(oldInfo, newInfo, transition) {
-        const to = transition.targetName;
-        const flag = config.featureFlags[to];
+        const flag = config.featureFlags.routes[transition.targetName];
         if (flag) {
             this.get('currentUser').getWaffle(flag).then(enabled => {
                 if (!enabled) {

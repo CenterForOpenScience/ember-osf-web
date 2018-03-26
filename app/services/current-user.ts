@@ -62,8 +62,8 @@ export default class CurrentUserService extends Service {
             method: 'GET',
         });
         for (const flag of data) {
-            const { name } = flag.attributes;
-            if (flag.attributes.active) {
+            const { name, active } = flag.attributes;
+            if (active) {
                 this.get('features').enable(name);
             } else {
                 this.get('features').disable(name);
@@ -109,6 +109,9 @@ export default class CurrentUserService extends Service {
         if (this.get('waffleLoaded')) {
             return Promise.resolve(this.get('features').isEnabled(feature));
         } else {
+            if (this.get('setWaffle').isRunning) {
+                return this.get('setWaffle').last.then(() => this.get('features').isEnabled(feature));
+            }
             return this.get('setWaffle').perform().then(() => this.get('features').isEnabled(feature));
         }
     }
