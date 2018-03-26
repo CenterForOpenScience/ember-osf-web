@@ -15,13 +15,7 @@ module.exports = {
     },
     rules: {
         'arrow-parens': [ 'error', 'as-needed' ],
-        'class-methods-use-this': [ 'error', {
-            exceptMethods: [
-                'resetController',
-                'pathForType',
-                'modelNameFromPayloadKey',
-            ],
-        }],
+        'class-methods-use-this': 0,
         'max-len': [ 'warn', { code: 120 } ],
         'no-undef': 0,
         'no-unused-vars': ['error', { argsIgnorePattern: '^this' }],
