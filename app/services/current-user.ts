@@ -109,8 +109,8 @@ export default class CurrentUserService extends Service {
         if (this.get('waffleLoaded')) {
             return Promise.resolve(this.get('features').isEnabled(feature));
         } else {
-            if (this.get('setWaffle').isRunning) {
-                return this.get('setWaffle').last.then(() => this.get('features').isEnabled(feature));
+            if (this.get('setWaffle.isRunning')) {
+                return this.get('setWaffle.last').then(() => this.get('features').isEnabled(feature));
             }
             return this.get('setWaffle').perform().then(() => this.get('features').isEnabled(feature));
         }
