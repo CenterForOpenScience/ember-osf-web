@@ -43,12 +43,13 @@ export default class ValidatedInput extends Component {
 
     @computed('validation.isDirty', 'isInvalid', 'didValidate')
     get showErrorMessage(this: ValidatedInput): boolean {
-        return (this.get('validation').get('isDirty') || this.get('didValidate')) && this.get('isInvalid');
+        return (this.get('validation') ? this.get('validation').get('isDirty') : false || this.get('didValidate'))
+            && this.get('isInvalid');
     }
 
     @computed('validation.{isDirty,warnings.[]}', 'isValid', 'didValidate')
     get showWarningMessage(this: ValidatedInput): boolean {
-        return (this.get('validation').get('isDirty') || this.get('didValidate'))
+        return (this.get('validation') ? this.get('validation').get('isDirty') : false || this.get('didValidate'))
             && this.get('isValid')
             && !isEmpty(this.get('validation').get('warnings'));
     }
