@@ -4,8 +4,8 @@ import { inject as service } from '@ember/service';
 export default class DashboardUnauth extends Route.extend({
     session: service('session'),
 
-    async beforeModel(...args) {
-        await this._super(...args);
+    async beforeModel(transition) {
+        await this._super(transition);
 
         const session = this.get('session');
 
@@ -13,6 +13,7 @@ export default class DashboardUnauth extends Route.extend({
             await session.invalidate();
         }
 
+        transition.abort();
         this.transitionTo('home', {
             queryParams: { goodbye: true },
         });

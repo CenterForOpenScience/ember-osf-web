@@ -3,10 +3,25 @@ import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
 const Router = EmberRouter.extend({
+    metrics: service('metrics'),
+    currentUser: service('currentUser'),
+    features: service('features'),
     session: service('session'),
 
     location: config.locationType,
     rootURL: config.rootURL,
+
+    willTransition(oldInfo, newInfo, transition) {
+        const flag = config.featureFlags.routes[transition.targetName];
+        if (flag) {
+            this.get('currentUser').getWaffle(flag).then(enabled => {
+                if (!enabled) {
+                    window.location.reload();
+                }
+            });
+        }
+        this._super(...arguments);
+    },
 
     didTransition() {
         this._super(...arguments);

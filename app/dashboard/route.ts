@@ -6,10 +6,11 @@ export default class Dashboard extends Route.extend({
     analytics: service(),
     currentUser: service('currentUser'),
 
-    async beforeModel(...args) {
-        await this._super(...args);
+    async beforeModel(transition) {
+        await this._super(transition);
 
         if (!this.get('session.isAuthenticated')) {
+            transition.abort();
             this.transitionTo('home');
         }
     },

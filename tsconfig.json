@@ -14,7 +14,8 @@
     "paths": {
       "ember-osf-web/tests/*": ["tests/*"],
       "ember-osf-web/*": ["app/*"]
-    }
+    },
+    "experimentalDecorators": true
   },
   "include": [
       "app",
