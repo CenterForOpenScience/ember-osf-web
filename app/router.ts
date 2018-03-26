@@ -5,14 +5,21 @@ import config from 'ember-get-config';
 
 const Router = EmberRouter.extend({
     metrics: service('metrics'),
+    ready: service('ready'),
 
     location: config.locationType,
     rootURL: config.rootURL,
+
+    willTransition() {
+        this._super(...arguments);
+        this.set('readyBlocker', this.get('ready').block());
+    },
 
     didTransition() {
         this._super(...arguments);
         window.scrollTo(0, 0);
         this._trackPage();
+        this.get('readyBlocker').done();
     },
 
     _trackPage() {

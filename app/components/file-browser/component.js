@@ -33,6 +33,7 @@ export default Ember.Component.extend(Analytics, {
     i18n: Ember.inject.service(),
     store: Ember.inject.service(),
     toast: Ember.inject.service(),
+    ready: Ember.inject.service(),
     classNames: ['file-browser'],
     multiple: true,
     unselect: true,
@@ -75,7 +76,8 @@ export default Ember.Component.extend(Analytics, {
                     item.isSelected = true; // eslint-disable-line no-param-reassign
                 }
             });
-        });
+            this.get('readyBlocker').done();
+        }).catch(this.get('readyBlocker').errored);
     },
     _loadProjects(user) {
         loadAll(user, 'nodes', this.get('projectList')).then(() => {
@@ -88,6 +90,7 @@ export default Ember.Component.extend(Analytics, {
         this.get('projectList').unshiftObject(node);
     },
     _loadUser: task(function* () {
+        this.set('readyBlocker', this.get('ready').block());
         const user = yield this.get('user');
         if (!user || this.get('loaded')) {
             return;

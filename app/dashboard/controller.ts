@@ -16,6 +16,7 @@ const {
 
 export default class Dashboard extends Controller.extend({
     currentUser: service('currentUser'),
+    ready: service('ready'),
 
     filter: null,
     loading: false,
@@ -79,7 +80,13 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     initialLoad: task(function* (this: Dashboard) {
-        yield this.get('findNodes').perform();
+        const blocker = this.get('ready').block();
+        try {
+            yield this.get('findNodes').perform();
+            blocker.done();
+        } catch (e) {
+            blocker.errored(e);
+        }
     }),
 
     filterNodes: task(function* (this: Dashboard, filter) {
@@ -114,6 +121,7 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     getPopularAndNoteworthy: task(function* (this: Dashboard, id, dest) {
+        const blocker = this.get('ready').block();
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.queryHasMany('linkedNodes', {
@@ -121,8 +129,10 @@ export default class Dashboard extends Controller.extend({
                 page: { size: 5 },
             });
             this.set(dest, linkedNodes);
+            blocker.done();
         } catch (e) {
             this.set(`failedLoading-${dest}`, true);
+            blocker.errored(e);
         }
     }),
 
@@ -173,7 +183,8 @@ export default class Dashboard extends Controller.extend({
         return this.get('nodes.length') < this.get('nodes.meta.total');
     });
 
-    init() {
+    constructor() {
+        super(...arguments);
         this.get('initialLoad').perform();
         this.get('getInstitutions').perform();
         this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');
