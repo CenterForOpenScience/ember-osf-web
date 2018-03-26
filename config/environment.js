@@ -147,7 +147,8 @@ module.exports = function(environment) {
         featureFlags: { // default flags (whether they be switches, flags, or polls) go here with default value.
             routes: {
                 support: 'ember_support_page',
-                dashboard: 'ember_dashboard_page',
+                dashboard: 'ember_home_page',
+                home: 'ember_home_page',
             },
         },
         gReCaptcha: {
