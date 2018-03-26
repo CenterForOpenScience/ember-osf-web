@@ -1,34 +1,27 @@
 {{#if session.isAuthenticated}}
-    {{#if currentUser.user.canViewReviews}}
-        <li>
-            <a href={{reviewsUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.reviews'}}>
-                {{t 'navbar.reviews'}}
-            </a>
-        </li>
-    {{/if}}
     <li>
-        {{#link-to 'quickfiles' clickAction=(action 'click' 'link' 'Navbar - navbar.my_quick_files')}}
+        {{#link-to 'quickfiles' clickAction=(action 'click' 'link' 'Navbar - navbar.my_quick_files' target=analytics)}}
             {{t 'navbar.my_quick_files'}}
         {{/link-to}}
     </li>
     <li>
-        <a href={{myProjectsUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.my_projects'}}>
+        <a href={{myProjectsUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=analytics}}>
             {{t 'navbar.my_projects'}}
         </a>
     </li>
 {{/if}}
 <li>
-    <a href={{searchUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.search'}}>
+    <a href={{searchUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.search' target=analytics}}>
         {{t 'navbar.search'}}
     </a>
 </li>
 <li>
-    {{#link-to 'support' clickAction=(action 'click' 'link' 'Navbar - navbar.support')}}
+    {{#link-to 'support' clickAction=(action 'click' 'link' 'Navbar - navbar.support' target=analytics) }}
         {{t 'navbar.support'}}
     {{/link-to}}
 </li>
 <li class="navbar-donate-button">
-    <a href={{donateUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.donate'}}>
+    <a href={{donateUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.donate' target=analytics}}>
         {{t 'navbar.donate'}}
     </a>
 </li>

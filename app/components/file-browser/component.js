@@ -4,7 +4,6 @@ import { task } from 'ember-concurrency';
 
 import loadAll from 'ember-osf-web/utils/load-relationship';
 import outsideClick from 'ember-osf-web/utils/outside-click';
-import Analytics from 'ember-osf-web/mixins/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import permissions from 'ember-osf-web/const/permissions';
 
@@ -24,7 +23,7 @@ const dropzoneOptions = {
  * ```
  * @class file-browser
  */
-export default Ember.Component.extend(Analytics, {
+export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
     dropzoneOptions,
@@ -33,6 +32,7 @@ export default Ember.Component.extend(Analytics, {
     i18n: Ember.inject.service(),
     store: Ember.inject.service(),
     toast: Ember.inject.service(),
+    analytics: Ember.inject.service(),
     classNames: ['file-browser'],
     multiple: true,
     unselect: true,

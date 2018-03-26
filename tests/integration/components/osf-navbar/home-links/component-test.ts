@@ -54,6 +54,6 @@ module('Integration | Component | osf-navbar/home-links', hooks => {
 
         this.owner.lookup('service:current-user').set('user', { canViewReviews: true });
         await render(hbs`{{osf-navbar/home-links}}`);
-        assert.deepEqual(linkTexts(), ['My Reviewing', 'My Quick Files', 'My Projects', 'Search', 'Support', 'Donate']);
+        assert.deepEqual(linkTexts(), ['My Quick Files', 'My Projects', 'Search', 'Support', 'Donate']);
     });
 });

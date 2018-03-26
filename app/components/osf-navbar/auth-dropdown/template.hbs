@@ -11,25 +11,25 @@
             <li style="margin-left:10%;">{{headline}}</li>
         {{/if}}
         <li>
-            <a href="{{serviceLinks.profile}}" onclick={{action 'click' 'link' 'Navbar - MyProfile'}}>
+            <a href="{{serviceLinks.profile}}" onclick={{action 'click' 'link' 'Navbar - MyProfile' target=analytics}}>
                 <i class="fa fa-user fa-lg p-r-xs"></i>
                 {{t 'auth_dropdown.my_profile'}}
             </a>
         </li>
         <li>
-            {{#link-to 'support' clickAction=(action 'click' 'link' 'Navbar - Support')}}
+            {{#link-to 'support' clickAction=(action 'click' 'link' 'Navbar - Support' target=analytics)}}
                 <i class="fa fa-life-ring fa-lg p-r-xs"></i>
                 {{t 'auth_dropdown.osf_support'}}
             {{/link-to}}
         </li>
         <li>
-            <a href="{{serviceLinks.settings}}" onclick={{action 'click' 'link' 'Navbar - Settings'}}>
+            <a href="{{serviceLinks.settings}}" onclick={{action 'click' 'link' 'Navbar - Settings' target=analytics}}>
                 <i class="fa fa-cog fa-lg p-r-xs"></i>
                 {{t 'auth_dropdown.settings'}}
             </a>
         </li>
         <li>
-            <a class="logoutLink" {{action (perform logout)}} onclick={{action 'click' 'link' 'Navbar - Logout'}} role="button">
+            <a class="logoutLink" {{action (perform logout)}} onclick={{action 'click' 'link' 'Navbar - Logout' target=analytics}} role="button">
                 <i class="fa fa-sign-out fa-lg p-r-xs"></i>
                 {{t 'auth_dropdown.log_out'}}
             </a>
@@ -37,10 +37,10 @@
     </ul>
 {{else}}
     <div>
-        <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-l-sm m-r-xs" onclick={{action 'click' 'link' 'Navbar - SignUp'}}>
+        <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-l-sm m-r-xs" onclick={{action 'click' 'link' 'Navbar - SignUp' target=analytics}}>
             {{t 'auth_dropdown.sign_up'}}
         </a>
-        <a {{action loginAction}} onclick={{action 'click' 'link' 'Navbar - SignIn'}} class="btn btn-info btn-top-login m-r-xs" role="button">
+        <a {{action loginAction}} onclick={{action 'click' 'link' 'Navbar - SignIn' target=analytics}} class="btn btn-info btn-top-login m-r-xs" role="button">
             {{t 'auth_dropdown.sign_in'}}
         </a>
     </div>

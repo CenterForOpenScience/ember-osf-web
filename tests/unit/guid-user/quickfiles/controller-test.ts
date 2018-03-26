@@ -4,6 +4,8 @@ moduleFor('controller:guid-user/quickfiles', 'Unit | Controller | guid-user/quic
     needs: [
         'service:currentUser',
         'service:metrics',
+        'service:analytics',
+        'service:session',
     ],
 });
 

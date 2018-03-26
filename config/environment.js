@@ -9,7 +9,7 @@ try {
 }
 
 const {
-    A11Y_AUDIT = 'true',
+    A11Y_AUDIT = 'false',
     BACKEND: backend = 'local',
     CLIENT_ID: clientId,
     FB_APP_ID,
