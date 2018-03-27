@@ -62,7 +62,7 @@ export default Ember.Component.extend(Analytics, {
     },
     currentUser: Ember.inject.service(),
     dropzone: Ember.computed.alias('edit'),
-    edit: Ember.computed('user', function() {
+    edit: Ember.computed('user', 'currentUser.currentUserId', function() {
         return this.get('user.id') === this.get('currentUser.currentUserId');
     }),
     _loadFiles(user) {
