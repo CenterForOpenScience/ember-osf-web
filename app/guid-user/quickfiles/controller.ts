@@ -10,7 +10,7 @@ export default class UserQuickfiles extends Controller.extend({
         },
     },
 }) {
-    currentUser = service('currentUser');
+    currentUser = service('current-user');
     pageName = 'QuickFiles';
 
     user = computed.alias('model.taskInstance.value');

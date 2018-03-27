@@ -4,7 +4,16 @@ import { inject as service } from '@ember/service';
 export default class Dashboard extends Route.extend({
     session: service('session'),
     analytics: service(),
-    currentUser: service('currentUser'),
+    currentUser: service('current-user'),
+    actions: {
+        didTransition(this: Dashboard) {
+            const page = this.get('router').currentUrl;
+            const title = this.get('routeName');
+            const publicPrivate = 'n/a';
+            const resourceType = 'n/a';
+            this.get('analytics').trackPage(page, title, publicPrivate, resourceType);
+        },
+    },
 
     async beforeModel(transition) {
         await this._super(transition);
@@ -13,14 +22,5 @@ export default class Dashboard extends Route.extend({
             transition.abort();
             this.transitionTo('home');
         }
-    },
-
-    model(this: Dashboard, params, transition) {
-        const trans = transition;
-        const page = trans.intent.url;
-        const title = trans.targetName;
-        const publicPrivate = 'n/a';
-        const resourceType = 'n/a';
-        this.get('analytics').trackPage(page, title, publicPrivate, resourceType);
     },
 }) { }

@@ -12,26 +12,25 @@ function preventDrop(e: DragEvent) {
 }
 
 export default class UserQuickfiles extends Route.extend({
+    analytics: service(),
+
     actions: {
         didTransition(this: UserQuickfiles) {
             window.addEventListener('dragover', preventDrop);
             window.addEventListener('drop', preventDrop);
+
+            this.controller.get('model').taskInstance.then(() => {
+                const page = this.get('router').currentUrl;
+                const title = this.get('routeName');
+                const publicPrivate = 'public';
+                const resourceType = 'n/a';
+                this.get('analytics').trackPage(page, title, publicPrivate, resourceType);
+            });
         },
     },
 }) {
-    currentUser = service('currentUser');
-    analytics = service();
-    afterModel(this: UserQuickfiles, model, transition) {
-        const trans = transition;
-        super.afterModel(model, trans);
-        model.taskInstance.then(() => {
-            const page = trans.intent.url;
-            const title = trans.targetName;
-            const publicPrivate = 'public';
-            const resourceType = 'n/a';
-            this.get('analytics').trackPage(page, title, publicPrivate, resourceType);
-        });
-    }
+    currentUser = service('current-user');
+
     model(this: UserQuickfiles) {
         return this.modelFor('guid-user');
     }

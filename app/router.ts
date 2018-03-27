@@ -4,7 +4,7 @@ import config from 'ember-get-config';
 
 const Router = EmberRouter.extend({
     metrics: service('metrics'),
-    currentUser: service('currentUser'),
+    currentUser: service('current-user'),
     features: service('features'),
     session: service('session'),
 

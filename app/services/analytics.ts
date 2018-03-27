@@ -24,7 +24,6 @@ export default class Analytics extends Service {
         return true;
     }
 
-    @action
     track(category, actionName, label, extraInfo) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {

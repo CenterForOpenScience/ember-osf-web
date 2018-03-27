@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Navbar to fit new styles in `osf-style`
 - Refactor handling of `embeds` in `osf-serializer`
 - Update dashboard "new project" task to send only one request
+- Moved analytics tracking to a Service
 
 ### Removed
 - Homegrown dirty relationship tracking, with automagic additional requests on save

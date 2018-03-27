@@ -1,3 +1,4 @@
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 
@@ -11,6 +12,7 @@ export default class NewProjectModal extends Component.extend({
         },
     },
 }) {
+    @service analytics;
     more: boolean;
     newNode: any; // null|Node (from model)
 

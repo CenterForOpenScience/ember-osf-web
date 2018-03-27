@@ -2,19 +2,23 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default class FileDetail extends Route.extend() {
-    currentUser = service('currentUser');
+    currentUser = service('current-user');
+    analytics = service('analytics');
+    actions = {
+        didTransition(this: FileDetail) {
+            const page = this.get('router').currentUrl;
+            const title = this.get('routeName');
+            const publicPrivate = 'public';
+            const resourceType = 'files';
+            this.get('analytics').trackPage(page, title, publicPrivate, resourceType);
+        },
+    };
 
-    async model(params, transition) {
-        const trans = transition;
+    async model(this: FileDetail, params) {
         try {
             const file = await this.store.findRecord('file', params.file_guid);
             const fileUser = await file.get('user');
             const user = await fileUser.reload();
-            const page = trans.intent.url;
-            const title = trans.targetName;
-            const publicPrivate = 'public';
-            const resourceType = 'files';
-            this.get('analytics').trackPage(page, title, publicPrivate, resourceType);
 
             return {
                 file,

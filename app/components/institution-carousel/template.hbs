@@ -6,7 +6,7 @@
                 <div class={{if (not index) "item active" "item"}}>
                     {{#each institutions as |institution index|}}
                         <div class="{{if (not index) (concat "col-sm-2 col-sm-offset-" columnOffset) "col-sm-2"}} InstitutionCarousel__item" role="option">
-                            <a href="/institutions/{{institution.id}}" class="InstitutionCarousel__item__thumbnail">
+                            <a href="/institutions/{{institution.id}}" class="InstitutionCarousel__item__thumbnail" onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - visit_institution' target=analytics}}>
                                 <img
                                     class="img-circle img-responsive InstitutionCarousel__item__image"
                                     name={{institution.name}}
@@ -22,8 +22,8 @@
             {{/each}}
         </div>
         {{#if (gt institutions.length itemsPerSlide)}}
-            <a href="#__carousel" role='button' data-slide="prev" aria-label={{t "general.previous"}} class="left carousel-control InstitutionCarousel__control">{{fa-icon 'angle-left'}}</a>
-            <a href="#__carousel" role='button' data-slide="next" aria-label={{t "general.next"}} class="right carousel-control InstitutionCarousel__control">{{fa-icon 'angle-right'}}</a>
+            <a href="#__carousel" role='button' data-slide="prev" aria-label={{t "general.previous"}} class="left carousel-control InstitutionCarousel__control" onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - previous' target=analytics}}>{{fa-icon 'angle-left'}}</a>
+            <a href="#__carousel" role='button' data-slide="next" aria-label={{t "general.next"}} class="right carousel-control InstitutionCarousel__control" onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - next' target=analytics}}>{{fa-icon 'angle-right'}}</a>
         {{/if}}
     {{/if}}
 </div>

@@ -108,7 +108,7 @@ export default class FileDetail extends Controller.extend({
         },
     },
 }) {
-    currentUser = service('currentUser');
+    currentUser = service('current-user');
     toast = service('toast');
     analytics = service('analytics');
 

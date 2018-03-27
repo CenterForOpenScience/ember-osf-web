@@ -16,7 +16,7 @@
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm btn-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'download' model.file.currentVersion}}>
+                        <button class='btn btn-sm btn-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'download' model.file.currentVersion}}>
                             {{t "general.download"}}
                         </button>
                     </div>

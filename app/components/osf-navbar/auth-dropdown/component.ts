@@ -51,7 +51,7 @@ export default class NavbarAuthDropdown extends Component.extend({
     // Private properties
     session = service('session');
     analytics = service();
-    currentUser = service('currentUser');
+    currentUser = service('current-user');
     i18n = service('i18n');
 
     serviceLinks = serviceLinks;
