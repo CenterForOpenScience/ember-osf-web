@@ -1,9 +1,11 @@
-import { className } from '@ember-decorators/component';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { merge } from '@ember/polyfills';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
+import diffAttrs from 'ember-diff-attrs';
 import $ from 'jquery';
-import CustomDropzone from './custom-dropzone';
+
+import layout from './template';
 
 /**
  * @module ember-osf-web
@@ -27,31 +29,69 @@ import CustomDropzone from './custom-dropzone';
  *
  * @class dropzone-widget
  */
-export default class DropzoneWidget extends Component {
-    @service session;
+export default Component.extend({
+    session: service(),
+    layout,
+    classNameBindings: ['dropzone'],
+    dropzone: true,
+    enable: true,
+    clickable: true,
+    dropzoneElement: null,
 
-    @className
-    dropzone: boolean = true;
+    didReceiveAttrs: diffAttrs('enable', 'clickable', function(changedAttrs, ...args) {
+        this._super(...args);
+        if (changedAttrs) {
+            if (changedAttrs.enable) {
+                if (this.get('enable')) {
+                    this.loadDropzone();
+                } else {
+                    this.destroyDropzone();
+                }
+            } else if (changedAttrs.clickable && this.get('enable')) {
+                // Dropzone must be reloaded for clickable changes to take effect.
+                this.destroyDropzone();
+                this.loadDropzone();
+            }
+        }
+    }),
 
-    enable: boolean = this.enable && true;
-    clickable: boolean = this.clickable && true;
-    dropzoneElement: any;
-    preUpload: any;
-    options: any;
-    buildUrl: string | ((file: any) => string);
-    defaultMessage: string;
+    didInsertElement() {
+        if (this.get('enable')) {
+            this.loadDropzone();
+        }
+    },
 
-    // Used to detect when these attributes change
-    attrCache = {
-        enable: this.enable,
-        clickable: this.clickable,
-    };
-
-    loadDropzone(this: DropzoneWidget) {
+    loadDropzone() {
         const preUpload = this.get('preUpload');
         const dropzoneOptions = this.get('options') || {};
-
-        // @ts-ignore Dropzone's types aren't quite right
+        function CustomDropzone() {
+            Dropzone.call(this, ...arguments);
+        }
+        CustomDropzone.prototype = Object.create(Dropzone.prototype);
+        CustomDropzone.prototype.drop = function(e) {
+            if (this.options.preventMultipleFiles && e.dataTransfer) {
+                if ((e.dataTransfer.items && e.dataTransfer.items.length > 1) || e.dataTransfer.files.length > 1) {
+                    this.emit('drop', e);
+                    this.emit('error', 'None', 'Cannot upload multiple files');
+                    return;
+                }
+                if (e.dataTransfer.files.length === 0) {
+                    this.emit('drop', e);
+                    this.emit('error', 'None', 'Cannot upload directories, applications, or packages');
+                    return;
+                }
+            }
+            return Dropzone.prototype.drop.call(this, e);
+        };
+        CustomDropzone.prototype._addFilesFromDirectory = function(directory_, path) {
+            const directory = directory_;
+            if (!this.options.acceptDirectories) {
+                directory.status = Dropzone.ERROR;
+                this.emit('error', directory, 'Cannot upload directories, applications, or packages');
+                return;
+            }
+            return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
+        };
         const drop = new CustomDropzone(`#${this.elementId}`, {
             url: file => {
                 const buildUrl = this.get('buildUrl');
@@ -70,7 +110,7 @@ export default class DropzoneWidget extends Component {
         // Dropzone.js does not have an option for disabling selecting multiple files when clicking the "upload" button.
         // Therefore, we remove the "multiple" attribute for the hidden file input element, so that users cannot select
         // multiple files for upload in the first place.
-        if (this.get('options').get('preventMultipleFiles') && this.get('clickable')) {
+        if (this.get('options.preventMultipleFiles') && this.get('clickable')) {
             $('.dz-hidden-input').removeAttr('multiple');
         }
 
@@ -96,7 +136,7 @@ export default class DropzoneWidget extends Component {
         });
 
         // Set dropzone options
-        drop.options = { ...drop.options, ...dropzoneOptions };
+        drop.options = merge(drop.options, dropzoneOptions);
 
         // Attach dropzone event listeners: http://www.dropzonejs.com/#events
         drop.events.forEach(event => {
@@ -104,33 +144,11 @@ export default class DropzoneWidget extends Component {
                 drop.on(event, (...args) => this.get(event)(this, drop, ...args));
             }
         });
-    }
+    },
 
-    destroyDropzone(this: DropzoneWidget) {
+    destroyDropzone() {
         if (this.get('dropzoneElement')) {
             this.get('dropzoneElement').destroy();
         }
-    }
-
-    didUpdateAttrs(this: DropzoneWidget) { // eslint-disable-line ember/no-attrs-snapshot
-        this._super(...arguments);
-        const { attrCache, enable, clickable } = this.getProperties('attrCache', 'enable', 'clickable');
-        if (attrCache.enable !== enable) {
-            if (enable) {
-                this.loadDropzone();
-            } else {
-                this.destroyDropzone();
-            }
-        } else if (enable && attrCache.clickable !== clickable) {
-            // Dropzone must be reloaded for clickable changes to take effect.
-            this.destroyDropzone();
-            this.loadDropzone();
-        }
-    }
-
-    didInsertElement(this: DropzoneWidget) {
-        if (this.get('enable')) {
-            this.loadDropzone();
-        }
-    }
-}
+    },
+});
