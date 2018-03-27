@@ -1,6 +1,6 @@
+import { action } from '@ember-decorators/object';
 import Service from '@ember/service';
 import Ember from 'ember';
-import { action } from 'ember-decorators/object';
 import config from 'ember-get-config';
 
 export default class Analytics extends Service {

@@ -1,6 +1,6 @@
 {{#if maintenance}}
     <div class="scripted alert alert-dismissible {{alertClass}} MaintenanceBanner" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" {{action 'click' 'link' 'Maintenance Banner - dismiss' target=analytics}}>
             {{fa-icon 'times'}}
         </button>
         <strong>{{t 'maintenance.title'}}</strong>

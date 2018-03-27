@@ -95,6 +95,7 @@ export default class FeedbackButton extends Component.extend({
     text: string;
 
     currentUser = service('current-user');
+    analytics = service('analytics');
 
     enabled: boolean = enabled;
 

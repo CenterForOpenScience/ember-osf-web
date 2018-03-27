@@ -42,6 +42,6 @@
     {{/modal.footer}}
 {{/bs-modal}}
 
-<button class="FeedbackButton {{if isOpen 'FeedbackButton--open'}}" onclick={{action 'showDialog'}} aria-label={{t 'feedback.title'}} hidden={{not enabled}}>
+<button class="FeedbackButton {{if isOpen 'FeedbackButton--open'}}" onclick={{action 'showDialog'}} aria-label={{t 'feedback.title'}} hidden={{not enabled}} {{action 'click' 'link' 'Feedback - open' target=analytics}}>
     {{t 'feedback.button_text'}}
 </button>
