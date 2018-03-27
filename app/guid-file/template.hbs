@@ -113,13 +113,12 @@
                 (eq show 'view_edit')
             )}}
                 <div id='mfrIframeParent' class='{{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
-                    {{#file-renderer
+                    {{file-renderer
                         download=model.file.links.download
                         version=mfrVersion
                         height="700"
                         width="99%"
                     }}
-                    {{/file-renderer}}
                 </div>
             {{/if}}
             {{#if (and

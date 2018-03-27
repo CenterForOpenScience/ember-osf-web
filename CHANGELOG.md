@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Use ember-decorators (first application: `institution-carousel` component)
 - Added isPublic, authenticated, and resource dimensions to trackPage()
 - defaultTo utility for initializing component arguments
+- Loading indicator to file-renderer component
 
 ### Changed
 - TypeScript: Rename files to .ts
