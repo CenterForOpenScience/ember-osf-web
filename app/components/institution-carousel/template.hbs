@@ -2,9 +2,9 @@
 <div id='__carousel' class="carousel slide" data-ride="carousel" data-interval="false">
     {{#if slides}}
         <div class="carousel-inner" role="listbox">
-            {{#each slides as |institutions index|}}
+            {{#each slides as |slide index|}}
                 <div class={{if (not index) "item active" "item"}}>
-                    {{#each institutions as |institution index|}}
+                    {{#each slide as |institution index|}}
                         <div class="{{if (not index) (concat "col-sm-2 col-sm-offset-" columnOffset) "col-sm-2"}} InstitutionCarousel__item" role="option">
                             <a href="/institutions/{{institution.id}}" class="InstitutionCarousel__item__thumbnail">
                                 <img
