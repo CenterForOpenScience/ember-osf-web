@@ -10,9 +10,7 @@ export default class Dashboard extends Route.extend({
         didTransition(this: Dashboard) {
             const page = this.get('router').currentUrl;
             const title = this.get('routeName');
-            const publicPrivate = 'n/a';
-            const resourceType = 'n/a';
-            this.get('analytics').trackPage(page, title, publicPrivate, resourceType);
+            this.get('analytics').trackPage(page, title);
         },
     },
 

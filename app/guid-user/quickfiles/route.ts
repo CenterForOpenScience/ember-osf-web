@@ -24,8 +24,7 @@ export default class UserQuickfiles extends Route.extend({
                 const page = this.get('router').currentUrl;
                 const title = this.get('routeName');
                 const publicPrivate = 'public';
-                const resourceType = 'n/a';
-                this.get('analytics').trackPage(page, title, publicPrivate, resourceType);
+                this.get('analytics').trackPage(page, title, publicPrivate);
             });
         },
     },
