@@ -5,6 +5,7 @@ export default class Dashboard extends Route.extend({
     session: service('session'),
     analytics: service(),
     currentUser: service('current-user'),
+    router: service(),
     actions: {
         didTransition(this: Dashboard) {
             const page = this.get('router').currentUrl;

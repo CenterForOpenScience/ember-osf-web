@@ -13,6 +13,7 @@ function preventDrop(e: DragEvent) {
 
 export default class UserQuickfiles extends Route.extend({
     analytics: service(),
+    router: service(),
 
     actions: {
         didTransition(this: UserQuickfiles) {

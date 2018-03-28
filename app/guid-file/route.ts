@@ -1,9 +1,10 @@
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
 export default class FileDetail extends Route.extend() {
-    currentUser = service('current-user');
-    analytics = service('analytics');
+    @service currentUser;
+    @service analytics;
+    @service router;
     actions = {
         didTransition(this: FileDetail) {
             const page = this.get('router').currentUrl;

@@ -1,12 +1,12 @@
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
 export default class Support extends Route {
-    analytics = service();
-    routah = service('router');
+    @service analytics;
+    @service router;
     actions = {
         didTransition(this: Support) {
-            const page = this.get('routah').currentUrl;
+            const page = this.get('router').currentUrl;
             const title = this.get('routeName');
             const publicPrivate = 'n/a';
             const resourceType = 'n/a';
