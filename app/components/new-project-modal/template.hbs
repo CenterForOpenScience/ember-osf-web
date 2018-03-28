@@ -30,7 +30,7 @@
                             <tr>
                                 {{#each institutions as | institution |}}
                                     <td>
-                                        <a role='link' onclick={{action selectInstitution institution}} {{action 'click' 'link' 'Dashboard - New Project - select_institution' target=analytics}}>
+                                        <a role='button' onclick={{action selectInstitution institution}} {{action 'click' 'button' 'Dashboard - New Project - select_institution' target=analytics}}>
                                             <div width="45px" height="45px" class="NewProject__institution-item">
                                                 <img
                                                     name="{{institution.name}}"

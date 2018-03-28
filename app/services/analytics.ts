@@ -1,11 +1,13 @@
 import { action } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
+import { get } from '@ember/object';
 import Service from '@ember/service';
 import Ember from 'ember';
 import config from 'ember-get-config';
 
 export default class Analytics extends Service {
-    metrics = Ember.inject.service();
-    session = Ember.inject.service();
+    @service metrics;
+    @service session;
 
     @action
     click(category, label, extraInfo) {
@@ -14,7 +16,7 @@ export default class Analytics extends Service {
             // This is to remove the event object when used with onclick
             extra = null;
         }
-        Ember.get(this, 'metrics')
+        get(this, 'metrics')
             .trackEvent({
                 category,
                 action: 'click',
@@ -30,7 +32,7 @@ export default class Analytics extends Service {
         if (extra && typeof extra !== 'string') {
             extra = null;
         }
-        Ember.get(this, 'metrics')
+        get(this, 'metrics')
             .trackEvent({
                 category,
                 actionName,
@@ -40,9 +42,12 @@ export default class Analytics extends Service {
         return true;
     }
 
-    trackPage(page, title, publicPrivate, resourceType) {
-        // const page = Ember.get(this, 'url');
-        // const title = Ember.getWithDefault(this, 'currentRouteName', 'unknown');
+    trackPage(
+        page: string,
+        title: string,
+        publicPrivate: 'public' | 'private' | 'n/a' = 'n/a',
+        resourceType: string = 'n/a',
+        ) {
         const {
             authenticated,
             isPublic,
@@ -57,11 +62,11 @@ export default class Analytics extends Service {
               2) authenticated: Logged in or Logged out
               3) resource: the JSONAPI type (node, file, user, etc) or n/a
         */
-        Ember.get(this, 'metrics').trackPage({
+        get(this, 'metrics').trackPage({
             [authenticated]: Ember.get(this, 'session.isAuthenticated') ? 'Logged in' : 'Logged out',
-            [isPublic]: (publicPrivate === 'public' || publicPrivate === 'private') ? publicPrivate : 'n/a',
+            [isPublic]: publicPrivate,
             page,
-            [resource]: typeof resourceType === 'string' ? resourceType : 'n/a',
+            [resource]: resourceType,
             title,
         });
     }
