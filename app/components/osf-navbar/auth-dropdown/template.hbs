@@ -29,7 +29,7 @@
             </a>
         </li>
         <li>
-            <a class="logoutLink" {{action (perform logout)}} onclick={{action 'click' 'link' 'Navbar - Logout' target=analytics}} role="button">
+            <a class="logoutLink" {{action (perform logout)}} onclick={{action 'click' 'button' 'Navbar - Logout' target=analytics}} role="button">
                 <i class="fa fa-sign-out fa-lg p-r-xs"></i>
                 {{t 'auth_dropdown.log_out'}}
             </a>
@@ -40,7 +40,7 @@
         <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-l-sm m-r-xs" onclick={{action 'click' 'link' 'Navbar - SignUp' target=analytics}}>
             {{t 'auth_dropdown.sign_up'}}
         </a>
-        <a {{action loginAction}} onclick={{action 'click' 'link' 'Navbar - SignIn' target=analytics}} class="btn btn-info btn-top-login m-r-xs" role="button">
+        <a {{action loginAction}} onclick={{action 'click' 'button' 'Navbar - SignIn' target=analytics}} class="btn btn-info btn-top-login m-r-xs" role="button">
             {{t 'auth_dropdown.sign_in'}}
         </a>
     </div>

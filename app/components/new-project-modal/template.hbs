@@ -24,13 +24,13 @@
                 {{#if institutions.length}}
                     <div class="form-group m-v-sm NewProject__institution-selector">
                         <label class="f-w-lg text-bigger">{{t 'new_project.affiliation'}}</label>
-                        <a role="button" onclick={{action removeAll}} {{action 'click' 'link' 'Dashboard - New Project - remove_all' target=analytics}}>{{t 'new_project.remove_all'}}</a>
-                        <a role="button" onclick={{action selectAll}} {{action 'click' 'link' 'Dashboard - New Project - select_all' target=analytics}}>{{t 'new_project.select_all'}}</a>
+                        <a role="button" onclick={{action removeAll}} {{action 'click' 'button' 'Dashboard - New Project - remove_all' target=analytics}}>{{t 'new_project.remove_all'}}</a>
+                        <a role="button" onclick={{action selectAll}} {{action 'click' 'button' 'Dashboard - New Project - select_all' target=analytics}}>{{t 'new_project.select_all'}}</a>
                         <table>
                             <tr>
                                 {{#each institutions as | institution |}}
                                     <td>
-                                        <a role='button' onclick={{action selectInstitution institution}} {{action 'click' 'link' 'Dashboard - New Project - select_institution' target=analytics}}>
+                                        <a role='link' onclick={{action selectInstitution institution}} {{action 'click' 'link' 'Dashboard - New Project - select_institution' target=analytics}}>
                                             <div width="45px" height="45px" class="NewProject__institution-item">
                                                 <img
                                                     name="{{institution.name}}"

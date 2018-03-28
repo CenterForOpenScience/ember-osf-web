@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-3 text-center m-v-sm">
                             <div>
-                                <a role="button" href="/prereg/" class="btn btn-success btn-success-high-contrast f-w-xl" onclick={{action 'click' 'link' 'Dashboard - prereg_link' target=analytics}}>{{t 'banners.prereg.button'}}</a>
+                                <a role="link" href="/prereg/" class="btn btn-success btn-success-high-contrast f-w-xl" onclick={{action 'click' 'link' 'Dashboard - prereg_link' target=analytics}}>{{t 'banners.prereg.button'}}</a>
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                                                 {{loading-indicator}}
                                             {{else}}
                                                 <div class="text-center">
-                                                    <button aria-label='More' class="col-sm-12 text-muted" onclick={{action 'more'}} {{action 'click' 'link' 'Dashboard - load_nodes' target=analytics}}>
+                                                    <button aria-label='More' class="col-sm-12 text-muted" onclick={{action 'more'}} {{action 'click' 'button' 'Dashboard - load_nodes' target=analytics}}>
                                                         {{fa-icon 'caret-down' class='load-nodes m-b-xl'}}
                                                     </button>
                                                 </div>
@@ -193,7 +193,7 @@
                     </div>
                     <div class="row">
                         <div class="text-center col-sm-12">
-                            <a role="button" href="/search/?q=* " class="btn btn-default m-v-lg" onclick={{action 'click' 'link' 'Dashboard - noteworthy_search' target=analytics}}>{{t 'dashboard.noteworthy.search_more'}}</a>
+                            <a role="link" href="/search/?q=* " class="btn btn-default m-v-lg" onclick={{action 'click' 'link' 'Dashboard - noteworthy_search' target=analytics}}>{{t 'dashboard.noteworthy.search_more'}}</a>
                         </div>
                     </div>
                 </div>
@@ -217,7 +217,7 @@
                         </div>
                         <div class="col-md-4 text-center">
                             <div>
-                                <a role="button" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl" onclick={{action 'click' 'link' 'Dashboard - meetings_button' target=analytics}}>{{t 'dashboard.meetings.button'}}</a>
+                                <a role="link" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl" onclick={{action 'click' 'link' 'Dashboard - meetings_button' target=analytics}}>{{t 'dashboard.meetings.button'}}</a>
                             </div>
                         </div>
                     </div>

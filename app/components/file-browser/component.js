@@ -199,7 +199,7 @@ export default Ember.Component.extend({
             this.get('toast').error(response.message_long || response.message || response);
         },
         success(_, __, file, response) {
-            this.get('analytics').track('upload', 'track', 'Quick Files - Upload');
+            this.get('analytics').track('file', 'upload', 'Quick Files - Upload');
             this.get('uploading').removeObject(file);
             const data = response.data.attributes;
             // OPTIONS (some not researched)
@@ -467,7 +467,7 @@ export default Ember.Component.extend({
                 this.set('modalOpen', 'successMove');
                 this.set('projectSelectState', 'main');
                 this.set('willCreateComponent', false);
-                this.get('analytics').track('move', 'track', 'Quick Files - Move to project');
+                this.get('analytics').track('file', 'move', 'Quick Files - Move to project');
             })
             .catch(() => this.get('toast').error(this.get('i18n').t('move_to_project.could_not_move_file')))
             .then(() => this.set('isMoving', false));

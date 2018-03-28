@@ -11,6 +11,7 @@ export default class Analytics extends Service {
     click(category, label, extraInfo) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {
+            // This is to remove the event object when used with onclick
             extra = null;
         }
         Ember.get(this, 'metrics')
