@@ -1,0 +1,41 @@
+{{#if renderInPlace}}
+    <div id='rightHere'></div>
+{{/if}}
+{{#ember-wormhole to=(if renderInPlace 'rightHere' 'secondaryNavbar')}}
+    <nav class='navbar osf-project-navbar' role='navigation'>
+        <div class='container'>
+            <div class='navbar-header'>
+                <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='.project-nav'>
+                    <span class='sr-only'>{{t 'node_navbar.toggle'}}</span>
+                    <span class='fa fa-bars fa-lg'></span>
+                </button>
+                <span class='navbar-brand visible-xs visible-sm'>
+                    {{t 'node_navbar.project_nav'}}
+                </span>
+            </div>
+            <div class='collapse navbar-collapse project-nav'>
+                <ul class='nav navbar-nav'>
+                    <li class="{{if (eq active 'title') 'active'}}"><a href='/{{node.id}}/' class='project-title'>{{node.title}}</a></li>
+                    <li class="{{if (eq active 'files') 'active'}}"><a href='/{{node.id}}/files/'>{{t 'node_navbar.files'}}</a></li>
+                    <li class="{{if (eq active 'wiki') 'active'}}"><a href='/{{node.id}}/wiki'>{{t 'node_navbar.wiki'}}</a></li>
+                    <li class="{{if (eq active 'analytics') 'active'}}"><a href='/{{node.id}}/analytics/'>{{t 'node_navbar.analytics'}}</a></li>
+                    <li class="{{if (eq active 'registrations') 'active'}}"><a href='/{{node.id}}/registrations/'>{{t 'node_navbar.registrations'}}</a></li>
+                    {{#if (and (if-filter 'read' node.currentUserPermissions) node.currentUserIsContributor)}}
+                        <li class="{{if (eq active 'contributors') 'active'}}"><a href='/{{node.id}}/contributors/'>{{t 'node_navbar.contributors'}}</a></li>
+                        {{#if (if-filter 'write' node.currentUserPermissions)}}
+                            <li class="{{if (eq active 'addons') 'active'}}"><a href='/{{node.id}}/addons/'>{{t 'node_navbar.addons'}}</a></li>
+                        {{/if}}
+                        <li class="{{if (eq active 'settings') 'active'}}"><a href='/{{node.id}}/settings/'>{{t 'node_navbar.settings'}}</a></li>
+                    {{/if}}
+                    {{#if allowComments}}
+                        <li>
+                            <a href='' class='hidden-lg hidden-md cp-handle'>
+                                {{t 'node_navbar.comments'}}
+                            </a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{{/ember-wormhole}}

@@ -431,4 +431,16 @@ export default {
         password_match: 'Passwords must match.',
         recaptcha: 'Please complete reCAPTCHA',
     },
+    node_navbar: {
+        toggle: 'Toggle navigation',
+        project_nav: 'Project Navigation',
+        wiki: 'Wiki',
+        analytics: 'Analytics',
+        registrations: 'Registrations',
+        files: 'Files',
+        contributors: 'Contributors',
+        addons: 'Add-ons',
+        settings: 'Settings',
+        comments: 'Comments',
+    },
 };

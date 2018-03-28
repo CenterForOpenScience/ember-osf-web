@@ -30,6 +30,7 @@ export default class Node extends OsfModel.extend(FileItemMixin, {
 
     // List of strings
     currentUserPermissions: attr('array'),
+    currentUserIsContributor: attr('boolean'),
 
     fork: attr('boolean'),
     collection: attr('boolean'),
