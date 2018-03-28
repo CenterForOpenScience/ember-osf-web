@@ -58,7 +58,7 @@ export default class NavbarAuthDropdown extends Component.extend(AnalyticsMixin,
 
     user: User = computed.alias('currentUser.user');
     notAuthenticated: boolean = computed.not('session.isAuthenticated');
-    gravatarUrl = computed('user', function(this: NavbarAuthDropdown): string {
+    gravatarUrl = computed('user.links.profile_image', function(this: NavbarAuthDropdown): string {
         const imgLink = this.get('user.links.profile_image');
         return imgLink ? `${imgLink}&s=25` : '';
     });
