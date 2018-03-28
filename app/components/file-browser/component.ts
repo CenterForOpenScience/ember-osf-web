@@ -71,6 +71,7 @@ export default class FileBrowser extends Component.extend({
     @service analytics;
     @service currentUser;
     @service i18n;
+    @service ready;
     @service store;
     @service toast;
 

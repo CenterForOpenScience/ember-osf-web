@@ -6,12 +6,12 @@ import Service from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
 import { Promise as EmberPromise } from 'rsvp';
 
-interface Blocker {
+export interface Blocker {
     done: () => void;
     errored: (e: any) => void;
 }
 
-enum Events {
+export enum Events {
     IsReady = 'ready',
     Reset = 'reset',
     Error = 'error',

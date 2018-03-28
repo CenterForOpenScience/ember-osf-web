@@ -1,4 +1,6 @@
+import { get } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 
 /**
@@ -7,10 +9,16 @@ import { task } from 'ember-concurrency';
  * Not an ES6 class, so it can be further extended without confusing Ember's _super
  */
 export default Route.extend({
-    loadModel: task(function* (this: Route, typeName: string, id: string) {
+    ready: service('ready'),
+
+    loadModel: task(function* (typeName: string, id: string) {
+        const blocker = get(this, 'ready').block();
         try {
-            return yield this.get('store').findRecord(typeName, id);
+            const model = yield get(this, 'store').findRecord(typeName, id);
+            blocker.done();
+            return model;
         } catch (error) {
+            blocker.errored(error);
             this.transitionTo('not-found', this.get('router.currentURL').slice(1));
         }
     }),
