@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Addon: ember-a11y-testing
 - Test: make sure all translations files contain all terms
 - Use ember-decorators (first application: `institution-carousel` component)
+- Added isPublic, authenticated, and resource dimensions to trackPage()
 
 ### Changed
 - TypeScript: Rename files to .ts
@@ -20,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Refactor handling of `embeds` in `osf-serializer`
 - Update dashboard "new project" task to send only one request
 - Moved analytics tracking to a Service
-- Added isPublic, authenticated, and resource dimensions to trackPage()
 
 ### Removed
 - Homegrown dirty relationship tracking, with automagic additional requests on save

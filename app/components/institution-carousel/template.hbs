@@ -6,7 +6,7 @@
                 <div class={{if (not index) "item active" "item"}}>
                     {{#each institutions as |institution index|}}
                         <div class="{{if (not index) (concat "col-sm-2 col-sm-offset-" columnOffset) "col-sm-2"}} InstitutionCarousel__item" role="option">
-                            <a href="/institutions/{{institution.id}}" class="InstitutionCarousel__item__thumbnail" onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - visit_institution' target=analytics}}>
+                            <a href="/institutions/{{institution.id}}" class="InstitutionCarousel__item__thumbnail" {{action 'click' 'link' 'Dashboard - Institution Carousel - visit_institution' target=analytics}}>
                                 <img
                                     class="img-circle img-responsive InstitutionCarousel__item__image"
                                     name={{institution.name}}

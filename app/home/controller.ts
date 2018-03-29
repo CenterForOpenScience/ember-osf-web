@@ -1,3 +1,4 @@
+import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
@@ -20,6 +21,7 @@ export default class Home extends Controller.extend({
         this.set('hasSubmitted', true);
     }).drop(),
 }) {
+    @service analytics;
     didValidate: boolean;
     goodbye = null;
     hasSubmitted = false;
