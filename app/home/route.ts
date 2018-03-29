@@ -2,7 +2,8 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default class Home extends Route.extend({
-    session: service('session'),
+    analytics: service(),
+    session: service(),
 
     async beforeModel(transition) {
         await this._super(transition);
@@ -21,6 +22,11 @@ export default class Home extends Route.extend({
         });
 
         this._super(...args);
+    },
+    actions: {
+        didTransition(this: Home) {
+            this.get('analytics').trackPage();
+        },
     },
 }) {
     model() {

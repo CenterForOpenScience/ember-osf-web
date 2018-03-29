@@ -9,6 +9,7 @@ import chunkArray from 'ember-osf-web/utils/chunk-array';
 // ember-osf-preprints/app/components/provider-carousel (h/t @pattisdr)
 export default class InstitutionCarousel extends Component {
     @service store;
+    @service analytics;
 
     itemsPerSlide: number = 5;
     institutions = A();

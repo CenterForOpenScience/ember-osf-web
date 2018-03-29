@@ -9,9 +9,9 @@
                     <label id="searchBarLabel" class="search-label-placeholder" for="search-placeholder">{{t 'navbar.search'}}</label>
                     <span class="input-group-btn">
                         {{!Submit search, search help, and cancel search buttons}}
-                        <button type="submit" class="btn osf-search-btn" aria-label={{t 'navbar.send_search'}}><i class="fa fa-arrow-circle-right fa-lg"></i></button>
-                        <button type="button" class="btn osf-search-btn" aria-label={{t 'navbar.search_help'}} data-toggle="modal" {{action 'toggleHelpModal'}}><i class="fa fa-question fa-lg"></i></button>
-                        <button type="button" class="btn osf-search-btn" aria-label={{t 'navbar.cancel_search'}} onclick={{action "toggleSearch"}}><i class="fa fa-times fa-lg"></i></button>
+                        <button type="submit" class="btn osf-search-btn" aria-label={{t 'navbar.send_search'}} {{action 'click' 'button' 'Navbar Search - search' target=analytics}}><i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                        <button type="button" class="btn osf-search-btn" aria-label={{t 'navbar.search_help'}} data-toggle="modal" {{action 'toggleHelpModal'}} {{action 'click' 'button' 'Navbar Search - help' target=analytics}}><i class="fa fa-question fa-lg"></i></button>
+                        <button type="button" class="btn osf-search-btn" aria-label={{t 'navbar.cancel_search'}} onclick={{action "toggleSearch"}} {{action 'click' 'button' 'Navbar Search - cancel' target=analytics}}><i class="fa fa-times fa-lg"></i></button>
                     </span>
                 </form>
             </div>
@@ -42,7 +42,7 @@
 
         {{#bs-modal-footer}}
             <div align="right">
-                <button {{action 'close'}} class="btn btn-default"> {{t 'search_help_modal.close'}} </button>
+                <button {{action 'close'}} class="btn btn-default" {{action 'click' 'button' 'Navbar Search - help_close' target=analytics}}> {{t 'search_help_modal.close'}} </button>
             </div>
         {{/bs-modal-footer}}
     {{/bs-modal}}

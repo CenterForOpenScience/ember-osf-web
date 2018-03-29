@@ -5,6 +5,8 @@ moduleFor('controller:guid-user/quickfiles', 'Unit | Controller | guid-user/quic
         'service:currentUser',
         'service:metrics',
         'service:features',
+        'service:analytics',
+        'service:session',
     ],
 });
 

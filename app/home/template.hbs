@@ -1,7 +1,7 @@
 {{title (t 'home.title')}}
 {{#if goodbye}}
     <div id="alert-container" class="m-t-md alert alert-block alert-success fade in alert-front text-center" role="alert">
-        <button class="close" data-dismiss="alert" aria-label="{{t 'general.close'}}">
+        <button class="close" data-dismiss="alert" aria-label="{{t 'general.close'}}" {{action 'click' 'button' 'Home - dismiss_alert' target=analytics}}>
             <span aria-hidden="true">{{fa-icon 'times'}}</span>
         </button>
         <p>{{t 'home.alert_logged_out'}}</p>
@@ -31,7 +31,7 @@
         <div id="hero-signup" class="container">
             <div class="row">
                 <div class="col-sm-6 hidden-xs">
-                    <a class="youtube" href="//www.youtube.com/watch?v={{youtubeId}}" aria-label="{{t 'home.youtube_label'}}" {{action (mut modalOpen) true}}>
+                    <a class="youtube" href="//www.youtube.com/watch?v={{youtubeId}}" aria-label="{{t 'home.youtube_label'}}" {{action (mut modalOpen) true}} {{action 'click' 'link' 'Home - youtube_video' target=analytics}}>
                         <i class="icon icon-play"></i>
                     </a>
                     <img src="/static/img/front-page/screenshot.png" class="img-responsive" id="screenshot" alt="{{t 'home.osf_screenshot_alt'}}">
@@ -152,7 +152,7 @@
                 <h2>{{t 'home.global_title'}}</h2>
                 <p>
                     {{t 'home.global_paragraph'}}
-                    <a href="/explore/activity/">{{t 'home.global_link'}}</a>
+                    <a href="/explore/activity/" {{action 'click' 'link' 'Home - explore_activity' target=analytics}}>{{t 'home.global_link'}}</a>
                     <span class="label label-warning">{{t 'home.global_label'}}</span>
                 </p>
             </div>
@@ -161,7 +161,7 @@
                 <h2>{{t 'home.non_profit_title'}}</h2>
                 <p>
                     {{t 'home.non_profit_paragraph1'}}
-                    <a href="https://cos.io/">{{t 'home.non_profit_link'}}</a>
+                    <a href="https://cos.io/" {{action 'click' 'link' 'Home - cos_webpage' target=analytics}}>{{t 'home.non_profit_link'}}</a>
                     {{t 'home.non_profit_paragraph2'}}
                     <span class="label label-success">{{t 'home.non_profit_label'}}</span>
                 </p>
@@ -231,7 +231,7 @@
                     <strong>{{t 'home.free_title1'}}</strong>
                 </h2>
                 <h4>{{t 'home.free_title2'}}</h4>
-                <a href="#" class="btn btn-info btn-lg">{{t 'home.free_link'}}</a>
+                <a href="#" class="btn btn-info btn-lg" {{action 'click' 'link' 'Home - goto_signup' target=analytics}}>{{t 'home.free_link'}}</a>
             </div>
             <div class="col-md-4 hidden-xs hidden-sm">
                 {{osf-logo double=true}}

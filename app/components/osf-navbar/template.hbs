@@ -29,7 +29,7 @@
                         aria-expanded="false"
                         aria-label={{t 'navbar.toggle_primary'}}
                         {{action 'closeSecondaryAndSearch'}}
-                        {{action 'click' 'button' 'Navbar - Dropdown Arrow'}}
+                        {{action 'click' 'button' 'Navbar - Dropdown Arrow' target=analytics}}
                     >
                         <span class="fa fa-caret-down fa-2x"></span>
                     </button>
@@ -37,11 +37,11 @@
                         {{#each osfApps as |app|}}
                             <li>
                                 {{#if (eq app.name currentApp)}}
-                                    {{#link-to indexRoute clickAction=(action 'click' 'link' (concat 'Navbar - ' app.name))}}
+                                    {{#link-to indexRoute clickAction=(action 'click' 'link' (concat 'Navbar - ' app.name ) target=analytics) }}
                                         {{t 'general.OSF'}}<b>{{app.name}}</b>
                                     {{/link-to}}
                                 {{else}}
-                                    <a href="{{app.url}}" onclick={{action 'click' 'link' (concat 'Navbar - ' app.name)}}>
+                                    <a href="{{app.url}}" onclick={{action 'click' 'link' (concat 'Navbar - ' app.name ) target=analytics }}>
                                         {{t 'general.OSF'}}<b>{{app.name}}</b>
                                     </a>
                                 {{/if}}

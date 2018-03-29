@@ -1,17 +1,17 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
-import AnalyticsMixin from 'ember-osf-web/mixins/analytics';
 
 /**
  * Display default OSF navbar links
  *
  * @class osf-navbar/home-links
  */
-export default class OsfNavbarHomeLinks extends Component.extend(AnalyticsMixin, {
+export default class OsfNavbarHomeLinks extends Component.extend({
     tagName: '',
 }) {
     session = service('session');
+    analytics = service();
     currentUser = service('current-user');
 
     searchUrl = serviceLinks.search;

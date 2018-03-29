@@ -1,3 +1,4 @@
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
@@ -27,6 +28,7 @@ export default class MaintenanceBanner extends Component.extend({
     }).restartable(),
 }) {
     maintenance: MaintenanceData|null;
+    @service analytics;
 
     start = computed('maintenance.start', (): string => moment(this.get('maintenance.start')).format('lll'));
 

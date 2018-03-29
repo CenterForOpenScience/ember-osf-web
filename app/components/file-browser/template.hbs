@@ -40,7 +40,7 @@
                         </button>
                     {{/if}}
                     {{#if (if-filter 'download-button' display)}}
-                        <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'downloadItem'}} class='btn btn-light'>{{fa-icon "download"}} {{t 'general.download'}}</button>
+                        <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'downloadItem'}} class='btn btn-light'>{{fa-icon "download"}} {{t 'general.download'}}</button>
                     {{/if}}
                     {{#if (if-filter 'view-button' display)}}
                         <button {{action 'viewItem'}} class='btn btn-light'>{{fa-icon "file-o"}} {{t 'general.view'}}</button>
@@ -61,7 +61,7 @@
                 {{/if}}
             {{else}}
                 {{#if (and (eq browserState 'show') (if-filter 'download-button' display))}}
-                    <button class='btn btn-light' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}} {{action 'downloadZip'}}>{{fa-icon "download"}} {{t 'file_browser.download_zip'}}</button>
+                    <button class='btn btn-light' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' target=analytics preventDefault=false)}} {{action 'downloadZip'}}>{{fa-icon "download"}} {{t 'file_browser.download_zip'}}</button>
                 {{/if}}
             {{/if}}
             <button {{action 'toggleText' 'filtering'}} class='btn btn-light'>{{fa-icon "search"}} {{t 'general.filter'}}</button>

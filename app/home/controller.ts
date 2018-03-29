@@ -1,12 +1,12 @@
+import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
-import Analytics from 'ember-osf-web/mixins/analytics';
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
 
-export default class Home extends Controller.extend(Analytics, {
+export default class Home extends Controller.extend({
     submit: task(function* (this: Home) {
         const model = this.get('model');
         const { validations } = yield model.validate();
@@ -21,6 +21,7 @@ export default class Home extends Controller.extend(Analytics, {
         this.set('hasSubmitted', true);
     }).drop(),
 }) {
+    @service analytics;
     didValidate: boolean;
     goodbye = null;
     hasSubmitted = false;

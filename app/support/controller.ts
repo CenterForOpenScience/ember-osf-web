@@ -1,9 +1,10 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
-import Analytics from 'ember-osf-web/mixins/analytics';
 
-export default class Support extends Controller.extend(Analytics) {
+export default class Support extends Controller {
     helpUrl: string = config.OSF.helpUrl;
+    analytics = service('analytics');
 
     constructor() {
         super();

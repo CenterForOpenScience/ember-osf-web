@@ -6,6 +6,7 @@ moduleFor('route:application', 'Unit | Route | application', {
         'service:moment',
         'service:metrics',
         'service:features',
+        'service:analytics',
         'service:currentUser',
     ],
 });
