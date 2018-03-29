@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { analyticPrivacy } from 'ember-osf-web/services/analytics';
 
 function preventDrop(e: DragEvent) {
     if ((e.target as HTMLDivElement).id === 'quickfiles-dropzone') {
@@ -13,7 +14,6 @@ function preventDrop(e: DragEvent) {
 
 export default class UserQuickfiles extends Route.extend({
     analytics: service(),
-    router: service(),
 
     actions: {
         didTransition(this: UserQuickfiles) {
@@ -21,10 +21,9 @@ export default class UserQuickfiles extends Route.extend({
             window.addEventListener('drop', preventDrop);
 
             this.controller.get('model').taskInstance.then(() => {
-                const page = this.get('router').currentUrl;
-                const title = this.get('routeName');
-                const publicPrivate = 'public';
-                this.get('analytics').trackPage(page, title, publicPrivate);
+                const analytics = this.get('analytics');
+                const publicPrivate = analyticPrivacy.public;
+                analytics.trackPage(publicPrivate);
             });
         },
     },

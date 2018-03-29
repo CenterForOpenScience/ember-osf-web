@@ -1,17 +1,15 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { analyticPrivacy } from 'ember-osf-web/services/analytics';
 
 export default class FileDetail extends Route.extend() {
     @service currentUser;
     @service analytics;
-    @service router;
     actions = {
         didTransition(this: FileDetail) {
-            const page = this.get('router').currentUrl;
-            const title = this.get('routeName');
-            const publicPrivate = 'public';
+            const publicPrivate = analyticPrivacy.public;
             const resourceType = 'files';
-            this.get('analytics').trackPage(page, title, publicPrivate, resourceType);
+            this.get('analytics').trackPage(publicPrivate, resourceType);
         },
     };
 

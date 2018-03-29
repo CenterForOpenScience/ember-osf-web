@@ -5,15 +5,6 @@ export default class Dashboard extends Route.extend({
     session: service('session'),
     analytics: service(),
     currentUser: service('current-user'),
-    router: service(),
-    actions: {
-        didTransition(this: Dashboard) {
-            const page = this.get('router').currentUrl;
-            const title = this.get('routeName');
-            this.get('analytics').trackPage(page, title);
-        },
-    },
-
     async beforeModel(transition) {
         await this._super(transition);
 
@@ -22,4 +13,10 @@ export default class Dashboard extends Route.extend({
             this.transitionTo('home');
         }
     },
+    actions: {
+        didTransition(this: Dashboard) {
+            this.get('analytics').trackPage();
+        },
+    },
+
 }) { }
