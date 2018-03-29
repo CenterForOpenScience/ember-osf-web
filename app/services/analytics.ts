@@ -66,7 +66,7 @@ export default class Analytics extends Service {
             /*
               There's supposed to be a document describing how dimensions should be handled, but it doesn't exist yet.
               When it does, we'll replace out this comment with the link to that documentation. For now:
-                  1) isPublic: Public, Private, or n/a (for pages that aren't covered by app permissions like the
+                  1) isPublic: public, private, or n/a (for pages that aren't covered by app permissions like the
                   dashboard;
                   2) authenticated: Logged in or Logged out
                   3) resource: the JSONAPI type (node, file, user, etc) or n/a
