@@ -125,6 +125,7 @@ export default {
             title: 'プロジェクトへファイルを移動',
             move_button: 'ファイルを移動',
         },
+        
     },
     dashboard: {
         page_title: 'ホーム',

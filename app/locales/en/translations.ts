@@ -125,6 +125,7 @@ export default {
             title: 'Move file to project',
             move_button: 'Move file',
         },
+        
     },
     dashboard: {
         page_title: 'Home',
