@@ -8,6 +8,7 @@ moduleFor('route:application', 'Unit | Route | application', {
         'service:features',
         'service:analytics',
         'service:currentUser',
+        'service:ready',
     ],
 });
 

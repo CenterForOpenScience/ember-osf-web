@@ -1,9 +1,16 @@
 import Application from '@ember/application';
+import Service from '@ember/service';
 
 import { initialize } from 'ember-osf-web/instance-initializers/prerender';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import destroyApp from '../../helpers/destroy-app';
+
+class ReadyStub extends Service {
+    ready() {
+        return Promise.resolve();
+    }
+}
 
 module('Unit | Instance Initializer | prerender', hooks => {
     setupTest(hooks);
@@ -15,6 +22,7 @@ module('Unit | Instance Initializer | prerender', hooks => {
             initialize,
         });
         this.application = this.TestApplication.create({ autoboot: false });
+        this.application.register('service:ready', ReadyStub);
         this.instance = this.application.buildInstance();
     });
     hooks.afterEach(function() {
@@ -22,10 +30,11 @@ module('Unit | Instance Initializer | prerender', hooks => {
         destroyApp(this.instance);
     });
 
-    // Replace this with your real tests.
-    test('it works', async function(assert) {
+    test('it sets prerenderReady', async function(assert) {
+        assert.notOk(window.prerenderReady, 'prerenderReady starts false');
+
         await this.instance.boot();
 
-        assert.ok(true);
+        assert.ok(window.prerenderReady, 'prerenderReady set true');
     });
 });
