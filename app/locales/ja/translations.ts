@@ -434,5 +434,5 @@ export default {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong>({{utc}} UTC)時の間メンテナンスを実施します。',
         line2: 'ご不自由をおかけいたしますが、ご協力どうぞよろしくお願いいたします。',
         title: 'お知らせ:',
-    },
+    }
 };
