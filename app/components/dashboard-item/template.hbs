@@ -6,10 +6,9 @@
             <div>
                 <div class="col-sm-3 col-md-6 p-v-xs">
                     <div class="DashboardItem__col">
-                        <span class='DashboardItem__ancestry' hidden={{not private}}>
-                            {{t (concat 'dashboard.quicksearch.private_' (if ancestry '' 'grand') 'parent')}}
-                        </span>
-                        {{ancestry}}
+                        {{#each ancestry as |ancestorTitle|}}
+                            {{ancestorTitle}} /
+                        {{/each}}
                         <strong>{{node.title}}</strong>
                     </div>
                 </div>

@@ -99,7 +99,7 @@ export default class Dashboard extends Controller.extend({
         const user = yield this.get('currentUser.user');
 
         const nodes = yield user.queryHasMany('nodes', {
-            embed: 'contributors',
+            embed: ['contributors', 'parent', 'root'],
             filter: filter ? { title: $('<div>').text(filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
             sort: this.get('sort') || undefined,
