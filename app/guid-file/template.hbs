@@ -110,14 +110,14 @@
             {{#if (or (eq show 'edit') (eq show 'view_edit'))}}
                 {{#if isEditableFile}}
                     {{#if canEdit}}
-                        <div class='panel panel-default EditPanel {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
-                            {{#if (await fileText)}}
+                        {{#if (not (eq (await fileText) null))}}
+                            <div class='panel panel-default EditPanel {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
                                 {{#file-editor
                                     fileText=(await fileText)
                                     save=(action 'save')}}
                                 {{/file-editor}}
-                            {{/if}}
-                        </div>
+                            </div>
+                        {{/if}}
                     {{/if}}
                 {{/if}}
             {{/if}}

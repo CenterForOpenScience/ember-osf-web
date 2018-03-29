@@ -1,3 +1,4 @@
+import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
@@ -53,6 +54,18 @@ export default class File extends OsfModel.extend(FileItemMixin, {
     _isFileModel: true,
 
 }) {
+    getContents = task(function* (this: File) {
+        const data = yield authenticatedAJAX({
+            url: this.get('links.download'),
+            type: 'GET',
+            data: {
+                direct: true,
+                mode: 'render',
+            },
+        });
+        return data;
+    });
+
     async rename(this: File, newName: string, conflict = 'replace'): Promise<null> {
         const { data } = await authenticatedAJAX({
             url: this.get('links.upload'),
@@ -85,16 +98,6 @@ export default class File extends OsfModel.extend(FileItemMixin, {
                 },
             },
         );
-    }
-    getContents(this: File): Promise<object> {
-        return authenticatedAJAX({
-            url: this.get('links.download'),
-            type: 'GET',
-            data: {
-                direct: true,
-                mode: 'render',
-            },
-        });
     }
     updateContents(this: File, data: object): Promise<null> {
         return authenticatedAJAX({

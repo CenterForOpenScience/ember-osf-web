@@ -5,12 +5,27 @@ import config from 'ember-get-config';
 
 const Router = EmberRouter.extend({
     metrics: service('metrics'),
+    currentUser: service('currentUser'),
+    features: service('features'),
 
     location: config.locationType,
     rootURL: config.rootURL,
 
+    willTransition(oldInfo, newInfo, transition) {
+        const flag = config.featureFlags.routes[transition.targetName];
+        if (flag) {
+            this.get('currentUser').getWaffle(flag).then(enabled => {
+                if (!enabled) {
+                    window.location.reload();
+                }
+            });
+        }
+        this._super(...arguments);
+    },
+
     didTransition() {
         this._super(...arguments);
+        window.scrollTo(0, 0);
         this._trackPage();
     },
 
@@ -28,7 +43,9 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
     // All non-guid routes (except `not-found`) belong above "Guid Routing"
-    this.route('dashboard', { path: '/' });
+    this.route('home', { path: '/' });
+    this.route('goodbye');
+    this.route('dashboard');
     this.route('quickfiles');
     this.route('support');
 

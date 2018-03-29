@@ -150,7 +150,7 @@ export default class FileDetail extends Controller.extend(Analytics, {
     });
 
     fileText = computed('model.file.currentVersion', function(this: FileDetail) {
-        return this.get('model.file').getContents();
+        return this.get('model.file.getContents').perform();
     });
 }
 

@@ -1,16 +1,17 @@
+import { tagName } from '@ember-decorators/component';
+import { computed } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
 
-export default class ContributorList extends Component.extend({
-    tagName: 'span',
+@tagName('span')
+export default class ContributorList extends Component {
+    @service i18n;
 
-    contributors: A([]),
-}) {
-    i18n = service('i18n');
+    contributors = this.contributors || A([]);
 
-    contributorList = computed('contributors.[]', function(): string {
+    @computed('contributors.[]')
+    get contributorList(this: ContributorList): string {
         const contributors = this.get('contributors').toArray();
 
         if (!(contributors && contributors.length)) {
@@ -22,7 +23,7 @@ export default class ContributorList extends Component.extend({
 
         const names: string[] = contributors
             .slice(0, max)
-            .map(c => c.get('users.familyName') || c.get('users.givenName'));
+            .map(c => c.get('users.familyName') || c.get('users.givenName') || c.get('users.fullName'));
 
         const i18n = this.get('i18n');
         const and = i18n.t('general.and');
@@ -34,5 +35,5 @@ export default class ContributorList extends Component.extend({
 
         const last = len <= max ? names.splice(-1) : `${len - max} ${more}`;
         return [...names, `${and} ${last}`].join(', ');
-    });
+    }
 }

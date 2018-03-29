@@ -11,7 +11,7 @@ import Ember from 'ember';
  * @param {Function} clickFunction
  */
 export default function outsideClick(clickFunction) {
-    Ember.$('body').on('click', (e) => {
+    Ember.$('body').on('click', e => {
         if (Ember.$(e.target).parents('.popover.in').length === 0 &&
             Ember.$(e.target).attr('class') &&
             Ember.$(e.target).attr('class').indexOf('popover-toggler') === -1) {

@@ -5,10 +5,11 @@ export default class ResolveGuid extends Route.extend({
 }) {
     store = service('store');
 
-    async model(this: ResolveGuid, params: { guid: string }): void {
+    async model(this: ResolveGuid, params: { guid: string }, transition): void {
         // Block until the Guid is resolved, then always transition somewhere else.
         try {
             const guid = await this.get('store').findRecord('guid', params.guid);
+            transition.abort();
             this.transitionTo(`guid-${guid.get('referentType')}`, guid.get('id'));
         } catch (error) {
             this.transitionTo('not-found', params.guid);

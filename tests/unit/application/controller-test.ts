@@ -4,11 +4,13 @@ moduleFor('controller:application', 'Unit | Controller | application', {
     needs: [
         'service:session',
         'service:metrics',
+        'service:features',
+        'service:currentUser',
     ],
 });
 
 // Replace this with your real tests.
-test('it exists', function(this: test, assert) {
+test('it exists', function(assert) {
     const controller = this.subject();
     assert.ok(controller);
 });

@@ -89,7 +89,7 @@ export default class FileShareButton extends Component.extend(Analytics, {
         const file = this.get('file');
 
         const params = {
-            url: encodeURIComponent(pathJoin(config.OSF.url, file.get('guid'), 'download')),
+            url: pathJoin(config.OSF.url, file.get('guid'), 'download'),
         };
 
         return `${config.OSF.renderUrl}?${$.param(params)}`;
