@@ -125,7 +125,7 @@ export default {
             title: 'プロジェクトへファイルを移動',
             move_button: 'ファイルを移動',
         },
-        
+
     },
     dashboard: {
         page_title: 'ホーム',
@@ -301,7 +301,7 @@ export default {
     },
     home: {
         title: 'ホーム',
-        youtube_modal_title: 'オープンサイエンスフレームワークを使い始める',
+        youtube_modal_title: 'Open Science Frameworkを使い始める',
         alert_logged_out: 'あなたは正常にログアウトしました。',
         brand: 'Open Science Framework',
         tagline: '研究サイクル全体をつなぐ学術コモンズ',
