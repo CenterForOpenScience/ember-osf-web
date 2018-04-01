@@ -28,7 +28,9 @@ const {
     POPULAR_LINKS_NODE: popularNode = '57tnq',
     // POPULAR_LINKS_REGISTRATIONS = '',
     NEW_AND_NOTEWORTHY_LINKS_NODE: noteworthyNode = 'z3sg2',
-    RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI', // https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha-v2-what-should-i-do
+    /* eslint-disable-next-line max-len */
+    // https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha-v2-what-should-i-do
+    RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
     REDIRECT_URI: redirectUri,
     SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',

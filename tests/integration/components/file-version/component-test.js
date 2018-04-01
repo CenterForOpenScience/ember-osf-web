@@ -28,5 +28,6 @@ test('it renders', function(assert) {
     const child2text = this.$('.file-version').children().eq(1).text();
     assert.ok(child2text.indexOf('2017-10-06') !== -1, 'Second list element should be a label with the file date');
 
-    assert.equal(this.$('.file-version').children().eq(2).text(), 10, 'Third list element should be a label with the download count - which is 10');
+    const result = this.$('.file-version').children().eq(2).text();
+    assert.equal(result, 10, 'Third list element should be a label with the download count - which is 10');
 });

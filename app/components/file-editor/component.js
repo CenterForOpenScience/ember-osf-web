@@ -1,5 +1,6 @@
-import Ember from 'ember';
-import layout from './template';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { next } from '@ember/runloop';
 
 /**
  * @module ember-osf
@@ -18,13 +19,12 @@ import layout from './template';
  * @class file-editor
  */
 
-export default Ember.Component.extend({
+export default Component.extend({
     classNames: ['FileEditor'],
-    layout,
     fileText: '',
     unsavedText: '',
 
-    newText: Ember.computed('fileText', function() {
+    newText: computed('fileText', function() {
         return String(this.get('fileText'));
     }),
 
@@ -36,7 +36,7 @@ export default Ember.Component.extend({
             const fileText = this.get('fileText');
             this.set('fileText', '');
             // Restore original text in next tick of the run loop to trigger re-render of ember-ace
-            Ember.run.next(() => this.set('fileText', fileText));
+            next(() => this.set('fileText', fileText));
         },
         saveText() {
             this.attrs.save(this.get('unsavedText'));

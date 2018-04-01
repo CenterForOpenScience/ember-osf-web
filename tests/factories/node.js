@@ -3,18 +3,28 @@ import faker from 'faker';
 
 import permissions from 'ember-osf-web/const/permissions';
 
+const { READ, WRITE, ADMIN } = permissions;
+
 FactoryGuy.define('node', {
     default: {
         title: () => faker.lorem.words(4),
         description: () => faker.lorem.paragraphs(2, '\n'),
         // Extracted from Node model CATEGORY_MAP as of May 24, 2016
         category: () => faker.random.arrayElement([
-            'analysis', 'communication', 'data', 'hypothesis',
-            'instrumentation', 'methods and measures', 'procedure', 'project',
-            'software', 'other', '',
+            'analysis',
+            'communication',
+            'data',
+            'hypothesis',
+            'instrumentation',
+            'methods and measures',
+            'procedure',
+            'project',
+            'software',
+            'other',
+            '',
         ]),
 
-        currentUserPermissions: () => faker.random.arrayElement([permissions.READ, permissions.WRITE, permissions.ADMIN]),
+        currentUserPermissions: () => faker.random.arrayElement([READ, WRITE, ADMIN]),
 
         fork: false,
         collection: false,
