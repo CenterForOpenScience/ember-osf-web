@@ -1,11 +1,15 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 import layout from './template';
 
 const iconForType = {
     image: ['png', 'jpeg', 'jpg', 'tiff', 'gif', 'bmp'],
     pdf: ['pdf'],
     word: ['doc', 'docx', 'dotx', 'dot', 'docm'],
-    code: ['py', 'js', 'css', 'html', 'awk', 'bat', 'c', 'cpp', 'h', 'hdl', 'java', 'jar', 'mk', 'pl', 'sh', 'coffee', 'ipynb', 'lua', 'm', 'php', 'pyc', 'r', 'rb'],
+    code: [
+        'py', 'js', 'css', 'html', 'awk', 'bat', 'c', 'cpp', 'h', 'hdl', 'java',
+        'jar', 'mk', 'pl', 'sh', 'coffee', 'ipynb', 'lua', 'm', 'php', 'pyc', 'r', 'rb',
+    ],
     video: ['mov', 'mkv', 'flv', 'avi', 'mp4'],
     powerpoint: ['ppt', 'pptx', 'pptm', 'potx'],
     audio: ['mp3', 'wav', 'flac', 'aiff', 'wma'],
@@ -34,11 +38,11 @@ for (const icon of Object.keys(iconForType)) {
  * ```
  * @class file-browser-icon
  */
-export default Ember.Component.extend({
+export default Component.extend({
     layout,
     tagName: 'span',
 
-    iconName: Ember.computed('item', 'item.expanded', function() {
+    iconName: computed('item', 'item.expanded', function() {
         // TODO: More icons!
         if (this.get('item.isNode')) {
             // TODO node types

@@ -14,7 +14,11 @@ FactoryGuy.define('node', {
             'software', 'other', '',
         ]),
 
-        currentUserPermissions: () => faker.random.arrayElement([permissions.READ, permissions.WRITE, permissions.ADMIN]),
+        currentUserPermissions: () => faker.random.arrayElement([
+            permissions.READ,
+            permissions.WRITE,
+            permissions.ADMIN,
+        ]),
 
         fork: false,
         collection: false,

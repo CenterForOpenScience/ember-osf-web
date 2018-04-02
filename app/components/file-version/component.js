@@ -1,5 +1,5 @@
-import Ember from 'ember';
-import layout from './template';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 /**
  * @module ember-osf
@@ -19,14 +19,13 @@ import layout from './template';
  * ```
  * @class file-version
  */
-export default Ember.Component.extend({
-    layout,
+export default Component.extend({
     classNames: ['file-version'],
     tagName: 'tr',
     currentVersion: null,
     versionUrl: null,
 
-    clickable: Ember.computed('version', 'currentVersion', function() {
+    clickable: computed('version', 'currentVersion', function() {
         return this.get('version.id') !== this.get('currentVersion');
     }),
 

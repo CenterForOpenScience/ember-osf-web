@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
-import User from 'ember-osf-web/models/user';
+import $ from 'jquery';
 
 /**
  * Display the login dropdown on the navbar
@@ -56,8 +56,8 @@ export default class NavbarAuthDropdown extends Component.extend({
 
     serviceLinks = serviceLinks;
 
-    user: User = computed.alias('currentUser.user');
-    notAuthenticated: boolean = computed.not('session.isAuthenticated');
+    user = computed.alias('currentUser.user');
+    notAuthenticated = computed.not('session.isAuthenticated');
     gravatarUrl = computed('user.links.profile_image', function(this: NavbarAuthDropdown): string {
         const imgLink = this.get('user.links.profile_image');
         return imgLink ? `${imgLink}&s=25` : '';
@@ -65,7 +65,7 @@ export default class NavbarAuthDropdown extends Component.extend({
 
     logout = task(function* (this: NavbarAuthDropdown) {
         const redirectUrl = this.get('redirectUrl');
-        const query = redirectUrl ? `?${Ember.$.param({ next_url: redirectUrl })}` : '';
+        const query = redirectUrl ? `?${$.param({ next_url: redirectUrl })}` : '';
         yield this.get('session').invalidate();
         window.location.href = `${config.OSF.url}logout/${query}`;
     });

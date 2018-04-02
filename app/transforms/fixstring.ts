@@ -2,6 +2,8 @@ import DS from 'ember-data';
 
 import fixSpecialChars from '../utils/fix-special-char';
 
+const { StringTransform } = DS;
+
 /**
  * @module ember-osf-web
  * @submodule transforms
@@ -23,7 +25,7 @@ import fixSpecialChars from '../utils/fix-special-char';
  * @extends DS.StringTransform
  * @uses fix-special-char
  */
-export default DS.StringTransform.extend({
+export default StringTransform.extend({
     deserialize(serialized) {
         return fixSpecialChars(this._super(serialized));
     },

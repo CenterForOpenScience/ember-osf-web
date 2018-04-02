@@ -1,6 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { merge } from '@ember/polyfills';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import diffAttrs from 'ember-diff-attrs';
+import $ from 'jquery';
 
 import layout from './template';
 
@@ -26,14 +29,38 @@ import layout from './template';
  *
  * @class dropzone-widget
  */
-export default Ember.Component.extend({
+export default Component.extend({
+    session: service(),
     layout,
-    session: Ember.inject.service(),
     classNameBindings: ['dropzone'],
     dropzone: true,
     enable: true,
     clickable: true,
     dropzoneElement: null,
+
+    didReceiveAttrs: diffAttrs('enable', 'clickable', function(changedAttrs, ...args) {
+        this._super(...args);
+        if (changedAttrs) {
+            if (changedAttrs.enable) {
+                if (this.get('enable')) {
+                    this.loadDropzone();
+                } else {
+                    this.destroyDropzone();
+                }
+            } else if (changedAttrs.clickable && this.get('enable')) {
+                // Dropzone must be reloaded for clickable changes to take effect.
+                this.destroyDropzone();
+                this.loadDropzone();
+            }
+        }
+    }),
+
+    didInsertElement() {
+        if (this.get('enable')) {
+            this.loadDropzone();
+        }
+    },
+
     loadDropzone() {
         const preUpload = this.get('preUpload');
         const dropzoneOptions = this.get('options') || {};
@@ -66,7 +93,10 @@ export default Ember.Component.extend({
             return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
         };
         const drop = new CustomDropzone(`#${this.elementId}`, {
-            url: file => (typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl')),
+            url: file => {
+                const buildUrl = this.get('buildUrl');
+                return typeof buildUrl === 'function' ? buildUrl(file) : buildUrl;
+            },
             autoProcessQueue: false,
             autoQueue: false,
             clickable: this.get('clickable'),
@@ -81,7 +111,7 @@ export default Ember.Component.extend({
         // Therefore, we remove the "multiple" attribute for the hidden file input element, so that users cannot select
         // multiple files for upload in the first place.
         if (this.get('options.preventMultipleFiles') && this.get('clickable')) {
-            Ember.$('.dz-hidden-input').removeAttr('multiple');
+            $('.dz-hidden-input').removeAttr('multiple');
         }
 
         this.set('dropzoneElement', drop);
@@ -106,7 +136,7 @@ export default Ember.Component.extend({
         });
 
         // Set dropzone options
-        drop.options = Ember.merge(drop.options, dropzoneOptions);
+        drop.options = merge(drop.options, dropzoneOptions);
 
         // Attach dropzone event listeners: http://www.dropzonejs.com/#events
         drop.events.forEach(event => {
@@ -115,30 +145,10 @@ export default Ember.Component.extend({
             }
         });
     },
+
     destroyDropzone() {
         if (this.get('dropzoneElement')) {
             this.get('dropzoneElement').destroy();
-        }
-    },
-    didReceiveAttrs: diffAttrs('enable', 'clickable', function(changedAttrs, ...args) {
-        this._super(...args);
-        if (changedAttrs) {
-            if (changedAttrs.enable) {
-                if (this.get('enable')) {
-                    this.loadDropzone();
-                } else {
-                    this.destroyDropzone();
-                }
-            } else if (changedAttrs.clickable && this.get('enable')) {
-                // Dropzone must be reloaded for clickable changes to take effect.
-                this.destroyDropzone();
-                this.loadDropzone();
-            }
-        }
-    }),
-    didInsertElement() {
-        if (this.get('enable')) {
-            this.loadDropzone();
         }
     },
 });

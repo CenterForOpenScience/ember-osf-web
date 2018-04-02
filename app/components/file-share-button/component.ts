@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
-import Ember from 'ember';
 import config from 'ember-get-config';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -14,7 +14,7 @@ const {
 } = config;
 
 export default class FileShareButton extends Component.extend({
-    analytics: Ember.inject.service(),
+    analytics: service(),
     actions: {
         share(this: FileShareButton) {
             const textArea: HTMLTextAreaElement = document.querySelector('.SharePane__mfr-url');

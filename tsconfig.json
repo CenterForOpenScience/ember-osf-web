@@ -13,7 +13,8 @@
     "module": "es6",
     "paths": {
       "ember-osf-web/tests/*": ["tests/*"],
-      "ember-osf-web/*": ["app/*"]
+      "ember-osf-web/*": ["app/*"],
+      "*": ["types/*"]
     },
     "experimentalDecorators": true
   },

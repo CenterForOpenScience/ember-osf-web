@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
 /**
  * @module ember-osf-web
@@ -29,4 +29,4 @@ export function ifFilter(params) {
     return false;
 }
 
-export default Ember.Helper.helper(ifFilter);
+export default helper(ifFilter);

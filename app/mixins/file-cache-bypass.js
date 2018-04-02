@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
 
 /**
  * @module ember-osf-web
@@ -17,8 +18,8 @@ import Ember from 'ember';
  * @class FileCacheBypassMixin
  * @extends Ember.Mixin
  */
-export default Ember.Mixin.create({
-    fileManager: Ember.inject.service(),
+export default Mixin.create({
+    fileManager: service(),
 
     // HACK: Messing with Ember Data's privates.
     ajaxOptions() {

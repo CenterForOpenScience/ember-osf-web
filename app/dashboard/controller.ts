@@ -97,6 +97,9 @@ export default class Dashboard extends Controller.extend({
         this.set(indicatorProperty, true);
 
         const user = yield this.get('currentUser.user');
+        if (!user) {
+            return;
+        }
 
         const nodes = yield user.queryHasMany('nodes', {
             embed: 'contributors',
@@ -175,7 +178,6 @@ export default class Dashboard extends Controller.extend({
     });
 
     init() {
-        this.get('initialLoad').perform();
         this.get('getInstitutions').perform();
         this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');
         this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy');

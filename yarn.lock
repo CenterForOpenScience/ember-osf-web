@@ -263,6 +263,10 @@
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.0.tgz#6316ac20a1a13c5d521a2dc661befc7184f73f5b"
 
+"@types/mime-types@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@types/mime-types/-/mime-types-2.1.0.tgz#9ca52cda363f699c69466c2a6ccdaad913ea7a73"
+
 "@types/rsvp@*", "@types/rsvp@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@types/rsvp/-/rsvp-4.0.1.tgz#82956bc8d0a8151ec3b7e9cae64fd06808a1c714"
