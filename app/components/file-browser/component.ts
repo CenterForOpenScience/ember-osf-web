@@ -68,6 +68,7 @@ export default class FileBrowser extends Component.extend({
     node: Node | null = this.node || null;
     nodeTitle = null;
     newProject: Node = this.newProject;
+    projectSelectState = 'main';
     isMoving = false;
     loaded = true;
     uploading = A([]);
@@ -194,12 +195,17 @@ export default class FileBrowser extends Component.extend({
                 currentItem.set('isSelected', false);
                 return;
             }
+
             const otherItem = this.get('selectedItems.firstObject');
             otherItem.set('isSelected', false);
         }
 
         currentItem.set('isSelected', true);
-        this.set('shiftAnchor', currentItem);
+
+        this.setProperties({
+            renameValue: currentItem.get('itemName'),
+            shiftAnchor: currentItem,
+        });
     }
 
     @action
@@ -212,6 +218,8 @@ export default class FileBrowser extends Component.extend({
 
         this.setProperties({
             popupOpen: false,
+            renameValue: '',
+            showRename: false,
         });
 
         if (toggle) {
@@ -347,6 +355,14 @@ export default class FileBrowser extends Component.extend({
     setSelectedNode(this: FileBrowser, node) {
         this.setProperties({
             node,
+        });
+    }
+
+    @action
+    closeMoveToProjectModal(this: FileBrowser) {
+        this.setProperties({
+            projectSelectState: 'main',
+            currentModal: modals.None,
         });
     }
 }
