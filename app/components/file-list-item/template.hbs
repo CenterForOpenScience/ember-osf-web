@@ -1,8 +1,8 @@
-<div class="row file-row-item" style='padding-top: 0px'>
-    <div class="col-lg-7 file-row-col col-md-9 col-sm-9 col-xs-12 file-browser-header"
-        {{action 'open' preventDefault='true'}}
-        role="option">
+<div class="row file-row-item" onclick={{action 'open' preventDefault='true'}} role="option">
+    <div class="col-lg-12 file-row-col col-md-9 col-sm-9 col-xs-12 file-browser-header">
         {{file-icon item=item}}
-        <a {{action 'open' preventDefault='true'}} role="link">{{item.itemName}}</a>
+        <a {{action 'open' preventDefault='true'}} role="link" href={{link}}>
+            {{item.itemName}}
+        </a>
     </div>
 </div>

@@ -29,27 +29,12 @@ export default class FileBrowserItem extends Component {
     @service store;
 
     item: File;
-    selectedItems: File[];
     openItem = this.openItem;
-    selectItem = this.selectItem;
-    selectMultiple = this.selectMultiple;
-
-    @computed('selectedItems.[]')
-    get selected(this: FileBrowserItem): boolean {
-        // TODO: This would be better if selectedItems were a hash. Can Ember
-        // observe when properties are added to or removed from an object?
-        return this.get('selectedItems').includes(this.get('item'));
-    }
 
     @computed('item.guid')
     get link(this: FileBrowserItem): string {
         const guid = this.get('item').get('guid');
         return guid ? pathJoin(window.location.origin, guid) : '';
-    }
-
-    @action
-    openVersion(this: FileBrowserItem) {
-        this.openItem(this.get('item'), 'revision');
     }
 
     @action

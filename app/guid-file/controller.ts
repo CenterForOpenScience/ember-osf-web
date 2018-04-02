@@ -1,6 +1,7 @@
 import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
@@ -44,6 +45,7 @@ export default class GuidFile extends Controller {
 
     deleteModalOpen: boolean = false;
     filter: string = '';
+    sort: string = this.sort || 'name';
     revision: null | number = null;
     show = 'view';
 
@@ -91,15 +93,26 @@ export default class GuidFile extends Controller {
         this.setProperties({ filter });
     }).drop();
 
-    @computed('allFiles.[]', 'filter')
+    @computed('allFiles.[]', 'filter', 'sort')
     get files(this: GuidFile) {
         const filter: string = this.get('filter');
+        const sort: string = this.get('sort');
 
         let results: File[] = this.get('allFiles');
 
         if (filter) {
             const filterLowerCase = filter.toLowerCase();
             results = results.filter(file => file.get('name').toLowerCase().includes(filterLowerCase));
+        }
+
+        if (sort) {
+            const reverse: boolean = sort.slice(0, 1) === '-';
+
+            results = A(results).sortBy(sort.slice(+reverse));
+
+            if (reverse) {
+                results = results.reverse();
+            }
         }
 
         return results;
