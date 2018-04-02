@@ -65,7 +65,7 @@
                             {{/if}}
                         {{/bs-popover}}
                     </button>
-                    <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'downloadItem'}} class="btn btn-light">
+                    <button onclick={{unless canEdit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'downloadItem'}} class="btn btn-light">
                         {{fa-icon "download"}}
                         {{t 'general.download'}}
                     </button>
@@ -96,7 +96,7 @@
                     {{/if}}
                 {{/if}}
             {{else}}
-                <button class="btn btn-light" onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' target=analytics preventDefault=false)}} {{action 'downloadZip'}}>
+                <button class="btn btn-light" onclick={{unless canEdit (action 'click' 'button' 'Quick Files - Download zip' target=analytics preventDefault=false)}} {{action 'downloadZip'}}>
                     {{fa-icon "download"}} {{t 'file_browser.download_zip'}}
                 </button>
             {{/if}}
@@ -205,12 +205,12 @@
     {{/modal.footer}}
 {{/bs-modal}}
 {{#bs-modal
-    onHide=(action (mut currentModal) '')
+    onHide=(action 'closeMoveToProjectModal')
     open=(eq currentModal 'move')
     class="moveQuickfileModal"
     as |modal|
 }}
-    {{#modal.header onClose=(action (mut currentModal) '')}}
+    {{#modal.header onClose=(action 'closeMoveToProjectModal')}}
         <h3 class="modal-title break-word">{{t 'file_browser.move_modal.title'}}</h3>
     {{/modal.header}}
     {{#modal.body}}
@@ -218,13 +218,13 @@
             user=user
             newProject=newProject
             file=selectedItems.firstObject
-            projectSelectState='main'
+            projectSelectState=projectSelectState
             validationChanged=(action (mut isProjectSelectorValid))
             projectSelected=(action (mut node))
         }}
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button disabled=isMoving onClick=(action (mut currentModal) '') type="default"}}
+        {{#bs-button disabled=isMoving onClick=(action 'closeMoveToProjectModal') type="default"}}
             {{t 'general.cancel'}}
         {{/bs-button}}
         {{#if (not-eq projectSelectState 'main')}}
@@ -304,7 +304,7 @@
                 {{/each}}
             {{else}}
                 <div class="file-placeholder">
-                    {{#if edit}}
+                    {{#if canEdit}}
                         <div class="file-placeholder-content">
                             <div>{{fa-icon 'upload' size=5}}</div>
                             <div class="file-placeholder-text">{{t 'file_browser.drop_placeholder'}}</div>
