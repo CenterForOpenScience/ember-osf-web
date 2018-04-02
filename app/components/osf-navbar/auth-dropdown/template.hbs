@@ -1,0 +1,47 @@
+{{# if session.isAuthenticated }}
+    <a class="btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'auth_dropdown.toggle_auth_dropdown'}} onclick={{action dropdownOpened}}>
+        <div class="osf-profile-image">
+            <img src="{{gravatarUrl}}" alt="{{t 'auth_dropdown.user_gravatar'}}">
+        </div>
+        <div class='nav-profile-name'>{{user.fullName}}</div>
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu auth-dropdown" role="menu">
+        {{#if headline}}
+            <li style="margin-left:10%;">{{headline}}</li>
+        {{/if}}
+        <li>
+            <a href="{{serviceLinks.profile}}" onclick={{action 'click' 'link' 'Navbar - MyProfile' target=analytics}}>
+                <i class="fa fa-user fa-lg p-r-xs"></i>
+                {{t 'auth_dropdown.my_profile'}}
+            </a>
+        </li>
+        <li>
+            {{#link-to 'support' clickAction=(action 'click' 'link' 'Navbar - Support' target=analytics)}}
+                <i class="fa fa-life-ring fa-lg p-r-xs"></i>
+                {{t 'auth_dropdown.osf_support'}}
+            {{/link-to}}
+        </li>
+        <li>
+            <a href="{{serviceLinks.settings}}" onclick={{action 'click' 'link' 'Navbar - Settings' target=analytics}}>
+                <i class="fa fa-cog fa-lg p-r-xs"></i>
+                {{t 'auth_dropdown.settings'}}
+            </a>
+        </li>
+        <li>
+            <a class="logoutLink" {{action (perform logout)}} onclick={{action 'click' 'button' 'Navbar - Logout' target=analytics}} role="button">
+                <i class="fa fa-sign-out fa-lg p-r-xs"></i>
+                {{t 'auth_dropdown.log_out'}}
+            </a>
+        </li>
+    </ul>
+{{else}}
+    <div>
+        <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-l-sm m-r-xs" onclick={{action 'click' 'link' 'Navbar - SignUp' target=analytics}}>
+            {{t 'auth_dropdown.sign_up'}}
+        </a>
+        <a {{action loginAction}} onclick={{action 'click' 'button' 'Navbar - SignIn' target=analytics}} class="btn btn-info btn-top-login m-r-xs" role="button">
+            {{t 'auth_dropdown.sign_in'}}
+        </a>
+    </div>
+{{/if}}

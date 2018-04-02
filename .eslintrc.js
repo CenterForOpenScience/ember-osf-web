@@ -6,21 +6,25 @@ module.exports = {
         sourceType: 'module',
     },
     extends: '@centerforopenscience/eslint-config/ember',
+    plugins: [
+        'typescript',
+    ],
     env: {
         browser: true,
         es6: true,
     },
     rules: {
-        'class-methods-use-this': [ 'error', {
-            exceptMethods: [
-                'resetController'
-            ],
-        }],
+        'arrow-parens': [ 'error', 'as-needed' ],
+        'class-methods-use-this': 0,
+        'max-len': [ 'warn', { code: 120 } ],
         'no-undef': 0,
         'no-unused-vars': ['error', { argsIgnorePattern: '^this' }],
+        'typescript/no-unused-vars': 'error',
         strict: 0,
-        indent: 'off',
+        indent: 0,
         'indent-legacy': 'error',
+        'ember/named-functions-in-promises': 0,
+        'function-paren-newline': ['error', 'consistent'],
     },
     overrides: [
         {
@@ -28,6 +32,12 @@ module.exports = {
             rules: {
                 'no-unused-vars': 0,
             }
-        }
+        },
+        {
+            files: ['app/locales/*/translations.ts'],
+            rules: {
+                'max-len': 0,
+            },
+        },
     ]
 };

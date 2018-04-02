@@ -27,7 +27,6 @@ export default Ember.Component.extend({
     layout,
     i18n: Ember.inject.service(),
     store: Ember.inject.service(),
-    panelActions: Ember.inject.service('panelActions'),
     user: null,
     nodeTitle: null,
     projectSelectState: 'main',

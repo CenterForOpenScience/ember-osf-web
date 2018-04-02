@@ -15,11 +15,13 @@ const {
 } = config;
 
 export default class Dashboard extends Controller.extend({
-    currentUser: service('currentUser'),
+    currentUser: service('current-user'),
+    analytics: service(),
 
     filter: null,
     loading: false,
     loadingMore: false,
+    loadingSearch: false,
     modalOpen: false,
     newNode: null,
     page: 1,
@@ -31,8 +33,6 @@ export default class Dashboard extends Controller.extend({
     popular: A([]),
 
     user: alias('currentUser.user'),
-
-    institutionsSelected: oneWay('user.institutions'),
 
     actions: {
         more() {
@@ -91,6 +91,7 @@ export default class Dashboard extends Controller.extend({
 
     findNodes: task(function* (this: Dashboard, more?: boolean) {
         const indicatorProperty = `loading${more ? 'More' : ''}`;
+
         const filter = this.get('filter');
 
         this.set(indicatorProperty, true);
@@ -99,7 +100,7 @@ export default class Dashboard extends Controller.extend({
 
         const nodes = yield user.queryHasMany('nodes', {
             embed: 'contributors',
-            filter: filter ? { title: filter } : undefined,
+            filter: filter ? { title: $('<div>').text(filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
             sort: this.get('sort') || undefined,
         });
@@ -136,9 +137,7 @@ export default class Dashboard extends Controller.extend({
         if (!title) {
             return;
         }
-
         const store = this.get('store');
-
         const data = {
             category: 'project',
             description,
@@ -146,14 +145,12 @@ export default class Dashboard extends Controller.extend({
             templateFrom,
             title,
         };
-
-        const node = yield store.createRecord('node', data).save();
-
-        if (this.get('institutionsSelected.length')) {
-            const affiliatedInstitutions = yield node.get('affiliatedInstitutions');
-            this.get('institutionsSelected').forEach(inst => affiliatedInstitutions.pushObject(inst));
-            yield node.save();
+        const node = store.createRecord('node', data);
+        const institutions = this.get('institutionsSelected');
+        if (institutions.length) {
+            node.set('affiliatedInstitutions', institutions.slice());
         }
+        yield node.save();
 
         this.set('newNode', node);
     }).drop(),
@@ -167,7 +164,7 @@ export default class Dashboard extends Controller.extend({
 
     store = service('store');
 
-    institutionsSelected = computed.oneWay('user.institutions');
+    institutionsSelected = oneWay('user.institutions');
 
     hasNodes = computed('filter', 'nodes.meta.total', function (): boolean {
         return this.get('nodes.meta.total') || this.get('filter') !== null;

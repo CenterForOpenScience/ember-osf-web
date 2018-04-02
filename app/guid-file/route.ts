@@ -1,11 +1,19 @@
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
-import Analytics from 'ember-osf-web/mixins/analytics';
+import { analyticPrivacy } from 'ember-osf-web/services/analytics';
 
-export default class FileDetail extends Route.extend(Analytics) {
-    currentUser = service('currentUser');
+export default class FileDetail extends Route.extend() {
+    @service currentUser;
+    @service analytics;
+    actions = {
+        didTransition(this: FileDetail) {
+            const publicPrivate = analyticPrivacy.public;
+            const resourceType = 'files';
+            this.get('analytics').trackPage(publicPrivate, resourceType);
+        },
+    };
 
-    async model(params) {
+    async model(this: FileDetail, params) {
         try {
             const file = await this.store.findRecord('file', params.file_guid);
             const fileUser = await file.get('user');
@@ -16,7 +24,7 @@ export default class FileDetail extends Route.extend(Analytics) {
                 user,
             };
         } catch (error) {
-            this.transitionTo('not-found', id);
+            this.transitionTo('not-found', params.file_guid);
             throw error;
         }
     }

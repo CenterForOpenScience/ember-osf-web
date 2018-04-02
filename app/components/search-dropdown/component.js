@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { inject as service } from '@ember/service';
 import layout from './template';
 import config from 'ember-get-config';
 
@@ -19,7 +20,8 @@ import config from 'ember-get-config';
 export default Ember.Component.extend({
     layout,
     host: config.OSF.url,
-    i18n: Ember.inject.service(),
+    analytics: service(),
+    i18n: service(),
     query: null,
     isOpen: false, // is help modal open?
     actions: {

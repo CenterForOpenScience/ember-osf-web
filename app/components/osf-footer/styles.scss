@@ -1,0 +1,18 @@
+.Footer {
+    margin-top: 0;
+    text-shadow: 0 1px 0 $color-shadow-white;
+    border-top: 1px solid $color-border-gray-dark;
+    border-bottom: 1px solid $color-border-gray-dark;
+    width: 100%;
+    color: $color-text-gray;
+
+    &__link-list {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    &__header {
+        font-weight: 400;
+    }
+}

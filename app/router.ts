@@ -1,26 +1,31 @@
 import EmberRouter from '@ember/routing/router';
-import { scheduleOnce } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
 const Router = EmberRouter.extend({
     metrics: service('metrics'),
+    currentUser: service('current-user'),
+    features: service('features'),
+    session: service('session'),
 
     location: config.locationType,
     rootURL: config.rootURL,
 
-    didTransition() {
+    willTransition(oldInfo, newInfo, transition) {
+        const flag = config.featureFlags.routes[transition.targetName];
+        if (flag) {
+            this.get('currentUser').getWaffle(flag).then(enabled => {
+                if (!enabled) {
+                    window.location.reload();
+                }
+            });
+        }
         this._super(...arguments);
-        this._trackPage();
     },
 
-    _trackPage() {
-        scheduleOnce('afterRender', this, () => {
-            const page = this.get('url');
-            const title = this.getWithDefault('currentRouteName', 'unknown');
-
-            this.get('metrics').trackPage({ page, title });
-        });
+    didTransition() {
+        this._super(...arguments);
+        window.scrollTo(0, 0);
     },
 });
 
@@ -28,7 +33,9 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
     // All non-guid routes (except `not-found`) belong above "Guid Routing"
-    this.route('dashboard', { path: '/' });
+    this.route('home', { path: '/' });
+    this.route('goodbye');
+    this.route('dashboard');
     this.route('quickfiles');
     this.route('support');
 

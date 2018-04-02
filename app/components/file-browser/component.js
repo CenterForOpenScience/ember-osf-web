@@ -4,7 +4,6 @@ import { task } from 'ember-concurrency';
 
 import loadAll from 'ember-osf-web/utils/load-relationship';
 import outsideClick from 'ember-osf-web/utils/outside-click';
-import Analytics from 'ember-osf-web/mixins/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import permissions from 'ember-osf-web/const/permissions';
 
@@ -24,7 +23,7 @@ const dropzoneOptions = {
  * ```
  * @class file-browser
  */
-export default Ember.Component.extend(Analytics, {
+export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
     dropzoneOptions,
@@ -33,6 +32,7 @@ export default Ember.Component.extend(Analytics, {
     i18n: Ember.inject.service(),
     store: Ember.inject.service(),
     toast: Ember.inject.service(),
+    analytics: Ember.inject.service(),
     classNames: ['file-browser'],
     multiple: true,
     unselect: true,
@@ -62,7 +62,7 @@ export default Ember.Component.extend(Analytics, {
     },
     currentUser: Ember.inject.service(),
     dropzone: Ember.computed.alias('edit'),
-    edit: Ember.computed('user', function() {
+    edit: Ember.computed('user', 'currentUser.currentUserId', function() {
         return this.get('user.id') === this.get('currentUser.currentUserId');
     }),
     _loadFiles(user) {
@@ -70,7 +70,7 @@ export default Ember.Component.extend(Analytics, {
         loadAll(user, 'quickfiles', this.get('_items')).then(() => {
             this.set('loaded', true);
             this.set('_items', this.get('_items').sortBy('itemName'));
-            this.get('_items').forEach((item) => {
+            this.get('_items').forEach(item => {
                 if (this.get('selectedFile.id') && this.get('selectedFile.id') === item.id) {
                     item.isSelected = true; // eslint-disable-line no-param-reassign
                 }
@@ -94,7 +94,7 @@ export default Ember.Component.extend(Analytics, {
         }
         // items need to be reloaded when attrs are received
         // TODO: think about replacing _items with user.items, provided it's loaded properly
-        const _load = (user_) => {
+        const _load = user_ => {
             Ember.run(() => {
                 this.set('_items', Ember.A());
                 Ember.run.next(() => {
@@ -103,7 +103,7 @@ export default Ember.Component.extend(Analytics, {
             });
         };
         if (user.then) {
-            user.then((user_) => {
+            user.then(user_ => {
                 _load(user_);
             });
         } else {
@@ -199,7 +199,7 @@ export default Ember.Component.extend(Analytics, {
             this.get('toast').error(response.message_long || response.message || response);
         },
         success(_, __, file, response) {
-            this.send('track', 'upload', 'track', 'Quick Files - Upload');
+            this.get('analytics').track('file', 'upload', 'Quick Files - Upload');
             this.get('uploading').removeObject(file);
             const data = response.data.attributes;
             // OPTIONS (some not researched)
@@ -437,7 +437,7 @@ export default Ember.Component.extend(Analytics, {
 
             if (this.get('projectSelectState') === 'newProject') {
                 this.set('newProject', true);
-                this._createProject(title).then((project) => {
+                this._createProject(title).then(project => {
                     this.set('node', project);
                     this._addNewNodeToList(this.get('user'), project);
                     this._moveFile(selectedItem, project);
@@ -467,7 +467,7 @@ export default Ember.Component.extend(Analytics, {
                 this.set('modalOpen', 'successMove');
                 this.set('projectSelectState', 'main');
                 this.set('willCreateComponent', false);
-                this.send('track', 'move', 'track', 'Quick Files - Move to project');
+                this.get('analytics').track('file', 'move', 'Quick Files - Move to project');
             })
             .catch(() => this.get('toast').error(this.get('i18n').t('move_to_project.could_not_move_file')))
             .then(() => this.set('isMoving', false));

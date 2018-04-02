@@ -13,15 +13,12 @@
     "module": "es6",
     "paths": {
       "ember-osf-web/tests/*": ["tests/*"],
-      "ember-osf-web/*": [
-        "app/*"
-      ]
-    }
+      "ember-osf-web/*": ["app/*"]
+    },
+    "experimentalDecorators": true
   },
-  "exclude": [
-    "tmp",
-    "dist",
-    "node_modules",
-    "bower_components"
+  "include": [
+      "app",
+      "tests"
   ]
 }

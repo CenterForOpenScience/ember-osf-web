@@ -1,6 +1,6 @@
+{{title model.file.name}}
+{{quickfile-nav user=model.user onQuickfiles=false}}
 <div class='container'>
-    {{title model.file.name}}
-    {{quickfile-nav user=model.user onQuickfiles=false}}
     <div class='row TitleBar'>
         <div class='col-sm-5'>
             <h2>{{model.file.name}} <a class='TitleBar__version-link' role="button" onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
@@ -16,7 +16,7 @@
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm btn-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'download' model.file.currentVersion}}>
+                        <button class='btn btn-sm btn-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'download' model.file.currentVersion}}>
                             {{t "general.download"}}
                         </button>
                     </div>
@@ -110,14 +110,14 @@
             {{#if (or (eq show 'edit') (eq show 'view_edit'))}}
                 {{#if isEditableFile}}
                     {{#if canEdit}}
-                        <div class='panel panel-default EditPanel {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
-                            {{#if (await fileText)}}
+                        {{#if (not (eq (await fileText) null))}}
+                            <div class='panel panel-default EditPanel {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
                                 {{#file-editor
                                     fileText=(await fileText)
                                     save=(action 'save')}}
                                 {{/file-editor}}
-                            {{/if}}
-                        </div>
+                            </div>
+                        {{/if}}
                     {{/if}}
                 {{/if}}
             {{/if}}

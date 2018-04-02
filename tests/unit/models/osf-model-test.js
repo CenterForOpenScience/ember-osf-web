@@ -4,7 +4,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('osf-model', 'Unit | Model | osf model', {
     // Specify the other units that are required for this test.
-    needs: ['model:user', 'model:node'],
+    needs: ['model:user', 'model:node', 'model:file', 'model:institution'],
 });
 
 test('it exists', function(assert) {
