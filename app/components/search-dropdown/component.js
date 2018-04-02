@@ -17,6 +17,7 @@ import config from 'ember-get-config';
  * @class search-dropdown
  */
 export default Component.extend({
+    analytics: service(),
     i18n: service(),
 
     query: null,

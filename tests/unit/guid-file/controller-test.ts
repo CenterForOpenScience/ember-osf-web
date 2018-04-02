@@ -6,6 +6,8 @@ moduleFor('controller:guid-file', 'Unit | Controller | guid file', {
         'service:toast',
         'service:metrics',
         'service:features',
+        'service:analytics',
+        'service:session',
     ],
 });
 

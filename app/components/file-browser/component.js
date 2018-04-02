@@ -10,7 +10,6 @@ import $ from 'jquery';
 
 import loadAll from 'ember-osf-web/utils/load-relationship';
 import outsideClick from 'ember-osf-web/utils/outside-click';
-import Analytics from 'ember-osf-web/mixins/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import permissions from 'ember-osf-web/const/permissions';
 
@@ -30,16 +29,16 @@ const dropzoneOptions = {
  * ```
  * @class file-browser
  */
-export default Component.extend(Analytics, {
+export default Component.extend({
     // TODO: Improve documentation in the future
 
     i18n: service(),
     store: service(),
     toast: service(),
     currentUser: service(),
+    analytics: service(),
 
     dropzoneOptions,
-
     classNames: ['file-browser'],
 
     multiple: true,
@@ -179,7 +178,7 @@ export default Component.extend(Analytics, {
             this.get('toast').error(response.message_long || response.message || response);
         },
         success(_, __, file, response) {
-            this.send('track', 'upload', 'track', 'Quick Files - Upload');
+            this.get('analytics').track('file', 'upload', 'Quick Files - Upload');
             this.get('uploading').removeObject(file);
             const data = response.data.attributes;
             // OPTIONS (some not researched)
@@ -512,7 +511,7 @@ export default Component.extend(Analytics, {
                 this.set('modalOpen', 'successMove');
                 this.set('projectSelectState', 'main');
                 this.set('willCreateComponent', false);
-                this.send('track', 'move', 'track', 'Quick Files - Move to project');
+                this.get('analytics').track('file', 'move', 'Quick Files - Move to project');
             })
             .catch(() => this.get('toast').error(this.get('i18n').t('move_to_project.could_not_move_file')))
             .then(() => this.set('isMoving', false));

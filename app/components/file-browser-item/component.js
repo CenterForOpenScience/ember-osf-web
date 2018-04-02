@@ -4,7 +4,6 @@ import { inject as service } from '@ember/service';
 import moment from 'moment';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
-import Analytics from 'ember-osf-web/mixins/analytics';
 
 /**
  * @module ember-osf-web
@@ -27,7 +26,8 @@ import Analytics from 'ember-osf-web/mixins/analytics';
   * @class file-browser-icon
   */
 
-export default Component.extend(Analytics, {
+export default Component.extend({
+    analytics: service(),
     store: service(),
     classNames: ['file-browser-item'],
 

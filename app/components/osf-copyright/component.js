@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 import layout from './template';
 
 /**
@@ -11,6 +12,7 @@ import layout from './template';
  * @class osf-copyright
  */
 export default Component.extend({
+    analytics: service(),
     layout,
     currentYear: (new Date()).getUTCFullYear().toString(),
 });

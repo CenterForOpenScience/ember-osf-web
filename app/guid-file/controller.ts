@@ -4,7 +4,6 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import mimeTypes from 'ember-osf-web/const/mime-types';
-import Analytics from 'ember-osf-web/mixins/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import $ from 'jquery';
 import mime from 'npm:mime-types';
@@ -32,7 +31,7 @@ const lookupTable = {
     },
 };
 
-export default class FileDetail extends Controller.extend(Analytics, {
+export default class FileDetail extends Controller.extend({
     actions: {
         download(this: FileDetail, version) {
             const url = `${this.get('model.file.links.download')}?revision=${version}`;
@@ -109,9 +108,10 @@ export default class FileDetail extends Controller.extend(Analytics, {
         },
     },
 }) {
-    currentUser = service('currentUser');
+    currentUser = service('current-user');
     toast = service('toast');
     i18n = service('i18n');
+    analytics = service('analytics');
 
     queryParams = ['show'];
 

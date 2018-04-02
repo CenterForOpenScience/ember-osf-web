@@ -1,7 +1,9 @@
+import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 
 export default class Dashboard extends Route {
+    @service analytics;
     @service session;
 
     async beforeModel(this: Dashboard, transition) {
@@ -15,5 +17,10 @@ export default class Dashboard extends Route {
 
     setupController(this: Dashboard, controller) {
         controller.get('initialLoad').perform();
+    }
+
+    @action
+    didTransition(this: Dashboard) {
+        this.get('analytics').trackPage();
     }
 }
