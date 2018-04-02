@@ -1,5 +1,5 @@
-import Ember from 'ember';
-
+import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
 import { getAuthUrl } from 'ember-osf-web/utils/auth';
 
 /**
@@ -15,11 +15,11 @@ import { getAuthUrl } from 'ember-osf-web/utils/auth';
  * @class OsfTokenLoginControllerMixin
  * @extends Ember.Mixin
  */
-export default Ember.Mixin.create({
-    session: Ember.inject.service(),
+export default Mixin.create({
+    session: service(),
     actions: {
         login() {
-            window.location = getAuthUrl(window.location);
+            window.location.href = getAuthUrl(window.location);
         },
         loginSuccess() {},
         loginFail() {},

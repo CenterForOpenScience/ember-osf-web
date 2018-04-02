@@ -2,6 +2,8 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import config from 'ember-get-config';
 
+const { OSF: { renderUrl } } = config;
+
 moduleForComponent('file-renderer', 'Integration | Component | file renderer', {
     integration: true,
 });
@@ -33,7 +35,8 @@ test('file rendering defaults', function(assert) {
 
     assert.equal(this.$('iframe').attr('height'), '100%');
     assert.equal(this.$('iframe').attr('width'), '100%');
-    assert.equal(this.$('iframe').attr('src'), `${config.OSF.renderUrl}?url=${encodeURIComponent(`${download}?direct&mode=render&initialWidth=766`)}`);
+    const expected = `${renderUrl}?url=${encodeURIComponent(`${download}?direct&mode=render&initialWidth=766`)}`;
+    assert.equal(this.$('iframe').attr('src'), expected);
 });
 
 test('specify file rendering parameters', function(assert) {
@@ -48,5 +51,6 @@ test('specify file rendering parameters', function(assert) {
 
     assert.equal(this.$('iframe').attr('height'), '500');
     assert.equal(this.$('iframe').attr('width'), '500');
-    assert.equal(this.$('iframe').attr('src'), `${config.OSF.renderUrl}?url=${encodeURIComponent('http://cos.io/?direct&mode=render&initialWidth=766')}`);
+    const expected = `${renderUrl}?url=${encodeURIComponent('http://cos.io/?direct&mode=render&initialWidth=766')}`;
+    assert.equal(this.$('iframe').attr('src'), expected);
 });
