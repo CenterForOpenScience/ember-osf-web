@@ -6,6 +6,7 @@ moduleFor('route:quickfiles', 'Unit | Route | quickfiles', {
         'service:currentUser',
         'service:metrics',
         'service:features',
+        'service:analytics',
     ],
 });
 

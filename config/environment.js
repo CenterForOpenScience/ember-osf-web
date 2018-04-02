@@ -81,6 +81,11 @@ module.exports = function(environment) {
                 config: {
                     id: GOOGLE_ANALYTICS_ID,
                 },
+                dimensions: {
+                    authenticated: 'dimension1',
+                    resource: 'dimension2',
+                    isPublic: 'dimension3',
+                },
             },
         ],
         FB_APP_ID,

@@ -3,7 +3,6 @@ import moment from 'moment';
 import layout from './template';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
-import Analytics from 'ember-osf-web/mixins/analytics';
 
 /**
  * @module ember-osf-web
@@ -26,8 +25,9 @@ import Analytics from 'ember-osf-web/mixins/analytics';
   * @class file-browser-icon
   */
 
-export default Ember.Component.extend(Analytics, {
+export default Ember.Component.extend({
     layout,
+    analytics: Ember.inject.service(),
     store: Ember.inject.service(),
     classNames: ['file-browser-item'],
     selected: Ember.computed('selectedItems.[]', function() {

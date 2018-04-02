@@ -6,7 +6,7 @@
     {{else}}
         <div class="col-lg-{{nameColumnWidth}} file-row-col col-md-9 col-sm-9 col-xs-12 file-browser-header">
             {{file-browser-icon item=item}}
-            <a {{action 'open' preventDefault='true'}} role="link">{{item.itemName}}</a>
+            <a {{action 'open' preventDefault='true'}} {{action 'click' 'link' 'File Browser - open_file' target=analytics}} role="link">{{item.itemName}}</a>
         </div>
         {{#if (if-filter 'size-column' display)}}
             <div class="col-sm-1 col-md-1 file-row-col hidden-sm hidden-xs file-browser-header">

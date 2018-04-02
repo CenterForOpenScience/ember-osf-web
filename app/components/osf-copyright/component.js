@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { inject as service } from '@ember/service';
 import layout from './template';
 
 /**
@@ -13,4 +14,5 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     currentYear: (new Date()).getUTCFullYear().toString(),
+    analytics: service(),
 });

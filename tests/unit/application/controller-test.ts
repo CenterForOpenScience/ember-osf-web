@@ -5,6 +5,7 @@ moduleFor('controller:application', 'Unit | Controller | application', {
         'service:session',
         'service:metrics',
         'service:features',
+        'service:analytics',
         'service:currentUser',
     ],
 });

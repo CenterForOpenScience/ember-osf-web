@@ -1,11 +1,12 @@
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
-import { inject as service } from '@ember/service';
 import moment from 'moment';
 
 export default class DashboardItem extends Component {
-    i18n = service('i18n');
+    @service i18n;
+    @service analytics;
 
     private = not('node.root.id');
 

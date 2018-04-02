@@ -15,7 +15,8 @@ const {
 } = config;
 
 export default class Dashboard extends Controller.extend({
-    currentUser: service('currentUser'),
+    currentUser: service('current-user'),
+    analytics: service(),
 
     filter: null,
     loading: false,
