@@ -61,6 +61,13 @@
     margin-top: 0; /* Override footer margin for this page only */
 }
 
+.quick-project button {
+    appearance: none;
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+
 .load-nodes {
     font-size: 2em;
 }
