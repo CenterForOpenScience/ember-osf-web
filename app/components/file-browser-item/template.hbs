@@ -1,32 +1,24 @@
 <div class="row file-row-item" style='padding-top: 0px'>
     {{#if item.flash.message}}
-        <div class='col-md-12 flash-message-alert alert-{{item.flash.type}}'>
-            <div class='flash-message'>{{item.flash.message}}</div>
+        <div class="col-md-12 flash-message-alert alert-{{item.flash.type}}">
+            <div class="flash-message">{{item.flash.message}}</div>
         </div>
     {{else}}
-        <div class="col-lg-{{nameColumnWidth}} file-row-col col-md-9 col-sm-9 col-xs-12 file-browser-header">
-            {{file-browser-icon item=item}}
+        <div class="col-lg-7 file-row-col col-md-9 col-sm-9 col-xs-12 file-browser-header">
+            {{file-icon item=item}}
             <a {{action 'open' preventDefault='true'}} {{action 'click' 'link' 'File Browser - open_file' target=analytics}} role="link">{{item.itemName}}</a>
         </div>
-        {{#if (if-filter 'size-column' display)}}
-            <div class="col-sm-1 col-md-1 file-row-col hidden-sm hidden-xs file-browser-header">
-                {{size}}
-            </div>
-        {{/if}}
-        {{#if (if-filter 'version-column' display)}}
-            <div class="col-lg-1 file-row-col hidden-md hidden-sm hidden-xs file-browser-header">
-                <a class='version-link' {{action 'openVersion'}} role="link">{{item.currentVersion}}</a>
-            </div>
-        {{/if}}
-        {{#if (if-filter 'downloads-column' display)}}
-            <div class="col-lg-1 file-row-col hidden-md hidden-sm hidden-xs file-browser-header">
-                {{item.extra.downloads}}
-            </div>
-        {{/if}}
-        {{#if (if-filter 'modified-column' display)}}
-            <div class="col-sm-3 col-md-2 col-lg-2 file-row-col hidden-xs file-browser-header">
-                {{date}}
-            </div>
-        {{/if}}
+        <div class="col-sm-1 col-md-1 file-row-col hidden-sm hidden-xs file-browser-header">
+            {{size}}
+        </div>
+        <div class="col-lg-1 file-row-col hidden-md hidden-sm hidden-xs file-browser-header">
+            <a class="version-link" {{action 'openVersion'}} role="link">{{item.currentVersion}}</a>
+        </div>
+        <div class="col-lg-1 file-row-col hidden-md hidden-sm hidden-xs file-browser-header">
+            {{item.extra.downloads}}
+        </div>
+        <time class="col-sm-3 col-md-2 col-lg-2 file-row-col hidden-xs file-browser-header">
+            {{date}}
+        </time>
     {{/if}}
 </div>

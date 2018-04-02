@@ -110,7 +110,7 @@ export default {
             download: '<b>Download as zip:</b> Click the Download as Zip button in the toolbar to download all files as a .zip.',
         },
         delete_modal: {
-            title: 'Delete "{{selectedItems.firstObject.itemName}}"?',
+            title: 'Delete "{{filename}}"?',
             title_multiple: 'Delete multiple?',
             body: 'This action is irreversible',
         },
@@ -125,6 +125,12 @@ export default {
             title: 'Move file to project',
             move_button: 'Move file',
         },
+        filtering: 'Filtering',
+        file_added: 'This file has been added.',
+        file_replaced: 'This file has been replaced',
+        file_deleted: 'This file has been deleted.',
+        delete_failed: 'Delete failed.',
+        successfully_moved: 'Successfully moved',
 
     },
     dashboard: {
@@ -191,6 +197,7 @@ export default {
         enter_project_title: 'Enter project title',
         new_project_message: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.',
         choose_project: 'Choose project',
+        select_placeholder: 'Click to select',
         project_select_message: 'The list of projects appearing are projects and components for which you have write access. Registrations are not included here.',
         no_projects_exist_error: 'You have no available projects. Go back to create a new project.',
         could_not_create_project: 'Could not create project. Please try again.',
