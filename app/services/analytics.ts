@@ -16,8 +16,7 @@ export default class Analytics extends Service {
     @service session;
     @service router;
 
-    // tslint:disable-next-line:variable-name
-    _trackPage = task(function* (
+    private trackPageTask = task(function* (
         this: Analytics,
         publicPrivate: analyticPrivacy,
         resourceType: string,
@@ -89,7 +88,7 @@ export default class Analytics extends Service {
         publicPrivate: analyticPrivacy = analyticPrivacy.undefined,
         resourceType: string = 'n/a',
     ) {
-        this.get('_trackPage').perform(publicPrivate, resourceType);
+        this.get('trackPageTask').perform(publicPrivate, resourceType);
     }
 }
 

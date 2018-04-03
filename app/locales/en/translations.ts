@@ -40,7 +40,7 @@ export default {
         sort_desc: 'Sort descending',
         next: 'next',
         previous: 'previous',
-        help: 'help',
+        help: 'Help',
         api: 'API',
         cos: 'Center for Open Science',
         home: 'Home',
