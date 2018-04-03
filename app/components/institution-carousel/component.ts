@@ -11,14 +11,14 @@ export default class InstitutionCarousel extends Component {
     @service store;
     @service analytics;
 
-    itemsPerSlide: number = 5;
-    institutions = A();
+    itemsPerSlide: number = this.itemsPerSlide || 5;
+    institutions = this.institutions || A([]);
 
     @computed('institutions.[]', 'itemsPerSlide')
     get slides(this: InstitutionCarousel) {
         const institutions = this.get('institutions').slice();
-
         const cos = this.get('store').peekRecord('institution', 'cos');
+
         if (cos) {
             institutions.removeObject(cos);
             institutions.unshiftObject(cos);
