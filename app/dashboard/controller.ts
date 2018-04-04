@@ -1,98 +1,40 @@
+import { action, computed } from '@ember-decorators/object';
+import { alias, oneWay } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
-import { alias, oneWay } from '@ember/object/computed';
-import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
-import config from 'ember-get-config';
 
-// TODO pull these from the database
-const {
-    dashboard: {
-        noteworthyNode,
-        popularNode,
-    },
-} = config;
+export default class Dashboard extends Controller {
+    @service analytics;
+    @service currentUser;
+    @service store;
 
-export default class Dashboard extends Controller.extend({
-    currentUser: service('current-user'),
-    analytics: service(),
-    ready: service('ready'),
+    page: number = 1;
+    loading: boolean = false;
+    loadingSearch: boolean = false;
+    loadingMore: boolean = false;
+    filter: string = '';
+    sort: string = '-last_logged';
+    modalOpen: boolean = false;
+    newNode = null;
 
-    filter: null,
-    loading: false,
-    loadingMore: false,
-    loadingSearch: false,
-    modalOpen: false,
-    newNode: null,
-    page: 1,
-    sort: '-last_logged',
+    institutions = A([]);
+    nodes = A([]);
+    noteworthy = A([]);
+    popular = A([]);
 
-    institutions: A([]),
-    nodes: A([]),
-    noteworthy: A([]),
-    popular: A([]),
-
-    user: alias('currentUser.user'),
-
-    actions: {
-        more() {
-            this.get('findNodes').perform(true);
-        },
-        sort(sort) {
-            this.setProperties({ sort });
-            this.get('findNodes').perform();
-        },
-        selectInstitution(this: Dashboard, institution) {
-            const selected = this.set('institutionsSelected', this.get('institutionsSelected').slice());
-
-            if (selected.includes(institution)) {
-                selected.removeObject(institution);
-            } else {
-                selected.pushObject(institution);
-            }
-        },
-        selectAllInstitutions(this: Dashboard) {
-            this.set('institutionsSelected', this.get('user.institutions').slice());
-        },
-        removeAllInstitutions(this: Dashboard) {
-            this.set('institutionsSelected', A([]));
-        },
-        toggleModal() {
-            if (this.get('modalOpen')) {
-                this.set('newNode', null);
-            }
-
-            this.toggleProperty('modalOpen');
-        },
-        closeModal(this: Dashboard, reload = false) {
-            // Need to explicitly pass reload when the action in the onclick event of a button
-            // otherwise the first argument is a mouse event which in turn is always truthy
-
-            this.closeModal();
-            if (reload) {
-                this.get('findNodes').perform();
-            }
-        },
-    },
-
-    getInstitutions: task(function* (this: Dashboard) {
+    getInstitutions = task(function* (this: Dashboard) {
         this.set('institutions', yield this.get('store').findAll('institution'));
-    }).restartable(),
+    }).restartable();
 
-    initialLoad: task(function* (this: Dashboard) {
-        const blocker = this.get('ready').getBlocker();
-        yield this.get('findNodes').perform();
-        blocker.done();
-    }),
-
-    filterNodes: task(function* (this: Dashboard, filter) {
+    filterNodes = task(function* (this: Dashboard, filter) {
         yield timeout(500);
         this.setProperties({ filter });
         yield this.get('findNodes').perform();
-    }).restartable(),
+    }).restartable();
 
-    findNodes: task(function* (this: Dashboard, more?: boolean) {
+    findNodes = task(function* (this: Dashboard, more?: boolean) {
         const indicatorProperty = `loading${more ? 'More' : ''}`;
 
         const filter = this.get('filter');
@@ -115,10 +57,9 @@ export default class Dashboard extends Controller.extend({
         }
 
         this.set(indicatorProperty, false);
-    }).restartable(),
+    }).restartable();
 
-    getPopularAndNoteworthy: task(function* (this: Dashboard, id, dest) {
-        const blocker = this.get('ready').getBlocker();
+    getPopularAndNoteworthy = task(function* (this: Dashboard, id, dest) {
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.queryHasMany('linkedNodes', {
@@ -126,20 +67,18 @@ export default class Dashboard extends Controller.extend({
                 page: { size: 5 },
             });
             this.set(dest, linkedNodes);
-            blocker.done();
         } catch (e) {
             this.set(`failedLoading-${dest}`, true);
-            blocker.errored(e);
         }
-    }),
+    });
 
-    searchNodes: task(function* (this: Dashboard, title) {
+    searchNodes = task(function* (this: Dashboard, title) {
         yield timeout(500);
         const user = yield this.get('user');
         return yield user.queryHasMany('nodes', { filter: { title } });
-    }).restartable(),
+    }).restartable();
 
-    createNode: task(function* (this: Dashboard, title, description, templateFrom) {
+    createNode = task(function* (this: Dashboard, title, description, templateFrom) {
         if (!title) {
             return;
         }
@@ -159,39 +98,74 @@ export default class Dashboard extends Controller.extend({
         yield node.save();
 
         this.set('newNode', node);
-    }).drop(),
-}) {
-    page: number;
-    loading: boolean;
-    loadingMore: boolean;
-    filter: string;
-    sort: string;
-    modalOpen: boolean;
+    }).drop();
 
-    store = service('store');
+    @alias('currentUser.user') user;
+    @oneWay('user.institutions') institutionsSelected;
 
-    institutionsSelected = oneWay('user.institutions');
-
-    hasNodes = computed('filter', 'nodes.meta.total', function (): boolean {
+    @computed('filter', 'nodes.meta.total')
+    get hasNodes(this: Dashboard): boolean {
         return this.get('nodes.meta.total') || this.get('filter') !== null;
-    });
-
-    hasMore = computed('nodes.{length,meta.total}', function (): boolean {
-        return this.get('nodes.length') < this.get('nodes.meta.total');
-    });
-
-    constructor() {
-        super();
-        this.get('initialLoad').perform();
-        this.get('getInstitutions').perform();
-        this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');
-        this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy');
     }
 
-    closeModal() {
+    @computed('nodes.{length,meta.total}')
+    get hasMore(this: Dashboard): boolean {
+        return this.get('nodes.length') < this.get('nodes.meta.total');
+    }
+
+    @action
+    more(this: Dashboard) {
+        this.get('findNodes').perform(true);
+    }
+
+    @action
+    sortProjects(this: Dashboard, sort: string) {
+        this.setProperties({ sort });
+        this.get('findNodes').perform();
+    }
+
+    @action
+    selectInstitution(this: Dashboard, institution) {
+        const selected = this.set('institutionsSelected', this.get('institutionsSelected').slice());
+
+        if (selected.includes(institution)) {
+            selected.removeObject(institution);
+        } else {
+            selected.pushObject(institution);
+        }
+    }
+
+    @action
+    selectAllInstitutions(this: Dashboard) {
+        this.set('institutionsSelected', this.get('user.institutions').slice());
+    }
+
+    @action
+    removeAllInstitutions(this: Dashboard) {
+        this.set('institutionsSelected', A([]));
+    }
+
+    @action
+    toggleModal(this: Dashboard) {
+        if (this.get('modalOpen')) {
+            this.set('newNode', null);
+        }
+
+        this.toggleProperty('modalOpen');
+    }
+
+    @action
+    closeModal(this: Dashboard, reload = false) {
+        // Need to explicitly pass reload when the action in the onclick event of a button
+        // otherwise the first argument is a mouse event which in turn is always truthy
+
         this.setProperties({
             modalOpen: false,
             newNode: null,
         });
+
+        if (reload) {
+            this.get('findNodes').perform();
+        }
     }
 }
