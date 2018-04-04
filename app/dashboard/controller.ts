@@ -25,7 +25,7 @@ export default class Dashboard extends Controller.extend({
     modalOpen: false,
     newNode: null,
     page: 1,
-    sort: '',
+    sort: '-last_logged',
 
     institutions: A([]),
     nodes: A([]),

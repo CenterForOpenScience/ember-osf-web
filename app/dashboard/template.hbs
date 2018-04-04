@@ -85,16 +85,16 @@
                                             <div class="row">
                                                 <div class="col-xs-12 f-w-xl node-sort-dropdown text-right">
                                                     <select aria-label={{t 'general.sort'}} onchange={{action "sort" value="target.value"}}>
-                                                        <option selected={{if (eq sortBy 'title') 'selected'}} value="title">
+                                                        <option selected={{if (eq sort 'title') 'selected'}} value="title">
                                                             {{t 'general.title'}} {{t 'general.asc_paren'}}
                                                         </option>
-                                                        <option selected={{if (eq sortBy '-title') 'selected'}} value="-title">
+                                                        <option selected={{if (eq sort '-title') 'selected'}} value="-title">
                                                             {{t 'general.title'}} {{t 'general.desc_paren'}}
                                                         </option>
-                                                        <option selected={{if (eq sortBy 'last_logged') 'selected'}} value="last_logged">
+                                                        <option selected={{if (eq sort 'last_logged') 'selected'}} value="last_logged">
                                                             {{t 'general.modified'}} {{t 'general.asc_paren'}}
                                                         </option>
-                                                        <option selected={{if (eq sortBy '-last_logged') 'selected'}} value="-last_logged">
+                                                        <option selected={{if (eq sort '-last_logged') 'selected'}} value="-last_logged">
                                                             {{t 'general.modified'}} {{t 'general.desc_paren'}}
                                                         </option>
                                                     </select>
