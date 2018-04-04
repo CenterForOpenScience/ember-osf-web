@@ -5,10 +5,10 @@ import { A } from '@ember/array';
 import Component from '@ember/component';
 import { next } from '@ember/runloop';
 import { task } from 'ember-concurrency';
+import { ProjectSelectState } from 'ember-osf-web/components/project-selector/component';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import analytics from 'ember-osf-web/services/analytics';
-import outsideClick from 'ember-osf-web/utils/outside-click';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import $ from 'jquery';
 
@@ -37,15 +37,33 @@ export default class FileBrowser extends Component.extend({
     didInsertElement(this: FileBrowser, ...args) {
         this._super(...args);
 
-        const dismissPop = () => this.set('popupOpen', false);
+        const dismissPop = () => !this.isDestroyed && this.setProperties({ popupOpen: false });
 
-        outsideClick(dismissPop);
+        const clickHandler = e => {
+            const { target } = e;
+            const targetClass = $(target).attr('class');
+
+            const shouldClick = $(e.target).parents('.popover.in').length === 0
+                && targetClass
+                && !targetClass.includes('popover-toggler');
+
+            if (shouldClick) {
+                this.get('dismissPop').bind(this)();
+            }
+        };
+
+        this.setProperties({
+            dismissPop,
+            clickHandler,
+        });
+
+        $('body').click(clickHandler);
         $(window).resize(dismissPop);
     },
 
     willDestroyElement(this: FileBrowser, ...args) {
-        $(window).off('resize');
-        $('body').off('click');
+        $(window).off('resize', this.get('dismissPop'));
+        $('body').off('click', this.get('clickHandler'));
 
         this._super(...args);
     },
@@ -56,6 +74,8 @@ export default class FileBrowser extends Component.extend({
     @service store;
     @service toast;
 
+    clickHandler: (e) => void;
+    dismissPop: () => void;
     canEdit: boolean;
     showRename: boolean = false;
     renameValue: string = '';
@@ -68,7 +88,9 @@ export default class FileBrowser extends Component.extend({
     node: Node | null = this.node || null;
     nodeTitle = null;
     newProject: Node = this.newProject;
-    projectSelectState = 'main';
+    isNewProject: boolean;
+    isChildNode: boolean;
+    projectSelectState: ProjectSelectState = ProjectSelectState.main;
     isMoving = false;
     loaded = true;
     uploading = A([]);
@@ -97,13 +119,18 @@ export default class FileBrowser extends Component.extend({
 
         const selectedItem = this.get('selectedItems.firstObject');
         const node = this.get('node');
+        const isNewProject = !!node && node.get('isNew');
+        const isChildNode = !!node && !!node.get('links.relationships.parent');
 
         yield this.get('moveFile')(selectedItem, node);
         this.get('analytics').track('file', 'move', 'Quick Files - Move to project');
 
         this.setProperties({
             currentModal: modals.SuccessMove,
+            isNewProject,
+            isChildNode,
             isMoving: false,
+            projectSelectState: ProjectSelectState.main,
         });
     });
 
@@ -361,7 +388,7 @@ export default class FileBrowser extends Component.extend({
     @action
     closeMoveToProjectModal(this: FileBrowser) {
         this.setProperties({
-            projectSelectState: 'main',
+            projectSelectState: ProjectSelectState.main,
             currentModal: modals.None,
         });
     }

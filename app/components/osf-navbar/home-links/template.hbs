@@ -1,6 +1,6 @@
 {{#if session.isAuthenticated}}
     <li>
-        {{#link-to 'quickfiles' clickAction=(action 'click' 'link' 'Navbar - navbar.my_quick_files' target=analytics)}}
+        {{#link-to 'guid-user.quickfiles' currentUser.currentUserId clickAction=(action 'click' 'link' 'Navbar - navbar.my_quick_files' target=analytics)}}
             {{t 'navbar.my_quick_files'}}
         {{/link-to}}
     </li>

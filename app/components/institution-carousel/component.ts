@@ -31,7 +31,7 @@ export default class InstitutionCarousel extends Component {
     get columnOffset(this: InstitutionCarousel) {
         const numInstitutions = this.get('institutions.length');
         const itemsPerSlide = this.get('itemsPerSlide');
-        return numInstitutions <= itemsPerSlide ? itemsPerSlide - numInstitutions - 1 : 1;
+        return numInstitutions <= itemsPerSlide ? itemsPerSlide - numInstitutions : 1;
     }
 
     didInsertElement(this: InstitutionCarousel) {

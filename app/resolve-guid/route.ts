@@ -1,11 +1,10 @@
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
-export default class ResolveGuid extends Route.extend({
-}) {
-    store = service('store');
+export default class ResolveGuid extends Route {
+    @service store;
 
-    async model(this: ResolveGuid, params: { guid: string }, transition): void {
+    async model(this: ResolveGuid, params: { guid: string }, transition): Promise<void> {
         // Block until the Guid is resolved, then always transition somewhere else.
         try {
             const guid = await this.get('store').findRecord('guid', params.guid);
@@ -13,7 +12,6 @@ export default class ResolveGuid extends Route.extend({
             this.transitionTo(`guid-${guid.get('referentType')}`, guid.get('id'));
         } catch (error) {
             this.transitionTo('not-found', params.guid);
-            throw error;
         }
     }
 }

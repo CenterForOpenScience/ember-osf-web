@@ -11,7 +11,7 @@ import Node from 'ember-osf-web/models/node';
  * @submodule components
  */
 
-enum ProjectSelectState {
+export enum ProjectSelectState {
     main = 'main',
     newProject = 'newProject',
     existingProject = 'existingProject',
