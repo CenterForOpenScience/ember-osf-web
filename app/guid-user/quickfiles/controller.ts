@@ -65,7 +65,7 @@ export default class UserQuickfiles extends Controller {
         yield all(files.map(file => deleteFile.perform(file)));
     });
 
-    moveFile = task(function* (this: UserQuickfiles, file: File, node: Node) {
+    moveFile = task(function* (this: UserQuickfiles, file: File, node: Node): IterableIterator<boolean> {
         try {
             if (node.get('isNew')) {
                 yield this.get('createProject').perform(node);
@@ -81,9 +81,12 @@ export default class UserQuickfiles extends Controller {
             yield file.move(node);
             yield this.get('flash').perform(file, this.get('i18n').t('file_browser.successfully_moved'));
             this.get('allFiles').removeObject(file);
+            return true;
         } catch (ex) {
             this.get('toast').error(this.get('i18n').t('move_to_project.could_not_move_file'));
         }
+
+        return false;
     });
 
     renameFile = task(function* (

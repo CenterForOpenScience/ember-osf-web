@@ -122,16 +122,22 @@ export default class FileBrowser extends Component.extend({
         const isNewProject = !!node && node.get('isNew');
         const isChildNode = !!node && !!node.get('links.relationships.parent');
 
-        yield this.get('moveFile')(selectedItem, node);
+        const moveSuccess: boolean = yield this.get('moveFile')(selectedItem, node);
         this.get('analytics').track('file', 'move', 'Quick Files - Move to project');
 
-        this.setProperties({
+        const successPropertyUpdates = {
             currentModal: modals.SuccessMove,
             isNewProject,
             isChildNode,
-            isMoving: false,
             projectSelectState: ProjectSelectState.main,
-        });
+        };
+
+        const propertyUpdates = {
+            isMoving: false,
+            ...(moveSuccess ? successPropertyUpdates : {}),
+        };
+
+        this.setProperties(propertyUpdates);
     });
 
     @not('items') loading;
