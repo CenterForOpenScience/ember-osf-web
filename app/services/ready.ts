@@ -25,7 +25,7 @@ export default class Ready extends Service.extend(Evented) {
 
     tryReady = task(function* (this: Ready) {
         // Waiting until `destroy` makes sure that everyone in `render` and `afterRender`
-        // (e.g. components, jQuery plugins, etc.) has a chance to call `block`, and that
+        // (e.g. components, jQuery plugins, etc.) has a chance to call `getBlocker`, and that
         // all DOM manipulation has settled.
         yield waitForQueue('destroy');
         if (!get(this, 'blockers').length) {
@@ -34,7 +34,7 @@ export default class Ready extends Service.extend(Evented) {
         }
     }).drop();
 
-    block(this: Ready): Blocker {
+    getBlocker(this: Ready): Blocker {
         if (get(this, 'isReady')) {
             return {
                 done: () => null,
@@ -47,14 +47,6 @@ export default class Ready extends Service.extend(Evented) {
             done: this.doneCallback(id),
             errored: this.errorCallback(),
         };
-    }
-
-    blockOn(this: Ready, promise: PromiseLike<any>): void {
-        const blocker = this.block();
-        promise.then(
-            blocker.done,
-            blocker.errored,
-        );
     }
 
     ready(this: Ready) {

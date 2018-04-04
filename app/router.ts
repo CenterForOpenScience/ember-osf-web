@@ -24,7 +24,7 @@ const Router = EmberRouter.extend({
                 }
             });
         }
-        this.set('readyBlocker', this.get('ready').block());
+        this.set('readyBlocker', this.get('ready').getBlocker());
         this._super(...arguments);
     },
 

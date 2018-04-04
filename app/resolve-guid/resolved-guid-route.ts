@@ -12,7 +12,7 @@ export default Route.extend({
     ready: service('ready'),
 
     loadModel: task(function* (typeName: string, id: string) {
-        const blocker = get(this, 'ready').block();
+        const blocker = get(this, 'ready').getBlocker();
         try {
             const model = yield get(this, 'store').findRecord(typeName, id);
             blocker.done();

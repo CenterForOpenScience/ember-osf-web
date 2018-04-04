@@ -22,7 +22,7 @@ module('Unit | Service | ready', hooks => {
         assert.expect(4);
 
         const ready = this.owner.lookup('service:ready');
-        const blocker = ready.block();
+        const blocker = ready.getBlocker();
 
         setUpListeners(assert, ready, true);
 
@@ -39,9 +39,9 @@ module('Unit | Service | ready', hooks => {
         assert.expect(5);
 
         const ready = this.owner.lookup('service:ready');
-        const blocker1 = ready.block();
-        const blocker2 = ready.block();
-        const blocker3 = ready.block();
+        const blocker1 = ready.getBlocker();
+        const blocker2 = ready.getBlocker();
+        const blocker3 = ready.getBlocker();
 
         setUpListeners(assert, ready, true);
 
@@ -65,7 +65,7 @@ module('Unit | Service | ready', hooks => {
         assert.expect(4);
 
         const ready = this.owner.lookup('service:ready');
-        const blocker = ready.block();
+        const blocker = ready.getBlocker();
 
         setUpListeners(assert, ready, false);
 
@@ -80,9 +80,9 @@ module('Unit | Service | ready', hooks => {
         assert.expect(5);
 
         const ready = this.owner.lookup('service:ready');
-        const blocker1 = ready.block();
-        const blocker2 = ready.block();
-        const blocker3 = ready.block();
+        const blocker1 = ready.getBlocker();
+        const blocker2 = ready.getBlocker();
+        const blocker3 = ready.getBlocker();
 
         setUpListeners(assert, ready, false);
 

@@ -1,10 +1,9 @@
 import ApplicationInstance from '@ember/application/instance';
 
-export function initialize(appInstance: ApplicationInstance): void {
+export async function initialize(appInstance: ApplicationInstance) {
     const ready = appInstance.lookup('service:ready');
-    ready.ready().then(() => {
-        window.prerenderReady = true;
-    });
+    await ready.ready();
+    window.prerenderReady = true;
 }
 
 export default {

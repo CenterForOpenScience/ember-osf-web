@@ -81,7 +81,7 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     initialLoad: task(function* (this: Dashboard) {
-        const blocker = this.get('ready').block();
+        const blocker = this.get('ready').getBlocker();
         yield this.get('findNodes').perform();
         blocker.done();
     }),
@@ -118,7 +118,7 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     getPopularAndNoteworthy: task(function* (this: Dashboard, id, dest) {
-        const blocker = this.get('ready').block();
+        const blocker = this.get('ready').getBlocker();
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.queryHasMany('linkedNodes', {
