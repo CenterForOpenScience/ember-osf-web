@@ -15,13 +15,13 @@ module('Integration | Component | node-navbar', hooks => {
     test('it renders active tab when passing proper tab', async function(assert) {
         await render(hbs`{{node-navbar renderInPlace=true}}`);
 
-        assert.ok(this.element.innerHTML.indexOf('active') === -1);
+        assert.ok(!this.element.innerHTML.includes('active'));
 
         await render(hbs`{{node-navbar renderInPlace=true active='wiki'}}`);
 
-        assert.ok(this.element.innerHTML.indexOf('active') !== -1);
+        assert.ok(this.element.innerHTML.includes('active'));
 
         await render(hbs`{{node-navbar renderInPlace=true active='notAtab'}}`);
-        assert.ok(this.element.innerHTML.indexOf('active') === -1);
+        assert.ok(!this.element.innerHTML.includes('active'));
     });
 });
