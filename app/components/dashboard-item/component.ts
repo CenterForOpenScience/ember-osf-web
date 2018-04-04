@@ -35,6 +35,6 @@ export default class DashboardItem extends Component {
     contributors = alias('node.contributors');
 
     date = computed('node.dateModified', function(): string {
-        return moment(this.get('node.dateModified')).utc().format('YYYY-MM-DD h:mm A');
+        return moment(this.get('node.dateModified')).format('YYYY-MM-DD h:mm A');
     });
 }
