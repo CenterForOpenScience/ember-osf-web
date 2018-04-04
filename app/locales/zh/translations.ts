@@ -33,7 +33,7 @@ export default {
         filter: 'Filter',
         revert: 'Revert',
         save: 'Save',
-        ellipses: '\u2026',
+        ellipsis: '\u2026',
         warning: 'Warning',
         clipboard_copy: 'Copy to clipboard',
         sort_asc: 'Sort ascending',
