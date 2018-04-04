@@ -1,5 +1,6 @@
+{{! template-lint-disable invalid-interactive }}
 {{#if session.isAuthenticated}}
-    <li>
+    <li {{action onLinkClick}}>
         {{#link-to 'guid-user.quickfiles' currentUser.currentUserId clickAction=(action 'click' 'link' 'Navbar - navbar.my_quick_files' target=analytics)}}
             {{t 'navbar.my_quick_files'}}
         {{/link-to}}
@@ -15,7 +16,7 @@
         {{t 'navbar.search'}}
     </a>
 </li>
-<li>
+<li {{action onLinkClick}}>
     {{#link-to 'support' clickAction=(action 'click' 'link' 'Navbar - navbar.support' target=analytics) }}
         {{t 'navbar.support'}}
     {{/link-to}}

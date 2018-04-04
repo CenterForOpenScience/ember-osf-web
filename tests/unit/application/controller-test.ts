@@ -7,6 +7,7 @@ moduleFor('controller:application', 'Unit | Controller | application', {
         'service:features',
         'service:analytics',
         'service:currentUser',
+        'service:ready',
     ],
 });
 

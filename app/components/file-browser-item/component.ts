@@ -53,7 +53,7 @@ export default class FileBrowserItem extends Component {
     get date(this: FileBrowserItem): string {
         const date = this.get('item').get('dateModified');
         // TODO: This should be i18n-ized
-        return moment(date).utc().format('YYYY-MM-DD h:mm A');
+        return moment(date).format('YYYY-MM-DD h:mm A');
     }
 
     @computed('item.guid')

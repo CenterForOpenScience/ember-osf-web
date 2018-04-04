@@ -9,6 +9,7 @@ moduleFor('controller:guid-user/quickfiles', 'Unit | Controller | guid-user/quic
         'service:analytics',
         'service:session',
         'service:toast',
+        'service:ready',
     ],
 });
 

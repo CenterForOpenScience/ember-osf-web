@@ -53,7 +53,7 @@ export default class DashboardItem extends Component {
 
     @computed('node.dateModified')
     get date(this: DashboardItem): string {
-        return moment(this.get('node.dateModified')).utc().format('YYYY-MM-DD h:mm A');
+        return moment(this.get('node.dateModified')).format('YYYY-MM-DD h:mm A');
     }
 
     constructor() {

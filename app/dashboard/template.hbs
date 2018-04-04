@@ -69,7 +69,7 @@
                                                 <div class="col-sm-3 col-md-6">
                                                     <div class="quick-search-col">
                                                         {{t 'general.title'}}
-                                                        {{sort-button sortAction=(action 'sort') sort=sort sortBy='title'}}
+                                                        {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='title'}}
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3 col-md-3">
@@ -78,21 +78,26 @@
                                                 <div class="col-sm-3 col-md-3">
                                                     <div class="quick-search-col">
                                                         {{t 'general.modified'}}
-                                                        {{sort-button sortAction=(action 'sort') sort=sort sortBy='last_logged'}}
+                                                        {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='last_logged'}}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-12 f-w-xl node-sort-dropdown text-right">
-                                                    <span>
-                                                        {{!-- {{sort-button sortAction=(action 'sort') curOrder=sortOrder}} --}}
-                                                    </span>
-                                                    <label>
-                                                        <select onchange={{action "sort" value="target.value"}}>
-                                                            <option selected={{if (eq sortBy 'title') 'selected'}} value="title">{{t 'general.title'}}</option>
-                                                            <option selected={{if (eq sortBy 'last_logged') 'selected'}} value="last_logged">{{t 'general.modified'}}</option>
-                                                        </select>
-                                                    </label>
+                                                    <select aria-label={{t 'general.sort'}} onchange={{action "sortProjects" value="target.value"}}>
+                                                        <option selected={{if (eq sort 'title') 'selected'}} value="title">
+                                                            {{t 'general.title'}} {{t 'general.asc_paren'}}
+                                                        </option>
+                                                        <option selected={{if (eq sort '-title') 'selected'}} value="-title">
+                                                            {{t 'general.title'}} {{t 'general.desc_paren'}}
+                                                        </option>
+                                                        <option selected={{if (eq sort 'last_logged') 'selected'}} value="last_logged">
+                                                            {{t 'general.modified'}} {{t 'general.asc_paren'}}
+                                                        </option>
+                                                        <option selected={{if (eq sort '-last_logged') 'selected'}} value="-last_logged">
+                                                            {{t 'general.modified'}} {{t 'general.desc_paren'}}
+                                                        </option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             {{#each nodes as | node |}}
