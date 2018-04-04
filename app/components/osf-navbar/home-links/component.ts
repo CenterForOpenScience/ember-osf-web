@@ -1,4 +1,3 @@
-import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
@@ -19,8 +18,4 @@ export default class OsfNavbarHomeLinks extends Component.extend({
     donateUrl = 'https://cos.io/donate';
     myProjectsUrl = serviceLinks.myProjects;
     reviewsUrl = serviceLinks.reviewsHome;
-    @action
-    closeSecondaryNav() {
-        $('.navbar-collapse').collapse('hide');
-    }
 }

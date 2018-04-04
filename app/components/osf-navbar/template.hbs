@@ -68,7 +68,7 @@
             {{! Secondary nav links }}
             <div class="navbar-collapse collapse navbar-right" id="secondary-navigation">
                 <ul class="nav navbar-nav">
-                    {{component linksComponent}}
+                    {{component linksComponent onLinkClick=closeSecondaryNavigation}}
 
                     {{osf-navbar/auth-dropdown
                         signupUrl=signupUrl
