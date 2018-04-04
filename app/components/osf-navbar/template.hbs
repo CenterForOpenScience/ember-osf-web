@@ -15,7 +15,7 @@
 
                 {{! Current app }}
                 <div class="service-name">
-                    {{#link-to indexRoute}}
+                    {{#link-to indexRoute clickAction=(action 'closeSecondaryAndSearch')}}
                         <span class="hidden-xs"> {{t 'general.OSF'}} </span>
                         <span class="current-service"><strong>{{currentApp}}</strong></span>
                     {{/link-to}}
