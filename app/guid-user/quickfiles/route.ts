@@ -29,21 +29,26 @@ export default class UserQuickfiles extends Route.extend({
 }) {
     @service analytics;
     @service currentUser;
+    @service ready;
 
-    loadModel = task(function* (this: UserQuickfiles, model) {
+    loadModel = task(function* (this: UserQuickfiles, userModel) {
+        const blocker = this.get('ready').getBlocker();
         try {
-            const user = yield model.taskInstance;
+            const user = yield userModel.taskInstance;
 
-            return {
+            const model = {
                 user,
                 files: yield loadAll(user, 'quickfiles', { 'page[size]': 100 }),
             };
+            blocker.done();
+            return model;
         } catch (error) {
+            blocker.errored(error);
             this.transitionTo('not-found', this.get('router.currentURL').slice(1));
         }
     });
 
-    model() {
+    model(this: UserQuickfiles) {
         return {
             taskInstance: this.get('loadModel').perform(this.modelFor('guid-user')),
         };

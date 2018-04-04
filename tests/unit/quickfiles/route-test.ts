@@ -7,6 +7,7 @@ moduleFor('route:quickfiles', 'Unit | Route | quickfiles', {
         'service:metrics',
         'service:features',
         'service:analytics',
+        'service:ready',
     ],
 });
 

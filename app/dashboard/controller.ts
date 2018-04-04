@@ -17,6 +17,7 @@ const {
 export default class Dashboard extends Controller.extend({
     currentUser: service('current-user'),
     analytics: service(),
+    ready: service('ready'),
 
     filter: null,
     loading: false,
@@ -42,7 +43,7 @@ export default class Dashboard extends Controller.extend({
             this.setProperties({ sort });
             this.get('findNodes').perform();
         },
-        selectInstitution(this: NewProjectModal, institution) {
+        selectInstitution(this: Dashboard, institution) {
             const selected = this.set('institutionsSelected', this.get('institutionsSelected').slice());
 
             if (selected.includes(institution)) {
@@ -51,10 +52,10 @@ export default class Dashboard extends Controller.extend({
                 selected.pushObject(institution);
             }
         },
-        selectAllInstitutions(this: NewProjectModal) {
+        selectAllInstitutions(this: Dashboard) {
             this.set('institutionsSelected', this.get('user.institutions').slice());
         },
-        removeAllInstitutions(this: NewProjectModal) {
+        removeAllInstitutions(this: Dashboard) {
             this.set('institutionsSelected', A([]));
         },
         toggleModal() {
@@ -64,7 +65,7 @@ export default class Dashboard extends Controller.extend({
 
             this.toggleProperty('modalOpen');
         },
-        closeModal(reload = false) {
+        closeModal(this: Dashboard, reload = false) {
             // Need to explicitly pass reload when the action in the onclick event of a button
             // otherwise the first argument is a mouse event which in turn is always truthy
 
@@ -80,7 +81,9 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     initialLoad: task(function* (this: Dashboard) {
+        const blocker = this.get('ready').getBlocker();
         yield this.get('findNodes').perform();
+        blocker.done();
     }),
 
     filterNodes: task(function* (this: Dashboard, filter) {
@@ -115,6 +118,7 @@ export default class Dashboard extends Controller.extend({
     }).restartable(),
 
     getPopularAndNoteworthy: task(function* (this: Dashboard, id, dest) {
+        const blocker = this.get('ready').getBlocker();
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.queryHasMany('linkedNodes', {
@@ -122,8 +126,10 @@ export default class Dashboard extends Controller.extend({
                 page: { size: 5 },
             });
             this.set(dest, linkedNodes);
+            blocker.done();
         } catch (e) {
             this.set(`failedLoading-${dest}`, true);
+            blocker.errored(e);
         }
     }),
 
@@ -174,7 +180,8 @@ export default class Dashboard extends Controller.extend({
         return this.get('nodes.length') < this.get('nodes.meta.total');
     });
 
-    init() {
+    constructor() {
+        super();
         this.get('initialLoad').perform();
         this.get('getInstitutions').perform();
         this.get('getPopularAndNoteworthy').perform(popularNode, 'popular');
