@@ -438,6 +438,6 @@ export default {
         remove_addon: 'Because the GitHub add-on for {{extra.category}} "{{extra.title}}" was authenticated by {{extra.user}}, authentication information has been deleted.',
         project_deleted: 'Project has been successfully deleted.',
         component_deleted: 'Component has been successfully deleted.',
-        remove_self_contrib: 'You have removed yourself as a contributor from this project',
+        remove_self_contrib: 'You have removed yourself as a contributor from this project.',
     },
 };
