@@ -1,16 +1,7 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import OSFAgnosticAuthRouteMixin from 'ember-osf-web/mixins/osf-agnostic-auth-route';
 
 export default class Application extends Route.extend(OSFAgnosticAuthRouteMixin) {
-    @service moment;
-
-    beforeModel(this: Application, ...args) {
-        this.get('moment').setTimeZone('UTC');
-
-        return this._super(...args);
-    }
-
     afterModel(this: Application) {
         const availableLocales: [string] = this.get('i18n.locales').toArray();
         let locale: string | null = null;
