@@ -1,69 +1,81 @@
 {{#if (eq projectSelectState 'main')}}
     <div class="row">
         <div class="col-xs-6">
-            <button class="btn btn-block btn-big" {{action 'changeState' 'newProject'}}>{{t "move_to_project.create_new_project"}}</button>
+            <button class="btn btn-block btn-big" {{action 'changeState' 'newProject'}}>
+                {{t 'move_to_project.create_new_project'}}
+            </button>
         </div>
         <div class="col-xs-6">
-            <button class="btn btn-block btn-big" {{action 'changeState' 'existingProject'}}>{{t "move_to_project.connect_to_existing"}}</button>
+            <button class="btn btn-block btn-big" {{action 'changeState' 'existingProject'}}>
+                {{t 'move_to_project.connect_to_existing'}}
+            </button>
         </div>
     </div>
 {{/if}}
 {{#if (eq projectSelectState 'newProject')}}
     <form>
         <div class="form-group">
-            {{input
-                type='text'
-                placeholder=(t "move_to_project.enter_project_title")
-                class="form-control"
-                name='projectTitle'
-                id='projectTitle'
-                key-up='checkNodeTitleKeypress'}}
+            {{validated-input
+                model=newProject
+                didValidate=didValidate
+                valuePath='title'
+                placeholder=(t 'move_to_project.enter_project_title')
+                aria-label=(t 'move_to_project.enter_project_title')
+                key-up=(action 'valueChanged')
+            }}
         </div>
     </form>
-    {{t "move_to_project.new_project_message"}}
+    {{t 'move_to_project.new_project_message'}}
 {{else if (eq projectSelectState 'existingProject')}}
-    {{#if isLoadingProjects}}
+    {{#if initialLoad.isRunning}}
         <div class="ball-pulse ball-dark text-center">
             <div></div>
             <div></div>
             <div></div>
         </div>
     {{else}}
-        <h5>{{t "move_to_project.choose_project"}}</h5>
-        {{#if projectList}}
+        <h5>{{t 'move_to_project.choose_project'}}</h5>
+        {{#if projectList.length}}
             <form>
                 <div class="form-group">
                     <div class="m-t-sm">
-                        {{#power-select renderInPlace=true placeholder="Click to select" options=projectList selected=selectedProject searchField="title" onchange=(action (mut selectedProject)) as |project|}}
-                            {{get-ancestor-descriptor project}} <strong> {{project.title}}</strong>
+                        {{#power-select
+                            renderInPlace=true
+                            placeholder=(t 'move_to_project.select_placeholder')
+                            options=projectList
+                            search=(perform findNodes)
+                            selected=selected
+                            searchField='title'
+                            onchange=(action 'valueChanged')
+                            as |project|
+                        }}
+                            {{get-ancestor-descriptor project}} <strong>{{project.title}}</strong>
                         {{/power-select}}
                     </div>
                 </div>
             </form>
         {{else}}
             <p class="m-t-md text-danger">
-                {{t "move_to_project.no_projects_exist_error"}}
+                {{t 'move_to_project.no_projects_exist_error'}}
             </p>
         {{/if}}
         <p class="text-muted text-smaller m-t-xs">
-            {{t "move_to_project.project_select_message"}}
+            {{t 'move_to_project.project_select_message'}}
         </p>
     {{/if}}
-    {{#if selectedProject}}
+    {{#if selected}}
         <p class="m-t-lg">
-            {{#if isChildNode}}
-                {{t "move_to_project.convert_or_copy_message.component"}}
-            {{else}}
-                {{t "move_to_project.convert_or_copy_message.project"}}
-            {{/if}}
+            {{t (concat
+                'move_to_project.convert_or_copy_message.'
+                (if isChildNode 'component' 'project')
+            )}}
         </p>
-        {{#unless isProjectPublic}}
+        {{#unless isPublicProject}}
             <p class="text-danger m-t-sm">
-                {{#if isChildNode}}
-                    {{t "move_to_project.no_longer_public_warning.component"}}
-                {{else}}
-                    {{t "move_to_project.no_longer_public_warning.project"}}
-                {{/if}}
+                {{t (concat
+                    'move_to_project.no_longer_public_warning.'
+                    (if isChildNode 'component' 'project')
+                )}}
             </p>
         {{/unless}}
     {{/if}}

@@ -1,8 +1,10 @@
 import Ember from 'ember';
-
+import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
-
 import { getTokenFromHash } from 'ember-osf-web/utils/auth';
+
+const { Logger } = Ember;
 
 /**
  * @module ember-osf-web
@@ -17,8 +19,8 @@ import { getTokenFromHash } from 'ember-osf-web/utils/auth';
  * @class OsfTokenLoginRouteMixin
  * @extends Ember.Mixin
  */
-export default Ember.Mixin.create({
-    session: Ember.inject.service(),
+export default Mixin.create({
+    session: service(),
     beforeModel() {
         // TODO: Should this check for resolution of a promise?
         this._super(...arguments);
@@ -35,6 +37,6 @@ export default Ember.Mixin.create({
         }
 
         return this.get('session').authenticate('authenticator:osf-token', accessToken)
-            .catch(err => Ember.Logger.log('Authentication failed: ', err));
+            .catch(err => Logger.log('Authentication failed: ', err));
     },
 });

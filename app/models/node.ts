@@ -1,4 +1,5 @@
 import { bool, equal } from '@ember/object/computed';
+import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import OsfModel from './osf-model';
@@ -9,6 +10,12 @@ const { attr, belongsTo, hasMany } = DS;
  * @module ember-osf-web
  * @submodule models
  */
+
+const Validations = buildValidations({
+    title: [
+        validator('presence', true),
+    ],
+});
 
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
@@ -23,7 +30,7 @@ const { attr, belongsTo, hasMany } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
  * @class Node
  */
-export default class Node extends OsfModel.extend(FileItemMixin, {
+export default class Node extends OsfModel.extend(Validations, FileItemMixin, {
     title: attr('fixstring'),
     description: attr('fixstring'),
     category: attr('fixstring'),

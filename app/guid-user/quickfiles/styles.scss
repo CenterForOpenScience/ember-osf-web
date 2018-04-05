@@ -1,5 +1,3 @@
-.Content {
-    .file-browser { // stylelint-disable-line selector-class-pattern
-        height: 600px;
-    }
+.Content > div {
+    height: 600px;
 }

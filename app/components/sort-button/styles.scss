@@ -1,0 +1,20 @@
+// stylelint-disable selector-class-pattern
+& {
+    display: inline-block;
+}
+
+button {
+    appearance: none;
+    outline: none;
+    border: 0;
+    background: transparent;
+    font-size: large;
+}
+
+.selected {
+    color: $color-text-black;
+}
+
+.not-selected {
+    color: $color-text-blue-dark;
+}

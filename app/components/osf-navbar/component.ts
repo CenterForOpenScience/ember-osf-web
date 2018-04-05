@@ -1,3 +1,4 @@
+import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -59,22 +60,25 @@ export default class OsfNavbar extends Component.extend() {
         return appName.toUpperCase();
     });
 
-    actions = {
-        ...this.actions, // from AnalyticsMixin
+    @action
+    toggleSearch() {
+        this.toggleProperty('showSearch');
+        this.send('closeSecondaryNavigation');
+    }
 
-        toggleSearch() {
-            this.toggleProperty('showSearch');
-            this.send('closeSecondaryNavigation');
-        },
-        closeSecondaryNavigation() {
-            this.$('.navbar-collapse').collapse('hide');
-        },
-        closeSearch() {
-            this.set('showSearch', false);
-        },
-        closeSecondaryAndSearch() {
-            this.send('closeSecondaryNavigation');
-            this.send('closeSearch');
-        },
-    };
+    @action
+    closeSecondaryNavigation() {
+        $('.navbar-collapse').collapse('hide');
+    }
+
+    @action
+    closeSearch() {
+        this.set('showSearch', false);
+    }
+
+    @action
+    closeSecondaryAndSearch() {
+        this.send('closeSecondaryNavigation');
+        this.send('closeSearch');
+    }
 }

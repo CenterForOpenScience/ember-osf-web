@@ -1,6 +1,7 @@
 // jscs:disable disallowArrayDestructuringReturn
 import Ember from 'ember';
 import config from 'ember-get-config';
+import $ from 'jquery';
 
 /**
  * @module ember-osf-web
@@ -21,14 +22,23 @@ import config from 'ember-get-config';
 function getOAuthUrl(nextUri) {
     // OAuth requires that redirect URI match what was registered, exactly. We may need a parameter to signify next
     //   transition, if the user wants to return to ember at the point where they left off before needing to log in.
-    // For now, we will put this in the `state` parameter (always returned unchanged) and implement that functionality in ember later.
+    // For now, we will put this in the `state` parameter (always returned unchanged) and implement that functionality
+    // in ember later.
     // To avoid abuse, the application should forcibly truncate state, eg make it relative to the application rootURL
     //   (should not be possible to use the ember app as just an external redirect service)
-    let uri = `${config.OSF.oauthUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURIComponent(config.OSF.redirectUri)}`;
+
+    const params = {
+        response_type: 'token',
+        scope: config.OSF.scope,
+        client_id: config.OSF.clientId,
+        redirect_uri: config.OSF.redirectUri,
+    };
+
     if (nextUri) {
-        uri += `&state=${encodeURIComponent(nextUri)}`;
+        params.state = nextUri;
     }
-    return uri;
+
+    return `${config.OSF.oauthUrl}?${$.param(params)}`;
 }
 
 /**

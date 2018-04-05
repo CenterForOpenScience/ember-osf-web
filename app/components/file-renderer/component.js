@@ -1,5 +1,5 @@
-import Ember from 'ember';
-import layout from './template';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 import config from 'ember-get-config';
 
 /**
@@ -18,14 +18,13 @@ import config from 'ember-get-config';
  * ```
  * @class file-renderer
  */
-export default Ember.Component.extend({
-    layout,
+export default Component.extend({
     download: null,
     width: '100%',
     height: '100%',
     allowfullscreen: true,
     version: null,
-    mfrUrl: Ember.computed('download', 'version', function() {
+    mfrUrl: computed('download', 'version', function() {
         let download = `${this.get('download')}?direct&mode=render&initialWidth=766`;
         if (this.get('version')) {
             download += `&version=${this.get('version')}`;
