@@ -31,7 +31,7 @@ const Router = EmberRouter.extend({
 
     didTransition() {
         this._super(...arguments);
-        this.get('statusMessages').clearMessages();
+        this.get('statusMessages').updateMessages();
         window.scrollTo(0, 0);
 
         const readyBlocker = this.get('readyBlocker');

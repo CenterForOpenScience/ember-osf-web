@@ -14,7 +14,12 @@ export default class StatusMessages extends Service {
     @service cookies;
 
     messages: StatusMessage[];
-    statusMessages: StatusMessage[];
+    nextMessages: StatusMessage[];
+
+    constructor() {
+        super();
+        this.nextMessages = this._getCookieMessages();
+    }
 
     _getCookieMessages(this: StatusMessages): StatusMessage[] {
         const cookies = this.get('cookies');
@@ -38,26 +43,14 @@ export default class StatusMessages extends Service {
         return messages;
     }
 
-    _getStatusMessages(this: StatusMessages): StatusMessage[] {
-        const messages = this.get('statusMessages') || [];
-        this.set('statusMessages', []);
-        return messages;
-    }
-
     addMessage(this: StatusMessages): void {
         // add status message to the messages array
     }
 
-    getMessages(this: StatusMessages): StatusMessage[] {
-        const statMsg = this._getStatusMessages();
-        const cookieMsg = this._getCookieMessages();
-        const messages = statMsg.concat(cookieMsg);
+    updateMessages(this: StatusMessages): void {
+        const messages = this.get('nextMessages') || [];
+        this.set('nextMessages', []);
         this.set('messages', messages);
-        return messages;
-    }
-
-    clearMessages(this: StatusMessages): void {
-        this.set('messages', []);
     }
 }
 
