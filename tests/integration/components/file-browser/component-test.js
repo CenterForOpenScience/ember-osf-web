@@ -16,7 +16,7 @@ skip('test name\'s column width', function(assert) {
     this.set('user', FactoryGuy.make('user'));
     this.set('display', ['header']);
     this.render(hbs`{{file-browser  user=user display=display}}`);
-    assert.equal(this.$('div:contains("Name")').html().split('col-xs-')[1].split(' ')[0], '12'); // welp there's probably a better way of doing this
+    assert.equal(this.$('div:contains("Name")').html().split('col-xs-')[1].split(' ')[0], '12');
 
     this.set('display', ['header', 'share-link-column']);
     this.render(hbs`{{file-browser  user=user display=display}}`);

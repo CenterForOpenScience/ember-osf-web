@@ -2,13 +2,15 @@
 // environment variables in your deployment environment
 
 module.exports = {
-    // Default is ability to read and write all data associated with a user's account. Some apps may not need full account
-    //  privileges. If your app only reads data, best practice is to limit permission requests to only what you need.
+    // Default is ability to read and write all data associated with a user's account. Some apps may not need full
+    // account privileges. If your app only reads data, best practice is to limit permission requests to only what
+    // you need.
     OAUTH_SCOPES: 'osf.full_write',
-    // Where to send the user on the site after they authenticated. Usually this is a page enabled to handle the oauth flow.
+    // Where to send the user on the site after they authenticated. Usually this is a page enabled to handle the oauth
+    // flow.
     REDIRECT_URI: 'http://localhost:4200/login',
     // The developer app client ID (not client secret!). This is needed for your app to let users log in via the OSF.
     CLIENT_ID: '',
-    // Credentials for only a single user. This setting will be ignored except for local development; NEVER commit to github
+    // Credentials for only a single user. This setting will be ignored except for local development; NEVER commit
     PERSONAL_ACCESS_TOKEN: '',
 };

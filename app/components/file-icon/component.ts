@@ -1,0 +1,142 @@
+import { tagName } from '@ember-decorators/component';
+import { computed } from '@ember-decorators/object';
+import Component from '@ember/component';
+
+const iconForType = {
+    code: [
+        'py',
+        'js',
+        'css',
+        'html',
+        'awk',
+        'bat',
+        'c',
+        'cpp',
+        'h',
+        'hdl',
+        'java',
+        'jar',
+        'mk',
+        'pl',
+        'sh',
+        'coffee',
+        'ipynb',
+        'lua',
+        'm',
+        'php',
+        'pyc',
+        'r',
+        'rb',
+    ],
+    image: [
+        'png',
+        'jpeg',
+        'jpg',
+        'tiff',
+        'gif',
+        'bmp',
+    ],
+    pdf: [
+        'pdf',
+    ],
+    word: [
+        'doc',
+        'docx',
+        'dotx',
+        'dot',
+        'docm',
+    ],
+    video: [
+        'mov',
+        'mkv',
+        'flv',
+        'avi',
+        'mp4',
+    ],
+    powerpoint: [
+        'ppt',
+        'pptx',
+        'pptm',
+        'potx',
+    ],
+    audio: [
+        'mp3',
+        'wav',
+        'flac',
+        'aiff',
+        'wma',
+    ],
+    excel: [
+        'xlsx',
+        'xlsm',
+        'xltx',
+        'xltm',
+        'csv',
+    ],
+    text: [
+        'txt',
+        'md',
+        'rtf',
+    ],
+};
+
+const typeIcons: Map<string, string> = new Map(
+    Object.entries(iconForType)
+        .map(([icon, extensions]): Array<[string, string]> => extensions
+            .map((extension): [string, string] => [extension, icon]))
+        .reduce((acc, val): Array<[string, string]> => [...acc, ...val], []),
+);
+
+function iconFromName(name: string): string {
+    const match = name.match(/(?!\.)[^.]+$/);
+    const type = match ? match[0] : '';
+    const icon = typeIcons.get(type);
+
+    return `file${icon ? `-${icon}` : ''}-o`;
+}
+
+/**
+ * @module ember-osf-web
+ * @submodule components
+ */
+
+/**
+ * Display the correct file tree icon for on the item to be displayed
+ *
+ * Sample usage:
+ * ```handlebars
+ * {{file-icon item=item}}
+ * ```
+ * @class file-icon
+ */
+
+@tagName('span')
+export default class FileIcon extends Component {
+    item = this.item;
+
+    @computed('item', 'item.expanded')
+    get iconName(this: FileIcon): string {
+        // TODO: More icons!
+        const item = this.get('item');
+
+        if (item.status === 'uploading') {
+            return iconFromName(item.name);
+        }
+
+        if (item.get('isNode')) {
+            // TODO node types
+            return 'cube';
+        }
+
+        if (item.get('isProvider')) {
+            // TODO provider-specific icons
+            return 'hdd-o';
+        }
+
+        if (item.get('isFolder')) {
+            return 'folder';
+        }
+
+        return iconFromName(item.get('itemName') || '');
+    }
+}

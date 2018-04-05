@@ -1,7 +1,9 @@
 import DS from 'ember-data';
 import $ from 'jquery';
 
-export default DS.Transform.extend({
+const { Transform } = DS;
+
+export default Transform.extend({
     deserialize(value) {
         if ($.isPlainObject(value)) {
             return value;

@@ -27,7 +27,7 @@
         <div class="network-bg"></div>
         <h1 class="hero-brand">{{t 'home.brand'}}</h1>
         <h3 class="hero-tagline">{{t 'home.tagline'}}</h3>
-        {{osf-logo}}
+        {{osf-logo animate=true}}
         <div id="hero-signup" class="container">
             <div class="row">
                 <div class="col-sm-6 hidden-xs">
@@ -152,7 +152,7 @@
                 <h2>{{t 'home.global_title'}}</h2>
                 <p>
                     {{t 'home.global_paragraph'}}
-                    <a href="/explore/activity/" {{action 'click' 'link' 'Home - explore_activity' target=analytics}}>{{t 'home.global_link'}}</a>
+                    <a href="/explore/activity/" onclick={{action 'click' 'link' 'Home - explore_activity' target=analytics}}>{{t 'home.global_link'}}</a>
                     <span class="label label-warning">{{t 'home.global_label'}}</span>
                 </p>
             </div>
@@ -161,7 +161,7 @@
                 <h2>{{t 'home.non_profit_title'}}</h2>
                 <p>
                     {{t 'home.non_profit_paragraph1'}}
-                    <a href="https://cos.io/" {{action 'click' 'link' 'Home - cos_webpage' target=analytics}}>{{t 'home.non_profit_link'}}</a>
+                    <a href="https://cos.io/" onclick={{action 'click' 'link' 'Home - cos_webpage' target=analytics}}>{{t 'home.non_profit_link'}}</a>
                     {{t 'home.non_profit_paragraph2'}}
                     <span class="label label-success">{{t 'home.non_profit_label'}}</span>
                 </p>
@@ -231,7 +231,7 @@
                     <strong>{{t 'home.free_title1'}}</strong>
                 </h2>
                 <h4>{{t 'home.free_title2'}}</h4>
-                <a href="#" class="btn btn-info btn-lg" {{action 'click' 'link' 'Home - goto_signup' target=analytics}}>{{t 'home.free_link'}}</a>
+                <a href="#signUp" class="btn btn-info btn-lg" onclick={{action 'click' 'link' 'Home - goto_signup' target=analytics}}>{{t 'home.free_link'}}</a>
             </div>
             <div class="col-md-4 hidden-xs hidden-sm">
                 {{osf-logo double=true}}
