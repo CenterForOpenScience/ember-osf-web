@@ -37,7 +37,7 @@ export default class StatusMessages extends Service {
             return updated;
         });
         cookies.clear(config.OSF.statusCookie, {
-            domain: config.environment === 'development' ? 'localhost' : '.osf.io',
+            domain: window.location.hostname,
             path: '/',
         });
         return messages;
