@@ -2,12 +2,16 @@ import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
+import { Blocker } from 'ember-osf-web/services/ready';
+
 const Router = EmberRouter.extend({
     metrics: service('metrics'),
     currentUser: service('current-user'),
     features: service('features'),
     session: service('session'),
     statusMessages: service('status-messages'),
+    ready: service('ready'),
+    readyBlocker: null as Blocker|null,
 
     location: config.locationType,
     rootURL: config.rootURL,
@@ -21,6 +25,7 @@ const Router = EmberRouter.extend({
                 }
             });
         }
+        this.set('readyBlocker', this.get('ready').getBlocker());
         this._super(...arguments);
     },
 
@@ -28,6 +33,11 @@ const Router = EmberRouter.extend({
         this._super(...arguments);
         this.get('statusMessages').clearMessages();
         window.scrollTo(0, 0);
+
+        const readyBlocker = this.get('readyBlocker');
+        if (readyBlocker) {
+            readyBlocker.done();
+        }
     },
 });
 

@@ -12,16 +12,16 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "eslint --ext js,ts . && tslint -p . && stylelint 'app/**/*.scss'",
+    "lint": "eslint --ext js,ts --max-warnings=0 . && tslint -p . && stylelint 'app/**/*.scss'",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
     "test:translations": "node node-tests/compile-and-test-translations.js",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": "eslint",
+    "*.js": "eslint --max-warnings=0",
     "*.ts": [
-      "eslint",
+      "eslint --max-warnings=0",
       "tslint"
     ],
     "*.scss": "stylelint",
@@ -124,7 +124,7 @@
     "toastr": "^2.1.4",
     "tslint-consistent-codestyle": "^1.11.1",
     "tslint-eslint-rules": "^5.0.0",
-    "typescript": "^2.7.1",
+    "typescript": "^2.8.1",
     "typescript-eslint-parser": "^13.0.0"
   },
   "engines": {

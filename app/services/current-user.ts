@@ -117,8 +117,8 @@ export default class CurrentUserService extends Service {
     }
 }
 
-declare module 'ember' {
-    interface ServiceRegistry {
+declare module '@ember/service' {
+    interface Registry {
         'current-user': CurrentUserService;
     }
 }

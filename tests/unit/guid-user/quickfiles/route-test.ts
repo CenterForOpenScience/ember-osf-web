@@ -8,6 +8,7 @@ moduleFor('route:guid-user/quickfiles', 'Unit | Route | guid-user/quickfiles', {
         'service:analytics',
         'service:session',
         'service:status-messages',
+        'service:ready',
     ],
 });
 

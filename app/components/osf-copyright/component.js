@@ -1,6 +1,5 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import layout from './template';
 
 /**
  * @module ember-osf-web
@@ -11,8 +10,7 @@ import layout from './template';
  * Display copyright information as a footer
  * @class osf-copyright
  */
-export default Ember.Component.extend({
-    layout,
-    currentYear: (new Date()).getUTCFullYear().toString(),
+export default Component.extend({
     analytics: service(),
+    currentYear: (new Date()).getUTCFullYear().toString(),
 });

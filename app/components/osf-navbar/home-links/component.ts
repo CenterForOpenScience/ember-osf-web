@@ -9,6 +9,7 @@ import { serviceLinks } from 'ember-osf-web/const/service-links';
  */
 export default class OsfNavbarHomeLinks extends Component.extend({
     tagName: '',
+    onLinkClick: 'onLinkClick',
 }) {
     session = service('session');
     analytics = service();

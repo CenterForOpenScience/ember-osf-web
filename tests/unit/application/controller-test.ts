@@ -8,6 +8,7 @@ moduleFor('controller:application', 'Unit | Controller | application', {
         'service:analytics',
         'service:currentUser',
         'service:status-messages',
+        'service:ready',
     ],
 });
 

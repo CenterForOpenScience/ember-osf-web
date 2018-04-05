@@ -3,7 +3,12 @@
 <div class='container'>
     <div class='row TitleBar'>
         <div class='col-sm-5'>
-            <h2>{{model.file.name}} <a class='TitleBar__version-link' role="button" onclick={{action 'changeView' 'revision'}}>{{t 'file_detail.version.title' version-number=mfrVersion}}</a></h2>
+            <h2>
+                {{model.file.name}}
+                <a class='TitleBar__version-link' role="button" onclick={{action 'changeView' 'revision'}}>
+                    {{t 'file_detail.version.title' version-number=mfrVersion}}
+                </a>
+            </h2>
         </div>
         <div class='col-sm-7'>
             <div id='toggleBar' class='pull-right'>
@@ -57,22 +62,26 @@
             <p>{{t 'file_detail.delete_file.confirm' file-name=model.file.name}}</p>
         {{/modal.body}}
         {{#modal.footer}}
-            {{#bs-button onClick=(action 'closeDeleteModal') type='default'}}{{t 'general.cancel'}}{{/bs-button}}
-            {{#bs-button onClick=(action modal.submit) type='danger'}}{{t 'general.delete'}}{{/bs-button}}
+            {{#bs-button onClick=(action 'closeDeleteModal') type='default'}}
+                {{t 'general.cancel'}}
+            {{/bs-button}}
+            {{#bs-button onClick=(action modal.submit) type='danger'}}
+                {{t 'general.delete'}}
+            {{/bs-button}}
         {{/modal.footer}}
     {{/bs-modal}}
     <hr>
     <div class='row'>
         <div class='col-md-3 Sidebar'>
-            {{file-browser
+            {{file-list
+                items=files
+                filter=filter
                 selectedFile=model.file
-                display=displays
                 user=model.user
-                multiple=false
                 unselect=false
                 openOnSelect=true
+                updateFilter=(perform updateFilter)
                 openFile=(action 'openFile')
-                dropzone=false
             }}
             {{#if (or canEdit fileTags)}}
                 <div class='panel panel-default TagsPanel'>
@@ -82,7 +91,7 @@
                     <div class='panel-body'>
                         {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
                         {{#tag-input
-                            tags=fileTags
+                            tags=tags
                             addTag=(action 'addTag')
                             removeTagAtIndex=(action 'removeTagAtIndex')
                             allowSpacesInTags=true
@@ -93,33 +102,41 @@
                         }}
                             <a href='{{searchUrl}}?q=(tags:"{{tag}}")'>{{tag}}</a>
                         {{/tag-input}}
-                        <div class="tags_clear">
-                        </div>
+                        <div class="tags_clear"></div>
                     </div>
                 </div>
             {{/if}}
         </div>
         <div class='col-md-9'>
-            {{#if (or (eq show 'view') (eq show 'view_edit'))}}
+            {{#if (or
+                (eq show 'view')
+                (eq show 'view_edit')
+            )}}
                 <div id='mfrIframeParent' class='{{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
-                    {{#file-renderer download=model.file.links.download version=mfrVersion
-                        height="700" width="99%"}}
-                    {{/file-renderer}}
+                    {{file-renderer
+                        download=model.file.links.download
+                        version=mfrVersion
+                        height="700"
+                        width="99%"
+                    }}
                 </div>
             {{/if}}
-            {{#if (or (eq show 'edit') (eq show 'view_edit'))}}
-                {{#if isEditableFile}}
-                    {{#if canEdit}}
-                        {{#if (not (eq (await fileText) null))}}
-                            <div class='panel panel-default EditPanel {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
-                                {{#file-editor
-                                    fileText=(await fileText)
-                                    save=(action 'save')}}
-                                {{/file-editor}}
-                            </div>
-                        {{/if}}
+            {{#if (and
+                isEditableFile
+                canEdit
+                (or
+                    (eq show 'edit')
+                    (eq show 'view_edit')
+                )
+            )}}
+                <div class='panel panel-default EditPanel {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
+                    {{#if (await fileText)}}
+                        {{#file-editor
+                            fileText=(await fileText)
+                            save=(action 'save')}}
+                        {{/file-editor}}
                     {{/if}}
-                {{/if}}
+                </div>
             {{/if}}
             {{#if (eq show 'revision')}}
                 <div id='revisionsPanel' class='panel panel-default RevisionsPanel'>
@@ -139,14 +156,18 @@
                                         {{t "general.md5"}}
                                         <span>
                                             {{fa-icon "question-circle"}}
-                                            {{#bs-popover triggerEvents='hover' placement='top'}}{{t 'file_detail.md5_description'}}{{/bs-popover}}
+                                            {{#bs-popover triggerEvents='hover' placement='top'}}
+                                                {{t 'file_detail.md5_description'}}
+                                            {{/bs-popover}}
                                         </span>
                                     </th>
                                     <th class='hidden-md hidden-sm hidden-xs'>
                                         {{t "general.sha2"}}
                                         <span>
                                             {{fa-icon "question-circle"}}
-                                            {{#bs-popover triggerEvents='hover' placement='top'}}{{t 'file_detail.sha2_description'}}{{/bs-popover}}
+                                            {{#bs-popover triggerEvents='hover' placement='top'}}
+                                                {{t 'file_detail.sha2_description'}}
+                                            {{/bs-popover}}
                                         </span>
                                     </th>
                                 </tr>

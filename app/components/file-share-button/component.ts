@@ -1,7 +1,7 @@
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
-import Ember from 'ember';
 import config from 'ember-get-config';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -14,7 +14,6 @@ const {
 } = config;
 
 export default class FileShareButton extends Component.extend({
-    analytics: Ember.inject.service(),
     actions: {
         share(this: FileShareButton) {
             const textArea: HTMLTextAreaElement = document.querySelector('.SharePane__mfr-url');
@@ -31,6 +30,8 @@ export default class FileShareButton extends Component.extend({
         },
     },
 }) {
+    @service analytics;
+
     file: any; // Change when models are typed
     showPopup = false;
 

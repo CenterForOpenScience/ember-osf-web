@@ -1,6 +1,5 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import layout from './template';
 import config from 'ember-get-config';
 
 /**
@@ -17,13 +16,13 @@ import config from 'ember-get-config';
  * ```
  * @class search-dropdown
  */
-export default Ember.Component.extend({
-    layout,
-    host: config.OSF.url,
+export default Component.extend({
     analytics: service(),
     i18n: service(),
+
     query: null,
     isOpen: false, // is help modal open?
+
     actions: {
         // Runs toggleSearch in parent component, osf-navbar
         toggleSearch() {
@@ -42,4 +41,6 @@ export default Ember.Component.extend({
             this.toggleProperty('isOpen');
         },
     },
+
+    host: config.OSF.url,
 });
