@@ -442,4 +442,12 @@ export default {
         password_match: 'パスワードが一致する必要があります。',
         recaptcha: 'reCAPTCHAを完了してください',
     },
+    status: {
+        welcome_message: '<h1>Welcome to the OSF!</h1><p>Visit our <a href="http://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>',
+        alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.',
+        remove_addon: 'Because the GitHub add-on for {{extra.category}} "{{extra.title}}" was authenticated by {{extra.user}}, authentication information has been deleted.',
+        project_deleted: 'Project has been successfully deleted.',
+        component_deleted: 'Component has been successfully deleted.',
+        remove_self_contrib: 'You have removed yourself as a contributor from this project.',
+    },
 };

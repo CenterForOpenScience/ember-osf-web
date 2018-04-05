@@ -8,6 +8,7 @@ moduleFor('route:dashboard', 'Unit | Route | dashboard', {
         'service:features',
         'service:analytics',
         'service:currentUser',
+        'service:status-messages',
         'service:ready',
     ],
 });
