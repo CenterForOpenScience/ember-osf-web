@@ -130,6 +130,7 @@ export default {
         },
         filtering: 'Filtering',
         file_added: 'This file has been added.',
+        file_added_toast: 'A file has been added',
         file_replaced: 'This file has been replaced',
         file_deleted: 'This file has been deleted.',
         delete_failed: 'Delete failed.',

@@ -193,7 +193,7 @@ export default class FileBrowser extends Component.extend({
     success(this: FileBrowser, _, __, file, response) {
         this.get('analytics').track('file', 'upload', 'Quick Files - Upload');
         this.get('uploading').removeObject(file);
-        this.get('toast').success('A file has been added');
+        this.get('toast').success(this.get('i18n').t('file_browser.file_added_toast'));
         this.get('addFile')(response.data.id.replace(/^.*\//, ''));
     }
 
