@@ -33,7 +33,11 @@ export default {
         filter: 'フィルター',
         revert: '復帰',
         save: '保存',
+<<<<<<< HEAD
         ellipsis: '\u2026',
+=======
+        ellipses: '\u2026',
+>>>>>>> origin
         warning: '警告',
         clipboard_copy: 'クリップボードへコピー',
         sort_asc: '昇順ソート',
@@ -128,12 +132,16 @@ export default {
             title: 'プロジェクトへファイルを移動',
             move_button: 'ファイルを移動',
         },
+<<<<<<< HEAD
         filtering: 'Filtering',
         file_added: 'This file has been added.',
         file_replaced: 'This file has been replaced',
         file_deleted: 'This file has been deleted.',
         delete_failed: 'Delete failed.',
         successfully_moved: 'Successfully moved',
+=======
+
+>>>>>>> origin
     },
     dashboard: {
         page_title: 'ホーム',
