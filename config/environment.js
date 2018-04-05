@@ -124,7 +124,7 @@ module.exports = function(environment) {
             shareSearchUrl,
             accessToken,
             devMode,
-            statusCookie: 'status',
+            statusCookie: 'osf_status',
         },
         social: {
             twitter: {

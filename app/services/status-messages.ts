@@ -29,7 +29,7 @@ export default class StatusMessages extends Service {
         // decode commas and \\
         let status = cookies.read(config.OSF.statusCookie).replace(/\\054/g, ',').replace(/\\/g, '');
         // remove outside quotes
-        status = status.slice(1).slice(0, -1);
+        status = status.slice(1, -1);
         let messages = JSON.parse(status);
         messages = messages.map(each => {
             const updated = each;
@@ -49,8 +49,10 @@ export default class StatusMessages extends Service {
 
     updateMessages(this: StatusMessages): void {
         const messages = this.get('nextMessages') || [];
-        this.set('nextMessages', []);
-        this.set('messages', messages);
+        this.setProperties({
+            messages,
+            nextMessages: [],
+        });
     }
 }
 
