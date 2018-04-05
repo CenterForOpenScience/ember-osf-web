@@ -8,6 +8,7 @@ moduleFor('controller:guid-file', 'Unit | Controller | guid file', {
         'service:features',
         'service:analytics',
         'service:session',
+        'service:status-messages',
     ],
 });
 

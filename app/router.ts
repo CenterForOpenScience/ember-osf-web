@@ -7,6 +7,7 @@ const Router = EmberRouter.extend({
     currentUser: service('current-user'),
     features: service('features'),
     session: service('session'),
+    statusMessages: service('status-messages'),
 
     location: config.locationType,
     rootURL: config.rootURL,
@@ -25,6 +26,7 @@ const Router = EmberRouter.extend({
 
     didTransition() {
         this._super(...arguments);
+        this.get('statusMessages').clearMessages();
         window.scrollTo(0, 0);
     },
 });
