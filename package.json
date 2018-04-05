@@ -123,7 +123,7 @@
     "toastr": "^2.1.4",
     "tslint-consistent-codestyle": "^1.11.1",
     "tslint-eslint-rules": "^5.0.0",
-    "typescript": "^2.7.1",
+    "typescript": "^2.8.1",
     "typescript-eslint-parser": "^13.0.0"
   },
   "engines": {
