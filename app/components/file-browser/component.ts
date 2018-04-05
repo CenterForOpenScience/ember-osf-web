@@ -95,7 +95,7 @@ export default class FileBrowser extends Component.extend({
     isMoving = false;
     loaded = true;
     uploading = A([]);
-    clickable = ['.dz-upload-button'];
+    clickable = ['.dz-upload-button', '.file-browser-empty'];
     currentModal = modals.None;
     popupOpen: boolean = false;
     itemsLoaded = true;
