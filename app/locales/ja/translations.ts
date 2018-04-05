@@ -19,7 +19,7 @@ export default {
         modified: '変更',
         description: '説明',
         create: '作成',
-        and: 'と',
+        and: 'and',
         more: '詳細',
         upload: 'アップロード',
         rename: '名前の変更',
@@ -158,7 +158,7 @@ export default {
             most_popular: '最人気',
             failed_popular: '"最人気"プロジェクトのローディングに失敗しました。',
             search_more: '更にプロジェクトを探す',
-            by: 'により',
+            by: 'by',
         },
         meetings: {
             title: '学会や研究会をホスティングしますか？',
