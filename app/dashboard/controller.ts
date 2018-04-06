@@ -103,9 +103,9 @@ export default class Dashboard extends Controller {
     @alias('currentUser.user') user;
     @oneWay('user.institutions') institutionsSelected;
 
-    @computed('filter', 'nodes.meta.total')
+    @computed('filter', 'nodes.length')
     get hasNodes(this: Dashboard): boolean {
-        return this.get('nodes.meta.total') || this.get('filter') !== null;
+        return this.get('nodes.length') !== 0 || this.get('filter') !== '';
     }
 
     @computed('nodes.{length,meta.total}')
