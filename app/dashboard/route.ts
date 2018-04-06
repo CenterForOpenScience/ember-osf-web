@@ -30,8 +30,8 @@ export default class Dashboard extends Route.extend({
         const blocker = this.get('ready').getBlocker();
 
         try {
+            controller.set('filter', null);
             await Promise.all([
-                controller.set('filter', null),
                 controller.get('findNodes').perform(),
                 controller.get('getInstitutions').perform(),
                 controller.get('getPopularAndNoteworthy').perform(popularNode, 'popular'),
