@@ -1,7 +1,4 @@
-{{#if renderInPlace}}
-    <div id='rightHere'></div>
-{{/if}}
-{{#ember-wormhole to=(if renderInPlace 'rightHere' 'secondaryNavbar')}}
+{{#ember-wormhole to='secondaryNavbar' renderInPlace=renderInPlace}}
     <nav class='navbar osf-project-navbar' role='navigation'>
         <div class='container'>
             <div class='navbar-header'>
@@ -15,38 +12,35 @@
             </div>
             <div class='collapse navbar-collapse project-nav'>
                 <ul class='nav navbar-nav'>
-                    <li class="{{if (eq active 'title') 'active'}}">
+                    <li class="{{if (eq activeTab 'title') 'active'}}">
                         <a href='/{{node.id}}/' class='project-title'>{{node.title}}</a>
                     </li>
-                    <li class="{{if (eq active 'files') 'active'}}">
+                    <li class="{{if (eq activeTab 'files') 'active'}}">
                         <a href='/{{node.id}}/files/'>{{t 'node_navbar.files'}}</a>
                     </li>
-                    <li class="{{if (eq active 'wiki') 'active'}}">
+                    <li class="{{if (eq activeTab 'wiki') 'active'}}">
                         <a href='/{{node.id}}/wiki'>{{t 'node_navbar.wiki'}}</a>
                     </li>
-                    <li class="{{if (eq active 'analytics') 'active'}}">
+                    <li class="{{if (eq activeTab 'analytics') 'active'}}">
                         <a href='/{{node.id}}/analytics/'>{{t 'node_navbar.analytics'}}</a>
                     </li>
-                    <li class="{{if (eq active 'registrations') 'active'}}">
+                    <li class="{{if (eq activeTab 'registrations') 'active'}}">
                         <a href='/{{node.id}}/registrations/'>{{t 'node_navbar.registrations'}}</a>
                     </li>
-                    {{#if (and (if-filter 'read' node.currentUserPermissions) node.currentUserIsContributor)}}
-                        <li class="{{if (eq active 'contributors') 'active'}}">
+                    {{#if node.currentUserIsContributor}}
+                        <li class="{{if (eq activeTab 'contributors') 'active'}}">
                             <a href='/{{node.id}}/contributors/'>{{t 'node_navbar.contributors'}}</a>
                         </li>
-                        {{#if (if-filter 'write' node.currentUserPermissions)}}
-                            <li class="{{if (eq active 'addons') 'active'}}">
+                        {{#if currentUserCanEdit}}
+                            <li class="{{if (eq activeTab 'addons') 'active'}}">
                                 <a href='/{{node.id}}/addons/'>{{t 'node_navbar.addons'}}</a>
                             </li>
                         {{/if}}
-                        <li class="{{if (eq active 'settings') 'active'}}">
+                        <li class="{{if (eq activeTab 'settings') 'active'}}">
                             <a href='/{{node.id}}/settings/'>{{t 'node_navbar.settings'}}</a>
                         </li>
                     {{/if}}
                     {{#if allowComments}}
-                        <li>
-                            <a href='' class='hidden-lg hidden-md cp-handle'>{{t 'node_navbar.comments'}}</a>
-                        </li>
                     {{/if}}
                 </ul>
             </div>
