@@ -31,6 +31,7 @@ export default class Dashboard extends Route.extend({
 
         try {
             await Promise.all([
+                controller.set('filter', null),
                 controller.get('findNodes').perform(),
                 controller.get('getInstitutions').perform(),
                 controller.get('getPopularAndNoteworthy').perform(popularNode, 'popular'),
