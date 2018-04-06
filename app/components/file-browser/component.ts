@@ -95,7 +95,6 @@ export default class FileBrowser extends Component.extend({
     isMoving = false;
     loaded = true;
     uploading = A([]);
-    clickable = ['.dz-upload-button'];
     currentModal = modals.None;
     popupOpen: boolean = false;
     itemsLoaded = true;
@@ -154,6 +153,20 @@ export default class FileBrowser extends Component.extend({
     get link(this: FileBrowser): string | undefined {
         const guid = this.get('selectedItems.firstObject.guid');
         return guid ? pathJoin(window.location.origin, guid) : undefined;
+    }
+
+    @computed('canEdit', 'loading', 'uploading', 'items', 'filter')
+    get clickable(this: FileBrowser) {
+        const cssClass = ['.dz-upload-button'];
+        if (this.get('loading') || this.get('uploading').length || this.get('filter')) {
+            return cssClass;
+        }
+
+        if (!(this.get('items') && this.get('items').length) && this.get('canEdit')) {
+            cssClass.push('.file-browser-list');
+        }
+
+        return cssClass;
     }
 
     @action
