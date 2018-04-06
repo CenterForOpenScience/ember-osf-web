@@ -193,21 +193,16 @@ export default class FileBrowser extends Component.extend({
     success(this: FileBrowser, _, __, file, response) {
         this.get('analytics').track('file', 'upload', 'Quick Files - Upload');
         this.get('uploading').removeObject(file);
-        this.get('toast').success(this.get('i18n').t('file_browser.file_added_toast'));
         this.get('addFile')(response.data.id.replace(/^.*\//, ''));
     }
 
     @action
     buildUrl(this: FileBrowser, files) {
         const { name } = files[0];
+        const items = this.get('items');
+        const existingFile = items && items.findBy('itemName', name);
 
-        for (const file of this.get('items')) {
-            if (name === file.get('itemName')) {
-                return file.get('links.upload');
-            }
-        }
-
-        return `${this.get('uploadUrl')}?${$.param({ name })}`;
+        return existingFile ? existingFile.get('links.upload') : `${this.get('uploadUrl')}?${$.param({ name })}`;
     }
 
     @action
