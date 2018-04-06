@@ -1,15 +1,18 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
+import { make, setupFactoryGuy } from 'ember-data-factory-guy';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
-moduleForComponent('quickfile-nav', 'Integration | Component | quickfile nav', {
-    integration: true,
-});
+module('Integration | Component | quickfile-nav', hooks => {
+    setupRenderingTest(hooks);
+    setupFactoryGuy(hooks);
 
-test('it renders', function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    test('it renders', async function(assert) {
+        this.set('user', make('user'));
 
-    this.render(hbs`{{quickfile-nav}}`);
+        await render(hbs`{{quickfile-nav user=user}}`);
 
-    assert.ok(this.$().text().trim());
+        assert.ok(this.element.textContent.trim());
+    });
 });

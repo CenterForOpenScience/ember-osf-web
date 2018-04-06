@@ -69,7 +69,7 @@
         </div>
     {{else}}
         <div>
-            <button type="submit" class="btn btn-success m-t-sm" {{action submit}}>
+            <button type="submit" class="btn btn-success m-t-sm" {{action submit}} {{action 'click' 'button' 'Home - sign_up' target=analytics}}>
                 {{t 'sign_up_form.sign_up_free'}}
             </button>
         </div>

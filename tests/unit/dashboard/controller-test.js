@@ -1,7 +1,7 @@
 import { moduleFor, test, skip } from 'ember-qunit';
 
 moduleFor('controller:dashboard', 'Unit | Controller | dashboard', {
-    needs: ['service:currentUser', 'service:session', 'model:institution',
+    needs: ['service:currentUser', 'service:session', 'service:analytics', 'model:institution',
         'model:node'],
 });
 

@@ -1,11 +1,11 @@
+import { attribute, classNames, tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
+import User from 'ember-osf-web/models/user';
 
-export default class QuickfileNav extends Component.extend({
-    tagName: 'nav',
+@classNames('row')
+@tagName('nav')
+export default class QuickfileNav extends Component {
+    @attribute role = 'navigation';
 
-    classNames: ['row'],
-
-    attributeBindings: ['role'],
-
-    role: 'navigation',
-}) {}
+    user: User;
+}

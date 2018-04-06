@@ -1,12 +1,17 @@
 import EmberRouter from '@ember/routing/router';
-import { scheduleOnce } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
+import { Blocker } from 'ember-osf-web/services/ready';
+
 const Router = EmberRouter.extend({
     metrics: service('metrics'),
-    currentUser: service('currentUser'),
+    currentUser: service('current-user'),
     features: service('features'),
+    session: service('session'),
+    statusMessages: service('status-messages'),
+    ready: service('ready'),
+    readyBlocker: null as Blocker|null,
 
     location: config.locationType,
     rootURL: config.rootURL,
@@ -20,22 +25,19 @@ const Router = EmberRouter.extend({
                 }
             });
         }
+        this.set('readyBlocker', this.get('ready').getBlocker());
         this._super(...arguments);
     },
 
     didTransition() {
         this._super(...arguments);
+        this.get('statusMessages').updateMessages();
         window.scrollTo(0, 0);
-        this._trackPage();
-    },
 
-    _trackPage() {
-        scheduleOnce('afterRender', this, () => {
-            const page = this.get('url');
-            const title = this.getWithDefault('currentRouteName', 'unknown');
-
-            this.get('metrics').trackPage({ page, title });
-        });
+        const readyBlocker = this.get('readyBlocker');
+        if (readyBlocker) {
+            readyBlocker.done();
+        }
     },
 });
 

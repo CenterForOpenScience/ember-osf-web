@@ -1,9 +1,9 @@
+import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import { osfServices } from 'ember-osf-web/const/service-links';
-import AnalyticsMixin from 'ember-osf-web/mixins/analytics';
 
 const HOME_APP = 'HOME';
 
@@ -12,7 +12,7 @@ const HOME_APP = 'HOME';
  *
  * @class osf-navbar
  */
-export default class OsfNavbar extends Component.extend(AnalyticsMixin) {
+export default class OsfNavbar extends Component.extend() {
     /**
      * Action run when the user clicks "Sign In"
      *
@@ -40,6 +40,7 @@ export default class OsfNavbar extends Component.extend(AnalyticsMixin) {
 
     // Private properties
     session = service('session');
+    analytics = service();
 
     // TODO: When used in other apps, update to expect these as arguments or from the config
     hostAppName: string = HOME_APP;
@@ -59,22 +60,25 @@ export default class OsfNavbar extends Component.extend(AnalyticsMixin) {
         return appName.toUpperCase();
     });
 
-    actions = {
-        ...this.actions, // from AnalyticsMixin
+    @action
+    toggleSearch() {
+        this.toggleProperty('showSearch');
+        this.send('closeSecondaryNavigation');
+    }
 
-        toggleSearch() {
-            this.toggleProperty('showSearch');
-            this.send('closeSecondaryNavigation');
-        },
-        closeSecondaryNavigation() {
-            this.$('.navbar-collapse').collapse('hide');
-        },
-        closeSearch() {
-            this.set('showSearch', false);
-        },
-        closeSecondaryAndSearch() {
-            this.send('closeSecondaryNavigation');
-            this.send('closeSearch');
-        },
-    };
+    @action
+    closeSecondaryNavigation() {
+        $('.navbar-collapse').collapse('hide');
+    }
+
+    @action
+    closeSearch() {
+        this.set('showSearch', false);
+    }
+
+    @action
+    closeSecondaryAndSearch() {
+        this.send('closeSecondaryNavigation');
+        this.send('closeSearch');
+    }
 }

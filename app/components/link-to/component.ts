@@ -1,3 +1,4 @@
+import { attribute } from '@ember-decorators/component';
 import LinkComponent from '@ember/routing/link-component';
 
 /**
@@ -6,26 +7,19 @@ import LinkComponent from '@ember/routing/link-component';
  * @class link-to
  */
 export default class LinkTo extends LinkComponent {
+    @attribute('aria-label') ariaLabel;
+    eventName: string;
+
     /**
      * Action called when the link is clicked
      *
      * @property clickAction
      * @type Action
      */
-    clickAction: () => void;
+    clickAction: () => void = this.clickAction;
 
-    /**
-     * Value for the link's aria-label attribute
-     *
-     * @property ariaLabel
-     * @type String
-     */
-    ariaLabel: string;
-
-    constructor(this: LinkTo) {
-        super(...arguments);
-        const bindings = this.get('attributeBindings');
-        this.set('attributeBindings', [...bindings, 'ariaLabel:aria-label']);
+    constructor() {
+        super();
 
         if (this.clickAction) {
             this.on(this.get('eventName'), this, this.clickAction);

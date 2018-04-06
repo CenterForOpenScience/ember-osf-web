@@ -8,7 +8,10 @@
                         <a role='tab' {{action tab.select sharePaneId}} class='SharePane__tab'>{{t "general.share"}}</a>
                     {{/nav.item}}
                     {{#nav.item active=(bs-eq tab.activeId embedPaneId)}}
-                        <a role='tab' {{action tab.select embedPaneId}} class='SharePane__tab'>{{t "general.embed"}}<span class='badge'>{{badge}}</span></a>
+                        <a role='tab' {{action tab.select embedPaneId}} class='SharePane__tab'>
+                            {{t "general.embed"}}
+                            <span class='badge'>{{badge}}</span>
+                        </a>
                     {{/nav.item}}
                 {{/bs-nav}}
 
@@ -17,11 +20,14 @@
                         <br>
                         <div class='input-group'>
                             <span class='input-group-btn SharePane__copy-url-container'>
-                                <button type='button' class='btn btn-default btn-md' onclick={{action 'click' 'button' 'Quick Files - Share file'}} {{action 'share'}}>
+                                <button type='button' class='btn btn-default btn-md'
+                                        onclick={{action 'click' 'button' 'Quick Files - Share file' target=analytics}}
+                                    {{action 'share'}}>
                                     <div class='fa fa-copy'></div>
                                 </button>
                             </span>
-                            <input readonly='true' type='text' class='form-control SharePane__mfr-url' value='{{mfrUrl}}'>
+                            <input readonly='true' type='text' class='form-control SharePane__mfr-url'
+                                   value='{{mfrUrl}}'>
                         </div>
                         <div class='SharePane__button-group'>
                             <a
@@ -30,8 +36,9 @@
                                 target='_blank'
                                 rel='noopener'
                                 onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter'
-                                preventDefault=false}}
-                                >
+                                                 preventDefault=false
+                                                 target=analytics}}
+                            >
                                 <i aria-hidden='true' class='fa fa-twitter'></i>
                             </a>
                             <a
@@ -40,7 +47,9 @@
                                 target='_blank'
                                 rel='noopener'
                                 onclick={{action 'click' 'link' 'Quick Files - Share file on Facebook'
-                                preventDefault=false}}>
+                                                 target=analytics
+                                                 preventDefault=false}}
+                            >
                                 <i aria-hidden='true' class='fa fa-facebook'></i>
                             </a>
                             <a
@@ -52,7 +61,9 @@
                                 data-placement='bottom'
                                 data-original-title='Disable adblock for full sharing functionality'
                                 onclick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn'
-                                preventDefault=false}}>
+                                                 preventDefault=false
+                                                 target=analytics}}
+                            >
                                 <i aria-hidden='true' class='fa fa-linkedin'></i>
                             </a>
                             <a
@@ -61,7 +72,9 @@
                                 target='_blank'
                                 rel='noopener'
                                 onclick={{action 'click' 'link' 'Quick Files - Share file in email'
-                                preventDefault=false}}>
+                                                 preventDefault=false
+                                                 target=analytics}}
+                            >
                                 <i aria-hidden='true' class='fa fa-envelope'></i>
                             </a>
                         </div>
