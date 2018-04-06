@@ -137,8 +137,11 @@
 
 .quick-search-col {
     padding-left: 5px;
-    .ancestry {
-        font-style: italic;
+
+    span {
+        height: 28px;
+        vertical-align: middle;
+        display: table-cell;
     }
 }
 

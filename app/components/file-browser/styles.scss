@@ -150,6 +150,9 @@ a {
 
 .sortable-column {
     padding-right: 10px;
+    vertical-align: middle;
+    padding: 2px 0;
+    display: table-cell;
 }
 
 .file-browser-header.link-column {
@@ -164,10 +167,6 @@ a {
     background-color: #F5F5F5;
     word-break: normal!important;
     width: calc(100% - 35px);
-}
-
-.copy-btn {
-    height: 34px;
 }
 
 .file-row-item {
