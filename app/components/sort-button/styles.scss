@@ -1,6 +1,7 @@
 // stylelint-disable selector-class-pattern
 & {
-    display: inline-block;
+    padding-left: 10px;
+    display: table-cell;
 }
 
 button {

@@ -68,16 +68,18 @@
                                             <div class="row node-col-headers m-t-md">
                                                 <div class="col-sm-3 col-md-6">
                                                     <div class="quick-search-col">
-                                                        {{t 'general.title'}}
+                                                        <span>{{t 'general.title'}}</span>
                                                         {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='title'}}
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3 col-md-3">
-                                                    <div class="quick-search-col">{{t 'general.contributors'}}</div>
+                                                    <div class="quick-search-col">
+                                                        <span>{{t 'general.contributors'}}</span>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-3 col-md-3">
                                                     <div class="quick-search-col">
-                                                        {{t 'general.modified'}}
+                                                        <span>{{t 'general.modified'}}</span>
                                                         {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='last_logged'}}
                                                     </div>
                                                 </div>
