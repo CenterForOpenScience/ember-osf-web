@@ -43,7 +43,7 @@
                     <button id="shareButton" class="btn btn-light popover-toggler" {{action 'copyLink'}}>
                         {{fa-icon 'share-alt'}}
                         {{t 'general.share'}}
-                        {{#bs-popover placement="bottom" title=(t 'general.share') visible=popupOpen}}
+                        {{#bs-popover placement="bottom" title=(t 'general.share') visible=popupOpen class=(concat styleNamespace '__popover')}}
                             {{#if link}}
                                 <div class="input-group">
                                     <span class="input-group-btn">
@@ -56,9 +56,7 @@
                                             {{fa-icon 'files-o'}}
                                         {{/copy-button}}
                                     </span>
-                                    {{! template-lint-disable }}
-                                    <input readonly="true" type="text" value="{{link}}" class="form-control share-link">
-                                    {{! template-lint-enable }}
+                                    <input readonly="true" type="text" value={{link}} class="form-control share-link">
                                 </div>
                             {{else}}
                                 {{t 'file_browser.loading'}}
