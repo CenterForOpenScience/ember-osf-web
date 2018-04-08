@@ -25,6 +25,7 @@ module.exports = {
         'indent-legacy': 'error',
         'ember/named-functions-in-promises': 0,
         'function-paren-newline': ['error', 'consistent'],
+        'ember/no-attrs-snapshot': 0,
     },
     overrides: [
         {
