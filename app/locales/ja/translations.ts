@@ -251,9 +251,7 @@ export default {
         close: '閉じる',
         search_help: 'ヘルプを検索',
         queries: 'クエリ',
-        search_uses_the: '検索では',
-        search_syntax: '検索構文',
-        help_description: 'これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
+        paragraph: '検索は、<a href={{link}}>Lucene検索構文</a>を使用します。 これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
     },
     support: {
         title: 'サポート',
@@ -449,5 +447,11 @@ export default {
         project_deleted: 'Project has been successfully deleted.',
         component_deleted: 'Component has been successfully deleted.',
         remove_self_contrib: 'You have removed yourself as a contributor from this project.',
+    },
+    osf_copyright: {
+        copyright: 'Copyright &copy; 2011-{{currentYear}}',
+        terms: 'Terms of Use',
+        privacy: 'Privacy Policy',
+        separator: ' | ',
     },
 };
