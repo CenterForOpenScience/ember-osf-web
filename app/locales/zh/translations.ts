@@ -251,9 +251,7 @@ export default {
         close: 'Close',
         search_help: 'Search help',
         queries: 'Queries',
-        search_uses_the: 'Search uses the ',
-        search_syntax: 'search syntax',
-        help_description: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
+        paragraph: 'Search uses the <a href={{link}}>Lucene search syntax</a>. This gives you many options, but can be very simple as well. Examples of valid searches include:',
     },
     support: {
         title: 'Support',
@@ -449,5 +447,11 @@ export default {
         project_deleted: 'Project has been successfully deleted.',
         component_deleted: 'Component has been successfully deleted.',
         remove_self_contrib: 'You have removed yourself as a contributor from this project.',
+    },
+    osf_copyright: {
+        copyright: 'Copyright &copy; 2011-{{currentYear}}',
+        terms: 'Terms of Use',
+        privacy: 'Privacy Policy',
+        separator: ' | ',
     },
 };
