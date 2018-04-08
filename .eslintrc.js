@@ -14,9 +14,9 @@ module.exports = {
         es6: true,
     },
     rules: {
-        'arrow-parens': [ 'error', 'as-needed' ],
+        'arrow-parens': ['error', 'as-needed'],
         'class-methods-use-this': 0,
-        'max-len': [ 'error', { code: 120 } ],
+        'max-len': ['error', { code: 120 }],
         'no-undef': 0,
         'no-unused-vars': ['error', { argsIgnorePattern: '^this' }],
         'typescript/no-unused-vars': 'error',
@@ -31,7 +31,7 @@ module.exports = {
             files: ['**/*.d.ts'],
             rules: {
                 'no-unused-vars': 0,
-            }
+            },
         },
         {
             files: ['app/locales/*/translations.ts'],
@@ -39,5 +39,5 @@ module.exports = {
                 'max-len': 0,
             },
         },
-    ]
+    ],
 };
