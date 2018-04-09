@@ -42,11 +42,25 @@ export default class UserQuickfiles extends Controller {
     });
 
     addFile = task(function* (this: UserQuickfiles, id) {
-        const file = yield this.get('store')
-            .findRecord('file', id, { adapterOptions: { query: { create_guid: 1 } } });
+        const allFiles = this.get('allFiles');
+        const duplicate = allFiles.findBy('id', id);
 
-        this.get('allFiles').pushObject(file);
-        yield this.get('flash').perform(file, this.get('i18n').t('file_browser.file_added'));
+        const file = yield this.get('store')
+            .findRecord('file', id, duplicate ? {} : { adapterOptions: { query: { create_guid: 1 } } });
+
+        if (duplicate) {
+            allFiles.removeObject(duplicate);
+        }
+
+        allFiles.pushObject(file);
+
+        if (duplicate) {
+            return;
+        }
+
+        const i18n = this.get('i18n');
+        this.get('toast').success(i18n.t('file_browser.file_added_toast'));
+        yield this.get('flash').perform(file, i18n.t('file_browser.file_added'));
     });
 
     deleteFile = task(function* (this: UserQuickfiles, file: File) {

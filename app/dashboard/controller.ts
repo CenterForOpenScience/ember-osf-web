@@ -1,5 +1,5 @@
 import { action, computed } from '@ember-decorators/object';
-import { alias, oneWay } from '@ember-decorators/object/computed';
+import { alias, oneWay, or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
@@ -14,6 +14,7 @@ export default class Dashboard extends Controller {
     loading: boolean = false;
     loadingSearch: boolean = false;
     loadingMore: boolean = false;
+    initialLoad: boolean = true;
     filter: string = '';
     sort: string = '-last_logged';
     modalOpen: boolean = false;
@@ -57,6 +58,7 @@ export default class Dashboard extends Controller {
         }
 
         this.set(indicatorProperty, false);
+        this.set('initialLoad', false);
     }).restartable();
 
     getPopularAndNoteworthy = task(function* (this: Dashboard, id, dest) {
@@ -103,10 +105,7 @@ export default class Dashboard extends Controller {
     @alias('currentUser.user') user;
     @oneWay('user.institutions') institutionsSelected;
 
-    @computed('filter', 'nodes.meta.total')
-    get hasNodes(this: Dashboard): boolean {
-        return this.get('nodes.meta.total') || this.get('filter') !== null;
-    }
+    @or('nodes.length', 'filter') hasNodes;
 
     @computed('nodes.{length,meta.total}')
     get hasMore(this: Dashboard): boolean {

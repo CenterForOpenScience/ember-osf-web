@@ -95,7 +95,6 @@ export default class FileBrowser extends Component.extend({
     isMoving = false;
     loaded = true;
     uploading = A([]);
-    clickable = ['.dz-upload-button', '.file-browser-empty'];
     currentModal = modals.None;
     popupOpen: boolean = false;
     itemsLoaded = true;
@@ -156,6 +155,20 @@ export default class FileBrowser extends Component.extend({
         return guid ? pathJoin(window.location.origin, guid) : undefined;
     }
 
+    @computed('canEdit', 'loading', 'isUploading', 'items.[]', 'filter')
+    get clickable(this: FileBrowser) {
+        const cssClass = ['.dz-upload-button'];
+        if (this.get('loading') || this.get('isUploading') || this.get('filter')) {
+            return cssClass;
+        }
+
+        if (!this.get('items.length') && this.get('canEdit')) {
+            cssClass.push('.file-browser-list');
+        }
+
+        return cssClass;
+    }
+
     @action
     closeRename(this: FileBrowser) {
         this.setProperties({
@@ -193,21 +206,16 @@ export default class FileBrowser extends Component.extend({
     success(this: FileBrowser, _, __, file, response) {
         this.get('analytics').track('file', 'upload', 'Quick Files - Upload');
         this.get('uploading').removeObject(file);
-        this.get('toast').success(this.get('i18n').t('file_browser.file_added_toast'));
         this.get('addFile')(response.data.id.replace(/^.*\//, ''));
     }
 
     @action
     buildUrl(this: FileBrowser, files) {
         const { name } = files[0];
+        const items = this.get('items');
+        const existingFile = items && items.findBy('itemName', name);
 
-        for (const file of this.get('items')) {
-            if (name === file.get('itemName')) {
-                return file.get('links.upload');
-            }
-        }
-
-        return `${this.get('uploadUrl')}?${$.param({ name })}`;
+        return existingFile ? existingFile.get('links.upload') : `${this.get('uploadUrl')}?${$.param({ name })}`;
     }
 
     @action
