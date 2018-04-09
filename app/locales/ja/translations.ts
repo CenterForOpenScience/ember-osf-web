@@ -47,6 +47,7 @@ export default {
         api: 'API',
         cos: 'Center for Open Science',
         home: 'ホーム',
+        period: '.',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
@@ -257,7 +258,7 @@ export default {
         title: 'サポート',
         faq_title: 'よくあるご質問',
         faq_paragraph: 'どうすれば無料になるのですか？ OSFは私の研究にどのように役立つでしょうか？ 登録とは何ですか？ Open Science Frameworkに関する質問は、',
-        faq_link_text: 'FAQ.',
+        faq_link_text: 'FAQ',
         faq_button: 'FAQへ',
         guides_title: 'OSFガイド',
         guides_paragraph_1: '研究ワークフローを改善するためにOSFを使用する方法を学びます。 私たちを読む',
