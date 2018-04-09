@@ -301,18 +301,16 @@
                     </div>
                 {{/each}}
             {{else}}
-                {{#if canEdit}}
-                    <div class="file-placeholder file-browser-empty">
+                <div class="file-placeholder">
+                    {{#if canEdit}}
                         <div class="file-placeholder-content">
                             <div>{{fa-icon 'upload' size=5}}</div>
-                            <div class="file-placeholder-text file-browser">{{t 'file_browser.drop_placeholder'}}</div>
+                            <div class="file-placeholder-text">{{t 'file_browser.drop_placeholder'}}</div>
                         </div>
-                    </div>
-                {{else}}
-                    <div class="file-placeholder">
+                    {{else}}
                         <div class="file-placeholder-text file-placeholder-content">{{t 'file_browser.no_files'}}</div>
-                    </div>
-                {{/if}}
+                    {{/if}}
+                </div>
             {{/if}}
         {{else}}
             <div class="items">
