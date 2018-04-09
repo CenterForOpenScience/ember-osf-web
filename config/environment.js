@@ -52,6 +52,10 @@ module.exports = function(environment) {
         sentryDSN: null,
         sentryOptions: {
             release,
+            ignoreErrors: [
+                // https://github.com/emberjs/ember.js/issues/12505
+                'TransitionAborted',
+            ],
         },
         'ember-simple-auth': {
             authorizer: `authorizer:osf-${authorizationType}`,
