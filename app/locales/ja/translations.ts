@@ -47,6 +47,7 @@ export default {
         api: 'API',
         cos: 'Center for Open Science',
         home: 'ホーム',
+        period: '.',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',

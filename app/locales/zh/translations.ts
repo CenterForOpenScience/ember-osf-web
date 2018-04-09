@@ -47,6 +47,7 @@ export default {
         api: 'API',
         cos: 'Center for Open Science',
         home: 'Home',
+        period: '.',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
