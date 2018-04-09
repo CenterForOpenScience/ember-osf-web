@@ -12,14 +12,14 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "eslint --ext js,ts --max-warnings=0 . && tslint -p . && stylelint 'app/**/*.scss'",
+    "lint": "eslint --ext js,ts --max-warnings=0 --ignore-pattern=!.eslintrc.js . && tslint -p . && stylelint 'app/**/*.scss'",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
     "test:translations": "node node-tests/compile-and-test-translations.js",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": "eslint --max-warnings=0",
+    "*.js": "eslint --max-warnings=0 --ignore-pattern=!.eslintrc.js",
     "*.ts": [
       "eslint --max-warnings=0",
       "tslint"
