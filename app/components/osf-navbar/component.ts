@@ -44,9 +44,9 @@ export default class OsfNavbar extends Component {
     hostAppName: string = HOME_APP;
     linksComponent: string = 'osf-navbar/home-links';
     indexRoute: string = 'dashboard';
+    showNavLinks: boolean = false;
 
     osfApps = osfServices;
-    showSearch = false;
 
     @equal('currentApp', HOME_APP) inHomeApp;
 
@@ -58,19 +58,13 @@ export default class OsfNavbar extends Component {
     }
 
     @action
-    closeSearch(this: OsfNavbar) {
-        this.set('showSearch', false);
-        this.send('closeSecondaryNavigation');
+    toggleSecondaryNavigation(this: OsfNavbar) {
+        this.toggleProperty('showNavLinks');
     }
 
     @action
-    closeSecondaryNavigation(this: OsfNavbar) {
-        $('.navbar-collapse').collapse('hide');
-    }
-
-    @action
-    closeSecondaryAndSearch(this: OsfNavbar) {
-        this.send('closeSecondaryNavigation');
-        this.set('showSearch', false);
+    onClickPrimaryDropdown(this: OsfNavbar) {
+        this.set('showNavLinks', false);
+        this.get('analytics').click('button', 'Navbar - Dropdown Arrow');
     }
 }

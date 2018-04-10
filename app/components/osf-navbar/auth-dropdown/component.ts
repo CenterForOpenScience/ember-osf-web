@@ -1,21 +1,21 @@
+import { tagName } from '@ember-decorators/component';
+import { action } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
-import User from 'ember-osf-web/models/user';
+
+import $ from 'jquery';
 
 /**
  * Display the login dropdown on the navbar
  *
  * @class osf-navbar/auth-dropdown
  */
-export default class NavbarAuthDropdown extends Component.extend({
-    tagName: 'li',
-    classNames: ['dropdown', 'secondary-nav-dropdown'],
-    classNameBindings: ['notAuthenticated:sign-in'],
-}) {
+@tagName('')
+export default class NavbarAuthDropdown extends Component {
     /**
      * Action run when the user clicks "Sign In"
      *
@@ -25,12 +25,12 @@ export default class NavbarAuthDropdown extends Component.extend({
     loginAction: () => void;
 
     /**
-     * Action run when the auth dropdown opens
+     * Action run wheneven the user clicks a link
      *
-     * @property dropdownOpened
+     * @property loginAction
      * @type {Action}
      */
-    dropdownOpened: () => void;
+    onLinkClicked: () => void;
 
     /**
      * The URL to use for signup
@@ -49,15 +49,15 @@ export default class NavbarAuthDropdown extends Component.extend({
     redirectUrl: string;
 
     // Private properties
-    session = service('session');
-    analytics = service();
-    currentUser = service('current-user');
-    i18n = service('i18n');
+    @service session;
+    @service analytics;
+    @service currentUser;
+    @service i18n;
 
     serviceLinks = serviceLinks;
 
-    user: User = computed.alias('currentUser.user');
-    notAuthenticated: boolean = computed.not('session.isAuthenticated');
+    user = computed.alias('currentUser.user');
+
     gravatarUrl = computed('user.links.profile_image', function(this: NavbarAuthDropdown): string {
         const imgLink = this.get('user.links.profile_image');
         return imgLink ? `${imgLink}&s=25` : '';
@@ -65,8 +65,18 @@ export default class NavbarAuthDropdown extends Component.extend({
 
     logout = task(function* (this: NavbarAuthDropdown) {
         const redirectUrl = this.get('redirectUrl');
-        const query = redirectUrl ? `?${Ember.$.param({ next_url: redirectUrl })}` : '';
+        const query = redirectUrl ? `?${$.param({ next_url: redirectUrl })}` : '';
         yield this.get('session').invalidate();
         window.location.href = `${config.OSF.url}logout/${query}`;
     });
+
+    @action
+    clicked(this: NavbarAuthDropdown, category: string, label: string) {
+        this.get('analytics').click(category, label);
+
+        const onLinkClicked = this.get('onLinkClicked');
+        if (onLinkClicked) {
+            onLinkClicked();
+        }
+    }
 }

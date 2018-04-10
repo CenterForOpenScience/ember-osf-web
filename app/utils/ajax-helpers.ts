@@ -1,5 +1,6 @@
 import config from 'ember-get-config';
 import $ from 'jquery';
+import { Promise as EmberPromise } from 'rsvp';
 
 /**
  * Helper functions for asynchronous behavior
@@ -30,5 +31,5 @@ export default function authenticatedAJAX(options) {
             },
         });
     }
-    return $.ajax(options);
+    return new EmberPromise((resolve, reject) => $.ajax(options).then(resolve, reject));
 }

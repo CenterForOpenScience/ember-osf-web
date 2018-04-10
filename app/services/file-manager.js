@@ -404,16 +404,12 @@ export default Service.extend({
             headers[headerName] = content;
         });
 
-        return new Ember.RSVP.Promise((resolve, reject) => {
-            const p = authenticatedAJAX({
-                url,
-                method,
-                headers,
-                data: options.data,
-                processData: false,
-            });
-            p.done(data => resolve(data));
-            p.fail((_, __, error) => reject(error));
+        return authenticatedAJAX({
+            url,
+            method,
+            headers,
+            data: options.data,
+            processData: false,
         });
     },
 

@@ -50,11 +50,11 @@ export default class Analytics extends Service {
     });
 
     @action
-    click(this: Analytics, category, label, extraInfo) {
+    click(this: Analytics, category: string, label: string, extraInfo?: string | object) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {
             // This is to remove the event object when used with onclick
-            extra = null;
+            extra = undefined;
         }
         this.get('metrics')
             .trackEvent({
