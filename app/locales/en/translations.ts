@@ -101,7 +101,7 @@ export default {
         download_zip: 'Download as zip',
         drop_placeholder: 'Drop files here to upload',
         drop_reminder: 'Drop file to upload',
-        no_files: 'This user has not uploaded any quickfiles',
+        no_files: 'This user has not uploaded any Quick Files',
         share_title: 'Share',
         clipboard_copy: 'Copy to clipboard',
         info: {
@@ -280,7 +280,7 @@ export default {
         consultation_paragraph: 'COS provides statistics consultation. To learn more about this service visit the',
         consultation_link_text: 'COS statistics consulting page',
         social_title: 'Other ways to get help',
-        social_twitter: 'Ask us a question on twitter',
+        social_twitter: 'Ask us a question on Twitter',
         social_mailing: 'Join our mailing list',
         social_facebook: 'Follow us on Facebook',
         social_github: 'Connect with COS on GitHub',
