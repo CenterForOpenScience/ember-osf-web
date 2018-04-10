@@ -47,7 +47,7 @@ export default {
         api: 'API',
         cos: 'Center for Open Science',
         home: 'ホーム',
-        period: '.',
+        period: '。',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
@@ -136,7 +136,6 @@ export default {
         file_deleted: 'このファイルは削除されました。',
         delete_failed: '削除に失敗しました。',
         successfully_moved: '移動に成功しました',
-
     },
     dashboard: {
         page_title: 'ホーム',
