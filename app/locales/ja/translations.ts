@@ -449,22 +449,19 @@ export default {
         password_match: 'パスワードが一致する必要があります。',
         recaptcha: 'reCAPTCHAを完了してください',
     },
-<<<<<<< HEAD
 };
-=======
     status: {
-        welcome_message: '<h1>Welcome to the OSF!</h1><p>Visit our <a href="http://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>',
-        alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.',
-        remove_addon: 'Because the GitHub add-on for {{extra.category}} "{{extra.title}}" was authenticated by {{extra.user}}, authentication information has been deleted.',
-        project_deleted: 'Project has been successfully deleted.',
-        component_deleted: 'Component has been successfully deleted.',
-        remove_self_contrib: 'You have removed yourself as a contributor from this project.',
+        welcome_message: '<h1>OSFへようこそ！</h1><p>プロジェクトの作成方法や<a href="https://osf.io/explore/activity/#popularPublicProjects">ポピュラーな公開プロジェクト</a>からのインスピレーションを得るには、<a href="http://help.osf.io/" target="_blank" rel="noreferrer">ガイド</a>をご覧ください。</p>',
+        alternate_email_error: 'メールアドレスはあなたのアカウントに<b>追加されていません</b>。ログアウトして、あなたのメールのリンクを再訪してください。ありがとうございました。',
+        remove_addon: '{{extra.category}} "{{extra.title}}" のためのGitHubアドオンは {{extra.user}} によって認証されているため、認証情報は削除されています。',
+        project_deleted: 'プロジェクトは正常に削除されました。',
+        component_deleted: 'コンポーネントが正常に削除されました。',
+        remove_self_contrib: 'あなたはこのプロジェクトからあなた自身を削除しました。',
     },
     osf_copyright: {
         copyright: 'Copyright &copy; 2011-{{currentYear}}',
-        terms: 'Terms of Use',
-        privacy: 'Privacy Policy',
+        terms: '利用規約',
+        privacy: 'プライバシーポリシー',
         separator: ' | ',
     },
 };
->>>>>>> 9f2d8f7c0b25fb1f6f92f334d8df10e8d2e13fc4
