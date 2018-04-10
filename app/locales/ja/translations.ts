@@ -51,6 +51,7 @@ export default {
         api: 'API',
         cos: 'Center for Open Science',
         home: 'ホーム',
+        period: '.',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
@@ -135,6 +136,7 @@ export default {
 <<<<<<< HEAD
         filtering: 'Filtering',
         file_added: 'This file has been added.',
+        file_added_toast: 'A file has been added',
         file_replaced: 'This file has been replaced',
         file_deleted: 'This file has been deleted.',
         delete_failed: 'Delete failed.',
@@ -258,15 +260,13 @@ export default {
         close: '閉じる',
         search_help: 'ヘルプを検索',
         queries: 'クエリ',
-        search_uses_the: '検索では',
-        search_syntax: '検索構文',
-        help_description: 'これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
+        paragraph: '検索は、<a href={{link}}>Lucene検索構文</a>を使用します。 これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
     },
     support: {
         title: 'サポート',
         faq_title: 'よくあるご質問',
         faq_paragraph: 'どうすれば無料になるのですか？ OSFは私の研究にどのように役立つでしょうか？ 登録とは何ですか？ Open Science Frameworkに関する質問は、',
-        faq_link_text: 'FAQ.',
+        faq_link_text: 'FAQ',
         faq_button: 'FAQへ',
         guides_title: 'OSFガイド',
         guides_paragraph_1: '研究ワークフローを改善するためにOSFを使用する方法を学びます。 私たちを読む',
@@ -449,4 +449,22 @@ export default {
         password_match: 'パスワードが一致する必要があります。',
         recaptcha: 'reCAPTCHAを完了してください',
     },
+<<<<<<< HEAD
 };
+=======
+    status: {
+        welcome_message: '<h1>Welcome to the OSF!</h1><p>Visit our <a href="http://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>',
+        alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.',
+        remove_addon: 'Because the GitHub add-on for {{extra.category}} "{{extra.title}}" was authenticated by {{extra.user}}, authentication information has been deleted.',
+        project_deleted: 'Project has been successfully deleted.',
+        component_deleted: 'Component has been successfully deleted.',
+        remove_self_contrib: 'You have removed yourself as a contributor from this project.',
+    },
+    osf_copyright: {
+        copyright: 'Copyright &copy; 2011-{{currentYear}}',
+        terms: 'Terms of Use',
+        privacy: 'Privacy Policy',
+        separator: ' | ',
+    },
+};
+>>>>>>> 9f2d8f7c0b25fb1f6f92f334d8df10e8d2e13fc4

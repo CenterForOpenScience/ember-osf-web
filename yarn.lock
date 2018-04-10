@@ -214,6 +214,12 @@
   dependencies:
     samsam "1.3.0"
 
+"@types/dropzone@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@types/dropzone/-/dropzone-5.0.2.tgz#41bb8364aa5e6f9ed0f8beb1780881c725193a18"
+  dependencies:
+    "@types/jquery" "*"
+
 "@types/ember-data@^2.14.13":
   version "2.14.13"
   resolved "https://registry.yarnpkg.com/@types/ember-data/-/ember-data-2.14.13.tgz#69394c12136539e4da8e69241ddfd98a66e05438"
@@ -4018,6 +4024,13 @@ ember-concurrency@^0.8.12, ember-concurrency@^0.8.7:
 "ember-cookies@^0.1.0 || ^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ember-cookies/-/ember-cookies-0.2.0.tgz#81195a31a36447240fb97af47d01ad582f747d47"
+  dependencies:
+    ember-cli-babel "^6.8.2"
+    ember-getowner-polyfill "^1.1.0 || ^2.0.0"
+
+ember-cookies@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ember-cookies/-/ember-cookies-0.3.0.tgz#f9a23c957bd0e561e6a056e044d95ce2416b64d8"
   dependencies:
     ember-cli-babel "^6.8.2"
     ember-getowner-polyfill "^1.1.0 || ^2.0.0"
@@ -10364,9 +10377,9 @@ typescript-eslint-parser@^13.0.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript@^2.7.1:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
+typescript@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.1.tgz#6160e4f8f195d5ba81d4876f9c0cc1fbc0820624"
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.5"

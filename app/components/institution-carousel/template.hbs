@@ -1,4 +1,3 @@
-{{! template-lint-disable bare-strings }}
 <div id='__carousel' class="carousel slide" data-ride="carousel" data-interval="false">
     {{#if slides}}
         <div class="carousel-inner" role="listbox">
@@ -22,8 +21,12 @@
             {{/each}}
         </div>
         {{#if (gt institutions.length itemsPerSlide)}}
-            <a href="#__carousel" role='button' data-slide="prev" aria-label={{t "general.previous"}} class="left carousel-control InstitutionCarousel__control" onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - previous' target=analytics}}>{{fa-icon 'angle-left'}}</a>
-            <a href="#__carousel" role='button' data-slide="next" aria-label={{t "general.next"}} class="right carousel-control InstitutionCarousel__control" onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - next' target=analytics}}>{{fa-icon 'angle-right'}}</a>
+            <a href="#__carousel" role='button' data-slide="prev" aria-label={{t "general.previous"}} class="left carousel-control InstitutionCarousel__control" onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - previous' target=analytics}}>
+                {{fa-icon 'angle-left'}}
+            </a>
+            <a href="#__carousel" role='button' data-slide="next" aria-label={{t "general.next"}} class="right carousel-control InstitutionCarousel__control" onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - next' target=analytics}}>
+                {{fa-icon 'angle-right'}}
+            </a>
         {{/if}}
     {{/if}}
 </div>

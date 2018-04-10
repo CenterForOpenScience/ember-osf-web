@@ -16,6 +16,8 @@ const {
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
     OAUTH_SCOPES: scope,
+    OSF_STATUS_COOKIE: statusCookie = 'osf_status',
+    OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
     OSF_API_URL: apiUrl = 'http://localhost:8000',
     OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
@@ -50,6 +52,10 @@ module.exports = function(environment) {
         sentryDSN: null,
         sentryOptions: {
             release,
+            ignoreErrors: [
+                // https://github.com/emberjs/ember.js/issues/12505
+                'TransitionAborted',
+            ],
         },
         'ember-simple-auth': {
             authorizer: `authorizer:osf-${authorizationType}`,
@@ -124,6 +130,8 @@ module.exports = function(environment) {
             shareSearchUrl,
             accessToken,
             devMode,
+            statusCookie,
+            cookieDomain,
         },
         social: {
             twitter: {

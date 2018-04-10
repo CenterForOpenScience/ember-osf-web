@@ -39,3 +39,11 @@ a {
     padding-top: 2px;
     padding-bottom: 4px;
 }
+
+.file-list-header {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 100%;
+}

@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Status Banner: shows status messages
 - Maintenance Banner: shows maintenance messages
 - TypeScript: Add ember-cli-typscript and ember-cli-tslint
 - CSS: Add `_typography.scss` with responsive font styling and `_accessibility.scss` for accessibility-related styling
@@ -13,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Test: make sure all translations files contain all terms
 - Use ember-decorators (first application: `institution-carousel` component)
 - Added isPublic, authenticated, and resource dimensions to trackPage()
+- defaultTo utility for initializing component arguments
+- Loading indicator to file-renderer component
 
 ### Changed
 - TypeScript: Rename files to .ts

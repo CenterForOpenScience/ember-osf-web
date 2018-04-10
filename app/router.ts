@@ -9,6 +9,7 @@ const Router = EmberRouter.extend({
     currentUser: service('current-user'),
     features: service('features'),
     session: service('session'),
+    statusMessages: service('status-messages'),
     ready: service('ready'),
     readyBlocker: null as Blocker|null,
 
@@ -30,6 +31,7 @@ const Router = EmberRouter.extend({
 
     didTransition() {
         this._super(...arguments);
+        this.get('statusMessages').updateMessages();
         window.scrollTo(0, 0);
 
         const readyBlocker = this.get('readyBlocker');
