@@ -20,7 +20,7 @@ export default class DashboardItem extends Component {
         const rootId = node.belongsTo('root').id();
 
         // No ancestors
-        if (!parentId) {
+        if (node.get('id') === rootId) {
             return [];
         }
 
