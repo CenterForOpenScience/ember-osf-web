@@ -21,11 +21,7 @@ export default class Home extends Controller.extend({
         } catch (e) {
             // Handle email already exists error
             if (+e.errors[0].status === 400) {
-                const { options } = model.get('validations')._validators.email1
-                    .find(validator => validator._type === 'exclusion');
-
-                options.in.push(model.get('email1'));
-
+                model.addExistingEmail();
                 yield model.validate();
             }
 

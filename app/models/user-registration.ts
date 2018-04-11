@@ -1,3 +1,4 @@
+import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
@@ -9,7 +10,9 @@ const Validations = buildValidations({
         validator('format', { type: 'email' }),
         validator('exclusion', {
             messageKey: 'validationErrors.email_registered',
-            in: [],
+            in: computed(function(): string[] {
+                return [...this.get('model').get('existingEmails')];
+            }).volatile(),
         }),
     ],
     email2: [
@@ -56,7 +59,13 @@ export default class UserRegistration extends Model.extend(Validations, {
     fullName: attr('string'),
     recaptchaResponse: attr('string'),
     password: attr('string'),
-}) {}
+}) {
+    existingEmails: Set<string> = new Set();
+
+    addExistingEmail(this: UserRegistration, email?) {
+        this.get('existingEmails').add(email || this.get('email1'));
+    }
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {
