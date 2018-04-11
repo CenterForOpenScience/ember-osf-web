@@ -38,11 +38,12 @@ export default class CurrentUserService extends Service {
     @computed('session.data.authenticated')
     get currentUserId(this: CurrentUserService): string | null {
         const session = this.get('session');
+
         if (session.get('isAuthenticated')) {
             return session.get('data.authenticated.id');
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -56,70 +57,53 @@ export default class CurrentUserService extends Service {
     @computed('currentUserId')
     get user(this: CurrentUserService) {
         const ObjectPromiseProxy = ObjectProxy.extend(PromiseProxyMixin);
+
         return ObjectPromiseProxy.create({
-            promise: this.load().catch(() => null),
+            promise: this.load(),
         });
     }
 
     setWaffle = task(function* (this: CurrentUserService) {
-        const url = `${config.OSF.apiUrl}/v2/_waffle/`;
         const { data } = yield authenticatedAJAX({
-            url,
-            method: 'GET',
+            url: `${config.OSF.apiUrl}/v2/_waffle/`,
         });
-        for (const flag of data) {
-            const { name, active } = flag.attributes;
-            if (active) {
-                this.get('features').enable(name);
-            } else {
-                this.get('features').disable(name);
-            }
-        }
+
+        this.get('features').setup(
+            data.reduce((acc, { attributes: { name, active } }) => ({ ...acc, [name]: active }), {}),
+        );
+
         this.set('waffleLoaded', true);
-    }).restartable();
+    }).drop();
 
     constructor() {
         super();
-        get(this, 'session').on('authenticationSucceeded', this, function(this: CurrentUserService) {
-            this.get('setWaffle').perform();
-        });
-        get(this, 'session').on('invalidationSucceeded', this, function(this: CurrentUserService) {
-            this.get('setWaffle').perform();
-        });
-    }
 
-    /**
-     * Fetch information about the currently logged in user.
-     * If no user is logged in, this method returns a rejected promise.
-     *
-     * @method load
-     * @return {RSVP.Promise}
-     */
-    load(this: CurrentUserService): RSVP.Promise<User> {
-        return new RSVP.Promise((resolve, reject) => {
-            const currentUserId = this.get('currentUserId');
-            if (currentUserId) {
-                const currentUser = this.get('store').peekRecord('user', currentUserId);
-                if (currentUser) {
-                    resolve(currentUser);
-                } else {
-                    this.get('store').findRecord('user', currentUserId).then(user => resolve(user), reject);
-                }
-            } else {
-                reject();
-            }
-        });
-    }
-
-    getWaffle(this: CurrentUserService, feature: string) {
-        if (this.get('waffleLoaded')) {
-            return Promise.resolve(this.get('features').isEnabled(feature));
-        } else {
-            if (this.setWaffle.isRunning) {
-                return this.setWaffle.last.then(() => this.get('features').isEnabled(feature));
-            }
-            return this.get('setWaffle').perform().then(() => this.get('features').isEnabled(feature));
+        function performGetFlags(this: CurrentUserService) {
+            this.get('setWaffle').perform();
         }
+
+        const session = get(this, 'session');
+
+        session.on('authenticationSucceeded', this, performGetFlags);
+        session.on('invalidationSucceeded', this, performGetFlags);
+    }
+
+    load(this: CurrentUserService): RSVP.Promise<User | null> {
+        const id = this.get('currentUserId');
+
+        return id ? this.get('store').findRecord('user', id) : RSVP.resolve(null);
+    }
+
+    async getWaffle(this: CurrentUserService, feature: string): Promise<boolean> {
+        const setWaffle = this.get('setWaffle');
+
+        if (this.setWaffle.isRunning) {
+            await this.setWaffle.last;
+        } else if (!this.get('waffleLoaded')) {
+            await setWaffle.perform();
+        }
+
+        return this.get('features').isEnabled(feature);
     }
 }
 
