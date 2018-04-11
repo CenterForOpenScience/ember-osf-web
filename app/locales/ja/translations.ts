@@ -49,6 +49,7 @@ export default {
         cos: 'Center for Open Science',
         home: 'ホーム',
         period: '.',
+        hosted_on_the_osf: 'Hosted on the Open Science Framework',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
