@@ -6,11 +6,11 @@ import User from 'ember-osf-web/models/user';
 import { analyticPrivacy } from 'ember-osf-web/services/analytics';
 import loadAll from 'ember-osf-web/utils/load-relationship';
 
-export default class FileDetail extends Route.extend() {
+export default class GuidFile extends Route {
     @service analytics;
     @service currentUser;
 
-    async model(this: FileDetail, params) {
+    async model(this: GuidFile, params) {
         try {
             const file: File = await this.store.findRecord('file', params.file_guid);
             const fileId = file.get('id');
@@ -40,7 +40,7 @@ export default class FileDetail extends Route.extend() {
     }
 
     @action
-    didTransition(this: FileDetail) {
+    didTransition(this: GuidFile) {
         this.get('analytics').trackPage(analyticPrivacy.public, 'files');
     }
 }

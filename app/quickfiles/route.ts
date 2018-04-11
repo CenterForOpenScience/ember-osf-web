@@ -1,9 +1,9 @@
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 import CasAuthenticatedRouteMixin from 'ember-osf-web/mixins/cas-authenticated-route';
 
 export default class Quickfiles extends Route.extend(CasAuthenticatedRouteMixin) {
-    currentUser = service('current-user');
+    @service currentUser;
 
     model(this: Quickfiles) {
         return this.get('currentUser').get('currentUserId');
