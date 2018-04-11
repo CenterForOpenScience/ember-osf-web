@@ -1,6 +1,6 @@
+import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import UserRegistration from 'ember-osf-web/models/user-registration';
@@ -16,12 +16,27 @@ export default class Home extends Controller.extend({
             return;
         }
 
-        yield model.save();
+        try {
+            yield model.save();
+        } catch (e) {
+            // Handle email already exists error
+            if (+e.errors[0].status === 400) {
+                const { options } = model.get('validations')._validators.email1
+                    .find(validator => validator._type === 'exclusion');
+
+                options.in.push(model.get('email1'));
+
+                yield model.validate();
+            }
+
+            return;
+        }
 
         this.set('hasSubmitted', true);
     }).drop(),
 }) {
     @service analytics;
+
     didValidate: boolean;
     goodbye = null;
     hasSubmitted = false;
@@ -55,15 +70,17 @@ export default class Home extends Controller.extend({
         'registration',
     ];
 
-    integrations = computed('integrationsList', function (): string[][] {
+    @computed('integrationsList')
+    get integrations(this: Home): string[][] {
         return chunkArray(this.get('integrationsList'), 4);
-    });
+    }
 
-    features = computed('featuresList', function (): string[][] {
+    @computed('featuresList')
+    get features(this: Home): string[][] {
         const featuresList = this.get('featuresList');
 
         return chunkArray(featuresList, Math.ceil(featuresList.length / 2));
-    });
+    }
 
     constructor() {
         super();

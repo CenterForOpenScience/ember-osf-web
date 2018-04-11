@@ -7,6 +7,10 @@ const Validations = buildValidations({
     email1: [
         validator('presence', true),
         validator('format', { type: 'email' }),
+        validator('exclusion', {
+            messageKey: 'validationErrors.email_registered',
+            in: [],
+        }),
     ],
     email2: [
         validator('presence', true),
