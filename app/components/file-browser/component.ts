@@ -65,6 +65,13 @@ export default class FileBrowser extends Component.extend({
         $(window).off('resize', this.get('dismissPop'));
         $('body').off('click', this.get('clickHandler'));
 
+        const items = this.get('items');
+
+        if (items && items.length) {
+            items.filterBy('isSelected', true)
+                .forEach(item => item.set('isSelected', false));
+        }
+
         this._super(...args);
     },
 }) {
@@ -89,15 +96,12 @@ export default class FileBrowser extends Component.extend({
     node: Node | null = this.node || null;
     nodeTitle = null;
     newProject: Node = this.newProject;
-    isNewProject: boolean;
-    isChildNode: boolean;
     projectSelectState: ProjectSelectState = ProjectSelectState.main;
     isMoving = false;
     loaded = true;
     uploading = A([]);
     currentModal = modals.None;
     popupOpen: boolean = false;
-    itemsLoaded = true;
     items: File[] | null = null;
     conflictingItem: File | null = null;
     showFilterClicked: boolean = false;
@@ -155,14 +159,18 @@ export default class FileBrowser extends Component.extend({
         return guid ? pathJoin(window.location.origin, guid) : undefined;
     }
 
-    @computed('canEdit', 'loading', 'items.[]', 'filter')
+    @computed('items.[]')
+    get hasItems(this: FileBrowser) {
+        const items = this.get('items');
+
+        return items && items.length;
+    }
+
+    @computed('canEdit', 'hasItems', 'filter')
     get clickable(this: FileBrowser) {
         const cssClass = ['.dz-upload-button'];
-        if (this.get('loading') || this.get('filter')) {
-            return cssClass;
-        }
 
-        if (!this.get('items.length') && this.get('canEdit')) {
+        if (!this.get('hasItems') && this.get('canEdit') && !this.get('filter')) {
             cssClass.push('.file-browser-list');
         }
 
@@ -203,10 +211,10 @@ export default class FileBrowser extends Component.extend({
     }
 
     @action
-    success(this: FileBrowser, _, __, file, response) {
+    async success(this: FileBrowser, _, __, file, response) {
         this.get('analytics').track('file', 'upload', 'Quick Files - Upload');
+        await this.get('addFile')(response.data.id.replace(/^.*\//, ''));
         this.get('uploading').removeObject(file);
-        this.get('addFile')(response.data.id.replace(/^.*\//, ''));
     }
 
     @action

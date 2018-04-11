@@ -60,7 +60,7 @@ export default class UserQuickfiles extends Controller {
 
         const i18n = this.get('i18n');
         this.get('toast').success(i18n.t('file_browser.file_added_toast'));
-        yield this.get('flash').perform(file, i18n.t('file_browser.file_added'));
+        this.get('flash').perform(file, i18n.t('file_browser.file_added'));
     });
 
     deleteFile = task(function* (this: UserQuickfiles, file: File) {

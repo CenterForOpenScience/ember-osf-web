@@ -455,4 +455,9 @@ export default {
         privacy: 'Privacy Policy',
         separator: ' | ',
     },
+    dropzone_widget: {
+        drop_files: 'Drop files here to upload',
+        error_multiple_files: 'Cannot upload multiple files',
+        error_directories: 'Cannot upload directories, applications, or packages',
+    },
 };
