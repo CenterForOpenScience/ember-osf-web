@@ -21,7 +21,7 @@ import { Promise as EmberPromise } from 'rsvp';
  * Primarily used to set XHR flags on manual AJAX requests, for cookie based authorization.
  * @method authenticatedAJAX
  * @param {Object} options
- * @return {Promise}
+ * @return {RSVP.Promise}
  */
 export default function authenticatedAJAX(options) {
     if (config.authorizationType === 'cookie') {
@@ -31,5 +31,7 @@ export default function authenticatedAJAX(options) {
             },
         });
     }
+
+    // Return RSVP.Promise so the callbacks are run within the current runloop
     return new EmberPromise((resolve, reject) => $.ajax(options).then(resolve, reject));
 }
