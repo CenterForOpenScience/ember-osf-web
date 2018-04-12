@@ -12,35 +12,20 @@
             </div>
             <div class='collapse navbar-collapse project-nav'>
                 <ul class='nav navbar-nav'>
-                    <li class="{{if (eq activeTab 'title') 'active'}}">
-                        <a href='/{{node.id}}/' class='project-title'>{{node.title}}</a>
-                    </li>
-                    <li class="{{if (eq activeTab 'files') 'active'}}">
-                        <a href='/{{node.id}}/files/'>{{t 'node_navbar.files'}}</a>
-                    </li>
-                    <li class="{{if (eq activeTab 'wiki') 'active'}}">
-                        <a href='/{{node.id}}/wiki'>{{t 'node_navbar.wiki'}}</a>
-                    </li>
-                    <li class="{{if (eq activeTab 'analytics') 'active'}}">
-                        <a href='/{{node.id}}/analytics/'>{{t 'node_navbar.analytics'}}</a>
-                    </li>
-                    <li class="{{if (eq activeTab 'registrations') 'active'}}">
-                        <a href='/{{node.id}}/registrations/'>{{t 'node_navbar.registrations'}}</a>
-                    </li>
+                    {{#node-navbar/link id=node.id useLinkTo=false extraClasses='project-title'}}
+                        {{node.title}}
+                    {{/node-navbar/link}}
+                    {{node-navbar/link id=node.id useLinkTo=false destination='files'}}
+                    {{node-navbar/link id=node.id useLinkTo=false destination='wiki'}}
+                    {{node-navbar/link id=node.id useLinkTo=false destination='analytics'}}
+                    {{node-navbar/link id=node.id useLinkTo=true destination='registrations'}}
+
                     {{#if node.currentUserIsContributor}}
-                        <li class="{{if (eq activeTab 'contributors') 'active'}}">
-                            <a href='/{{node.id}}/contributors/'>{{t 'node_navbar.contributors'}}</a>
-                        </li>
+                        {{node-navbar/link id=node.id useLinkTo=false destination='contributors'}}
                         {{#if currentUserCanEdit}}
-                            <li class="{{if (eq activeTab 'addons') 'active'}}">
-                                <a href='/{{node.id}}/addons/'>{{t 'node_navbar.addons'}}</a>
-                            </li>
+                            {{node-navbar/link id=node.id useLinkTo=false destination='addons'}}
                         {{/if}}
-                        <li class="{{if (eq activeTab 'settings') 'active'}}">
-                            <a href='/{{node.id}}/settings/'>{{t 'node_navbar.settings'}}</a>
-                        </li>
-                    {{/if}}
-                    {{#if allowComments}}
+                        {{node-navbar/link id=node.id useLinkTo=false destination='settings'}}
                     {{/if}}
                 </ul>
             </div>

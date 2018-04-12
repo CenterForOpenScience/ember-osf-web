@@ -179,7 +179,7 @@ module.exports = function(environment) {
         Object.assign(ENV, {
             'ember-a11y-testing': {
                 componentOptions: {
-                    turnAuditOff: A11Y_AUDIT !== 'true',
+                    turnAuditOff: true,//A11Y_AUDIT !== 'true',
                 },
             },
         });
