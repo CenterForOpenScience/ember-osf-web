@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr } = DS;
 
 /**
  * @module ember-osf-web
@@ -15,15 +13,15 @@ const { attr } = DS;
  * https://api.osf.io/v2/docs/#!/v2/Plos_Taxonomy_GET
  * @class Taxonomy
  */
-export default class Taxonomy extends OsfModel.extend({
-    text: attr('fixstring'),
-    shareTitle: attr('string'),
-    path: attr('string'),
+export default class Taxonomy extends OsfModel {
+    @attr('fixstring') text;
+    @attr('string') shareTitle;
+    @attr('string') path;
     // TODO: Api implements this as a list field for now. This should be a relationship field in the future, when API
     // supports it
-    child_count: attr('number'),
-    parent: attr('object'),
-}) {}
+    @attr('number') childCount;
+    @attr('object') parent; // eslint-disable-line no-restricted-globals
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

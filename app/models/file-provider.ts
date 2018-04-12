@@ -1,8 +1,6 @@
-import DS from 'ember-data';
+import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -19,16 +17,16 @@ const { attr, belongsTo, hasMany } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/Registration_Providers_List_GET
  * @class FileProvider
  */
-export default class FileProvider extends OsfModel.extend(FileItemMixin, {
-    name: attr('fixstring'),
-    kind: attr('fixstring'),
-    path: attr('string'),
-    provider: attr('fixstring'),
-    files: hasMany('file'),
-    node: belongsTo('node'),
+export default class FileProvider extends OsfModel.extend(FileItemMixin) {
+    @attr('fixstring') name; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') kind;
+    @attr('string') path;
+    @attr('fixstring') provider;
+    @hasMany('file') files;
+    @belongsTo('node') node;
 
-    isProvider: true,
-}) {}
+    isProvider = true;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

@@ -1,10 +1,8 @@
-import DS from 'ember-data';
+import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 import Node from './node';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -23,36 +21,36 @@ const { attr, belongsTo, hasMany } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
  * @class File
  */
-export default class File extends OsfModel.extend(FileItemMixin, {
-    name: attr('fixstring'),
-    kind: attr('fixstring'),
-    guid: attr('fixstring'),
-    path: attr('string'),
-    size: attr('number'),
-    currentVersion: attr('number'),
-    provider: attr('fixstring'),
-    materializedPath: attr('string'),
-    lastTouched: attr('date'),
-    dateModified: attr('date'),
-    dateCreated: attr('date'),
-    extra: attr('object'),
-    tags: attr('array'),
-    checkout: attr('fixstring'),
+export default class File extends OsfModel.extend(FileItemMixin) {
+    @attr('fixstring') name; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') kind;
+    @attr('fixstring') guid;
+    @attr('string') path;
+    @attr('number') size;
+    @attr('number') currentVersion;
+    @attr('fixstring') provider;
+    @attr('string') materializedPath;
+    @attr('date') lastTouched;
+    @attr('date') dateModified;
+    @attr('date') dateCreated;
+    @attr('object') extra;
+    @attr('array') tags;
+    @attr('fixstring') checkout;
 
-    parentFolder: belongsTo('file', { inverse: 'files' }),
+    @belongsTo('file', { inverse: 'files' }) parentFolder;
 
     // Folder attributes
-    files: hasMany('file', { inverse: 'parentFolder' }),
+    @hasMany('file', { inverse: 'parentFolder' }) files;
 
     // File attributes
-    versions: hasMany('file-version'),
-    comments: hasMany('comment'),
+    @hasMany('file-version') versions;
+    @hasMany('comment') comments;
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    node: belongsTo('node'),
-    user: belongsTo('user'),
-    _isFileModel: true,
+    @belongsTo('node') node;
+    @belongsTo('user') user;
 
-}) {
+    isFileModel = true;
+
     getContents(this: File): Promise<object> {
         return authenticatedAJAX({
             url: this.get('links.download'),
@@ -83,6 +81,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
 
         this.set('name', data.attributes.name);
     }
+
     getGuid(this: File): Promise<any> {
         return this.store.findRecord(
             this.constructor.modelName,
@@ -97,6 +96,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
             },
         );
     }
+
     updateContents(this: File, data: object): Promise<null> {
         return authenticatedAJAX({
             url: this.get('links.upload'),
@@ -105,6 +105,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
             data,
         }).then(() => this.reload());
     }
+
     move(this: File, node: Node): Promise<null> {
         return authenticatedAJAX({
             url: this.get('links.move'),

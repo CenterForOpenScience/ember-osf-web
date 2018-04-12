@@ -1,8 +1,5 @@
-import { computed } from '@ember/object';
-import DS from 'ember-data';
+import { attr, belongsTo } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo } = DS;
 
 /**
  * @module ember-osf-web
@@ -15,48 +12,19 @@ const { attr, belongsTo } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/Node_Contributors_List_GET
  * @class Contributor
  */
-export default class Contributor extends OsfModel.extend({
-    permission: attr('fixstring'),
-    bibliographic: attr('boolean'),
+export default class Contributor extends OsfModel {
+    @attr('fixstring') permission;
+    @attr('boolean') bibliographic;
 
-    unregisteredContributor: attr('fixstring'),
-    index: attr('number'),
-    fullName: attr('fixstring'),
-    email: attr('fixstring'),
-    sendEmail: attr('boolean'),
-    users: belongsTo('user'),
-    node: belongsTo('node', {
-        inverse: 'contributors',
-    }),
+    @attr('fixstring') unregisteredContributor;
+    @attr('number') index;
+    @attr('fixstring') fullName;
+    @attr('fixstring') email;
+    @attr('boolean') sendEmail;
 
-    _userId: null,
-    _nodeId: null,
-}) {
-    userId = computed('_userId', {
-        get(): string {
-            if (this.get('isNew')) {
-                return this.get('_userId');
-            } else {
-                return this.get('id').split('-').pop();
-            }
-        },
-        set(_: any, userId: string): void {
-            this.set('_userId', userId);
-        },
-    }).volatile();
+    @belongsTo('user') user;
 
-    nodeId = computed('_nodeId', {
-        get(): string {
-            if (this.get('isNew')) {
-                return this.get('_nodeId');
-            } else {
-                return this.get('id').split('-').shift();
-            }
-        },
-        set(_: any, nodeId: string): void {
-            this.set('_nodeId', nodeId);
-        },
-    }).volatile();
+    @belongsTo('node', { inverse: 'contributors' }) node;
 }
 
 declare module 'ember-data' {

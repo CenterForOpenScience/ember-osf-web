@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr, hasMany } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -15,20 +13,24 @@ const { attr, hasMany } = DS;
  *
  * @class Collection
  */
-export default class Collection extends OsfModel.extend({
-    title: attr('fixstring'),
-    dateCreated: attr('date'),
-    dateModified: attr('date'),
-    bookmarks: attr('boolean'),
-    linkedNodes: hasMany('node', {
+export default class Collection extends OsfModel {
+    @attr('fixstring') title;
+    @attr('date') dateCreated;
+    @attr('date') dateModified;
+    @attr('boolean') bookmarks;
+
+    @hasMany('node', {
         inverse: null,
         serializerType: 'linked-node',
-    }),
-    linkedRegistrations: hasMany('registration', {
+    })
+    linkedNodes;
+
+    @hasMany('registration', {
         inverse: null,
         serializerType: 'linked-node',
-    }),
-}) {}
+    })
+    linkedRegistrations;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

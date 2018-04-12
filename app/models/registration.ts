@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import Node from './node';
-
-const { attr, belongsTo, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -19,32 +17,28 @@ const { attr, belongsTo, hasMany } = DS;
  *
  * @class Registration
  */
-export default class Registration extends Node.extend({
-    dateRegistered: attr('date'),
-    pendingRegistrationApproval: attr('boolean'),
-    embargoEndDate: attr('date'),
-    pendingEmbargoApproval: attr('boolean'),
-    withdrawn: attr('boolean'),
-    withdrawalJustification: attr('fixstring'),
-    pendingWithdrawal: attr('boolean'),
+export default class Registration extends Node {
+    @attr('date') dateRegistered;
+    @attr('boolean') pendingRegistrationApproval;
+    @attr('date') embargoEndDate;
+    @attr('boolean') pendingEmbargoApproval;
+    @attr('boolean') withdrawn;
+    @attr('fixstring') withdrawalJustification;
+    @attr('boolean') pendingWithdrawal;
 
-    draftRegistration: attr('fixstring'),
-    registrationChoice: attr('fixstring'),
+    @attr('fixstring') draftRegistration;
+    @attr('fixstring') registrationChoice;
     // TODO: doesnt seem to be an actual field
-    liftEmbargo: attr('object'),
+    @attr('object') liftEmbargo;
 
-    registrationSupplement: attr('fixstring'),
-    registeredMeta: attr('object'),
+    @attr('fixstring') registrationSupplement;
+    @attr('object') registeredMeta;
 
-    registeredFrom: belongsTo('node', {
-        inverse: 'registrations',
-    }),
-    registeredBy: belongsTo('user', {
-        inverse: null,
-    }),
-    contributors: hasMany('contributor'),
-    comments: hasMany('comment'),
-}) {}
+    @belongsTo('node', { inverse: 'registrations' }) registeredFrom;
+    @belongsTo('user', { inverse: null }) registeredBy;
+    @hasMany('contributor') contributors;
+    @hasMany('comment') comments;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

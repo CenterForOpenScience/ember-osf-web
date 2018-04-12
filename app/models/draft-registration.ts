@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr, belongsTo } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo } = DS;
 
 /**
  * @module ember-osf-web
@@ -16,21 +14,15 @@ const { attr, belongsTo } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/Node_Draft_Registration_Detail_GET
  * @class DraftRegistration
  */
-export default class DraftRegistration extends OsfModel.extend({
-    registrationSupplement: attr('fixstring'),
-    registrationMetadata: attr('object'),
-    datetimeInitiated: attr('date'),
-    datetimeUpdated: attr('date'),
-    branchedFrom: belongsTo('node', {
-        inverse: null,
-    }),
-    initiator: belongsTo('user', {
-        inverse: null,
-    }),
-    registrationSchema: belongsTo('metaschema', {
-        inverse: null,
-    }),
-}) {}
+export default class DraftRegistration extends OsfModel {
+    @attr('fixstring') registrationSupplement;
+    @attr('object') registrationMetadata;
+    @attr('date') datetimeInitiated;
+    @attr('date') datetimeUpdated;
+    @belongsTo('node', { inverse: null }) branchedFrom;
+    @belongsTo('user', { inverse: null }) initiator;
+    @belongsTo('metaschema', { inverse: null }) registrationSchema;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

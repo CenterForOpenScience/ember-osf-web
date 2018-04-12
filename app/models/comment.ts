@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -18,31 +16,31 @@ const { attr, belongsTo, hasMany } = DS;
  *
  * @class Comment
  */
-export default class Comment extends OsfModel.extend({
+export default class Comment extends OsfModel {
     // TODO validation: maxLength
-    content: attr('fixstring'),
-    page: attr('fixstring'),
+    @attr('fixstring') content;
+    @attr('fixstring') page;
 
     // Placeholder for comment creation: allow specifying attributes that are sent to the server, but not as attributes
     // Both type and ID will be serialized into relationships field
-    targetID: attr('fixstring'),
-    targetType: attr('fixstring'),
+    @attr('fixstring') targetID;
+    @attr('fixstring') targetType;
 
-    dateCreated: attr('date'),
-    dateModified: attr('date'),
-    modified: attr('boolean'),
-    deleted: attr('boolean'),
-    isAbuse: attr('boolean'),
-    hasChildren: attr('boolean'),
-    canEdit: attr('boolean'),
+    @attr('date') dateCreated;
+    @attr('date') dateModified;
+    @attr('boolean') modified;
+    @attr('boolean') deleted;
+    @attr('boolean') isAbuse;
+    @attr('boolean') hasChildren;
+    @attr('boolean') canEdit;
 
     // TODO dynamic belongsTo
-    user: belongsTo('user'),
-    node: belongsTo('node'),
-    replies: hasMany('comment', {
-        inverse: null,
-    }),
-}) {}
+    @belongsTo('user') user;
+    @belongsTo('node') node;
+
+    @hasMany('comment', { inverse: null })
+    replies;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

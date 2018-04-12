@@ -1,10 +1,8 @@
-import { bool, equal } from '@ember/object/computed';
+import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import { bool, equal } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
-import DS from 'ember-data';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -30,85 +28,56 @@ const Validations = buildValidations({
  * * https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
  * @class Node
  */
-export default class Node extends OsfModel.extend(Validations, FileItemMixin, {
-    title: attr('fixstring'),
-    description: attr('fixstring'),
-    category: attr('fixstring'),
+export default class Node extends OsfModel.extend(Validations, FileItemMixin) {
+    @attr('fixstring') title;
+    @attr('fixstring') description;
+    @attr('fixstring') category;
 
     // List of strings
-    currentUserPermissions: attr('array'),
-    currentUserIsContributor: attr('boolean'),
+    @attr('array') currentUserPermissions;
+    @attr('boolean') currentUserIsContributor;
 
-    fork: attr('boolean'),
-    collection: attr('boolean'),
-    registration: attr('boolean'),
-    public: attr('boolean'),
+    @attr('boolean') fork;
+    @attr('boolean') collection;
+    @attr('boolean') registration;
+    @attr('boolean') public;
 
-    dateCreated: attr('date'),
-    dateModified: attr('date'),
+    @attr('date') dateCreated;
+    @attr('date') dateModified;
 
-    forkedDate: attr('date'),
+    @attr('date') forkedDate;
 
-    nodeLicense: attr('object'),
-    tags: attr('array'),
+    @attr('object') nodeLicense;
+    @attr('array') tags;
 
-    templateFrom: attr('fixstring'),
+    @attr('fixstring') templateFrom;
 
-    parent: belongsTo('node', {
-        inverse: 'children',
-    }),
-    children: hasMany('node', {
-        inverse: 'parent',
-    }),
-    preprints: hasMany('preprint', {
-        inverse: 'node',
-    }),
-    affiliatedInstitutions: hasMany('institution', {
-        inverse: 'nodes',
-    }),
-    comments: hasMany('comment'),
-    contributors: hasMany('contributor', {
-        allowBulkUpdate: true,
-        allowBulkRemove: true,
-        inverse: 'node',
-    }),
-    citation: belongsTo('citation'),
+    @belongsTo('node', { inverse: 'children' }) parent; // eslint-disable-line no-restricted-globals
+    @hasMany('node', { inverse: 'parent' }) children;
+    @hasMany('preprint', { inverse: 'node' }) preprints;
+    @hasMany('institution', { inverse: 'nodes' }) affiliatedInstitutions;
+    @hasMany('comment') comments;
+    @hasMany('contributor', { allowBulkUpdate: true, allowBulkRemove: true, inverse: 'node' }) contributors;
+    @belongsTo('citation') citation;
 
-    license: belongsTo('license', {
-        inverse: null,
-    }),
+    @belongsTo('license', { inverse: null }) license;
 
-    files: hasMany('file-provider'),
-    // forkedFrom: belongsTo('node'),
-    linkedNodes: hasMany('node', {
-        inverse: null,
-        serializerType: 'linked-node',
-    }),
-    registrations: hasMany('registration', {
-        inverse: 'registeredFrom',
-    }),
+    @hasMany('file-provider') files;
 
-    draftRegistrations: hasMany('draft-registration', {
-        inverse: 'branchedFrom',
-    }),
+    @hasMany('node', { inverse: null, serializerType: 'linked-node' }) linkedNodes;
+    @hasMany('registration', { inverse: 'registeredFrom' }) registrations;
 
-    forks: hasMany('node', {
-        inverse: 'forkedFrom',
-    }),
+    @hasMany('draft-registration', { inverse: 'branchedFrom' }) draftRegistrations;
 
-    forkedFrom: belongsTo('node', {
-        inverse: 'forks',
-    }),
+    @hasMany('node', { inverse: 'forkedFrom' }) forks;
 
-    root: belongsTo('node', {
-        inverse: null,
-    }),
+    @belongsTo('node', { inverse: 'forks' }) forkedFrom;
 
-    wikis: hasMany('wiki', {
-        inverse: 'node',
-    }),
+    @belongsTo('node', { inverse: null }) root;
 
-    logs: hasMany('log'),
+    @hasMany('wiki', { inverse: 'node' }) wikis;
+
+    @hasMany('log') logs;
 
     // These are only computeds because maintaining separate flag values on different classes would be a
     // headache TODO: Improve.
@@ -117,23 +86,24 @@ export default class Node extends OsfModel.extend(Validations, FileItemMixin, {
      * @property isProject
      * @type boolean
      */
-    isProject: equal('constructor.modelName', 'node'),
+    @equal('constructor.modelName', 'node') isProject;
+
     /**
      * Is this a registration? Flag can be used to provide template-specific behavior for different resource types.
      * @property isRegistration
      * @type boolean
      */
-    isRegistration: equal('constructor.modelName', 'registration'),
+    @equal('constructor.modelName', 'registration') isRegistration;
 
     /**
      * Is this node being viewed through an anonymized, view-only link?
      * @property isAnonymous
      * @type boolean
      */
-    isAnonymous: bool('meta.anonymous'),
+    @bool('meta.anonymous') isAnonymous;
 
-    isNode: true,
-}) {}
+    isNode = true;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

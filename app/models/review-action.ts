@@ -1,21 +1,19 @@
-import DS from 'ember-data';
+import { attr, belongsTo } from '@ember-decorators/data';
 import OsfModel from './osf-model';
 
-const { attr, belongsTo } = DS;
-
-export default class ReviewAction extends OsfModel.extend({
-    actionTrigger: attr('string'),
-    comment: attr('string'),
-    fromState: attr('string'),
-    toState: attr('string'),
-    dateCreated: attr('date'),
-    dateModified: attr('date'),
+export default class ReviewAction extends OsfModel {
+    @attr('string') actionTrigger;
+    @attr('string') comment;
+    @attr('string') fromState;
+    @attr('string') toState;
+    @attr('date') dateCreated;
+    @attr('date') dateModified;
 
     // Relationships
-    provider: belongsTo('preprint-provider', { inverse: null, async: true }),
-    target: belongsTo('preprint', { inverse: 'reviewActions', async: true }),
-    creator: belongsTo('user', { inverse: null, async: true }),
-}) {}
+    @belongsTo('preprint-provider', { inverse: null, async: true }) provider;
+    @belongsTo('preprint', { inverse: 'reviewActions', async: true }) target;
+    @belongsTo('user', { inverse: null, async: true }) creator;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

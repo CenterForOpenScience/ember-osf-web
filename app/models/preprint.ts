@@ -1,9 +1,7 @@
-import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
-import DS from 'ember-data';
+import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import { computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -19,34 +17,35 @@ const { attr, belongsTo, hasMany } = DS;
  * https://api.osf.io/v2/docs/#!/v2/User_Preprints_GET
  * @class Preprint
  */
-export default class Preprint extends OsfModel.extend({
-    title: attr('fixstring'),
+export default class Preprint extends OsfModel {
+    @attr('fixstring') title;
     // TODO: May be a relationship in the future pending APIv2 changes
-    subjects: attr('object'),
-    dateCreated: attr('date'),
-    datePublished: attr('date'),
-    originalPublicationDate: attr('date'),
-    dateModified: attr('date'),
-    doi: attr('fixstring'),
-    isPublished: attr('boolean'),
-    isPreprintOrphan: attr('boolean'),
-    licenseRecord: attr('object'),
-    reviewsState: attr('string'),
-    dateLastTransitioned: attr('date'),
-    preprintDoiCreated: attr('date'),
+    @attr('object') subjects;
+    @attr('date') dateCreated;
+    @attr('date') datePublished;
+    @attr('date') originalPublicationDate;
+    @attr('date') dateModified;
+    @attr('fixstring') doi;
+    @attr('boolean') isPublished;
+    @attr('boolean') isPreprintOrphan;
+    @attr('object') licenseRecord;
+    @attr('string') reviewsState;
+    @attr('date') dateLastTransitioned;
+    @attr('date') preprintDoiCreated;
 
     // Relationships
-    node: belongsTo('node', { inverse: null, async: true }),
-    license: belongsTo('license', { inverse: null }),
-    primaryFile: belongsTo('file', { inverse: null }),
-    provider: belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
-    reviewActions: hasMany('review-action', { inverse: 'target', async: true }),
-    contributors: hasMany('contributor', { async: true }),
-}) {
-    articleDoiUrl = alias('links.doi');
-    preprintDoiUrl = alias('links.preprint_doi');
+    @belongsTo('node', { inverse: null, async: true }) node;
+    @belongsTo('license', { inverse: null }) license;
+    @belongsTo('file', { inverse: null }) primaryFile;
+    @belongsTo('preprint-provider', { inverse: 'preprints', async: true }) provider;
+    @hasMany('review-action', { inverse: 'target', async: true }) reviewActions;
+    @hasMany('contributor', { async: true }) contributors;
 
-    uniqueSubjects = computed('subjects', function(): any[] {
+    @alias('links.doi') articleDoiUrl;
+    @alias('links.preprint_doi') preprintDoiUrl;
+
+    @computed('subjects')
+    get uniqueSubjects(this: Preprint): any[] {
         if (!this.get('subjects')) {
             return [];
         }
@@ -54,16 +53,17 @@ export default class Preprint extends OsfModel.extend({
         return this.get('subjects')
             .reduce((acc, val) => acc.concat(val), [])
             .uniqBy('id');
-    });
+    }
 
-    licenseText = computed('license', function(): string {
+    @computed('license')
+    get licenseText(this: Preprint): string {
         const text: string = this.get('license.text') || '';
         const { year = '', copyright_holders = [] } = this.get('licenseRecord'); // eslint-disable-line camelcase
 
         return text
             .replace(/({{year}})/g, year)
             .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
-    });
+    }
 }
 
 declare module 'ember-data' {

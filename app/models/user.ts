@@ -1,8 +1,6 @@
-import { alias } from '@ember/object/computed';
-import DS from 'ember-data';
+import { attr, hasMany } from '@ember-decorators/data';
+import { alias } from '@ember-decorators/object/computed';
 import OsfModel from './osf-model';
-
-const { attr, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -18,30 +16,28 @@ const { attr, hasMany } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/Institution_User_List_GET
  * @class User
  */
-export default class User extends OsfModel.extend({
-    fullName: attr('fixstring'),
-    givenName: attr('fixstring'),
-    middleNames: attr('array'),
-    familyName: attr('fixstring'),
+export default class User extends OsfModel {
+    @attr('fixstring') fullName;
+    @attr('fixstring') givenName;
+    @attr('array') middleNames;
+    @attr('fixstring') familyName;
 
-    dateRegistered: attr('date'),
+    @attr('date') dateRegistered;
     // email
-    username: attr('fixstring'),
+    @attr('fixstring') username;
 
-    canViewReviews: attr('boolean', { defaultValue: false }),
+    @attr('boolean', { defaultValue: false }) canViewReviews;
 
-    nodes: hasMany('node'),
-    registrations: hasMany('registration'),
+    @hasMany('node') nodes;
+    @hasMany('registration') registrations;
 
-    quickfiles: hasMany('file'),
+    @hasMany('file') quickfiles;
 
-    institutions: hasMany('institution', {
-        inverse: 'users',
-    }),
-}) {
+    @hasMany('institution', { inverse: 'users' }) institutions;
+
     // Calculated fields
-    profileURL = alias('links.html');
-    profileImage = alias('links.profile_image');
+    @alias('links.html') profileURL;
+    @alias('links.profile_image') profileImage;
 }
 
 declare module 'ember-data' {

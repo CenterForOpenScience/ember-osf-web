@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { belongsTo } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { belongsTo } = DS;
 
 /**
  * @module ember-osf-web
@@ -18,9 +16,9 @@ const { belongsTo } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/Registration_Node_Links_Detail_GET
  * @class NodeLink
  */
-export default class NodeLink extends OsfModel.extend({
-    targetNode: belongsTo('node'),
-}) {}
+export default class NodeLink extends OsfModel {
+    @belongsTo('node') targetNode;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

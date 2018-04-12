@@ -20,12 +20,12 @@ export default Mixin.create({
     // isProvider: equal('constructor.modelName', 'file-provider'),
     isNode: false,
     isProvider: false,
-    isFolder: and('_isFileModel', '_isFolder'),
-    isFile: and('_isFileModel', '_isFile'),
+    isFolder: and('isFileModel', '_isFolder'),
+    isFile: and('isFileModel', '_isFile'),
     canHaveChildren: or('isNode', 'isProvider', 'isFolder'),
 
-    // _isFileModel: equal('constructor.modelName', 'file'),
-    _isFileModel: false,
+    // isFileModel: equal('constructor.modelName', 'file'),
+    isFileModel: false,
     _isFolder: equal('kind', 'folder'),
     _isFile: equal('kind', 'file'),
 });

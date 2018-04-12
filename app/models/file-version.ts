@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr } = DS;
 
 /**
  * @module ember-osf-web
@@ -17,11 +15,11 @@ const { attr } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/File_Version_Detail_GET
  * @class FileVersion
  */
-export default class FileVersion extends OsfModel.extend({
-    size: attr('number'),
-    dateCreated: attr('date'),
-    contentType: attr('fixstring'),
-}) {}
+export default class FileVersion extends OsfModel {
+    @attr('number') size;
+    @attr('date') dateCreated;
+    @attr('fixstring') contentType;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

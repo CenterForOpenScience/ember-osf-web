@@ -1,24 +1,20 @@
-import DS from 'ember-data';
+import { attr, belongsTo } from '@ember-decorators/data';
 import OsfModel from './osf-model';
 
-const { attr, belongsTo } = DS;
+export default class Wiki extends OsfModel {
+    @attr('string') kind;
+    @attr('string') name; // eslint-disable-line no-restricted-globals
+    @attr('date') dateModified;
 
-export default class Wiki extends OsfModel.extend({
-    kind: attr('string'),
-    name: attr('string'),
-    dateModified: attr('date'),
+    @attr('object') extra;
+    @attr('string') contentType;
+    @attr('string') path;
+    @attr('boolean') currentUserCanComment;
+    @attr('string') materializedPath;
+    @attr('number') size;
 
-    extra: attr('object'),
-    contentType: attr('string'),
-    path: attr('string'),
-    currentUserCanComment: attr('boolean'),
-    materializedPath: attr('string'),
-    size: attr('number'),
-
-    node: belongsTo('node', {
-        inverse: 'wikis',
-    }),
-}) {}
+    @belongsTo('node', { inverse: 'wikis' }) node;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

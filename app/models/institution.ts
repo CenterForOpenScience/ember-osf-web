@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr, hasMany } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr, hasMany } = DS;
 
 /**
  * @module ember-osf-web
@@ -19,21 +17,15 @@ const { attr, hasMany } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/User_Institutions_GET
  * @class Institution
  */
-export default class Institution extends OsfModel.extend({
-    name: attr('string'),
-    description: attr('fixstring'),
-    logoPath: attr('string'),
-    authUrl: attr('string'),
-    users: hasMany('user', {
-        inverse: 'institutions',
-    }),
-    nodes: hasMany('node', {
-        inverse: 'affiliatedInstitutions',
-    }),
-    registrations: hasMany('registration', {
-        inverse: 'affiliatedInstitutions',
-    }),
-}) {}
+export default class Institution extends OsfModel {
+    @attr('string') name; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') description;
+    @attr('string') logoPath;
+    @attr('string') authUrl;
+    @hasMany('user', { inverse: 'institutions' }) users;
+    @hasMany('node', { inverse: 'affiliatedInstitutions' }) nodes;
+    @hasMany('registration', { inverse: 'affiliatedInstitutions' }) registrations;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr, belongsTo } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo } = DS;
 
 /**
  * @module ember-osf-web
@@ -17,24 +15,16 @@ const { attr, belongsTo } = DS;
  * * https://api.osf.io/v2/docs/#!/v2/Registration_Log_List_GET
  * @class Log
  */
-export default class Log extends OsfModel.extend({
-    date: attr('date'),
-    action: attr('fixstring'),
-    params: attr('object'),
-    node: belongsTo('node', {
-        inverse: null,
-    }),
-    originalNode: belongsTo('node', {
-        inverse: 'logs',
-    }),
-    user: belongsTo('user'),
-    linkedNode: belongsTo('node', {
-        inverse: null,
-    }),
-    templateNode: belongsTo('node', {
-        inverse: null,
-    }),
-}) {}
+export default class Log extends OsfModel {
+    @attr('date') date;
+    @attr('fixstring') action;
+    @attr('object') params;
+    @belongsTo('node', { inverse: null }) node;
+    @belongsTo('node', { inverse: 'logs' }) originalNode;
+    @belongsTo('user') user;
+    @belongsTo('node', { inverse: null }) linkedNode;
+    @belongsTo('node', { inverse: null }) templateNode;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {
