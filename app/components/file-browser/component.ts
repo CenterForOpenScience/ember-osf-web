@@ -34,6 +34,17 @@ enum modals {
  * @class file-browser
  */
 export default class FileBrowser extends Component.extend({
+    didReceiveAttrs(this: FileBrowser, ...args) {
+        this._super(...args);
+
+        const items = this.get('items');
+
+        if (items && items.length) {
+            items.filterBy('isSelected', true)
+                .forEach(item => item.set('isSelected', false));
+        }
+    },
+
     didInsertElement(this: FileBrowser, ...args) {
         this._super(...args);
 
@@ -64,13 +75,6 @@ export default class FileBrowser extends Component.extend({
     willDestroyElement(this: FileBrowser, ...args) {
         $(window).off('resize', this.get('dismissPop'));
         $('body').off('click', this.get('clickHandler'));
-
-        const items = this.get('items');
-
-        if (items && items.length) {
-            items.filterBy('isSelected', true)
-                .forEach(item => item.set('isSelected', false));
-        }
 
         this._super(...args);
     },

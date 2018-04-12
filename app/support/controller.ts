@@ -1,10 +1,11 @@
+import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
 export default class Support extends Controller {
+    @service analytics;
+
     helpUrl: string = config.OSF.helpUrl;
-    analytics = service('analytics');
 
     constructor() {
         super();
