@@ -42,7 +42,7 @@ export default class Dashboard extends Controller {
 
         this.set(indicatorProperty, true);
 
-        const user = yield this.get('currentUser.user');
+        const user = yield this.get('currentUser').get('user');
 
         const nodes = yield user.queryHasMany('nodes', {
             embed: ['contributors', 'parent', 'root'],
