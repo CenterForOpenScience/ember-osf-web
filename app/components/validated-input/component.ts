@@ -1,13 +1,13 @@
 // This component is derived from ember-cp-validations.
 // See https://github.com/offirgolan/ember-cp-validations for more information
+import { className, classNames } from '@ember-decorators/component';
+import { action, computed } from '@ember-decorators/object';
+import { and, not, notEmpty, oneWay } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { computed as comp, defineProperty, get } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import DS from 'ember-data';
-
-import { className, classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { and, not, notEmpty, oneWay } from '@ember-decorators/object/computed';
+import defaultTo from 'ember-osf-web/utils/default-to';
 
 enum InputType {
     Date = 'date',
@@ -24,32 +24,29 @@ export default class ValidatedInput extends Component {
 
     @className('has-error') showErrorClass;
 
-    disabled: boolean = this.disabled || false;
     model: DS.Model;
-    value: string = this.value || '';
-    type: InputType = this.type || InputType.Text;
-    valuePath: string = this.valuePath || '';
-    placeholder: string = this.placeholder || '';
-    validation: any = this.validation || null;
-    isTyping: boolean = this.isTyping || false;
+    disabled: boolean = defaultTo(this.disabled, false);
+    value: string = defaultTo(this.value, '');
+    type: InputType = defaultTo(this.type, InputType.Text);
+    valuePath: string = defaultTo(this.valuePath, '');
+    placeholder: string = defaultTo(this.placeholder, '');
+    validation: any = defaultTo(this.validation, null);
+    isTyping: boolean = defaultTo(this.isTyping, false);
 
     @oneWay('targetObject.didValidate') didValidate;
-
     @oneWay('validation.isInvalid') isInvalid;
-
     @not('validation.isValidating') notValidating;
-
     @notEmpty('value') hasContent;
 
     @computed('validation.isDirty', 'isInvalid', 'didValidate')
     get showErrorMessage(this: ValidatedInput): boolean {
-        return (this.get('validation') ? this.get('validation').get('isDirty') : false || this.get('didValidate'))
+        return ((this.get('validation') && this.get('validation').get('isDirty')) || this.get('didValidate'))
             && this.get('isInvalid');
     }
 
     @computed('validation.{isDirty,warnings.[]}', 'isValid', 'didValidate')
     get showWarningMessage(this: ValidatedInput): boolean {
-        return (this.get('validation') ? this.get('validation').get('isDirty') : false || this.get('didValidate'))
+        return ((this.get('validation') && this.get('validation').get('isDirty')) || this.get('didValidate'))
             && this.get('isValid')
             && !isEmpty(this.get('validation').get('warnings'));
     }
