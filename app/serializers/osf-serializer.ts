@@ -4,7 +4,7 @@ import DS from 'ember-data';
 const { JSONAPISerializer } = DS;
 
 interface ResourceHash {
-    attributes: {
+    attributes?: {
         links?: any,
     };
     links?: any;
@@ -12,13 +12,7 @@ interface ResourceHash {
     embeds?: any;
 }
 
-const OsfSerializer = JSONAPISerializer.extend({
-    attrs: {
-        links: {
-            serialize: false,
-        },
-    },
-
+export default class OsfSerializer extends JSONAPISerializer.extend({
     /**
      * Get embedded objects from the response and push them into the store.
      * Return a new resource hash that only contains relationships in JSON API format,
@@ -73,6 +67,7 @@ const OsfSerializer = JSONAPISerializer.extend({
                 };
             }
         }
+
         return { relationships };
     },
 
@@ -128,7 +123,7 @@ const OsfSerializer = JSONAPISerializer.extend({
             }
 
             // HACK: There's no public-API way to tell whether a relationship has been changed.
-            const relationships = snapshot._internalModel._relationships.initializedRelationships;
+            const relationships = (snapshot as any)._internalModel._relationships.initializedRelationships;
             for (const key of Object.keys(serialized.data.relationships)) {
                 const rel = relationships[camelize(key)];
                 if (rel
@@ -161,9 +156,13 @@ const OsfSerializer = JSONAPISerializer.extend({
         }
         return documentHash;
     },
-});
-
-export default OsfSerializer;
+}) {
+    attrs = {
+        links: {
+            serialize: false,
+        },
+    };
+}
 
 declare module 'ember-data' {
     interface SerializerRegistry {
