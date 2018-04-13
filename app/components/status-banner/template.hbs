@@ -1,13 +1,11 @@
 {{#each messages as |stat|}}
-    <div class='StatusBanner m-t-md alert alert-block alert-{{stat.class}} {{if stat.jumbo "StatusBanner__jumbo"}} fade in'>
-        {{#if stat.dismiss}}
-            <button type="button" class="close {{if stat.jumbo 'm-r-sm'}}" data-dismiss="alert" aria-label="Close">
-                {{fa-icon 'times' size='sm'}}
-            </button>
-        {{/if}}
-
+    {{#bs-alert
+        type=stat.class
+        dismissable=stat.dismiss
+        classNames=(if stat.jumbo 'StatusBanner__jumbo')
+    }}
         <div class="{{if stat.jumbo 'StatusBanner__jumbotron jumbotron'}}">
             <p>{{t stat.id extra=stat.extra}}</p>
         </div>
-    </div>
+    {{/bs-alert}}
 {{/each}}

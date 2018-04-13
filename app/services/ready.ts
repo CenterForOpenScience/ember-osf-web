@@ -4,7 +4,7 @@ import Evented from '@ember/object/evented';
 import Service from '@ember/service';
 
 import { task, waitForQueue } from 'ember-concurrency';
-import { Promise as EmberPromise } from 'rsvp';
+import RSVP from 'rsvp';
 
 export interface Blocker {
     done: () => void;
@@ -50,7 +50,7 @@ export default class Ready extends Service.extend(Evented) {
     }
 
     ready(this: Ready) {
-        return new EmberPromise((resolve, reject) => {
+        return new RSVP.Promise((resolve, reject) => {
             this.on(Events.IsReady, resolve);
             this.on(Events.Reset, reject);
             this.on(Events.Error, reject);

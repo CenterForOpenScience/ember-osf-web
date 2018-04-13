@@ -3,7 +3,6 @@ import { get } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
 import { merge } from '@ember/polyfills';
-import { bind } from '@ember/runloop';
 import DS from 'ember-data';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 import { Promise as EmberPromise } from 'rsvp';
@@ -63,7 +62,7 @@ const OsfModel = Model.extend({
             }, ajaxOptions);
 
             authenticatedAJAX(options).then(
-                bind(this, this.__queryHasManyDone, resolve),
+                payload => this.__queryHasManyDone(resolve, payload),
                 reject,
             );
         });
