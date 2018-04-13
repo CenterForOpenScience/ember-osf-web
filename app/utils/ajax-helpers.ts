@@ -1,6 +1,6 @@
 import config from 'ember-get-config';
 import $ from 'jquery';
-import { Promise as EmberPromise } from 'rsvp';
+import RSVP from 'rsvp';
 
 /**
  * Helper functions for asynchronous behavior
@@ -33,5 +33,5 @@ export default function authenticatedAJAX(options) {
     }
 
     // Return RSVP.Promise so the callbacks are run within the current runloop
-    return new EmberPromise((resolve, reject) => $.ajax(options).then(resolve, reject));
+    return new RSVP.Promise((resolve, reject) => $.ajax(options).then(resolve, reject));
 }
