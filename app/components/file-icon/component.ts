@@ -119,7 +119,7 @@ export default class FileIcon extends Component {
         // TODO: More icons!
         const item = this.get('item');
 
-        if (item.status === 'uploading') {
+        if (item.status && item.name) {
             return iconFromName(item.name);
         }
 

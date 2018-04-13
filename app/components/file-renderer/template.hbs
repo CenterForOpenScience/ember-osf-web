@@ -1,5 +1,5 @@
 {{#if download}}
-    {{#if showLoadingIndicator}}
+    {{#if isLoading}}
         {{loading-indicator dark=true}}
     {{/if}}
     <iframe
@@ -11,7 +11,7 @@
         marginheight="0"
         frameborder="0"
         allowfullscreen={{allowfullscreen}}
-        class={{if showIframe 'show' 'hidden'}}
+        hidden={{isLoading}}
         onload={{action 'loaded'}}
     >
     </iframe>

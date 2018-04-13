@@ -150,24 +150,23 @@ a {
 
 .sortable-column {
     padding-right: 10px;
+    vertical-align: bottom;
+    padding: 2px 0;
+    display: table-cell;
 }
 
 .file-browser-header.link-column {
     margin-top: -2px;
 }
 
-.btn.btn-default.btn-sm.copy-btn {
-    margin: 0;
+&__popover button {
+    height: 34px;
 }
 
 .link-url {
     background-color: #F5F5F5;
     word-break: normal!important;
     width: calc(100% - 35px);
-}
-
-.copy-btn {
-    height: 34px;
 }
 
 .file-row-item {

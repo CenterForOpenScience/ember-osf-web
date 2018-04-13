@@ -1,9 +1,7 @@
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
 export default class DashboardUnauth extends Route.extend({
-    session: service('session'),
-
     async beforeModel(transition) {
         await this._super(transition);
 
@@ -18,4 +16,6 @@ export default class DashboardUnauth extends Route.extend({
             queryParams: { goodbye: true },
         });
     },
-}) {}
+}) {
+    @service session;
+}

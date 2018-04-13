@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import diffAttrs from 'ember-diff-attrs';
+import $ from 'jquery';
 
 /**
  * @module ember-osf-web
@@ -27,6 +28,7 @@ import diffAttrs from 'ember-diff-attrs';
  */
 export default Component.extend({
     session: service(),
+    i18n: service(),
 
     classNameBindings: ['dropzone'],
     dropzone: true,
@@ -45,8 +47,17 @@ export default Component.extend({
                 }
             } else if (changedAttrs.clickable && this.get('enable')) {
                 // Dropzone must be reloaded for clickable changes to take effect.
-                this.destroyDropzone();
-                this.loadDropzone();
+                const [before, after] = changedAttrs.clickable;
+                const beforeSet = new Set(before);
+                const afterSet = new Set(after);
+
+                const reRender = beforeSet.size !== afterSet.size
+                    || (new Set([...beforeSet].filter(item => !afterSet.has(item)))).size;
+
+                if (reRender) {
+                    this.destroyDropzone();
+                    this.loadDropzone();
+                }
             }
         }
     }),
@@ -60,6 +71,8 @@ export default Component.extend({
     loadDropzone() {
         const preUpload = this.get('preUpload');
         const dropzoneOptions = this.get('options') || {};
+        const i18n = this.get('i18n');
+
         function CustomDropzone() {
             Dropzone.call(this, ...arguments);
         }
@@ -68,12 +81,12 @@ export default Component.extend({
             if (this.options.preventMultipleFiles && e.dataTransfer) {
                 if ((e.dataTransfer.items && e.dataTransfer.items.length > 1) || e.dataTransfer.files.length > 1) {
                     this.emit('drop', e);
-                    this.emit('error', 'None', 'Cannot upload multiple files');
+                    this.emit('error', 'None', i18n.t('dropzone_widget.error_multiple_files'));
                     return;
                 }
                 if (e.dataTransfer.files.length === 0) {
                     this.emit('drop', e);
-                    this.emit('error', 'None', 'Cannot upload directories, applications, or packages');
+                    this.emit('error', 'None', i18n.t('dropzone_widget.error_directories'));
                     return;
                 }
             }
@@ -83,7 +96,7 @@ export default Component.extend({
             const directory = directory_;
             if (!this.options.acceptDirectories) {
                 directory.status = Dropzone.ERROR;
-                this.emit('error', directory, 'Cannot upload directories, applications, or packages');
+                this.emit('error', directory, i18n.t('dropzone_widget.error_directories'));
                 return;
             }
             return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
@@ -96,7 +109,7 @@ export default Component.extend({
             autoProcessQueue: false,
             autoQueue: false,
             clickable: this.get('clickable'),
-            dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload',
+            dictDefaultMessage: this.get('defaultMessage') || i18n.t('dropzone_widget.drop_files'),
             sending(file, xhr) {
                 // Monkey patch to send the raw file instead of formData
                 xhr.send = xhr.send.bind(xhr, file); // eslint-disable-line no-param-reassign

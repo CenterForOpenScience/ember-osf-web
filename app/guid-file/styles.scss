@@ -24,12 +24,8 @@
     }
 }
 
-.Sidebar {
-    // TODO: don't impose style on other components
-    .file-browser { // stylelint-disable-line selector-class-pattern
-        height: 400px;
-        margin-bottom: 20px;
-    }
+.Main {
+    margin-bottom: 5px;
 }
 
 .EditPanel {

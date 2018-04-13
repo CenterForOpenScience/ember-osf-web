@@ -43,22 +43,20 @@
                     <button id="shareButton" class="btn btn-light popover-toggler" {{action 'copyLink'}}>
                         {{fa-icon 'share-alt'}}
                         {{t 'general.share'}}
-                        {{#bs-popover placement="bottom" title=(t 'general.share') visible=popupOpen}}
+                        {{#bs-popover placement="bottom" title=(t 'general.share') visible=popupOpen class=(concat styleNamespace '__popover')}}
                             {{#if link}}
                                 <div class="input-group">
                                     <span class="input-group-btn">
                                         {{#copy-button
                                             success=(mut popupOpen false)
-                                            class='btn btn-default copy-btn'
+                                            class='btn btn-default'
                                             aria-label=(t 'general.clipboard_copy')
                                             clipboardText=link
                                         }}
                                             {{fa-icon 'files-o'}}
                                         {{/copy-button}}
                                     </span>
-                                    {{! template-lint-disable }}
-                                    <input readonly="true" type="text" value="{{link}}" class="form-control share-link">
-                                    {{! template-lint-enable }}
+                                    <input readonly="true" type="text" value={{link}} class="form-control share-link">
                                 </div>
                             {{else}}
                                 {{t 'file_browser.loading'}}
@@ -95,15 +93,17 @@
                         </button>
                     {{/if}}
                 {{/if}}
-            {{else}}
+            {{else if hasItems}}
                 <button class="btn btn-light" onclick={{unless canEdit (action 'click' 'button' 'Quick Files - Download zip' target=analytics preventDefault=false)}} {{action 'downloadZip'}}>
                     {{fa-icon "download"}} {{t 'file_browser.download_zip'}}
                 </button>
             {{/if}}
-            <button {{action (mut showFilterClicked) true}} class="btn btn-light">
-                {{fa-icon "search"}}
-                {{t 'general.filter'}}
-            </button>
+            {{#if hasItems}}
+                <button {{action (mut showFilterClicked) true}} class="btn btn-light">
+                    {{fa-icon "search"}}
+                    {{t 'general.filter'}}
+                </button>
+            {{/if}}
             <button {{action (mut currentModal) 'info'}} class="btn btn-light">
                 {{fa-icon "info"}}
                 {{t 'general.help'}}
@@ -287,7 +287,7 @@
                 <div></div>
             </div>
         {{else if (not (or items.length filter))}}
-            {{#if uploading.length}}
+            {{#if isUploading}}
                 {{#each uploading as |file|}}
                     <div class="row">
                         <div class="col-xs-5 file-browser-header">

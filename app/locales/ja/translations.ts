@@ -47,6 +47,7 @@ export default {
         api: 'API',
         cos: 'Center for Open Science',
         home: 'ホーム',
+        period: '.',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
@@ -251,15 +252,13 @@ export default {
         close: '閉じる',
         search_help: 'ヘルプを検索',
         queries: 'クエリ',
-        search_uses_the: '検索では',
-        search_syntax: '検索構文',
-        help_description: 'これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
+        paragraph: '検索は、<a href={{link}}>Lucene検索構文</a>を使用します。 これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
     },
     support: {
         title: 'サポート',
         faq_title: 'よくあるご質問',
         faq_paragraph: 'どうすれば無料になるのですか？ OSFは私の研究にどのように役立つでしょうか？ 登録とは何ですか？ Open Science Frameworkに関する質問は、',
-        faq_link_text: 'FAQ.',
+        faq_link_text: 'FAQ',
         faq_button: 'FAQへ',
         guides_title: 'OSFガイド',
         guides_paragraph_1: '研究ワークフローを改善するためにOSFを使用する方法を学びます。 私たちを読む',
@@ -436,6 +435,7 @@ export default {
         phone: '{{description}}は有効な電話番号でなければなりません',
         url: '{{description}}は有効なURLである必要があります',
         // custom
+        email_registered: 'This email address has already been registered.',
         email_match: 'メールアドレスは一致する必要があります。',
         password_email: 'パスワードはあなたのメールアドレスと同じであってはなりません。',
         password_old: '新しいパスワードと古いパスワードを同じにすることはできません。',
@@ -461,5 +461,16 @@ export default {
         addons: 'Add-ons',
         settings: 'Settings',
         comments: 'Comments',
+    },
+    osf_copyright: {
+        copyright: 'Copyright &copy; 2011-{{currentYear}}',
+        terms: 'Terms of Use',
+        privacy: 'Privacy Policy',
+        separator: ' | ',
+    },
+    dropzone_widget: {
+        drop_files: 'Drop files here to upload',
+        error_multiple_files: 'Cannot upload multiple files',
+        error_directories: 'Cannot upload directories, applications, or packages',
     },
 };

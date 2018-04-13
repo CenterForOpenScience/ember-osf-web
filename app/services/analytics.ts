@@ -1,6 +1,5 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
-import { get } from '@ember/object';
 import Service from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
 import config from 'ember-get-config';
@@ -16,7 +15,7 @@ export default class Analytics extends Service {
     @service session;
     @service router;
 
-    private trackPageTask = task(function* (
+    trackPageTask = task(function* (
         this: Analytics,
         publicPrivate: analyticPrivacy,
         resourceType: string,
@@ -29,7 +28,7 @@ export default class Analytics extends Service {
 
         const session = this.get('session');
         yield waitForQueue('afterRender');
-        const router = get(this, 'router');
+        const router = this.get('router');
         const page = router.get('currentURL');
         const title = router.get('currentRouteName');
 
@@ -41,7 +40,7 @@ export default class Analytics extends Service {
               2) authenticated: Logged in or Logged out
               3) resource: the JSONAPI type (node, file, user, etc) or n/a
         */
-        get(this, 'metrics').trackPage({
+        this.get('metrics').trackPage({
             [authenticated]: session.get('isAuthenticated') ? 'Logged in' : 'Logged out',
             [isPublic]: publicPrivate,
             page,
@@ -51,13 +50,13 @@ export default class Analytics extends Service {
     });
 
     @action
-    click(category, label, extraInfo) {
+    click(this: Analytics, category, label, extraInfo) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {
             // This is to remove the event object when used with onclick
             extra = null;
         }
-        get(this, 'metrics')
+        this.get('metrics')
             .trackEvent({
                 category,
                 action: 'click',
@@ -68,12 +67,12 @@ export default class Analytics extends Service {
         return true;
     }
 
-    track(category, actionName, label, extraInfo) {
+    track(this: Analytics, category, actionName, label, extraInfo) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {
             extra = null;
         }
-        get(this, 'metrics')
+        this.get('metrics')
             .trackEvent({
                 category,
                 actionName,

@@ -28,6 +28,7 @@ export default class Dashboard extends Route.extend({
 
     async setupController(this: Dashboard, controller): Promise<void> {
         const blocker = this.get('ready').getBlocker();
+        controller.set('filter', null);
 
         try {
             await Promise.all([
