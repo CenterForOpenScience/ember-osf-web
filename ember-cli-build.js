@@ -71,7 +71,6 @@ module.exports = function(defaults) {
 
     app.import('node_modules/dropzone/dist/dropzone.css');
     app.import('node_modules/dropzone/dist/dropzone.js');
-    app.import('node_modules/@centerforopenscience/osf-style/css/base.css');
 
     app.import({
         test: 'node_modules/jquery-mockjax/dist/jquery.mockjax.js',
