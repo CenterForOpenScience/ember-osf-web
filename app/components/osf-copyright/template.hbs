@@ -1,12 +1,25 @@
-{{! template-lint-disable bare-strings }}
 <div class="container copyright">
     <div class="row">
         <div class="col-md-12">
             <p>
-                <span class="copyright"> Copyright &copy; 2011-{{currentYear}}</span>
-                <a href="https://cos.io">Center for Open Science</a> |
-                <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms of Use</a> |
-                <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>
+                <span class="copyright">
+                    {{t 'osf_copyright.copyright' currentYear=currentYear}}
+                </span>
+                <a href="https://cos.io" onclick={{action 'click' 'link' 'Copyright - cos_io' target=analytics}}>
+                    {{t 'general.cos'}}
+                </a>
+                <span>
+                    {{t 'osf_copyright.separator'}}
+                </span>
+                <a href={{termsLink}} onclick={{action 'click' 'link' 'Copyright - terms' target=analytics}}>
+                    {{t 'osf_copyright.terms'}}
+                </a>
+                <span>
+                    {{t 'osf_copyright.separator'}}
+                </span>
+                <a href={{privacyPolicyLink}} onclick={{action 'click' 'link' 'copyright - privacy' target=analytics}}>
+                    {{t 'osf_copyright.privacy'}}
+                </a>
             </p>
         </div>
     </div>

@@ -1,5 +1,5 @@
-import Ember from 'ember';
 import config from 'ember-get-config';
+import $ from 'jquery';
 
 /**
  * Helper functions for asynchronous behavior
@@ -24,11 +24,11 @@ import config from 'ember-get-config';
  */
 export default function authenticatedAJAX(options) {
     if (config.authorizationType === 'cookie') {
-        Ember.merge(options, {
+        Object.assign(options, {
             xhrFields: {
                 withCredentials: true,
             },
         });
     }
-    return Ember.$.ajax(options);
+    return $.ajax(options);
 }

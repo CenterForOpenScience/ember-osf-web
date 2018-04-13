@@ -1,9 +1,9 @@
-import Ember from 'ember';
-
-import Base from 'ember-simple-auth/authenticators/base';
+import { inject as service } from '@ember/service';
+import { copy } from '@ember/object/internals';
 import config from 'ember-get-config';
-
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import Base from 'ember-simple-auth/authenticators/base';
+import RSVP from 'rsvp';
 
 /**
  * @module ember-osf-web
@@ -20,8 +20,8 @@ import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
  */
 export default Base.extend({
     // HACK: Lets us clear session manually, rather than after .invalidate method resolves
-    store: Ember.inject.service(),
-    session: Ember.inject.service(),
+    store: service(),
+    session: service(),
 
     _test() {
         return authenticatedAJAX({
@@ -36,7 +36,7 @@ export default Base.extend({
             // Push the result into the store for later use by the current-user service
             // Note: we have to deepcopy res because pushPayload mutates our data
             // and causes an infinite loop because reasons
-            this.get('store').pushPayload(Ember.copy(res, true));
+            this.get('store').pushPayload(copy(res, true));
             return res.data;
         });
     },
@@ -50,16 +50,18 @@ export default Base.extend({
      */
     invalidate(data) {
         if ((!data || data.id) && data.status !== 401) {
-            // If invalidate is called when loading the page to check if a cookie has permissions, don't redirect the user
-            // But if invalidate is called without arguments, or for any other reason, interpret this as a straight logout request
-            //   (and let the session get invalidated next time at the start of first page load)
+            // If invalidate is called when loading the page to check if a cookie has permissions, don't redirect the
+            // user. But if invalidate is called without arguments, or for any other reason, interpret this as a
+            // straight logout request(and let the session get invalidated next time at the start of first page load)
             // Can't do this via AJAX request because it redirects to CAS, and AJAX + redirect = CORS issue
 
-            // Manually clear session before user leaves the page, since we aren't sticking around for ESA to do so later
+            // Manually clear session before user leaves the page, since we aren't sticking around for ESA to do so
+            // later
             return this.get('session.session')._clear(true);
         } else {
-            // This branch is expected to be called when a test request reveals the user to lack permissions... so session should be wiped
-            return Ember.RSVP.resolve();
+            // This branch is expected to be called when a test request reveals the user to lack permissions... so
+            // session should be wiped
+            return RSVP.resolve();
         }
     },
     /**
@@ -71,7 +73,7 @@ export default Base.extend({
     authenticate(code) {
         // NOTE: Must be wrapped in an RSVP promise
         // _test returns a Jquery Promise but authenticate expects an RSVP Promise
-        return new Ember.RSVP.Promise((resolve, reject) =>
+        return new RSVP.Promise((resolve, reject) =>
             this._test(code).then(resolve).fail(reject));
     },
 });

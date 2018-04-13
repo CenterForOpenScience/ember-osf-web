@@ -9,15 +9,16 @@ import chunkArray from 'ember-osf-web/utils/chunk-array';
 // ember-osf-preprints/app/components/provider-carousel (h/t @pattisdr)
 export default class InstitutionCarousel extends Component {
     @service store;
+    @service analytics;
 
-    itemsPerSlide: number = 5;
-    institutions = A();
+    itemsPerSlide: number = this.itemsPerSlide || 5;
+    institutions = this.institutions || A([]);
 
     @computed('institutions.[]', 'itemsPerSlide')
     get slides(this: InstitutionCarousel) {
         const institutions = this.get('institutions').slice();
-
         const cos = this.get('store').peekRecord('institution', 'cos');
+
         if (cos) {
             institutions.removeObject(cos);
             institutions.unshiftObject(cos);
@@ -30,7 +31,7 @@ export default class InstitutionCarousel extends Component {
     get columnOffset(this: InstitutionCarousel) {
         const numInstitutions = this.get('institutions.length');
         const itemsPerSlide = this.get('itemsPerSlide');
-        return numInstitutions <= itemsPerSlide ? itemsPerSlide - numInstitutions - 1 : 1;
+        return numInstitutions <= itemsPerSlide ? itemsPerSlide - numInstitutions : 1;
     }
 
     didInsertElement(this: InstitutionCarousel) {

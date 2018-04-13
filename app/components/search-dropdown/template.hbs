@@ -5,13 +5,48 @@
             <div class="col-md-12">
                 <form class="input-group" {{action "search" on="submit"}}>
                     {{!Search bar}}
-                    {{input value=query name='search-placeholder' class='osf-search-input form-control' placeholder=(t 'navbar.search_the_OSF')}}
-                    <label id="searchBarLabel" class="search-label-placeholder" for="search-placeholder">{{t 'navbar.search'}}</label>
+                    {{input
+                        value=query
+                        name='search-placeholder'
+                        class='osf-search-input form-control'
+                        placeholder=(t 'navbar.search_the_OSF')
+                    }}
+                    <label
+                        id="searchBarLabel"
+                        class="search-label-placeholder"
+                        for="search-placeholder"
+                    >
+                        {{t 'navbar.search'}}
+                    </label>
                     <span class="input-group-btn">
                         {{!Submit search, search help, and cancel search buttons}}
-                        <button type="submit" class="btn osf-search-btn" aria-label={{t 'navbar.send_search'}}><i class="fa fa-arrow-circle-right fa-lg"></i></button>
-                        <button type="button" class="btn osf-search-btn" aria-label={{t 'navbar.search_help'}} data-toggle="modal" {{action 'toggleHelpModal'}}><i class="fa fa-question fa-lg"></i></button>
-                        <button type="button" class="btn osf-search-btn" aria-label={{t 'navbar.cancel_search'}} onclick={{action "toggleSearch"}}><i class="fa fa-times fa-lg"></i></button>
+                        <button
+                            type="submit"
+                            class="btn osf-search-btn"
+                            aria-label={{t 'navbar.send_search'}}
+                            onclick={{action 'search'}}
+                            {{action 'click' 'button' 'Navbar Search - search' target=analytics}}
+                        >
+                            <i class="fa fa-arrow-circle-right fa-lg"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="btn osf-search-btn"
+                            aria-label={{t 'navbar.search_help'}}
+                            {{action (mut isOpen) true}}
+                            {{action 'click' 'button' 'Navbar Search - help' target=analytics}}
+                        >
+                            <i class="fa fa-question fa-lg"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="btn osf-search-btn"
+                            aria-label={{t 'navbar.cancel_search'}}
+                            onclick={{closeSearchAction}}
+                            {{action 'click' 'button' 'Navbar Search - cancel' target=analytics}}
+                        >
+                            <i class="fa fa-times fa-lg"></i>
+                        </button>
                     </span>
                 </form>
             </div>
@@ -20,31 +55,34 @@
 </div>
 
 {{!Search help modal - appears after clicking question mark on green search dropdown}}
-<div id="ember-bootstrap-modal-container">
-    {{#bs-modal open=isOpen body=false header=false footer=false}}
-        {{#bs-modal-header}}
-            <h3 class="modal-title">{{t 'search_help_modal.search_help'}}</h3>
-        {{/bs-modal-header}}
-        {{#bs-modal-body}}
-            <h4> {{t 'search_help_modal.queries'}} </h4>
-            {{! template-lint-disable bare-strings }}
-            <p>
-                {{t 'search_help_modal.search_uses_the'}} <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene {{t 'search_help_modal.search_syntax'}}</a>.
-                {{t 'search_help_modal.help_description'}}
-            </p>
-            <ul>
-                <li><a href="{{host}}search/?q=repro*">repro*</a></li>
-                <li><a href="{{host}}search/?q=brian+AND+title%3Amany">brian AND title:many</a></li>
-                <li><a href="{{host}}search/?q=tags%3A%28psychology%29">tags:(psychology)</a></li>
-            </ul>
-            {{! template-lint-enable bare-strings }}
-        {{/bs-modal-body}}
-
-        {{#bs-modal-footer}}
-            <div align="right">
-                <button {{action 'close'}} class="btn btn-default"> {{t 'search_help_modal.close'}} </button>
-            </div>
-        {{/bs-modal-footer}}
-    {{/bs-modal}}
-
-</div>
+{{#bs-modal open=isOpen onHidden=(action (mut isOpen) false) as |modal|}}
+    {{#modal.header}}
+        <h3 class="modal-title">{{t 'search_help_modal.search_help'}}</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        <h4>{{t 'search_help_modal.queries'}}</h4>
+        <p>
+            {{t 'search_help_modal.paragraph' link='http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax'}}
+        </p>
+        <ul>
+            {{#each searchExamples as |example|}}
+                <li>
+                    <a href={{example.link}}>
+                        {{example.text}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/modal.body}}
+    {{#modal.footer}}
+        <div align="right">
+            <button
+                class="btn btn-default"
+                {{action (mut isOpen) false}}
+                {{action 'click' 'button' 'Navbar Search - help_close' target=analytics}}
+            >
+                {{t 'search_help_modal.close'}}
+            </button>
+        </div>
+    {{/modal.footer}}
+{{/bs-modal}}

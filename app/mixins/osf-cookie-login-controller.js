@@ -1,5 +1,5 @@
-import Ember from 'ember';
-
+import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
 import { getAuthUrl } from 'ember-osf-web/utils/auth';
 
 /**
@@ -8,21 +8,22 @@ import { getAuthUrl } from 'ember-osf-web/utils/auth';
  */
 
 /**
- * Controller mixin for login based on OSF cookie authentication. Intended to be used in tandem with OsfCookieLoginRoute mixin.
+ * Controller mixin for login based on OSF cookie authentication. Intended to be used in tandem with
+ * OsfCookieLoginRoute mixin.
  * This auth method is not available to third-party applications.
  *
  * @class OsfCookieLoginController
  * @extends Ember.Mixin
  */
-export default Ember.Mixin.create({
-    session: Ember.inject.service('session'),
+export default Mixin.create({
+    session: service('session'),
 
     queryParams: ['ticket'],
     ticket: null,
 
     actions: {
         login() {
-            window.location = getAuthUrl(window.location);
+            window.location.href = getAuthUrl(window.location);
         },
         loginSuccess() {},
         loginFail() {},

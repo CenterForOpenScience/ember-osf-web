@@ -62,7 +62,7 @@
 }
 
 .quick-project button {
-    -webkit-appearance: none;
+    appearance: none;
     outline: none;
     border: 0;
     background: transparent;
@@ -76,24 +76,12 @@
     color: $color-text-black;
 }
 
-.quick-project .selected {
-    color: $color-text-black;
-}
-
 .quick-project img {
     margin-top: 30px;
     border: 3px solid $color-border-white;
     opacity: 0.6;
 }
 
-.quick-project .not-selected {
-    color: $color-text-blue-dark;
-}
-
-.sort-group {
-  display: inline-block;
-
-}
 .node-col-headers {
     font-weight: bold;
 }
@@ -149,8 +137,11 @@
 
 .quick-search-col {
     padding-left: 5px;
-    .ancestry {
-        font-style: italic;
+
+    span {
+        height: 28px;
+        vertical-align: bottom;
+        display: table-cell;
     }
 }
 

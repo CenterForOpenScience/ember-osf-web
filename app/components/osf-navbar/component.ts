@@ -1,9 +1,9 @@
+import { action, computed } from '@ember-decorators/object';
+import { equal } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import { osfServices } from 'ember-osf-web/const/service-links';
-import AnalyticsMixin from 'ember-osf-web/mixins/analytics';
 
 const HOME_APP = 'HOME';
 
@@ -12,7 +12,9 @@ const HOME_APP = 'HOME';
  *
  * @class osf-navbar
  */
-export default class OsfNavbar extends Component.extend(AnalyticsMixin) {
+export default class OsfNavbar extends Component {
+    @service session;
+    @service analytics;
     /**
      * Action run when the user clicks "Sign In"
      *
@@ -38,9 +40,6 @@ export default class OsfNavbar extends Component.extend(AnalyticsMixin) {
      */
     redirectUrl: string = this.redirectUrl || '';
 
-    // Private properties
-    session = service('session');
-
     // TODO: When used in other apps, update to expect these as arguments or from the config
     hostAppName: string = HOME_APP;
     linksComponent: string = 'osf-navbar/home-links';
@@ -49,32 +48,29 @@ export default class OsfNavbar extends Component.extend(AnalyticsMixin) {
     osfApps = osfServices;
     showSearch = false;
 
-    inHomeApp = computed.equal('currentApp', HOME_APP);
+    @equal('currentApp', HOME_APP) inHomeApp;
 
-    currentApp = computed('hostAppName', function(this: OsfNavbar): string {
-        let appName = this.get('hostAppName');
-        if (appName === 'Dummy App') {
-            appName = HOME_APP;
-        }
-        return appName.toUpperCase();
-    });
+    @computed('hostAppName')
+    get currentApp(this: OsfNavbar): string {
+        const appName = this.get('hostAppName');
 
-    actions = {
-        ...this.actions, // from AnalyticsMixin
+        return (appName === 'Dummy App' ? HOME_APP : appName).toUpperCase();
+    }
 
-        toggleSearch() {
-            this.toggleProperty('showSearch');
-            this.send('closeSecondaryNavigation');
-        },
-        closeSecondaryNavigation() {
-            this.$('.navbar-collapse').collapse('hide');
-        },
-        closeSearch() {
-            this.set('showSearch', false);
-        },
-        closeSecondaryAndSearch() {
-            this.send('closeSecondaryNavigation');
-            this.send('closeSearch');
-        },
-    };
+    @action
+    closeSearch(this: OsfNavbar) {
+        this.set('showSearch', false);
+        this.send('closeSecondaryNavigation');
+    }
+
+    @action
+    closeSecondaryNavigation(this: OsfNavbar) {
+        $('.navbar-collapse').collapse('hide');
+    }
+
+    @action
+    closeSecondaryAndSearch(this: OsfNavbar) {
+        this.send('closeSecondaryNavigation');
+        this.set('showSearch', false);
+    }
 }

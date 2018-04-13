@@ -1,0 +1,49 @@
+// stylelint-disable selector-class-pattern
+& {
+    height: 35px;
+    user-select: none;
+    border-bottom: 1px solid $color-border-gray-dark;
+    line-height: 27px;
+    padding-top: 0;
+}
+
+&:hover {
+    background-color: $color-text-gray-cool;
+    color: $color-text-black;
+
+    a {
+        color: inherit;
+    }
+}
+
+&.selected,
+&.selected:hover {
+    background-color: $color-text-blue-dark;
+    color: $color-text-white;
+
+    .link-url {
+        color: $color-text-black;
+    }
+
+    a {
+        color: $color-text-white;
+    }
+}
+
+a {
+    color: $color-text-black;
+}
+
+.row {
+    padding: 0;
+    padding-top: 2px;
+    padding-bottom: 4px;
+}
+
+.file-list-header {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 100%;
+}

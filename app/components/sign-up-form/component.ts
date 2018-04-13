@@ -1,6 +1,6 @@
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
 import UserRegistration from 'ember-osf-web/models/user-registration';
 
@@ -20,7 +20,8 @@ export default class SignUpForm extends Component.extend({
     hasSubmitted: boolean;
     model: UserRegistration;
 
-    passwordStrength = service('passwordStrength');
+    @service passwordStrength;
+    @service analytics;
 
     progress = computed('model.password', 'strength.lastSuccessful.value.score', function (): number {
         return this.get('model.password') ? 1 + this.get('strength.lastSuccessful.value.score') : 0;

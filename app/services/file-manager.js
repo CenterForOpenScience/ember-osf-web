@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
+import { run } from '@ember/runloop';
 import config from 'ember-get-config';
 
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
@@ -16,9 +17,9 @@ import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
  * @class file-manager
  * @extends Ember.Service
  */
-export default Ember.Service.extend({
-    session: Ember.inject.service(),
-    store: Ember.inject.service(),
+export default Service.extend({
+    session: service(),
+    store: service(),
 
     /**
      * Get a URL to download the given file.
@@ -103,7 +104,7 @@ export default Ember.Service.extend({
      * error message.
      */
     checkOut(file) {
-        return Ember.run(() => {
+        return run(() => {
             const userID = this.get('session.data.authenticated.id');
             file.set('checkout', userID);
             return file.save().catch(error => {
@@ -122,7 +123,7 @@ export default Ember.Service.extend({
      * error message.
      */
     checkIn(file) {
-        return Ember.run(() => {
+        return run(() => {
             file.set('checkout', null);
             return file.save().catch(error => {
                 file.rollbackAttributes();

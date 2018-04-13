@@ -1,14 +1,27 @@
+{{title (t 'quickfiles.title' user-name=user.fullName)}}
 <div class='container'>
-    {{title (t 'quickfiles.title' user-name=user.fullName)}}
-
     {{quickfile-nav user=user onQuickfiles=true}}
-    <div class='Content container'>
+    <div class='row Content container'>
         {{#if canEdit}}
             <h5><i>{{t 'quickfiles.description'}}</i></h5>
         {{else}}
             <div style='height:14px;'></div>
         {{/if}}
-        {{file-browser user=user openFile=(action 'openFile') dropZoneId='quickfiles-dropzone'}}
+        {{file-browser
+            user=user
+            items=files
+            filter=filter
+            sort=sort
+            canEdit=canEdit
+            newProject=newProject
+            openFile=(action 'openFile')
+            updateFilter=(perform updateFilter)
+            dropZoneId='quickfiles-dropzone'
+            deleteFiles=(perform deleteFiles)
+            moveFile=(perform moveFile)
+            renameFile=(perform renameFile)
+            addFile=(perform addFile)
+        }}
     </div>
 </div>
 

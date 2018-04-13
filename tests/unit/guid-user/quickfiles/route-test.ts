@@ -5,6 +5,10 @@ moduleFor('route:guid-user/quickfiles', 'Unit | Route | guid-user/quickfiles', {
         'service:currentUser',
         'service:metrics',
         'service:features',
+        'service:analytics',
+        'service:session',
+        'service:status-messages',
+        'service:ready',
     ],
 });
 

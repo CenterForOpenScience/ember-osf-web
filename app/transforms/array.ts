@@ -1,23 +1,19 @@
 import { A, isArray } from '@ember/array';
 import DS from 'ember-data';
 
-export default DS.Transform.extend({
+const { Transform } = DS;
+
+export default Transform.extend({
     deserialize(value) {
-        if (isArray(value)) {
-            return A(value);
-        }
-        return A();
+        return A(isArray(value) ? value : []);
     },
     serialize(value) {
-        if (isArray(value)) {
-            return A(value);
-        }
-        return A();
+        return A(isArray(value) ? value : []);
     },
 });
 
 declare module 'ember-data' {
-  interface TransformRegistry {
-      'array': any[];
-  }
+    interface TransformRegistry {
+        array: any[];
+    }
 }

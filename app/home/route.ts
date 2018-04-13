@@ -1,9 +1,8 @@
+import { action } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
 export default class Home extends Route.extend({
-    session: service('session'),
-
     async beforeModel(transition) {
         await this._super(transition);
 
@@ -23,7 +22,15 @@ export default class Home extends Route.extend({
         this._super(...args);
     },
 }) {
+    @service analytics;
+    @service session;
+
     model() {
         return this.store.createRecord('user-registration');
+    }
+
+    @action
+    didTransition(this: Home) {
+        this.get('analytics').trackPage();
     }
 }

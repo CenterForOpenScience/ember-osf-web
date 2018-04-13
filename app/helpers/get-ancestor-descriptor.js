@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
 /*
  * Functions to format project titles the way they are displayed on the dashboard
@@ -28,7 +28,8 @@ function fetchTitle(node, relationship) {
 }
 
 export function getAncestorDescriptor(params/* , hash */) {
-    // Formats titles similar to the way they're displayed in the dashboard.  For example, Root Name / ... / Parent Name / Node Name.
+    // Formats titles similar to the way they're displayed in the dashboard.
+    // For example, Root Name / ... / Parent Name / Node Name.
     const node = params[0];
     const nodeId = node.get('id');
     let rootId = node.get('root.id');
@@ -58,4 +59,4 @@ export function getAncestorDescriptor(params/* , hash */) {
     return rootDescriptor;
 }
 
-export default Ember.Helper.helper(getAncestorDescriptor);
+export default helper(getAncestorDescriptor);
