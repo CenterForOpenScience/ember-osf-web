@@ -1,3 +1,5 @@
+import RSVP from 'rsvp';
+import $ from 'jquery';
 import Service, { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
 import config from 'ember-get-config';
@@ -42,7 +44,7 @@ export default Service.extend({
         if (file.get('isFolder')) {
             options.query.zip = '';
         }
-        const queryString = Ember.$.param(options.query);
+        const queryString = $.param(options.query);
         if (queryString.length) {
             return `${url}?${queryString}`;
         } else {
@@ -248,7 +250,7 @@ export default Service.extend({
             action: 'move',
             path: targetFolder.get('path'),
         };
-        Ember.$.extend(defaultData, options.data);
+        $.extend(defaultData, options.data);
         options.data = JSON.stringify(defaultData);
 
         const p = this._waterbutlerRequest('POST', url, options);
@@ -394,7 +396,7 @@ export default Service.extend({
         let url = url_;
         const options = options_;
         if (options.query) {
-            const queryString = Ember.$.param(options.query);
+            const queryString = $.param(options.query);
             url = `${url}?${queryString}`;
         }
 
@@ -404,7 +406,7 @@ export default Service.extend({
             headers[headerName] = content;
         });
 
-        return new Ember.RSVP.Promise((resolve, reject) => {
+        return new RSVP.Promise((resolve, reject) => {
             const p = authenticatedAJAX({
                 url,
                 method,

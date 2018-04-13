@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import Service from '@ember/service';
 import { module, skip, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
@@ -56,7 +57,7 @@ async function assertSettings(assert, actual, expected) {
  *  - once for each key in expectedRequest.settings
  */
 function mockWaterbutler(assert, expectedRequest, response) {
-    Ember.$.mockjax(function (requestSettings) {
+    $.mockjax(function (requestSettings) {
         if (requestSettings.url.indexOf(expectedRequest.url) === 0) {
             return {
                 response () {

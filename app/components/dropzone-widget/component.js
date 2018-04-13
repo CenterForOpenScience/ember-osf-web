@@ -107,7 +107,7 @@ export default Component.extend({
         // Therefore, we remove the "multiple" attribute for the hidden file input element, so that users cannot select
         // multiple files for upload in the first place.
         if (this.get('options.preventMultipleFiles') && this.get('clickable')) {
-            Ember.$('.dz-hidden-input').removeAttr('multiple');
+            $('.dz-hidden-input').removeAttr('multiple');
         }
 
         this.set('dropzoneElement', drop);

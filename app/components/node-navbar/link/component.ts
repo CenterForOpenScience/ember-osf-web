@@ -1,11 +1,10 @@
-import { classNames, tagName } from '@ember-decorators/component';
+import { className, tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
-import { equal } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 
 import Component from '@ember/component';
 
-@tagName('span')
+@tagName('li')
 export default class NodeNavbarLink extends Component {
     @service router;
 
@@ -25,5 +24,9 @@ export default class NodeNavbarLink extends Component {
         return `node_navbar.${this.get('destination')}`;
     }
 
-    @equal('routeName', 'router.currentRouteName') active;
+    @className('active', 'not-active')
+    @computed('routeName', 'router.currentRouteName')
+    get active(this: NodeNavbarLink): boolean {
+        return this.get('routeName') === this.get('router.currentRouteName');
+    }
 }
