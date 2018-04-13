@@ -33,7 +33,7 @@ export default {
         filter: 'フィルター',
         revert: '復帰',
         save: '保存',
-        ellipsis: '\u2026',
+        ellipses: '\u2026',
         warning: '警告',
         clipboard_copy: 'クリップボードへコピー',
         sort_asc: '昇順ソート',
@@ -47,7 +47,11 @@ export default {
         api: 'API',
         cos: 'Center for Open Science',
         home: 'ホーム',
+<<<<<<< HEAD
         period: '.',
+=======
+        period: '。',
+>>>>>>> f26ee3bf78001b2b9cd21fed6a6eea1700d6a53a
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
@@ -252,7 +256,11 @@ export default {
         close: '閉じる',
         search_help: 'ヘルプを検索',
         queries: 'クエリ',
+<<<<<<< HEAD
         paragraph: '検索は、<a href={{link}}>Lucene検索シンタックス</a>を使用します。 これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
+=======
+        paragraph: '検索は、<a href={{link}}>Lucene検索構文</a>を使用します。 これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
+>>>>>>> f26ee3bf78001b2b9cd21fed6a6eea1700d6a53a
     },
     support: {
         title: 'サポート',
