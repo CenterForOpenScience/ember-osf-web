@@ -1,4 +1,3 @@
-import RSVP from 'rsvp';
 import $ from 'jquery';
 import Service, { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
@@ -406,16 +405,12 @@ export default Service.extend({
             headers[headerName] = content;
         });
 
-        return new RSVP.Promise((resolve, reject) => {
-            const p = authenticatedAJAX({
-                url,
-                method,
-                headers,
-                data: options.data,
-                processData: false,
-            });
-            p.done(data => resolve(data));
-            p.fail((_, __, error) => reject(error));
+        return authenticatedAJAX({
+            url,
+            method,
+            headers,
+            data: options.data,
+            processData: false,
         });
     },
 

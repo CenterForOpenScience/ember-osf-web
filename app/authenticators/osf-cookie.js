@@ -67,13 +67,9 @@ export default Base.extend({
     /**
      * For now, simply verify that a token is present and can be used
      * @method authenticate
-     * @param code
      * @return {Promise}
      */
-    authenticate(code) {
-        // NOTE: Must be wrapped in an RSVP promise
-        // _test returns a Jquery Promise but authenticate expects an RSVP Promise
-        return new RSVP.Promise((resolve, reject) =>
-            this._test(code).then(resolve).fail(reject));
+    authenticate() {
+        return this._test();
     },
 });

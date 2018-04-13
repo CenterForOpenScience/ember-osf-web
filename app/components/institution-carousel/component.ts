@@ -1,7 +1,8 @@
-import { action, computed } from '@ember-decorators/object';
+import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
+import { get } from '@ember/object';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 // TODO generalize this as carousel-somehting and add it to ember-osf, to be used by both providers
@@ -29,22 +30,8 @@ export default class InstitutionCarousel extends Component {
 
     @computed('institutions.length', 'itemsPerSlide')
     get columnOffset(this: InstitutionCarousel) {
-        const numInstitutions = this.get('institutions.length');
-        const itemsPerSlide = this.get('itemsPerSlide');
+        const numInstitutions = get(this, 'institutions').length;
+        const itemsPerSlide = get(this, 'itemsPerSlide');
         return numInstitutions <= itemsPerSlide ? itemsPerSlide - numInstitutions : 1;
-    }
-
-    didInsertElement(this: InstitutionCarousel) {
-        this.$('.carousel').carousel();
-    }
-
-    @action
-    prev(this: InstitutionCarousel) {
-        this.decrementProperty('index');
-    }
-
-    @action
-    next(this: InstitutionCarousel) {
-        this.incrementProperty('index');
     }
 }

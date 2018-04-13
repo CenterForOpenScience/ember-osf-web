@@ -1,0 +1,8 @@
+{{#unless hidden}}
+    {{#if dismissible}}
+        <button class="close" aria-label={{t 'general.close'}} {{action "dismiss"}}>
+            <span aria-hidden="true">{{fa-icon 'times'}}</span>
+        </button>
+    {{/if}}
+    {{yield}}
+{{/unless}}
