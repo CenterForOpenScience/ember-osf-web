@@ -443,7 +443,7 @@ export default {
         phone: '{{description}}は有効な電話番号でなければなりません',
         url: '{{description}}は有効なURLである必要があります',
         // custom
-        email_registered: 'このメールアドレスはすでに登録されています。'
+        email_registered: 'このメールアドレスはすでに登録されています。',
         email_match: 'メールアドレスは一致する必要があります。',
         password_email: 'パスワードはあなたのメールアドレスと同じであってはなりません。',
         password_old: '新しいパスワードと古いパスワードを同じにすることはできません。',
