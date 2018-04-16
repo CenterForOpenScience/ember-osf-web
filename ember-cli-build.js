@@ -30,6 +30,9 @@ module.exports = function(defaults) {
                 'node_modules/@centerforopenscience/osf-style/sass',
             ],
         },
+        babel: {
+            sourceMaps: 'inline',
+        },
         sourcemaps: {
             enabled: true,
             extensions: ['js'],
