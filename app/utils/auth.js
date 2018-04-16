@@ -1,5 +1,5 @@
 // jscs:disable disallowArrayDestructuringReturn
-import Ember from 'ember';
+import EmberError from '@ember/error';
 import config from 'ember-get-config';
 import $ from 'jquery';
 
@@ -68,7 +68,7 @@ function getAuthUrl() {
     } else if (authType === 'cookie') {
         return getCookieAuthUrl(...arguments);
     } else {
-        throw new Ember.Error(`Unrecognized authorization type: ${authType}`);
+        throw new EmberError(`Unrecognized authorization type: ${authType}`);
     }
 }
 

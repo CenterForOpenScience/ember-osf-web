@@ -48,6 +48,7 @@ export default {
         cos: 'Center for Open Science',
         home: 'Home',
         period: '.',
+        settings: 'Settings',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -442,6 +443,18 @@ export default {
         password_match: 'Passwords must match.',
         recaptcha: 'Please complete reCAPTCHA',
     },
+    node_navbar: {
+        toggle: 'Toggle navigation',
+        project_nav: 'Project Navigation',
+        wiki: 'Wiki',
+        analytics: 'Analytics',
+        registrations: 'Registrations',
+        files: 'Files',
+        contributors: 'Contributors',
+        addons: 'Add-ons',
+        settings: 'Settings',
+        comments: 'Comments',
+    },
     status: {
         welcome_message: '<h1>Welcome to the OSF!</h1><p>Visit our <a href="http://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>',
         alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.',
@@ -460,5 +473,21 @@ export default {
         drop_files: 'Drop files here to upload',
         error_multiple_files: 'Cannot upload multiple files',
         error_directories: 'Cannot upload directories, applications, or packages',
+    },
+    node_blurb: {
+        fork: {
+            title: 'Forked:',
+            manage_contributors: 'Manage Contributors',
+        },
+        private_tooltip: 'This project is private',
+    },
+    forks: {
+        fork: 'Fork',
+        title: 'Forks',
+        back: 'Back to Analytics',
+        new: 'New fork',
+        new_fork_info_title: 'Fork status',
+        new_fork_info: 'Your fork is being created. You\'ll receive an email when it is complete.',
+        create_fork_modal: 'Are you sure you want to fork this project?',
     },
 };

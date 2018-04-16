@@ -1,3 +1,4 @@
+import ObjectProxy from '@ember/object/proxy';
 import { helper } from '@ember/component/helper';
 
 /*
@@ -34,7 +35,7 @@ export function getAncestorDescriptor(params/* , hash */) {
     const nodeId = node.get('id');
     let rootId = node.get('root.id');
     let parentId = node.get('parent.id');
-    const parent = (node.get('parent') instanceof Ember.ObjectProxy) ? node.get('parent.content') : node.get('parent');
+    const parent = (node.get('parent') instanceof ObjectProxy) ? node.get('parent.content') : node.get('parent');
     let parentParentId = parent ? parent.get('parent.id') : undefined;
 
     if (typeof rootId === 'undefined') rootId = fetchIdFromRelationshipLink(node, 'root');

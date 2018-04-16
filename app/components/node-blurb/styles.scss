@@ -1,0 +1,25 @@
+/* stylelint-disable */
+.generic-dropdown ul.dropdown-menu > li > a {
+    color: #000;
+}
+
+.generic-dropdown ul.dropdown-menu > li > a:hover,
+.generic-dropdown ul.dropdown-menu > li > a:focus {
+    cursor: pointer;
+    background-image: none;
+    background-color: #D9D9D9;
+}
+
+.generic-dropdown button {
+    padding: 4px 12px;
+    line-height: 0;
+}
+
+.generic-dropdown ul {
+    background-color: #EFEFEF;
+    min-width: 180px;
+}
+
+.generic-dropdown a {
+    color: #333;
+}
