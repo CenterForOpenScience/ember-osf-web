@@ -7,4 +7,10 @@ export default class OsfFooter extends Component {
     serviceLinks = serviceLinks;
     supportEmail: string = config.support.supportEmail;
     @service analytics;
+    currentYear: number = (new Date()).getUTCFullYear();
+
+    constructor() {
+        super();
+        Object.assign(this, config.signUpPolicy);
+    }
 }
