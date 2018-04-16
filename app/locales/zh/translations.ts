@@ -287,14 +287,18 @@ export default {
     },
     footer: {
         status: 'Status',
-        faq: 'FAQ/Guides',
-        source_code: 'Source Code',
+        faq: 'FAQ/guides',
+        source_code: 'Source code',
         rpp: 'Reproducibility Project: Psychology',
         rpcb: 'Reproducibility Project: Cancer Biology',
-        top: 'TOP Guidelines',
+        top: 'TOP guidelines',
         donate: 'Donate',
         socialize: 'Socialize',
         contact: 'Contact',
+        copyright: 'Copyright &copy; 2011-{{currentYear}}',
+        terms: 'Terms of use',
+        privacy: 'Privacy policy',
+        separator: ' | ',
     },
     not_found: {
         title: 'Page not found',
@@ -451,10 +455,6 @@ export default {
         remove_self_contrib: 'You have removed yourself as a contributor from this project.',
     },
     osf_copyright: {
-        copyright: 'Copyright &copy; 2011-{{currentYear}}',
-        terms: 'Terms of Use',
-        privacy: 'Privacy Policy',
-        separator: ' | ',
     },
     dropzone_widget: {
         drop_files: 'Drop files here to upload',
