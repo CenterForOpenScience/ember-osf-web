@@ -50,6 +50,7 @@ export default {
         home: 'Home',
         period: '.',
         hosted_on_the_osf: 'Hosted on the Open Science Framework',
+        settings: 'Settings',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -479,5 +480,21 @@ export default {
         create_account: 'Create an account',
         learn_more: 'learn more',
         hide_message: 'Hide this message',
+    },
+    node_blurb: {
+        fork: {
+            title: 'Forked:',
+            manage_contributors: 'Manage Contributors',
+        },
+        private_tooltip: 'This project is private',
+    },
+    forks: {
+        fork: 'Fork',
+        title: 'Forks',
+        back: 'Back to Analytics',
+        new: 'New fork',
+        new_fork_info_title: 'Fork status',
+        new_fork_info: 'Your fork is being created. You\'ll receive an email when it is complete.',
+        create_fork_modal: 'Are you sure you want to fork this project?',
     },
 };

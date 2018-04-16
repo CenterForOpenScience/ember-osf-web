@@ -1,0 +1,38 @@
+{{title 'wow'}}
+<div class="container">
+    {{#bs-modal open=newModal onSubmit=(action 'newFork') onHidden=(action 'newForkModalToggle') as |m|}}
+        {{#m.body}}
+            <h4>{{t 'forks.create_fork_modal'}}</h4>
+        {{/m.body}}
+        {{#m.footer}}
+            {{#bs-button onClick=(action m.close)}}{{t 'general.cancel'}}{{/bs-button}}
+            {{#bs-button onClick=(action m.submit) type='info'}}{{t 'forks.fork'}}{{/bs-button}}
+        {{/m.footer}}
+    {{/bs-modal}}
+    <div class="page-header visible-xs">
+        <h2 class="text-300">{{t 'forks.title'}}</h2>
+    </div>
+    <div class="row m-md">
+        <a href="/{{model.taskInstance.value.id}}/analytics" class="padded strong">
+            {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-xs-9 col-sm-8">
+            <ul data-bind="stopBinding: true" class="list-group m-md ">
+                <span id="forks" class="render-nodes-list">
+                    {{#each model.taskInstance.value.forks as | fork |}}
+                        <li class="project list-group-item list-group-item-node cite-container">
+                            {{node-blurb node=fork blurbType='fork' delete=(action deleteModalToggle fork)}}
+                        </li>
+                    {{/each}}
+                </span>
+            </ul>
+        </div>
+        <div class="col-xs-3 col-sm-4">
+            <div class="m-md">
+                {{#bs-button type='success' onClick=(action 'newForkModalToggle')}}{{t 'forks.new'}}{{/bs-button}}
+            </div>
+        </div>
+    </div>
+</div>
