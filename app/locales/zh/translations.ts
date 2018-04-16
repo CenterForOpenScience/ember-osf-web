@@ -48,6 +48,7 @@ export default {
         cos: 'Center for Open Science',
         home: 'Home',
         period: '.',
+        settings: 'Settings',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -472,5 +473,21 @@ export default {
         drop_files: 'Drop files here to upload',
         error_multiple_files: 'Cannot upload multiple files',
         error_directories: 'Cannot upload directories, applications, or packages',
+    },
+    node_blurb: {
+        fork: {
+            title: 'Forked:',
+            manage_contributors: 'Manage Contributors',
+        },
+        private_tooltip: 'This project is private',
+    },
+    forks: {
+        fork: 'Fork',
+        title: 'Forks',
+        back: 'Back to Analytics',
+        new: 'New fork',
+        new_fork_info_title: 'Fork status',
+        new_fork_info: 'Your fork is being created. You\'ll receive an email when it is complete.',
+        create_fork_modal: 'Are you sure you want to fork this project?',
     },
 };

@@ -3,7 +3,7 @@
         <div class='container'>
             <div class='navbar-header'>
 
-                <button type='button' class='navbar-toggle collapsed' onClick={{action 'toggleNav'}}>
+                <button type='button' class='{{componentCssClassName}} NodeNavbar__navbar-toggle navbar-toggle collapsed' onClick={{action 'toggleNav'}}>
                     <span class='sr-only'>{{t 'node_navbar.toggle'}}</span>
                     <span class='fa fa-bars fa-lg'></span>
                 </button>
@@ -34,3 +34,6 @@
         </div>
     </nav>
 {{/ember-wormhole}}
+{{#unless renderInPlace}}
+    <div class='NodeNavbar__navbar-buffer'></div>
+{{/unless}}
