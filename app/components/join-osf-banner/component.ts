@@ -1,12 +1,11 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { SessionService } from 'ember-simple-auth/addon/services/session';
-import Analytics from '../../services/analytics';
+import Analytics from 'ember-osf-web/services/analytics';
 
 export default class JoinOsfBanner extends Component.extend() {
     @service analytics: Analytics;
-    @service session: SessionService;
+    @service session;
 
     storage = window.localStorage;
     dismissedBanner = this.storage.getItem('slide') !== null;
