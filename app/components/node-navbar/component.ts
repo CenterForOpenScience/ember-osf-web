@@ -8,7 +8,7 @@ export default class NodeNavbar extends Component {
     node: Node;
     allowComments?: boolean;
     renderInPlace: boolean = defaultTo(this.renderInPlace, false);
-    secondaryNavbarId = config.OSF.secondaryNavbarId;
+    secondaryNavbarId = config.secondaryNavbarId;
     collapsedNav = true;
 
     @computed('node.currentUserPermissions')

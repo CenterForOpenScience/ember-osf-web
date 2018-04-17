@@ -1,21 +1,5 @@
 import config from 'ember-get-config';
 
-/**
- * @module ember-osf-web
- * @submodule const
- */
-
-/**
- * @class service-links
- */
-
-/**
- * Provides some common osf links in a central location
- * @property service-links
- * @final
- * @type {Object}
- */
-
 const osfUrl = config.OSF.url;
 const serviceLinks = {
     exploreActivity: `${osfUrl}explore/activity/`,
@@ -36,18 +20,6 @@ const serviceLinks = {
     settings: `${osfUrl}settings/`,
     reviewsHome: `${osfUrl}reviews/`,
 };
-
-
-/**
- * @class osf-services
- */
-
-/**
- * Provides list of OSF services and their links
- * @property osfServices
- * @final
- * @type {Array}
- */
 
 const osfServices = [
     {

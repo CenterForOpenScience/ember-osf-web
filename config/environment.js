@@ -132,7 +132,6 @@ module.exports = function(environment) {
             devMode,
             statusCookie,
             cookieDomain,
-            secondaryNavbarId: 'secondaryNavbar',
         },
         social: {
             twitter: {
@@ -173,6 +172,7 @@ module.exports = function(environment) {
         home: {
             youtubeId: '2TV21gOzfhw',
         },
+        secondaryNavbarId: 'secondaryNavbar',
     };
 
     if (environment === 'development') {

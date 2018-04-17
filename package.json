@@ -54,7 +54,7 @@
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-clipboard": "0.8.0",
-    "ember-cli-code-coverage": "^0.4.2",
+    "ember-cli-code-coverage": "https://github.com/kategengler/ember-cli-code-coverage#77b5b9201060d634d281f64a5bb7b412773a8b89",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-eslint": "^4.2.1",
     "ember-cli-htmlbars": "^2.0.1",

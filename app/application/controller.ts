@@ -5,6 +5,7 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 import $ from 'jquery';
 
 export default class Application extends Controller.extend(OSFAgnosticAuthControllerMixin) {
+    secondaryNavbarId = config.secondaryNavbarId;
     signupUrl = `${pathJoin(config.OSF.url, 'register')}?${$.param({ next: window.location.href })}`;
 }
 

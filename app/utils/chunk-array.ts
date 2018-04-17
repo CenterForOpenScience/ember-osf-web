@@ -1,6 +1,6 @@
-export default function chunkArray(arr: any[], limit: number): any[][] {
+export default function chunkArray<T>(arr: T[], limit: number): T[][] {
     const original = arr.slice();
-    const result: any[][] = [];
+    const result: T[][] = [];
 
     while (original.length) {
         result.push(original.splice(0, limit));

@@ -79,7 +79,7 @@ export default class UserQuickfiles extends Controller {
         yield all(files.map(file => deleteFile.perform(file)));
     });
 
-    moveFile = task(function* (this: UserQuickfiles, file: File, node: Node): IterableIterator<boolean> {
+    moveFile = task(function* (this: UserQuickfiles, file: File, node: Node): IterableIterator<any> {
         try {
             if (node.get('isNew')) {
                 yield this.get('createProject').perform(node);
@@ -154,8 +154,9 @@ export default class UserQuickfiles extends Controller {
 
     @computed('currentUser.currentUserId', 'user.id')
     get canEdit(this: UserQuickfiles): boolean {
-        const userId = this.get('user.id');
-        return userId && userId === this.get('currentUser').get('currentUserId');
+        const user = this.get('user');
+        const userId = user && user.get('id');
+        return !!userId && userId === this.get('currentUser').get('currentUserId');
     }
 
     @action
