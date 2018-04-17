@@ -32,21 +32,24 @@ export default Mixin.create({
       redirects to the login URL. (Sending back to this page after a successful transition)
 
       __If `beforeModel` is overridden in a route that uses this mixin, the route's
-     implementation must call `this._super(...arguments)`__ so that the mixin's
+     implementation must call `this._super(transition)`__ so that the mixin's
      `beforeModel` method is actually executed.
       @method beforeModel
       @public
     */
-    beforeModel(transition) {
-        if (this.get('session.isAuthenticated')) { return this._super(...arguments); }
-        return this.get('session').authenticate('authenticator:osf-cookie').then(() => {
-            return this._super(...arguments);
-        }).catch(() => {
+    async beforeModel(transition) {
+        try {
+            if (!this.get('session.isAuthenticated')) {
+                await this.get('session').authenticate('authenticator:osf-cookie');
+            }
+
+            return this._super(transition);
+        } catch (e) {
             // Reference: http://stackoverflow.com/a/39054607/414097
             const routing = this.get('routing');
             const params = Object.values(transition.params).filter(param => Object.values(param).length);
             const url = routing.generateURL(transition.targetName, params, transition.queryParams);
             window.location.href = getAuthUrl(window.location.origin + url);
-        });
+        }
     },
 });

@@ -16,8 +16,8 @@ interface MaintenanceData {
 export default class MaintenanceBanner extends Component.extend({
     maintenance: null,
 
-    didReceiveAttrs(): void {
-        this._super(...arguments);
+    didReceiveAttrs(...args): void {
+        this._super(...args);
         this.get('getMaintenanceStatus').perform();
     },
 

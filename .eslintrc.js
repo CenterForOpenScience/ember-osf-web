@@ -26,6 +26,7 @@ module.exports = {
         'ember/named-functions-in-promises': 0,
         'function-paren-newline': ['error', 'consistent'],
         'ember/no-attrs-snapshot': 0,
+        'prefer-rest-params': 0,
     },
     overrides: [
         {
