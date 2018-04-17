@@ -21,6 +21,7 @@
   },
   "include": [
     "app",
+    "config",
     "tests",
     "types"
   ]

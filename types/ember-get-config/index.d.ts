@@ -1,5 +1,5 @@
 declare module 'ember-get-config' {
-    import config from 'ember-osf-web/config/environment';
+    import config from 'config/environment';
 
     export = config;
 }
