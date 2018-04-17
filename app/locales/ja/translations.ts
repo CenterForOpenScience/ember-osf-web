@@ -49,6 +49,7 @@ export default {
         home: 'ホーム',
         period: '.',
         settings: '設定',
+        project: 'project',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
@@ -489,5 +490,11 @@ export default {
         new_fork_info_title: 'Fork status',
         new_fork_info: 'Your fork is being created. You\'ll receive an email when it is complete.',
         create_fork_modal: 'Are you sure you want to fork this project?',
+        delete_fork_failed: 'Any child components must be deleted prior to deleting this component.',
+    },
+    delete_modal: {
+        title: 'Are you sure you want to delete this {{nodeType}}?',
+        body: 'It will no longer be available to other contributors on the {{nodeType}}.',
+        type_this: 'Type the following to continue:',
     },
 };

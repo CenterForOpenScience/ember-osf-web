@@ -2,6 +2,7 @@ import { bool, equal } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
+import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 import OsfModel from './osf-model';
 
 const { attr, belongsTo, hasMany } = DS;
@@ -133,7 +134,21 @@ export default class Node extends OsfModel.extend(Validations, FileItemMixin, {
     isAnonymous: bool('meta.anonymous'),
 
     isNode: true,
-}) {}
+}) {
+    fork(this: Node) {
+        return authenticatedAJAX({
+            url: this.get('links.relationships.forks.links.related.href'),
+            type: 'POST',
+            xhrFields: { withCredentials: true },
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                data: { type: 'nodes' },
+            }),
+        });
+    }
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

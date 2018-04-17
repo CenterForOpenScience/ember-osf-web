@@ -10,8 +10,8 @@ module('Integration | Component | node-blurb', hooks => {
     test('it renders', async function(assert) {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.set('myAction', function(val) { ... });
-
-        await render(hbs`{{node-blurb}}`);
+        this.set('contributors', []);
+        await render(hbs`{{node-blurb contributors=contributors}}`);
 
         assert.ok(this.element.textContent.trim());
     });
