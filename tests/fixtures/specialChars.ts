@@ -20,8 +20,4 @@ export default [
         'for now, intentionally limit which characters are fixed &amp; &lt; &gt;',
         'for now, intentionally limit which characters are fixed & < >',
     ],
-    [
-        null,
-        null,
-    ],
-];
+] as Array<[string, string]>;

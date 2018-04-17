@@ -36,8 +36,8 @@ export default class MaintenanceBanner extends Component.extend({
 
     utc = computed('maintenance.start', (): string => moment(this.get('maintenance.start')).format('ZZ'));
 
-    alertClass = computed('maintenance.level', (): string => {
+    alertType = computed('maintenance.level', function(this: MaintenanceBanner) {
         const levelMap = ['info', 'warning', 'danger'];
-        return `alert-${levelMap[this.get('maintenance.level') - 1]}`;
+        return levelMap[this.get('maintenance.level') - 1];
     });
 }

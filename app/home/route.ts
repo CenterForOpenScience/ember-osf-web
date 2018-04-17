@@ -3,10 +3,10 @@ import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 
 export default class Home extends Route.extend({
-    async beforeModel(transition) {
+    async beforeModel(this: Home, transition) {
         await this._super(transition);
 
-        if (this.get('session.isAuthenticated')) {
+        if (this.get('session').get('isAuthenticated')) {
             transition.abort();
             this.transitionTo('dashboard');
         }

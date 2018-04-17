@@ -4,10 +4,15 @@ import { isEmpty, isEqual, isPresent } from '@ember/utils';
 import BaseValidator from 'ember-cp-validations/validators/base';
 import DS from 'ember-data';
 
+interface Options {
+    allowBlank: boolean;
+    on: string;
+}
+
 const Mismatch = BaseValidator.extend({
-    validate(value: string, options, model: DS.Model, attribute: string) {
-        const on = get(options, 'on');
-        const allowBlank = get(options, 'allowBlank');
+    validate(value: string, options: Options, model: DS.Model, attribute: string): string | true {
+        const on: any = get(options, 'on');
+        const allowBlank: boolean = get(options, 'allowBlank');
 
         assert(`[validator:mismatch] [${attribute}] option 'on' is required`, isPresent(on));
 
@@ -36,7 +41,7 @@ Mismatch.reopenClass({
      * @param {Unknown} options  Options passed into your validator
      * @return {Array}
      */
-    getDependentsFor(attribute, options) {
+    getDependentsFor(attribute: string, options: Options): string[] {
         const on = get(options, 'on');
 
         assert(`[validator:mismatch] [${attribute}] 'on' must be a string`, typeof on === 'string');

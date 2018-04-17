@@ -12,10 +12,10 @@ const {
 } = config;
 
 export default class Dashboard extends Route.extend({
-    async beforeModel(transition) {
+    async beforeModel(this: Dashboard, transition) {
         await this._super(transition);
 
-        if (!this.get('session.isAuthenticated')) {
+        if (!this.get('session').get('isAuthenticated')) {
             transition.abort();
             this.transitionTo('home');
         }

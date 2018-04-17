@@ -9,21 +9,29 @@ const sessionStub = Service.extend({
     on: () => {},
 });
 
+const routerStub = Service.extend({
+    transitionTo: () => null,
+    generateURL: () => 'url!',
+});
+
 module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function() {
         this.owner.register('service:session', sessionStub);
 
+        // Prevent trying to actually transition
+        this.owner.register('service:-routing', routerStub);
+
         this.setProperties({
             loginActionCalled: false,
-            dropdownOpenedCalled: false,
+            onLinkClickedCalled: false,
             actions: {
                 loginAction: () => {
                     this.set('loginActionCalled', true);
                 },
-                dropdownOpened: () => {
-                    this.set('dropdownOpenedCalled', true);
+                onLinkClicked: () => {
+                    this.set('onLinkClickedCalled', true);
                 },
             },
         });
@@ -37,13 +45,13 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         assert.ok(this.get('loginActionCalled'));
     });
 
-    test('dropdownOpened called', async function(assert) {
+    test('onLinkClicked called', async function(assert) {
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`{{osf-navbar/auth-dropdown dropdownOpened=(action 'dropdownOpened')}}`);
+        await render(hbs`{{osf-navbar/auth-dropdown onLinkClicked=(action 'onLinkClicked')}}`);
 
-        assert.ok(!this.get('dropdownOpenedCalled'));
-        await click('.nav-profile-name');
-        assert.ok(this.get('dropdownOpenedCalled'));
+        assert.ok(!this.get('onLinkClickedCalled'));
+        await click('.fa-life-ring');
+        assert.ok(this.get('onLinkClickedCalled'));
     });
 });

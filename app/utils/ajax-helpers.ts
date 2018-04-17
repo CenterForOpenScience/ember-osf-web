@@ -1,5 +1,6 @@
 import config from 'ember-get-config';
 import $ from 'jquery';
+import RSVP from 'rsvp';
 
 /**
  * Helper functions for asynchronous behavior
@@ -20,7 +21,7 @@ import $ from 'jquery';
  * Primarily used to set XHR flags on manual AJAX requests, for cookie based authorization.
  * @method authenticatedAJAX
  * @param {Object} options
- * @return {Promise}
+ * @return {RSVP.Promise}
  */
 export default function authenticatedAJAX(options) {
     if (config.authorizationType === 'cookie') {
@@ -30,5 +31,7 @@ export default function authenticatedAJAX(options) {
             },
         });
     }
-    return $.ajax(options);
+
+    // Return RSVP.Promise so the callbacks are run within the current runloop
+    return new RSVP.Promise((resolve, reject) => $.ajax(options).then(resolve, reject));
 }
