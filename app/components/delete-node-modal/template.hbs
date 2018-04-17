@@ -1,0 +1,14 @@
+{{#bs-modal open=openModal onSubmit=(action delete) onHidden=(action closeModal) as |m|}}
+    {{#m.header}}
+        {{t 'delete_modal.title' nodeType=nodeType}}
+    {{/m.header}}
+    {{#m.body}}
+        <p>{{t 'delete_modal.body' nodeType=nodeType}}</p>
+        <p>{{t 'delete_modal.type_this'}} <strong>{{scientistName}}</strong></p>
+        {{input class="form-control" value=scientistInput}}
+    {{/m.body}}
+    {{#m.footer}}
+        {{#bs-button onClick=(action m.close)}}{{t 'general.cancel'}}{{/bs-button}}
+        {{#bs-button class=(if (eq scientistInput scientistName) '' 'disabled') onClick=(action m.submit) type='danger'}}{{t 'general.delete'}}{{/bs-button}}
+    {{/m.footer}}
+{{/bs-modal}}

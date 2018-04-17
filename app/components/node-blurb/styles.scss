@@ -23,3 +23,14 @@
 .generic-dropdown a {
     color: #333;
 }
+
+.NodeBlurb {
+    &__description {
+        font-weight: 300;
+    }
+
+    &__authors {
+        font-weight: 500;
+        color: $color-text-blue-dark;
+    }
+}

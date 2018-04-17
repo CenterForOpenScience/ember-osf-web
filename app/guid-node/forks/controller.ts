@@ -11,10 +11,24 @@ export default class GuidNodeForks extends Controller {
     newModal = false;
 
     @action
-    deleteModalToggle(this: GuidNodeForks, node) {
-        this.set('toDelete', node);
-        this.toggleProperty('deleteModal');
+    openDeleteModal(this: GuidNodeForks, node) {
+        node.get('children').then(children => {
+            if (children.toArray().length) {
+                const message = this.get('i18n').t('forks.delete_fork_failed');
+                this.get('toast').error(message);
+            } else {
+                this.set('toDelete', node);
+                this.set('deleteModal', true);
+            }
+        });
     }
+
+    @action
+    closeDeleteModal(this: GuidNodeForks) {
+        this.set('toDelete', null);
+        this.set('deleteModal', false);
+    }
+
     @action
     newForkModalToggle() {
         this.toggleProperty('newModal');
@@ -22,10 +36,17 @@ export default class GuidNodeForks extends Controller {
 
     @action
     newFork(this: GuidNodeForks) {
-        // this.set('newModal', false);
-        const message = this.get('i18n').t('forks.new_fork_info');
-        const title = this.get('i18n').t('forks.new_fork_info_title');
-        this.get('toast').info(message, title);
+        const node = this.get('model.taskInstance.value');
+        node.fork().then(() => {
+            const message = this.get('i18n').t('forks.new_fork_info');
+            const title = this.get('i18n').t('forks.new_fork_info_title');
+            this.get('toast').info(message, title);
+        });
+    }
+
+    @action
+    delete(this: GuidNodeForks) {
+        this.get('toDelete');
     }
 }
 

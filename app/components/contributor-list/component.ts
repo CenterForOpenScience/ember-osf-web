@@ -62,6 +62,11 @@ export default class ContributorList extends Component {
     @computed('contributorList', 'contributors.[]')
     get rest(this: ContributorList): Contributor[] {
         const contributors = this.get('contributorList');
+
+        if (!(contributors && contributors.length)) {
+            return [];
+        }
+
         const len = this.get('contributors').toArray().length;
 
         if (len <= this.get('max')) {
