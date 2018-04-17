@@ -1,0 +1,13 @@
+<span class='SimplePaginator__element'>
+    <button class='SimplePaginator__button btn {{if hasPrev "" "disabled"}}' onclick={{action previousPage}}>
+        {{fa-icon 'chevron-left'}}
+    </button>
+</span>
+<span class='SimplePaginator__element'>
+    {{curPage}}
+</span>
+<span class='SimplePaginator__element'>
+    <button class='SimplePaginator__button btn {{if hasNext "" "disabled"}}' onclick={{action nextPage}}>
+        {{fa-icon 'chevron-right'}}
+    </button>
+</span>

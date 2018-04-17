@@ -1,14 +1,43 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { task } from 'ember-concurrency';
 
 export default class GuidNodeForks extends Controller {
     @service toast;
     @service i18n;
+    @service statusMessages;
 
     toDelete;
     deleteModal = false;
     newModal = false;
+    page = 1;
+    forks = [];
+    hasPrev = false;
+    hasNext = false;
+
+    getForks = task(function* (this: GuidNodeForks) {
+        const page = this.get('page');
+        const node = yield this.get('model.taskInstance');
+        const forks = yield node.queryHasMany('forks', { page });
+        this.setProperties({
+            forks,
+            hasPrev: !!forks.links.prev,
+            hasNext: !!forks.links.next,
+        });
+    });
+
+    @action
+    next(this: GuidNodeForks) {
+        this.incrementProperty('page');
+        this.get('getForks').perform();
+    }
+
+    @action
+    previous(this: GuidNodeForks) {
+        this.decrementProperty('page');
+        this.get('getForks').perform();
+    }
 
     @action
     openDeleteModal(this: GuidNodeForks, node) {
@@ -46,7 +75,16 @@ export default class GuidNodeForks extends Controller {
 
     @action
     delete(this: GuidNodeForks) {
-        this.get('toDelete');
+        const node = this.get('toDelete');
+        node.deleteRecord();
+        node.save().then(() => {
+            this.get('statusMessages').addStatusMessage({
+                id: 'status.project_deleted',
+                class: 'success',
+                dismiss: true,
+            });
+            this.transitionToRoute('home');
+        });
     }
 }
 

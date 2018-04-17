@@ -19,6 +19,9 @@ export default class ContributorList extends Component {
 
     @computed('contributors.[]')
     get contributorList(this: ContributorList): Contributor[] {
+        if (!this.get('contributors')) {
+            return [];
+        }
         const contributors = this.get('contributors').toArray();
 
         if (!(contributors && contributors.length)) {
