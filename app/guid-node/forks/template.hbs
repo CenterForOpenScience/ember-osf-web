@@ -22,13 +22,14 @@
         <div class="col-xs-9 col-sm-8">
             <ul data-bind="stopBinding: true" class="list-group m-md ">
                 <span id="forks" class="render-nodes-list">
-                    {{#each model.taskInstance.value.forks as | fork |}}
+                    {{#each forks as | fork |}}
                         <li class="project list-group-item list-group-item-node cite-container">
                             {{node-blurb node=fork blurbType='fork' delete=(action openDeleteModal fork)}}
                         </li>
                     {{/each}}
                 </span>
             </ul>
+            {{simple-paginator hasPrev=hasPrev hasNext=hasNext nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
         </div>
         <div class="col-xs-3 col-sm-4">
             <div class="m-md">
