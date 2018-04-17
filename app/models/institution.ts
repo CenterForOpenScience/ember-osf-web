@@ -1,5 +1,8 @@
 import { attr, hasMany } from '@ember-decorators/data';
+import Node from './node';
 import OsfModel from './osf-model';
+import Registration from './registration';
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -9,22 +12,17 @@ import OsfModel from './osf-model';
 /**
  * Model for OSF APIv2 institutions. This model may be used with one of several API endpoints. It may be queried
  * directly, or accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Institution_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Institution_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Institutions_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Institutions_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/User_Institutions_GET
+ *
  * @class Institution
  */
 export default class Institution extends OsfModel {
-    @attr('string') name; // eslint-disable-line no-restricted-globals
-    @attr('fixstring') description;
-    @attr('string') logoPath;
-    @attr('string') authUrl;
-    @hasMany('user', { inverse: 'institutions' }) users;
-    @hasMany('node', { inverse: 'affiliatedInstitutions' }) nodes;
-    @hasMany('registration', { inverse: 'affiliatedInstitutions' }) registrations;
+    @attr('string') name: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') description: string;
+    @attr('string') logoPath: string;
+    @attr('string') authUrl: string;
+    @hasMany('user', { inverse: 'institutions' }) users: User[];
+    @hasMany('node', { inverse: 'affiliatedInstitutions' }) nodes: Node[];
+    @hasMany('registration', { inverse: 'affiliatedInstitutions' }) registrations: Registration[];
 }
 
 declare module 'ember-data' {

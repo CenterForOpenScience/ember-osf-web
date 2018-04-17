@@ -1,7 +1,14 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
+import Contributor from './contributor';
+import File from './file';
+import License from './license';
+import Node from './node';
 import OsfModel from './osf-model';
+import PreprintProvider from './preprint-provider';
+import ReviewAction from './review-action';
+import { SubjectRef } from './taxonomy';
 
 /**
  * @module ember-osf-web
@@ -11,41 +18,38 @@ import OsfModel from './osf-model';
 /**
  * Model for OSF APIv2 preprints. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
- * For field and usage information, see:
- * https://api.osf.io/v2/docs/#!/v2/Preprint_List_GET
- * https://api.osf.io/v2/docs/#!/v2/Preprint_Detail_GET
- * https://api.osf.io/v2/docs/#!/v2/User_Preprints_GET
+ *
  * @class Preprint
  */
 export default class Preprint extends OsfModel {
-    @attr('fixstring') title;
+    @attr('fixstring') title: string;
     // TODO: May be a relationship in the future pending APIv2 changes
-    @attr('object') subjects;
-    @attr('date') dateCreated;
-    @attr('date') datePublished;
-    @attr('date') originalPublicationDate;
-    @attr('date') dateModified;
-    @attr('fixstring') doi;
-    @attr('boolean') isPublished;
-    @attr('boolean') isPreprintOrphan;
-    @attr('object') licenseRecord;
-    @attr('string') reviewsState;
-    @attr('date') dateLastTransitioned;
-    @attr('date') preprintDoiCreated;
+    @attr('object') subjects: [ SubjectRef[] ];
+    @attr('date') dateCreated: Date;
+    @attr('date') datePublished: Date;
+    @attr('date') originalPublicationDate: Date | null;
+    @attr('date') dateModified: Date;
+    @attr('fixstring') doi: string | null;
+    @attr('boolean') isPublished: boolean;
+    @attr('boolean') isPreprintOrphan: boolean;
+    @attr('object') licenseRecord: any;
+    @attr('string') reviewsState: string;
+    @attr('date') dateLastTransitioned: Date;
+    @attr('date') preprintDoiCreated: Date;
 
     // Relationships
-    @belongsTo('node', { inverse: null, async: true }) node;
-    @belongsTo('license', { inverse: null }) license;
-    @belongsTo('file', { inverse: null }) primaryFile;
-    @belongsTo('preprint-provider', { inverse: 'preprints', async: true }) provider;
-    @hasMany('review-action', { inverse: 'target', async: true }) reviewActions;
-    @hasMany('contributor', { async: true }) contributors;
+    @belongsTo('node', { inverse: null, async: true }) node: Node;
+    @belongsTo('license', { inverse: null }) license: License;
+    @belongsTo('file', { inverse: null }) primaryFile: File;
+    @belongsTo('preprint-provider', { inverse: 'preprints', async: true }) provider: PreprintProvider;
+    @hasMany('review-action', { inverse: 'target', async: true }) reviewActions: ReviewAction;
+    @hasMany('contributor', { async: true }) contributors: Contributor;
 
-    @alias('links.doi') articleDoiUrl;
-    @alias('links.preprint_doi') preprintDoiUrl;
+    @alias('links.doi') articleDoiUrl: string | null;
+    @alias('links.preprint_doi') preprintDoiUrl: string;
 
     @computed('subjects')
-    get uniqueSubjects(this: Preprint): any[] {
+    get uniqueSubjects(this: Preprint): SubjectRef[] {
         if (!this.get('subjects')) {
             return [];
         }

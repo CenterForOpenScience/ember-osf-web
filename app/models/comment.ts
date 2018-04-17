@@ -1,5 +1,7 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import Node from './node';
 import OsfModel from './osf-model';
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -9,37 +11,33 @@ import OsfModel from './osf-model';
 /**
  * Model for OSF APIv2 comments. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Comment_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Comments_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Comments_List_GET
  *
  * @class Comment
  */
 export default class Comment extends OsfModel {
     // TODO validation: maxLength
-    @attr('fixstring') content;
-    @attr('fixstring') page;
+    @attr('fixstring') content: string;
+    @attr('fixstring') page: string;
 
     // Placeholder for comment creation: allow specifying attributes that are sent to the server, but not as attributes
     // Both type and ID will be serialized into relationships field
-    @attr('fixstring') targetID;
-    @attr('fixstring') targetType;
+    @attr('fixstring') targetID: string;
+    @attr('fixstring') targetType: string;
 
-    @attr('date') dateCreated;
-    @attr('date') dateModified;
-    @attr('boolean') modified;
-    @attr('boolean') deleted;
-    @attr('boolean') isAbuse;
-    @attr('boolean') hasChildren;
-    @attr('boolean') canEdit;
+    @attr('date') dateCreated: Date;
+    @attr('date') dateModified: Date;
+    @attr('boolean') modified: boolean;
+    @attr('boolean') deleted: boolean;
+    @attr('boolean') isAbuse: boolean;
+    @attr('boolean') hasChildren: boolean;
+    @attr('boolean') canEdit: boolean;
 
     // TODO dynamic belongsTo
-    @belongsTo('user') user;
-    @belongsTo('node') node;
+    @belongsTo('user') user: User;
+    @belongsTo('node') node: Node;
 
     @hasMany('comment', { inverse: null })
-    replies;
+    replies: Comment[];
 }
 
 declare module 'ember-data' {

@@ -1,6 +1,10 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
+import File from './file';
+import Institution from './institution';
+import Node from './node';
 import OsfModel from './osf-model';
+import Registration from './registration';
 
 /**
  * @module ember-osf-web
@@ -10,34 +14,31 @@ import OsfModel from './osf-model';
 /**
  * Model for OSF APIv2 users. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/User_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/User_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Institution_User_List_GET
+ *
  * @class User
  */
 export default class User extends OsfModel {
-    @attr('fixstring') fullName;
-    @attr('fixstring') givenName;
-    @attr('array') middleNames;
-    @attr('fixstring') familyName;
+    @attr('fixstring') fullName: string;
+    @attr('fixstring') givenName: string;
+    @attr('array') middleNames: string[];
+    @attr('fixstring') familyName: string;
 
-    @attr('date') dateRegistered;
+    @attr('date') dateRegistered: Date;
     // email
-    @attr('fixstring') username;
+    @attr('fixstring') username: string;
 
-    @attr('boolean', { defaultValue: false }) canViewReviews;
+    @attr('boolean', { defaultValue: false }) canViewReviews: boolean;
 
-    @hasMany('node') nodes;
-    @hasMany('registration') registrations;
+    @hasMany('node') nodes: Node[];
+    @hasMany('registration') registrations: Registration[];
 
-    @hasMany('file') quickfiles;
+    @hasMany('file') quickfiles: File[];
 
-    @hasMany('institution', { inverse: 'users' }) institutions;
+    @hasMany('institution', { inverse: 'users' }) institutions: Institution[];
 
     // Calculated fields
-    @alias('links.html') profileURL;
-    @alias('links.profile_image') profileImage;
+    @alias('links.html') profileURL: string;
+    @alias('links.profile_image') profileImage: string;
 }
 
 declare module 'ember-data' {

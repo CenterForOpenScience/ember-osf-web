@@ -1,4 +1,5 @@
 import { attr, belongsTo } from '@ember-decorators/data';
+import Comment from 'ember-osf-web/models/comment';
 import OsfModel from './osf-model';
 
 /**
@@ -8,14 +9,12 @@ import OsfModel from './osf-model';
 
 /**
  * Model for OSF APIv2 comment reports. Primarily accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Comment_Reports_List_GET
  *
  * @class CommentReport
  */
 export default class CommentReport extends OsfModel {
-    @attr('fixstring') category;
-    @belongsTo('comment') text;
+    @attr('fixstring') category: string;
+    @belongsTo('comment') text: Comment;
 }
 
 declare module 'ember-data' {

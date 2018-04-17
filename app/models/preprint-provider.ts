@@ -1,38 +1,42 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
-import OsfModel from 'ember-osf-web/models/osf-model';
+import License from './license';
+import OsfModel from './osf-model';
+import Preprint from './preprint';
+import Taxonomy from './taxonomy';
 
 export default class PreprintProvider extends OsfModel {
-    @attr('fixstring') name; // eslint-disable-line no-restricted-globals
-    @attr('fixstring') description;
-    @attr('string') domain;
-    @attr('boolean') domainRedirectEnabled;
-    @attr('fixstring') example;
-    @attr('string') advisoryBoard;
-    @attr('fixstring') emailSupport;
-    @attr('array') subjectsAcceptable;
-    @attr('string') footerLinks;
-    @attr('boolean') allowSubmissions;
-    @attr('array') additionalProviders;
-    @attr('string') shareSource;
-    @attr('string') preprintWord;
+    @attr('fixstring') name: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') description: string;
+    @attr('string') domain: string;
+    @attr('boolean') domainRedirectEnabled: boolean;
+    @attr('fixstring') example: string;
+    @attr('string') advisoryBoard: string;
+    @attr('fixstring') emailSupport: string;
+    @attr('array') subjectsAcceptable: string[];
+    @attr('string') footerLinks: string;
+    @attr('boolean') allowSubmissions: boolean;
+    @attr('array') additionalProviders: string[];
+    @attr('string') shareSource: string;
+    @attr('string') preprintWord: string;
 
     // Reviews settings
-    @attr('array') permissions;
-    @attr('string') reviewsWorkflow;
-    @attr('boolean', { allowNull: true }) reviewsCommentsPrivate;
-    @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous;
+    @attr('array') permissions: string[];
+    @attr('string') reviewsWorkflow: string | null;
+    @attr('boolean', { allowNull: true }) reviewsCommentsPrivate: boolean | null;
+    @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous: boolean | null;
+
     // Relationships
-    @hasMany('taxonomy') taxonomies;
-    @hasMany('taxonomy') highlightedTaxonomies;
-    @hasMany('preprint', { inverse: 'provider', async: true }) preprints;
-    @hasMany('license', { inverse: null }) licensesAcceptable;
+    @hasMany('taxonomy') taxonomies: Taxonomy[];
+    @hasMany('taxonomy') highlightedTaxonomies: Taxonomy[];
+    @hasMany('preprint', { inverse: 'provider', async: true }) preprints: Preprint[];
+    @hasMany('license', { inverse: null }) licensesAcceptable: License[];
 
     @alias('links.relationships.preprints.links.related.meta')
-    reviewableStatusCounts;
+    reviewableStatusCounts: any;
 
     @alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects')
-    hasHighlightedSubjects;
+    hasHighlightedSubjects: boolean;
 }
 
 declare module 'ember-data' {

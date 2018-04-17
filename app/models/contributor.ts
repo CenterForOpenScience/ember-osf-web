@@ -1,5 +1,7 @@
 import { attr, belongsTo } from '@ember-decorators/data';
+import Node from './node';
 import OsfModel from './osf-model';
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -8,23 +10,22 @@ import OsfModel from './osf-model';
 
 /**
  * Model for OSF APIv2 contributors. Primarily accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Node_Contributors_List_GET
+ *
  * @class Contributor
  */
 export default class Contributor extends OsfModel {
-    @attr('fixstring') permission;
-    @attr('boolean') bibliographic;
+    @attr('fixstring') permission: string;
+    @attr('boolean') bibliographic: boolean;
 
-    @attr('fixstring') unregisteredContributor;
-    @attr('number') index;
-    @attr('fixstring') fullName;
-    @attr('fixstring') email;
-    @attr('boolean') sendEmail;
+    @attr('fixstring') unregisteredContributor: string;
+    @attr('number') index: number;
+    @attr('fixstring') fullName: string;
+    @attr('fixstring') email: string;
+    @attr('boolean') sendEmail: boolean;
 
-    @belongsTo('user') user;
+    @belongsTo('user') user: User;
 
-    @belongsTo('node', { inverse: 'contributors' }) node;
+    @belongsTo('node', { inverse: 'contributors' }) node: Node;
 }
 
 declare module 'ember-data' {

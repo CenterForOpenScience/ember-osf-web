@@ -2,7 +2,18 @@ import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { bool, equal } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
+import Citation from './citation';
+import Comment from './comment';
+import Contributor from './contributor';
+import DraftRegistration from './draft-registration';
+import FileProvider from './file-provider';
+import Institution from './institution';
+import License from './license';
+import Log from './log';
 import OsfModel from './osf-model';
+import Preprint from './preprint';
+import Registration from './registration';
+import Wiki from './wiki';
 
 /**
  * @module ember-osf-web
@@ -19,65 +30,59 @@ const Validations = buildValidations({
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
  *
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Node_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Children_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Linked_Nodes_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
  * @class Node
  */
 export default class Node extends OsfModel.extend(Validations, FileItemMixin) {
-    @attr('fixstring') title;
-    @attr('fixstring') description;
-    @attr('fixstring') category;
+    @attr('fixstring') title: string;
+    @attr('fixstring') description: string;
+    @attr('fixstring') category: string;
 
-    // List of strings
-    @attr('array') currentUserPermissions;
-    @attr('boolean') currentUserIsContributor;
+    @attr('array') currentUserPermissions: string[];
+    @attr('boolean') currentUserIsContributor: boolean;
 
-    @attr('boolean') fork;
-    @attr('boolean') collection;
-    @attr('boolean') registration;
-    @attr('boolean') public;
+    @attr('boolean') fork: boolean;
+    @attr('boolean') collection: boolean;
+    @attr('boolean') registration: boolean;
+    @attr('boolean') public: boolean;
 
-    @attr('date') dateCreated;
-    @attr('date') dateModified;
+    @attr('date') dateCreated: Date;
+    @attr('date') dateModified: Date;
 
-    @attr('date') forkedDate;
+    @attr('date') forkedDate: Date;
 
-    @attr('object') nodeLicense;
-    @attr('array') tags;
+    @attr('object') nodeLicense: any;
+    @attr('array') tags: string[];
 
-    @attr('fixstring') templateFrom;
+    @attr('fixstring') templateFrom: string;
 
-    @belongsTo('node', { inverse: 'children' }) parent; // eslint-disable-line no-restricted-globals
-    @hasMany('node', { inverse: 'parent' }) children;
-    @hasMany('preprint', { inverse: 'node' }) preprints;
-    @hasMany('institution', { inverse: 'nodes' }) affiliatedInstitutions;
-    @hasMany('comment') comments;
-    @hasMany('contributor', { allowBulkUpdate: true, allowBulkRemove: true, inverse: 'node' }) contributors;
-    @belongsTo('citation') citation;
+    @hasMany('contributor', { allowBulkUpdate: true, allowBulkRemove: true, inverse: 'node' })
+    contributors: Contributor[];
 
-    @belongsTo('license', { inverse: null }) license;
+    @belongsTo('node', { inverse: 'children' }) parent: Node; // eslint-disable-line no-restricted-globals
+    @hasMany('node', { inverse: 'parent' }) children: Node[];
+    @hasMany('preprint', { inverse: 'node' }) preprints: Preprint[];
+    @hasMany('institution', { inverse: 'nodes' }) affiliatedInstitutions: Institution[];
+    @hasMany('comment') comments: Comment[];
+    @belongsTo('citation') citation: Citation;
 
-    @hasMany('file-provider') files;
+    @belongsTo('license', { inverse: null }) license: License;
 
-    @hasMany('node', { inverse: null, serializerType: 'linked-node' }) linkedNodes;
-    @hasMany('registration', { inverse: 'registeredFrom' }) registrations;
+    @hasMany('file-provider') files: FileProvider;
 
-    @hasMany('draft-registration', { inverse: 'branchedFrom' }) draftRegistrations;
+    @hasMany('node', { inverse: null, serializerType: 'linked-node' }) linkedNodes: Node[];
+    @hasMany('registration', { inverse: 'registeredFrom' }) registrations: Registration[];
 
-    @hasMany('node', { inverse: 'forkedFrom' }) forks;
+    @hasMany('draft-registration', { inverse: 'branchedFrom' }) draftRegistrations: DraftRegistration[];
 
-    @belongsTo('node', { inverse: 'forks' }) forkedFrom;
+    @hasMany('node', { inverse: 'forkedFrom' }) forks: Node[];
 
-    @belongsTo('node', { inverse: null }) root;
+    @belongsTo('node', { inverse: 'forks' }) forkedFrom: Node;
 
-    @hasMany('wiki', { inverse: 'node' }) wikis;
+    @belongsTo('node', { inverse: null }) root: Node;
 
-    @hasMany('log') logs;
+    @hasMany('wiki', { inverse: 'node' }) wikis: Wiki[];
+
+    @hasMany('log') logs: Log[];
 
     // These are only computeds because maintaining separate flag values on different classes would be a
     // headache TODO: Improve.

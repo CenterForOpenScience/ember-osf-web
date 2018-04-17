@@ -31,9 +31,9 @@ interface QueryHasManyResult extends Array<any> {
  */
 
 export default class OsfModel extends Model {
-    @attr links;
+    @attr links: any;
 
-    @alias('links.relationships') relationshipLinks;
+    @alias('links.relationships') relationshipLinks: any;
 
     queryHasManyTask = task(function* (
         this: OsfModel,
@@ -43,7 +43,6 @@ export default class OsfModel extends Model {
     ) {
         const store = this.get('store');
 
-        // @ts-ignore: hasMany's type limits it to valid properties on the model, but we don't know which model this is
         const reference = this.hasMany(propertyName);
 
         // HACK: ember-data discards/ignores the link if an object on the belongsTo side

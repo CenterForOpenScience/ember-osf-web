@@ -1,4 +1,6 @@
 import { attr, hasMany } from '@ember-decorators/data';
+import Node from 'ember-osf-web/models/node';
+import Registration from 'ember-osf-web/models/registration';
 import OsfModel from './osf-model';
 
 /**
@@ -8,28 +10,26 @@ import OsfModel from './osf-model';
 
 /**
  * Model for OSF APIv2 collections
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Collection_List_GET
  *
  * @class Collection
  */
 export default class Collection extends OsfModel {
-    @attr('fixstring') title;
-    @attr('date') dateCreated;
-    @attr('date') dateModified;
-    @attr('boolean') bookmarks;
+    @attr('fixstring') title: string;
+    @attr('date') dateCreated: Date;
+    @attr('date') dateModified: Date;
+    @attr('boolean') bookmarks: boolean;
 
     @hasMany('node', {
         inverse: null,
         serializerType: 'linked-node',
     })
-    linkedNodes;
+    linkedNodes: Node[];
 
     @hasMany('registration', {
         inverse: null,
         serializerType: 'linked-node',
     })
-    linkedRegistrations;
+    linkedRegistrations: Registration[];
 }
 
 declare module 'ember-data' {

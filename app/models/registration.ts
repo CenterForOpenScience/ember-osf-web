@@ -1,5 +1,8 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import Comment from './comment';
+import Contributor from './contributor';
 import Node from './node';
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -9,35 +12,30 @@ import Node from './node';
 /**
  * Model for OSF APIv2 registrations. This model may be used with one of several API endpoints. It may be queried
  * directly, or accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Registration_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Children_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/User_Registrations_GET
  *
  * @class Registration
  */
 export default class Registration extends Node {
-    @attr('date') dateRegistered;
-    @attr('boolean') pendingRegistrationApproval;
-    @attr('date') embargoEndDate;
-    @attr('boolean') pendingEmbargoApproval;
-    @attr('boolean') withdrawn;
-    @attr('fixstring') withdrawalJustification;
-    @attr('boolean') pendingWithdrawal;
+    @attr('date') dateRegistered: Date;
+    @attr('boolean') pendingRegistrationApproval: boolean;
+    @attr('date') embargoEndDate: Date | null;
+    @attr('boolean') pendingEmbargoApproval: boolean;
+    @attr('boolean') withdrawn: boolean;
+    @attr('fixstring') withdrawalJustification?: string;
+    @attr('boolean') pendingWithdrawal: boolean;
 
-    @attr('fixstring') draftRegistration;
-    @attr('fixstring') registrationChoice;
-    // TODO: doesnt seem to be an actual field
-    @attr('object') liftEmbargo;
+    @attr('fixstring') registrationSupplement?: string;
+    @attr('object') registeredMeta: any;
 
-    @attr('fixstring') registrationSupplement;
-    @attr('object') registeredMeta;
+    // Write-only attributes
+    @attr('fixstring') draftRegistration?: string;
+    @attr('fixstring') registrationChoice?: 'immediate' | 'embargo';
+    @attr('date') liftEmbargo?: Date;
 
-    @belongsTo('node', { inverse: 'registrations' }) registeredFrom;
-    @belongsTo('user', { inverse: null }) registeredBy;
-    @hasMany('contributor') contributors;
-    @hasMany('comment') comments;
+    @belongsTo('node', { inverse: 'registrations' }) registeredFrom: Node;
+    @belongsTo('user', { inverse: null }) registeredBy: User;
+    @hasMany('contributor') contributors: Contributor[];
+    @hasMany('comment') comments: Comment[];
 }
 
 declare module 'ember-data' {

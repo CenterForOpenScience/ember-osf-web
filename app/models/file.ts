@@ -1,8 +1,11 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import Comment from './comment';
+import FileVersion from './file-version';
 import Node from './node';
 import OsfModel from './osf-model';
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -13,41 +16,36 @@ import OsfModel from './osf-model';
  * Model for OSF APIv2 files. This model may be used with one of several API endpoints. It may be queried directly,
  *  or (more commonly) accessed via relationship fields.
  * This model is used for basic file metadata. To interact with file contents directly, see the `file-manager` service.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/File_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Files_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
+ *
  * @class File
  */
 export default class File extends OsfModel.extend(FileItemMixin) {
-    @attr('fixstring') name; // eslint-disable-line no-restricted-globals
-    @attr('fixstring') kind;
-    @attr('fixstring') guid;
-    @attr('string') path;
-    @attr('number') size;
-    @attr('number') currentVersion;
-    @attr('fixstring') provider;
-    @attr('string') materializedPath;
-    @attr('date') lastTouched;
-    @attr('date') dateModified;
-    @attr('date') dateCreated;
-    @attr('object') extra;
-    @attr('array') tags;
-    @attr('fixstring') checkout;
+    @attr('fixstring') name: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') kind: string;
+    @attr('fixstring') guid: string;
+    @attr('string') path: string;
+    @attr('number') size: number;
+    @attr('number') currentVersion: number;
+    @attr('fixstring') provider: string;
+    @attr('string') materializedPath: string;
+    @attr('date') lastTouched: Date;
+    @attr('date') dateModified: Date;
+    @attr('date') dateCreated: Date;
+    @attr('object') extra: any;
+    @attr('array') tags: string[];
+    @attr('fixstring') checkout: string;
 
-    @belongsTo('file', { inverse: 'files' }) parentFolder;
+    @belongsTo('file', { inverse: 'files' }) parentFolder: File;
 
     // Folder attributes
-    @hasMany('file', { inverse: 'parentFolder' }) files;
+    @hasMany('file', { inverse: 'parentFolder' }) files: File[];
 
     // File attributes
-    @hasMany('file-version') versions;
-    @hasMany('comment') comments;
+    @hasMany('file-version') versions: FileVersion[];
+    @hasMany('comment') comments: Comment[];
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    @belongsTo('node') node;
-    @belongsTo('user') user;
+    @belongsTo('node') node: Node;
+    @belongsTo('user') user: User;
 
     isFileModel = true;
 
