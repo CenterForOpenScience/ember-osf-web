@@ -9,3 +9,9 @@ export async function initialize(appInstance: ApplicationInstance) {
 export default {
     initialize,
 };
+
+declare global {
+    interface Window {
+        prerenderReady: boolean;
+    }
+}

@@ -8,17 +8,21 @@
     "noEmitOnError": false,
     "noEmit": true,
     "strictNullChecks": true,
-    "sourceMap": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
     "baseUrl": ".",
     "module": "es6",
     "paths": {
       "ember-osf-web/tests/*": ["tests/*"],
       "ember-osf-web/*": ["app/*"]
     },
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "skipLibCheck": true
   },
   "include": [
-      "app",
-      "tests"
+    "app",
+    "config",
+    "tests",
+    "types"
   ]
 }

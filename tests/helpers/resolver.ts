@@ -1,11 +1,13 @@
-import config from '../../config/environment';
-import Resolver from '../../resolver';
+import config from 'ember-get-config';
+import Resolver from 'ember-osf-web/resolver';
 
 const resolver = Resolver.create();
 
+const { modulePrefix, podModulePrefix } = config;
+
 resolver.namespace = {
-    modulePrefix: config.modulePrefix,
-    podModulePrefix: config.podModulePrefix,
+    modulePrefix,
+    podModulePrefix,
 };
 
 export default resolver;

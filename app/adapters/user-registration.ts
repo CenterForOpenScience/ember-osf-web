@@ -3,7 +3,7 @@ import config from 'ember-get-config';
 
 const { RESTAdapter } = DS;
 
-export default class UserRegistration extends RESTAdapter.extend({}) {
+export default class UserRegistration extends RESTAdapter {
     host: string = config.OSF.url.replace(/\/$/, '');
     namespace = 'api/v1';
 

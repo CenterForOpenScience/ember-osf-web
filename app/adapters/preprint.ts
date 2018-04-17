@@ -9,7 +9,7 @@ export default class Preprint extends OsfAdapter {
         snapshot: DS.Snapshot,
     ): Promise<any> {
         const data: object = {};
-        const serializer: DS.Serializer = store.serializerFor(type.modelName);
+        const serializer: DS.JSONAPISerializer = store.serializerFor(type.modelName);
 
         serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
 
