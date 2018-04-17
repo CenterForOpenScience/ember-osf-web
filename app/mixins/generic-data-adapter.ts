@@ -13,8 +13,8 @@ import $ from 'jquery';
  * @class GenericDataADapter
  */
 export default Mixin.create(DataAdapterMixin, {
-    ajaxOptions() {
-        const hash = this._super(...arguments);
+    ajaxOptions(...args) {
+        const hash = this._super(...args);
 
         // TODO: This mechanism is quite ugly, and will require manual ajax requests (such as the file manager) to set
         // fields separately; getting requests to send cookies without triggering cross-origin rules would be strongly

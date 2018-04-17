@@ -30,6 +30,7 @@ export default class UserQuickfiles extends Route.extend({
     @service analytics;
     @service currentUser;
     @service ready;
+    @service router;
 
     loadModel = task(function* (this: UserQuickfiles, userModel) {
         const blocker = this.get('ready').getBlocker();
@@ -44,7 +45,7 @@ export default class UserQuickfiles extends Route.extend({
             return model;
         } catch (error) {
             blocker.errored(error);
-            this.transitionTo('not-found', this.get('router.currentURL').slice(1));
+            this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
         }
     });
 

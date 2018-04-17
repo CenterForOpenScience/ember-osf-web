@@ -1,8 +1,8 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 
-export default class DashboardUnauth extends Route.extend({
-    async beforeModel(transition) {
+export default class Goodbye extends Route.extend({
+    async beforeModel(this: Goodbye, transition) {
         await this._super(transition);
 
         const session = this.get('session');
