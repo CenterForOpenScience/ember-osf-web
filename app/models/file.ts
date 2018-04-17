@@ -1,10 +1,9 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import BaseFileItem from './base-file-item';
 import Comment from './comment';
 import FileVersion from './file-version';
 import Node from './node';
-import OsfModel from './osf-model';
 import User from './user';
 
 /**
@@ -19,9 +18,8 @@ import User from './user';
  *
  * @class File
  */
-export default class File extends OsfModel.extend(FileItemMixin) {
+export default class File extends BaseFileItem {
     @attr('fixstring') name: string; // eslint-disable-line no-restricted-globals
-    @attr('fixstring') kind: string;
     @attr('fixstring') guid: string;
     @attr('string') path: string;
     @attr('number') size: number;
@@ -47,6 +45,7 @@ export default class File extends OsfModel.extend(FileItemMixin) {
     @belongsTo('node') node: Node;
     @belongsTo('user') user: User;
 
+    // BaseFileItem override
     isFileModel = true;
 
     getContents(this: File): Promise<object> {

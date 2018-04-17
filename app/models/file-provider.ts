@@ -1,8 +1,7 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import FileItemMixin from 'ember-osf-web/mixins/file-item';
+import BaseFileItem from './base-file-item';
 import File from './file';
 import Node from './node';
-import OsfModel from './osf-model';
 
 /**
  * @module ember-osf-web
@@ -16,14 +15,14 @@ import OsfModel from './osf-model';
  *
  * @class FileProvider
  */
-export default class FileProvider extends OsfModel.extend(FileItemMixin) {
+export default class FileProvider extends BaseFileItem {
     @attr('fixstring') name: string; // eslint-disable-line no-restricted-globals
-    @attr('fixstring') kind: string;
     @attr('string') path: string;
     @attr('fixstring') provider: string;
     @hasMany('file') files: File[];
     @belongsTo('node') node: Node;
 
+    // BaseFileItem override
     isProvider = true;
 }
 

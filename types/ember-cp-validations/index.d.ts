@@ -1,5 +1,17 @@
+interface ValidateOptions {
+    on?: string[];
+    excludes?: string[];
+}
+
 interface Validations {
     validations: any;
+
+    validate(options?: ValidateOptions, isAsync?: false): any;
+    validate(options: ValidateOptions, isAsync: true): Promise<any>;
+
+    validateSync(options?: ValidateOptions): any;
+
+    validateAttribute(attribute: string, value: any): Promise<any>;
 }
 
 declare module 'ember-cp-validations' {

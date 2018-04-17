@@ -1,7 +1,7 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { bool, equal } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
-import FileItemMixin from 'ember-osf-web/mixins/file-item';
+import BaseFileItem from './base-file-item';
 import Citation from './citation';
 import Comment from './comment';
 import Contributor from './contributor';
@@ -10,7 +10,6 @@ import FileProvider from './file-provider';
 import Institution from './institution';
 import License from './license';
 import Log from './log';
-import OsfModel from './osf-model';
 import Preprint from './preprint';
 import Registration from './registration';
 import Wiki from './wiki';
@@ -32,7 +31,7 @@ const Validations = buildValidations({
  *
  * @class Node
  */
-export default class Node extends OsfModel.extend(Validations, FileItemMixin) {
+export default class Node extends BaseFileItem.extend(Validations) {
     @attr('fixstring') title: string;
     @attr('fixstring') description: string;
     @attr('fixstring') category: string;
@@ -107,6 +106,7 @@ export default class Node extends OsfModel.extend(Validations, FileItemMixin) {
      */
     @bool('meta.anonymous') isAnonymous;
 
+    // BaseFileItem override
     isNode = true;
 }
 
