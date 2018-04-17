@@ -20,6 +20,7 @@ export default {
         description: 'Description',
         create: 'Create',
         and: 'and',
+        or: 'or',
         more: 'more',
         upload: 'Upload',
         rename: 'Rename',
@@ -460,5 +461,12 @@ export default {
         drop_files: 'Drop files here to upload',
         error_multiple_files: 'Cannot upload multiple files',
         error_directories: 'Cannot upload directories, applications, or packages',
+    },
+    join_osf: {
+        header: 'Start managing your projects on OSF today.',
+        pitch: 'Free and easy to use, OSF supports the entire research lifecycle: planning, execution, reporting, archiving, and discovery.',
+        create_account: 'Create an account',
+        learn_more: 'learn more',
+        hide_message: 'Hide this message',
     },
 };

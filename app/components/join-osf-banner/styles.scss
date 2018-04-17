@@ -1,0 +1,53 @@
+&--banner {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: $color-bg-white;
+    border-top: 2px solid $color-text-black;
+    width: 100%;
+}
+
+&--heading {
+    margin-top: 0;
+}
+
+&__div > a {
+    margin-right: 5px;
+    white-space: nowrap;
+}
+
+& > img {
+    height: 120px;
+}
+
+&--expand {
+    position: fixed;
+    bottom: 0;
+    z-index: 9;
+    animation-name: slideInFromBottom;
+    animation-duration: 1s;
+    animation-delay: 2s;
+    width: 100%;
+    transform: translateY(100%);
+    animation-fill-mode: both;
+
+}
+
+&--collapse {
+    position: fixed;
+    bottom: 0;
+    z-index: 9;
+    animation-name: slideInFromBottom;
+    width: 100%;
+    animation-fill-mode: both;
+    animation-direction: reverse;
+}
+
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
