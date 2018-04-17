@@ -138,22 +138,25 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         return serialized;
     },
 
-    serializeAttribute(snapshot: DS.Snapshot, json: any, key: string): void {
+    serializeAttribute(snapshot: DS.Snapshot, json: object, key: string, attribute: object): void {
         // In certain cases, a field may be omitted from the server payload, but have a value (undefined)
         // when serialized from the model. (e.g. node.template_from)
         // Omit fields with a value of undefined before sending to the server. (but still allow null to be sent)
         const val = snapshot.attr(key);
+
         if (val !== undefined) {
-            this._super(...arguments);
+            this._super(snapshot, json, key, attribute);
         }
     },
 
-    normalizeArrayResponse(): any {
-        const documentHash: any = this._super(...arguments);
+    normalizeArrayResponse(...args): any {
+        const documentHash: any = this._super(...args);
+
         if (documentHash.meta && documentHash.meta.total && documentHash.meta.per_page) {
             // For any request that returns more than one result, calculate total pages to be loaded.
             documentHash.meta.total_pages = Math.ceil(documentHash.meta.total / documentHash.meta.per_page);
         }
+
         return documentHash;
     },
 }) {

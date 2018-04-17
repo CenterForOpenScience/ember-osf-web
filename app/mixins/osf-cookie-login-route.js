@@ -20,17 +20,22 @@ const { Logger } = Ember;
  */
 export default Mixin.create({
     session: service(),
-    beforeModel() {
+
+    async beforeModel(transition) {
         // Determine whether the user is logged in by making a test request. This is quite a crude way of
         // determining whether the user has a cookie and should be improved in the future.
 
-        // TODO: Should this check for resolution of a promise?
-        this._super(...arguments);
+        await this._super(transition);
 
-        if (this.get('session.isAuthenticated')) return;
+        if (this.get('session.isAuthenticated')) {
+            return;
+        }
 
         // Block transition until auth attempt resolves. If auth fails, let the page load normally.
-        return this.get('session').authenticate('authenticator:osf-cookie')
-            .catch(err => Logger.log('Authentication failed: ', err));
+        try {
+            return await this.get('session').authenticate('authenticator:osf-cookie');
+        } catch (e) {
+            Logger.log('Authentication failed: ', e);
+        }
     },
 });

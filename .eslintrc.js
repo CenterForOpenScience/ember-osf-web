@@ -15,29 +15,30 @@ module.exports = {
     },
     rules: {
         'arrow-parens': ['error', 'as-needed'],
-        'class-methods-use-this': 0,
+        'class-methods-use-this': 'off',
         'max-len': ['error', { code: 120 }],
-        'no-undef': 0,
+        'no-undef': 'off',
         'no-unused-vars': ['error', { argsIgnorePattern: '^this' }],
         'typescript/no-unused-vars': 'error',
-        strict: 0,
-        indent: 0,
+        strict: 'off',
+        indent: 'off',
         'indent-legacy': 'error',
-        'ember/named-functions-in-promises': 0,
+        'ember/named-functions-in-promises': 'off',
         'function-paren-newline': ['error', 'consistent'],
-        'ember/no-attrs-snapshot': 0,
+        'ember/no-attrs-snapshot': 'off',
+        'prefer-rest-params': 'error',
     },
     overrides: [
         {
             files: ['**/*.d.ts'],
             rules: {
-                'no-unused-vars': 0,
+                'no-unused-vars': 'off',
             },
         },
         {
             files: ['app/locales/*/translations.ts'],
             rules: {
-                'max-len': 0,
+                'max-len': 'off',
             },
         },
     ],
