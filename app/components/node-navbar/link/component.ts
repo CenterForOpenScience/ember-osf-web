@@ -10,7 +10,7 @@ export default class NodeNavbarLink extends Component {
     @service router;
 
     id: 'string';
-    useLinkTo?: boolean = defaultTo(this.useLinkTo, true);
+    useLinkTo: boolean = defaultTo(this.useLinkTo, true);
     destination?: string;
     extraClasses?: string;
 

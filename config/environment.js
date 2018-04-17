@@ -132,6 +132,7 @@ module.exports = function(environment) {
             devMode,
             statusCookie,
             cookieDomain,
+            secondaryNavbarId: 'secondaryNavbar',
         },
         social: {
             twitter: {
