@@ -454,8 +454,6 @@ export default {
         component_deleted: 'Component has been successfully deleted.',
         remove_self_contrib: 'You have removed yourself as a contributor from this project.',
     },
-    osf_copyright: {
-    },
     dropzone_widget: {
         drop_files: 'Drop files here to upload',
         error_multiple_files: 'Cannot upload multiple files',

@@ -12,5 +12,7 @@ export default class OsfFooter extends Component {
     constructor() {
         super();
         Object.assign(this, config.signUpPolicy);
+        Object.assign(this, config.footerLinks);
+        Object.assign(this, config.footerSocial);
     }
 }
