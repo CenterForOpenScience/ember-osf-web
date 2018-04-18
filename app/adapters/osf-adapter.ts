@@ -11,6 +11,14 @@ interface AdapterOptions {
     url?: string;
 }
 
+enum RequestType {
+    DELETE = 'DELETE',
+    GET = 'GET',
+    PATCH = 'PATCH',
+    POST = 'POST',
+    PUT = 'PUT',
+}
+
 /**
  * @module ember-osf-web
  * @submodule adapters
@@ -60,7 +68,7 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
         snapshot: DS.Snapshot,
         requestType: string,
     ): string {
-        let url: string = this._super(...arguments);
+        let url: string = this._super(modelName, id, snapshot, requestType);
         const { record, adapterOptions } = snapshot;
         const opts: AdapterOptions = adapterOptions || {};
 
@@ -86,12 +94,14 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
         return url;
     },
 
-    ajaxOptions(this: OsfAdapter, _: any, __: any, options?: { isBulk?: boolean }): any {
-        const ret = this._super(...arguments);
+    ajaxOptions(this: OsfAdapter, url: string, type: RequestType, options?: { isBulk?: boolean }): any {
+        const hash = this._super(url, type, options);
+
         if (options && options.isBulk) {
-            ret.contentType = 'application/vnd.api+json; ext=bulk';
+            hash.contentType = 'application/vnd.api+json; ext=bulk';
         }
-        return ret;
+
+        return hash;
     },
 
     pathForType(modelName: string): string {
