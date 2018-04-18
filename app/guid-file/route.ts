@@ -27,7 +27,6 @@ export default class GuidFile extends Route {
         const institutions = yield model.file.get('user').get('institutions');
         const metaTagsData = {
             title: model.file.get('name'),
-            type: 'file',
             identifier: model.file.get('guid'),
             publishedDate: dateCreated ? moment(dateCreated).format('YYYY-MM-DD') : undefined,
             modifiedDate: dateModified ? moment(dateModified).format('YYYY-MM-DD') : undefined,
