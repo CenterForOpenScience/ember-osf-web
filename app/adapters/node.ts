@@ -1,3 +1,4 @@
+import DS from 'ember-data';
 import OsfAdapter from './osf-adapter';
 
 export default class Node extends OsfAdapter.extend({
@@ -11,14 +12,8 @@ export default class Node extends OsfAdapter.extend({
                 );
             }
         }
-        return this._super(...arguments);
-    },
 
-    _handleRelatedRequest(this: Node, _: any, __: any, ___: any, relationship: string): any | void {
-        if (relationship.includes('license')) {
-            return;
-        }
-        return this._super(...arguments);
+        return this._super(modelName, id, snapshot, requestType);
     },
 }) {
 }

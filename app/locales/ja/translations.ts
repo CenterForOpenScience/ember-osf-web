@@ -20,6 +20,7 @@ export default {
         description: '説明',
         create: '作成',
         and: 'と',
+        or: 'or',
         more: '詳細',
         upload: 'アップロード',
         rename: '名前の変更',
@@ -50,6 +51,7 @@ export default {
         period: '.',
         settings: '設定',
         project: 'project',
+        hosted_on_the_osf: 'Hosted on the Open Science Framework',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
@@ -505,5 +507,12 @@ export default {
     paginator: {
         next: 'Next page',
         previous: 'Previous page',
+    },
+    join_osf: {
+        header: 'Start managing your projects on OSF today.',
+        pitch: 'Free and easy to use, OSF supports the entire research lifecycle: planning, execution, reporting, archiving, and discovery.',
+        create_account: 'Create an account',
+        learn_more: 'learn more',
+        hide_message: 'Hide this message',
     },
 };

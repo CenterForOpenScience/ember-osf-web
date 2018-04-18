@@ -21,22 +21,28 @@ const { Logger } = Ember;
  */
 export default Mixin.create({
     session: service(),
-    beforeModel() {
-        // TODO: Should this check for resolution of a promise?
-        this._super(...arguments);
+
+    async beforeModel(transition) {
+        await this._super(transition);
 
         let accessToken;
+
         if (config.OSF.backend === 'local') {
             ({ accessToken } = config.OSF);
         } else {
             accessToken = getTokenFromHash(window.location.hash);
+
             if (!accessToken) {
                 return null;
             }
+
             window.location.hash = '';
         }
 
-        return this.get('session').authenticate('authenticator:osf-token', accessToken)
-            .catch(err => Logger.log('Authentication failed: ', err));
+        try {
+            return await this.get('session').authenticate('authenticator:osf-token', accessToken);
+        } catch (err) {
+            Logger.log('Authentication failed: ', err);
+        }
     },
 });

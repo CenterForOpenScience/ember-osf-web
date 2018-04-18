@@ -20,6 +20,7 @@ export default {
         description: '描述',
         create: '创建',
         and: 'and',
+        or: 'or',
         more: '更多',
         upload: 'Upload',
         rename: 'Rename',
@@ -50,6 +51,7 @@ export default {
         period: '.',
         settings: 'Settings',
         project: 'project',
+        hosted_on_the_osf: 'Hosted on the Open Science Framework',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -505,5 +507,12 @@ export default {
     paginator: {
         next: 'Next page',
         previous: 'Previous page',
+    },
+    join_osf: {
+        header: 'Start managing your projects on OSF today.',
+        pitch: 'Free and easy to use, OSF supports the entire research lifecycle: planning, execution, reporting, archiving, and discovery.',
+        create_account: 'Create an account',
+        learn_more: 'learn more',
+        hide_message: 'Hide this message',
     },
 };

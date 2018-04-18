@@ -73,8 +73,8 @@ export default Component.extend({
         const dropzoneOptions = this.get('options') || {};
         const i18n = this.get('i18n');
 
-        function CustomDropzone() {
-            Dropzone.call(this, ...arguments);
+        function CustomDropzone(...args) {
+            Dropzone.call(this, ...args);
         }
         CustomDropzone.prototype = Object.create(Dropzone.prototype);
         CustomDropzone.prototype.drop = function(e) {

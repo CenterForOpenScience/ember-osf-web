@@ -1,25 +1,15 @@
-// jscs:disable disallowArrayDestructuringReturn
-import EmberError from '@ember/error';
 import config from 'ember-get-config';
 import $ from 'jquery';
 
-/**
- * @module ember-osf-web
- * @submodule utils
- */
-
-/**
- * @class auth
- */
+const {
+    OSF,
+    authorizationType,
+} = config;
 
 /**
  * Retrieve the correct URL for OAuth 2.0 authentication in the OSF, including any additional configurable parameters
- * @private
- * @method getOAuthUrl
- * @param {string} nextUri Where to send the browser after a successful login request
- * @return {string}
  */
-function getOAuthUrl(nextUri) {
+function getOAuthUrl(nextUri?: string): string {
     // OAuth requires that redirect URI match what was registered, exactly. We may need a parameter to signify next
     //   transition, if the user wants to return to ember at the point where they left off before needing to log in.
     // For now, we will put this in the `state` parameter (always returned unchanged) and implement that functionality
@@ -29,16 +19,13 @@ function getOAuthUrl(nextUri) {
 
     const params = {
         response_type: 'token',
-        scope: config.OSF.scope,
-        client_id: config.OSF.clientId,
-        redirect_uri: config.OSF.redirectUri,
+        scope: OSF.scope,
+        client_id: OSF.clientId,
+        redirect_uri: OSF.redirectUri,
+        state: nextUri,
     };
 
-    if (nextUri) {
-        params.state = nextUri;
-    }
-
-    return `${config.OSF.oauthUrl}?${$.param(params)}`;
+    return `${OSF.oauthUrl}?${$.param(params)}`;
 }
 
 /**
@@ -48,39 +35,37 @@ function getOAuthUrl(nextUri) {
  * @param {string} nextUri Where to send the browser after a successful login request
  * @return {string}
  */
-function getCookieAuthUrl(nextUri_) {
-    const nextUri = nextUri_ || config.OSF.redirectUri;
-    const loginUri = `${config.OSF.url}login/?next=${encodeURIComponent(nextUri)}`;
-    return `${config.OSF.cookieLoginUrl}?service=${encodeURIComponent(loginUri)}`;
+function getCookieAuthUrl(nextUri = OSF.redirectUri) {
+    const loginUri = `${OSF.url}login/?next=${encodeURIComponent(nextUri)}`;
+
+    return `${OSF.cookieLoginUrl}?service=${encodeURIComponent(loginUri)}`;
 }
 
 /**
  * Return the appropriate auth URL for the specified authorization mechanism (as specified in application configuration)
  * Currently supports `token` and `cookie` based authorization
- * @public
- * @method getAuthUrl
- * @return {string}
  */
-function getAuthUrl() {
-    const authType = config.authorizationType;
-    if (authType === 'token') {
-        return getOAuthUrl(...arguments);
-    } else if (authType === 'cookie') {
-        return getCookieAuthUrl(...arguments);
-    } else {
-        throw new EmberError(`Unrecognized authorization type: ${authType}`);
+export function getAuthUrl(nextUri?: string): string {
+    switch (authorizationType) {
+    case 'cookie':
+        return getCookieAuthUrl(nextUri);
+    case 'token':
+        return getOAuthUrl(nextUri);
+    default:
+        throw new Error(`Unrecognized authorization type: ${authorizationType}`);
     }
 }
 
-function getTokenFromHash(hash_) {
-    const hash = hash_.substring(1).split('&');
-    for (const chunk of hash) {
+export function getTokenFromHash(hash): string | null {
+    const splitHash = hash.substring(1).split('&');
+
+    for (const chunk of splitHash) {
         const [key, value] = chunk.split('=');
+
         if (key === 'access_token') {
             return value;
         }
     }
+
     return null;
 }
-
-export { getAuthUrl, getTokenFromHash };

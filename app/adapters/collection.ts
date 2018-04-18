@@ -12,12 +12,13 @@ export default class Collection extends OsfAdapter.extend({
         requestType: string,
     ): string {
         // Embed linked_nodes
-        const base: string = this._super(...arguments);
-        if (requestTypes.indexOf(requestType) === -1) {
-            return `${base}?embed=linked_nodes`;
-        } else {
+        const base: string = this._super(modelName, id, snapshot, requestType);
+
+        if (requestTypes.includes(requestType)) {
             return base;
         }
+
+        return `${base}?embed=linked_nodes`;
     },
 }) {
 }

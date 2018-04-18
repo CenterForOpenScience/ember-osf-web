@@ -5,6 +5,13 @@ import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 
+interface QueryHasManyResponse<T> extends Array<T> {
+    meta?: {
+        total?: number;
+    };
+    get: (key: string) => any;
+}
+
 export default class Dashboard extends Controller {
     @service analytics;
     @service currentUser;
@@ -19,9 +26,11 @@ export default class Dashboard extends Controller {
     sort: string = '-last_logged';
     modalOpen: boolean = false;
     newNode = null;
+    'failedLoading-noteworthy': boolean = false;
+    'failedLoading-popular': boolean = false;
 
     institutions = A([]);
-    nodes = A([]);
+    nodes: QueryHasManyResponse<Node> = A([]);
     noteworthy = A([]);
     popular = A([]);
 
@@ -36,8 +45,7 @@ export default class Dashboard extends Controller {
     }).restartable();
 
     findNodes = task(function* (this: Dashboard, more?: boolean) {
-        const indicatorProperty = `loading${more ? 'More' : ''}`;
-
+        const indicatorProperty = more ? 'loading' : 'loadingMore';
         const filter = this.get('filter');
 
         this.set(indicatorProperty, true);
@@ -61,7 +69,7 @@ export default class Dashboard extends Controller {
         this.set('initialLoad', false);
     }).restartable();
 
-    getPopularAndNoteworthy = task(function* (this: Dashboard, id, dest) {
+    getPopularAndNoteworthy = task(function* (this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.queryHasMany('linkedNodes', {
@@ -70,7 +78,8 @@ export default class Dashboard extends Controller {
             });
             this.set(dest, linkedNodes);
         } catch (e) {
-            this.set(`failedLoading-${dest}`, true);
+            const failedProperty = `failedLoading-${dest}` as 'failedLoading-noteworthy' | 'failedLoading-popular';
+            this.set(failedProperty, true);
         }
     });
 
@@ -109,7 +118,7 @@ export default class Dashboard extends Controller {
 
     @computed('nodes.{length,meta.total}')
     get hasMore(this: Dashboard): boolean {
-        return this.get('nodes.length') < this.get('nodes.meta.total');
+        return this.get('nodes').length < this.get('nodes').get('meta.total');
     }
 
     @action
@@ -136,7 +145,7 @@ export default class Dashboard extends Controller {
 
     @action
     selectAllInstitutions(this: Dashboard) {
-        this.set('institutionsSelected', this.get('user.institutions').slice());
+        this.set('institutionsSelected', this.get('user').get('institutions').slice());
     }
 
     @action

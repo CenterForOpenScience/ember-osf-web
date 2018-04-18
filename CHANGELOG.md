@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added isPublic, authenticated, and resource dimensions to trackPage()
 - defaultTo utility for initializing component arguments
 - Loading indicator to file-renderer component
+- Join OSF banner
+- toArray utility
+- meta-tags service
 
 ### Changed
 - TypeScript: Rename files to .ts
@@ -25,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Refactor handling of `embeds` in `osf-serializer`
 - Update dashboard "new project" task to send only one request
 - Moved analytics tracking to a Service
+- Use meta-tags service to add meta-tags to Quick File detail
 
 ### Removed
 - Homegrown dirty relationship tracking, with automagic additional requests on save

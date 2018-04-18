@@ -1,5 +1,3 @@
-import { getWithDefault } from '@ember/object';
-import { merge } from '@ember/polyfills';
 import { underscore } from '@ember/string';
 import DS from 'ember-data';
 import config from 'ember-get-config';
@@ -7,6 +5,19 @@ import { pluralize } from 'ember-inflector';
 import GenericDataAdapterMixin from 'ember-osf-web/mixins/generic-data-adapter';
 
 const { JSONAPIAdapter, Snapshot } = DS;
+
+interface AdapterOptions {
+    query?: string;
+    url?: string;
+}
+
+enum RequestType {
+    DELETE = 'DELETE',
+    GET = 'GET',
+    PATCH = 'PATCH',
+    POST = 'POST',
+    PUT = 'PUT',
+}
 
 /**
  * @module ember-osf-web
@@ -20,12 +31,12 @@ const { JSONAPIAdapter, Snapshot } = DS;
  * @uses GenericDataAdapterMixin
  */
 export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapterMixin, {
-    headers: {
-        ACCEPT: 'application/vnd.api+json; version=2.4',
-    },
     authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
+    headers: {
+        ACCEPT: 'application/vnd.api+json; version=2.4',
+    },
 
     /**
      * Overrides buildQuery method - Allows users to embed resources with findRecord
@@ -35,37 +46,44 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
      *
      * @method buildQuery
      */
-    buildQuery(this: OsfAdapter, snapshot: Snapshot): object {
-        const query: { include?: any, embed?: any } = this._super(...arguments);
-        if (query.include) {
-            query.embed = query.include;
-        }
-        delete query.include;
-        return merge(query, getWithDefault(snapshot, 'adapterOptions.query', {}));
+    buildQuery(this: OsfAdapter, snapshot: DS.Snapshot): object {
+        const { query: adapterOptionsQuery = {} } = (snapshot.adapterOptions || {}) as AdapterOptions;
+
+        const query: { include?: any, embed?: any } = {
+            ...this._super(snapshot),
+            ...adapterOptionsQuery,
+        };
+
+        return {
+            ...query,
+            embed: query.include,
+            include: undefined,
+        };
     },
 
     buildURL(
         this: OsfAdapter,
         modelName: string,
         id: string,
-        snapshot: Snapshot,
+        snapshot: DS.Snapshot,
         requestType: string,
     ): string {
-        let url: string = this._super(...arguments);
-        const options: { url?: string, query?: object } = (snapshot ? snapshot.adapterOptions : false) || {};
+        let url: string = this._super(modelName, id, snapshot, requestType);
+        const { record, adapterOptions } = snapshot;
+        const opts: AdapterOptions = adapterOptions || {};
 
         if (requestType === 'deleteRecord') {
-            if (snapshot.record.get('links.delete')) {
-                url = snapshot.record.get('links.delete');
-            } else if (snapshot.record.get('links.self')) {
-                url = snapshot.record.get('links.self');
+            if (record.get('links.delete')) {
+                url = record.get('links.delete');
+            } else if (record.get('links.self')) {
+                url = record.get('links.self');
             }
         } else if (requestType === 'updateRecord' || requestType === 'findRecord') {
-            if (snapshot.record.get('links.self')) {
-                url = snapshot.record.get('links.self');
+            if (record.get('links.self')) {
+                url = record.get('links.self');
             }
-        } else if (options.url) {
-            ({ url } = options);
+        } else if (opts.url) {
+            url = opts.url; // eslint-disable-line prefer-destructuring
         }
 
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
@@ -76,27 +94,24 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
         return url;
     },
 
-    ajaxOptions(this: OsfAdapter, _: any, __: any, options?: { isBulk?: boolean }): any {
-        const ret = this._super(...arguments);
+    ajaxOptions(this: OsfAdapter, url: string, type: RequestType, options?: { isBulk?: boolean }): any {
+        const hash = this._super(url, type, options);
+
         if (options && options.isBulk) {
-            ret.contentType = 'application/vnd.api+json; ext=bulk';
+            hash.contentType = 'application/vnd.api+json; ext=bulk';
         }
-        return ret;
+
+        return hash;
     },
 
     pathForType(modelName: string): string {
         const underscored: string = underscore(modelName);
         return pluralize(underscored);
     },
-
-}) {
-    authorizer: any;
-    host: string;
-    namespace: string;
-}
+}) {}
 
 declare module 'ember-data' {
-  interface AdapterRegistry {
-      'osf-adapter': OsfAdapter;
-  }
+    interface AdapterRegistry {
+        'osf-adapter': OsfAdapter;
+    }
 }
