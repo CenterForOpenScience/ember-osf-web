@@ -1,6 +1,5 @@
 import Service from '@ember/service';
-import { render } from '@ember/test-helpers';
-import { findAll } from 'ember-native-dom-helpers';
+import { findAll, render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
