@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Join OSF banner
 - toArray utility
 - meta-tags service
+- Test: make sure config types match actual config
 
 ### Changed
 - TypeScript: Rename files to .ts
