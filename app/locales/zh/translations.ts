@@ -490,11 +490,20 @@ export default {
         new_fork_info_title: 'Fork status',
         new_fork_info: 'Your fork is being created. You\'ll receive an email when it is complete.',
         create_fork_modal: 'Are you sure you want to fork this project?',
-        delete_fork_failed: 'Any child components must be deleted prior to deleting this component.',
+        unable_to_delete_fork: 'Any child components must be deleted prior to deleting this component.',
+        page_title: '{{nodeTitle}} Forks',
+        no_forks: 'This project has no forks. A fork is a copy of a project that you can change without affecting the original project.',
+        new_fork_failed: 'Failed to create a new fork. Please try again later.',
+        delete_fork_failed: 'Failed to delete the project. Please try again later.',
     },
     delete_modal: {
         title: 'Are you sure you want to delete this {{nodeType}}?',
         body: 'It will no longer be available to other contributors on the {{nodeType}}.',
         type_this: 'Type the following to continue:',
+        input_label: 'Scientist name verification',
+    },
+    paginator: {
+        next: 'Next page',
+        previous: 'Previous page',
     },
 };

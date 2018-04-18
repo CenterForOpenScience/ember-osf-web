@@ -13,8 +13,8 @@ export default class GuidNodeForks extends Controller {
     newModal = false;
     page = 1;
     forks = [];
-    hasPrev = false;
-    hasNext = false;
+    maxPage: number = 1;
+    perPage = 10;
 
     getForks = task(function* (this: GuidNodeForks) {
         const page = this.get('page');
@@ -22,8 +22,7 @@ export default class GuidNodeForks extends Controller {
         const forks = yield node.queryHasMany('forks', { page });
         this.setProperties({
             forks,
-            hasPrev: !!forks.links.prev,
-            hasNext: !!forks.links.next,
+            maxPage: Math.ceil(forks.meta.total / this.get('perPage')),
         });
     });
 
@@ -43,7 +42,7 @@ export default class GuidNodeForks extends Controller {
     openDeleteModal(this: GuidNodeForks, node) {
         node.get('children').then(children => {
             if (children.toArray().length) {
-                const message = this.get('i18n').t('forks.delete_fork_failed');
+                const message = this.get('i18n').t('forks.unable_to_delete_fork');
                 this.get('toast').error(message);
             } else {
                 this.set('toDelete', node);
@@ -59,17 +58,15 @@ export default class GuidNodeForks extends Controller {
     }
 
     @action
-    newForkModalToggle() {
-        this.toggleProperty('newModal');
-    }
-
-    @action
     newFork(this: GuidNodeForks) {
+        this.set('newModal', false);
         const node = this.get('model.taskInstance.value');
         node.fork().then(() => {
             const message = this.get('i18n').t('forks.new_fork_info');
             const title = this.get('i18n').t('forks.new_fork_info_title');
             this.get('toast').info(message, title);
+        }).catch(() => {
+            this.get('toast').error(this.get('i18n').t('forks.new_fork_failed'));
         });
     }
 
@@ -84,6 +81,8 @@ export default class GuidNodeForks extends Controller {
                 dismiss: true,
             });
             this.transitionToRoute('home');
+        }).catch(() => {
+            this.get('toast').error(this.get('i18n').t('forks.delete_fork_failed'));
         });
     }
 }

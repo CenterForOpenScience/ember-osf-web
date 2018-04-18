@@ -1,9 +1,10 @@
-.btn-success { // stylelint-disable-line selector-class-pattern
+// stylelint-disable selector-class-pattern
+.btn-success {
     color: $btn-success-high-contrast-color;
     background-color: $brand-success;
     border-color: darken($brand-success, 5%);
 }
-/* stylelint-disable selector-class-pattern */
+
 .btn-success.disabled,
 .btn-success.disabled:hover {
     color: darken($brand-success, 85%);
@@ -11,10 +12,25 @@
     border-color: lighten($brand-success, 45%);
     opacity: 1;
 }
-/* stylelint-enable */
 
-.btn-info { // stylelint-disable-line selector-class-pattern
+.btn-info {
     color: $btn-info-high-contrast-color;
     background-color: $brand-info;
     border-color: darken($brand-info, 5%);
 }
+
+.btn-danger {
+    color: $btn-danger-high-contrast-color;
+    background-color: $brand-danger;
+    border-color: darken($brand-danger, 5%);
+}
+
+.btn-danger.disabled,
+.btn-danger.disabled:hover {
+    color: $btn-danger-high-contrast-color;
+    background-color: lighten($brand-danger, 20%);
+    border-color: lighten($brand-danger, 15%);
+    opacity: 1;
+}
+
+/* stylelint-enable */

@@ -8,8 +8,8 @@ module('Integration | Component | delete-node-modal', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function() {
-        this.set('delete', () => {}); // tslint:disable-line no-empty
-        this.set('closeModal', () => {}); // tslint:disable-line no-empty
+        this.set('delete', () => true);
+        this.set('closeModal', () => true);
     });
 
     test('it renders', async function(assert) {
