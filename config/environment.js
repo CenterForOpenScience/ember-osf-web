@@ -58,7 +58,6 @@ module.exports = function(environment) {
             ],
         },
         'ember-simple-auth': {
-            authorizer: `authorizer:osf-${authorizationType}`,
             authenticator: `authenticator:osf-${authorizationType}`,
         },
         EmberENV: {

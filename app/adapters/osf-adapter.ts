@@ -1,14 +1,16 @@
+import { service } from '@ember-decorators/service';
+import { assert } from '@ember/debug';
 import { underscore } from '@ember/string';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import { pluralize } from 'ember-inflector';
-import GenericDataAdapterMixin from 'ember-osf-web/mixins/generic-data-adapter';
+
+import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
 const { JSONAPIAdapter, Snapshot } = DS;
 
 interface AdapterOptions {
     query?: string;
-    url?: string;
 }
 
 enum RequestType {
@@ -28,15 +30,15 @@ enum RequestType {
  *
  * @class OsfAdapter
  * @extends DS.JSONAPIAdapter
- * @uses GenericDataAdapterMixin
  */
-export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapterMixin, {
-    authorizer: config['ember-simple-auth'].authorizer,
-    host: config.OSF.apiUrl,
-    namespace: config.OSF.apiNamespace,
-    headers: {
+export default class OsfAdapter extends JSONAPIAdapter.extend(DataAdapterMixin) {
+    @service currentUser;
+
+    host = config.OSF.apiUrl;
+    namespace = config.OSF.apiNamespace;
+    headers = {
         ACCEPT: 'application/vnd.api+json; version=2.4',
-    },
+    };
 
     /**
      * Overrides buildQuery method - Allows users to embed resources with findRecord
@@ -50,7 +52,7 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
         const { query: adapterOptionsQuery = {} } = (snapshot.adapterOptions || {}) as AdapterOptions;
 
         const query: { include?: any, embed?: any } = {
-            ...this._super(snapshot),
+            ...super.buildQuery(snapshot),
             ...adapterOptionsQuery,
         };
 
@@ -59,32 +61,16 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
             embed: query.include,
             include: undefined,
         };
-    },
+    }
 
     buildURL(
         this: OsfAdapter,
-        modelName: string,
+        modelName: string | undefined,
         id: string,
         snapshot: DS.Snapshot,
         requestType: string,
     ): string {
-        let url: string = this._super(modelName, id, snapshot, requestType);
-        const { record, adapterOptions } = snapshot;
-        const opts: AdapterOptions = adapterOptions || {};
-
-        if (requestType === 'deleteRecord') {
-            if (record.get('links.delete')) {
-                url = record.get('links.delete');
-            } else if (record.get('links.self')) {
-                url = record.get('links.self');
-            }
-        } else if (requestType === 'updateRecord' || requestType === 'findRecord') {
-            if (record.get('links.self')) {
-                url = record.get('links.self');
-            }
-        } else if (opts.url) {
-            url = opts.url; // eslint-disable-line prefer-destructuring
-        }
+        let url: string = super.buildURL(modelName, id, snapshot, requestType);
 
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
@@ -92,23 +78,67 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
             url += '/';
         }
         return url;
-    },
+    }
+
+    authorize(this: OsfAdapter, xhr: XMLHttpRequest) {
+        const accessToken = this.get('currentUser').get('accessToken');
+        if (accessToken) {
+            xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+        } else {
+            xhr.withCredentials = true; // eslint-disable-line no-param-reassign
+        }
+    }
 
     ajaxOptions(this: OsfAdapter, url: string, type: RequestType, options?: { isBulk?: boolean }): any {
-        const hash = this._super(url, type, options);
-
+        const hash = super.ajaxOptions(url, type, options) as any;
         if (options && options.isBulk) {
             hash.contentType = 'application/vnd.api+json; ext=bulk';
         }
-
         return hash;
-    },
+    }
 
     pathForType(modelName: string): string {
         const underscored: string = underscore(modelName);
         return pluralize(underscored);
-    },
-}) {}
+    }
+
+    urlForFindRecord(id: string, modelName: string, snapshot: DS.Snapshot) {
+        const url = snapshot.record.get('links.self');
+        return url || super.urlForFindRecord(id, modelName, snapshot);
+    }
+
+    urlForUpdateRecord(id: string, modelName: string, snapshot: DS.Snapshot) {
+        const url = snapshot.record.get('links.self');
+        return url || super.urlForUpdateRecord(id, modelName, snapshot);
+    }
+
+    urlForDeleteRecord(id: string, modelName: string, snapshot: DS.Snapshot) {
+        const links = snapshot.record.get('links');
+        return links.delete || links.self || super.urlForDeleteRecord(id, modelName, snapshot);
+    }
+
+    urlForFindBelongsTo(id: string, modelName: string): string {
+        assert(
+            `The API should have given a link for fetching this belongsTo (id: ${id}, type: ${modelName})`,
+            false,
+        );
+        return '';
+    }
+
+    urlForFindHasMany(id: string, modelName: string): string {
+        assert(
+            `The API should have given a link for fetching this hasMany (id: ${id}, type: ${modelName})`,
+            false,
+        );
+        return '';
+    }
+
+    urlForFindMany(): string {
+        // TODO support coalesceFindRequests?
+        assert('Coalescing find requests is not supported', false);
+        return '';
+    }
+}
 
 declare module 'ember-data' {
     interface AdapterRegistry {
