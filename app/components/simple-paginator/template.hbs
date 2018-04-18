@@ -1,13 +1,9 @@
 <span class='SimplePaginator__element'>
-    <button class='SimplePaginator__button btn {{if hasPrev "" "disabled"}}' onclick={{action previousPage}}>
-        {{fa-icon 'chevron-left'}}
-    </button>
+    {{#bs-button disabled=(not hasPrev) onClick=(action previousPage)}}<span aria-label="{{t 'paginator.previous'}}">{{fa-icon 'chevron-left'}}</span>{{/bs-button}}
 </span>
 <span class='SimplePaginator__element'>
     {{curPage}}
 </span>
 <span class='SimplePaginator__element'>
-    <button class='SimplePaginator__button btn {{if hasNext "" "disabled"}}' onclick={{action nextPage}}>
-        {{fa-icon 'chevron-right'}}
-    </button>
+    {{#bs-button disabled=(not hasNext) onClick=(action nextPage)}}<span aria-label="{{t 'paginator.previous'}}">{{fa-icon 'chevron-right'}}</span>{{/bs-button}}
 </span>
