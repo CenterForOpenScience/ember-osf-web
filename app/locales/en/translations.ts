@@ -444,6 +444,18 @@ export default {
         password_match: 'Passwords must match.',
         recaptcha: 'Please complete reCAPTCHA',
     },
+    node_navbar: {
+        toggle: 'Toggle navigation',
+        project_nav: 'Project Navigation',
+        wiki: 'Wiki',
+        analytics: 'Analytics',
+        registrations: 'Registrations',
+        files: 'Files',
+        contributors: 'Contributors',
+        addons: 'Add-ons',
+        settings: 'Settings',
+        comments: 'Comments',
+    },
     status: {
         welcome_message: '<h1>Welcome to the OSF!</h1><p>Visit our <a href="http://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>',
         alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.',

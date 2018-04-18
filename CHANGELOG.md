@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Node navbar: to accompany all node pages
 - Status Banner: shows status messages
 - Maintenance Banner: shows maintenance messages
 - TypeScript: Add ember-cli-typscript and ember-cli-tslint

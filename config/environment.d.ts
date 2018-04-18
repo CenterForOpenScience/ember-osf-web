@@ -113,6 +113,7 @@ declare const config: {
     home: {
         youtubeId: string;
     };
+    secondaryNavbarId: string;
 };
 
 export default config;
