@@ -107,6 +107,7 @@ export default class MetaTags extends Service {
             'dc.language': metaTagsData.language,
             // Open Graph/Facebook
             'og:ttl': 345600, // 4 days = min value.
+            'og:title': metaTagsData.title,
             'og:site_name': metaTagsData.siteName,
             'og:url': metaTagsData.url,
             'og:description': metaTagsData.description,
