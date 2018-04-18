@@ -82,7 +82,7 @@ export default class File extends BaseFileItem {
 
     getGuid(this: File): Promise<any> {
         return this.store.findRecord(
-            this.constructor.modelName,
+            (this.constructor as typeof File).modelName,
             this.id,
             {
                 reload: true,

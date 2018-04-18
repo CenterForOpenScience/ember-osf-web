@@ -1,8 +1,8 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import OSFAgnosticAuthRouteMixin from 'ember-osf-web/mixins/osf-agnostic-auth-route';
+import OsfAuthenticatedRouteMixin from 'ember-osf-web/mixins/osf-authenticated-route';
 
-export default class Application extends Route.extend(OSFAgnosticAuthRouteMixin) {
+export default class Application extends Route.extend(OsfAuthenticatedRouteMixin) {
     @service i18n;
     @service store;
 
@@ -19,7 +19,7 @@ export default class Application extends Route.extend(OSFAgnosticAuthRouteMixin)
                     break;
                 }
             }
-        // Backup for Safari (uses system settings)
+            // Backup for Safari (uses system settings)
         } else if (navigator.language && availableLocales.includes(navigator.language)) {
             locale = navigator.language;
         }
