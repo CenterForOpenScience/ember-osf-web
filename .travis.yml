@@ -27,7 +27,7 @@ install:
   - yarn --prefer-offline --frozen-lockfile --ignore-engines
 
 script:
-  - yarn lint && yarn test:translations && yarn test:cover
+  - yarn lint && yarn test:config && yarn test:translations && yarn test:cover
 
 after_script:
   - greenkeeper-lockfile-upload

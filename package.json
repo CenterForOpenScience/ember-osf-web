@@ -15,6 +15,7 @@
     "lint": "eslint --ext js,ts --max-warnings=0 --ignore-pattern=!.eslintrc.js . && tslint -p . && stylelint 'app/**/*.scss'",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
+    "test:config": "mocha node-tests/config-test.js",
     "test:translations": "node node-tests/compile-and-test-translations.js",
     "precommit": "lint-staged"
   },
@@ -26,7 +27,8 @@
     ],
     "*.scss": "stylelint",
     "*.hbs": "ember-template-lint",
-    "app/locales/*/translations.ts": "node node-tests/compile-and-test-translations.js"
+    "app/locales/*/translations.ts": "node node-tests/compile-and-test-translations.js",
+    "config/environment.*": "node node-tests/helpers/run.js config"
   },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
