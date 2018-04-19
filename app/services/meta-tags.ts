@@ -26,6 +26,7 @@ export interface MetaTagsData {
     imageAlt?: DataContent;
     siteName?: DataContent;
     institution?: DataContent;
+    fbAppId?: DataContent;
     twitterSite?: DataContent;
     twitterCreator?: DataContent;
 }
@@ -76,6 +77,7 @@ export default class MetaTags extends Service {
             imageAlt: this.get('i18n').t('home.brand'),
             siteName: this.get('i18n').t('home.brand'),
             institution: this.get('i18n').t('general.cos'),
+            fbAppId: config.FB_APP_ID,
             twitterSite: config.social.twitter.viaHandle,
             twitterCreator: config.social.twitter.viaHandle,
             ...metaTagsOverrides,
@@ -106,6 +108,7 @@ export default class MetaTags extends Service {
             'dc.publisher': metaTagsData.siteName,
             'dc.language': metaTagsData.language,
             // Open Graph/Facebook
+            'fb:app_id': metaTagsData.fbAppId,
             'og:ttl': 345600, // 4 days = min value.
             'og:title': metaTagsData.title,
             'og:type': metaTagsData.type,
@@ -147,7 +150,7 @@ export default class MetaTags extends Service {
 
     makeMetaTagAttrs(name: string, content: Content): MetaTagAttrs {
         // Open Graph/Facebook tags use 'property' instead of 'name'.
-        if (name.substring(0, 3) === 'og:') {
+        if (['fb:', 'og:'].includes(name.substring(0, 3))) {
             return { property: name, content };
         }
         return { name, content };
