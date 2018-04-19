@@ -16,4 +16,9 @@ export default class SimplePaginator extends Component {
     get hasNext(this: SimplePaginator): boolean {
         return this.get('curPage') < this.get('maxPage');
     }
+
+    @computed('maxPage')
+    get hasPages(this: SimplePaginator): boolean {
+        return this.get('maxPage') !== 1;
+    }
 }
