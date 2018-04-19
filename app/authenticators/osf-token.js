@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import RSVP from 'rsvp';
+import $ from 'jquery';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
 import config from 'ember-get-config';
@@ -18,7 +19,7 @@ import config from 'ember-get-config';
  */
 export default BaseAuthenticator.extend({
     _test(accessToken) {
-        return Ember.$.ajax({
+        return $.ajax({
             method: 'GET',
             url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/users/me/`,
             dataType: 'json',
@@ -41,7 +42,7 @@ export default BaseAuthenticator.extend({
     authenticate(accessToken) {
         // Adds the entire API user endpoint record to the session store as given
         const jqDeferred = this._test(accessToken);
-        return new Ember.RSVP.Promise((resolve, reject) => {
+        return new RSVP.Promise((resolve, reject) => {
             // TODO: Improve param capture
             jqDeferred.done(value => resolve(value));
             jqDeferred.fail(reason => reject(reason));

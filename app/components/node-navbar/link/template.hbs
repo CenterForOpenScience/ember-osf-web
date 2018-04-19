@@ -1,0 +1,17 @@
+{{#if useLinkTo}}
+    {{#link-to routeName id class=extraClasses}}
+        {{#if (has-block)}}
+            {{yield}}
+        {{else}}
+            {{t translatingKey}}
+        {{/if}}
+    {{/link-to}}
+{{else}}
+    <a href="/{{id}}/{{destination}}" class="{{extraClasses}}">
+        {{#if (has-block)}}
+            {{yield}}
+        {{else}}
+            {{t translatingKey}}
+        {{/if}}
+    </a>
+{{/if}}

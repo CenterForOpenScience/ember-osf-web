@@ -1,7 +1,7 @@
 {{title (t 'general.OSF')}}
 <div class="Application">
     {{osf-navbar signupUrl=signupUrl loginAction=(action 'login')}}
-    <div id="secondaryNavbar"></div>
+    <div id="{{secondaryNavbarId}}"></div>
     {{maintenance-banner}}
     {{status-banner}}
     <div class="{{routeStyleNamespaceClassSet}} Application__page">

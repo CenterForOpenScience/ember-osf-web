@@ -456,6 +456,18 @@ export default {
         component_deleted: 'Component has been successfully deleted.',
         remove_self_contrib: 'You have removed yourself as a contributor from this project.',
     },
+    node_navbar: {
+        toggle: 'Toggle navigation',
+        project_nav: 'Project Navigation',
+        wiki: 'Wiki',
+        analytics: 'Analytics',
+        registrations: 'Registrations',
+        files: 'Files',
+        contributors: 'Contributors',
+        addons: 'Add-ons',
+        settings: 'Settings',
+        comments: 'Comments',
+    },
     dropzone_widget: {
         drop_files: 'Drop files here to upload',
         error_multiple_files: 'Cannot upload multiple files',

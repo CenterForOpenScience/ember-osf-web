@@ -185,6 +185,7 @@ module.exports = function(environment) {
         home: {
             youtubeId: '2TV21gOzfhw',
         },
+        secondaryNavbarId: '__secondaryOSFNavbar__',
     };
 
     if (environment === 'development') {

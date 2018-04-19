@@ -65,7 +65,7 @@ export default class MetaTags extends Service {
     getMetaTags(this: MetaTags, metaTagsOverrides: MetaTagsData): MetaTagsDefs {
         // Default values.
         const metaTagsData: MetaTagsData = {
-            type: 'collection',
+            type: 'article',
             description: this.get('i18n').t('general.hosted_on_the_osf'),
             url: pathJoin(config.OSF.url, this.get('router').get('currentURL')),
             language: this.get('i18n').get('locale'),
@@ -107,6 +107,8 @@ export default class MetaTags extends Service {
             'dc.language': metaTagsData.language,
             // Open Graph/Facebook
             'og:ttl': 345600, // 4 days = min value.
+            'og:title': metaTagsData.title,
+            'og:type': metaTagsData.type,
             'og:site_name': metaTagsData.siteName,
             'og:url': metaTagsData.url,
             'og:description': metaTagsData.description,

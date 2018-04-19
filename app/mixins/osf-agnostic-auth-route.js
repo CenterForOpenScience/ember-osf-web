@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberError from '@ember/error';
 import config from 'ember-get-config';
 
 import OsfTokenLoginRoute from '../mixins/osf-token-login-route';
@@ -10,7 +10,7 @@ import OsfCookieLoginRoute from '../mixins/osf-cookie-login-route';
  */
 const authType = config.authorizationType;
 if (authType !== 'token' && authType !== 'cookie') {
-    throw new Ember.Error(`Unrecognized authorization type: ${authType}`);
+    throw new EmberError(`Unrecognized authorization type: ${authType}`);
 }
 
 const AuthMixin = authType === 'token' ? OsfTokenLoginRoute : OsfCookieLoginRoute;
