@@ -3,8 +3,8 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 
 export default class DeleteNodeModal extends Component.extend({
-    didReceiveAttrs(this: DeleteNodeModal) {
-        this._super(...arguments);
+    didReceiveAttrs(this: DeleteNodeModal, ...args) {
+        this._super(...args);
         this.set('scientistName', randomScientist());
     },
 }) {
