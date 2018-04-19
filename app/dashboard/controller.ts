@@ -46,10 +46,9 @@ export default class Dashboard extends Controller {
 
     findNodes = task(function* (this: Dashboard, more?: boolean) {
         const indicatorProperty = more ? 'loadingMore' : 'loading';
-        const filter = this.get('filter');
-
         this.set(indicatorProperty, true);
 
+        const filter = this.get('filter');
         const user = yield this.get('currentUser').get('user');
 
         const nodes = yield user.queryHasMany('nodes', {
@@ -67,7 +66,6 @@ export default class Dashboard extends Controller {
 
         this.set(indicatorProperty, false);
         this.set('initialLoad', false);
-        this.set('loading', false);
     }).restartable();
 
     getPopularAndNoteworthy = task(function* (this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
