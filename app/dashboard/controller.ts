@@ -45,10 +45,9 @@ export default class Dashboard extends Controller {
     }).restartable();
 
     findNodes = task(function* (this: Dashboard, more?: boolean) {
-        const indicatorProperty = more ? 'loading' : 'loadingMore';
+        const indicatorProperty = more ? 'loadingMore' : 'loading';
         const filter = this.get('filter');
 
-        this.set('loading', true);
         this.set(indicatorProperty, true);
 
         const user = yield this.get('currentUser').get('user');
