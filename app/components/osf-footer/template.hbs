@@ -1,33 +1,62 @@
-<footer class="Footer m-t-lg m-b-lg p-lg bg-color-light">
-    <div class="container">
+<footer class="Footer bg-color-light">
+    <div class="container Footer__container">
         <div class="row">
-            <div class="col-sm-2 col-md-3 col-md-offset-1">
-                <h4 class='Footer__header'>{{t 'general.OSF'}}</h4>
-                <ul class='Footer__link-list'>
-                    <li><a href="https://status.cos.io/" onclick={{action 'click' 'link' 'Footer - status' target=analytics}}>{{t 'footer.status'}}</a></li>
-                    <li><a href="mailto:{{supportEmail}}" rel="nofollow" onclick={{action 'click' 'link' 'Footer - contact' target=analytics}}>{{t 'footer.contact'}}</a></li>
-                    <li>{{#link-to 'support' clickAction=(action 'click' 'link' 'Footer - Support' target=analytics)}}{{t 'footer.faq'}}{{/link-to}}</li>
-                    <li><a href="https://api.osf.io/v2/docs/" onclick={{action 'click' 'link' 'Footer - api_docs' target=analytics}}>{{t 'general.api'}}</a></li>
-                    <li><a href="https://github.com/CenterForOpenScience/osf.io" onclick={{action 'click' 'link' 'Footer - source_code' target=analytics}}>{{t 'footer.source_code'}}</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-5 col-md-4">
-                <h4 class='Footer__header'>{{t 'general.cos'}}</h4>
-                <ul class='Footer__link-list'>
-                    <li><a href="http://cos.io" onclick={{action 'click' 'link' 'Footer - cos_io' target=analytics}}>{{t 'general.home'}}</a></li>
-                    <li><a href="https://osf.io/ezcuj/wiki/home/" onclick={{action 'click' 'link' 'Footer - rpp' target=analytics}}>{{t 'footer.rpp'}}</a></li>
-                    <li><a href="https://osf.io/e81xl/wiki/home/" onclick={{action 'click' 'link' 'Footer - rpcb' target=analytics}}>{{t 'footer.rpcb'}}</a></li>
-                    <li><a href="http://cos.io/top/" onclick={{action 'click' 'link' 'Footer - top' target=analytics}}>{{t 'footer.top'}}</a></li>
-                    <li><a href="https://www.crowdrise.com/donate/charity/centerforopenscience" onclick={{action 'click' 'link' 'Footer - donate' target=analytics}}>{{t 'footer.donate'}}</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-4 col-md-3">
-                <h4 class='Footer__header'>{{t 'footer.socialize'}}</h4>
-                <a href="http://twitter.com/OSFramework" aria-label="Twitter" onclick={{action 'click' 'link' 'Footer - social_twitter' target=analytics}}><i class="fa fa-twitter fa-2x"></i></a>
-                <a href="https://www.facebook.com/CenterForOpenScience/" aria-label="Facebook" onclick={{action 'click' 'link' 'Footer - social_facebook' target=analytics}}><i class="fa fa-facebook fa-2x"></i></a>
-                <a href="https://groups.google.com/forum/#!forum/openscienceframework" aria-label="Google Group" onclick={{action 'click' 'link' 'Footer - social_google_group' target=analytics}}><i class="fa fa-group fa-2x"></i></a>
-                <a href="https://www.github.com/centerforopenscience" aria-label="GitHub" onclick={{action 'click' 'link' 'Footer - social_github' target=analytics}}><i class="fa fa-github fa-2x"></i></a>
-                <a href="https://plus.google.com/b/104751442909573665859" aria-label="Google Plus" rel="publisher" onclick={{action 'click' 'link' 'Footer - social_google_plus' target=analytics}}><i class="fa fa-google-plus fa-2x"></i></a>
+            <div class="col-sm-12 col-md-8 col-md-offset-2">
+                <p>
+                    <span class="copyright">
+                        {{t 'footer.copyright' currentYear=currentYear}}
+                    </span>
+                    <a href="{{cos}}" onclick={{action 'click' 'link' 'Footer - cos_io' target=analytics}}>
+                        {{t 'general.cos'}}
+                    </a>
+                    <span>
+                        {{t 'footer.separator'}}
+                    </span>
+                    <a href="{{termsLink}}" onclick={{action 'click' 'link' 'Footer - terms' target=analytics}}>
+                        {{t 'footer.terms'}}
+                    </a>
+                    <span>
+                        {{t 'footer.separator'}}
+                    </span>
+                    <a href="{{privacyPolicyLink}}" onclick={{action 'click' 'link' 'Footer - privacy' target=analytics}}>
+                        {{t 'footer.privacy'}}
+                    </a>
+                    <span>
+                        {{t 'footer.separator'}}
+                    </span>
+                    <a href="{{statusPage}}" onclick={{action 'click' 'link' 'Footer - status' target=analytics}}>
+                        {{t 'footer.status'}}
+                    </a>
+                    <span>
+                        {{t 'footer.separator'}}
+                    </span>
+                    <a href="{{apiDocs}}" onclick={{action 'click' 'link' 'Footer - api_docs' target=analytics}}>
+                        {{t 'general.api'}}
+                    </a>
+                    <br>
+                    <a href="{{topGuidelines}}" onclick={{action 'click' 'link' 'Footer - top' target=analytics}}>
+                        {{t 'footer.top'}}
+                    </a>
+                    <span>
+                        {{t 'footer.separator'}}
+                    </span>
+                    <a href="{{rpp}}" onclick={{action 'click' 'link' 'Footer - rpp' target=analytics}}>
+                        {{t 'footer.rpp'}}
+                    </a>
+                    <span>
+                        {{t 'footer.separator'}}
+                    </span>
+                    <a href="{{rpcb}}" onclick={{action 'click' 'link' 'Footer - rpcb' target=analytics}}>
+                        {{t 'footer.rpcb'}}
+                    </a>
+                </p>
+                <p>
+                    <a href="{{twitter}}" aria-label="Twitter" onclick={{action 'click' 'link' 'Footer - social_twitter' target=analytics}}><i class="fa fa-twitter fa-2x"></i></a>
+                    <a href="{{facebook}}" aria-label="Facebook" onclick={{action 'click' 'link' 'Footer - social_facebook' target=analytics}}><i class="fa fa-facebook fa-2x"></i></a>
+                    <a href="{{googleGroup}}" aria-label="Google Group" onclick={{action 'click' 'link' 'Footer - social_google_group' target=analytics}}><i class="fa fa-group fa-2x"></i></a>
+                    <a href="{{github}}" aria-label="GitHub" onclick={{action 'click' 'link' 'Footer - social_github' target=analytics}}><i class="fa fa-github fa-2x"></i></a>
+                    <a href="{{googlePlus}}" aria-label="Google Plus" rel="publisher" onclick={{action 'click' 'link' 'Footer - social_google_plus' target=analytics}}><i class="fa fa-google-plus fa-2x"></i></a>
+                </p>
             </div>
         </div>
     </div>

@@ -84,6 +84,19 @@ declare const config: {
         privacyPolicyLink: string;
         cookiesLink: string;
     };
+    footerLinks: {
+        cos: string,
+        statusPage: string,
+        apiDocs: string,
+        topGuidelines: string,
+        rpp: string,
+        rpcb: string,
+        twitter: string,
+        facebook: string,
+        googleGroup: string,
+        github: string,
+        googlePlus: string,
+    },
     support: {
         preregUrl: string;
         statusPageUrl: string;

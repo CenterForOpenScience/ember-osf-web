@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Update dashboard "new project" task to send only one request
 - Moved analytics tracking to a Service
 - Use meta-tags service to add meta-tags to Quick File detail
+- Combine footer and copyright; simplify both while making more accessible
 
 ### Removed
 - Homegrown dirty relationship tracking, with automagic additional requests on save

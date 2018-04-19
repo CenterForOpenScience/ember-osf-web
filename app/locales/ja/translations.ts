@@ -309,6 +309,10 @@ export default {
         donate: '寄付',
         socialize: 'ソーシャライズ',
         contact: 'コンタクト',
+        copyright: 'Copyright &copy; 2011-{{currentYear}}',
+        terms: 'Terms of use',
+        privacy: 'Privacy policy',
+        separator: ' | ',
     },
     home: {
         title: 'ホーム',
@@ -463,12 +467,6 @@ export default {
         addons: 'Add-ons',
         settings: 'Settings',
         comments: 'Comments',
-    },
-    osf_copyright: {
-        copyright: 'Copyright &copy; 2011-{{currentYear}}',
-        terms: 'Terms of Use',
-        privacy: 'Privacy Policy',
-        separator: ' | ',
     },
     dropzone_widget: {
         drop_files: 'Drop files here to upload',
