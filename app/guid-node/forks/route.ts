@@ -3,7 +3,7 @@ import Route from '@ember/routing/route';
 
 export default class GuidNodeForks extends Route.extend({
     async setupController(this: GuidNodeForks, controller, ...args): Promise<void> {
-        this._super(...args);
+        this._super(controller, ...args);
         const blocker = this.get('ready').getBlocker();
         controller.set('page', 1);
         try {
@@ -15,4 +15,7 @@ export default class GuidNodeForks extends Route.extend({
     },
 }) {
     @service ready;
+    model(this: GuidNodeForks) {
+        return this.modelFor('guid-node');
+    }
 }
