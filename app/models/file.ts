@@ -1,4 +1,5 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import DS from 'ember-data';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 import BaseFileItem from './base-file-item';
 import Comment from './comment';
@@ -33,17 +34,17 @@ export default class File extends BaseFileItem {
     @attr('array') tags: string[];
     @attr('fixstring') checkout: string;
 
-    @belongsTo('file', { inverse: 'files' }) parentFolder: File;
+    @belongsTo('file', { inverse: 'files' }) parentFolder: DS.PromiseObject<File> & File;
 
     // Folder attributes
-    @hasMany('file', { inverse: 'parentFolder' }) files: File[];
+    @hasMany('file', { inverse: 'parentFolder' }) files: DS.PromiseManyArray<File>;
 
     // File attributes
-    @hasMany('file-version') versions: FileVersion[];
-    @hasMany('comment') comments: Comment[];
+    @hasMany('file-version') versions: DS.PromiseManyArray<FileVersion>;
+    @hasMany('comment') comments: DS.PromiseManyArray<Comment>;
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    @belongsTo('node') node: Node;
-    @belongsTo('user') user: User;
+    @belongsTo('node') node: DS.PromiseObject<Node> & Node;
+    @belongsTo('user') user: DS.PromiseObject<User> & User;
 
     // BaseFileItem override
     isFileModel = true;

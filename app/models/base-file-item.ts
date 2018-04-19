@@ -6,7 +6,7 @@ import OsfModel from './osf-model';
 
 /**
  * @module ember-osf-web
- * @submodule mixins
+ * @submodule models
  */
 
 enum FileItemKinds {
@@ -16,13 +16,13 @@ enum FileItemKinds {
 
 /**
  * File-like models are `node`, `file-provider`, and `file`/folder.
- * This mixin provides a polymorphic interface for file-like items, and is intended to be used with models.
+ * This model provides a polymorphic interface for file-like items.
  *
- * @class FileItemMixin
- * @extends Ember.Mixin
+ * @class BaseFileItem
+ * @extends OsfModel
  */
 
-export default class FileItemMixin extends OsfModel {
+export default class BaseFileItem extends OsfModel {
     @attr('fixstring') kind: FileItemKinds | undefined;
 
     // Override in subclasses to set `true` when appropriate
@@ -34,12 +34,12 @@ export default class FileItemMixin extends OsfModel {
     @or('isNode', 'isProvider', 'isFolder') canHaveChildren;
 
     @computed('isFileModel', 'kind')
-    get isFolder(this: FileItemMixin) {
+    get isFolder(this: BaseFileItem) {
         return get(this, 'isFileModel') && get(this, 'kind') === FileItemKinds.Folder;
     }
 
     @computed('isFileModel', 'kind')
-    get isFile(this: FileItemMixin) {
+    get isFile(this: BaseFileItem) {
         return get(this, 'isFileModel') && get(this, 'kind') === FileItemKinds.File;
     }
 }

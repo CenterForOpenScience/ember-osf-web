@@ -1,4 +1,5 @@
 import { attr, belongsTo } from '@ember-decorators/data';
+import DS from 'ember-data';
 import Node from './node';
 import OsfModel from './osf-model';
 
@@ -14,7 +15,7 @@ export default class Wiki extends OsfModel {
     @attr('string') materializedPath: string;
     @attr('number') size: number;
 
-    @belongsTo('node', { inverse: 'wikis' }) node: Node;
+    @belongsTo('node', { inverse: 'wikis' }) node: DS.PromiseObject<Node> & Node;
 }
 
 declare module 'ember-data' {

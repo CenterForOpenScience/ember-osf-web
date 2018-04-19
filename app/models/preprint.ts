@@ -1,6 +1,7 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
+import DS from 'ember-data';
 import Contributor from './contributor';
 import File from './file';
 import License from './license';
@@ -38,12 +39,15 @@ export default class Preprint extends OsfModel {
     @attr('date') preprintDoiCreated: Date;
 
     // Relationships
-    @belongsTo('node', { inverse: null, async: true }) node: Node;
-    @belongsTo('license', { inverse: null }) license: License;
-    @belongsTo('file', { inverse: null }) primaryFile: File;
-    @belongsTo('preprint-provider', { inverse: 'preprints', async: true }) provider: PreprintProvider;
-    @hasMany('review-action', { inverse: 'target', async: true }) reviewActions: ReviewAction;
-    @hasMany('contributor', { async: true }) contributors: Contributor;
+    @belongsTo('node', { inverse: null }) node: DS.PromiseObject<Node> & Node;
+    @belongsTo('license', { inverse: null }) license: DS.PromiseObject<License> & License;
+    @belongsTo('file', { inverse: null }) primaryFile: DS.PromiseObject<File> & File;
+
+    @belongsTo('preprint-provider', { inverse: 'preprints' })
+    provider: DS.PromiseObject<PreprintProvider> & PreprintProvider;
+
+    @hasMany('review-action', { inverse: 'target' }) reviewActions: DS.PromiseManyArray<ReviewAction>;
+    @hasMany('contributor') contributors: DS.PromiseManyArray<Contributor>;
 
     @alias('links.doi') articleDoiUrl: string | null;
     @alias('links.preprint_doi') preprintDoiUrl: string;

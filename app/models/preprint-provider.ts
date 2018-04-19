@@ -1,5 +1,6 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
+import DS from 'ember-data';
 import License from './license';
 import OsfModel from './osf-model';
 import Preprint from './preprint';
@@ -27,10 +28,10 @@ export default class PreprintProvider extends OsfModel {
     @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous: boolean | null;
 
     // Relationships
-    @hasMany('taxonomy') taxonomies: Taxonomy[];
-    @hasMany('taxonomy') highlightedTaxonomies: Taxonomy[];
-    @hasMany('preprint', { inverse: 'provider', async: true }) preprints: Preprint[];
-    @hasMany('license', { inverse: null }) licensesAcceptable: License[];
+    @hasMany('taxonomy') taxonomies: DS.PromiseManyArray<Taxonomy>;
+    @hasMany('taxonomy') highlightedTaxonomies: DS.PromiseManyArray<Taxonomy>;
+    @hasMany('preprint', { inverse: 'provider' }) preprints: DS.PromiseManyArray<Preprint>;
+    @hasMany('license', { inverse: null }) licensesAcceptable: DS.PromiseManyArray<License>;
 
     @alias('links.relationships.preprints.links.related.meta')
     reviewableStatusCounts: any;

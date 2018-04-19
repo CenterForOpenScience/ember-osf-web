@@ -1,4 +1,5 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import DS from 'ember-data';
 import BaseFileItem from './base-file-item';
 import File from './file';
 import Node from './node';
@@ -19,8 +20,8 @@ export default class FileProvider extends BaseFileItem {
     @attr('fixstring') name: string; // eslint-disable-line no-restricted-globals
     @attr('string') path: string;
     @attr('fixstring') provider: string;
-    @hasMany('file') files: File[];
-    @belongsTo('node') node: Node;
+    @hasMany('file') files: DS.PromiseManyArray<File>;
+    @belongsTo('node') node: DS.PromiseObject<Node> & Node;
 
     // BaseFileItem override
     isProvider = true;

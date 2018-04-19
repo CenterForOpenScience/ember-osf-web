@@ -1,4 +1,5 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import DS from 'ember-data';
 import Node from './node';
 import OsfModel from './osf-model';
 import User from './user';
@@ -33,11 +34,11 @@ export default class Comment extends OsfModel {
     @attr('boolean') canEdit: boolean;
 
     // TODO dynamic belongsTo
-    @belongsTo('user') user: User;
-    @belongsTo('node') node: Node;
+    @belongsTo('user') user: DS.PromiseObject<User> & User;
+    @belongsTo('node') node: DS.PromiseObject<Node> & Node;
 
     @hasMany('comment', { inverse: null })
-    replies: Comment[];
+    replies: DS.PromiseManyArray<Comment>;
 }
 
 declare module 'ember-data' {

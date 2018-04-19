@@ -1,4 +1,5 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import DS from 'ember-data';
 import Comment from './comment';
 import Contributor from './contributor';
 import Node from './node';
@@ -32,10 +33,10 @@ export default class Registration extends Node {
     @attr('fixstring') registrationChoice?: 'immediate' | 'embargo';
     @attr('date') liftEmbargo?: Date;
 
-    @belongsTo('node', { inverse: 'registrations' }) registeredFrom: Node;
-    @belongsTo('user', { inverse: null }) registeredBy: User;
-    @hasMany('contributor') contributors: Contributor[];
-    @hasMany('comment') comments: Comment[];
+    @belongsTo('node', { inverse: 'registrations' }) registeredFrom: DS.PromiseObject<Node> & Node;
+    @belongsTo('user', { inverse: null }) registeredBy: DS.PromiseObject<User> & User;
+    @hasMany('contributor') contributors: DS.PromiseManyArray<Contributor>;
+    @hasMany('comment') comments: DS.PromiseManyArray<Comment>;
 }
 
 declare module 'ember-data' {

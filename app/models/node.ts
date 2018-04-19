@@ -1,6 +1,7 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { bool, equal } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
+import DS from 'ember-data';
 import BaseFileItem from './base-file-item';
 import Citation from './citation';
 import Comment from './comment';
@@ -55,33 +56,36 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @attr('fixstring') templateFrom: string;
 
     @hasMany('contributor', { allowBulkUpdate: true, allowBulkRemove: true, inverse: 'node' })
-    contributors: Contributor[];
+    contributors: DS.PromiseManyArray<Contributor>;
 
-    @belongsTo('node', { inverse: 'children' }) parent: Node; // eslint-disable-line no-restricted-globals
-    @hasMany('node', { inverse: 'parent' }) children: Node[];
-    @hasMany('preprint', { inverse: 'node' }) preprints: Preprint[];
-    @hasMany('institution', { inverse: 'nodes' }) affiliatedInstitutions: Institution[];
-    @hasMany('comment') comments: Comment[];
-    @belongsTo('citation') citation: Citation;
+    @belongsTo('node', { inverse: 'children' })
+    parent: DS.PromiseObject<Node> & Node; // eslint-disable-line no-restricted-globals
 
-    @belongsTo('license', { inverse: null }) license: License;
+    @hasMany('node', { inverse: 'parent' }) children: DS.PromiseManyArray<Node>;
+    @hasMany('preprint', { inverse: 'node' }) preprints: DS.PromiseManyArray<Preprint>;
+    @hasMany('institution', { inverse: 'nodes' }) affiliatedInstitutions: DS.PromiseManyArray<Institution>;
+    @hasMany('comment') comments: DS.PromiseManyArray<Comment>;
+    @belongsTo('citation') citation: DS.PromiseObject<Citation> & Citation;
 
-    @hasMany('file-provider') files: FileProvider;
+    @belongsTo('license', { inverse: null }) license: DS.PromiseObject<License> & License;
 
-    @hasMany('node', { inverse: null, serializerType: 'linked-node' }) linkedNodes: Node[];
-    @hasMany('registration', { inverse: 'registeredFrom' }) registrations: Registration[];
+    @hasMany('file-provider') files: DS.PromiseManyArray<FileProvider>;
 
-    @hasMany('draft-registration', { inverse: 'branchedFrom' }) draftRegistrations: DraftRegistration[];
+    @hasMany('node', { inverse: null, serializerType: 'linked-node' }) linkedNodes: DS.PromiseManyArray<Node>;
+    @hasMany('registration', { inverse: 'registeredFrom' }) registrations: DS.PromiseManyArray<Registration>;
 
-    @hasMany('node', { inverse: 'forkedFrom' }) forks: Node[];
+    @hasMany('draft-registration', { inverse: 'branchedFrom' })
+    draftRegistrations: DS.PromiseManyArray<DraftRegistration>;
 
-    @belongsTo('node', { inverse: 'forks' }) forkedFrom: Node;
+    @hasMany('node', { inverse: 'forkedFrom' }) forks: DS.PromiseManyArray<Node>;
 
-    @belongsTo('node', { inverse: null }) root: Node;
+    @belongsTo('node', { inverse: 'forks' }) forkedFrom: DS.PromiseObject<Node> & Node;
 
-    @hasMany('wiki', { inverse: 'node' }) wikis: Wiki[];
+    @belongsTo('node', { inverse: null }) root: DS.PromiseObject<Node> & Node;
 
-    @hasMany('log') logs: Log[];
+    @hasMany('wiki', { inverse: 'node' }) wikis: DS.PromiseManyArray<Wiki>;
+
+    @hasMany('log') logs: DS.PromiseManyArray<Log>;
 
     // These are only computeds because maintaining separate flag values on different classes would be a
     // headache TODO: Improve.

@@ -1,4 +1,5 @@
 import { attr, belongsTo } from '@ember-decorators/data';
+import DS from 'ember-data';
 import Node from './node';
 import OsfModel from './osf-model';
 import User from './user';
@@ -23,9 +24,9 @@ export default class Contributor extends OsfModel {
     @attr('fixstring') email: string;
     @attr('boolean') sendEmail: boolean;
 
-    @belongsTo('user') user: User;
+    @belongsTo('user') user: DS.PromiseObject<User> & User;
 
-    @belongsTo('node', { inverse: 'contributors' }) node: Node;
+    @belongsTo('node', { inverse: 'contributors' }) node: DS.PromiseObject<Node> & Node;
 }
 
 declare module 'ember-data' {

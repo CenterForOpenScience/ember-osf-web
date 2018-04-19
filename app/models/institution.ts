@@ -1,4 +1,5 @@
 import { attr, hasMany } from '@ember-decorators/data';
+import DS from 'ember-data';
 import Node from './node';
 import OsfModel from './osf-model';
 import Registration from './registration';
@@ -20,9 +21,9 @@ export default class Institution extends OsfModel {
     @attr('fixstring') description: string;
     @attr('string') logoPath: string;
     @attr('string') authUrl: string;
-    @hasMany('user', { inverse: 'institutions' }) users: User[];
-    @hasMany('node', { inverse: 'affiliatedInstitutions' }) nodes: Node[];
-    @hasMany('registration', { inverse: 'affiliatedInstitutions' }) registrations: Registration[];
+    @hasMany('user', { inverse: 'institutions' }) users: DS.PromiseManyArray<User>;
+    @hasMany('node', { inverse: 'affiliatedInstitutions' }) nodes: DS.PromiseManyArray<Node>;
+    @hasMany('registration', { inverse: 'affiliatedInstitutions' }) registrations: DS.PromiseManyArray<Registration>;
 }
 
 declare module 'ember-data' {

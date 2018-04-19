@@ -1,5 +1,6 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
+import DS from 'ember-data';
 import File from './file';
 import Institution from './institution';
 import Node from './node';
@@ -29,12 +30,12 @@ export default class User extends OsfModel {
 
     @attr('boolean', { defaultValue: false }) canViewReviews: boolean;
 
-    @hasMany('node') nodes: Node[];
-    @hasMany('registration') registrations: Registration[];
+    @hasMany('node') nodes: DS.PromiseManyArray<Node>;
+    @hasMany('registration') registrations: DS.PromiseManyArray<Registration>;
 
-    @hasMany('file') quickfiles: File[];
+    @hasMany('file') quickfiles: DS.PromiseManyArray<File>;
 
-    @hasMany('institution', { inverse: 'users' }) institutions: Institution[];
+    @hasMany('institution', { inverse: 'users' }) institutions: DS.PromiseManyArray<Institution>;
 
     // Calculated fields
     @alias('links.html') profileURL: string;

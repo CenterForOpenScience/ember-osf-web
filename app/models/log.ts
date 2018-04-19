@@ -1,4 +1,5 @@
 import { attr, belongsTo } from '@ember-decorators/data';
+import DS from 'ember-data';
 import Node from './node';
 import OsfModel from './osf-model';
 import User from './user';
@@ -18,11 +19,11 @@ export default class Log extends OsfModel {
     @attr('date') date: Date;
     @attr('fixstring') action: string;
     @attr('object') params: any;
-    @belongsTo('node', { inverse: null }) node: Node;
-    @belongsTo('node', { inverse: 'logs' }) originalNode: Node;
-    @belongsTo('user') user: User;
-    @belongsTo('node', { inverse: null }) linkedNode: Node;
-    @belongsTo('node', { inverse: null }) templateNode: Node;
+    @belongsTo('node', { inverse: null }) node: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'logs' }) originalNode: DS.PromiseObject<Node> & Node;
+    @belongsTo('user') user: DS.PromiseObject<User> & User;
+    @belongsTo('node', { inverse: null }) linkedNode: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: null }) templateNode: DS.PromiseObject<Node> & Node;
 }
 
 declare module 'ember-data' {

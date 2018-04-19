@@ -1,4 +1,5 @@
 import { belongsTo } from '@ember-decorators/data';
+import DS from 'ember-data';
 import Node from './node';
 import OsfModel from './osf-model';
 
@@ -14,7 +15,7 @@ import OsfModel from './osf-model';
  * @class NodeLink
  */
 export default class NodeLink extends OsfModel {
-    @belongsTo('node') targetNode: Node;
+    @belongsTo('node') targetNode: DS.PromiseObject<Node> & Node;
 }
 
 declare module 'ember-data' {

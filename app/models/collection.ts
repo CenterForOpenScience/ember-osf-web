@@ -1,4 +1,5 @@
 import { attr, hasMany } from '@ember-decorators/data';
+import DS from 'ember-data';
 import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import OsfModel from './osf-model';
@@ -23,13 +24,13 @@ export default class Collection extends OsfModel {
         inverse: null,
         serializerType: 'linked-node',
     })
-    linkedNodes: Node[];
+    linkedNodes: DS.PromiseManyArray<Node>;
 
     @hasMany('registration', {
         inverse: null,
         serializerType: 'linked-node',
     })
-    linkedRegistrations: Registration[];
+    linkedRegistrations: DS.PromiseManyArray<Registration>;
 }
 
 declare module 'ember-data' {
