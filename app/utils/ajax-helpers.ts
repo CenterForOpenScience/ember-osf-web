@@ -23,7 +23,7 @@ import RSVP from 'rsvp';
  * @param {Object} options
  * @return {RSVP.Promise}
  */
-export default function authenticatedAJAX(options) {
+export default function authenticatedAJAX(options): RSVP.Promise<any> {
     if (config.authorizationType === 'cookie') {
         Object.assign(options, {
             xhrFields: {

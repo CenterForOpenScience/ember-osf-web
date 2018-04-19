@@ -1,8 +1,8 @@
-import { computed } from '@ember/object';
+import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
+import Node from './node';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo } = DS;
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -11,52 +11,22 @@ const { attr, belongsTo } = DS;
 
 /**
  * Model for OSF APIv2 contributors. Primarily accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Node_Contributors_List_GET
+ *
  * @class Contributor
  */
-export default class Contributor extends OsfModel.extend({
-    permission: attr('fixstring'),
-    bibliographic: attr('boolean'),
+export default class Contributor extends OsfModel {
+    @attr('fixstring') permission: string;
+    @attr('boolean') bibliographic: boolean;
 
-    unregisteredContributor: attr('fixstring'),
-    index: attr('number'),
-    fullName: attr('fixstring'),
-    email: attr('fixstring'),
-    sendEmail: attr('boolean'),
-    users: belongsTo('user'),
-    node: belongsTo('node', {
-        inverse: 'contributors',
-    }),
+    @attr('fixstring') unregisteredContributor: string;
+    @attr('number') index: number;
+    @attr('fixstring') fullName: string;
+    @attr('fixstring') email: string;
+    @attr('boolean') sendEmail: boolean;
 
-    _userId: null,
-    _nodeId: null,
-}) {
-    userId = computed('_userId', {
-        get(): string {
-            if (this.get('isNew')) {
-                return this.get('_userId');
-            } else {
-                return this.get('id').split('-').pop();
-            }
-        },
-        set(_: any, userId: string): void {
-            this.set('_userId', userId);
-        },
-    }).volatile();
+    @belongsTo('user') user: DS.PromiseObject<User> & User;
 
-    nodeId = computed('_nodeId', {
-        get(): string {
-            if (this.get('isNew')) {
-                return this.get('_nodeId');
-            } else {
-                return this.get('id').split('-').shift();
-            }
-        },
-        set(_: any, nodeId: string): void {
-            this.set('_nodeId', nodeId);
-        },
-    }).volatile();
+    @belongsTo('node', { inverse: 'contributors' }) node: DS.PromiseObject<Node> & Node;
 }
 
 declare module 'ember-data' {
