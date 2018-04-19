@@ -8,11 +8,27 @@ module('Integration | Component | simple-paginator', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function() {
-        this.set('stubAction', () => {}); // tslint:disable-line no-empty
+        this.set('stubAction', () => []);
     });
 
     test('it renders', async function(assert) {
-        await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction}}`);
+        await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=3 curPage=2}}`);
+        assert.ok(this.element.innerHTML.includes('2'));
+    });
+
+    test('paginating disabled when no next, previous pages', async function(assert) {
+        await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=3 curPage=2}}`);
+        assert.ok(!this.element.innerHTML.includes('disabled'));
+
+        await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=3 curPage=1}}`);
+        assert.ok(this.element.innerHTML.includes('disabled'));
+
+        await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=2 curPage=2}}`);
+        assert.ok(this.element.innerHTML.includes('disabled'));
+    });
+
+    test('if no more than 1 page, don\'t show paginator at all', async function(assert) {
+        await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=1 curPage=1}}`);
         assert.equal(this.element.textContent.trim(), '');
     });
 });

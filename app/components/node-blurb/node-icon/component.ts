@@ -35,7 +35,7 @@ export default class NodeBlurbNodeIcon extends Component {
 
     @className('text-muted', '')
     @computed('category')
-    get active(this: NodeBlurbNodeIcon): boolean {
+    get isMuted(this: NodeBlurbNodeIcon): boolean {
         return ['registration', 'registeredComponent'].includes(this.get('category'));
     }
 }
