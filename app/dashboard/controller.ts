@@ -40,7 +40,6 @@ export default class Dashboard extends Controller {
 
     filterNodes = task(function* (this: Dashboard, filter) {
         yield timeout(500);
-        this.set('loading', true);
         this.setProperties({ filter });
         yield this.get('findNodes').perform();
     }).restartable();
@@ -49,6 +48,7 @@ export default class Dashboard extends Controller {
         const indicatorProperty = more ? 'loading' : 'loadingMore';
         const filter = this.get('filter');
 
+        this.set('loading', true);
         this.set(indicatorProperty, true);
 
         const user = yield this.get('currentUser').get('user');
