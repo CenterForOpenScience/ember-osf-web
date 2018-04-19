@@ -40,6 +40,7 @@ export default class Dashboard extends Controller {
 
     filterNodes = task(function* (this: Dashboard, filter) {
         yield timeout(500);
+        this.set('loading', true);
         this.setProperties({ filter });
         yield this.get('findNodes').perform();
     }).restartable();
@@ -67,6 +68,7 @@ export default class Dashboard extends Controller {
 
         this.set(indicatorProperty, false);
         this.set('initialLoad', false);
+        this.set('loading', false);
     }).restartable();
 
     getPopularAndNoteworthy = task(function* (this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
@@ -114,7 +116,7 @@ export default class Dashboard extends Controller {
     @alias('currentUser.user') user;
     @oneWay('user.institutions') institutionsSelected;
 
-    @or('nodes.length', 'filter') hasNodes;
+    @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes;
 
     @computed('nodes.{length,meta.total}')
     get hasMore(this: Dashboard): boolean {
