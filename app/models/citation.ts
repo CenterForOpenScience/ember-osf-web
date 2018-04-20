@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr } = DS;
 
 /**
  * @module ember-osf-web
@@ -13,9 +11,9 @@ const { attr } = DS;
  *
  * @class Citation
  */
-export default class Citation extends OsfModel.extend({
-    citation: attr('string'),
-}) {}
+export default class Citation extends OsfModel {
+    @attr('string') citation: string;
+}
 
 declare module 'ember-data' {
   interface ModelRegistry {

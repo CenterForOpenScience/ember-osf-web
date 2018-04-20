@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr } from '@ember-decorators/data';
 import OsfModel from './osf-model';
-
-const { attr } = DS;
 
 /**
  * @module ember-osf-web
@@ -11,16 +9,14 @@ const { attr } = DS;
 /**
  * Model for OSF APIv2 metaschemas.
  * This model describes metaschemas and can be directly queried.
- * For information on how to retrieve metaschemas see:
- * * https://api.osf.io/v2/docs/#!/v2/Meta_Schemas_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Meta_Schema_Detail_GET
+ *
  * @class Metaschema
  */
-export default class Metaschema extends OsfModel.extend({
-    name: attr('fixstring'),
-    schemaVersion: attr('number'),
-    schema: attr('object'),
-}) {}
+export default class Metaschema extends OsfModel {
+    @attr('fixstring') name: string; // eslint-disable-line no-restricted-globals
+    @attr('number') schemaVersion: number;
+    @attr('object') schema: any;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

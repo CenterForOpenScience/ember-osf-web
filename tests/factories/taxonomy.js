@@ -4,7 +4,7 @@ import faker from 'faker';
 FactoryGuy.define('taxonomy', {
     default: {
         text: () => faker.lorem.words(2),
-        child_count: () => faker.random.number(),
+        childCount: () => faker.random.number(),
         parents: null,
     },
     traits: {
