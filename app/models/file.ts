@@ -53,7 +53,7 @@ export default class File extends BaseFileItem {
 
     getContents(this: File): Promise<object> {
         return authenticatedAJAX({
-            url: this.get('links.download'),
+            url: this.links.download,
             type: 'GET',
             data: {
                 direct: true,
@@ -64,7 +64,7 @@ export default class File extends BaseFileItem {
 
     async rename(this: File, newName: string, conflict = 'replace'): Promise<void> {
         const { data } = await authenticatedAJAX({
-            url: this.get('links.upload'),
+            url: this.links.upload,
             type: 'POST',
             xhrFields: {
                 withCredentials: true,
@@ -99,7 +99,7 @@ export default class File extends BaseFileItem {
 
     updateContents(this: File, data: object): Promise<null> {
         return authenticatedAJAX({
-            url: this.get('links.upload'),
+            url: this.links.upload,
             type: 'PUT',
             xhrFields: { withCredentials: true },
             data,
@@ -108,7 +108,7 @@ export default class File extends BaseFileItem {
 
     move(this: File, node: Node): Promise<null> {
         return authenticatedAJAX({
-            url: this.get('links.move'),
+            url: this.links.move,
             type: 'POST',
             xhrFields: { withCredentials: true },
             headers: {

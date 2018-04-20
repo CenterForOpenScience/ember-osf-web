@@ -65,7 +65,7 @@ export default class Preprint extends OsfModel {
 
     @computed('license')
     get licenseText(this: Preprint): string {
-        const text: string = this.get('license.text') || '';
+        const text: string = this.license.get('text') || '';
         const { year = '', copyright_holders = [] } = this.get('licenseRecord'); // eslint-disable-line camelcase
 
         return text
