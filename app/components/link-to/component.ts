@@ -18,11 +18,11 @@ export default class LinkTo extends LinkComponent {
      */
     clickAction: () => void = this.clickAction;
 
-    constructor() {
-        super();
+    constructor(properties: object) {
+        super(properties);
 
         if (this.clickAction) {
-            this.on(this.get('eventName'), this, this.clickAction);
+            this.on(this.eventName, this, this.clickAction);
         }
     }
 }

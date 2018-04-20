@@ -49,6 +49,8 @@ export default class File extends BaseFileItem {
     // BaseFileItem override
     isFileModel = true;
 
+    isSelected = false;
+
     getContents(this: File): Promise<object> {
         return authenticatedAJAX({
             url: this.get('links.download'),

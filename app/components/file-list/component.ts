@@ -2,9 +2,12 @@ import { action, computed } from '@ember-decorators/object';
 import { notEmpty } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
+import defaultTo from 'ember-osf-web/utils/default-to';
+import eatArgs from 'ember-osf-web/utils/eat-args';
 
 // TODO: Improve documentation in the future
 /**
@@ -22,16 +25,24 @@ export default class FileList extends Component {
     @service i18n;
 
     node: Node | null = null;
-    items: File[] = this.items || null;
+    items: File[] = defaultTo(this.items, null);
     showFilterClicked: boolean = false;
-    filter: string = this.filter || '';
+    filter: string = defaultTo(this.filter, '');
     user: User;
 
     @notEmpty('filter') showFilterInput;
 
     @computed('user')
-    get edit(this: FileList): boolean {
-        return this.get('user.id') === this.get('currentUser').get('currentUserId');
+    get edit(): boolean {
+        return this.user.id === this.currentUser.currentUserId;
+    }
+
+    /**
+     * Placeholder for closure action: openFile
+     */
+    openFile(item: File) {
+        eatArgs(item);
+        assert('You should pass in a closure action: openFile');
     }
 
     @action
@@ -43,7 +54,7 @@ export default class FileList extends Component {
     }
 
     @action
-    openItem(this: FileList, item, qparams) {
-        this.openFile(item, qparams);
+    openItem(item: File) {
+        this.openFile(item);
     }
 }

@@ -12,8 +12,8 @@ export default class NodeNavbar extends Component {
     collapsedNav = true;
 
     @computed('node.currentUserPermissions')
-    get currentUserCanEdit(this: NodeNavbar): boolean {
-        const permissions = this.get('node.currentUserPermissions');
+    get currentUserCanEdit(): boolean {
+        const permissions = this.node.currentUserPermissions;
         return permissions ? permissions.includes('write') : false;
     }
 

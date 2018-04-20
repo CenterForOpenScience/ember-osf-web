@@ -2,38 +2,31 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { get } from '@ember/object';
 import { allSettled, task } from 'ember-concurrency';
 import moment from 'moment';
 
 import Node from 'ember-osf-web/models/node';
 
-export default class DashboardItem extends Component {
-    @service i18n;
-    @service analytics;
-
-    node: Node;
-
-    getAncestorTitles = task(function* (this: DashboardItem) {
-        const node = this.get('node');
-        const parentId = node.belongsTo('parent').id();
-        const rootId = node.belongsTo('root').id();
+export default class DashboardItem extends Component.extend({
+    getAncestorTitles: task(function* (this: DashboardItem) {
+        const parentId = this.node.belongsTo('parent').id();
+        const rootId = this.node.belongsTo('root').id();
 
         // No ancestors
-        if (node.get('id') === rootId) {
+        if (this.node.id === rootId) {
             return [];
         }
 
         // One ancestor
         if (parentId === rootId) {
-            const parentNode = yield node.get('parent');
-            return [parentNode.get('title')];
+            const parentNode = yield this.node.parent;
+            return [parentNode.title];
         }
 
         // At least two ancestors
         const results = yield allSettled([
-            node.get('root'),
-            node.get('parent'),
+            this.node.root,
+            this.node.parent,
         ]);
 
         const titles = results.mapBy('value').compact().mapBy('title');
@@ -42,22 +35,26 @@ export default class DashboardItem extends Component {
         if (titles.length > 1) {
             const parent = results[1].value;
             if (parent && parent.belongsTo('parent').id() !== rootId) {
-                titles.insertAt(1, this.get('i18n').t('general.ellipsis'));
+                titles.insertAt(1, this.i18n.t('general.ellipsis'));
             }
         }
         return titles;
-    }).restartable();
+    }).restartable(),
+}) {
+    @service i18n;
+    @service analytics;
+
+    node: Node;
 
     @alias('getAncestorTitles.lastComplete.value') ancestry;
     @alias('node.contributors') contributors;
 
     @computed('node.dateModified')
-    get date(this: DashboardItem): string {
-        return moment(this.get('node.dateModified')).format('YYYY-MM-DD h:mm A');
+    get date(): string {
+        return moment(this.node.dateModified).format('YYYY-MM-DD h:mm A');
     }
 
-    constructor() {
-        super();
-        get(this, 'getAncestorTitles').perform();
+    didReceiveAttrs(this: DashboardItem) {
+        this.get('getAncestorTitles').perform();
     }
 }

@@ -4,7 +4,7 @@ import { className, classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { and, not, notEmpty, oneWay } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
-import { computed as comp, defineProperty, get } from '@ember/object';
+import { computed as comp, defineProperty } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import DS from 'ember-data';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -28,7 +28,7 @@ export default class ValidatedInput extends Component {
     disabled: boolean = defaultTo(this.disabled, false);
     value: string = defaultTo(this.value, '');
     type: InputType = defaultTo(this.type, InputType.Text);
-    valuePath: string = defaultTo(this.valuePath, '');
+    valuePath: keyof DS.Model = defaultTo(this.valuePath, '');
     placeholder: string = defaultTo(this.placeholder, '');
     validation: any = defaultTo(this.validation, null);
     isTyping: boolean = defaultTo(this.isTyping, false);
@@ -39,23 +39,22 @@ export default class ValidatedInput extends Component {
     @notEmpty('value') hasContent;
 
     @computed('validation.isDirty', 'isInvalid', 'didValidate')
-    get showErrorMessage(this: ValidatedInput): boolean {
-        return ((this.get('validation') && this.get('validation').get('isDirty')) || this.get('didValidate'))
-            && this.get('isInvalid');
+    get showErrorMessage(): boolean {
+        return ((this.validation && this.validation.isDirty) || this.didValidate)
+            && this.isInvalid;
     }
 
     @computed('validation.{isDirty,warnings.[]}', 'isValid', 'didValidate')
-    get showWarningMessage(this: ValidatedInput): boolean {
-        return ((this.get('validation') && this.get('validation').get('isDirty')) || this.get('didValidate'))
-            && this.get('isValid')
-            && !isEmpty(this.get('validation').get('warnings'));
+    get showWarningMessage(): boolean {
+        return ((this.validation && this.validation.isDirty) || this.didValidate)
+            && this.isValid
+            && !isEmpty(this.validation.warnings);
     }
 
-    constructor() {
-        super();
-        const valuePath = get(this, 'valuePath');
-        defineProperty(this, 'validation', comp.oneWay(`model.validations.attrs.${valuePath}`));
-        defineProperty(this, 'value', comp.alias(`model.${valuePath}`));
+    constructor(properties: object) {
+        super(properties);
+        defineProperty(this, 'validation', comp.oneWay(`model.validations.attrs.${this.valuePath}`));
+        defineProperty(this, 'value', comp.alias(`model.${this.valuePath}`));
     }
 
     @action
@@ -65,11 +64,11 @@ export default class ValidatedInput extends Component {
 
     @action
     onCaptchaResolved(this: ValidatedInput, reCaptchaResponse) {
-        this.get('model').set(this.get('valuePath'), reCaptchaResponse);
+        this.model.set(this.valuePath, reCaptchaResponse);
     }
 
     @action
     onCaptchaExpired(this: ValidatedInput) {
-        this.get('model').set(this.get('valuePath'), null);
+        this.model.set(this.valuePath, '');
     }
 }

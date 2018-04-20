@@ -15,19 +15,19 @@ export default class NodeNavbarLink extends Component {
     extraClasses?: string;
 
     @computed('destination')
-    get routeName(this: NodeNavbarLink): string {
-        const dest = this.get('destination');
+    get routeName(): string {
+        const dest = this.destination;
         return `guid-node${dest ? '.' : ''}${dest}`;
     }
 
     @computed('destination')
-    get translatingKey(this: NodeNavbarLink): string {
-        return `node_navbar.${this.get('destination')}`;
+    get translatingKey(): string {
+        return `node_navbar.${this.destination}`;
     }
 
     @className
     @computed('routeName', 'router.currentRouteName')
-    get active(this: NodeNavbarLink): boolean {
-        return this.get('routeName') === this.get('router.currentRouteName');
+    get active(): boolean {
+        return this.routeName === this.router.currentRouteName;
     }
 }
