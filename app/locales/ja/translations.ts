@@ -6,6 +6,7 @@ export default {
         share: '共有',
         embed: '埋込み',
         download: 'ダウンロード',
+        download_url: 'Download url',
         delete: '削除',
         view: '表示',
         edit: '編集',
@@ -61,6 +62,7 @@ export default {
         description: 'ここにアップロードされたファイルは<b>一般公開</b>されており、共有リンクを使用して他のユーザーと簡単に共有できます。',
         feedback_dialog_text: 'クイックファイルの考え方を我々に教えて下さい',
         transition_auth: 'クイックファイルを表示するには、ログインしている必要があります。ログインページにリダイレクトします。',
+        share_by_email: 'Share by email',
     },
     feedback: {
         button_text: 'フィードバック',
@@ -96,6 +98,8 @@ export default {
         save_fail: 'エラー、ファイルを保存できません',
         mfr_iframe_title: 'ドキュメントのレンダリング',
         add_tag: '検索性を高めるタグを追加する',
+        embed_js_label: 'Embeddable javascript',
+        embed_iframe_label: 'Embeddable iframe',
     },
     file_browser: {
         loading: 'ローディング中...',
@@ -239,6 +243,7 @@ export default {
         support: 'サポート',
         toggle_primary: 'プライマリー・ナビゲーション切替',
         toggle_secondary: 'セカンダリー・ナビゲーション切替',
+        other_views: 'Other OSF views',
     },
     auth_dropdown: {
         log_out: 'ログアウト',
@@ -480,4 +485,13 @@ export default {
         learn_more: 'learn more',
         hide_message: 'Hide this message',
     },
+    social: {
+        twitter: 'Twitter',
+        facebook: 'Facebook',
+        google_group: 'Google Group',
+        github: 'GitHub',
+        google_plus: 'Google Plus',
+        linkedin: 'LinkedIn',
+    },
+
 };

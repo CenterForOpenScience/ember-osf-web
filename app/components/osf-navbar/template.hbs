@@ -25,14 +25,16 @@
                 {{#bs-dropdown
                     classNames='dropdown primary-nav'
                     onShow=(action 'onClickPrimaryDropdown')
-                    as |dd|
+                as |dd|
                 }}
-                    {{#dd.toggle classNames='btn-link PrimaryNav__toggle'}}
+                    {{#dd.toggle
+                        (html-attributes aria-label=(t 'navbar.other_views'))
+                        classNames='btn-link PrimaryNav__toggle'}}
                         {{fa-icon 'caret-down' size='2'}}
                     {{/dd.toggle}}
                     {{#dd.menu classNames='dropdown-menu service-dropdown' as |ddm|}}
                         {{#each osfApps as |app|}}
-                            {{#ddm.item}}
+                            {{#ddm.item (html-attributes role='menuitem')}}
                                 {{#if (eq app.name currentApp)}}
                                     {{#link-to indexRoute clickAction=(action 'click' 'link' (concat 'Navbar - ' app.name ) target=analytics) }}
                                         {{t 'general.OSF'}}<b>{{app.name}}</b>

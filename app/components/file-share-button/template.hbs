@@ -1,14 +1,14 @@
 <button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
     {{t "general.share"}}
     {{#bs-popover placement='bottom' class=popoverClass title=(t 'general.share') visible=showPopup}}
-        {{#click-outside action=(action 'hidePopup')}}
-            {{#bs-tab customTabs=true as |tab|}}
+        {{#click-outside action=(action 'hidePopup') }}
+            {{#bs-tab customTabs=true as |tab| }}
                 {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
                     {{#nav.item active=(bs-eq tab.activeId sharePaneId)}}
-                        <a role='tab' {{action tab.select sharePaneId}} class='SharePane__tab'>{{t "general.share"}}</a>
+                        <a role='button' {{action tab.select sharePaneId}} class='SharePane__tab'>{{t "general.share"}}</a>
                     {{/nav.item}}
                     {{#nav.item active=(bs-eq tab.activeId embedPaneId)}}
-                        <a role='tab' {{action tab.select embedPaneId}} class='SharePane__tab'>
+                        <a role='button' {{action tab.select embedPaneId}} class='SharePane__tab'>
                             {{t "general.embed"}}
                             <span class='badge'>{{badge}}</span>
                         </a>
@@ -21,17 +21,20 @@
                         <div class='input-group'>
                             <span class='input-group-btn SharePane__copy-url-container'>
                                 <button type='button' class='btn btn-default btn-md'
+                                        aria-label={{t 'general.clipboard_copy'}}
                                         onclick={{action 'click' 'button' 'Quick Files - Share file' target=analytics}}
                                     {{action 'share'}}>
                                     <div class='fa fa-copy'></div>
                                 </button>
                             </span>
                             <input readonly='true' type='text' class='form-control SharePane__mfr-url'
+                                   aria-label={{t 'general.download_url'}}
                                    value='{{mfrUrl}}'>
                         </div>
                         <div class='SharePane__button-group'>
                             <a
                                 class='SharePane__share-link'
+                                aria-label={{t 'social.twitter'}}
                                 href='{{twitterUrl}}'
                                 target='_blank'
                                 rel='noopener'
@@ -43,6 +46,7 @@
                             </a>
                             <a
                                 class='SharePane__share-link'
+                                aria-label={{t 'social.facebook'}}
                                 href='{{facebookUrl}}'
                                 target='_blank'
                                 rel='noopener'
@@ -54,6 +58,7 @@
                             </a>
                             <a
                                 class='SharePane__share-link'
+                                aria-label={{t 'social.linkedin'}}
                                 href='{{linkedInUrl}}'
                                 target='_blank'
                                 rel='noopener'
@@ -65,6 +70,7 @@
                             </a>
                             <a
                                 class='SharePane__share-link'
+                                aria-label={{t 'quickfiles.share_by_email'}}
                                 href='{{emailUrl}}'
                                 target='_blank'
                                 rel='noopener'
@@ -79,10 +85,10 @@
                     {{#tab.pane elementId=embedPaneId title='Embed' class='EmbedPane'}}
                         <br>
                         <p>{{t "file_detail.embed.dynamic"}}</p>
-                        <textarea readonly='true' type='text' class='form-control'>{{shareiFrameDynamic}}</textarea>
+                        <textarea aria-label={{t 'file_detail.embed_js_label'}} readonly='true' type='text' class='form-control'>{{shareiFrameDynamic}}</textarea>
                         <br>
                         <p>{{t "file_detail.embed.direct"}}</p>
-                        <textarea readonly='true' class='form-control'>{{shareiFrameDirect}}</textarea>
+                        <textarea aria-label={{t 'file_detail.embed_iframe_label'}} readonly='true' class='form-control'>{{shareiFrameDirect}}</textarea>
                     {{/tab.pane}}
                 </div>
             {{/bs-tab}}

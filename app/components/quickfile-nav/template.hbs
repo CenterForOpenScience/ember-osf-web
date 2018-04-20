@@ -1,11 +1,9 @@
 <div class="container">
-    <h3>
-        {{#if user}}
+    {{#if user}}
+        <h3>
             {{#link-to 'guid-user.quickfiles' user.id}}
                 {{t 'quickfiles.title' user-name=user.fullName}}
             {{/link-to}}
-        {{else}}
-            &nbsp;
-        {{/if}}
-    </h3>
+        </h3>
+    {{/if}}
 </div>

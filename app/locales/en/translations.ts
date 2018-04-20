@@ -6,6 +6,7 @@ export default {
         share: 'Share',
         embed: 'Embed',
         download: 'Download',
+        download_url: 'Download url',
         delete: 'Delete',
         view: 'View',
         edit: 'Edit',
@@ -61,6 +62,7 @@ export default {
         description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.',
         feedback_dialog_text: 'Tell us what you think of Quick Files',
         transition_auth: 'You must be logged in to view your Quick Files. Redirecting to the login page.',
+        share_by_email: 'Share by email',
     },
     feedback: {
         button_text: 'Feedback',
@@ -96,6 +98,8 @@ export default {
         save_fail: 'Error, unable to save file',
         mfr_iframe_title: 'Rendering of document',
         add_tag: 'add a tag to enhance discoverability',
+        embed_js_label: 'Embeddable javascript',
+        embed_iframe_label: 'Embeddable iframe',
     },
     file_browser: {
         loading: 'Loading...',
@@ -239,6 +243,7 @@ export default {
         support: 'Support',
         toggle_primary: 'Toggle primary navigation',
         toggle_secondary: 'Toggle secondary navigation',
+        other_views: 'Other OSF views',
     },
     auth_dropdown: {
         log_out: 'Log out',
@@ -479,5 +484,13 @@ export default {
         create_account: 'Create an account',
         learn_more: 'learn more',
         hide_message: 'Hide this message',
+    },
+    social: {
+        twitter: 'Twitter',
+        facebook: 'Facebook',
+        google_group: 'Google Group',
+        github: 'GitHub',
+        google_plus: 'Google Plus',
+        linkedin: 'LinkedIn',
     },
 };

@@ -63,6 +63,7 @@
                             {{t 'new_project.template_title'}}
                             <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
                             {{#power-select
+                                class='{{styleNamespace}}__placeholder'
                                 search=search
                                 selected=searchSelected
                                 noMatchesMessage=(t 'new_project.no_matches')
