@@ -74,9 +74,11 @@ export default class GuidNodeForks extends Controller {
     delete(this: GuidNodeForks) {
         this.set('deleteModal', false);
         const node = this.get('toDelete');
+        this.set('toDelete', null);
         node.deleteRecord();
         node.save().then(() => {
             this.get('toast').success(this.get('i18n').t('status.project_deleted'));
+            this.set('page', 1);
             this.get('getForks').perform();
         }).catch(() => {
             this.get('toast').error(this.get('i18n').t('forks.delete_fork_failed'));
