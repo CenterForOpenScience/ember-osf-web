@@ -1,8 +1,12 @@
+import { className } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import File from 'ember-osf-web/models/file';
 import analytics from 'ember-osf-web/services/analytics';
+import defaultTo from 'ember-osf-web/utils/default-to';
+import eatArgs from 'ember-osf-web/utils/eat-args';
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import moment from 'moment';
@@ -33,46 +37,66 @@ export default class FileBrowserItem extends Component {
     @service store;
 
     item: File;
-    selectedItems: File[];
 
-    @computed('selectedItems.[]')
-    get selected(this: FileBrowserItem): boolean {
-        // TODO: This would be better if selectedItems were a hash. Can Ember
-        // observe when properties are added to or removed from an object?
-        return this.get('selectedItems').includes(this.get('item'));
+    @className
+    @computed('item.isSelected')
+    get selected(): boolean {
+        return this.item && this.item.isSelected;
     }
 
     @computed('item.size')
-    get size(this: FileBrowserItem): string {
-        const size = this.get('item').get('size');
+    get size(): string {
         // TODO: This should be i18n-ized
-        return size ? humanFileSize(size, true) : '';
+        return this.item.size ? humanFileSize(this.item.size, true) : '';
     }
 
     @computed('item.dateModified')
-    get date(this: FileBrowserItem): string {
-        const date = this.get('item').get('dateModified');
+    get date(): string {
+        const date = this.item.dateModified;
         // TODO: This should be i18n-ized
         return moment(date).format('YYYY-MM-DD h:mm A');
     }
 
     @computed('item.guid')
-    get link(this: FileBrowserItem): string {
-        const guid = this.get('item').get('guid');
-        return guid ? pathJoin(window.location.origin, guid) : '';
+    get link(): string {
+        return this.item.guid ? pathJoin(window.location.origin, this.item.guid) : '';
+    }
+
+    /**
+     * Placeholder for closure action: openItem
+     */
+    openItem(item: File, show: string) {
+        eatArgs(item, show);
+        assert('You should pass in a closure action: openItem');
+    }
+
+    /**
+     * Placeholder for closure action: selectItem
+     */
+    selectItem(item: File) {
+        eatArgs(item);
+        assert('You should pass in a closure action: selectItem');
+    }
+
+    /**
+     * Placeholder for closure action: selectMultiple
+     */
+    selectMultiple(item: File, metaKey) {
+        eatArgs(item, metaKey);
+        assert('You should pass in a closure action: selectMultiple');
     }
 
     @action
-    openVersion(this: FileBrowserItem) {
-        this.openItem(this.get('item'), 'revision');
+    openVersion() {
+        this.openItem(this.item, 'revision');
     }
 
     @action
-    open(this: FileBrowserItem) {
-        this.openItem(this.get('item'), 'view');
+    open() {
+        this.openItem(this.item, 'view');
     }
 
-    click(this: FileBrowserItem, event: MouseEvent) {
+    click(event: MouseEvent) {
         const {
             ctrlKey,
             metaKey,
@@ -80,20 +104,18 @@ export default class FileBrowserItem extends Component {
             target,
         } = event;
 
-        const modifierKey = metaKey || ctrlKey;
+        const modifierKey = defaultTo(metaKey, ctrlKey);
 
         if (modifierKey && (target as HTMLElement).tagName === 'A') {
-            window.open(this.get('link'));
+            window.open(this.link);
             return;
         }
-
-        const item = this.get('item');
 
         if (shiftKey || metaKey) {
-            this.get('selectMultiple')(item, metaKey);
+            this.selectMultiple(this.item, metaKey);
             return;
         }
 
-        this.get('selectItem')(item);
+        this.selectItem(this.item);
     }
 }

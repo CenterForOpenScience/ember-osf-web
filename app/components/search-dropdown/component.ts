@@ -48,11 +48,9 @@ export default class SearchDropdown extends Component {
     }));
 
     @action
-    search(this: SearchDropdown) {
-        const query = this.get('query');
-
-        if (query) {
-            window.location.href = getQuery(query);
+    search() {
+        if (this.query) {
+            window.location.href = getQuery(this.query);
         }
     }
 }

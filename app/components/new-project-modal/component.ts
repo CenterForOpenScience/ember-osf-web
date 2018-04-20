@@ -1,22 +1,23 @@
+import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import defaultTo from 'ember-osf-web/utils/default-to';
 
-export default class NewProjectModal extends Component.extend({
-    more: false,
-    nodeTitle: null,
-
-    actions: {
-        toggle(property) {
-            this.toggleProperty(property);
-        },
-    },
-}) {
+export default class NewProjectModal extends Component {
     @service analytics;
-    more: boolean;
-    newNode: any; // null|Node (from model)
 
-    modalClass = computed('styleNamespace', function () {
-        return `${this.get('styleNamespace')}__modal`;
-    });
+    more: boolean = defaultTo(this.more, false);
+    newNode: any; // null|Node (from model)
+    nodeTitle: null;
+    styleNamespace: string;
+
+    @computed('styleNamespace')
+    get modalClass(): string {
+        return `${this.styleNamespace}__modal`;
+    }
+
+    @action
+    toggle(property) {
+        this.toggleProperty(property);
+    }
 }

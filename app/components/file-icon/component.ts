@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import defaultTo from 'ember-osf-web/utils/default-to';
 
 const iconForType = {
     code: [
@@ -115,28 +116,27 @@ export default class FileIcon extends Component {
     item = this.item;
 
     @computed('item', 'item.expanded')
-    get iconName(this: FileIcon): string {
+    get iconName(): string {
         // TODO: More icons!
-        const item = this.get('item');
 
-        if (item.status && item.name) {
-            return iconFromName(item.name);
+        if (this.item.status && this.item.name) {
+            return iconFromName(this.item.name);
         }
 
-        if (item.get('isNode')) {
+        if (this.item.isNode) {
             // TODO node types
             return 'cube';
         }
 
-        if (item.get('isProvider')) {
+        if (this.item.isProvider) {
             // TODO provider-specific icons
             return 'hdd-o';
         }
 
-        if (item.get('isFolder')) {
+        if (this.item.isFolder) {
             return 'folder';
         }
 
-        return iconFromName(item.get('itemName') || '');
+        return iconFromName(defaultTo(this.item.itemName, ''));
     }
 }
