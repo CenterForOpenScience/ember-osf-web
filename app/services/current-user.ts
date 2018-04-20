@@ -35,12 +35,29 @@ export default class CurrentUserService extends Service {
      * @property currentUserId
      * @type {String|null}
      */
-    @computed('session.data.authenticated')
+    @computed('session.isAuthenticated', 'session.data.authenticated.id')
     get currentUserId(this: CurrentUserService): string | null {
         const session = this.get('session');
 
         if (session.get('isAuthenticated')) {
             return session.get('data.authenticated.id');
+        }
+
+        return null;
+    }
+
+    /**
+     * If logged in with an access token, return that token, else return null.
+     *
+     * @property currentUserId
+     * @type {String|null}
+     */
+    @computed('session.isAuthenticated', 'session.data.authenticated.attributes.accessToken')
+    get accessToken(this: CurrentUserService): string | null {
+        const session = this.get('session');
+
+        if (session.get('isAuthenticated')) {
+            return session.get('data.authenticated.attributes.accessToken');
         }
 
         return null;
