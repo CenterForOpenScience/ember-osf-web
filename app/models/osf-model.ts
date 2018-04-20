@@ -30,12 +30,8 @@ interface QueryHasManyResult extends Array<any> {
  * @public
  */
 
-export default class OsfModel extends Model {
-    @attr links: any;
-
-    @alias('links.relationships') relationshipLinks: any;
-
-    queryHasManyTask = task(function* (
+export default class OsfModel extends Model.extend({
+    queryHasManyTask: task(function* (
         this: OsfModel,
         propertyName: string,
         queryParams?: object,
@@ -67,7 +63,11 @@ export default class OsfModel extends Model {
         records.meta = payload.meta;
         records.links = payload.links;
         return records;
-    });
+    }),
+}) {
+    @attr links: any;
+
+    @alias('links.relationships') relationshipLinks: any;
 
     /*
      * Query a hasMany relationship with query params
