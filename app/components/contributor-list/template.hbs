@@ -1,1 +1,7 @@
-{{contributorList}}
+{{contributor-list/contributor useLink=useLink contributor=first~}}{{~if rest.length ', ' ' '~}}
+{{#each rest as |contrib|}}
+    {{~contributor-list/contributor useLink=useLink contributor=contrib ~}}{{~if last ', ' ''~}}
+{{/each}}
+{{#if last}}
+    {{~t 'general.and'}} {{contributor-list/contributor useLink=useLink contributor=last}}
+{{/if}}
