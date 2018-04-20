@@ -23,7 +23,7 @@ export default class ContributorList extends Component {
 
         const names: string[] = contributors
             .slice(0, max)
-            .map(c => c.get('user.familyName') || c.get('user.givenName') || c.get('user.fullName'));
+            .map(c => c.get('users.familyName') || c.get('users.givenName') || c.get('users.fullName'));
 
         const i18n = this.get('i18n');
         const and = i18n.t('general.and');
