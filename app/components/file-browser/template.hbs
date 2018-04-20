@@ -2,13 +2,14 @@
     {{#if (or showFilterClicked showFilterInput)}}
         <div class="col-xs-9 filter-input">
             {{input
+                (html-attributes aria-label=(t 'file_browser.filtering'))
                 placeholder=(t 'file_browser.filtering')
                 class="form-control"
                 keyUp=(action updateFilter value='target.value')
             }}
         </div>
         <div class="col-xs-3">
-            <button {{action 'closeFilter'}} class="btn pull-right">
+            <button {{action 'closeFilter'}} class="btn pull-right" aria-label={{t 'general.close'}}>
                 {{fa-icon "times"}}
             </button>
         </div>

@@ -1,3 +1,6 @@
+// Variable up top to override properly with SASS
+@import 'variables';
+
 // 3rd parties
 @import 'ember-bootstrap/bootstrap';
 @import 'ember-power-select';
@@ -6,7 +9,6 @@
 @import 'osf-style';
 
 // 1st parties
-@import 'variables';
 @import 'global';
 @import 'mixins';
 @import 'pod-styles';

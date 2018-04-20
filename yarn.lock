@@ -3569,7 +3569,7 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-ember-a11y-testing@^0.5.0:
+ember-a11y-testing@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/ember-a11y-testing/-/ember-a11y-testing-0.5.1.tgz#30cc67119a0c49b4138a8a5dec08175caa187e8f"
   dependencies:
