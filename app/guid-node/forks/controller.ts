@@ -61,7 +61,7 @@ export default class GuidNodeForks extends Controller {
     newFork(this: GuidNodeForks) {
         this.set('newModal', false);
         const node = this.get('model.taskInstance.value');
-        node.fork().then(() => {
+        node.makeFork().then(() => {
             const message = this.get('i18n').t('forks.new_fork_info');
             const title = this.get('i18n').t('forks.new_fork_info_title');
             this.get('toast').info(message, title);

@@ -1,8 +1,9 @@
+import { attr } from '@ember-decorators/data';
 import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
-const { attr, Model } = DS;
+const { Model } = DS;
 
 const Validations = buildValidations({
     email1: [
@@ -53,13 +54,13 @@ const Validations = buildValidations({
     debounce: 500,
 });
 
-export default class UserRegistration extends Model.extend(Validations, {
-    email1: attr('string'),
-    email2: attr('string'),
-    fullName: attr('string'),
-    recaptchaResponse: attr('string'),
-    password: attr('string'),
-}) {
+export default class UserRegistration extends Model.extend(Validations) {
+    @attr('string') email1;
+    @attr('string') email2;
+    @attr('string') fullName;
+    @attr('string') recaptchaResponse;
+    @attr('string') password;
+
     existingEmails: Set<string> = new Set();
 
     addExistingEmail(this: UserRegistration, email?) {

@@ -1,7 +1,9 @@
+import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
+import Comment from './comment';
+import Contributor from './contributor';
 import Node from './node';
-
-const { attr, belongsTo, hasMany } = DS;
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -11,40 +13,31 @@ const { attr, belongsTo, hasMany } = DS;
 /**
  * Model for OSF APIv2 registrations. This model may be used with one of several API endpoints. It may be queried
  * directly, or accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Registration_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Children_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/User_Registrations_GET
  *
  * @class Registration
  */
-export default class Registration extends Node.extend({
-    dateRegistered: attr('date'),
-    pendingRegistrationApproval: attr('boolean'),
-    embargoEndDate: attr('date'),
-    pendingEmbargoApproval: attr('boolean'),
-    withdrawn: attr('boolean'),
-    withdrawalJustification: attr('fixstring'),
-    pendingWithdrawal: attr('boolean'),
+export default class Registration extends Node {
+    @attr('date') dateRegistered: Date;
+    @attr('boolean') pendingRegistrationApproval: boolean;
+    @attr('date') embargoEndDate: Date | null;
+    @attr('boolean') pendingEmbargoApproval: boolean;
+    @attr('boolean') withdrawn: boolean;
+    @attr('fixstring') withdrawalJustification?: string;
+    @attr('boolean') pendingWithdrawal: boolean;
 
-    draftRegistration: attr('fixstring'),
-    registrationChoice: attr('fixstring'),
-    // TODO: doesnt seem to be an actual field
-    liftEmbargo: attr('object'),
+    @attr('fixstring') registrationSupplement?: string;
+    @attr('object') registeredMeta: any;
 
-    registrationSupplement: attr('fixstring'),
-    registeredMeta: attr('object'),
+    // Write-only attributes
+    @attr('fixstring') draftRegistration?: string;
+    @attr('fixstring') registrationChoice?: 'immediate' | 'embargo';
+    @attr('date') liftEmbargo?: Date;
 
-    registeredFrom: belongsTo('node', {
-        inverse: 'registrations',
-    }),
-    registeredBy: belongsTo('user', {
-        inverse: null,
-    }),
-    contributors: hasMany('contributor'),
-    comments: hasMany('comment'),
-}) {}
+    @belongsTo('node', { inverse: 'registrations' }) registeredFrom: DS.PromiseObject<Node> & Node;
+    @belongsTo('user', { inverse: null }) registeredBy: DS.PromiseObject<User> & User;
+    @hasMany('contributor') contributors: DS.PromiseManyArray<Contributor>;
+    @hasMany('comment') comments: DS.PromiseManyArray<Comment>;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

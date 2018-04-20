@@ -1,7 +1,8 @@
+import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
+import Node from './node';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo } = DS;
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -11,30 +12,19 @@ const { attr, belongsTo } = DS;
 /**
  * Model for OSF APIv2 log entries. This model may be used with one of several API endpoints. It may be queried
  * directly, or accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/Node_Log_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Log_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Log_List_GET
+ *
  * @class Log
  */
-export default class Log extends OsfModel.extend({
-    date: attr('date'),
-    action: attr('fixstring'),
-    params: attr('object'),
-    node: belongsTo('node', {
-        inverse: null,
-    }),
-    originalNode: belongsTo('node', {
-        inverse: 'logs',
-    }),
-    user: belongsTo('user'),
-    linkedNode: belongsTo('node', {
-        inverse: null,
-    }),
-    templateNode: belongsTo('node', {
-        inverse: null,
-    }),
-}) {}
+export default class Log extends OsfModel {
+    @attr('date') date: Date;
+    @attr('fixstring') action: string;
+    @attr('object') params: any;
+    @belongsTo('node', { inverse: null }) node: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'logs' }) originalNode: DS.PromiseObject<Node> & Node;
+    @belongsTo('user') user: DS.PromiseObject<User> & User;
+    @belongsTo('node', { inverse: null }) linkedNode: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: null }) templateNode: DS.PromiseObject<Node> & Node;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {
