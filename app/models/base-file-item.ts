@@ -23,7 +23,7 @@ enum FileItemKinds {
  */
 
 export default class BaseFileItem extends OsfModel {
-    @attr('fixstring') kind: FileItemKinds | undefined;
+    @attr('fixstring') kind?: FileItemKinds;
 
     // Override in subclasses to set `true` when appropriate
     isNode = false;

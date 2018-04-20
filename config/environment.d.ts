@@ -42,7 +42,9 @@ declare const config: {
             id: string;
         };
         dimensions: {
-            string: string;
+            authenticated: string,
+            isPublic: string,
+            resource: string,
         };
     }>;
     FB_APP_ID: string;

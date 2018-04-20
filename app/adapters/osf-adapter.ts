@@ -5,6 +5,12 @@ import { pluralize } from 'ember-inflector';
 import GenericDataAdapterMixin from 'ember-osf-web/mixins/generic-data-adapter';
 
 const { JSONAPIAdapter, Snapshot } = DS;
+const {
+    OSF: {
+        apiUrl: host,
+        apiNamespace: namespace,
+    },
+} = config;
 
 interface AdapterOptions {
     query?: string;
@@ -32,8 +38,8 @@ enum RequestType {
  */
 export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapterMixin, {
     authorizer: config['ember-simple-auth'].authorizer,
-    host: config.OSF.apiUrl,
-    namespace: config.OSF.apiNamespace,
+    host,
+    namespace,
     headers: {
         ACCEPT: 'application/vnd.api+json; version=2.4',
     },
@@ -94,7 +100,7 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
         return url;
     },
 
-    ajaxOptions(this: OsfAdapter, url: string, type: RequestType, options?: { isBulk?: boolean }): any {
+    ajaxOptions(this: OsfAdapter, url: string, type: RequestType, options?: { isBulk?: boolean }): object {
         const hash = this._super(url, type, options);
 
         if (options && options.isBulk) {
@@ -102,6 +108,16 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
         }
 
         return hash;
+    },
+
+    buildRelationshipURL(snapshot: DS.Snapshot, relationship: string): string {
+        const links = !!relationship && snapshot.record.get(`relationshipLinks.${underscore(relationship)}.links`);
+
+        if (links && (links.self || links.related)) {
+            return links.self ? links.self.href : links.related.href;
+        }
+
+        return '';
     },
 
     pathForType(modelName: string): string {
