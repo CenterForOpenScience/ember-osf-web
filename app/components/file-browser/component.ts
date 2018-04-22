@@ -136,7 +136,6 @@ export default class FileBrowser extends Component {
         return this.items && this.items.length;
     }
 
-
     @computed('canEdit', 'hasItems', 'showFilterInput', 'showRename')
     get clickable(): string | string[] {
         const cssClass = [];
