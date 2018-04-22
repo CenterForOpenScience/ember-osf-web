@@ -10,6 +10,8 @@ module('Integration | Component | status-banner', hooks => {
     test('it renders', async function(assert) {
         await render(hbs`{{status-banner}}`);
 
-        assert.equal(this.element.textContent.trim(), '');
+        const { textContent } = this.element;
+
+        assert.equal((textContent as string).trim(), '');
     });
 });
