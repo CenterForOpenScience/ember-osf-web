@@ -136,15 +136,19 @@ export default class FileBrowser extends Component {
         return this.items && this.items.length;
     }
 
-    @computed('canEdit', 'hasItems', 'filter')
-    get clickable() {
-        const cssClass = ['.dz-upload-button'];
+    @computed('canEdit', 'hasItems', 'showFilterInput', 'showRename')
+    get clickable(): string | string[] {
+        const cssClass = [];
 
-        if (!this.hasItems && this.canEdit && !this.filter) {
-            cssClass.push('.file-browser-list');
+        if (!this.get('showFilterInput') && !this.get('showRename') && this.get('canEdit')) {
+            cssClass.push('.dz-upload-button');
+
+            if (!this.get('hasItems')) {
+                cssClass.push('.file-browser-list');
+            }
         }
 
-        return cssClass;
+        return cssClass.length ? cssClass : '';
     }
 
     /**
