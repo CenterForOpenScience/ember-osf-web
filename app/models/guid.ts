@@ -14,7 +14,7 @@ import OsfModel from './osf-model';
 export default class Guid extends OsfModel {
     @computed('id')
     get referentType(this: Guid): string {
-        return singularize(this.get('links.relationships.referent.data.type'));
+        return singularize(this.links.relationships.referent.data.type);
     }
 
     @computed('id')

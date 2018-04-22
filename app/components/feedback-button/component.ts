@@ -1,8 +1,11 @@
+import { action, computed } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
+import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import $ from 'jquery';
+import RSVP from 'rsvp';
 
 const {
     microfeedback: { enabled, pageParams, url },
@@ -13,7 +16,7 @@ interface FeedbackOptionalArgs {
     extra?: object;
     followup?: boolean;
     pageName?: string;
-    userID?: string;
+    userID?: string | null;
 }
 
 function sendFeedback(body: string, {
@@ -34,12 +37,14 @@ function sendFeedback(body: string, {
     const params = [
         (backend !== 'prod') ? { name: 'label', value: 'testing' } : undefined,
         followup ? { name: 'label', value: 'followup' } : undefined,
-        ...Object.entries(pageParams[pageName] || {})
+        ...Object.entries(pageName ? pageParams[pageName] || {} : {})
             .map(([name, value]) => ({ name, value })),
     ].filter(val => !!val);
 
     if (!url) {
-        return;
+        return new RSVP.Promise((resolve, reject) => {
+            reject('No URL defined!');
+        });
     }
 
     return $.ajax(`${url}?${$.param(params)}`, {
@@ -56,46 +61,12 @@ enum DialogState {
     success = 'success',
 }
 
-export default class FeedbackButton extends Component.extend({
-    actions: {
-        showDialog(this: FeedbackButton) {
-            this.set('state', DialogState.active);
-        },
-
-        hideDialog(this: FeedbackButton) {
-            this.set('state', DialogState.empty);
-            this.reset();
-        },
-
-        submit(this: FeedbackButton) {
-            const body = this.get('body');
-
-            // Dismiss if no input
-            if (!body) {
-                this.set('state', DialogState.empty);
-                this.reset();
-                return;
-            }
-
-            // Optimistically display success message
-            this.set('state', DialogState.success);
-            sendFeedback(
-                body,
-                {
-                    followup: this.get('followup'),
-                    pageName: this.get('pageName'),
-                    userID: this.get('currentUser.currentUserId'),
-                },
-            );
-            this.reset();
-        },
-    },
-}) {
+export default class FeedbackButton extends Component {
     pageName: string;
     text: string;
 
-    currentUser = service('current-user');
-    analytics = service('analytics');
+    @service analytics: Analytics;
+    @service('current-user') currentUser: CurrentUser;
 
     enabled: boolean = enabled;
 
@@ -105,26 +76,63 @@ export default class FeedbackButton extends Component.extend({
 
     state: DialogState = DialogState.empty;
     dialogRows = 5;
+    styleNamespace: string;
 
-    isOpen = computed('state', function(): boolean {
-        const state = this.get('state');
-        return state === DialogState.active || state === DialogState.success;
-    });
+    @computed('state')
+    get isOpen(): boolean {
+        return this.state === DialogState.active || this.state === DialogState.success;
+    }
 
-    isActive = computed('state', function(): boolean {
-        return this.get('state') === DialogState.active;
-    });
+    @computed('state')
+    get isActive(): boolean {
+        return this.state === DialogState.active;
+    }
 
-    isSuccessful = computed('state', function(): boolean {
-        return this.get('state') === DialogState.success;
-    });
+    @computed('state')
+    get isSuccessful(): boolean {
+        return this.state === DialogState.success;
+    }
 
-    modalClass = computed('styleNamespace', function(): string {
-        return `${this.get('styleNamespace')}Modal`;
-    });
+    @computed('styleNamespace')
+    get modalClass(): string {
+        return `${this.styleNamespace}Modal`;
+    }
 
-    reset(): void {
+    reset(this: FeedbackButton): void {
         this.set('body', '');
         this.set('followup', false);
+    }
+
+    @action
+    showDialog(this: FeedbackButton) {
+        this.set('state', DialogState.active);
+    }
+
+    @action
+    hideDialog(this: FeedbackButton) {
+        this.set('state', DialogState.empty);
+        this.reset();
+    }
+
+    @action
+    submit(this: FeedbackButton) {
+        // Dismiss if no input
+        if (!this.body) {
+            this.set('state', DialogState.empty);
+            this.reset();
+            return;
+        }
+
+        // Optimistically display success message
+        this.set('state', DialogState.success);
+        sendFeedback(
+            this.body,
+            {
+                followup: this.followup,
+                pageName: this.pageName,
+                userID: this.currentUser.currentUserId,
+            },
+        );
+        this.reset();
     }
 }

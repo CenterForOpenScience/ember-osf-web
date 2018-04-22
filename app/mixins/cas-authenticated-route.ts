@@ -1,4 +1,5 @@
 import Mixin from '@ember/object/mixin';
+import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { getAuthUrl } from 'ember-osf-web/utils/auth';
 
@@ -17,39 +18,32 @@ import { getAuthUrl } from 'ember-osf-web/utils/auth';
  * @class CasAuthenticatedRouteMixin
  */
 export default Mixin.create({
-    /**
-      The session service.
-      @property session
-      @readOnly
-      @type SessionService
-      @public
-    */
     session: service('session'),
-    routing: service('-routing'),
+    router: service('router'),
 
     /**
-      Checks whether the session is authenticated, and if it is not, attempts to authenticate it, and if that fails,
-      redirects to the login URL. (Sending back to this page after a successful transition)
-
-      __If `beforeModel` is overridden in a route that uses this mixin, the route's
-     implementation must call `this._super(transition)`__ so that the mixin's
-     `beforeModel` method is actually executed.
-      @method beforeModel
-      @public
-    */
-    async beforeModel(transition) {
+     * Checks whether the session is authenticated, and if it is not, attempts to authenticate it, and if that fails,
+     * redirects to the login URL. (Sending back to this page after a successful transition)
+     *
+     * __If `beforeModel` is overridden in a route that uses this mixin, the route's
+     * implementation must call `this._super(transition)`__ so that the mixin's
+     * `beforeModel` method is actually executed.
+     * @method beforeModel
+     * @public
+     */
+    async beforeModel(transition): Promise<any | void> {
         try {
-            if (!this.get('session.isAuthenticated')) {
+            if (!this.get('session').get('isAuthenticated')) {
                 await this.get('session').authenticate('authenticator:osf-cookie');
             }
 
             return this._super(transition);
         } catch (e) {
             // Reference: http://stackoverflow.com/a/39054607/414097
-            const routing = this.get('routing');
+            const router = this.get('router');
             const params = Object.values(transition.params).filter(param => Object.values(param).length);
-            const url = routing.generateURL(transition.targetName, params, transition.queryParams);
+            const url = router.urlFor(transition.targetName, params, transition.queryParams);
             window.location.href = getAuthUrl(window.location.origin + url);
         }
     },
-});
+}) as Mixin<Route>;

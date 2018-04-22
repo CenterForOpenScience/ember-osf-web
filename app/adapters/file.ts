@@ -2,6 +2,10 @@ import { service } from '@ember-decorators/service';
 import DS from 'ember-data';
 import OsfAdapter from './osf-adapter';
 
+interface Options {
+    url: string;
+}
+
 export default class File extends OsfAdapter.extend({
     buildURL(this: File, modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
         const url: string = this._super(modelName, id, snapshot, requestType);
@@ -19,17 +23,17 @@ export default class File extends OsfAdapter.extend({
      * This adapter mixin appends a nonce to requests that are likely to run into
      * that race condition, forcing a cache miss.
      */
-    ajaxOptions(this: File, ...args) {
-        const options = this._super(...args);
+    ajaxOptions(this: File, ...args: any[]): object {
+        const hash: Options = this._super(...args);
 
-        if (this.get('fileManager').isReloadingUrl(options.url)) {
-            const prefix = options.url.includes('?') ? '&' : '?';
+        if (this.get('fileManager').isReloadingUrl(hash.url)) {
+            const prefix = hash.url.includes('?') ? '&' : '?';
             const nonce = Date.now();
             // The name of the query parameter doesn't matter, just the nonce
-            options.url += `${prefix}cachebypass=${nonce}`;
+            hash.url += `${prefix}cachebypass=${nonce}`;
         }
 
-        return options;
+        return hash;
     },
 }) {
     @service fileManager;

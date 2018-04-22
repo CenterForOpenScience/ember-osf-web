@@ -9,8 +9,8 @@ export default class OsfFooter extends Component {
     @service analytics;
     currentYear: number = (new Date()).getUTCFullYear();
 
-    constructor() {
-        super();
+    constructor(properties: object) {
+        super(properties);
         Object.assign(this, config.signUpPolicy);
         Object.assign(this, config.footerLinks);
     }

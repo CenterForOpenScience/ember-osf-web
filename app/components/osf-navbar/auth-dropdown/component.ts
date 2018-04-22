@@ -1,12 +1,14 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
-
+import User from 'ember-osf-web/models/user';
+import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import $ from 'jquery';
 
 /**
@@ -50,33 +52,35 @@ export default class NavbarAuthDropdown extends Component {
 
     // Private properties
     @service session;
-    @service analytics;
-    @service currentUser;
+    @service analytics: Analytics;
+    @service currentUser: CurrentUser;
     @service i18n;
 
     serviceLinks = serviceLinks;
 
-    user = computed.alias('currentUser.user');
+    @alias('currentUser.user') user: User;
 
-    gravatarUrl = computed('user.links.profile_image', function(this: NavbarAuthDropdown): string {
-        const imgLink = this.get('user.links.profile_image');
+    @computed('user.links.profile_image')
+    get gravatarUrl(): string {
+        if (!this.user || !this.user.get('links')) {
+            return '';
+        }
+        const imgLink = this.user.get('links').profile_image;
         return imgLink ? `${imgLink}&s=25` : '';
-    });
+    }
 
     logout = task(function* (this: NavbarAuthDropdown) {
-        const redirectUrl = this.get('redirectUrl');
-        const query = redirectUrl ? `?${$.param({ next_url: redirectUrl })}` : '';
-        yield this.get('session').invalidate();
+        const query = this.redirectUrl ? `?${$.param({ next_url: this.redirectUrl })}` : '';
+        yield this.session.invalidate();
         window.location.href = `${config.OSF.url}logout/${query}`;
     });
 
     @action
-    clicked(this: NavbarAuthDropdown, category: string, label: string) {
-        this.get('analytics').click(category, label);
+    clicked(category: string, label: string) {
+        this.analytics.click(category, label);
 
-        const onLinkClicked = this.get('onLinkClicked');
-        if (onLinkClicked) {
-            onLinkClicked();
+        if (this.onLinkClicked) {
+            this.onLinkClicked();
         }
     }
 }

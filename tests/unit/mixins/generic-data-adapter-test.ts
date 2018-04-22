@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 module('Unit | Mixin | generic data adapter');
 
 // Replace this with your real tests.
-test('it works', function(assert) {
+test('it works', assert => {
     const GenericDataAdapterObject = EmberObject.extend(GenericDataAdapterMixin);
     const subject = GenericDataAdapterObject.create();
     assert.ok(subject);

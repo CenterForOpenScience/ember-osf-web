@@ -29,7 +29,7 @@ export default class FileRenderer extends Component {
     isLoading: boolean = true;
 
     @computed('download', 'version')
-    get mfrUrl(this: FileRenderer) {
+    get mfrUrl() {
         let download = `${this.download}?direct&mode=render&initialWidth=766`;
         if (this.version) {
             download += `&version=${this.version}`;

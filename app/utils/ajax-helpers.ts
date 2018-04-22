@@ -2,6 +2,9 @@ import config from 'ember-get-config';
 import $ from 'jquery';
 import RSVP from 'rsvp';
 
+const { authorizationType } = config;
+const isCookieAuth: boolean = authorizationType === 'cookie';
+
 /**
  * Helper functions for asynchronous behavior
  *
@@ -23,15 +26,12 @@ import RSVP from 'rsvp';
  * @param {Object} options
  * @return {RSVP.Promise}
  */
-export default function authenticatedAJAX(options): RSVP.Promise<any> {
-    if (config.authorizationType === 'cookie') {
-        Object.assign(options, {
-            xhrFields: {
-                withCredentials: true,
-            },
-        });
-    }
+export default function authenticatedAJAX(options: object): RSVP.Promise<any> {
+    const opts = {
+        ...options,
+        ...(isCookieAuth ? { xhrFields: { withCredentials: true } } : {}),
+    };
 
     // Return RSVP.Promise so the callbacks are run within the current runloop
-    return new RSVP.Promise((resolve, reject) => $.ajax(options).then(resolve, reject));
+    return new RSVP.Promise((resolve, reject) => $.ajax(opts).then(resolve).catch(reject));
 }

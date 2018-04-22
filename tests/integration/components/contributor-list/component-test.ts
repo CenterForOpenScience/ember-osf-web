@@ -28,7 +28,7 @@ moduleForComponent('contributor-list', 'Integration | Component | contributor li
 
 function nameToUsersFamilyNames(familyName): EmberObject {
     return EmberObject.create({
-        user: EmberObject.create({
+        users: EmberObject.create({
             familyName,
         }),
     });

@@ -1,20 +1,23 @@
 import DS from 'ember-data';
+import PreprintModel from 'ember-osf-web/models/preprint';
+import PreprintSerializer from 'ember-osf-web/serializers/preprint';
+import RSVP from 'rsvp';
 import OsfAdapter from './osf-adapter';
 
 export default class Preprint extends OsfAdapter {
     updateRecord(
-        this: Preprint,
         store: DS.Store,
-        type: {modelName: 'preprint' | 'node'},
+        type: PreprintModel,
         snapshot: DS.Snapshot,
-    ): Promise<any> {
+    ): RSVP.Promise<any> {
         const data: object = {};
-        const serializer: DS.JSONAPISerializer = store.serializerFor(type.modelName);
+        const modelName = 'preprint';
+        const serializer: PreprintSerializer = store.serializerFor(modelName);
 
         serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
 
         const { id } = snapshot;
-        const url: string = this.buildURL(type.modelName, id, snapshot, 'updateRecord');
+        const url: string = this.buildURL(modelName, id, snapshot, 'updateRecord');
 
         return this.ajax(url, 'PATCH', { data });
     }
