@@ -1,3 +1,3 @@
-export default function defaultTo<T, TDefault>(value: T, defaultValue: TDefault) {
-    return (typeof value === 'undefined' ? defaultValue : value) as T extends undefined ? TDefault : T;
+export default function defaultTo<T>(value: T, defaultValue: Exclude<T, undefined>) {
+    return typeof value === 'undefined' ? defaultValue : value as Exclude<T, undefined>;
 }

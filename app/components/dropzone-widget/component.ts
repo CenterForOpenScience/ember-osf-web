@@ -70,7 +70,7 @@ export default class DropzoneWidget extends Component.extend({
     options: Dropzone.DropzoneOptions = defaultTo(this.options, {});
     defaultMessage: string = defaultTo(this.defaultMessage, this.i18n.t('dropzone_widget.drop_files'));
 
-    preUpload: (context, drop, file) => Promise<any> = defaultTo(this.preUpload, undefined);
+    preUpload: (context, drop, file) => Promise<any>;
 
     /**
      * Placeholder for closure action: buildUrl

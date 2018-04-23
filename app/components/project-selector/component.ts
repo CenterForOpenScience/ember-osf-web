@@ -64,7 +64,7 @@ export default class ProjectSelector extends Component.extend({
     nodeTitle: string | null = defaultTo(this.nodeTitle, null);
     projectSelectState = defaultTo(this.projectSelectState, ProjectSelectState.main);
     selected: Node | null = defaultTo(this.selected, null);
-    showErrorMessage: boolean = defaultTo(this.showErrorMessage, null);
+    showErrorMessage: boolean = defaultTo(this.showErrorMessage, false);
     projectList = A([]);
     newProject: Node = this.newProject;
 
