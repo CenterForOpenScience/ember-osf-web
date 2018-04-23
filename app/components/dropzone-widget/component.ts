@@ -65,7 +65,7 @@ export default class DropzoneWidget extends Component.extend({
 
     dropzone = defaultTo(this.dropzone, true);
     enable = defaultTo(this.enable, true);
-    clickable = defaultTo(this.clickable, true);
+    clickable: string[] = defaultTo(this.clickable, []);
     dropzoneElement = defaultTo(this.dropzoneElement, null);
     options: Dropzone.DropzoneOptions = defaultTo(this.options, {});
     defaultMessage: string = defaultTo(this.defaultMessage, this.i18n.t('dropzone_widget.drop_files'));
@@ -127,7 +127,7 @@ export default class DropzoneWidget extends Component.extend({
                 this.buildUrl),
             autoProcessQueue: false,
             autoQueue: false,
-            clickable: this.clickable,
+            clickable: this.clickable.length ? this.clickable : '',
             dictDefaultMessage: this.defaultMessage,
             sending(file, xhr) {
                 // Monkey patch to send the raw file instead of formData
