@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved analytics tracking to a Service
 - Use meta-tags service to add meta-tags to Quick File detail
 - Combine footer and copyright; simplify both while making more accessible
+- Ember builds will now fail on TypeScript errors.
 
 ### Removed
 - Homegrown dirty relationship tracking, with automagic additional requests on save
