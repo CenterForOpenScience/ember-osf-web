@@ -17,7 +17,7 @@ export default class UserRegistration extends RESTSerializer.extend({
         };
     },
 }) {
-    serializeIntoHash(data, type, record, options) {
+    serializeIntoHash(data, _, record, options) {
         merge(data, this.serialize(record, options));
     }
 

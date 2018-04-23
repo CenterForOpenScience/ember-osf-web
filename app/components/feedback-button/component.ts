@@ -44,6 +44,7 @@ function sendFeedback(body: string, {
     if (!url) {
         return new RSVP.Promise((resolve, reject) => {
             reject('No URL defined!');
+            resolve();
         });
     }
 
