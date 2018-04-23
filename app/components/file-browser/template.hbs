@@ -1,5 +1,5 @@
 <div class="row actions-header">
-    {{#if (or showFilterClicked showFilterInput)}}
+    {{#if showFilter}}
         <div class="col-xs-9 filter-input">
             {{input
                 (html-attributes aria-label=(t 'file_browser.filtering'))

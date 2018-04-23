@@ -1,5 +1,5 @@
 import { action, computed } from '@ember-decorators/object';
-import { alias, filterBy, not, notEmpty } from '@ember-decorators/object/computed';
+import { alias, filterBy, not, notEmpty, or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
@@ -124,6 +124,7 @@ export default class FileBrowser extends Component {
     @notEmpty('uploading') isUploading;
     @filterBy('items', 'isSelected', true) selectedItems;
     @notEmpty('filter') showFilterInput: boolean;
+    @or('showFilterClicked', 'showFilterInput') showFilter: boolean;
 
     @computed('selectedItems.firstObject.guid')
     get link(): string | undefined {
@@ -136,19 +137,16 @@ export default class FileBrowser extends Component {
         return this.items && this.items.length;
     }
 
-    @computed('canEdit', 'hasItems', 'showFilterInput', 'showRename')
-    get clickable(): string | string[] {
-        const cssClass: string[] = [];
-
-        if (!this.showFilterInput && !this.showRename && this.canEdit) {
-            cssClass.push('.dz-upload-button');
-
-            if (!this.hasItems) {
-                cssClass.push('.file-browser-list');
-            }
+    @computed('canEdit', 'hasItems', 'showFilter', 'showRename')
+    get clickable(): string[] {
+        if (!this.canEdit || this.showFilter || this.showRename) {
+            return [];
         }
 
-        return cssClass.length ? cssClass : '';
+        return [
+            '.dz-upload-button',
+            this.hasItems ? '' : '.file-browser-list',
+        ].filter(item => item.length);
     }
 
     /**
