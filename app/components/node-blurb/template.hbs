@@ -32,6 +32,6 @@
     {{/if}}
 </h4>
 <div class="NodeBlurb__authors">
-    {{contributor-list contributors=authors useLink=true nodeId=node.id}}
+    {{contributor-list contributors=(await authors) useLink=true nodeId=node.id}}
 </div>
 <span class="NodeBlurb__description">{{description}}</span>

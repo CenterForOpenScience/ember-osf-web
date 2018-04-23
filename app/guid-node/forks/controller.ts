@@ -18,7 +18,8 @@ export default class GuidNodeForks extends Controller {
 
     getForks = task(function* (this: GuidNodeForks) {
         const page = this.get('page');
-        const node = yield this.get('model.taskInstance');
+        const model = this.get('model');
+        const node = yield model.taskInstance;
         const forks = yield node.queryHasMany('forks', { page });
         this.setProperties({
             forks,
@@ -60,7 +61,7 @@ export default class GuidNodeForks extends Controller {
     @action
     newFork(this: GuidNodeForks) {
         this.set('newModal', false);
-        const node = this.get('model.taskInstance.value');
+        const node = this.get('model').taskInstance.value;
         node.makeFork().then(() => {
             const message = this.get('i18n').t('forks.new_fork_info');
             const title = this.get('i18n').t('forks.new_fork_info_title');

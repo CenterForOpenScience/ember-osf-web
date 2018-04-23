@@ -1,7 +1,5 @@
 import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
-import { get } from '@ember/object';
 import { task } from 'ember-concurrency';
 import moment from 'moment';
 
@@ -20,11 +18,14 @@ export default class NodeBlurb extends Component {
         return authors;
     });
 
-    @alias('getAuthors.lastComplete.value') authors;
+    @computed('node')
+    get authors(this: NodeBlurb) {
+        return this.get('getAuthors').perform();
+    }
 
     @computed('node.dateCreated')
     get date(this: NodeBlurb): string {
-        return moment(this.get('node.dateCreated')).format('YYYY-MM-DD h:mm A');
+        return moment(this.get('node').get('dateCreated')).format('YYYY-MM-DD h:mm A');
     }
 
     @computed('blurbType')
@@ -34,7 +35,7 @@ export default class NodeBlurb extends Component {
 
     @computed('node.description')
     get description(this: NodeBlurb): string | void {
-        const description = this.get('node.description');
+        const description = this.get('node').get('description');
         if (!description) {
             return;
         }
@@ -42,10 +43,5 @@ export default class NodeBlurb extends Component {
             return `${description.slice(0, 150)}...`;
         }
         return description;
-    }
-
-    constructor() {
-        super();
-        get(this, 'getAuthors').perform();
     }
 }

@@ -1,5 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import hbs from 'htmlbars-inline-precompile';
@@ -7,7 +8,7 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | simple-paginator', hooks => {
     setupRenderingTest(hooks);
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function(this: TestContext) {
         this.set('stubAction', () => []);
     });
 
@@ -29,6 +30,6 @@ module('Integration | Component | simple-paginator', hooks => {
 
     test('if no more than 1 page, don\'t show paginator at all', async function(assert) {
         await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=1 curPage=1}}`);
-        assert.equal(this.element.textContent.trim(), '');
+        assert.equal((this.element.textContent as string).trim(), '');
     });
 });

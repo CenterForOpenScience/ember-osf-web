@@ -13,6 +13,6 @@ module('Integration | Component | contributor-list/contributor', hooks => {
 
         await render(hbs`{{contributor-list/contributor}}`);
 
-        assert.equal(this.element.textContent.trim(), '');
+        assert.equal((this.element.textContent as string).trim(), '');
     });
 });

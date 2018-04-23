@@ -32,8 +32,8 @@ export default class ContributorList extends Component {
         const names: Contributor[] = contributors
             .slice(0, this.get('max'))
             .map(c => ({
-                title: c.get('user.familyName') || c.get('user.givenName') || c.get('user.fullName'),
-                id: c.get('user.id'),
+                title: c.get('users.familyName') || c.get('users.givenName') || c.get('users.fullName'),
+                id: c.get('users.id'),
             }));
 
         return names;

@@ -117,8 +117,9 @@ export default class Node extends BaseFileItem.extend(Validations) {
     isNode = true;
 
     makeFork(this: Node): Promise<object> {
+        const url = this.get('links').relationships.forks.links.related.href;
         return authenticatedAJAX({
-            url: this.get('links.relationships.forks.links.related.href'),
+            url,
             type: 'POST',
             xhrFields: { withCredentials: true },
             headers: {
