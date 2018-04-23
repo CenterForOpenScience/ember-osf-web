@@ -10,7 +10,7 @@ module('Integration | Component | node-navbar', hooks => {
     test('it renders', async function(assert) {
         await render(hbs`{{node-navbar renderInPlace=true}}`);
 
-        assert.ok(this.element.textContent.trim());
+        assert.ok((this.element.textContent as string).trim());
     });
 
     test('it renders active tab when in proper route', async function(assert) {

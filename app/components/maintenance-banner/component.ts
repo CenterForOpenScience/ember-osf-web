@@ -1,6 +1,6 @@
+import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import $ from 'jquery';
@@ -14,30 +14,38 @@ interface MaintenanceData {
 }
 
 export default class MaintenanceBanner extends Component.extend({
-    maintenance: null,
-
-    didReceiveAttrs(...args): void {
-        this._super(...args);
-        this.get('getMaintenanceStatus').perform();
-    },
-
-    getMaintenanceStatus: task(function* (): void {
+    getMaintenanceStatus: task(function* (this: MaintenanceBanner): IterableIterator<any> {
         const url: string = `${config.OSF.apiUrl}/v2/status/`;
-        const data = yield $.ajax(url, 'GET');
+        const data = yield $.ajax(url, { type: 'GET' });
         this.set('maintenance', data.maintenance);
     }).restartable(),
 }) {
-    maintenance: MaintenanceData|null;
     @service analytics;
 
-    start = computed('maintenance.start', (): string => moment(this.get('maintenance.start')).format('lll'));
+    maintenance: MaintenanceData | null;
 
-    end = computed('maintenance.end', (): string => moment(this.get('maintenance.end')).format('lll'));
+    @computed('maintenance.start')
+    get start(): string | undefined {
+        return this.maintenance && this.maintenance.start ? moment(this.maintenance.start).format('lll') : undefined;
+    }
 
-    utc = computed('maintenance.start', (): string => moment(this.get('maintenance.start')).format('ZZ'));
+    @computed('maintenance.end')
+    get end(): string | undefined {
+        return this.maintenance && this.maintenance.end ? moment(this.maintenance.end).format('lll') : undefined;
+    }
 
-    alertType = computed('maintenance.level', function(this: MaintenanceBanner) {
+    @computed('maintenance.start')
+    get utc(): string | undefined {
+        return this.maintenance && this.maintenance.start ? moment(this.maintenance.start).format('ZZ') : undefined;
+    }
+
+    @computed('maintenance.level')
+    get alertType(): string | undefined {
         const levelMap = ['info', 'warning', 'danger'];
-        return levelMap[this.get('maintenance.level') - 1];
-    });
+        return this.maintenance && this.maintenance.level ? levelMap[this.maintenance.level - 1] : undefined;
+    }
+
+    didReceiveAttrs(this: MaintenanceBanner): void {
+        this.get('getMaintenanceStatus').perform();
+    }
 }

@@ -1,18 +1,7 @@
-import EmberError from '@ember/error';
-import config from 'ember-get-config';
-import OsfTokenLoginController from 'ember-osf-web/mixins/osf-token-login-controller';
-import OsfCookieLoginController from 'ember-osf-web/mixins/osf-cookie-login-controller';
+import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
+import { getAuthUrl } from 'ember-osf-web/utils/auth';
 
-/**
- * @module ember-osf-web
- * @submodule mixins
- */
-const authType = config.authorizationType;
-if (authType !== 'token' && authType !== 'cookie') {
-    throw new EmberError(`Unrecognized authorization type: ${authType}`);
-}
-
-const AuthMixin = authType === 'token' ? OsfTokenLoginController : OsfCookieLoginController;
 /**
  * Controller mixin for authentication-agnostic login: defines the application at runtime to use the authentication
  * method specified in environment config. Intended to be used in tandem with OsfAuthController mixin.
@@ -26,4 +15,12 @@ const AuthMixin = authType === 'token' ? OsfTokenLoginController : OsfCookieLogi
  * @uses ember-osf-web/OsfCookieLoginController
  * @uses ember-osf-web/OsfTokenLoginController
  */
-export default AuthMixin;
+export default Mixin.create({
+    session: service('session'),
+
+    actions: {
+        login() {
+            window.location.href = getAuthUrl(window.location.href);
+        },
+    },
+});

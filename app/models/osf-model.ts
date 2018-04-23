@@ -1,5 +1,6 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import { get } from '@ember/object';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
@@ -33,7 +34,7 @@ interface QueryHasManyResult extends Array<any> {
 export default class OsfModel extends Model.extend({
     queryHasManyTask: task(function* (
         this: OsfModel,
-        propertyName: string,
+        propertyName,
         queryParams?: object,
         ajaxOptions?: object,
     ) {
@@ -43,7 +44,7 @@ export default class OsfModel extends Model.extend({
 
         // HACK: ember-data discards/ignores the link if an object on the belongsTo side
         // came first. In that case, grab the link where we expect it from OSF's API
-        const url: string = reference.link() || this.get(`links.relationships.${propertyName}.links.related.href`);
+        const url: string = reference.link() || this.links.relationships.get(propertyName).links.related.href;
         if (!url) {
             throw new Error(`Could not find a link for '${propertyName}' relationship`);
         }
@@ -51,20 +52,21 @@ export default class OsfModel extends Model.extend({
         const options: object = {
             url,
             data: queryParams,
-            headers: get(store.adapterFor(this.constructor.modelName), 'headers'),
+            headers: get(store.adapterFor((this.constructor as typeof OsfModel).modelName), 'headers'),
             ...ajaxOptions,
         };
 
         const payload = yield authenticatedAJAX(options);
 
         store.pushPayload(payload);
-        const records: QueryHasManyResult =
-            payload.data.map(datum => store.peekRecord(datum.type, datum.id));
+        const records: QueryHasManyResult = payload.data.map(datum => store.peekRecord(datum.type, datum.id));
         records.meta = payload.meta;
         records.links = payload.links;
         return records;
     }),
 }) {
+    @service store;
+
     @attr links: any;
 
     @alias('links.relationships') relationshipLinks: any;
@@ -80,7 +82,7 @@ export default class OsfModel extends Model.extend({
      */
     queryHasMany(
         this: OsfModel,
-        propertyName: string,
+        propertyName: keyof OsfModel,
         queryParams?: object,
         ajaxOptions?: object,
     ) {

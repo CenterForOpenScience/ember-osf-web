@@ -83,8 +83,8 @@ export default class GuidFile extends Controller {
     @computed('file.name')
     get isEditableFile(this: GuidFile): boolean {
         const filename = this.get('file').get('name');
-        const mimeType = mime.lookup(filename);
-        return /^text\//.test(mimeType);
+        const mimeType = mime.lookup(filename) as string | false;
+        return !!mimeType && /^text\//.test(mimeType);
     }
 
     @computed('file.currentVersion')

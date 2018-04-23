@@ -3,6 +3,7 @@ import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
+import defaultTo from 'ember-osf-web/utils/default-to';
 
 interface Contributor {
     title: string;
@@ -15,7 +16,7 @@ export default class ContributorList extends Component {
     max = 3;
     nodeId?: string;
     useLink?: boolean;
-    contributors = this.contributors || A([]);
+    contributors = defaultTo(this.contributors, A([]));
 
     @computed('contributors.[]')
     get contributorList(this: ContributorList): Contributor[] {

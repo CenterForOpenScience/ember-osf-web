@@ -14,7 +14,12 @@
     "module": "es6",
     "paths": {
       "ember-osf-web/tests/*": ["tests/*"],
-      "ember-osf-web/*": ["app/*"]
+      "ember-osf-web/*": ["app/*"],
+      "npm:*": ["node_modules/*"],
+      "ember-bootstrap/components/*": [
+        "node_modules/ember-bootstrap/addon/components/bs3/*",
+        "node_modules/ember-bootstrap/addon/components/bs4/*"
+      ]
     },
     "experimentalDecorators": true,
     "skipLibCheck": true

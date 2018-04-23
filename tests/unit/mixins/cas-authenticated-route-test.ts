@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 module('Unit | Mixin | cas authenticated route');
 
 // Replace this with your real tests.
-test('it works', function(assert) {
+test('it works', assert => {
     const CasAuthenticatedRouteObject = EmberObject.extend(CasAuthenticatedRouteMixin);
     const subject = CasAuthenticatedRouteObject.create();
     assert.ok(subject);

@@ -1,13 +1,14 @@
 import EmberObject from '@ember/object';
 import { render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 module('Integration | Component | file-browser-item', hooks => {
     setupRenderingTest(hooks);
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function(this: TestContext) {
         const item = EmberObject.create({
             itemName: 'An item',
             size: 1000,

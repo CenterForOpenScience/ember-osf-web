@@ -28,14 +28,14 @@ moduleForComponent('contributor-list', 'Integration | Component | contributor li
 
 function nameToUsersFamilyNames(familyName): EmberObject {
     return EmberObject.create({
-        user: EmberObject.create({
+        users: EmberObject.create({
             familyName,
         }),
     });
 }
 
 test('it renders', function(assert) {
-    const testCases = [
+    const testCases: Array<[string[], string]> = [
         [
             [],
             '',
@@ -62,7 +62,7 @@ test('it renders', function(assert) {
         ],
     ];
 
-    for ([input, expected] of testCases) {
+    for (const [input, expected] of testCases) {
         this.set('contributors', A(input.map(nameToUsersFamilyNames)));
         this.render(hbs`{{contributor-list contributors=contributors}}`);
         assert.equal(this.$().text().trim(), expected);

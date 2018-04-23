@@ -6,6 +6,7 @@ export default {
         share: '分享',
         embed: '嵌入',
         download: '下载',
+        download_url: 'Download url',
         delete: '删除',
         view: '查看',
         edit: '编辑',
@@ -63,6 +64,7 @@ export default {
         description: '在这里上传的文件都将被公开，并且可以使用共享链接轻松与他人分享。',
         feedback_dialog_text: '告诉我们您对 Quick Files 的看法',
         transition_auth: '您必须登陆才能查看您的 Quick Files。重新定向到登陆页面。',
+        share_by_email: 'Share by email',
     },
     feedback: {
         button_text: '反馈',
@@ -98,6 +100,8 @@ export default {
         save_fail: '错误，无法保存文件',
         mfr_iframe_title: 'Rendering of document',
         add_tag: 'add a tag to enhance discoverability',
+        embed_js_label: 'Embeddable javascript',
+        embed_iframe_label: 'Embeddable iframe',
     },
     file_browser: {
         loading: 'Loading...',
@@ -241,6 +245,7 @@ export default {
         support: 'Support',
         toggle_primary: 'Toggle primary navigation',
         toggle_secondary: 'Toggle secondary navigation',
+        other_views: 'Other OSF views',
     },
     auth_dropdown: {
         log_out: 'Log out',
@@ -512,5 +517,13 @@ export default {
     paginator: {
         next: 'Next page',
         previous: 'Previous page',
+    },
+    social: {
+        twitter: 'Twitter',
+        facebook: 'Facebook',
+        google_group: 'Google Group',
+        github: 'GitHub',
+        google_plus: 'Google Plus',
+        linkedin: 'LinkedIn',
     },
 };

@@ -17,6 +17,6 @@ module('Integration | Component | file-list-item', hooks => {
 
         await render(hbs`{{file-list-item item=item}}`);
 
-        assert.ok(this.element.textContent.includes(itemName));
+        assert.ok((this.element.textContent as string).includes(itemName));
     });
 });
