@@ -9,13 +9,13 @@ module('Integration | Component | node-navbar/link', hooks => {
     test('it renders', async function(assert) {
         await render(hbs`{{node-navbar/link}}`);
 
-        assert.ok(this.element.textContent.trim(), '');
+        assert.ok((this.element.textContent as string).trim(), '');
 
         await render(hbs`
             {{#node-navbar/link}}
             template block text
             {{/node-navbar/link}}
-            `);
-        assert.ok(this.element.textContent.trim().includes('template block text'));
+        `);
+        assert.ok((this.element.textContent as string).trim().includes('template block text'));
     });
 });

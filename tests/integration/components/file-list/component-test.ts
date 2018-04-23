@@ -13,6 +13,6 @@ module('Integration | Component | file-list', hooks => {
             {{/file-list}}
         `);
 
-        assert.ok(this.element.textContent.trim());
+        assert.ok((this.element.textContent as string).trim());
     });
 });
