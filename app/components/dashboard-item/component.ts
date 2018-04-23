@@ -9,6 +9,10 @@ import Node from 'ember-osf-web/models/node';
 
 export default class DashboardItem extends Component.extend({
     getAncestorTitles: task(function* (this: DashboardItem) {
+        if (!this.node) {
+            return [];
+        }
+
         const parentId = this.node.belongsTo('parent').id();
         const rootId = this.node.belongsTo('root').id();
 
@@ -44,14 +48,14 @@ export default class DashboardItem extends Component.extend({
     @service i18n;
     @service analytics;
 
-    node: Node;
+    node?: Node;
 
     @alias('getAncestorTitles.lastComplete.value') ancestry;
     @alias('node.contributors') contributors;
 
     @computed('node.dateModified')
-    get date(): string {
-        return moment(this.node.dateModified).format('YYYY-MM-DD h:mm A');
+    get date(): string | undefined {
+        return this.node ? moment(this.node.dateModified).format('YYYY-MM-DD h:mm A') : undefined;
     }
 
     didReceiveAttrs(this: DashboardItem) {

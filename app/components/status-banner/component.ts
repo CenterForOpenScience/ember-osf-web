@@ -7,6 +7,5 @@ import { StatusMessage } from 'ember-osf-web/services/status-messages';
 export default class StatusBanner extends Component {
     @service statusMessages;
 
-    @alias('statusMessages.messages')
-    messages: StatusMessage[];
+    @alias('statusMessages.messages') messages!: StatusMessage[];
 }

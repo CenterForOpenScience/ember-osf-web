@@ -9,7 +9,7 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 export default class NodeNavbarLink extends Component {
     @service router;
 
-    id: 'string';
+    id?: string;
     useLinkTo: boolean = defaultTo(this.useLinkTo, true);
     destination?: string;
     extraClasses?: string;

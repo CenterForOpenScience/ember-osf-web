@@ -15,22 +15,22 @@ import OsfModel from './osf-model';
  * @class Collection
  */
 export default class Collection extends OsfModel {
-    @attr('fixstring') title: string;
-    @attr('date') dateCreated: Date;
-    @attr('date') dateModified: Date;
-    @attr('boolean') bookmarks: boolean;
+    @attr('fixstring') title!: string;
+    @attr('date') dateCreated!: Date;
+    @attr('date') dateModified!: Date;
+    @attr('boolean') bookmarks!: boolean;
 
     @hasMany('node', {
         inverse: null,
         serializerType: 'linked-node',
     })
-    linkedNodes: DS.PromiseManyArray<Node>;
+    linkedNodes!: DS.PromiseManyArray<Node>;
 
     @hasMany('registration', {
         inverse: null,
         serializerType: 'linked-node',
     })
-    linkedRegistrations: DS.PromiseManyArray<Registration>;
+    linkedRegistrations!: DS.PromiseManyArray<Registration>;
 }
 
 declare module 'ember-data' {

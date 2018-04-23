@@ -22,7 +22,7 @@ export default class MaintenanceBanner extends Component.extend({
 }) {
     @service analytics;
 
-    maintenance: MaintenanceData | null;
+    maintenance?: MaintenanceData | null;
 
     @computed('maintenance.start')
     get start(): string | undefined {

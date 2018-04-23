@@ -29,18 +29,18 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 export default class FileListItem extends Component {
     @service store;
 
-    item: File;
+    item?: File;
     openItem = this.openItem;
 
     @className
     @computed('item.isSelected')
     get selected(): boolean {
-        return this.item && this.item.isSelected;
+        return !!this.item && this.item.isSelected;
     }
 
     @computed('item.guid')
     get link(): string {
-        return this.item.guid ? pathJoin(window.location.origin, this.item.guid) : '';
+        return this.item && this.item.guid ? pathJoin(window.location.origin, this.item.guid) : '';
     }
 
     @action

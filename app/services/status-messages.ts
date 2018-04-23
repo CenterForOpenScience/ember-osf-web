@@ -20,7 +20,7 @@ export interface StatusMessage {
 export default class StatusMessages extends Service {
     @service cookies;
 
-    messages: StatusMessage[];
+    messages?: StatusMessage[];
     nextMessages: StatusMessage[];
 
     constructor() {

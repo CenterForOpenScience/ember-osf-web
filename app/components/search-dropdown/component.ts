@@ -33,7 +33,7 @@ export default class SearchDropdown extends Component {
     @service analytics;
     @service i18n;
 
-    closeSearchAction: () => void;
+    closeSearchAction?: () => void;
 
     isOpen: boolean = defaultTo(this.isOpen, false);
     query: string = defaultTo(this.query, '');

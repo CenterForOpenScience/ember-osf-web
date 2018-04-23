@@ -4,7 +4,7 @@ import Component from '@ember/component';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class JoinOsfBanner extends Component {
-    @service analytics: Analytics;
+    @service analytics!: Analytics;
     @service session;
 
     storage = window.localStorage;

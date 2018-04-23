@@ -15,7 +15,7 @@ import OsfModel from './osf-model';
  * @class NodeLink
  */
 export default class NodeLink extends OsfModel {
-    @belongsTo('node') targetNode: DS.PromiseObject<Node> & Node;
+    @belongsTo('node') targetNode!: DS.PromiseObject<Node> & Node;
 }
 
 declare module 'ember-data' {

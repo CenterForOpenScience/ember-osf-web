@@ -37,7 +37,7 @@ const lookupTable = {
 };
 
 export default class GuidFile extends Controller {
-    @service analytics: Analytics;
+    @service analytics!: Analytics;
     @service currentUser;
     @service i18n;
     @service toast;
@@ -52,12 +52,12 @@ export default class GuidFile extends Controller {
 
     searchUrl = pathJoin(config.OSF.url, 'search');
 
-    @alias('canEdit') canDelete: boolean;
+    @alias('canEdit') canDelete!: boolean;
     @alias('model.file') file;
-    @alias('model.file.links.download') downloadLink: string;
+    @alias('model.file.links.download') downloadLink!: string;
     @alias('model.file.tags') tags;
-    @alias('model.files') allFiles: File[];
-    @alias('model.user') user: User;
+    @alias('model.files') allFiles!: File[];
+    @alias('model.user') user!: User;
 
     @computed('currentUser', 'user.id')
     get canEdit(this: GuidFile): boolean {

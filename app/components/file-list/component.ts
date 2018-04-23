@@ -28,13 +28,13 @@ export default class FileList extends Component {
     items: File[] = defaultTo(this.items, []);
     showFilterClicked: boolean = false;
     filter: string = defaultTo(this.filter, '');
-    user: User;
+    user?: User;
 
     @notEmpty('filter') showFilterInput;
 
     @computed('user')
     get edit(): boolean {
-        return this.user.id === this.currentUser.currentUserId;
+        return !!this.user && this.user.id === this.currentUser.currentUserId;
     }
 
     /**

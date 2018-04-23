@@ -5,7 +5,7 @@ import Node from 'ember-osf-web/models/node';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 export default class NodeNavbar extends Component {
-    node: Node;
+    node?: Node;
     allowComments?: boolean;
     renderInPlace: boolean = defaultTo(this.renderInPlace, false);
     secondaryNavbarId = config.secondaryNavbarId;
@@ -13,7 +13,7 @@ export default class NodeNavbar extends Component {
 
     @computed('node.currentUserPermissions')
     get currentUserCanEdit(): boolean {
-        const permissions = this.node.currentUserPermissions;
+        const permissions = this.node ? this.node.currentUserPermissions : [];
         return permissions ? permissions.includes('write') : false;
     }
 

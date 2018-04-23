@@ -13,9 +13,9 @@ import OsfModel from './osf-model';
  * @class Metaschema
  */
 export default class Metaschema extends OsfModel {
-    @attr('fixstring') name: string; // eslint-disable-line no-restricted-globals
-    @attr('number') schemaVersion: number;
-    @attr('object') schema: any;
+    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('number') schemaVersion!: number;
+    @attr('object') schema!: any;
 }
 
 declare module 'ember-data' {

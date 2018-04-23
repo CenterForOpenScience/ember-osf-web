@@ -24,7 +24,7 @@ export default class NavbarAuthDropdown extends Component {
      * @property loginAction
      * @type {Action}
      */
-    loginAction: () => void;
+    loginAction?: () => void;
 
     /**
      * Action run wheneven the user clicks a link
@@ -32,7 +32,7 @@ export default class NavbarAuthDropdown extends Component {
      * @property loginAction
      * @type {Action}
      */
-    onLinkClicked: () => void;
+    onLinkClicked?: () => void;
 
     /**
      * The URL to use for signup
@@ -40,7 +40,7 @@ export default class NavbarAuthDropdown extends Component {
      * @property signupUrl
      * @type {String}
      */
-    signupUrl: string;
+    signupUrl?: string;
 
     /**
      * The URL to redirect to after logout
@@ -48,17 +48,17 @@ export default class NavbarAuthDropdown extends Component {
      * @property redirectUrl
      * @type {String}
      */
-    redirectUrl: string;
+    redirectUrl?: string;
 
     // Private properties
     @service session;
-    @service analytics: Analytics;
-    @service currentUser: CurrentUser;
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
     @service i18n;
 
     serviceLinks = serviceLinks;
 
-    @alias('currentUser.user') user: User;
+    @alias('currentUser.user') user!: User;
 
     @computed('user.links.profile_image')
     get gravatarUrl(): string {

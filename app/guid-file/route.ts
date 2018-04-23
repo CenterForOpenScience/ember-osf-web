@@ -1,6 +1,5 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
-import Computed from '@ember/object/computed';
 import Route from '@ember/routing/route';
 import { task } from 'ember-concurrency';
 import File from 'ember-osf-web/models/file';
@@ -15,10 +14,10 @@ export default class GuidFile extends Route {
     @service analytics;
     @service currentUser;
     @service('head-tags') headTagsService;
-    @service metaTags: Computed<MetaTags>;
-    @service ready: Computed<Ready>;
+    @service metaTags!: MetaTags;
+    @service ready!: Ready;
 
-    headTags: HeadTagDef[];
+    headTags?: HeadTagDef[];
 
     setHeadTags = task(function* (this: GuidFile, model) {
         const blocker = this.get('ready').getBlocker();

@@ -19,27 +19,27 @@ import Registration from './registration';
  * @class User
  */
 export default class User extends OsfModel {
-    @attr('fixstring') fullName: string;
-    @attr('fixstring') givenName: string;
-    @attr('array') middleNames: string[];
-    @attr('fixstring') familyName: string;
+    @attr('fixstring') fullName!: string;
+    @attr('fixstring') givenName!: string;
+    @attr('array') middleNames!: string[];
+    @attr('fixstring') familyName!: string;
 
-    @attr('date') dateRegistered: Date;
+    @attr('date') dateRegistered!: Date;
     // email
-    @attr('fixstring') username: string;
+    @attr('fixstring') username!: string;
 
-    @attr('boolean', { defaultValue: false }) canViewReviews: boolean;
+    @attr('boolean', { defaultValue: false }) canViewReviews!: boolean;
 
-    @hasMany('node') nodes: DS.PromiseManyArray<Node>;
-    @hasMany('registration') registrations: DS.PromiseManyArray<Registration>;
+    @hasMany('node') nodes!: DS.PromiseManyArray<Node>;
+    @hasMany('registration') registrations!: DS.PromiseManyArray<Registration>;
 
-    @hasMany('file') quickfiles: DS.PromiseManyArray<File>;
+    @hasMany('file') quickfiles!: DS.PromiseManyArray<File>;
 
-    @hasMany('institution', { inverse: 'users' }) institutions: DS.PromiseManyArray<Institution>;
+    @hasMany('institution', { inverse: 'users' }) institutions!: DS.PromiseManyArray<Institution>;
 
     // Calculated fields
-    @alias('links.html') profileURL: string;
-    @alias('links.profile_image') profileImage: string;
+    @alias('links.html') profileURL!: string;
+    @alias('links.profile_image') profileImage!: string;
 }
 
 declare module 'ember-data' {

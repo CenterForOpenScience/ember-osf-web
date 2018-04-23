@@ -38,16 +38,16 @@ enum modals {
  * @class file-browser
  */
 export default class FileBrowser extends Component {
-    @service analytics: Analytics;
+    @service analytics!: Analytics;
     @service currentUser;
     @service i18n;
     @service ready;
     @service store;
     @service toast;
 
-    clickHandler: (e) => void;
-    dismissPop: () => void;
-    canEdit: boolean;
+    clickHandler?: (e) => void;
+    dismissPop?: () => void;
+    canEdit?: boolean;
     showRename: boolean = false;
     renameValue: string = '';
     multiple = true;
@@ -70,8 +70,8 @@ export default class FileBrowser extends Component {
     showFilterClicked: boolean = false;
     filter: string = defaultTo(this.filter, '');
     shiftAnchor: File | null = null;
-    isNewProject: boolean;
-    isChildNode: boolean;
+    isNewProject?: boolean;
+    isChildNode?: boolean;
 
     dropzoneOptions = {
         createImageThumbnails: false,
@@ -123,8 +123,8 @@ export default class FileBrowser extends Component {
     @alias('canEdit') dropzone;
     @notEmpty('uploading') isUploading;
     @filterBy('items', 'isSelected', true) selectedItems;
-    @notEmpty('filter') showFilterInput: boolean;
-    @or('showFilterClicked', 'showFilterInput') showFilter: boolean;
+    @notEmpty('filter') showFilterInput!: boolean;
+    @or('showFilterClicked', 'showFilterInput') showFilter!: boolean;
 
     @computed('selectedItems.firstObject.guid')
     get link(): string | undefined {
@@ -209,7 +209,7 @@ export default class FileBrowser extends Component {
                 && targetClass
                 && !targetClass.includes('popover-toggler');
 
-            if (shouldClick) {
+            if (shouldClick && this.dismissPop) {
                 this.dismissPop.bind(this)();
             }
         };

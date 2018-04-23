@@ -14,8 +14,8 @@ import OsfModel from './osf-model';
  * @class CommentReport
  */
 export default class CommentReport extends OsfModel {
-    @attr('fixstring') category: string;
-    @belongsTo('comment') text: DS.PromiseObject<Comment> & Comment;
+    @attr('fixstring') category!: string;
+    @belongsTo('comment') text!: DS.PromiseObject<Comment> & Comment;
 }
 
 declare module 'ember-data' {

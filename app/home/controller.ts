@@ -33,11 +33,11 @@ export default class Home extends Controller.extend({
 }) {
     @service analytics;
 
-    didValidate: boolean;
+    didValidate?: boolean;
     goodbye = null;
     hasSubmitted = false;
     modalOpen: boolean = this.modalOpen || false;
-    model: UserRegistration;
+    model!: UserRegistration;
     playerVars = {
         autoplay: 1,
         showinfo: 0,

@@ -19,11 +19,11 @@ export interface SubjectRef {
  * @class Taxonomy
  */
 export default class Taxonomy extends OsfModel {
-    @attr('fixstring') text: string;
-    @attr('string') shareTitle: string;
-    @attr('string') path: string;
-    @attr('number') childCount: number;
-    @attr('object') parent: SubjectRef; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') text!: string;
+    @attr('string') shareTitle!: string;
+    @attr('string') path!: string;
+    @attr('number') childCount!: number;
+    @attr('object') parent!: SubjectRef; // eslint-disable-line no-restricted-globals
 }
 
 declare module 'ember-data' {

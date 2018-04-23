@@ -14,8 +14,8 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 @tagName('')
 export default class OsfNavbarHomeLinks extends Component {
     @service session;
-    @service analytics: Analytics;
-    @service('current-user') currentUser: CurrentUser;
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
 
     onLinkClick = defaultTo(this.onLinkClick, 'onLinkClick');
     searchUrl = serviceLinks.search;

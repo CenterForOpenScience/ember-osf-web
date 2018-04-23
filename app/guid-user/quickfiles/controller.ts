@@ -16,11 +16,11 @@ export default class UserQuickfiles extends Controller {
     pageName = 'QuickFiles';
 
     filter: string = this.filter || '';
-    newProject: Node;
+    newProject?: Node;
     sort: string = this.sort || 'name';
 
-    @alias('model.taskInstance.value.user') user: User;
-    @alias('model.taskInstance.value.files') allFiles: File[];
+    @alias('model.taskInstance.value.user') user!: User;
+    @alias('model.taskInstance.value.files') allFiles!: File[];
 
     updateFilter = task(function* (this: UserQuickfiles, filter) {
         yield timeout(250);

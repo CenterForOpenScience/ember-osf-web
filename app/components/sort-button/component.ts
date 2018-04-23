@@ -8,7 +8,7 @@ import Component from '@ember/component';
 export default class SortButton extends Component {
     @service analytics;
 
-    sortBy: string;
+    sortBy?: string;
 
     @computed('sortBy')
     get sortByDesc(): string {

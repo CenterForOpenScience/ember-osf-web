@@ -22,7 +22,7 @@ export default class OsfNavbar extends Component {
      * @property loginAction
      * @type {Action}
      */
-    loginAction: () => void;
+    loginAction?: () => void;
 
     /**
      * The URL to use for signup

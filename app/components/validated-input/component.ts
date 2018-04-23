@@ -24,7 +24,7 @@ export default class ValidatedInput extends Component {
 
     @className('has-error') showErrorClass;
 
-    model: DS.Model;
+    model?: DS.Model;
     disabled: boolean = defaultTo(this.disabled, false);
     value: string = defaultTo(this.value, '');
     type: InputType = defaultTo(this.type, InputType.Text);
@@ -64,14 +64,14 @@ export default class ValidatedInput extends Component {
 
     @action
     onCaptchaResolved(this: ValidatedInput, reCaptchaResponse) {
-        if (this.valuePath) {
+        if (this.model && this.valuePath) {
             this.model.set(this.valuePath, reCaptchaResponse);
         }
     }
 
     @action
     onCaptchaExpired(this: ValidatedInput) {
-        if (this.valuePath) {
+        if (this.model && this.valuePath) {
             this.model.set(this.valuePath, '');
         }
     }
