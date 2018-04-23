@@ -25,7 +25,7 @@ export default class FileList extends Component {
     @service i18n;
 
     node: Node | null = null;
-    items: File[] = defaultTo(this.items, null);
+    items: File[] = defaultTo(this.items, []);
     showFilterClicked: boolean = false;
     filter: string = defaultTo(this.filter, '');
     user: User;

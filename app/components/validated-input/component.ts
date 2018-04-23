@@ -28,7 +28,7 @@ export default class ValidatedInput extends Component {
     disabled: boolean = defaultTo(this.disabled, false);
     value: string = defaultTo(this.value, '');
     type: InputType = defaultTo(this.type, InputType.Text);
-    valuePath: keyof DS.Model = defaultTo(this.valuePath, '');
+    valuePath: keyof DS.Model | null = defaultTo(this.valuePath, null);
     placeholder: string = defaultTo(this.placeholder, '');
     validation: any = defaultTo(this.validation, null);
     isTyping: boolean = defaultTo(this.isTyping, false);
@@ -64,11 +64,15 @@ export default class ValidatedInput extends Component {
 
     @action
     onCaptchaResolved(this: ValidatedInput, reCaptchaResponse) {
-        this.model.set(this.valuePath, reCaptchaResponse);
+        if (this.valuePath) {
+            this.model.set(this.valuePath, reCaptchaResponse);
+        }
     }
 
     @action
     onCaptchaExpired(this: ValidatedInput) {
-        this.model.set(this.valuePath, '');
+        if (this.valuePath) {
+            this.model.set(this.valuePath, '');
+        }
     }
 }
