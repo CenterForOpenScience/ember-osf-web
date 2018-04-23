@@ -14,5 +14,6 @@ export default class Quickfiles extends Route.extend(CasAuthenticatedRouteMixin)
             transition.abort();
             return this.transitionTo('guid-user.quickfiles', model);
         }
+        return super.afterModel(model, transition);
     }
 }
