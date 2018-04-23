@@ -8,7 +8,7 @@
     "alwaysStrict": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
-    "noEmitOnError": false,
+    "noEmitOnError": true,
     "noEmit": true,
     "inlineSourceMap": true,
     "inlineSources": true,
