@@ -91,18 +91,19 @@ export default class DropzoneWidget extends Component.extend({
             // @ts-ignore - Dropzone is a global
             Dropzone.call(this, ...args);
         }
+        const { i18n } = this;
         // @ts-ignore - Dropzone is a global
         CustomDropzone.prototype = Object.create(Dropzone.prototype);
         CustomDropzone.prototype.drop = function(e) {
             if (this.options.preventMultipleFiles && e.dataTransfer) {
                 if ((e.dataTransfer.items && e.dataTransfer.items.length > 1) || e.dataTransfer.files.length > 1) {
                     this.emit('drop', e);
-                    this.emit('error', 'None', this.i18n.t('dropzone_widget.error_multiple_files'));
+                    this.emit('error', 'None', i18n.t('dropzone_widget.error_multiple_files'));
                     return;
                 }
                 if (e.dataTransfer.files.length === 0) {
                     this.emit('drop', e);
-                    this.emit('error', 'None', this.i18n.t('dropzone_widget.error_directories'));
+                    this.emit('error', 'None', i18n.t('dropzone_widget.error_directories'));
                     return;
                 }
             }
@@ -114,7 +115,7 @@ export default class DropzoneWidget extends Component.extend({
             if (!this.options.acceptDirectories) {
                 // @ts-ignore - Dropzone is a global
                 directory.status = Dropzone.ERROR;
-                this.emit('error', directory, this.i18n.t('dropzone_widget.error_directories'));
+                this.emit('error', directory, i18n.t('dropzone_widget.error_directories'));
                 return;
             }
             // @ts-ignore - Dropzone is a global
