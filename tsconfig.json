@@ -8,6 +8,7 @@
     "alwaysStrict": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
     "noImplicitReturns": true,
     "noEmitOnError": true,
     "noEmit": true,

@@ -10,7 +10,7 @@ import { task } from 'ember-concurrency';
 import { ProjectSelectState } from 'ember-osf-web/components/project-selector/component';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
-import analytics from 'ember-osf-web/services/analytics';
+import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 import pathJoin from 'ember-osf-web/utils/path-join';
@@ -38,7 +38,7 @@ enum modals {
  * @class file-browser
  */
 export default class FileBrowser extends Component {
-    @service analytics;
+    @service analytics: Analytics;
     @service currentUser;
     @service i18n;
     @service ready;

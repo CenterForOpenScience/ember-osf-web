@@ -13,12 +13,6 @@ const { Model } = DS;
  * @submodule models
  */
 
-interface QueryHasManyPayload {
-    meta: object;
-    links: object;
-    data: any[];
-}
-
 interface QueryHasManyResult extends Array<any> {
     meta?: any;
     links?: any;

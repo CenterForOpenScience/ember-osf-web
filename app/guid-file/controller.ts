@@ -8,7 +8,7 @@ import config from 'ember-get-config';
 import mimeTypes from 'ember-osf-web/const/mime-types';
 import File from 'ember-osf-web/models/file';
 import User from 'ember-osf-web/models/user';
-import analytics from 'ember-osf-web/services/analytics';
+import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import $ from 'jquery';
 import mime from 'npm:mime-types';
@@ -37,7 +37,7 @@ const lookupTable = {
 };
 
 export default class GuidFile extends Controller {
-    @service analytics;
+    @service analytics: Analytics;
     @service currentUser;
     @service i18n;
     @service toast;

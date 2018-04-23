@@ -67,7 +67,7 @@ export default class Analytics extends Service {
         return true;
     }
 
-    track(this: Analytics, category, actionName, label, extraInfo) {
+    track(this: Analytics, category, actionName, label, extraInfo?) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {
             extra = null;
