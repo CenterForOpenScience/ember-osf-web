@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import File from 'ember-osf-web/models/file';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 const iconForType = {
@@ -113,13 +114,13 @@ function iconFromName(name: string): string {
 
 @tagName('span')
 export default class FileIcon extends Component {
-    item = this.item;
+    item: File = this.item;
 
     @computed('item', 'item.expanded')
     get iconName(): string {
         // TODO: More icons!
 
-        if (this.item.status && this.item.name) {
+        if (this.item.name) {
             return iconFromName(this.item.name);
         }
 

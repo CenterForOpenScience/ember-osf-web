@@ -8,7 +8,7 @@ export default class UserRegistration extends RESTSerializer.extend({
         recaptchaResponse: 'g-recaptcha-response',
     },
 
-    normalize({ modelName }) {
+    normalize({ modelName }: { modelName: string }) {
         return {
             data: {
                 id: 1,
@@ -17,11 +17,17 @@ export default class UserRegistration extends RESTSerializer.extend({
         };
     },
 }) {
-    serializeIntoHash(data, _, record, options) {
+    serializeIntoHash(data: any, _: any, record: any, options: any) {
         merge(data, this.serialize(record, options));
     }
 
-    normalizeSaveResponse(store, primaryModelClass, payload, id, requestType) {
+    normalizeSaveResponse(
+        store: DS.Store,
+        primaryModelClass: DS.Model,
+        payload: {},
+        id: string | number,
+        requestType: string,
+    ) {
         const updatedPayload = {
             userRegistration: payload,
         };

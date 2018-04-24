@@ -3,6 +3,7 @@ import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import DS from 'ember-data';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -34,7 +35,7 @@ import moment from 'moment';
  */
 export default class FileBrowserItem extends Component {
     @service analytics!: Analytics;
-    @service store;
+    @service store!: DS.Store;
 
     item?: File;
 
@@ -80,7 +81,7 @@ export default class FileBrowserItem extends Component {
     /**
      * Placeholder for closure action: selectMultiple
      */
-    selectMultiple(item: File | undefined, metaKey) {
+    selectMultiple(item: File | undefined, metaKey: boolean) {
         eatArgs(item, metaKey);
         assert('You should pass in a closure action: selectMultiple');
     }

@@ -63,7 +63,8 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     @hasMany('node', { inverse: 'parent' }) children!: DS.PromiseManyArray<Node>;
     @hasMany('preprint', { inverse: 'node' }) preprints!: DS.PromiseManyArray<Preprint>;
-    @hasMany('institution', { inverse: 'nodes' }) affiliatedInstitutions!: DS.PromiseManyArray<Institution>;
+    @hasMany('institution', { inverse: 'nodes' })
+    affiliatedInstitutions!: DS.PromiseManyArray<Institution> | Institution[];
     @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
     @belongsTo('citation') citation!: DS.PromiseObject<Citation> & Citation;
 
@@ -94,21 +95,21 @@ export default class Node extends BaseFileItem.extend(Validations) {
      * @property isProject
      * @type boolean
      */
-    @equal('constructor.modelName', 'node') isProject;
+    @equal('constructor.modelName', 'node') isProject!: boolean;
 
     /**
      * Is this a registration? Flag can be used to provide template-specific behavior for different resource types.
      * @property isRegistration
      * @type boolean
      */
-    @equal('constructor.modelName', 'registration') isRegistration;
+    @equal('constructor.modelName', 'registration') isRegistration!: boolean;
 
     /**
      * Is this node being viewed through an anonymized, view-only link?
      * @property isAnonymous
      * @type boolean
      */
-    @bool('meta.anonymous') isAnonymous;
+    @bool('meta.anonymous') isAnonymous!: boolean;
 
     // BaseFileItem override
     isNode = true;

@@ -3,9 +3,12 @@ import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { allSettled, task } from 'ember-concurrency';
+import I18N from 'ember-i18n/services/i18n';
 import moment from 'moment';
 
+import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
+import Analytics from 'ember-osf-web/services/analytics';
 
 export default class DashboardItem extends Component.extend({
     getAncestorTitles: task(function* (this: DashboardItem) {
@@ -45,13 +48,13 @@ export default class DashboardItem extends Component.extend({
         return titles;
     }).restartable(),
 }) {
-    @service i18n;
-    @service analytics;
+    @service i18n!: I18N;
+    @service analytics!: Analytics;
 
     node?: Node;
 
-    @alias('getAncestorTitles.lastComplete.value') ancestry;
-    @alias('node.contributors') contributors;
+    @alias('getAncestorTitles.lastComplete.value') ancestry!: string[];
+    @alias('node.contributors') contributors!: Contributor[];
 
     @computed('node.dateModified')
     get date(): string | undefined {

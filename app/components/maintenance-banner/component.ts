@@ -3,6 +3,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
+import Analytics from 'ember-osf-web/services/analytics';
 import $ from 'jquery';
 import moment from 'moment';
 
@@ -20,7 +21,7 @@ export default class MaintenanceBanner extends Component.extend({
         this.set('maintenance', data.maintenance);
     }).restartable(),
 }) {
-    @service analytics;
+    @service analytics!: Analytics;
 
     maintenance?: MaintenanceData | null;
 

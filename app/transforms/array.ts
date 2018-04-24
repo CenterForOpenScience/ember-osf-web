@@ -4,11 +4,11 @@ import DS from 'ember-data';
 const { Transform } = DS;
 
 export default class ArrayTransform extends Transform {
-    deserialize(value) {
+    deserialize(value: any) {
         return A(Array.isArray(value) ? value : []);
     }
 
-    serialize(value) {
+    serialize(value: any) {
         return A(Array.isArray(value) ? value : []);
     }
 }

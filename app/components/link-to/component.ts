@@ -7,7 +7,7 @@ import LinkComponent from '@ember/routing/link-component';
  * @class link-to
  */
 export default class LinkTo extends LinkComponent {
-    @attribute('aria-label') ariaLabel;
+    @attribute('aria-label') ariaLabel?: string;
     eventName?: string;
 
     /**

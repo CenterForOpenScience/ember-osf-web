@@ -3,9 +3,11 @@ import { notEmpty } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import I18N from 'ember-i18n/services/i18n';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 
@@ -21,8 +23,8 @@ import eatArgs from 'ember-osf-web/utils/eat-args';
  * @class file-browser
  */
 export default class FileList extends Component {
-    @service currentUser;
-    @service i18n;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
 
     node: Node | null = null;
     items: File[] = defaultTo(this.items, []);
@@ -30,7 +32,7 @@ export default class FileList extends Component {
     filter: string = defaultTo(this.filter, '');
     user?: User;
 
-    @notEmpty('filter') showFilterInput;
+    @notEmpty('filter') showFilterInput!: boolean;
 
     @computed('user')
     get edit(): boolean {

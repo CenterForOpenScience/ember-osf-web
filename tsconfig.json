@@ -4,6 +4,7 @@
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
@@ -25,7 +26,8 @@
       "ember-bootstrap/components/*": [
         "node_modules/ember-bootstrap/addon/components/bs3/*",
         "node_modules/ember-bootstrap/addon/components/bs4/*"
-      ]
+      ],
+      "*": ["types/*"]
     },
     "experimentalDecorators": true,
     "skipLibCheck": true

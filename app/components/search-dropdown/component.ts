@@ -2,11 +2,13 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import config from 'ember-get-config';
+import I18N from 'ember-i18n/services/i18n';
+import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 const { OSF: { url } } = config;
 
-function getQuery(text) {
+function getQuery(text: string) {
     return `${url}search/?q=${encodeURIComponent(text)}`;
 }
 
@@ -30,8 +32,8 @@ interface SearchExample {
  * @class search-dropdown
  */
 export default class SearchDropdown extends Component {
-    @service analytics;
-    @service i18n;
+    @service analytics!: Analytics;
+    @service i18n!: I18N;
 
     closeSearchAction?: () => void;
 

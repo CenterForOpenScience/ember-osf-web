@@ -1,7 +1,9 @@
 import { service } from '@ember-decorators/service';
+import DS from 'ember-data';
 import config from 'ember-get-config';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 import Base from 'ember-simple-auth/authenticators/base';
+import Session from 'ember-simple-auth/services/session';
 
 const {
     OSF: {
@@ -16,8 +18,8 @@ interface SessionData {
 }
 
 export default class OsfCookie extends Base {
-    @service session;
-    @service store;
+    @service session!: Session;
+    @service store!: DS.Store;
 
     /**
      * For now, simply verify that a token is present and can be used

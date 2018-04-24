@@ -2,7 +2,10 @@ import { className } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
+import DS from 'ember-data';
 import File from 'ember-osf-web/models/file';
+import eatArgs from 'ember-osf-web/utils/eat-args';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 /**
@@ -27,10 +30,17 @@ import pathJoin from 'ember-osf-web/utils/path-join';
  * @class file-icon
  */
 export default class FileListItem extends Component {
-    @service store;
+    @service store!: DS.Store;
 
     item?: File;
-    openItem = this.openItem;
+
+    /**
+     * Placeholder for closure action: openItem
+     */
+    openItem(item: File | undefined) {
+        eatArgs(item);
+        assert('You should pass in a closure action: openItem');
+    }
 
     @className
     @computed('item.isSelected')

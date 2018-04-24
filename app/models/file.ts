@@ -51,6 +51,8 @@ export default class File extends BaseFileItem {
 
     isSelected = false;
 
+    flash: object | null = null;
+
     getContents(this: File): Promise<object> {
         return authenticatedAJAX({
             url: this.links.download,
@@ -97,7 +99,7 @@ export default class File extends BaseFileItem {
         );
     }
 
-    updateContents(this: File, data: object): Promise<null> {
+    updateContents(this: File, data: string): Promise<null> {
         return authenticatedAJAX({
             url: this.links.upload,
             type: 'PUT',

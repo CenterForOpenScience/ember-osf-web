@@ -5,10 +5,12 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
+import I18N from 'ember-i18n/services/i18n';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import Session from 'ember-simple-auth/services/session';
 import $ from 'jquery';
 
 /**
@@ -51,10 +53,10 @@ export default class NavbarAuthDropdown extends Component {
     redirectUrl?: string;
 
     // Private properties
-    @service session;
+    @service session!: Session;
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service i18n;
+    @service i18n!: I18N;
 
     serviceLinks = serviceLinks;
 

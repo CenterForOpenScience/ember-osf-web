@@ -4,6 +4,7 @@ import Component from '@ember/component';
 import { htmlSafe } from '@ember/string';
 import config from 'ember-get-config';
 import File from 'ember-osf-web/models/file';
+import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 const {
@@ -15,7 +16,7 @@ const {
 } = config;
 
 export default class FileShareButton extends Component {
-    @service analytics;
+    @service analytics!: Analytics;
 
     file?: File;
     showPopup = false;

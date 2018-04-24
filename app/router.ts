@@ -13,7 +13,7 @@ const Router = EmberRouter.extend({
     location: config.locationType,
     rootURL: config.rootURL,
 
-    async willTransition(oldInfo, newInfo, transition) {
+    async willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
         const flag: string | undefined = config.featureFlags.routes[transition.targetName];
 
         if (flag) {
@@ -28,7 +28,7 @@ const Router = EmberRouter.extend({
         this._super(oldInfo, newInfo, transition);
     },
 
-    didTransition(...args) {
+    didTransition(...args: any[]) {
         this._super(...args);
         this.get('statusMessages').updateMessages();
         window.scrollTo(0, 0);

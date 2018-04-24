@@ -2,10 +2,10 @@ import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 
-import { StatusMessage } from 'ember-osf-web/services/status-messages';
+import StatusMessages, { StatusMessage } from 'ember-osf-web/services/status-messages';
 
 export default class StatusBanner extends Component {
-    @service statusMessages;
+    @service statusMessages!: StatusMessages;
 
     @alias('statusMessages.messages') messages!: StatusMessage[];
 }

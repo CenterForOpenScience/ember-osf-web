@@ -1,17 +1,19 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { task, timeout } from 'ember-concurrency';
 import UserRegistration from 'ember-osf-web/models/user-registration';
+import Analytics from 'ember-osf-web/services/analytics';
 
 export default class SignUpForm extends Component {
     hasSubmitted?: boolean;
     model?: UserRegistration;
 
-    @service passwordStrength;
-    @service analytics;
+    @service passwordStrength!: PasswordStrength;
+    @service analytics!: Analytics;
 
-    strength = task(function* (this: SignUpForm, value) {
+    strength = task(function* (this: SignUpForm, value: string) {
         if (!value) {
             return 0;
         }

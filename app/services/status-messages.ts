@@ -1,5 +1,6 @@
 import { service } from '@ember-decorators/service';
 import Service from '@ember/service';
+import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
 
 const {
@@ -18,7 +19,7 @@ export interface StatusMessage {
 }
 
 export default class StatusMessages extends Service {
-    @service cookies;
+    @service cookies!: Cookies;
 
     messages?: StatusMessage[];
     nextMessages: StatusMessage[];
@@ -46,7 +47,7 @@ export default class StatusMessages extends Service {
             .replace(/^"|\\|"$/g, '');
 
         return JSON.parse(status)
-            .map(message => ({ ...message, id: `status.${message.id}` }));
+            .map((message: {id: string}) => ({ ...message, id: `status.${message.id}` }));
     }
 
     updateMessages(this: StatusMessages): void {

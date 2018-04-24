@@ -5,17 +5,20 @@ import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
+import I18N from 'ember-i18n/services/i18n';
 import mimeTypes from 'ember-osf-web/const/mime-types';
 import File from 'ember-osf-web/models/file';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import pathJoin from 'ember-osf-web/utils/path-join';
+import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 import mime from 'npm:mime-types';
 
 Object.assign(mime.types, mimeTypes);
 
-const lookupTable = {
+const lookupTable: { [k: string]: { [s: string]: string} } = {
     edit: {
         revision: 'revision',
         view: 'view_edit',
@@ -38,9 +41,9 @@ const lookupTable = {
 
 export default class GuidFile extends Controller {
     @service analytics!: Analytics;
-    @service currentUser;
-    @service i18n;
-    @service toast;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service toast!: Toast;
 
     queryParams = ['show'];
 
@@ -53,9 +56,9 @@ export default class GuidFile extends Controller {
     searchUrl = pathJoin(config.OSF.url, 'search');
 
     @alias('canEdit') canDelete!: boolean;
-    @alias('model.file') file;
+    @alias('model.file') file!: File;
     @alias('model.file.links.download') downloadLink!: string;
-    @alias('model.file.tags') tags;
+    @alias('model.file.tags') tags!: string[];
     @alias('model.files') allFiles!: File[];
     @alias('model.user') user!: User;
 
@@ -83,7 +86,7 @@ export default class GuidFile extends Controller {
     @computed('file.name')
     get isEditableFile(this: GuidFile): boolean {
         const filename = this.get('file').get('name');
-        const mimeType = mime.lookup(filename) as string | false;
+        const mimeType = mime.lookup(filename);
         return !!mimeType && /^text\//.test(mimeType);
     }
 
@@ -93,7 +96,7 @@ export default class GuidFile extends Controller {
         return !!file && file.getContents();
     }
 
-    updateFilter = task(function* (this: GuidFile, filter) {
+    updateFilter = task(function* (this: GuidFile, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
     }).drop();
@@ -124,7 +127,7 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    download(this: GuidFile, version) {
+    download(this: GuidFile, version: number) {
         const url = `${this.get('downloadLink')}?revision=${version}`;
         window.location.href = url;
     }
@@ -155,7 +158,7 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    changeView(this: GuidFile, button) {
+    changeView(this: GuidFile, button: string) {
         const show = lookupTable[this.get('show')][button];
 
         if (show) {
@@ -164,7 +167,7 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    async save(this: GuidFile, text) {
+    async save(this: GuidFile, text: string) {
         const toast = this.get('toast');
         const i18n = this.get('i18n');
 
@@ -177,7 +180,7 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    async openFile(this: GuidFile, file) {
+    async openFile(this: GuidFile, file: File) {
         const guid = file.get('guid') || await file.getGuid();
 
         this.set('revision', null);
@@ -185,21 +188,21 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    addTag(this: GuidFile, tag) {
+    addTag(this: GuidFile, tag: string) {
         const model = this.get('file');
         model.set('tags', [...this.get('tags').slice(), tag].sort());
         model.save();
     }
 
     @action
-    removeTagAtIndex(this: GuidFile, index) {
+    removeTagAtIndex(this: GuidFile, index: number) {
         const model = this.get('file');
         model.set('tags', this.get('tags').slice().removeAt(index));
         model.save();
     }
 
     @action
-    versionChange(this: GuidFile, version) {
+    versionChange(this: GuidFile, version: number) {
         this.set('revision', version);
     }
 }
