@@ -1,11 +1,11 @@
 import Transform from 'ember-data/transform';
 
 export default Transform.extend({
-    deserialize(serialized) {
+    deserialize(serialized: any) {
         return serialized;
     },
 
-    serialize(deserialized) {
+    serialize(deserialized: any) {
         return deserialized;
     },
 });

@@ -30,11 +30,11 @@ export default class BaseFileItem extends OsfModel {
     isProvider = false;
     isFileModel = false;
 
-    @or('name', 'title') itemName;
-    @or('isNode', 'isProvider', 'isFolder') canHaveChildren;
+    @or('name', 'title') itemName!: string;
+    @or('isNode', 'isProvider', 'isFolder') canHaveChildren!: boolean;
 
     @computed('isFileModel', 'kind')
-    get isFolder(this: BaseFileItem) {
+    get isFolder(this: BaseFileItem): boolean {
         return get(this, 'isFileModel') && get(this, 'kind') === FileItemKinds.Folder;
     }
 

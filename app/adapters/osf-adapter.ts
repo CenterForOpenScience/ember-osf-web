@@ -4,7 +4,7 @@ import config from 'ember-get-config';
 import { pluralize } from 'ember-inflector';
 import GenericDataAdapterMixin from 'ember-osf-web/mixins/generic-data-adapter';
 
-const { JSONAPIAdapter, Snapshot } = DS;
+const { JSONAPIAdapter } = DS;
 const {
     OSF: {
         apiUrl: host,

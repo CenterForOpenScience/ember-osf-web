@@ -3,8 +3,9 @@ import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import DS from 'ember-data';
 import File from 'ember-osf-web/models/file';
-import analytics from 'ember-osf-web/services/analytics';
+import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
@@ -33,39 +34,38 @@ import moment from 'moment';
  * @class file-icon
  */
 export default class FileBrowserItem extends Component {
-    @service analytics;
-    @service store;
+    @service analytics!: Analytics;
+    @service store!: DS.Store;
 
-    item: File;
+    item?: File;
 
     @className
     @computed('item.isSelected')
     get selected(): boolean {
-        return this.item && this.item.isSelected;
+        return !!this.item && this.item.isSelected;
     }
 
     @computed('item.size')
     get size(): string {
         // TODO: This should be i18n-ized
-        return this.item.size ? humanFileSize(this.item.size, true) : '';
+        return this.item && this.item.size ? humanFileSize(this.item.size, true) : '';
     }
 
     @computed('item.dateModified')
     get date(): string {
-        const date = this.item.dateModified;
         // TODO: This should be i18n-ized
-        return moment(date).format('YYYY-MM-DD h:mm A');
+        return this.item ? moment(this.item.dateModified).format('YYYY-MM-DD h:mm A') : '';
     }
 
     @computed('item.guid')
     get link(): string {
-        return this.item.guid ? pathJoin(window.location.origin, this.item.guid) : '';
+        return this.item && this.item.guid ? pathJoin(window.location.origin, this.item.guid) : '';
     }
 
     /**
      * Placeholder for closure action: openItem
      */
-    openItem(item: File, show: string) {
+    openItem(item: File | undefined, show: string) {
         eatArgs(item, show);
         assert('You should pass in a closure action: openItem');
     }
@@ -73,7 +73,7 @@ export default class FileBrowserItem extends Component {
     /**
      * Placeholder for closure action: selectItem
      */
-    selectItem(item: File) {
+    selectItem(item: File | undefined) {
         eatArgs(item);
         assert('You should pass in a closure action: selectItem');
     }
@@ -81,7 +81,7 @@ export default class FileBrowserItem extends Component {
     /**
      * Placeholder for closure action: selectMultiple
      */
-    selectMultiple(item: File, metaKey) {
+    selectMultiple(item: File | undefined, metaKey: boolean) {
         eatArgs(item, metaKey);
         assert('You should pass in a closure action: selectMultiple');
     }

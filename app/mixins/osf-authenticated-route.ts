@@ -19,7 +19,7 @@ interface AuthRoute {
 export default Mixin.create({
     session: service('session'),
 
-    async beforeModel(...args) {
+    async beforeModel(...args: any[]) {
         await this._super(...args);
 
         const authArgs: string[] = [];

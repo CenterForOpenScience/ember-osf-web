@@ -1,10 +1,12 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import DS from 'ember-data';
+import I18N from 'ember-i18n/services/i18n';
 import OsfAuthenticatedRouteMixin from 'ember-osf-web/mixins/osf-authenticated-route';
 
 export default class Application extends Route.extend(OsfAuthenticatedRouteMixin) {
-    @service i18n;
-    @service store;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
 
     afterModel(this: Application) {
         const i18n = this.get('i18n');

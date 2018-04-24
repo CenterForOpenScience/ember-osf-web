@@ -5,10 +5,12 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
+import I18N from 'ember-i18n/services/i18n';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import Session from 'ember-simple-auth/services/session';
 import $ from 'jquery';
 
 /**
@@ -24,7 +26,7 @@ export default class NavbarAuthDropdown extends Component {
      * @property loginAction
      * @type {Action}
      */
-    loginAction: () => void;
+    loginAction?: () => void;
 
     /**
      * Action run wheneven the user clicks a link
@@ -32,7 +34,7 @@ export default class NavbarAuthDropdown extends Component {
      * @property loginAction
      * @type {Action}
      */
-    onLinkClicked: () => void;
+    onLinkClicked?: () => void;
 
     /**
      * The URL to use for signup
@@ -40,7 +42,7 @@ export default class NavbarAuthDropdown extends Component {
      * @property signupUrl
      * @type {String}
      */
-    signupUrl: string;
+    signupUrl?: string;
 
     /**
      * The URL to redirect to after logout
@@ -48,17 +50,17 @@ export default class NavbarAuthDropdown extends Component {
      * @property redirectUrl
      * @type {String}
      */
-    redirectUrl: string;
+    redirectUrl?: string;
 
     // Private properties
-    @service session;
-    @service analytics: Analytics;
-    @service currentUser: CurrentUser;
-    @service i18n;
+    @service session!: Session;
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
 
     serviceLinks = serviceLinks;
 
-    @alias('currentUser.user') user: User;
+    @alias('currentUser.user') user!: User;
 
     @computed('user.links.profile_image')
     get gravatarUrl(): string {

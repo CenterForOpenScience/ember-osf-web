@@ -55,15 +55,15 @@ const Validations = buildValidations({
 });
 
 export default class UserRegistration extends Model.extend(Validations) {
-    @attr('string') email1;
-    @attr('string') email2;
-    @attr('string') fullName;
-    @attr('string') recaptchaResponse;
-    @attr('string') password;
+    @attr('string') email1!: string;
+    @attr('string') email2!: string;
+    @attr('string') fullName!: string;
+    @attr('string') recaptchaResponse!: string;
+    @attr('string') password!: string;
 
     existingEmails: Set<string> = new Set();
 
-    addExistingEmail(this: UserRegistration, email?) {
+    addExistingEmail(this: UserRegistration, email?: string) {
         this.get('existingEmails').add(email || this.get('email1'));
     }
 }

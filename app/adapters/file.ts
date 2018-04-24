@@ -1,5 +1,6 @@
 import { service } from '@ember-decorators/service';
 import DS from 'ember-data';
+import FileManager from 'ember-osf-web/services/file-manager';
 import OsfAdapter from './osf-adapter';
 
 interface Options {
@@ -37,7 +38,7 @@ export default class File extends OsfAdapter.extend({
         };
     },
 }) {
-    @service fileManager;
+    @service fileManager!: FileManager;
 }
 
 declare module 'ember-data' {

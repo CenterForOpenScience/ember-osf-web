@@ -4,6 +4,7 @@ import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import UserRegistration from 'ember-osf-web/models/user-registration';
+import Analytics from 'ember-osf-web/services/analytics';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 export default class Home extends Controller.extend({
@@ -31,13 +32,13 @@ export default class Home extends Controller.extend({
         this.set('hasSubmitted', true);
     }).drop(),
 }) {
-    @service analytics;
+    @service analytics!: Analytics;
 
-    didValidate: boolean;
+    didValidate?: boolean;
     goodbye = null;
     hasSubmitted = false;
     modalOpen: boolean = this.modalOpen || false;
-    model: UserRegistration;
+    model!: UserRegistration;
     playerVars = {
         autoplay: 1,
         showinfo: 0,

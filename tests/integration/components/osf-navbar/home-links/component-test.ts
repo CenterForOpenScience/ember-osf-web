@@ -7,8 +7,8 @@ import { module, test } from 'qunit';
 
 // Stub i18n service
 const i18nStub = Service.extend({
-    t(word) {
-        const translated = {
+    t(word: string) {
+        const translated: { [k: string]: string } = {
             'navbar.reviews': 'My Reviewing',
             'navbar.my_quick_files': 'My Quick Files',
             'navbar.my_projects': 'My Projects',

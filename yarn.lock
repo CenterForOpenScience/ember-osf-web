@@ -408,6 +408,12 @@
   dependencies:
     "@types/rsvp" "*"
 
+"@types/ember-feature-flags@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/ember-feature-flags/-/ember-feature-flags-3.0.1.tgz#9d5d1e3e5221147668c228581fcb5db55bbddc52"
+  dependencies:
+    "@types/ember" "*"
+
 "@types/ember-qunit@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-3.0.2.tgz#83e5df08eec860071de3c8faa2cc0f06494bf4d6"
@@ -4491,7 +4497,7 @@ ember-data@~3.1.0:
     semver "^5.1.0"
     silent-error "^1.0.0"
 
-ember-decorators@2.0.0:
+ember-decorators@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ember-decorators/-/ember-decorators-2.0.0.tgz#c29d58dded3e6d40e91406bdf82c6278b125401b"
   dependencies:
