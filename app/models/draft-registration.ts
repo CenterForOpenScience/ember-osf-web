@@ -17,13 +17,13 @@ import User from './user';
  * @class DraftRegistration
  */
 export default class DraftRegistration extends OsfModel {
-    @attr('fixstring') registrationSupplement: string;
-    @attr('object') registrationMetadata: any;
-    @attr('date') datetimeInitiated: Date;
-    @attr('date') datetimeUpdated: Date;
-    @belongsTo('node', { inverse: null }) branchedFrom: DS.PromiseObject<Node> & Node;
-    @belongsTo('user', { inverse: null }) initiator: DS.PromiseObject<User> & User;
-    @belongsTo('metaschema', { inverse: null }) registrationSchema: DS.PromiseObject<Metaschema> & Metaschema;
+    @attr('fixstring') registrationSupplement!: string;
+    @attr('object') registrationMetadata!: any;
+    @attr('date') datetimeInitiated!: Date;
+    @attr('date') datetimeUpdated!: Date;
+    @belongsTo('node', { inverse: null }) branchedFrom!: DS.PromiseObject<Node> & Node;
+    @belongsTo('user', { inverse: null }) initiator!: DS.PromiseObject<User> & User;
+    @belongsTo('metaschema', { inverse: null }) registrationSchema!: DS.PromiseObject<Metaschema> & Metaschema;
 }
 
 declare module 'ember-data' {

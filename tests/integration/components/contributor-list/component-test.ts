@@ -12,7 +12,8 @@ const i18nStub = Service.extend({
         }),
     }),
 
-    t(key) {
+    t(key: string): string {
+        // @ts-ignore
         return this.get('translations').get(key);
     },
 });
@@ -26,7 +27,7 @@ moduleForComponent('contributor-list', 'Integration | Component | contributor li
     },
 });
 
-function nameToUsersFamilyNames(familyName): EmberObject {
+function nameToUsersFamilyNames(familyName: string): EmberObject {
     return EmberObject.create({
         users: EmberObject.create({
             familyName,

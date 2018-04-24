@@ -1,26 +1,29 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
-import Computed from '@ember/object/computed';
 import Route from '@ember/routing/route';
+import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import { task } from 'ember-concurrency';
+import GuidFileController from 'ember-osf-web/guid-file/controller';
 import File from 'ember-osf-web/models/file';
+import Institution from 'ember-osf-web/models/institution';
 import User from 'ember-osf-web/models/user';
-import { analyticPrivacy } from 'ember-osf-web/services/analytics';
+import Analytics, { analyticPrivacy } from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import loadAll from 'ember-osf-web/utils/load-relationship';
 import moment from 'moment';
 
 export default class GuidFile extends Route {
-    @service analytics;
-    @service currentUser;
-    @service('head-tags') headTagsService;
-    @service metaTags: Computed<MetaTags>;
-    @service ready: Computed<Ready>;
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service('head-tags') headTagsService!: HeadTagsService;
+    @service metaTags!: MetaTags;
+    @service ready!: Ready;
 
-    headTags: HeadTagDef[];
+    headTags?: HeadTagDef[];
 
-    setHeadTags = task(function* (this: GuidFile, model) {
+    setHeadTags = task(function* (this: GuidFile, model: any) {
         const blocker = this.get('ready').getBlocker();
         const dateCreated = model.file.get('dateCreated');
         const dateModified = model.file.get('dateModified');
@@ -30,21 +33,21 @@ export default class GuidFile extends Route {
             identifier: model.file.get('guid'),
             publishedDate: dateCreated ? moment(dateCreated).format('YYYY-MM-DD') : undefined,
             modifiedDate: dateModified ? moment(dateModified).format('YYYY-MM-DD') : undefined,
-            institution: institutions.map(institution => institution.get('name')),
+            institution: institutions.map((institution: Institution) => institution.get('name')),
         };
         this.set('headTags', this.get('metaTags').getHeadTags(metaTagsData));
         this.get('headTagsService').collectHeadTags();
         blocker.done();
     });
 
-    async model(this: GuidFile, params) {
+    async model(this: GuidFile, params: { file_guid: string }) {
         try {
             const file: File = await this.store.findRecord('file', params.file_guid);
             const fileId = file.get('id');
             const fileUser: User = await file.get('user');
             const user: User = await fileUser.reload();
             const files: File[] = (await loadAll(user, 'quickfiles', { 'page[size]': 100 }))
-                .map(item => {
+                .map((item: File) => {
                     item.set('isSelected', item.get('id') === fileId);
                     return item;
                 });
@@ -60,11 +63,11 @@ export default class GuidFile extends Route {
         }
     }
 
-    afterModel(this: GuidFile, model) {
+    afterModel(this: GuidFile, model: any) {
         this.get('setHeadTags').perform(model);
     }
 
-    resetController(controller, isExiting, transition) {
+    resetController(controller: GuidFileController, isExiting: boolean, transition: { targetName: string }) {
         if (isExiting && transition.targetName !== 'error') {
             controller.set('revision', null);
         }

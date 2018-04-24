@@ -4,7 +4,9 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import config from 'ember-get-config';
 import { osfServices } from 'ember-osf-web/const/service-links';
+import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import Session from 'ember-simple-auth/services/session';
 
 const HOME_APP = 'HOME';
 
@@ -14,15 +16,15 @@ const HOME_APP = 'HOME';
  * @class osf-navbar
  */
 export default class OsfNavbar extends Component {
-    @service session;
-    @service analytics;
+    @service session!: Session;
+    @service analytics!: Analytics;
     /**
      * Action run when the user clicks "Sign In"
      *
      * @property loginAction
      * @type {Action}
      */
-    loginAction: () => void;
+    loginAction?: () => void;
 
     /**
      * The URL to use for signup
@@ -49,7 +51,7 @@ export default class OsfNavbar extends Component {
 
     osfApps = osfServices;
 
-    @equal('currentApp', HOME_APP) inHomeApp;
+    @equal('currentApp', HOME_APP) inHomeApp!: boolean;
 
     @computed('hostAppName')
     get currentApp(): string {

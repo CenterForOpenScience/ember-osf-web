@@ -12,7 +12,7 @@ interface Context extends TestContext {
     application: any;
 }
 
-export default function(name, options: Options = {}) {
+export default function(name: string, options: Options = {}) {
     module(name, {
         beforeEach(this: Context, assert) {
             this.application = startApp();

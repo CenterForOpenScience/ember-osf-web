@@ -20,11 +20,11 @@ enum InputType {
 @classNames('validated-input')
 export default class ValidatedInput extends Component {
     @className('has-success')
-    @and('hasContent', 'validation.isValid', 'notValidating') isValid;
+    @and('hasContent', 'validation.isValid', 'notValidating') isValid!: boolean;
 
-    @className('has-error') showErrorClass;
+    @className('has-error') showErrorClass!: boolean;
 
-    model: DS.Model;
+    model?: DS.Model;
     disabled: boolean = defaultTo(this.disabled, false);
     value: string = defaultTo(this.value, '');
     type: InputType = defaultTo(this.type, InputType.Text);
@@ -33,10 +33,10 @@ export default class ValidatedInput extends Component {
     validation: any = defaultTo(this.validation, null);
     isTyping: boolean = defaultTo(this.isTyping, false);
 
-    @oneWay('targetObject.didValidate') didValidate;
-    @oneWay('validation.isInvalid') isInvalid;
-    @not('validation.isValidating') notValidating;
-    @notEmpty('value') hasContent;
+    @oneWay('targetObject.didValidate') didValidate!: boolean;
+    @oneWay('validation.isInvalid') isInvalid!: boolean;
+    @not('validation.isValidating') notValidating!: boolean;
+    @notEmpty('value') hasContent!: boolean;
 
     @computed('validation.isDirty', 'isInvalid', 'didValidate')
     get showErrorMessage(): boolean {
@@ -58,20 +58,20 @@ export default class ValidatedInput extends Component {
     }
 
     @action
-    forceParse(component) {
+    forceParse(component: any) {
         component._forceParse();
     }
 
     @action
-    onCaptchaResolved(this: ValidatedInput, reCaptchaResponse) {
-        if (this.valuePath) {
+    onCaptchaResolved(this: ValidatedInput, reCaptchaResponse: string) {
+        if (this.model && this.valuePath) {
             this.model.set(this.valuePath, reCaptchaResponse);
         }
     }
 
     @action
     onCaptchaExpired(this: ValidatedInput) {
-        if (this.valuePath) {
+        if (this.model && this.valuePath) {
             this.model.set(this.valuePath, '');
         }
     }

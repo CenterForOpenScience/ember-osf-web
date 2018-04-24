@@ -5,7 +5,10 @@ import { A } from '@ember/array';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { task, timeout } from 'ember-concurrency';
+import DS from 'ember-data';
+import I18N from 'ember-i18n/services/i18n';
 import Node from 'ember-osf-web/models/node';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 
@@ -56,20 +59,20 @@ export default class ProjectSelector extends Component.extend({
         return nodes;
     }).restartable(),
 }) {
-    @service currentUser;
-    @service i18n;
-    @service store;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
 
     didValidate = false;
     nodeTitle: string | null = defaultTo(this.nodeTitle, null);
-    projectSelectState = defaultTo(this.projectSelectState, ProjectSelectState.main);
+    projectSelectState: string = defaultTo(this.projectSelectState, ProjectSelectState.main);
     selected: Node | null = defaultTo(this.selected, null);
     showErrorMessage: boolean = defaultTo(this.showErrorMessage, false);
     projectList = A([]);
     newProject: Node = this.newProject;
 
-    @alias('selected.public') isPublicProject;
-    @bool('selected.links.relationships.parent') isChildNode;
+    @alias('selected.public') isPublicProject!: boolean;
+    @bool('selected.links.relationships.parent') isChildNode!: boolean;
 
     @computed('projectSelectState', 'newProject.validations.isValid', 'selected')
     get isValid(): boolean {
@@ -106,7 +109,7 @@ export default class ProjectSelector extends Component.extend({
     }
 
     @action
-    valueChanged(this: ProjectSelector, value?): void {
+    valueChanged(this: ProjectSelector, value?: Node): void {
         if (value) {
             this.set('selected', value);
 

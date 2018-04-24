@@ -14,9 +14,9 @@ import OsfModel from './osf-model';
  * @class FileVersion
  */
 export default class FileVersion extends OsfModel {
-    @attr('number') size: number;
-    @attr('date') dateCreated: Date;
-    @attr('fixstring') contentType: string;
+    @attr('number') size!: number;
+    @attr('date') dateCreated!: Date;
+    @attr('fixstring') contentType!: string;
 }
 
 declare module 'ember-data' {

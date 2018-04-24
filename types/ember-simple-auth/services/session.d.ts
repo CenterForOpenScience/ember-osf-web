@@ -2,6 +2,12 @@ import Computed from '@ember/object/computed';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
 
+interface Data {
+    authenticated: {
+        id: string;
+    };
+}
+
 class Session extends Service.extend(Evented) {
     /**
      * Triggered whenever the session is successfully authenticated. This happens
@@ -34,13 +40,15 @@ class Session extends Service.extend(Evented) {
      */
 
     isAuthenticated: Computed<boolean>;
-    data: Computed<object>;
+    data: Computed<Data>;
     store: Computed<any>;
     attemptedTransition: Computed<any>;
+    session: Computed<any>;
 
     set(key: string, value: any): any;
     authenticate(...args: any[]): RSVP.Promise;
     invalidate(...args: any): RSVP.Promise;
+    authorize(...args: any[]): RSVP.Promise;
 }
 
 declare module 'ember-simple-auth/services/session' {

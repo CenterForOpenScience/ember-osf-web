@@ -56,7 +56,7 @@ export function getAuthUrl(nextUri?: string): string {
     }
 }
 
-export function getTokenFromHash(hash): string | null {
+export function getTokenFromHash(hash: string): string | null {
     const splitHash = hash.substring(1).split('&');
 
     for (const chunk of splitHash) {

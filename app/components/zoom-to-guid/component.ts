@@ -13,7 +13,7 @@ import Component from '@ember/component';
  */
 @tagName('span')
 export default class ZoomToGuid extends Component {
-    @service('router') router;
+    @service router!: any;
 
     guid: string = '';
     showModal: boolean = false;

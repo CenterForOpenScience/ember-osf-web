@@ -1,6 +1,7 @@
 import { service } from '@ember-decorators/service';
 import Service from '@ember/service';
 import config from 'ember-get-config';
+import I18N from 'ember-i18n/services/i18n';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import toArray from 'ember-osf-web/utils/to-array';
 
@@ -53,8 +54,8 @@ export interface HeadTagDef {
 }
 
 export default class MetaTags extends Service {
-    @service i18n;
-    @service router;
+    @service i18n!: I18N;
+    @service router!: any;
 
     /**
      * Get meta tag definitions.

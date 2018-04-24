@@ -4,6 +4,12 @@ import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
+import DS from 'ember-data';
+import Institution from 'ember-osf-web/models/institution';
+import Node from 'ember-osf-web/models/node';
+import User from 'ember-osf-web/models/user';
+import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 interface QueryHasManyResponse<T> extends Array<T> {
     meta?: {
@@ -13,19 +19,19 @@ interface QueryHasManyResponse<T> extends Array<T> {
 }
 
 export default class Dashboard extends Controller {
-    @service analytics;
-    @service currentUser;
-    @service store;
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
 
     page: number = 1;
     loading: boolean = false;
     loadingSearch: boolean = false;
     loadingMore: boolean = false;
     initialLoad: boolean = true;
-    filter: string = '';
+    filter: string | null = '';
     sort: string = '-last_logged';
     modalOpen: boolean = false;
-    newNode = null;
+    newNode: Node | null = null;
     'failedLoading-noteworthy': boolean = false;
     'failedLoading-popular': boolean = false;
 
@@ -38,7 +44,7 @@ export default class Dashboard extends Controller {
         this.set('institutions', yield this.get('store').findAll('institution'));
     }).restartable();
 
-    filterNodes = task(function* (this: Dashboard, filter) {
+    filterNodes = task(function* (this: Dashboard, filter: string) {
         yield timeout(500);
         this.setProperties({ filter });
         yield this.get('findNodes').perform();
@@ -82,13 +88,13 @@ export default class Dashboard extends Controller {
         }
     });
 
-    searchNodes = task(function* (this: Dashboard, title) {
+    searchNodes = task(function* (this: Dashboard, title: string) {
         yield timeout(500);
         const user = yield this.get('user');
         return yield user.queryHasMany('nodes', { filter: { title } });
     }).restartable();
 
-    createNode = task(function* (this: Dashboard, title, description, templateFrom) {
+    createNode = task(function* (this: Dashboard, title: string, description: string, templateFrom: Node) {
         if (!title) {
             return;
         }
@@ -110,10 +116,10 @@ export default class Dashboard extends Controller {
         this.set('newNode', node);
     }).drop();
 
-    @alias('currentUser.user') user;
-    @oneWay('user.institutions') institutionsSelected;
+    @alias('currentUser.user') user!: User;
+    @oneWay('user.institutions') institutionsSelected!: DS.PromiseManyArray<Institution> | Institution[];
 
-    @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes;
+    @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes!: boolean;
 
     @computed('nodes.{length,meta.total}')
     get hasMore(this: Dashboard): boolean {
@@ -132,7 +138,7 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    selectInstitution(this: Dashboard, institution) {
+    selectInstitution(this: Dashboard, institution: Institution) {
         const selected = this.set('institutionsSelected', this.get('institutionsSelected').slice());
 
         if (selected.includes(institution)) {
