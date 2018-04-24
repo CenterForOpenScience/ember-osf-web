@@ -15,6 +15,11 @@ export default class InstitutionCarousel extends Component {
     itemsPerSlide: number = defaultTo(this.itemsPerSlide, 5);
     institutions = defaultTo(this.institutions, A([]));
 
+    @computed('institutions.length', 'itemsPerSlide')
+    get showControls() {
+        return this.institutions.length > this.itemsPerSlide;
+    }
+
     @computed('institutions.[]', 'itemsPerSlide')
     get slides() {
         const institutions = this.institutions.slice();
@@ -31,6 +36,6 @@ export default class InstitutionCarousel extends Component {
     @computed('institutions.length', 'itemsPerSlide')
     get columnOffset() {
         const numInstitutions = this.institutions.length;
-        return numInstitutions <= this.itemsPerSlide ? this.itemsPerSlide - numInstitutions : 1;
+        return numInstitutions < this.itemsPerSlide ? this.itemsPerSlide - numInstitutions : 1;
     }
 }
