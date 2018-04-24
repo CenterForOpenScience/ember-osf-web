@@ -92,7 +92,7 @@ export default class FileBrowser extends Component {
 
         const selectedItem = this.selectedItems.firstObject;
         const isNewProject = !!this.node && !!this.node.isNew;
-        const isChildNode = !!this.node && !!this.node.links.relationships.parent;
+        const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships.parent;
 
         const moveSuccess: boolean = yield this.moveFile(selectedItem, this.node);
         this.analytics.track('file', 'move', 'Quick Files - Move to project');
