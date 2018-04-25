@@ -49,6 +49,7 @@ Router.map(function () {
     this.route('goodbye');
     this.route('dashboard');
     this.route('quickfiles');
+    this.route('institutions');
     this.route('support');
 
     /*
