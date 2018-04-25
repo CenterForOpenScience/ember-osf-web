@@ -315,8 +315,8 @@ export default {
         socialize: 'ソーシャライズ',
         contact: 'コンタクト',
         copyright: 'Copyright &copy; 2011-{{currentYear}}',
-        terms: 'Terms of use',
-        privacy: 'Privacy policy',
+        terms: 'Terms&nbsp;of&nbsp;Use',
+        privacy: 'Privacy&nbsp;Policy',
         separator: ' | ',
     },
     home: {
@@ -400,11 +400,6 @@ export default {
         password: 'パスワード',
         sign_up_free: '無料サインアップ',
         password_placeholder: 'パスワード（{{min}〜{{max}}文字である必要があります）',
-        progress_1: '非常に弱い',
-        progress_2: '弱い',
-        progress_3: '普通',
-        progress_4: '良い',
-        progress_5: '大変良い!',
         registration_success: '登録に成功。{{email}}にメールアドレスを確認してください。',
     },
     sign_up_policy: {

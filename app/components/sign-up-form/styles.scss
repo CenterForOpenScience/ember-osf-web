@@ -35,3 +35,11 @@ input,
         width: #{$i * 20%};
     }
 }
+
+& {
+    @each $class, $color in $progress-bar-bg-bright {
+        &__progress-bar-#{$class}-bright {
+            background-color: $color;
+        }
+    }
+}

@@ -34,17 +34,13 @@
         aria-label=(t 'sign_up_form.password')
     }}
     <div class="row" hidden={{not progress}}>
-        <div class="col-xs-8">
+        <div class="col-xs-12">
             <div class="progress CreatePassword">
-                <div class="progress-bar progress-bar-sm progress-bar-{{progress}} progress-bar-{{progressStyle}}"
+                <div
+                    class="progress-bar progress-bar-sm progress-bar-{{progress}} progress-bar-{{progressStyle}} {{styleNamespace}}__progress-bar-{{progressStyle}}-bright"
                     role="progressbar">
                 </div>
             </div>
-        </div>
-        <div class="col-xs-4 f-w-xl text-left pv-darkbg">
-            <p id="front-password-info" class="text-{{progressStyle}}">
-                {{if progress (t (concat 'sign_up_form.progress_' progress))}}
-            </p>
         </div>
     </div>
     {{#if (not hasSubmitted)}}
