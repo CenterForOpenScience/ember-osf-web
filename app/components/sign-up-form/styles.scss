@@ -35,3 +35,25 @@ input,
         width: #{$i * 20%};
     }
 }
+
+& {
+    &__progress-bar-primary-bright {
+        background-color: $progress-bar-primary-bg-bright;
+    }
+
+    &__progress-bar-info-bright {
+        background-color: $progress-bar-info-bg-bright;
+    }
+
+    &__progress-bar-success-bright {
+        background-color: $progress-bar-success-bg-bright;
+    }
+
+    &__progress-bar-warning-bright {
+        background-color: $progress-bar-warning-bg-bright;
+    }
+
+    &__progress-bar-danger-bright {
+        background-color: $progress-bar-danger-bg-bright;
+    }
+}
