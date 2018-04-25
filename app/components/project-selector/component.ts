@@ -134,4 +134,11 @@ export default class ProjectSelector extends Component.extend({
             this.projectSelected(selected);
         }
     }
+
+    @action
+    prevent(event: Event) {
+        event.preventDefault();
+
+        return false;
+    }
 }
