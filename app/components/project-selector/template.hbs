@@ -13,7 +13,7 @@
     </div>
 {{/if}}
 {{#if (eq projectSelectState 'newProject')}}
-    <form>
+    <form onsubmit={{action 'prevent'}}>
         <div class="form-group">
             {{validated-input
                 model=newProject
