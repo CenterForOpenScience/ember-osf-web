@@ -26,7 +26,7 @@ function fetchIdFromRelationshipLink(node: Node, relationship: keyof Node) {
 
 function fetchTitle(node: Node, relationship: keyof Node) {
     // Fetches parent or root title.  If null, marks 'Private'.
-    const { title } = node.get(relationship);
+    const title = node.get(relationship).get('title');
 
     return typeof title !== 'undefined' ? title : 'Private';
 }
@@ -36,10 +36,10 @@ export function getAncestorDescriptor(params: any[]): string {
     // For example, Root Name / ... / Parent Name / Node Name.
     const node = params[0] as Node;
     const nodeId = node.id;
-    let rootId = node.root.id;
-    let parentId = node.parent.id;
+    let rootId = node.root.get('id');
+    let parentId = node.parent.get('id');
     const parent: Node = node.parent instanceof ObjectProxy ? node.get('parent').content as Node : node.parent;
-    let parentParentId = parent ? parent.parent.id : undefined;
+    let parentParentId = parent ? parent.parent && parent.parent.get('id') : undefined;
 
     const separator = ' / ';
     const ellipsis = '\u2026';
