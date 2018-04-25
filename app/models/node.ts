@@ -55,7 +55,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     @attr('fixstring') templateFrom!: string;
 
-    @hasMany('contributor', { allowBulkUpdate: true, allowBulkRemove: true, inverse: 'node' })
+    @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<Contributor>;
 
     @belongsTo('node', { inverse: 'children' })
@@ -72,7 +72,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     @hasMany('file-provider') files!: DS.PromiseManyArray<FileProvider>;
 
-    @hasMany('node', { inverse: null, serializerType: 'linked-node' }) linkedNodes!: DS.PromiseManyArray<Node>;
+    @hasMany('node', { inverse: null }) linkedNodes!: DS.PromiseManyArray<Node>;
     @hasMany('registration', { inverse: 'registeredFrom' }) registrations!: DS.PromiseManyArray<Registration>;
 
     @hasMany('draft-registration', { inverse: 'branchedFrom' })

@@ -1,25 +1,27 @@
-declare module '@ember-decorators/data' {
-    interface AttrOptions<T> {
-        allowNull?: boolean;
-        defaultValue?: T;
-    }
+import { ModelRegistry, TransformRegistry } from 'ember-data';
 
-    export function attr<K extends keyof TransformRegistry>(type?: K, options?: AttrOptions): PropertyDecorator;
-
-    interface HasManyOptions {
-        allowBulkUpdate?: true;
-        allowBulkRemove?: true;
-        async?: boolean;
-        defaultValue?: any;
-        inverse?: keyof ModelRegistry | null;
-        serializerType?: keyof SerializerRegistry;
-    }
-
-    export function hasMany<K extends keyof ModelRegistry>(type: K, options?: HasManyOptions): PropertyDecorator;
-
-    interface BelongsToOptions {
-        inverse: keyof ModelRegistry | null;
-    }
-
-    export function belongsTo<K extends keyof ModelRegistry>(type: K, options?: BelongsToOptions): PropertyDecorator;
+interface AttrOptions<T> {
+    allowNull?: boolean;
+    defaultValue?: T;
 }
+
+export function attr<K extends keyof TransformRegistry>(
+    type?: K,
+    options?: AttrOptions<TransformRegistry[K]>,
+): PropertyDecorator;
+
+interface RelationshipOptions<Model> {
+    async?: boolean;
+    inverse?: keyof Model | null;
+    polymorphic?: boolean;
+}
+
+export function hasMany<K extends keyof ModelRegistry>(
+    type: K,
+    options?: RelationshipOptions<ModelRegistry[K]>,
+): PropertyDecorator;
+
+export function belongsTo<K extends keyof ModelRegistry>(
+    type: K,
+    options?: RelationshipOptions<ModelRegistry[K]>,
+): PropertyDecorator;
