@@ -400,11 +400,6 @@ export default {
         password: 'Password',
         sign_up_free: 'Sign up free',
         password_placeholder: 'Password (Must be {{min}} to {{max}} characters)',
-        progress_1: 'Very weak',
-        progress_2: 'Weak',
-        progress_3: 'So-so',
-        progress_4: 'Good',
-        progress_5: 'Great!',
         registration_success: 'Registration successful. Please check {{email}} to confirm your email address.',
     },
     sign_up_policy: {
