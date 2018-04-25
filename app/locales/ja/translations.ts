@@ -315,8 +315,8 @@ export default {
         socialize: 'ソーシャライズ',
         contact: 'コンタクト',
         copyright: 'Copyright &copy; 2011-{{currentYear}}',
-        terms: 'Terms of Use',
-        privacy: 'Privacy Policy',
+        terms: 'Terms&nbsp;of&nbsp;Use',
+        privacy: 'Privacy&nbsp;Policy',
         separator: ' | ',
     },
     home: {
