@@ -474,10 +474,10 @@ export default {
         settings: 'Settings',
         comments: 'Comments',
     },
-    dropzone_widget: {	
-        drop_files: 'アップロードするファイルをここにドロップして下さい',	
-        error_multiple_files: '複数のファイルをアップロードできません',	
-        error_directories: 'ディレクトリ、アプリケーション、またはパッケージをアップロードできません。',	
+    dropzone_widget: {
+        drop_files: 'アップロードするファイルをここにドロップして下さい',
+        error_multiple_files: '複数のファイルをアップロードできません',
+        error_directories: 'ディレクトリ、アプリケーション、またはパッケージをアップロードできません。',
     },
     join_osf: {
         header: 'Start managing your projects on OSF today.',
