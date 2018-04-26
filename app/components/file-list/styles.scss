@@ -4,6 +4,8 @@
     border-top: none;
     height: 400px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 a {
@@ -43,9 +45,9 @@ a {
 
 .items {
     z-index: 0;
-    height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
+    flex: 1;
 }
 
 .shade {
