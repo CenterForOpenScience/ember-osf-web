@@ -7,7 +7,7 @@
                     <div class="Institutions__logo"></div>
                     <p class="lead">
                         {{t 'institutions.description'}}
-                        <a href='https://cos.io/our-products/osf-institutions/'>{{t 'institutions.read_more'}}</a>
+                        <a class='Institutions__block__link' href='https://cos.io/our-products/osf-institutions/'>{{t 'institutions.read_more'}}</a>
                     </p>
                 </div>
             </div>
@@ -30,12 +30,12 @@
                                     </div>
                                 </div>
                                 {{#each institutions as |institution|}}
-                                    <div class="m-v-sm Institutions__table__item row" {{action 'goTo' institution.id}}>
+                                    <a class="m-v-sm Institutions__table__item row" href='{{institution.id}}'>
                                         <div class='col-xs-3'>
-                                            <img class='Institutions__logo' src='{{institution.logoPath}}'>
+                                            <img class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoPath}}'>
                                         </div>
-                                        <div class='col-xs-9'><span>{{institution.name}}</span></div>
-                                    </div>
+                                        <div class='col-xs-9' class='Institutions__table__title'><span>{{institution.name}}</span></div>
+                                    </a>
                                 {{/each}}
                                 {{#if hasMore}}
                                     <div style='text-align: center'>

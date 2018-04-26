@@ -1,5 +1,3 @@
-/* stylelint-disable */
-
 .Institutions {
     &__logo {
         background: url('img/institutions-logo.png') top center no-repeat;
@@ -8,21 +6,15 @@
     }
 
     &__block {
-        background:#214661 url('img/preprints-bg.jpg') top center ;
+        background: $color-bg-blue-darker url('img/preprints-bg.jpg') top center;
         background-position-y: -50px;
         padding-bottom: 30px;
-        border-bottom: 1px solid #dddddd;
-        color: white;
-        h1 {
-            font-size: 41px;
-            font-weight: 300;
-        }
-        a:not(.btn) {
-            color: #80c2f7;
+        border-bottom: 1px solid $color-border-gray;
+        color: $color-text-white;
+
+        &__link {
+            color: $color-link-blue;
             text-decoration: underline;
-        }
-        .btn-info {
-            color: #fff
         }
     }
 
@@ -41,29 +33,31 @@
 
     &__browser {
         min-height: 700px;
-        background: #C5D6E6 url('/static/img/bg6.jpg') top center repeat-y;
+        background: $color-bg-blue-light url('/static/img/bg6.jpg') top center repeat-y;
         background-size: cover;
     }
 
     &__table {
-        background: rgba(255, 255, 255, 0.49);
+        background: $color-bg-white-transparent;
         padding: 10px 15px;
         border-radius: 2px;
         margin-top: 20px;
         margin-bottom: 50px;
 
         &__item {
-            background-color: #fff;
-            box-shadow: 1px 1px 1px #ccc;
+            display: block;
+            background-color: $color-bg-white;
+            box-shadow: 1px 1px 1px $color-border-gray;
             padding: 6px;
-            color: #555;
+            color: $color-text-gray;
             font-size: 25px;
             text-align: center;
             cursor: pointer;
-            .col-xs-9 {
-                padding-top: 30px;
-                padding-bottom: 30px;
-            }
+        }
+
+        &__title {
+            padding-top: 30px;
+            padding-bottom: 30px;
         }
     }
 
@@ -74,7 +68,7 @@
     &__pagination {
         font-size: 20px;
         cursor: pointer;
-        color: grey;
+        color: $color-text-gray;
     }
 
     &__sorting {

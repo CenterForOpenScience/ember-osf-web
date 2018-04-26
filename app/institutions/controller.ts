@@ -1,7 +1,8 @@
 import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+
+import Institution from 'ember-osf-web/models/institution';
 
 export default class Institutions extends Controller {
     @service store;
@@ -9,25 +10,27 @@ export default class Institutions extends Controller {
     page = 1;
     textValue: string = '';
 
-    @computed('model', 'sortOrder', 'page', 'textValue')
-    get institutions(this: Institutions) {
-        const filtered = this.textValue.length ? this.model.filter(i => i.get('name').toLowerCase().indexOf(this.textValue.toLowerCase()) !== -1) : this.model;
-        const sorted = filtered.sortBy('name');
+    @computed('model', 'textValue')
+    get filtered(this: Institutions): Institution[] {
+        if (!this.textValue.length) {
+            return this.model;
+        }
+        return this.model.filter(i => i.get('name').toLowerCase().indexOf(this.textValue.toLowerCase()) !== -1);
+    }
+
+    @computed('filtered', 'sortOrder', 'page', 'textValue')
+    get institutions(this: Institutions): Institution[] {
+        const sorted = this.filtered.sortBy('name');
         if (this.sortOrder === '-title') { sorted.reverse(); }
         return sorted.slice(0, 10 * this.page);
     }
 
-    @computed('institutions', 'model', 'textValue')
+    @computed('institutions', 'filtered', 'textValue')
     get hasMore(this: Institutions): boolean {
         if (!this.institutions) {
             return false;
         }
-        if (this.textValue.length) {
-            //use link
-            return this.institutions.length !== this.model.filter(i => i.get('name').toLowerCase().indexOf(this.textValue.toLowerCase()) !== -1).length;
-        }
-        return this.institutions.length !== this.model.length;
-
+        return this.institutions.length !== this.filtered.length;
     }
 
     @action
@@ -38,11 +41,6 @@ export default class Institutions extends Controller {
     @action
     sort(this: Institutions, sortOrder: 'title' | '-title') {
         this.set('sortOrder', sortOrder);
-    };
-
-    @action
-    goTo(id: string) {
-        window.location = id;
     }
 }
 
