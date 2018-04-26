@@ -177,6 +177,7 @@ module.exports = function(environment) {
                 support: 'ember_support_page',
                 dashboard: 'ember_home_page',
                 home: 'ember_home_page',
+                institutions: 'ember_institutional_landing_page',
             },
         },
         gReCaptcha: {

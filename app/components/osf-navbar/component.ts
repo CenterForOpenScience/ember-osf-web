@@ -16,6 +16,7 @@ const HOME_APP = 'HOME';
 export default class OsfNavbar extends Component {
     @service session;
     @service analytics;
+    @service features;
     /**
      * Action run when the user clicks "Sign In"
      *
@@ -47,12 +48,21 @@ export default class OsfNavbar extends Component {
     indexRoute: string = 'dashboard';
     showNavLinks: boolean = false;
 
-    osfApps = osfServices;
+    @computed('features')
+    get osfApps(this: OsfNavbar) {
+        if (this.features.isEnabled(config.featureFlags.routes.institutions)) {
+            return osfServices;
+        }
+        return osfServices.filter(e => e.name !== 'INSTITUTIONS');
+    }
 
     @equal('currentApp', HOME_APP) inHomeApp;
 
     @computed('hostAppName')
     get currentApp(): string {
+        if (window.location.pathname.includes('institutions')) {
+            return 'INSTITUTIONS';
+        }
         return (this.hostAppName === 'Dummy App' ? HOME_APP : this.hostAppName).toUpperCase();
     }
 

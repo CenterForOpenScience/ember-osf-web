@@ -120,6 +120,7 @@ declare const config: {
             support: string;
             dashboard: string;
             home: string;
+            institutions: string;
         };
     };
     gReCaptcha: {

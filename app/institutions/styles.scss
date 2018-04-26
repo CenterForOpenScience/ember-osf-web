@@ -1,12 +1,12 @@
 .Institutions {
     &__logo {
-        background: url('img/institutions-logo.png') top center no-repeat;
+        background: url('/static/img/institutions/osf_institutions_white.png') top center no-repeat;
         height: 70px;
         background-size: contain;
     }
 
     &__block {
-        background: $color-bg-blue-darker url('img/preprints-bg.jpg') top center;
+        background: $color-bg-blue-darker;
         background-position-y: -50px;
         padding-bottom: 30px;
         border-bottom: 1px solid $color-border-gray;
@@ -19,7 +19,7 @@
     }
 
     &__header {
-        padding-top: 100px;
+        padding-top: 50px;
     }
 
     &__footer {
