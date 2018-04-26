@@ -13,6 +13,6 @@ module('Integration | Component | quickfile-nav', hooks => {
 
         await render(hbs`{{quickfile-nav user=user}}`);
 
-        assert.ok(this.element.textContent.trim());
+        assert.ok((this.element.textContent as string).trim());
     });
 });

@@ -6,6 +6,7 @@ export default {
         share: '共有',
         embed: '埋込み',
         download: 'ダウンロード',
+        download_url: 'Download url',
         delete: '削除',
         view: '表示',
         edit: '編集',
@@ -19,7 +20,8 @@ export default {
         modified: '変更',
         description: '説明',
         create: '作成',
-        and: 'and',
+        and: 'と',
+        or: 'or',
         more: '詳細',
         upload: 'アップロード',
         rename: '名前の変更',
@@ -33,7 +35,7 @@ export default {
         filter: 'フィルター',
         revert: '復帰',
         save: '保存',
-        ellipses: '\u2026',
+        ellipsis: '\u2026',
         warning: '警告',
         clipboard_copy: 'クリップボードへコピー',
         sort_asc: '昇順ソート',
@@ -47,11 +49,8 @@ export default {
         api: 'API',
         cos: 'Center for Open Science',
         home: 'ホーム',
-<<<<<<< HEAD
-        period: '.',
-=======
         period: '。',
->>>>>>> f26ee3bf78001b2b9cd21fed6a6eea1700d6a53a
+        hosted_on_the_osf: 'Hosted on the Open Science Framework',
     },
     maintenance: {
         line1: '本サイトは<strong>{{start}}から{{end}}</strong> ({{utc}} UTC)時の間メンテナンスを実施します。',
@@ -63,6 +62,7 @@ export default {
         description: 'ここにアップロードされたファイルは<b>一般公開</b>されており、共有リンクを使用して他のユーザーと簡単に共有できます。',
         feedback_dialog_text: 'クイックファイルの考え方を我々に教えて下さい',
         transition_auth: 'クイックファイルを表示するには、ログインしている必要があります。ログインページにリダイレクトします。',
+        share_by_email: 'Share by email',
     },
     feedback: {
         button_text: 'フィードバック',
@@ -98,6 +98,8 @@ export default {
         save_fail: 'エラー、ファイルを保存できません',
         mfr_iframe_title: 'ドキュメントのレンダリング',
         add_tag: '検索性を高めるタグを追加する',
+        embed_js_label: 'Embeddable javascript',
+        embed_iframe_label: 'Embeddable iframe',
     },
     file_browser: {
         loading: 'ローディング中...',
@@ -241,6 +243,7 @@ export default {
         support: 'サポート',
         toggle_primary: 'プライマリー・ナビゲーション切替',
         toggle_secondary: 'セカンダリー・ナビゲーション切替',
+        other_views: 'Other OSF views',
     },
     auth_dropdown: {
         log_out: 'ログアウト',
@@ -256,11 +259,7 @@ export default {
         close: '閉じる',
         search_help: 'ヘルプを検索',
         queries: 'クエリ',
-<<<<<<< HEAD
         paragraph: '検索は、<a href={{link}}>Lucene検索シンタックス</a>を使用します。 これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
-=======
-        paragraph: '検索は、<a href={{link}}>Lucene検索構文</a>を使用します。 これは多くのオプションを提供しますが、非常にシンプルにすることもできます。 有効な検索の例は次のとおりです。',
->>>>>>> f26ee3bf78001b2b9cd21fed6a6eea1700d6a53a
     },
     support: {
         title: 'サポート',
@@ -315,6 +314,10 @@ export default {
         donate: '寄付',
         socialize: 'ソーシャライズ',
         contact: 'コンタクト',
+        copyright: 'Copyright &copy; 2011-{{currentYear}}',
+        terms: 'Terms&nbsp;of&nbsp;Use',
+        privacy: 'Privacy&nbsp;Policy',
+        separator: ' | ',
     },
     home: {
         title: 'ホーム',
@@ -397,11 +400,6 @@ export default {
         password: 'パスワード',
         sign_up_free: '無料サインアップ',
         password_placeholder: 'パスワード（{{min}〜{{max}}文字である必要があります）',
-        progress_1: '非常に弱い',
-        progress_2: '弱い',
-        progress_3: '普通',
-        progress_4: '良い',
-        progress_5: '大変良い!',
         registration_success: '登録に成功。{{email}}にメールアドレスを確認してください。',
     },
     sign_up_policy: {
@@ -464,9 +462,37 @@ export default {
         privacy: 'プライバシーポリシー',
         separator: ' | ',
     },
+    node_navbar: {
+        toggle: 'Toggle navigation',
+        project_nav: 'Project Navigation',
+        wiki: 'Wiki',
+        analytics: 'Analytics',
+        registrations: 'Registrations',
+        files: 'Files',
+        contributors: 'Contributors',
+        addons: 'Add-ons',
+        settings: 'Settings',
+        comments: 'Comments',
+    },
     dropzone_widget: {	
         drop_files: 'アップロードするファイルをここにドロップして下さい',	
         error_multiple_files: '複数のファイルをアップロードできません',	
         error_directories: 'ディレクトリ、アプリケーション、またはパッケージをアップロードできません。',	
     },
+    join_osf: {
+        header: 'Start managing your projects on OSF today.',
+        pitch: 'Free and easy to use, OSF supports the entire research lifecycle: planning, execution, reporting, archiving, and discovery.',
+        create_account: 'Create an account',
+        learn_more: 'learn more',
+        hide_message: 'Hide this message',
+    },
+    social: {
+        twitter: 'Twitter',
+        facebook: 'Facebook',
+        google_group: 'Google Group',
+        github: 'GitHub',
+        google_plus: 'Google Plus',
+        linkedin: 'LinkedIn',
+    },
+
 };

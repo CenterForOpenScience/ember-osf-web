@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Node navbar: to accompany all node pages
 - Status Banner: shows status messages
 - Maintenance Banner: shows maintenance messages
 - TypeScript: Add ember-cli-typscript and ember-cli-tslint
@@ -16,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added isPublic, authenticated, and resource dimensions to trackPage()
 - defaultTo utility for initializing component arguments
 - Loading indicator to file-renderer component
+- Join OSF banner
+- toArray utility
+- meta-tags service
+- Test: make sure config types match actual config
 
 ### Changed
 - TypeScript: Rename files to .ts
@@ -24,6 +29,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Refactor handling of `embeds` in `osf-serializer`
 - Update dashboard "new project" task to send only one request
 - Moved analytics tracking to a Service
+- Use meta-tags service to add meta-tags to Quick File detail
+- Combine footer and copyright; simplify both while making more accessible
+- Ember builds will now fail on TypeScript errors.
 
 ### Removed
 - Homegrown dirty relationship tracking, with automagic additional requests on save

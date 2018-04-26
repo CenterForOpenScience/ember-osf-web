@@ -18,5 +18,9 @@
             opacity: 0.25;
             filter: grayscale(100%);
         }
+
+        &__placeholder {
+            color: $color-text-gray-dark;
+        }
     }
 }

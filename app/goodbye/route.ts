@@ -1,8 +1,10 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import Ember from 'ember';
+import Session from 'ember-simple-auth/services/session';
 
-export default class DashboardUnauth extends Route.extend({
-    async beforeModel(transition) {
+export default class Goodbye extends Route.extend({
+    async beforeModel(this: Goodbye, transition: Ember.Transition) {
         await this._super(transition);
 
         const session = this.get('session');
@@ -17,5 +19,5 @@ export default class DashboardUnauth extends Route.extend({
         });
     },
 }) {
-    @service session;
+    @service session!: Session;
 }

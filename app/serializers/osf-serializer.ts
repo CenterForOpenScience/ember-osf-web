@@ -4,7 +4,7 @@ import DS from 'ember-data';
 const { JSONAPISerializer } = DS;
 
 interface ResourceHash {
-    attributes: {
+    attributes?: {
         links?: any,
     };
     links?: any;
@@ -12,13 +12,7 @@ interface ResourceHash {
     embeds?: any;
 }
 
-const OsfSerializer = JSONAPISerializer.extend({
-    attrs: {
-        links: {
-            serialize: false,
-        },
-    },
-
+export default class OsfSerializer extends JSONAPISerializer.extend({
     /**
      * Get embedded objects from the response and push them into the store.
      * Return a new resource hash that only contains relationships in JSON API format,
@@ -33,7 +27,7 @@ const OsfSerializer = JSONAPISerializer.extend({
         if (!resourceHash.embeds) {
             return resourceHash;
         }
-        const relationships = {};
+        const relationships: { [k: string]: any } = {};
         for (const relName of Object.keys(resourceHash.relationships)) {
             const embeddedObj = resourceHash.embeds[relName];
 
@@ -60,7 +54,7 @@ const OsfSerializer = JSONAPISerializer.extend({
             // Construct a new relationship in JSON API format
             if (Array.isArray(embeddedObj.data)) {
                 relationships[relName] = {
-                    data: embeddedObj.data.map(({ id, type }) => ({ id, type })),
+                    data: embeddedObj.data.map(({ id, type }: { id: string, type: string}) => ({ id, type })),
                     links: embeddedLinks,
                 };
             } else {
@@ -73,6 +67,7 @@ const OsfSerializer = JSONAPISerializer.extend({
                 };
             }
         }
+
         return { relationships };
     },
 
@@ -128,12 +123,12 @@ const OsfSerializer = JSONAPISerializer.extend({
             }
 
             // HACK: There's no public-API way to tell whether a relationship has been changed.
-            const relationships = snapshot._internalModel._relationships.initializedRelationships;
+            const relationships = (snapshot as any)._internalModel._relationships.initializedRelationships;
             for (const key of Object.keys(serialized.data.relationships)) {
                 const rel = relationships[camelize(key)];
                 if (rel
                     && rel.members.length === rel.canonicalMembers.length
-                    && rel.members.list.every((v, i) => v === rel.canonicalMembers.list[i])
+                    && rel.members.list.every((v: any, i: any) => v === rel.canonicalMembers.list[i])
                 ) {
                     delete serialized.data.relationships[key];
                 }
@@ -143,27 +138,34 @@ const OsfSerializer = JSONAPISerializer.extend({
         return serialized;
     },
 
-    serializeAttribute(snapshot: DS.Snapshot, json: any, key: string): void {
+    serializeAttribute(snapshot: DS.Snapshot, json: object, key: string, attribute: object): void {
         // In certain cases, a field may be omitted from the server payload, but have a value (undefined)
         // when serialized from the model. (e.g. node.template_from)
         // Omit fields with a value of undefined before sending to the server. (but still allow null to be sent)
         const val = snapshot.attr(key);
+
         if (val !== undefined) {
-            this._super(...arguments);
+            this._super(snapshot, json, key, attribute);
         }
     },
 
-    normalizeArrayResponse(): any {
-        const documentHash: any = this._super(...arguments);
+    normalizeArrayResponse(...args: any[]): any {
+        const documentHash: any = this._super(...args);
+
         if (documentHash.meta && documentHash.meta.total && documentHash.meta.per_page) {
             // For any request that returns more than one result, calculate total pages to be loaded.
             documentHash.meta.total_pages = Math.ceil(documentHash.meta.total / documentHash.meta.per_page);
         }
+
         return documentHash;
     },
-});
-
-export default OsfSerializer;
+}) {
+    attrs = {
+        links: {
+            serialize: false,
+        },
+    };
+}
 
 declare module 'ember-data' {
     interface SerializerRegistry {

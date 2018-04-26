@@ -4,7 +4,7 @@ import { className, classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { and, not, notEmpty, oneWay } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
-import { computed as comp, defineProperty, get } from '@ember/object';
+import { computed as comp, defineProperty } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import DS from 'ember-data';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -20,56 +20,59 @@ enum InputType {
 @classNames('validated-input')
 export default class ValidatedInput extends Component {
     @className('has-success')
-    @and('hasContent', 'validation.isValid', 'notValidating') isValid;
+    @and('hasContent', 'validation.isValid', 'notValidating') isValid!: boolean;
 
-    @className('has-error') showErrorClass;
+    @className('has-error') showErrorClass!: boolean;
 
-    model: DS.Model;
+    model?: DS.Model;
     disabled: boolean = defaultTo(this.disabled, false);
     value: string = defaultTo(this.value, '');
     type: InputType = defaultTo(this.type, InputType.Text);
-    valuePath: string = defaultTo(this.valuePath, '');
+    valuePath: keyof DS.Model | null = defaultTo(this.valuePath, null);
     placeholder: string = defaultTo(this.placeholder, '');
     validation: any = defaultTo(this.validation, null);
     isTyping: boolean = defaultTo(this.isTyping, false);
 
-    @oneWay('targetObject.didValidate') didValidate;
-    @oneWay('validation.isInvalid') isInvalid;
-    @not('validation.isValidating') notValidating;
-    @notEmpty('value') hasContent;
+    @oneWay('targetObject.didValidate') didValidate!: boolean;
+    @oneWay('validation.isInvalid') isInvalid!: boolean;
+    @not('validation.isValidating') notValidating!: boolean;
+    @notEmpty('value') hasContent!: boolean;
 
     @computed('validation.isDirty', 'isInvalid', 'didValidate')
-    get showErrorMessage(this: ValidatedInput): boolean {
-        return ((this.get('validation') && this.get('validation').get('isDirty')) || this.get('didValidate'))
-            && this.get('isInvalid');
+    get showErrorMessage(): boolean {
+        return ((this.validation && this.validation.isDirty) || this.didValidate)
+            && this.isInvalid;
     }
 
     @computed('validation.{isDirty,warnings.[]}', 'isValid', 'didValidate')
-    get showWarningMessage(this: ValidatedInput): boolean {
-        return ((this.get('validation') && this.get('validation').get('isDirty')) || this.get('didValidate'))
-            && this.get('isValid')
-            && !isEmpty(this.get('validation').get('warnings'));
+    get showWarningMessage(): boolean {
+        return ((this.validation && this.validation.isDirty) || this.didValidate)
+            && this.isValid
+            && !isEmpty(this.validation.warnings);
     }
 
-    constructor() {
-        super();
-        const valuePath = get(this, 'valuePath');
-        defineProperty(this, 'validation', comp.oneWay(`model.validations.attrs.${valuePath}`));
-        defineProperty(this, 'value', comp.alias(`model.${valuePath}`));
+    constructor(properties: object) {
+        super(properties);
+        defineProperty(this, 'validation', comp.oneWay(`model.validations.attrs.${this.valuePath}`));
+        defineProperty(this, 'value', comp.alias(`model.${this.valuePath}`));
     }
 
     @action
-    forceParse(component) {
+    forceParse(component: any) {
         component._forceParse();
     }
 
     @action
-    onCaptchaResolved(this: ValidatedInput, reCaptchaResponse) {
-        this.get('model').set(this.get('valuePath'), reCaptchaResponse);
+    onCaptchaResolved(this: ValidatedInput, reCaptchaResponse: string) {
+        if (this.model && this.valuePath) {
+            this.model.set(this.valuePath, reCaptchaResponse);
+        }
     }
 
     @action
     onCaptchaExpired(this: ValidatedInput) {
-        this.get('model').set(this.get('valuePath'), null);
+        if (this.model && this.valuePath) {
+            this.model.set(this.valuePath, '');
+        }
     }
 }

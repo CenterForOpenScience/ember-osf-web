@@ -1,21 +1,23 @@
+import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 import OsfModel from './osf-model';
+import Preprint from './preprint';
+import PreprintProvider from './preprint-provider';
+import User from './user';
 
-const { attr, belongsTo } = DS;
-
-export default class ReviewAction extends OsfModel.extend({
-    actionTrigger: attr('string'),
-    comment: attr('string'),
-    fromState: attr('string'),
-    toState: attr('string'),
-    dateCreated: attr('date'),
-    dateModified: attr('date'),
+export default class ReviewAction extends OsfModel {
+    @attr('string') actionTrigger!: string;
+    @attr('string') comment!: string;
+    @attr('string') fromState!: string;
+    @attr('string') toState!: string;
+    @attr('date') dateCreated!: Date;
+    @attr('date') dateModified!: Date;
 
     // Relationships
-    provider: belongsTo('preprint-provider', { inverse: null, async: true }),
-    target: belongsTo('preprint', { inverse: 'reviewActions', async: true }),
-    creator: belongsTo('user', { inverse: null, async: true }),
-}) {}
+    @belongsTo('preprint-provider', { inverse: null }) provider!: DS.PromiseObject<PreprintProvider> & PreprintProvider;
+    @belongsTo('preprint', { inverse: 'reviewActions' }) target!: DS.PromiseObject<Preprint> & Preprint;
+    @belongsTo('user', { inverse: null }) creator!: DS.PromiseObject<User> & User;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

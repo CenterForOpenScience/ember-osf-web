@@ -13,7 +13,7 @@ module('Integration | Component | maintenance-banner', hooks => {
             maintenance: null,
         }));
         await render(hbs`{{maintenance-banner}}`);
-        assert.equal(this.element.textContent.trim(), '');
+        assert.equal((this.element.textContent as string).trim(), '');
     });
 
     test('it renders maintenance message', async function(assert) {
@@ -24,6 +24,6 @@ module('Integration | Component | maintenance-banner', hooks => {
             },
         }));
         await render(hbs`{{maintenance-banner}}`);
-        assert.ok(this.element.textContent.trim().indexOf('longstringy') !== -1);
+        assert.ok((this.element.textContent as string).trim().indexOf('longstringy') !== -1);
     });
 });

@@ -63,6 +63,7 @@
                             {{t 'new_project.template_title'}}
                             <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
                             {{#power-select
+                                class='{{styleNamespace}}__placeholder'
                                 search=search
                                 selected=searchSelected
                                 noMatchesMessage=(t 'new_project.no_matches')
@@ -85,7 +86,7 @@
         {{/modal.footer}}
     {{else}}
         {{#modal.body}}
-            <button data-dismiss="modal" aria-label="Close" class="close" onclick={{action closeModal true}} {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}>
+            <button aria-label="Close" class="close" onclick={{action closeModal true}} {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}>
                 {{fa-icon 'times' size='sm'}}
             </button>
             <h4 class="add-project-success text-success">

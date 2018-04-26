@@ -1,8 +1,8 @@
 {{#if maintenance}}
-    <div class="scripted alert alert-dismissible {{alertClass}} MaintenanceBanner" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close" {{action 'click' 'button' 'Maintenance Banner - dismiss' target=analytics}}>
-            {{fa-icon 'times'}}
-        </button>
+    {{#bs-alert
+        type=alertType
+        onDismiss=(action 'click' 'button' 'Maintenance Banner - dismiss' target=analytics)
+    }}
         <strong>{{t 'maintenance.title'}}</strong>
         {{#if maintenance.message.length}}
             {{maintenance.message}}
@@ -10,5 +10,5 @@
             {{t 'maintenance.line1' start=start end=end utc=utc}}
             {{t 'maintenance.line2'}}
         {{/if}}
-    </div>
+    {{/bs-alert}}
 {{/if}}

@@ -1,10 +1,11 @@
+import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
-import FileItemMixin from 'ember-osf-web/mixins/file-item';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import BaseFileItem from './base-file-item';
+import Comment from './comment';
+import FileVersion from './file-version';
 import Node from './node';
-import OsfModel from './osf-model';
-
-const { attr, belongsTo, hasMany } = DS;
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -15,47 +16,46 @@ const { attr, belongsTo, hasMany } = DS;
  * Model for OSF APIv2 files. This model may be used with one of several API endpoints. It may be queried directly,
  *  or (more commonly) accessed via relationship fields.
  * This model is used for basic file metadata. To interact with file contents directly, see the `file-manager` service.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/File_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Files_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
+ *
  * @class File
  */
-export default class File extends OsfModel.extend(FileItemMixin, {
-    name: attr('fixstring'),
-    kind: attr('fixstring'),
-    guid: attr('fixstring'),
-    path: attr('string'),
-    size: attr('number'),
-    currentVersion: attr('number'),
-    provider: attr('fixstring'),
-    materializedPath: attr('string'),
-    lastTouched: attr('date'),
-    dateModified: attr('date'),
-    dateCreated: attr('date'),
-    extra: attr('object'),
-    tags: attr('array'),
-    checkout: attr('fixstring'),
+export default class File extends BaseFileItem {
+    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') guid!: string;
+    @attr('string') path!: string;
+    @attr('number') size!: number;
+    @attr('number') currentVersion!: number;
+    @attr('fixstring') provider!: string;
+    @attr('string') materializedPath!: string;
+    @attr('date') lastTouched!: Date;
+    @attr('date') dateModified!: Date;
+    @attr('date') dateCreated!: Date;
+    @attr('object') extra!: any;
+    @attr('array') tags!: string[];
+    @attr('fixstring') checkout!: string;
 
-    parentFolder: belongsTo('file', { inverse: 'files' }),
+    @belongsTo('file', { inverse: 'files' }) parentFolder!: DS.PromiseObject<File> & File;
 
     // Folder attributes
-    files: hasMany('file', { inverse: 'parentFolder' }),
+    @hasMany('file', { inverse: 'parentFolder' }) files!: DS.PromiseManyArray<File>;
 
     // File attributes
-    versions: hasMany('file-version'),
-    comments: hasMany('comment'),
+    @hasMany('file-version') versions!: DS.PromiseManyArray<FileVersion>;
+    @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    node: belongsTo('node'),
-    user: belongsTo('user'),
-    _isFileModel: true,
+    @belongsTo('node') node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('user') user!: DS.PromiseObject<User> & User;
 
-}) {
+    // BaseFileItem override
+    isFileModel = true;
+
+    isSelected = false;
+
+    flash: object | null = null;
+
     getContents(this: File): Promise<object> {
         return authenticatedAJAX({
-            url: this.get('links.download'),
+            url: this.links.download,
             type: 'GET',
             data: {
                 direct: true,
@@ -66,7 +66,7 @@ export default class File extends OsfModel.extend(FileItemMixin, {
 
     async rename(this: File, newName: string, conflict = 'replace'): Promise<void> {
         const { data } = await authenticatedAJAX({
-            url: this.get('links.upload'),
+            url: this.links.upload,
             type: 'POST',
             xhrFields: {
                 withCredentials: true,
@@ -83,9 +83,10 @@ export default class File extends OsfModel.extend(FileItemMixin, {
 
         this.set('name', data.attributes.name);
     }
+
     getGuid(this: File): Promise<any> {
         return this.store.findRecord(
-            this.constructor.modelName,
+            (this.constructor as typeof File).modelName,
             this.id,
             {
                 reload: true,
@@ -97,17 +98,19 @@ export default class File extends OsfModel.extend(FileItemMixin, {
             },
         );
     }
-    updateContents(this: File, data: object): Promise<null> {
+
+    updateContents(this: File, data: string): Promise<null> {
         return authenticatedAJAX({
-            url: this.get('links.upload'),
+            url: this.links.upload,
             type: 'PUT',
             xhrFields: { withCredentials: true },
             data,
         }).then(() => this.reload());
     }
+
     move(this: File, node: Node): Promise<null> {
         return authenticatedAJAX({
-            url: this.get('links.move'),
+            url: this.links.move,
             type: 'POST',
             xhrFields: { withCredentials: true },
             headers: {

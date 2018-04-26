@@ -4,21 +4,38 @@
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
     "noImplicitThis": true,
-    "noEmitOnError": false,
-    "noEmit": true,
+    "alwaysStrict": true,
     "strictNullChecks": true,
-    "sourceMap": true,
+    "strictPropertyInitialization": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noEmitOnError": true,
+    "noEmit": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
     "baseUrl": ".",
     "module": "es6",
     "paths": {
       "ember-osf-web/tests/*": ["tests/*"],
-      "ember-osf-web/*": ["app/*"]
+      "ember-osf-web/*": ["app/*"],
+      "npm:*": ["node_modules/*"],
+      "ember-bootstrap/components/*": [
+        "node_modules/ember-bootstrap/addon/components/bs3/*",
+        "node_modules/ember-bootstrap/addon/components/bs4/*"
+      ],
+      "*": ["types/*"]
     },
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "skipLibCheck": true
   },
   "include": [
-      "app",
-      "tests"
+    "app",
+    "config",
+    "tests",
+    "types"
   ]
 }

@@ -1,4 +1,5 @@
 import { A } from '@ember/array';
+import OsfModel from 'ember-osf-web/models/osf-model';
 
 interface QueryOptions {
     'page[size]'?: number;
@@ -6,11 +7,11 @@ interface QueryOptions {
 }
 
 export default async function loadAll(
-    model,
-    relationship,
+    model: OsfModel,
+    relationship: keyof OsfModel | 'quickfiles',
     query: QueryOptions = { 'page[size]': 10, page: 1 },
-    results = A([]),
-) {
+    results: any[] = A([]),
+): Promise<any[]> {
     const currentResults = await model.queryHasMany(relationship, query);
     results.pushObjects(currentResults.toArray());
 

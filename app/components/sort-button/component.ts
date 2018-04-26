@@ -1,16 +1,18 @@
+import { classNames, tagName } from '@ember-decorators/component';
+import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Analytics from 'ember-osf-web/services/analytics';
 
-export default class SortButton extends Component.extend({
-    tagName: 'span',
+@tagName('span')
+@classNames('sort-group')
+export default class SortButton extends Component {
+    @service analytics!: Analytics;
 
-    classNames: ['sort-group'],
-}) {
-    sortBy: string;
-    @service analytics;
+    sortBy?: string;
 
-    sortByDesc = computed('sortBy', function(): string {
-        return `-${this.get('sortBy')}`;
-    });
+    @computed('sortBy')
+    get sortByDesc(): string {
+        return `-${this.sortBy}`;
+    }
 }

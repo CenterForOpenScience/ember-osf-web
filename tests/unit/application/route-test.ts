@@ -9,6 +9,7 @@ moduleFor('route:application', 'Unit | Route | application', {
         'service:currentUser',
         'service:status-messages',
         'service:ready',
+        'service:i18n',
     ],
 });
 

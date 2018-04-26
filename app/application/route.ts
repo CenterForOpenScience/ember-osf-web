@@ -1,10 +1,17 @@
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import OSFAgnosticAuthRouteMixin from 'ember-osf-web/mixins/osf-agnostic-auth-route';
+import DS from 'ember-data';
+import I18N from 'ember-i18n/services/i18n';
+import OsfAuthenticatedRouteMixin from 'ember-osf-web/mixins/osf-authenticated-route';
 
-export default class Application extends Route.extend(OSFAgnosticAuthRouteMixin) {
+export default class Application extends Route.extend(OsfAuthenticatedRouteMixin) {
+    @service i18n!: I18N;
+    @service store!: DS.Store;
+
     afterModel(this: Application) {
-        const availableLocales: [string] = this.get('i18n.locales').toArray();
-        let locale: string | null = null;
+        const i18n = this.get('i18n');
+        const availableLocales: [string] = i18n.get('locales').toArray();
+        let locale: string | undefined;
 
         // Works in Chrome and Firefox (editable in settings)
         if (navigator.languages && navigator.languages.length) {
@@ -14,13 +21,13 @@ export default class Application extends Route.extend(OSFAgnosticAuthRouteMixin)
                     break;
                 }
             }
-        // Backup for Safari (uses system settings)
+            // Backup for Safari (uses system settings)
         } else if (navigator.language && availableLocales.includes(navigator.language)) {
             locale = navigator.language;
         }
 
         if (locale) {
-            this.set('i18n.locale', locale);
+            i18n.setProperties({ locale });
         }
     }
 }

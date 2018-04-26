@@ -2,9 +2,14 @@ import { action, computed } from '@ember-decorators/object';
 import { notEmpty } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
+import I18N from 'ember-i18n/services/i18n';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import defaultTo from 'ember-osf-web/utils/default-to';
+import eatArgs from 'ember-osf-web/utils/eat-args';
 
 // TODO: Improve documentation in the future
 /**
@@ -18,20 +23,28 @@ import User from 'ember-osf-web/models/user';
  * @class file-browser
  */
 export default class FileList extends Component {
-    @service currentUser;
-    @service i18n;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
 
     node: Node | null = null;
-    items: File[] = this.items || null;
+    items: File[] = defaultTo(this.items, []);
     showFilterClicked: boolean = false;
-    filter: string = this.filter || '';
-    user: User;
+    filter: string = defaultTo(this.filter, '');
+    user?: User;
 
-    @notEmpty('filter') showFilterInput;
+    @notEmpty('filter') showFilterInput!: boolean;
 
     @computed('user')
-    get edit(this: FileList): boolean {
-        return this.get('user.id') === this.get('currentUser').get('currentUserId');
+    get edit(): boolean {
+        return !!this.user && this.user.id === this.currentUser.currentUserId;
+    }
+
+    /**
+     * Placeholder for closure action: openFile
+     */
+    openFile(item: File) {
+        eatArgs(item);
+        assert('You should pass in a closure action: openFile');
     }
 
     @action
@@ -43,7 +56,7 @@ export default class FileList extends Component {
     }
 
     @action
-    openItem(this: FileList, item, qparams) {
-        this.openFile(item, qparams);
+    openItem(item: File) {
+        this.openFile(item);
     }
 }

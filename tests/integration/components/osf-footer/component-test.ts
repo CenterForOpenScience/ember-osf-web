@@ -9,6 +9,6 @@ module('Integration | Component | osf-footer', hooks => {
 
     test('it renders', async function(assert) {
         await render(hbs`{{osf-footer}}`);
-        assert.ok(this.element.textContent.trim());
+        assert.ok((this.element.textContent as string).trim());
     });
 });

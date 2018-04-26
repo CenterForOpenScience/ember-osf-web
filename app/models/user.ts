@@ -1,8 +1,11 @@
-import { alias } from '@ember/object/computed';
+import { attr, hasMany } from '@ember-decorators/data';
+import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
+import File from './file';
+import Institution from './institution';
+import Node from './node';
 import OsfModel from './osf-model';
-
-const { attr, hasMany } = DS;
+import Registration from './registration';
 
 /**
  * @module ember-osf-web
@@ -12,36 +15,31 @@ const { attr, hasMany } = DS;
 /**
  * Model for OSF APIv2 users. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/User_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/User_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Institution_User_List_GET
+ *
  * @class User
  */
-export default class User extends OsfModel.extend({
-    fullName: attr('fixstring'),
-    givenName: attr('fixstring'),
-    middleNames: attr('array'),
-    familyName: attr('fixstring'),
+export default class User extends OsfModel {
+    @attr('fixstring') fullName!: string;
+    @attr('fixstring') givenName!: string;
+    @attr('array') middleNames!: string[];
+    @attr('fixstring') familyName!: string;
 
-    dateRegistered: attr('date'),
+    @attr('date') dateRegistered!: Date;
     // email
-    username: attr('fixstring'),
+    @attr('fixstring') username!: string;
 
-    canViewReviews: attr('boolean', { defaultValue: false }),
+    @attr('boolean', { defaultValue: false }) canViewReviews!: boolean;
 
-    nodes: hasMany('node'),
-    registrations: hasMany('registration'),
+    @hasMany('node') nodes!: DS.PromiseManyArray<Node>;
+    @hasMany('registration') registrations!: DS.PromiseManyArray<Registration>;
 
-    quickfiles: hasMany('file'),
+    @hasMany('file') quickfiles!: DS.PromiseManyArray<File>;
 
-    institutions: hasMany('institution', {
-        inverse: 'users',
-    }),
-}) {
+    @hasMany('institution', { inverse: 'users' }) institutions!: DS.PromiseManyArray<Institution>;
+
     // Calculated fields
-    profileURL = alias('links.html');
-    profileImage = alias('links.profile_image');
+    @alias('links.html') profileURL!: string;
+    @alias('links.profile_image') profileImage!: string;
 }
 
 declare module 'ember-data' {

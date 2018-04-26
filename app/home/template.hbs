@@ -1,11 +1,12 @@
 {{title (t 'home.title')}}
 {{#if goodbye}}
-    <div id="alert-container" class="m-t-md alert alert-block alert-success fade in alert-front text-center" role="alert">
-        <button class="close" data-dismiss="alert" aria-label="{{t 'general.close'}}" {{action 'click' 'button' 'Home - dismiss_alert' target=analytics}}>
-            <span aria-hidden="true">{{fa-icon 'times'}}</span>
-        </button>
+    {{#bs-alert
+        type='success'
+        classNames='text-center'
+        onDismiss=(action 'click' 'button' 'Home - dismiss_alert' target=analytics)
+    }}
         <p>{{t 'home.alert_logged_out'}}</p>
-    </div>
+    {{/bs-alert}}
 {{/if}}
 {{#bs-modal
     open=modalOpen

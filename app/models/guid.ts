@@ -1,4 +1,5 @@
-import { computed } from '@ember/object';
+import { computed } from '@ember-decorators/object';
+import { ModelRegistry } from 'ember-data';
 import { singularize } from 'ember-inflector';
 import OsfModel from './osf-model';
 
@@ -12,11 +13,13 @@ import OsfModel from './osf-model';
  * @class Guid
  */
 export default class Guid extends OsfModel {
-    referentType = computed(function(this: Guid): string {
-        return singularize(this.get('links.relationships.referent.data.type'));
-    });
+    @computed('id')
+    get referentType(this: Guid): keyof ModelRegistry {
+        return singularize(this.links.relationships.referent.data.type) as keyof ModelRegistry;
+    }
 
-    resolve(this: Guid): RSVP.Promise<any> {
+    @computed('id')
+    get resolve(this: Guid): Promise<any> {
         return this.get('store').findRecord(this.get('referentType'), this.get('id'));
     }
 }

@@ -1,7 +1,9 @@
+import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
+import Metaschema from './metaschema';
+import Node from './node';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo } = DS;
+import User from './user';
 
 /**
  * @module ember-osf-web
@@ -11,26 +13,18 @@ const { attr, belongsTo } = DS;
 /**
  * Model for OSF APIv2 draft registrations.
  * This model represents draft registration data and can be accessed as a relationship of a node.
- * For information on how to interact with a node's draft registrations, see:
- * * https://api.osf.io/v2/docs/#!/v2/Node_Draft_Registrations_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Draft_Registration_Detail_GET
+ *
  * @class DraftRegistration
  */
-export default class DraftRegistration extends OsfModel.extend({
-    registrationSupplement: attr('fixstring'),
-    registrationMetadata: attr('object'),
-    datetimeInitiated: attr('date'),
-    datetimeUpdated: attr('date'),
-    branchedFrom: belongsTo('node', {
-        inverse: null,
-    }),
-    initiator: belongsTo('user', {
-        inverse: null,
-    }),
-    registrationSchema: belongsTo('metaschema', {
-        inverse: null,
-    }),
-}) {}
+export default class DraftRegistration extends OsfModel {
+    @attr('fixstring') registrationSupplement!: string;
+    @attr('object') registrationMetadata!: any;
+    @attr('date') datetimeInitiated!: Date;
+    @attr('date') datetimeUpdated!: Date;
+    @belongsTo('node', { inverse: null }) branchedFrom!: DS.PromiseObject<Node> & Node;
+    @belongsTo('user', { inverse: null }) initiator!: DS.PromiseObject<User> & User;
+    @belongsTo('metaschema', { inverse: null }) registrationSchema!: DS.PromiseObject<Metaschema> & Metaschema;
+}
 
 declare module 'ember-data' {
     interface ModelRegistry {

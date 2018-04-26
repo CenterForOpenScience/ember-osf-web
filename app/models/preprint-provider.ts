@@ -1,38 +1,43 @@
-import { alias } from '@ember/object/computed';
+import { attr, hasMany } from '@ember-decorators/data';
+import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
-import OsfModel from 'ember-osf-web/models/osf-model';
+import License from './license';
+import OsfModel from './osf-model';
+import Preprint from './preprint';
+import Taxonomy from './taxonomy';
 
-const { attr, hasMany } = DS;
-
-export default class PreprintProvider extends OsfModel.extend({
-    name: attr('fixstring'),
-    description: attr('fixstring'),
-    domain: attr('string'),
-    domainRedirectEnabled: attr('boolean'),
-    example: attr('fixstring'),
-    advisoryBoard: attr('string'),
-    emailSupport: attr('fixstring'),
-    subjectsAcceptable: attr('array'),
-    footerLinks: attr('string'),
-    allowSubmissions: attr('boolean'),
-    additionalProviders: attr('array'),
-    shareSource: attr('string'),
-    preprintWord: attr('string'),
+export default class PreprintProvider extends OsfModel {
+    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') description!: string;
+    @attr('string') domain!: string;
+    @attr('boolean') domainRedirectEnabled!: boolean;
+    @attr('fixstring') example!: string;
+    @attr('string') advisoryBoard!: string;
+    @attr('fixstring') emailSupport!: string;
+    @attr('array') subjectsAcceptable!: string[];
+    @attr('string') footerLinks!: string;
+    @attr('boolean') allowSubmissions!: boolean;
+    @attr('array') additionalProviders!: string[];
+    @attr('string') shareSource!: string;
+    @attr('string') preprintWord!: string;
 
     // Reviews settings
-    permissions: attr('array'),
-    reviewsWorkflow: attr('string'),
-    reviewsCommentsPrivate: attr('boolean', { allowNull: true }),
-    reviewsCommentsAnonymous: attr('boolean', { allowNull: true }),
+    @attr('array') permissions!: string[];
+    @attr('string') reviewsWorkflow!: string | null;
+    @attr('boolean', { allowNull: true }) reviewsCommentsPrivate!: boolean | null;
+    @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous!: boolean | null;
+
     // Relationships
-    taxonomies: hasMany('taxonomy'),
-    highlightedTaxonomies: hasMany('taxonomy'),
-    preprints: hasMany('preprint', { inverse: 'provider', async: true }),
-    licensesAcceptable: hasMany('license', { inverse: null }),
-}) {
-    reviewableStatusCounts = alias('links.relationships.preprints.links.related.meta');
-    // tslint:disable-next-line max-line-length
-    hasHighlightedSubjects = alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects'); // eslint-disable-line max-len
+    @hasMany('taxonomy') taxonomies!: DS.PromiseManyArray<Taxonomy>;
+    @hasMany('taxonomy') highlightedTaxonomies!: DS.PromiseManyArray<Taxonomy>;
+    @hasMany('preprint', { inverse: 'provider' }) preprints!: DS.PromiseManyArray<Preprint>;
+    @hasMany('license', { inverse: null }) licensesAcceptable!: DS.PromiseManyArray<License>;
+
+    @alias('links.relationships.preprints.links.related.meta')
+    reviewableStatusCounts!: any;
+
+    @alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects')
+    hasHighlightedSubjects!: boolean;
 }
 
 declare module 'ember-data' {

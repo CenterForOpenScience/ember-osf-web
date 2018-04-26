@@ -1,5 +1,7 @@
+import { tagName } from '@ember-decorators/component';
+import { action } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { inject as service } from '@ember/service';
 
 /**
  * Component to allow easily transitioning to any GUID without leaving the
@@ -9,18 +11,16 @@ import { inject as service } from '@ember/service';
  * Displays an icon link/button that pops up a modal form.
  * @class zoom-to-guid
  */
-export default class ZoomToGuid extends Component.extend({
-    tagName: 'span',
-
-    actions: {
-        zoom(this: ZoomToGuid): void {
-            this.get('router').transitionTo('resolve-guid', this.get('guid'));
-            this.set('showModal', false);
-        },
-    },
-}) {
-    router = service('router');
+@tagName('span')
+export default class ZoomToGuid extends Component {
+    @service router!: any;
 
     guid: string = '';
     showModal: boolean = false;
+
+    @action
+    zoom(this: ZoomToGuid): void {
+        this.router.transitionTo('resolve-guid', this.guid);
+        this.set('showModal', false);
+    }
 }

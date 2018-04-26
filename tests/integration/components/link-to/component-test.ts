@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { click, render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
@@ -12,7 +13,7 @@ const routerStub = Service.extend({
 module('Integration | Component | link-to', hooks => {
     setupRenderingTest(hooks);
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function(this: TestContext) {
         // The default link-to uses a super-secret private router service, not the public one
         this.owner.register('service:-routing', routerStub);
     });
@@ -22,8 +23,10 @@ module('Integration | Component | link-to', hooks => {
         const ariaLabel = 'This is an aria label!';
         await render(hbs`{{#link-to 'foo' ariaLabel='This is an aria label!'}}This is a link!{{/link-to}}`);
 
-        assert.equal(this.element.textContent.trim(), linkText);
-        assert.equal(this.element.firstChild.getAttribute('aria-label'), ariaLabel);
+        const { firstChild, textContent } = this.element;
+
+        assert.equal((textContent as string).trim(), linkText);
+        assert.equal((firstChild as Element).getAttribute('aria-label'), ariaLabel);
     });
 
     test('clickAction fires', async function(assert) {
@@ -36,6 +39,6 @@ module('Integration | Component | link-to', hooks => {
 
         await render(hbs`{{#link-to 'foo' clickAction=(action 'clickAction')}}This is a link!{{/link-to}}`);
 
-        await click(this.element.firstChild);
+        await click(this.element.firstChild as Node);
     });
 });

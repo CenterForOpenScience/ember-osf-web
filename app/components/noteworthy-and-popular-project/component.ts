@@ -1,14 +1,17 @@
+import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Node from 'ember-osf-web/models/node';
+import defaultTo from 'ember-osf-web/utils/default-to';
 
-export default class NoteworthyAndPopularProject extends Component.extend({
-    didInsertElement(...args) {
-        this._super(...args);
-        this.$('.prevent-overflow').tooltip();
-    },
-}) {
-    compactDescription = computed('project.description', function(): string {
-        const desc = this.get('project.description') || '';
+export default class NoteworthyAndPopularProject extends Component {
+    project?: Node;
+
+    @computed('project.description')
+    get compactDescription(): string | undefined {
+        if (!this.project) {
+            return undefined;
+        }
+        const desc = defaultTo(this.project.description, '');
         return desc.length > 115 ? `${desc.slice(0, 111)}\u2026` : desc;
-    });
+    }
 }

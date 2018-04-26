@@ -26,6 +26,7 @@ $color-text-gray-cool: #e0ebf3;
 $color-text-blue-dark: #337ab7;
 
 $color-link-light: #08c;
+$color-link-dark: #2d6a9f;
 
 $color-bg-white: #fff;
 $color-bg-gray-dark: #4c4c4c;
@@ -47,3 +48,13 @@ $brand-success: #357935;
 $brand-info: #1b6d85;
 $btn-success-high-contrast-color: #fff;
 $btn-info-high-contrast-color: #fff;
+
+$ember-power-select-placeholder-color: #555;
+
+$progress-bar-bg-bright: (
+    primary: #428bca,
+    info: #5bc0de,
+    success: #5cb85c,
+    warning: #f0ad4e,
+    danger: #d9534f,
+);

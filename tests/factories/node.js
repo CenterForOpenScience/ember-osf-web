@@ -1,10 +1,6 @@
 import FactoryGuy from 'ember-data-factory-guy';
 import faker from 'faker';
 
-import permissions from 'ember-osf-web/const/permissions';
-
-const { READ, WRITE, ADMIN } = permissions;
-
 FactoryGuy.define('node', {
     default: {
         title: () => faker.lorem.words(4),
@@ -24,7 +20,7 @@ FactoryGuy.define('node', {
             '',
         ]),
 
-        currentUserPermissions: () => faker.random.arrayElement([READ, WRITE, ADMIN]),
+        currentUserPermissions: () => faker.random.arrayElement(['read', 'write', 'admin']),
 
         fork: false,
         collection: false,

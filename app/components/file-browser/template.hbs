@@ -1,14 +1,15 @@
 <div class="row actions-header">
-    {{#if (or showFilterClicked showFilterInput)}}
+    {{#if showFilter}}
         <div class="col-xs-9 filter-input">
             {{input
+                (html-attributes aria-label=(t 'file_browser.filtering'))
                 placeholder=(t 'file_browser.filtering')
                 class="form-control"
                 keyUp=(action updateFilter value='target.value')
             }}
         </div>
         <div class="col-xs-3">
-            <button {{action 'closeFilter'}} class="btn pull-right">
+            <button {{action 'closeFilter'}} class="btn pull-right" aria-label={{t 'general.close'}}>
                 {{fa-icon "times"}}
             </button>
         </div>
@@ -48,7 +49,7 @@
                                 <div class="input-group">
                                     <span class="input-group-btn">
                                         {{#copy-button
-                                            success=(mut popupOpen false)
+                                            success=(action (mut popupOpen) false)
                                             class='btn btn-default'
                                             aria-label=(t 'general.clipboard_copy')
                                             clipboardText=link
@@ -337,7 +338,6 @@
                         selectItem=(action 'selectItem')
                         selectMultiple=(action 'selectMultiple')
                         openItem=(action 'openItem')
-                        class=(if item.isSelected 'selected')
                     }}
                 {{/each}}
             </div>

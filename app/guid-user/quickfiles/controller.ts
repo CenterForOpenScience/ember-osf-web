@@ -4,30 +4,33 @@ import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { all, task, timeout } from 'ember-concurrency';
+import I18N from 'ember-i18n/services/i18n';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import Toast from 'ember-toastr/services/toast';
 
 export default class UserQuickfiles extends Controller {
-    @service currentUser;
-    @service i18n;
-    @service toast;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service toast!: Toast;
 
     pageName = 'QuickFiles';
 
     filter: string = this.filter || '';
-    newProject: Node;
+    newProject?: Node;
     sort: string = this.sort || 'name';
 
-    @alias('model.taskInstance.value.user') user: User;
-    @alias('model.taskInstance.value.files') allFiles: File[];
+    @alias('model.taskInstance.value.user') user!: User;
+    @alias('model.taskInstance.value.files') allFiles!: File[];
 
-    updateFilter = task(function* (this: UserQuickfiles, filter) {
+    updateFilter = task(function* (this: UserQuickfiles, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
     }).restartable();
 
-    createProject = task(function* (this: UserQuickfiles, node) {
+    createProject = task(function* (this: UserQuickfiles, node: Node) {
         try {
             return yield node.save();
         } catch (ex) {
@@ -35,13 +38,13 @@ export default class UserQuickfiles extends Controller {
         }
     });
 
-    flash = task(function* (item, message, type = 'success', duration = 2000) {
+    flash = task(function* (item: File, message: string, type = 'success', duration = 2000) {
         item.set('flash', { message, type });
         yield timeout(duration);
         item.set('flash', null);
     });
 
-    addFile = task(function* (this: UserQuickfiles, id) {
+    addFile = task(function* (this: UserQuickfiles, id: string) {
         const allFiles = this.get('allFiles');
         const duplicate = allFiles.findBy('id', id);
 
@@ -79,7 +82,7 @@ export default class UserQuickfiles extends Controller {
         yield all(files.map(file => deleteFile.perform(file)));
     });
 
-    moveFile = task(function* (this: UserQuickfiles, file: File, node: Node): IterableIterator<boolean> {
+    moveFile = task(function* (this: UserQuickfiles, file: File, node: Node): IterableIterator<any> {
         try {
             if (node.get('isNew')) {
                 yield this.get('createProject').perform(node);
@@ -128,7 +131,7 @@ export default class UserQuickfiles extends Controller {
     });
 
     @computed('allFiles.[]', 'filter', 'sort')
-    get files(this: UserQuickfiles) {
+    get files(this: UserQuickfiles): File[] {
         const filter: string = this.get('filter');
         const sort: string = this.get('sort');
 
@@ -154,12 +157,13 @@ export default class UserQuickfiles extends Controller {
 
     @computed('currentUser.currentUserId', 'user.id')
     get canEdit(this: UserQuickfiles): boolean {
-        const userId = this.get('user.id');
-        return userId && userId === this.get('currentUser').get('currentUserId');
+        const user = this.get('user');
+        const userId = user && user.get('id');
+        return !!userId && userId === this.get('currentUser').get('currentUserId');
     }
 
     @action
-    async openFile(this: UserQuickfiles, file, show) {
+    async openFile(this: UserQuickfiles, file: File, show: string) {
         const guid = file.get('guid') || await file.getGuid();
         this.transitionToRoute('guid-file', guid, { queryParams: { show } });
     }

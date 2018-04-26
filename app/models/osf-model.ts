@@ -1,14 +1,12 @@
-import ArrayProxy from '@ember/array/proxy';
+import { attr } from '@ember-decorators/data';
+import { alias } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import { get } from '@ember/object';
-import { alias } from '@ember/object/computed';
-import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
-import { merge } from '@ember/polyfills';
-import { bind } from '@ember/runloop';
-import DS from 'ember-data';
+import { task } from 'ember-concurrency';
+import DS, { ModelRegistry } from 'ember-data';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
-import { Promise as EmberPromise } from 'rsvp';
 
-const { attr, Model } = DS;
+const { Model } = DS;
 
 /**
  * @module ember-osf-web
@@ -27,10 +25,48 @@ interface QueryHasManyResult extends Array<any> {
  * @public
  */
 
-const OsfModel = Model.extend({
-    links: attr('links'),
+export default class OsfModel extends Model.extend({
+    queryHasManyTask: task(function* (
+        this: OsfModel,
+        propertyName: any,
+        queryParams?: object,
+        ajaxOptions?: object,
+    ) {
+        const store = this.get('store');
 
-    relationshipLinks: alias('links.relationships'),
+        const reference = this.hasMany(propertyName);
+
+        // HACK: ember-data discards/ignores the link if an object on the belongsTo side
+        // came first. In that case, grab the link where we expect it from OSF's API
+        const url: string = reference.link() || this.links.relationships.get(propertyName).links.related.href;
+        if (!url) {
+            throw new Error(`Could not find a link for '${propertyName}' relationship`);
+        }
+
+        const options: object = {
+            url,
+            data: queryParams,
+            headers: get(store.adapterFor(
+                (this.constructor as typeof OsfModel).modelName as keyof ModelRegistry,
+            ), 'headers'),
+            ...ajaxOptions,
+        };
+
+        const payload = yield authenticatedAJAX(options);
+
+        store.pushPayload(payload);
+        const records: QueryHasManyResult = payload.data.map((datum: { type: keyof ModelRegistry, id: string }) =>
+            store.peekRecord(datum.type, datum.id));
+        records.meta = payload.meta;
+        records.links = payload.links;
+        return records;
+    }),
+}) {
+    @service store!: DS.Store;
+
+    @attr() links: any;
+
+    @alias('links.relationships') relationshipLinks: any;
 
     /*
      * Query a hasMany relationship with query params
@@ -43,54 +79,10 @@ const OsfModel = Model.extend({
      */
     queryHasMany(
         this: OsfModel,
-        propertyName: string,
-        queryParams: object,
-        ajaxOptions: object,
-    ): any | null {
-        const reference = this.hasMany(propertyName);
-        const promise: Promise<any> = new EmberPromise((resolve, reject) => {
-            // HACK: ember-data discards/ignores the link if an object on the belongsTo side
-            // came first. In that case, grab the link where we expect it from OSF's API
-            const url: string = reference.link() || this.get(`links.relationships.${propertyName}.links.related.href`);
-            if (!url) {
-                reject(`Could not find a link for '${propertyName}' relationship`);
-                return;
-            }
-            const options: object = merge({
-                url,
-                data: queryParams,
-                headers: get(this.store.adapterFor(this.constructor.modelName), 'headers'),
-            }, ajaxOptions);
-
-            authenticatedAJAX(options).then(
-                bind(this, this.__queryHasManyDone, resolve),
-                reject,
-            );
-        });
-
-        const ArrayPromiseProxy: PromiseProxyMixin = ArrayProxy.extend(PromiseProxyMixin);
-        return ArrayPromiseProxy.create({ promise });
-    },
-
-    __queryHasManyDone(
-        this: OsfModel,
-        resolve: (QueryHasManyResult) => void,
-        payload: {meta: object, links: object, data: any[]},
-    ): void {
-        const store = this.get('store');
-        store.pushPayload(payload);
-        const records: QueryHasManyResult =
-            payload.data.map(datum => store.peekRecord(datum.type, datum.id));
-        records.meta = payload.meta;
-        records.links = payload.links;
-        resolve(records);
-    },
-});
-
-export default OsfModel;
-
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'osf-model': OsfModel;
+        propertyName: keyof OsfModel | 'quickfiles',
+        queryParams?: object,
+        ajaxOptions?: object,
+    ) {
+        return this.get('queryHasManyTask').perform(propertyName, queryParams, ajaxOptions);
     }
 }

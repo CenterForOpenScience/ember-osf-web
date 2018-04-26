@@ -1,5 +1,23 @@
 // Global styles (Think: Do you really need to?)
 
+// stylelint-disable selector-class-pattern
+
+html,
+body,
+body > .ember-view,
+.Application {
+    height: 100%;
+}
+
+.Application {
+    display: flex;
+    flex-direction: column;
+}
+
+.Application__page {
+    flex: 1 0 auto;
+}
+
 #toast-container > div { // stylelint-disable-line selector-max-id
     opacity: 1;
 }

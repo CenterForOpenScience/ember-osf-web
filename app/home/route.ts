@@ -1,18 +1,21 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import Ember from 'ember';
+import Analytics from 'ember-osf-web/services/analytics';
+import Session from 'ember-simple-auth/services/session';
 
 export default class Home extends Route.extend({
-    async beforeModel(transition) {
+    async beforeModel(this: Home, transition: Ember.Transition) {
         await this._super(transition);
 
-        if (this.get('session.isAuthenticated')) {
+        if (this.get('session').get('isAuthenticated')) {
             transition.abort();
             this.transitionTo('dashboard');
         }
     },
 
-    setupController(...args) {
+    setupController(...args: any[]) {
         const [controller] = args;
 
         controller.setProperties({
@@ -22,8 +25,8 @@ export default class Home extends Route.extend({
         this._super(...args);
     },
 }) {
-    @service analytics;
-    @service session;
+    @service analytics!: Analytics;
+    @service session!: Session;
 
     model() {
         return this.store.createRecord('user-registration');

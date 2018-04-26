@@ -1,8 +1,10 @@
+import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import config from 'ember-get-config';
+import File from 'ember-osf-web/models/file';
+import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 const {
@@ -13,91 +15,101 @@ const {
     },
 } = config;
 
-export default class FileShareButton extends Component.extend({
-    actions: {
-        share(this: FileShareButton) {
-            const textArea: HTMLTextAreaElement = document.querySelector('.SharePane__mfr-url');
-            textArea.select();
-            document.execCommand('copy');
-        },
+export default class FileShareButton extends Component {
+    @service analytics!: Analytics;
 
-        togglePopup(this: FileShareButton) {
-            this.toggleProperty('showPopup');
-        },
-
-        hidePopup(this: FileShareButton) {
-            this.set('showPopup', false);
-        },
-    },
-}) {
-    @service analytics;
-
-    file: any; // Change when models are typed
+    file?: File;
     showPopup = false;
+    styleNamespace?: string;
+    elementId!: string;
 
-    popoverClass = computed('styleNamespace', function() {
-        return `${this.get('styleNamespace')}__popover`;
-    });
+    @computed('styleNamespace')
+    get popoverClass() {
+        return `${this.styleNamespace}__popover`;
+    }
 
-    sharePaneId = computed('elementId', function() {
-        return `${this.get('elementId')}__share-pane`;
-    });
+    @computed('elementId')
+    get sharePaneId() {
+        return `${this.elementId}__share-pane`;
+    }
 
-    embedPaneId = computed('elementId', function() {
-        return `${this.get('elementId')}__embed-pane`;
-    });
+    @computed('elementId')
+    get embedPaneId() {
+        return `${this.elementId}__embed-pane`;
+    }
 
-    fileUrl = computed('file', function() {
-        return pathJoin(config.OSF.url, this.get('file.guid'));
-    });
+    @computed('file')
+    get fileUrl() {
+        return this.file ? pathJoin(config.OSF.url, this.file.guid) : '';
+    }
 
-    twitterUrl = computed('file.name', 'fileUrl', function() {
+    @computed('file.name', 'fileUrl')
+    get twitterUrl() {
+        if (!this.file) {
+            return undefined;
+        }
+
         const params = {
-            text: this.get('file.name'),
-            url: this.get('fileUrl'),
+            text: this.file.name,
+            url: this.fileUrl,
             via,
         };
 
         return `https://twitter.com/intent/tweet?${$.param(params)}`;
-    });
+    }
 
-    facebookUrl = computed('fileUrl', function() {
+    @computed('fileUrl')
+    get facebookUrl() {
         const params = {
-            u: this.get('fileUrl'),
+            u: this.fileUrl,
         };
 
         return `https://www.facebook.com/sharer/sharer.php?${$.param(params)}`;
-    });
+    }
 
-    linkedInUrl = computed('file.name', 'fileUrl', function() {
+    @computed('file.name', 'fileUrl')
+    get linkedInUrl() {
+        if (!this.file) {
+            return undefined;
+        }
+
         const params = {
-            title: this.get('file.name'),
-            url: this.get('fileUrl'),
+            title: this.file.name,
+            url: this.fileUrl,
         };
 
         return `https://www.linkedin.com/cws/share?${$.param(params)}`;
-    });
+    }
 
-    emailUrl = computed('file.name', 'fileUrl', function() {
+    @computed('file.name', 'fileUrl')
+    get emailUrl() {
+        if (!this.file) {
+            return undefined;
+        }
+
         const params = {
-            body: this.get('fileUrl'),
-            subejct: this.get('file.name'),
+            body: this.fileUrl,
+            subejct: this.file.name,
         };
 
         return `mailto:?${$.param(params)}`;
-    });
+    }
 
-    mfrUrl = computed('file', function() {
-        const file = this.get('file');
+    @computed('file')
+    get mfrUrl() {
+        if (!this.file) {
+            return undefined;
+        }
 
         const params = {
-            url: pathJoin(config.OSF.url, file.get('guid'), 'download'),
+            url: pathJoin(config.OSF.url, this.file.guid, 'download'),
         };
 
         return `${config.OSF.renderUrl}?${$.param(params)}`;
-    });
+    }
 
-    shareiFrameDynamic = computed('mfrUrl', function() {
+    @computed('mfrUrl')
+    get shareiFrameDynamic() {
         const mfrStaticUrl = config.OSF.renderUrl.replace('/render', '/static');
 
         return htmlSafe(`
@@ -116,7 +128,7 @@ export default class FileShareButton extends Component.extend({
             <script src="${mfrStaticUrl}/js/mfr.js"></script>
             <script>
                 function renderMfr() {
-                    var mfrRender = new mfr.Render("mfrIframe", "${this.get('mfrUrl')}");
+                    var mfrRender = new mfr.Render("mfrIframe", "${this.mfrUrl}");
                 }
                 if (window.jQuery) {
                     renderMfr();
@@ -130,11 +142,12 @@ export default class FileShareButton extends Component.extend({
                 }
             </script>
         `.trim().replace(/^\s{12}/mg, ''));
-    });
+    }
 
-    shareiFrameDirect = computed('mfrUrl', function() {
+    @computed('mfrUrl')
+    get shareiFrameDirect() {
         return htmlSafe(`
-            <iframe src="${this.get('mfrUrl')}"
+            <iframe src="${this.mfrUrl}"
                     width="100%"
                     scrolling="yes"
                     height="677px"
@@ -143,5 +156,24 @@ export default class FileShareButton extends Component.extend({
                     allowfullscreen
                     webkitallowfullscreen>
         `.trim().replace(/^\s{12}/mg, ''));
-    });
+    }
+
+    @action
+    share() {
+        const textArea: HTMLTextAreaElement | null = document.querySelector('.SharePane__mfr-url');
+        if (textArea) {
+            textArea.select();
+            document.execCommand('copy');
+        }
+    }
+
+    @action
+    togglePopup() {
+        this.toggleProperty('showPopup');
+    }
+
+    @action
+    hidePopup(this: FileShareButton) {
+        this.set('showPopup', false);
+    }
 }

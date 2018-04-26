@@ -1,28 +1,83 @@
-const { spawnSync } = require('child_process');
 const flatten = require('flat');
 const fs = require('fs');
-const { expect } = require('chai');
+const os = require('os');
+const path = require('path');
+const process = require('process');
+const { assert, expect } = require('chai');
 
-if (!fs.existsSync('tmp/locales/en/translations.js')) {
-    spawnSync('tsc', ['app/locales/en/translations.ts', '--module', 'commonjs', '--outDir', 'tmp/locales/en/']);
-}
-const english = require('../tmp/locales/en/translations.js').default;
+const compileTranslation = require('./helpers/compile-translation');
 
-fs.unlinkSync('tmp/locales/en/translations.js');
-fs.rmdirSync('tmp/locales/en/');
-const englishTerms = flatten(english);
+const transFiles = process.argv.slice(3);
 
-fs.readdirSync('tmp/locales/').forEach(locale => {
-    if (locale === 'en') return;
-    describe(`locale: ${locale}`, () => {
-        it('contains all terms', () => {
-            // eslint-disable-next-line global-require, import/no-dynamic-require
-            const translations = require(`../tmp/locales/${locale}/translations.js`).default;
-            fs.unlinkSync(`tmp/locales/${locale}/translations.js`);
-            fs.rmdirSync(`tmp/locales/${locale}/`);
-            const terms = flatten(translations);
-            Object.keys(englishTerms)
-                .forEach(term => expect(terms, `${term} not defined for locale: ${locale}.`).to.have.property(term));
+const localesOutDir = `${os.tmpdir()}/locales-${process.pid}`;
+
+describe('translations', () => {
+    const locales = [];
+    const compiledTransFiles = {};
+
+    if (transFiles.length > 0 && !transFiles.find(file => /app\/locales\/en\/translations\.ts$/.test(file))) {
+        transFiles.forEach(arg => {
+            const found = arg.match(/app\/locales\/([^/]+)\/translations\.ts$/);
+            if (found && found[1]) {
+                const locale = found[1];
+                if (locale === 'en') return;
+                locales.push(locale);
+            }
+        });
+    } else {
+        fs.readdirSync('app/locales/').forEach(locale => {
+            if (locale === 'en') return;
+            locales.push(locale);
+        });
+    }
+
+    describe('translations compile', () => {
+        it('en', () => {
+            const { result, outFile } = compileTranslation('en', localesOutDir);
+            assert.isOk(!result.status, result.stdout);
+            compiledTransFiles.en = outFile;
         }).timeout(5000);
+
+        locales.forEach(locale => {
+            it(locale, () => {
+                const { result, outFile } = compileTranslation(locale, localesOutDir);
+                assert.isOk(!result.status, result.stdout);
+                compiledTransFiles[locale] = outFile;
+            }).timeout(5000);
+        });
+    });
+
+    describe('other locales contain all terms defined in en', () => {
+        let englishTerms;
+
+        before(() => {
+            // eslint-disable-next-line global-require, import/no-dynamic-require
+            const english = require(compiledTransFiles.en).default;
+            englishTerms = flatten(english);
+        });
+
+        locales.forEach(locale => {
+            it(locale, () => {
+                // eslint-disable-next-line global-require, import/no-dynamic-require
+                const translations = require(compiledTransFiles[locale]).default;
+                const terms = flatten(translations);
+                Object.keys(englishTerms).forEach(
+                    term => expect(terms, `${term} not defined for locale: ${locale}.`).to.have.property(term),
+                );
+            });
+        });
+    });
+
+    after(() => {
+        // Clean up tmp
+        Object.values(compiledTransFiles).forEach(file => {
+            if (fs.existsSync(file)) {
+                fs.unlinkSync(file);
+                fs.rmdirSync(path.dirname(file));
+            }
+        });
+        if (fs.existsSync(localesOutDir)) {
+            fs.rmdirSync(localesOutDir);
+        }
     });
 });

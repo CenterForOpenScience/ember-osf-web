@@ -1,7 +1,11 @@
+import { className } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
+import DS from 'ember-data';
 import File from 'ember-osf-web/models/file';
+import eatArgs from 'ember-osf-web/utils/eat-args';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 /**
@@ -25,20 +29,32 @@ import pathJoin from 'ember-osf-web/utils/path-join';
  * ```
  * @class file-icon
  */
-export default class FileBrowserItem extends Component {
-    @service store;
+export default class FileListItem extends Component {
+    @service store!: DS.Store;
 
-    item: File;
-    openItem = this.openItem;
+    item?: File;
+
+    /**
+     * Placeholder for closure action: openItem
+     */
+    openItem(item: File | undefined) {
+        eatArgs(item);
+        assert('You should pass in a closure action: openItem');
+    }
+
+    @className
+    @computed('item.isSelected')
+    get selected(): boolean {
+        return !!this.item && this.item.isSelected;
+    }
 
     @computed('item.guid')
-    get link(this: FileBrowserItem): string {
-        const guid = this.get('item').get('guid');
-        return guid ? pathJoin(window.location.origin, guid) : '';
+    get link(): string {
+        return this.item && this.item.guid ? pathJoin(window.location.origin, this.item.guid) : '';
     }
 
     @action
-    open(this: FileBrowserItem) {
-        this.openItem(this.get('item'), 'view');
+    open() {
+        this.openItem(this.item);
     }
 }

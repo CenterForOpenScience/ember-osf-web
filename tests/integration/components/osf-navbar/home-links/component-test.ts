@@ -1,13 +1,14 @@
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 // Stub i18n service
 const i18nStub = Service.extend({
-    t(word) {
-        const translated = {
+    t(word: string) {
+        const translated: { [k: string]: string } = {
             'navbar.reviews': 'My Reviewing',
             'navbar.my_quick_files': 'My Quick Files',
             'navbar.my_projects': 'My Projects',
@@ -32,7 +33,7 @@ const currentUserStub = Service.extend({
 module('Integration | Component | osf-navbar/home-links', hooks => {
     setupRenderingTest(hooks);
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:i18n', i18nStub);
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:current-user', currentUserStub);
@@ -40,9 +41,10 @@ module('Integration | Component | osf-navbar/home-links', hooks => {
 
     test('it renders', async function(assert) {
         const linkTexts = () => {
-            return this.element.textContent.split('\n')
+            return (this.element.textContent as string)
+                .split('\n')
                 .map(t => t.trim())
-                .filter(t => t);
+                .filter(t => !!t);
         };
 
         await render(hbs`{{osf-navbar/home-links}}`);

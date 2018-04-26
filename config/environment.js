@@ -143,6 +143,19 @@ module.exports = function(environment) {
             privacyPolicyLink: `${POLICY_URL_PREFIX}PRIVACY_POLICY.md`,
             cookiesLink: `${POLICY_URL_PREFIX}PRIVACY_POLICY.md#f-cookies`,
         },
+        footerLinks: {
+            cos: 'https://cos.io',
+            statusPage: 'https://status.cos.io/',
+            apiDocs: 'https://developer.osf.io/',
+            topGuidelines: 'http://cos.io/top/',
+            rpp: 'https://osf.io/ezcuj/wiki/home/',
+            rpcb: 'https://osf.io/e81xl/wiki/home/',
+            twitter: 'http://twitter.com/OSFramework',
+            facebook: 'https://www.facebook.com/CenterForOpenScience/',
+            googleGroup: 'https://groups.google.com/forum/#!forum/openscienceframework',
+            github: 'https://www.github.com/centerforopenscience',
+            googlePlus: 'https://plus.google.com/b/104751442909573665859',
+        },
         support: {
             preregUrl: 'https://cos.io/prereg/',
             statusPageUrl: 'https://status.cos.io',
@@ -172,6 +185,7 @@ module.exports = function(environment) {
         home: {
             youtubeId: '2TV21gOzfhw',
         },
+        secondaryNavbarId: '__secondaryOSFNavbar__',
     };
 
     if (environment === 'development') {

@@ -3,8 +3,14 @@ import { alias, bool } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import { task, timeout } from 'ember-concurrency';
+import DS from 'ember-data';
+import I18N from 'ember-i18n/services/i18n';
 import Node from 'ember-osf-web/models/node';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import defaultTo from 'ember-osf-web/utils/default-to';
+import eatArgs from 'ember-osf-web/utils/eat-args';
 
 /**
  * @module ember-osf-web
@@ -31,12 +37,6 @@ export enum ProjectSelectState {
  * @class project-selector
  */
 export default class ProjectSelector extends Component.extend({
-    didReceiveAttrs() {
-        if (this.get('projectSelectState') === ProjectSelectState.main) {
-            this.get('initialLoad').perform();
-        }
-    },
-
     initialLoad: task(function* (this: ProjectSelector) {
         this.setProperties({
             didValidate: false,
@@ -50,7 +50,7 @@ export default class ProjectSelector extends Component.extend({
             yield timeout(250);
         }
 
-        const user = yield this.get('currentUser.user');
+        const user = yield this.currentUser.user;
 
         const nodes = yield user.queryHasMany('nodes', {
             filter: filter ? { title: filter } : undefined,
@@ -59,49 +59,71 @@ export default class ProjectSelector extends Component.extend({
         return nodes;
     }).restartable(),
 }) {
-    @service currentUser;
-    @service i18n;
-    @service store;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
 
     didValidate = false;
-    nodeTitle = this.nodeTitle || null;
-    projectSelectState = this.projectSelectState || ProjectSelectState.main;
-    selected: Node | null = this.selected || null;
-    showErrorMessage = this.showErrorMessage || null;
+    nodeTitle: string | null = defaultTo(this.nodeTitle, null);
+    projectSelectState: string = defaultTo(this.projectSelectState, ProjectSelectState.main);
+    selected: Node | null = defaultTo(this.selected, null);
+    showErrorMessage: boolean = defaultTo(this.showErrorMessage, false);
     projectList = A([]);
     newProject: Node = this.newProject;
 
-    @alias('selected.public') isPublicProject;
-    @bool('selected.links.relationships.parent') isChildNode;
+    @alias('selected.public') isPublicProject!: boolean;
+    @bool('selected.links.relationships.parent') isChildNode!: boolean;
 
     @computed('projectSelectState', 'newProject.validations.isValid', 'selected')
-    get isValid(this: ProjectSelector): boolean {
-        switch (this.get('projectSelectState')) {
+    get isValid(): boolean {
+        switch (this.projectSelectState) {
         case ProjectSelectState.newProject:
-            return this.get('newProject').get('validations.isValid');
+            return this.newProject.validations.isValid;
         case ProjectSelectState.existingProject:
-            return !!this.get('selected');
+            return !!this.selected;
         default:
             return false;
         }
     }
 
+    didReceiveAttrs(this: ProjectSelector) {
+        if (this.projectSelectState === ProjectSelectState.main) {
+            this.get('initialLoad').perform();
+        }
+    }
+
+    /**
+     * Placeholder for closure action: projectSelected
+     */
+    projectSelected(value: Node): void {
+        eatArgs(value);
+        assert('You should pass in a closure action: projectSelected');
+    }
+
+    /**
+     * Placeholder for closure action: validationChanged
+     */
+    validationChanged(isValid: boolean): void {
+        eatArgs(isValid);
+        assert('You should pass in a closure action: validationChanged');
+    }
+
     @action
-    valueChanged(this: ProjectSelector, value?): void {
+    valueChanged(this: ProjectSelector, value?: Node): void {
         if (value) {
             this.set('selected', value);
 
-            if (this.get('projectSelectState') === ProjectSelectState.existingProject) {
-                this.get('projectSelected')(value);
+            if (this.projectSelectState === ProjectSelectState.existingProject) {
+                this.projectSelected(value);
             }
         }
 
-        this.validationChanged(this.get('isValid'));
+        this.validationChanged(this.isValid);
     }
 
     @action
     changeState(this: ProjectSelector, projectSelectState: ProjectSelectState): void {
-        const selected = projectSelectState === ProjectSelectState.newProject ? this.get('newProject') : null;
+        const selected = projectSelectState === ProjectSelectState.newProject ? this.newProject : null;
 
         this.setProperties({
             projectSelectState,
@@ -109,7 +131,14 @@ export default class ProjectSelector extends Component.extend({
         });
 
         if (selected) {
-            this.get('projectSelected')(selected);
+            this.projectSelected(selected);
         }
+    }
+
+    @action
+    prevent(event: Event) {
+        event.preventDefault();
+
+        return false;
     }
 }

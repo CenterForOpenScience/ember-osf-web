@@ -15,27 +15,26 @@
 
                 {{! Current app }}
                 <div class="service-name">
-                    {{#link-to indexRoute clickAction=(action 'closeSecondaryAndSearch')}}
+                    {{#link-to indexRoute clickAction=(action (mut showNavLinks) false)}}
                         <span class="hidden-xs"> {{t 'general.OSF'}} </span>
                         <span class="current-service"><strong>{{currentApp}}</strong></span>
                     {{/link-to}}
                 </div>
 
                 {{! App list dropdown }}
-                <div class="dropdown primary-nav">
-                    <button
-                        class="dropdown-toggle btn-link"
-                        data-toggle="dropdown"
-                        aria-expanded="false"
-                        aria-label={{t 'navbar.toggle_primary'}}
-                        {{action 'closeSecondaryAndSearch'}}
-                        {{action 'click' 'button' 'Navbar - Dropdown Arrow' target=analytics}}
-                    >
-                        <span class="fa fa-caret-down fa-2x"></span>
-                    </button>
-                    <ul class="dropdown-menu service-dropdown" role="menu">
+                {{#bs-dropdown
+                    classNames='dropdown primary-nav'
+                    onShow=(action 'onClickPrimaryDropdown')
+                as |dd|
+                }}
+                    {{#dd.toggle
+                        (html-attributes aria-label=(t 'navbar.other_views'))
+                        classNames='btn-link PrimaryNav__toggle'}}
+                        {{fa-icon 'caret-down' size='2'}}
+                    {{/dd.toggle}}
+                    {{#dd.menu classNames='dropdown-menu service-dropdown' as |ddm|}}
                         {{#each osfApps as |app|}}
-                            <li>
+                            {{#ddm.item (html-attributes role='menuitem')}}
                                 {{#if (eq app.name currentApp)}}
                                     {{#link-to indexRoute clickAction=(action 'click' 'link' (concat 'Navbar - ' app.name ) target=analytics) }}
                                         {{t 'general.OSF'}}<b>{{app.name}}</b>
@@ -45,18 +44,16 @@
                                         {{t 'general.OSF'}}<b>{{app.name}}</b>
                                     </a>
                                 {{/if}}
-                            </li>
+                            {{/ddm.item}}
                         {{/each}}
-                    </ul>
-                </div>
+                    {{/dd.menu}}
+                {{/bs-dropdown}}
 
                 {{! Navigation toggle - XS screen }}
                 <a
                     role="button"
                     class="navbar-toggle collapsed"
-                    data-toggle="collapse"
-                    data-target="#secondary-navigation"
-                    onclick={{action (mut showSearch) false}}
+                    onclick={{action 'toggleSecondaryNavigation'}}
                     aria-label={{t 'navbar.toggle_secondary'}}
                 >
                     <span class="icon-bar"></span>
@@ -66,21 +63,22 @@
             </div>
 
             {{! Secondary nav links }}
-            <div class="navbar-collapse collapse navbar-right" id="secondary-navigation">
+            {{#bs-collapse
+                elementId='secondary-navigation'
+                classNames='navbar-collapse navbar-right'
+                collapsed=(not showNavLinks)
+            }}
                 <ul class="nav navbar-nav">
-                    {{component linksComponent onLinkClick=closeSecondaryNavigation}}
+                    {{component linksComponent onLinkClick=(action (mut showNavLinks) false)}}
                     {{osf-navbar/auth-dropdown
                         signupUrl=signupUrl
                         loginAction=loginAction
                         redirectUrl=redirectUrl
-                        dropdownOpened=(action (mut showSearch) false)
+                        onLinkClicked=(action (mut showNavLinks) false)
                     }}
                 </ul>
-            </div>
+            {{/bs-collapse}}
         </div>
     </nav>
-    {{#if showSearch}}
-        {{search-dropdown closeSearchAction=(action 'closeSearch')}}
-    {{/if}}
 </div>
 <div class='NavBarBuffer'></div>
