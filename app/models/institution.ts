@@ -17,13 +17,13 @@ import User from './user';
  * @class Institution
  */
 export default class Institution extends OsfModel {
-    @attr('string') name: string; // eslint-disable-line no-restricted-globals
-    @attr('fixstring') description: string;
-    @attr('string') logoPath: string;
-    @attr('string') authUrl: string;
-    @hasMany('user', { inverse: 'institutions' }) users: DS.PromiseManyArray<User>;
-    @hasMany('node', { inverse: 'affiliatedInstitutions' }) nodes: DS.PromiseManyArray<Node>;
-    @hasMany('registration', { inverse: 'affiliatedInstitutions' }) registrations: DS.PromiseManyArray<Registration>;
+    @attr('string') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') description!: string;
+    @attr('string') logoPath!: string;
+    @attr('string') authUrl!: string;
+    @hasMany('user', { inverse: 'institutions' }) users!: DS.PromiseManyArray<User>;
+    @hasMany('node', { inverse: 'affiliatedInstitutions' }) nodes!: DS.PromiseManyArray<Node>;
+    @hasMany('registration', { inverse: 'affiliatedInstitutions' }) registrations!: DS.PromiseManyArray<Registration>;
 }
 
 declare module 'ember-data' {

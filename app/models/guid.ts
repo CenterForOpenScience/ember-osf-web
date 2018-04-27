@@ -1,4 +1,5 @@
 import { computed } from '@ember-decorators/object';
+import { ModelRegistry } from 'ember-data';
 import { singularize } from 'ember-inflector';
 import OsfModel from './osf-model';
 
@@ -13,8 +14,8 @@ import OsfModel from './osf-model';
  */
 export default class Guid extends OsfModel {
     @computed('id')
-    get referentType(this: Guid): string {
-        return singularize(this.links.relationships.referent.data.type);
+    get referentType(this: Guid): keyof ModelRegistry {
+        return singularize(this.links.relationships.referent.data.type) as keyof ModelRegistry;
     }
 
     @computed('id')

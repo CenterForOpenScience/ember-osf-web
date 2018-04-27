@@ -16,14 +16,14 @@ import User from './user';
  * @class Log
  */
 export default class Log extends OsfModel {
-    @attr('date') date: Date;
-    @attr('fixstring') action: string;
-    @attr('object') params: any;
-    @belongsTo('node', { inverse: null }) node: DS.PromiseObject<Node> & Node;
-    @belongsTo('node', { inverse: 'logs' }) originalNode: DS.PromiseObject<Node> & Node;
-    @belongsTo('user') user: DS.PromiseObject<User> & User;
-    @belongsTo('node', { inverse: null }) linkedNode: DS.PromiseObject<Node> & Node;
-    @belongsTo('node', { inverse: null }) templateNode: DS.PromiseObject<Node> & Node;
+    @attr('date') date!: Date;
+    @attr('fixstring') action!: string;
+    @attr('object') params!: any;
+    @belongsTo('node', { inverse: null }) node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'logs' }) originalNode!: DS.PromiseObject<Node> & Node;
+    @belongsTo('user') user!: DS.PromiseObject<User> & User;
+    @belongsTo('node', { inverse: null }) linkedNode!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: null }) templateNode!: DS.PromiseObject<Node> & Node;
 }
 
 declare module 'ember-data' {

@@ -23,34 +23,34 @@ import { SubjectRef } from './taxonomy';
  * @class Preprint
  */
 export default class Preprint extends OsfModel {
-    @attr('fixstring') title: string;
-    // TODO: May be a relationship in the future pending APIv2 changes
-    @attr('object') subjects: [ SubjectRef[] ];
-    @attr('date') dateCreated: Date;
-    @attr('date') datePublished: Date;
-    @attr('date') originalPublicationDate: Date | null;
-    @attr('date') dateModified: Date;
-    @attr('fixstring') doi: string | null;
-    @attr('boolean') isPublished: boolean;
-    @attr('boolean') isPreprintOrphan: boolean;
-    @attr('object') licenseRecord: any;
-    @attr('string') reviewsState: string;
-    @attr('date') dateLastTransitioned: Date;
-    @attr('date') preprintDoiCreated: Date;
+    @attr('fixstring') title!: string;
+    // TODO!: May be a relationship in the future pending APIv2 changes
+    @attr('object') subjects!: [ SubjectRef[] ];
+    @attr('date') dateCreated!: Date;
+    @attr('date') datePublished!: Date;
+    @attr('date') originalPublicationDate!: Date | null;
+    @attr('date') dateModified!: Date;
+    @attr('fixstring') doi!: string | null;
+    @attr('boolean') isPublished!: boolean;
+    @attr('boolean') isPreprintOrphan!: boolean;
+    @attr('object') licenseRecord!: any;
+    @attr('string') reviewsState!: string;
+    @attr('date') dateLastTransitioned!: Date;
+    @attr('date') preprintDoiCreated!: Date;
 
     // Relationships
-    @belongsTo('node', { inverse: null }) node: DS.PromiseObject<Node> & Node;
-    @belongsTo('license', { inverse: null }) license: DS.PromiseObject<License> & License;
-    @belongsTo('file', { inverse: null }) primaryFile: DS.PromiseObject<File> & File;
+    @belongsTo('node', { inverse: null }) node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('license', { inverse: null }) license!: DS.PromiseObject<License> & License;
+    @belongsTo('file', { inverse: null }) primaryFile!: DS.PromiseObject<File> & File;
 
     @belongsTo('preprint-provider', { inverse: 'preprints' })
-    provider: DS.PromiseObject<PreprintProvider> & PreprintProvider;
+    provider!: DS.PromiseObject<PreprintProvider> & PreprintProvider;
 
-    @hasMany('review-action', { inverse: 'target' }) reviewActions: DS.PromiseManyArray<ReviewAction>;
-    @hasMany('contributor') contributors: DS.PromiseManyArray<Contributor>;
+    @hasMany('review-action', { inverse: 'target' }) reviewActions!: DS.PromiseManyArray<ReviewAction>;
+    @hasMany('contributor') contributors!: DS.PromiseManyArray<Contributor>;
 
-    @alias('links.doi') articleDoiUrl: string | null;
-    @alias('links.preprint_doi') preprintDoiUrl: string;
+    @alias('links.doi') articleDoiUrl!: string | null;
+    @alias('links.preprint_doi') preprintDoiUrl!: string;
 
     @computed('subjects')
     get uniqueSubjects(this: Preprint): SubjectRef[] {

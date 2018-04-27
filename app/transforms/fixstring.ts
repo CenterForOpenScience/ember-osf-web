@@ -25,7 +25,7 @@ const { StringTransform } = DS;
  * @uses fix-special-char
  */
 export default StringTransform.extend({
-    deserialize(serialized): string {
+    deserialize(serialized: string): string {
         return fixSpecialChars(this._super(serialized) || '');
     },
 });

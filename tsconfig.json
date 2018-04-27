@@ -4,10 +4,17 @@
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
     "noImplicitThis": true,
-    "noEmitOnError": false,
-    "noEmit": true,
+    "alwaysStrict": true,
     "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noEmitOnError": true,
+    "noEmit": true,
     "inlineSourceMap": true,
     "inlineSources": true,
     "baseUrl": ".",
@@ -19,7 +26,8 @@
       "ember-bootstrap/components/*": [
         "node_modules/ember-bootstrap/addon/components/bs3/*",
         "node_modules/ember-bootstrap/addon/components/bs4/*"
-      ]
+      ],
+      "*": ["types/*"]
     },
     "experimentalDecorators": true,
     "skipLibCheck": true

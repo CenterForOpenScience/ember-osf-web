@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased - next]
+### Added
+- guid-node.forks route
+- node-blurb component, for the similar node previews all over the osf
+- delete-node-modal component, for the deletion of nodes with the name verification step
+- fork method to node model
+- random-scientist util to support the delete-node modal
+- simple-paginator component
+
+### Changed
+- contributor-list component, to accept lists with links
+
 ## [Unreleased]
 ### Added
 - Node navbar: to accompany all node pages
@@ -20,12 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Join OSF banner
 - toArray utility
 - meta-tags service
-- guid-node.forks route
-- node-blurb component, for the similar node previews all over the osf
-- delete-node-modal component, for the deletion of nodes with the name verification step
-- fork method to node model
-- random-scientist util to support the delete-node modal
-- simple-paginator component
+- Test: make sure config types match actual config
 
 ### Changed
 - TypeScript: Rename files to .ts
@@ -36,7 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved analytics tracking to a Service
 - Use meta-tags service to add meta-tags to Quick File detail
 - Combine footer and copyright; simplify both while making more accessible
-- contributor-list component, to accept lists with links
+- Ember builds will now fail on TypeScript errors.
 
 ### Removed
 - Homegrown dirty relationship tracking, with automagic additional requests on save

@@ -20,36 +20,38 @@ import User from './user';
  * @class File
  */
 export default class File extends BaseFileItem {
-    @attr('fixstring') name: string; // eslint-disable-line no-restricted-globals
-    @attr('fixstring') guid: string;
-    @attr('string') path: string;
-    @attr('number') size: number;
-    @attr('number') currentVersion: number;
-    @attr('fixstring') provider: string;
-    @attr('string') materializedPath: string;
-    @attr('date') lastTouched: Date;
-    @attr('date') dateModified: Date;
-    @attr('date') dateCreated: Date;
-    @attr('object') extra: any;
-    @attr('array') tags: string[];
-    @attr('fixstring') checkout: string;
+    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') guid!: string;
+    @attr('string') path!: string;
+    @attr('number') size!: number;
+    @attr('number') currentVersion!: number;
+    @attr('fixstring') provider!: string;
+    @attr('string') materializedPath!: string;
+    @attr('date') lastTouched!: Date;
+    @attr('date') dateModified!: Date;
+    @attr('date') dateCreated!: Date;
+    @attr('object') extra!: any;
+    @attr('array') tags!: string[];
+    @attr('fixstring') checkout!: string;
 
-    @belongsTo('file', { inverse: 'files' }) parentFolder: DS.PromiseObject<File> & File;
+    @belongsTo('file', { inverse: 'files' }) parentFolder!: DS.PromiseObject<File> & File;
 
     // Folder attributes
-    @hasMany('file', { inverse: 'parentFolder' }) files: DS.PromiseManyArray<File>;
+    @hasMany('file', { inverse: 'parentFolder' }) files!: DS.PromiseManyArray<File>;
 
     // File attributes
-    @hasMany('file-version') versions: DS.PromiseManyArray<FileVersion>;
-    @hasMany('comment') comments: DS.PromiseManyArray<Comment>;
+    @hasMany('file-version') versions!: DS.PromiseManyArray<FileVersion>;
+    @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    @belongsTo('node') node: DS.PromiseObject<Node> & Node;
-    @belongsTo('user') user: DS.PromiseObject<User> & User;
+    @belongsTo('node') node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('user') user!: DS.PromiseObject<User> & User;
 
     // BaseFileItem override
     isFileModel = true;
 
     isSelected = false;
+
+    flash: object | null = null;
 
     getContents(this: File): Promise<object> {
         return authenticatedAJAX({
@@ -97,7 +99,7 @@ export default class File extends BaseFileItem {
         );
     }
 
-    updateContents(this: File, data: object): Promise<null> {
+    updateContents(this: File, data: string): Promise<null> {
         return authenticatedAJAX({
             url: this.links.upload,
             type: 'PUT',

@@ -3,23 +3,25 @@ import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
+import I18N from 'ember-i18n/services/i18n';
+import Contributor from 'ember-osf-web/models/contributor';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
-interface Contributor {
+interface Contrib {
     title: string;
     id: string | undefined;
 }
 
 @tagName('span')
 export default class ContributorList extends Component {
-    @service i18n;
+    @service i18n!: I18N;
     max = 3;
     nodeId?: string;
     useLink?: boolean;
-    contributors = defaultTo(this.contributors, A([]));
+    contributors: Contributor[] = defaultTo(this.contributors, A([]));
 
     @computed('contributors.[]')
-    get contributorList(this: ContributorList): Contributor[] {
+    get contributorList(this: ContributorList): Contrib[] {
         if (!this.get('contributors')) {
             return [];
         }
@@ -29,23 +31,23 @@ export default class ContributorList extends Component {
             return [];
         }
 
-        const names: Contributor[] = contributors
+        const names: Contrib[] = contributors
             .slice(0, this.get('max'))
             .map(c => ({
-                title: c.get('users.familyName') || c.get('users.givenName') || c.get('users.fullName'),
-                id: c.get('users.id'),
+                title: c.users.familyName || c.users.givenName || c.users.fullName,
+                id: c.users.id,
             }));
 
         return names;
     }
 
     @computed('contributorList')
-    get first(this: ContributorList): Contributor | undefined {
+    get first(this: ContributorList): Contrib | undefined {
         return this.get('contributorList').slice(0, 1)[0];
     }
 
     @computed('contributorList', 'contributors.[]')
-    get last(this: ContributorList): Contributor | void {
+    get last(this: ContributorList): Contrib | void {
         const contributors = this.get('contributorList');
 
         if (contributors.length < 2) {
@@ -64,7 +66,7 @@ export default class ContributorList extends Component {
     }
 
     @computed('contributorList', 'contributors.[]')
-    get rest(this: ContributorList): Contributor[] {
+    get rest(this: ContributorList): Contrib[] {
         const contributors = this.get('contributorList');
 
         if (!(contributors && contributors.length)) {

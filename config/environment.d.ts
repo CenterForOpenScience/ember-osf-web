@@ -8,13 +8,12 @@
 declare const config: {
     environment: any;
     modulePrefix: string;
-    podModulePrefix: string;
     locationType: string;
     rootURL: string;
     authorizationType: string;
     sentryDSN: string | null;
     sentryOptions: {
-        release: string;
+        release?: string;
         ignoreErrors: string[];
     };
     'ember-simple-auth': {
@@ -39,15 +38,16 @@ declare const config: {
         name: string;
         environments: string[];
         config: {
-            id: string;
+            id?: string;
+            cookieDomain?: string;
         };
         dimensions: {
-            authenticated: string,
-            isPublic: string,
-            resource: string,
+            authenticated: string;
+            resource: string;
+            isPublic: string;
         };
     }>;
-    FB_APP_ID: string;
+    FB_APP_ID?: string;
     microfeedback: {
         enabled: boolean;
         url: string | null;
@@ -56,11 +56,11 @@ declare const config: {
         };
     };
     OSF: {
-        clientId: string;
-        scope: string;
+        clientId?: string;
+        scope?: string;
         apiNamespace: string;
         backend: string;
-        redirectUri: string;
+        redirectUri?: string;
         url: string;
         apiUrl: string;
         renderUrl: string;
@@ -71,7 +71,7 @@ declare const config: {
         shareBaseUrl: string;
         shareApiUrl: string;
         shareSearchUrl: string;
-        accessToken: string;
+        accessToken?: string;
         devMode: boolean;
         statusCookie: string;
         cookieDomain: string;
@@ -129,6 +129,11 @@ declare const config: {
         youtubeId: string;
     };
     secondaryNavbarId: string;
+    'ember-a11y-testing'?: {
+        componentOptions: {
+            turnAuditOff: boolean,
+        },
+    };
 };
 
 export default config;

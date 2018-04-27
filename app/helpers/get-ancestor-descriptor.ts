@@ -1,5 +1,6 @@
 import { helper } from '@ember/component/helper';
 import ObjectProxy from '@ember/object/proxy';
+import Node from 'ember-osf-web/models/node';
 
 // TODO: i18n-ize, this is probably better off as a component rather than a helper
 
@@ -8,10 +9,11 @@ import ObjectProxy from '@ember/object/proxy';
  * Copied from ember-osf-preprints:
  * https://github.com/centerforopenscience/ember-osf-preprints/blob/develop/app/helpers/get-ancestor-descriptor.js
  */
-function fetchIdFromRelationshipLink(node, relationship) {
+function fetchIdFromRelationshipLink(node: Node, relationship: keyof Node) {
     // If id is not embedded in request, Private node ids can be accessed under initializedRelationships.
     // May still return undefined if parent, for example, does not exist.
     if (node) {
+        // @ts-ignore - private attribute
         const initializedRelationship = node._internalModel._relationships.initializedRelationships[relationship];
 
         if (initializedRelationship && initializedRelationship.link) {
@@ -22,22 +24,22 @@ function fetchIdFromRelationshipLink(node, relationship) {
     return undefined;
 }
 
-function fetchTitle(node, relationship) {
+function fetchTitle(node: Node, relationship: keyof Node) {
     // Fetches parent or root title.  If null, marks 'Private'.
-    const title = node.get(`${relationship}.title`);
+    const title = node.get(relationship).get('title');
 
-    return typeof title !== 'undefined' ? node.get(`${relationship}.title`) : 'Private';
+    return typeof title !== 'undefined' ? title : 'Private';
 }
 
-export function getAncestorDescriptor(params/* , hash */): string {
+export function getAncestorDescriptor(params: any[]): string {
     // Formats titles similar to the way they're displayed in the dashboard.
     // For example, Root Name / ... / Parent Name / Node Name.
-    const node = params[0];
-    const nodeId = node.get('id');
-    let rootId = node.get('root.id');
-    let parentId = node.get('parent.id');
-    const parent = node.get('parent') instanceof ObjectProxy ? node.get('parent.content') : node.get('parent');
-    let parentParentId = parent ? parent.get('parent.id') : undefined;
+    const node = params[0] as Node;
+    const nodeId = node.id;
+    let rootId = node.root.get('id');
+    let parentId = node.parent.get('id');
+    const parent: Node = node.parent instanceof ObjectProxy ? node.get('parent').content as Node : node.parent;
+    let parentParentId = parent ? parent.parent && parent.parent.get('id') : undefined;
 
     const separator = ' / ';
     const ellipsis = '\u2026';

@@ -3,6 +3,8 @@ import { service } from '@ember-decorators/service';
 import Service from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
 import config from 'ember-get-config';
+import Metrics from 'ember-metrics/services/metrics';
+import Session from 'ember-simple-auth/services/session';
 
 export enum analyticPrivacy {
     public = 'public',
@@ -11,9 +13,9 @@ export enum analyticPrivacy {
 }
 
 export default class Analytics extends Service {
-    @service metrics;
-    @service session;
-    @service router;
+    @service metrics!: Metrics;
+    @service session!: Session;
+    @service router!: any;
 
     trackPageTask = task(function* (
         this: Analytics,
@@ -67,7 +69,7 @@ export default class Analytics extends Service {
         return true;
     }
 
-    track(this: Analytics, category, actionName, label, extraInfo) {
+    track(this: Analytics, category: string, actionName: string, label: string, extraInfo?: string | null) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {
             extra = null;

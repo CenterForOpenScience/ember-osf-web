@@ -5,9 +5,12 @@ import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
 import ObjectProxy from '@ember/object/proxy';
 import Service from '@ember/service';
 import { task } from 'ember-concurrency';
+import DS from 'ember-data';
+import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
 import User from 'ember-osf-web/models/user'; // eslint-disable-line no-unused-vars
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import Session from 'ember-simple-auth/services/session';
 import RSVP from 'rsvp';
 
 /**
@@ -23,9 +26,9 @@ import RSVP from 'rsvp';
  */
 
 export default class CurrentUserService extends Service {
-    @service store;
-    @service session;
-    @service features;
+    @service store!: DS.Store;
+    @service session!: Session;
+    @service features!: Features;
 
     waffleLoaded = false;
 
@@ -40,7 +43,8 @@ export default class CurrentUserService extends Service {
         const session = this.get('session');
 
         if (session.get('isAuthenticated')) {
-            return session.get('data.authenticated.id');
+            const data = session.get('data');
+            return data ? data.authenticated.id : null;
         }
 
         return null;
@@ -68,8 +72,11 @@ export default class CurrentUserService extends Service {
             url: `${config.OSF.apiUrl}/v2/_waffle/`,
         });
 
+        // eslint-disable-next-line no-restricted-globals
+        interface Feature { attributes: { name: string; active: boolean; }; }
+
         this.get('features').setup(
-            data.reduce((acc, { attributes: { name, active } }) => ({ ...acc, [name]: active }), {}),
+            data.reduce((acc: object, { attributes: { name, active } }: Feature) => ({ ...acc, [name]: active }), {}),
         );
 
         this.set('waffleLoaded', true);

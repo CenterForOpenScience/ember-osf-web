@@ -31,7 +31,7 @@ export default Mixin.create({
      * @method beforeModel
      * @public
      */
-    async beforeModel(transition): Promise<any | void> {
+    async beforeModel(transition: { targetName: string, params: any[], queryParams: object }): Promise<any | void> {
         try {
             if (!this.get('session').get('isAuthenticated')) {
                 await this.get('session').authenticate('authenticator:osf-cookie');

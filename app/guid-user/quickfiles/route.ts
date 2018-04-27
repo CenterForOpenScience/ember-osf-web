@@ -2,7 +2,10 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import { task } from 'ember-concurrency';
-import { analyticPrivacy } from 'ember-osf-web/services/analytics';
+import GuidUserQuickfilesController from 'ember-osf-web/guid-user/quickfiles/controller';
+import Analytics, { analyticPrivacy } from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import Ready from 'ember-osf-web/services/ready';
 import loadAll from 'ember-osf-web/utils/load-relationship';
 
 function preventDrop(e: DragEvent) {
@@ -16,7 +19,7 @@ function preventDrop(e: DragEvent) {
 }
 
 export default class UserQuickfiles extends Route.extend({
-    setupController(controller, model) {
+    setupController(controller: GuidUserQuickfilesController, model: any) {
         this._super(controller, model);
 
         controller.setProperties({
@@ -27,12 +30,12 @@ export default class UserQuickfiles extends Route.extend({
         });
     },
 }) {
-    @service analytics;
-    @service currentUser;
-    @service ready;
-    @service router;
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service ready!: Ready;
+    @service router!: any;
 
-    loadModel = task(function* (this: UserQuickfiles, userModel) {
+    loadModel = task(function* (this: UserQuickfiles, userModel: any) {
         const blocker = this.get('ready').getBlocker();
         try {
             const user = yield userModel.taskInstance;

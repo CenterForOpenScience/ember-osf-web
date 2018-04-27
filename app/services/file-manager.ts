@@ -1,9 +1,26 @@
-import $ from 'jquery';
-import Service, { inject as service } from '@ember/service';
+import { service } from '@ember-decorators/service';
 import { run } from '@ember/runloop';
+import Service from '@ember/service';
+import DS from 'ember-data';
 import config from 'ember-get-config';
-
+import File from 'ember-osf-web/models/file';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import Session from 'ember-simple-auth/services/session';
+import $ from 'jquery';
+
+interface WaterbutlerData {
+    action?: 'copy' | 'move' | 'rename';
+    rename?: string;
+}
+
+interface Options<T = string> {
+    data?: T;
+    query?: {
+        name?: string; // eslint-disable-line no-restricted-globals
+        kind?: 'file' | 'folder';
+        zip?: string;
+    };
+}
 
 /**
  * @module ember-osf
@@ -18,9 +35,17 @@ import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
  * @class file-manager
  * @extends Ember.Service
  */
-export default Service.extend({
-    session: service(),
-    store: service(),
+export default class FileManager extends Service {
+    @service session!: Session;
+    @service store!: DS.Store;
+
+    /**
+     * Hash set of URLs for `model.reload()` calls that are still pending.
+     *
+     * @property reloadingUrls
+     * @private
+     */
+    private reloadingUrls = new Set<string>();
 
     /**
      * Get a URL to download the given file.
@@ -33,23 +58,19 @@ export default Service.extend({
      * @param {Object} [options.query.version] `file-version` ID
      * @return {String} Download URL
      */
-    getDownloadUrl(file, options_ = {}) {
-        const options = options_;
-        const url = file.get('links.download');
+    getDownloadUrl(file: File, options: Options = {}): string {
+        const url = file.links.download;
 
-        if (!options.query) {
-            options.query = {};
-        }
+        const { query = {} } = options;
+
         if (file.get('isFolder')) {
-            options.query.zip = '';
+            query.zip = '';
         }
-        const queryString = $.param(options.query);
-        if (queryString.length) {
-            return `${url}?${queryString}`;
-        } else {
-            return url;
-        }
-    },
+
+        const queryString = $.param(query);
+
+        return `${url}${queryString ? `?${queryString}` : ''}`;
+    }
 
     /**
      * Download the contents of the given file.
@@ -63,11 +84,10 @@ export default Service.extend({
      * @return {Promise} Promise that resolves to the file contents or rejects
      * with an error message.
      */
-    getContents(file, options_ = {}) {
-        const options = options_;
-        const url = file.get('links.download');
-        return this._waterbutlerRequest('GET', url, options);
-    },
+    getContents(file: File, options: Options = {}): Promise<any> {
+        const url = file.get('links').download;
+        return this.waterbutlerRequest('GET', url, options);
+    }
 
     /**
      * Upload a new version of an existing file.
@@ -83,18 +103,21 @@ export default Service.extend({
      * @return {Promise} Promise that resolves to the updated `file` model or
      * rejects with an error message.
      */
-    updateContents(file, contents, options_ = {}) {
-        const options = options_;
+    async updateContents(file: File, data: string, options: Options = {}): Promise<any> {
         const url = file.get('links').upload;
-        if (!options.query) {
-            options.query = {};
-        }
-        options.query.kind = 'file';
-        options.data = contents;
+        const { query = {} } = options;
 
-        const p = this._waterbutlerRequest('PUT', url, options);
-        return p.then(() => this._reloadModel(file));
-    },
+        await this.waterbutlerRequest('PUT', url, {
+            ...options,
+            data,
+            query: {
+                ...query,
+                kind: 'file',
+            },
+        });
+
+        return this.reloadModel(file);
+    }
 
     /**
      * Check out a file, so only the current user can modify it.
@@ -104,16 +127,19 @@ export default Service.extend({
      * @return {Promise} Promise that resolves on success or rejects with an
      * error message.
      */
-    checkOut(file) {
-        return run(() => {
-            const userID = this.get('session.data.authenticated.id');
+    checkOut(file: File): Promise<any> {
+        return run(async () => {
+            const userID = this.session.get('data').authenticated.id;
             file.set('checkout', userID);
-            return file.save().catch(error => {
+
+            try {
+                return await file.save();
+            } catch (e) {
                 file.rollbackAttributes();
-                throw error;
-            });
+                throw e;
+            }
         });
-    },
+    }
 
     /**
      * Check in a file, so anyone with permission can modify it.
@@ -123,15 +149,18 @@ export default Service.extend({
      * @return {Promise} Promise that resolves on success or rejects with an
      * error message.
      */
-    checkIn(file) {
-        return run(() => {
-            file.set('checkout', null);
-            return file.save().catch(error => {
+    checkIn(file: File): Promise<any> {
+        return run(async () => {
+            file.set('checkout', '');
+
+            try {
+                return await file.save();
+            } catch (e) {
                 file.rollbackAttributes();
-                throw error;
-            });
+                throw e;
+            }
         });
-    },
+    }
 
     /**
      * Create a new folder
@@ -147,23 +176,28 @@ export default Service.extend({
      * @return {Promise} Promise that resolves to the new folder's model or
      * rejects with an error message.
      */
-    addSubfolder(folder, name, options_ = {}) {
-        const options = options_;
+    async addSubfolder(folder: File, name: string, options: Options = {}): Promise<any> {
         let url = folder.get('links').new_folder;
-        if (!options.query) {
-            options.query = {};
-        }
-        options.query.name = name;
-        options.query.kind = 'folder';
 
         // HACK: This is the only WB link that already has a query string
         const queryStart = url.search(/\?kind=folder$/);
         if (queryStart > -1) {
             url = url.slice(0, queryStart);
         }
-        const p = this._waterbutlerRequest('PUT', url, options);
-        return p.then(() => this._getNewFileInfo(folder, name));
-    },
+
+        const { query = {} } = options;
+
+        await this.waterbutlerRequest('PUT', url, {
+            ...options,
+            query: {
+                ...query,
+                name,
+                kind: 'folder',
+            },
+        });
+
+        return this.getNewFileInfo(folder, name);
+    }
 
     /**
      * Upload a file
@@ -172,7 +206,7 @@ export default Service.extend({
      * @param {file} folder Location of the new file, a `file` model with
      * `isFolder == true`.
      * @param {String} name Name of the new file.
-     * @param {Object} contents A native `File` object or another appropriate
+     * @param {Object} data A native `File` object or another appropriate
      * payload for uploading.
      * @param {Object} [options] Options hash
      * @param {Object} [options.query] Key-value hash of query parameters to
@@ -181,26 +215,29 @@ export default Service.extend({
      * @return {Promise} Promise that resolves to the new file's model or
      * rejects with an error message.
      */
-    uploadFile(folder, name, contents, options_ = {}) {
-        const options = options_;
+    async uploadFile(folder: File, name: string, data: string, options: Options = {}): Promise<any> {
         const url = folder.get('links').upload;
-        options.data = contents;
-        if (!options.query) {
-            options.query = {};
-        }
-        options.query.name = name;
-        options.query.kind = 'file';
+        const { query = {} } = options;
 
-        const p = this._waterbutlerRequest('PUT', url, options);
-        return p.then(() => this._getNewFileInfo(folder, name));
-    },
+        await this.waterbutlerRequest('PUT', url, {
+            ...options,
+            data,
+            query: {
+                ...query,
+                name,
+                kind: 'file',
+            },
+        });
+
+        return this.getNewFileInfo(folder, name);
+    }
 
     /**
      * Rename a file or folder
      *
      * @method rename
      * @param {file} file `file` model to rename.
-     * @param {String} newName New name for the file.
+     * @param {String} rename New name for the file.
      * @param {Object} [options] Options hash
      * @param {Object} [options.query] Key-value hash of query parameters to
      * add to the request URL.
@@ -208,14 +245,16 @@ export default Service.extend({
      * @return {Promise} Promise that resolves to the updated `file` model or
      * rejects with an error message.
      */
-    rename(file, newName, options_ = {}) {
-        const options = options_;
+    async rename(file: File, rename: string, options: Options = {}): Promise<any> {
         const url = file.get('links').move;
-        options.data = JSON.stringify({ action: 'rename', rename: newName });
 
-        const p = this._waterbutlerRequest('POST', url, options);
-        return p.then(() => this._reloadModel(file));
-    },
+        await this.waterbutlerRequest('POST', url, {
+            ...options,
+            data: JSON.stringify({ action: 'rename', rename }),
+        });
+
+        return this.reloadModel(file);
+    }
 
     /**
      * Move (or copy) a file or folder
@@ -242,22 +281,22 @@ export default Service.extend({
      * @return {Promise} Promise that resolves to the the updated (or newly
      * created) `file` model or rejects with an error message.
      */
-    move(file, targetFolder, options_ = {}) {
-        const options = options_;
+    async move(file: File, targetFolder: File, options: Options<WaterbutlerData> = {}): Promise<File> {
         const url = file.get('links').move;
-        const defaultData = {
-            action: 'move',
-            path: targetFolder.get('path'),
-        };
-        $.extend(defaultData, options.data);
-        options.data = JSON.stringify(defaultData);
+        const { data = {} } = options;
+        const { action = 'move' } = data;
 
-        const p = this._waterbutlerRequest('POST', url, options);
-        return p.then(wbResponse => {
-            const { name } = wbResponse.data.attributes;
-            return this._getNewFileInfo(targetFolder, name);
+        const { data: { attributes: { name } } } = await this.waterbutlerRequest('POST', url, {
+            ...options,
+            data: JSON.stringify({
+                ...data,
+                action,
+                path: targetFolder.get('path'),
+            }),
         });
-    },
+
+        return this.getNewFileInfo(targetFolder, name);
+    }
 
     /**
      * Copy a file or folder.
@@ -284,14 +323,17 @@ export default Service.extend({
      * @return {Promise} Promise that resolves to the the new `file` model or
      * rejects with an error message.
      */
-    copy(file, targetFolder, options_ = {}) {
-        const options = options_;
-        if (!options.data) {
-            options.data = {};
-        }
-        options.data.action = 'copy';
-        return this.move(file, targetFolder, options);
-    },
+    copy(file: File, targetFolder: File, options: Options<WaterbutlerData> = {}): Promise<File> {
+        const { data = {} } = options;
+
+        return this.move(file, targetFolder, {
+            ...options,
+            data: {
+                ...data,
+                action: 'copy',
+            },
+        });
+    }
 
     /**
      * Delete a file or folder
@@ -305,19 +347,21 @@ export default Service.extend({
      * @return {Promise} Promise that resolves on success or rejects with an
      * error message.
      */
-    deleteFile(file, options_ = {}) {
-        const options = options_;
+    async deleteFile(file: File, options: Options = {}): Promise<any> {
         const url = file.get('links').delete;
-        const p = this._waterbutlerRequest('DELETE', url, options);
-        return p.then(() => file.get('parentFolder').then(parent => {
-            if (parent) {
-                return this._reloadModel(parent.get('files'));
-            } else {
-                this.get('store').unloadRecord(file);
-                return true;
-            }
-        }));
-    },
+
+        await this.waterbutlerRequest('DELETE', url, options);
+
+        const parent = file.get('parentFolder');
+
+        if (parent) {
+            return this.reloadModel(parent.get('files'));
+        }
+
+        this.store.unloadRecord(file);
+
+        return true;
+    }
 
     /**
      * Check whether the given url corresponds to a model that is currently
@@ -331,56 +375,52 @@ export default Service.extend({
      * @return {Boolean} `true` if `url` corresponds to a pending reload on a
      * model immediately after a Waterbutler action, otherwise `false`.
      */
-    isReloadingUrl(url) {
-        return !!this._reloadingUrls[url];
-    },
-
-    /**
-     * Hash set of URLs for `model.reload()` calls that are still pending.
-     *
-     * @property _reloadingUrls
-     * @private
-     */
-    _reloadingUrls: {},
+    isReloadingUrl(url: string): boolean {
+        return this.reloadingUrls.has(url);
+    }
 
     /**
      * Force-reload a model from the API.
      *
-     * @method _reloadModel
+     * @method reloadModel
      * @private
      * @param {Object} model `file` model or a `files` relationship
      * @return {Promise} Promise that resolves to the reloaded model or
      * rejects with an error message.
      */
-    _reloadModel(model) {
+    private async reloadModel(model: File | any): Promise<any> {
         // If it's a file model, it has its own URL in `links.info`.
-        let reloadUrl = model.get('links.info');
+        let reloadUrl = model.get('links').info;
         if (!reloadUrl) {
             // If it's not a file model, it must be a relationship.
             // HACK: Looking at Ember's privates.
             reloadUrl = model.get('content.relationship.link');
         }
         if (reloadUrl) {
-            this._reloadingUrls[reloadUrl] = true;
+            this.reloadingUrls.add(reloadUrl);
         }
 
-        return model.reload().then(freshModel => {
+        try {
+            const freshModel = await model.reload();
+
             if (reloadUrl) {
-                delete this._reloadingUrls[reloadUrl];
+                this.reloadingUrls.delete(reloadUrl);
             }
+
             return freshModel;
-        }).catch(error => {
+        } catch (error) {
             if (reloadUrl) {
-                delete this._reloadingUrls[reloadUrl];
+                this.reloadingUrls.delete(reloadUrl);
             }
+
             throw error;
-        });
-    },
+        }
+    }
 
     /**
      * Make a Waterbutler request
      *
-     * @method _waterbutlerRequest
+     * @method waterbutlerRequest
      * @private
      * @param {String} method HTTP method for the request.
      * @param {String} url Waterbutler URL.
@@ -391,49 +431,47 @@ export default Service.extend({
      * @return {Promise} Promise that resolves to the data returned from the
      * server on success, or rejects with an error message.
      */
-    _waterbutlerRequest(method, url_, options_ = {}) {
-        let url = url_;
-        const options = options_;
-        if (options.query) {
-            const queryString = $.param(options.query);
-            url = `${url}?${queryString}`;
-        }
-
-        const headers = {};
+    private waterbutlerRequest(method: string, url: string, options: Options = {}): Promise<any> {
+        const { data, query } = options;
+        const headers: { [k: string]: string } = {};
         const authType = config['ember-simple-auth'].authorizer;
-        this.get('session').authorize(authType, (headerName, content) => {
+        this.session.authorize(authType, (headerName: string, content: string) => {
             headers[headerName] = content;
         });
 
         return authenticatedAJAX({
-            url,
+            url: query ? `${url}?${$.param(query)}` : url,
             method,
             headers,
-            data: options.data,
+            data,
             processData: false,
         });
-    },
+    }
 
     /**
      * Get the `file` model for a newly created file.
      *
-     * @method _getNewFileInfo
+     * @method getNewFileInfo
      * @private
      * @param {file} parentFolder Model for the new file's parent folder.
      * @param {String} name Name of the new file.
      * @return {Promise} Promise that resolves to the new file's model or
      * rejects with an error message.
      */
-    _getNewFileInfo(parentFolder, name) {
-        const p = parentFolder.queryHasMany('files', {
-            'filter[name]': name,
-        });
-        return p.then(files => {
-            const file = files.findBy('name', name);
-            if (!file) {
-                throw 'Cannot load metadata for uploaded file.'; // eslint-disable-line no-throw-literal
-            }
-            return file;
-        });
-    },
-});
+    private async getNewFileInfo(parentFolder: any, name: string): Promise<File> {
+        const files: File[] = await parentFolder.queryHasMany('files', { 'filter[name]': name });
+        const file = files.findBy('name', name);
+
+        if (!file) {
+            throw new Error('Cannot load metadata for uploaded file.');
+        }
+
+        return file;
+    }
+}
+
+declare module '@ember/service' {
+    interface Registry {
+        'file-manager': FileManager;
+    }
+}
