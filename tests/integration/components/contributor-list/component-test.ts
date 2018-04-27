@@ -64,7 +64,13 @@ test('it renders', function(assert) {
     ];
 
     for (const [input, expected] of testCases) {
-        this.set('contributors', A(input.map(nameToUsersFamilyNames)));
+        const contributors = {
+            toArray: () => A(input.map(nameToUsersFamilyNames)),
+            meta: {
+                total: input.length,
+            },
+        };
+        this.set('contributors', contributors);
         this.render(hbs`{{contributor-list contributors=contributors}}`);
         assert.equal(this.$().text().trim(), expected);
     }

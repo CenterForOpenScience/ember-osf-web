@@ -56,6 +56,7 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
                 relationships[relName] = {
                     data: embeddedObj.data.map(({ id, type }: { id: string, type: string}) => ({ id, type })),
                     links: embeddedLinks,
+                    meta: embeddedObj.meta,
                 };
             } else {
                 relationships[relName] = {
@@ -64,6 +65,7 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
                         type: embeddedObj.data.type,
                     },
                     links: embeddedLinks,
+                    meta: embeddedObj.meta,
                 };
             }
         }
