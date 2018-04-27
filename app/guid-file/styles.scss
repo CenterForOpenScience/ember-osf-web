@@ -15,8 +15,29 @@
 }
 
 .TitleBar {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+
+    @media(min-width:992px) {
+        flex-wrap: nowrap;
+    }
+
+    &__title {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        min-width: 10%;
+    }
+
+    &__buttons {
+        margin-left: auto;
+        flex-shrink: 0;
+        max-width: 100%;
+    }
+
     &__version-link {
         cursor: pointer;
+        white-space: nowrap;
     }
 
     &__button-label {
