@@ -3,12 +3,17 @@ import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
 
-export default class GuidNodeForks extends Controller {
-    @service toast;
-    @service i18n;
-    @service statusMessages;
+import I18N from 'ember-i18n/services/i18n';
+import Node from 'ember-osf-web/models/node';
+import StatusMessages from 'ember-osf-web/services/status-messages';
+import Toast from 'ember-toastr/services/toast';
 
-    toDelete;
+export default class GuidNodeForks extends Controller {
+    @service toast!: Toast;
+    @service i18n!: I18N;
+    @service statusMessages!: StatusMessages;
+
+    toDelete: Node | null = null;
     deleteModal = false;
     newModal = false;
     page = 1;
@@ -40,11 +45,11 @@ export default class GuidNodeForks extends Controller {
     }
 
     @action
-    openDeleteModal(this: GuidNodeForks, node) {
+    openDeleteModal(this: GuidNodeForks, node: Node) {
         node.get('children').then(children => {
             if (children.toArray().length) {
-                const message = this.get('i18n').t('forks.unable_to_delete_fork');
-                this.get('toast').error(message);
+                const message = this.i18n.t('forks.unable_to_delete_fork');
+                this.toast.error(message);
             } else {
                 this.set('toDelete', node);
                 this.set('deleteModal', true);
@@ -63,26 +68,29 @@ export default class GuidNodeForks extends Controller {
         this.set('newModal', false);
         const node = this.get('model').taskInstance.value;
         node.makeFork().then(() => {
-            const message = this.get('i18n').t('forks.new_fork_info');
-            const title = this.get('i18n').t('forks.new_fork_info_title');
-            this.get('toast').info(message, title);
+            const message = this.i18n.t('forks.new_fork_info');
+            const title = this.i18n.t('forks.new_fork_info_title');
+            this.toast.info(message, title);
         }).catch(() => {
-            this.get('toast').error(this.get('i18n').t('forks.new_fork_failed'));
+            this.toast.error(this.get('i18n').t('forks.new_fork_failed'));
         });
     }
 
     @action
     delete(this: GuidNodeForks) {
         this.set('deleteModal', false);
-        const node = this.get('toDelete');
+        const node = this.toDelete;
+        if (!node) {
+            return;
+        }
         this.set('toDelete', null);
         node.deleteRecord();
         node.save().then(() => {
-            this.get('toast').success(this.get('i18n').t('status.project_deleted'));
+            this.toast.success(this.get('i18n').t('status.project_deleted'));
             this.set('page', 1);
             this.get('getForks').perform();
         }).catch(() => {
-            this.get('toast').error(this.get('i18n').t('forks.delete_fork_failed'));
+            this.toast.error(this.get('i18n').t('forks.delete_fork_failed'));
         });
     }
 }

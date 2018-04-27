@@ -10,7 +10,8 @@ module('Integration | Component | node-blurb', hooks => {
     test('it renders', async function(assert) {
         this.set('contributors', []);
         this.set('node', { queryHasMany: () => [], get: () => 'it\'s a date' });
-        await render(hbs`{{node-blurb contributors=contributors node=node}}`);
+        this.set('delete', () => []);
+        await render(hbs`{{node-blurb contributors=contributors node=node delete=delete}}`);
 
         assert.ok((this.element.textContent as string).trim());
     });

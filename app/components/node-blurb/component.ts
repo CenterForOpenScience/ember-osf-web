@@ -3,12 +3,14 @@ import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import moment from 'moment';
 
+import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
+import defaultTo from 'ember-osf-web/utils/default-to';
 
 export default class NodeBlurb extends Component {
-    node: Node | Registration;
-    blurbType: 'fork';
+    node?: Node | Registration;
+    blurbType: 'fork' = defaultTo(this.blurbType, 'fork');
 
     getAuthors = task(function* (this: NodeBlurb) {
         const node = yield this.get('node');
@@ -19,13 +21,16 @@ export default class NodeBlurb extends Component {
     });
 
     @computed('node')
-    get authors(this: NodeBlurb) {
+    get authors(this: NodeBlurb): Promise<Contributor[]> {
         return this.get('getAuthors').perform();
     }
 
     @computed('node.dateCreated')
     get date(this: NodeBlurb): string {
-        return moment(this.get('node').get('dateCreated')).format('YYYY-MM-DD h:mm A');
+        if (!this.node) {
+            return '';
+        }
+        return moment(this.node.get('dateCreated')).format('YYYY-MM-DD h:mm A');
     }
 
     @computed('blurbType')
@@ -35,7 +40,10 @@ export default class NodeBlurb extends Component {
 
     @computed('node.description')
     get description(this: NodeBlurb): string | void {
-        const description = this.get('node').get('description');
+        if (!this.node) {
+            return '';
+        }
+        const description = this.node.get('description');
         if (!description) {
             return;
         }

@@ -1,9 +1,10 @@
 import { className, tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
-
 import Component from '@ember/component';
 
-const iconMap = {
+import defaultTo from 'ember-osf-web/utils/default-to';
+
+const iconMap: { [index: string]: string } = {
     hypothesis: 'lightbulb-o',
     'methods and measures': 'pencil',
     procedure: 'cogs',
@@ -14,7 +15,6 @@ const iconMap = {
     analysis: 'bar-chart',
     communication: 'comment',
     other: 'th-large',
-    '': 'circle-o-notch',
     collection: 'cubes',
     smartCollection: 'certificate',
     registration: 'th-list',
@@ -26,11 +26,11 @@ const iconMap = {
 
 @tagName('span')
 export default class NodeBlurbNodeIcon extends Component {
-    category: string;
+    category: string = defaultTo(this.category, '');
 
     @computed('category')
     get iconType(this: NodeBlurbNodeIcon): string {
-        return iconMap[this.get('category')] || '';
+        return iconMap[this.get('category')] || 'circle-o-notch';
     }
 
     @className('text-muted', '')
