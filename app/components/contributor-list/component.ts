@@ -1,17 +1,16 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
-import { A } from '@ember/array';
 import Component from '@ember/component';
+import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Contributor from 'ember-osf-web/models/contributor';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 @tagName('span')
 export default class ContributorList extends Component {
     @service i18n!: I18N;
 
-    contributors: Contributor[] = defaultTo(this.contributors, A([]));
+    contributors: DS.PromiseManyArray<Contributor> & { meta: { total: number } } = this.contributors;
 
     @computed('contributors.[]')
     get contributorList(): string {
@@ -21,7 +20,7 @@ export default class ContributorList extends Component {
             return '';
         }
 
-        const len = contributors.length;
+        const len = this.contributors.meta.total;
         const max = 3;
 
         const names: string[] = contributors
