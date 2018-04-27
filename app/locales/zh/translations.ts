@@ -292,6 +292,18 @@ export default {
         social_facebook: 'Follow us on Facebook',
         social_github: 'Connect with COS on GitHub',
     },
+    not_found: {
+        title: 'Page not found',
+        body: 'The requested resource could not be found. If this should not have occurred and the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>',
+    },
+    zoom_to_guid: {
+        title: 'Zoom to a GUID within this app',
+        zoom: 'Zoom!',
+        placeholder: 'Enter a GUID',
+    },
+    osf_mode_footer: {
+        dev_mode: 'This site is running in development mode.',
+    },
     footer: {
         status: 'Status',
         faq: 'FAQ/Guides',
@@ -306,18 +318,6 @@ export default {
         terms: 'Terms&nbsp;of&nbsp;Use',
         privacy: 'Privacy&nbsp;Policy',
         separator: ' | ',
-    },
-    not_found: {
-        title: 'Page not found',
-        body: 'The requested resource could not be found. If this should not have occurred and the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>',
-    },
-    zoom_to_guid: {
-        title: 'Zoom to a GUID within this app',
-        zoom: 'Zoom!',
-        placeholder: 'Enter a GUID',
-    },
-    osf_mode_footer: {
-        dev_mode: 'This site is running in development mode.',
     },
     home: {
         title: 'Home',
@@ -488,5 +488,4 @@ export default {
         google_plus: 'Google Plus',
         linkedin: 'LinkedIn',
     },
-
 };
