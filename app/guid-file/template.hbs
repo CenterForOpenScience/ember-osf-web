@@ -83,27 +83,29 @@
                 updateFilter=(perform updateFilter)
                 openFile=(action 'openFile')
             }}
-            <div class='panel panel-default TagsPanel'>
-                <div class='panel-heading clearfix TagsPanel__heading'>
-                    <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
+            {{#if (or canEdit tags)}}
+                <div class='panel panel-default TagsPanel'>
+                    <div class='panel-heading clearfix TagsPanel__heading'>
+                        <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
+                    </div>
+                    <div class='panel-body'>
+                        {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
+                        {{#tag-input
+                            tags=tags
+                            addTag=(action 'addTag')
+                            removeTagAtIndex=(action 'removeTagAtIndex')
+                            allowSpacesInTags=true
+                            placeholder=(t 'file_detail.add_tag')
+                            aria_label=(t 'file_detial.tags')
+                            readOnly=(unless canEdit true false)
+                            as |tag|
+                        }}
+                            <a href='{{searchUrl}}?q=(tags:"{{tag}}")'>{{tag}}</a>
+                        {{/tag-input}}
+                        <div class="tags_clear"></div>
+                    </div>
                 </div>
-                <div class='panel-body'>
-                    {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
-                    {{#tag-input
-                        tags=tags
-                        addTag=(action 'addTag')
-                        removeTagAtIndex=(action 'removeTagAtIndex')
-                        allowSpacesInTags=true
-                        placeholder=(t 'file_detail.add_tag')
-                        aria_label=(t 'file_detial.tags')
-                        readOnly=(unless canEdit true false)
-                        as |tag|
-                    }}
-                        <a href='{{searchUrl}}?q=(tags:"{{tag}}")'>{{tag}}</a>
-                    {{/tag-input}}
-                    <div class="tags_clear"></div>
-                </div>
-            </div>
+            {{/if}}
         </div>
         <div class='col-md-9'>
             {{#if (or
