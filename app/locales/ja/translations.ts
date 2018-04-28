@@ -150,7 +150,7 @@ export default {
         quicksearch: {
             search: 'マイプロジェクト内の検索',
             other_links: 'あなたの仕事を整理したり、OSFを<a href="/search/">検索</a>するには、<a href="/myprojects/">My Projects</a>へ行きます。',
-            no_results: 'プロジェクトが見つかりません！',
+            no_results: 'プロジェクトが見つかりません',
             no_projects: {
                 line1: 'まだプロジェクトがありません。画面右上のボタンからプロジェクトを作成して下さい。',
                 line2: 'この機能を使用すると、プロジェクトを検索してすばやくアクセスできます。',

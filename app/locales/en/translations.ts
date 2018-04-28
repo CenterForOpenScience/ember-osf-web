@@ -150,7 +150,7 @@ export default {
         quicksearch: {
             search: 'Search your projects',
             other_links: 'Go to <a href="/myprojects/">My Projects</a> to organize your work or <a href="/search/">search</a> the OSF',
-            no_results: 'No results found!',
+            no_results: 'No results found.',
             no_projects: {
                 line1: 'You have no projects yet. Create a project with the button on the top right.',
                 line2: 'This feature allows you to search and quickly access your projects.',

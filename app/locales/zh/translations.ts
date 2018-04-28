@@ -150,7 +150,7 @@ export default {
         quicksearch: {
             search: '搜索您的项目',
             other_links: '前往<a href="/myprojects/">我的项目</a>来组织或<a href="/search/">搜索</a> OSF',
-            no_results: '找不到匹配选项！',
+            no_results: '找不到匹配选项',
             no_projects: {
                 line1: '您还没有项目。请使用右上角的按钮创建一个项目。',
                 line2: '该功能可以让您搜索并快速访问您的项目。',

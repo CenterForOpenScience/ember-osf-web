@@ -91,6 +91,16 @@ export default class DropzoneWidget extends Component.extend({
         }
     }
 
+    preventMultiple(this: DropzoneWidget) {
+        // Dropzone.js does not have an option for disabling selecting multiple files when clicking the "upload" button.
+        // Therefore, we remove the "multiple" attribute for the hidden file input element, so that users cannot select
+        // multiple files for upload in the first place.
+        // @ts-ignore - Custom dropzone
+        if (this.options.preventMultipleFiles && this.clickable) {
+            $('.dz-hidden-input').removeAttr('multiple');
+        }
+    }
+
     loadDropzone(this: DropzoneWidget) {
         function CustomDropzone(this: DropzoneWidget, ...args: any[]) {
             // @ts-ignore - Dropzone is a global
@@ -142,13 +152,7 @@ export default class DropzoneWidget extends Component.extend({
             },
         });
 
-        // Dropzone.js does not have an option for disabling selecting multiple files when clicking the "upload" button.
-        // Therefore, we remove the "multiple" attribute for the hidden file input element, so that users cannot select
-        // multiple files for upload in the first place.
-        // @ts-ignore - Custom dropzone
-        if (this.options.preventMultipleFiles && this.clickable) {
-            $('.dz-hidden-input').removeAttr('multiple');
-        }
+        this.preventMultiple();
 
         this.set('dropzoneElement', drop);
 
@@ -169,6 +173,11 @@ export default class DropzoneWidget extends Component.extend({
             } else {
                 drop.processFile(file);
             }
+        });
+
+        // Remove the multiple tag when complete event fires after file upload
+        drop.on('complete', () => {
+            this.preventMultiple();
         });
 
         // Set dropzone options
