@@ -1,8 +1,8 @@
 {{title model.file.name}}
 <div class='container'>
     {{quickfile-nav user=model.user onQuickfiles=false}}
-    <div class='row TitleBar'>
-        <div class='col-sm-5'>
+    <div class='TitleBar'>
+        <div class='TitleBar__title'>
             <h2>
                 {{model.file.name}}
                 <a class='TitleBar__version-link' role="button" onclick={{action 'changeView' 'revision'}}>
@@ -10,7 +10,7 @@
                 </a>
             </h2>
         </div>
-        <div class='col-sm-7'>
+        <div class='TitleBar__buttons'>
             <div id='toggleBar' class='pull-right'>
                 <div class='btn-toolbar m-t-md'>
                     {{#if canDelete}}
