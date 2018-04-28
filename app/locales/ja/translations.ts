@@ -315,8 +315,8 @@ export default {
         socialize: 'ソーシャライズ',
         contact: 'コンタクト',
         copyright: 'Copyright &copy; 2011-{{currentYear}}',
-        terms: 'Terms&nbsp;of&nbsp;Use',
-        privacy: 'Privacy&nbsp;Policy',
+        terms: '利用規約',
+        privacy: 'プライバシーポリシー',
         separator: ' | ',
     },
     home: {
@@ -448,20 +448,6 @@ export default {
         password_match: 'パスワードが一致する必要があります。',
         recaptcha: 'reCAPTCHAを完了してください',
     },
-    status: {
-        welcome_message: '<h1>OSFへようこそ！</h1><p>プロジェクトの作成方法や<a href="https://osf.io/explore/activity/#popularPublicProjects">ポピュラーな公開プロジェクト</a>からのインスピレーションを得るには、<a href="http://help.osf.io/" target="_blank" rel="noreferrer">ガイド</a>をご覧ください。</p>',
-        alternate_email_error: 'メールアドレスはあなたのアカウントに<b>追加されていません</b>。ログアウトして、あなたのメールのリンクを再訪してください。ありがとうございました。',
-        remove_addon: '{{extra.category}} "{{extra.title}}" のためのGitHubアドオンは {{extra.user}} によって認証されているため、認証情報は削除されています。',
-        project_deleted: 'プロジェクトは正常に削除されました。',
-        component_deleted: 'コンポーネントが正常に削除されました。',
-        remove_self_contrib: 'あなたはこのプロジェクトからあなた自身を削除しました。',
-    },
-    osf_copyright: {
-        copyright: 'Copyright &copy; 2011-{{currentYear}}',
-        terms: '利用規約',
-        privacy: 'プライバシーポリシー',
-        separator: ' | ',
-    },
     node_navbar: {
         toggle: 'Toggle navigation',
         project_nav: 'Project Navigation',
@@ -473,6 +459,14 @@ export default {
         addons: 'Add-ons',
         settings: 'Settings',
         comments: 'Comments',
+    },
+    status: {
+        welcome_message: '<h1>OSFへようこそ！</h1><p>プロジェクトの作成方法や<a href="https://osf.io/explore/activity/#popularPublicProjects">ポピュラーな公開プロジェクト</a>からのインスピレーションを得るには、<a href="http://help.osf.io/" target="_blank" rel="noreferrer">ガイド</a>をご覧ください。</p>',
+        alternate_email_error: 'メールアドレスはあなたのアカウントに<b>追加されていません</b>。ログアウトして、あなたのメールのリンクを再訪してください。ありがとうございました。',
+        remove_addon: '{{extra.category}} "{{extra.title}}" のためのGitHubアドオンは {{extra.user}} によって認証されているため、認証情報は削除されています。',
+        project_deleted: 'プロジェクトは正常に削除されました。',
+        component_deleted: 'コンポーネントが正常に削除されました。',
+        remove_self_contrib: 'あなたはこのプロジェクトからあなた自身を削除しました。',
     },
     dropzone_widget: {
         drop_files: 'アップロードするファイルをここにドロップして下さい',
@@ -494,5 +488,4 @@ export default {
         google_plus: 'Google Plus',
         linkedin: 'LinkedIn',
     },
-
 };
