@@ -323,7 +323,7 @@ export default {
         title: 'ホーム',
         youtube_modal_title: 'OSFを使い始める',
         alert_logged_out: 'あなたは正常にログアウトしました。',
-        brand: 'OSF',
+        brand: 'Open Science Framework',
         tagline: '研究サイクル全体をつなぐ学術コモンズ',
         youtube_label: 'OSF YouTube ビデオ',
         osf_screenshot_alt: 'OSFのスクリーンショット',

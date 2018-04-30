@@ -323,7 +323,7 @@ export default {
         title: 'Home',
         youtube_modal_title: 'Getting Started with OSF',
         alert_logged_out: 'You have successfully logged out.',
-        brand: 'OSF',
+        brand: 'Open Science Framework',
         tagline: 'A scholarly commons to connect the entire research cycle',
         youtube_label: 'OSF YouTube Video',
         osf_screenshot_alt: 'Screenshot of OSF',
