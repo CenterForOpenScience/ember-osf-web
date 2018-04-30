@@ -274,7 +274,7 @@ export default {
         guides_button: 'Visit guides',
         contact_title: 'Get in touch',
         contact_technical: 'For emails about technical support:',
-        contact_questions: 'For all other questions or comments',
+        contact_questions: 'For all other questions or comments:',
         prereg_title: 'Do you have Prereg Challenge related questions?',
         prereg_paragraph_1: 'Check out our ',
         prereg_link_text: 'prereg section',
