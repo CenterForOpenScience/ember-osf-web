@@ -53,6 +53,7 @@ export default {
         hosted_on_the_osf: 'Hosted on the Open Science Framework',
         settings: 'Settings',
         project: 'project',
+        component: 'component',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',

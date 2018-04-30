@@ -7,7 +7,7 @@ import I18N from 'ember-i18n/services/i18n';
 import Contributor from 'ember-osf-web/models/contributor';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
-interface Contrib {
+export interface Contrib {
     title: string;
     id: string | undefined;
 }

@@ -30,7 +30,7 @@ export default class GuidNodeForks extends Controller {
             forks,
             maxPage: Math.ceil(forks.meta.total / this.get('perPage')),
         });
-    });
+    }).restartable();
 
     @action
     next(this: GuidNodeForks) {
@@ -95,7 +95,6 @@ export default class GuidNodeForks extends Controller {
     }
 }
 
-// DO NOT DELETE: this is how TypeScript knows how to look up your controllers.
 declare module '@ember/controller' {
   interface Registry {
     'guid-node/forks': GuidNodeForks;

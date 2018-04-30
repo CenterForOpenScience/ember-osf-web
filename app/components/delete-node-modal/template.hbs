@@ -1,11 +1,11 @@
 {{#bs-modal open=openModal onSubmit=(action delete) onHidden=(action closeModal) as |m|}}
     {{#m.header}}
-        <h3>{{t 'delete_modal.title' nodeType=nodeType}}</h3>
+        <h3>{{t 'delete_modal.title' nodeType=(t nodeTypeKey)}}</h3>
     {{/m.header}}
     {{#m.body class=componentCssClassName}}
         <p>{{t 'delete_modal.body' nodeType=nodeType}}</p>
         <label class='DeleteModal__label-wrap'>
-            <p class='DeleteModal__label-wrap__input-label'>{{t 'delete_modal.type_this'}} <strong>{{scientistName}}</strong></p>
+            <p class='DeleteModal__input-label'>{{t 'delete_modal.type_this'}} <strong>{{scientistName}}</strong></p>
             {{input class="form-control DeleteModal__input" value=scientistInput}}
         </label>
     {{/m.body}}

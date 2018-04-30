@@ -8,9 +8,13 @@ import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
+enum BlurbType {
+    FORK = 'fork',
+}
+
 export default class NodeBlurb extends Component {
     node?: Node | Registration;
-    blurbType: 'fork' = defaultTo(this.blurbType, 'fork');
+    blurbType: BlurbType = defaultTo(this.blurbType, BlurbType.FORK);
 
     getAuthors = task(function* (this: NodeBlurb) {
         const node = yield this.get('node');
@@ -36,20 +40,5 @@ export default class NodeBlurb extends Component {
     @computed('blurbType')
     get blurbTypeTitle(this: NodeBlurb): string {
         return `node_blurb.${this.get('blurbType')}.title`;
-    }
-
-    @computed('node.description')
-    get description(this: NodeBlurb): string | void {
-        if (!this.node) {
-            return '';
-        }
-        const description = this.node.get('description');
-        if (!description) {
-            return;
-        }
-        if (description.length > 150) {
-            return `${description.slice(0, 150)}...`;
-        }
-        return description;
     }
 }

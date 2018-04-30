@@ -13,17 +13,17 @@
     {{#if (eq blurbType 'fork')}}
         <div class="pull-right generic-dropdown">
             {{#bs-dropdown as |dd|}}
-                {{#dd.button}}<span aria-label='Options' class="glyphicon glyphicon-option-horizontal"></span>{{/dd.button}}
-                {{#dd.menu}}
+                {{#dd.button class='NodeBlurb__dropdown-button'}}<span aria-label='Options' class="glyphicon glyphicon-option-horizontal"></span>{{/dd.button}}
+                {{#dd.menu class='NodeBlurb__dropdown-list'}}
                     <li role='menuitem'>
-                        <a href="/{{node.id}}/contributors/">{{t 'node_blurb.fork.manage_contributors'}}</a>
+                        <a class='NodeBlurb__dropdown-link' href="/{{node.id}}/contributors/">{{t 'node_blurb.fork.manage_contributors'}}</a>
                     </li>
                     <li role='menuitem'>
-                        <a href="/{{node.id}}/settings/">{{t 'general.settings'}}</a>
+                        <a class='NodeBlurb__dropdown-link' href="/{{node.id}}/settings/">{{t 'general.settings'}}</a>
                     </li>
                     <li role='menuitem'>
                         {{! template-lint-disable invalid-interactive }}
-                        <a onclick={{action delete node}} role='button'>{{t 'general.delete'}}</a>
+                        <a class='NodeBlurb__dropdown-link' onclick={{action delete node}} role='button'>{{t 'general.delete'}}</a>
                         {{! template-lint-enable invalid-interactive }}
                     </li>
                 {{/dd.menu}}
@@ -34,4 +34,4 @@
 <div class="NodeBlurb__authors">
     {{contributor-list contributors=(await authors) useLink=true nodeId=node.id}}
 </div>
-<span class="NodeBlurb__description">{{description}}</span>
+<span class="NodeBlurb__description">{{node.description}}</span>
