@@ -274,7 +274,7 @@ export default {
         guides_button: 'ガイドを訪問',
         contact_title: '連絡する',
         contact_technical: 'テクニカルサポートの電子メール：',
-        contact_questions: 'その他の質問やコメント',
+        contact_questions: 'その他の質問やコメント：',
         prereg_title: 'Prereg Challengeに関する質問はありますか？',
         prereg_paragraph_1: '調査して下さい、我々の',
         prereg_link_text: 'Preregセクション',
