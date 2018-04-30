@@ -1,5 +1,6 @@
 import { service } from '@ember-decorators/service';
 import DS from 'ember-data';
+import FileManager from 'ember-osf-web/services/file-manager';
 import OsfAdapter from './osf-adapter';
 
 interface Options {
@@ -23,20 +24,21 @@ export default class File extends OsfAdapter.extend({
      * This adapter mixin appends a nonce to requests that are likely to run into
      * that race condition, forcing a cache miss.
      */
-    ajaxOptions(this: File, ...args: any[]): object {
+    ajaxOptions(this: File, ...args: any[]): Options {
         const hash: Options = this._super(...args);
+        const { url } = hash;
 
-        if (this.get('fileManager').isReloadingUrl(hash.url)) {
-            const prefix = hash.url.includes('?') ? '&' : '?';
-            const nonce = Date.now();
-            // The name of the query parameter doesn't matter, just the nonce
-            hash.url += `${prefix}cachebypass=${nonce}`;
-        }
+        return {
+            ...hash,
+            url: this.fileManager.isReloadingUrl(url) ?
+                // The name of the query parameter doesn't matter, just the nonce
+                `${url}${url.includes('?') ? '&' : '?'}cachebypass=${Date.now()}` :
+                url,
 
-        return hash;
+        };
     },
 }) {
-    @service fileManager;
+    @service fileManager!: FileManager;
 }
 
 declare module 'ember-data' {

@@ -5,6 +5,7 @@ import { serviceLinks } from 'ember-osf-web/const/service-links';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import Session from 'ember-simple-auth/services/session';
 
 /**
  * Display default OSF navbar links
@@ -13,11 +14,11 @@ import defaultTo from 'ember-osf-web/utils/default-to';
  */
 @tagName('')
 export default class OsfNavbarHomeLinks extends Component {
-    @service session;
-    @service analytics: Analytics;
-    @service('current-user') currentUser: CurrentUser;
+    @service session!: Session;
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
 
-    onLinkClick = defaultTo(this.onLinkClick, 'onLinkClick');
+    onLinkClick: string = defaultTo(this.onLinkClick, 'onLinkClick');
     searchUrl = serviceLinks.search;
     donateUrl = 'https://cos.io/donate';
     myProjectsUrl = serviceLinks.myProjects;

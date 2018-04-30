@@ -42,7 +42,7 @@ export default class FileEditor extends Component {
     }
 
     @action
-    valueUpdated(this: FileEditor, newValue): void {
+    valueUpdated(this: FileEditor, newValue: string): void {
         this.set('unsavedText', newValue);
     }
 

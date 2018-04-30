@@ -12,7 +12,7 @@ import OsfModel from './osf-model';
  * @class Citation
  */
 export default class Citation extends OsfModel {
-    @attr('string') citation: string;
+    @attr('string') citation!: string;
 }
 
 declare module 'ember-data' {

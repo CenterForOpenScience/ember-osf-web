@@ -10,6 +10,7 @@ addons:
 env:
   global:
     - SUPPRESS_NO_CONFIG_WARNING=true
+    - GK_LOCK_YARN_OPTS='--ignore-engines'
 
 cache:
   yarn: true
@@ -19,12 +20,17 @@ cache:
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn global add greenkeeper-lockfile@1
 
 install:
+  - greenkeeper-lockfile-update
   - yarn --prefer-offline --frozen-lockfile --ignore-engines
 
 script:
-  - yarn lint && yarn test:translations && yarn test:cover
+  - yarn lint && yarn test:node-tests && yarn test:cover
+
+after_script:
+  - greenkeeper-lockfile-upload
 
 after_success:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

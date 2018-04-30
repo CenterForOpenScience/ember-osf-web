@@ -3,6 +3,8 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { htmlSafe } from '@ember/string';
 import config from 'ember-get-config';
+import File from 'ember-osf-web/models/file';
+import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 const {
@@ -14,12 +16,12 @@ const {
 } = config;
 
 export default class FileShareButton extends Component {
-    @service analytics;
+    @service analytics!: Analytics;
 
-    file: any; // Change when models are typed
+    file?: File;
     showPopup = false;
-    styleNamespace: string;
-    elementId: string;
+    styleNamespace?: string;
+    elementId!: string;
 
     @computed('styleNamespace')
     get popoverClass() {
@@ -38,11 +40,15 @@ export default class FileShareButton extends Component {
 
     @computed('file')
     get fileUrl() {
-        return pathJoin(config.OSF.url, this.file.guid);
+        return this.file ? pathJoin(config.OSF.url, this.file.guid) : '';
     }
 
     @computed('file.name', 'fileUrl')
     get twitterUrl() {
+        if (!this.file) {
+            return undefined;
+        }
+
         const params = {
             text: this.file.name,
             url: this.fileUrl,
@@ -63,6 +69,10 @@ export default class FileShareButton extends Component {
 
     @computed('file.name', 'fileUrl')
     get linkedInUrl() {
+        if (!this.file) {
+            return undefined;
+        }
+
         const params = {
             title: this.file.name,
             url: this.fileUrl,
@@ -73,6 +83,10 @@ export default class FileShareButton extends Component {
 
     @computed('file.name', 'fileUrl')
     get emailUrl() {
+        if (!this.file) {
+            return undefined;
+        }
+
         const params = {
             body: this.fileUrl,
             subejct: this.file.name,
@@ -83,6 +97,10 @@ export default class FileShareButton extends Component {
 
     @computed('file')
     get mfrUrl() {
+        if (!this.file) {
+            return undefined;
+        }
+
         const params = {
             url: pathJoin(config.OSF.url, this.file.guid, 'download'),
         };

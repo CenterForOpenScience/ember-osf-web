@@ -27,7 +27,7 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         if (!resourceHash.embeds) {
             return resourceHash;
         }
-        const relationships = {};
+        const relationships: { [k: string]: any } = {};
         for (const relName of Object.keys(resourceHash.relationships)) {
             const embeddedObj = resourceHash.embeds[relName];
 
@@ -54,8 +54,9 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
             // Construct a new relationship in JSON API format
             if (Array.isArray(embeddedObj.data)) {
                 relationships[relName] = {
-                    data: embeddedObj.data.map(({ id, type }) => ({ id, type })),
+                    data: embeddedObj.data.map(({ id, type }: { id: string, type: string}) => ({ id, type })),
                     links: embeddedLinks,
+                    meta: embeddedObj.meta,
                 };
             } else {
                 relationships[relName] = {
@@ -64,6 +65,7 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
                         type: embeddedObj.data.type,
                     },
                     links: embeddedLinks,
+                    meta: embeddedObj.meta,
                 };
             }
         }
@@ -128,7 +130,7 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
                 const rel = relationships[camelize(key)];
                 if (rel
                     && rel.members.length === rel.canonicalMembers.length
-                    && rel.members.list.every((v, i) => v === rel.canonicalMembers.list[i])
+                    && rel.members.list.every((v: any, i: any) => v === rel.canonicalMembers.list[i])
                 ) {
                     delete serialized.data.relationships[key];
                 }
@@ -149,7 +151,7 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         }
     },
 
-    normalizeArrayResponse(...args): any {
+    normalizeArrayResponse(...args: any[]): any {
         const documentHash: any = this._super(...args);
 
         if (documentHash.meta && documentHash.meta.total && documentHash.meta.per_page) {

@@ -14,9 +14,9 @@ import { helper } from '@ember/component/helper';
  * @param {String} list intersection ??
  * @return {Boolean} Return if matches a filter.
  */
-export function ifFilter([element, filter, intersection]): boolean {
+export function ifFilter([element, filter, intersection]: [any, any, any]): boolean {
     if (intersection) {
-        const match = element.filter(each => filter.includes(each));
+        const match = element.filter((each: any) => filter.includes(each));
         return !!match.length;
     }
 

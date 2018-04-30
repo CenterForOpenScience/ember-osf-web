@@ -3,7 +3,7 @@ import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { get } from '@ember/object';
 import { task } from 'ember-concurrency';
-import DS from 'ember-data';
+import DS, { ModelRegistry } from 'ember-data';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 
 const { Model } = DS;
@@ -12,12 +12,6 @@ const { Model } = DS;
  * @module ember-osf-web
  * @submodule models
  */
-
-interface QueryHasManyPayload {
-    meta: object;
-    links: object;
-    data: any[];
-}
 
 interface QueryHasManyResult extends Array<any> {
     meta?: any;
@@ -34,7 +28,7 @@ interface QueryHasManyResult extends Array<any> {
 export default class OsfModel extends Model.extend({
     queryHasManyTask: task(function* (
         this: OsfModel,
-        propertyName,
+        propertyName: any,
         queryParams?: object,
         ajaxOptions?: object,
     ) {
@@ -52,22 +46,25 @@ export default class OsfModel extends Model.extend({
         const options: object = {
             url,
             data: queryParams,
-            headers: get(store.adapterFor((this.constructor as typeof OsfModel).modelName), 'headers'),
+            headers: get(store.adapterFor(
+                (this.constructor as typeof OsfModel).modelName as keyof ModelRegistry,
+            ), 'headers'),
             ...ajaxOptions,
         };
 
         const payload = yield authenticatedAJAX(options);
 
         store.pushPayload(payload);
-        const records: QueryHasManyResult = payload.data.map(datum => store.peekRecord(datum.type, datum.id));
+        const records: QueryHasManyResult = payload.data.map((datum: { type: keyof ModelRegistry, id: string }) =>
+            store.peekRecord(datum.type, datum.id));
         records.meta = payload.meta;
         records.links = payload.links;
         return records;
     }),
 }) {
-    @service store;
+    @service store!: DS.Store;
 
-    @attr links: any;
+    @attr() links: any;
 
     @alias('links.relationships') relationshipLinks: any;
 
@@ -82,16 +79,10 @@ export default class OsfModel extends Model.extend({
      */
     queryHasMany(
         this: OsfModel,
-        propertyName: keyof OsfModel,
+        propertyName: keyof OsfModel | 'quickfiles',
         queryParams?: object,
         ajaxOptions?: object,
     ) {
         return this.get('queryHasManyTask').perform(propertyName, queryParams, ajaxOptions);
-    }
-}
-
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'osf-model': OsfModel;
     }
 }

@@ -4,14 +4,14 @@ import $ from 'jquery';
 const { Transform } = DS;
 
 export default Transform.extend({
-    deserialize(value) {
+    deserialize(value: any) {
         if ($.isPlainObject(value)) {
             return value;
         }
         return {};
     },
 
-    serialize(value) {
+    serialize(value: any) {
         if ($.isPlainObject(value)) {
             return value;
         }

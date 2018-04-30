@@ -21,14 +21,19 @@ module.exports = {
         'no-unused-vars': ['error', { argsIgnorePattern: '^this' }],
         'typescript/no-unused-vars': 'error',
         strict: 'off',
-        indent: 'off',
-        'indent-legacy': 'error',
         'ember/named-functions-in-promises': 'off',
         'function-paren-newline': ['error', 'consistent'],
         'ember/no-attrs-snapshot': 'off',
         'prefer-rest-params': 'error',
     },
     overrides: [
+        {
+            files: ['config/environment.d.ts'],
+            rules: {
+                indent: 'off',
+                'indent-legacy': 'error',
+            },
+        },
         {
             files: ['**/*.d.ts'],
             rules: {

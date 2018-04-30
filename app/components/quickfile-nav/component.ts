@@ -7,5 +7,5 @@ import User from 'ember-osf-web/models/user';
 export default class QuickfileNav extends Component {
     @attribute role = 'navigation';
 
-    user: User;
+    user?: User;
 }

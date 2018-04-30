@@ -15,18 +15,18 @@ import User from './user';
  * @class Contributor
  */
 export default class Contributor extends OsfModel {
-    @attr('fixstring') permission: string;
-    @attr('boolean') bibliographic: boolean;
+    @attr('fixstring') permission!: string;
+    @attr('boolean') bibliographic!: boolean;
 
-    @attr('fixstring') unregisteredContributor: string;
-    @attr('number') index: number;
-    @attr('fixstring') fullName: string;
-    @attr('fixstring') email: string;
-    @attr('boolean') sendEmail: boolean;
+    @attr('fixstring') unregisteredContributor!: string;
+    @attr('number') index!: number;
+    @attr('fixstring') fullName!: string;
+    @attr('fixstring') email!: string;
+    @attr('boolean') sendEmail!: boolean;
 
-    @belongsTo('user') users: DS.PromiseObject<User> & User;
+    @belongsTo('user') users!: DS.PromiseObject<User> & User;
 
-    @belongsTo('node', { inverse: 'contributors' }) node: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'contributors' }) node!: DS.PromiseObject<Node> & Node;
 }
 
 declare module 'ember-data' {

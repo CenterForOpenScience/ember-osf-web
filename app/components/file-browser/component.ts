@@ -1,5 +1,5 @@
 import { action, computed } from '@ember-decorators/object';
-import { alias, filterBy, not, notEmpty } from '@ember-decorators/object/computed';
+import { alias, filterBy, not, notEmpty, or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
@@ -7,13 +7,18 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { next } from '@ember/runloop';
 import { task } from 'ember-concurrency';
+import DS from 'ember-data';
+import I18N from 'ember-i18n/services/i18n';
 import { ProjectSelectState } from 'ember-osf-web/components/project-selector/component';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
-import analytics from 'ember-osf-web/services/analytics';
+import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import Ready from 'ember-osf-web/services/ready';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 import pathJoin from 'ember-osf-web/utils/path-join';
+import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 
 enum modals {
@@ -38,16 +43,16 @@ enum modals {
  * @class file-browser
  */
 export default class FileBrowser extends Component {
-    @service analytics;
-    @service currentUser;
-    @service i18n;
-    @service ready;
-    @service store;
-    @service toast;
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service ready!: Ready;
+    @service store!: DS.Store;
+    @service toast!: Toast;
 
-    clickHandler: (e) => void;
-    dismissPop: () => void;
-    canEdit: boolean;
+    clickHandler?: JQuery.EventHandlerBase<HTMLElement, JQuery.Event>;
+    dismissPop?: () => void;
+    canEdit?: boolean;
     showRename: boolean = false;
     renameValue: string = '';
     multiple = true;
@@ -70,8 +75,8 @@ export default class FileBrowser extends Component {
     showFilterClicked: boolean = false;
     filter: string = defaultTo(this.filter, '');
     shiftAnchor: File | null = null;
-    isNewProject: boolean;
-    isChildNode: boolean;
+    isNewProject?: boolean;
+    isChildNode?: boolean;
 
     dropzoneOptions = {
         createImageThumbnails: false,
@@ -90,11 +95,11 @@ export default class FileBrowser extends Component {
             isMoving: true,
         });
 
-        const selectedItem = this.selectedItems.firstObject;
+        const selectedItem = this.selectedItems.get('firstObject');
         const isNewProject = !!this.node && !!this.node.isNew;
-        const isChildNode = !!this.node && !!this.node.links.relationships.parent;
+        const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships.parent;
 
-        const moveSuccess: boolean = yield this.moveFile(selectedItem, this.node);
+        const moveSuccess: boolean = yield this.moveFile(selectedItem as File, this.node);
         this.analytics.track('file', 'move', 'Quick Files - Move to project');
 
         let successPropertyUpdates = {};
@@ -116,18 +121,19 @@ export default class FileBrowser extends Component {
         this.setProperties(propertyUpdates);
     });
 
-    @not('items') loading;
-    @alias('user.links.relationships.quickfiles.links.upload.href') uploadUrl;
-    @alias('user.links.relationships.quickfiles.links.download.href') downloadUrl;
-    @alias('node.links.html') nodeLink;
-    @alias('canEdit') dropzone;
-    @notEmpty('uploading') isUploading;
-    @filterBy('items', 'isSelected', true) selectedItems;
-    @notEmpty('filter') showFilterInput: boolean;
+    @not('items') loading!: boolean;
+    @alias('user.links.relationships.quickfiles.links.upload.href') uploadUrl!: string;
+    @alias('user.links.relationships.quickfiles.links.download.href') downloadUrl!: string;
+    @alias('node.links.html') nodeLink!: string;
+    @alias('canEdit') dropzone!: boolean;
+    @notEmpty('uploading') isUploading!: boolean;
+    @filterBy('items', 'isSelected', true) selectedItems!: File[];
+    @notEmpty('filter') showFilterInput!: boolean;
+    @or('showFilterClicked', 'showFilterInput') showFilter!: boolean;
 
     @computed('selectedItems.firstObject.guid')
     get link(): string | undefined {
-        const { guid } = this.selectedItems.firstObject;
+        const { guid } = this.selectedItems.get('firstObject') as File;
         return guid ? pathJoin(window.location.origin, guid) : undefined;
     }
 
@@ -136,19 +142,16 @@ export default class FileBrowser extends Component {
         return this.items && this.items.length;
     }
 
-    @computed('canEdit', 'hasItems', 'showFilterInput', 'showRename')
-    get clickable(): string | string[] {
-        const cssClass: string[] = [];
-
-        if (!this.showFilterInput && !this.showRename && this.canEdit) {
-            cssClass.push('.dz-upload-button');
-
-            if (!this.hasItems) {
-                cssClass.push('.file-browser-list');
-            }
+    @computed('canEdit', 'hasItems', 'showFilter', 'showRename')
+    get clickable(): string[] {
+        if (!this.canEdit || this.showFilter || this.showRename) {
+            return [];
         }
 
-        return cssClass.length ? cssClass : '';
+        return [
+            '.dz-upload-button',
+            this.hasItems ? '' : '.file-browser-list',
+        ].filter(item => item.length);
     }
 
     /**
@@ -170,7 +173,7 @@ export default class FileBrowser extends Component {
     /**
      * Placeholder for closure action: renameFile
      */
-    renameFile(file: File, renameValue: string, conflict?: boolean, conflictingItem?: File): void {
+    renameFile(file: File, renameValue: string, conflict?: string, conflictingItem?: File): void {
         eatArgs(file, renameValue, conflict, conflictingItem);
         assert('You should pass in a closure action: renameFile');
     }
@@ -203,15 +206,15 @@ export default class FileBrowser extends Component {
 
         const dismissPop = () => !this.isDestroyed && this.setProperties({ popupOpen: false });
 
-        const clickHandler = e => {
+        const clickHandler: JQuery.EventHandlerBase<HTMLElement, JQuery.Event> = (e: JQuery.Event): void => {
             const { target } = e;
-            const targetClass = $(target).attr('class');
+            const targetClass = $(target as Element).attr('class');
 
-            const shouldClick = $(e.target).parents('.popover.in').length === 0
+            const shouldClick = $(target as Element).parents('.popover.in').length === 0
                 && targetClass
                 && !targetClass.includes('popover-toggler');
 
-            if (shouldClick) {
+            if (shouldClick && this.dismissPop) {
                 this.dismissPop.bind(this)();
             }
         };
@@ -250,23 +253,23 @@ export default class FileBrowser extends Component {
 
     // dropzone listeners
     @action
-    addedFile(_, __, file) {
+    addedFile(_: any, __: any, file: any) {
         this.uploading.pushObject(file);
     }
 
     @action
-    uploadProgress(_, __, file, progress) {
+    uploadProgress(_: any, __: any, file: any, progress: number) {
         $(`#uploading-${file.size}`).css('width', `${progress}%`);
     }
 
     @action
-    error(_, __, file, response) {
+    error(_: any, __: any, file: any, response: any) {
         this.uploading.removeObject(file);
         this.toast.error(response.message_long || response.message || response);
     }
 
     @action
-    async success(_, __, file, response) {
+    async success(_: any, __: any, file: any, response: any) {
         this.analytics.track('file', 'upload', 'Quick Files - Upload');
         await this.addFile(response.data.id.replace(/^.*\//, ''));
         this.uploading.removeObject(file);
@@ -281,7 +284,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    selectItem(this: FileBrowser, currentItem) {
+    selectItem(this: FileBrowser, currentItem: File) {
         if (this.openOnSelect) {
             this.openFile(currentItem, 'view');
         }
@@ -300,7 +303,7 @@ export default class FileBrowser extends Component {
                 return;
             }
 
-            const otherItem = this.selectedItems.firstObject;
+            const otherItem = this.selectedItems.get('firstObject') as File;
             otherItem.set('isSelected', false);
         }
 
@@ -313,7 +316,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    selectMultiple(this: FileBrowser, currentItem, toggle) {
+    selectMultiple(this: FileBrowser, currentItem: File, toggle: boolean) {
         if (!this.multiple || !this.items) {
             return;
         }
@@ -348,7 +351,7 @@ export default class FileBrowser extends Component {
 
     @action
     viewItem() {
-        const item = this.selectedItems.firstObject;
+        const item = this.selectedItems.get('firstObject') as File;
         this.openFile(item, 'view');
     }
 
@@ -359,7 +362,7 @@ export default class FileBrowser extends Component {
 
     @action
     downloadItem() {
-        window.location.href = this.selectedItems.firstObject.links.download;
+        window.location.href = (this.selectedItems.get('firstObject') as File).links.download;
     }
 
     @action
@@ -374,9 +377,9 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    renameConflict(this: FileBrowser, conflict): void {
+    renameConflict(this: FileBrowser, conflict: string): void {
         const { renameValue, conflictingItem } = this;
-        const selectedItem = this.selectedItems.firstObject;
+        const selectedItem = this.selectedItems.get('firstObject') as File;
 
         this.setProperties({
             currentModal: modals.None,
@@ -397,7 +400,7 @@ export default class FileBrowser extends Component {
     @action
     rename(this: FileBrowser): void {
         const { renameValue } = this;
-        const selectedItem = this.selectedItems.firstObject;
+        const selectedItem = this.selectedItems.get('firstObject') as File;
         const conflictingItem = this.items ? this.items
             .find(item => item.itemName === renameValue) : null;
 
@@ -444,11 +447,11 @@ export default class FileBrowser extends Component {
             return;
         }
 
-        this.selectedItems.firstObject.getGuid();
+        (this.selectedItems.get('firstObject') as File).getGuid();
     }
 
     @action
-    setSelectedNode(this: FileBrowser, node) {
+    setSelectedNode(this: FileBrowser, node: Node) {
         this.setProperties({
             node,
         });

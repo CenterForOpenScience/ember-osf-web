@@ -7,8 +7,8 @@ import LinkComponent from '@ember/routing/link-component';
  * @class link-to
  */
 export default class LinkTo extends LinkComponent {
-    @attribute('aria-label') ariaLabel;
-    eventName: string;
+    @attribute('aria-label') ariaLabel?: string;
+    eventName?: string;
 
     /**
      * Action called when the link is clicked
@@ -21,7 +21,7 @@ export default class LinkTo extends LinkComponent {
     constructor(properties: object) {
         super(properties);
 
-        if (this.clickAction) {
+        if (this.clickAction && this.eventName) {
             this.on(this.eventName, this, this.clickAction);
         }
     }

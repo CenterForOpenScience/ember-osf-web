@@ -1,5 +1,6 @@
 import { run } from '@ember/runloop';
 import { settled } from '@ember/test-helpers';
+import Ready from 'ember-osf-web/services/ready';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -8,7 +9,7 @@ module('Unit | Service | ready', hooks => {
 
     // Set up ready/error listeners with assertions inside.
     // Adds 2 expected assertions for either success or failure.
-    function setUpListeners(assert, ready, expectSuccess: boolean) {
+    function setUpListeners(assert: any, ready: Ready, expectSuccess: boolean) {
         ready.on('ready', () => { assert.ok(expectSuccess, '"ready" event triggered'); });
         ready.on('error', () => { assert.ok(!expectSuccess, '"error" event triggered'); });
 
