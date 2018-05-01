@@ -132,6 +132,11 @@ declare const config: {
             turnAuditOff: boolean,
         },
     };
+    engines: {
+        collections: {
+            enabled: boolean;
+        };
+    };
 };
 
 export default config;
