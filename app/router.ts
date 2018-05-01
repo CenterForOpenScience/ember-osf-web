@@ -24,7 +24,9 @@ const Router = EmberRouter.extend({
             }
         }
 
-        this.set('readyBlocker', this.get('ready').getBlocker());
+        if (!this.readyBlocker || this.readyBlocker.isDone()) {
+            this.readyBlocker = this.get('ready').getBlocker();
+        }
         this._super(oldInfo, newInfo, transition);
     },
 
@@ -32,11 +34,8 @@ const Router = EmberRouter.extend({
         this._super(...args);
         this.get('statusMessages').updateMessages();
         window.scrollTo(0, 0);
-
-        const readyBlocker = this.get('readyBlocker');
-
-        if (readyBlocker) {
-            readyBlocker.done();
+        if (this.readyBlocker && !this.readyBlocker.isDone()) {
+            this.readyBlocker.done();
         }
     },
 });
