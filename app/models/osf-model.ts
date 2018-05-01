@@ -3,7 +3,8 @@ import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { get } from '@ember/object';
 import { task } from 'ember-concurrency';
-import DS, { ModelRegistry } from 'ember-data';
+// eslint-disable-next-line no-unused-vars
+import DS, { AdapterRegistry, ModelRegistry } from 'ember-data';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 
 const { Model } = DS;
@@ -47,7 +48,7 @@ export default class OsfModel extends Model.extend({
             url,
             data: queryParams,
             headers: get(store.adapterFor(
-                (this.constructor as typeof OsfModel).modelName as keyof ModelRegistry,
+                (this.constructor as typeof OsfModel).modelName as keyof AdapterRegistry,
             ), 'headers'),
             ...ajaxOptions,
         };
