@@ -9,6 +9,7 @@ import RSVP from 'rsvp';
 export interface Blocker {
     done: () => void;
     errored: (e: any) => void;
+    isDone: () => boolean;
 }
 
 export enum Events {
@@ -39,6 +40,7 @@ export default class Ready extends Service.extend(Evented) {
             return {
                 done: () => null,
                 errored: () => null,
+                isDone: () => true,
             };
         }
         const id = this.incrementProperty('lastId');
@@ -46,6 +48,7 @@ export default class Ready extends Service.extend(Evented) {
         return {
             done: this.doneCallback(id),
             errored: this.errorCallback(),
+            isDone: () => !this.blockers.includes(id),
         };
     }
 
