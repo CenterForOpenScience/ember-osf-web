@@ -4123,9 +4123,9 @@ ember-cli-tslint@^0.1.3:
     tslint "^5.5.0"
     walk-sync "^0.3.2"
 
-ember-cli-typescript@1.3.0-beta.4:
-  version "1.3.0-beta.4"
-  resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-1.3.0-beta.4.tgz#ce85c6d0e6f483dbb22e88ab90c06deb1b6a5b4d"
+ember-cli-typescript@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-1.3.0.tgz#4569e74f74898e2d2f5ebb86773e389dab35c32a"
   dependencies:
     broccoli-debug "^0.6.4"
     broccoli-funnel "^2.0.1"
@@ -11458,7 +11458,7 @@ typescript-eslint-parser@^15.0.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript@^2.8.1:
+typescript@^2.8.3:
   version "2.8.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.3.tgz#5d817f9b6f31bb871835f4edf0089f21abe6c170"
 
