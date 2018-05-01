@@ -42,8 +42,22 @@ export default Mixin.create({
             // Reference: http://stackoverflow.com/a/39054607/414097
             const router = this.get('router');
             const params = Object.values(transition.params).filter(param => Object.values(param).length);
-            const url = router.urlFor(transition.targetName, params, transition.queryParams);
-            window.location.href = getAuthUrl(window.location.origin + url);
+            const { queryParams, targetName } = transition;
+
+            let url;
+
+            try {
+                if (Object.keys(queryParams).length) {
+                    params.push(queryParams);
+                }
+
+                url = router.urlFor(targetName, ...params);
+            } catch (ex) {
+                // Handle routes without dynamic segments or query params
+                url = router.urlFor(targetName);
+            }
+
+            window.location.href = getAuthUrl(`${window.location.origin}${url}`);
         }
     },
 }) as Mixin<Route>;
