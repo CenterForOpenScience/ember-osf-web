@@ -2,11 +2,10 @@ import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
-import { A } from '@ember/array';
 import Component from '@ember/component';
+import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Contributor from 'ember-osf-web/models/contributor';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 export interface Contrib {
     title: string;
@@ -19,7 +18,7 @@ export default class ContributorList extends Component {
     max = 3;
     nodeId?: string;
     useLink?: boolean;
-    contributors: Contributor[] = defaultTo(this.contributors, A([]));
+    contributors: DS.PromiseManyArray<Contributor> & { meta: { total: number } } = this.contributors;
 
     @computed('contributors.[]')
     get contributorList(this: ContributorList): Contrib[] {
@@ -64,7 +63,7 @@ export default class ContributorList extends Component {
         };
     }
 
-    @computed('contributorList', 'contributors.[]')
+    @computed('contributorList', 'numContributors')
     get rest(this: ContributorList): Contrib[] {
         const contributors = this.contributorList;
 
@@ -72,6 +71,6 @@ export default class ContributorList extends Component {
             return [];
         }
 
-        return contributors.slice(1, -1);
+        return this.numContributors <= this.max ? contributors.slice(1, -1) : contributors.slice(1);
     }
 }

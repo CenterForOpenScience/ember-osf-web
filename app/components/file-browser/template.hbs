@@ -176,8 +176,10 @@
     {{#modal.body}}
         <p>{{t 'file_browser.delete_modal.body'}}</p>
         {{#each selectedItems as | item |}}
-            <b>{{item.itemName}}</b>
-            <hr style="margin-top: 5px">
+            <div class='break-word'>
+                <b>{{item.itemName}}</b>
+                <hr style="margin-top: 5px">
+            </div>
         {{/each}}
     {{/modal.body}}
     {{#modal.footer}}

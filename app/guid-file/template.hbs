@@ -1,8 +1,8 @@
 {{title model.file.name}}
 <div class='container'>
     {{quickfile-nav user=model.user onQuickfiles=false}}
-    <div class='row TitleBar'>
-        <div class='col-sm-5'>
+    <div class='TitleBar'>
+        <div class='TitleBar__title'>
             <h2>
                 {{model.file.name}}
                 <a class='TitleBar__version-link' role="button" onclick={{action 'changeView' 'revision'}}>
@@ -10,7 +10,7 @@
                 </a>
             </h2>
         </div>
-        <div class='col-sm-7'>
+        <div class='TitleBar__buttons'>
             <div id='toggleBar' class='pull-right'>
                 <div class='btn-toolbar m-t-md'>
                     {{#if canDelete}}
@@ -83,27 +83,29 @@
                 updateFilter=(perform updateFilter)
                 openFile=(action 'openFile')
             }}
-            <div class='panel panel-default TagsPanel'>
-                <div class='panel-heading clearfix TagsPanel__heading'>
-                    <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
+            {{#if (or canEdit tags)}}
+                <div class='panel panel-default TagsPanel'>
+                    <div class='panel-heading clearfix TagsPanel__heading'>
+                        <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
+                    </div>
+                    <div class='panel-body'>
+                        {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
+                        {{#tag-input
+                            tags=tags
+                            addTag=(action 'addTag')
+                            removeTagAtIndex=(action 'removeTagAtIndex')
+                            allowSpacesInTags=true
+                            placeholder=(t 'file_detail.add_tag')
+                            aria_label=(t 'file_detial.tags')
+                            readOnly=(unless canEdit true false)
+                            as |tag|
+                        }}
+                            <a href='{{searchUrl}}?q=(tags:"{{tag}}")'>{{tag}}</a>
+                        {{/tag-input}}
+                        <div class="tags_clear"></div>
+                    </div>
                 </div>
-                <div class='panel-body'>
-                    {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
-                    {{#tag-input
-                        tags=tags
-                        addTag=(action 'addTag')
-                        removeTagAtIndex=(action 'removeTagAtIndex')
-                        allowSpacesInTags=true
-                        placeholder=(t 'file_detail.add_tag')
-                        aria_label=(t 'file_detial.tags')
-                        readOnly=(unless canEdit true false)
-                        as |tag|
-                    }}
-                        <a href='{{searchUrl}}?q=(tags:"{{tag}}")'>{{tag}}</a>
-                    {{/tag-input}}
-                    <div class="tags_clear"></div>
-                </div>
-            </div>
+            {{/if}}
         </div>
         <div class='col-md-9'>
             {{#if (or
