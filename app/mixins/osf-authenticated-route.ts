@@ -48,7 +48,9 @@ export default Mixin.create({
                 window.location.hash = '';
             }
 
-            authArgs.push(accessToken);
+            if (accessToken) {
+                authArgs.push(accessToken);
+            }
             break;
         }
         default:
