@@ -159,6 +159,30 @@ h6 {
     margin-top: -10%;
 }
 
+.logo-hero {
+    height: 200px;
+    margin-top: 130px;
+}
+
+.logo-hero img {
+    position: absolute;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px; /* Half the height */
+    margin-left: -100px; /* Half the width */
+}
+
+.logo-div-bottom {
+    background-position-x: 50%;
+    background-position-y: bottom;
+    height: 200px;
+    background-size: 200px;
+    background-repeat: no-repeat;
+    background-image: url('/static/img/osf_white-400.png');
+    margin-top: 20px;
+}
+
 .student-image {
     width: 100%;
     padding-bottom: 100%;
@@ -368,7 +392,7 @@ h6 {
 .feature-6 {
     background-color: #474747;
     color: #fff;
-    padding: 50px 0;
+    padding: 20px 0 40px;
 
     h2 {
         font-size: 48px;

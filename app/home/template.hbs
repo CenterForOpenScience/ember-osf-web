@@ -5,7 +5,7 @@
         classNames='text-center'
         onDismiss=(action 'click' 'button' 'Home - dismiss_alert' target=analytics)
     }}
-        <p>{{t 'home.alert_logged_out'}}</p>
+        <p>{{t 'home.alert_logged_out'}} </p>
     {{/bs-alert}}
 {{/if}}
 {{#bs-modal
@@ -28,7 +28,9 @@
         <div class="network-bg"></div>
         <h1 class="hero-brand">{{t 'home.brand'}}</h1>
         <h3 class="hero-tagline">{{t 'home.tagline'}}</h3>
-        {{osf-logo animate=true}}
+        <div class="logo-hero">
+            <img src="/static/img/osf_white-400.png" alt="{{t 'general.osf'}}" role="graphics-symbol" height="200px">
+        </div>
         <div id="hero-signup" class="container">
             <div class="row">
                 <div class="col-sm-6 hidden-xs">
@@ -234,8 +236,7 @@
                 <h4>{{t 'home.free_title2'}}</h4>
                 <a href="#signUp" class="btn btn-info btn-lg" onclick={{action 'click' 'link' 'Home - goto_signup' target=analytics}}>{{t 'home.free_link'}}</a>
             </div>
-            <div class="col-md-4 hidden-xs hidden-sm">
-                {{osf-logo double=true}}
+            <div class="col-md-4 hidden-xs hidden-sm logo-image logo-div-bottom">
             </div>
         </div>
     </div>
