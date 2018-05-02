@@ -14,7 +14,7 @@ const Router = EmberRouter.extend({
     rootURL: config.rootURL,
 
     async willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
-        const flag: string | undefined = config.featureFlags.routes[transition.targetName];
+        const flag = config.featureFlags.routes[transition.targetName];
 
         if (flag) {
             const enabled = await this.get('currentUser').getWaffle(flag);
