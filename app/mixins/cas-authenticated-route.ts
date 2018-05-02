@@ -44,6 +44,7 @@ export default Mixin.create({
             const params = Object.values(transition.params).filter(param => Object.values(param).length);
             const url = router.urlFor(transition.targetName, ...params, { queryParams: transition.queryParams });
             window.location.href = getAuthUrl(window.location.origin + url);
+            return new Promise(() => { /* never resolve, just block render */ });
         }
     },
 }) as Mixin<Route>;
