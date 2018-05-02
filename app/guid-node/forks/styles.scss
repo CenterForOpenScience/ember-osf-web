@@ -1,0 +1,41 @@
+.Forks {
+    display: grid;
+    grid-template-rows: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .Forks {
+        grid-template-columns: 80% auto;
+        grid-template-areas:
+            'header header'
+            'nav newFork'
+            'forks forks';
+    }
+}
+@media screen and (min-width: 768px) {
+    .Forks {
+        grid-template-columns: 70% auto;
+        grid-template-areas:
+            'nav nav'
+            'forks newFork';
+    }
+}
+
+.Forks {
+    &__header {
+        margin: 0;
+        grid-area: header;
+    }
+
+    &__nav {
+        grid-area: nav;
+    }
+
+    &__forks {
+        grid-area: forks;
+    }
+
+    &__new-fork {
+        grid-area: newFork;
+    }
+}

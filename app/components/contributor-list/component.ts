@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
@@ -22,17 +23,17 @@ export default class ContributorList extends Component {
 
     @computed('contributors.[]')
     get contributorList(this: ContributorList): Contrib[] {
-        if (!this.get('contributors')) {
+        if (!this.contributors) {
             return [];
         }
-        const contributors = this.get('contributors').toArray();
+        const contributors = this.contributors.toArray();
 
         if (!(contributors && contributors.length)) {
             return [];
         }
 
         const names: Contrib[] = contributors
-            .slice(0, this.get('max'))
+            .slice(0, this.max)
             .map(c => ({
                 title: c.users.get('familyName') || c.users.get('givenName') || c.users.get('fullName'),
                 id: c.users.get('id'),
@@ -41,43 +42,36 @@ export default class ContributorList extends Component {
         return names;
     }
 
-    @computed('contributorList')
-    get first(this: ContributorList): Contrib | undefined {
-        return this.get('contributorList').slice(0, 1)[0];
-    }
+    @alias('contributorList.firstObject') first!: Contrib;
+    @alias('contributors.meta.total') numContributors!: number;
 
-    @computed('contributorList', 'contributors.[]')
+    @computed('contributorList', 'totalContributors')
     get last(this: ContributorList): Contrib | void {
-        const contributors = this.get('contributorList');
+        const contributors = this.contributorList;
 
         if (contributors.length < 2) {
             return;
         }
 
-        const len = this.get('contributors').toArray().length;
+        const len = this.numContributors;
 
-        if (len <= this.get('max')) {
-            return contributors.splice(-1)[0];
+        if (len <= this.max) {
+            return contributors.get('lastObject');
         }
         return {
-            title: `${len - this.get('max')} ${this.get('i18n').t('general.more')}`,
+            title: `${len - this.max} ${this.i18n.t('general.more')}`,
             id: this.get('nodeId'),
         };
     }
 
     @computed('contributorList', 'contributors.[]')
     get rest(this: ContributorList): Contrib[] {
-        const contributors = this.get('contributorList');
+        const contributors = this.contributorList;
 
         if (!(contributors && contributors.length)) {
             return [];
         }
 
-        const len = this.get('contributors').toArray().length;
-
-        if (len <= this.get('max')) {
-            return contributors.slice(1, contributors.length - 1);
-        }
-        return contributors.slice(1, this.get('max'));
+        return contributors.slice(1, -1);
     }
 }

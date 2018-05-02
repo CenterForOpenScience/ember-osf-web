@@ -65,9 +65,6 @@ Router.map(function () {
     this.route('guid-node', { path: '/:node_guid' }, function() {
         this.route('forks');
     });
-    this.route('guid-node', { path: 'project/:node_guid' }, function() {
-        this.route('forks');
-    });
     this.route('guid-preprint', { path: '/:preprint_guid' });
     this.route('guid-registration', { path: '/:registration_guid' });
     this.route('guid-user', { path: '/:user_guid' }, function () {

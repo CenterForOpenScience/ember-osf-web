@@ -122,7 +122,6 @@ export default class Node extends BaseFileItem.extend(Validations) {
         return authenticatedAJAX({
             url,
             type: 'POST',
-            xhrFields: { withCredentials: true },
             headers: {
                 'Content-Type': 'application/json',
             },

@@ -1,4 +1,4 @@
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
@@ -31,6 +31,15 @@ export default class GuidNodeForks extends Controller {
             maxPage: Math.ceil(forks.meta.total / this.get('perPage')),
         });
     }).restartable();
+
+    @computed('model.taskInstance.value')
+    get nodeType(this: GuidNodeForks) {
+        if (!this.model.taskInstance.value) {
+            return;
+        }
+        const node = this.model.taskInstance.value;
+        return node.get('parent') ? 'component' : 'project';
+    }
 
     @action
     next(this: GuidNodeForks) {

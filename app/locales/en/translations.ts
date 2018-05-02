@@ -252,7 +252,6 @@ export default {
         log_out: 'Log Out',
         my_profile: 'My Profile',
         osf_support: 'OSF Support',
-        settings: 'Settings',
         sign_up: 'Sign Up',
         sign_in: 'Sign In',
         user_gravatar: 'User gravatar',

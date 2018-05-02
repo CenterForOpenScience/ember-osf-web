@@ -4,9 +4,15 @@ import Route from '@ember/routing/route';
 import GuidNodeForksController from 'ember-osf-web/guid-node/forks/controller';
 import Ready from 'ember-osf-web/services/ready';
 
-export default class GuidNodeForks extends Route.extend({
-    async setupController(this: GuidNodeForks, controller: GuidNodeForksController, ...args: any[]): Promise<void> {
-        this._super(controller, ...args);
+export default class GuidNodeForks extends Route {
+    @service ready!: Ready;
+
+    model(this: GuidNodeForks) {
+        return this.modelFor('guid-node');
+    }
+
+    async setupController(this: GuidNodeForks, controller: GuidNodeForksController, model: any): Promise<void> {
+        super.setupController(controller, model);
         const blocker = this.get('ready').getBlocker();
         controller.set('page', 1);
         try {
@@ -15,10 +21,5 @@ export default class GuidNodeForks extends Route.extend({
         } catch (e) {
             blocker.errored(e);
         }
-    },
-}) {
-    @service ready!: Ready;
-    model(this: GuidNodeForks) {
-        return this.modelFor('guid-node');
     }
 }
