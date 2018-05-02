@@ -49,7 +49,7 @@ div {
 @for $i from 1 through 8 {
     :nth-child(#{$i}) {
         transform: translate(75px, 75px)
-            rotate(calc(1turn * #{$i - 1} / 8))
+            rotate(#{($i - 1) / 8}turn)
             translate(0, -75px);
     }
 }
