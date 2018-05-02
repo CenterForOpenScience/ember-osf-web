@@ -423,7 +423,7 @@ export default {
         after: '{{description}} must be after {{after}}.',
         wrongDateFormat: '{{description}} must be in the format of {{format}}.',
         wrongLength: '{{description}} is the wrong length (should be {{is}} characters).',
-        notANumber: '{{description}} must be a number',
+        notANumber: '{{description}} must be a number.',
         notAnInteger: '{{description}} must be an integer.',
         greaterThan: '{{description}} must be greater than {{gt}}.',
         greaterThanOrEqualTo: '{{description}} must be greater than or equal to {{gte}}.',
