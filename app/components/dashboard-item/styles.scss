@@ -1,0 +1,20 @@
+.DashboardItem {
+    background-color: $color-bg-white;
+    box-shadow: 1px 1px 1px $color-shadow-gray-light;
+    color: $color-text-gray;
+    padding: 6px;
+
+    &__col {
+        padding-left: 5px;
+    }
+
+    &__ancestry {
+        font-style: italic;
+    }
+}
+
+.DashboardItem:hover {
+    background-color: $color-bg-blue-dark;
+    color: $color-text-white;
+    cursor: pointer;
+}

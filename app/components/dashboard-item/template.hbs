@@ -1,0 +1,24 @@
+<a href="{{node.links.html}}"
+   onclick={{action 'click' 'link' 'Dashboard - visit_node' target=analytics}}
+>
+    <div class="m-v-sm DashboardItem">
+        <div class="row">
+            <div>
+                <div class="col-sm-3 col-md-6 p-v-xs">
+                    <div class="DashboardItem__col">
+                        {{#each ancestry as |ancestorTitle|}}
+                            {{ancestorTitle}} /
+                        {{/each}}
+                        <strong>{{node.title}}</strong>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3 p-v-xs">
+                    <div class="DashboardItem__col">{{contributor-list contributors=contributors}}</div>
+                </div>
+                <div class="col-sm-3 col-md-3 p-v-xs">
+                    <div class="DashboardItem__col">{{date}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

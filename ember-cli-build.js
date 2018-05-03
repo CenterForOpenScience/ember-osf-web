@@ -3,20 +3,35 @@
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const Funnel = require('broccoli-funnel');
 
-const nonCdnEnvironments = ['development', 'test'];
+const { EMBER_ENV } = process.env;
+const useCdn = EMBER_ENV === 'production';
+
+function postProcess(content) {
+    return content.trim().replace(/^\s{20}/mg, '');
+}
 
 module.exports = function(defaults) {
-    const useCdn = (nonCdnEnvironments.indexOf(process.env.EMBER_ENV) === -1);
     const app = new EmberApp(defaults, {
         'ember-bootstrap': {
             bootstrapVersion: 3,
             importBootstrapFont: true,
             importBootstrapCSS: false,
         },
+        'ember-cli-password-strength': {
+            bundleZxcvbn: !useCdn,
+        },
+        fingerprint: {
+            exclude: [
+                'zxcvbn.js',
+            ],
+        },
         sassOptions: {
             includePaths: [
                 'node_modules/@centerforopenscience/osf-style/sass',
             ],
+        },
+        babel: {
+            sourceMaps: 'inline',
         },
         sourcemaps: {
             enabled: true,
@@ -34,7 +49,22 @@ module.exports = function(defaults) {
                             Raven.config(config.sentryDSN, config.sentryOptions || {}).install();
                         }
                     </script>
-                `.trim(),
+                `,
+                postProcess,
+            },
+            zxcvbn: {
+                enabled: useCdn,
+                /* eslint-disable max-len */
+                content: `
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"
+                        integrity="sha256-Znf8FdJF85f1LV0JmPOob5qudSrns8pLPZ6qkd/+F0o=
+                                   sha384-jhGcGHNZytnBnH1wbEM3KxJYyRDy9Q0QLKjE65xk+aMqXFCdvFuYIjzMWAAWBBtR
+                                   sha512-TZlMGFY9xKj38t/5m2FzJ+RM/aD5alMHDe26p0mYUMoCF5G7ibfHUQILq0qQPV3wlsnCwL+TPRNK4vIWGLOkUQ=="
+                        crossorigin="anonymous">
+                    </script>
+                `,
+                postProcess,
+                /* eslint-enable max-len */
             },
         },
         'ember-cli-babel': {
@@ -42,7 +72,15 @@ module.exports = function(defaults) {
         },
     });
 
-    app.import('vendor/assets/ember-osf.css');
+    app.import('node_modules/dropzone/dist/dropzone.css');
+    app.import('node_modules/dropzone/dist/dropzone.js');
+
+    app.import({
+        test: 'node_modules/jquery-mockjax/dist/jquery.mockjax.js',
+    });
+    app.import({
+        test: 'vendor/ember/ember-template-compiler.js',
+    });
 
     const assets = [
         new Funnel('node_modules/@centerforopenscience/osf-style/img', {

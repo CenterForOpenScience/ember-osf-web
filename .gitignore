@@ -17,3 +17,6 @@ npm-debug.log*
 testem.log
 yarn-debug.log
 yarn-error.log
+config/local.js
+
+.DS_Store

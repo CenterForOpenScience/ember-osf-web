@@ -1,0 +1,88 @@
+{{title (t 'support.title')}}
+<div class="container">
+    <h1 class="m-b-lg">{{t 'support.title'}}</h1>
+    <div class="row m-b-lg">
+        <div class="col-sm-4">
+            <div class="SupportCol">
+                <h4 class="f-w-lg bg-color-select">
+                    <a href="/faq" onclick={{action 'click' 'link' 'Support - faq_title' target=analytics}}>{{t 'support.faq_title'}}</a>
+                </h4>
+                <div class="clearfix">
+                    <p>
+                        {{t 'support.faq_paragraph'}}
+                        <a href="{{faqPageUrl}}" onclick={{action 'click' 'link' 'Support - faq_link' target=analytics}}>{{t 'support.faq_link_text'}}</a>{{t 'general.period'}}
+                    </p>
+                    <a href="{{faqPageUrl}}" class="btn btn-info m-t-lg pull-right" onclick={{action 'click' 'link' 'Support - faq_button' target=analytics}}>
+                        {{t 'support.faq_button'}}
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="SupportCol">
+                <h4 class="f-w-lg bg-color-select">
+                    <a href="{{helpUrl}}" target="_blank" rel="noreferrer" onclick={{action 'click' 'link' 'Support - guides_title' target=analytics}}>{{t 'support.guides_title'}}</a>
+                </h4>
+                <div class="clearfix">
+                    <p>
+                        {{t 'support.guides_paragraph_1'}}
+                        <a href="{{helpUrl}}" target="_blank" rel="noreferrer" onclick={{action 'click' 'link' 'Support - guides_link' target=analytics}}>{{t 'support.guides_link_text'}}</a>
+                        {{t 'support.guides_paragraph_2'}}
+                    </p>
+                    <a href="{{helpUrl}}" class="btn btn-info m-t-lg pull-right" target="_blank" rel="noreferrer" onclick={{action 'click' 'link' 'Support - guides_button' target=analytics}}>
+                        {{t 'support.guides_button'}}
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="SupportCol">
+                <h4 class="f-w-lg bg-color-select">{{t 'support.contact_title'}}</h4>
+                <div class="clearfix">
+                    <p>{{t 'support.contact_technical'}}</p>
+                    <p><a href="mailto:{{supportEmail}}" class="text-bigger" onclick={{action 'click' 'link' 'Support - support_email' target=analytics}}>{{supportEmail}}</a></p>
+                    <p>{{t 'support.contact_questions'}}</p>
+                    <p><a href="mailto:{{contactEmail}}" class="text-bigger" onclick={{action 'click' 'link' 'Support - contact_email' target=analytics}}>{{contactEmail}}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row m-b-lg">
+        <div class="col-sm-4">
+            <h5 class="m-t-md f-w-xl">{{t 'support.prereg_title'}}</h5>
+            <p>
+                {{t 'support.prereg_paragraph_1'}}
+                <a href="{{preregUrl}}" onclick={{action 'click' 'link' 'Support - prereg_link' target=analytics}}>{{t 'support.prereg_link_text'}}</a>
+                {{t 'support.prereg_paragraph_2'}}
+            </p>
+        </div>
+        <div class="col-sm-4">
+            <h5 class="m-t-md f-w-xl">{{t 'support.status_title'}}</h5>
+            <p>
+                {{t 'support.status_paragraph_1'}}
+                <a href="{{statusPageUrl}}" onclick={{action 'click' 'link' 'Support - status_page_link' target=analytics}}>{{t 'support.status_link_text'}}</a>
+                {{t 'support.status_paragraph_2'}}
+            </p>
+        </div>
+        <div class="col-sm-4">
+            <h5 class="m-t-md f-w-xl">{{t 'support.consultation_title'}}</h5>
+            <p>
+                {{t 'support.consultation_paragraph'}}
+                <a href="{{consultationUrl}}" onclick={{action 'click' 'link' 'Support - consultation_link' target=analytics}}>{{t 'support.consultation_link_text'}}</a>{{t 'general.period'}}
+            </p>
+        </div>
+    </div>
+    <hr>
+    <div class="row m-b-lg">
+        <div class="col-sm-12 text-center">
+            <h4 class="m-t-md f-w-xl">{{t 'support.social_title'}}</h4>
+            <a href="{{twitterUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_twitter' target=analytics}}><i class="fa fa-twitter"></i> {{t 'support.social_twitter'}}</a>
+            <a href="{{mailingUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_email' target=analytics}}><i class="fa fa-users"></i> {{t 'support.social_mailing'}}</a>
+            <a href="{{facebookUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_facebook' target=analytics}}><i class="fa fa-facebook"></i> {{t 'support.social_facebook'}}</a>
+            <a href="{{githubUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_github' target=analytics}}><i class="fa fa-github"></i> {{t 'support.social_github'}}</a>
+        </div>
+    </div>
+</div>

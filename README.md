@@ -1,5 +1,7 @@
 # ember-osf-web
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/CenterForOpenScience/ember-osf-web.svg)](https://greenkeeper.io/)
+
 `master` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf-web.svg?branch=master)](https://travis-ci.org/CenterForOpenScience/ember-osf-web)
 [![Coverage Status](https://coveralls.io/repos/github/CenterForOpenScience/ember-osf-web/badge.svg?branch=master)](https://coveralls.io/github/CenterForOpenScience/ember-osf-web?branch=master)
 

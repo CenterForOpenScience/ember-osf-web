@@ -1,0 +1,41 @@
+{{#if slides}}
+    {{#bs-carousel
+        interval=0
+        tabindex=0
+        showIndicators=false
+        prevControlLabel=(t 'general.previous')
+        nextControlLabel=(t 'general.next')
+        prevControlIcon='fa fa-angle-left'
+        nextControlIcon='fa fa-angle-right'
+        prevControlClassName='InstitutionCarousel__control carousel-control left'
+        nextControlClassName='InstitutionCarousel__control carousel-control right'
+        showControls = showControls
+        as |carousel|
+    }}
+        {{#each slides as |slide|}}
+            {{#carousel.slide}}
+                {{#each slide as |institution index|}}
+                    <div
+                        class="{{if (not index) (concat "col-sm-2 col-sm-offset-" columnOffset) "col-sm-2"}} InstitutionCarousel__item"
+                        role="option"
+                    >
+                        <a
+                            href="/institutions/{{institution.id}}"
+                            class="InstitutionCarousel__item__thumbnail"
+                            onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - visit_institution' target=analytics}}
+                        >
+                            <img
+                                class="img-circle img-responsive InstitutionCarousel__item__image"
+                                name={{institution.name}}
+                                logopath="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png"
+                                src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png"
+                                alt="{{institution.name}}"
+                                title="{{institution.name}}"
+                            >
+                        </a>
+                    </div>
+                {{/each}}
+            {{/carousel.slide}}
+        {{/each}}
+    {{/bs-carousel}}
+{{/if}}

@@ -1,7 +1,47 @@
 /* eslint-env node */
 
+let localConfig;
+
+try {
+    localConfig = require('./local'); // eslint-disable-line global-require
+} catch (ex) {
+    localConfig = {};
+}
+
+const {
+    A11Y_AUDIT = 'true',
+    BACKEND: backend = 'local',
+    CLIENT_ID: clientId,
+    FB_APP_ID,
+    GIT_COMMIT: release,
+    GOOGLE_ANALYTICS_ID,
+    OAUTH_SCOPES: scope,
+    OSF_STATUS_COOKIE: statusCookie = 'osf_status',
+    OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
+    OSF_URL: url = 'http://localhost:5000/',
+    OSF_API_URL: apiUrl = 'http://localhost:8000',
+    OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
+    OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
+    OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
+    OSF_COOKIE_LOGIN_URL: cookieLoginUrl = 'http://localhost:8080/login',
+    OSF_OAUTH_URL: oauthUrl = 'http://localhost:8080/oauth2/profile',
+    PERSONAL_ACCESS_TOKEN: accessToken,
+    POLICY_URL_PREFIX = 'https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/',
+    POPULAR_LINKS_NODE: popularNode = '57tnq',
+    // POPULAR_LINKS_REGISTRATIONS = '',
+    NEW_AND_NOTEWORTHY_LINKS_NODE: noteworthyNode = 'z3sg2',
+    /* eslint-disable-next-line max-len */
+    // https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha-v2-what-should-i-do
+    RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+    REDIRECT_URI: redirectUri,
+    SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
+    SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
+    SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
+} = { ...process.env, ...localConfig };
+
 module.exports = function(environment) {
     const authorizationType = 'cookie';
+    const devMode = environment !== 'production';
 
     const ENV = {
         modulePrefix: 'ember-osf-web',
@@ -11,7 +51,11 @@ module.exports = function(environment) {
         authorizationType,
         sentryDSN: null,
         sentryOptions: {
-            release: process.env.GIT_COMMIT,
+            release,
+            ignoreErrors: [
+                // https://github.com/emberjs/ember.js/issues/12505
+                'TransitionAborted',
+            ],
         },
         'ember-simple-auth': {
             authorizer: `authorizer:osf-${authorizationType}`,
@@ -27,10 +71,12 @@ module.exports = function(environment) {
                 Date: false,
             },
         },
-
         APP: {
             // Here you can pass flags/options to your application instance
             // when it is created
+        },
+        i18n: {
+            defaultLocale: 'en-US',
         },
         moment: {
             includeTimezone: 'all',
@@ -41,11 +87,16 @@ module.exports = function(environment) {
                 name: 'GoogleAnalytics',
                 environments: ['all'],
                 config: {
-                    id: process.env.GOOGLE_ANALYTICS_ID,
+                    id: GOOGLE_ANALYTICS_ID,
+                },
+                dimensions: {
+                    authenticated: 'dimension1',
+                    resource: 'dimension2',
+                    isPublic: 'dimension3',
                 },
             },
         ],
-        FB_APP_ID: process.env.FB_APP_ID,
+        FB_APP_ID,
         microfeedback: {
             enabled: true,
             url: null,
@@ -61,6 +112,80 @@ module.exports = function(environment) {
                 QuickFiles: {},
             },
         },
+        OSF: {
+            clientId,
+            scope,
+            apiNamespace: 'v2', // URL suffix (after host)
+            backend,
+            redirectUri,
+            url,
+            apiUrl,
+            renderUrl,
+            waterbutlerUrl,
+            helpUrl,
+            cookieLoginUrl,
+            oauthUrl,
+            shareBaseUrl,
+            shareApiUrl,
+            shareSearchUrl,
+            accessToken,
+            devMode,
+            statusCookie,
+            cookieDomain,
+        },
+        social: {
+            twitter: {
+                viaHandle: 'OSFramework',
+            },
+        },
+        signUpPolicy: {
+            termsLink: `${POLICY_URL_PREFIX}TERMS_OF_USE.md`,
+            privacyPolicyLink: `${POLICY_URL_PREFIX}PRIVACY_POLICY.md`,
+            cookiesLink: `${POLICY_URL_PREFIX}PRIVACY_POLICY.md#f-cookies`,
+        },
+        footerLinks: {
+            cos: 'https://cos.io',
+            statusPage: 'https://status.cos.io/',
+            apiDocs: 'https://developer.osf.io/',
+            topGuidelines: 'http://cos.io/top/',
+            rpp: 'https://osf.io/ezcuj/wiki/home/',
+            rpcb: 'https://osf.io/e81xl/wiki/home/',
+            twitter: 'http://twitter.com/OSFramework',
+            facebook: 'https://www.facebook.com/CenterForOpenScience/',
+            googleGroup: 'https://groups.google.com/forum/#!forum/openscienceframework',
+            github: 'https://www.github.com/centerforopenscience',
+            googlePlus: 'https://plus.google.com/b/104751442909573665859',
+        },
+        support: {
+            preregUrl: 'https://cos.io/prereg/',
+            statusPageUrl: 'https://status.cos.io',
+            faqPageUrl: 'http://help.osf.io/m/faqs/l/726460-faqs',
+            supportEmail: 'support@osf.io',
+            contactEmail: 'contact@osf.io',
+            consultationUrl: 'https://cos.io/stats_consulting/',
+            twitterUrl: 'https://twitter.com/OSFSupport',
+            mailingUrl: 'https://groups.google.com/forum/#!forum/openscienceframework',
+            facebookUrl: 'https://www.facebook.com/CenterForOpenScience/',
+            githubUrl: 'https://github.com/centerforopenscience',
+        },
+        dashboard: {
+            popularNode,
+            noteworthyNode,
+        },
+        featureFlags: { // default flags (whether they be switches, flags, or polls) go here with default value.
+            routes: {
+                support: 'ember_support_page',
+                dashboard: 'ember_home_page',
+                home: 'ember_home_page',
+            },
+        },
+        gReCaptcha: {
+            siteKey: RECAPTCHA_SITE_KEY,
+        },
+        home: {
+            youtubeId: '2TV21gOzfhw',
+        },
+        secondaryNavbarId: '__secondaryOSFNavbar__',
     };
 
     if (environment === 'development') {
@@ -71,6 +196,14 @@ module.exports = function(environment) {
         // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
         ENV.metricsAdapters[0].config.cookieDomain = 'none';
+
+        Object.assign(ENV, {
+            'ember-a11y-testing': {
+                componentOptions: {
+                    turnAuditOff: A11Y_AUDIT !== 'true',
+                },
+            },
+        });
     }
 
     if (environment === 'test') {
@@ -84,7 +217,7 @@ module.exports = function(environment) {
         ENV.APP.rootElement = '#ember-testing';
     }
 
-    if (environment !== 'production') {
+    if (devMode) {
         // Fallback to throwaway defaults if the environment variables are not set
         ENV.metricsAdapters[0].config.id = ENV.metricsAdapters[0].config.id || 'UA-84580271-1';
         ENV.FB_APP_ID = ENV.FB_APP_ID || '1039002926217080';
