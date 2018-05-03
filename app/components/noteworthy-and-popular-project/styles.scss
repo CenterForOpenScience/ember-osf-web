@@ -5,6 +5,10 @@
         box-shadow: 1px 1px 1px $color-shadow-gray-dark;
         padding: 8px 15px;
         margin-bottom: 5px;
+
+        .Byline {
+            display: block;
+        }
     }
 
     &__item:hover {
