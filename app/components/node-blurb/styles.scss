@@ -1,4 +1,8 @@
 .NodeBlurb {
+    &__dropdown {
+        padding-left: 5px;
+    }
+
     &__dropdown-list {
         background-color: $color-bg-gray-light;
         min-width: 180px;

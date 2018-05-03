@@ -11,10 +11,10 @@
         | {{t blurbTypeTitle}} {{date}}
     </span>
     {{#if (eq blurbType 'fork')}}
-        <div class="pull-right generic-dropdown">
+        <div class="pull-right generic-dropdown NodeBlurb__dropdown">
             {{#bs-dropdown as |dd|}}
                 {{#dd.button class='NodeBlurb__dropdown-button'}}<span aria-label='Options' class="glyphicon glyphicon-option-horizontal"></span>{{/dd.button}}
-                {{#dd.menu class='NodeBlurb__dropdown-list'}}
+                {{#dd.menu class='NodeBlurb__dropdown-list dropdown-menu-right'}}
                     <li role='menuitem'>
                         <a class='NodeBlurb__dropdown-link' href="/{{node.id}}/contributors/">{{t 'node_blurb.fork.manage_contributors'}}</a>
                     </li>
