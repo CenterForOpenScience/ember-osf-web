@@ -3860,9 +3860,9 @@ ember-cli-clipboard@0.9.0:
     ember-cli-htmlbars "^2.0.2"
     fastboot-transform "0.1.1"
 
-"ember-cli-code-coverage@https://github.com/kategengler/ember-cli-code-coverage#77b5b9201060d634d281f64a5bb7b412773a8b89":
-  version "1.0.0-beta.3"
-  resolved "https://github.com/kategengler/ember-cli-code-coverage#77b5b9201060d634d281f64a5bb7b412773a8b89"
+ember-cli-code-coverage@^1.0.0-beta.4:
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/ember-cli-code-coverage/-/ember-cli-code-coverage-1.0.0-beta.4.tgz#8726d5e754d395702be1b23b0ea9cc08618720e5"
   dependencies:
     babel-core "^6.24.1"
     babel-plugin-istanbul "^4.1.6"
@@ -3872,7 +3872,6 @@ ember-cli-clipboard@0.9.0:
     ember-cli-babel "^6.6.0"
     ember-cli-htmlbars "^2.0.1"
     ember-cli-version-checker "^2.0.0"
-    exists-sync "0.0.4"
     extend "^3.0.0"
     fs-extra "^5.0.0"
     istanbul-api "^1.1.14"
