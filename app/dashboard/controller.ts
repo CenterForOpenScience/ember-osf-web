@@ -28,7 +28,8 @@ export default class Dashboard extends Controller {
     loadingSearch: boolean = false;
     loadingMore: boolean = false;
     initialLoad: boolean = true;
-    filter: string | null = '';
+    // Initialized in setupController.
+    filter!: string | null;
     sort: string = '-last_logged';
     modalOpen: boolean = false;
     newNode: Node | null = null;

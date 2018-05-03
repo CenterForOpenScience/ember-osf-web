@@ -19,7 +19,8 @@ export default class UserQuickfiles extends Controller {
     pageName = 'QuickFiles';
 
     filter: string = this.filter || '';
-    newProject?: Node;
+    // Initialized in setupController.
+    newProject!: Node;
     sort: string = this.sort || 'name';
 
     @alias('model.taskInstance.value.user') user!: User;
