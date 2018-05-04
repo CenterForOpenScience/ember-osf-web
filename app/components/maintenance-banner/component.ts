@@ -15,7 +15,7 @@ interface MaintenanceData {
 }
 
 export default class MaintenanceBanner extends Component.extend({
-    getMaintenanceStatus: task(function* (this: MaintenanceBanner): IterableIterator<any> {
+    getMaintenanceStatus: task(function *(this: MaintenanceBanner): IterableIterator<any> {
         const url: string = `${config.OSF.apiUrl}/v2/status/`;
         const data = yield $.ajax(url, { type: 'GET' });
         this.set('maintenance', data.maintenance);

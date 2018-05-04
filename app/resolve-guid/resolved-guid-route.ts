@@ -12,7 +12,7 @@ export default class ResolveGuidRoute extends Route {
     @service ready!: Ready;
     @service router!: any;
 
-    loadModel = task(function* (this: ResolveGuidRoute, typeName: GuidRecord, id: string) {
+    loadModel = task(function *(this: ResolveGuidRoute, typeName: GuidRecord, id: string) {
         const blocker = this.get('ready').getBlocker();
 
         try {

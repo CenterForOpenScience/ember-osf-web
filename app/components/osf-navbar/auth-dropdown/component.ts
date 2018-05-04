@@ -71,7 +71,7 @@ export default class NavbarAuthDropdown extends Component {
         return imgLink ? `${imgLink}&s=25` : '';
     }
 
-    logout = task(function* (this: NavbarAuthDropdown) {
+    logout = task(function *(this: NavbarAuthDropdown) {
         const query = this.redirectUrl ? `?${$.param({ next_url: this.redirectUrl })}` : '';
         yield this.session.invalidate();
         window.location.href = `${config.OSF.url}logout/${query}`;

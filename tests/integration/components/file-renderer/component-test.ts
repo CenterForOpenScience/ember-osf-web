@@ -9,7 +9,7 @@ const { OSF: { renderUrl } } = config;
 module('Integration | Component | file-renderer', hooks => {
     setupRenderingTest(hooks);
 
-    test('file rendering defaults', async function (assert) {
+    test('file rendering defaults', async function(assert) {
         const download = this.set('download', 'someTruthyValue');
 
         await render(hbs`
@@ -30,7 +30,7 @@ module('Integration | Component | file-renderer', hooks => {
         );
     });
 
-    test('specify file rendering parameters', async function (assert) {
+    test('specify file rendering parameters', async function(assert) {
         this.setProperties({
             download: 'http://cos.io/',
             height: 500,

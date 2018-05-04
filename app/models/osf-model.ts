@@ -27,7 +27,7 @@ interface QueryHasManyResult extends Array<any> {
  */
 
 export default class OsfModel extends Model.extend({
-    queryHasManyTask: task(function* (
+    queryHasManyTask: task(function *(
         this: OsfModel,
         propertyName: any,
         queryParams?: object,

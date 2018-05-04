@@ -17,7 +17,7 @@ export default class Analytics extends Service {
     @service session!: Session;
     @service router!: any;
 
-    trackPageTask = task(function* (
+    trackPageTask = task(function *(
         this: Analytics,
         publicPrivate: analyticPrivacy,
         resourceType: string,

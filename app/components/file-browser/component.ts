@@ -86,7 +86,7 @@ export default class FileBrowser extends Component {
         acceptDirectories: false,
     };
 
-    moveToProject = task(function* (this: FileBrowser) {
+    moveToProject = task(function *(this: FileBrowser) {
         if (!this.node) {
             return;
         }
@@ -342,7 +342,7 @@ export default class FileBrowser extends Component {
             currentItem.set('isSelected', true);
         }
 
-        next(this, function () {
+        next(this, function() {
             if (this.selectedItems.length === 1) {
                 this.set('shiftAnchor', currentItem);
             }

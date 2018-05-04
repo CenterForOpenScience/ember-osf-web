@@ -13,7 +13,7 @@ export default class SignUpForm extends Component {
     @service passwordStrength!: PasswordStrength;
     @service analytics!: Analytics;
 
-    strength = task(function* (this: SignUpForm, value: string) {
+    strength = task(function *(this: SignUpForm, value: string) {
         if (!value) {
             return 0;
         }
