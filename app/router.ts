@@ -42,7 +42,7 @@ const Router = EmberRouter.extend({
 
 /* eslint-disable array-callback-return */
 
-Router.map(function () {
+Router.map(function() {
     // All non-guid routes (except `not-found`) belong above "Guid Routing"
     this.route('home', { path: '/' });
     this.route('goodbye');
@@ -64,7 +64,7 @@ Router.map(function () {
     this.route('guid-node', { path: '/:node_guid' });
     this.route('guid-preprint', { path: '/:preprint_guid' });
     this.route('guid-registration', { path: '/:registration_guid' });
-    this.route('guid-user', { path: '/:user_guid' }, function () {
+    this.route('guid-user', { path: '/:user_guid' }, function() {
         this.route('quickfiles');
     });
 

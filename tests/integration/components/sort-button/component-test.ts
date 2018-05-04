@@ -9,7 +9,7 @@ moduleForComponent('sort-button', 'Integration | Component | sort button', {
     },
 });
 
-test('selected works with sortBy', function (assert) {
+test('selected works with sortBy', function(assert) {
     this.render(hbs`{{sort-button sortAction=sortAction sortBy='kindness' sort='-kindndess'}}`);
 
     assert.equal(this.$('button').length, 2);

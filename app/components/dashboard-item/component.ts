@@ -11,7 +11,7 @@ import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class DashboardItem extends Component.extend({
-    getAncestorTitles: task(function* (this: DashboardItem) {
+    getAncestorTitles: task(function *(this: DashboardItem) {
         if (!this.node) {
             return [];
         }

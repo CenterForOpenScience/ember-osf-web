@@ -23,7 +23,7 @@ moduleForComponent('new-project-modal', 'Integration | Component | new project m
     },
 });
 
-test('it renders', function (assert) {
+test('it renders', function(assert) {
     this.render(hbs`{{new-project-modal
         newNode=newNode
         institutions=institutions

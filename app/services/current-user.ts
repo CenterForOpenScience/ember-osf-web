@@ -67,7 +67,7 @@ export default class CurrentUserService extends Service {
         });
     }
 
-    setWaffle = task(function* (this: CurrentUserService) {
+    setWaffle = task(function *(this: CurrentUserService) {
         const { data } = yield authenticatedAJAX({
             url: `${config.OSF.apiUrl}/v2/_waffle/`,
         });
