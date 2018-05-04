@@ -15,6 +15,7 @@ export default class GuidNodeForks extends Controller {
 
     toDelete: Node | null = null;
     deleteModal = false;
+    loadingNew = false;
     newModal = false;
     page = 1;
     forks = [];
@@ -25,7 +26,7 @@ export default class GuidNodeForks extends Controller {
         const page = this.get('page');
         const model = this.get('model');
         const node = yield model.taskInstance;
-        const forks = yield node.queryHasMany('forks', { page });
+        const forks = yield node.queryHasMany('forks', { page, embed: 'contributors' });
         this.setProperties({
             forks,
             maxPage: Math.ceil(forks.meta.total / this.get('perPage')),
@@ -76,11 +77,14 @@ export default class GuidNodeForks extends Controller {
     newFork(this: GuidNodeForks) {
         this.set('newModal', false);
         const node = this.get('model').taskInstance.value;
+        this.set('loadingNew', true);
         node.makeFork().then(() => {
+            this.set('loadingNew', false);
             const message = this.i18n.t('forks.new_fork_info');
             const title = this.i18n.t('forks.new_fork_info_title');
             this.toast.info(message, title);
         }).catch(() => {
+            this.set('loadingNew', false);
             this.toast.error(this.get('i18n').t('forks.new_fork_failed'));
         });
     }

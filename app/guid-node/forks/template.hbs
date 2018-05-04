@@ -41,7 +41,13 @@
     </div>
     <div class="Forks__new-fork">
         <div class="m-md">
-            {{#bs-button type='success' onClick=(action (mut newModal) true)}}{{t 'forks.new'}}{{/bs-button}}
+            {{#bs-button type='success' disabled=loadingNew onClick=(action (mut newModal) true)}}
+                {{#if loadingNew}}
+                    {{t 'forks.loading_new'}}
+                {{else}}
+                    {{t 'forks.new'}}
+                {{/if}}
+            {{/bs-button}}
         </div>
     </div>
 </div>

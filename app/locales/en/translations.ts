@@ -494,6 +494,7 @@ export default {
         title: 'Forks',
         back: 'Back to Analytics',
         new: 'New fork',
+        loading_new: 'Creating new fork',
         new_fork_info_title: 'Fork status',
         new_fork_info: 'Your fork is being created. You\'ll receive an email when it is complete.',
         create_fork_modal: 'Are you sure you want to fork this project?',
@@ -512,6 +513,7 @@ export default {
     paginator: {
         next: 'Next page',
         previous: 'Previous page',
+        page: 'Page {{page}} of {{max}}',
     },
     social: {
         twitter: 'Twitter',

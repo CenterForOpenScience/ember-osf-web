@@ -7,7 +7,7 @@
         {{/bs-button}}
     </span>
     <span class='SimplePaginator__element'>
-        {{curPage}}
+        {{t 'paginator.page' page=curPage max=maxPage}}
     </span>
     <span class='SimplePaginator__element'>
         {{#bs-button disabled=(not hasNext) onClick=(action nextPage)}}

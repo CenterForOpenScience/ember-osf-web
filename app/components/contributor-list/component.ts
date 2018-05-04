@@ -18,7 +18,7 @@ export default class ContributorList extends Component {
     max = 3;
     nodeId?: string;
     useLink?: boolean;
-    contributors: DS.PromiseManyArray<Contributor> & { meta: { total: number } } = this.contributors;
+    contributors!: DS.PromiseManyArray<Contributor> & { meta: { total: number } };
 
     @computed('contributors.[]')
     get contributorList(this: ContributorList): Contrib[] {

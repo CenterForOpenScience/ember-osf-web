@@ -22,11 +22,15 @@
 
 @media screen and (max-width: 768px) and (min-width: 500px) {
     .Forks {
-        grid-template-columns: 80% auto;
+        grid-template-columns: 60% auto;
         grid-template-areas:
             'header header'
             'nav newFork'
             'forks forks';
+
+        &__new-fork {
+            justify-self: right;
+        }
     }
 }
 @media screen and (min-width: 768px) {
