@@ -6,13 +6,26 @@ import hbs from 'htmlbars-inline-precompile';
 
 const i18nStub = Service.extend({
     translations: EmberObject.create({
-        general: EmberObject.create({
-            and: 'and',
-            more: 'more',
-        }),
+        list: {
+            two_item: {
+                delimiter: ' and ',
+            },
+            three_item: {
+                first_delimiter: ', ',
+                last_delimiter: ', and ',
+            },
+            many_item: {
+                first_delimiter: '',
+                each_delimiter: ', ',
+                last_delimiter: ', and ',
+            },
+        },
     }),
 
-    t(key: string): string {
+    t(key: string, options: any): string {
+        if (key === 'contributor_list.and_x_more') {
+            return `${options.get('x')} more`;
+        }
         // @ts-ignore
         return this.get('translations').get(key);
     },

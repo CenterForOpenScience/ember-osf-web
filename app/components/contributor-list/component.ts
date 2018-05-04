@@ -31,46 +31,20 @@ export default class ContributorList extends Component {
             return [];
         }
 
-        const names: Contrib[] = contributors
-            .slice(0, this.max)
+        const contribs: Contrib[] = contributors
             .map(c => ({
                 title: c.users.get('familyName') || c.users.get('givenName') || c.users.get('fullName'),
                 id: c.users.get('id'),
             }));
 
-        return names;
+        return contribs;
     }
 
     @alias('contributorList.firstObject') first!: Contrib;
     @alias('contributors.meta.total') numContributors!: number;
 
-    @computed('contributorList', 'totalContributors')
-    get last(this: ContributorList): Contrib | void {
-        const contributors = this.contributorList;
-
-        if (contributors.length < 2) {
-            return;
-        }
-
-        const len = this.numContributors;
-
-        if (len <= this.max) {
-            return contributors.get('lastObject');
-        }
-        return {
-            title: `${len - this.max} ${this.i18n.t('general.more')}`,
-            id: this.get('nodeId'),
-        };
-    }
-
-    @computed('contributorList', 'numContributors')
-    get rest(this: ContributorList): Contrib[] {
-        const contributors = this.contributorList;
-
-        if (!(contributors && contributors.length)) {
-            return [];
-        }
-
-        return this.numContributors <= this.max ? contributors.slice(1, -1) : contributors.slice(1);
+    @computed('contributors.meta.total', 'max')
+    get rest(this: ContributorList): number {
+        return this.contributors.meta.total - this.max;
     }
 }

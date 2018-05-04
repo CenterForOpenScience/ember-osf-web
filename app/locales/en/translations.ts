@@ -523,4 +523,21 @@ export default {
         google_plus: 'Google Plus',
         linkedin: 'LinkedIn',
     },
+    list: {
+        two_item: {
+            delimiter: ' and ',
+        },
+        three_item: {
+            first_delimiter: ', ',
+            last_delimiter: ', and ',
+        },
+        many_item: {
+            first_delimiter: '',
+            each_delimiter: ', ',
+            last_delimiter: ', and ',
+        },
+    },
+    contributor_list: {
+        and_x_more: '{{x}} more',
+    },
 };

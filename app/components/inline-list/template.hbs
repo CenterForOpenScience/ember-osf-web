@@ -1,0 +1,33 @@
+{{#if (gt items.length truncate)}}
+    {{yield (hash item=first)~}}
+    {{~t 'list.many_item.first_delimiter'~}}
+    {{#each rest as | i |}}
+        {{~t 'list.many_item.each_delimiter'~}}
+        {{~yield (hash item=i)~}}
+    {{/each}}
+    {{~t 'list.many_item.last_delimiter'~}}
+    {{~yield (hash truncate=last)}}
+{{else}}
+    {{#if (eq items.length 1)}}
+        {{yield (hash item=first)}}
+    {{else if (eq items.length 2)}}
+        {{yield (hash item=first)~}}
+        {{~t 'list.two_item.delimiter'~}}
+        {{~yield (hash item=last)}}
+    {{else if (eq items.length 3)}}
+        {{yield (hash item=first)~}}
+        {{~t 'list.three_item.first_delimiter'~}}
+        {{~yield (hash item=rest.firstObject)~}}
+        {{~t 'list.three_item.last_delimiter'~}}
+        {{~yield (hash item=last)}}
+    {{else if (gt items.length 3)}}
+        {{yield (hash item=first)~}}
+        {{~t 'list.many_item.first_delimiter'~}}
+        {{#each rest as | i |}}
+            {{~t 'list.many_item.each_delimiter'~}}
+            {{~yield (hash item=i)~}}
+        {{/each}}
+        {{~t 'list.many_item.last_delimiter'~}}
+        {{~yield (hash item=last)}}
+    {{/if}}
+{{/if}}
