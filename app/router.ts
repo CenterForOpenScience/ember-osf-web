@@ -14,7 +14,7 @@ const Router = EmberRouter.extend({
     rootURL: config.rootURL,
 
     async willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
-        const flag: string | undefined = config.featureFlags.routes[transition.targetName];
+        const flag = config.featureFlags.routes[transition.targetName];
 
         if (flag) {
             const enabled = await this.get('currentUser').getWaffle(flag);
@@ -24,7 +24,9 @@ const Router = EmberRouter.extend({
             }
         }
 
-        this.set('readyBlocker', this.get('ready').getBlocker());
+        if (!this.readyBlocker || this.readyBlocker.isDone()) {
+            this.readyBlocker = this.get('ready').getBlocker();
+        }
         this._super(oldInfo, newInfo, transition);
     },
 
@@ -32,18 +34,15 @@ const Router = EmberRouter.extend({
         this._super(...args);
         this.get('statusMessages').updateMessages();
         window.scrollTo(0, 0);
-
-        const readyBlocker = this.get('readyBlocker');
-
-        if (readyBlocker) {
-            readyBlocker.done();
+        if (this.readyBlocker && !this.readyBlocker.isDone()) {
+            this.readyBlocker.done();
         }
     },
 });
 
 /* eslint-disable array-callback-return */
 
-Router.map(function () {
+Router.map(function() {
     // All non-guid routes (except `not-found`) belong above "Guid Routing"
     this.route('home', { path: '/' });
     this.route('goodbye');
@@ -66,7 +65,7 @@ Router.map(function () {
     this.route('guid-node', { path: '/:node_guid' });
     this.route('guid-preprint', { path: '/:preprint_guid' });
     this.route('guid-registration', { path: '/:registration_guid' });
-    this.route('guid-user', { path: '/:user_guid' }, function () {
+    this.route('guid-user', { path: '/:user_guid' }, function() {
         this.route('quickfiles');
     });
 

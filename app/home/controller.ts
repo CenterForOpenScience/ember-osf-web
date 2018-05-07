@@ -8,7 +8,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 export default class Home extends Controller.extend({
-    submit: task(function* (this: Home) {
+    submit: task(function *(this: Home) {
         const model = this.get('model');
         const { validations } = yield model.validate();
         this.set('didValidate', true);

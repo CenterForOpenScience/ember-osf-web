@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 module('Integration | Component | file-list', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async function (assert) {
+    test('it renders', async function(assert) {
         await render(hbs`
             {{#file-list}}
                 template block text

@@ -9,6 +9,7 @@ import RSVP from 'rsvp';
 export interface Blocker {
     done: () => void;
     errored: (e: any) => void;
+    isDone: () => boolean;
 }
 
 export enum Events {
@@ -23,7 +24,7 @@ export default class Ready extends Service.extend(Evented) {
     lastId = 0;
     blockers = A();
 
-    tryReady = task(function* (this: Ready) {
+    tryReady = task(function *(this: Ready) {
         // Waiting until `destroy` makes sure that everyone in `render` and `afterRender`
         // (e.g. components, jQuery plugins, etc.) has a chance to call `getBlocker`, and that
         // all DOM manipulation has settled.
@@ -39,6 +40,7 @@ export default class Ready extends Service.extend(Evented) {
             return {
                 done: () => null,
                 errored: () => null,
+                isDone: () => true,
             };
         }
         const id = this.incrementProperty('lastId');
@@ -46,6 +48,7 @@ export default class Ready extends Service.extend(Evented) {
         return {
             done: this.doneCallback(id),
             errored: this.errorCallback(),
+            isDone: () => !this.blockers.includes(id),
         };
     }
 

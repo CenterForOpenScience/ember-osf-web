@@ -6,7 +6,7 @@ import { module, skip, test } from 'qunit';
 module('Integration | Component | validated input', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async function (assert) {
+    test('it renders', async function(assert) {
         await render(hbs`{{validated-input
             valuePath='fullName'
             placeholder='Full Name'
@@ -19,7 +19,7 @@ module('Integration | Component | validated input', hooks => {
         assert.equal(this.$('.warning').length, 0);
     });
 
-    test('render valid', async function (assert) {
+    test('render valid', async function(assert) {
         // simulates that the success element renders on success
         await render(hbs`{{validated-input
             valuePath='fullName'
@@ -33,7 +33,7 @@ module('Integration | Component | validated input', hooks => {
         assert.equal(this.$('.warning').length, 0);
     });
 
-    test('render error message', async function (assert) {
+    test('render error message', async function(assert) {
         // checks that the error message renders
         await render(hbs`{{validated-input
             valuePath='fullName'
@@ -48,7 +48,7 @@ module('Integration | Component | validated input', hooks => {
         assert.equal(this.$('.warning').length, 0);
     });
 
-    test('render to text by default', async function (assert) {
+    test('render to text by default', async function(assert) {
         await render(hbs`{{validated-input
             valuePath='fullName'
             placeholder='Full Name'
@@ -58,7 +58,7 @@ module('Integration | Component | validated input', hooks => {
         assert.equal(this.$('input[type="text"]').length, 1);
     });
 
-    test('render to text when explicitly specified', async function (assert) {
+    test('render to text when explicitly specified', async function(assert) {
         await render(hbs`{{validated-input
             valuePath='fullName'
             placeholder='Full Name'
@@ -69,7 +69,7 @@ module('Integration | Component | validated input', hooks => {
         assert.equal(this.$('input[type="text"]').length, 1);
     });
 
-    test('render to password when explicitly specified', async function (assert) {
+    test('render to password when explicitly specified', async function(assert) {
         await render(hbs`{{validated-input
             valuePath='password'
             placeholder='Password'
@@ -80,7 +80,7 @@ module('Integration | Component | validated input', hooks => {
         assert.equal(this.$('input[type="password"]').length, 1);
     });
 
-    test('render to textarea when explicitly speficied', async function (assert) {
+    test('render to textarea when explicitly speficied', async function(assert) {
         await render(hbs`{{validated-input
             valuePath='fullName'
             placeholder='Full Name'
@@ -91,7 +91,7 @@ module('Integration | Component | validated input', hooks => {
         assert.equal(this.$('textarea').length, 1);
     });
 
-    test('render to date when explicitly speficied', async function (assert) {
+    test('render to date when explicitly speficied', async function(assert) {
         // TODO: Needs improvement as there are no obvious ways to distinguish a dateField from a text.
         await render(hbs`{{validated-input
             valuePath='fullName'

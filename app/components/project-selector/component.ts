@@ -37,7 +37,7 @@ export enum ProjectSelectState {
  * @class project-selector
  */
 export default class ProjectSelector extends Component.extend({
-    initialLoad: task(function* (this: ProjectSelector) {
+    initialLoad: task(function *(this: ProjectSelector) {
         this.setProperties({
             didValidate: false,
             selected: null,
@@ -45,7 +45,7 @@ export default class ProjectSelector extends Component.extend({
         });
     }),
 
-    findNodes: task(function* (this: ProjectSelector, filter?: string) {
+    findNodes: task(function *(this: ProjectSelector, filter?: string) {
         if (filter) {
             yield timeout(250);
         }

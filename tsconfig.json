@@ -22,6 +22,7 @@
     "paths": {
       "ember-osf-web/tests/*": ["tests/*"],
       "ember-osf-web/*": ["app/*"],
+      "config/*": ["config/*"],
       "npm:*": ["node_modules/*"],
       "ember-bootstrap/components/*": [
         "node_modules/ember-bootstrap/addon/components/bs3/*",

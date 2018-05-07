@@ -51,9 +51,10 @@ declare const config: {
     microfeedback: {
         enabled: boolean;
         url: string | null;
-        pageParams: {
-            QuickFiles: {};
-        };
+        pageParams: { [index: string]: {
+            componentID?: string;
+            priorityID?: string;
+        } | undefined };
     };
     OSF: {
         clientId?: string;
@@ -116,12 +117,7 @@ declare const config: {
         noteworthyNode: string;
     };
     featureFlags: {
-        routes: {
-            support: string;
-            dashboard: string;
-            home: string;
-            institutions: string;
-        };
+        routes: { [index: string]: string | undefined };
     };
     gReCaptcha: {
         siteKey: string;

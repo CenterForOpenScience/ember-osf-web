@@ -96,7 +96,7 @@ export default class GuidFile extends Controller {
         return !!file && file.getContents();
     }
 
-    updateFilter = task(function* (this: GuidFile, filter: string) {
+    updateFilter = task(function *(this: GuidFile, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
     }).drop();

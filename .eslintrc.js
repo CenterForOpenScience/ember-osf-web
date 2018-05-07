@@ -25,6 +25,7 @@ module.exports = {
         'function-paren-newline': ['error', 'consistent'],
         'ember/no-attrs-snapshot': 'off',
         'prefer-rest-params': 'error',
+        'generator-star-spacing': ['error', 'before'],
     },
     overrides: [
         {
