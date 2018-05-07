@@ -14,6 +14,14 @@ export default class NodeBlurb extends Component {
     node?: Node | Registration;
     blurbType: BlurbType = defaultTo(this.blurbType, BlurbType.FORK);
 
+    @computed('node.currentUserPermissions')
+    get canEdit(this: NodeBlurb): boolean {
+        if (!this.node || !this.node.get('currentUserPermissions')) {
+            return false;
+        }
+        return this.node.get('currentUserPermissions').includes('write');
+    }
+
     @computed('node.dateCreated')
     get date(this: NodeBlurb): string {
         if (!this.node) {

@@ -10,7 +10,7 @@
         <a href='/{{node.id}}/'>{{node.title}}</a>
         | {{t blurbTypeTitle}} {{date}}
     </span>
-    {{#if (eq blurbType 'fork')}}
+    {{#if (and (eq blurbType 'fork') canEdit)}}
         <div class="pull-right generic-dropdown NodeBlurb__dropdown">
             {{#bs-dropdown as |dd|}}
                 {{#dd.button class='NodeBlurb__dropdown-button'}}<span aria-label='Options' class="glyphicon glyphicon-option-horizontal"></span>{{/dd.button}}
