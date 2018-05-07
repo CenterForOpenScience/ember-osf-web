@@ -1,15 +1,17 @@
-import { moduleForModel, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('collection', 'Unit | Serializer | collection', {
-    // Specify the other units that are required for this test.
-    needs: ['serializer:collection', 'model:node', 'model:registration'],
-});
+import { run } from '@ember/runloop';
 
-// Replace this with your real tests.
-test('it serializes records', function(assert) {
-    const record = this.subject();
+module('Unit | Serializer | collection', function(hooks) {
+    setupTest(hooks);
 
-    const serializedRecord = record.serialize();
+    // Replace this with your real tests.
+    test('it serializes records', function(assert) {
+        const record = run(() => this.owner.lookup('service:store').createRecord('collection'));
 
-    assert.ok(serializedRecord);
+        const serializedRecord = record.serialize();
+
+        assert.ok(serializedRecord);
+    });
 });

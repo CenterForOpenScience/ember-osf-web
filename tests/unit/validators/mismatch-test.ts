@@ -1,13 +1,11 @@
-import { moduleFor, test } from 'ember-qunit';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
-moduleFor('validator:mismatch', 'Unit | Validator | mismatch', {
-    needs: [
-        'service:i18n',
-        'validator:messages',
-    ],
-});
+module('Unit | Validator | mismatch', hooks => {
+    setupTest(hooks);
 
-test('it works', function(assert) {
-    const validator = this.subject();
-    assert.ok(validator);
+    test('it works', function(assert) {
+        const validator = this.owner.lookup('validator:mismatch');
+        assert.ok(validator);
+    });
 });

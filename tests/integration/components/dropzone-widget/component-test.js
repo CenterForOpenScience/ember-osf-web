@@ -1,15 +1,17 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('dropzone-widget', 'Integration | Component | dropzone widget', {
-    integration: true,
-});
+module('Integration | Component | dropzone widget', function(hooks) {
+    setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    test('it renders', async function(assert) {
+        // Set any properties with this.set('myProperty', 'value');
+        // Handle any actions with this.on('myAction', function(val) { ... });
 
-    this.render(hbs`{{dropzone-widget}}`);
+        await render(hbs`{{dropzone-widget}}`);
 
-    assert.equal(this.$().text().trim(), 'Drop files here to upload');
+        assert.equal(this.$().text().trim(), 'Drop files here to upload');
+    });
 });

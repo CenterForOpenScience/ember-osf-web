@@ -1,13 +1,15 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('osf-navbar', 'Integration | Component | osf navbar', {
-    integration: true,
-});
+module('Integration | Component | osf navbar', function(hooks) {
+    setupRenderingTest(hooks);
 
 
-test('it renders', function(assert) {
-    this.set('loginAction', () => {});
-    this.render(hbs`{{osf-navbar loginAction=loginAction}}`);
-    assert.ok(this.$().text().replace(/\s+/g, ' ').includes('OSF'));
+    test('it renders', async function(assert) {
+        this.set('loginAction', () => {});
+        await render(hbs`{{osf-navbar loginAction=loginAction}}`);
+        assert.ok(this.$().text().replace(/\s+/g, ' ').includes('OSF'));
+    });
 });

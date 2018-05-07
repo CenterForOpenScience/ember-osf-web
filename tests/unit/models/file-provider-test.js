@@ -1,12 +1,14 @@
-import { moduleForModel, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('file-provider', 'Unit | Model | file provider', {
-    // Specify the other units that are required for this test.
-    needs: ['model:file', 'model:node'],
-});
+import { run } from '@ember/runloop';
 
-test('it exists', function(assert) {
-    const model = this.subject();
-    // let store = this.store();
-    assert.ok(!!model);
+module('Unit | Model | file provider', function(hooks) {
+    setupTest(hooks);
+
+    test('it exists', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('file-provider'));
+        // let store = this.store();
+        assert.ok(!!model);
+    });
 });

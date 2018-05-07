@@ -1,16 +1,17 @@
-import { moduleForModel, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('file-provider', 'Unit | Serializer | file provider', {
-    // Specify the other units that are required for this test.
-    needs: ['serializer:file-provider', 'model:file', 'model:node',
-        'transform:links', 'transform:embed'],
-});
+import { run } from '@ember/runloop';
 
-// Replace this with your real tests.
-test('it serializes records', function(assert) {
-    const record = this.subject();
+module('Unit | Serializer | file provider', function(hooks) {
+    setupTest(hooks);
 
-    const serializedRecord = record.serialize();
+    // Replace this with your real tests.
+    test('it serializes records', function(assert) {
+        const record = run(() => this.owner.lookup('service:store').createRecord('file-provider'));
 
-    assert.ok(serializedRecord);
+        const serializedRecord = record.serialize();
+
+        assert.ok(serializedRecord);
+    });
 });

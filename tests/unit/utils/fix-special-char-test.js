@@ -3,14 +3,13 @@ import { module, test } from 'qunit';
 
 import fixStringTestCases from '../../fixtures/specialChars';
 
-module('Unit | Utility | fix special char');
+module('Unit | Utility | fix special char', function() {
+    test('#fixSpecialChar converts values sent from the server into something display friendly', function(assert) {
+        assert.expect(fixStringTestCases.length);
 
-
-test('#fixSpecialChar converts values sent from the server into something display friendly', function(assert) {
-    assert.expect(fixStringTestCases.length);
-
-    for (const [input, output] of fixStringTestCases) {
-        const res = fixSpecialChar(input);
-        assert.strictEqual(res, output);
-    }
+        for (const [input, output] of fixStringTestCases) {
+            const res = fixSpecialChar(input);
+            assert.strictEqual(res, output);
+        }
+    });
 });

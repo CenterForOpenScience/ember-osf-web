@@ -1,19 +1,17 @@
-import { moduleForModel, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('preprint-provider', 'Unit | Serializer | preprint provider', {
-    needs: [
-        'serializer:preprint-provider',
-        'model:taxonomy',
-        'model:preprint',
-        'model:license',
-    ],
-});
+import { run } from '@ember/runloop';
 
-// Replace this with your real tests.
-test('it serializes records', function(assert) {
-    const record = this.subject();
+module('Unit | Serializer | preprint provider', function(hooks) {
+    setupTest(hooks);
 
-    const serializedRecord = record.serialize();
+    // Replace this with your real tests.
+    test('it serializes records', function(assert) {
+        const record = run(() => this.owner.lookup('service:store').createRecord('preprint-provider'));
 
-    assert.ok(serializedRecord);
+        const serializedRecord = record.serialize();
+
+        assert.ok(serializedRecord);
+    });
 });

@@ -1,12 +1,12 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('adapter:preprint', 'Unit | Adapter | preprint', {
-    // Specify the other units that are required for this test.
-    needs: ['service:session'],
-});
+module('Unit | Adapter | preprint', function(hooks) {
+    setupTest(hooks);
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-    const adapter = this.subject();
-    assert.ok(adapter);
+    // Replace this with your real tests.
+    test('it exists', function(assert) {
+        const adapter = this.owner.lookup('adapter:preprint');
+        assert.ok(adapter);
+    });
 });

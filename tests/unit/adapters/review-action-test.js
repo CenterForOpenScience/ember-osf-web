@@ -1,12 +1,12 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('adapter:review-action', 'Unit | Adapter | review-action', {
-    // Specify the other units that are required for this test.
-    needs: ['service:session'],
-});
+module('Unit | Adapter | review-action', function(hooks) {
+    setupTest(hooks);
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-    const adapter = this.subject();
-    assert.ok(adapter);
+    // Replace this with your real tests.
+    test('it exists', function(assert) {
+        const adapter = this.owner.lookup('adapter:review-action');
+        assert.ok(adapter);
+    });
 });

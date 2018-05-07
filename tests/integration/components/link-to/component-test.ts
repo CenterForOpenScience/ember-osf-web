@@ -39,6 +39,6 @@ module('Integration | Component | link-to', hooks => {
 
         await render(hbs`{{#link-to 'foo' clickAction=(action 'clickAction')}}This is a link!{{/link-to}}`);
 
-        await click(this.element.firstChild as Node);
+        await click(this.element.firstChild as Element);
     });
 });

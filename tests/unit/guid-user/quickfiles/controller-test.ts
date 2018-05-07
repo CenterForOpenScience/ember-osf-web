@@ -1,21 +1,12 @@
-import { moduleFor, test } from 'ember-qunit';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
-moduleFor('controller:guid-user/quickfiles', 'Unit | Controller | guid-user/quickfiles', {
-    needs: [
-        'service:currentUser',
-        'service:i18n',
-        'service:metrics',
-        'service:features',
-        'service:analytics',
-        'service:session',
-        'service:status-messages',
-        'service:toast',
-        'service:ready',
-    ],
-});
+module('Unit | Controller | guid-user/quickfiles', hooks => {
+    setupTest(hooks);
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-    const controller = this.subject();
-    assert.ok(controller);
+    // Replace this with your real tests.
+    test('it exists', function(assert) {
+        const controller = this.owner.lookup('controller:guid-user/quickfiles');
+        assert.ok(controller);
+    });
 });

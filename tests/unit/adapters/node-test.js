@@ -1,6 +1,6 @@
-import { moduleFor } from 'ember-qunit';
+import { module } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('adapter:node', 'Unit | Adapter | node', {
-    // Specify the other units that are required for this test.
-    needs: ['model:node'],
+module('Unit | Adapter | node', function(hooks) {
+    setupTest(hooks);
 });

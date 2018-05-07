@@ -1,29 +1,14 @@
-import {
-    moduleForModel,
-    test,
-} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('registration', 'Unit | Model | registration', {
-    // Specify the other units that are required for this test.
-    needs: [
-        'model:citation',
-        'model:institution',
-        'model:draft-registration',
-        'model:node',
-        'model:preprint',
-        'model:user',
-        'model:contributor',
-        'model:comment',
-        'model:file-provider',
-        'model:log',
-        'model:node-link',
-        'model:wiki',
-        'transform:object',
-    ],
-});
+import { run } from '@ember/runloop';
 
-test('it exists', function (assert) {
-    const model = this.subject();
-    // let store = this.store();
-    assert.ok(!!model);
+module('Unit | Model | registration', function(hooks) {
+    setupTest(hooks);
+
+    test('it exists', function (assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
+        // let store = this.store();
+        assert.ok(!!model);
+    });
 });

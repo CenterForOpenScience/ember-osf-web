@@ -1,150 +1,141 @@
 import { get } from '@ember/object';
-import { moduleForModel, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('preprint', 'Unit | Model | preprint', {
-    // Specify the other units that are required for this test.
-    needs: ['model:contributor',
-        'model:file',
-        'model:file-provider',
-        'model:preprint-provider',
-        'model:review-action',
-        'model:node',
-        'model:license',
-        'transform:fixstring',
-        'transform:links',
-        'transform:embed',
-        'transform:object',
-    ],
-});
+import { run } from '@ember/runloop';
 
-test('it exists', function(assert) {
-    const model = this.subject();
-    // let store = this.store();
-    assert.ok(!!model);
-});
+module('Unit | Model | preprint', function(hooks) {
+    setupTest(hooks);
 
-test('it has an attribute: title', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('title') > -1;
-    assert.ok(hasAttr);
-});
+    test('it exists', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        // let store = this.store();
+        assert.ok(!!model);
+    });
 
-test('it has an attribute: subjects', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('subjects') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: title', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('title') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: dateCreated', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('dateCreated') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: subjects', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('subjects') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: datePublished', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('datePublished') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: dateCreated', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('dateCreated') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: originalPublicationDate', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('originalPublicationDate') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: datePublished', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('datePublished') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: dateModified', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('dateModified') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: originalPublicationDate', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('originalPublicationDate') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: doi', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('doi') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: dateModified', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('dateModified') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: isPublished', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('isPublished') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: doi', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('doi') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: isPreprintOrphan', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('isPreprintOrphan') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: isPublished', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('isPublished') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: licenseRecord', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('licenseRecord') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: isPreprintOrphan', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('isPreprintOrphan') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: reviewsState', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('reviewsState') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: licenseRecord', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('licenseRecord') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('it has an attribute: dateLastTransitioned', function(assert) {
-    const model = this.subject();
-    const hasAttr = Object.keys(model.toJSON()).indexOf('dateLastTransitioned') > -1;
-    assert.ok(hasAttr);
-});
+    test('it has an attribute: reviewsState', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('reviewsState') > -1;
+        assert.ok(hasAttr);
+    });
 
-test('node relationship', function(assert) {
-    const model = this.store().modelFor('preprint');
-    const relationship = get(model, 'relationshipsByName').get('node');
+    test('it has an attribute: dateLastTransitioned', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
+        const hasAttr = Object.keys(model.toJSON()).indexOf('dateLastTransitioned') > -1;
+        assert.ok(hasAttr);
+    });
 
-    assert.equal(relationship.key, 'node');
-    assert.equal(relationship.type, 'node');
-    assert.equal(relationship.kind, 'belongsTo');
-});
+    test('node relationship', function(assert) {
+        const model = this.owner.lookup('service:store').modelFor('preprint');
+        const relationship = get(model, 'relationshipsByName').get('node');
 
-test('license relationship', function(assert) {
-    const model = this.store().modelFor('preprint');
-    const relationship = get(model, 'relationshipsByName').get('license');
+        assert.equal(relationship.key, 'node');
+        assert.equal(relationship.type, 'node');
+        assert.equal(relationship.kind, 'belongsTo');
+    });
 
-    assert.equal(relationship.key, 'license');
-    assert.equal(relationship.type, 'license');
-    assert.equal(relationship.kind, 'belongsTo');
-});
+    test('license relationship', function(assert) {
+        const model = this.owner.lookup('service:store').modelFor('preprint');
+        const relationship = get(model, 'relationshipsByName').get('license');
 
-test('file relationship', function(assert) {
-    const model = this.store().modelFor('preprint');
-    const relationship = get(model, 'relationshipsByName').get('primaryFile');
+        assert.equal(relationship.key, 'license');
+        assert.equal(relationship.type, 'license');
+        assert.equal(relationship.kind, 'belongsTo');
+    });
 
-    assert.equal(relationship.key, 'primaryFile');
-    assert.equal(relationship.type, 'file');
-    assert.equal(relationship.kind, 'belongsTo');
-});
+    test('file relationship', function(assert) {
+        const model = this.owner.lookup('service:store').modelFor('preprint');
+        const relationship = get(model, 'relationshipsByName').get('primaryFile');
 
-test('preprint-provider relationship', function(assert) {
-    const model = this.store().modelFor('preprint');
-    const relationship = get(model, 'relationshipsByName').get('provider');
+        assert.equal(relationship.key, 'primaryFile');
+        assert.equal(relationship.type, 'file');
+        assert.equal(relationship.kind, 'belongsTo');
+    });
 
-    assert.equal(relationship.key, 'provider');
-    assert.equal(relationship.type, 'preprint-provider');
-    assert.equal(relationship.kind, 'belongsTo');
-});
+    test('preprint-provider relationship', function(assert) {
+        const model = this.owner.lookup('service:store').modelFor('preprint');
+        const relationship = get(model, 'relationshipsByName').get('provider');
 
-test('review-action relationship', function(assert) {
-    const model = this.store().modelFor('preprint');
-    const relationship = get(model, 'relationshipsByName').get('reviewActions');
+        assert.equal(relationship.key, 'provider');
+        assert.equal(relationship.type, 'preprint-provider');
+        assert.equal(relationship.kind, 'belongsTo');
+    });
 
-    assert.equal(relationship.key, 'reviewActions');
-    assert.equal(relationship.type, 'review-action');
-    assert.equal(relationship.kind, 'hasMany');
-});
+    test('review-action relationship', function(assert) {
+        const model = this.owner.lookup('service:store').modelFor('preprint');
+        const relationship = get(model, 'relationshipsByName').get('reviewActions');
 
-test('contributors relationship', function(assert) {
-    const model = this.store().modelFor('preprint');
-    const relationship = get(model, 'relationshipsByName').get('contributors');
+        assert.equal(relationship.key, 'reviewActions');
+        assert.equal(relationship.type, 'review-action');
+        assert.equal(relationship.kind, 'hasMany');
+    });
 
-    assert.equal(relationship.key, 'contributors');
-    assert.equal(relationship.type, 'contributor');
-    assert.equal(relationship.kind, 'hasMany');
+    test('contributors relationship', function(assert) {
+        const model = this.owner.lookup('service:store').modelFor('preprint');
+        const relationship = get(model, 'relationshipsByName').get('contributors');
+
+        assert.equal(relationship.key, 'contributors');
+        assert.equal(relationship.type, 'contributor');
+        assert.equal(relationship.kind, 'hasMany');
+    });
 });

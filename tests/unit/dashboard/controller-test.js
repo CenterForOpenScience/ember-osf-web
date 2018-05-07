@@ -1,15 +1,15 @@
-import { moduleFor, test, skip } from 'ember-qunit';
+import { module, skip, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('controller:dashboard', 'Unit | Controller | dashboard', {
-    needs: ['service:currentUser', 'service:session', 'service:analytics', 'model:institution',
-        'model:node'],
-});
+module('Unit | Controller | dashboard', function(hooks) {
+    setupTest(hooks);
 
 
-skip(() => {
-    test('it exists', function(assert) {
-        const controller = this.subject();
-        // TODO: init calls out requests, need to mock them to have this pass
-        assert.ok(controller);
+    skip(() => {
+        test('it exists', function(assert) {
+            const controller = this.subject();
+            // TODO: init calls out requests, need to mock them to have this pass
+            assert.ok(controller);
+        });
     });
 });
