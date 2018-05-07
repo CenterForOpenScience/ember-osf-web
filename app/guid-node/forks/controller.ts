@@ -22,7 +22,7 @@ export default class GuidNodeForks extends Controller {
     maxPage: number = 1;
     perPage = 10;
 
-    getForks = task(function* (this: GuidNodeForks) {
+    getForks = task(function *(this: GuidNodeForks) {
         const page = this.get('page');
         const model = this.get('model');
         const node = yield model.taskInstance;
