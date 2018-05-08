@@ -1,8 +1,15 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import DS from 'ember-data';
+import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import OsfAuthenticatedRouteMixin from 'ember-osf-web/mixins/osf-authenticated-route';
+
+const {
+    i18n: {
+        enabledLocales,
+    },
+} = config;
 
 export default class Application extends Route.extend(OsfAuthenticatedRouteMixin) {
     @service i18n!: I18N;
@@ -26,7 +33,7 @@ export default class Application extends Route.extend(OsfAuthenticatedRouteMixin
             locale = navigator.language;
         }
 
-        if (locale) {
+        if (locale && enabledLocales.includes(locale)) {
             i18n.setProperties({ locale });
         }
     }
