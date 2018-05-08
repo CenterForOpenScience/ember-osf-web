@@ -4,6 +4,9 @@ const os = require('os');
 const path = require('path');
 const process = require('process');
 const { assert, expect } = require('chai');
+const {
+    describe, before, after, it,
+} = require('mocha');
 
 const compileTranslation = require('./helpers/compile-translation');
 

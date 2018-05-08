@@ -1,10 +1,8 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
-import { get } from '@ember/object';
 import { task } from 'ember-concurrency';
-// eslint-disable-next-line no-unused-vars
-import DS, { AdapterRegistry, ModelRegistry } from 'ember-data';
+import DS, { ModelRegistry } from 'ember-data';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 
 const { Model } = DS;
@@ -29,7 +27,7 @@ interface QueryHasManyResult extends Array<any> {
 export default class OsfModel extends Model.extend({
     queryHasManyTask: task(function *(
         this: OsfModel,
-        propertyName: any,
+        propertyName: any, // TODO constrain to DS.RelationshipsFor<M>
         queryParams?: object,
         ajaxOptions?: object,
     ) {
@@ -47,9 +45,6 @@ export default class OsfModel extends Model.extend({
         const options: object = {
             url,
             data: queryParams,
-            headers: get(store.adapterFor(
-                (this.constructor as typeof OsfModel).modelName as keyof AdapterRegistry,
-            ), 'headers'),
             ...ajaxOptions,
         };
 
@@ -80,7 +75,7 @@ export default class OsfModel extends Model.extend({
      */
     queryHasMany(
         this: OsfModel,
-        propertyName: keyof OsfModel | 'quickfiles',
+        propertyName: string,
         queryParams?: object,
         ajaxOptions?: object,
     ) {

@@ -10,15 +10,10 @@ declare const config: {
     modulePrefix: string;
     locationType: string;
     rootURL: string;
-    authorizationType: string;
     sentryDSN: string | null;
     sentryOptions: {
         release?: string;
         ignoreErrors: string[];
-    };
-    'ember-simple-auth': {
-        authorizer: string;
-        authenticator: string;
     };
     EmberENV: {
         FEATURES: {};
@@ -65,18 +60,18 @@ declare const config: {
         redirectUri?: string;
         url: string;
         apiUrl: string;
+        apiVersion: string;
+        apiHeaders: { [k: string]: string };
         renderUrl: string;
         waterbutlerUrl: string;
         helpUrl: string;
-        cookieLoginUrl: string;
-        oauthUrl: string;
         shareBaseUrl: string;
         shareApiUrl: string;
         shareSearchUrl: string;
-        accessToken?: string;
         devMode: boolean;
         statusCookie: string;
         cookieDomain: string;
+        authenticator: string;
     };
     social: {
         twitter: {
