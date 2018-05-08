@@ -12,7 +12,7 @@ export default class Institutions extends Controller {
     textValue: string = '';
 
     @computed('model', 'textValue')
-    get filtered(this: Institutions): Institution[] {
+    get filtered(): Institution[] {
         if (!this.textValue.length) {
             return this.model;
         }
@@ -22,14 +22,14 @@ export default class Institutions extends Controller {
     }
 
     @computed('filtered', 'sortOrder', 'page', 'textValue')
-    get institutions(this: Institutions): Institution[] {
+    get institutions(): Institution[] {
         const sorted = this.filtered.sortBy('name');
         if (this.sortOrder === '-title') { sorted.reverse(); }
         return sorted.slice(0, 10 * this.page);
     }
 
     @computed('institutions', 'filtered', 'textValue')
-    get hasMore(this: Institutions): boolean {
+    get hasMore(): boolean {
         if (!this.institutions) {
             return false;
         }
@@ -37,7 +37,7 @@ export default class Institutions extends Controller {
     }
 
     @action
-    next(this: Institutions) {
+    next() {
         this.incrementProperty('page');
     }
 

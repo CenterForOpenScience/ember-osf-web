@@ -2,6 +2,7 @@ import { action, computed } from '@ember-decorators/object';
 import { equal } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { camelize } from '@ember/string'; // eslint-disable-line no-unused-vars
 import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
 import { osfServices } from 'ember-osf-web/const/service-links';
@@ -20,6 +21,7 @@ export default class OsfNavbar extends Component {
     @service session!: Session;
     @service analytics!: Analytics;
     @service features!: Features;
+    @service router!: any;
 
     /**
      * Action run when the user clicks "Sign In"
@@ -52,19 +54,17 @@ export default class OsfNavbar extends Component {
     indexRoute: string = 'dashboard';
     showNavLinks: boolean = false;
 
-    @computed('features')
+    // @ts-ignore - we can be sure we have institutions route
+    @computed(`features.${camelize(config.featureFlags.routes.institutions)}`)
     get osfApps(this: OsfNavbar) {
-        if (this.features.isEnabled(config.featureFlags.routes.institutions)) {
-            return osfServices;
-        }
-        return osfServices.filter(e => e.name !== 'INSTITUTIONS');
+        return osfServices.filter(each => !each.flag || this.features.isEnabled(each.flag));
     }
 
     @equal('currentApp', HOME_APP) inHomeApp!: boolean;
 
     @computed('hostAppName')
     get currentApp(): string {
-        if (window.location.pathname.includes('institutions')) {
+        if (this.router.currentRouteName === 'institutions') {
             return 'INSTITUTIONS';
         }
         return (this.hostAppName === 'Dummy App' ? HOME_APP : this.hostAppName).toUpperCase();

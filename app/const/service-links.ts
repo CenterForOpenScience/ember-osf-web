@@ -42,6 +42,7 @@ const osfServices = [
     {
         name: 'INSTITUTIONS',
         url: serviceLinks.institutionsLanding,
+        flag: config.featureFlags.routes.institutions,
     },
 ];
 
