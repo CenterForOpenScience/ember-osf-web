@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - next]
+## [Unreleased]
 ### Added
 - guid-node.forks route
 - node-blurb component, for the similar node previews all over the osf
@@ -16,7 +16,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - contributor-list component, to accept lists with links
 
-## [Unreleased]
+## [0.3.1] - 2018-05-08
+### Changed
+- i18n locales are now enabled with `ENABLED_LOCALES` env variable
 
 ## [0.3.0] - 2018-05-03
 ### Added

@@ -12,6 +12,7 @@ const {
     A11Y_AUDIT = 'true',
     BACKEND: backend = 'local',
     CLIENT_ID: clientId,
+    ENABLED_LOCALES = 'en, en-US',
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
@@ -77,6 +78,7 @@ module.exports = function(environment) {
         },
         i18n: {
             defaultLocale: 'en-US',
+            enabledLocales: ENABLED_LOCALES.split(/[, ]+/),
         },
         moment: {
             includeTimezone: 'all',
