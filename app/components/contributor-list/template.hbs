@@ -1,1 +1,11 @@
-{{contributorList}}
+{{#inline-list items=contributorList truncate=3 as |l|}}
+    {{#if l.item}}
+        {{~contributor-list/contributor useLink=useLink contributor=l.item~}}
+    {{else if l.truncate}}
+        {{#if useLink}}
+            <a href='/{{nodeId}}'>{{t 'contributor_list.and_x_more' x=rest}}</a>
+        {{else}}
+            {{~t 'contributor_list.and_x_more' x=rest}}
+        {{/if}}
+    {{/if}}
+{{/inline-list}}

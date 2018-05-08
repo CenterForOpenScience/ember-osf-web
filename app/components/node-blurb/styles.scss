@@ -1,0 +1,39 @@
+.NodeBlurb {
+    &__dropdown {
+        padding-left: 5px;
+    }
+
+    &__dropdown-list {
+        background-color: $color-bg-gray-light;
+        min-width: 180px;
+    }
+
+    &__dropdown-link {
+        color: $color-link-black;
+    }
+
+    &__dropdown-link:hover,
+    &__dropdown-link:focus, {
+        cursor: pointer;
+        background-image: none;
+        background-color: $color-bg-gray-dark;
+    }
+
+    &__dropdown-button {
+        padding: 4px 12px;
+        line-height: 0;
+    }
+
+    &__description {
+        font-weight: 300;
+        text-overflow: ellipsis;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &__authors {
+        font-weight: 500;
+        color: $color-text-blue-dark;
+    }
+}

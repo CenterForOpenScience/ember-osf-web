@@ -50,6 +50,10 @@ export default class StatusMessages extends Service {
             .map((message: {id: string}) => ({ ...message, id: `status.${message.id}` }));
     }
 
+    addStatusMessage(this: StatusMessages, message: StatusMessage): void {
+        this.get('nextMessages').push(message);
+    }
+
     updateMessages(this: StatusMessages): void {
         this.setProperties({
             messages: this.get('nextMessages') || [],

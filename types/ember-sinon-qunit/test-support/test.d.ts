@@ -5,7 +5,6 @@ declare module 'ember-sinon-qunit/test-support/test' {
         stub(...args: any[]): any;
     }
 
-    // eslint-disable-next-line no-restricted-globals
     function test(name: string, callback: (this: SinonTestContext, assert: Assert) => void): void;
 
     export default test;

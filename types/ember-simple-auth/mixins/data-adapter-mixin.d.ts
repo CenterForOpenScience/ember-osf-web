@@ -6,10 +6,8 @@ declare module 'ember-simple-auth/mixins/data-adapter-mixin' {
         authorizer: string | null;
 
         ajaxOptions(...args: any[]): object;
-        /* eslint-disable no-restricted-globals */
         ensureResponseAuthorized(status: number, headers?: object, payload?: any, requestData?: object): void;
         handleResponse(status: number, headers: object, payload: any, requestData: object);
-        /* eslint-enable no-restricted-globals */
         headersForRequest();
     }
 

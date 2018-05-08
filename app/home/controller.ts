@@ -34,7 +34,8 @@ export default class Home extends Controller.extend({
 }) {
     @service analytics!: Analytics;
 
-    didValidate?: boolean;
+    // Initialized in setupController.
+    didValidate!: boolean;
     goodbye = null;
     hasSubmitted = false;
     modalOpen: boolean = this.modalOpen || false;
