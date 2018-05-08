@@ -1,0 +1,37 @@
+<h4 class="list-group-item-heading">
+    <span class="component-overflow f-w-lg" style="line-height: 1.5;">
+        {{#unless node.public}}
+            <span>
+                {{fa-icon 'lock'}}
+                {{#bs-tooltip}}{{t 'node_blurb.private_tooltip'}}{{/bs-tooltip}}
+            </span>
+        {{/unless}}
+        {{node-blurb/node-icon category=node.category}}
+        <a href='/{{node.id}}/'>{{node.title}}</a>
+        | {{t blurbTypeTitle}} {{date}}
+    </span>
+    {{#if (and (eq blurbType 'fork') canEdit)}}
+        <div class="pull-right generic-dropdown NodeBlurb__dropdown">
+            {{#bs-dropdown as |dd|}}
+                {{#dd.button class='NodeBlurb__dropdown-button'}}<span aria-label='Options' class="glyphicon glyphicon-option-horizontal"></span>{{/dd.button}}
+                {{#dd.menu class='NodeBlurb__dropdown-list dropdown-menu-right'}}
+                    <li role='menuitem'>
+                        <a class='NodeBlurb__dropdown-link' href="/{{node.id}}/contributors/">{{t 'node_blurb.fork.manage_contributors'}}</a>
+                    </li>
+                    <li role='menuitem'>
+                        <a class='NodeBlurb__dropdown-link' href="/{{node.id}}/settings/">{{t 'general.settings'}}</a>
+                    </li>
+                    <li role='menuitem'>
+                        {{! template-lint-disable invalid-interactive }}
+                        <a class='NodeBlurb__dropdown-link' onclick={{action delete node}} role='button'>{{t 'general.delete'}}</a>
+                        {{! template-lint-enable invalid-interactive }}
+                    </li>
+                {{/dd.menu}}
+            {{/bs-dropdown}}
+        </div>
+    {{/if}}
+</h4>
+<div class="NodeBlurb__authors">
+    {{contributor-list contributors=node.contributors useLink=true nodeId=node.id}}
+</div>
+<span class="NodeBlurb__description">{{node.description}}</span>

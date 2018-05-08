@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased - next]
+### Added
+- guid-node.forks route
+- node-blurb component, for the similar node previews all over the osf
+- delete-node-modal component, for the deletion of nodes with the name verification step
+- fork method to node model
+- random-scientist util to support the delete-node modal
+- simple-paginator component
+
+### Changed
+- contributor-list component, to accept lists with links
+
 ## [Unreleased]
 
 ## [0.3.0] - 2018-05-03

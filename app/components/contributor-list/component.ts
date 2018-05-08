@@ -1,40 +1,50 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Contributor from 'ember-osf-web/models/contributor';
 
+export interface Contrib {
+    title: string;
+    id: string | undefined;
+}
+
 @tagName('span')
 export default class ContributorList extends Component {
     @service i18n!: I18N;
-
-    contributors: DS.PromiseManyArray<Contributor> & { meta: { total: number } } = this.contributors;
+    max = 3;
+    nodeId?: string;
+    useLink?: boolean;
+    contributors!: DS.PromiseManyArray<Contributor> & { meta: { total: number } };
 
     @computed('contributors.[]')
-    get contributorList(): string {
+    get contributorList(this: ContributorList): Contrib[] {
+        if (!this.contributors) {
+            return [];
+        }
         const contributors = this.contributors.toArray();
 
         if (!(contributors && contributors.length)) {
-            return '';
+            return [];
         }
 
-        const len = this.contributors.meta.total;
-        const max = 3;
+        const contribs: Contrib[] = contributors
+            .map(c => ({
+                title: c.users.get('familyName') || c.users.get('givenName') || c.users.get('fullName'),
+                id: c.users.get('id'),
+            }));
 
-        const names: string[] = contributors
-            .slice(0, max)
-            .map(c => c.users.get('familyName') || c.users.get('givenName') || c.users.get('fullName'));
+        return contribs;
+    }
 
-        const and = this.i18n.t('general.and');
-        const more = this.i18n.t('general.more');
+    @alias('contributorList.firstObject') first!: Contrib;
+    @alias('contributors.meta.total') numContributors!: number;
 
-        if (len < 3) {
-            return names.join(` ${and} `);
-        }
-
-        const last = len <= max ? names.splice(-1) : `${len - max} ${more}`;
-        return [...names, `${and} ${last}`].join(', ');
+    @computed('contributors.meta.total', 'max')
+    get rest(this: ContributorList): number {
+        return this.contributors.meta.total - this.max;
     }
 }

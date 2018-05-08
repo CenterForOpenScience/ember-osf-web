@@ -50,6 +50,9 @@ export default {
         cos: 'Center for Open Science',
         home: 'Home',
         period: '.',
+        settings: 'Settings',
+        project: 'project',
+        component: 'component',
         hosted_on_the_osf: 'Hosted on OSF',
     },
     maintenance: {
@@ -249,7 +252,6 @@ export default {
         log_out: 'Log Out',
         my_profile: 'My Profile',
         osf_support: 'OSF Support',
-        settings: 'Settings',
         sign_up: 'Sign Up',
         sign_in: 'Sign In',
         user_gravatar: 'User gravatar',
@@ -480,6 +482,39 @@ export default {
         learn_more: 'learn more',
         hide_message: 'Hide this message',
     },
+    node_blurb: {
+        fork: {
+            title: 'Forked:',
+            manage_contributors: 'Manage Contributors',
+        },
+        private_tooltip: 'This project is private',
+    },
+    forks: {
+        fork: 'Fork',
+        title: 'Forks',
+        back: 'Back to Analytics',
+        new: 'New fork',
+        loading_new: 'Creating new fork',
+        new_fork_info_title: 'Fork status',
+        new_fork_info: 'Your fork is being created. You\'ll receive an email when it is complete.',
+        create_fork_modal: 'Are you sure you want to fork this project?',
+        unable_to_delete_fork: 'Any child components must be deleted prior to deleting this component.',
+        page_title: '{{nodeTitle}} Forks',
+        no_forks: 'This project has no forks. A fork is a copy of a project that you can change without affecting the original project.',
+        new_fork_failed: 'Failed to create a new fork. Please try again later.',
+        delete_fork_failed: 'Failed to delete the project. Please try again later.',
+    },
+    delete_modal: {
+        title: 'Are you sure you want to delete this {{nodeType}}?',
+        body: 'It will no longer be available to other contributors on the {{nodeType}}.',
+        type_this: 'Type the following to continue:',
+        input_label: 'Scientist name verification',
+    },
+    paginator: {
+        next: 'Next page',
+        previous: 'Previous page',
+        page: 'Page {{page}} of {{max}}',
+    },
     social: {
         twitter: 'Twitter',
         facebook: 'Facebook',
@@ -487,5 +522,18 @@ export default {
         github: 'GitHub',
         google_plus: 'Google Plus',
         linkedin: 'LinkedIn',
+    },
+    list: {
+        two_item: {
+            delimiter: ' and ',
+        },
+        many_item: {
+            first_delimiter: ', ',
+            each_delimiter: ', ',
+            last_delimiter: ', and ',
+        },
+    },
+    contributor_list: {
+        and_x_more: '{{x}} more',
     },
 };

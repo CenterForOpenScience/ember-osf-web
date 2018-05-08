@@ -1,0 +1,19 @@
+{{#if hasPages}}
+    <span class='SimplePaginator__element'>
+        {{#bs-button disabled=(not hasPrev) onClick=(action previousPage)}}
+            <span aria-label="{{t 'paginator.previous'}}">
+                {{fa-icon 'chevron-left'}}
+            </span>
+        {{/bs-button}}
+    </span>
+    <span class='SimplePaginator__element'>
+        {{t 'paginator.page' page=curPage max=maxPage}}
+    </span>
+    <span class='SimplePaginator__element'>
+        {{#bs-button disabled=(not hasNext) onClick=(action nextPage)}}
+            <span aria-label="{{t 'paginator.previous'}}">
+                {{fa-icon 'chevron-right'}}
+            </span>
+        {{/bs-button}}
+    </span>
+{{/if}}
