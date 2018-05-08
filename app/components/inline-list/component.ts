@@ -12,6 +12,9 @@ export default class InlineList extends Component {
 
     @computed('items', 'truncate')
     get rest(this: InlineList) {
-        return this.items.slice(1, this.truncate || -1);
+        if (this.truncate && (this.truncate < this.items.length)) {
+            return this.items.slice(1, this.truncate);
+        }
+        return this.items.slice(1, -1);
     }
 }

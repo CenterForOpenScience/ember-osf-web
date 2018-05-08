@@ -13,12 +13,8 @@ const i18nStub = Service.extend({
             two_item: {
                 delimiter: ' and ',
             },
-            three_item: {
-                first_delimiter: ', ',
-                last_delimiter: ', and ',
-            },
             many_item: {
-                first_delimiter: '',
+                first_delimiter: ', ',
                 each_delimiter: ', ',
                 last_delimiter: ', and ',
             },
