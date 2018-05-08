@@ -39,6 +39,7 @@ module.exports = {
             files: ['**/*.d.ts'],
             rules: {
                 'no-unused-vars': 'off',
+                'no-restricted-globals': 'off',
             },
         },
         {
