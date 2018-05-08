@@ -1,0 +1,79 @@
+.Institutions {
+    &__logo {
+        background: url('/static/img/institutions/osf_institutions_white.png') top center no-repeat;
+        height: 70px;
+        background-size: contain;
+    }
+
+    &__block {
+        background: $color-bg-blue-darker;
+        background-position-y: -50px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid $color-border-gray;
+        color: $color-text-white;
+
+        &__link {
+            color: $color-link-blue;
+            text-decoration: underline;
+        }
+    }
+
+    &__header {
+        padding-top: 50px;
+    }
+
+    &__footer {
+        padding-top: 40px;
+        margin-bottom: -25px;
+    }
+
+    &__page {
+        width: 100%;
+    }
+
+    &__browser {
+        min-height: 700px;
+        background: $color-bg-blue-light url('/static/img/bg6.jpg') top center repeat-y;
+        background-size: cover;
+    }
+
+    &__table {
+        background: $color-bg-white-transparent;
+        padding: 10px 15px;
+        border-radius: 2px;
+        margin-top: 20px;
+        margin-bottom: 50px;
+
+        &__item {
+            display: block;
+            background-color: $color-bg-white;
+            box-shadow: 1px 1px 1px $color-border-gray;
+            padding: 6px;
+            color: $color-text-gray;
+            font-size: 25px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        &__title {
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+    }
+
+    &__logo {
+        height: 100px;
+    }
+
+    &__pagination {
+        font-size: 20px;
+        cursor: pointer;
+        color: $color-text-gray;
+    }
+
+    &__sorting {
+        span {
+            display: inline-block;
+        }
+    }
+}

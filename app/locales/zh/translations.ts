@@ -523,6 +523,13 @@ export default {
         google_plus: 'Google Plus',
         linkedin: 'LinkedIn',
     },
+    institutions: {
+        description: 'OSF Institutions is a free scholarly web tool that enhances transparency, fosters collaboration, and increases the visibility of research outputs at the institutional level.',
+        read_more: 'Read more',
+        footer: 'Interested in setting up an OSF Institutions page for your research institution? <a href=\'mailto:contact@osf.io\'>Contact us</a>',
+        title: 'Institutions',
+        search_placeholder: 'Search institutions',
+    },
     list: {
         two_item: {
             delimiter: ' and ',
