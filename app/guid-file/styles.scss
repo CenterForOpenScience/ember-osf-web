@@ -22,28 +22,28 @@
     @media(min-width:992px) {
         flex-wrap: nowrap;
     }
+}
 
-    &__title {
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        min-width: 10%;
-    }
+.TitleBar__title {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    min-width: 10%;
+}
 
-    &__buttons {
-        margin-left: auto;
-        flex-shrink: 0;
-        max-width: 100%;
-        padding-left: 10px;
-    }
+.TitleBar__buttons {
+    margin-left: auto;
+    flex-shrink: 0;
+    max-width: 100%;
+    padding-left: 10px;
+}
 
-    &__version-link {
-        cursor: pointer;
-        white-space: nowrap;
-    }
+.TitleBar__version-link {
+    cursor: pointer;
+    white-space: nowrap;
+}
 
-    &__button-label {
-        pointer-events: none;
-    }
+.TitleBar__button-label {
+    pointer-events: none;
 }
 
 .Main {
@@ -53,30 +53,22 @@
 .EditPanel {
     @include panel;
     padding: 0;
+}
 
-    &__heading {
-        @include panel-heading;
-    }
+.EditPanel__heading {
+    @include panel-heading;
 }
 
 .TagsPanel {
     @include panel;
+}
 
-    &__heading {
-        @include panel-heading;
-    }
+.TagsPanel__heading {
+    @include panel-heading;
 }
 
 .RevisionsPanel {
     @include panel;
-
-    &__heading {
-        @include panel-heading;
-    }
-
-    &__table {
-        margin-bottom: 0;
-    }
 
     a {
         cursor: pointer;
@@ -84,12 +76,12 @@
 
     // stylelint-disable selector-class-pattern
     // TODO: don't impose style on other components
-    .file-version {
-        .input-group {
+    :global(.file-version) {
+        :global(.input-group) {
             width: 180px;
         }
 
-        .hashBox {
+        :global(.hashBox) {
             float: left;
             height: 30px;
         }
@@ -97,9 +89,17 @@
     // stylelint-enable selector-class-pattern
 }
 
+.RevisionsPanel__heading {
+    @include panel-heading;
+}
+
+.RevisionsPanel__table {
+    margin-bottom: 0;
+}
+
 // stylelint-disable selector-class-pattern
 // TODO: don't impose style on other components
-.emberTagInput-tag {
+:global(.emberTagInput-tag) {
     background: $color-bg-blue-light;
     border-radius: 0;
     color: $color-text-black;
@@ -122,7 +122,7 @@
     }
 }
 
-.emberTagInput-new {
+:global(.emberTagInput-new) {
     width: 100%;
 
     > input {

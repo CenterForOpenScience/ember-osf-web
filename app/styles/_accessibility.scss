@@ -3,6 +3,14 @@
     color: $btn-success-high-contrast-color;
     background-color: $brand-success;
     border-color: darken($brand-success, 5%);
+
+    :global(&.disabled),
+    :global(&.disabled):hover {
+        color: darken($brand-success, 85%);
+        background-color: lighten($brand-success, 50%);
+        border-color: lighten($brand-success, 45%);
+        opacity: 1;
+    }
 }
 
 .btn-success.disabled,

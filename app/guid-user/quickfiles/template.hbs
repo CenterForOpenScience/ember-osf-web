@@ -1,11 +1,11 @@
 {{title (t 'quickfiles.title' user-name=user.fullName)}}
 <div class='container'>
     {{quickfile-nav user=user onQuickfiles=true}}
-    <div class='row Content container'>
+    <div class='row {{local-class 'Content'}} container'>
         {{#if canEdit}}
             <h5><i>{{t 'quickfiles.description'}}</i></h5>
         {{else}}
-            <div style='height:14px;'></div>
+            <div style='height: 14px;'></div>
         {{/if}}
         {{file-browser
             user=user

@@ -1,5 +1,5 @@
 {{title (t 'forks.page_title' nodeTitle=model.taskInstance.value.title)}}
-<div class="container Forks">
+<div class="container {{local-class 'Forks'}}">
     {{#bs-modal open=newModal onSubmit=(action 'newFork') as |m|}}
         {{#m.body}}
             <h3>{{t 'forks.create_fork_modal'}}</h3>
@@ -13,17 +13,17 @@
     <div class="Forks__header page-header visible-xs">
         <h2 class="text-300">{{t 'forks.title'}}</h2>
     </div>
-    <div class="Forks__nav m-md">
+    <div class="{{local-class 'Forks__nav'}} m-md">
         <a href="/{{model.taskInstance.value.id}}/analytics" class="padded strong">
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
         </a>
     </div>
-    <div class="Forks__forks">
+    <div local-class="Forks__forks">
         {{#if getForks.isRunning}}
             {{loading-indicator dark=true}}
         {{else}}
             {{#if forks.length}}
-                <ul class="list-group m-md ">
+                <ul class="list-group m-md">
                     <span id="forks" class="render-nodes-list">
                         {{#each forks as | fork |}}
                             <li class="project list-group-item list-group-item-node cite-container">
@@ -39,7 +39,7 @@
         {{/if}}
 
     </div>
-    <div class="Forks__new-fork">
+    <div local-class="Forks__new-fork">
         <div class="m-md">
             {{#bs-button type='success' disabled=loadingNew onClick=(action (mut newModal) true)}}
                 {{#if loadingNew}}

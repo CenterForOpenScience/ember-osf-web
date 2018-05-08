@@ -22,7 +22,9 @@ import eatArgs from 'ember-osf-web/utils/eat-args';
  * ```
  * @class file-browser
  */
-export default class FileList extends Component {
+export default class FileList extends Component.extend({
+    localClassNames: 'FileList',
+}) {
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
 

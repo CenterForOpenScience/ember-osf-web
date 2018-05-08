@@ -42,7 +42,9 @@ enum modals {
  * ```
  * @class file-browser
  */
-export default class FileBrowser extends Component {
+export default class FileBrowser extends Component.extend({
+    localClassNames: 'file-browser',
+}) {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;

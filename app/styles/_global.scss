@@ -4,20 +4,10 @@
 
 html,
 body,
-body > .ember-view,
-.Application {
+body > :global(.ember-view) {
     height: 100%;
 }
 
-.Application {
-    display: flex;
-    flex-direction: column;
-}
-
-.Application__page {
-    flex: 1 0 auto;
-}
-
-#toast-container > div { // stylelint-disable-line selector-max-id
+:global(#toast-container) > div { // stylelint-disable-line selector-max-id
     opacity: 1;
 }

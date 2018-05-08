@@ -1,0 +1,9 @@
+.Application {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Application__page {
+    flex: 1 0 auto;
+}

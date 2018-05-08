@@ -1,36 +1,37 @@
 // stylelint-disable selector-class-pattern
-& {
+
+.file-browser-item {
     height: 35px;
     user-select: none;
     border-bottom: 1px solid $color-border-gray-dark;
     line-height: 27px;
-}
 
-&.selected,
-&.selected:hover {
-    background-color: $color-text-blue-dark;
-    color: $color-text-white;
+    &:hover {
+        background-color: $color-text-gray-cool;
+        color: $color-text-black;
+    
+        a {
+            color: inherit;
+        }
+    }
 
-    .link-url {
+    &.selected,
+    &.selected:hover {
+        background-color: $color-text-blue-dark;
+        color: $color-text-white;
+
+        .link-url {
+            color: $color-text-black;
+        }
+
+        a {
+            color: $color-text-white;
+        }
+    }
+
+    a {
         color: $color-text-black;
     }
-
-    a {
-        color: $color-text-white;
-    }
-}
-
-&:hover {
-    background-color: $color-text-gray-cool;
-    color: $color-text-black;
-
-    a {
-        color: inherit;
-    }
-}
-
-a {
-    color: $color-text-black;
 }
 
 .version-link {
@@ -38,8 +39,8 @@ a {
     font-weight: 600;
 }
 
-.row {
-    padding: 0;
+.file-row-col {
     padding-top: 2px;
-    padding-bottom: 4px;
+    padding-left: 6px;
+    margin-left: 0;
 }

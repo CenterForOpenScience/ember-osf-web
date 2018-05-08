@@ -1,12 +1,12 @@
 {{#if (eq projectSelectState 'main')}}
     <div class="row">
         <div class="col-xs-6">
-            <button class="btn btn-block btn-big" {{action 'changeState' 'newProject'}}>
+            <button class="btn btn-block {{local-class 'btn-big'}}" {{action 'changeState' 'newProject'}}>
                 {{t 'move_to_project.create_new_project'}}
             </button>
         </div>
         <div class="col-xs-6">
-            <button class="btn btn-block btn-big" {{action 'changeState' 'existingProject'}}>
+            <button class="btn btn-block {{local-class 'btn-big'}}" {{action 'changeState' 'existingProject'}}>
                 {{t 'move_to_project.connect_to_existing'}}
             </button>
         </div>

@@ -1,6 +1,6 @@
 .FeedbackButton {
     background-color: $brand-success;
-    border-radius: $border-radius-base $border-radius-base 0 0;
+    border-radius: 4px 4px 0 0;
     bottom: 0;
     color: $color-text-white;
     cursor: pointer;
@@ -26,15 +26,15 @@
 }
 
 .FeedbackButton:hover,
-.FeedbackButton--open {
+.FeedbackButton--open { 
     background-color: $brand-success;
     padding-bottom: 10px;
 }
 
 // Because the modal uses ember-wormhole, it isn't within the styleNamespace block
 // We work around this by applying `.{styleNameSpace}Modal` to it.
-&Modal {
-    & .Modal__text {
+.Modal {
+    &__text {
         margin: 1.5em 0 1em;
     }
 }

@@ -27,8 +27,7 @@ h6 {
     font-style: normal;
 }
 
-[class^='icon-'],
-[class*=' icon-'] {
+.icon {
     font-family: 'icomoon';
     font-style: normal;
     font-weight: normal;
@@ -73,7 +72,7 @@ h6 {
     }
 }
 
-#home-hero {
+:global(#home-hero) {
     background: #67a3bf;
     background: linear-gradient(35deg, #67a3bf 0%, #166596 18%, #000 100%);
     height: 900px;
@@ -119,7 +118,7 @@ h6 {
     font-weight: bold;
 }
 
-#hero-signup {
+:global(#hero-signup) {
     background: rgba(255, 255, 255, 0.15);
     position: absolute;
     bottom: 0;
@@ -145,7 +144,7 @@ h6 {
 }
 
 @media(max-width: 767px) {
-    #home-hero {
+    :global(#home-hero) {
         height: 1000px;
     }
 
@@ -155,7 +154,7 @@ h6 {
     }
 }
 
-#screenshot {
+:global(#screenshot) {
     margin-top: -10%;
 }
 
@@ -198,7 +197,7 @@ h6 {
     }
 }
 
-.label {
+.label-home {
     padding: 2px 15px;
     font-weight: bold;
     text-transform: uppercase;
@@ -233,21 +232,19 @@ h6 {
     color: #000;
 }
 
-.feature-1 {
-    h3 {
-        margin-bottom: 20px;
-    }
+.feature-1 > h3 {
+    margin-bottom: 20px;
+}
 
-    .icon {
-        font-size: 100px;
-        color: #e4e4e4;
-        border-radius: 100px;
-        background-color: #fff;
-        position: relative;
-        left: -34px;
-        top: 14px;
-        overflow: hidden;
-    }
+.icon-feature {
+    font-size: 100px;
+    color: #e4e4e4;
+    border-radius: 100px;
+    background-color: #fff;
+    position: relative;
+    left: -34px;
+    top: 14px;
+    overflow: hidden;
 }
 
 .feature-2 {
@@ -338,7 +335,7 @@ h6 {
 }
 
 .feature-5 {
-    .row {
+    :global(.row) {
         margin-bottom: 40px;
 
         &:first-child {
@@ -359,7 +356,7 @@ h6 {
         margin-bottom: -50px;
     }
 
-    .col-md-7 {
+    :global(.col-md-7) {
         position: relative;
         top: 40px;
     }
@@ -379,7 +376,7 @@ h6 {
         margin-bottom: 40px;
     }
 
-    .btn {
+    :global(.btn) {
         padding: 10px 50px;
     }
 }
@@ -455,7 +452,7 @@ footer {
         }
     }
 
-    .feature-6 .btn {
+    .feature-6 :global(.btn) {
         margin-bottom: 45px;
     }
     
@@ -473,11 +470,11 @@ footer {
         padding-bottom: 100%;
     }
     
-    #home-hero h1 {
+    :global(#home-hero) h1 {
         padding-top: 0;
     }
 
-    #hero-signup {
+    :global(#hero-signup) {
         height: 400px;
 
         .icon {
@@ -499,7 +496,7 @@ footer {
 }
 
 @media (max-width: 767px) {
-    #hero-signup {
+    :global(#hero-signup) {
         width: 100%;
     }
     

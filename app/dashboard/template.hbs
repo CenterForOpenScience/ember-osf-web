@@ -14,56 +14,56 @@
         create=(perform createNode)
     }}
 {{/if}}
-<div class="quickSearch">
+<div local-class="quickSearch">
     <div class="container p-t-lg">
-        <div class="row m-t-lg {{if (or (gt nodes.length 9) loading) 'quick-search-contents'}}">
+        <div class="row m-t-lg {{if (or (gt nodes.length 9) loading) (local-class 'quick-search-contents')}}">
             <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 <div class="row">
                     <div class="col-xs-12">
                         <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
                         <div class='m-b-lg col-xs-3'>
                             <div class='pull-right'>
-                                <button onclick={{action 'toggleModal'}} class="btn btn-success btn-success-high-contrast m-t-md f-w-xl"{{action 'click' 'button' 'Dashboard - create_new_project' target=analytics}}>
+                                <button onclick={{action 'toggleModal'}} class="btn btn-success btn-success-high-contrast m-t-md f-w-xl" {{action 'click' 'button' 'Dashboard - create_new_project' target=analytics}}>
                                     {{t 'dashboard.create_new_project_button'}}
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <div class='row quick-project'>
+                        <div class='row {{local-class 'quick-project'}}'>
                             {{#if initialLoad}}
                                 {{loading-indicator}}
                             {{else}}
                                 {{#if hasNodes}}
                                     <div class='col-xs-12'>
                                         <div class='m-b-sm text-center'>
-                                            <div class="m-v-sm quick-search-input">
+                                            <div class="m-v-sm {{local-class 'quick-search-input'}}">
                                                 <input class='form-control' placeholder="{{t 'dashboard.quicksearch.search'}}" type="text" oninput={{perform filterNodes value="target.value"}}>
                                             </div>
                                         </div>
                                         <p class="text-center f-w-lg">{{t 'dashboard.quicksearch.other_links'}}</p>
-                                        <div class='quick-search-table'>
-                                            <div class="row node-col-headers m-t-md">
+                                        <div local-class='quick-search-table'>
+                                            <div class="row {{local-class 'node-col-headers'}} m-t-md">
                                                 <div class="col-sm-3 col-md-6">
-                                                    <div class="quick-search-col">
+                                                    <div local-class="quick-search-col">
                                                         <span>{{t 'general.title'}}</span>
                                                         {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='title'}}
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3 col-md-3">
-                                                    <div class="quick-search-col">
+                                                    <div local-class="quick-search-col">
                                                         <span>{{t 'general.contributors'}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3 col-md-3">
-                                                    <div class="quick-search-col">
+                                                    <div local-class="quick-search-col">
                                                         <span>{{t 'general.modified'}}</span>
                                                         {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='last_logged'}}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-xs-12 f-w-xl node-sort-dropdown text-right">
+                                                <div class="col-xs-12 f-w-xl {{local-class 'node-sort-dropdown'}} text-right">
                                                     <select aria-label={{t 'general.sort'}} onchange={{action "sortProjects" value="target.value"}}>
                                                         <option selected={{if (eq sort 'title') 'selected'}} value="title">
                                                             {{t 'general.title'}} {{t 'general.asc_paren'}}
@@ -81,7 +81,7 @@
                                                 </div>
                                             </div>
                                             {{#each nodes as | node |}}
-                                                <div class='{{if loading "loading-dashboard-item"}}'>
+                                                <div class="{{if loading (local-class 'loading-dashboard-item')}}">
                                                     {{dashboard-item node=node}}
                                                 </div>
                                             {{else}}
@@ -100,14 +100,14 @@
                                             {{else}}
                                                 <div class="text-center">
                                                     <button aria-label='More' class="col-sm-12 text-muted" onclick={{action 'more'}} {{action 'click' 'button' 'Dashboard - load_nodes' target=analytics}}>
-                                                        {{fa-icon 'caret-down' class='load-nodes m-b-xl'}}
+                                                        {{fa-icon 'caret-down' class=(concat (local-class 'load-nodes') ' m-b-xl')}}
                                                     </button>
                                                 </div>
                                             {{/if}}
                                         {{/if}}
                                     </div>
                                 {{else}}
-                                    <div class="row quick-project">
+                                    <div class="row {{local-class 'quick-project'}}">
                                         <div class="col-sm-12 text-center">
                                             <p>{{t 'dashboard.quicksearch.no_projects.line1'}}</p>
                                             <p>{{t 'dashboard.quicksearch.no_projects.line2'}}</p>
@@ -123,7 +123,7 @@
         </div>
     </div>
 </div>
-<div class="institutions-panel hidden-xs">
+<div class="{{local-class 'bg-web institutions-panel'}} hidden-xs">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -132,7 +132,7 @@
         </div>
     </div>
 </div>
-<div class="newAndNoteworthy">
+<div local-class="newAndNoteworthy">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -144,7 +144,7 @@
                 <div>
                     <div class="row">
                         <div class="col-xs-12 col-md-6">
-                            <div class="public-projects-box">
+                            <div local-class="public-projects-box">
                                 <h4 class="m-b-md">{{t 'dashboard.noteworthy.new_and_noteworthy'}}</h4>
                                 {{#if failedLoading-noteworthy}}
                                     {{t 'dashboard.noteworthy.failed_noteworthy'}}
@@ -160,7 +160,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <div class="public-projects-box">
+                            <div local-class="public-projects-box">
                                 <h4 class="m-b-md">{{t 'dashboard.noteworthy.most_popular'}}</h4>
                                 {{#if failedLoading-popular}}
                                     {{t 'dashboard.noteworthy.failed_popular'}}
@@ -178,7 +178,9 @@
                     </div>
                     <div class="row">
                         <div class="text-center col-sm-12">
-                            <a role="link" href="/search/?q=* " class="btn btn-default m-v-lg" onclick={{action 'click' 'link' 'Dashboard - noteworthy_search' target=analytics}}>{{t 'dashboard.noteworthy.search_more'}}</a>
+                            <a role="link" href="/search/?q=*" class="btn btn-default m-v-lg" onclick={{action 'click' 'link' 'Dashboard - noteworthy_search' target=analytics}}>
+                                {{t 'dashboard.noteworthy.search_more'}}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -186,7 +188,7 @@
         </div>
     </div>
 </div>
-<div class="meetings">
+<div local-class="bg-web meetings">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -202,7 +204,9 @@
                         </div>
                         <div class="col-md-4 text-center">
                             <div>
-                                <a role="link" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl" onclick={{action 'click' 'link' 'Dashboard - meetings_button' target=analytics}}>{{t 'dashboard.meetings.button'}}</a>
+                                <a role="link" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl {{local-class 'btn-banner'}}" onclick={{action 'click' 'link' 'Dashboard - meetings_button' target=analytics}}>
+                                    {{t 'dashboard.meetings.button'}}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -211,7 +215,7 @@
         </div>
     </div>
 </div>
-<div class="preprints">
+<div local-class="preprints">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -227,7 +231,9 @@
                         </div>
                         <div class="col-md-4 text-center">
                             <div>
-                                <a role="link" href="/preprints/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl" onclick={{action 'click' 'link' 'Dashboard - preprints_button' target=analytics}}>{{t 'dashboard.preprints.button'}}</a>
+                                <a role="link" href="/preprints/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl {{local-class 'btn-banner'}}" onclick={{action 'click' 'link' 'Dashboard - preprints_button' target=analytics}}>
+                                    {{t 'dashboard.preprints.button'}}
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,9 @@ import { task, timeout } from 'ember-concurrency';
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class SignUpForm extends Component {
+export default class SignUpForm extends Component.extend({
+    localClassNames: 'SignUpForm',
+}) {
     hasSubmitted?: boolean;
     model?: UserRegistration;
 

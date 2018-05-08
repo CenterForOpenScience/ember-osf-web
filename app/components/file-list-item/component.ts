@@ -1,4 +1,3 @@
-import { className } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -29,7 +28,10 @@ import pathJoin from 'ember-osf-web/utils/path-join';
  * ```
  * @class file-icon
  */
-export default class FileListItem extends Component {
+export default class FileListItem extends Component.extend({
+    localClassNames: 'FileListItem',
+    localClassNameBindings: ['selected'],
+}) {
     @service store!: DS.Store;
 
     item?: File;
@@ -42,7 +44,6 @@ export default class FileListItem extends Component {
         assert('You should pass in a closure action: openItem');
     }
 
-    @className
     @computed('item.isSelected')
     get selected(): boolean {
         return !!this.item && this.item.isSelected;

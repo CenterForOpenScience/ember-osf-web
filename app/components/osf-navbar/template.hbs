@@ -25,11 +25,12 @@
                 {{#bs-dropdown
                     classNames='dropdown primary-nav'
                     onShow=(action 'onClickPrimaryDropdown')
-                as |dd|
+                    as |dd|
                 }}
                     {{#dd.toggle
                         (html-attributes aria-label=(t 'navbar.other_views'))
-                        classNames='btn-link PrimaryNav__toggle'}}
+                        class=(concat 'btn-link ' (local-class 'PrimaryNav__toggle'))
+                    }}
                         {{fa-icon 'caret-down' size='2'}}
                     {{/dd.toggle}}
                     {{#dd.menu classNames='dropdown-menu service-dropdown' as |ddm|}}
@@ -81,4 +82,4 @@
         </div>
     </nav>
 </div>
-<div class='NavBarBuffer'></div>
+<div local-class='NavBarBuffer'></div>

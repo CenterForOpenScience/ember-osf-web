@@ -6,7 +6,9 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 
 @tagName('span')
 @classNames('sort-group')
-export default class SimplePaginator extends Component {
+export default class SimplePaginator extends Component.extend({
+    localClassNames: 'SimplePaginator',
+}) {
     maxPage: number = defaultTo(this.maxPage, 1);
     curPage: number = defaultTo(this.curPage, 1);
 

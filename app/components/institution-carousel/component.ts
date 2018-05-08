@@ -11,7 +11,9 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 // TODO generalize this as carousel-somehting and add it to ember-osf, to be used by both providers
 // and institutions lot of this logic is copied over from
 // ember-osf-preprints/app/components/provider-carousel (h/t @pattisdr)
-export default class InstitutionCarousel extends Component {
+export default class InstitutionCarousel extends Component.extend({
+    localClassNames: 'InstitutionCarousel',
+}) {
     @service store!: DS.Store;
     @service analytics!: Analytics;
 

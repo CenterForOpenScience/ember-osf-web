@@ -1,7 +1,7 @@
 .StatusBanner {
     margin: 0;
 
-    &__jumbotron {
+    :global(.StatusBanner__jumbotron) {
         padding: 10px 40px;
         margin-bottom: 0;
 
@@ -10,7 +10,7 @@
         }
     }
 
-    &__jumbo {
+    :global(.StatusBanner__jumbo) {
         padding: 0;
     }
 }

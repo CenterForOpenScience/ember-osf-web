@@ -113,7 +113,9 @@ function iconFromName(name: string): string {
  */
 
 @tagName('span')
-export default class FileIcon extends Component {
+export default class FileIcon extends Component.extend({
+    localClassNames: 'FileIcon',
+}) {
     item: File = this.item;
 
     @computed('item', 'item.expanded')

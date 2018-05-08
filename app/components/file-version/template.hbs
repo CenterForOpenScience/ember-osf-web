@@ -1,6 +1,6 @@
 <td class='col-md-4'>
     {{#if clickable}}
-        <button class='btn btn-link FileVersion__button' onclick={{action 'changeVersion' version.id}}>{{version.id}}</button>
+        <button class='btn btn-link {{local-class 'FileVersion__button'}}' onclick={{action 'changeVersion' version.id}}>{{version.id}}</button>
     {{else}}
         {{version.id}}
     {{/if}}

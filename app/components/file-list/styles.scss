@@ -1,22 +1,18 @@
 /* stylelint-disable */
-& {
+.FileList {
     border: 1px solid #eee;
     border-top: none;
     height: 400px;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+
+    a {
+        cursor: pointer;
+    }
 }
 
-a {
-    cursor: pointer;
-}
-
-.breadcrumb {
-    margin-bottom: 0;
-}
-
-.btn:not(.modal-btn) {
+.action-button {
     padding: 5px 10px;
     display: inline-block;
     box-shadow: 0 0 2px #BBB;
@@ -26,6 +22,7 @@ a {
     font-size: 13px;
     border-radius: 2px;
     margin-top: 4px;
+
     &:disabled {
         cursor: not-allowed;
         box-shadow: none;
@@ -33,11 +30,12 @@ a {
 }
 
 .actions-header {
+    composes: row from global;
     background: #efefef;
     border: 1px solid #eee;
-    margin: 0 0 3px;
-    background: #efefef;
-    padding: 6px 0;
+    margin: 0 0 3px !important;
+    padding: 6px 0 !important;
+
     &.small-display {
         margin-bottom: 3px;
     }
@@ -57,18 +55,10 @@ a {
     z-index: 1;
     position: absolute;
     pointer-events: none;
+
     &.transparent {
         opacity: 0;
     }
 }
 
-.file-row-item {
-    margin-left: 0px;
-    margin-right: 0px;
-}
 
-.file-row-col {
-    padding-top: 2px;
-    padding-left: 6px;
-    margin-left: 0px;
-}

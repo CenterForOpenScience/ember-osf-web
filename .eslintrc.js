@@ -26,6 +26,9 @@ module.exports = {
         'ember/no-attrs-snapshot': 'off',
         'prefer-rest-params': 'error',
         'generator-star-spacing': ['error', 'before'],
+        'ember/avoid-leaking-state-in-components': ['error', [
+            'localClassNameBindings',
+        ]],
     },
     overrides: [
         {

@@ -4,17 +4,17 @@
     color: $color-text-gray;
     padding: 6px;
 
-    &__col {
-        padding-left: 5px;
-    }
-
-    &__ancestry {
-        font-style: italic;
+    &:hover {
+        background-color: $color-bg-blue-dark;
+        color: $color-text-white;
+        cursor: pointer;
     }
 }
 
-.DashboardItem:hover {
-    background-color: $color-bg-blue-dark;
-    color: $color-text-white;
-    cursor: pointer;
+.DashboardItem__col {
+    padding-left: 5px;
+}
+
+.DashboardItem__ancestry {
+    font-style: italic;
 }

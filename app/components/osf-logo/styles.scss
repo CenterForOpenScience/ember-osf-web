@@ -1,85 +1,82 @@
-& {
+.OsfLogo {
     width: 200px;
     height: 200px;
     margin: 30px auto;
     position: relative;
     transition: all 1s ease-in-out;
-}
 
-div {
-    position: absolute;
-    width: 50px;
-    height: 50px;
+    @for $i from 1 through 8 {
+        :nth-child(#{$i}) {
+            transform: translate(75px, 75px)
+                rotate(#{($i - 1) / 8}turn)
+                translate(0, -75px);
+        }
+    }
 
-    &::before {
-        content: '';
+    :nth-child(even)::after {
+        z-index: -1;
+    }
+
+    > div {
+        position: absolute;
         width: 50px;
         height: 50px;
-        background: #fff;
-        border-radius: 50%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        transition: all 0.4s ease-in-out;
-        opacity: 1;
-    }
-
-    &::after {
-        content: '';
-        width: 30px;
-        height: 30px;
-        background: #38b9eb;
-        border-radius: 50%;
-        position: absolute;
-        bottom: -10px;
-        left: 10px;
-        transition: all 0.6s ease-in-out;
-        opacity: 1;
-    }
-
-    &:hover::before {
-        transform: translate(0, -15px);
-    }
-
-    &:hover::after {
-        transform: translate(0, -5px);
-    }
-}
-
-@for $i from 1 through 8 {
-    :nth-child(#{$i}) {
-        transform: translate(75px, 75px)
-            rotate(#{($i - 1) / 8}turn)
-            translate(0, -75px);
+    
+        &::before {
+            content: '';
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: all 0.4s ease-in-out;
+            opacity: 1;
+        }
+    
+        &::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background: #38b9eb;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -10px;
+            left: 10px;
+            transition: all 0.6s ease-in-out;
+            opacity: 1;
+        }
+    
+        &:hover::before {
+            transform: translate(0, -15px);
+        }
+    
+        &:hover::after {
+            transform: translate(0, -5px);
+        }
     }
 }
 
-:nth-child(even)::after {
-    z-index: -1;
-}
-
-&.Double {
+.Double {
     transform: scale(2);
 }
 
-&.Animate {
-    animation: 1s ease-in-out 0s 1 rotateHalf;
+.Animate {
+    animation: rotateHalf 1s ease-in-out 0s 1;
 
     div::before {
-        animation: 0.4s ease-in-out 0s 1 slideFade;
+        animation: slideFade 0.4s ease-in-out 0s 1;
     }
 
     div::after {
-        animation: 0.6s ease-in-out 0s 1 slideFade;
+        animation: slideFade 0.6s ease-in-out 0s 1;
     }
 
     @media (prefers-reduced-motion: reduce) {
         animation: none;
 
-        div::before {
-            animation: none;
-        }
-
+        div::before,
         div::after {
             animation: none;
         }

@@ -1,18 +1,32 @@
 /* stylelint-disable selector-class-pattern */
 
-.has-error input:not(:placeholder-shown) {
-    border: 1px solid #a94442;
-}
+.SignUpForm {
+    :global(.has-error) input:not(:placeholder-shown) {
+        border: 1px solid #a94442;
+    }
 
-.error {
-    background-color: #e0ebf3;
-}
+    :global(.error) {
+        background-color: #e0ebf3;
+    }
 
-button,
-input,
-.help-block {
-    z-index: 9;
-    position: relative;
+    button,
+    input,
+    .help-block {
+        z-index: 9;
+        position: relative;
+    }
+
+    @for $i from 0 through 5 {
+        :global(.progress-bar-#{$i}) {
+            width: #{$i * 20%};
+        }
+    }
+    
+    @each $class, $color in $progress-bar-bg-bright {
+        :global(.progress-bar-#{$class}) {
+            background-color: $color;
+        }
+    }
 }
 
 .CreatePassword {
@@ -24,22 +38,10 @@ input,
 .RecaptchaParent {
     z-index: 9;
 
-    .g-recaptcha {
+    :global(.g-recaptcha) {
         display: inline-block;
         margin: 0 auto;
     }
 }
 
-@for $i from 0 through 5 {
-    .progress-bar-#{$i} {
-        width: #{$i * 20%};
-    }
-}
 
-& {
-    @each $class, $color in $progress-bar-bg-bright {
-        &__progress-bar-#{$class}-bright {
-            background-color: $color;
-        }
-    }
-}

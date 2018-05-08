@@ -1,4 +1,3 @@
-import { className } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -33,13 +32,15 @@ import moment from 'moment';
  * ```
  * @class file-icon
  */
-export default class FileBrowserItem extends Component {
+export default class FileBrowserItem extends Component.extend({
+    localClassNames: 'file-browser-item',
+    localClassNameBindings: ['selected'],
+}) {
     @service analytics!: Analytics;
     @service store!: DS.Store;
 
     item?: File;
 
-    @className
     @computed('item.isSelected')
     get selected(): boolean {
         return !!this.item && this.item.isSelected;

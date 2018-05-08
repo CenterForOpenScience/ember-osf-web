@@ -15,85 +15,85 @@ $success-border: rgba($success, 0.2);
     cursor: default;
     box-sizing: content-box;
     user-select: none;
-
-    &.AnimatedIcon--success {
-        border-color: $success;
-
-
-        .AnimatedIcon__ring { // Ring
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            width: 80px;
-            height: 80px;
-            border: 4px solid $success-border;
-            border-radius: 50%;
-            z-index: 2;
-            box-sizing: content-box;
-        }
-
-        .AnimatedIcon__fix { // Hide corners left from animation
-            position: absolute;
-            background-color: rgb(255, 255, 255);
-            top: 8px;
-            left: 26px;
-            width: 7px;
-            height: 90px;
-            transform: rotate(-45deg);
-            z-index: 1;
-        }
-
-    }
 }
 
-[class^='AnimatedIcon__circular-line'] { // Emulate moving circular line
+.AnimatedIcon--success {
+    border-color: $success;
+}
+
+.AnimatedIcon__ring { // Ring
     position: absolute;
-    width: 60px;
-    height: 120px;
-    transform: rotate(45deg);
+    top: -4px;
+    left: -4px;
+    width: 80px;
+    height: 80px;
+    border: 4px solid $success-border;
     border-radius: 50%;
-    background-color: rgb(255, 255, 255);
-
-    &[class$='left'] {
-        top: -7px;
-        left: -33px;
-        transform: rotate(-45deg);
-        transform-origin: 60px 60px;
-        border-radius: 120px 0 0 120px;
-    }
-
-    &[class$='right'] {
-        top: -11px;
-        left: 30px;
-        transform: rotate(-45deg);
-        transform-origin: 0 60px;
-        border-radius: 0 120px 120px 0;
-    }
+    z-index: 2;
+    box-sizing: content-box;
 }
 
-[class^='AnimatedIcon__line'] {
+.AnimatedIcon__fix { // Hide corners left from animation
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    top: 8px;
+    left: 26px;
+    width: 7px;
+    height: 90px;
+    transform: rotate(-45deg);
+    z-index: 1;
+}
+
+.AnimatedIcon__line {
     display: block;
     position: absolute;
     height: 5px;
     border-radius: 2px;
     background-color: $success;
     z-index: 2;
-
-    &[class$='tip'] {
-        top: 46px;
-        left: 14px;
-        width: 25px;
-        transform: rotate(45deg);
-    }
-
-    &[class$='long'] {
-        top: 38px;
-        right: 8px;
-        width: 47px;
-        transform: rotate(-45deg);
-    }
 }
 
+.AnimatedIcon__line-tip {
+    animation: animate-success-tip 0.75s;
+    top: 46px;
+    left: 14px;
+    width: 25px;
+    transform: rotate(45deg);
+}
+
+.AnimatedIcon__line-long {
+    animation: animate-success-long 0.75s;
+    top: 38px;
+    right: 8px;
+    width: 47px;
+    transform: rotate(-45deg);
+}
+
+.AnimatedIcon__circular-line { // Emulate moving circular line
+    position: absolute;
+    width: 60px;
+    height: 120px;
+    transform: rotate(45deg);
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+}
+
+.AnimatedIcon__circular-line-left {
+    top: -7px;
+    left: -33px;
+    transform: rotate(-45deg);
+    transform-origin: 60px 60px;
+    border-radius: 120px 0 0 120px;
+}
+
+.AnimatedIcon__circular-line-right {
+    animation: rotate-placeholder 4.25s ease-in;
+    top: -11px;
+    left: 30px;
+    transform: rotate(-45deg);
+    transform-origin: 0 60px;
+    border-radius: 0 120px 120px 0;
+}
 
 // Animations
 
@@ -171,16 +171,4 @@ $success-border: rgba($success, 0.2);
     100% {
         transform: rotate(-405deg);
     }
-}
-
-.AnimatedIcon__line-tip {
-    animation: animate-success-tip 0.75s;
-}
-
-.AnimatedIcon__line-long {
-    animation: animate-success-long 0.75s;
-}
-
-.AnimatedIcon__circular-line-right {
-    animation: rotate-placeholder 4.25s ease-in;
 }

@@ -35,9 +35,9 @@
     }}
     <div class="row" hidden={{not progress}}>
         <div class="col-xs-12">
-            <div class="progress CreatePassword">
+            <div class="progress {{local-class 'CreatePassword'}}">
                 <div
-                    class="progress-bar progress-bar-sm progress-bar-{{progress}} progress-bar-{{progressStyle}} {{styleNamespace}}__progress-bar-{{progressStyle}}-bright"
+                    class="progress-bar progress-bar-sm progress-bar-{{progress}} progress-bar-{{progressStyle}}"
                     role="progressbar">
                 </div>
             </div>
@@ -50,7 +50,7 @@
         (not hasSubmitted)
         model.password
     )}}
-        <div class="col-md-12 m-t-sm RecaptchaParent">
+        <div class="col-md-12 m-t-sm {{local-class 'RecaptchaParent'}}">
             {{validated-input
                 type='reCaptcha'
                 model=model
@@ -60,7 +60,7 @@
         </div>
     {{/if}}
     {{#if hasSubmitted}}
-        <div class="help-block osf-box-lt">
+        <div class="{{local-class 'help-block'}} osf-box-lt">
             <p class="ext-success p-xs">{{t 'sign_up_form.registration_success' email=model.email1}}</p>
         </div>
     {{else}}

@@ -30,6 +30,11 @@ module.exports = function(defaults) {
                 'node_modules/@centerforopenscience/osf-style/sass',
             ],
         },
+        cssModules: {
+            headerModules: [
+                'ember-osf-web/styles/headers',
+            ],
+        },
         babel: {
             sourceMaps: 'inline',
         },

@@ -1,9 +1,14 @@
-extends: stylelint-config-sass-guidelines
+extends:
+  - stylelint-config-css-modules
+  - stylelint-config-sass-guidelines
 rules:
-    indentation: 4
-    max-nesting-depth: 2
-    order/properties-alphabetical-order: null
-    scss/selector-no-redundant-nesting-selector: null
-    selector-class-pattern:
-      - "^([A-Z][a-z]*)+(__[a-z-]+)*(--[a-z-]+)*$"
-      - { resolveNestedSelectors: true }
+  indentation: 4
+  max-nesting-depth: 2
+  order/properties-alphabetical-order: null
+  scss/selector-no-redundant-nesting-selector: null
+  selector-class-pattern: null
+  property-no-unknown:
+    - true
+    - ignoreProperties:
+      - composes
+      - compose-with
