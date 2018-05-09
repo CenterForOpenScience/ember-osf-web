@@ -29,7 +29,7 @@ module.exports = {
     },
     overrides: [
         {
-            files: ['config/environment.d.ts'],
+            files: ['**/config/environment.d.ts'],
             rules: {
                 indent: 'off',
                 'indent-legacy': 'error',

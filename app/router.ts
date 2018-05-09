@@ -1,7 +1,6 @@
 import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
-
 import { Blocker } from 'ember-osf-web/services/ready';
 
 const Router = EmberRouter.extend({
@@ -40,6 +39,12 @@ const Router = EmberRouter.extend({
     },
 });
 
+const {
+    engines: {
+        collections,
+    },
+} = config;
+
 /* eslint-disable array-callback-return */
 
 Router.map(function() {
@@ -50,6 +55,10 @@ Router.map(function() {
     this.route('quickfiles');
     this.route('institutions');
     this.route('support');
+
+    if (collections.enabled) {
+        this.mount('collections');
+    }
 
     /*
      * Guid Routing

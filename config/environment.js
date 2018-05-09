@@ -13,6 +13,7 @@ const {
     BACKEND: backend = 'local',
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
+    COLLECTIONS_ENABLED = false,
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
@@ -189,6 +190,11 @@ module.exports = function(environment) {
             youtubeId: '2TV21gOzfhw',
         },
         secondaryNavbarId: '__secondaryOSFNavbar__',
+        engines: {
+            collections: {
+                enabled: COLLECTIONS_ENABLED,
+            },
+        },
     };
 
     if (environment === 'development') {

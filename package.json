@@ -91,6 +91,7 @@
     "ember-data-factory-guy": "~3.1.0",
     "ember-decorators": "^2.0.0",
     "ember-diff-attrs": "^0.2.1",
+    "ember-engines": "^0.5.18",
     "ember-export-application-global": "^2.0.0",
     "ember-faker": "^1.2.1",
     "ember-feature-flags": "^5.0.0",
@@ -140,5 +141,10 @@
   "bugs": {
     "url": "https://github.com/CenterForOpenScience/ember-osf-web/issues"
   },
-  "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme"
+  "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme",
+  "ember-addon": {
+    "paths": [
+      "lib/collections"
+    ]
+  }
 }

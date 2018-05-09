@@ -20,6 +20,7 @@
     "baseUrl": ".",
     "module": "es6",
     "paths": {
+      "collections/*": ["lib/collections/addon/*"],
       "ember-osf-web/tests/*": ["tests/*"],
       "ember-osf-web/*": ["app/*"],
       "config/*": ["config/*"],
@@ -37,6 +38,7 @@
     "app",
     "config",
     "tests",
-    "types"
+    "types",
+    "lib"
   ]
 }

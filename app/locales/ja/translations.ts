@@ -543,4 +543,18 @@ export default {
     contributor_list: {
         and_x_more: '{{x}} more',
     },
+    collections: {
+        index: {
+            title: 'Collections',
+        },
+        provider: {
+            title: 'Provider',
+        },
+        discover: {
+            title: 'Discover',
+        },
+        submit: {
+            title: 'Submit',
+        },
+    },
 };

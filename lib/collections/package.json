@@ -1,0 +1,21 @@
+{
+  "name": "collections",
+  "keywords": [
+    "ember-addon",
+    "ember-engine"
+  ],
+  "dependencies": {
+    "ember-cli-babel": "*",
+    "ember-cli-htmlbars": "*",
+    "ember-cli-htmlbars-inline-precompile": "*",
+    "ember-cli-sass": "*",
+    "ember-cli-template-lint": "*",
+    "ember-cli-typescript": "*",
+    "ember-component-css": "*",
+    "ember-i18n": "*",
+    "ember-i18n-inject": "*"
+  },
+  "devDependencies": {
+    "ember-component-css": "*"
+  }
+}
