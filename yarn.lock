@@ -402,9 +402,9 @@
   dependencies:
     "@types/jquery" "*"
 
-"@types/ember-data@^2.14.16":
-  version "2.14.16"
-  resolved "https://registry.yarnpkg.com/@types/ember-data/-/ember-data-2.14.16.tgz#d2bfce7bf2991a3d51308b6ac1d32a02c8e84a52"
+"@types/ember-data@^2.14.17":
+  version "2.14.17"
+  resolved "https://registry.yarnpkg.com/@types/ember-data/-/ember-data-2.14.17.tgz#2395bd3ffcc1f6420ea852e3a83270a2d9a6c174"
   dependencies:
     "@types/rsvp" "*"
 
