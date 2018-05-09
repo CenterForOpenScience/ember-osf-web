@@ -5,6 +5,7 @@ import config from 'ember-get-config';
 import Base from 'ember-simple-auth/authenticators/base';
 import Session from 'ember-simple-auth/services/session';
 
+import { NotLoggedIn } from 'ember-osf-web/errors';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 
 const {
@@ -32,23 +33,23 @@ export default class OsfCookie extends Base {
      * @return {Promise}
      */
     async authenticate(this: OsfCookie): Promise<object> {
-        if (devMode) {
-            this._checkApiVersion();
-        }
-
         const res: ApiRootResponse = await authenticatedAJAX({
             url: `${apiUrl}/${apiNamespace}/`,
         });
 
         const userData = res.meta.current_user;
         if (!userData) {
-            throw Error('Not logged in.');
+            throw new NotLoggedIn();
         }
 
         const userId = userData.data.id;
 
         // Push the user into the store for later use
         this.get('store').pushPayload(userData);
+
+        if (devMode) {
+            this._checkApiVersion();
+        }
         return { id: userId };
     }
 
@@ -70,7 +71,7 @@ export default class OsfCookie extends Base {
         );
 
         warn(
-            `Using an old version of the API! Current: ${res.meta.version}. Using: ${apiVersion}`,
+            `Using an old version of the OSF API! Current: ${res.meta.version}. Using: ${apiVersion}`,
             res.meta.version === apiVersion,
             { id: 'ember-osf-web.api-version-check' },
         );

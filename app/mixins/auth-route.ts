@@ -1,7 +1,11 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { Registry as ServiceRegistry } from '@ember/service';
 import config from 'ember-get-config';
 import SessionService from 'ember-simple-auth/services/session';
+
+import { NotLoggedIn } from 'ember-osf-web/errors';
+import transitionTarget from 'ember-osf-web/utils/transition-target';
 
 const {
     OSF: {
@@ -25,6 +29,7 @@ export default function authRoute<T extends Newable<Route>>(
     RouteSubclass: T,
 ) {
     class AuthenticatedRoute extends RouteSubclass {
+        @service router!: ServiceRegistry['router'];
         @service session!: SessionService;
 
         async beforeModel(transition: any) {
@@ -34,8 +39,17 @@ export default function authRoute<T extends Newable<Route>>(
                     await this.session.authenticate(authenticator);
                 }
             } catch (e) {
-                // Definitely not logged in. When they do log in, refresh the route.
-                this.session.on('authenticationSucceeded', this, this.refresh);
+                if (e instanceof NotLoggedIn) {
+                    // Definitely not logged in. When they do log in, refresh the route.
+                    this.session.on('authenticationSucceeded', this, this.refresh);
+                } else if (transition.targetName !== 'error-no-api') {
+                    // Must have failed to make the request at all.
+                    this.transitionTo(
+                        'error-no-api',
+                        transitionTarget(transition, this.router).slice(1),
+                    );
+                    return;
+                }
             }
             // In any case, let the route load normally.
             return super.beforeModel(transition);
