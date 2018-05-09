@@ -54,7 +54,6 @@ export default class OsfNavbar extends Component {
     indexRoute: string = 'dashboard';
     showNavLinks: boolean = false;
 
-    // @ts-ignore - we can be sure we have institutions route
     @computed(`features.${camelize(config.featureFlags.routes.institutions)}`)
     get osfApps(this: OsfNavbar) {
         return osfServices.filter(each => !each.flag || this.features.isEnabled(each.flag));

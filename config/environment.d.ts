@@ -113,7 +113,13 @@ declare const config: {
         noteworthyNode: string;
     };
     featureFlags: {
-        routes: { [index: string]: string | undefined };
+        routes: {
+            support: string;
+            dashboard: string;
+            home: string;
+            institutions: string;
+            'guid-node.forks': string;
+        };
     };
     gReCaptcha: {
         siteKey: string;
