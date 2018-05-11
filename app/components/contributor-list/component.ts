@@ -9,7 +9,7 @@ import Contributor from 'ember-osf-web/models/contributor';
 
 export interface Contrib {
     title: string;
-    id: string | undefined;
+    id: string | null;
 }
 
 @tagName('span')
@@ -34,7 +34,7 @@ export default class ContributorList extends Component {
         const contribs: Contrib[] = contributors
             .map(c => ({
                 title: c.users.get('familyName') || c.users.get('givenName') || c.users.get('fullName'),
-                id: c.users.get('id'),
+                id: c.get('unregisteredContributor') ? null : c.users.get('id'),
             }));
 
         return contribs;
