@@ -25,6 +25,15 @@
             name=valuePath
             disabled=disabled
         }}
+    {{else if (eq type 'checkbox')}}
+        {{input
+            id=valuePath
+            type=type
+            checked=value
+            name=valuePath
+            disabled=disabled
+        }}
+        <label for="{{valuePath}}">{{yield}}</label>
     {{else if (eq type 'date')}}
         {{bootstrap-datepicker
             (html-attributes aria-label=aria-label)
