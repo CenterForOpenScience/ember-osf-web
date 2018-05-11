@@ -2,7 +2,6 @@ import { service } from '@ember-decorators/service';
 import { run } from '@ember/runloop';
 import Service from '@ember/service';
 import DS from 'ember-data';
-import config from 'ember-get-config';
 import File from 'ember-osf-web/models/file';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 import Session from 'ember-simple-auth/services/session';
@@ -129,7 +128,10 @@ export default class FileManager extends Service {
      */
     checkOut(file: File): Promise<any> {
         return run(async () => {
-            const userID = this.session.get('data').authenticated.id;
+            if (!this.session.data) {
+                return;
+            }
+            const userID = this.session.data.authenticated.id;
             file.set('checkout', userID);
 
             try {
@@ -433,16 +435,10 @@ export default class FileManager extends Service {
      */
     private waterbutlerRequest(method: string, url: string, options: Options = {}): Promise<any> {
         const { data, query } = options;
-        const headers: { [k: string]: string } = {};
-        const authType = config['ember-simple-auth'].authorizer;
-        this.session.authorize(authType, (headerName: string, content: string) => {
-            headers[headerName] = content;
-        });
 
         return authenticatedAJAX({
             url: query ? `${url}?${$.param(query)}` : url,
             method,
-            headers,
             data,
             processData: false,
         });

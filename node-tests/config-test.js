@@ -1,4 +1,5 @@
 const { assert } = require('chai');
+const { describe, it } = require('mocha');
 
 const checkConfigTypes = require('./helpers/check-config-types');
 

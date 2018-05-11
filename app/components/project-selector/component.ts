@@ -50,7 +50,10 @@ export default class ProjectSelector extends Component.extend({
             yield timeout(250);
         }
 
-        const user = yield this.currentUser.user;
+        const { user } = this.currentUser;
+        if (!user) {
+            return [];
+        }
 
         const nodes = yield user.queryHasMany('nodes', {
             filter: filter ? { title: filter } : undefined,

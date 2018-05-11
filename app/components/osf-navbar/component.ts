@@ -2,7 +2,7 @@ import { action, computed } from '@ember-decorators/object';
 import { equal } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { camelize } from '@ember/string'; // eslint-disable-line no-unused-vars
+import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
 import { osfServices } from 'ember-osf-web/const/service-links';

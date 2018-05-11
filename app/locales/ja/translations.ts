@@ -298,6 +298,10 @@ export default {
         title: 'ページが見つかりません',
         body: '要求されたリソースが見つかりませんでした。これが発生してはならず、問題が解決しない場合は、サポート<a href="mailto:{{supportEmail}}">{{supportEmail}}</a>へ報告してください。',
     },
+    error_no_api: {
+        title: 'API Unavailable',
+        body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+    },
     zoom_to_guid: {
         title: 'このアプリ内のGUIDに直行する',
         zoom: '直行!',

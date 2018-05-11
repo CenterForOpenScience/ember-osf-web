@@ -132,11 +132,14 @@ export default class UserQuickfiles extends Controller {
     });
 
     @computed('allFiles.[]', 'filter', 'sort')
-    get files(this: UserQuickfiles): File[] {
+    get files(this: UserQuickfiles): File[] | null {
         const filter: string = this.get('filter');
         const sort: string = this.get('sort');
 
         let results = this.get('allFiles');
+        if (!results) {
+            return null;
+        }
 
         if (filter) {
             const filterLowerCase = filter.toLowerCase();

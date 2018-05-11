@@ -48,7 +48,7 @@ const {
 /* eslint-disable array-callback-return */
 
 Router.map(function() {
-    // All non-guid routes (except `not-found`) belong above "Guid Routing"
+    // All non-guid routes (except error routes) belong above "Guid Routing"
     this.route('home', { path: '/' });
     this.route('goodbye');
     this.route('dashboard');
@@ -85,8 +85,9 @@ Router.map(function() {
     // route defined last. It's very intuitive.
     this.route('resolve-guid', { path: '/:guid' });
 
-    // Catch-all 404 page
+    // Error routes
     this.route('not-found', { path: '*path' });
+    this.route('error-no-api', { path: '*no_api_path' });
 });
 
 /* eslint-enable array-callback-return */
