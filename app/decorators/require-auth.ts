@@ -13,26 +13,26 @@ import transitionTarget from 'ember-osf-web/utils/transition-target';
  * If not, transition to the given route or redirect to the login page.
  *
  * For best results, make sure the decorated route (or one of its parent/ancestor
- * routes) is decorated with @authRoute (ember-osf-web/decorators/auth-route).
+ * routes) is decorated with @checkAuth (ember-osf-web/decorators/check-auth).
  *
  * Use:
  * ```
  * // If not logged in, redirect to login page
- * @requireLogin()
+ * @requireAuth()
  * class MyRoute extends Route { ... }
  *
  * // If not logged in, transition to 'home' route
- * @requireLogin('home')
+ * @requireAuth('home')
  * class MyRoute extends Route { ... }
  * ```
  *
  * Uses the mixin pattern here: https://github.com/Microsoft/TypeScript/pull/13743
  */
-export default function requireLoginFactory(
+export default function requireAuthFactory(
     redirectRoute?: string,
 ) {
-    function requireLoginDecorator<T extends Newable<Route>>(RouteSubclass: T) {
-        class RequireLoginRoute extends RouteSubclass {
+    function requireAuthDecorator<T extends Newable<Route>>(RouteSubclass: T) {
+        class RequireAuthRoute extends RouteSubclass {
             @service router!: ServiceRegistry['router'];
             @service session!: SessionService;
             @service currentUser!: CurrentUser;
@@ -53,7 +53,7 @@ export default function requireLoginFactory(
             }
         }
 
-        return RequireLoginRoute;
+        return RequireAuthRoute;
     }
-    return requireLoginDecorator;
+    return requireAuthDecorator;
 }

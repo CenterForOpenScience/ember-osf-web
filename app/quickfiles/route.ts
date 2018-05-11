@@ -1,11 +1,11 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import Ember from 'ember';
-import requireLogin from 'ember-osf-web/decorators/require-login';
+import requireAuth from 'ember-osf-web/decorators/require-auth';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-@requireLogin()
-class Quickfiles extends Route {
+@requireAuth()
+export default class Quickfiles extends Route {
     @service currentUser!: CurrentUser;
 
     model(this: Quickfiles) {
@@ -20,5 +20,3 @@ class Quickfiles extends Route {
         return super.afterModel(model, transition);
     }
 }
-
-export default Quickfiles;

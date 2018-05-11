@@ -19,13 +19,13 @@ const {
  *
  * Use:
  * ```
- * @authRoute
+ * @checkAuth
  * class MyRoute extends Route { ... }
  * ```
  *
  * Uses the mixin pattern here: https://github.com/Microsoft/TypeScript/pull/13743
  */
-export default function authRoute<T extends Newable<Route>>(
+export default function checkAuth<T extends Newable<Route>>(
     RouteSubclass: T,
 ) {
     class AuthenticatedRoute extends RouteSubclass {
