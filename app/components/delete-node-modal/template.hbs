@@ -6,7 +6,7 @@
         <p>{{t 'delete_modal.body' nodeType=(t nodeTypeKey)}}</p>
         <label local-class='DeleteModal__label-wrap'>
             <p local-class='DeleteModal__input-label'>{{t 'delete_modal.type_this'}} <strong>{{scientistName}}</strong></p>
-            {{input class="form-control {{local-class 'DeleteModal__input'}}" value=scientistInput}}
+            {{input class="form-control" local-class="DeleteModal__input" value=scientistInput}}
         </label>
     {{/m.body}}
     {{#m.footer}}

@@ -1,5 +1,5 @@
 {{title (t 'support.title')}}
-<div class="container {{local-class 'Support'}}">
+<div class="container" local-class="Support">
     <h1 class="m-b-lg">{{t 'support.title'}}</h1>
     <div class="row m-b-lg">
         <div class="col-sm-4">
@@ -82,7 +82,7 @@
     </div>
     <hr>
     <div class="row m-b-lg">
-        <div class="col-sm-12 text-center {{local-class 'bold-links'}}">
+        <div class="col-sm-12 text-center" local-class="bold-links">
             <h4 class="m-t-md f-w-xl">{{t 'support.social_title'}}</h4>
             <a href="{{twitterUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_twitter' target=analytics}}><i class="fa fa-twitter"></i> {{t 'support.social_twitter'}}</a>
             <a href="{{mailingUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_email' target=analytics}}><i class="fa fa-users"></i> {{t 'support.social_mailing'}}</a>

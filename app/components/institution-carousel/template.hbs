@@ -16,7 +16,8 @@
             {{#carousel.slide}}
                 {{#each slide as |institution index|}}
                     <div
-                        class="{{if (not index) (concat "col-sm-2 col-sm-offset-" columnOffset) "col-sm-2"}} {{local-class 'InstitutionCarousel__item'}}"
+                        class="{{if (not index) (concat "col-sm-2 col-sm-offset-" columnOffset) "col-sm-2"}}"
+                        local-class="InstitutionCarousel__item"
                         role="option"
                     >
                         <a

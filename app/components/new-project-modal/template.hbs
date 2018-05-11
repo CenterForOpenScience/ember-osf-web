@@ -7,7 +7,7 @@
         {{#modal.body}}
             <div class="text-left">
                 <div class="form-group m-v-sm">
-                    <label class="f-w-lg text-bigger {{local-class 'NewProject__label'}}">
+                    <label class="f-w-lg text-bigger" local-class="NewProject__label">
                         {{t 'general.title'}}
                         {{input
                             placeholder=(t 'new_project.title_placeholder')
@@ -22,7 +22,7 @@
                 </div>
 
                 {{#if institutions.length}}
-                    <div class="form-group m-v-sm {{local-class 'NewProject__institution-selector'}}">
+                    <div class="form-group m-v-sm" local-class="NewProject__institution-selector">
                         <label class="f-w-lg text-bigger">{{t 'new_project.affiliation'}}</label>
                         <a role="button" onclick={{action removeAll}} {{action 'click' 'button' 'Dashboard - New Project - remove_all' target=analytics}}>{{t 'new_project.remove_all'}}</a>
                         <a role="button" onclick={{action selectAll}} {{action 'click' 'button' 'Dashboard - New Project - select_all' target=analytics}}>{{t 'new_project.select_all'}}</a>
@@ -36,7 +36,8 @@
                                                     name="{{institution.name}}"
                                                     width="45px"
                                                     height="45px"
-                                                    class="img-circle pointer {{local-class (if (if-filter institution institutionsSelected) 'NewProject__institution-img-selected' 'NewProject__institution-img-not-selected')}}"
+                                                    class="img-circle pointer"
+                                                    local-class="NewProject__institution-img-{{if (if-filter institution institutionsSelected) 'selected' 'not-selected'}}"
                                                     src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png"
                                                     alt="{{institution.name}}"
                                                     title="{{institution.name}}">
@@ -53,13 +54,13 @@
                 </div>
                 {{#if more}}
                     <div class="form-group m-v-sm">
-                        <label for="projectDesc" class="f-w-lg text-bigger {{local-class 'NewProject__label'}}">
+                        <label for="projectDesc" class="f-w-lg text-bigger" local-class="NewProject__label">
                             {{t 'general.description'}}
                             {{input placeholder=(t 'new_project.description_placeholder') class='form-control noresize project-desc' value=description type="text"}}
                         </label>
                     </div>
                     <div class="form-group m-v-md">
-                        <label class="f-w-lg text-bigger {{local-class 'NewProject__label'}}">
+                        <label class="f-w-lg text-bigger" local-class="NewProject__label">
                             {{t 'new_project.template_title'}}
                             <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
                             {{#power-select

@@ -30,20 +30,20 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <div class='row {{local-class 'quick-project'}}'>
+                        <div class='row' local-class="quick-project">
                             {{#if initialLoad}}
                                 {{loading-indicator}}
                             {{else}}
                                 {{#if hasNodes}}
                                     <div class='col-xs-12'>
                                         <div class='m-b-sm text-center'>
-                                            <div class="m-v-sm {{local-class 'quick-search-input'}}">
+                                            <div class="m-v-sm" local-class="quick-search-input">
                                                 <input class='form-control' placeholder="{{t 'dashboard.quicksearch.search'}}" type="text" oninput={{perform filterNodes value="target.value"}}>
                                             </div>
                                         </div>
                                         <p class="text-center f-w-lg">{{t 'dashboard.quicksearch.other_links'}}</p>
                                         <div local-class='quick-search-table'>
-                                            <div class="row {{local-class 'node-col-headers'}} m-t-md">
+                                            <div class="row m-t-md" local-class="node-col-headers">
                                                 <div class="col-sm-3 col-md-6">
                                                     <div local-class="quick-search-col">
                                                         <span>{{t 'general.title'}}</span>
@@ -63,7 +63,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-xs-12 f-w-xl {{local-class 'node-sort-dropdown'}} text-right">
+                                                <div class="col-xs-12 f-w-xl text-right" local-class="node-sort-dropdown">
                                                     <select aria-label={{t 'general.sort'}} onchange={{action "sortProjects" value="target.value"}}>
                                                         <option selected={{if (eq sort 'title') 'selected'}} value="title">
                                                             {{t 'general.title'}} {{t 'general.asc_paren'}}
@@ -107,7 +107,7 @@
                                         {{/if}}
                                     </div>
                                 {{else}}
-                                    <div class="row {{local-class 'quick-project'}}">
+                                    <div class="row" local-class="quick-project">
                                         <div class="col-sm-12 text-center">
                                             <p>{{t 'dashboard.quicksearch.no_projects.line1'}}</p>
                                             <p>{{t 'dashboard.quicksearch.no_projects.line2'}}</p>
@@ -123,7 +123,7 @@
         </div>
     </div>
 </div>
-<div class="{{local-class 'bg-web institutions-panel'}} hidden-xs">
+<div class="hidden-xs" local-class="bg-web institutions-panel">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -204,7 +204,7 @@
                         </div>
                         <div class="col-md-4 text-center">
                             <div>
-                                <a role="link" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl {{local-class 'btn-banner'}}" onclick={{action 'click' 'link' 'Dashboard - meetings_button' target=analytics}}>
+                                <a role="link" href="/meetings/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl" local-class="btn-banner" onclick={{action 'click' 'link' 'Dashboard - meetings_button' target=analytics}}>
                                     {{t 'dashboard.meetings.button'}}
                                 </a>
                             </div>
@@ -231,7 +231,7 @@
                         </div>
                         <div class="col-md-4 text-center">
                             <div>
-                                <a role="link" href="/preprints/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl {{local-class 'btn-banner'}}" onclick={{action 'click' 'link' 'Dashboard - preprints_button' target=analytics}}>
+                                <a role="link" href="/preprints/" class="btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl" local-class="btn-banner" onclick={{action 'click' 'link' 'Dashboard - preprints_button' target=analytics}}>
                                     {{t 'dashboard.preprints.button'}}
                                 </a>
                             </div>

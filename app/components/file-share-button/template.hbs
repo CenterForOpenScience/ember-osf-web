@@ -19,7 +19,7 @@
                     {{#tab.pane elementId=sharePaneId title=(t 'general.share') local-class='SharePane'}}
                         <br>
                         <div class='input-group'>
-                            <span class='input-group-btn {{local-class 'SharePane__copy-url-container'}}'>
+                            <span class='input-group-btn' local-class="SharePane__copy-url-container">
                                 <button type='button' class='btn btn-default btn-md'
                                         aria-label={{t 'general.clipboard_copy'}}
                                         onclick={{action 'click' 'button' 'Quick Files - Share file' target=analytics}}

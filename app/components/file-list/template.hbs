@@ -8,13 +8,13 @@
             }}
         </div>
         <div class="col-xs-3">
-            <button onclick={{action 'closeFilter'}} class="btn pull-right {{local-class 'action-button'}}">
+            <button onclick={{action 'closeFilter'}} class="btn pull-right" local-class="action-button">
                 {{fa-icon "times"}}
             </button>
         </div>
     {{else}}
         <div class="pull-right">
-            <button onclick={{action (mut showFilterClicked) true}} class="btn btn-light {{local-class 'action-button'}}">
+            <button onclick={{action (mut showFilterClicked) true}} class="btn btn-light" local-class="action-button">
                 {{fa-icon "search"}}
                 {{t 'general.filter'}}
             </button>
