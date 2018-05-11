@@ -1,17 +1,28 @@
 import { computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
-import { get } from '@ember/object';
-import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
-import ObjectProxy from '@ember/object/proxy';
 import Service from '@ember/service';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
-import User from 'ember-osf-web/models/user'; // eslint-disable-line no-unused-vars
-import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 import Session from 'ember-simple-auth/services/session';
 import RSVP from 'rsvp';
+
+import User from 'ember-osf-web/models/user';
+import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+
+const {
+    OSF: {
+        url: osfUrl,
+        apiUrl,
+    },
+} = config;
+
+enum AuthRoute {
+    Login = 'login',
+    Logout = 'logout',
+}
 
 /**
  * @module ember-osf-web
@@ -33,43 +44,28 @@ export default class CurrentUserService extends Service {
     waffleLoaded = false;
 
     /**
-     * If logged in, return the ID of the current user, else return null.
-     *
-     * @property currentUserId
-     * @type {String|null}
+     * If logged in, return the ID of the current user, else return undefined.
      */
-    @computed('session.data.authenticated')
-    get currentUserId(this: CurrentUserService): string | null {
-        const session = this.get('session');
+    @alias('session.data.authenticated.id') currentUserId: string | undefined;
 
-        if (session.get('isAuthenticated')) {
-            const data = session.get('data');
-            return data ? data.authenticated.id : null;
+    /**
+     * Return an observable promise proxy for the currently logged in user. If no user is logged in, resolves to null.
+     */
+    @computed('currentUserId')
+    get user(this: CurrentUserService): User | null {
+        if (this.currentUserId) {
+            // The authenticator should have pushed the user into the store
+            return this.store.peekRecord('user', this.currentUserId);
         }
-
         return null;
     }
 
     /**
-     * Return an observable promise proxy for the currently logged in user. If no user is logged in, resolves to null.
-     *
-     * TODO: Refactor to use a task, not a proxy object
-     *
-     * @property user
-     * @return Promise proxy object that resolves to a user or null
+     * Fetch waffle flags for the current user and set the corresponding feature flags.
      */
-    @computed('currentUserId')
-    get user(this: CurrentUserService) {
-        const ObjectPromiseProxy = ObjectProxy.extend(PromiseProxyMixin);
-
-        return ObjectPromiseProxy.create({
-            promise: this.load(),
-        });
-    }
-
     setWaffle = task(function *(this: CurrentUserService) {
         const { data } = yield authenticatedAJAX({
-            url: `${config.OSF.apiUrl}/v2/_waffle/`,
+            url: `${apiUrl}/v2/_waffle/`,
         });
 
         // eslint-disable-next-line no-restricted-globals
@@ -85,32 +81,53 @@ export default class CurrentUserService extends Service {
     constructor() {
         super();
 
-        function performGetFlags(this: CurrentUserService) {
+        function performSetWaffle(this: CurrentUserService) {
             this.get('setWaffle').perform();
         }
 
-        const session = get(this, 'session');
-
-        session.on('authenticationSucceeded', this, performGetFlags);
-        session.on('invalidationSucceeded', this, performGetFlags);
+        this.session.on('authenticationSucceeded', this, performSetWaffle);
+        this.session.on('invalidationSucceeded', this, this.logout);
     }
 
-    load(this: CurrentUserService): RSVP.Promise<User | null> {
-        const id = this.get('currentUserId');
-
-        return id ? this.get('store').findRecord('user', id) : RSVP.resolve(null);
-    }
-
+    /**
+     * Check whether the given waffle/feature flag is enabled.
+     */
     async getWaffle(this: CurrentUserService, feature: string): Promise<boolean> {
         const setWaffle = this.get('setWaffle');
 
-        if (this.setWaffle.isRunning) {
-            await this.setWaffle.last;
-        } else if (!this.get('waffleLoaded')) {
+        if (setWaffle.isRunning) {
+            await setWaffle.last;
+        } else if (!this.waffleLoaded) {
             await setWaffle.perform();
         }
 
-        return this.get('features').isEnabled(feature);
+        return this.features.isEnabled(feature);
+    }
+
+    /**
+     * Send the user to a login page, which will redirect to the given URL (or back to the current page)
+     * when successfully logged in.
+     * Returns a promise that never resolves.
+     */
+    async login(nextUrl?: string) {
+        return this._authRedirect(AuthRoute.Login, nextUrl);
+    }
+
+    /**
+     * Invalidate the current session and cookie, then redirect to the given URL (or back to the current page).
+     * Returns a promise that never resolves.
+     */
+    async logout(this: CurrentUserService, nextUrl?: string) {
+        if (this.session.isAuthenticated) {
+            await this.session.invalidate();
+        }
+        return this._authRedirect(AuthRoute.Logout, nextUrl);
+    }
+
+    _authRedirect(authRoute: AuthRoute, nextUrl?: string) {
+        const next = encodeURIComponent(nextUrl || window.location.href);
+        window.location.href = `${osfUrl}${authRoute}/?next=${next}`;
+        return new RSVP.Promise(() => { /* never resolve, just wait for the redirect */ });
     }
 }
 

@@ -1,20 +1,27 @@
 import { service } from '@ember-decorators/service';
+import { warn } from '@ember/debug';
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 import Base from 'ember-simple-auth/authenticators/base';
 import Session from 'ember-simple-auth/services/session';
+
+import { NotLoggedIn } from 'ember-osf-web/errors';
+import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 
 const {
     OSF: {
         apiUrl,
         apiNamespace,
+        apiVersion,
+        devMode,
     },
 } = config;
 
-interface SessionData {
-    id: any;
-    status: number; // eslint-disable-line no-restricted-globals
+interface ApiRootResponse {
+    meta: {
+        version: string,
+        current_user: { data: { id: string } } | null, // eslint-disable-line camelcase
+    };
 }
 
 export default class OsfCookie extends Base {
@@ -22,49 +29,51 @@ export default class OsfCookie extends Base {
     @service store!: DS.Store;
 
     /**
-     * For now, simply verify that a token is present and can be used
      * @method authenticate
      * @return {Promise}
      */
     async authenticate(this: OsfCookie): Promise<object> {
-        const res = await authenticatedAJAX({
-            url: `${apiUrl}/${apiNamespace}/users/me/`,
-            dataType: 'json',
-            contentType: 'application/json',
-        }) as { data: object };
-        // Push the result into the store for later use by the current-user service
-        // Note: we have to deepcopy res because pushPayload mutates our data
-        // and causes an infinite loop because reasons
-        this.get('store').pushPayload({ ...res });
+        const res: ApiRootResponse = await authenticatedAJAX({
+            url: `${apiUrl}/${apiNamespace}/`,
+        });
 
-        return res.data;
-    }
-
-    /**
-     * Send a request to the flask application to trigger invalidation of session remotely
-     * @method invalidate
-     */
-    async invalidate(this: OsfCookie, data?: SessionData): Promise<any> {
-        if (!data || (data.id && data.status !== 401)) {
-            // If invalidate is called when loading the page to check if a cookie has permissions, don't redirect the
-            // user. But if invalidate is called without arguments, or for any other reason, interpret this as a
-            // straight logout request(and let the session get invalidated next time at the start of first page load)
-            // Can't do this via AJAX request because it redirects to CAS, and AJAX + redirect = CORS issue
-
-            // Manually clear session before user leaves the page, since we aren't sticking around for ESA to do so
-            // later
-            return this.get('session').get('session')._clear(true);
+        const userData = res.meta.current_user;
+        if (!userData) {
+            throw new NotLoggedIn();
         }
 
-        // This branch is expected to be called when a test request reveals the user to lack permissions... so
-        // session should be wiped
+        const userId = userData.data.id;
+
+        // Push the user into the store for later use
+        this.get('store').pushPayload(userData);
+
+        if (devMode) {
+            this._checkApiVersion();
+        }
+        return { id: userId };
     }
 
-    async restore(this: OsfCookie, data: SessionData): Promise<any> {
-        try {
-            return await this.authenticate();
-        } catch (e) {
-            return this.invalidate(data);
-        }
+    async restore(this: OsfCookie): Promise<any> {
+        // Check for a valid auth cookie.
+        // If it fails, the session will be invalidated.
+        return this.authenticate();
+    }
+
+    async _checkApiVersion(this: OsfCookie) {
+        const res: ApiRootResponse = await authenticatedAJAX(
+            {
+                url: `${apiUrl}/${apiNamespace}/`,
+                data: {
+                    version: 'latest',
+                },
+            },
+            false, // Don't add API version headers
+        );
+
+        warn(
+            `Using an old version of the OSF API! Current: ${res.meta.version}. Using: ${apiVersion}`,
+            res.meta.version === apiVersion,
+            { id: 'ember-osf-web.api-version-check' },
+        );
     }
 }

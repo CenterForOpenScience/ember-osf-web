@@ -298,6 +298,10 @@ export default {
         title: 'Page not found',
         body: 'The requested resource could not be found. If this should not have occurred and the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
     },
+    error_no_api: {
+        title: 'API Unavailable',
+        body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+    },
     zoom_to_guid: {
         title: 'Zoom to a GUID within this app',
         zoom: 'Zoom!',

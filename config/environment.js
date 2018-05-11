@@ -22,12 +22,11 @@ const {
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
     OSF_API_URL: apiUrl = 'http://localhost:8000',
+    OSF_API_VERSION: apiVersion = '2.4',
     OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
     OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
     OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
-    OSF_COOKIE_LOGIN_URL: cookieLoginUrl = 'http://localhost:8080/login',
-    OSF_OAUTH_URL: oauthUrl = 'http://localhost:8080/oauth2/profile',
-    PERSONAL_ACCESS_TOKEN: accessToken,
+    OSF_AUTHENTICATOR: osfAuthenticator = 'osf-cookie',
     POLICY_URL_PREFIX = 'https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/',
     POPULAR_LINKS_NODE: popularNode = '57tnq',
     // POPULAR_LINKS_REGISTRATIONS = '',
@@ -42,7 +41,6 @@ const {
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
-    const authorizationType = 'cookie';
     const devMode = environment !== 'production';
 
     const ENV = {
@@ -50,7 +48,6 @@ module.exports = function(environment) {
         environment,
         rootURL: '/',
         locationType: 'auto',
-        authorizationType,
         sentryDSN: null,
         sentryOptions: {
             release,
@@ -58,10 +55,6 @@ module.exports = function(environment) {
                 // https://github.com/emberjs/ember.js/issues/12505
                 'TransitionAborted',
             ],
-        },
-        'ember-simple-auth': {
-            authorizer: `authorizer:osf-${authorizationType}`,
-            authenticator: `authenticator:osf-${authorizationType}`,
         },
         EmberENV: {
             FEATURES: {
@@ -123,18 +116,20 @@ module.exports = function(environment) {
             redirectUri,
             url,
             apiUrl,
+            apiVersion,
+            apiHeaders: {
+                ACCEPT: `application/vnd.api+json; version=${apiVersion}`,
+            },
             renderUrl,
             waterbutlerUrl,
             helpUrl,
-            cookieLoginUrl,
-            oauthUrl,
             shareBaseUrl,
             shareApiUrl,
             shareSearchUrl,
-            accessToken,
             devMode,
             statusCookie,
             cookieDomain,
+            authenticator: `authenticator:${osfAuthenticator}`,
         },
         social: {
             twitter: {

@@ -1,12 +1,14 @@
+import { service } from '@ember-decorators/service';
 import { underscore } from '@ember/string';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import { pluralize } from 'ember-inflector';
-import GenericDataAdapterMixin from 'ember-osf-web/mixins/generic-data-adapter';
+import Session from 'ember-simple-auth/services/session';
 
 const { JSONAPIAdapter } = DS;
 const {
     OSF: {
+        apiHeaders,
         apiUrl: host,
         apiNamespace: namespace,
     },
@@ -36,13 +38,10 @@ enum RequestType {
  * @extends DS.JSONAPIAdapter
  * @uses GenericDataAdapterMixin
  */
-export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapterMixin, {
-    authorizer: config['ember-simple-auth'].authorizer,
+export default class OsfAdapter extends JSONAPIAdapter.extend({
     host,
     namespace,
-    headers: {
-        ACCEPT: 'application/vnd.api+json; version=2.4',
-    },
+    headers: apiHeaders,
 
     /**
      * Overrides buildQuery method - Allows users to embed resources with findRecord
@@ -103,6 +102,10 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
     ajaxOptions(this: OsfAdapter, url: string, type: RequestType, options?: { isBulk?: boolean }): object {
         const hash = this._super(url, type, options);
 
+        hash.xhrFields = {
+            withCredentials: true,
+        };
+
         if (options && options.isBulk) {
             hash.contentType = 'application/vnd.api+json; ext=bulk';
         }
@@ -124,7 +127,21 @@ export default class OsfAdapter extends JSONAPIAdapter.extend(GenericDataAdapter
         const underscored: string = underscore(modelName);
         return pluralize(underscored);
     },
-}) {}
+}) {
+    @service session!: Session;
+
+    handleResponse(
+        status: number,
+        headers: object,
+        payload: object,
+        requestData: object,
+    ): object {
+        if (status === 401 && this.session.isAuthenticated) {
+            this.session.invalidate();
+        }
+        return super.handleResponse(status, headers, payload, requestData);
+    }
+}
 
 declare module 'ember-data' {
     interface AdapterRegistry {
