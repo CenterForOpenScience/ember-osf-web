@@ -1,7 +1,18 @@
+@media screen and (max-width: 500px) {
+    .Institutions__logo {
+        display: none;
+    }
+}
+
 .Institutions {
-    &__logo {
+    &__header-logo {
         background: url('/static/img/institutions/osf_institutions_white.png') top center no-repeat;
-        height: 70px;
+        height: 100px;
+        background-size: contain;
+    }
+
+    &__logo {
+        height: 100px;
         background-size: contain;
     }
 
@@ -59,10 +70,6 @@
             padding-top: 30px;
             padding-bottom: 30px;
         }
-    }
-
-    &__logo {
-        height: 100px;
     }
 
     &__pagination {

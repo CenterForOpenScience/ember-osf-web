@@ -1,6 +1,6 @@
 {{title (t 'forks.page_title' nodeTitle=model.taskInstance.value.title)}}
 <div class="container" local-class="Forks">
-    {{#bs-modal open=newModal onSubmit=(action 'newFork') as |m|}}
+    {{#bs-modal open=newModal onSubmit=(action 'newFork') onHide=(action (mut newModal) false) as |m|}}
         {{#m.body}}
             <h3>{{t 'forks.create_fork_modal'}}</h3>
         {{/m.body}}
