@@ -13,7 +13,7 @@ import transitionTarget from 'ember-osf-web/utils/transition-target';
  * If not, transition to the given route or redirect to the login page.
  *
  * For best results, make sure the decorated route (or one of its parent/ancestor
- * routes) is decorated with @authRoute (ember-osf-web/mixins/auth-route).
+ * routes) is decorated with @authRoute (ember-osf-web/decorators/auth-route).
  *
  * Use:
  * ```

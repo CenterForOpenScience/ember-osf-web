@@ -2,7 +2,7 @@ import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
-import authRoute from 'ember-osf-web/mixins/auth-route';
+import authRoute from 'ember-osf-web/decorators/auth-route';
 
 const {
     i18n: {

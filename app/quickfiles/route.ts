@@ -1,7 +1,7 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import Ember from 'ember';
-import requireLogin from 'ember-osf-web/mixins/require-login';
+import requireLogin from 'ember-osf-web/decorators/require-login';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 @requireLogin()

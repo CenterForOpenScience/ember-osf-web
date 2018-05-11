@@ -5,7 +5,7 @@ import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
 
 import DashboardController from 'ember-osf-web/dashboard/controller';
-import requireLogin from 'ember-osf-web/mixins/require-login';
+import requireLogin from 'ember-osf-web/decorators/require-login';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
