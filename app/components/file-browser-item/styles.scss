@@ -28,10 +28,14 @@
             color: $color-text-white;
         }
     }
+}
 
-    a {
-        color: $color-text-black;
-    }
+.file-row-item {
+    margin: 0;
+}
+
+.filename-link {
+    color: $color-text-black;
 }
 
 .version-link {
@@ -43,4 +47,16 @@
     padding-top: 2px;
     padding-left: 6px;
     margin-left: 0;
+
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 100%;
+}
+
+.flash-message-alert {
+    text-align: center;
+    padding-bottom: 4px;
+    padding-top: 3px;
 }

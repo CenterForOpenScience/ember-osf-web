@@ -73,20 +73,6 @@
     a {
         cursor: pointer;
     }
-
-    // stylelint-disable selector-class-pattern
-    // TODO: don't impose style on other components
-    :global(.file-version) {
-        :global(.input-group) {
-            width: 180px;
-        }
-
-        :global(.hashBox) {
-            float: left;
-            height: 30px;
-        }
-    }
-    // stylelint-enable selector-class-pattern
 }
 
 .RevisionsPanel__heading {

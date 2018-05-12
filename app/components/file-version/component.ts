@@ -2,7 +2,7 @@ import { classNames, tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import defaultTo from 'ember-osf-web/utils/default-to';
+// import defaultTo from 'ember-osf-web/utils/default-to';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 
 /**
@@ -37,12 +37,12 @@ export interface Version {
 @tagName('tr')
 @classNames('file-version')
 export default class FileVersion extends Component {
-    currentVersion: string | null = defaultTo(this.currentVersion, null);
-    version: Version | null = defaultTo(this.version, null);
+    currentVersion!: number;
+    version!: Version;
 
-    @computed('version', 'currentVersion')
+    @computed('version.id', 'currentVersion')
     get clickable(): boolean {
-        return !!this.version && this.version.id !== this.currentVersion;
+        return +this.version.id !== this.currentVersion;
     }
 
     /**
