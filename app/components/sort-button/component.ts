@@ -4,10 +4,11 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import Analytics from 'ember-osf-web/services/analytics';
 
+import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+
 @tagName('span')
-export default class SortButton extends Component.extend({
-    localClassNames: 'SortButton',
-}) {
+@localClassNames('SortButton')
+export default class SortButton extends Component {
     @service analytics!: Analytics;
 
     sortBy?: string;

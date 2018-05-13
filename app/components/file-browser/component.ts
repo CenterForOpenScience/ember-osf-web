@@ -10,6 +10,7 @@ import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import { ProjectSelectState } from 'ember-osf-web/components/project-selector/component';
+import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -42,9 +43,8 @@ enum modals {
  * ```
  * @class file-browser
  */
-export default class FileBrowser extends Component.extend({
-    localClassNames: 'file-browser',
-}) {
+@localClassNames('file-browser')
+export default class FileBrowser extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;

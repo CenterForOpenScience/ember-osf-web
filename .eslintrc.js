@@ -22,9 +22,6 @@ module.exports = {
         'function-paren-newline': ['error', 'consistent'],
         'prefer-rest-params': 'error',
         'generator-star-spacing': ['error', 'before'],
-        'ember/avoid-leaking-state-in-components': ['error', [
-            'localClassNameBindings',
-        ]],
     },
     overrides: [
         {

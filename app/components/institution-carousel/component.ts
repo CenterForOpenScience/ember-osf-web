@@ -3,6 +3,7 @@ import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import DS from 'ember-data';
+import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import Institution from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
@@ -11,9 +12,8 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 // TODO generalize this as carousel-somehting and add it to ember-osf, to be used by both providers
 // and institutions lot of this logic is copied over from
 // ember-osf-preprints/app/components/provider-carousel (h/t @pattisdr)
-export default class InstitutionCarousel extends Component.extend({
-    localClassNames: 'InstitutionCarousel',
-}) {
+@localClassNames('InstitutionCarousel')
+export default class InstitutionCarousel extends Component {
     @service store!: DS.Store;
     @service analytics!: Analytics;
 

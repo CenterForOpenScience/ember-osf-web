@@ -4,6 +4,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import I18N from 'ember-i18n/services/i18n';
+import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
@@ -22,9 +23,8 @@ import eatArgs from 'ember-osf-web/utils/eat-args';
  * ```
  * @class file-browser
  */
-export default class FileList extends Component.extend({
-    localClassNames: 'FileList',
-}) {
+@localClassNames('FileList')
+export default class FileList extends Component {
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
 

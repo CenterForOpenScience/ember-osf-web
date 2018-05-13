@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import File from 'ember-osf-web/models/file';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
@@ -113,9 +114,8 @@ function iconFromName(name: string): string {
  */
 
 @tagName('span')
-export default class FileIcon extends Component.extend({
-    localClassNames: 'FileIcon',
-}) {
+@localClassNames('FileIcon')
+export default class FileIcon extends Component {
     item: File = this.item;
 
     @computed('item', 'item.expanded')

@@ -3,6 +3,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import DS from 'ember-data';
+import { localClassName, localClassNames } from 'ember-osf-web/decorators/css-modules';
 import File from 'ember-osf-web/models/file';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 import pathJoin from 'ember-osf-web/utils/path-join';
@@ -17,21 +18,16 @@ import pathJoin from 'ember-osf-web/utils/path-join';
  *
  * Sample usage:
  * ```handlebars
- * {{file-browser-item
+ * {{file-list-item
  *    file=file
  *    selectItem=(action 'selectItem') - Action handling clicking on the body of the row
  *    openItem=(action 'openItem') - Action handling clicking the link-name of the file
- *    selectMultiple=(action 'selectMultiple') - Action handling clicking multiple rows, through cmd/ctrl and/or shift
- *    display=display Array[Strings] - Indicating which rows of information to display
- *    nameColumnWidth=nameColumnWidth String of number - How wide is the main collumn (name)
  * }}
  * ```
  * @class file-icon
  */
-export default class FileListItem extends Component.extend({
-    localClassNames: 'FileListItem',
-    localClassNameBindings: ['selected'],
-}) {
+@localClassNames('FileListItem')
+export default class FileListItem extends Component {
     @service store!: DS.Store;
 
     item?: File;
@@ -44,6 +40,7 @@ export default class FileListItem extends Component.extend({
         assert('You should pass in a closure action: openItem');
     }
 
+    @localClassName
     @computed('item.isSelected')
     get selected(): boolean {
         return !!this.item && this.item.isSelected;

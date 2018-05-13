@@ -3,12 +3,12 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { task, timeout } from 'ember-concurrency';
+import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class SignUpForm extends Component.extend({
-    localClassNames: 'SignUpForm',
-}) {
+@localClassNames('SignUpForm')
+export default class SignUpForm extends Component {
     hasSubmitted?: boolean;
     model?: UserRegistration;
 

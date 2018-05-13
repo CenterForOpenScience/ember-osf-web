@@ -3,6 +3,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import DS from 'ember-data';
+import { localClassName, localClassNames } from 'ember-osf-web/decorators/css-modules';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -32,15 +33,14 @@ import moment from 'moment';
  * ```
  * @class file-icon
  */
-export default class FileBrowserItem extends Component.extend({
-    localClassNames: 'file-browser-item',
-    localClassNameBindings: ['selected'],
-}) {
+@localClassNames('file-browser-item')
+export default class FileBrowserItem extends Component {
     @service analytics!: Analytics;
     @service store!: DS.Store;
 
     item?: File;
 
+    @localClassName
     @computed('item.isSelected')
     get selected(): boolean {
         return !!this.item && this.item.isSelected;
