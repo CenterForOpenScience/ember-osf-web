@@ -1,4 +1,4 @@
-<div class="row actions-header">
+<div local-class="actions-header">
     {{#if (or showFilterClicked showFilterInput)}}
         <div class="col-xs-9 filter-input">
             {{input
@@ -8,20 +8,20 @@
             }}
         </div>
         <div class="col-xs-3">
-            <button onclick={{action 'closeFilter'}} class="btn pull-right">
+            <button onclick={{action 'closeFilter'}} class="btn pull-right" local-class="action-button">
                 {{fa-icon "times"}}
             </button>
         </div>
     {{else}}
         <div class="pull-right">
-            <button onclick={{action (mut showFilterClicked) true}} class="btn btn-light">
+            <button onclick={{action (mut showFilterClicked) true}} class="btn btn-light" local-class="action-button">
                 {{fa-icon "search"}}
                 {{t 'general.filter'}}
             </button>
         </div>
     {{/if}}
 </div>
-<div class="items" role="listbox">
+<div local-class="items" role="listbox">
     {{#each items as |item|}}
         {{file-list-item
             item=item

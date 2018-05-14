@@ -1,6 +1,6 @@
 <td class='col-md-4'>
     {{#if clickable}}
-        <button class='btn btn-link FileVersion__button' onclick={{action 'changeVersion' version.id}}>{{version.id}}</button>
+        <button class='btn btn-link' local-class="FileVersion__button" onclick={{action 'changeVersion' version.id}}>{{version.id}}</button>
     {{else}}
         {{version.id}}
     {{/if}}
@@ -9,7 +9,7 @@
 <td class='col-xs-1'><div class='badge'>{{version.attributes.extra.downloads}}</div></td>
 <td class='col-xs-1'><button class='btn btn-primary btn-sm' onclick={{action 'downloadVersion' version.id}}>{{fa-icon 'download'}}</button></td>
 <td class='hidden-md hidden-sm hidden-xs'>
-    <div class='input-group'>
+    <div class='input-group' local-class="input-group">
         <span class='input-group-btn'>
             {{#copy-button
                 clipboardTarget=(concat '#md5-' version.id)
@@ -19,11 +19,11 @@
                 {{fa-icon 'copy'}}
             {{/copy-button}}
         </span>
-        <input type='text' readonly='readonly' value='{{version.attributes.extra.hashes.md5}}' class='hashBox' id='md5-{{version.id}}'>
+        <input type='text' readonly='readonly' value='{{version.attributes.extra.hashes.md5}}' local-class='hashBox' id='md5-{{version.id}}'>
     </div>
 </td>
 <td class='hidden-md hidden-sm hidden-xs'>
-    <div class='input-group'>
+    <div class='input-group' local-class="input-group">
         <span class='input-group-btn'>
             {{#copy-button
                 clipboardTarget=(concat '#sha256-' version.id)
@@ -33,6 +33,6 @@
                 {{fa-icon 'copy'}}
             {{/copy-button}}
         </span>
-        <input type='text' readonly='readonly' value='{{version.attributes.extra.hashes.sha256}}' class='hashBox' id='sha256-{{version.id}}'>
+        <input type='text' readonly='readonly' value='{{version.attributes.extra.hashes.sha256}}' local-class='hashBox' id='sha256-{{version.id}}'>
     </div>
 </td>

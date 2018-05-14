@@ -1,9 +1,9 @@
 // stylelint-disable selector-class-pattern
-.datepicker.dropdown-menu {
+:global(.datepicker.dropdown-menu) {
     background-color: #fff;
-}
 
-.datepicker.dropdown-menu,
-.datepicker.dropdown-menu * {
-    box-sizing: content-box;
+    &,
+    & * {
+        box-sizing: content-box;
+    }
 }

@@ -1,9 +1,9 @@
-{{#bs-modal class=modalClass open=isOpen onSubmit=(action "submit") onHidden=(action 'hideDialog') as |modal|}}
+{{#bs-modal local-class='Modal' open=isOpen onSubmit=(action "submit") onHidden=(action 'hideDialog') as |modal|}}
     {{#modal.body}}
         {{#if isActive}}
             <div class="text-center">
-                <h2 class="Modal__title">{{ t 'feedback.title' }}</h2>
-                <h4 class="Modal__text">{{text}}</h4>
+                <h2 local-class="Modal__title">{{ t 'feedback.title' }}</h2>
+                <h4 local-class="Modal__text">{{text}}</h4>
             </div>
             <div class="form-group">
                 {{textarea class="form-control" rows=dialogRows autofocus="true" placeholder=(t 'feedback.placeholder') value=body}}
@@ -42,6 +42,6 @@
     {{/modal.footer}}
 {{/bs-modal}}
 
-<button class="FeedbackButton {{if isOpen 'FeedbackButton--open'}}" onclick={{action 'showDialog'}} aria-label={{t 'feedback.title'}} hidden={{not enabled}} {{action 'click' 'button' 'Feedback - open' target=analytics}}>
+<button local-class="FeedbackButton {{if isOpen 'FeedbackButton--open'}}" onclick={{action 'showDialog'}} aria-label={{t 'feedback.title'}} hidden={{not enabled}} {{action 'click' 'button' 'Feedback - open' target=analytics}}>
     {{t 'feedback.button_text'}}
 </button>

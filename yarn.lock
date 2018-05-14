@@ -1950,6 +1950,22 @@ broccoli-config-replace@^1.1.2:
     debug "^2.2.0"
     fs-extra "^0.24.0"
 
+broccoli-css-modules@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/broccoli-css-modules/-/broccoli-css-modules-0.6.2.tgz#44b1e67c20cc6f99addbf15e688364ffae7b0462"
+  dependencies:
+    broccoli-caching-writer "^3.0.3"
+    ensure-posix-path "^1.0.2"
+    icss-replace-symbols "^1.0.2"
+    mkdirp "^0.5.1"
+    postcss "^6.0.1"
+    postcss-modules-extract-imports "^1.2.0"
+    postcss-modules-local-by-default "^1.2.0"
+    postcss-modules-scope "^1.1.0"
+    postcss-modules-values "^1.3.0"
+    rsvp "^3.2.1"
+    symlink-or-copy "^1.1.6"
+
 broccoli-debug@^0.6.1, broccoli-debug@^0.6.2, broccoli-debug@^0.6.3, broccoli-debug@^0.6.4:
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/broccoli-debug/-/broccoli-debug-0.6.4.tgz#986eb3d2005e00e3bb91f9d0a10ab137210cd150"
@@ -2025,15 +2041,14 @@ broccoli-funnel-reducer@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/broccoli-funnel-reducer/-/broccoli-funnel-reducer-1.0.0.tgz#11365b2a785aec9b17972a36df87eef24c5cc0ea"
 
-broccoli-funnel@^1.0.0, broccoli-funnel@^1.0.1, broccoli-funnel@^1.0.8, broccoli-funnel@^1.1.0, broccoli-funnel@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-1.2.0.tgz#cddc3afc5ff1685a8023488fff74ce6fb5a51296"
+broccoli-funnel@2.0.1, "broccoli-funnel@^1.2.0 || ^2.0.0", broccoli-funnel@^2.0.0, broccoli-funnel@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-2.0.1.tgz#6823c73b675ef78fffa7ab800f083e768b51d449"
   dependencies:
     array-equal "^1.0.0"
     blank-object "^1.0.1"
     broccoli-plugin "^1.3.0"
     debug "^2.2.0"
-    exists-sync "0.0.4"
     fast-ordered-set "^1.0.0"
     fs-tree-diff "^0.5.3"
     heimdalljs "^0.2.0"
@@ -2044,14 +2059,15 @@ broccoli-funnel@^1.0.0, broccoli-funnel@^1.0.1, broccoli-funnel@^1.0.8, broccoli
     symlink-or-copy "^1.0.0"
     walk-sync "^0.3.1"
 
-"broccoli-funnel@^1.2.0 || ^2.0.0", broccoli-funnel@^2.0.0, broccoli-funnel@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-2.0.1.tgz#6823c73b675ef78fffa7ab800f083e768b51d449"
+broccoli-funnel@^1.0.0, broccoli-funnel@^1.0.1, broccoli-funnel@^1.0.8, broccoli-funnel@^1.1.0, broccoli-funnel@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-1.2.0.tgz#cddc3afc5ff1685a8023488fff74ce6fb5a51296"
   dependencies:
     array-equal "^1.0.0"
     blank-object "^1.0.1"
     broccoli-plugin "^1.3.0"
     debug "^2.2.0"
+    exists-sync "0.0.4"
     fast-ordered-set "^1.0.0"
     fs-tree-diff "^0.5.3"
     heimdalljs "^0.2.0"
@@ -2108,7 +2124,7 @@ broccoli-merge-trees@^2.0.0:
     broccoli-plugin "^1.3.0"
     merge-trees "^1.0.1"
 
-"broccoli-merge-trees@^2.0.0 || ^3.0.0", broccoli-merge-trees@^3.0.0:
+"broccoli-merge-trees@^2.0.0 || ^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/broccoli-merge-trees/-/broccoli-merge-trees-3.0.0.tgz#90e4959f9e3c57cf1f04fab35152f3d849468d8b"
   dependencies:
@@ -2126,7 +2142,7 @@ broccoli-node-info@1.1.0, broccoli-node-info@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/broccoli-node-info/-/broccoli-node-info-1.1.0.tgz#3aa2e31e07e5bdb516dd25214f7c45ba1c459412"
 
-broccoli-persistent-filter@^1.0.3, broccoli-persistent-filter@^1.1.6, broccoli-persistent-filter@^1.2.0, broccoli-persistent-filter@^1.4.0, broccoli-persistent-filter@^1.4.2, broccoli-persistent-filter@^1.4.3:
+broccoli-persistent-filter@1.4.3, broccoli-persistent-filter@^1.0.3, broccoli-persistent-filter@^1.1.6, broccoli-persistent-filter@^1.2.0, broccoli-persistent-filter@^1.4.0, broccoli-persistent-filter@^1.4.2, broccoli-persistent-filter@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/broccoli-persistent-filter/-/broccoli-persistent-filter-1.4.3.tgz#3511bc52fc53740cda51621f58a28152d9911bc1"
   dependencies:
@@ -2161,6 +2177,15 @@ broccoli-plugin@^1.0.0, broccoli-plugin@^1.1.0, broccoli-plugin@^1.2.0, broccoli
     quick-temp "^0.1.3"
     rimraf "^2.3.4"
     symlink-or-copy "^1.1.8"
+
+broccoli-postcss@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/broccoli-postcss/-/broccoli-postcss-3.5.2.tgz#f13795b0dfb8c9a390f98c8a0b21cda30cc60a57"
+  dependencies:
+    broccoli-funnel "2.0.1"
+    broccoli-persistent-filter "1.4.3"
+    object-assign "4.1.1"
+    postcss "6.0.14"
 
 broccoli-rollup@^1.2.0:
   version "1.3.0"
@@ -2231,16 +2256,6 @@ broccoli-stew@^1.2.0, broccoli-stew@^1.3.3, broccoli-stew@^1.4.0, broccoli-stew@
     rsvp "^3.0.16"
     symlink-or-copy "^1.1.8"
     walk-sync "^0.3.0"
-
-broccoli-style-manifest@^1.5.0:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/broccoli-style-manifest/-/broccoli-style-manifest-1.5.2.tgz#249accc81a75b83fb581cd8c2d16a51a4989664d"
-  dependencies:
-    broccoli-caching-writer "^3.0.3"
-    fs-tree-diff "^0.5.6"
-    md5 "^2.2.1"
-    rsvp "^4.8.2"
-    walk-sync "^0.3.1"
 
 broccoli-stylelint@^2.0.0:
   version "2.0.0"
@@ -2755,10 +2770,6 @@ character-reference-invalid@^1.0.0:
 chardet@^0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
-
-charenc@~0.0.1:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
 
 charm@^1.0.0:
   version "1.0.2"
@@ -3313,10 +3324,6 @@ cross-spawn@^6.0.0:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-crypt@~0.0.1:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
-
 cryptiles@2.x.x:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/cryptiles/-/cryptiles-2.0.5.tgz#3bdfecdc608147c1c67202fa291e7dca59eaa3b8"
@@ -3348,6 +3355,18 @@ crypto-browserify@^3.0.0:
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
+
+css-selector-tokenizer@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/css-selector-tokenizer/-/css-selector-tokenizer-0.7.0.tgz#e6988474ae8c953477bf5e7efecfceccd9cf4c86"
+  dependencies:
+    cssesc "^0.1.0"
+    fastparse "^1.1.1"
+    regexpu-core "^1.0.0"
+
+cssesc@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-0.1.0.tgz#c814903e45623371a0477b40109aaafbeeaddbb4"
 
 cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
   version "0.3.2"
@@ -4521,27 +4540,6 @@ ember-component-attributes@^0.1.1:
   dependencies:
     ember-cli-babel "^6.7.0"
 
-ember-component-css@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/ember-component-css/-/ember-component-css-0.6.3.tgz#7e6bc5c02875ceac87250cdf43eaa1872da7a7b4"
-  dependencies:
-    broccoli-concat "^3.2.2"
-    broccoli-funnel "^2.0.1"
-    broccoli-merge-trees "^3.0.0"
-    broccoli-persistent-filter "^1.4.2"
-    broccoli-plugin "^1.3.0"
-    broccoli-style-manifest "^1.5.0"
-    ember-cli-babel "^6.11.0"
-    ember-getowner-polyfill "^2.2.0"
-    fs-tree-diff "^0.5.6"
-    md5 "^2.2.1"
-    postcss "^6.0.19"
-    postcss-less "^1.1.3"
-    postcss-scss "^1.0.3"
-    postcss-selector-namespace "^1.5.0"
-    rsvp "^4.8.1"
-    walk-sync "^0.3.2"
-
 ember-concurrency@^0.8.12, ember-concurrency@^0.8.18, ember-concurrency@^0.8.7:
   version "0.8.19"
   resolved "https://registry.yarnpkg.com/ember-concurrency/-/ember-concurrency-0.8.19.tgz#71b9c175ba077865310029cb4bdb880e17d5155e"
@@ -4569,6 +4567,32 @@ ember-cp-validations@^3.5.2:
     ember-validators "1.0.4"
     exists-sync "0.0.4"
     walk-sync "^0.3.1"
+
+ember-css-modules-sass@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ember-css-modules-sass/-/ember-css-modules-sass-1.0.0.tgz#657feddc9a257d18f2bf3bf5141c6365b1fa42ca"
+  dependencies:
+    postcss-scss "^1.0.0"
+
+ember-css-modules@^0.7.10:
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/ember-css-modules/-/ember-css-modules-0.7.10.tgz#bc20421f3d45578155eb06cdd44adb9d7471f59c"
+  dependencies:
+    broccoli-concat "^3.2.2"
+    broccoli-css-modules "^0.6.2"
+    broccoli-funnel "^2.0.1"
+    broccoli-merge-trees "^2.0.0"
+    broccoli-postcss "^3.5.2"
+    calculate-cache-key-for-tree "^1.1.0"
+    debug "^3.1.0"
+    ember-cli-babel "^6.11.0"
+    ember-cli-version-checker "^2.1.0"
+    ensure-posix-path "^1.0.2"
+    hash-string "^1.0.0"
+    lodash.merge "^4.6.1"
+    postcss "^6.0.19"
+    semver "^5.5.0"
+    toposort "^1.0.6"
 
 ember-data-factory-guy@~3.1.0:
   version "3.1.0"
@@ -5725,6 +5749,10 @@ fastboot-transform@^0.1.0:
   dependencies:
     broccoli-stew "^1.5.0"
 
+fastparse@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/fastparse/-/fastparse-1.1.1.tgz#d1e2643b38a94d7583b479060e6c4affc94071f8"
+
 faye-websocket@~0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/faye-websocket/-/faye-websocket-0.10.0.tgz#4e492f8d04dfb6f89003507f6edbf2d501e7c6f4"
@@ -6538,6 +6566,10 @@ hash-for-dep@^1.0.2:
     heimdalljs-logger "^0.1.7"
     resolve "^1.4.0"
 
+hash-string@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hash-string/-/hash-string-1.0.0.tgz#c3fa15f078ddd16bc150b4176fde7091620f2c7f"
+
 hash.js@^1.0.0, hash.js@^1.0.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.3.tgz#340dedbe6290187151c1ea1d777a3448935df846"
@@ -6743,6 +6775,10 @@ iconv-lite@^0.4.4, iconv-lite@^0.4.5, iconv-lite@~0.4.13:
   dependencies:
     safer-buffer "^2.1.0"
 
+icss-replace-symbols@^1.0.2, icss-replace-symbols@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/icss-replace-symbols/-/icss-replace-symbols-1.1.0.tgz#06ea6f83679a7749e386cfe1fe812ae5db223ded"
+
 ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
@@ -6945,7 +6981,7 @@ is-binary-path@^1.0.0:
   dependencies:
     binary-extensions "^1.0.0"
 
-is-buffer@^1.1.0, is-buffer@^1.1.4, is-buffer@^1.1.5, is-buffer@~1.1.1, is-buffer@~1.1.5:
+is-buffer@^1.1.0, is-buffer@^1.1.4, is-buffer@^1.1.5, is-buffer@~1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
 
@@ -8165,7 +8201,7 @@ lodash.memoize@~3.0.3:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-3.0.4.tgz#2dcbd2c287cbc0a55cc42328bd0c736150d53e3f"
 
-lodash.merge@^4.3.0, lodash.merge@^4.4.0, lodash.merge@^4.6.0:
+lodash.merge@^4.3.0, lodash.merge@^4.4.0, lodash.merge@^4.6.0, lodash.merge@^4.6.1:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.1.tgz#adc25d9cb99b9391c59624f379fbba60d7111d54"
 
@@ -8443,14 +8479,6 @@ md5.js@^1.3.4:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
-
-md5@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/md5/-/md5-2.2.1.tgz#53ab38d5fe3c8891ba465329ea23fac0540126f9"
-  dependencies:
-    charenc "~0.0.1"
-    crypt "~0.0.1"
-    is-buffer "~1.1.1"
 
 mdast-util-compact@^1.0.0:
   version "1.0.1"
@@ -9520,7 +9548,7 @@ postcss-html@^0.18.0:
     remark "^9.0.0"
     unist-util-find-all-after "^1.0.1"
 
-postcss-less@^1.1.3, postcss-less@^1.1.5:
+postcss-less@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/postcss-less/-/postcss-less-1.1.5.tgz#a6f0ce180cf3797eeee1d4adc0e9e6d6db665609"
   dependencies:
@@ -9529,6 +9557,33 @@ postcss-less@^1.1.3, postcss-less@^1.1.5:
 postcss-media-query-parser@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/postcss-media-query-parser/-/postcss-media-query-parser-0.2.3.tgz#27b39c6f4d94f81b1a73b8f76351c609e5cef244"
+
+postcss-modules-extract-imports@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/postcss-modules-extract-imports/-/postcss-modules-extract-imports-1.2.0.tgz#66140ecece38ef06bf0d3e355d69bf59d141ea85"
+  dependencies:
+    postcss "^6.0.1"
+
+postcss-modules-local-by-default@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/postcss-modules-local-by-default/-/postcss-modules-local-by-default-1.2.0.tgz#f7d80c398c5a393fa7964466bd19500a7d61c069"
+  dependencies:
+    css-selector-tokenizer "^0.7.0"
+    postcss "^6.0.1"
+
+postcss-modules-scope@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-modules-scope/-/postcss-modules-scope-1.1.0.tgz#d6ea64994c79f97b62a72b426fbe6056a194bb90"
+  dependencies:
+    css-selector-tokenizer "^0.7.0"
+    postcss "^6.0.1"
+
+postcss-modules-values@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/postcss-modules-values/-/postcss-modules-values-1.3.0.tgz#ecffa9d7e192518389f42ad0e83f72aec456ea20"
+  dependencies:
+    icss-replace-symbols "^1.1.0"
+    postcss "^6.0.1"
 
 postcss-reporter@^5.0.0:
   version "5.0.0"
@@ -9556,23 +9611,17 @@ postcss-sass@^0.3.0:
     gonzales-pe "^4.2.3"
     postcss "^6.0.16"
 
-postcss-scss@^1.0.2:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-1.0.3.tgz#4c00ab440fc1c994134e3d4e600c23341af6cd27"
-  dependencies:
-    postcss "^6.0.15"
-
-postcss-scss@^1.0.3:
+postcss-scss@^1.0.0:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-1.0.5.tgz#40a10cfd03766accf0a3cf8e65a8af887b2bf6c4"
   dependencies:
     postcss "^6.0.21"
 
-postcss-selector-namespace@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/postcss-selector-namespace/-/postcss-selector-namespace-1.5.0.tgz#62335de8f1992eae989d1be33ba2298156ab458b"
+postcss-scss@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-1.0.3.tgz#4c00ab440fc1c994134e3d4e600c23341af6cd27"
   dependencies:
-    postcss "^6.0.14"
+    postcss "^6.0.15"
 
 postcss-selector-parser@^3.1.0, postcss-selector-parser@^3.1.1:
   version "3.1.1"
@@ -9593,6 +9642,14 @@ postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.0.tgz#87f38f9f18f774a4ab4c8a232f5c5ce8872a9d15"
 
+postcss@6.0.14:
+  version "6.0.14"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.14.tgz#5534c72114739e75d0afcf017db853099f562885"
+  dependencies:
+    chalk "^2.3.0"
+    source-map "^0.6.1"
+    supports-color "^4.4.0"
+
 postcss@^5.2.16:
   version "5.2.18"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.18.tgz#badfa1497d46244f6390f58b319830d9107853c5"
@@ -9602,7 +9659,7 @@ postcss@^5.2.16:
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^6.0.1, postcss@^6.0.17:
+postcss@^6.0.1, postcss@^6.0.17, postcss@^6.0.19, postcss@^6.0.21:
   version "6.0.22"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.22.tgz#e23b78314905c3b90cbd61702121e7a78848f2a3"
   dependencies:
@@ -9618,7 +9675,7 @@ postcss@^6.0.13, postcss@^6.0.14, postcss@^6.0.15, postcss@^6.0.6, postcss@^6.0.
     source-map "^0.6.1"
     supports-color "^5.2.0"
 
-postcss@^6.0.16, postcss@^6.0.19, postcss@^6.0.20, postcss@^6.0.21:
+postcss@^6.0.16, postcss@^6.0.20:
   version "6.0.21"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.21.tgz#8265662694eddf9e9a5960db6da33c39e4cd069d"
   dependencies:
@@ -10036,6 +10093,14 @@ regex-not@^1.0.0, regex-not@^1.0.2:
     extend-shallow "^3.0.2"
     safe-regex "^1.1.0"
 
+regexpu-core@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/regexpu-core/-/regexpu-core-1.0.0.tgz#86a763f58ee4d7c2f6b102e4764050de7ed90c6b"
+  dependencies:
+    regenerate "^1.2.1"
+    regjsgen "^0.2.0"
+    regjsparser "^0.1.4"
+
 regexpu-core@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/regexpu-core/-/regexpu-core-2.0.0.tgz#49d038837b8dcf8bfa5b9a42139938e6ea2ae240"
@@ -10399,7 +10464,7 @@ rsvp@^4.0.1:
   version "4.8.1"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.1.tgz#168addb3963222de37ee351b70e3876bdb2ac285"
 
-rsvp@^4.6.1, rsvp@^4.7.0, rsvp@^4.8.1, rsvp@^4.8.2:
+rsvp@^4.6.1, rsvp@^4.7.0, rsvp@^4.8.1:
   version "4.8.2"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.2.tgz#9d5647108735784eb13418cdddb56f75b919d722"
 
@@ -11130,6 +11195,10 @@ styled_string@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/styled_string/-/styled_string-0.0.1.tgz#d22782bd81295459bc4f1df18c4bad8e94dd124a"
 
+stylelint-config-css-modules@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/stylelint-config-css-modules/-/stylelint-config-css-modules-1.2.0.tgz#8699e556a0d4ae6742bbe7b03138cde847e92699"
+
 stylelint-config-sass-guidelines@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/stylelint-config-sass-guidelines/-/stylelint-config-sass-guidelines-5.0.0.tgz#529fc101f4a15da3c54e66efdd9d79abc01668f7"
@@ -11245,6 +11314,12 @@ supports-color@^3.1.2, supports-color@^3.2.3:
   dependencies:
     has-flag "^1.0.0"
 
+supports-color@^4.4.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.5.0.tgz#be7a0de484dec5c5cddf8b3d59125044912f635b"
+  dependencies:
+    has-flag "^2.0.0"
+
 supports-color@^5.1.0, supports-color@^5.2.0, supports-color@^5.4.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.4.0.tgz#1c6b337402c2137605efe19f10fec390f6faab54"
@@ -11273,7 +11348,7 @@ symbol-tree@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
 
-symlink-or-copy@^1.0.0, symlink-or-copy@^1.0.1, symlink-or-copy@^1.1.8:
+symlink-or-copy@^1.0.0, symlink-or-copy@^1.0.1, symlink-or-copy@^1.1.6, symlink-or-copy@^1.1.8:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symlink-or-copy/-/symlink-or-copy-1.2.0.tgz#5d49108e2ab824a34069b68974486c290020b393"
 
@@ -11504,6 +11579,10 @@ toastr@^2.1.4:
   resolved "https://registry.yarnpkg.com/toastr/-/toastr-2.1.4.tgz#8b43be64fb9d0c414871446f2db8e8ca4e95f181"
   dependencies:
     jquery ">=1.12.0"
+
+toposort@^1.0.6:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/toposort/-/toposort-1.0.7.tgz#2e68442d9f64ec720b8cc89e6443ac6caa950029"
 
 tough-cookie@>=2.3.3, tough-cookie@^2.3.3, tough-cookie@~2.3.0:
   version "2.3.4"

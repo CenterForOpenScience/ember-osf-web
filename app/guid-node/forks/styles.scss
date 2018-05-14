@@ -13,10 +13,10 @@
             'header header'
             'nav newFork'
             'forks forks';
+    }
 
-        &__new-fork {
-            justify-self: right;
-        }
+    .Forks__new-fork {
+        justify-self: right;
     }
 }
 
@@ -29,10 +29,10 @@
             'header header'
             'nav newFork'
             'forks forks';
+    }
 
-        &__new-fork {
-            justify-self: right;
-        }
+    .Forks__new-fork {
+        justify-self: right;
     }
 }
 @media screen and (min-width: 768px) {
@@ -44,22 +44,20 @@
     }
 }
 
-.Forks {
-    &__header {
-        margin: 0;
-        margin-left: 15px;
-        grid-area: header;
-    }
+.Forks__header {
+    margin: 0;
+    margin-left: 15px;
+    grid-area: header;
+}
 
-    &__nav {
-        grid-area: nav;
-    }
+.Forks__nav {
+    grid-area: nav;
+}
 
-    &__forks {
-        grid-area: forks;
-    }
+.Forks__forks {
+    grid-area: forks;
+}
 
-    &__new-fork {
-        grid-area: newFork;
-    }
+.Forks__new-fork {
+    grid-area: newFork;
 }

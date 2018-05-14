@@ -1,18 +1,16 @@
-& {
+.SimplePaginator {
     display: table-cell;
 }
 
-.SimplePaginator {
-    &__element {
-        padding-left: 20px;
+.SimplePaginator__element {
+    padding-left: 20px;
 
-        button {
-            appearance: none;
-            outline: none;
-            border: 0;
-            background: transparent;
-            font-size: large;
-        }
+    button {
+        appearance: none;
+        outline: none;
+        border: 0;
+        background: transparent;
+        font-size: large;
     }
 }
 

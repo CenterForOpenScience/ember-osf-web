@@ -1,44 +1,42 @@
-&__popover {
+.Popover {
     max-width: 450px;
     text-align: center;
     width: 450px;
+}
 
-    .SharePane {
-        &__copy-url-container {
-            height: 34px;
-            vertical-align: top;
-        }
+:global(.SharePane__mfr-url) {
+    height: 33px;
+    color: $color-text-black;
+}
 
-        &__mfr-url {
-            height: 33px;
-            color: $color-text-black;
-        }
+.SharePane__copy-url-container {
+    height: 34px;
+    vertical-align: top;
+}
 
-        &__button-group {
-            margin: 12px 4px 3px;
-        }
+.SharePane__button-group {
+    margin: 12px 4px 3px;
+}
 
-        &__tab {
-            cursor: pointer;
-        }
+.SharePane__share-link {
+    background-color: $color-bg-gray-light;
+    display: inline-block;
+    margin: 0 2px;
+    padding: 0 2px;
+    text-align: center;
+    width: 35px;
 
-        &__share-link {
-            background-color: $color-bg-gray-light;
-            display: inline-block;
-            margin: 0 2px;
-            padding: 0 2px;
-            text-align: center;
-            width: 35px;
-        }
-
-        &__share-link:hover {
-            background-color: $color-bg-gray;
-        }
-
-        &__share-link i {
-            color: $color-link-light;
-            font-size: 1.6em;
-            line-height: 1.6em;
-        }
+    &:hover {
+        background-color: $color-bg-gray;
     }
+
+    i {
+        color: $color-link-light;
+        font-size: 1.6em;
+        line-height: 1.6em;
+    }
+}
+
+.SharePane__tab {
+    cursor: pointer;
 }

@@ -23,10 +23,10 @@ export default class FileShareButton extends Component {
     styleNamespace?: string;
     elementId!: string;
 
-    @computed('styleNamespace')
-    get popoverClass() {
-        return `${this.styleNamespace}__popover`;
-    }
+    // @computed('styleNamespace')
+    // get popoverClass() {
+    //     return `${this.styleNamespace}__popover`;
+    // }
 
     @computed('elementId')
     get sharePaneId() {
@@ -161,6 +161,7 @@ export default class FileShareButton extends Component {
     @action
     share() {
         const textArea: HTMLTextAreaElement | null = document.querySelector('.SharePane__mfr-url');
+
         if (textArea) {
             textArea.select();
             document.execCommand('copy');

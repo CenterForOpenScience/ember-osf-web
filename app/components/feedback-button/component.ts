@@ -94,11 +94,6 @@ export default class FeedbackButton extends Component {
         return this.state === DialogState.success;
     }
 
-    @computed('styleNamespace')
-    get modalClass(): string {
-        return `${this.styleNamespace}Modal`;
-    }
-
     reset(this: FeedbackButton): void {
         this.set('body', '');
         this.set('followup', false);

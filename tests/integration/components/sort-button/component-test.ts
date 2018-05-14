@@ -13,5 +13,5 @@ test('selected works with sortBy', function(assert) {
     this.render(hbs`{{sort-button sortAction=sortAction sortBy='kindness' sort='-kindndess'}}`);
 
     assert.equal(this.$('button').length, 2);
-    assert.ok(this.$('.not-selected').length, 'sortBy doesn\'t match, should be unselected');
+    assert.ok(this.$('button')[0].className.includes('not-selected'), 'sortBy doesn\'t match, should be unselected');
 });

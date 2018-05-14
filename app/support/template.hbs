@@ -1,16 +1,21 @@
 {{title (t 'support.title')}}
-<div class="container">
+<div class="container" local-class="Support">
     <h1 class="m-b-lg">{{t 'support.title'}}</h1>
     <div class="row m-b-lg">
         <div class="col-sm-4">
-            <div class="SupportCol">
+            <div local-class="SupportCol">
                 <h4 class="f-w-lg bg-color-select">
-                    <a href="/faq" onclick={{action 'click' 'link' 'Support - faq_title' target=analytics}}>{{t 'support.faq_title'}}</a>
+                    <a href="/faq" onclick={{action 'click' 'link' 'Support - faq_title' target=analytics}}>
+                        {{t 'support.faq_title'}}
+                    </a>
                 </h4>
                 <div class="clearfix">
                     <p>
                         {{t 'support.faq_paragraph'}}
-                        <a href="{{faqPageUrl}}" onclick={{action 'click' 'link' 'Support - faq_link' target=analytics}}>{{t 'support.faq_link_text'}}</a>{{t 'general.period'}}
+                        <a href="{{faqPageUrl}}" onclick={{action 'click' 'link' 'Support - faq_link' target=analytics}}>
+                            {{~t 'support.faq_link_text'~}}
+                        </a>
+                        {{~t 'general.period'}}
                     </p>
                     <a href="{{faqPageUrl}}" class="btn btn-info m-t-lg pull-right" onclick={{action 'click' 'link' 'Support - faq_button' target=analytics}}>
                         {{t 'support.faq_button'}}
@@ -20,7 +25,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="SupportCol">
+            <div local-class="SupportCol">
                 <h4 class="f-w-lg bg-color-select">
                     <a href="{{helpUrl}}" target="_blank" rel="noreferrer" onclick={{action 'click' 'link' 'Support - guides_title' target=analytics}}>{{t 'support.guides_title'}}</a>
                 </h4>
@@ -38,7 +43,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="SupportCol">
+            <div local-class="SupportCol">
                 <h4 class="f-w-lg bg-color-select">{{t 'support.contact_title'}}</h4>
                 <div class="clearfix">
                     <p>{{t 'support.contact_technical'}}</p>
@@ -71,13 +76,14 @@
             <h5 class="m-t-md f-w-xl">{{t 'support.consultation_title'}}</h5>
             <p>
                 {{t 'support.consultation_paragraph'}}
-                <a href="{{consultationUrl}}" onclick={{action 'click' 'link' 'Support - consultation_link' target=analytics}}>{{t 'support.consultation_link_text'}}</a>{{t 'general.period'}}
+                <a href="{{consultationUrl}}" onclick={{action 'click' 'link' 'Support - consultation_link' target=analytics}}>{{t 'support.consultation_link_text'}}</a>
+                {{~t 'general.period'}}
             </p>
         </div>
     </div>
     <hr>
     <div class="row m-b-lg">
-        <div class="col-sm-12 text-center">
+        <div class="col-sm-12 text-center" local-class="bold-links">
             <h4 class="m-t-md f-w-xl">{{t 'support.social_title'}}</h4>
             <a href="{{twitterUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_twitter' target=analytics}}><i class="fa fa-twitter"></i> {{t 'support.social_twitter'}}</a>
             <a href="{{mailingUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_email' target=analytics}}><i class="fa fa-users"></i> {{t 'support.social_mailing'}}</a>

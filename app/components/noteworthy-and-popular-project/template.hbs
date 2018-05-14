@@ -1,7 +1,7 @@
 <a href="{{project.links.html}}">
-    <div class="NoteworthyProject__item">
+    <div local-class="NoteworthyProject__item">
         <h5>{{project.title}}</h5>
-        <span class="Byline prevent-overflow">
+        <span class="prevent-overflow" local-class="Byline">
             <i>
                 {{t 'dashboard.noteworthy.by'}}
                 {{contributor-list contributors=project.contributors}}

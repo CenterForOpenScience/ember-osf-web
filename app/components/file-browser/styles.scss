@@ -1,14 +1,15 @@
-/* stylelint-disable */
-& {
+/* stylelint-disable selector-class-pattern */
+
+.file-browser {
     border: 1px solid #eee;
-    border-top: none;
+    border-top: 0;
 }
 
 .dropzone-area {
     height: 100%;
 }
 
-.dz-preview {
+:global(.dz-preview) {
     visibility: hidden;
     display: none;
 }
@@ -22,7 +23,8 @@
     margin: 50px;
     text-align: center;
     font-size: 200%;
-    color: white;
+    color: #fff;
+
     .upload-text {
         margin: 20px;
     }
@@ -38,6 +40,7 @@
     padding: 50px;
     background: #f5f5f5;
     border: 5px dashed #c7c7c7;
+
     .file-placeholder-text {
         margin: 20px;
         font-size: 200%;
@@ -52,16 +55,17 @@ a {
     margin-bottom: 0;
 }
 
-.btn:not(.modal-btn) {
+.action-button {
     padding: 5px 10px;
     display: inline-block;
-    box-shadow: 0 0 2px #BBB;
-    background: #F8F8F8;
+    box-shadow: 0 0 2px #bbb;
+    background: #f8f8f8;
     margin-right: 5px;
     cursor: pointer;
     font-size: 13px;
     border-radius: 2px;
     margin-top: 4px;
+
     &:disabled {
         cursor: not-allowed;
         box-shadow: none;
@@ -71,9 +75,10 @@ a {
 .actions-header {
     background: #efefef;
     border: 1px solid #eee;
-    margin: 0 0 10px;
+    margin: 0 0 10px !important;
     background: #efefef;
     padding: 6px 0;
+
     &.small-display {
         margin-bottom: 3px;
     }
@@ -81,6 +86,7 @@ a {
 
 .column-labels-wrapper {
     position: relative;
+
     .column-labels-header::after {
         position: absolute;
         background-color: #f5f5f5;
@@ -92,7 +98,7 @@ a {
 }
 
 .column-labels-header {
-    margin: 0px;
+    margin: 0;
     display: block;
     height: 35px;
     background: #f5f5f5;
@@ -119,15 +125,10 @@ a {
     z-index: 1;
     position: absolute;
     pointer-events: none;
+
     &.transparent {
         opacity: 0;
     }
-}
-
-.flash-message-alert {
-    text-align: center;
-    padding-bottom: 4px;
-    padding-top: 3px;
 }
 
 .file-browser-header {
@@ -143,8 +144,9 @@ a {
     padding: 3px 0 7px 5px;
     font-size: 14px;
     font-weight: 600;
+
     &:not(:first-child) {
-        border-left: 1px solid #DDD;
+        border-left: 1px solid #ddd;
     }
 }
 
@@ -159,32 +161,32 @@ a {
     margin-top: -2px;
 }
 
-&__popover button {
+.file-browser__popover button {
     height: 34px;
 }
 
 .link-url {
-    background-color: #F5F5F5;
-    word-break: normal!important;
+    background-color: #f5f5f5;
+    word-break: normal !important;
     width: calc(100% - 35px);
 }
 
 .file-row-item {
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .file-row-col {
     padding-top: 2px;
     padding-left: 6px;
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 .upload-file-header {
-    color: black;
+    color: #000;
 }
 
 .progress {
     margin-bottom: 0;
-    margin-top: 7px
+    margin-top: 7px;
 }

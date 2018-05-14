@@ -1,4 +1,4 @@
-&--banner {
+.JoinOsfBanner--banner {
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: $color-bg-white;
@@ -6,20 +6,20 @@
     width: 100%;
 }
 
-&--heading {
+.JoinOsfBanner--heading {
     margin-top: 0;
 }
 
-&__div > a {
+.JoinOsfBanner__div > a {
     margin-right: 5px;
     white-space: nowrap;
 }
 
-& > img {
+.JoinOsfBanner__img {
     height: 120px;
 }
 
-&--expand {
+.JoinOsfBanner--expand {
     position: fixed;
     bottom: 0;
     z-index: 9;
@@ -32,7 +32,7 @@
 
 }
 
-&--collapse {
+.JoinOsfBanner--collapse {
     position: fixed;
     bottom: 0;
     z-index: 9;

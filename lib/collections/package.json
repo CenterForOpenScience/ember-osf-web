@@ -11,11 +11,9 @@
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
-    "ember-component-css": "*",
+    "ember-css-modules": "*",
+    "ember-css-modules-sass": "*",
     "ember-i18n": "*",
     "ember-i18n-inject": "*"
-  },
-  "devDependencies": {
-    "ember-component-css": "*"
   }
 }

@@ -1,8 +1,10 @@
 /* stylelint-disable selector-class-pattern */
 
-a:not(.btn),
-.btn-link {
-    font-weight: bold;
+.Support {
+    a:not(:global(.btn)),
+    :global(.btn-link) {
+        font-weight: bold;
+    }
 }
 
 .SupportCol {

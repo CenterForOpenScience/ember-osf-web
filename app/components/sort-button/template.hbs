@@ -1,6 +1,16 @@
-<button onclick={{action sortAction sortBy}} title={{t 'general.sort_asc'}} class="{{if (eq sort sortBy) 'selected' 'not-selected'}}" {{action 'click' 'button' 'Sort - sort_asc' target=analytics}}>
+<button
+    onclick={{action sortAction sortBy}}
+    title={{t 'general.sort_asc'}}
+    local-class="{{if (eq sort sortBy) 'selected' 'not-selected'}}"
+    {{action 'click' 'button' 'Sort - sort_asc' target=analytics}}
+>
     {{fa-icon 'angle-up'}}
 </button>
-<button onclick={{action sortAction sortByDesc}} title={{t 'general.sort_desc'}} class="{{if (eq sort sortByDesc) 'selected' 'not-selected'}}" {{action 'click' 'button' 'Sort - sort_desc' target=analytics}}>
+<button
+    onclick={{action sortAction sortByDesc}}
+    title={{t 'general.sort_desc'}}
+    local-class="{{if (eq sort sortByDesc) 'selected' 'not-selected'}}"
+    {{action 'click' 'button' 'Sort - sort_desc' target=analytics}}
+>
     {{fa-icon 'angle-down'}}
 </button>
