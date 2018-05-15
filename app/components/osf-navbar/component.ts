@@ -10,6 +10,8 @@ import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import Session from 'ember-simple-auth/services/session';
 
+const { featureFlags: { navigation } } = config;
+
 const HOME_APP = 'HOME';
 
 /**
@@ -54,7 +56,7 @@ export default class OsfNavbar extends Component {
     indexRoute: string = 'dashboard';
     showNavLinks: boolean = false;
 
-    @computed(`features.${camelize(config.featureFlags.routes.institutions)}`)
+    @computed(`features.${camelize(navigation.institutions)}`)
     get osfApps(this: OsfNavbar) {
         return osfServices.filter(each => !each.flag || this.features.isEnabled(each.flag));
     }

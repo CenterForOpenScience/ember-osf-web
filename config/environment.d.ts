@@ -117,8 +117,10 @@ declare const config: {
             support: string;
             dashboard: string;
             home: string;
-            institutions: string;
             'guid-node.forks': string;
+        };
+        navigation: {
+            institutions: string;
         };
     };
     gReCaptcha: {

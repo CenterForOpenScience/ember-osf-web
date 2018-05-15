@@ -1,5 +1,7 @@
 import config from 'ember-get-config';
 
+const { featureFlags: { navigation } } = config;
+
 const osfUrl = config.OSF.url;
 const serviceLinks = {
     exploreActivity: `${osfUrl}explore/activity/`,
@@ -42,7 +44,7 @@ const osfServices = [
     {
         name: 'INSTITUTIONS',
         url: serviceLinks.institutionsLanding,
-        flag: config.featureFlags.routes.institutions,
+        flag: navigation.institutions,
     },
 ];
 
