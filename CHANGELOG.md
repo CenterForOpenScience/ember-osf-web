@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - fork method to node model
 - random-scientist util to support the delete-node modal
 - simple-paginator component
+- custom component blueprint
 
 ### Changed
 - contributor-list component, to accept lists with links
