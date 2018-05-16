@@ -15,6 +15,9 @@ module('Integration | Component | sort button', hooks => {
         await render(hbs`{{sort-button sortAction=sortAction sortBy='kindness' sort='-kindndess'}}`);
 
         assert.equal(this.$('button').length, 2);
-        assert.ok(this.$('button')[0].className.includes('not-selected'), 'sortBy doesn\'t match, should be unselected');
+        assert.ok(
+            this.$('button')[0].className.includes('not-selected'),
+            'sortBy doesn\'t match, should be unselected',
+        );
     });
 });
