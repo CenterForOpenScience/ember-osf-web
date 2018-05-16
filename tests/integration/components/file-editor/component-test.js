@@ -23,7 +23,7 @@ module('Integration | Component | file editor', function(hooks) {
         // Tests that the template renders when passed text
 
         await render(hbs`
-            {{file-editor 
+            {{file-editor
                 fileText='Test text'}}
         `);
 
@@ -35,7 +35,7 @@ module('Integration | Component | file editor', function(hooks) {
         // Tests that the revert button properly reverts the text to its original value
 
         await render(hbs`
-            {{file-editor 
+            {{file-editor
                 fileText='Test text'}}
         `);
 
@@ -61,7 +61,7 @@ module('Integration | Component | file editor', function(hooks) {
             assert.equal(actual, expected, 'Save function properly passes new value');
         });
 
-        await render(`
+        await render(hbs`
             {{file-editor
                 save=(action externalSaveAction)}}
         `);
