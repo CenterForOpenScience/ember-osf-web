@@ -1,5 +1,16 @@
 {{title (t 'quickfiles.title' user-name=user.fullName)}}
 <div class='container'>
+    <span id="drp" local-class="OsfDaterange" >
+        {{date-range-picker
+            label='Show analytics for date range:'
+            start=startDate
+            end=endDate
+            alwaysShowCalendars=true
+            parentEl="#drp"
+            ranges=""
+        }}
+    </span>
+    {{dateRange}}
     {{quickfile-nav user=user onQuickfiles=true}}
     <div class='row container' local-class="Content">
         {{#if canEdit}}

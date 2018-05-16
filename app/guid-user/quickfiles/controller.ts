@@ -10,6 +10,7 @@ import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Toast from 'ember-toastr/services/toast';
+import moment from 'moment';
 
 export default class UserQuickfiles extends Controller {
     @service currentUser!: CurrentUser;
@@ -22,6 +23,8 @@ export default class UserQuickfiles extends Controller {
     // Initialized in setupController.
     newProject!: Node;
     sort: string = this.sort || 'name';
+    startDate: string = this.startDate || moment().subtract(18, 'days').format('YYYY-MM-DD');
+    endDate: string = this.endDate || moment().format('YYYY-MM-DD');
 
     @alias('model.taskInstance.value.user') user!: User;
     @alias('model.taskInstance.value.files') allFiles!: File[];
@@ -130,6 +133,14 @@ export default class UserQuickfiles extends Controller {
             flash.perform(file, 'Failed to rename item', 'danger');
         }
     });
+
+    @computed('startDate', 'endDate')
+    get dateRange(this: UserQuickfiles): string {
+        // This is just a quick demo that computeds are being updated even without
+        // using the actions provided by the component
+
+        return this.startDate + ' - ' + this.endDate; // eslint-disable-line prefer-template
+    }
 
     @computed('allFiles.[]', 'filter', 'sort')
     get files(this: UserQuickfiles): File[] | null {
