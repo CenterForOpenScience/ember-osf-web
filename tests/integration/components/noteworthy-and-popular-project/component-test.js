@@ -8,7 +8,7 @@ module('Integration | Component | noteworthy and popular project', function(hook
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function() {
-        manualSetup(this.container);
+        manualSetup(this);
     });
 
     test('it renders', async function(assert) {

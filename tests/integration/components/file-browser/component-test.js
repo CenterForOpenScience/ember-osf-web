@@ -9,7 +9,7 @@ module('Integration | Component | file browser', function(hooks) {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function() {
-        manualSetup(this.container);
+        manualSetup(this);
     });
 
     // Async issues need to be solved before this can be properly tested

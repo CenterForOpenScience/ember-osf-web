@@ -13,7 +13,7 @@ module('Unit | Adapter | osf adapter', function(hooks) {
     setupTest(hooks);
 
     hooks.beforeEach(function() {
-        manualSetup(this.container);
+        manualSetup(this);
     });
 
     test('#buildURL appends a trailing slash if missing', function (assert) {
