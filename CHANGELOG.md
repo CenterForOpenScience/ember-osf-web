@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - contributor-list component, to accept lists with links
 
+## [0.3.2] - 2018-05-17
+### Fixed
+- Keep Getting Started video modal closed after its dismissed
+
 ## [0.3.1] - 2018-05-08
 ### Changed
 - i18n locales are now enabled with `ENABLED_LOCALES` env variable
