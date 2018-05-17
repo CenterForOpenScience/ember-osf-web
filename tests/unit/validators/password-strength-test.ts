@@ -14,7 +14,7 @@ module('Unit | Validator | password-strength', hooks => {
 
     for (let i = 0; i < minima.length; i++) {
         test(`Complexity ${i}`, async function(assert) {
-            const validator = this.subject();
+            const validator = this.owner.lookup('validator:password-strength');
             const options = { min: i };
             const builtOptions = validator.buildOptions(options);
             const message = await validator.validate(minima[i], builtOptions.copy());
