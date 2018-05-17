@@ -11,6 +11,7 @@
 {{#bs-modal
     open=modalOpen
     backdrop=true
+    onHidden=(action (mut modalOpen) false)
     as | modal |
 }}
     {{#modal.header}}
