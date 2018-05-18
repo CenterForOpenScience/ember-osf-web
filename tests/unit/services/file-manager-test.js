@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import Service from '@ember/service';
-import { module, skip, test } from 'qunit';
+import { module, skip } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import FactoryGuy, {
     mockFindRecord, mockUpdate, mockReload,
@@ -91,7 +91,7 @@ module('Unit | Service | file manager', function(hooks) {
     hooks.beforeEach(function() {
         this.owner.register('service:session', sessionStub);
     });
-    test('getContents sends valid waterbutler request', async function (assert) {
+    skip('getContents sends valid waterbutler request', async function (assert) {
         assert.expect(3);
         const service = this.owner.lookup('service:file-manager');
         const file = make('file');
