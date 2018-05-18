@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-sm-6">
+        <h4>{{t "eosf.components.discoverPage.activeFilters.heading"}}:</h4>
+    </div>
+    <div class="col-sm-6">
+        <span class="pull-right">
+            {{!CLEAR FILTERS BUTTON}}
+            <button class="btn btn-default btn-sm" {{action clearFilters}}>
+                {{t 'eosf.components.discoverPage.activeFilters.button'}}
+                <i class="fa fa-remove"></i>
+            </button>
+        </span>
+    </div>
+</div>
+{{#each facetContexts.provider.activeFilter as |item|}}
+    <span local-class="preprint-filter provider-filter">
+        {{filter-replace item filterReplace}}
+        {{#unless theme.isProvider}}
+            {{!ACTIVE PROVIDER FILTERS}}
+            <span aria-label={{t 'eosf.components.discoverPage.removeProvider'}}>
+                <button
+                    class="fa fa-times-circle"
+                    local-class="removeActiveFilter"
+                    {{action 'removeFilterItem' 'provider' item}}
+                ></button>
+            </span>
+        {{/unless}}
+    </span>
+{{/each}}
+{{#each facetContexts.taxonomy.activeFilter as |item|}}
+    {{!ACTIVE SUBJECT FILTERS}}
+    <span local-class='preprint-filter subject-filter'>
+        {{custom-taxonomy-filter item}}
+        <span aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>
+            <button
+                class="fa fa-times-circle"
+                local-class="removeActiveFilter"
+                {{action 'removeFilterItem' 'taxonomy' item}}
+            ></button>
+        </span>
+    </span>
+{{/each}}
+{{!ACTIVE TYPE FILTERS}}
+{{!--
+{{#each activeFilters.types as |filter|}}
+    <span local-class='preprint-filter type-filter'>
+        {{filter}}
+        <span aria-label={{t 'eosf.components.discoverPage.removeRegistrationType'}}>
+            <button
+                class="fa fa-times-circle"
+                local-class="removeActiveFilter"
+                {{action updateFilters 'types' filter}}
+            ></button>
+        </span>
+    </span>
+{{/each}}
+--}}

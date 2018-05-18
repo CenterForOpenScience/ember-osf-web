@@ -23,6 +23,9 @@
       "collections/*": [
         "lib/collections/addon/*"
       ],
+      "collections/config/*": [
+        "lib/collections/config/*"
+      ],
       "ember-osf-web/tests/*": [
         "tests/*"
       ],

@@ -1,0 +1,146 @@
+{{! Template similar to Ember-Preprints Layout, but using Ember-SHARE properties}}
+<div class="p-sm" local-class="search-result">
+    <div class="row">
+        <div class="col-xs-12">
+            {{!Title}}
+            <h4>
+                {{#if (and detailRoute osfID)}}
+                    {{!#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID target=analytics)}}
+                    {{fix-special-char result.title}}
+                    {{!/link-to}}
+                {{else if (and detailRoute (eq hostAppName 'Retraction Watch'))}}
+                    {{#link-to detailRoute result.id}}
+                        {{fix-special-char result.title}}
+                    {{/link-to}}
+                {{else}}
+                    {{#if hyperlink}}
+                        <a href='{{hyperlink}}' onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' hyperlink) result.id target=analytics}}>
+                            {{fix-special-char result.title}}
+                        </a>
+                    {{else}}
+                        <span>{{fix-special-char result.title}}</span>
+                    {{/if}}
+                {{/if}}
+                {{#if result.withdrawn}}
+                    <span class='label label-default'>
+                        {{t 'eosf.components.searchResult.withdrawn'}}
+                    </span>
+                {{/if}}
+            </h4>
+
+            {{!Authors}}
+            <div>
+                <ul local-class="comma-list">
+                    {{!~#each creators as |creator|}}
+                    {{!~author-link contributor=creator}}
+                    {{!~/each}}
+                </ul>
+                {{! +5, for example }}
+                {{#if extraCreators}}
+                    {{! TOD i18n-ize}}
+                    <span class="text-muted">+{{extraCreators.length}}</span>
+                {{/if}}
+            </div>
+
+            {{!Last edited on on}}
+            {{#if result.date_updated}}
+                {{! template-lint-disable bare-strings }}
+                <div class="m-t-sm">
+                    <em>{{t "eosf.components.searchResult.lastEdited"}}: {{dateUpdated}} (UTC)</em>
+                </div>
+                {{! template-lint-enable bare-strings }}
+            {{/if}}
+
+            {{!Disciplines}}
+            {{#if subjects}}
+                <div class="m-t-sm">
+                    {{#each subjects as |subject|}}
+                        <span role="button" local-class="pointer subject-preview"
+                            onclick={{action 'addFilter' 'taxonomy' (or subject.value subject.text)}}
+                        >
+                            {{subject.text}}
+                        </span>
+                    {{/each}}
+                </div>
+            {{/if}}
+            {{#if extraSubjects}}
+                <span class="text-muted">+{{extraSubjects.length}}</span>
+            {{/if}}
+
+            {{!Abstract}}
+            <p>
+                <div class="text-muted m-t-sm">
+                    {{#if showBody}}
+                        {{fix-special-char result.description}}
+                    {{else}}
+                        {{#if abbreviation}}
+                            {{abbreviation}}
+                            {{#if abbreviated}}
+                                <span class="text-muted">{{t 'general.ellipsis'}}</span>
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </p>
+
+            {{!Provider and date}}
+            <div class="m-t-sm">
+                <span local-class="search-result-providers">
+                    {{#each result.providers as |provider index|}}
+                        {{if index '| '}}{{filter-replace provider.name filterReplace}}
+                    {{/each}}
+                    {{!For registries - registrationType}}
+                    {{#if result.registrationType}}
+                        | {{result.registrationType}}
+                    {{/if}}
+                </span>
+                <span class="pull-right">
+                    {{#if result.dateModified}}
+                        {{! moment-format will use current time if null}}
+                        <span>{{moment-format result.dateModified "MMMM YYYY"}}</span>
+                    {{/if}}
+                </span>
+            </div>
+
+            {{#if showBody}}
+                {{!Links}}
+                {{#if result.hyperLinks}}
+                    <ul class="m-t-sm" local-class="preprints-block-list">
+                        {{#each result.hyperLinks as |link|}}
+                            <li><a href='{{link.url}}' onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' link.url) result.id target=analytics}}>{{link.url}}</a></li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+
+                {{#if result.infoLinks}}
+                    <ul local-class="preprints-block-list">
+                        {{#each result.infoLinks as |link|}}
+                            <li><b>{{link.type}}:</b> {{link.uri}}</li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+
+                {{!Tags}}
+                {{#each tags as |tag|}}
+                    {{#if tagsInQueryParams}}
+                        <button class="filter btn-link" {{action 'addFilter' 'tags' tag}}>
+                            <span class="badge">{{fix-special-char tag}}</span>
+                        </button>
+                    {{else}}
+                        <span class="badge">{{fix-special-char tag}}</span>
+                    {{/if}}
+                {{/each}}
+                {{#if extraTags}}
+                    <span class="text-muted">+{{extraTags.length}}</span>
+                {{/if}}
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button class='toggleShowResult btn btn-link' aria-label={{t 'eosf.components.searchResult.showResult'}} {{action 'toggleShowBody'}}>
+            {{!fa-icon footerIcon size=1 ariaHidden=false}}
+            <i class="fa fa-caret-{{if showBody 'up' 'down'}}"></i>
+        </button>
+    </div>
+</div>

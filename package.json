@@ -87,6 +87,7 @@
     "ember-cli-password-strength": "^2.0.0",
     "ember-cli-qunit": "^4.1.1",
     "ember-cli-release": "^0.2.9",
+    "ember-cli-sanitize-html": "^2.0.1",
     "ember-cli-sass": "7.1.7",
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.0",
@@ -177,5 +178,9 @@
       "lib/handbook",
       "lib/osf-components"
     ]
+  },
+  "dependencies": {
+    "@types/sanitize-html": "^1.14.0",
+    "langs": "^2.0.0"
   }
 }

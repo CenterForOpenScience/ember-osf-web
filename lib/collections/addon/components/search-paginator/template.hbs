@@ -1,0 +1,12 @@
+<ul>
+    {{#each items as |item|}}
+        <li local-class="li">
+            <button local-class="{{if (eq current item.text) 'active'}}"
+                {{action (or item.action 'setPage') item.text}}
+                disabled={{item.disabled}}
+            >
+                {{item.text}}
+            </button>
+        </li>
+    {{/each}}
+</ul>

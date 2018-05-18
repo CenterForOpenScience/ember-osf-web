@@ -1,0 +1,18 @@
+{{!Copied from Ember-SHARE}}
+<div class="p-t-md">
+    {{#each facets as |facet|}}
+        <div class="panel panel-default" local-class="facet-panel">
+            <div class="panel-heading">
+                {{facet.title}}
+            </div>
+            <div class="panel-body" local-class="facet">
+                {{component
+                    (concat 'discover-page/facets/' facet.component)
+                    context=(get facetContexts facet.component)
+                    filterChanged=filterChanged
+                    filterReplace=filterReplace
+                }}
+            </div>
+        </div>
+    {{/each}}
+</div>

@@ -1,1 +1,105 @@
-<h1 local-class="BoldBlue">{{t 'collections.index.title'}}</h1>
+<div class="preprints-page">
+    <div local-class="header">
+        <div class="container">
+            <div class="row">
+                <div class="text-center m-t-lg col-xs-12">
+                    {{#if theme.isProvider}}
+                        {{!-- <div local-class="provider-brand" style="background-image: url('/collections/assets/img/osf-bg.jpg')"></div> --}}
+                    {{else}}
+                        <h1>
+                            {{osf-logo}}
+                            {{t 'general.OSF'}}
+                            {{t 'collections.index.title'}}
+                        </h1>
+                        {{!-- <div local-class="osf-bg" style="background-image: url('/engines-dist/collections/assets/img/osf-bg.jpg')"></div> --}}
+                    {{/if}}
+                    <p class="lead">
+                        {{#if theme.isProvider}}
+                            {{sanitize-html theme.provider.description "description"}}
+                            <br>
+                            <small>
+                                <a href="{{host}}collections" onbeforeclick={{action "click" "link" "Index - Powered By"}}>
+                                    {{t "index.header.powered_by"}}
+                                </a>
+                            </small>
+                        {{/if}}
+                    </p>
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 m-v-lg" local-class="preprint-search">
+                    {{!-- {{search-preprints search="search"}} --}}
+                    {{#if (not theme.isProvider)}}
+                        {{!-- {{total-share-results}} --}}
+                    {{/if}}
+                </div>
+            </div>
+            {{#if theme.provider.allowSubmissions}}
+                <div class="row">
+                    <div class="text-center col-xs-12">
+                        <p class="lead">
+                            {{t 'general.or'}}
+                        </p>
+                        <a
+                            type="button"
+                            class="btn btn-success btn-lg"
+                            local-class="preprint-submit-button"
+                            onclick={{action "click" "link" "Index - Add collection" target=analytics}}
+                            href={{concat theme.pathPrefix 'submit'}}
+                        >
+                            {{t "global.add_collection"}}
+                        </a>
+                        <div class="m-t-md">
+                            {{!-- (route-prefix 'content') --}}
+                            {{#link-to
+                                'discover'
+                                (if theme.provider.example theme.provider.example 'khbvy')
+                                invokeAction=(action "click" "link" "Index - See example")
+                            }}
+                                {{t "index.header.example"}}
+                            {{/link-to}}
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="p-v-md" local-class="subjects">
+        <div class="container">
+            <div class="row p-v-md">
+                <div class="col-xs-12">
+                    <h2>{{#if theme.provider.additionalProviders}}
+                            {{t "index.subjects.heading.provider"}}
+                        {{else}}
+                            {{!if theme.provider.hasHighlightedSubjects
+                                (t "index.subjects.heading.hasHighlightedSubjects")
+                                (t "index.subjects.heading.noHighlightedSubjects")
+                            }}
+                        {{/if}}
+                    </h2>
+                    {{#if theme.provider.hasHighlightedSubjects}}
+                        {{#link-to (route-prefix 'discover') local-class="seeAllSubjects"}}
+                            {{t 'index.subjects.links.seeAllSubjects'}}
+                        {{/link-to}}
+                    {{/if}}
+                    <div class="p-lg" local-class="subjectsList">
+                        {{#if theme.provider.additionalProviders}}
+                            {{!additional-provider-list additionalProviders=theme.provider.additionalProviders}}
+                        {{else}}
+                            {{!taxonomy-top-list list=model.taxonomies}}
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{#if theme.provider.advisoryBoard.length}}
+        <div class="p-v-md" local-class="advisory">
+            <div class="container">
+                <div class="row">
+                    {{sanitize-html raw=true value=theme.provider.advisoryBoard options=sanitizeOptions}}
+                </div>
+            </div>
+        </div>
+    {{/if}}
+</div>

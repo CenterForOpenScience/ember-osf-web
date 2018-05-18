@@ -1,0 +1,30 @@
+{{title (t (concat translateKey '.heading'))}}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>{{t (concat translateKey '.heading')}}</h1>
+            <p>
+                {{t (concat translateKey '.message')}}
+                <br>
+                <span>{{t 'components.error-page.email_message'}}</span>
+                <a
+                    href="mailto:{{supportEmail}}"
+                    onclick={{action "click" "link" (concat label " - Support") target=analytics}}
+                >
+                    {{supportEmail}}
+                </a>
+            </p>
+            <a
+                class="btn btn-primary m-t-md"
+                href={{theme.pathPrefix}}
+                onclick={{action 'click' 'link' (concat label " - Go to Index") target=analytics}}
+            >
+                {{t 'components.error-page.go_to'
+                    brand=(t (if theme.isProvider "global.provider_brand" "global.brand")
+                    name=theme.provider.name)
+                }}
+            </a>
+        </div>
+    </div>
+</div>

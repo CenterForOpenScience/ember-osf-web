@@ -1,0 +1,41 @@
+/* Override in consuming application to customize appearance of search facets */
+
+.facet-panel {
+    font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
+    border-width: 0;
+
+    > div:first-child {
+        // background-color: rgba(39, 58, 72, 0.84);
+        display: flex;
+        align-items: center;
+        border-radius: 2px;
+        font-size: 18px;
+    }
+}
+
+// TODO: scope these
+
+// .ember-power-select-trigger {
+//     background-color: #f5f5f5;
+//     border-width: 1px;
+//     border-color: #ccc;
+//     border-radius: 0;
+//     color: #333;
+// }
+
+// .ember-power-select-placeholder {
+//     color: #333;
+// }
+
+// ::placeholder {
+//     color: #333;
+//     opacity: 1;
+// }
+
+// .ember-power-select-status-icon {
+//     border-color: #333 transparent transparent;
+// }
+
+.facet {
+    background-color: #fff;
+}

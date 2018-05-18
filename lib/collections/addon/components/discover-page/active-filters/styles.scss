@@ -1,0 +1,20 @@
+.removeActiveFilter {
+    border: 0;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.preprint-filter {
+    margin: 2px;
+    padding: 0 6px;
+    line-height: 30px;
+    border: 1px solid #e3e3e3;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.provider-filter {
+    background-color: #578ca2;
+    color: #eee;
+}
