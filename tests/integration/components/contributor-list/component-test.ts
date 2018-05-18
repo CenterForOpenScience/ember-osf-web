@@ -3,6 +3,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import I18N from 'ember-i18n/services/i18n';
+import injectCustomAssertions from 'ember-osf-web/tests/helpers/inject-custom-assertions';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -37,6 +38,7 @@ interface ThisTestContext extends TestContext {
 
 module('Integration | Component | contributor list', hooks => {
     setupRenderingTest(hooks);
+    injectCustomAssertions(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.owner.register('service:i18n', i18nStub);
@@ -79,6 +81,8 @@ module('Integration | Component | contributor list', hooks => {
             ],
         ];
 
+        assert.expect(testCases.length);
+
         // eslint-disable-next-line no-await-in-loop
         for (const [input, expected] of testCases) {
             const contributors = {
@@ -89,7 +93,7 @@ module('Integration | Component | contributor list', hooks => {
             };
             this.set('contributors', contributors);
             await render(hbs`{{contributor-list contributors=contributors}}`);
-            assert.equal(this.$().text().trim(), expected);
+            assert.hasText('div', expected);
         }
     });
 });
