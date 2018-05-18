@@ -4,7 +4,6 @@ import { run } from '@ember/runloop';
 import Service from '@ember/service';
 
 import { initialize } from 'ember-osf-web/instance-initializers/prerender';
-import { setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
@@ -21,8 +20,6 @@ interface Context extends TestContext {
 }
 
 module('Unit | Instance Initializer | prerender', hooks => {
-    setupTest(hooks);
-
     hooks.beforeEach(function(this: Context) {
         this.TestApplication = Application.extend();
         this.TestApplication.instanceInitializer({
@@ -30,13 +27,10 @@ module('Unit | Instance Initializer | prerender', hooks => {
             initialize,
         });
 
-        this.application = this.TestApplication.create({ autoboot: false });
+        this.application = this.TestApplication.create({ autoboot: false }) as any;
         this.application.register('service:ready', ReadyStub);
 
-        this.instance = ApplicationInstance.create({
-            application: this.application,
-            base: this.application,
-        });
+        this.instance = (this.application as any).buildInstance();
     });
 
     hooks.afterEach(function(this: Context) {
