@@ -17,19 +17,25 @@
     "test:cover": "COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
     "test:translations": "mocha node-tests/translations-test.js",
-    "test:node-tests": "mocha node-tests",
+    "test:blueprints": "mocha node-tests/blueprints",
+    "test:node-tests": "mocha node-tests --recursive",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": "eslint --max-warnings=0 --ignore-pattern=!.eslintrc.js",
-    "*.ts": [
-      "eslint --max-warnings=0",
-      "tslint"
-    ],
-    "*.scss": "stylelint",
-    "*.hbs": "ember-template-lint",
-    "app/locales/*/translations.ts": "node node-tests/helpers/run.js translations",
-    "config/environment.*": "node node-tests/helpers/run.js config"
+    "linters": {
+      "*.js": "eslint --max-warnings=0 --ignore-pattern=!.eslintrc.js",
+      "*.ts,": [
+        "eslint --max-warnings=0",
+        "tslint"
+      ],
+      "*.scss": "stylelint",
+      "*.hbs": "ember-template-lint",
+      "app/locales/*/translations.ts": "node bin/run-node-test.js translations",
+      "config/environment.*": "node bin/run-node-test.js config"
+    },
+    "ignore": [
+      "blueprints/*/files"
+    ]
   },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
@@ -59,6 +65,7 @@
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-autoprefixer": "^0.8.1",
     "ember-cli-babel": "^6.6.0",
+    "ember-cli-blueprint-test-helpers": "^0.18.3",
     "ember-cli-clipboard": "0.9.0",
     "ember-cli-code-coverage": "^1.0.0-beta.4",
     "ember-cli-dependency-checker": "^2.0.0",
