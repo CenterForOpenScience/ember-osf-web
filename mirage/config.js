@@ -1,26 +1,65 @@
+import config from 'ember-get-config';
+
+const { OSF: { apiUrl } } = config;
+
 export default function() {
+    this.urlPrefix = apiUrl;
+    this.namespace = '/v2';
+    this.apiBaseUrl = `${this.urlPrefix}${this.namespace}`;
 
-    // These comments are here to help you get started. Feel free to delete them.
+    this.get('/users/:id', (schema, request) => {
+        const userId = request.params.id;
+        return {
+            data: {
+                relationships: {
+                    nodes: {
+                        links: {
+                            related: {
+                                href: `${this.apiBaseUrl}/users/${userId}/nodes/`,
+                                meta: {},
+                            },
+                        },
+                    },
+                },
+                links: {
+                    self: `${this.apiBaseUrl}/users/${userId}/`,
+                    html: `https://osf.io/${userId}/`,
+                },
+                attributes: {
+                    family_name: 'Guid',
+                    given_name: 'A',
+                    full_name: 'A Guid',
+                },
+                type: 'users',
+                id: userId,
+            },
+        };
+    });
 
-    /*
-      Config (with defaults).
-
-      Note: these only affect routes defined *after* them!
-    */
-
-    // this.urlPrefix = '';    // make this `http://localhost:8080`, for example, if your API is on a different server
-    // this.namespace = '';    // make this `/api`, for example, if your API is namespaced
-    // this.timing = 400;      // delay for each request, automatically set to 0 during testing
-
-    /*
-      Shorthand cheatsheet:
-
-      this.get('/posts');
-      this.post('/posts');
-      this.get('/posts/:id');
-      this.put('/posts/:id'); // or this.patch
-      this.del('/posts/:id');
-
-      http://www.ember-cli-mirage.com/docs/v0.3.x/shorthands/
-    */
+    this.get('/users/:id/nodes', (schema, request) => {
+        const userId = request.params.id;
+        const nodeIds = ['guid2', 'guid3', 'guid4'];
+        const nodePayloads = [];
+        for (const id of nodeIds) {
+            nodePayloads.push({
+                links: {
+                    self: `${this.apiBaseUrl}/nodes/${id}/`,
+                    html: `https://osf.io/${id}/`,
+                },
+                attributes: {
+                },
+                type: 'nodes',
+                id,
+            });
+        }
+        return {
+            data: nodePayloads,
+            meta: {
+                total: nodePayloads.length,
+            },
+            links: {
+                self: `${this.apiBaseUrl}/users/${userId}/nodes/`,
+            },
+        };
+    });
 }

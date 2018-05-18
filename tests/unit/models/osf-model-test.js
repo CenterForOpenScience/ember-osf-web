@@ -1,92 +1,39 @@
 import { run } from '@ember/runloop';
-import $ from 'jquery';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
 
 module('Unit | Model | osf model', function(hooks) {
     setupTest(hooks);
 
     test('it exists', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('osf-model'));
-        // let store = this.store();
         assert.ok(!!model);
     });
 
-    test('queryHasMany works', function(assert) {
+    test('queryHasMany works', async function(assert) {
+        const server = startMirage();
         const store = this.owner.lookup('service:store');
         const userId = 'guid1';
-        const userNodesUrl = `https://api.osf.io/v2/users/${userId}/nodes/`;
-        const userPayload = {
-            data: {
-                relationships: {
-                    nodes: {
-                        links: {
-                            related: {
-                                href: userNodesUrl,
-                                meta: {},
-                            },
-                        },
-                    },
-                },
-                links: {
-                    self: `https://api.osf.io/v2/users/${userId}/`,
-                    html: `https://osf.io/${userId}/`,
-                },
-                attributes: {
-                    family_name: 'Guid',
-                    given_name: 'A',
-                    full_name: 'A Guid',
-                },
-                type: 'users',
-                id: userId,
-            },
-        };
 
-        const nodeIds = ['guid2', 'guid3', 'guid4'];
-        const nodePayloads = [];
-        for (const id of nodeIds) {
-            nodePayloads.push({
-                links: {
-                    self: `https://api.osf.io/v2/nodes/${id}/`,
-                    html: `https://osf.io/${id}/`,
-                },
-                attributes: {
-                },
-                type: 'nodes',
-                id,
-            });
-        }
-
-        const queryParams = { param: 7 };
-
-        $.mockjax({
-            url: userNodesUrl,
-            responseText: {
-                data: nodePayloads,
-                meta: {
-                    total: nodePayloads.length,
-                },
-                links: {
-                    self: `https://api.osf.io/v2/users/${userId}/nodes/`,
-                },
-            },
-        });
-
-        assert.expect(3 + nodeIds.length);
-
-        const done = assert.async();
-        run(function() {
-            store.pushPayload(userPayload);
-            const user = store.peekRecord('user', userId);
+        await run(async function() {
+            const user = await store.findRecord('user', userId);
             assert.ok(!!user);
             assert.equal(user.get('id'), userId);
-            user.queryHasMany('nodes', queryParams).then(function(nodes) {
-                assert.equal(nodes.length, nodeIds.length);
-                for (let i = 0; i < nodes.length; i++) {
-                    assert.equal(nodes[i].get('id'), nodeIds[i]);
-                }
-                done();
-            });
+
+            const queryParams = { param: 7 };
+
+            const nodeIds = ['guid2', 'guid3', 'guid4'];
+
+            const nodes = await user.queryHasMany('nodes', queryParams);
+
+            assert.equal(nodes.length, nodeIds.length);
+            for (let i = 0; i < nodes.length; i++) {
+                assert.equal(nodes[i].get('id'), nodeIds[i]);
+            }
         });
+
+        server.shutdown();
     });
 });
