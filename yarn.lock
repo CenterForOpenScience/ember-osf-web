@@ -7658,13 +7658,7 @@ jest-validate@^22.4.0, jest-validate@^22.4.3:
     leven "^2.1.0"
     pretty-format "^22.4.3"
 
-jquery-mockjax@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/jquery-mockjax/-/jquery-mockjax-2.3.0.tgz#e55eb65626d44bf35b3990dc56ef94a64c6b5c1f"
-  dependencies:
-    jquery ">=1.5.2"
-
-jquery@>=1.12.0, jquery@>=1.5.2, "jquery@>=1.7.1 <4.0.0", jquery@^3.3.1:
+jquery@>=1.12.0, "jquery@>=1.7.1 <4.0.0", jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 

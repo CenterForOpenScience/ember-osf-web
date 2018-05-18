@@ -131,7 +131,6 @@
     "eslint-plugin-typescript": "^0.11.0",
     "flat": "^4.0.0",
     "husky": "^0.14.3",
-    "jquery-mockjax": "^2.3.0",
     "lint-staged": "^7.1.0",
     "loader.js": "^4.2.3",
     "mime-types": "~2.1.17",
