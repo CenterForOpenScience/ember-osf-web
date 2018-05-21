@@ -97,7 +97,7 @@
     "ember-css-modules-sass": "^1.0.0",
     "ember-data": "~3.1.0",
     "ember-data-factory-guy": "~3.1.0",
-    "ember-decorators": "^2.0.0",
+    "ember-decorators": "^2.1.0",
     "ember-diff-attrs": "^0.2.1",
     "ember-engines": "^0.5.18",
     "ember-export-application-global": "^2.0.0",
