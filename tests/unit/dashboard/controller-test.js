@@ -1,5 +1,5 @@
 import { module, skip, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 
 module('Unit | Controller | dashboard', function(hooks) {
     setupTest(hooks);

@@ -1,6 +1,6 @@
 import { get } from '@ember/object';
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 
 import { run } from '@ember/runloop';
 

@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 
 module('Unit | Adapter | log', function(hooks) {
     setupTest(hooks);

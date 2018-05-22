@@ -3,7 +3,7 @@ import { run } from '@ember/runloop';
 
 import { module, skip } from 'qunit';
 
-import { setupTest } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
 

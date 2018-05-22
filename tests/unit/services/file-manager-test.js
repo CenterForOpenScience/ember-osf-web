@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import Service from '@ember/service';
 import { module, skip } from 'qunit';
-import { setupTest } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import FactoryGuy, {
     mockFindRecord, mockUpdate, mockReload,
     setupFactoryGuy, make,

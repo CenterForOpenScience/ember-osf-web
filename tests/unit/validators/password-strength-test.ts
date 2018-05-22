@@ -1,4 +1,4 @@
-import { setupTest } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { module, test } from 'qunit';
 
 module('Unit | Validator | password-strength', hooks => {
