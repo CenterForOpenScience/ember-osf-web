@@ -10,7 +10,7 @@
         {{/m.footer}}
     {{/bs-modal}}
     {{delete-node-modal delete=(action 'delete') openModal=deleteModal closeModal=(action 'closeDeleteModal') nodeType=nodeType}}
-    <div class="Forks__header page-header visible-xs">
+    <div local-class="Forks__header" class="page-header visible-xs">
         <h2 class="text-300">{{t 'forks.title'}}</h2>
     </div>
     <div class="m-md" local-class="Forks__nav">
@@ -34,7 +34,9 @@
                 </ul>
                 {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
             {{else}}
-                {{t 'forks.no_forks'}}
+                <div local-class='Forks__placeholder'>
+                    {{t 'forks.no_forks'}}
+                </div>
             {{/if}}
         {{/if}}
 
