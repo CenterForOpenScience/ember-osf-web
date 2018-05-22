@@ -1,5 +1,5 @@
 import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
-import { setupApplicationTest, setupRenderingTest, setupTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest, setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 
 export function setupEngineTest(hooks: any, engine: string) {
     setupTest(hooks, { resolver: engineResolverFor(engine) });
