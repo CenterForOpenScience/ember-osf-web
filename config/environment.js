@@ -176,6 +176,7 @@ module.exports = function(environment) {
                 dashboard: 'ember_home_page',
                 home: 'ember_home_page',
                 'guid-node.forks': 'ember_project_forks_page',
+                'guid-node.registrations': 'ember_project_registrations_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',

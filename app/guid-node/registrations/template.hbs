@@ -1,0 +1,29 @@
+<ul class="nav nav-tabs">
+  <li>
+      <a aria-controls="registrations">Registrations</a>
+  </li>
+  <li class="active">
+      <a aria-controls="drafts">Draft Registrations</a>
+  </li>
+</ul>
+
+<div>
+    {{#if getRegistrations.isRunning}}
+        {{loading-indicator dark=true}}
+    {{else}}
+        {{#if registrations.length}}
+            <ul class="list-group m-md">
+                <span class="render-nodes-list">
+                    {{#each registrations as | registration |}}
+                        <li class="project list-group-item list-group-item-node cite-container">
+                            {{node-blurb node=registration blurbType='registration'}}
+                        </li>
+                    {{/each}}
+                </span>
+            </ul>
+            {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
+        {{else}}
+            {{t 'registrations.no_registration'}}
+        {{/if}}
+    {{/if}}
+</div>
