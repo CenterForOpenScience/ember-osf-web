@@ -19,32 +19,34 @@ function checkComponentFiles(file, root) {
         .to.contain('.FooBar {\n}');
 }
 
-describe('Acceptance: ember generate and destroy component', function() {
+describe('Blueprint: component', function() {
     setupTestHooks(this);
 
-    beforeEach(function() {
-        setupPodConfig({ usePods: true });
-    });
+    describe('generates valid component files', function() {
+        beforeEach(function() {
+            setupPodConfig({ usePods: true });
+        });
 
-    it('component foo-bar', function() {
-        const args = ['component', 'foo-bar'];
+        it('in app', function() {
+            const args = ['component', 'foo-bar'];
 
-        return emberNew()
-            .then(() => fs.symlinkSync(`${__dirname}/../../blueprints`, `${process.cwd()}/blueprints`))
-            .then(() => emberGenerateDestroy(args, file => checkComponentFiles(file, 'app')));
-    });
+            return emberNew()
+                .then(() => fs.symlinkSync(`${__dirname}/../../blueprints`, `${process.cwd()}/blueprints`))
+                .then(() => emberGenerateDestroy(args, file => checkComponentFiles(file, 'app')));
+        });
 
-    it('addon component foo-bar', function() {
-        const args = ['component', 'foo-bar'];
+        it('in addon', function() {
+            const args = ['component', 'foo-bar'];
 
-        return emberNew({ target: 'addon' })
-            .then(() => fs.symlinkSync(`${__dirname}/../../blueprints`, `${process.cwd()}/blueprints`))
-            .then(() => emberGenerateDestroy(args, file => {
-                checkComponentFiles(file, 'addon');
-                expect(file('addon/components/foo-bar/component.ts'))
-                    .to.contain('import styles from \'./styles\';\nimport layout from \'./template\';\n');
-                expect(file('addon/components/foo-bar/component.ts'))
-                    .to.contain('    layout = layout;\n    styles = styles;\n');
-            }));
+            return emberNew({ target: 'addon' })
+                .then(() => fs.symlinkSync(`${__dirname}/../../blueprints`, `${process.cwd()}/blueprints`))
+                .then(() => emberGenerateDestroy(args, file => {
+                    checkComponentFiles(file, 'addon');
+                    expect(file('addon/components/foo-bar/component.ts'))
+                        .to.contain('import styles from \'./styles\';\nimport layout from \'./template\';\n');
+                    expect(file('addon/components/foo-bar/component.ts'))
+                        .to.contain('    layout = layout;\n    styles = styles;\n');
+                }));
+        });
     });
 });
