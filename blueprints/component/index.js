@@ -24,12 +24,6 @@ module.exports = {
             __path__(options) {
                 return path.join(options.podPath, options.locals.path, options.dasherizedModuleName);
             },
-            __templatepath__(options) {
-                return path.join(options.podPath, options.locals.path, options.dasherizedModuleName);
-            },
-            __templatename__() {
-                return 'template';
-            },
         };
     },
 
@@ -43,9 +37,9 @@ module.exports = {
         let contents = '';
         // if we're in an addon, build import statements
         if (options.project.isEmberCLIAddon() || (options.inRepoAddon && !options.inDummy)) {
-            importStyles = '// @ts-ignore: Ignore import of compiled styles\nimport styles from \'./styles\';\n';
-            importTemplate = '// @ts-ignore: Ignore import of compiled template\nimport layout from \'./template\';\n';
-            contents = '\n    styles = styles;\n    layout = layout;';
+            importStyles = 'import styles from \'./styles\';\n';
+            importTemplate = 'import layout from \'./template\';\n';
+            contents = '\n    layout = layout;\n    styles = styles;';
         }
 
         return {

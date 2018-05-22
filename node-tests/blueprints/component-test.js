@@ -10,6 +10,15 @@ const {
 } = require('ember-cli-blueprint-test-helpers/helpers');
 const { expect } = require('ember-cli-blueprint-test-helpers/chai');
 
+function checkComponentFiles(file, root) {
+    expect(file(`${root}/components/foo-bar/component.ts`))
+        .to.contain('@localClassNames(\'FooBar\')\nexport default class FooBar extends Component');
+    expect(file(`${root}/components/foo-bar/template.hbs`))
+        .to.contain('{{yield}}');
+    expect(file(`${root}/components/foo-bar/styles.scss`))
+        .to.contain('.FooBar {\n}');
+}
+
 describe('Acceptance: ember generate and destroy component', function() {
     setupTestHooks(this);
 
@@ -22,10 +31,7 @@ describe('Acceptance: ember generate and destroy component', function() {
 
         return emberNew()
             .then(() => fs.symlinkSync(`${__dirname}/../../blueprints`, `${process.cwd()}/blueprints`))
-            .then(() => emberGenerateDestroy(args, file => {
-                expect(file('app/components/foo-bar/component.ts'))
-                    .to.contain('export default class FooBar extends Component');
-            }));
+            .then(() => emberGenerateDestroy(args, file => checkComponentFiles(file, 'app')));
     });
 
     it('addon component foo-bar', function() {
@@ -34,15 +40,11 @@ describe('Acceptance: ember generate and destroy component', function() {
         return emberNew({ target: 'addon' })
             .then(() => fs.symlinkSync(`${__dirname}/../../blueprints`, `${process.cwd()}/blueprints`))
             .then(() => emberGenerateDestroy(args, file => {
+                checkComponentFiles(file, 'addon');
                 expect(file('addon/components/foo-bar/component.ts'))
-                    .to.contain(`// @ts-ignore: Ignore import of compiled styles
-import styles from './styles';
-// @ts-ignore: Ignore import of compiled template
-import layout from './template';\n`);
+                    .to.contain('import styles from \'./styles\';\nimport layout from \'./template\';\n');
                 expect(file('addon/components/foo-bar/component.ts'))
-                    .to.contain('styles = styles;');
-                expect(file('addon/components/foo-bar/component.ts'))
-                    .to.contain('layout = layout;');
+                    .to.contain('    layout = layout;\n    styles = styles;\n');
             }));
     });
 });

@@ -34,7 +34,7 @@
       "config/environment.*": "node bin/run-node-test.js config"
     },
     "ignore": [
-      "blueprints/*/files"
+      "blueprints/*/files/**"
     ]
   },
   "devDependencies": {
