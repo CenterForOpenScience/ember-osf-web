@@ -24,7 +24,7 @@
   "lint-staged": {
     "linters": {
       "*.js": "eslint --max-warnings=0 --ignore-pattern=!.eslintrc.js",
-      "*.ts,": [
+      "*.ts": [
         "eslint --max-warnings=0",
         "tslint"
       ],
