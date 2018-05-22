@@ -3,19 +3,20 @@ import {
     setupApplicationTest as emberQunitSetupApplicationTest,
     setupRenderingTest as emberQunitSetupRenderingTest,
     setupTest as emberQunitSetupTest,
+    SetupTestOptions,
 } from 'ember-qunit';
 
-export function setupTest(hooks: NestedHooks) {
-    emberQunitSetupTest(hooks);
+export function setupTest(hooks: NestedHooks, options?: SetupTestOptions) {
+    emberQunitSetupTest(hooks, options);
     injectCustomAssertions(hooks);
 }
 
-export function setupRenderingTest(hooks: NestedHooks) {
-    emberQunitSetupRenderingTest(hooks);
+export function setupRenderingTest(hooks: NestedHooks, options?: SetupTestOptions) {
+    emberQunitSetupRenderingTest(hooks, options);
     injectCustomAssertions(hooks);
 }
 
-export function setupApplicationTest(hooks: NestedHooks) {
-    emberQunitSetupApplicationTest(hooks);
+export function setupApplicationTest(hooks: NestedHooks, options?: SetupTestOptions) {
+    emberQunitSetupApplicationTest(hooks, options);
     injectCustomAssertions(hooks);
 }
