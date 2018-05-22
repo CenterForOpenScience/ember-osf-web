@@ -489,7 +489,7 @@ export default {
     node_blurb: {
         fork: {
             title: 'Forked:',
-            manage_contributors: 'Manage Contributors',
+            manage_contributors: 'Manage contributors',
         },
         private_tooltip: 'This project is private',
     },
