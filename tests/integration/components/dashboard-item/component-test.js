@@ -1,5 +1,5 @@
 import { module, skip } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 

@@ -3,8 +3,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import I18N from 'ember-i18n/services/i18n';
-import injectCustomAssertions from 'ember-osf-web/tests/helpers/inject-custom-assertions';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -38,7 +37,6 @@ interface ThisTestContext extends TestContext {
 
 module('Integration | Component | contributor list', hooks => {
     setupRenderingTest(hooks);
-    injectCustomAssertions(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.owner.register('service:i18n', i18nStub);
