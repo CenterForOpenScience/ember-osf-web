@@ -12,7 +12,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "eslint --ext js,ts --max-warnings=0 --ignore-pattern=!.eslintrc.js . && tslint -p . && stylelint 'app/**/*.scss'",
+    "lint": "eslint --ext js,ts --max-warnings=0 --ignore-pattern=!.eslintrc.js . && tslint -p . && stylelint 'app/**/*.scss' 'lib/**/*.scss'",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
@@ -24,7 +24,7 @@
   "lint-staged": {
     "linters": {
       "*.js": "eslint --max-warnings=0 --ignore-pattern=!.eslintrc.js",
-      "*.ts,": [
+      "*.ts": [
         "eslint --max-warnings=0",
         "tslint"
       ],
@@ -34,7 +34,7 @@
       "config/environment.*": "node bin/run-node-test.js config"
     },
     "ignore": [
-      "blueprints/*/files"
+      "blueprints/*/files/**"
     ]
   },
   "devDependencies": {
