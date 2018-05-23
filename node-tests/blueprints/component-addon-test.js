@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const { beforeEach, describe, it } = require('mocha');
 const {
     emberGenerateDestroy,
@@ -9,6 +8,8 @@ const {
     setupTestHooks,
 } = require('ember-cli-blueprint-test-helpers/helpers');
 const { expect } = require('ember-cli-blueprint-test-helpers/chai');
+const linkBlueprints = require('./helpers/link-blueprints');
+const fixture = require('../helpers/fixture');
 
 describe('Blueprint: component-addon', function() {
     setupTestHooks(this);
@@ -16,14 +17,13 @@ describe('Blueprint: component-addon', function() {
     describe('generates valid component files', function() {
         beforeEach(function() {
             setupPodConfig({ usePods: true });
-            return emberNew({ target: 'addon' })
-                .then(() => fs.symlinkSync(`${__dirname}/../../blueprints`, `${process.cwd()}/blueprints`));
+            return emberNew({ target: 'addon' }).then(linkBlueprints);
         });
 
         it('in addon (app tree)', function() {
-            return emberGenerateDestroy(['component-addon', 'foo-bar'], _file => {
-                expect(_file('app/components/foo-bar/component.ts'))
-                    .to.contain("export { default } from 'my-addon/components/foo-bar/component';");
+            return emberGenerateDestroy(['component-addon', 'foo-bar'], file => {
+                expect(file('app/components/foo-bar/component.ts'))
+                    .to.equal(fixture('blueprints/component-addon/component.ts'));
             });
         });
     });

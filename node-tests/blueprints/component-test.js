@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const { beforeEach, describe, it } = require('mocha');
 const {
     emberGenerateDestroy,
@@ -9,14 +8,16 @@ const {
     setupTestHooks,
 } = require('ember-cli-blueprint-test-helpers/helpers');
 const { expect } = require('ember-cli-blueprint-test-helpers/chai');
+const linkBlueprints = require('./helpers/link-blueprints');
+const fixture = require('../helpers/fixture');
 
 function checkComponentFiles(file, root) {
     expect(file(`${root}/components/foo-bar/component.ts`))
-        .to.contain('@localClassNames(\'FooBar\')\nexport default class FooBar extends Component');
+        .to.equal(fixture(`blueprints/component/in-${root}.ts`));
     expect(file(`${root}/components/foo-bar/template.hbs`))
-        .to.contain('{{yield}}');
+        .to.equal('{{yield}}');
     expect(file(`${root}/components/foo-bar/styles.scss`))
-        .to.contain('.FooBar {\n}');
+        .to.equal('.FooBar {\n}\n');
 }
 
 describe('Blueprint: component', function() {
@@ -28,25 +29,21 @@ describe('Blueprint: component', function() {
         });
 
         it('in app', function() {
-            const args = ['component', 'foo-bar'];
-
             return emberNew()
-                .then(() => fs.symlinkSync(`${__dirname}/../../blueprints`, `${process.cwd()}/blueprints`))
-                .then(() => emberGenerateDestroy(args, file => checkComponentFiles(file, 'app')));
+                .then(linkBlueprints)
+                .then(() => emberGenerateDestroy(
+                    ['component', 'foo-bar'],
+                    file => checkComponentFiles(file, 'app'),
+                ));
         });
 
         it('in addon', function() {
-            const args = ['component', 'foo-bar'];
-
             return emberNew({ target: 'addon' })
-                .then(() => fs.symlinkSync(`${__dirname}/../../blueprints`, `${process.cwd()}/blueprints`))
-                .then(() => emberGenerateDestroy(args, file => {
-                    checkComponentFiles(file, 'addon');
-                    expect(file('addon/components/foo-bar/component.ts'))
-                        .to.contain('import styles from \'./styles\';\nimport layout from \'./template\';\n');
-                    expect(file('addon/components/foo-bar/component.ts'))
-                        .to.contain('    layout = layout;\n    styles = styles;\n');
-                }));
+                .then(linkBlueprints)
+                .then(() => emberGenerateDestroy(
+                    ['component', 'foo-bar'],
+                    file => checkComponentFiles(file, 'addon'),
+                ));
         });
     });
 });
