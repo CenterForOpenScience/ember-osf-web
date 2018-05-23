@@ -29,7 +29,10 @@
 
 .Institutions__block__link {
     color: $color-link-blue;
-    text-decoration: underline;
+}
+
+.Institutions__block__link:hover {
+    color: $color-link-blue;
 }
 
 .Institutions__header {
@@ -39,7 +42,7 @@
 .Institutions__footer {
     padding-top: 40px;
     margin-bottom: -25px;
-    
+
     a {
         color: $color-link-blue;
     }
