@@ -1,12 +1,12 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { render } from '@ember/test-helpers';
+import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
-module('Integration | Component | search dropdown', function(hooks) {
+module('Integration | Component | search dropdown', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async function(assert) {
+    test('it renders', async assert => {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.on('myAction', function(val) { ... });
 

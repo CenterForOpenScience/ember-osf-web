@@ -1,13 +1,14 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
+import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { TestContext } from 'ember-test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
-module('Integration | Component | noteworthy and popular project', function(hooks) {
+module('Integration | Component | noteworthy and popular project', hooks => {
     setupRenderingTest(hooks);
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function(this: TestContext) {
         manualSetup(this);
     });
 

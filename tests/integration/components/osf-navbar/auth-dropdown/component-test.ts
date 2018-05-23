@@ -1,12 +1,13 @@
 import Service from '@ember/service';
-import { render, click } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 const sessionStub = Service.extend({
     isAuthenticated: false,
-    on: () => {},
+    on: () => { /* stub */ },
 });
 
 const routerStub = Service.extend({
@@ -17,7 +18,7 @@ const routerStub = Service.extend({
 module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
     setupRenderingTest(hooks);
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:session', sessionStub);
 
         // Prevent trying to actually transition

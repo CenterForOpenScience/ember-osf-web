@@ -1,14 +1,13 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { render, settled } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import ace from 'ember-ace';
+import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
-
-module('Integration | Component | file editor', function(hooks) {
+module('Integration | Component | file editor', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async function(assert) {
+    test('it renders', async assert => {
         // Tests that the template renders without text
 
         await render(hbs`
@@ -19,7 +18,7 @@ module('Integration | Component | file editor', function(hooks) {
         assert.equal(editor.getSession().getValue(), '');
     });
 
-    test('it renders with text', async function(assert) {
+    test('it renders with text', async assert => {
         // Tests that the template renders when passed text
 
         await render(hbs`
@@ -56,7 +55,7 @@ module('Integration | Component | file editor', function(hooks) {
     test('save new text', async function(assert) {
         // Tests that the save function works
 
-        this.set('externalSaveAction', actual => {
+        this.set('externalSaveAction', (actual: any) => {
             const expected = 'Test to save this new text!';
             assert.equal(actual, expected, 'Save function properly passes new value');
         });
