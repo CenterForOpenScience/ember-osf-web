@@ -2,14 +2,17 @@
 
 Make a PR!
 
-To enable the handbook locally, add the following to your `ember-osf-web/config/local.js`:
-```js
-module.exports = {
-    HANDBOOK_ENABLED: true,
-};
-```
+## Running the handbook locally
+1. Add the following to your `ember-osf-web/config/local.js`:
+    ```js
+    module.exports = {
+        HANDBOOK_ENABLED: true,
+    };
+    ```
+1. Add `/handbook/` to the `routes` list in `osf.io/website/ember_osf_web/views.py`
+1. Go to `localhost:5000/handbook/`
 
-## Adding a docs page
+## Adding a handbook page
 These pages are nice, friendly markdown files that live in `lib/handbook/addon/docs/`.
 To add a new page:
 
