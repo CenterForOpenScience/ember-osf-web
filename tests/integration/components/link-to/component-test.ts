@@ -22,7 +22,7 @@ module('Integration | Component | link-to', hooks => {
         const linkText = 'This is a link!';
         const ariaLabel = 'This is an aria label!';
         await render(hbs`
-            {{#link-to 'foo' (html-attributes aria-label='This is an aria label!')}}
+            {{~#link-to 'foo' (html-attributes aria-label='This is an aria label!')}}
                 This is a link!
             {{/link-to}}
         `);
