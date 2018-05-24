@@ -75,6 +75,8 @@ declare const config: {
         statusCookie: string;
         cookieDomain: string;
         authenticator: string;
+        keenProjectId: string;
+        analyticsDismissAdblockCookie: string;
     };
     social: {
         twitter: {

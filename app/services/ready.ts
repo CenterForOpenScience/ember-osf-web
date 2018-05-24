@@ -7,9 +7,9 @@ import { task, waitForQueue } from 'ember-concurrency';
 import RSVP from 'rsvp';
 
 export interface Blocker {
-    done: () => void;
-    errored: (e: any) => void;
-    isDone: () => boolean;
+    done(): void;
+    errored(e: any): void;
+    isDone(): boolean;
 }
 
 export enum Events {

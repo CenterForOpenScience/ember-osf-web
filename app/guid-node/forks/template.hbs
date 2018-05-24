@@ -18,9 +18,13 @@
         <h2 class="text-300">{{t 'forks.title'}}</h2>
     </div>
     <div class="m-md" local-class="Forks__nav">
-        <a href="/{{model.taskInstance.value.id}}/analytics" onclick={{action 'click' 'link' 'Project Forks - forks.back' target=analytics}} class="padded strong">
+        {{#link-to
+            'guid-node.analytics'
+            model.taskInstance.value.id
+            click=(action 'click' 'link' 'Project Forks - forks.back' target=analytics)
+        }}
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
-        </a>
+        {{/link-to}}
         <p local-class="Forks__nav__link">{{t 'forks.info'}}</p>
     </div>
     <div local-class="Forks__forks">

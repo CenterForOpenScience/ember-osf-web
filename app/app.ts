@@ -27,6 +27,20 @@ const App = Application.extend({
                 ],
             },
         },
+        analyticsPage: {
+            dependencies: {
+                services: [
+                    'i18n',
+                    'route-context',
+                    'cookies',
+                    'store',
+                    'analytics',
+                ],
+                externalRoutes: {
+                    nodeForks: 'guid-node.forks',
+                },
+            },
+        },
     },
 });
 

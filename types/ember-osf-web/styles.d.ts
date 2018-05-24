@@ -1,4 +1,4 @@
 declare module '*/styles' {
-    const value: object;
+    const value: { [k: string]: string };
     export default value;
 }

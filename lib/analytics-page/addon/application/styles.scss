@@ -1,0 +1,52 @@
+@import 'app/styles/typography';
+
+.Counts {
+    display: flex;
+    flex-wrap: wrap;
+
+    .CountBox {
+        flex-grow: 1;
+        flex-basis: 0;
+
+        margin: 2em 1.5em 2em 0;
+        padding: 1em;
+        border: 1px solid $color-border-gray;
+        text-align: center;
+        min-width: 15em;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    h2,
+    h3 {
+        margin-top: 0;
+    }
+}
+
+.PickDateRange {
+    text-align: right;
+    margin: 15px 0;
+
+    .DateRangeButton {
+        i {
+            margin-left: 5px;
+        }
+    }
+
+    .DateRangeMenu {
+        background-color: $color-bg-gray-light;
+    }
+
+    .DateRangeOption {
+        color: $color-link-black;
+
+        &:hover,
+        &:focus {
+            cursor: pointer;
+            background-image: none;
+            background-color: $color-bg-gray-dark;
+        }
+    }
+}

@@ -1,0 +1,72 @@
+<div class="container">
+    {{#if model.taskInstance.isRunning}}
+        {{loading-indicator dark=true}}
+    {{else}}
+        <div local-class='Counts'>
+            <div local-class='CountBox'>
+                <h3>{{t 'analytics.forks'}}</h3>
+                <h2>{{forksCount}}</h2>
+                {{#link-to-external 'nodeForks' model.id}}
+                    {{t 'analytics.viewForks'}}
+                {{/link-to-external}}
+            </div>
+            <div local-class='CountBox'>
+                <h3>{{t 'analytics.links'}}</h3>
+                <h2>{{linkedByCount}}</h2>
+                <a href='/'> {{!TODO links view or modal}}
+                    {{t 'analytics.viewLinks'}}
+                </a>
+            </div>
+            <div local-class='CountBox'>
+                <h3>{{t 'analytics.templateCopies'}}</h3>
+                <h2>{{templatedByCount}}</h2>
+            </div>
+        </div>
+
+        {{#unless hideAdblockWarning}}
+            {{#bs-alert type='info' onDismissed=(action dismissAdblockWarning)}}
+                <div class='text-center'>
+                    {{t 'analytics.adblockWarning'}}
+                </div>
+            {{/bs-alert}}
+        {{/unless}}
+
+        <div local-class="PickDateRange">
+            <label>
+                {{t 'analytics.showForDateRange'}}
+                {{#bs-dropdown as |dd|}}
+                    {{#dd.button
+                        (html-attributes aria-haspopup=true aria-expanded=false)
+                        class=(local-class 'DateRangeButton')
+                    }}
+                        {{t (concat 'analytics.dateRanges.' activeDateRange.key)}}
+                        {{fa-icon 'caret-down'}}
+                    {{/dd.button}}
+                    {{#dd.menu class=(concat (local-class 'DateRangeMenu') ' dropdown-menu-right')}}
+                        {{#each dateRanges as |dateRange|}}
+                            <li role="menuitem">
+                                <a
+                                    role="button"
+                                    local-class="DateRangeOption"
+                                    {{action 'setDateRange' dateRange}}
+                                >
+                                    {{t (concat 'analytics.dateRanges.' dateRange.key)}}
+                                </a>
+                            </li>
+                        {{/each}}
+                    {{/dd.menu}}
+                {{/bs-dropdown}}
+            </label>
+        </div>
+        <div class='clearfix'></div>
+        <div class='row'>
+            {{analytics-chart
+                chartComponent='charts/unique-visits'
+                title=(t 'analytics.uniqueVisits')
+                node=model.taskInstance.value
+                startDate=activeDateRange.start
+                endDate=activeDateRange.end
+            }}
+        </div>
+    {{/if}}
+</div>

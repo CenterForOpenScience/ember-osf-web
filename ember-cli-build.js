@@ -35,7 +35,6 @@ module.exports = function(defaults) {
     const app = new EmberApp(defaults, {
         ...handbookOptions,
         hinting: config.lintOnBuild,
-
         ace: {
             modes: ['handlebars'],
         },

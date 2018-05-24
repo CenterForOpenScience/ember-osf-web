@@ -493,8 +493,11 @@ export default {
         hide_message: 'Hide this message',
     },
     node_blurb: {
+        generic: {
+            dateLabel: '',
+        },
         fork: {
-            title: 'Forked:',
+            dateLabel: 'Forked:',
             manage_contributors: 'Manage contributors',
         },
         private_tooltip: 'This project is private',
@@ -569,6 +572,28 @@ export default {
         },
         submit: {
             title: 'Submit',
+        },
+    },
+    analytics: {
+        forks: 'Forks',
+        viewForks: 'View all forks',
+        links: 'Links to this project',
+        viewLinks: 'View all links',
+        templateCopies: 'Template copies',
+        adblockWarning: 'The use of adblocking software may prevent site analytics from loading properly',
+        uniqueVisits: 'Unique visits',
+        visitTimes: 'Time of day of visits',
+        topReferrers: 'Top referrers',
+        popularPages: 'Popular pages',
+        showForDateRange: 'Show analytics for date range:',
+        directLink: 'direct link',
+        enableChart: 'Enable chart',
+        visits: 'Visits',
+        hourOfDay: 'Hour of day',
+        dateRanges: {
+            pastWeek: 'Past week',
+            pastTwoWeeks: 'Past two weeks',
+            pastMonth: 'Past month',
         },
     },
 };

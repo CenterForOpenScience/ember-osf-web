@@ -1,0 +1,45 @@
+@media (max-width: 767px) {
+    .ChartWrapper {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
+
+.Chart {
+    svg {
+        font-size: 12px;
+    }
+}
+
+.BlurredChart {
+    filter: blur(1px) grayscale(100%);
+}
+
+.ChartContainer {
+    position: relative;
+}
+
+.ChartOverlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+        z-index: -1;
+        background-color: $color-bg-white;
+    }
+}
