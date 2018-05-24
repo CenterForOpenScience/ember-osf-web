@@ -51,5 +51,7 @@ for a simple example.
     - Fix import paths (`app/models/...` should be `ember-osf-web/models/...`)
     - Component arguments aren't internal
 - Easy deployment to Github Pages
+- Enable lazy loading
 - Fix bugs
     - Intermittent error on rebuild?
+    - Weird search result rendering problem (type "universe" slowly)
