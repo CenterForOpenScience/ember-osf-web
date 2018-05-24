@@ -5338,7 +5338,7 @@ ember-hash-helper-polyfill@^0.2.0:
 
 "ember-href-to@https://github.com/aaxelb/ember-href-to#engine-support#2":
   version "1.15.0"
-  resolved "https://github.com/aaxelb/ember-href-to#b8c20c5e2209d8759107d0f1af37d7dafe5632e0"
+  resolved "https://github.com/aaxelb/ember-href-to#eca537347f26f83ff53df5f3edeea654e6a925a0"
   dependencies:
     ember-cli-babel "^6.8.2"
     ember-router-service-polyfill "^1.0.2"
