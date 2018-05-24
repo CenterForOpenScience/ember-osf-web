@@ -131,6 +131,10 @@
     }
 }
 
+#signUpScope a {
+    color: #5bc0de;
+}
+
 @media(max-width: 767px) {
     :global(#home-hero) {
         height: 1000px;

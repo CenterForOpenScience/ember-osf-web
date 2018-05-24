@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - contributor-list component, to accept lists with links
 - update OSF API version to 2.8
 
+## [0.3.3] - 2018-05-24
+### Added
+- GDPR ToS consent checkbox
+
 ## [0.3.2] - 2018-05-17
 ### Fixed
 - Keep Getting Started video modal closed after its dismissed

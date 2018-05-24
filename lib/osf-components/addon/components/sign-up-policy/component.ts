@@ -1,4 +1,4 @@
-import { classNames } from '@ember-decorators/component';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import config from 'ember-get-config';
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
