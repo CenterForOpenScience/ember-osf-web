@@ -50,6 +50,11 @@ const Validations = buildValidations({
             min: 2,
         }),
     ],
+    acceptedTermsOfService: [
+        validator('affirmation', {
+            messageKey: 'affirm_terms',
+        }),
+    ],
 }, {
     debounce: 500,
 });
@@ -60,6 +65,7 @@ export default class UserRegistration extends Model.extend(Validations) {
     @attr('string') fullName!: string;
     @attr('string') recaptchaResponse!: string;
     @attr('string') password!: string;
+    @attr('boolean') acceptedTermsOfService!: boolean;
 
     existingEmails: Set<string> = new Set();
 

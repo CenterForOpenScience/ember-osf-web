@@ -1,8 +1,8 @@
-import { classNames } from '@ember-decorators/component';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import config from 'ember-get-config';
 
-@classNames('small')
+@tagName('')
 export default class SignUpPolicy extends Component {
     constructor(properties: object) {
         super(properties);
