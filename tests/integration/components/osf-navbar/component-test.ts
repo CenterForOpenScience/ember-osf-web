@@ -9,6 +9,7 @@ module('Integration | Component | osf navbar', hooks => {
     test('it renders', async function(assert) {
         this.set('loginAction', () => { /* stub */ });
         await render(hbs`{{osf-navbar loginAction=loginAction}}`);
-        assert.ok(this.$().text().replace(/\s+/g, ' ').includes('OSF'));
+        assert.includesText('.service-name', 'OSF');
+        assert.hasText('.current-service', 'HOME');
     });
 });

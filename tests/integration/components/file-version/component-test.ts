@@ -23,13 +23,22 @@ module('Integration | Component | file version', hooks => {
 
         await render(hbs`{{file-version version=version}}`);
 
-        const child1text = this.$('.file-version').children().eq(0).text();
-        assert.equal(child1text.trim(), '1', 'The first element should be the id, which is 1');
+        assert.hasText(
+            '.file-version > :nth-child(1)',
+            '1',
+            'The first list element displays the id.',
+        );
 
-        const child2text = this.$('.file-version').children().eq(1).text();
-        assert.ok(child2text.indexOf('2017-10-06') !== -1, 'Second list element should be a label with the file date');
+        assert.includesText(
+            '.file-version > :nth-child(2)',
+            '2017-10-06',
+            'The second list element displays the file date.',
+        );
 
-        const result = this.$('.file-version').children().eq(2).text();
-        assert.equal(result, 10, 'Third list element should be a label with the download count - which is 10');
+        assert.hasText(
+            '.file-version > :nth-child(3)',
+            '10',
+            'The third list element displays the download count.',
+        );
     });
 });

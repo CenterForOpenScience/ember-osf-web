@@ -6,8 +6,8 @@ import { module, test } from 'qunit';
 module('Integration | Component | file share button', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async function(assert) {
+    test('it renders', async assert => {
         await render(hbs`{{file-share-button}}`);
-        assert.equal(this.$().text().trim(), 'Share');
+        assert.hasText('button', 'Share');
     });
 });

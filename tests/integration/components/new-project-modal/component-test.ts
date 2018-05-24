@@ -26,7 +26,7 @@ module('Integration | Component | new project modal', hooks => {
         });
     });
 
-    test('it renders', async function(assert) {
+    test('it renders', async assert => {
         await render(hbs`{{new-project-modal
             newNode=newNode
             institutions=institutions
@@ -40,6 +40,7 @@ module('Integration | Component | new project modal', hooks => {
             searchChange=searchChange
             create=create
         }}`);
-        assert.ok(this.$().text().trim());
+        assert.found('.modal');
+        assert.hasText('.modal-title', 'Create new project');
     });
 });

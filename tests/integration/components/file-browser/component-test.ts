@@ -16,7 +16,7 @@ module('Integration | Component | file browser', hooks => {
         this.set('user', FactoryGuy.make('user'));
         this.set('display', ['header']);
         await render(hbs`{{file-browser  user=user display=display}}`);
-        assert.equal(this.$('div:contains("Name")').html().split('col-xs-')[1].split(' ')[0], '12');
+        assert.hasClass('div[class*="column-labels-header"] > div:nth-child(1)', 'col-xs-12');
     });
 
     skip('test name\'s column width (share-link-column)', async function(assert) {

@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { findAll, render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -11,13 +11,17 @@ module('Integration | Component | sort button', hooks => {
         this.set('sortAction', () => assert.ok(true));
     });
 
-    test('selected works with sortBy', async function(assert) {
+    test('selected works with sortBy', async assert => {
         await render(hbs`{{sort-button sortAction=sortAction sortBy='kindness' sort='-kindndess'}}`);
 
-        assert.equal(this.$('button').length, 2);
-        assert.ok(
-            this.$('button')[0].className.includes('not-selected'),
-            'sortBy doesn\'t match, should be unselected',
+        assert.equal(findAll('button').length, 2, 'Two buttons found.');
+        assert.found(
+            'button[title="Sort ascending"][class*="not-selected"]',
+            'Sort ascending button is not selected.',
+        );
+        assert.found(
+            'button[title="Sort descending"][class*="not-selected"]',
+            'Sort descending button is not selected.',
         );
     });
 });

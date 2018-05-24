@@ -70,7 +70,7 @@ module('Integration | Component | inline-list', hooks => {
                     {{~l.item~}}
                 {{/inline-list}}
             `);
-            assert.equal(this.$().text().trim(), expected);
+            assert.hasText(this.element, expected);
         }
     });
     test('it renders with truncate', async function(assert) {
@@ -109,7 +109,7 @@ module('Integration | Component | inline-list', hooks => {
                     {{/if}}
                 {{/inline-list}}
             `);
-            assert.equal(this.$().text().trim(), expected);
+            assert.hasText(this.element, expected);
         }
     });
 });

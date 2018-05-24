@@ -6,8 +6,8 @@ import { module, test } from 'qunit';
 module('Integration | Component | dropzone widget', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async function(assert) {
+    test('it renders', async assert => {
         await render(hbs`{{dropzone-widget}}`);
-        assert.equal(this.$().text().trim(), 'Drop files here to upload');
+        assert.hasText('div.dz-message', 'Drop files here to upload');
     });
 });
