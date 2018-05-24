@@ -48,6 +48,7 @@ const Router = EmberRouter.extend({
 const {
     engines: {
         collections,
+        handbook,
     },
 } = config;
 
@@ -64,6 +65,9 @@ Router.map(function() {
 
     if (collections.enabled) {
         this.mount('collections');
+    }
+    if (handbook.enabled) {
+        this.mount('handbook');
     }
 
     /*
@@ -92,8 +96,8 @@ Router.map(function() {
     this.route('resolve-guid', { path: '/:guid' });
 
     // Error routes
-    this.route('not-found', { path: '*path' });
     this.route('error-no-api', { path: '*no_api_path' });
+    this.route('not-found', { path: '*path' });
 });
 
 /* eslint-enable array-callback-return */

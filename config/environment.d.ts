@@ -139,6 +139,12 @@ declare const config: {
         collections: {
             enabled: boolean;
         };
+        handbook: {
+            enabled: boolean;
+        };
+    };
+    'ember-cli-tailwind'?: {
+        shouldIncludeStyleguide: boolean,
     };
 };
 

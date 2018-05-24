@@ -36,6 +36,12 @@
       "osf-components/*": [
         "lib/osf-components/addon/*"
       ],
+      "handbook": [
+        "lib/handbook/addon"
+      ],
+      "handbook/*": [
+        "lib/handbook/addon/*"
+      ],
       "config/*": [
         "config/*"
       ],
@@ -48,7 +54,7 @@
       ],
       "*": [
         "types/*"
-      ],
+      ]
     },
     "experimentalDecorators": true,
     "skipLibCheck": true
@@ -59,6 +65,7 @@
     "tests",
     "types",
     "lib/collections",
-    "lib/osf-components"
+    "lib/osf-components",
+    "lib/handbook"
   ]
 }

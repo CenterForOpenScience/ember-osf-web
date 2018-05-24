@@ -11,7 +11,17 @@ function postProcess(content) {
 }
 
 module.exports = function(defaults) {
+    const config = defaults.project.config(EMBER_ENV);
+
     const app = new EmberApp(defaults, {
+        ace: {
+            modes: ['handlebars'],
+        },
+        addons: {
+            blacklist: [
+                'ember-cli-addon-docs',
+            ],
+        },
         'ember-bootstrap': {
             bootstrapVersion: 3,
             importBootstrapFont: true,
@@ -75,6 +85,17 @@ module.exports = function(defaults) {
         'ember-cli-babel': {
             includePolyfill: true,
         },
+
+        // Options for ember-code-snippets options, used in the dev handbook.
+        // Included here because ember-code-snippets always looks to the host app.
+        // TODO: figure out a way to put these in the engine's index.js
+        includeHighlightJS: false,
+        includeFileExtensionInSnippetNames: false,
+        snippetSearchPaths: ['lib/handbook/addon'],
+        snippetRegexes: {
+            begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
+            end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,
+        },
     });
 
     app.import('node_modules/dropzone/dist/dropzone.css');
@@ -86,6 +107,12 @@ module.exports = function(defaults) {
     app.import({
         test: 'vendor/ember/ember-template-compiler.js',
     });
+
+    if (config.engines.handbook.enabled) {
+        app.import('vendor/highlight.pack.js', {
+            using: [{ transformation: 'amd', as: 'highlight.js' }],
+        });
+    }
 
     const assets = [
         new Funnel('node_modules/@centerforopenscience/osf-style/img', {
