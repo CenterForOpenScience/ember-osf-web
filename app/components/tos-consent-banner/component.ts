@@ -32,7 +32,7 @@ export default class TosConsentBanner extends Component {
         Object.assign(this, config.signUpPolicy);
     }
 
-    async init(this: TosConsentBanner) {
+    init(this: TosConsentBanner) {
         super.init();
         this.currentUser.checkShowTosConsentBanner();
     }
