@@ -63,7 +63,7 @@
     "ember-bootstrap-datepicker": "^2.0.8",
     "ember-browserify": "^1.2.0",
     "ember-cli": "~3.1.0",
-    "ember-cli-addon-docs": "https://github.com/aaxelb/ember-cli-addon-docs#docs-engine#32",
+    "ember-cli-addon-docs": "https://github.com/aaxelb/ember-cli-addon-docs#docs-engine#33",
     "ember-cli-addon-docs-typedoc": "https://github.com/typed-ember/ember-cli-addon-docs-typedoc#initial-implementation",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-autoprefixer": "^0.8.1",

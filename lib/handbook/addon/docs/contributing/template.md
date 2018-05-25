@@ -12,6 +12,8 @@ Make a PR!
 1. Add `/handbook/` to the `routes` list in `osf.io/website/ember_osf_web/views.py`
 1. Go to `localhost:5000/handbook/`
 
+To enable auto-generated docs (experimental), set `HANDBOOK_DOC_GENERATION_ENABLED`.
+
 ## Adding a handbook page
 These pages are nice, friendly markdown files that live in `lib/handbook/addon/docs/`.
 To add a new page:

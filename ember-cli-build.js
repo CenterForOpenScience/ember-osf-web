@@ -12,14 +12,37 @@ function postProcess(content) {
 
 module.exports = function(defaults) {
     const config = defaults.project.config(EMBER_ENV);
+    const handbookEnabled = config.engines.handbook.enabled;
+
+    /*
+     * Options just used by child addons of the handbook engine. Some addons
+     * insist on looking to the root app config instead of their parent config.
+     */
+    let handbookOptions = {};
+    if (handbookEnabled) {
+        handbookOptions = {
+            // ember-code-snippets
+            includeHighlightJS: false,
+            includeFileExtensionInSnippetNames: false,
+            snippetSearchPaths: ['lib/handbook/addon'],
+            snippetRegexes: {
+                begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
+                end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,
+            },
+        };
+    }
 
     const app = new EmberApp(defaults, {
+        ...handbookOptions,
+        hinting: config.lintOnBuild,
+
         ace: {
             modes: ['handlebars'],
         },
         addons: {
             blacklist: [
-                'ember-cli-addon-docs',
+                'ember-cli-addon-docs', // Only included in the handbook engine
+                ...(handbookEnabled ? [] : ['handbook']),
             ],
         },
         'ember-bootstrap': {
@@ -86,16 +109,6 @@ module.exports = function(defaults) {
             includePolyfill: true,
         },
 
-        // Options for ember-code-snippets options, used in the dev handbook.
-        // Included here because ember-code-snippets always looks to the host app.
-        // TODO: figure out a way to put these in the engine's index.js
-        includeHighlightJS: false,
-        includeFileExtensionInSnippetNames: false,
-        snippetSearchPaths: ['lib/handbook/addon'],
-        snippetRegexes: {
-            begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
-            end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,
-        },
     });
 
     app.import('node_modules/dropzone/dist/dropzone.css');
@@ -108,7 +121,7 @@ module.exports = function(defaults) {
         test: 'vendor/ember/ember-template-compiler.js',
     });
 
-    if (config.engines.handbook.enabled) {
+    if (handbookEnabled) {
         app.import('vendor/highlight.pack.js', {
             using: [{ transformation: 'amd', as: 'highlight.js' }],
         });

@@ -141,8 +141,10 @@ declare const config: {
         };
         handbook: {
             enabled: boolean;
+            docGenerationEnabled: boolean;
         };
     };
+    lintOnBuild: boolean;
     'ember-cli-tailwind'?: {
         shouldIncludeStyleguide: boolean,
     };
