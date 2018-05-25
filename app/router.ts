@@ -24,6 +24,8 @@ const Router = EmberRouter.extend({
             }
         }
 
+        this.get('currentUser').checkShowTosConsentBanner();
+
         if (!this.readyBlocker || this.readyBlocker.isDone()) {
             this.readyBlocker = this.get('ready').getBlocker();
         }

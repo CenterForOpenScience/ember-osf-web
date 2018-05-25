@@ -1,5 +1,6 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
+import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import File from './file';
 import Institution from './institution';
@@ -12,13 +13,21 @@ import Registration from './registration';
  * @submodule models
  */
 
+const Validations = buildValidations({
+    acceptedTermsOfService: [
+        validator('affirmation', {
+            messageKey: 'affirm_terms',
+        }),
+    ],
+});
+
 /**
  * Model for OSF APIv2 users. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
  *
  * @class User
  */
-export default class User extends OsfModel {
+export default class User extends OsfModel.extend(Validations) {
     @attr('fixstring') fullName!: string;
     @attr('fixstring') givenName!: string;
     @attr('array') middleNames!: string[];
@@ -29,6 +38,8 @@ export default class User extends OsfModel {
     @attr('fixstring') username!: string;
 
     @attr('boolean', { defaultValue: false }) canViewReviews!: boolean;
+
+    @attr('boolean') acceptedTermsOfService?: boolean;
 
     @hasMany('node') nodes!: DS.PromiseManyArray<Node>;
     @hasMany('registration') registrations!: DS.PromiseManyArray<Registration>;

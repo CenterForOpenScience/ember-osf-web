@@ -31,6 +31,7 @@ export default class CurrentUserService extends Service {
     @service features!: Features;
 
     waffleLoaded = false;
+    showTosConsentBanner = false;
 
     /**
      * If logged in, return the ID of the current user, else return null.
@@ -111,6 +112,13 @@ export default class CurrentUserService extends Service {
         }
 
         return this.get('features').isEnabled(feature);
+    }
+
+    async checkShowTosConsentBanner(this: CurrentUserService) {
+        const user = await this.user;
+        if (user && !user.acceptedTermsOfService) {
+            this.set('showTosConsentBanner', true);
+        }
     }
 }
 
