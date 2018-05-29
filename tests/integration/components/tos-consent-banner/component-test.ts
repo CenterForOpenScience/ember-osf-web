@@ -28,7 +28,7 @@ module('Integration | Component | tos-consent-banner', hooks => {
             assert.notOk(this.$().text().includes(
                 'You must read and agree to the Terms of Use and Privacy Policy.',
             ), 'Does not display validation error message.');
-            await click(this.element.querySelector('.TosConsentBanner__jumbo button[type="submit"]') as Node);
+            await click(this.element.querySelector('[class*="TosConsentBanner"] button[type="submit"]') as Node);
             assert.ok(this.$().text().includes(
                 'You must read and agree to the Terms of Use and Privacy Policy.',
             ), 'Displays validation error message after clicking continue.');
