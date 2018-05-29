@@ -1,3 +1,4 @@
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import injectCustomAssertions from 'ember-osf-web/tests/helpers/inject-custom-assertions';
 import {
     setupApplicationTest as emberQunitSetupApplicationTest,
@@ -18,5 +19,6 @@ export function setupRenderingTest(hooks: NestedHooks, options?: SetupTestOption
 
 export function setupApplicationTest(hooks: NestedHooks, options?: SetupTestOptions) {
     emberQunitSetupApplicationTest(hooks, options);
+    setupMirage(hooks);
     injectCustomAssertions(hooks);
 }
