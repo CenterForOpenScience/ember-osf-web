@@ -19,7 +19,7 @@ module('Integration | Component | tos-consent-banner', hooks => {
             const session = this.owner.lookup('service:session');
             session.set('isAuthenticated', true);
             session.set('data', { authenticated: { id: '1' } });
-            const user = make('user', { id: '1', fullName: 'test', acceptedTermsOfService: false });
+            const user = make('user', { id: '1', acceptedTermsOfService: null });
             mockFindRecord('user').returns({ model: user });
             await render(hbs`{{tos-consent-banner}}`);
             assert.ok(this.$().text().trim().includes(

@@ -39,7 +39,7 @@ export default class User extends OsfModel.extend(Validations) {
 
     @attr('boolean', { defaultValue: false }) canViewReviews!: boolean;
 
-    @attr('boolean') acceptedTermsOfService?: boolean;
+    @attr('boolean', { allowNull: true }) acceptedTermsOfService?: boolean;
 
     @hasMany('node') nodes!: DS.PromiseManyArray<Node>;
     @hasMany('registration') registrations!: DS.PromiseManyArray<Registration>;
