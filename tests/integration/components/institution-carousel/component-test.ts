@@ -8,6 +8,6 @@ module('Integration | Component | institution carousel', hooks => {
 
     test('it renders', async function(assert) {
         await render(hbs`{{institution-carousel}}`);
-        assert.hasText(this.element, '', 'No text.');
+        assert.notHasText(this.element);
     });
 });

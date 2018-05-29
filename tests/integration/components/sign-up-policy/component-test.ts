@@ -8,7 +8,6 @@ module('Integration | Component | sign-up-policy', hooks => {
 
     test('it renders', async function(assert) {
         await render(hbs`{{sign-up-policy}}`);
-
-        assert.ok((this.element.textContent || '').trim());
+        assert.hasText(this.element, 'I have read and agree to the Terms of Use and Privacy Policy.');
     });
 });

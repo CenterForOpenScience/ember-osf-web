@@ -12,7 +12,6 @@ module('Integration | Component | sign-up-form', hooks => {
         });
 
         await render(hbs`{{sign-up-form submit=submit}}`);
-
-        assert.ok((this.element.textContent || '').trim());
+        assert.includesText(this.element, 'I have read and agree to the Terms of Use and Privacy Policy.');
     });
 });

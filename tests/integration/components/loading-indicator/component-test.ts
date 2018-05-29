@@ -8,13 +8,13 @@ module('Integration | Component | loading indicator', hooks => {
 
     test('light', async function(assert) {
         await render(hbs`{{loading-indicator}}`);
-        assert.hasText(this.element, '', 'is empty element');
+        assert.notHasText(this.element);
         assert.hasClass(this.element.querySelector('div.ball-scale'), 'ball-light');
     });
 
     test('dark', async function(assert) {
         await render(hbs`{{loading-indicator dark=true}}`);
-        assert.hasText(this.element, '', 'is empty element');
+        assert.notHasText(this.element);
         assert.hasClass(this.element.querySelector('div.ball-scale'), 'ball-dark');
     });
 });
