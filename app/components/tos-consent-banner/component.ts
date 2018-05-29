@@ -38,8 +38,9 @@ export default class TosConsentBanner extends Component {
     }
 
     @action
-    dismiss() {
+    dismiss(this: TosConsentBanner) {
         this.analytics.click('button', 'ToS Consent Banner - dismiss');
+        this.set('didValidate', false);
         this.currentUser.set('showTosConsentBanner', false);
         return false;
     }

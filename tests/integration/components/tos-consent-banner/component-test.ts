@@ -1,5 +1,5 @@
 import { run } from '@ember/runloop';
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { make, mockFindRecord, setupFactoryGuy } from 'ember-data-factory-guy';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -19,12 +19,19 @@ module('Integration | Component | tos-consent-banner', hooks => {
             const session = this.owner.lookup('service:session');
             session.set('isAuthenticated', true);
             session.set('data', { authenticated: { id: '1' } });
-            const user = make('user', { id: '1', fullName: 'test', acceptedTermsOfService: false });
+            const user = make('user', { id: '1', acceptedTermsOfService: null });
             mockFindRecord('user').returns({ model: user });
             await render(hbs`{{tos-consent-banner}}`);
-            assert.ok(this.$().text().trim().includes(
+            assert.ok(this.$().text().includes(
                 'We\'ve updated our Terms of Use and Privacy Policy. Please read them carefully.',
-            ));
+            ), 'Displays expected text.');
+            assert.notOk(this.$().text().includes(
+                'You must read and agree to the Terms of Use and Privacy Policy.',
+            ), 'Does not display validation error message.');
+            await click(this.element.querySelector('.TosConsentBanner__jumbo button[type="submit"]') as Node);
+            assert.ok(this.$().text().includes(
+                'You must read and agree to the Terms of Use and Privacy Policy.',
+            ), 'Displays validation error message after clicking continue.');
         });
     });
 
