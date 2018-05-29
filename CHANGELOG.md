@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - contributor-list component, to accept lists with links
 - update OSF API version to 2.8
+- refactored tos-consent-banner component to use ember-css-modules
 
 ## [0.3.5] - 2018-05-29
 ### Fixed
