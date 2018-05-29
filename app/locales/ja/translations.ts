@@ -409,7 +409,12 @@ export default {
         registration_success: '登録に成功。{{email}}にメールアドレスを確認してください。',
     },
     sign_up_policy: {
-        paragraph: '「無料で登録」をクリックすると、<a href="{{link1}}">利用規約</a>に同意し、<a href="{{link3}}">Cookieの使用</a>に関する情報を含む<a href="{{link2}}">プライバシーポリシー</a>を読んだことになります。',
+        paragraph: '「無料で登録」をクリックすると、<a href="{{link1}}">利用規約</a>に同意し、<a href="{{link3}}">Cookieの使用</a>に関する情報を含む<a href="{{link2}}">プライバシーポリシー</a>を読んだことになります。', // TODO: update this based on en translation
+    },
+    tos_consent: {
+        paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
+        have_read_and_agree: 'I have read and agree to these terms.',
+        continue: 'Continue',
     },
     validationErrors: {
         description: 'このフィールド',
@@ -453,6 +458,7 @@ export default {
         password_old: '新しいパスワードと古いパスワードを同じにすることはできません。',
         password_match: 'パスワードが一致する必要があります。',
         recaptcha: 'reCAPTCHAを完了してください。',
+        affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.',
     },
     node_navbar: {
         toggle: 'Toggle navigation',

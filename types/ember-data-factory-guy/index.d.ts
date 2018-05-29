@@ -4,3 +4,9 @@ export function manualSetup(context: any);
 export function define(factory: string, model?: object);
 export function hasMany(factory: string, count?: number, trait?: string);
 export function belongsTo(factory: string);
+
+class Mock {
+    returns(object): void;
+}
+
+export function mockFindRecord(model: string): Mock;

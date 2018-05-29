@@ -409,7 +409,12 @@ export default {
         registration_success: 'Registration successful. Please check {{email}} to confirm your email address.',
     },
     sign_up_policy: {
-        paragraph: 'By clicking "Sign up free," you agree to our <a href="{{link1}}">Terms</a> and that you have read our <a href="{{link2}}">Privacy Policy</a>, including our information on <a href="{{link3}}">Cookie Use.</a>',
+        paragraph: 'I have read and agree to the <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>.',
+    },
+    tos_consent: {
+        paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
+        have_read_and_agree: 'I have read and agree to these terms.',
+        continue: 'Continue',
     },
     validationErrors: {
         description: 'This field',
@@ -453,6 +458,7 @@ export default {
         password_old: 'Your new password cannot be the same as your old password.',
         password_match: 'Passwords must match.',
         recaptcha: 'Please complete reCAPTCHA.',
+        affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.',
     },
     node_navbar: {
         toggle: 'Toggle navigation',
