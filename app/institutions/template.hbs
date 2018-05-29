@@ -39,9 +39,9 @@
                                 {{/each}}
                                 {{#if hasMore}}
                                     {{! template-lint-disable invalid-interactive }}
-                                    <a onclick={{action 'next'}} local-class='Institutions__more'>
+                                    <div onclick={{action 'next'}} local-class='Institutions__more'>
                                         {{fa-icon 'chevron-down' class='Institutions__pagination'}}
-                                    </a>
+                                    </div>
                                     {{! template-lint-enable invalid-interactive }}
                                 {{/if}}
                             </div>
