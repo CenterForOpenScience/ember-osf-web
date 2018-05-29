@@ -35,7 +35,6 @@ module.exports = function(defaults) {
     const app = new EmberApp(defaults, {
         ...handbookOptions,
         hinting: config.lintOnBuild,
-
         ace: {
             modes: ['handlebars'],
         },
@@ -113,15 +112,6 @@ module.exports = function(defaults) {
 
     app.import('node_modules/dropzone/dist/dropzone.css');
     app.import('node_modules/dropzone/dist/dropzone.js');
-
-    // TODO: Move analytics page to an engine to get these out of the main build
-    app.import('node_modules/d3/d3.min.js');
-    app.import('node_modules/c3/c3.min.css');
-    app.import('node_modules/c3/c3.min.js', {
-        using: [
-            { transformation: 'amd', as: 'c3' },
-        ],
-    });
 
     app.import({
         test: 'vendor/ember/ember-template-compiler.js',

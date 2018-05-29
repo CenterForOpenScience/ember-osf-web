@@ -10,6 +10,9 @@ const App = Application.extend({
     Resolver,
 
     engines: {
+        'analytics-page': {
+            dependencies: {},
+        },
         collections: {
             dependencies: {
                 services: [
