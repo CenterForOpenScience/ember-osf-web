@@ -1,3 +1,9 @@
 .Content > div {
     height: 600px;
 }
+
+.OsfDaterange :global(.daterangepicker) {
+    background-color: $color-bg-white;
+    top: 109px !important;
+    left: 150px !important;
+}
