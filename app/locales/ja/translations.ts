@@ -302,10 +302,10 @@ export default {
         title: 'API Unavailable',
         body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
     },
-    zoom_to_guid: {
-        title: 'このアプリ内のGUIDに直行する',
+    zoom_to_route: {
+        title: 'Zoom directly to any route',
         zoom: '直行!',
-        placeholder: 'GUIDを入力',
+        placeholder: 'Choose a route',
     },
     osf_mode_footer: {
         dev_mode: 'このサイトは開発モードで動作しています。',
