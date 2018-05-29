@@ -42,6 +42,7 @@ export default class CurrentUserService extends Service {
     @service features!: Features;
 
     waffleLoaded = false;
+    showTosConsentBanner = false;
 
     /**
      * If logged in, return the ID of the current user, else return undefined.
@@ -128,6 +129,13 @@ export default class CurrentUserService extends Service {
         const next = encodeURIComponent(nextUrl || window.location.href);
         window.location.href = `${osfUrl}${authRoute}/?next=${next}`;
         return new RSVP.Promise(() => { /* never resolve, just wait for the redirect */ });
+    }
+
+    async checkShowTosConsentBanner(this: CurrentUserService) {
+        const user = await this.user;
+        if (user && !user.acceptedTermsOfService) {
+            this.set('showTosConsentBanner', true);
+        }
     }
 }
 

@@ -18,6 +18,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - contributor-list component, to accept lists with links
 - update OSF API version to 2.8
 
+## [0.3.5] - 2018-05-29
+### Fixed
+- Allow acceptedTermsOfService to be null to avoid premature validation of consent checkbox
+
+## [0.3.4] - 2018-05-25
+### Added
+- GDPR ToS banner (for existing users)
+
 ## [0.3.3] - 2018-05-24
 ### Added
 - GDPR ToS consent checkbox
