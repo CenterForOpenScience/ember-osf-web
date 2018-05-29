@@ -1,0 +1,34 @@
+<div class="container">
+    {{#bs-alert
+        type='default'
+        dismissible=true
+        visible=currentUser.showTosConsentBanner
+        onDismiss=(action 'dismiss')
+    }}
+        <div class="jumbotron">
+            <p></p>
+            <div>
+                <h4>
+                    {{t 'tos_consent.paragraph'
+                        link1=termsLink
+                        link2=privacyPolicyLink
+                    }}
+                </h4>
+                <h5>
+                    {{#validated-input
+                        type='checkbox'
+                        model=currentUser.user
+                        didValidate=didValidate
+                        valuePath='acceptedTermsOfService'
+                    }}
+                        {{t 'tos_consent.have_read_and_agree'}}
+                    {{/validated-input}}
+                </h5>
+            </div>
+            <button type="submit" class="btn btn-primary" {{action (perform saveUser)}} {{action 'click' 'button' 'ToS Consent Banner - continue' target=analytics}}>
+                {{t 'tos_consent.continue'}}
+            </button>
+            <p></p>
+        </div>
+    {{/bs-alert}}
+</div>

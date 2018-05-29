@@ -411,6 +411,11 @@ export default {
     sign_up_policy: {
         paragraph: 'I have read and agree to the <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>.',
     },
+    tos_consent: {
+        paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
+        have_read_and_agree: 'I have read and agree to these terms.',
+        continue: 'Continue',
+    },
     validationErrors: {
         description: 'This field',
         inclusion: '{{description}} is not included in the list.',
