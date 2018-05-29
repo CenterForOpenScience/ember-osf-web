@@ -85,13 +85,18 @@
 
 .Institutions__pagination {
     font-size: 20px;
-    cursor: pointer;
-    color: $color-text-gray;
 }
 
 .Institutions__sorting {
     span {
         display: inline-block;
     }
+}
+
+.Institutions__more {
+    text-align: center;
+    cursor: pointer;
+    padding-left: 50%;
+    padding-right: 50%;
 }
 

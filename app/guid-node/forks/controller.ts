@@ -2,6 +2,7 @@ import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
+import Analytics from 'ember-osf-web/services/analytics';
 
 import I18N from 'ember-i18n/services/i18n';
 import Node from 'ember-osf-web/models/node';
@@ -12,6 +13,7 @@ export default class GuidNodeForks extends Controller {
     @service toast!: Toast;
     @service i18n!: I18N;
     @service statusMessages!: StatusMessages;
+    @service analytics!: Analytics;
 
     toDelete: Node | null = null;
     deleteModal = false;
@@ -44,6 +46,7 @@ export default class GuidNodeForks extends Controller {
 
     @action
     next(this: GuidNodeForks) {
+        this.analytics.click('button', 'Forks - Pagination Next');
         this.incrementProperty('page');
         this.get('getForks').perform();
     }
@@ -75,6 +78,7 @@ export default class GuidNodeForks extends Controller {
 
     @action
     newFork(this: GuidNodeForks) {
+        this.analytics.click('button', 'Forks - Create Fork');
         this.set('newModal', false);
         const node = this.get('model').taskInstance.value;
         this.set('loadingNew', true);
@@ -91,6 +95,7 @@ export default class GuidNodeForks extends Controller {
 
     @action
     delete(this: GuidNodeForks) {
+        this.analytics.click('button', 'Forks - Delete Fork');
         this.set('deleteModal', false);
         const node = this.toDelete;
         if (!node) {
