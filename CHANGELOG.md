@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - random-scientist util to support the delete-node modal
 - simple-paginator component
 - custom component blueprint
+- [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint)
+- [ember-css-modules-reporter](https://github.com/dfreeman/ember-css-modules-reporter)
 
 ### Changed
 - contributor-list component, to accept lists with links
