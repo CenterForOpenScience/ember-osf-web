@@ -1,7 +1,7 @@
 import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { module, test } from 'qunit';
 
-module('Unit | Service | current user', hooks => {
+module('Unit | Service | current-user', hooks => {
     setupTest(hooks);
 
     // Replace this with your real tests.

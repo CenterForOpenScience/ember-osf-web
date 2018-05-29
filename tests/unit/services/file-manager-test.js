@@ -84,7 +84,7 @@ const sessionStub = Service.extend({
 });
 
 
-module('Unit | Service | file manager', function(hooks) {
+module('Unit | Service | file-manager', function(hooks) {
     setupTest(hooks);
     setupFactoryGuy(hooks);
 

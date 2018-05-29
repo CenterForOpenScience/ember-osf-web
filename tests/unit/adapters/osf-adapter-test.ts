@@ -8,7 +8,7 @@ import { TestContext } from 'ember-test-helpers';
 import { module, skip } from 'qunit';
 import { Promise as EmberPromise } from 'rsvp';
 
-module('Unit | Adapter | osf adapter', hooks => {
+module('Unit | Adapter | osf-adapter', hooks => {
     setupTest(hooks);
 
     hooks.beforeEach(function(this: TestContext) {

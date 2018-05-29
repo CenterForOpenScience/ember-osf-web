@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-module('Integration | Component | loading indicator', hooks => {
+module('Integration | Component | loading-indicator', hooks => {
     setupRenderingTest(hooks);
 
     test('light', async function(assert) {

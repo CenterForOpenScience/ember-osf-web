@@ -6,7 +6,7 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-module('Integration | Component | new project modal', hooks => {
+module('Integration | Component | new-project-modal', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: TestContext, assert) {

@@ -35,7 +35,7 @@ interface ThisTestContext extends TestContext {
     i18n: I18N;
 }
 
-module('Integration | Component | contributor list', hooks => {
+module('Integration | Component | contributor-list', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {

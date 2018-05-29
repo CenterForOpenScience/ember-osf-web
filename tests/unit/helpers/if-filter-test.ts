@@ -1,7 +1,7 @@
 import { ifFilter } from 'ember-osf-web/helpers/if-filter';
 import { module, test } from 'qunit';
 
-module('Unit | Helper | if filter', () => {
+module('Unit | Helper | if-filter', () => {
     test('provider matches filter', assert => {
         const element = 'OSF';
         const filter = ['OSF'];

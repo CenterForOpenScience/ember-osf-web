@@ -1,7 +1,7 @@
 import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { module, test } from 'qunit';
 
-module('Unit | Adapter | draft registration', hooks => {
+module('Unit | Adapter | draft-registration', hooks => {
     setupTest(hooks);
 
     // Replace this with your real tests.

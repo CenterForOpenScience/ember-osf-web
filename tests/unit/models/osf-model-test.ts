@@ -3,7 +3,7 @@ import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
 import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { module, test } from 'qunit';
 
-module('Unit | Model | osf model', hooks => {
+module('Unit | Model | osf-model', hooks => {
     setupTest(hooks);
 
     test('it exists', function(assert) {

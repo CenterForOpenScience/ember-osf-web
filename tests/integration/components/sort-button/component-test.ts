@@ -4,7 +4,7 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-module('Integration | Component | sort button', hooks => {
+module('Integration | Component | sort-button', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: TestContext, assert) {

@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, skip, test } from 'qunit';
 
-module('Integration | Component | validated input', hooks => {
+module('Integration | Component | validated-input', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async assert => {

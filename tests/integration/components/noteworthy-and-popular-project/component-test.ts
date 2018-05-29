@@ -5,7 +5,7 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-module('Integration | Component | noteworthy and popular project', hooks => {
+module('Integration | Component | noteworthy-and-popular-project', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: TestContext) {

@@ -4,7 +4,7 @@ import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-module('Integration | Component | file editor', hooks => {
+module('Integration | Component | file-editor', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async assert => {

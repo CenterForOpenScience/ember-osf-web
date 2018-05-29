@@ -5,7 +5,7 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, skip, test } from 'qunit';
 
-module('Integration | Component | file browser', hooks => {
+module('Integration | Component | file-browser', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
