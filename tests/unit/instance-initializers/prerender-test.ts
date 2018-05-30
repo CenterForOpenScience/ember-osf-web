@@ -31,6 +31,7 @@ module('Unit | Instance Initializer | prerender', hooks => {
         this.application.register('service:ready', ReadyStub);
 
         this.instance = (this.application as any).buildInstance();
+        window.prerenderReady = false;
     });
 
     hooks.afterEach(function(this: Context) {
