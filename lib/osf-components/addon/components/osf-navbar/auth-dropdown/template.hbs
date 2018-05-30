@@ -32,7 +32,7 @@
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a class="logoutLink" {{action (perform logout)}} onclick={{action 'clicked' 'button' 'Navbar - Logout'}} role="button">
+                <a class="logoutLink" {{action 'logout'}} onclick={{action 'clicked' 'button' 'Navbar - Logout'}} role="button">
                     <i class="fa fa-sign-out fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.log_out'}}
                 </a>

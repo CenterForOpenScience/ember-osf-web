@@ -3,7 +3,6 @@ import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
@@ -74,11 +73,12 @@ export default class NavbarAuthDropdown extends Component {
         return imgLink ? `${imgLink}&s=25` : '';
     }
 
-    logout = task(function *(this: NavbarAuthDropdown) {
+    @action
+    logout(this: NavbarAuthDropdown) {
+        // Assuming `redirectUrl` comes back to this app, the session will be invalidated then.
         const query = this.redirectUrl ? `?${$.param({ next_url: this.redirectUrl })}` : '';
-        yield this.session.invalidate();
         window.location.href = `${config.OSF.url}logout/${query}`;
-    });
+    }
 
     @action
     clicked(category: string, label: string) {
