@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
@@ -13,7 +13,7 @@ module('Integration | Component | maintenance-banner', hooks => {
             maintenance: null,
         }));
         await render(hbs`{{maintenance-banner}}`);
-        assert.equal((this.element.textContent as string).trim(), '');
+        assert.notFound('.alert');
     });
 
     test('it renders maintenance message', async function(assert) {
@@ -24,6 +24,6 @@ module('Integration | Component | maintenance-banner', hooks => {
             },
         }));
         await render(hbs`{{maintenance-banner}}`);
-        assert.ok((this.element.textContent as string).trim().indexOf('longstringy') !== -1);
+        assert.includesText('.alert', 'longstringy');
     });
 });

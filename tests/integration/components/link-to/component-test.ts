@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 import { click, render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -39,6 +39,6 @@ module('Integration | Component | link-to', hooks => {
 
         await render(hbs`{{#link-to 'foo' clickAction=(action 'clickAction')}}This is a link!{{/link-to}}`);
 
-        await click(this.element.firstChild as Node);
+        await click(this.element.firstChild as Element);
     });
 });

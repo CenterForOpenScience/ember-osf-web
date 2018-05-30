@@ -1,18 +1,11 @@
-import { moduleFor, test } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { module, test } from 'qunit';
 
-moduleFor('route:quickfiles', 'Unit | Route | quickfiles', {
-    needs: [
-        'service:session',
-        'service:currentUser',
-        'service:metrics',
-        'service:features',
-        'service:analytics',
-        'service:status-messages',
-        'service:ready',
-    ],
-});
+module('Unit | Route | quickfiles', hooks => {
+    setupTest(hooks);
 
-test('it exists', function(assert) {
-    const route = this.subject();
-    assert.ok(route);
+    test('it exists', function(assert) {
+        const route = this.owner.lookup('route:quickfiles');
+        assert.ok(route);
+    });
 });

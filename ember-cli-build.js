@@ -81,9 +81,6 @@ module.exports = function(defaults) {
     app.import('node_modules/dropzone/dist/dropzone.js');
 
     app.import({
-        test: 'node_modules/jquery-mockjax/dist/jquery.mockjax.js',
-    });
-    app.import({
         test: 'vendor/ember/ember-template-compiler.js',
     });
 

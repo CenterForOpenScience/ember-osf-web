@@ -1,3 +1,5 @@
 declare module 'ember-engines/test-support/engine-resolver-for' {
-    export default function engineResolverFor(engine: string): void;
+    import Resolver from '@ember/application/resolver';
+
+    export default function engineResolverFor(engine: string): Resolver;
 }

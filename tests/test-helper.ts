@@ -1,10 +1,11 @@
-import { setResolver } from '@ember/test-helpers';
+import { setApplication } from '@ember/test-helpers';
 import preloadAssets from 'ember-asset-loader/test-support/preload-assets';
-import { start } from 'ember-cli-qunit';
+import config from 'ember-get-config';
+import Application from 'ember-osf-web/app';
 import manifest from 'ember-osf-web/config/asset-manifest';
-import resolver from './helpers/resolver';
+import { start } from 'ember-qunit';
 
-setResolver(resolver);
+setApplication(Application.create(config.APP) as any);
 
 (async () => {
     // This ensures all engine resources are loaded before the tests
