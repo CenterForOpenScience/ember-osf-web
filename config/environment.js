@@ -14,9 +14,12 @@ const {
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
     COLLECTIONS_ENABLED = false,
+    HANDBOOK_ENABLED = false,
+    HANDBOOK_DOC_GENERATION_ENABLED = false,
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
+    LINT_ON_BUILD_DISABLED = false,
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
@@ -192,6 +195,14 @@ module.exports = function(environment) {
             collections: {
                 enabled: COLLECTIONS_ENABLED,
             },
+            handbook: {
+                enabled: HANDBOOK_ENABLED,
+                docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
+            },
+        },
+        lintOnBuild: !LINT_ON_BUILD_DISABLED,
+        'ember-cli-tailwind': {
+            shouldIncludeStyleguide: false,
         },
     };
 

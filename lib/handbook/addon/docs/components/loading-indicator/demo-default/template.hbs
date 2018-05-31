@@ -1,0 +1,11 @@
+{{#docs-demo as |demo|}}
+    {{#demo.example}}
+        <div local-class='dark-background'>
+            {{! BEGIN-SNIPPET loading-indicator.default.hbs }}
+            {{loading-indicator}}
+            {{! END-SNIPPET }}
+        </div>
+    {{/demo.example}}
+
+    {{demo.snippet 'loading-indicator.default.hbs'}}
+{{/docs-demo}}

@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - custom component blueprint
 - [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint)
 - [ember-css-modules-reporter](https://github.com/dfreeman/ember-css-modules-reporter)
+- developer handbook as in-repo engine
 
 ### Changed
 - contributor-list component, to accept lists with links

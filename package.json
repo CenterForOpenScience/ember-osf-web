@@ -12,7 +12,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "lint": "eslint --ext js,ts --max-warnings=0 --ignore-pattern=!.eslintrc.js . && tslint -p . && stylelint 'app/**/*.scss' 'lib/**/*.scss'",
+    "lint": "eslint --ext js,ts --max-warnings=0 . && tslint -p . && stylelint 'app/**/*.scss' 'lib/**/*.scss'",
     "test": "ember test",
     "test:cover": "COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
@@ -23,7 +23,7 @@
   },
   "lint-staged": {
     "linters": {
-      "*.js": "eslint --max-warnings=0 --ignore-pattern=!.eslintrc.js",
+      "*.js": "eslint --max-warnings=0",
       "*.ts": [
         "eslint --max-warnings=0",
         "tslint"
@@ -34,7 +34,8 @@
       "config/environment.*": "node bin/run-node-test.js config"
     },
     "ignore": [
-      "blueprints/*/files/**"
+      "blueprints/*/files/**",
+      "vendor/*"
     ]
   },
   "devDependencies": {
@@ -64,6 +65,8 @@
     "ember-bootstrap-datepicker": "^2.0.8",
     "ember-browserify": "^1.2.0",
     "ember-cli": "~3.1.0",
+    "ember-cli-addon-docs": "https://github.com/aaxelb/ember-cli-addon-docs#docs-engine#33",
+    "ember-cli-addon-docs-typedoc": "https://github.com/typed-ember/ember-cli-addon-docs-typedoc#initial-implementation",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-autoprefixer": "^0.8.1",
     "ember-cli-babel": "^6.6.0",
@@ -148,6 +151,9 @@
     "typescript": "^2.8.3",
     "typescript-eslint-parser": "^15.0.0"
   },
+  "resolutions": {
+    "typescript": "2.8.3"
+  },
   "engines": {
     "node": ">= 8"
   },
@@ -159,7 +165,8 @@
   "ember-addon": {
     "paths": [
       "lib/collections",
-      "lib/osf-components"
+      "lib/osf-components",
+      "lib/handbook"
     ]
   }
 }

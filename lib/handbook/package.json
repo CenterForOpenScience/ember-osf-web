@@ -1,0 +1,22 @@
+{
+  "name": "handbook",
+  "keywords": [
+    "ember-addon",
+    "ember-engine"
+  ],
+  "dependencies": {
+    "ember-cli-addon-docs": "*",
+    "ember-cli-addon-docs-typedoc": "*",
+    "ember-cli-babel": "*",
+    "ember-cli-htmlbars": "*",
+    "ember-cli-sass": "*",
+    "ember-code-snippet": "*",
+    "ember-css-modules": "*",
+    "ember-css-modules-sass": "*"
+  },
+  "ember-addon": {
+    "paths": [
+      "../osf-components"
+    ]
+  }
+}
