@@ -20,6 +20,7 @@ const {
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
     LINT_ON_BUILD_DISABLED = false,
+    MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
@@ -220,6 +221,9 @@ module.exports = function(environment) {
                 componentOptions: {
                     turnAuditOff: A11Y_AUDIT !== 'true',
                 },
+            },
+            'ember-cli-mirage': {
+                enabled: Boolean(MIRAGE_ENABLED),
             },
         });
     }
