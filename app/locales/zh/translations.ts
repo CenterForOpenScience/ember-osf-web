@@ -535,6 +535,9 @@ export default {
         title: 'Institutions',
         search_placeholder: 'Search institutions',
     },
+    registration: {
+        project_alert: 'This registration is a frozen, non-editable version of <a class="link-solid" href="/{{projectId}}/">this project</a>',
+    },
     list: {
         two_item: {
             delimiter: ' and ',

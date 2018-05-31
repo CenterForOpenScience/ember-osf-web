@@ -1,0 +1,67 @@
+.Forks {
+    display: grid;
+    grid-template-rows: auto;
+}
+
+@media screen and (max-width: 500px) {
+    .Forks {
+        margin: 0;
+        padding: 0;
+        grid-column-gap: 10px;
+        grid-template-columns: calc(50vw - 10px) calc(50vw - 10px);
+        grid-template-areas:
+            'header header'
+            'nav newFork'
+            'forks forks';
+    }
+
+    .Forks__new-fork {
+        justify-self: right;
+    }
+}
+
+@media screen and (max-width: 768px) and (min-width: 500px) {
+    .Forks {
+        margin: 0;
+        padding: 0;
+        grid-template-columns: 60vw 40vw;
+        grid-template-areas:
+            'header header'
+            'nav newFork'
+            'forks forks';
+    }
+
+    .Forks__new-fork {
+        justify-self: right;
+    }
+}
+@media screen and (min-width: 768px) {
+    .Forks {
+        grid-template-columns: 70% auto;
+        grid-template-areas:
+            'nav nav'
+            'forks newFork';
+    }
+}
+
+.Forks__header {
+    margin: 0;
+    margin-left: 15px;
+    grid-area: header;
+}
+
+.Forks__nav {
+    grid-area: nav;
+}
+
+.Forks__forks {
+    grid-area: forks;
+}
+
+.Forks__new-fork {
+    grid-area: newFork;
+}
+
+.Forks__placeholder {
+    padding: 15px;
+}

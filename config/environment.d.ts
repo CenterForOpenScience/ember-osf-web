@@ -118,6 +118,7 @@ declare const config: {
             dashboard: string;
             home: string;
             'guid-node.forks': string;
+            'guid-registration.forks': string;
         };
         navigation: {
             institutions: string;

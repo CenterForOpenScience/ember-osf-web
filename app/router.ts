@@ -81,7 +81,9 @@ Router.map(function() {
         this.route('forks');
     });
     this.route('guid-preprint', { path: '/:preprint_guid' });
-    this.route('guid-registration', { path: '/:registration_guid' });
+    this.route('guid-registration', { path: '/:registration_guid' }, function() {
+        this.route('forks');
+    });
     this.route('guid-user', { path: '/:user_guid' }, function() {
         this.route('quickfiles');
     });
