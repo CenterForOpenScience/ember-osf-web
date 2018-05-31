@@ -13,10 +13,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - random-scientist util to support the delete-node modal
 - simple-paginator component
 - custom component blueprint
+- [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint)
+- [ember-css-modules-reporter](https://github.com/dfreeman/ember-css-modules-reporter)
 
 ### Changed
 - contributor-list component, to accept lists with links
 - update OSF API version to 2.8
+- refactored tos-consent-banner component to use ember-css-modules
+
+## [0.3.5] - 2018-05-29
+### Fixed
+- Allow acceptedTermsOfService to be null to avoid premature validation of consent checkbox
+
+## [0.3.4] - 2018-05-25
+### Added
+- GDPR ToS banner (for existing users)
 
 ## [0.3.3] - 2018-05-24
 ### Added

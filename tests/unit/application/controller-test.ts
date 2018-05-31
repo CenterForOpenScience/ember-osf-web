@@ -1,19 +1,12 @@
-import { moduleFor, test } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { module, test } from 'qunit';
 
-moduleFor('controller:application', 'Unit | Controller | application', {
-    needs: [
-        'service:session',
-        'service:metrics',
-        'service:features',
-        'service:analytics',
-        'service:currentUser',
-        'service:status-messages',
-        'service:ready',
-    ],
-});
+module('Unit | Controller | application', hooks => {
+    setupTest(hooks);
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-    const controller = this.subject();
-    assert.ok(controller);
+    // Replace this with your real tests.
+    test('it exists', function(assert) {
+        const controller = this.owner.lookup('controller:application');
+        assert.ok(controller);
+    });
 });

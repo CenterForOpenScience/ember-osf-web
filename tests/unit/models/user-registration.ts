@@ -1,8 +1,8 @@
 import { run } from '@ember/runloop';
-import { setupTest } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { module, test } from 'qunit';
 
-module('Unit | Model | user registration', hooks => {
+module('Unit | Model | user-registration', hooks => {
     setupTest(hooks);
 
     // Replace this with your real tests.

@@ -1,4 +1,7 @@
 module.exports = {
+    globals: {
+        server: true,
+    },
     root: true,
     parser: 'typescript-eslint-parser',
     parserOptions: {
@@ -22,6 +25,12 @@ module.exports = {
         'function-paren-newline': ['error', 'consistent'],
         'prefer-rest-params': 'error',
         'generator-star-spacing': ['error', 'before'],
+        'object-curly-newline': ['error', {
+            ObjectExpression: { multiline: true, consistent: true },
+            ObjectPattern: { multiline: true, consistent: true },
+            ImportDeclaration: { multiline: true, consistent: true },
+            ExportDeclaration: { multiline: true, consistent: true },
+        }],
     },
     overrides: [
         {

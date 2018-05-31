@@ -1,15 +1,11 @@
-import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
-import { moduleFor, test } from 'ember-qunit';
+import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
+import { module, test } from 'qunit';
 
-const resolver = engineResolverFor('collections');
+module('Unit | Route | collections/provider', hooks => {
+    setupEngineTest(hooks, 'collections');
 
-moduleFor('route:provider', 'Unit | Route | collections/provider', {
-    needs: [
-    ],
-    resolver,
-});
-
-test('it exists', function(assert) {
-    const route = this.subject();
-    assert.ok(route);
+    test('it exists', function(assert) {
+        const route = this.owner.lookup('route:provider');
+        assert.ok(route);
+    });
 });

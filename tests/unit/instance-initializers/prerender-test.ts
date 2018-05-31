@@ -1,12 +1,11 @@
 import Application from '@ember/application';
 import ApplicationInstance from '@ember/application/instance';
+import { run } from '@ember/runloop';
 import Service from '@ember/service';
 
 import { initialize } from 'ember-osf-web/instance-initializers/prerender';
-import { setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
-import destroyApp from '../../helpers/destroy-app';
 
 class ReadyStub extends Service {
     ready() {
@@ -21,8 +20,6 @@ interface Context extends TestContext {
 }
 
 module('Unit | Instance Initializer | prerender', hooks => {
-    setupTest(hooks);
-
     hooks.beforeEach(function(this: Context) {
         this.TestApplication = Application.extend();
         this.TestApplication.instanceInitializer({
@@ -30,18 +27,16 @@ module('Unit | Instance Initializer | prerender', hooks => {
             initialize,
         });
 
-        this.application = this.TestApplication.create({ autoboot: false });
+        this.application = this.TestApplication.create({ autoboot: false }) as any;
         this.application.register('service:ready', ReadyStub);
 
-        this.instance = ApplicationInstance.create({
-            application: this.application,
-            base: this.application,
-        });
+        this.instance = (this.application as any).buildInstance();
+        window.prerenderReady = false;
     });
 
     hooks.afterEach(function(this: Context) {
-        destroyApp(this.application);
-        destroyApp(this.instance);
+        run(this.application, 'destroy');
+        run(this.instance, 'destroy');
     });
 
     test('it sets prerenderReady', async function(this: Context, assert) {

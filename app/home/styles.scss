@@ -131,7 +131,7 @@
     }
 }
 
-#signUpScope a {
+:global(#signUpScope) a {
     color: #5bc0de;
 }
 
@@ -214,7 +214,7 @@
 
 .integrations {
     margin-top: 20px;
-    
+
     img {
         padding: 20px 20% 0;
     }
@@ -404,7 +404,7 @@ footer {
     .student-wrap {
         padding: 0 10%;
     }
-    
+
     .student-image .quote {
         bottom: -90px;
         min-height: 100px;
@@ -414,12 +414,12 @@ footer {
             left: 125px;
         }
     }
-    
+
     .network-bg {
         height: 750px;
         margin-bottom: -750px;
     }
-    
+
     .feature-1 .icon {
         font-size: 100px;
         left: -40px;
@@ -431,7 +431,7 @@ footer {
     .feature-4 .col-md-4:last-child {
         padding-top: 30px;
     }
-    
+
     .feature-3 {
         .text-left,
         .text-right {
@@ -447,21 +447,21 @@ footer {
     .feature-6 :global(.btn) {
         margin-bottom: 45px;
     }
-    
+
     .integrations {
         margin-top: 0;
     }
-    
+
     .integrations img {
         padding: 20px 10% 0;
     }
-    
+
     .student-image {
         margin: 30px 0 0;
         width: 100%;
         padding-bottom: 100%;
     }
-    
+
     :global(#home-hero) h1 {
         padding-top: 0;
     }
@@ -473,15 +473,15 @@ footer {
             top: -20px;
         }
     }
-    
+
     .space-top {
         padding-top: 20px;
     }
-    
+
     .space-bottom {
         padding-bottom: 25px;
     }
-    
+
     .grey-pullout {
         padding-bottom: 90px;
     }
@@ -491,30 +491,30 @@ footer {
     :global(#hero-signup) {
         width: 100%;
     }
-    
+
     .student-wrap {
         padding: 0 5%;
     }
-    
+
     .student-image .quote {
         bottom: -70px;
         min-height: 100px;
     }
-    
+
     .student-image .quote::before {
         left: 80px;
         border-width: 0 14px 26px;
         top: -26px;
     }
-    
+
     .student-image .main {
         font-size: 1em !important;
     }
-    
+
     .grey-pullout {
         padding-bottom: 90px;
     }
-    
+
     .integrations .mob-clear {
         clear: left;
     }
