@@ -4,7 +4,7 @@
             <div class="navbar-header">
                 {{! OSF logo }}
                 {{#if inHomeApp}}
-                    {{#link-to indexRoute class='navbar-brand' ariaLabel=(t 'navbar.go_home')}}
+                    {{#link-to indexRoute (html-attributes aria-label=(t 'navbar.go_home')) class='navbar-brand'}}
                         <span class="osf-navbar-logo"></span>
                     {{/link-to}}
                 {{else}}
@@ -15,7 +15,7 @@
 
                 {{! Current app }}
                 <div class="service-name">
-                    {{#link-to indexRoute clickAction=(action (mut showNavLinks) false)}}
+                    {{#link-to indexRoute click=(action (mut showNavLinks) false)}}
                         <span class="hidden-xs"> {{t 'general.OSF'}} </span>
                         <span class="current-service"><strong>{{currentApp}}</strong></span>
                     {{/link-to}}
@@ -37,7 +37,7 @@
                         {{#each osfApps as |app|}}
                             {{#ddm.item (html-attributes role='menuitem')}}
                                 {{#if (eq app.name currentApp)}}
-                                    {{#link-to indexRoute clickAction=(action 'click' 'link' (concat 'Navbar - ' app.name ) target=analytics) }}
+                                    {{#link-to indexRoute click=(action 'click' 'link' (concat 'Navbar - ' app.name ) target=analytics) }}
                                         {{t 'general.OSF'}}<b>{{app.name}}</b>
                                     {{/link-to}}
                                 {{else}}

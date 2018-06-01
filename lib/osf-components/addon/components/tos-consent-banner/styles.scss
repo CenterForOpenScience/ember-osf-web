@@ -1,0 +1,28 @@
+.TosConsentBanner :global(.alert) {
+    padding-right: 15px;
+    margin-bottom: 0;
+
+    :global(.close) {
+        top: 0;
+        right: 2px;
+    }
+}
+
+.TosConsentBanner :global(.jumbotron) {
+    padding: 10px 40px;
+    margin-bottom: 0;
+    text-align: center;
+
+    a {
+        color: #2d6a9f;
+    }
+
+    label {
+        font-weight: normal;
+        margin-bottom: 0;
+    }
+
+    :global(.form-group) {
+        margin-bottom: 0;
+    }
+}

@@ -136,10 +136,21 @@ declare const config: {
             turnAuditOff: boolean,
         },
     };
+    'ember-cli-mirage'?: {
+        enabled: boolean;
+    };
     engines: {
         collections: {
             enabled: boolean;
         };
+        handbook: {
+            enabled: boolean;
+            docGenerationEnabled: boolean;
+        };
+    };
+    lintOnBuild: boolean;
+    'ember-cli-tailwind'?: {
+        shouldIncludeStyleguide: boolean,
     };
 };
 

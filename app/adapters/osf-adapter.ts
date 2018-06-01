@@ -78,13 +78,13 @@ export default class OsfAdapter extends JSONAPIAdapter.extend({
         const opts: AdapterOptions = adapterOptions || {};
 
         if (requestType === 'deleteRecord') {
-            if (record.get('links.delete')) {
+            if (record && record.get('links.delete')) {
                 url = record.get('links.delete');
-            } else if (record.get('links.self')) {
+            } else if (record && record.get('links.self')) {
                 url = record.get('links.self');
             }
         } else if (requestType === 'updateRecord' || requestType === 'findRecord') {
-            if (record.get('links.self')) {
+            if (record && record.get('links.self')) {
                 url = record.get('links.self');
             }
         } else if (opts.url) {

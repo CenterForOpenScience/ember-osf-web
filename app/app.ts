@@ -20,6 +20,13 @@ const App = Application.extend({
                 ],
             },
         },
+        handbook: {
+            dependencies: {
+                services: [
+                    'router',
+                ],
+            },
+        },
     },
 });
 
