@@ -46,7 +46,7 @@ export default class GuidRegistrationForks extends Controller {
 
     @action
     next(this: GuidRegistrationForks) {
-        this.analytics.click('button', 'Forks - Pagination Next');
+        this.analytics.click('button', 'Registration Forks - Pagination Next');
         this.incrementProperty('page');
         this.get('getForks').perform();
     }
@@ -78,7 +78,7 @@ export default class GuidRegistrationForks extends Controller {
 
     @action
     newFork(this: GuidRegistrationForks) {
-        this.analytics.click('button', 'Forks - Create Fork');
+        this.analytics.click('button', 'Registration Forks - Create Fork');
         this.set('newModal', false);
         const node = this.get('model').taskInstance.value;
         this.set('loadingNew', true);
@@ -95,7 +95,7 @@ export default class GuidRegistrationForks extends Controller {
 
     @action
     delete(this: GuidRegistrationForks) {
-        this.analytics.click('button', 'Forks - Delete Fork');
+        this.analytics.click('button', 'Registration Forks - Delete Fork');
         this.set('deleteModal', false);
         const node = this.toDelete;
         if (!node) {
