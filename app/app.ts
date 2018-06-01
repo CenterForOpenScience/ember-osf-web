@@ -11,7 +11,11 @@ const App = Application.extend({
 
     engines: {
         'analytics-page': {
-            dependencies: {},
+            dependencies: {
+                services: [
+                    'guid-context',
+                ],
+            },
         },
         collections: {
             dependencies: {
