@@ -10,13 +10,6 @@ const App = Application.extend({
     Resolver,
 
     engines: {
-        'analytics-page': {
-            dependencies: {
-                services: [
-                    'guid-context',
-                ],
-            },
-        },
         collections: {
             dependencies: {
                 services: [
@@ -31,6 +24,13 @@ const App = Application.extend({
             dependencies: {
                 services: [
                     'router',
+                ],
+            },
+        },
+        analyticsPage: {
+            dependencies: {
+                services: [
+                    'guid-context',
                 ],
             },
         },

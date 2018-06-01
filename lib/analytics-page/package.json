@@ -9,6 +9,7 @@
     "ember-cli-htmlbars": "*",
     "ember-cli-babel": "*",
     "ember-cli-sass": "*",
+    "ember-concurrency": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*"
   },

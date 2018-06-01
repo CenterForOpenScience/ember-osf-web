@@ -19,6 +19,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
+    KEEN_PROJECT_ID: keenProjectId,
     LINT_ON_BUILD_DISABLED = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
@@ -134,6 +135,7 @@ module.exports = function(environment) {
             statusCookie,
             cookieDomain,
             authenticator: `authenticator:${osfAuthenticator}`,
+            keenProjectId,
         },
         social: {
             twitter: {
