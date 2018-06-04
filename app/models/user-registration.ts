@@ -15,6 +15,9 @@ const Validations = buildValidations({
                 return [...this.get('model').get('existingEmails')];
             }).volatile(),
         }),
+        validator('length', {
+            max: 255,
+        }),
     ],
     email2: [
         validator('presence', true),
