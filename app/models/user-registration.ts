@@ -26,7 +26,7 @@ const Validations = buildValidations({
     fullName: [
         validator('presence', true),
         validator('length', {
-            max: 255,
+            max: 200,
             min: 3,
         }),
     ],
