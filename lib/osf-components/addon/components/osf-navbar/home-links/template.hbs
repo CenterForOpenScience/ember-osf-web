@@ -1,10 +1,12 @@
 {{! template-lint-disable invalid-interactive }}
 {{#if session.isAuthenticated}}
-    <li {{action onLinkClick}}>
-        {{#link-to 'guid-user.quickfiles' currentUser.currentUserId click=(action 'click' 'link' 'Navbar - navbar.my_quick_files' target=analytics)}}
-            {{t 'navbar.my_quick_files'}}
-        {{/link-to}}
-    </li>
+    {{#unless onInstitutions}}
+        <li {{action onLinkClick}}>
+            {{#link-to 'guid-user.quickfiles' currentUser.currentUserId click=(action 'click' 'link' 'Navbar - navbar.my_quick_files' target=analytics)}}
+                {{t 'navbar.my_quick_files'}}
+            {{/link-to}}
+        </li>
+    {{/unless}}
     <li>
         <a href={{myProjectsUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=analytics}}>
             {{t 'navbar.my_projects'}}

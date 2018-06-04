@@ -25,9 +25,8 @@ export default class GuidRegistrationForks extends Controller {
     perPage = 10;
 
     getForks = task(function *(this: GuidRegistrationForks) {
-        const page = this.get('page');
-        const model = this.get('model');
-        const node = yield model.taskInstance;
+        const { page } = this;
+        const node = yield this.model.taskInstance;
         const forks = yield node.queryHasMany('forks', { page, embed: 'contributors' });
         this.setProperties({
             forks,
@@ -80,7 +79,7 @@ export default class GuidRegistrationForks extends Controller {
     newFork(this: GuidRegistrationForks) {
         this.analytics.click('button', 'Registration Forks - Create Fork');
         this.set('newModal', false);
-        const node = this.get('model').taskInstance.value;
+        const node = this.model.taskInstance.value;
         this.set('loadingNew', true);
         node.makeFork().then(() => {
             this.set('loadingNew', false);
@@ -104,11 +103,11 @@ export default class GuidRegistrationForks extends Controller {
         this.set('toDelete', null);
         node.deleteRecord();
         node.save().then(() => {
-            this.toast.success(this.get('i18n').t('status.project_deleted'));
+            this.toast.success(this.i18n.t('status.project_deleted'));
             this.set('page', 1);
             this.get('getForks').perform();
         }).catch(() => {
-            this.toast.error(this.get('i18n').t('forks.delete_fork_failed'));
+            this.toast.error(this.i18n.t('forks.delete_fork_failed'));
         });
     }
 }
