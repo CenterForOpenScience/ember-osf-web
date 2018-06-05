@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
-    "@centerforopenscience/osf-style": "https://github.com/CenterForOpenScience/osf-style#e15bf09f4d4e3c6f3f89fcfdaf6d72e91faf8a7d",
+    "@centerforopenscience/osf-style": "https://github.com/CenterForOpenScience/osf-style#e15bf09f4d4e3c6f3f89fcfdaf6d72e91faf8a7d#1",
     "@ember/test-helpers": "^0.7.21",
     "@types/ace": "^0.0.39",
     "@types/dropzone": "^5.0.2",
@@ -139,6 +139,8 @@
     "eslint-plugin-typescript": "^0.11.0",
     "flat": "^4.0.0",
     "husky": "^0.14.3",
+    "keen-analysis": "^2.0.0",
+    "keen-dataviz": "^2.0.4",
     "lint-staged": "^7.1.0",
     "loader.js": "^4.2.3",
     "mime-types": "~2.1.17",
@@ -164,6 +166,7 @@
   "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme",
   "ember-addon": {
     "paths": [
+      "lib/analytics-page",
       "lib/collections",
       "lib/osf-components",
       "lib/handbook"

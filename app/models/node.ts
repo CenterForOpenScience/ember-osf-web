@@ -58,6 +58,8 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     @attr('fixstring') templateFrom!: string;
 
+    @attr('string') analyticsKey?: string;
+
     @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<Contributor>;
 

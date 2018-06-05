@@ -1,0 +1,21 @@
+{
+  "name": "analytics-page",
+  "keywords": [
+    "ember-addon",
+    "ember-engine"
+  ],
+  "dependencies": {
+    "ember-cli-typescript": "*",
+    "ember-cli-htmlbars": "*",
+    "ember-cli-babel": "*",
+    "ember-cli-sass": "*",
+    "ember-concurrency": "*",
+    "ember-css-modules": "*",
+    "ember-css-modules-sass": "*"
+  },
+  "ember-addon": {
+    "paths": [
+      "../osf-components"
+    ]
+  }
+}

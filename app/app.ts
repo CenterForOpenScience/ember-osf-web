@@ -27,6 +27,13 @@ const App = Application.extend({
                 ],
             },
         },
+        analyticsPage: {
+            dependencies: {
+                services: [
+                    'guid-context',
+                ],
+            },
+        },
     },
 });
 

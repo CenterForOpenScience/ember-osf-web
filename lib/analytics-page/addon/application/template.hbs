@@ -1,0 +1,7 @@
+<h3>Analytics page!</h3>
+{{#if model.taskInstance.isRunning}}
+    {{loading-indicator dark=true}}
+{{else}}
+    Node: {{model.taskInstance.value.id}}
+    {{analytics-graph node=model.taskInstance.value}}
+{{/if}}
