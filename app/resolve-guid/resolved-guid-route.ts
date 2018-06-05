@@ -3,8 +3,8 @@ import Route from '@ember/routing/route';
 import { task } from 'ember-concurrency';
 
 import { ReferentModelName } from 'ember-osf-web/models/guid';
-import GuidContext from 'ember-osf-web/services/guid-context';
 import Ready from 'ember-osf-web/services/ready';
+import RouteContext from 'ember-osf-web/services/route-context';
 
 /**
  * Base class for the root-level GUID routes
@@ -12,13 +12,13 @@ import Ready from 'ember-osf-web/services/ready';
 export default class ResolveGuidRoute extends Route {
     @service ready!: Ready;
     @service router!: any;
-    @service guidContext!: GuidContext;
+    @service routeContext!: RouteContext;
 
     resolveGuid = task(function *(this: ResolveGuidRoute, guid: string, expectedType?: ReferentModelName) {
         const blocker = this.ready.getBlocker();
 
         try {
-            const model = yield this.guidContext.setContext(guid, expectedType);
+            const model = yield this.routeContext.setGuid(guid, expectedType);
             blocker.done();
             return model;
         } catch (error) {
@@ -30,6 +30,6 @@ export default class ResolveGuidRoute extends Route {
 
     deactivate() {
         super.deactivate();
-        this.guidContext.clearContext();
+        this.routeContext.clearGuid();
     }
 }

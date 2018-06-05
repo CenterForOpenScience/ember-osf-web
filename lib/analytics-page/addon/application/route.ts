@@ -1,16 +1,16 @@
 import { service } from '@ember-decorators/service';
 import { assert } from '@ember/debug';
 import Route from '@ember/routing/route';
-import GuidContext from 'ember-osf-web/services/guid-context';
+import RouteContext from 'ember-osf-web/services/route-context';
 
 export default class AnalyticsPageRoute extends Route {
-    @service guidContext!: GuidContext;
+    @service routeContext!: RouteContext;
 
     model() {
-        assert('Must have a GUID context', Boolean(this.guidContext.id && this.guidContext.taskInstance));
+        assert('Must have a GUID context', Boolean(this.routeContext.guid && this.routeContext.guidTaskInstance));
         return {
-            taskInstance: this.guidContext.taskInstance,
-            id: this.guidContext.id,
+            taskInstance: this.routeContext.guidTaskInstance,
+            id: this.routeContext.guid,
         };
     }
 }
