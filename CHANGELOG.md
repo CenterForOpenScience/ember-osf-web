@@ -28,6 +28,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Max length validation of full name on the user-registration model
 
+## [0.3.6] - 2018-06-07
+### Fixed
+- Unset acceptedTermsOfService when falsy to avoid premature validation of consent checkbox
+
 ## [0.3.5] - 2018-05-29
 ### Fixed
 - Allow acceptedTermsOfService to be null to avoid premature validation of consent checkbox
