@@ -25,13 +25,12 @@ export default class GuidNodeForks extends Controller {
     perPage = 10;
 
     getForks = task(function *(this: GuidNodeForks) {
-        const page = this.get('page');
-        const model = this.get('model');
-        const node = yield model.taskInstance;
+        const { page } = this;
+        const node = yield this.model.taskInstance;
         const forks = yield node.queryHasMany('forks', { page, embed: 'contributors' });
         this.setProperties({
             forks,
-            maxPage: Math.ceil(forks.meta.total / this.get('perPage')),
+            maxPage: Math.ceil(forks.meta.total / this.perPage),
         });
     }).restartable();
 
@@ -81,7 +80,7 @@ export default class GuidNodeForks extends Controller {
     newFork(this: GuidNodeForks) {
         this.analytics.click('button', 'Project Forks - Create Fork');
         this.set('newModal', false);
-        const node = this.get('model').taskInstance.value;
+        const node = this.model.taskInstance.value;
         this.set('loadingNew', true);
         node.makeFork().then(() => {
             this.set('loadingNew', false);
@@ -90,7 +89,7 @@ export default class GuidNodeForks extends Controller {
             this.toast.info(message, title);
         }).catch(() => {
             this.set('loadingNew', false);
-            this.toast.error(this.get('i18n').t('forks.new_fork_failed'));
+            this.toast.error(this.i18n.t('forks.new_fork_failed'));
         });
     }
 
@@ -105,11 +104,11 @@ export default class GuidNodeForks extends Controller {
         this.set('toDelete', null);
         node.deleteRecord();
         node.save().then(() => {
-            this.toast.success(this.get('i18n').t('status.project_deleted'));
+            this.toast.success(this.i18n.t('status.project_deleted'));
             this.set('page', 1);
             this.get('getForks').perform();
         }).catch(() => {
-            this.toast.error(this.get('i18n').t('forks.delete_fork_failed'));
+            this.toast.error(this.i18n.t('forks.delete_fork_failed'));
         });
     }
 }
