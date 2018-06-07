@@ -53,6 +53,7 @@ export default class GuidNodeForks extends Controller {
 
     @action
     previous(this: GuidNodeForks) {
+        this.analytics.click('button', 'Project Forks - Pagination Previous');
         this.decrementProperty('page');
         this.get('getForks').perform();
     }

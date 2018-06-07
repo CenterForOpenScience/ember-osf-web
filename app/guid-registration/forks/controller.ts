@@ -52,6 +52,7 @@ export default class GuidRegistrationForks extends Controller {
 
     @action
     previous(this: GuidRegistrationForks) {
+        this.analytics.click('button', 'Registration Forks - Pagination Previous');
         this.decrementProperty('page');
         this.get('getForks').perform();
     }
