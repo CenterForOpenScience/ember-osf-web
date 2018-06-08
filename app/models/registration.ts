@@ -16,7 +16,7 @@ import User from './user';
  *
  * @class Registration
  */
-export default class Registration extends Node {
+export default class Registration extends Node.extend() {
     @attr('date') dateRegistered!: Date;
     @attr('boolean') pendingRegistrationApproval!: boolean;
     @attr('date') embargoEndDate!: Date | null;

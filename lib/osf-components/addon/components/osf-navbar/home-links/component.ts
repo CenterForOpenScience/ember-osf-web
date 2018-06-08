@@ -1,4 +1,5 @@
 import { tagName } from '@ember-decorators/component';
+import { equal } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
@@ -20,10 +21,13 @@ export default class OsfNavbarHomeLinks extends Component {
     @service session!: Session;
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
+    @service router!: any;
 
     onLinkClick: string = defaultTo(this.onLinkClick, 'onLinkClick');
     searchUrl = serviceLinks.search;
     donateUrl = 'https://cos.io/donate';
     myProjectsUrl = serviceLinks.myProjects;
     reviewsUrl = serviceLinks.reviewsHome;
+
+    @equal('router.currentRouteName', 'institutions') onInstitutions!: boolean;
 }

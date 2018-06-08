@@ -7,7 +7,7 @@
             </span>
         {{/unless}}
         {{node-blurb/node-icon category=node.category}}
-        <a href='/{{node.id}}/'>{{node.title}}</a>
+        <a href='/{{node.id}}/' onclick={{action 'click' 'link' (concat blurbType ' - NodeBlurb - node_blurb.node_title') target=analytics}}>{{node.title}}</a>
         | {{t blurbTypeTitle}} {{date}}
     </span>
     {{#if (and (eq blurbType 'fork') canEdit)}}
@@ -18,15 +18,19 @@
                 {{/dd.button}}
                 {{#dd.menu class=(concat (local-class 'NodeBlurb__dropdown-list') ' dropdown-menu-right')}}
                     <li role='menuitem'>
-                        <a local-class='NodeBlurb__dropdown-link' href="/{{node.id}}/contributors/">{{t 'node_blurb.fork.manage_contributors'}}</a>
+                        <a local-class='NodeBlurb__dropdown-link' href="/{{node.id}}/contributors/" onclick={{action 'click' 'link' (concat blurbType ' - NodeBlurb - node_blurb.fork.manage_contributors') target=analytics}}>
+                            {{t 'node_blurb.fork.manage_contributors'}}
+                        </a>
                     </li>
                     <li role='menuitem'>
-                        <a local-class='NodeBlurb__dropdown-link' href="/{{node.id}}/settings/">{{t 'general.settings'}}</a>
+                        <a local-class='NodeBlurb__dropdown-link' href="/{{node.id}}/settings/" onclick={{action 'click' 'link' (concat blurbType ' - NodeBlurb - general.settings') target=analytics}}>
+                            {{t 'general.settings'}}
+                        </a>
                     </li>
                     <li role='menuitem'>
-                        {{! template-lint-disable invalid-interactive }}
-                        <a local-class='NodeBlurb__dropdown-link' onclick={{action delete node}} role='button'>{{t 'general.delete'}}</a>
-                        {{! template-lint-enable invalid-interactive }}
+                        <a local-class='NodeBlurb__dropdown-link' onclick={{action delete node}} role='button'>
+                            {{t 'general.delete'}}
+                        </a>
                     </li>
                 {{/dd.menu}}
             {{/bs-dropdown}}

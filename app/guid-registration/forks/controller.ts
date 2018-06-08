@@ -5,17 +5,17 @@ import { task } from 'ember-concurrency';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import I18N from 'ember-i18n/services/i18n';
-import Node from 'ember-osf-web/models/node';
+import Registration from 'ember-osf-web/models/registration';
 import StatusMessages from 'ember-osf-web/services/status-messages';
 import Toast from 'ember-toastr/services/toast';
 
-export default class GuidNodeForks extends Controller {
+export default class GuidRegistrationForks extends Controller {
     @service toast!: Toast;
     @service i18n!: I18N;
     @service statusMessages!: StatusMessages;
     @service analytics!: Analytics;
 
-    toDelete: Node | null = null;
+    toDelete: Registration | null = null;
     deleteModal = false;
     loadingNew = false;
     newModal = false;
@@ -24,7 +24,7 @@ export default class GuidNodeForks extends Controller {
     maxPage: number = 1;
     perPage = 10;
 
-    getForks = task(function *(this: GuidNodeForks) {
+    getForks = task(function *(this: GuidRegistrationForks) {
         const { page } = this;
         const node = yield this.model.taskInstance;
         const forks = yield node.queryHasMany('forks', { page, embed: 'contributors' });
@@ -35,7 +35,7 @@ export default class GuidNodeForks extends Controller {
     }).restartable();
 
     @computed('model.taskInstance.value')
-    get nodeType(this: GuidNodeForks) {
+    get nodeType(this: GuidRegistrationForks) {
         if (!this.model.taskInstance.value) {
             return;
         }
@@ -44,21 +44,21 @@ export default class GuidNodeForks extends Controller {
     }
 
     @action
-    next(this: GuidNodeForks) {
-        this.analytics.click('button', 'Project Forks - Pagination Next');
+    next(this: GuidRegistrationForks) {
+        this.analytics.click('button', 'Registration Forks - Pagination Next');
         this.incrementProperty('page');
         this.get('getForks').perform();
     }
 
     @action
-    previous(this: GuidNodeForks) {
-        this.analytics.click('button', 'Project Forks - Pagination Previous');
+    previous(this: GuidRegistrationForks) {
+        this.analytics.click('button', 'Registration Forks - Pagination Previous');
         this.decrementProperty('page');
         this.get('getForks').perform();
     }
 
     @action
-    openDeleteModal(this: GuidNodeForks, node: Node) {
+    openDeleteModal(this: GuidRegistrationForks, node: Registration) {
         node.get('children').then(children => {
             if (children.toArray().length) {
                 const message = this.i18n.t('forks.unable_to_delete_fork');
@@ -71,14 +71,14 @@ export default class GuidNodeForks extends Controller {
     }
 
     @action
-    closeDeleteModal(this: GuidNodeForks) {
+    closeDeleteModal(this: GuidRegistrationForks) {
         this.set('toDelete', null);
         this.set('deleteModal', false);
     }
 
     @action
-    newFork(this: GuidNodeForks) {
-        this.analytics.click('button', 'Project Forks - Create Fork');
+    newFork(this: GuidRegistrationForks) {
+        this.analytics.click('button', 'Registration Forks - Create Fork');
         this.set('newModal', false);
         const node = this.model.taskInstance.value;
         this.set('loadingNew', true);
@@ -94,8 +94,8 @@ export default class GuidNodeForks extends Controller {
     }
 
     @action
-    delete(this: GuidNodeForks) {
-        this.analytics.click('button', 'Project Forks - Delete Fork');
+    delete(this: GuidRegistrationForks) {
+        this.analytics.click('button', 'Registration Forks - Delete Fork');
         this.set('deleteModal', false);
         const node = this.toDelete;
         if (!node) {
@@ -115,6 +115,6 @@ export default class GuidNodeForks extends Controller {
 
 declare module '@ember/controller' {
   interface Registry {
-    'guid-node/forks': GuidNodeForks;
+    'guid-registration/forks': GuidRegistrationForks;
   }
 }

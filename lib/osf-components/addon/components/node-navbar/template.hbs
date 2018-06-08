@@ -20,7 +20,9 @@
                     {{node-navbar/link nodeId=node.id useLinkTo=false destination='files'}}
                     {{node-navbar/link nodeId=node.id useLinkTo=false destination='wiki'}}
                     {{node-navbar/link nodeId=node.id useLinkTo=false destination='analytics'}}
-                    {{node-navbar/link nodeId=node.id useLinkTo=false destination='registrations'}}
+                    {{#unless node.registration}}
+                        {{node-navbar/link nodeId=node.id useLinkTo=false destination='registrations'}}
+                    {{/unless}}
 
                     {{#if node.currentUserIsContributor}}
                         {{node-navbar/link nodeId=node.id useLinkTo=false destination='contributors'}}

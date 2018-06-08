@@ -38,8 +38,8 @@
                                     </a>
                                 {{/each}}
                                 {{#if hasMore}}
-                                    <div style='text-align: center'>
-                                        {{fa-icon 'chevron-down' class='Institutions__pagination' click=(action 'next')}}
+                                    <div role="button" onclick={{action 'next'}} local-class='Institutions__more'>
+                                        {{fa-icon 'chevron-down' class='Institutions__pagination'}}
                                     </div>
                                 {{/if}}
                             </div>

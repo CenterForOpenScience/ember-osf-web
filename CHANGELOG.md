@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - developer handbook as in-repo engine
 - flag for enabling mirage in development mode
 - Max length validation for email on the user-registration model
+- handling for guid sub-route: `forks`
 
 ### Changed
 - contributor-list component, to accept lists with links

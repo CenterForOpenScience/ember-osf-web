@@ -69,8 +69,9 @@ export default class OsfNavbar extends Component {
     @equal('currentApp', HOME_APP) inHomeApp!: boolean;
 
     @computed('hostAppName')
-    get currentApp(): string {
+    get currentApp(this: OsfNavbar): string {
         if (this.router.currentRouteName === 'institutions') {
+            this.set('indexRoute', 'institutions');
             return 'INSTITUTIONS';
         }
         return (this.hostAppName === 'Dummy App' ? HOME_APP : this.hostAppName).toUpperCase();

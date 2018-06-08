@@ -1,7 +1,9 @@
 import { computed } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
+import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import moment from 'moment';
 import styles from './styles';
@@ -14,6 +16,8 @@ enum BlurbType {
 export default class NodeBlurb extends Component {
     layout = layout;
     styles = styles;
+
+    @service analytics!: Analytics;
 
     node?: Node | Registration;
     blurbType: BlurbType = defaultTo(this.blurbType, BlurbType.FORK);
