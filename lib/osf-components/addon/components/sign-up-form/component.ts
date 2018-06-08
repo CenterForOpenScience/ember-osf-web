@@ -1,4 +1,5 @@
 import { computed } from '@ember-decorators/object';
+import { alias, and } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
@@ -52,4 +53,14 @@ export default class SignUpForm extends Component {
             return 'none';
         }
     }
+
+    @alias('model.validations.attrs') a!: object;
+
+    @and(
+        'a.fullName.isValid',
+        'a.email1.isValid',
+        'a.email2.isValid',
+        'a.password.isValid',
+        'a.acceptedTermsOfService.isValid',
+    ) formIsValid!: boolean;
 }
