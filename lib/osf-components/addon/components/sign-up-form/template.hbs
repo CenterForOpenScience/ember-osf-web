@@ -54,7 +54,7 @@
     {{/validated-input}}
     {{#if (and
         (not hasSubmitted)
-        model.password
+        formIsValid
     )}}
         <div class="col-md-12 m-t-sm" local-class="RecaptchaParent">
             {{validated-input

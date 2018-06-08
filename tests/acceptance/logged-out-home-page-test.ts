@@ -25,8 +25,8 @@ module('Acceptance | logged-out home page', hooks => {
         await fillIn('#fullName', 'Test User');
         await fillIn('#email1', 'test@user.com');
         await fillIn('#email2', 'test@user.com');
-        await fillIn('#password', '12345');
-        assert.found('[class*="SignUpForm"] iframe', 'Captcha iframe appears.');
+        await fillIn('#password', 'correct horse battery staple');
         await click('#acceptedTermsOfService');
+        assert.found('[class*="SignUpForm"] iframe', 'Captcha iframe appears.');
     });
 });
