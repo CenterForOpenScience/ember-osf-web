@@ -28,6 +28,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Max length validation of full name on the user-registration model
 
+## [0.3.7] - 2018-06-08
+### Changed
+- Skip test for showing ToS consent banner (will be re-enabled in develop)
+
 ## [0.3.6] - 2018-06-07
 ### Fixed
 - Unset acceptedTermsOfService when falsy to avoid premature validation of consent checkbox
