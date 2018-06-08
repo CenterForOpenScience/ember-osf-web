@@ -3,7 +3,7 @@ import { click, render } from '@ember/test-helpers';
 import { make, mockFindRecord, setupFactoryGuy } from 'ember-data-factory-guy';
 import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 
 module('Integration | Component | tos-consent-banner', hooks => {
     setupRenderingTest(hooks);
@@ -14,7 +14,7 @@ module('Integration | Component | tos-consent-banner', hooks => {
         assert.notHasText(this.element);
     });
 
-    skip('shown when current user has not accepted ToS', async function(assert) {
+    test('shown when current user has not accepted ToS', async function(assert) {
         await run(async () => {
             const session = this.owner.lookup('service:session');
             session.set('isAuthenticated', true);
