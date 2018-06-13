@@ -302,10 +302,10 @@ export default {
         title: 'API Unavailable',
         body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
     },
-    zoom_to_guid: {
-        title: 'Zoom to a GUID within this app',
+    zoom_to_route: {
+        title: 'Zoom directly to any route',
         zoom: 'Zoom!',
-        placeholder: 'Enter a GUID',
+        placeholder: 'Choose a route',
     },
     osf_mode_footer: {
         dev_mode: 'This site is running in development mode.',
@@ -409,7 +409,12 @@ export default {
         registration_success: 'Registration successful. Please check {{email}} to confirm your email address.',
     },
     sign_up_policy: {
-        paragraph: 'By clicking "Sign up free," you agree to our <a href="{{link1}}">Terms</a> and that you have read our <a href="{{link2}}">Privacy Policy</a>, including our information on <a href="{{link3}}">Cookie Use.</a>',
+        paragraph: 'I have read and agree to the <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>.',
+    },
+    tos_consent: {
+        paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
+        have_read_and_agree: 'I have read and agree to these terms.',
+        continue: 'Continue',
     },
     validationErrors: {
         description: 'This field',
@@ -453,6 +458,7 @@ export default {
         password_old: 'Your new password cannot be the same as your old password.',
         password_match: 'Passwords must match.',
         recaptcha: 'Please complete reCAPTCHA.',
+        affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.',
     },
     node_navbar: {
         toggle: 'Toggle navigation',
@@ -489,7 +495,7 @@ export default {
     node_blurb: {
         fork: {
             title: 'Forked:',
-            manage_contributors: 'Manage Contributors',
+            manage_contributors: 'Manage contributors',
         },
         registration: {
             title: 'Registered:',
@@ -537,9 +543,12 @@ export default {
     institutions: {
         description: 'OSF Institutions is a free scholarly web tool that enhances transparency, fosters collaboration, and increases the visibility of research outputs at the institutional level.',
         read_more: 'Read more',
-        footer: 'Interested in setting up an OSF Institutions page for your research institution? <a href=\'mailto:contact@osf.io\'>Contact us</a>',
+        footer: 'Interested in setting up an OSF Institutions page for your research institution? <a href=\'https://cos.io/contact\'>Contact us</a>',
         title: 'Institutions',
         search_placeholder: 'Search institutions',
+    },
+    registration: {
+        project_alert: 'This registration is a frozen, non-editable version of <a class="link-solid" href="/{{projectId}}/">this project</a>',
     },
     list: {
         two_item: {

@@ -29,6 +29,8 @@ const Router = EmberRouter.extend({
             }
         }
 
+        this.get('currentUser').checkShowTosConsentBanner();
+
         if (!this.readyBlocker || this.readyBlocker.isDone()) {
             this.readyBlocker = this.get('ready').getBlocker();
         }
@@ -48,6 +50,7 @@ const Router = EmberRouter.extend({
 const {
     engines: {
         collections,
+        handbook,
     },
 } = config;
 
@@ -65,6 +68,9 @@ Router.map(function() {
     if (collections.enabled) {
         this.mount('collections');
     }
+    if (handbook.enabled) {
+        this.mount('handbook');
+    }
 
     /*
      * Guid Routing
@@ -73,8 +79,8 @@ Router.map(function() {
      * will ask the API what type of object the guid refers to, then transition
      * to the appropriate `guid-<type>` route below.
      *
-     * Nested routes that begin with a guid should be unique across all types.
-     * Do not add duplicate nested routes, like `guid-node/quickfiles`.
+     * Non-unique nested routes that begin with a guid need special handling.
+     * See `resolve-guid.forks` for an example.
      */
     this.route('guid-file', { path: '/:file_guid' });
     this.route('guid-node', { path: '/:node_guid' }, function() {
@@ -82,7 +88,9 @@ Router.map(function() {
         this.route('registrations');
     });
     this.route('guid-preprint', { path: '/:preprint_guid' });
-    this.route('guid-registration', { path: '/:registration_guid' });
+    this.route('guid-registration', { path: '/:registration_guid' }, function() {
+        this.route('forks');
+    });
     this.route('guid-user', { path: '/:user_guid' }, function() {
         this.route('quickfiles');
     });
@@ -91,10 +99,11 @@ Router.map(function() {
     // and all the `guid-*` routes above), URLs that match will resolve to the
     // route defined last. It's very intuitive.
     this.route('resolve-guid', { path: '/:guid' });
+    this.route('resolve-guid.forks', { path: '/:guid/forks' });
 
     // Error routes
-    this.route('not-found', { path: '*path' });
     this.route('error-no-api', { path: '*no_api_path' });
+    this.route('not-found', { path: '*path' });
 });
 
 /* eslint-enable array-callback-return */

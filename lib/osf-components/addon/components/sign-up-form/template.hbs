@@ -43,12 +43,18 @@
             </div>
         </div>
     </div>
-    {{#if (not hasSubmitted)}}
+    {{#validated-input
+        type='checkbox'
+        model=model
+        didValidate=didValidate
+        disabled=hasSubmitted
+        valuePath='acceptedTermsOfService'
+    }}
         {{sign-up-policy}}
-    {{/if}}
+    {{/validated-input}}
     {{#if (and
         (not hasSubmitted)
-        model.password
+        formIsValid
     )}}
         <div class="col-md-12 m-t-sm" local-class="RecaptchaParent">
             {{validated-input

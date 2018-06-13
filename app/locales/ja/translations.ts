@@ -302,10 +302,10 @@ export default {
         title: 'API Unavailable',
         body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
     },
-    zoom_to_guid: {
-        title: 'このアプリ内のGUIDに直行する',
+    zoom_to_route: {
+        title: 'Zoom directly to any route',
         zoom: '直行!',
-        placeholder: 'GUIDを入力',
+        placeholder: 'Choose a route',
     },
     osf_mode_footer: {
         dev_mode: 'このサイトは開発モードで動作しています。',
@@ -409,7 +409,12 @@ export default {
         registration_success: '登録に成功。{{email}}にメールアドレスを確認してください。',
     },
     sign_up_policy: {
-        paragraph: '「無料で登録」をクリックすると、<a href="{{link1}}">利用規約</a>に同意し、<a href="{{link3}}">Cookieの使用</a>に関する情報を含む<a href="{{link2}}">プライバシーポリシー</a>を読んだことになります。',
+        paragraph: '「無料で登録」をクリックすると、<a href="{{link1}}">利用規約</a>に同意し、<a href="{{link3}}">Cookieの使用</a>に関する情報を含む<a href="{{link2}}">プライバシーポリシー</a>を読んだことになります。', // TODO: update this based on en translation
+    },
+    tos_consent: {
+        paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
+        have_read_and_agree: 'I have read and agree to these terms.',
+        continue: 'Continue',
     },
     validationErrors: {
         description: 'このフィールド',
@@ -453,6 +458,7 @@ export default {
         password_old: '新しいパスワードと古いパスワードを同じにすることはできません。',
         password_match: 'パスワードが一致する必要があります。',
         recaptcha: 'reCAPTCHAを完了してください。',
+        affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.',
     },
     node_navbar: {
         toggle: 'Toggle navigation',
@@ -489,7 +495,7 @@ export default {
     node_blurb: {
         fork: {
             title: 'Forked:',
-            manage_contributors: 'Manage Contributors',
+            manage_contributors: 'Manage contributors',
         },
         private_tooltip: 'This project is private',
     },
@@ -530,9 +536,12 @@ export default {
     institutions: {
         description: 'OSF Institutions is a free scholarly web tool that enhances transparency, fosters collaboration, and increases the visibility of research outputs at the institutional level.',
         read_more: 'Read more',
-        footer: 'Interested in setting up an OSF Institutions page for your research institution? <a href=\'mailto:contact@osf.io\'>Contact us</a>',
+        footer: 'Interested in setting up an OSF Institutions page for your research institution? <a href=\'https://cos.io/contact\'>Contact us</a>',
         title: 'Institutions',
         search_placeholder: 'Search institutions',
+    },
+    registration: {
+        project_alert: 'This registration is a frozen, non-editable version of <a class="link-solid" href="/{{projectId}}/">this project</a>',
     },
     list: {
         two_item: {

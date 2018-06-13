@@ -11,7 +11,40 @@ function postProcess(content) {
 }
 
 module.exports = function(defaults) {
+    const config = defaults.project.config(EMBER_ENV);
+    const handbookEnabled = config.engines.handbook.enabled;
+
+    /*
+     * Options just used by child addons of the handbook engine. Some addons
+     * insist on looking to the root app config instead of their parent config.
+     */
+    let handbookOptions = {};
+    if (handbookEnabled) {
+        handbookOptions = {
+            // ember-code-snippets
+            includeHighlightJS: false,
+            includeFileExtensionInSnippetNames: false,
+            snippetSearchPaths: ['lib/handbook/addon'],
+            snippetRegexes: {
+                begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
+                end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,
+            },
+        };
+    }
+
     const app = new EmberApp(defaults, {
+        ...handbookOptions,
+        hinting: config.lintOnBuild,
+
+        ace: {
+            modes: ['handlebars'],
+        },
+        addons: {
+            blacklist: [
+                'ember-cli-addon-docs', // Only included in the handbook engine
+                ...(handbookEnabled ? [] : ['handbook']),
+            ],
+        },
         'ember-bootstrap': {
             bootstrapVersion: 3,
             importBootstrapFont: true,
@@ -75,17 +108,21 @@ module.exports = function(defaults) {
         'ember-cli-babel': {
             includePolyfill: true,
         },
+
     });
 
     app.import('node_modules/dropzone/dist/dropzone.css');
     app.import('node_modules/dropzone/dist/dropzone.js');
 
     app.import({
-        test: 'node_modules/jquery-mockjax/dist/jquery.mockjax.js',
-    });
-    app.import({
         test: 'vendor/ember/ember-template-compiler.js',
     });
+
+    if (handbookEnabled) {
+        app.import('vendor/highlight.pack.js', {
+            using: [{ transformation: 'amd', as: 'highlight.js' }],
+        });
+    }
 
     const assets = [
         new Funnel('node_modules/@centerforopenscience/osf-style/img', {

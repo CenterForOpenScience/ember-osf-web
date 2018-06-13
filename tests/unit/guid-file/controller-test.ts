@@ -1,21 +1,12 @@
-import { moduleFor, test } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { module, test } from 'qunit';
 
-moduleFor('controller:guid-file', 'Unit | Controller | guid file', {
-    needs: [
-        'service:currentUser',
-        'service:i18n',
-        'service:toast',
-        'service:metrics',
-        'service:features',
-        'service:analytics',
-        'service:session',
-        'service:status-messages',
-        'service:ready',
-    ],
-});
+module('Unit | Controller | guid-file', hooks => {
+    setupTest(hooks);
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-    const controller = this.subject();
-    assert.ok(controller);
+    // Replace this with your real tests.
+    test('it exists', function(assert) {
+        const controller = this.owner.lookup('controller:guid-file');
+        assert.ok(controller);
+    });
 });

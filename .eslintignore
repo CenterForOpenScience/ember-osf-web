@@ -1,4 +1,8 @@
-coverage
-dist
-docs
-tmp
+!.eslintrc.js
+!.template-lintrc.js
+/coverage/**
+/dist/**
+/docs/**
+/tmp/**
+/vendor/**
+/blueprints/*/files/**

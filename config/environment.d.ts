@@ -118,6 +118,7 @@ declare const config: {
             dashboard: string;
             home: string;
             'guid-node.forks': string;
+            'guid-registration.forks': string;
         };
         navigation: {
             institutions: string;
@@ -135,10 +136,21 @@ declare const config: {
             turnAuditOff: boolean,
         },
     };
+    'ember-cli-mirage'?: {
+        enabled: boolean;
+    };
     engines: {
         collections: {
             enabled: boolean;
         };
+        handbook: {
+            enabled: boolean;
+            docGenerationEnabled: boolean;
+        };
+    };
+    lintOnBuild: boolean;
+    'ember-cli-tailwind'?: {
+        shouldIncludeStyleguide: boolean,
     };
 };
 

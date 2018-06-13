@@ -123,16 +123,17 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
                     delete serialized.data.attributes[attribute];
                 }
             }
-
             // HACK: There's no public-API way to tell whether a relationship has been changed.
             const relationships = (snapshot as any)._internalModel._relationships.initializedRelationships;
-            for (const key of Object.keys(serialized.data.relationships)) {
-                const rel = relationships[camelize(key)];
-                if (rel
-                    && rel.members.length === rel.canonicalMembers.length
-                    && rel.members.list.every((v: any, i: any) => v === rel.canonicalMembers.list[i])
-                ) {
-                    delete serialized.data.relationships[key];
+            if (serialized.data.relationships) {
+                for (const key of Object.keys(serialized.data.relationships)) {
+                    const rel = relationships[camelize(key)];
+                    if (rel
+                        && rel.members.length === rel.canonicalMembers.length
+                        && rel.members.list.every((v: any, i: any) => v === rel.canonicalMembers.list[i])
+                    ) {
+                        delete serialized.data.relationships[key];
+                    }
                 }
             }
         }

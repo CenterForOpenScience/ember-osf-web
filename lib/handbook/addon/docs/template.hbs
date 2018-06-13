@@ -1,0 +1,29 @@
+{{#docs-viewer as |viewer|}}
+    {{#viewer.nav project=model as |nav|}}
+        {{nav.section 'Introduction'}}
+        {{nav.item 'What is this handbook?' 'docs.index'}}
+        {{nav.item 'How to contribute' 'docs.contributing'}}
+
+        {{nav.section 'Development'}}
+        {{nav.item 'Quickstart' 'docs.quickstart'}}
+        {{nav.item 'Dev environment' 'docs.dev-env'}}
+        {{nav.item 'Coding conventions' 'docs.conventions'}}
+        {{nav.item 'Testing' 'docs.testing'}}
+        {{nav.item 'Additional resources' 'docs.resources'}}
+
+        {{nav.section 'Component gallery'}}
+        {{nav.item 'Loading indicator' 'docs.components.loading-indicator'}}
+
+        {{nav.section 'Style guide'}}
+        {{nav.item 'Visual style' 'docs.visual-style'}}
+        {{nav.item 'Written style' 'docs.written-style'}}
+    {{/viewer.nav}}
+
+    {{#viewer.main}}
+        <div class="docs-container">
+            <div local-class="DocsPage" class="docs-section">
+                {{outlet}}
+            </div>
+        </div>
+    {{/viewer.main}}
+{{/docs-viewer}}

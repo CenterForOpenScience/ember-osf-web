@@ -9,12 +9,13 @@
             {{#bs-button onClick=(action m.submit) type='info'}}{{t 'forks.fork'}}{{/bs-button}}
         {{/m.footer}}
     {{/bs-modal}}
+    {{! Analytics being called in the controller action }}
     {{delete-node-modal delete=(action 'delete') openModal=deleteModal closeModal=(action 'closeDeleteModal') nodeType=nodeType}}
-    <div class="Forks__header page-header visible-xs">
+    <div local-class="Forks__header" class="page-header visible-xs">
         <h2 class="text-300">{{t 'forks.title'}}</h2>
     </div>
     <div class="m-md" local-class="Forks__nav">
-        <a href="/{{model.taskInstance.value.id}}/analytics" class="padded strong">
+        <a href="/{{model.taskInstance.value.id}}/analytics" onclick={{action 'click' 'link' 'Project Forks - forks.back' target=analytics}} class="padded strong">
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
         </a>
     </div>
@@ -34,13 +35,16 @@
                 </ul>
                 {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
             {{else}}
-                {{t 'forks.no_forks'}}
+                <div local-class='Forks__placeholder'>
+                    {{t 'forks.no_forks'}}
+                </div>
             {{/if}}
         {{/if}}
 
     </div>
     <div local-class="Forks__new-fork">
         <div class="m-md">
+            {{! Analytics being called in the controller action }}
             {{#bs-button type='success' disabled=loadingNew onClick=(action (mut newModal) true)}}
                 {{#if loadingNew}}
                     {{t 'forks.loading_new'}}

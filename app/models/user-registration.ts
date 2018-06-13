@@ -15,6 +15,9 @@ const Validations = buildValidations({
                 return [...this.get('model').get('existingEmails')];
             }).volatile(),
         }),
+        validator('length', {
+            max: 255,
+        }),
     ],
     email2: [
         validator('presence', true),
@@ -26,7 +29,7 @@ const Validations = buildValidations({
     fullName: [
         validator('presence', true),
         validator('length', {
-            max: 255,
+            max: 186,
             min: 3,
         }),
     ],
@@ -50,6 +53,11 @@ const Validations = buildValidations({
             min: 2,
         }),
     ],
+    acceptedTermsOfService: [
+        validator('affirmation', {
+            messageKey: 'affirm_terms',
+        }),
+    ],
 }, {
     debounce: 500,
 });
@@ -60,6 +68,7 @@ export default class UserRegistration extends Model.extend(Validations) {
     @attr('string') fullName!: string;
     @attr('string') recaptchaResponse!: string;
     @attr('string') password!: string;
+    @attr('boolean') acceptedTermsOfService!: boolean;
 
     existingEmails: Set<string> = new Set();
 

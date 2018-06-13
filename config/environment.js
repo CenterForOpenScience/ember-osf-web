@@ -14,15 +14,19 @@ const {
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
     COLLECTIONS_ENABLED = false,
+    HANDBOOK_ENABLED = false,
+    HANDBOOK_DOC_GENERATION_ENABLED = false,
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
+    LINT_ON_BUILD_DISABLED = false,
+    MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
     OSF_API_URL: apiUrl = 'http://localhost:8000',
-    OSF_API_VERSION: apiVersion = '2.4',
+    OSF_API_VERSION: apiVersion = '2.8',
     OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
     OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
     OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
@@ -177,6 +181,7 @@ module.exports = function(environment) {
                 home: 'ember_home_page',
                 'guid-node.forks': 'ember_project_forks_page',
                 'guid-node.registrations': 'ember_project_registrations_page',
+                'guid-registration.forks': 'ember_project_forks_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
@@ -193,6 +198,14 @@ module.exports = function(environment) {
             collections: {
                 enabled: COLLECTIONS_ENABLED,
             },
+            handbook: {
+                enabled: HANDBOOK_ENABLED,
+                docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
+            },
+        },
+        lintOnBuild: !LINT_ON_BUILD_DISABLED,
+        'ember-cli-tailwind': {
+            shouldIncludeStyleguide: false,
         },
     };
 
@@ -211,6 +224,9 @@ module.exports = function(environment) {
                     turnAuditOff: A11Y_AUDIT !== 'true',
                 },
             },
+            'ember-cli-mirage': {
+                enabled: Boolean(MIRAGE_ENABLED),
+            },
         });
     }
 
@@ -223,6 +239,7 @@ module.exports = function(environment) {
         ENV.APP.LOG_VIEW_LOOKUPS = false;
 
         ENV.APP.rootElement = '#ember-testing';
+        ENV.APP.autoboot = false;
     }
 
     if (devMode) {
