@@ -112,7 +112,11 @@ module.exports = function(defaults) {
         'ember-cli-babel': {
             includePolyfill: true,
         },
-
+        assetLoader: {
+            generateURI(filePath) {
+                return config.assetsPrefix.replace(/\/$/, '') + filePath;
+            },
+        },
     });
 
     app.import('node_modules/dropzone/dist/dropzone.css');
