@@ -51,6 +51,7 @@ module.exports = function(environment) {
         modulePrefix: 'ember-osf-web',
         environment,
         rootURL: '/',
+        assetsPrefix: '/',
         locationType: 'auto',
         sentryDSN: null,
         sentryOptions: {
@@ -207,6 +208,10 @@ module.exports = function(environment) {
             shouldIncludeStyleguide: false,
         },
     };
+
+    if (environment === 'production') {
+        ENV.assetsPrefix = '/ember_osf_web/';
+    }
 
     if (environment === 'development') {
         // ENV.APP.LOG_RESOLVER = true;

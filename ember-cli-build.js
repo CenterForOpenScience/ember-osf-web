@@ -57,6 +57,7 @@ module.exports = function(defaults) {
             exclude: [
                 'zxcvbn.js',
             ],
+            prepend: config.assetsPrefix,
         },
         sassOptions: {
             includePaths: [
@@ -76,6 +77,9 @@ module.exports = function(defaults) {
             extensions: ['js'],
         },
         inlineContent: {
+            assetsPrefix: {
+                content: config.assetsPrefix,
+            },
             raven: {
                 enabled: useCdn,
                 content: `
