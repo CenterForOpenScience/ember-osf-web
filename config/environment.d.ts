@@ -10,6 +10,7 @@ declare const config: {
     modulePrefix: string;
     locationType: string;
     rootURL: string;
+    assetsPrefix: string;
     sentryDSN: string | null;
     sentryOptions: {
         release?: string;

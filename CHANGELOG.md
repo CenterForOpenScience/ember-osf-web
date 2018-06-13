@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - contributor-list component, to accept lists with links
 - update OSF API version to 2.8
 - refactored tos-consent-banner component to use ember-css-modules
-- access assets at / instead of /ember_osf_web/
+- access assets at `/` for development/testing builds (but retain `/ember_osf_web/` for production builds)
 - only show captcha when all other form fields are valid
 
 ### Fixed
