@@ -10,6 +10,7 @@ try {
 
 const {
     A11Y_AUDIT = 'true',
+    ASSETS_PREFIX,
     BACKEND: backend = 'local',
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
@@ -51,7 +52,7 @@ module.exports = function(environment) {
         modulePrefix: 'ember-osf-web',
         environment,
         rootURL: '/',
-        assetsPrefix: '/',
+        assetsPrefix: ASSETS_PREFIX || '/',
         locationType: 'auto',
         sentryDSN: null,
         sentryOptions: {
@@ -210,7 +211,7 @@ module.exports = function(environment) {
     };
 
     if (environment === 'production') {
-        ENV.assetsPrefix = '/ember_osf_web/';
+        ENV.assetsPrefix = ASSETS_PREFIX || '/ember_osf_web/';
     }
 
     if (environment === 'development') {
