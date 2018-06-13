@@ -1,29 +1,54 @@
-<ul class="nav nav-tabs">
-  <li>
-      <a aria-controls="registrations">Registrations</a>
-  </li>
-  <li class="active">
-      <a aria-controls="drafts">Draft Registrations</a>
-  </li>
-</ul>
+<div class="container" local-class="Forks">
+    {{#bs-modal open=newModal onSubmit=(action 'newRegistration') onHide=(action (mut newModal) false) as |m|}}
+        {{#m.body}}
+            <h3>{{t 'forks.create_fork_modal'}}</h3>
+        {{/m.body}}
+        {{#m.footer}}
+            {{#bs-button onClick=(action (mut newModal) false)}}{{t 'general.cancel'}}{{/bs-button}}
+            {{#bs-button onClick=(action m.submit) type='info'}}{{t 'forks.fork'}}{{/bs-button}}
+        {{/m.footer}}
+    {{/bs-modal}}
 
-<div>
-    {{#if getRegistrations.isRunning}}
-        {{loading-indicator dark=true}}
-    {{else}}
-        {{#if registrations.length}}
-            <ul class="list-group m-md">
-                <span class="render-nodes-list">
-                    {{#each registrations as | registration |}}
-                        <li class="project list-group-item list-group-item-node cite-container">
-                            {{node-blurb node=registration blurbType='registration'}}
-                        </li>
-                    {{/each}}
-                </span>
-            </ul>
-            {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
+    <div class="m-md" local-class="Forks__nav">
+        <ul class="nav nav-tabs">
+          <li>
+              <a aria-controls="registrations">Registrations</a>
+          </li>
+          <li class="active">
+              <a aria-controls="drafts">Draft Registrations</a>
+          </li>
+        </ul>
+    </div>
+    <div local-class="Forks__forks">
+        {{#if getRegistrations.isRunning}}
+            {{loading-indicator dark=true}}
         {{else}}
-            {{t 'registrations.no_registration'}}
+            {{#if registrations.length}}
+                <ul class="list-group m-md">
+                    <span class="render-nodes-list">
+                        {{#each registrations as | registration |}}
+                            <li class="project list-group-item list-group-item-node cite-container">
+                                {{node-blurb node=registration blurbType='registration'}}
+                            </li>
+                        {{/each}}
+                    </span>
+                </ul>
+                {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
+            {{else}}
+                {{t 'registrations.no_registration'}}
+            {{/if}}
         {{/if}}
-    {{/if}}
+
+    </div>
+    <div local-class="Forks__new-fork">
+        <div class="m-md">
+            {{#bs-button type='success' disabled=loadingNew onClick=(action (mut newModal) true)}}
+                {{#if loadingNew}}
+                    {{t 'forks.loading_new'}}
+                {{else}}
+                    {{t 'forks.new'}}
+                {{/if}}
+            {{/bs-button}}
+        </div>
+    </div>
 </div>

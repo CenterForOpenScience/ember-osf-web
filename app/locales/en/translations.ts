@@ -491,6 +491,13 @@ export default {
             title: 'Forked:',
             manage_contributors: 'Manage Contributors',
         },
+        registration: {
+            title: 'Registered:',
+            tags: {
+                archiving: 'Archiving',
+                pending: 'Pending registration',
+            }
+        },
         private_tooltip: 'This project is private',
     },
     forks: {

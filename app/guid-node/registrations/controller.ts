@@ -81,6 +81,11 @@ export default class GuidNodeRegistrations extends Controller {
         }
     }
 
+    @action
+    newRegistration() {
+        
+    }
+
 }
 
 declare module '@ember/controller' {
