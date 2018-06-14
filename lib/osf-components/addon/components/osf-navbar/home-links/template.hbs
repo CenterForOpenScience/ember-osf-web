@@ -18,17 +18,19 @@
         {{t 'navbar.search'}}
     </a>
 </li>
-<li {{action onLinkClick}}>
-    {{#if onInstitutions}}
+{{#if onInstitutions}}
+    <li>
         <a href='http://help.osf.io/m/institutions' onclick={{action 'click' 'link' 'Navbar - navbar.support' target=analytics}}>
             {{t 'navbar.support'}}
         </a>
-    {{else}}
+    </li>
+{{else}}
+    <li {{action onLinkClick}}>
         {{#link-to 'support' click=(action 'click' 'link' 'Navbar - navbar.support' target=analytics) }}
             {{t 'navbar.support'}}
         {{/link-to}}
-    {{/if}}
-</li>
+    </li>
+{{/if}}
 <li class="navbar-donate-button">
     <a href={{donateUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.donate' target=analytics}}>
         {{t 'navbar.donate'}}
