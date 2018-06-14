@@ -38,11 +38,9 @@
                                     </a>
                                 {{/each}}
                                 {{#if hasMore}}
-                                    {{! template-lint-disable invalid-interactive }}
-                                    <div onclick={{action 'next'}} local-class='Institutions__more'>
+                                    <div role="button" onclick={{action 'next'}} local-class='Institutions__more'>
                                         {{fa-icon 'chevron-down' class='Institutions__pagination'}}
                                     </div>
-                                    {{! template-lint-enable invalid-interactive }}
                                 {{/if}}
                             </div>
                         </div>

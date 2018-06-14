@@ -30,7 +30,7 @@ export default class GuidRegistrationForks extends Controller {
         const forks = yield node.queryHasMany('forks', { page, embed: 'contributors' });
         this.setProperties({
             forks,
-            maxPage: Math.ceil(forks.meta.total / this.get('perPage')),
+            maxPage: Math.ceil(forks.meta.total / this.perPage),
         });
     }).restartable();
 
@@ -52,6 +52,7 @@ export default class GuidRegistrationForks extends Controller {
 
     @action
     previous(this: GuidRegistrationForks) {
+        this.analytics.click('button', 'Registration Forks - Pagination Previous');
         this.decrementProperty('page');
         this.get('getForks').perform();
     }
@@ -88,7 +89,7 @@ export default class GuidRegistrationForks extends Controller {
             this.toast.info(message, title);
         }).catch(() => {
             this.set('loadingNew', false);
-            this.toast.error(this.get('i18n').t('forks.new_fork_failed'));
+            this.toast.error(this.i18n.t('forks.new_fork_failed'));
         });
     }
 
