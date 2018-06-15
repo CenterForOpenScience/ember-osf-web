@@ -7,6 +7,8 @@
  */
 declare const config: {
     environment: any;
+    lintOnBuild: boolean;
+    sourcemapsEnabled: boolean;
     modulePrefix: string;
     locationType: string;
     rootURL: string;
@@ -149,7 +151,6 @@ declare const config: {
             docGenerationEnabled: boolean;
         };
     };
-    lintOnBuild: boolean;
     'ember-cli-tailwind'?: {
         shouldIncludeStyleguide: boolean,
     };

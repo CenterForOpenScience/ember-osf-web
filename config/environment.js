@@ -20,7 +20,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
-    LINT_ON_BUILD_DISABLED = false,
+    LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
@@ -43,6 +43,7 @@ const {
     SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
     SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
+    SOURCEMAPS_ENABLED: sourcemapsEnabled = false,
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
@@ -51,6 +52,8 @@ module.exports = function(environment) {
     const ENV = {
         modulePrefix: 'ember-osf-web',
         environment,
+        lintOnBuild,
+        sourcemapsEnabled,
         rootURL: '/',
         assetsPrefix: ASSETS_PREFIX || '/',
         locationType: 'auto',
@@ -204,7 +207,6 @@ module.exports = function(environment) {
                 docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
             },
         },
-        lintOnBuild: !LINT_ON_BUILD_DISABLED,
         'ember-cli-tailwind': {
             shouldIncludeStyleguide: false,
         },
