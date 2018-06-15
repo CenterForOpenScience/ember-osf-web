@@ -49,6 +49,7 @@
         didValidate=didValidate
         disabled=hasSubmitted
         valuePath='acceptedTermsOfService'
+        local-class='tos-checkbox'
     }}
         {{sign-up-policy}}
     {{/validated-input}}
@@ -56,7 +57,7 @@
         (not hasSubmitted)
         formIsValid
     )}}
-        <div class="col-md-12 m-t-sm" local-class="RecaptchaParent">
+        <div class="col-md-12" local-class="RecaptchaParent">
             {{validated-input
                 type='reCaptcha'
                 model=model
@@ -71,7 +72,7 @@
         </div>
     {{else}}
         <div>
-            <button type="submit" class="btn btn-success m-t-sm" {{action submit}} {{action 'click' 'button' 'Home - sign_up' target=analytics}}>
+            <button type="submit" class="btn btn-success" {{action submit}} {{action 'click' 'button' 'Home - sign_up' target=analytics}}>
                 {{t 'sign_up_form.sign_up_free'}}
             </button>
         </div>
