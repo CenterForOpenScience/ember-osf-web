@@ -1,9 +1,11 @@
+import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import layout from './template';
 
+@tagName('')
 export default class InlineList extends Component {
     layout = layout;
 
