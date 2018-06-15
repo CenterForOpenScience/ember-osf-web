@@ -73,7 +73,7 @@ module.exports = function(defaults) {
             sourceMaps: 'inline',
         },
         sourcemaps: {
-            enabled: true,
+            enabled: config.sourcemapsEnabled,
             extensions: ['js'],
         },
         inlineContent: {
