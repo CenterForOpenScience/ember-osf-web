@@ -86,7 +86,10 @@ export default class GuidRegistrationForks extends Controller {
             this.set('loadingNew', false);
             const message = this.i18n.t('forks.new_fork_info');
             const title = this.i18n.t('forks.new_fork_info_title');
-            this.toast.info(message, title);
+            this.toast.info(message, title, {
+                timeOut: 0,
+                extendedTimeOut: 0,
+            });
         }).catch(() => {
             this.set('loadingNew', false);
             this.toast.error(this.i18n.t('forks.new_fork_failed'));

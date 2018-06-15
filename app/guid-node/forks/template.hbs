@@ -2,6 +2,9 @@
 <div class="container" local-class="Forks">
     {{#bs-modal open=newModal onSubmit=(action 'newFork') onHide=(action (mut newModal) false) as |m|}}
         {{#m.body}}
+            <button aria-label="Close" class="close" onclick={{action (mut newModal) false}} {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}>
+                {{fa-icon 'times' size='sm'}}
+            </button>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
         {{/m.body}}
         {{#m.footer}}
@@ -18,6 +21,7 @@
         <a href="/{{model.taskInstance.value.id}}/analytics" onclick={{action 'click' 'link' 'Project Forks - forks.back' target=analytics}} class="padded strong">
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
         </a>
+        <p>{{t 'forks.info'}}</p>
     </div>
     <div local-class="Forks__forks">
         {{#if getForks.isRunning}}
