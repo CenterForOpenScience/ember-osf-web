@@ -174,19 +174,19 @@ a {
 .file-row-item {
     margin-left: 0;
     margin-right: 0;
-}
 
-.file-row-col {
-    padding-top: 2px;
-    padding-left: 6px;
-    margin-left: 0;
-}
+    :global(.file-row-col) {
+        padding-top: 2px;
+        padding-left: 21px;
+        margin-left: 0;
+    }
 
-.upload-file-header {
-    color: #000;
-}
+    :global(.upload-file-header) {
+        color: #000;
+    }
 
-.progress {
-    margin-bottom: 0;
-    margin-top: 7px;
+    :global(.progress) {
+        margin-bottom: 0;
+        margin-top: 7px;
+    }
 }

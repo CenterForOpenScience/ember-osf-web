@@ -3,9 +3,11 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
+import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import Analytics from 'ember-osf-web/services/analytics';
 import $ from 'jquery';
 import moment from 'moment';
+import styles from './styles';
 import layout from './template';
 
 interface MaintenanceData {
@@ -15,6 +17,7 @@ interface MaintenanceData {
     end?: string;
 }
 
+@localClassNames('MaintenanceBanner')
 export default class MaintenanceBanner extends Component.extend({
     getMaintenanceStatus: task(function *(this: MaintenanceBanner): IterableIterator<any> {
         const url: string = `${config.OSF.apiUrl}/v2/status/`;
@@ -23,6 +26,7 @@ export default class MaintenanceBanner extends Component.extend({
     }).restartable(),
 }) {
     layout = layout;
+    styles = styles;
 
     @service analytics!: Analytics;
 

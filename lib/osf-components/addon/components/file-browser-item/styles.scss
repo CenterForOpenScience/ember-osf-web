@@ -28,6 +28,18 @@
             color: $color-text-white;
         }
     }
+
+    .file-row-col {
+        padding-top: 2px;
+        padding-left: 6px;
+        margin-left: 0;
+
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        height: 100%;
+    }
 }
 
 .file-row-item {
@@ -41,18 +53,6 @@
 .version-link {
     color: $color-text-blue-dark;
     font-weight: 600;
-}
-
-.file-row-col {
-    padding-top: 2px;
-    padding-left: 6px;
-    margin-left: 0;
-
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    height: 100%;
 }
 
 .flash-message-alert {
