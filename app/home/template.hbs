@@ -31,6 +31,7 @@
         <h1 local-class="hero-brand">{{t 'home.brand'}}</h1>
         <h3 local-class="hero-tagline">{{t 'home.tagline'}}</h3>
         {{osf-logo animate=true}}
+        <div id="signUp" class="anchor"></div>
         <div id="hero-signup" class="container">
             <div class="row">
                 <div class="col-sm-6 hidden-xs">
@@ -41,7 +42,6 @@
                 </div>
                 <div class="col-sm-6" local-class="sign-up-div">
                     <h2>{{t 'home.signup_title'}}</h2>
-                    <div id="signUp" class="anchor"></div>
                     <div id="signUpScope">
                         {{sign-up-form model=model didValidate=didValidate submit=(perform submit) hasSubmitted=hasSubmitted}}
                     </div>
