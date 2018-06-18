@@ -1,7 +1,7 @@
 {{#each messages as |stat|}}
     {{#bs-alert
         type=stat.class
-        dismissable=stat.dismiss
+        dismissible=stat.dismiss
         classNames=(if stat.jumbo (local-class 'StatusBanner__jumbo'))
     }}
         <div class="{{if stat.jumbo 'jumbotron'}}">
