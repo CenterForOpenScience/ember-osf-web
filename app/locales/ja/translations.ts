@@ -502,6 +502,7 @@ export default {
     forks: {
         fork: 'Fork',
         title: 'Forks',
+        info: 'Forks you have permission to view are shown here.',
         back: 'Back to Analytics',
         new: 'New fork',
         loading_new: 'Creating new fork',
