@@ -1,0 +1,23 @@
+{{#if loadItemsTask.isRunning}}
+    {{loading-indicator dark=true}}
+{{else if items.length}}
+    <ul class="list-group m-md">
+        {{#each items as |item index|}}
+            {{yield (hash
+                empty=(component 'paginated-relation/x-noop')
+                item=(component 'paginated-relation/x-item' item=item index=index)
+            )}}
+        {{/each}}
+    </ul>
+    {{simple-paginator
+        maxPage=maxPage
+        nextPage=(action 'next')
+        previousPage=(action 'previous')
+        curPage=page
+    }}
+{{else}}
+    {{yield (hash
+        empty=(component 'paginated-relation/x-render')
+        item=(component 'paginated-relation/x-noop')
+    )}}
+{{/if}}

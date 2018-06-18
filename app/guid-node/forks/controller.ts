@@ -1,7 +1,7 @@
 import { action, computed } from '@ember-decorators/object';
+import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
-import { task } from 'ember-concurrency';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import I18N from 'ember-i18n/services/i18n';
@@ -19,42 +19,19 @@ export default class GuidNodeForks extends Controller {
     deleteModal = false;
     loadingNew = false;
     newModal = false;
-    page = 1;
-    forks = [];
-    maxPage: number = 1;
-    perPage = 10;
+    reloadList = false;
 
-    getForks = task(function *(this: GuidNodeForks) {
-        const { page } = this;
-        const node = yield this.model.taskInstance;
-        const forks = yield node.queryHasMany('forks', { page, embed: 'contributors' });
-        this.setProperties({
-            forks,
-            maxPage: Math.ceil(forks.meta.total / this.perPage),
-        });
-    }).restartable();
+    forksQueryParams = { embed: 'contributors' };
 
-    @computed('model.taskInstance.value')
+    @reads('model.taskInstance.value')
+    node?: Node;
+
+    @computed('node')
     get nodeType(this: GuidNodeForks) {
-        if (!this.model.taskInstance.value) {
+        if (!this.node) {
             return;
         }
-        const node = this.model.taskInstance.value;
-        return node.get('parent') ? 'component' : 'project';
-    }
-
-    @action
-    next(this: GuidNodeForks) {
-        this.analytics.click('button', 'Project Forks - Pagination Next');
-        this.incrementProperty('page');
-        this.get('getForks').perform();
-    }
-
-    @action
-    previous(this: GuidNodeForks) {
-        this.analytics.click('button', 'Project Forks - Pagination Previous');
-        this.decrementProperty('page');
-        this.get('getForks').perform();
+        return this.node.parent ? 'component' : 'project';
     }
 
     @action
@@ -80,9 +57,8 @@ export default class GuidNodeForks extends Controller {
     newFork(this: GuidNodeForks) {
         this.analytics.click('button', 'Project Forks - Create Fork');
         this.set('newModal', false);
-        const node = this.model.taskInstance.value;
         this.set('loadingNew', true);
-        node.makeFork().then(() => {
+        this.node!.makeFork().then(() => {
             this.set('loadingNew', false);
             const message = this.i18n.t('forks.new_fork_info');
             const title = this.i18n.t('forks.new_fork_info_title');
@@ -90,6 +66,7 @@ export default class GuidNodeForks extends Controller {
                 timeOut: 0,
                 extendedTimeOut: 0,
             });
+            this.set('reloadList', true);
         }).catch(() => {
             this.set('loadingNew', false);
             this.toast.error(this.i18n.t('forks.new_fork_failed'));
@@ -108,8 +85,7 @@ export default class GuidNodeForks extends Controller {
         node.deleteRecord();
         node.save().then(() => {
             this.toast.success(this.i18n.t('status.project_deleted'));
-            this.set('page', 1);
-            this.get('getForks').perform();
+            this.set('reloadList', true);
         }).catch(() => {
             this.toast.error(this.i18n.t('forks.delete_fork_failed'));
         });

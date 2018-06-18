@@ -576,9 +576,10 @@ export default {
     },
     analytics: {
         forks: 'Forks',
-        viewForks: 'View all forks',
+        viewForks: 'View forks',
         links: 'Links to this project',
-        viewLinks: 'View all links',
+        viewLinks: 'View links',
+        noLinks: 'No links to this project',
         templateCopies: 'Template copies',
         adblockWarning: 'The use of adblocking software may prevent site analytics from loading properly',
         uniqueVisits: 'Unique visits',

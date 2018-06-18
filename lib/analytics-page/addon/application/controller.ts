@@ -1,4 +1,5 @@
-import { action, computed } from '@ember-decorators/object';
+import { action } from '@ember-decorators/object';
+import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import Cookies from 'ember-cookies/services/cookies';
@@ -8,7 +9,6 @@ import moment, { Moment } from 'moment';
 
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 const {
     OSF: {
@@ -45,30 +45,22 @@ export default class ApplicationController extends Controller {
         },
     ];
 
-    activeDateRange: DateRange = defaultTo(this.activeDateRange, this.dateRanges[0]);
+    activeDateRange = this.dateRanges[0];
+    hideAdblockWarning = Boolean(this.cookies.read(dismissAdblockCookie));
+    linksModalShown = false;
+    linksQueryParams = { embed: 'contributors' };
 
-    hideAdblockWarning: boolean = defaultTo(
-        this.hideAdblockWarning,
-        Boolean(this.cookies.read(dismissAdblockCookie)),
-    );
+    @reads('model.taskInstance.value')
+    node?: Node;
 
-    @computed
-    get forksCount(this: ApplicationController) {
-        const node: Node = this.model.taskInstance.value;
-        return node.relationshipLinks.forks.links.related.meta.count;
-    }
+    @reads('node.relationshipLinks.forks.links.related.meta.count')
+    forksCount?: number;
 
-    @computed
-    get linkedByCount(this: ApplicationController) {
-        const node: Node = this.model.taskInstance.value;
-        return node.relationshipLinks.linked_by_nodes.links.related.meta.count;
-    }
+    @reads('node.relationshipLinks.linked_by_nodes.links.related.meta.count')
+    linkedByCount?: number;
 
-    @computed
-    get templatedByCount(this: ApplicationController) {
-        const node: Node = this.model.taskInstance.value;
-        return node.apiMeta.templated_by_count;
-    }
+    @reads('node.apiMeta.templated_by_count')
+    templatedByCount?: number;
 
     @action
     dismissAdblockWarning(this: ApplicationController) {
@@ -83,5 +75,27 @@ export default class ApplicationController extends Controller {
     @action
     setDateRange(this: ApplicationController, dateRange: DateRange) {
         this.set('activeDateRange', dateRange);
+        this.analytics.click(
+            'button',
+            `Analytics - Choose date range "${dateRange.key}"`,
+        );
+    }
+
+    @action
+    showLinksModal(this: ApplicationController) {
+        this.set('linksModalShown', true);
+        this.analytics.click(
+            'button',
+            'Analytics - View links - Open modal',
+        );
+    }
+
+    @action
+    hideLinksModal(this: ApplicationController) {
+        this.set('linksModalShown', false);
+        this.analytics.click(
+            'button',
+            'Analytics - View links - Close modal',
+        );
     }
 }

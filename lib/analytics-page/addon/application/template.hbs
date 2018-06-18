@@ -2,24 +2,54 @@
     {{#if model.taskInstance.isRunning}}
         {{loading-indicator dark=true}}
     {{else}}
-        <div local-class='Counts'>
-            <div local-class='CountBox'>
-                <h3>{{t 'analytics.forks'}}</h3>
-                <h2>{{forksCount}}</h2>
-                {{#link-to-external 'nodeForks' model.id}}
-                    {{t 'analytics.viewForks'}}
-                {{/link-to-external}}
+        <div local-class='Counts' class='row'>
+            <div class='col-sm-4 panel panel-default' local-class='CountBox'>
+                <div class='panel-body'>
+                    <h3>{{t 'analytics.forks'}}</h3>
+                    <h2>{{forksCount}}</h2>
+                    {{#link-to-external 'nodeForks' model.id}}
+                        {{t 'analytics.viewForks'}}
+                    {{/link-to-external}}
+                </div>
             </div>
-            <div local-class='CountBox'>
-                <h3>{{t 'analytics.links'}}</h3>
-                <h2>{{linkedByCount}}</h2>
-                <a href='/'> {{!TODO links view or modal}}
-                    {{t 'analytics.viewLinks'}}
-                </a>
+            <div class='col-sm-4' local-class='CountBox'>
+                <div class='panel panel-default'>
+                    <div class='panel-body'>
+                        <h3>{{t 'analytics.links'}}</h3>
+                        <h2>{{linkedByCount}}</h2>
+                        <a role='button' onclick={{action 'showLinksModal'}}>
+                            {{t 'analytics.viewLinks'}}
+                        </a>
+                        {{#if linksModalShown}}
+                            {{#bs-modal-simple
+                                title=(t 'analytics.links')
+                                closeTitle=(t 'general.close')
+                                onHide=(action 'hideLinksModal')
+                            }}
+                                {{#paginated-relation
+                                    model=node
+                                    relationshipName='linkedByNodes'
+                                    queryParams=linksQueryParams
+                                    as |pr|
+                                }}
+                                    {{#pr.item as |item|}}
+                                        {{node-blurb node=item blurbType='generic'}}
+                                    {{/pr.item}}
+
+                                    {{#pr.empty}}
+                                        {{t 'analytics.noLinks'}}
+                                    {{/pr.empty}}
+                                {{/paginated-relation}}
+                            {{/bs-modal-simple}}
+                        {{/if}}
+                    </div>
+                </div>
             </div>
-            <div local-class='CountBox'>
-                <h3>{{t 'analytics.templateCopies'}}</h3>
-                <h2>{{templatedByCount}}</h2>
+            <div class='col-sm-4 panel panel-default' local-class='CountBox'>
+                <div class='panel-body'>
+                    <h3>{{t 'analytics.templateCopies'}}</h3>
+                    <h2>{{templatedByCount}}</h2>
+                </div>
             </div>
         </div>
 
@@ -63,7 +93,7 @@
             {{analytics-chart
                 chartComponent='charts/unique-visits'
                 title=(t 'analytics.uniqueVisits')
-                node=model.taskInstance.value
+                node=node
                 startDate=activeDateRange.start
                 endDate=activeDateRange.end
             }}

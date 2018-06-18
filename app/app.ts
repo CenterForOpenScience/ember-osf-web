@@ -35,6 +35,7 @@ const App = Application.extend({
                     'cookies',
                     'store',
                     'analytics',
+                    'ready',
                 ],
                 externalRoutes: {
                     nodeForks: 'guid-node.forks',

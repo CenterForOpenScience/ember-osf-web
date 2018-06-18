@@ -1,23 +1,23 @@
-@import 'app/styles/typography';
+@media (min-width: 768px) {
+    .Counts {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 767px) {
+    .CountBox:global(.panel) {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
 
 .Counts {
-    display: flex;
-    flex-wrap: wrap;
+    margin-top: 20px;
+}
 
-    .CountBox {
-        flex-grow: 1;
-        flex-basis: 0;
-
-        margin: 2em 1.5em 2em 0;
-        padding: 1em;
-        border: 1px solid $color-border-gray;
-        text-align: center;
-        min-width: 15em;
-
-        &:last-child {
-            margin-right: 0;
-        }
-    }
+.CountBox {
+    text-align: center;
 
     h2,
     h3 {
