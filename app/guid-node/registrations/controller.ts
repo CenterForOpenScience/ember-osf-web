@@ -4,7 +4,6 @@ import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
-import Metaschema from 'ember-osf-web/models/metaschema';
 
 export default class GuidNodeRegistrations extends Controller {
     @service store!: DS.Store;
@@ -22,7 +21,8 @@ export default class GuidNodeRegistrations extends Controller {
     schemas = [];
 
     getRegistrationTypes = task(function *(this: GuidNodeRegistrations) {
-        const metaschemas = yield this.store.query('metaschema', {version: '2.7'});
+        const metaschemas = yield this.store.findAll('registration-metaschema');
+        metaschemas.sortBy('-name');
         this.set('metaschemas', metaschemas);
     });
 
@@ -57,15 +57,6 @@ export default class GuidNodeRegistrations extends Controller {
             maxPage: Math.ceil(registrations.meta.total / this.perPage),
         });
     }).restartable();
-
-    getSchemas = task(function *(this: GuidNodeRegistrations) {
-        const schemas = yield this.store.findAll('metaschema');
-        this.set('schemas', schemas.map((schema: Metaschema) => ({
-            name: schema.get('name'),
-            // @ts-ignore: schema is an ugly object, we just need to grab desctiption for now
-            description: schema.get('schema.description'),
-        })));
-    });
 
     @action
     next(this: GuidNodeRegistrations, draft: boolean) {

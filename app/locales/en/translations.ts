@@ -528,6 +528,7 @@ export default {
                 info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li>Registrations cannot be edited or deleted.</li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li></ul>Continue your registration by selecting a registration form:',
                 create: 'Create draft',
             },
+            new: 'New registration',
         },
     },
     delete_modal: {
