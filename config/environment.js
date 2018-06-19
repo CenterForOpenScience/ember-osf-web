@@ -237,6 +237,9 @@ module.exports = function(environment) {
         // Testem prefers this...
         ENV.locationType = 'none';
 
+        // Test environment needs to find assets in the "regular" location.
+        ENV.assetsPrefix = '/';
+
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;
         ENV.APP.LOG_VIEW_LOOKUPS = false;
