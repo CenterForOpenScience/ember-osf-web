@@ -10,7 +10,7 @@ try {
 
 const {
     A11Y_AUDIT = 'true',
-    ASSETS_PREFIX,
+    ASSETS_PREFIX: assetsPrefix = '/ember_osf_web/',
     BACKEND: backend = 'local',
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
@@ -55,7 +55,7 @@ module.exports = function(environment) {
         lintOnBuild,
         sourcemapsEnabled,
         rootURL: '/',
-        assetsPrefix: ASSETS_PREFIX || '/',
+        assetsPrefix,
         locationType: 'auto',
         sentryDSN: null,
         sentryOptions: {
@@ -212,10 +212,6 @@ module.exports = function(environment) {
         },
     };
 
-    if (environment === 'production') {
-        ENV.assetsPrefix = ASSETS_PREFIX || '/ember_osf_web/';
-    }
-
     if (environment === 'development') {
         // ENV.APP.LOG_RESOLVER = true;
         // ENV.APP.LOG_ACTIVE_GENERATION = true;
@@ -240,6 +236,9 @@ module.exports = function(environment) {
     if (environment === 'test') {
         // Testem prefers this...
         ENV.locationType = 'none';
+
+        // Test environment needs to find assets in the "regular" location.
+        ENV.assetsPrefix = '/';
 
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;
