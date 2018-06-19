@@ -18,7 +18,13 @@ export default class GuidNodeRegistrations extends Controller {
 
     registrations = [];
     draftRegistrations = [];
+    metaschemas = [];
     schemas = [];
+
+    getRegistrationTypes = task(function *(this: GuidNodeRegistrations) {
+        const metaschemas = yield this.store.query('metaschema', {version: '2.7'});
+        this.set('metaschemas', metaschemas);
+    });
 
     getDrafts = task(function *(this: GuidNodeRegistrations) {
         const page = this.draftPage;
@@ -83,7 +89,7 @@ export default class GuidNodeRegistrations extends Controller {
 
     @action
     newRegistration() {
-        
+
     }
 
 }

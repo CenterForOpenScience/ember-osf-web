@@ -16,7 +16,8 @@ export default class GuidNodeRegistrations extends Route {
         const blocker = this.get('ready').getBlocker();
         controller.set('page', 1);
         try {
-            controller.get('getDrafts').perform();
+            // controller.get('getDrafts').perform();
+            controller.get('getRegistrationTypes').perform();
             await controller.get('getRegistrations').perform();
             blocker.done();
         } catch (e) {

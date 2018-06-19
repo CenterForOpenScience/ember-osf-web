@@ -521,6 +521,15 @@ export default {
         new_fork_failed: 'Failed to create a new fork. Please try again later.',
         delete_fork_failed: 'Failed to delete the project. Please try again later.',
     },
+    node: {
+        registrations: {
+            new_registration_modal: {
+                title: 'Register',
+                info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li>Registrations cannot be edited or deleted.</li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li></ul>Continue your registration by selecting a registration form:',
+                create: 'Create draft',
+            },
+        },
+    },
     delete_modal: {
         title: 'Are you sure you want to delete this {{nodeType}}?',
         body: 'It will no longer be available to other contributors on the {{nodeType}}.',
