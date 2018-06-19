@@ -8,13 +8,6 @@ import { start } from 'ember-qunit';
 setApplication(Application.create(config.APP) as any);
 
 (async () => {
-    // Remove /ember_osf_web prefix from manifest URIs.
-    Object.values(manifest.bundles).forEach(bundle => {
-        for (const asset of bundle.assets) {
-            asset.uri = asset.uri.replace(/^\/ember_osf_web/, '');
-        }
-    });
-
     // This ensures all engine resources are loaded before the tests
     await preloadAssets(manifest);
 
