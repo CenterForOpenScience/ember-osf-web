@@ -12,10 +12,12 @@ export default class AnalyticsPageRoute extends Route {
     getNodeWithCounts = task(function *(this: AnalyticsPageRoute) {
         assert('Must have a GUID context', Boolean(this.routeContext.guid && this.routeContext.guidTaskInstance));
 
-        // If the node without related counts is still loading, wait for it to finish
+        // If the node without related counts is still loading, wait for it to finish so:
+        //   1) the ember-data store doesn't dedupe the request
+        //   2) we know modelName has been correctly populated
         yield this.routeContext.guidTaskInstance;
 
-        return yield this.store.findRecord('node', this.routeContext.guid!, {
+        return yield this.store.findRecord(this.routeContext.modelName!, this.routeContext.guid!, {
             reload: true,
             adapterOptions: {
                 query: {

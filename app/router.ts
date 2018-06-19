@@ -89,6 +89,7 @@ Router.map(function() {
     });
     this.route('guid-preprint', { path: '/:preprint_guid' });
     this.route('guid-registration', { path: '/:registration_guid' }, function() {
+        this.mount('analytics-page', { as: 'analytics', path: '/analytics' });
         this.route('forks');
     });
     this.route('guid-user', { path: '/:user_guid' }, function() {
@@ -100,6 +101,7 @@ Router.map(function() {
     // route defined last. It's very intuitive.
     this.route('resolve-guid', { path: '/:guid' });
     this.route('resolve-guid.forks', { path: '/:guid/forks' });
+    this.route('resolve-guid.analytics', { path: '/:guid/analytics' });
 
     // Error routes
     this.route('error-no-api', { path: '*no_api_path' });

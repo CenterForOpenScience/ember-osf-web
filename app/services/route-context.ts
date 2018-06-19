@@ -14,6 +14,7 @@ export default class RouteContextService extends Service {
     @service store!: DS.Store;
 
     guid?: string;
+    modelName?: ReferentModelName;
 
     @alias('guidTaskInstance.last.value')
     guidReferent?: ReferentModel;
@@ -29,9 +30,11 @@ export default class RouteContextService extends Service {
         expectedType?: ReferentModelName,
     ) {
         if (expectedType) {
+            this.set('modelName', expectedType);
             return yield this.store.findRecord(expectedType, guid);
         } else {
             const guidModel: Guid = yield this.store.findRecord('guid', guid, { backgroundReload: false });
+            this.set('modelName', guidModel.referentType);
             return yield guidModel.resolve();
         }
     }).restartable();
