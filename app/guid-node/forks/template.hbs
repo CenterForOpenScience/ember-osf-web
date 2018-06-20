@@ -21,7 +21,7 @@
         <a href="/{{model.taskInstance.value.id}}/analytics" onclick={{action 'click' 'link' 'Project Forks - forks.back' target=analytics}} class="padded strong">
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
         </a>
-        <p>{{t 'forks.info'}}</p>
+        <p local-class="Forks__nav__link">{{t 'forks.info'}}</p>
     </div>
     <div local-class="Forks__forks">
         {{#if getForks.isRunning}}

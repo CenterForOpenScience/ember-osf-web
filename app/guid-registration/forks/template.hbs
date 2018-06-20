@@ -18,10 +18,10 @@
         <h2 class="text-300">{{t 'forks.title'}}</h2>
     </div>
     <div class="m-md" local-class="Forks__nav">
-        <p>{{t 'forks.info'}}</p>
         <a href="/{{model.taskInstance.value.id}}/analytics" onclick={{action 'click' 'link' 'Registration Forks - forks.back' target=analytics}} class="padded strong">
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
         </a>
+        <p local-class="Forks__nav__link">{{t 'forks.info'}}</p>
     </div>
     <div local-class="Forks__forks">
         {{#if getForks.isRunning}}
