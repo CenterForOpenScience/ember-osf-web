@@ -91,7 +91,7 @@ module('Integration | Component | contributor-list', hooks => {
             };
             this.set('contributors', contributors);
             await render(hbs`{{contributor-list contributors=contributors}}`);
-            assert.hasText('div', expected);
+            assert.hasText(this.element, expected);
         }
     });
 });

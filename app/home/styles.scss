@@ -519,3 +519,7 @@ footer {
         clear: left;
     }
 }
+
+.goodbye:global(.alert) {
+    margin-bottom: 0;
+}

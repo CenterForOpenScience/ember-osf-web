@@ -35,16 +35,16 @@
     padding: 2px 0 4px;
     margin-left: 0;
     margin-right: 0;
-}
 
-.file-row-col {
-    padding-top: 2px;
-    padding-left: 6px;
-    margin-left: 0;
+    .file-row-col {
+        padding-top: 2px;
+        padding-left: 21px;
+        margin-left: 0;
 
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    height: 100%;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        height: 100%;
+    }
 }

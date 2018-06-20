@@ -10,6 +10,7 @@ try {
 
 const {
     A11Y_AUDIT = 'true',
+    ASSETS_PREFIX: assetsPrefix = '/ember_osf_web/',
     BACKEND: backend = 'local',
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
@@ -19,7 +20,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
-    LINT_ON_BUILD_DISABLED = false,
+    LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
@@ -42,6 +43,7 @@ const {
     SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
     SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
+    SOURCEMAPS_ENABLED: sourcemapsEnabled = false,
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
@@ -50,7 +52,10 @@ module.exports = function(environment) {
     const ENV = {
         modulePrefix: 'ember-osf-web',
         environment,
+        lintOnBuild,
+        sourcemapsEnabled,
         rootURL: '/',
+        assetsPrefix,
         locationType: 'auto',
         sentryDSN: null,
         sentryOptions: {
@@ -203,7 +208,6 @@ module.exports = function(environment) {
                 docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
             },
         },
-        lintOnBuild: !LINT_ON_BUILD_DISABLED,
         'ember-cli-tailwind': {
             shouldIncludeStyleguide: false,
         },
@@ -233,6 +237,9 @@ module.exports = function(environment) {
     if (environment === 'test') {
         // Testem prefers this...
         ENV.locationType = 'none';
+
+        // Test environment needs to find assets in the "regular" location.
+        ENV.assetsPrefix = '/';
 
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;

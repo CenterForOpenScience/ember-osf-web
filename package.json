@@ -164,9 +164,10 @@
   "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme",
   "ember-addon": {
     "paths": [
+      "lib/assets-prefix-middleware",
       "lib/collections",
-      "lib/osf-components",
-      "lib/handbook"
+      "lib/handbook",
+      "lib/osf-components"
     ]
   }
 }

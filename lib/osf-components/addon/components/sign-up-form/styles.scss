@@ -1,6 +1,10 @@
 /* stylelint-disable selector-class-pattern */
 
 .SignUpForm {
+    :global(.form-group) {
+        margin-bottom: 0;
+    }
+
     :global(.has-error) input:not(:placeholder-shown) {
         border: 1px solid #a94442;
     }
@@ -16,6 +20,10 @@
         position: relative;
     }
 
+    .tos-checkbox {
+        margin-top: 20px;
+    }
+
     @for $i from 0 through 5 {
         :global(.progress-bar-#{$i}) {
             width: #{$i * 20%};
@@ -29,9 +37,8 @@
     }
 }
 
-.CreatePassword {
-    margin-top: 5px;
-    margin-bottom: 5px;
+.CreatePassword:global(.progress) {
+    margin-bottom: 0;
     height: inherit;
 }
 
