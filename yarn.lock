@@ -5590,9 +5590,9 @@ ember-diff-attrs@^0.2.1:
     ember-cli-babel "^6.6.0"
     ember-weakmap "^3.0.0"
 
-ember-engines@^0.5.18:
-  version "0.5.18"
-  resolved "https://registry.yarnpkg.com/ember-engines/-/ember-engines-0.5.18.tgz#facf41e9914cc9170f1dda37537f27e4ad01a3da"
+"ember-engines@https://github.com/cos-forks/ember-engines#v0.5.20+cos1":
+  version "0.5.20"
+  resolved "https://github.com/cos-forks/ember-engines#5aa829c0c90b64f1e3d108240a31fc79bae5f99c"
   dependencies:
     amd-name-resolver "1.2.0"
     babel-plugin-compact-reexports "^0.1.1"
