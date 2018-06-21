@@ -13,6 +13,11 @@ import AnalyticsService from 'ember-osf-web/services/analytics';
 import styles from './styles';
 import layout from './template';
 
+enum OverlayReason {
+    Loading,
+    Error,
+}
+
 export default class ChartWrapper extends Component {
     @service keen!: KeenService;
     @service i18n!: I18n;
@@ -30,23 +35,30 @@ export default class ChartWrapper extends Component {
     chart!: KeenDataviz; // set in didInsertElement
     chartEnabled: boolean = false;
     overlayShown: boolean = true;
+    loading: boolean = false;
+    keenError: boolean = false;
 
     loadKeen = task(function *(this: ChartWrapper) {
-        this.showOverlay();
-        let data = yield this.keen.queryNode(
-            this.node,
-            this.startDate,
-            this.endDate,
-            this.chartSpec.queryType,
-            this.chartSpec.queryOptions,
-        );
+        this.showOverlay(OverlayReason.Loading);
+        try {
+            let data = yield this.keen.queryNode(
+                this.node,
+                this.startDate,
+                this.endDate,
+                this.chartSpec.queryType,
+                this.chartSpec.queryOptions,
+            );
 
-        if (this.chartSpec.processData) {
-            data = this.chartSpec.processData(data, this.i18n);
+            if (this.chartSpec.processData) {
+                data = this.chartSpec.processData(data, this.i18n, this.node);
+            }
+
+            this.chart.data(data).render();
+            this.hideOverlay();
+        } catch (e) {
+            this.showOverlay(OverlayReason.Error);
+            throw e;
         }
-
-        this.hideOverlay();
-        this.chart.data(data).render();
     }).restartable();
 
     didInsertElement(this: ChartWrapper) {
@@ -62,7 +74,26 @@ export default class ChartWrapper extends Component {
         }
     }
 
-    showOverlay(this: ChartWrapper) {
+    showOverlay(this: ChartWrapper, reason?: OverlayReason) {
+        switch (reason) {
+        case OverlayReason.Error:
+            this.setProperties({
+                loading: false,
+                keenError: true,
+            });
+            break;
+        case OverlayReason.Loading:
+            this.setProperties({
+                loading: true,
+                keenError: false,
+            });
+            break;
+        default:
+            this.setProperties({
+                loading: false,
+                keenError: false,
+            });
+        }
         this.set('overlayShown', true);
         this.chart.chartOptions({
             interaction: {

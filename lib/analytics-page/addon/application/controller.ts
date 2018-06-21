@@ -1,5 +1,5 @@
 import { action } from '@ember-decorators/object';
-import { reads } from '@ember-decorators/object/computed';
+import { readOnly } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import Cookies from 'ember-cookies/services/cookies';
@@ -50,16 +50,16 @@ export default class ApplicationController extends Controller {
     linksModalShown = false;
     linksQueryParams = { embed: 'contributors' };
 
-    @reads('model.taskInstance.value')
+    @readOnly('model.taskInstance.value')
     node?: Node;
 
-    @reads('node.relationshipLinks.forks.links.related.meta.count')
+    @readOnly('node.relationshipLinks.forks.links.related.meta.count')
     forksCount?: number;
 
-    @reads('node.relationshipLinks.linked_by_nodes.links.related.meta.count')
+    @readOnly('node.relationshipLinks.linked_by_nodes.links.related.meta.count')
     linkedByCount?: number;
 
-    @reads('node.apiMeta.templated_by_count')
+    @readOnly('node.apiMeta.templated_by_count')
     templatedByCount?: number;
 
     @action

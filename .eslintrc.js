@@ -53,6 +53,7 @@ module.exports = {
             files: ['**/*.d.ts'],
             rules: {
                 'no-restricted-globals': 'off',
+                'no-useless-constructor': 'off',
             },
         },
         {

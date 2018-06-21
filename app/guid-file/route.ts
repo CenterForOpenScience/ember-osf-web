@@ -13,13 +13,11 @@ import Analytics, { analyticPrivacy } from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
-import RouteContext from 'ember-osf-web/services/route-context';
 import loadAll from 'ember-osf-web/utils/load-relationship';
 
 export default class GuidFile extends ResolvedGuidRoute {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service routeContext!: RouteContext;
     @service('head-tags') headTagsService!: HeadTagsService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;

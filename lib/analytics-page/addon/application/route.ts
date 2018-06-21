@@ -17,7 +17,8 @@ export default class AnalyticsPageRoute extends Route {
         //   2) we know modelName has been correctly populated
         yield this.routeContext.guidTaskInstance;
 
-        return yield this.store.findRecord(this.routeContext.modelName!, this.routeContext.guid!, {
+        const { modelName, guid } = this.routeContext;
+        return yield this.store.findRecord(modelName!, guid!, {
             reload: true,
             adapterOptions: {
                 query: {

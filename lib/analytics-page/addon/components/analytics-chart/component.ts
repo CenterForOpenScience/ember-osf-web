@@ -13,7 +13,7 @@ export interface ChartSpec {
     titleKey: string;
     queryType: string;
     queryOptions: any;
-    processData?: (data: any, i18n: I18n) => any;
+    processData?: (data: any, i18n: I18n, node: Node) => any;
     fakeData?: () => any;
     configureChart(chart: KeenDataviz, i18n: I18n): void;
 }
@@ -175,7 +175,7 @@ export default class AnalyticsChart extends Component {
             },
             processData(data: any, i18n: I18n) {
                 for (const result of data.result) {
-                    if (result['referrer.info.domain'] === 'null') {
+                    if (result['referrer.info.domain'] === null) {
                         result['referrer.info.domain'] = i18n.t('analytics.directLink');
                     }
                 }
@@ -217,11 +217,69 @@ export default class AnalyticsChart extends Component {
                                 name: () => i18n.t('analytics.visits'),
                             },
                         },
+                        axis: {
+                            x: {
+                                tick: {
+                                    multilineMax: 2,
+                                },
+                            },
+                            y: {
+                                tick: {
+                                    format: excludeNonIntegers,
+                                },
+                            },
+                        },
                     });
             },
-            processData(data: any) {
-                // TODO
-                return data;
+            processData(data: any, i18n: I18n, node: Node) {
+                interface PopularPageResult {
+                    'page.info.path': string;
+                    'page.title': string;
+                    result: number;
+                }
+
+                const aggregatedResults: { [path: string]: PopularPageResult } = {};
+
+                data.result.forEach((result: PopularPageResult) => {
+                    const path = result['page.info.path'];
+                    const [, guid, subPath] = path.split('/');
+
+                    // if path begins with our node id: it's a project page.  Lookup the title using
+                    // the second part of the path. All wiki pages are consolidated under 'Wiki'.
+                    // If path begins with a guid-ish that is not the current node id, assume it's a
+                    // file and use the title provided.
+                    let pageTitle;
+                    let pagePath;
+                    if (guid === node.id) {
+                        if (subPath && subPath.length) {
+                            pageTitle = i18n.t(`analytics.popularPageNames.${subPath}`);
+                        } else {
+                            pageTitle = i18n.t('analytics.popularPageNames.home');
+                        }
+                        pagePath = `/${guid}/${subPath || ''}`;
+                    } else if (/^\/[a-z0-9]{5}\/$/.test(path)) {
+                        pageTitle = i18n.t('analytics.popularPageNames.fileDetail', {
+                            fileName: result['page.title'].replace(/^OSF \| /, ''),
+                        });
+                        pagePath = path;
+                    } else {
+                        // Didn't recognize the path, exclude the entry from the popular pages list.
+                        return;
+                    }
+
+                    if (!aggregatedResults[pagePath]) {
+                        aggregatedResults[pagePath] = {
+                            'page.info.path': pagePath,
+                            'page.title': pageTitle,
+                            result: 0,
+                        };
+                    }
+                    aggregatedResults[pagePath].result += result.result;
+                });
+
+                return {
+                    result: Object.values(aggregatedResults).sortBy('result').reverse(),
+                };
             },
             fakeData() {
                 const data = [];

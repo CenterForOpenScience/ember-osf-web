@@ -591,10 +591,20 @@ export default {
         enableChart: 'Enable chart',
         visits: 'Visits',
         hourOfDay: 'Hour of day',
+        keenError: 'Error loading analytics data',
         dateRanges: {
             pastWeek: 'Past week',
             pastTwoWeeks: 'Past two weeks',
             pastMonth: 'Past month',
+        },
+        popularPageNames: {
+            home: 'Home',
+            files: 'Files',
+            fileDetail: 'File: {{fileName}}',
+            analytics: 'Analytics',
+            forks: 'Forks',
+            registrations: 'Registrations',
+            wiki: 'Wiki',
         },
     },
 };

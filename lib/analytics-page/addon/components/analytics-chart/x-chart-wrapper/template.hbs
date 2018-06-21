@@ -6,8 +6,10 @@
         <div local-class='Chart {{if overlayShown 'BlurredChart'}}'></div>
         {{#if overlayShown}}
             <div local-class='ChartOverlay'>
-                {{#if chartEnabled}}
+                {{#if loading}}
                     {{loading-indicator dark=true}}
+                {{else if keenError}}
+                    <p>{{t 'analytics.keenError'}}</p>
                 {{else}}
                     {{#bs-button type='primary' onClick=(action 'enableChart')}}
                         {{t 'analytics.enableChart'}}

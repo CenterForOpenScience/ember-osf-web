@@ -41,14 +41,14 @@ describe('translations', () => {
             const { result, outFile } = compileTranslation('en', localesOutDir);
             assert.isOk(!result.status, result.stdout);
             compiledTransFiles.en = outFile;
-        }).timeout(5000);
+        }).timeout(15000);
 
         locales.forEach(locale => {
             it(locale, () => {
                 const { result, outFile } = compileTranslation(locale, localesOutDir);
                 assert.isOk(!result.status, result.stdout);
                 compiledTransFiles[locale] = outFile;
-            }).timeout(5000);
+            }).timeout(15000);
         });
     });
 

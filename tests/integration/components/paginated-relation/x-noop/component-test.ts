@@ -21,6 +21,6 @@ module('Integration | Component | paginated-relation/x-noop', hooks => {
             {{/paginated-relation/x-noop}}
         `);
 
-        assert.hasText(this.element, 'template block text');
+        assert.hasText(this.element, '');
     });
 });

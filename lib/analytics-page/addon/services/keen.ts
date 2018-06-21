@@ -20,7 +20,10 @@ export default class KeenService extends Service {
         queryOptions: any,
     ) {
         if (!node.analyticsKey) {
-            throw Error('No analytics key');
+            throw Error('No analytics key on this node');
+        }
+        if (!keenProjectId) {
+            throw Error('KEEN_PROJECT_ID not defined');
         }
         const keenClient = new KeenAnalysis({
             projectId: keenProjectId,

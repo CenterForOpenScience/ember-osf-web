@@ -1,5 +1,5 @@
 import { action, computed } from '@ember-decorators/object';
-import { reads } from '@ember-decorators/object/computed';
+import { readOnly } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -23,7 +23,7 @@ export default class GuidRegistrationForks extends Controller {
 
     forksQueryParams = { embed: 'contributors' };
 
-    @reads('model.taskInstance.value')
+    @readOnly('model.taskInstance.value')
     node?: Registration;
 
     @computed('node')
