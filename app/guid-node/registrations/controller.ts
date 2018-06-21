@@ -4,6 +4,7 @@ import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
+import RegistrationMetaschema from 'ember-osf-web/models/registration-metaschema';
 
 export default class GuidNodeRegistrations extends Controller {
     @service store!: DS.Store;
@@ -11,31 +12,35 @@ export default class GuidNodeRegistrations extends Controller {
     page: number = 1;
     maxPage: number = 1;
     perPage: number = 10;
-
+    tabOpen: string = 'registrations';
     draftPage: number = 1;
     draftMaxPage: number = 1;
-
+    selectedSchema!: RegistrationMetaschema;
     registrations = [];
     draftRegistrations = [];
     metaschemas = [];
     schemas = [];
 
     getRegistrationTypes = task(function *(this: GuidNodeRegistrations) {
-        const metaschemas = yield this.store.findAll('registration-metaschema');
-        metaschemas.sortBy('-name');
+        let metaschemas = yield this.store.findAll('registration-metaschema');
+        metaschemas = metaschemas.toArray();
+        metaschemas.sort((a: RegistrationMetaschema, b: RegistrationMetaschema) => {
+            return a.name.length > b.name.length;
+        });
+        this.set('selectedSchema', metaschemas.firstObject);
         this.set('metaschemas', metaschemas);
     });
 
     getDrafts = task(function *(this: GuidNodeRegistrations) {
         const page = this.draftPage;
-        const model = this.model;
+        const { model } = this;
         const node = yield model.taskInstance;
 
         const draftRegistrations = yield node.queryHasMany('draftRegistrations', {
             page,
             embed: 'contributors',
-            'page[size]': this.perPage},
-        );
+            'page[size]': this.perPage,
+        });
         this.setProperties({
             draftRegistrations,
             draftMaxPage: Math.ceil(draftRegistrations.meta.total / this.perPage),
@@ -43,8 +48,7 @@ export default class GuidNodeRegistrations extends Controller {
     }).restartable();
 
     getRegistrations = task(function *(this: GuidNodeRegistrations) {
-        const page = this.page;
-        const model = this.model;
+        const { page, model } = this;
         const node = yield model.taskInstance;
 
         const registrations = yield node.queryHasMany('registrations', {
@@ -80,9 +84,8 @@ export default class GuidNodeRegistrations extends Controller {
 
     @action
     newRegistration() {
-
+        return 'No-empty-block';
     }
-
 }
 
 declare module '@ember/controller' {

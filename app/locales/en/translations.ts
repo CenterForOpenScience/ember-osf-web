@@ -502,7 +502,7 @@ export default {
             tags: {
                 archiving: 'Archiving',
                 pending: 'Pending registration',
-            }
+            },
         },
         private_tooltip: 'This project is private',
     },
@@ -530,6 +530,8 @@ export default {
                 create: 'Create draft',
             },
             new: 'New registration',
+            registrations: 'Registrations',
+            draft_registrations: 'Draft Registrations',
         },
     },
     delete_modal: {
