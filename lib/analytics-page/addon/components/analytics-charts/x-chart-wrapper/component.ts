@@ -1,12 +1,12 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { task, TaskInstance } from 'ember-concurrency';
 import I18n from 'ember-i18n/services/i18n';
 import KeenDataviz from 'keen-dataviz';
 import { Moment } from 'moment';
 
-import { ChartSpec } from 'analytics-page/components/analytics-chart/component';
+import { ChartSpec } from 'analytics-page/components/analytics-charts/component';
 import KeenService from 'analytics-page/services/keen';
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
@@ -27,7 +27,7 @@ export default class ChartWrapper extends Component {
 
     // Required arguments
     chartSpec!: ChartSpec;
-    node!: Node;
+    nodeTaskInstance!: TaskInstance<Node>;
     startDate!: Moment;
     endDate!: Moment;
 
@@ -40,21 +40,22 @@ export default class ChartWrapper extends Component {
 
     loadKeen = task(function *(this: ChartWrapper) {
         this.showOverlay(OverlayReason.Loading);
+        const node = yield this.nodeTaskInstance;
         try {
             let data = yield this.keen.queryNode(
-                this.node,
+                node,
                 this.startDate,
                 this.endDate,
-                this.chartSpec.queryType,
-                this.chartSpec.queryOptions,
+                this.chartSpec.keenQueryType,
+                this.chartSpec.keenQueryOptions,
             );
 
             if (this.chartSpec.processData) {
-                data = this.chartSpec.processData(data, this.i18n, this.node);
+                data = this.chartSpec.processData(data, this.i18n, node);
             }
 
-            this.chart.data(data).render();
             this.hideOverlay();
+            this.chart.data(data).render();
         } catch (e) {
             this.showOverlay(OverlayReason.Error);
             throw e;
@@ -64,7 +65,7 @@ export default class ChartWrapper extends Component {
     didInsertElement(this: ChartWrapper) {
         this.chart = new KeenDataviz()
             .el(`#${this.elementId} .${styles.Chart}`)
-            .title(' ');
+            .title(' '); // Prevent keen-dataviz from adding a default title
         this.initSkeletonChart();
     }
 

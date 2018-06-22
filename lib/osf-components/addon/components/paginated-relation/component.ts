@@ -21,9 +21,9 @@ export default class PaginatedList extends Component {
 
     relationshipName!: string; // Required argument
 
-    // Either model xor modelTask is required
+    // Either model xor modelTaskInstance is required
     model?: OsfModel;
-    modelTask?: TaskInstance<OsfModel>;
+    modelTaskInstance?: TaskInstance<OsfModel>;
 
     // Optional arguments
     page: number = defaultTo(this.page, 1);
@@ -35,21 +35,22 @@ export default class PaginatedList extends Component {
     // Private properties
     maxPage?: number;
     items?: any[];
+    errorShown: boolean = false;
 
-    @or('model', 'modelTask.value')
+    @or('model', 'modelTaskInstance.value')
     modelInstance?: OsfModel;
 
     loadItemsTask = task(function *(this: PaginatedList) {
         const blocker = this.ready.getBlocker();
         try {
             let model = this.modelInstance;
-            if (!model && this.modelTask) {
-                model = yield this.modelTask;
+            if (!model && this.modelTaskInstance) {
+                model = yield this.modelTaskInstance;
             }
             if (!model) {
-                throw new Error('Error loading list');
+                throw new Error('Error loading model');
             }
-            const items = yield model.queryHasMany(
+            const items = yield model.queryHasManyTask.linked().perform(
                 this.relationshipName,
                 {
                     page: this.page,
@@ -60,10 +61,13 @@ export default class PaginatedList extends Component {
             this.setProperties({
                 items,
                 maxPage: Math.ceil(items.meta.total / this.pageSize),
+                errorShown: false,
             });
             blocker.done();
         } catch (e) {
+            this.set('errorShown', true);
             blocker.errored(e);
+            throw e;
         } finally {
             this.set('reload', false);
         }
@@ -73,8 +77,8 @@ export default class PaginatedList extends Component {
         super(...args);
 
         assert(
-            'Must provide either `model` xor `modelTask` to {{paginated-relation}}',
-            Boolean(this.model) !== Boolean(this.modelTask),
+            'Must provide either `model` xor `modelTaskInstance` to {{paginated-relation}}',
+            Boolean(this.model) !== Boolean(this.modelTaskInstance),
         );
 
         this.loadItems();

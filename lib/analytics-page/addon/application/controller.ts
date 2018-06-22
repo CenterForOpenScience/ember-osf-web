@@ -53,6 +53,9 @@ export default class ApplicationController extends Controller {
     @readOnly('model.taskInstance.value')
     node?: Node;
 
+    @readOnly('model.taskInstance.isRunning')
+    loading?: boolean;
+
     @readOnly('node.relationshipLinks.forks.links.related.meta.count')
     forksCount?: number;
 

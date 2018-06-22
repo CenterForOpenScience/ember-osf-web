@@ -1,5 +1,6 @@
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { TaskInstance } from 'ember-concurrency';
 import I18n from 'ember-i18n/services/i18n';
 import KeenDataviz from 'keen-dataviz';
 import moment, { Moment } from 'moment';
@@ -11,8 +12,8 @@ import layout from './template';
 
 export interface ChartSpec {
     titleKey: string;
-    queryType: string;
-    queryOptions: any;
+    keenQueryType: string;
+    keenQueryOptions: any;
     processData?: (data: any, i18n: I18n, node: Node) => any;
     fakeData?: () => any;
     configureChart(chart: KeenDataviz, i18n: I18n): void;
@@ -28,15 +29,15 @@ export default class AnalyticsChart extends Component {
     layout = layout;
 
     // Required arguments
-    node!: Node;
+    nodeTaskInstance!: TaskInstance<Node>;
     startDate!: Moment;
     endDate!: Moment;
 
     charts: ChartSpec[] = [
         {
             titleKey: 'analytics.uniqueVisits',
-            queryType: 'count_unique',
-            queryOptions: {
+            keenQueryType: 'count_unique',
+            keenQueryOptions: {
                 event_collection: 'pageviews',
                 interval: 'daily',
                 target_property: 'anon.id',
@@ -81,8 +82,8 @@ export default class AnalyticsChart extends Component {
         },
         {
             titleKey: 'analytics.visitTimes',
-            queryType: 'count_unique',
-            queryOptions: {
+            keenQueryType: 'count_unique',
+            keenQueryOptions: {
                 event_collection: 'pageviews',
                 target_property: 'anon.id',
                 group_by: 'time.local.hour_of_day',
@@ -155,8 +156,8 @@ export default class AnalyticsChart extends Component {
         },
         {
             titleKey: 'analytics.topReferrers',
-            queryType: 'count_unique',
-            queryOptions: {
+            keenQueryType: 'count_unique',
+            keenQueryOptions: {
                 event_collection: 'pageviews',
                 target_property: 'anon.id',
                 group_by: 'referrer.info.domain',
@@ -196,13 +197,11 @@ export default class AnalyticsChart extends Component {
         },
         {
             titleKey: 'analytics.popularPages',
-            queryType: 'count',
-            queryOptions: {
+            keenQueryType: 'count',
+            keenQueryOptions: {
                 event_collection: 'pageviews',
                 target_property: 'anon.id',
                 group_by: ['page.info.path', 'page.title'],
-                order_by: [{ property_name: 'result', direction: 'DESC' }],
-                limit: 10,
                 filters: [{
                     property_name: 'page.info.path',
                     operator: 'not_contains',
@@ -220,7 +219,7 @@ export default class AnalyticsChart extends Component {
                         axis: {
                             x: {
                                 tick: {
-                                    multilineMax: 2,
+                                    multilineMax: 1,
                                 },
                             },
                             y: {
@@ -278,7 +277,7 @@ export default class AnalyticsChart extends Component {
                 });
 
                 return {
-                    result: Object.values(aggregatedResults).sortBy('result').reverse(),
+                    result: Object.values(aggregatedResults).sortBy('result').reverse().slice(0, 10),
                 };
             },
             fakeData() {

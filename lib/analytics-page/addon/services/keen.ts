@@ -16,8 +16,8 @@ export default class KeenService extends Service {
         node: Node,
         startDate: Moment,
         endDate: Moment,
-        queryType: string,
-        queryOptions: any,
+        keenQueryType: string,
+        keenQueryOptions: any,
     ) {
         if (!node.analyticsKey) {
             throw Error('No analytics key on this node');
@@ -35,10 +35,10 @@ export default class KeenService extends Service {
                 start: startDate.format(),
                 end: endDate.format(),
             },
-            ...queryOptions,
+            ...keenQueryOptions,
         };
 
-        return keenClient.query(queryType, options);
+        return keenClient.query(keenQueryType, options);
     }
 }
 

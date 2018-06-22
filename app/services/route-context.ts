@@ -15,16 +15,15 @@ export default class RouteContextService extends Service {
 
     guid?: string;
     modelName?: ReferentModelName;
+    guidTaskInstance?: TaskInstance<ReferentModel>;
 
     @alias('guidTaskInstance.last.value')
-    guidReferent?: ReferentModel;
+    model?: ReferentModel;
 
     @alias('guidTaskInstance.last.isRunning')
     loading?: boolean;
 
-    guidTaskInstance?: TaskInstance<ReferentModel>;
-
-    loadGuidReferent = task(function *(
+    loadModel = task(function *(
         this: RouteContextService,
         guid: string,
         expectedType?: ReferentModelName,
@@ -50,7 +49,7 @@ export default class RouteContextService extends Service {
         guid: string,
         expectedType?: ReferentModelName,
     ) {
-        const guidTaskInstance = this.get('loadGuidReferent').perform(guid, expectedType);
+        const guidTaskInstance = this.get('loadModel').perform(guid, expectedType);
         this.setProperties({ guidTaskInstance, guid });
         return guidTaskInstance;
     }
@@ -59,10 +58,11 @@ export default class RouteContextService extends Service {
      * Clear the current root-level GUID.
      */
     clearGuid(this: RouteContextService) {
-        this.get('loadGuidReferent').cancelAll();
+        this.get('loadModel').cancelAll();
         this.setProperties({
-            guidTaskInstance: undefined,
             guid: undefined,
+            modelName: undefined,
+            guidTaskInstance: undefined,
         });
     }
 }

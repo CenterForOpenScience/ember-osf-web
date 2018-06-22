@@ -607,4 +607,7 @@ export default {
             wiki: 'Wiki',
         },
     },
+    paginatedRelation: {
+        error: 'There was an error loading this list.',
+    },
 };

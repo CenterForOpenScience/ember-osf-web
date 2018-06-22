@@ -39,6 +39,7 @@ const App = Application.extend({
                 ],
                 externalRoutes: {
                     nodeForks: 'guid-node.forks',
+                    registrationForks: 'guid-registration.forks',
                 },
             },
         },
