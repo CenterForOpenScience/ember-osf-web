@@ -11,6 +11,7 @@ const {
 
 const Router = EmberRouter.extend({
     currentUser: service('current-user'),
+    features: service('features'),
     statusMessages: service('status-messages'),
     ready: service('ready'),
 
@@ -22,9 +23,8 @@ const Router = EmberRouter.extend({
         const flag = routes[transition.targetName];
 
         if (flag) {
-            const enabled = await this.get('currentUser').getWaffle(flag);
-
-            if (!enabled) {
+            await this.get('currentUser').featuresAreLoaded();
+            if (!this.get('features').isEnabled(flag)) {
                 window.location.reload();
             }
         }

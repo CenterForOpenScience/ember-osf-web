@@ -6,6 +6,7 @@ import Base from 'ember-simple-auth/authenticators/base';
 import Session from 'ember-simple-auth/services/session';
 
 import { NotLoggedIn } from 'ember-osf-web/errors';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 
 const {
@@ -21,10 +22,12 @@ interface ApiRootResponse {
     meta: {
         version: string,
         current_user: { data: { id: string } } | null, // eslint-disable-line camelcase
+        active_flags: string[], // eslint-disable-line camelcase
     };
 }
 
 export default class OsfCookie extends Base {
+    @service currentUser!: CurrentUser;
     @service session!: Session;
     @service store!: DS.Store;
 
@@ -36,6 +39,8 @@ export default class OsfCookie extends Base {
         const res: ApiRootResponse = await authenticatedAJAX({
             url: `${apiUrl}/${apiNamespace}/`,
         });
+
+        this.currentUser.setFeatures(res.meta.active_flags);
 
         const userData = res.meta.current_user;
         if (!userData) {
