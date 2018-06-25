@@ -137,6 +137,7 @@ export default class FileBrowser extends Component {
     @filterBy('items', 'isSelected', true) selectedItems!: File[];
     @notEmpty('filter') showFilterInput!: boolean;
     @or('showFilterClicked', 'showFilterInput') showFilter!: boolean;
+    @or('items.length', 'filter', 'isUploading') showItems!: boolean;
 
     @computed('selectedItems.firstObject.guid')
     get link(): string | undefined {
