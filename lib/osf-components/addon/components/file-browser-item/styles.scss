@@ -6,10 +6,15 @@
     border-bottom: 1px solid $color-border-gray-dark;
     line-height: 27px;
 
+    &:global(.container) {
+        padding-left: 0;
+        padding-right: 32px;
+    }
+
     &:hover {
         background-color: $color-text-gray-cool;
         color: $color-text-black;
-    
+
         a {
             color: inherit;
         }
@@ -30,7 +35,7 @@
     }
 
     .file-row-col {
-        padding-top: 2px;
+        padding-top: 3px;
         padding-left: 6px;
         margin-left: 0;
 

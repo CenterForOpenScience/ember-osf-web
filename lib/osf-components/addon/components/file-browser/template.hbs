@@ -112,25 +112,23 @@
         </div>
     {{/if}}
 </div>
-<div local-class="column-labels-wrapper">
-    <div local-class="column-labels-header">
-        <div class="col-lg-7 col-md-9 col-sm-9 col-xs-12" local-class="file-browser-header header">
-            <span local-class="sortable-column">{{t 'general.name'}}</span>
-            {{sort-button sortAction=(action (mut sort)) sort=sort sortBy='name'}}
-        </div>
-        <div class="col-lg-1 col-md-1 hidden-sm hidden-xs" local-class="file-browser-header header">
-            <span local-class="sortable-column">{{t 'general.size'}}</span>
-        </div>
-        <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-browser-header header">
-            <span local-class="sortable-column">{{t 'general.version'}}</span>
-        </div>
-        <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-browser-header header">
-            <span local-class="sortable-column">{{t 'general.downloads'}}</span>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs" local-class="file-browser-header header">
-            <span local-class="sortable-column">{{t 'general.modified'}}</span>
-            {{sort-button sortAction=(action (mut sort)) sort=sort sortBy='modified'}}
-        </div>
+<div local-class="column-labels column-labels-header">
+    <div class="col-lg-7 col-md-9 col-sm-9 col-xs-12" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.name'}}</span>
+        {{sort-button sortAction=(action (mut sort)) sort=sort sortBy='name'}}
+    </div>
+    <div class="col-lg-1 col-md-1 hidden-sm hidden-xs" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.size'}}</span>
+    </div>
+    <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.version'}}</span>
+    </div>
+    <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.downloads'}}</span>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.modified'}}</span>
+        {{sort-button sortAction=(action (mut sort)) sort=sort sortBy='modified'}}
     </div>
 </div>
 {{#bs-modal onHide=(action (mut currentModal) '') open=(eq currentModal 'info') as |modal|}}
@@ -289,41 +287,13 @@
             <div class="ball-scale ball-dark" style="text-align: center">
                 <div></div>
             </div>
-        {{else if (not (or items.length filter))}}
-            {{#if isUploading}}
-                {{#each uploading as |file|}}
-                    <div class="row">
-                        <div class="col-xs-5" local-class="file-browser-header">
-                            {{file-icon item=file}}
-                            {{file.name}}
-                        </div>
-                        <div class="col-xs-5">
-                            <div local-class="progress">
-                                <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
-                            </div>
-                        </div>
-                        <div class="col-xs-2" local-class="file-browser-header"></div>
-                    </div>
-                {{/each}}
-            {{else}}
-                <div local-class="file-placeholder">
-                    {{#if canEdit}}
-                        <div local-class="file-placeholder-content">
-                            <div>{{fa-icon 'upload' size=5}}</div>
-                            <div local-class="file-placeholder-text">{{t 'file_browser.drop_placeholder'}}</div>
-                        </div>
-                    {{else}}
-                        <div local-class="file-placeholder-text file-placeholder-content">{{t 'file_browser.no_files'}}</div>
-                    {{/if}}
-                </div>
-            {{/if}}
-        {{else}}
+        {{else if showItems}}
             <div local-class="items">
                 {{#each uploading as |file|}}
                     <div class="row" local-class="file-row-item">
-                        <div class="col-xs-5 file-row-col" local-class="file-browser-header">
+                        <div class="col-xs-5" local-class="file-browser-header file-row-col">
                             {{file-icon item=file}}
-                            <span class="upload-file-header">{{file.name}}</span>
+                            <span local-class="upload-file-header">{{file.name}}</span>
                         </div>
                         <div class="col-xs-5">
                             <div class="progress">
@@ -342,6 +312,17 @@
                         openItem=(action 'openItem')
                     }}
                 {{/each}}
+            </div>
+        {{else}}
+            <div local-class="file-placeholder">
+                {{#if canEdit}}
+                    <div local-class="file-placeholder-content">
+                        <div>{{fa-icon 'upload' size=5}}</div>
+                        <div local-class="file-placeholder-text">{{t 'file_browser.drop_placeholder'}}</div>
+                    </div>
+                {{else}}
+                    <div local-class="file-placeholder-text file-placeholder-content">{{t 'file_browser.no_files'}}</div>
+                {{/if}}
             </div>
         {{/if}}
     </div>
