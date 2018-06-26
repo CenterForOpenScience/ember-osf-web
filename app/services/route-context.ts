@@ -1,4 +1,3 @@
-import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Service from '@ember/service';
 import { task, TaskInstance } from 'ember-concurrency';
@@ -16,12 +15,6 @@ export default class RouteContextService extends Service {
     guid?: string;
     modelName?: ReferentModelName;
     guidTaskInstance?: TaskInstance<ReferentModel>;
-
-    @alias('guidTaskInstance.last.value')
-    model?: ReferentModel;
-
-    @alias('guidTaskInstance.last.isRunning')
-    loading?: boolean;
 
     loadModel = task(function *(
         this: RouteContextService,
