@@ -220,7 +220,7 @@ export default class AnalyticsChart extends Component {
                         axis: {
                             x: {
                                 tick: {
-                                    multilineMax: 1,
+                                    multilineMax: 3,
                                 },
                             },
                             y: {
