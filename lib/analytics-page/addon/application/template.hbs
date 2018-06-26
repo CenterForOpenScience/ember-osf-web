@@ -65,44 +65,55 @@
         </div>
     </div>
 
-    {{#unless hideAdblockWarning}}
-        {{#bs-alert type='info' onDismissed=(action dismissAdblockWarning)}}
-            <div class='text-center'>
-                {{t 'analytics.adblockWarning'}}
-            </div>
-        {{/bs-alert}}
-    {{/unless}}
+    {{#if nodePublic}}
+        {{#unless hideAdblockWarning}}
+            {{#bs-alert type='info' onDismissed=(action dismissAdblockWarning)}}
+                <div class='text-center'>
+                    {{t 'analytics.adblockWarning'}}
+                </div>
+            {{/bs-alert}}
+        {{/unless}}
 
-    <div local-class="PickDateRange">
-        <label>
-            {{t 'analytics.showForDateRange'}}
-            {{#bs-dropdown as |dd|}}
-                {{#dd.button
-                    (html-attributes aria-haspopup=true aria-expanded=false)
-                    class=(local-class 'DateRangeButton')
-                }}
-                    {{t (concat 'analytics.dateRanges.' activeDateRange.key)}}
-                    {{fa-icon 'caret-down'}}
-                {{/dd.button}}
-                {{#dd.menu class=(concat (local-class 'DateRangeMenu') ' dropdown-menu-right')}}
-                    {{#each dateRanges as |dateRange|}}
-                        <li role="menuitem">
-                            <a
-                                role="button"
-                                local-class="DateRangeOption"
-                                {{action 'setDateRange' dateRange}}
-                            >
-                                {{t (concat 'analytics.dateRanges.' dateRange.key)}}
-                            </a>
-                        </li>
-                    {{/each}}
-                {{/dd.menu}}
-            {{/bs-dropdown}}
-        </label>
-    </div>
+        <div local-class="PickDateRange">
+            <label>
+                {{t 'analytics.showForDateRange'}}
+                {{#bs-dropdown as |dd|}}
+                    {{#dd.button
+                        (html-attributes aria-haspopup=true aria-expanded=false)
+                        class=(local-class 'DateRangeButton')
+                    }}
+                        {{t (concat 'analytics.dateRanges.' activeDateRange.key)}}
+                        {{fa-icon 'caret-down'}}
+                    {{/dd.button}}
+                    {{#dd.menu class=(concat (local-class 'DateRangeMenu') ' dropdown-menu-right')}}
+                        {{#each dateRanges as |dateRange|}}
+                            <li role="menuitem">
+                                <a
+                                    role="button"
+                                    local-class="DateRangeOption"
+                                    {{action 'setDateRange' dateRange}}
+                                >
+                                    {{t (concat 'analytics.dateRanges.' dateRange.key)}}
+                                </a>
+                            </li>
+                        {{/each}}
+                    {{/dd.menu}}
+                {{/bs-dropdown}}
+            </label>
+        </div>
+    {{else}}
+        {{!nodePublic}}
+        <div class='row'>
+            <div local-class='PrivateProject' class='col-xs-12'>
+                {{t 'analytics.privateProject'}}
+            </div>
+        </div>
+    {{/if}}
+
     <div class='clearfix'></div>
     <div class='row'>
         {{analytics-charts
+            allowEnablingCharts=nodePublic
             nodeTaskInstance=model.taskInstance
             startDate=activeDateRange.start
             endDate=activeDateRange.end

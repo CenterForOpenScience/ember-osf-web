@@ -1,14 +1,16 @@
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { readOnly } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import Cookies from 'ember-cookies/services/cookies';
+import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18n from 'ember-i18n/services/i18n';
 import moment, { Moment } from 'moment';
 
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
+import RouteContext from 'ember-osf-web/services/route-context';
 
 const {
     OSF: {
@@ -26,6 +28,8 @@ export default class ApplicationController extends Controller {
     @service cookies!: Cookies;
     @service i18n!: I18n;
     @service analytics!: AnalyticsService;
+    @service store!: DS.Store;
+    @service routeContext!: RouteContext;
 
     dateRanges: DateRange[] = [
         {
@@ -64,6 +68,12 @@ export default class ApplicationController extends Controller {
 
     @readOnly('node.apiMeta.templated_by_count')
     templatedByCount?: number;
+
+    @computed('node.public', 'model.{id,modelName}')
+    get nodePublic() {
+        const node: Node | null = this.node || this.store.peekRecord(this.model.modelName, this.model.id);
+        return node && node.public;
+    }
 
     @action
     dismissAdblockWarning(this: ApplicationController) {

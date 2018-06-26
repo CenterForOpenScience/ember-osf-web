@@ -30,6 +30,7 @@ export default class ChartWrapper extends Component {
     nodeTaskInstance!: TaskInstance<Node>;
     startDate!: Moment;
     endDate!: Moment;
+    allowEnablingCharts!: boolean;
 
     // Private properties
     chart!: KeenDataviz; // set in didInsertElement
@@ -66,6 +67,7 @@ export default class ChartWrapper extends Component {
         this.chart = new KeenDataviz()
             .el(`#${this.elementId} .${styles.Chart}`)
             .title(' '); // Prevent keen-dataviz from adding a default title
+
         this.initSkeletonChart();
     }
 

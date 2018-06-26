@@ -5,18 +5,16 @@
     }
 }
 
-.Chart {
-    svg {
-        font-size: 12px;
+.DisabledPanel {
+    :global(.panel-title) {
+        color: $color-text-gray-light;
     }
 }
 
-.BlurredChart {
-    filter: blur(1px) grayscale(100%);
-}
-
-.ChartContainer {
-    position: relative;
+.Chart {
+    &.Blurred {
+        filter: blur(1px) grayscale(100%);
+    }
 }
 
 .ChartOverlay {
@@ -42,4 +40,8 @@
         z-index: -1;
         background-color: $color-bg-white;
     }
+}
+
+.ChartContainer {
+    position: relative;
 }

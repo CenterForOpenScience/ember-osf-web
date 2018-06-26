@@ -12,11 +12,6 @@ export default class AnalyticsPageRoute extends Route {
     getNodeWithCounts = task(function *(this: AnalyticsPageRoute) {
         assert('Must have a GUID context', Boolean(this.routeContext.guid && this.routeContext.guidTaskInstance));
 
-        // If the node without related counts is still loading, wait for it to finish so:
-        //   1) the ember-data store doesn't dedupe the request
-        //   2) we know modelName has been correctly populated
-        yield this.routeContext.guidTaskInstance;
-
         const { modelName, guid } = this.routeContext;
         return yield this.store.findRecord(modelName!, guid!, {
             reload: true,
@@ -28,10 +23,21 @@ export default class AnalyticsPageRoute extends Route {
         });
     });
 
-    model(this: AnalyticsPageRoute) {
+    loadModel = task(function *(this: AnalyticsPageRoute) {
+        // If the node without related counts is still loading, wait for it to finish so:
+        //   1) the ember-data store doesn't dedupe the request
+        //   2) we know modelName has been correctly populated
+        //   3) we know whether the node is public before rendering
+        yield this.routeContext.guidTaskInstance;
+
         return {
-            taskInstance: this.get('getNodeWithCounts').perform(),
             id: this.routeContext.guid,
+            modelName: this.routeContext.modelName,
+            taskInstance: this.get('getNodeWithCounts').perform(),
         };
+    });
+
+    model(this: AnalyticsPageRoute) {
+        return this.get('loadModel').perform();
     }
 }

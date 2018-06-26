@@ -2,6 +2,7 @@
     {{#each charts as |chartSpec|}}
         <div class='col-sm-6 col-xs-12'>
             {{analytics-charts/x-chart-wrapper
+                allowEnablingCharts=allowEnablingCharts
                 nodeTaskInstance=nodeTaskInstance
                 startDate=startDate
                 endDate=endDate

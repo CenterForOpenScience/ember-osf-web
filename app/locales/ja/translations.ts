@@ -606,6 +606,22 @@ export default {
             registrations: 'Registrations',
             wiki: 'Wiki',
         },
+        privateProject: `
+            <p>
+                Analytics are not available for private projects. To view Analytics, make your project public
+                by selecting Make Public from the project overview page. Public projects:
+            </p>
+            <ul>
+                <li>are discoverable</li>
+                <li>are citable</li>
+                <li>can be affiliated with OSF for Institutions partners</li>
+                <li>promote open practices among peers</li>
+            </ul>
+            <p>
+                Receive data on visitors to your project by enabling Analytics
+                and begin discovering the impact of your work.
+            </p>
+        `,
     },
     paginatedRelation: {
         error: 'There was an error loading this list.',
