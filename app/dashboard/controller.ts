@@ -28,7 +28,8 @@ export default class Dashboard extends Controller {
     loadingSearch: boolean = false;
     loadingMore: boolean = false;
     initialLoad: boolean = true;
-    filter: string | null = '';
+    // Initialized in setupController.
+    filter!: string | null;
     sort: string = '-last_logged';
     modalOpen: boolean = false;
     newNode: Node | null = null;
@@ -40,17 +41,17 @@ export default class Dashboard extends Controller {
     noteworthy = A([]);
     popular = A([]);
 
-    getInstitutions = task(function* (this: Dashboard) {
+    getInstitutions = task(function *(this: Dashboard) {
         this.set('institutions', yield this.get('store').findAll('institution'));
     }).restartable();
 
-    filterNodes = task(function* (this: Dashboard, filter: string) {
+    filterNodes = task(function *(this: Dashboard, filter: string) {
         yield timeout(500);
         this.setProperties({ filter });
         yield this.get('findNodes').perform();
     }).restartable();
 
-    findNodes = task(function* (this: Dashboard, more?: boolean) {
+    findNodes = task(function *(this: Dashboard, more?: boolean) {
         const indicatorProperty = more ? 'loadingMore' : 'loading';
         this.set(indicatorProperty, true);
 
@@ -74,7 +75,7 @@ export default class Dashboard extends Controller {
         this.set('initialLoad', false);
     }).restartable();
 
-    getPopularAndNoteworthy = task(function* (this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
+    getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
         try {
             const node = yield this.get('store').findRecord('node', id);
             const linkedNodes = yield node.queryHasMany('linkedNodes', {
@@ -88,13 +89,13 @@ export default class Dashboard extends Controller {
         }
     });
 
-    searchNodes = task(function* (this: Dashboard, title: string) {
+    searchNodes = task(function *(this: Dashboard, title: string) {
         yield timeout(500);
         const user = yield this.get('user');
         return yield user.queryHasMany('nodes', { filter: { title } });
     }).restartable();
 
-    createNode = task(function* (this: Dashboard, title: string, description: string, templateFrom: Node) {
+    createNode = task(function *(this: Dashboard, title: string, description: string, templateFrom: Node) {
         if (!title) {
             return;
         }

@@ -35,7 +35,7 @@ export default class UserQuickfiles extends Route.extend({
     @service ready!: Ready;
     @service router!: any;
 
-    loadModel = task(function* (this: UserQuickfiles, userModel: any) {
+    loadModel = task(function *(this: UserQuickfiles, userModel: any) {
         const blocker = this.get('ready').getBlocker();
         try {
             const user = yield userModel.taskInstance;

@@ -1,0 +1,24 @@
+// stylelint-disable selector-class-pattern
+.SortButton {
+    composes: sort-group from global;
+
+    padding-left: 10px;
+    display: table-cell;
+
+    button {
+        appearance: none;
+        outline: none;
+        border: 0;
+        background: transparent;
+        font-size: large;
+        height: 24px;
+    }
+}
+
+.selected {
+    color: $color-text-black;
+}
+
+.not-selected {
+    color: $color-text-blue-dark;
+}

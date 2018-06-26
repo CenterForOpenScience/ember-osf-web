@@ -1,14 +1,15 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import Ember from 'ember';
-import CasAuthenticatedRouteMixin from 'ember-osf-web/mixins/cas-authenticated-route';
+import requireAuth from 'ember-osf-web/decorators/require-auth';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-export default class Quickfiles extends Route.extend(CasAuthenticatedRouteMixin) {
+@requireAuth()
+export default class Quickfiles extends Route {
     @service currentUser!: CurrentUser;
 
     model(this: Quickfiles) {
-        return this.get('currentUser').get('currentUserId');
+        return this.currentUser.currentUserId;
     }
 
     afterModel(model: any, transition: Ember.Transition) {

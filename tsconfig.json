@@ -20,15 +20,41 @@
     "baseUrl": ".",
     "module": "es6",
     "paths": {
-      "ember-osf-web/tests/*": ["tests/*"],
-      "ember-osf-web/*": ["app/*"],
-      "config/*": ["config/*"],
-      "npm:*": ["node_modules/*"],
+      "collections/*": [
+        "lib/collections/addon/*"
+      ],
+      "ember-osf-web/tests/*": [
+        "tests/*"
+      ],
+      "ember-osf-web/*": [
+        "app/*",
+        "lib/test/app/*"
+      ],
+      "osf-components": [
+        "lib/osf-components/addon"
+      ],
+      "osf-components/*": [
+        "lib/osf-components/addon/*"
+      ],
+      "handbook": [
+        "lib/handbook/addon"
+      ],
+      "handbook/*": [
+        "lib/handbook/addon/*"
+      ],
+      "config/*": [
+        "config/*"
+      ],
+      "npm:*": [
+        "node_modules/*"
+      ],
       "ember-bootstrap/components/*": [
         "node_modules/ember-bootstrap/addon/components/bs3/*",
         "node_modules/ember-bootstrap/addon/components/bs4/*"
       ],
-      "*": ["types/*"]
+      "*": [
+        "types/*"
+      ]
     },
     "experimentalDecorators": true,
     "skipLibCheck": true
@@ -37,6 +63,9 @@
     "app",
     "config",
     "tests",
-    "types"
+    "types",
+    "lib/collections",
+    "lib/osf-components",
+    "lib/handbook"
   ]
 }

@@ -6,7 +6,7 @@ import Locale from 'ember-i18n/utils/locale';
 
 const fallbackLocale = config.i18n.defaultLocale;
 
-export default function (this: any, locale: string, key: string, data: any) {
+export default function(this: any, locale: string, key: string, data: any) {
     if (locale === fallbackLocale) {
         return `Missing translation: ${key}`;
     }

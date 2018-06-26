@@ -1,19 +1,11 @@
-import { moduleFor, test } from 'ember-qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { module, test } from 'qunit';
 
-moduleFor('route:application', 'Unit | Route | application', {
-    needs: [
-        'service:session',
-        'service:metrics',
-        'service:features',
-        'service:analytics',
-        'service:currentUser',
-        'service:status-messages',
-        'service:ready',
-        'service:i18n',
-    ],
-});
+module('Unit | Route | application', hooks => {
+    setupTest(hooks);
 
-test('it exists', function(assert) {
-    const route = this.subject();
-    assert.ok(route);
+    test('it exists', function(assert) {
+        const route = this.owner.lookup('route:application');
+        assert.ok(route);
+    });
 });

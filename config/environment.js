@@ -10,23 +10,28 @@ try {
 
 const {
     A11Y_AUDIT = 'true',
+    ASSETS_PREFIX: assetsPrefix = '/ember_osf_web/',
     BACKEND: backend = 'local',
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
+    COLLECTIONS_ENABLED = false,
+    HANDBOOK_ENABLED = false,
+    HANDBOOK_DOC_GENERATION_ENABLED = false,
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
+    LINT_ON_BUILD: lintOnBuild = false,
+    MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
     OSF_API_URL: apiUrl = 'http://localhost:8000',
+    OSF_API_VERSION: apiVersion = '2.8',
     OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
     OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
     OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
-    OSF_COOKIE_LOGIN_URL: cookieLoginUrl = 'http://localhost:8080/login',
-    OSF_OAUTH_URL: oauthUrl = 'http://localhost:8080/oauth2/profile',
-    PERSONAL_ACCESS_TOKEN: accessToken,
+    OSF_AUTHENTICATOR: osfAuthenticator = 'osf-cookie',
     POLICY_URL_PREFIX = 'https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/',
     POPULAR_LINKS_NODE: popularNode = '57tnq',
     // POPULAR_LINKS_REGISTRATIONS = '',
@@ -38,18 +43,20 @@ const {
     SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
     SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
+    SOURCEMAPS_ENABLED: sourcemapsEnabled = false,
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
-    const authorizationType = 'cookie';
     const devMode = environment !== 'production';
 
     const ENV = {
         modulePrefix: 'ember-osf-web',
         environment,
+        lintOnBuild,
+        sourcemapsEnabled,
         rootURL: '/',
+        assetsPrefix,
         locationType: 'auto',
-        authorizationType,
         sentryDSN: null,
         sentryOptions: {
             release,
@@ -57,10 +64,6 @@ module.exports = function(environment) {
                 // https://github.com/emberjs/ember.js/issues/12505
                 'TransitionAborted',
             ],
-        },
-        'ember-simple-auth': {
-            authorizer: `authorizer:osf-${authorizationType}`,
-            authenticator: `authenticator:osf-${authorizationType}`,
         },
         EmberENV: {
             FEATURES: {
@@ -122,18 +125,20 @@ module.exports = function(environment) {
             redirectUri,
             url,
             apiUrl,
+            apiVersion,
+            apiHeaders: {
+                ACCEPT: `application/vnd.api+json; version=${apiVersion}`,
+            },
             renderUrl,
             waterbutlerUrl,
             helpUrl,
-            cookieLoginUrl,
-            oauthUrl,
             shareBaseUrl,
             shareApiUrl,
             shareSearchUrl,
-            accessToken,
             devMode,
             statusCookie,
             cookieDomain,
+            authenticator: `authenticator:${osfAuthenticator}`,
         },
         social: {
             twitter: {
@@ -179,6 +184,11 @@ module.exports = function(environment) {
                 support: 'ember_support_page',
                 dashboard: 'ember_home_page',
                 home: 'ember_home_page',
+                'guid-node.forks': 'ember_project_forks_page',
+                'guid-registration.forks': 'ember_project_forks_page',
+            },
+            navigation: {
+                institutions: 'institutions_nav_bar',
             },
         },
         gReCaptcha: {
@@ -188,6 +198,18 @@ module.exports = function(environment) {
             youtubeId: '2TV21gOzfhw',
         },
         secondaryNavbarId: '__secondaryOSFNavbar__',
+        engines: {
+            collections: {
+                enabled: COLLECTIONS_ENABLED,
+            },
+            handbook: {
+                enabled: HANDBOOK_ENABLED,
+                docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
+            },
+        },
+        'ember-cli-tailwind': {
+            shouldIncludeStyleguide: false,
+        },
     };
 
     if (environment === 'development') {
@@ -205,6 +227,9 @@ module.exports = function(environment) {
                     turnAuditOff: A11Y_AUDIT !== 'true',
                 },
             },
+            'ember-cli-mirage': {
+                enabled: Boolean(MIRAGE_ENABLED),
+            },
         });
     }
 
@@ -212,11 +237,15 @@ module.exports = function(environment) {
         // Testem prefers this...
         ENV.locationType = 'none';
 
+        // Test environment needs to find assets in the "regular" location.
+        ENV.assetsPrefix = '/';
+
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;
         ENV.APP.LOG_VIEW_LOOKUPS = false;
 
         ENV.APP.rootElement = '#ember-testing';
+        ENV.APP.autoboot = false;
     }
 
     if (devMode) {

@@ -50,6 +50,9 @@ export default {
         cos: 'Center for Open Science',
         home: 'Home',
         period: '.',
+        settings: 'Settings',
+        project: 'project',
+        component: 'component',
         hosted_on_the_osf: 'Hosted on OSF',
     },
     maintenance: {
@@ -249,7 +252,6 @@ export default {
         log_out: 'Log Out',
         my_profile: 'My Profile',
         osf_support: 'OSF Support',
-        settings: 'Settings',
         sign_up: 'Sign Up',
         sign_in: 'Sign In',
         user_gravatar: 'User gravatar',
@@ -296,10 +298,14 @@ export default {
         title: 'Page not found',
         body: 'The requested resource could not be found. If this should not have occurred and the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
     },
-    zoom_to_guid: {
-        title: 'Zoom to a GUID within this app',
+    error_no_api: {
+        title: 'API Unavailable',
+        body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+    },
+    zoom_to_route: {
+        title: 'Zoom directly to any route',
         zoom: 'Zoom!',
-        placeholder: 'Enter a GUID',
+        placeholder: 'Choose a route',
     },
     osf_mode_footer: {
         dev_mode: 'This site is running in development mode.',
@@ -486,6 +492,40 @@ export default {
         learn_more: 'learn more',
         hide_message: 'Hide this message',
     },
+    node_blurb: {
+        fork: {
+            title: 'Forked:',
+            manage_contributors: 'Manage contributors',
+        },
+        private_tooltip: 'This project is private',
+    },
+    forks: {
+        fork: 'Fork',
+        title: 'Forks',
+        info: 'Forks you have permission to view are shown here.',
+        back: 'Back to Analytics',
+        new: 'Create fork',
+        loading_new: 'Creating new fork',
+        new_fork_info_title: 'Fork status',
+        new_fork_info: 'Your fork is being created. You\'ll receive an email when it is complete.',
+        create_fork_modal: 'Are you sure you want to fork this project?',
+        unable_to_delete_fork: 'Any child components must be deleted prior to deleting this component.',
+        page_title: '{{nodeTitle}} Forks',
+        no_forks: 'A fork is a copy of a project that you can change without affecting the original project.',
+        new_fork_failed: 'Failed to create a new fork. Please try again later.',
+        delete_fork_failed: 'Failed to delete the project. Please try again later.',
+    },
+    delete_modal: {
+        title: 'Are you sure you want to delete this {{nodeType}}?',
+        body: 'It will no longer be available to other contributors on the {{nodeType}}.',
+        type_this: 'Type the following to continue:',
+        input_label: 'Scientist name verification',
+    },
+    paginator: {
+        next: 'Next page',
+        previous: 'Previous page',
+        page: 'Page {{page}} of {{max}}',
+    },
     social: {
         twitter: 'Twitter',
         facebook: 'Facebook',
@@ -493,5 +533,42 @@ export default {
         github: 'GitHub',
         google_plus: 'Google Plus',
         linkedin: 'LinkedIn',
+    },
+    institutions: {
+        description: 'OSF Institutions is a free scholarly web tool that enhances transparency, fosters collaboration, and increases the visibility of research outputs at the institutional level.',
+        read_more: 'Read more',
+        footer: 'Interested in setting up an OSF Institutions page for your research institution? <a href=\'https://cos.io/contact\'>Contact us</a>',
+        title: 'Institutions',
+        search_placeholder: 'Search institutions',
+    },
+    registration: {
+        project_alert: 'This registration is a frozen, non-editable version of <a class="link-solid" href="/{{projectId}}/">this project</a>',
+    },
+    list: {
+        two_item: {
+            delimiter: ' and ',
+        },
+        many_item: {
+            first_delimiter: ', ',
+            each_delimiter: ', ',
+            last_delimiter: ', and ',
+        },
+    },
+    contributor_list: {
+        and_x_more: '{{x}} more',
+    },
+    collections: {
+        index: {
+            title: 'Collections',
+        },
+        provider: {
+            title: 'Provider',
+        },
+        discover: {
+            title: 'Discover',
+        },
+        submit: {
+            title: 'Submit',
+        },
     },
 };

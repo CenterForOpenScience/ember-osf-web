@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
@@ -12,7 +12,6 @@ module('Integration | Component | sign-up-form', hooks => {
         });
 
         await render(hbs`{{sign-up-form submit=submit}}`);
-
-        assert.ok((this.element.textContent || '').trim());
+        assert.includesText(this.element, 'I have read and agree to the Terms of Use and Privacy Policy.');
     });
 });

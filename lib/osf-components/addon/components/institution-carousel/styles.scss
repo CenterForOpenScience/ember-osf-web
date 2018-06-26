@@ -1,0 +1,31 @@
+.InstitutionCarousel__control {
+    composes: carousel-control from global;
+    font-size: 50px !important;
+    width: 5% !important;
+    background-image: none !important;
+
+    justify-content: center !important;
+    display: flex !important;
+    flex-direction: column;
+}
+
+.left {
+    composes: left from global;
+}
+
+.right {
+    composes: right from global;
+}
+
+.InstitutionCarousel__item {
+    display: inline-block;
+    float: none;
+
+    a {
+        background: inherit;
+    }
+
+    img {
+        background-color: $color-bg-white;
+    }
+}

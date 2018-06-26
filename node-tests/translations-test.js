@@ -4,6 +4,9 @@ const os = require('os');
 const path = require('path');
 const process = require('process');
 const { assert, expect } = require('chai');
+const {
+    describe, before, after, it,
+} = require('mocha');
 
 const compileTranslation = require('./helpers/compile-translation');
 
@@ -15,7 +18,9 @@ describe('translations', () => {
     const locales = [];
     const compiledTransFiles = {};
 
-    if (transFiles.length > 0 && !transFiles.find(file => /app\/locales\/en\/translations\.ts$/.test(file))) {
+    if (transFiles.length > 0 &&
+        transFiles.find(file => /app\/locales\/\w+\/translations\.ts$/.test(file)) &&
+        !transFiles.find(file => /app\/locales\/en\/translations\.ts$/.test(file))) {
         transFiles.forEach(arg => {
             const found = arg.match(/app\/locales\/([^/]+)\/translations\.ts$/);
             if (found && found[1]) {

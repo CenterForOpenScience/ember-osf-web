@@ -1,0 +1,22 @@
+.NewProject__label {
+    width: 100%;
+}
+
+.NewProject__institution-selector > a {
+    float: right;
+    margin-right: 12px;
+}
+
+.NewProject__institution-item {
+    position: relative;
+    margin: 10px;
+}
+
+.NewProject__institution-img-not-selected {
+    opacity: 0.25;
+    filter: grayscale(100%);
+}
+
+.NewProject__placeholder {
+    color: $color-text-gray-dark;
+}

@@ -1,4 +1,3 @@
-import Computed from '@ember/object/computed';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
 
@@ -39,11 +38,11 @@ class Session extends Service.extend(Evented) {
      * @public
      */
 
-    isAuthenticated: Computed<boolean>;
-    data: Computed<Data>;
-    store: Computed<any>;
-    attemptedTransition: Computed<any>;
-    session: Computed<any>;
+    isAuthenticated: boolean;
+    data: Data | null;
+    store: any;
+    attemptedTransition: any;
+    session: any;
 
     set(key: string, value: any): any;
     authenticate(...args: any[]): RSVP.Promise;

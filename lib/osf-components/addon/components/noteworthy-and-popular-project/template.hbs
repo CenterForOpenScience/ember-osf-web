@@ -1,0 +1,15 @@
+<a href="{{project.links.html}}">
+    <div local-class="NoteworthyProject__item">
+        <h5>{{project.title}}</h5>
+        <span class="prevent-overflow" local-class="Byline">
+            <i>
+                {{t 'dashboard.noteworthy.by'}}
+                {{contributor-list contributors=project.contributors}}
+            </i>
+        </span>
+        <p class="prevent-overflow">
+            {{bs-tooltip title=compactDescription}}
+            {{project.description}}
+        </p>
+    </div>
+</a>

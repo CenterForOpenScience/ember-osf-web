@@ -1,0 +1,20 @@
+{
+  "name": "osf-components",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {
+    "ember-cli-babel": "*",
+    "ember-cli-htmlbars": "*",
+    "ember-cli-htmlbars-inline-precompile": "*",
+    "ember-cli-sass": "*",
+    "ember-cli-template-lint": "*",
+    "ember-cli-typescript": "*",
+    "ember-component-attributes": "*",
+    "ember-cp-validations": "*",
+    "ember-css-modules": "*",
+    "ember-css-modules-sass": "*",
+    "ember-i18n": "*",
+    "ember-i18n-inject": "*"
+  }
+}

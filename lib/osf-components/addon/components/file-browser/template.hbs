@@ -1,0 +1,329 @@
+<div class="row" local-class="actions-header">
+    {{#if showFilter}}
+        <div class="col-xs-9 filter-input">
+            {{input
+                (html-attributes aria-label=(t 'file_browser.filtering'))
+                placeholder=(t 'file_browser.filtering')
+                class="form-control"
+                keyUp=(action updateFilter value='target.value')
+            }}
+        </div>
+        <div class="col-xs-3">
+            <button {{action 'closeFilter'}} class="btn pull-right" local-class="action-button" aria-label={{t 'general.close'}}>
+                {{fa-icon "times"}}
+            </button>
+        </div>
+    {{else if showRename}}
+        <div class="col-xs-9 filter-input">
+            {{input
+                placeholder=selectedItems.firstObject.itemName
+                class="form-control"
+                value=renameValue
+                enter=(action 'rename' value='target.value')
+            }}
+        </div>
+        <div class="col-xs-3">
+            <button {{action 'closeRename'}} class="btn pull-right" local-class="action-button">
+                {{fa-icon "times"}}
+            </button>
+            <button {{action 'rename'}} class="btn pull-right" local-class="action-button">
+                {{fa-icon "pencil"}}
+            </button>
+        </div>
+    {{else}}
+        <div class="pull-right">
+            {{#if canEdit}}
+                <button class="btn btn-light dz-upload-button" local-class="action-button" disabled={{isUploading}}>
+                    {{fa-icon "upload"}}
+                    {{t 'general.upload'}}
+                </button>
+            {{/if}}
+            {{#if selectedItems}}
+                {{! TODO: show available actions for selected files }}
+                {{#if (eq selectedItems.length 1)}}
+                    <button id="shareButton" class="btn btn-light popover-toggler" local-class="action-button" {{action 'copyLink'}}>
+                        {{fa-icon 'share-alt'}}
+                        {{t 'general.share'}}
+                        {{#bs-popover placement="bottom" title=(t 'general.share') visible=popupOpen local-class='file-browser__popover'}}
+                            {{#if link}}
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        {{#copy-button
+                                            success=(action (mut popupOpen) false)
+                                            class='btn btn-default'
+                                            aria-label=(t 'general.clipboard_copy')
+                                            clipboardText=link
+                                        }}
+                                            {{fa-icon 'files-o'}}
+                                        {{/copy-button}}
+                                    </span>
+                                    <input readonly="true" type="text" value={{link}} class="form-control share-link">
+                                </div>
+                            {{else}}
+                                {{t 'file_browser.loading'}}
+                            {{/if}}
+                        {{/bs-popover}}
+                    </button>
+                    <button onclick={{unless canEdit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'downloadItem'}} class="btn btn-light" local-class="action-button">
+                        {{fa-icon "download"}}
+                        {{t 'general.download'}}
+                    </button>
+                    <button {{action 'viewItem'}} class="btn btn-light" local-class="action-button">
+                        {{fa-icon "file-o"}}
+                        {{t 'general.view'}}
+                    </button>
+                    {{#if canEdit}}
+                        <button {{action (mut currentModal) 'move'}} class="btn btn-light" local-class="action-button">
+                            {{fa-icon "level-up"}}
+                            {{t 'general.move'}}
+                        </button>
+                        <button {{action (mut currentModal) 'delete'}} class="btn btn-light" local-class="action-button">
+                            {{fa-icon "trash"}}
+                            {{t 'general.delete'}}
+                        </button>
+                        <button {{action (mut showRename) true}} class="btn btn-light" local-class="action-button">
+                            {{fa-icon "pencil"}}
+                            {{t 'general.rename'}}
+                        </button>
+                    {{/if}}
+                {{else}}
+                    {{#if canEdit}}
+                        <button {{action (mut currentModal) 'deleteMultiple'}} class="btn btn-light" local-class="action-button">
+                            {{fa-icon "trash"}}
+                            {{t 'file_browser.delete_multiple'}}
+                        </button>
+                    {{/if}}
+                {{/if}}
+            {{else if hasItems}}
+                <button class="btn btn-light" local-class="action-button" onclick={{unless canEdit (action 'click' 'button' 'Quick Files - Download zip' target=analytics preventDefault=false)}} {{action 'downloadZip'}}>
+                    {{fa-icon "download"}} {{t 'file_browser.download_zip'}}
+                </button>
+            {{/if}}
+            {{#if hasItems}}
+                <button {{action (mut showFilterClicked) true}} class="btn btn-light" local-class="action-button">
+                    {{fa-icon "search"}}
+                    {{t 'general.filter'}}
+                </button>
+            {{/if}}
+            <button {{action (mut currentModal) 'info'}} class="btn btn-light" local-class="action-button">
+                {{fa-icon "info"}}
+                {{t 'general.help'}}
+            </button>
+        </div>
+    {{/if}}
+</div>
+<div local-class="column-labels column-labels-header">
+    <div class="col-lg-7 col-md-9 col-sm-9 col-xs-12" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.name'}}</span>
+        {{sort-button sortAction=(action (mut sort)) sort=sort sortBy='name'}}
+    </div>
+    <div class="col-lg-1 col-md-1 hidden-sm hidden-xs" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.size'}}</span>
+    </div>
+    <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.version'}}</span>
+    </div>
+    <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.downloads'}}</span>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs" local-class="file-browser-header header">
+        <span local-class="sortable-column">{{t 'general.modified'}}</span>
+        {{sort-button sortAction=(action (mut sort)) sort=sort sortBy='modified'}}
+    </div>
+</div>
+{{#bs-modal onHide=(action (mut currentModal) '') open=(eq currentModal 'info') as |modal|}}
+    {{#modal.header onClose=(action (mut currentModal) '')}}
+        <h3 class="modal-title">{{t 'file_browser.info.title'}}</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p>{{t 'file_browser.info.upload'}}</p>
+        <p>{{t 'file_browser.info.select'}}</p>
+        <p>{{t 'file_browser.info.folders'}}</p>
+        <p>{{t 'file_browser.info.open1'}}</p>
+        <p>{{t 'file_browser.info.open2'}}</p>
+        <p>{{t 'file_browser.info.download'}}</p>
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button onClick=(action (mut currentModal) '') type="default"}}
+            {{t 'general.close'}}
+        {{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal onHide=(action (mut currentModal) '') open=(eq currentModal 'delete') as |modal|}}
+    {{#modal.header onClose=(action (mut currentModal) '')}}
+        <h3 class="modal-title break-word">
+            {{t 'file_browser.delete_modal.title' filename=selectedItems.firstObject.itemName}}
+        </h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p>{{t 'file_browser.delete_modal.body'}}</p>
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button onClick=(action (mut currentModal) '') type="default"}}
+            {{t 'general.cancel'}}
+        {{/bs-button}}
+        {{#bs-button onClick=(action 'deleteItems') type="danger"}}
+            {{t 'general.delete'}}
+        {{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal onHide=(action (mut currentModal) '') open=(eq currentModal 'deleteMultiple') as |modal|}}
+    {{#modal.header onClose=(action (mut currentModal) '')}}
+        <h3 class="modal-title break-word">{{t 'file_browser.delete_modal.title_multiple'}}</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p>{{t 'file_browser.delete_modal.body'}}</p>
+        {{#each selectedItems as | item |}}
+            <div class='break-word'>
+                <b>{{item.itemName}}</b>
+                <hr style="margin-top: 5px">
+            </div>
+        {{/each}}
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button onClick=(action (mut currentModal) '') type="default"}}{{t 'general.cancel'}}{{/bs-button}}
+        {{#bs-button onClick=(action 'deleteItems' true) type="danger"}}{{t 'general.delete'}}{{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal onHide=(action (mut currentModal) '') open=(eq currentModal 'renameConflict') as |modal|}}
+    {{#modal.header onClose=(action (mut currentModal) '')}}
+        <h3 class="modal-title break-word">{{t 'file_browser.conflict_modal.title'}}</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        <p>{{t 'file_browser.conflict_modal.keep_info'}}</p>
+        <p>{{t 'file_browser.conflict_modal.replace_info'}}</p>
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button onClick=(action (mut currentModal) '') type="default"}}
+            {{t 'general.cancel'}}
+        {{/bs-button}}
+        {{#bs-button onClick=(action 'renameConflict' 'keep') type="primary"}}
+            {{t 'file_browser.conflict_modal.keep_button'}}
+        {{/bs-button}}
+        {{#bs-button onClick=(action 'renameConflict' 'replace') type="primary"}}
+            {{t 'file_browser.conflict_modal.replace_button'}}
+        {{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal
+    onHide=(action 'closeMoveToProjectModal')
+    open=(eq currentModal 'move')
+    class="moveQuickfileModal"
+    as |modal|
+}}
+    {{#modal.header onClose=(action 'closeMoveToProjectModal')}}
+        <h3 class="modal-title break-word">{{t 'file_browser.move_modal.title'}}</h3>
+    {{/modal.header}}
+    {{#modal.body}}
+        {{project-selector
+            user=user
+            newProject=newProject
+            file=selectedItems.firstObject
+            projectSelectState=projectSelectState
+            validationChanged=(action (mut isProjectSelectorValid))
+            projectSelected=(action (mut node))
+        }}
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button disabled=isMoving onClick=(action 'closeMoveToProjectModal') type="default"}}
+            {{t 'general.cancel'}}
+        {{/bs-button}}
+        {{#if (not-eq projectSelectState 'main')}}
+            {{#bs-button disabled=isMoving onClick=(action (mut projectSelectState) 'main') type="default"}}
+                {{t 'general.back'}}
+            {{/bs-button}}
+            {{#bs-button disabled=(or (not isProjectSelectorValid) isMoving) onClick=(action (perform moveToProject)) type="primary"}}
+                {{t 'file_browser.move_modal.move_button'}}
+            {{/bs-button}}
+        {{/if}}
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-modal onHide=(action (mut currentModal) '') open=(eq currentModal 'successMove') class='successMoveQuickfileModal' as |modal|}}
+    {{#modal.body}}
+        <h4 class="add-project-success text-success">{{t "move_to_project.file_successfully_moved"}}</h4>
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button type='default' onClick=(action (mut currentModal) '')}}
+            {{t "move_to_project.keep_working_here"}}
+        {{/bs-button}}
+        <a class="btn btn-success" href="{{nodeLink}}">
+            {{#if isNewProject}}
+                {{t "move_to_project.go_to_new_project"}}
+            {{else if isChildNode}}
+                {{t "move_to_project.go_to_component"}}
+            {{else}}
+                {{t "move_to_project.go_to_project"}}
+            {{/if}}
+        </a>
+    {{/modal.footer}}
+{{/bs-modal}}
+{{#dropzone-widget
+    buildUrl=(action 'buildUrl')
+    options=dropzoneOptions
+    addedfile=(action 'addedFile')
+    uploadprogress=(action 'uploadProgress')
+    success=(action 'success')
+    error=(action 'error')
+    dropzone=false
+    dragenter=(action (mut dropping) true)
+    dragover=(action (mut dropping) true)
+    drop=(action (mut dropping) false)
+    dragleave=(action (mut dropping) false)
+    enable=dropzone
+    local-class='dropzone-area'
+    id=dropZoneId
+    clickable=clickable
+}}
+    <div class="file-browser-list" local-class="file-browser-list">
+        <div local-class="shade {{if (not dropping) 'transparent'}}">
+            <div local-class="upload-drop">
+                <div local-class="upload-text">{{fa-icon 'upload' size=5}}</div>
+                <div local-class="upload-text">{{t 'file_browser.drop_reminder'}}</div>
+            </div>
+        </div>
+        {{#if loading}}
+            <br>
+            <br>
+            <div class="ball-scale ball-dark" style="text-align: center">
+                <div></div>
+            </div>
+        {{else if showItems}}
+            <div local-class="items">
+                {{#each uploading as |file|}}
+                    <div class="row" local-class="file-row-item">
+                        <div class="col-xs-5" local-class="file-browser-header file-row-col">
+                            {{file-icon item=file}}
+                            <span local-class="upload-file-header">{{file.name}}</span>
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="progress">
+                                <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2" local-class="file-browser-header"></div>
+                    </div>
+                {{/each}}
+                {{#each items as |item|}}
+                    {{file-browser-item
+                        item=item
+                        flash=(get flashStatus item.id)
+                        selectItem=(action 'selectItem')
+                        selectMultiple=(action 'selectMultiple')
+                        openItem=(action 'openItem')
+                    }}
+                {{/each}}
+            </div>
+        {{else}}
+            <div local-class="file-placeholder">
+                {{#if canEdit}}
+                    <div local-class="file-placeholder-content">
+                        <div>{{fa-icon 'upload' size=5}}</div>
+                        <div local-class="file-placeholder-text">{{t 'file_browser.drop_placeholder'}}</div>
+                    </div>
+                {{else}}
+                    <div local-class="file-placeholder-text file-placeholder-content">{{t 'file_browser.no_files'}}</div>
+                {{/if}}
+            </div>
+        {{/if}}
+    </div>
+{{/dropzone-widget}}

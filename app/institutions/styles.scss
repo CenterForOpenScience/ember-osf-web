@@ -1,0 +1,103 @@
+@media screen and (max-width: 500px) {
+    .Institutions__logo {
+        display: none;
+    }
+
+    .Institutions__table__title {
+        width: 100%;
+    }
+}
+
+.Institutions__header-logo {
+    background: url('/static/img/institutions/osf_institutions_white.png') top center no-repeat;
+    height: 100px;
+    background-size: contain;
+}
+
+.Institutions__logo {
+    height: 100px;
+    background-size: contain;
+}
+
+.Institutions__block {
+    background: $color-bg-blue-darker;
+    background-position-y: -50px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid $color-border-gray;
+    color: $color-text-white;
+}
+
+.Institutions__block__link {
+    color: $color-link-blue;
+}
+
+.Institutions__block__link:hover {
+    color: $color-link-blue;
+}
+
+.Institutions__header {
+    padding-top: 50px;
+}
+
+.Institutions__footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-bottom: -25px;
+
+    a {
+        color: $color-link-blue;
+    }
+}
+
+.Institutions__page {
+    width: 100%;
+}
+
+.Institutions__browser {
+    min-height: 700px;
+    background: $color-bg-blue-light url('/static/img/bg6.jpg') top center repeat-y;
+    background-size: cover;
+}
+
+.Institutions__table {
+    background: $color-bg-white-transparent;
+    padding: 10px 15px;
+    border-radius: 2px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.Institutions__table__item {
+    display: block;
+    background-color: $color-bg-white;
+    box-shadow: 1px 1px 1px $color-border-gray;
+    padding: 6px;
+    color: $color-text-gray;
+    font-size: 25px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.Institutions__table__title {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+
+.Institutions__pagination {
+    font-size: 20px;
+}
+
+.Institutions__sorting {
+    span {
+        display: inline-block;
+    }
+}
+
+.Institutions__more {
+    text-align: center;
+    cursor: pointer;
+    padding-left: 50%;
+    padding-right: 50%;
+}
+

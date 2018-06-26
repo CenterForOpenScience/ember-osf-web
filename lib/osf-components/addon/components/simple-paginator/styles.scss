@@ -1,0 +1,16 @@
+.SimplePaginator {
+    display: table-cell;
+}
+
+.SimplePaginator__element {
+    padding-left: 20px;
+
+    button {
+        appearance: none;
+        outline: none;
+        border: 0;
+        background: transparent;
+        font-size: large;
+    }
+}
+

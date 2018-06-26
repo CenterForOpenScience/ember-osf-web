@@ -1,11 +1,15 @@
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
-import { moduleForComponent, test } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
+import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
-moduleForComponent('new-project-modal', 'Integration | Component | new project modal', {
-    integration: true,
-    beforeEach(assert) {
+module('Integration | Component | new-project-modal', hooks => {
+    setupRenderingTest(hooks);
+
+    hooks.beforeEach(function(this: TestContext, assert) {
         this.setProperties({
             closeModal: () => assert.ok(true),
             create: () => assert.ok(true),
@@ -20,22 +24,23 @@ moduleForComponent('new-project-modal', 'Integration | Component | new project m
             newNode: null,
             templateFrom: EmberObject.create({}),
         });
-    },
-});
+    });
 
-test('it renders', function (assert) {
-    this.render(hbs`{{new-project-modal
-        newNode=newNode
-        institutions=institutions
-        institutionsSelected=institutionsSelected
-        closeModal=closeModal
-        selectInstitution=selectInstitution
-        selectAll=selectAll
-        removeAll=removeAll
-        search=search
-        searchSelected=templateFrom
-        searchChange=searchChange
-        create=create
-    }}`);
-    assert.ok(this.$().text().trim());
+    test('it renders', async assert => {
+        await render(hbs`{{new-project-modal
+            newNode=newNode
+            institutions=institutions
+            institutionsSelected=institutionsSelected
+            closeModal=closeModal
+            selectInstitution=selectInstitution
+            selectAll=selectAll
+            removeAll=removeAll
+            search=search
+            searchSelected=templateFrom
+            searchChange=searchChange
+            create=create
+        }}`);
+        assert.found('.modal');
+        assert.hasText('.modal-title', 'Create new project');
+    });
 });

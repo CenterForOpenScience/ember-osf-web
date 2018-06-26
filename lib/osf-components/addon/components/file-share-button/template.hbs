@@ -1,0 +1,97 @@
+<button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
+    {{t "general.share"}}
+    {{#bs-popover placement='bottom' local-class='Popover' title=(t 'general.share') visible=showPopup}}
+        {{#click-outside action=(action 'hidePopup') }}
+            {{#bs-tab customTabs=true as |tab| }}
+                {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
+                    {{#nav.item active=(bs-eq tab.activeId sharePaneId)}}
+                        <a role='button' {{action tab.select sharePaneId}} local-class='SharePane__tab'>{{t "general.share"}}</a>
+                    {{/nav.item}}
+                    {{#nav.item active=(bs-eq tab.activeId embedPaneId)}}
+                        <a role='button' {{action tab.select embedPaneId}} local-class='SharePane__tab'>
+                            {{t "general.embed"}}
+                            <span class='badge'>{{badge}}</span>
+                        </a>
+                    {{/nav.item}}
+                {{/bs-nav}}
+
+                <div class='tab-content'>
+                    {{#tab.pane elementId=sharePaneId title=(t 'general.share') local-class='SharePane'}}
+                        <br>
+                        <div class='input-group'>
+                            <span class='input-group-btn' local-class="SharePane__copy-url-container">
+                                <button type='button' class='btn btn-default btn-md'
+                                        aria-label={{t 'general.clipboard_copy'}}
+                                        onclick={{action 'click' 'button' 'Quick Files - Share file' target=analytics}}
+                                    {{action 'share'}}>
+                                    <div class='fa fa-copy'></div>
+                                </button>
+                            </span>
+                            <input readonly='true' type='text' class='form-control SharePane__mfr-url'
+                                   aria-label={{t 'general.download_url'}}
+                                   value='{{mfrUrl}}'>
+                        </div>
+                        <div local-class="SharePane__button-group">
+                            <a
+                                local-class='SharePane__share-link'
+                                aria-label={{t 'social.twitter'}}
+                                href='{{twitterUrl}}'
+                                target='_blank'
+                                rel='noopener'
+                                onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter'
+                                                 preventDefault=false
+                                                 target=analytics}}
+                            >
+                                <i aria-hidden='true' class='fa fa-twitter'></i>
+                            </a>
+                            <a
+                                local-class='SharePane__share-link'
+                                aria-label={{t 'social.facebook'}}
+                                href='{{facebookUrl}}'
+                                target='_blank'
+                                rel='noopener'
+                                onclick={{action 'click' 'link' 'Quick Files - Share file on Facebook'
+                                                 target=analytics
+                                                 preventDefault=false}}
+                            >
+                                <i aria-hidden='true' class='fa fa-facebook'></i>
+                            </a>
+                            <a
+                                local-class='SharePane__share-link'
+                                aria-label={{t 'social.linkedin'}}
+                                href='{{linkedInUrl}}'
+                                target='_blank'
+                                rel='noopener'
+                                onclick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn'
+                                                 preventDefault=false
+                                                 target=analytics}}
+                            >
+                                <i aria-hidden='true' class='fa fa-linkedin'></i>
+                            </a>
+                            <a
+                                local-class='SharePane__share-link'
+                                aria-label={{t 'quickfiles.share_by_email'}}
+                                href='{{emailUrl}}'
+                                target='_blank'
+                                rel='noopener'
+                                onclick={{action 'click' 'link' 'Quick Files - Share file in email'
+                                                 preventDefault=false
+                                                 target=analytics}}
+                            >
+                                <i aria-hidden='true' class='fa fa-envelope'></i>
+                            </a>
+                        </div>
+                    {{/tab.pane}}
+                    {{#tab.pane elementId=embedPaneId title='Embed' local-class='EmbedPane'}}
+                        <br>
+                        <p>{{t "file_detail.embed.dynamic"}}</p>
+                        <textarea aria-label={{t 'file_detail.embed_js_label'}} readonly='true' type='text' class='form-control'>{{shareiFrameDynamic}}</textarea>
+                        <br>
+                        <p>{{t "file_detail.embed.direct"}}</p>
+                        <textarea aria-label={{t 'file_detail.embed_iframe_label'}} readonly='true' class='form-control'>{{shareiFrameDirect}}</textarea>
+                    {{/tab.pane}}
+                </div>
+            {{/bs-tab}}
+        {{/click-outside}}
+    {{/bs-popover}}
+</button>

@@ -1,0 +1,80 @@
+<form {{action 'submit' on='submit'}}>
+    {{validated-input
+        model=model
+        didValidate=didValidate
+        valuePath='fullName'
+        placeholder=(t 'sign_up_form.full_name')
+        disabled=hasSubmitted
+        aria-label=(t 'sign_up_form.full_name')
+    }}
+    {{validated-input
+        model=model
+        didValidate=didValidate
+        valuePath='email1'
+        placeholder=(t 'sign_up_form.contact_email')
+        disabled=hasSubmitted
+        aria-label=(t 'sign_up_form.contact_email')
+    }}
+    {{validated-input
+        model=model
+        didValidate=didValidate
+        valuePath='email2'
+        placeholder=(t 'sign_up_form.confirm_email')
+        disabled=hasSubmitted
+        aria-label=(t 'sign_up_form.confirm_email')
+    }}
+    {{validated-input
+        type='password'
+        model=model
+        didValidate=didValidate
+        valuePath='password'
+        placeholder=(t 'sign_up_form.password')
+        key-up=(perform strength value=model.password)
+        disabled=hasSubmitted
+        aria-label=(t 'sign_up_form.password')
+    }}
+    <div class="row" hidden={{not progress}}>
+        <div class="col-xs-12">
+            <div class="progress" local-class="CreatePassword">
+                <div
+                    class="progress-bar progress-bar-sm progress-bar-{{progress}} progress-bar-{{progressStyle}}"
+                    role="progressbar">
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#validated-input
+        type='checkbox'
+        model=model
+        didValidate=didValidate
+        disabled=hasSubmitted
+        valuePath='acceptedTermsOfService'
+        local-class='tos-checkbox'
+    }}
+        {{sign-up-policy}}
+    {{/validated-input}}
+    {{#if (and
+        (not hasSubmitted)
+        formIsValid
+    )}}
+        <div class="col-md-12" local-class="RecaptchaParent">
+            {{validated-input
+                type='reCaptcha'
+                model=model
+                didValidate=didValidate
+                valuePath='recaptchaResponse'
+            }}
+        </div>
+    {{/if}}
+    {{#if hasSubmitted}}
+        <div class="osf-box-lt" local-class="help-block">
+            <p class="ext-success p-xs">{{t 'sign_up_form.registration_success' email=model.email1}}</p>
+        </div>
+    {{else}}
+        <div>
+            <button type="submit" class="btn btn-success" {{action submit}} {{action 'click' 'button' 'Home - sign_up' target=analytics}}>
+                {{t 'sign_up_form.sign_up_free'}}
+            </button>
+        </div>
+    {{/if}}
+</form>

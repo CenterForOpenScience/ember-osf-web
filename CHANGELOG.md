@@ -4,6 +4,62 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2018-06-26
+### Added
+- Routes:
+  - `error-no-api` - display a friendly message when the API is not available
+  - `guid-node.forks` - forks tab for nodes
+  - `guid-registration.forks` - forks tab for registrations
+  - `institutions` - institutions landing page
+  - `resolve-guid.forks` - handling for guid sub-route: `forks`
+- Components:
+  - `delete-node-modal` - deletion of nodes with the name verification step
+  - `node-blurb` - similar node previews all over the OSF
+  - `simple-paginator` - you know, for pagination
+- Utils:
+  - `random-scientist` - to support the `delete-node modal` component
+- Engines:
+  - `collections`
+    - Routes:
+      - `application` - placeholder
+      - `index` - placeholder
+      - `provider` - placeholder
+      - `provider.discover` - placeholder
+      - `provider.submit` - placeholder
+    - Components:
+      - `test-component` - engine component example
+- DX:
+  - [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint)
+  - [ember-css-modules-reporter](https://github.com/dfreeman/ember-css-modules-reporter)
+  - flag for enabling mirage in development mode
+  - developer handbook as in-repo engine
+  - custom component blueprint
+
+### Changed
+- Components:
+  - `contributor-list` - modify to accept lists with links
+  - `sign-up-form` - only show captcha when all other form fields are valid
+  - `tos-consent-banner` - refactor to use ember-css-modules
+- Models:
+  - `node` - add `fork()` method
+  - `user-registration` - add max length validation for `email1`
+- Misc:
+  - update OSF API version to 2.8
+  - refactor/simplify auth logic
+- DX:
+  - make assets prefix configurable (defaults to `/ember_osf_web/`)
+  - disable lint-on-build by default (enable with `LINT_ON_BUILD`)
+  - disable sourcemap generation by default (enable with `SOURCEMAPS_ENABLED`)
+  - convert remaining tests to TypeScript and modernize
+  - disable `no-restricted-globals` for type declaration files
+  - enforce consistent spacing before function parens
+  - better code coverage reporting
+  - `zoom-to-guid` is now `zoom-to-route`
+
+### Fixed
+- Models:
+    - `user-registration` - correct max length validation of `fullName`
+
 ## [0.3.7] - 2018-06-08
 ### Changed
 - Skip test for showing ToS consent banner (will be re-enabled in develop)

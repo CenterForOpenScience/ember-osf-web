@@ -1,2 +1,7 @@
-<h1>{{model.taskInstance.value.title}}</h1>
-{{outlet}}
+{{node-navbar node=model.taskInstance.value}}
+<div local-class='Registrations__watermarked'>
+    <div class="container alert alert-info">
+        {{t 'registration.project_alert' projectId=projectId}}
+    </div>
+    {{outlet}}
+</div>

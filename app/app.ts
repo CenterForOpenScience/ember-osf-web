@@ -8,6 +8,26 @@ const { modulePrefix } = config;
 const App = Application.extend({
     modulePrefix,
     Resolver,
+
+    engines: {
+        collections: {
+            dependencies: {
+                services: [
+                    'i18n',
+                    'session',
+                    'store',
+                    'router',
+                ],
+            },
+        },
+        handbook: {
+            dependencies: {
+                services: [
+                    'router',
+                ],
+            },
+        },
+    },
 });
 
 loadInitializers(App, modulePrefix);

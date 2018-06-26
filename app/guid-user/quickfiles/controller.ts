@@ -19,18 +19,19 @@ export default class UserQuickfiles extends Controller {
     pageName = 'QuickFiles';
 
     filter: string = this.filter || '';
-    newProject?: Node;
+    // Initialized in setupController.
+    newProject!: Node;
     sort: string = this.sort || 'name';
 
     @alias('model.taskInstance.value.user') user!: User;
     @alias('model.taskInstance.value.files') allFiles!: File[];
 
-    updateFilter = task(function* (this: UserQuickfiles, filter: string) {
+    updateFilter = task(function *(this: UserQuickfiles, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
     }).restartable();
 
-    createProject = task(function* (this: UserQuickfiles, node: Node) {
+    createProject = task(function *(this: UserQuickfiles, node: Node) {
         try {
             return yield node.save();
         } catch (ex) {
@@ -38,13 +39,13 @@ export default class UserQuickfiles extends Controller {
         }
     });
 
-    flash = task(function* (item: File, message: string, type = 'success', duration = 2000) {
+    flash = task(function *(item: File, message: string, type = 'success', duration = 2000) {
         item.set('flash', { message, type });
         yield timeout(duration);
         item.set('flash', null);
     });
 
-    addFile = task(function* (this: UserQuickfiles, id: string) {
+    addFile = task(function *(this: UserQuickfiles, id: string) {
         const allFiles = this.get('allFiles');
         const duplicate = allFiles.findBy('id', id);
 
@@ -66,7 +67,7 @@ export default class UserQuickfiles extends Controller {
         this.get('flash').perform(file, i18n.t('file_browser.file_added'));
     });
 
-    deleteFile = task(function* (this: UserQuickfiles, file: File) {
+    deleteFile = task(function *(this: UserQuickfiles, file: File) {
         try {
             yield file.destroyRecord();
             yield this.get('flash').perform(file, this.get('i18n').t('file_browser.file_deleted'), 'danger');
@@ -76,13 +77,13 @@ export default class UserQuickfiles extends Controller {
         }
     });
 
-    deleteFiles = task(function* (this: UserQuickfiles, files: File[]) {
+    deleteFiles = task(function *(this: UserQuickfiles, files: File[]) {
         const deleteFile = this.get('deleteFile');
 
         yield all(files.map(file => deleteFile.perform(file)));
     });
 
-    moveFile = task(function* (this: UserQuickfiles, file: File, node: Node): IterableIterator<any> {
+    moveFile = task(function *(this: UserQuickfiles, file: File, node: Node): IterableIterator<any> {
         try {
             if (node.get('isNew')) {
                 yield this.get('createProject').perform(node);
@@ -106,7 +107,7 @@ export default class UserQuickfiles extends Controller {
         return false;
     });
 
-    renameFile = task(function* (
+    renameFile = task(function *(
         this: UserQuickfiles,
         file: File,
         name: string,
@@ -131,11 +132,14 @@ export default class UserQuickfiles extends Controller {
     });
 
     @computed('allFiles.[]', 'filter', 'sort')
-    get files(this: UserQuickfiles): File[] {
+    get files(this: UserQuickfiles): File[] | null {
         const filter: string = this.get('filter');
         const sort: string = this.get('sort');
 
         let results = this.get('allFiles');
+        if (!results) {
+            return null;
+        }
 
         if (filter) {
             const filterLowerCase = filter.toLowerCase();

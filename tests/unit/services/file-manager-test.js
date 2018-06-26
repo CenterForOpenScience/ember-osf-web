@@ -1,8 +1,9 @@
 import $ from 'jquery';
 import Service from '@ember/service';
-import { module, skip, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import { // mockFindRecord, mockUpdate, mockReload,
+import { module, skip } from 'qunit';
+import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import FactoryGuy, {
+    mockFindRecord, mockUpdate, mockReload,
     setupFactoryGuy, make,
 } from 'ember-data-factory-guy';
 
@@ -30,7 +31,7 @@ async function assertURL(assert, actual, expected, queryParams) {
 
 // assert once for each expected header
 async function assertHeaders(assert, actual, expected) {
-    for (const header of Object.keys(expected)) {
+    for (const header of Object.keys(expected || {})) {
         assert.equal(actual[header], expected[header], `request has expected header '${header}'`);
     }
 }
@@ -73,12 +74,8 @@ function mockWaterbutler(assert, expectedRequest, response) {
 }
 
 
-const fakeAccessToken = 'thisisafakeaccesstoken';
 const fakeUserID = 'thisisafakeuseridbanana';
 const sessionStub = Service.extend({
-    authorize(_, setHeader) {
-        setHeader('Authorization', `Bearer ${fakeAccessToken}`);
-    },
     data: {
         authenticated: {
             id: fakeUserID,
@@ -87,22 +84,21 @@ const sessionStub = Service.extend({
 });
 
 
-module('Unit | Service | file manager', function(hooks) {
+module('Unit | Service | file-manager', function(hooks) {
     setupTest(hooks);
     setupFactoryGuy(hooks);
 
     hooks.beforeEach(function() {
         this.owner.register('service:session', sessionStub);
     });
-    test('getContents sends valid waterbutler request', async function (assert) {
-        assert.expect(4);
+    skip('getContents sends valid waterbutler request', async function (assert) {
+        assert.expect(3);
         const service = this.owner.lookup('service:file-manager');
         const file = make('file');
 
         const request = {
             url: file.get('links').download,
             settings: { method: 'GET' },
-            headers: { Authorization: `Bearer ${fakeAccessToken}` },
         };
         const response = {
             status: 200,
@@ -122,7 +118,6 @@ module('Unit | Service | file manager', function(hooks) {
         const request = {
             url: file.get('links').download,
             settings: { method: 'GET' },
-            headers: { Authorization: `Bearer ${fakeAccessToken}` },
         };
         const response = { status: 404 };
 
@@ -144,12 +139,11 @@ module('Unit | Service | file manager', function(hooks) {
             url: file.get('links').upload,
             query: { kind: 'file' },
             settings: { method: 'PUT', data: 'contents contents' },
-            headers: { Authorization: `Bearer ${fakeAccessToken}` },
         };
         const response = {
             status: 200,
         };
-        const freshModel = build('file', {
+        const freshModel = FactoryGuy.build('file', {
             id: file.id,
             dateModified: new Date(),
         });
@@ -173,7 +167,6 @@ skip('updateContents passes along error', function (assert) {
         url: file.get('links').upload,
         query: { kind: 'file' },
         settings: { method: 'PUT', data: 'contents contents' },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 404,
@@ -199,7 +192,6 @@ skip('addSubfolder sends valid waterbutler request', function (assert) {
         url: folder.get('links').new_folder,
         query: { name: 'fooname', kind: 'folder' },
         settings: { method: 'PUT' },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = { status: 200 };
     mockWaterbutler(assert, request, response);
@@ -223,7 +215,6 @@ skip('addSubfolder passes along error', function (assert) {
         url: folder.get('links').new_folder,
         query: { name: 'fooname', kind: 'folder' },
         settings: { method: 'PUT' },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 404,
@@ -249,7 +240,6 @@ skip('uploadFile sends valid waterbutler request', function (assert) {
         url: folder.get('links').upload,
         query: { name: 'fooname', kind: 'file' },
         settings: { method: 'PUT', data: 'contents contents' },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 200,
@@ -275,7 +265,6 @@ skip('uploadFile passes along error', function (assert) {
         url: file.get('links').upload,
         query: { name: 'fooname', kind: 'file' },
         settings: { method: 'PUT', data: 'contents contents' },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 401,
@@ -306,7 +295,6 @@ skip('move sends valid waterbutler request', function (assert) {
                 path: folder.get('path'),
             },
         },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 200,
@@ -343,7 +331,6 @@ skip('move passes along error', function (assert) {
                 path: folder.get('path'),
             },
         },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 402,
@@ -375,7 +362,6 @@ skip('copy sends valid waterbutler request', function (assert) {
                 path: folder.get('path'),
             },
         },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 200,
@@ -412,7 +398,6 @@ skip('copy passes along error', function (assert) {
                 path: folder.get('path'),
             },
         },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 402,
@@ -437,7 +422,6 @@ skip('rename sends valid waterbutler request', function (assert) {
     const request = {
         url: file.get('links').move,
         settings: { method: 'POST', data: { action: 'rename', rename: 'flooby' } },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 200,
@@ -469,7 +453,6 @@ skip('rename passes along error', function (assert) {
     const request = {
         url: file.get('links').move,
         settings: { method: 'POST', data: { action: 'rename', rename: 'flooby' } },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 401,
@@ -494,7 +477,6 @@ skip('deleteFile sends valid waterbutler request', function (assert) {
     const request = {
         url: file.get('links').delete,
         settings: { method: 'DELETE' },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 200,
@@ -519,7 +501,6 @@ skip('deleteFile passes along error', function (assert) {
     const request = {
         url: file.get('links').delete,
         settings: { method: 'DELETE' },
-        headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     const response = {
         status: 401,

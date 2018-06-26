@@ -1,0 +1,17 @@
+.NoteworthyProject__item {
+    color: $color-text-gray;
+    background-color: $color-bg-white;
+    box-shadow: 1px 1px 1px $color-shadow-gray-dark;
+    padding: 8px 15px;
+    margin-bottom: 5px;
+
+    .Byline {
+        display: block;
+    }
+}
+
+.NoteworthyProject__item:hover {
+    color: $color-text-white;
+    background-color: $color-bg-blue-dark;
+    cursor: pointer;
+}

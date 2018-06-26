@@ -7,18 +7,16 @@
  */
 declare const config: {
     environment: any;
+    lintOnBuild: boolean;
+    sourcemapsEnabled: boolean;
     modulePrefix: string;
     locationType: string;
     rootURL: string;
-    authorizationType: string;
+    assetsPrefix: string;
     sentryDSN: string | null;
     sentryOptions: {
         release?: string;
         ignoreErrors: string[];
-    };
-    'ember-simple-auth': {
-        authorizer: string;
-        authenticator: string;
     };
     EmberENV: {
         FEATURES: {};
@@ -65,18 +63,18 @@ declare const config: {
         redirectUri?: string;
         url: string;
         apiUrl: string;
+        apiVersion: string;
+        apiHeaders: { [k: string]: string };
         renderUrl: string;
         waterbutlerUrl: string;
         helpUrl: string;
-        cookieLoginUrl: string;
-        oauthUrl: string;
         shareBaseUrl: string;
         shareApiUrl: string;
         shareSearchUrl: string;
-        accessToken?: string;
         devMode: boolean;
         statusCookie: string;
         cookieDomain: string;
+        authenticator: string;
     };
     social: {
         twitter: {
@@ -118,7 +116,16 @@ declare const config: {
         noteworthyNode: string;
     };
     featureFlags: {
-        routes: { [index: string]: string | undefined };
+        routes: {
+            support: string;
+            dashboard: string;
+            home: string;
+            'guid-node.forks': string;
+            'guid-registration.forks': string;
+        };
+        navigation: {
+            institutions: string;
+        };
     };
     gReCaptcha: {
         siteKey: string;
@@ -131,6 +138,21 @@ declare const config: {
         componentOptions: {
             turnAuditOff: boolean,
         },
+    };
+    'ember-cli-mirage'?: {
+        enabled: boolean;
+    };
+    engines: {
+        collections: {
+            enabled: boolean;
+        };
+        handbook: {
+            enabled: boolean;
+            docGenerationEnabled: boolean;
+        };
+    };
+    'ember-cli-tailwind'?: {
+        shouldIncludeStyleguide: boolean,
     };
 };
 

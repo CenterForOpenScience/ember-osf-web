@@ -1,0 +1,61 @@
+{{title (t 'forks.page_title' nodeTitle=model.taskInstance.value.title)}}
+<div class="container" local-class="Forks">
+    {{#bs-modal open=newModal onSubmit=(action 'newFork') onHide=(action (mut newModal) false) as |m|}}
+        {{#m.body}}
+            <button aria-label="Close" class="close" onclick={{action (mut newModal) false}} {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}>
+                {{fa-icon 'times' size='sm'}}
+            </button>
+            <h3>{{t 'forks.create_fork_modal'}}</h3>
+        {{/m.body}}
+        {{#m.footer}}
+            {{#bs-button onClick=(action (mut newModal) false)}}{{t 'general.cancel'}}{{/bs-button}}
+            {{#bs-button onClick=(action m.submit) type='info'}}{{t 'forks.fork'}}{{/bs-button}}
+        {{/m.footer}}
+    {{/bs-modal}}
+    {{! Analytics being called in the controller action }}
+    {{delete-node-modal delete=(action 'delete') openModal=deleteModal closeModal=(action 'closeDeleteModal') nodeType=nodeType}}
+    <div local-class="Forks__header" class="page-header visible-xs">
+        <h2 class="text-300">{{t 'forks.title'}}</h2>
+    </div>
+    <div class="m-md" local-class="Forks__nav">
+        <a href="/{{model.taskInstance.value.id}}/analytics" onclick={{action 'click' 'link' 'Registration Forks - forks.back' target=analytics}} class="padded strong">
+            {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
+        </a>
+        <p local-class="Forks__nav__link">{{t 'forks.info'}}</p>
+    </div>
+    <div local-class="Forks__forks">
+        {{#if getForks.isRunning}}
+            {{loading-indicator dark=true}}
+        {{else}}
+            {{#if forks.length}}
+                <ul class="list-group m-md">
+                    <span id="forks" class="render-nodes-list">
+                        {{#each forks as | fork |}}
+                            <li class="project list-group-item list-group-item-node cite-container">
+                                {{node-blurb node=fork blurbType='fork' delete=(action openDeleteModal fork)}}
+                            </li>
+                        {{/each}}
+                    </span>
+                </ul>
+                {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
+            {{else}}
+                <div local-class='Forks__placeholder'>
+                    {{t 'forks.no_forks'}}
+                </div>
+            {{/if}}
+        {{/if}}
+
+    </div>
+    <div local-class="Forks__new-fork">
+        <div class="m-md">
+            {{! Analytics being called in the controller action }}
+            {{#bs-button type='success' disabled=loadingNew onClick=(action (mut newModal) true)}}
+                {{#if loadingNew}}
+                    {{t 'forks.loading_new'}}
+                {{else}}
+                    {{t 'forks.new'}}
+                {{/if}}
+            {{/bs-button}}
+        </div>
+    </div>
+</div>
