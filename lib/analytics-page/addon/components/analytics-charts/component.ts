@@ -47,7 +47,7 @@ export default class AnalyticsChart extends Component {
                     .dateFormat('%b %d')
                     .chartOptions({
                         point: {
-                            sensitivity: 100,
+                            sensitivity: 15,
                         },
                         tooltip: {
                             format: {
