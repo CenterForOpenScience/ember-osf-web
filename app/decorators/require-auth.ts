@@ -40,7 +40,6 @@ export default function requireAuthFactory(
             async beforeModel(transition: any) {
                 if (!this.session.isAuthenticated) {
                     if (redirectRoute) {
-                        transition.abort();
                         this.transitionTo(redirectRoute);
                     } else {
                         await this.currentUser.login(

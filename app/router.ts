@@ -3,12 +3,6 @@ import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import { Blocker } from 'ember-osf-web/services/ready';
 
-const {
-    featureFlags: {
-        routes,
-    },
-} = config as { featureFlags: { routes: { [index: string]: string } } }; // eslint-disable-line no-use-before-define
-
 const Router = EmberRouter.extend({
     currentUser: service('current-user'),
     features: service('features'),
@@ -20,17 +14,6 @@ const Router = EmberRouter.extend({
     rootURL: config.rootURL,
 
     async willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
-        const flag = routes[transition.targetName];
-
-        if (flag) {
-            await this.get('currentUser').featuresAreLoaded();
-            if (!this.get('features').isEnabled(flag)) {
-                window.location.reload();
-            }
-        }
-
-        this.get('currentUser').checkShowTosConsentBanner();
-
         if (!this.readyBlocker || this.readyBlocker.isDone()) {
             this.readyBlocker = this.get('ready').getBlocker();
         }
@@ -39,6 +22,7 @@ const Router = EmberRouter.extend({
 
     didTransition(...args: any[]) {
         this._super(...args);
+        this.get('currentUser').checkShowTosConsentBanner();
         this.get('statusMessages').updateMessages();
         window.scrollTo(0, 0);
         if (this.readyBlocker && !this.readyBlocker.isDone()) {

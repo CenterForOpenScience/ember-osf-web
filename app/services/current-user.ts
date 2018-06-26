@@ -2,9 +2,7 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Service from '@ember/service';
-import { task, waitForProperty } from 'ember-concurrency';
 import DS from 'ember-data';
-import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
 import RSVP from 'rsvp';
@@ -37,9 +35,7 @@ enum AuthRoute {
 export default class CurrentUserService extends Service {
     @service store!: DS.Store;
     @service session!: Session;
-    @service features!: Features;
 
-    featuresLoaded = false;
     showTosConsentBanner = false;
 
     /**
@@ -58,13 +54,6 @@ export default class CurrentUserService extends Service {
         }
         return null;
     }
-
-    /**
-     * Task to wait for features to be loaded.
-     */
-    featuresAreLoadedTask = task(function *(this: CurrentUserService) {
-        yield waitForProperty(this, 'featuresLoaded');
-    });
 
     constructor() {
         super();
@@ -104,25 +93,6 @@ export default class CurrentUserService extends Service {
             user.set('acceptedTermsOfService', undefined);
             this.set('showTosConsentBanner', true);
         }
-    }
-
-    /**
-     * Set features from a list of active flags.
-     */
-    setFeatures(this: CurrentUserService, activeFlags: string[]) {
-        if (activeFlags) {
-            this.features.setup(
-                activeFlags.reduce((acc: object, flag) => ({ ...acc, [flag]: true }), {}),
-            );
-            this.set('featuresLoaded', true);
-        }
-    }
-
-    /**
-     * Task wrapper function that will resolve when features are loaded.
-     */
-    featuresAreLoaded(this: CurrentUserService) {
-        return this.get('featuresAreLoadedTask').perform();
     }
 }
 

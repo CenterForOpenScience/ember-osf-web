@@ -28,7 +28,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - only show captcha when all other form fields are valid
 - disable lint-on-build by default (enable with `LINT_ON_BUILD`)
 - disable sourcemap generation by default (enable with `SOURCEMAPS_ENABLED`)
-- refactorted feature flags to be loaded from /v2 base
+- refactored feature flags to be loaded from /v2 base
+- refactored route feature flagging to use a decorator (@featureFlagRoute)
 
 ### Fixed
 - Max length validation of full name on the user-registration model
