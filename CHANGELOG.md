@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - refactored feature flags to be loaded from API base (`/v2`)
 - refactored route feature flagging to use a decorator (`@featureFlagRoute`)
 
+### Fixed
+- Components:
+    - `node-navbar` - banner overlapping
+
 ## [0.4.1] - 2018-06-26
 ### Changed
 - Anonymize IPs sent to Google Analytics
