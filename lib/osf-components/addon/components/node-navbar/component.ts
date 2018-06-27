@@ -2,7 +2,6 @@ import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import config from 'ember-get-config';
 import Node from 'ember-osf-web/models/node';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import layout from './template';
 
@@ -12,7 +11,6 @@ export default class NodeNavbar extends Component {
 
     node?: Node;
     allowComments?: boolean;
-    renderInPlace: boolean = defaultTo(this.renderInPlace, false);
     secondaryNavbarId = config.secondaryNavbarId;
     collapsedNav = true;
 
