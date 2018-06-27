@@ -50,9 +50,11 @@ export default class ApplicationController extends Controller {
     ];
 
     activeDateRange = this.dateRanges[0];
-    hideAdblockWarning = Boolean(this.cookies.read(dismissAdblockCookie));
     linksModalShown = false;
     linksQueryParams = { embed: 'contributors' };
+
+    hideAdblockWarning = Boolean(this.cookies.read(dismissAdblockCookie));
+    userIsBot = navigator.userAgent.includes('Prerender');
 
     @readOnly('model.taskInstance.value')
     node?: Node;
@@ -73,6 +75,11 @@ export default class ApplicationController extends Controller {
     get nodePublic() {
         const node: Node | null = this.node || this.store.peekRecord(this.model.modelName, this.model.id);
         return node && node.public;
+    }
+
+    @computed('nodePublic', 'userIsBot')
+    get chartsEnabled() {
+        return this.nodePublic && !this.userIsBot;
     }
 
     @action

@@ -32,7 +32,7 @@ export default class AnalyticsChart extends Component {
     nodeTaskInstance!: TaskInstance<Node>;
     startDate!: Moment;
     endDate!: Moment;
-    allowEnablingCharts!: boolean;
+    chartsEnabled!: boolean;
 
     charts: ChartSpec[] = [
         {

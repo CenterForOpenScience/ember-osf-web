@@ -1,5 +1,5 @@
 <div
-    local-class="ChartWrapper {{unless allowEnablingCharts 'DisabledPanel'}}"
+    local-class="ChartWrapper {{unless chartEnabled 'DisabledPanel'}}"
     class='panel panel-default'
 >
     <div class='panel-heading clearfix'>
@@ -9,16 +9,10 @@
         <div local-class='Chart {{if overlayShown 'Blurred'}}'></div>
         {{#if overlayShown}}
             <div local-class='ChartOverlay'>
-                {{#if allowEnablingCharts}}
-                    {{#if loading}}
-                        {{loading-indicator dark=true}}
-                    {{else if keenError}}
-                        <p>{{t 'analytics.keenError'}}</p>
-                    {{else}}
-                        {{#bs-button type='primary' onClick=(action 'enableChart')}}
-                            {{t 'analytics.enableChart'}}
-                        {{/bs-button}}
-                    {{/if}}
+                {{#if keenError}}
+                    <p>{{t 'analytics.keenError'}}</p>
+                {{else if loading}}
+                    {{loading-indicator dark=true}}
                 {{/if}}
             </div>
         {{/if}}
