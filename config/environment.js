@@ -94,6 +94,9 @@ module.exports = function(environment) {
                 environments: ['all'],
                 config: {
                     id: GOOGLE_ANALYTICS_ID,
+                    setFields: {
+                        anonymizeIp: true,
+                    },
                 },
                 dimensions: {
                     authenticated: 'dimension1',

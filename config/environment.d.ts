@@ -39,6 +39,7 @@ declare const config: {
         config: {
             id?: string;
             cookieDomain?: string;
+            setFields?: { [k: string]: any };
         };
         dimensions: {
             authenticated: string;
