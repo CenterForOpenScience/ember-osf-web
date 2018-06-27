@@ -192,6 +192,8 @@ module.exports = function(environment) {
                 home: 'ember_home_page',
                 'guid-node.forks': 'ember_project_forks_page',
                 'guid-registration.forks': 'ember_project_forks_page',
+                'guid-node.analytics.index': 'ember_project_analytics_page',
+                'guid-registration.analytics.index': 'ember_project_analytics_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
