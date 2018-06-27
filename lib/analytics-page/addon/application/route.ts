@@ -1,11 +1,15 @@
 import { service } from '@ember-decorators/service';
 import { assert } from '@ember/debug';
 import Route from '@ember/routing/route';
-import { task } from 'ember-concurrency';
+import { task, TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
+
+import Node from 'ember-osf-web/models/node';
+import AnalyticsService, { analyticPrivacy } from 'ember-osf-web/services/analytics';
 import RouteContext from 'ember-osf-web/services/route-context';
 
 export default class AnalyticsPageRoute extends Route {
+    @service analytics!: AnalyticsService;
     @service store!: DS.Store;
     @service routeContext!: RouteContext;
 
@@ -39,5 +43,14 @@ export default class AnalyticsPageRoute extends Route {
 
     model(this: AnalyticsPageRoute) {
         return this.get('loadModel').perform();
+    }
+
+    didTransition() {
+        let privacy = analyticPrivacy.undefined;
+        const taskInstance = this.routeContext.guidTaskInstance as TaskInstance<Node> | undefined;
+        if (taskInstance && taskInstance.value) {
+            privacy = taskInstance.value.public ? analyticPrivacy.public : analyticPrivacy.private;
+        }
+        this.analytics.trackPage(privacy, this.routeContext.modelName);
     }
 }
