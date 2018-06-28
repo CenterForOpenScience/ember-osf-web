@@ -15,6 +15,7 @@ export default class Application extends Controller {
     secondaryNavbarId = config.secondaryNavbarId;
     signupUrl = `${pathJoin(config.OSF.url, 'register')}?${$.param({ next: window.location.href })}`;
 
+    // This is a hack until we refactor the nav bar/page headers to be customizable by routes.
     @match('router.currentRouteName', /^handbook/) disableHeaders!: boolean;
 
     @action
