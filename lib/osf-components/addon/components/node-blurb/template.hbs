@@ -8,7 +8,7 @@
         {{/unless}}
         {{node-blurb/node-icon category=node.category}}
         <a href='/{{node.id}}/' onclick={{action 'click' 'link' (concat blurbType ' - NodeBlurb - node_blurb.node_title') target=analytics}}>{{node.title}}</a>
-        | {{t blurbTypeTitle}} {{date}}
+        | {{t dateLabelKey}} {{date}}
     </span>
     {{#if (and (eq blurbType 'fork') canEdit)}}
         <div class="pull-right generic-dropdown" local-class="NodeBlurb__dropdown">

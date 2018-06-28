@@ -20,6 +20,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
+    KEEN_PROJECT_ID: keenProjectId,
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
@@ -142,6 +143,8 @@ module.exports = function(environment) {
             statusCookie,
             cookieDomain,
             authenticator: `authenticator:${osfAuthenticator}`,
+            keenProjectId,
+            analyticsDismissAdblockCookie: 'adBlockDismiss',
         },
         social: {
             twitter: {
@@ -189,6 +192,8 @@ module.exports = function(environment) {
                 home: 'ember_home_page',
                 'guid-node.forks': 'ember_project_forks_page',
                 'guid-registration.forks': 'ember_project_forks_page',
+                'guid-node.analytics.index': 'ember_project_analytics_page',
+                'guid-registration.analytics.index': 'ember_project_analytics_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',

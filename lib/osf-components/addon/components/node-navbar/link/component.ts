@@ -30,6 +30,7 @@ export default class NodeNavbarLink extends Component {
     @className
     @computed('routeName', 'router.currentRouteName')
     get active(): boolean {
-        return this.routeName === this.router.currentRouteName;
+        const currentRoute = this.router.currentRouteName || '';
+        return this.routeName === currentRoute.replace(/\.index$/, '');
     }
 }
