@@ -36,6 +36,8 @@ const App = Application.extend({
                     'store',
                     'analytics',
                     'ready',
+                    'features',
+                    'router',
                 ],
                 externalRoutes: {
                     nodeForks: 'guid-node.forks',

@@ -4,10 +4,12 @@ import Route from '@ember/routing/route';
 import { task, TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
 
+import featureFlagRoute from 'ember-osf-web/decorators/feature-flag-route';
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService, { analyticPrivacy } from 'ember-osf-web/services/analytics';
 import RouteContext from 'ember-osf-web/services/route-context';
 
+@featureFlagRoute()
 export default class AnalyticsPageRoute extends Route {
     @service analytics!: AnalyticsService;
     @service store!: DS.Store;
