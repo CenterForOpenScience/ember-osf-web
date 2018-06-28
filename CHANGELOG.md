@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- DX:
+  - Auto-deployment of handbook to GitHub pages on Travis `develop` branch builds
+
+### Changed
+- DX:
+  - `rootURL` is now configurable via `ROOT_URL` environment variable
+  - production builds will respect `MIRAGE_ENABLED`
+  - `ember-cli-addon-docs` in handbook will use `ASSETS_PREFIX` to find assets
+
 ### Fixed
 - Components:
     - `node-navbar` - banner overlapping
