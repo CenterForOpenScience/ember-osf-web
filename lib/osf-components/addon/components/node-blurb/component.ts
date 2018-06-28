@@ -11,6 +11,7 @@ import layout from './template';
 
 enum BlurbType {
     FORK = 'fork',
+    GENERIC = 'generic',
 }
 
 export default class NodeBlurb extends Component {
@@ -39,7 +40,7 @@ export default class NodeBlurb extends Component {
     }
 
     @computed('blurbType')
-    get blurbTypeTitle(this: NodeBlurb): string {
-        return `node_blurb.${this.get('blurbType')}.title`;
+    get dateLabelKey(this: NodeBlurb): string {
+        return `node_blurb.${this.blurbType}.dateLabel`;
     }
 }
