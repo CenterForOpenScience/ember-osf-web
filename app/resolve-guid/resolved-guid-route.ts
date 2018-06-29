@@ -1,28 +1,35 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import { task } from 'ember-concurrency';
-import Ready from 'ember-osf-web/services/ready';
 
-type GuidRecord = 'file' | 'node' | 'preprint' | 'registration' | 'user';
+import { ReferentModelName } from 'ember-osf-web/models/guid';
+import Ready from 'ember-osf-web/services/ready';
+import RouteContext from 'ember-osf-web/services/route-context';
 
 /**
- * Base class for the root-level GUID routes, once the GUID's referent type is known.
+ * Base class for the root-level GUID routes
  */
 export default class ResolveGuidRoute extends Route {
     @service ready!: Ready;
     @service router!: any;
+    @service routeContext!: RouteContext;
 
-    loadModel = task(function *(this: ResolveGuidRoute, typeName: GuidRecord, id: string) {
-        const blocker = this.get('ready').getBlocker();
+    resolveGuid = task(function *(this: ResolveGuidRoute, guid: string, expectedType?: ReferentModelName) {
+        const blocker = this.ready.getBlocker();
 
         try {
-            const model = yield this.get('store').findRecord(typeName, id);
+            const model = yield this.routeContext.setGuid(guid, expectedType);
             blocker.done();
-
             return model;
         } catch (error) {
             blocker.errored(error);
-            this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
+            this.transitionTo('not-found', this.router.currentURL.slice(1));
+            throw error;
         }
     });
+
+    deactivate() {
+        super.deactivate();
+        this.routeContext.clearGuid();
+    }
 }

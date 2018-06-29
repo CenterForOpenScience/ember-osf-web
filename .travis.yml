@@ -3,10 +3,6 @@ language: node_js
 sudo: false
 dist: trusty
 
-addons:
-  chrome: stable
-  firefox: latest
-
 env:
   global:
     - SUPPRESS_NO_CONFIG_WARNING=true
@@ -17,20 +13,44 @@ cache:
   directories:
     - node_modules
 
-before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add greenkeeper-lockfile@1
+jobs:
+  include:
+    - stage: "test"
+      addons:
+        chrome: stable
+        firefox: latest
+      before_install:
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH=$HOME/.yarn/bin:$PATH
+        - yarn global add greenkeeper-lockfile@1
+      install:
+        - yarn --prefer-offline --frozen-lockfile --ignore-engines
+        - greenkeeper-lockfile-update
+      script:
+        - yarn lint && yarn test:node-tests && yarn test:cover
+      after_script:
+        - greenkeeper-lockfile-upload
+      after_success:
+        - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
-install:
-  - greenkeeper-lockfile-update
-  - yarn --prefer-offline --frozen-lockfile --ignore-engines
-
-script:
-  - yarn lint && yarn test:node-tests && yarn test:cover
-
-after_script:
-  - greenkeeper-lockfile-upload
-
-after_success:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+    - stage: "deploy handbook"
+      if: branch = develop AND type != pull_request
+      before_install:
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH=$HOME/.yarn/bin:$PATH
+      install:
+        - yarn --prefer-offline --frozen-lockfile --ignore-engines
+      env:
+        - HANDBOOK_ENABLED=1
+        - MIRAGE_ENABLED=1
+        - ROOT_URL=/ember-osf-web/
+        - ASSETS_PREFIX=/ember-osf-web/
+      script:
+        - ember build --environment=production && cp dist/index.html dist/404.html
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GH_TOKEN
+        local-dir: dist
+        on:
+          branch: develop

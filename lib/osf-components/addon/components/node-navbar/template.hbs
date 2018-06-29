@@ -19,7 +19,7 @@
                     {{/node-navbar/link}}
                     {{node-navbar/link nodeId=node.id useLinkTo=false destination='files'}}
                     {{node-navbar/link nodeId=node.id useLinkTo=false destination='wiki'}}
-                    {{node-navbar/link nodeId=node.id useLinkTo=false destination='analytics'}}
+                    {{node-navbar/link nodeId=node.id useLinkTo=true destination='analytics'}}
                     {{#unless node.registration}}
                         {{node-navbar/link nodeId=node.id useLinkTo=false destination='registrations'}}
                     {{/unless}}
@@ -35,7 +35,5 @@
             {{/bs-collapse}}
         </div>
     </nav>
-{{/ember-wormhole}}
-{{#unless renderInPlace}}
     <div local-class='NodeNavbar__navbar-buffer'></div>
-{{/unless}}
+{{/ember-wormhole}}

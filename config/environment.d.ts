@@ -76,6 +76,8 @@ declare const config: {
         statusCookie: string;
         cookieDomain: string;
         authenticator: string;
+        keenProjectId?: string;
+        analyticsDismissAdblockCookie: string;
     };
     social: {
         twitter: {
@@ -123,6 +125,8 @@ declare const config: {
             home: string;
             'guid-node.forks': string;
             'guid-registration.forks': string;
+            'guid-node.analytics.index': string;
+            'guid-registration.analytics.index': string;
         };
         navigation: {
             institutions: string;

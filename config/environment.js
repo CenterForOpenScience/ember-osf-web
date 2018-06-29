@@ -20,6 +20,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
+    KEEN_PROJECT_ID: keenProjectId,
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
@@ -40,6 +41,7 @@ const {
     // https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha-v2-what-should-i-do
     RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
     REDIRECT_URI: redirectUri,
+    ROOT_URL: rootURL = '/',
     SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
     SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
@@ -54,7 +56,7 @@ module.exports = function(environment) {
         environment,
         lintOnBuild,
         sourcemapsEnabled,
-        rootURL: '/',
+        rootURL,
         assetsPrefix,
         locationType: 'auto',
         sentryDSN: null,
@@ -142,6 +144,8 @@ module.exports = function(environment) {
             statusCookie,
             cookieDomain,
             authenticator: `authenticator:${osfAuthenticator}`,
+            keenProjectId,
+            analyticsDismissAdblockCookie: 'adBlockDismiss',
         },
         social: {
             twitter: {
@@ -189,6 +193,8 @@ module.exports = function(environment) {
                 home: 'ember_home_page',
                 'guid-node.forks': 'ember_project_forks_page',
                 'guid-registration.forks': 'ember_project_forks_page',
+                'guid-node.analytics.index': 'ember_project_analytics_page',
+                'guid-registration.analytics.index': 'ember_project_analytics_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
@@ -213,6 +219,9 @@ module.exports = function(environment) {
         'ember-cli-tailwind': {
             shouldIncludeStyleguide: false,
         },
+        'ember-cli-mirage': {
+            enabled: Boolean(MIRAGE_ENABLED),
+        },
     };
 
     if (environment === 'development') {
@@ -230,9 +239,6 @@ module.exports = function(environment) {
                     turnAuditOff: A11Y_AUDIT !== 'true',
                 },
             },
-            'ember-cli-mirage': {
-                enabled: Boolean(MIRAGE_ENABLED),
-            },
         });
     }
 
@@ -242,6 +248,9 @@ module.exports = function(environment) {
 
         // Test environment needs to find assets in the "regular" location.
         ENV.assetsPrefix = '/';
+
+        // Always enable mirage for tests.
+        ENV['ember-cli-mirage'].enabled = true;
 
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;

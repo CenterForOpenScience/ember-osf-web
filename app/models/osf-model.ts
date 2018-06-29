@@ -61,6 +61,7 @@ export default class OsfModel extends Model.extend({
     @service store!: DS.Store;
 
     @attr() links: any;
+    @attr() apiMeta: any;
 
     @alias('links.relationships') relationshipLinks: any;
 

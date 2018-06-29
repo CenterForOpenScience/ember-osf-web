@@ -6,6 +6,6 @@ declare module 'ember-i18n/services/i18n' {
     export default class I18N extends Service {
         locales: Computed<A>;
         locale: string;
-        t(key: string): string;
+        t(key: string, values?: any): string;
     }
 }

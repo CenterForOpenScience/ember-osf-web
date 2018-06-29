@@ -58,6 +58,8 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     @attr('fixstring') templateFrom!: string;
 
+    @attr('string') analyticsKey?: string;
+
     @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<Contributor>;
 
@@ -86,6 +88,10 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @belongsTo('node', { inverse: 'forks' }) forkedFrom!: DS.PromiseObject<Node> & Node;
 
     @belongsTo('node', { inverse: null }) root!: DS.PromiseObject<Node> & Node;
+
+    @hasMany('node', { inverse: null }) linkedByNodes!: DS.PromiseManyArray<Node>;
+
+    @hasMany('node', { inverse: null }) linkedByRegistrations!: DS.PromiseManyArray<Node>;
 
     @hasMany('wiki', { inverse: 'node' }) wikis!: DS.PromiseManyArray<Wiki>;
 
