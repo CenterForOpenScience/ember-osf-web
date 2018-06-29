@@ -8,27 +8,57 @@
 `develop` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf-web.svg?branch=develop)](https://travis-ci.org/CenterForOpenScience/ember-osf-web)
 [![Coverage Status](https://coveralls.io/repos/github/CenterForOpenScience/ember-osf-web/badge.svg?branch=develop)](https://coveralls.io/github/CenterForOpenScience/ember-osf-web?branch=develop)
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+A front end for [osf.io](https://github.com/CenterForOpenScience/osf.io).
 
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
 
+* [osf.io back end](https://github.com/CenterForOpenScience/osf.io)
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with NPM)
 * [Ember CLI](https://ember-cli.com/)
 
 ## Installation
 
-* `git clone <repository-url>` this repository
+* `git clone https://github.com/CenterForOpenScience/ember-osf-web.git`
 * `cd ember-osf-web`
 * `yarn --frozen-lockfile`
 
 ## Running / Development
 
 * `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+* View the ember app (alone) at [localhost:4200](http://localhost:4200)
+
+To integrate with the legacy front end at [localhost:5000](http://localhost:5000), you have two options:
+* Enable the waffle flags for each page in your [local OSF Admin](http://localhost:8001/admin/waffle/flag)
+* Add routes to your `osf.io/website/settings/local.py`:
+    ```py
+    EXTERNAL_EMBER_APPS = {
+        'ember_osf_web': {
+            # ...
+            'routes': [
+                'handbook',
+                'dashboard',
+                # ...
+            ],
+        },
+        # ...
+    ```
+
+### Developer Handbook
+
+To enable the [developer handbook](https://centerforopenscience.github.io/ember-osf-web/handbook) locally,
+add the following to your `config/local.js`:
+```
+module.exports = {
+    HANDBOOK_ENABLED: true,
+};
+```
+The handbook will be available at [http://localhost:4200/handbook](http://localhost:4200/handbook).
+
+To enable (experimental) auto-generated docs in the handbook, you can also set
+`HANDBOOK_DOC_GENERATION_ENABLED: true` in your local config.
 
 ### Code Generators
 
@@ -43,10 +73,6 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 * `ember build` (development)
 * `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
 
 ## Further Reading / Useful Links
 
