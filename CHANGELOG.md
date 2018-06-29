@@ -4,12 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.5.0] - 2018-06-29
 ### Added
+- Routes:
+  - `guid-node.analytics` - analytics tab for nodes
+  - `guid-registration.analytics` - analytics tab for registrations
+- Components:
+  - `paginated-relation` - display a model's hasMany relationship as a paginated list
+- Engines:
+  - `analytics` - engine for analytics tabs
 - DX:
   - Auto-deployment of handbook to GitHub pages on Travis `develop` branch builds
 
 ### Changed
+- Routes:
+  - `guid-node.forks` - use `paginated-relation` component
+  - `guid-registration.forks` - use `paginated-relation` component
 - DX:
   - `rootURL` is now configurable via `ROOT_URL` environment variable
   - production builds will respect `MIRAGE_ENABLED`
