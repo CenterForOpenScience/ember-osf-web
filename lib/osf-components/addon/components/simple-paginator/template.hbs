@@ -2,7 +2,7 @@
     <span local-class='SimplePaginator__element'>
         {{#bs-button disabled=(not hasPrev) onClick=(action previousPage)}}
             <span aria-label="{{t 'paginator.previous'}}">
-                {{fa-icon 'chevron-left'}}
+                &lt;
             </span>
         {{/bs-button}}
     </span>
@@ -12,7 +12,7 @@
     <span local-class='SimplePaginator__element'>
         {{#bs-button disabled=(not hasNext) onClick=(action nextPage)}}
             <span aria-label="{{t 'paginator.previous'}}">
-                {{fa-icon 'chevron-right'}}
+                &gt;
             </span>
         {{/bs-button}}
     </span>
