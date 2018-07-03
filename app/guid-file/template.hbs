@@ -100,7 +100,12 @@
                             readOnly=(unless canEdit true false)
                             as |tag|
                         }}
-                            <a href='{{searchUrl}}?q=(tags:"{{tag}}")'>{{tag}}</a>
+                            <a
+                                href='{{searchUrl}}?q=(tags:"{{tag}}")'
+                                onclick={{action 'click' 'link' 'Quick Files - Search by tag' target=analytics}}
+                            >
+                                {{tag}}
+                            </a>
                         {{/tag-input}}
                         <div class="tags_clear"></div>
                     </div>

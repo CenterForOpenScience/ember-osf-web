@@ -540,7 +540,8 @@ export default {
     institutions: {
         description: 'OSF Institutions is a free scholarly web tool that enhances transparency, fosters collaboration, and increases the visibility of research outputs at the institutional level.',
         read_more: 'Read more',
-        footer: 'Interested in setting up an OSF Institutions page for your research institution? <a href=\'https://cos.io/contact\'>Contact us</a>',
+        footer: 'Interested in setting up an OSF Institutions page for your research institution?',
+        contact_us: 'Contact us',
         title: 'Institutions',
         search_placeholder: 'Search institutions',
     },

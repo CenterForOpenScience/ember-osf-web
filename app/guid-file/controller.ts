@@ -64,59 +64,56 @@ export default class GuidFile extends Controller {
 
     @computed('currentUser', 'user.id')
     get canEdit(this: GuidFile): boolean {
-        const modelUserId = this.get('user').get('id');
+        const modelUserId = this.user.id;
 
-        return !!modelUserId && modelUserId === this.get('currentUser').get('currentUserId');
+        return !!modelUserId && modelUserId === this.currentUser.currentUserId;
     }
 
     @computed('revision', 'file.currentVersion')
     get mfrVersion(this: GuidFile): number {
-        return this.get('revision') || this.get('file').get('currentVersion');
+        return this.revision || this.file.currentVersion;
     }
 
     // TODO: get this from the model
     @computed('file.currentVersion')
     get fileVersions(this: GuidFile): Promise<any> {
         return (async () => {
-            const { data } = await $.getJSON(`${this.get('downloadLink')}?revisions=&`);
+            const { data } = await $.getJSON(`${this.downloadLink}?revisions=&`);
             return data;
         })();
     }
 
     @computed('file.name')
     get isEditableFile(this: GuidFile): boolean {
-        const filename = this.get('file').get('name');
+        const filename = this.file.name;
         const mimeType = mime.lookup(filename);
         return !!mimeType && /^text\//.test(mimeType);
     }
 
     @computed('file.currentVersion')
     get fileText(this: GuidFile) {
-        const file: File = this.get('file');
-        return !!file && file.getContents();
+        return Boolean(this.file) && this.file.getContents();
     }
 
     updateFilter = task(function *(this: GuidFile, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
-    }).drop();
+        this.analytics.track('list', 'filter', 'Quick Files - Filter file browser');
+    }).restartable();
 
     @computed('allFiles.[]', 'filter', 'sort')
     get files(this: GuidFile) {
-        const filter: string = this.get('filter');
-        const sort: string = this.get('sort');
+        let results: File[] = this.allFiles;
 
-        let results: File[] = this.get('allFiles');
-
-        if (filter) {
-            const filterLowerCase = filter.toLowerCase();
-            results = results.filter(file => file.get('name').toLowerCase().includes(filterLowerCase));
+        if (this.filter) {
+            const filterLowerCase = this.filter.toLowerCase();
+            results = results.filter(file => file.name.toLowerCase().includes(filterLowerCase));
         }
 
-        if (sort) {
-            const reverse: boolean = sort.slice(0, 1) === '-';
+        if (this.sort) {
+            const reverse: boolean = this.sort.slice(0, 1) === '-';
 
-            results = A(results).sortBy(sort.slice(+reverse));
+            results = A(results).sortBy(this.sort.slice(+reverse));
 
             if (reverse) {
                 results = results.reverse();
@@ -128,77 +125,84 @@ export default class GuidFile extends Controller {
 
     @action
     download(this: GuidFile, version: number) {
-        const url = `${this.get('downloadLink')}?revision=${version}`;
+        // analytics sent in template, since this is used twice
+        const url = `${this.downloadLink}?revision=${version}`;
         window.location.href = url;
     }
 
     @action
     async delete(this: GuidFile) {
         this.set('deleteModalOpen', false);
+        this.analytics.click('button', 'Quick Files - Delete file');
 
         try {
-            await this.get('file').destroyRecord();
-            this.transitionToRoute('guid-user.quickfiles', this.get('user').get('id'));
-            const message: string = this.get('i18n').t('file_detail.delete_success');
-            return this.get('toast').success(message);
+            await this.file.destroyRecord();
+            this.transitionToRoute('guid-user.quickfiles', this.user.id);
+            const message: string = this.i18n.t('file_detail.delete_success');
+            return this.toast.success(message);
         } catch (e) {
-            const message: string = this.get('i18n').t('file_detail.delete_fail');
-            return this.get('toast').error(message);
+            const message: string = this.i18n.t('file_detail.delete_fail');
+            return this.toast.error(message);
         }
     }
 
     @action
     openDeleteModal(this: GuidFile) {
         this.set('deleteModalOpen', true);
+        this.analytics.click('button', 'Quick Files - Open delete modal');
     }
 
     @action
     closeDeleteModal(this: GuidFile) {
         this.set('deleteModalOpen', false);
+        this.analytics.click('button', 'Quick Files - Close delete modal');
     }
 
     @action
     changeView(this: GuidFile, button: string) {
-        const show = lookupTable[this.get('show')][button];
+        const show = lookupTable[this.show][button];
 
         if (show) {
             this.set('show', show);
         }
+        this.analytics.click('button', `Quick Files - Change view - ${show}`);
     }
 
     @action
     async save(this: GuidFile, text: string) {
-        const toast = this.get('toast');
-        const i18n = this.get('i18n');
+        this.analytics.click('button', 'Quick Files - Save');
 
         try {
-            await this.get('file').updateContents(text);
-            return toast.success(i18n.t('file_detail.save_success'));
+            await this.file.updateContents(text);
+            return this.toast.success(this.i18n.t('file_detail.save_success'));
         } catch (e) {
-            return toast.error(i18n.t('file_detail.save_fail'));
+            return this.toast.error(this.i18n.t('file_detail.save_fail'));
         }
     }
 
     @action
     async openFile(this: GuidFile, file: File) {
-        const guid = file.get('guid') || await file.getGuid();
+        const guid = file.guid || await file.getGuid();
 
         this.set('revision', null);
         this.transitionToRoute('guid-file', guid, { queryParams: { show: 'view' } });
+        this.analytics.click('link', 'Quick Files - Open file');
     }
 
     @action
     addTag(this: GuidFile, tag: string) {
-        const model = this.get('file');
-        model.set('tags', [...this.get('tags').slice(), tag].sort());
+        const model = this.file;
+        model.set('tags', [...this.tags.slice(), tag].sort());
         model.save();
+        this.analytics.click('button', 'Quick Files - Add tag');
     }
 
     @action
     removeTagAtIndex(this: GuidFile, index: number) {
-        const model = this.get('file');
-        model.set('tags', this.get('tags').slice().removeAt(index));
+        const model = this.file;
+        model.set('tags', this.tags.slice().removeAt(index));
         model.save();
+        this.analytics.click('button', 'Quick Files - Remove tag');
     }
 
     @action
