@@ -67,7 +67,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @belongsTo('node', { inverse: 'children' })
     parent!: DS.PromiseObject<Node> & Node; // eslint-disable-line no-restricted-globals
 
-    @belongsTo('region') region!: DS.PromiseObject<Region> & Region;
+    @belongsTo('region') region!: Region;
 
     @hasMany('node', { inverse: 'parent' }) children!: DS.PromiseManyArray<Node>;
     @hasMany('preprint', { inverse: 'node' }) preprints!: DS.PromiseManyArray<Preprint>;

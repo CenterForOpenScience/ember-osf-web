@@ -1,4 +1,4 @@
-{{#bs-modal class=modalClass onHidden=closeModal as |modal|}}
+{{#bs-modal onHidden=closeModal as |modal|}}
     {{#if (not newNode)}}
         {{#modal.header onClose=closeModal}}
             <h3 class="modal-title">{{t 'new_project.header'}}</h3>
@@ -14,8 +14,8 @@
                             class='form-control project-name'
                             required=true
                             value=nodeTitle
-                            type="text"
-                            enter=(action create nodeTitle description searchSelected.id)
+                            type='text'
+                            enter=(action 'create')
                         }}
                     </label>
                 </div>
@@ -23,20 +23,36 @@
                 {{#if institutions.length}}
                     <div class="form-group m-v-sm" local-class="NewProject__institution-selector">
                         <label class="f-w-lg text-bigger">{{t 'new_project.affiliation'}}</label>
-                        <a role="button" onclick={{action removeAll}} {{action 'click' 'button' 'Dashboard - New Project - remove_all' target=analytics}}>{{t 'new_project.remove_all'}}</a>
-                        <a role="button" onclick={{action selectAll}} {{action 'click' 'button' 'Dashboard - New Project - select_all' target=analytics}}>{{t 'new_project.select_all'}}</a>
+                        <a
+                            role="button"
+                            onclick={{action 'removeAllInstitutions'}}
+                            {{action 'click' 'button' 'Dashboard - New Project - remove_all' target=analytics}}
+                        >
+                            {{t 'new_project.remove_all'}}
+                        </a>
+                        <a
+                            role="button"
+                            onclick={{action 'selectAllInstitutions'}}
+                            {{action 'click' 'button' 'Dashboard - New Project - select_all' target=analytics}}
+                        >
+                            {{t 'new_project.select_all'}}
+                        </a>
                         <table>
                             <tr>
                                 {{#each institutions as | institution |}}
                                     <td>
-                                        <a role='button' onclick={{action selectInstitution institution}} {{action 'click' 'button' 'Dashboard - New Project - select_institution' target=analytics}}>
+                                        <a
+                                            role='button'
+                                            onclick={{action 'selectInstitution' institution}}
+                                            {{action 'click' 'button' 'Dashboard - New Project - select_institution' target=analytics}}
+                                        >
                                             <div width="45px" height="45px" local-class="NewProject__institution-item">
                                                 <img
                                                     name="{{institution.name}}"
                                                     width="45px"
                                                     height="45px"
                                                     class="img-circle pointer"
-                                                    local-class="NewProject__institution-img-{{if (if-filter institution institutionsSelected) 'selected' 'not-selected'}}"
+                                                    local-class="NewProject__institution-img-{{if (if-filter institution selectedInstitutions) 'selected' 'not-selected'}}"
                                                     src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png"
                                                     alt="{{institution.name}}"
                                                     title="{{institution.name}}">
@@ -48,14 +64,37 @@
                         </table>
                     </div>
                 {{/if}}
-                <div class="text" role="button" onclick={{action 'toggle' 'more'}}>
+                {{#if storageI18nEnabled}}
+                    <div class="form-group m-v-md">
+                        <label class="f-w-lg text-bigger" local-class="NewProject__label">
+                            {{t 'new_project.storage_region'}}
+                            {{#power-select
+                                options=regions
+                                renderInPlace=true
+                                selected=selectedRegion
+                                searchField='name'
+                                onchange=(action 'selectRegion')
+                                noMatchesMessage=(t 'new_project.no_matches')
+                                as |region|
+                            }}
+                                {{region.name}}
+                            {{/power-select}}
+                        </label>
+                    </div>
+                {{/if}}
+                <div class="text" role="button" onclick={{action 'toggleMore'}}>
                     {{fa-icon (concat 'caret-' (if more 'down' 'right'))}} {{t 'new_project.more'}}
                 </div>
                 {{#if more}}
                     <div class="form-group m-v-sm">
                         <label for="projectDesc" class="f-w-lg text-bigger" local-class="NewProject__label">
                             {{t 'general.description'}}
-                            {{input placeholder=(t 'new_project.description_placeholder') class='form-control noresize project-desc' value=description type="text"}}
+                            {{input
+                                placeholder=(t 'new_project.description_placeholder')
+                                class='form-control noresize project-desc'
+                                value=description
+                                type='text'
+                            }}
                         </label>
                     </div>
                     <div class="form-group m-v-md">
@@ -63,14 +102,13 @@
                             {{t 'new_project.template_title'}}
                             <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
                             {{#power-select
-                                local-class='NewProject__placeholder'
-                                search=search
-                                selected=searchSelected
+                                search=searchNodes
+                                selected=templateFrom
+                                onchange=(action 'selectTemplateFrom')
+                                renderInPlace=true
                                 noMatchesMessage=(t 'new_project.no_matches')
                                 searchMessage=(t 'new_project.template_placeholder')
                                 placeholder=(t 'new_project.template_placeholder')
-                                onchange=searchChange
-                                renderInPlace=true
                                 as |node|
                             }}
                                 {{node.title}}
@@ -81,12 +119,29 @@
             </div>
         {{/modal.body}}
         {{#modal.footer}}
-            <button onclick={{action closeModal false}} class="btn btn-default" {{action 'click' 'button' 'Dashboard - New Project - cancel' target=analytics}}>{{t 'general.cancel'}}</button>
-            <button onclick={{action create nodeTitle description searchSelected.id}} class="btn btn-success {{unless nodeTitle.length 'disabled'}}" {{action 'click' 'button' 'Dashboard - New Project - create' target=analytics}}>{{t 'general.create'}}</button>
+            <button
+                onclick={{action closeModal false}}
+                class="btn btn-default"
+                {{action 'click' 'button' 'Dashboard - New Project - cancel' target=analytics}}
+            >
+                {{t 'general.cancel'}}
+            </button>
+            <button
+                onclick={{action 'create'}}
+                class="btn btn-success {{unless nodeTitle.length 'disabled'}}"
+                {{action 'click' 'button' 'Dashboard - New Project - create' target=analytics}}
+            >
+                {{t 'general.create'}}
+            </button>
         {{/modal.footer}}
     {{else}}
         {{#modal.body}}
-            <button aria-label="Close" class="close" onclick={{action closeModal true}} {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}>
+            <button
+                aria-label="Close"
+                class="close"
+                onclick={{action closeModal true}}
+                {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}
+            >
                 {{fa-icon 'times' size='sm'}}
             </button>
             <h4 class="add-project-success text-success">
@@ -94,10 +149,19 @@
             </h4>
         {{/modal.body}}
         {{#modal.footer}}
-            <button onclick={{action closeModal true}} class="btn btn-default" {{action 'click' 'button' 'Dashboard - New Project - stay_on_dashboard' target=analytics}}>
+            <button
+                onclick={{action closeModal true}}
+                class="btn btn-default"
+                {{action 'click' 'button' 'Dashboard - New Project - stay_on_dashboard' target=analytics}}
+            >
                 {{t 'new_project.stay_here'}}
             </button>
-            <a role='button' href="{{newNode.links.html}}" class="btn btn-success" onclick={{action 'click' 'link' 'Dashboard - New Project - go_to_new_project' target=analytics}}>
+            <a
+                role='button'
+                href="{{newNode.links.html}}"
+                class="btn btn-success"
+                onclick={{action 'click' 'link' 'Dashboard - New Project - go_to_new_project' target=analytics}}
+            >
                 {{t 'new_project.go_to_new'}}
             </a>
         {{/modal.footer}}

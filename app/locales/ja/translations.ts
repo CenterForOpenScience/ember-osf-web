@@ -197,6 +197,7 @@ export default {
         success_message: '新規プロジェクトの作成に成功しました',
         stay_here: 'この場に留まる',
         go_to_new: '作成したプロジェクトへ移動',
+        storage_region: 'Storage location',
     },
     banners: {
         prereg: {

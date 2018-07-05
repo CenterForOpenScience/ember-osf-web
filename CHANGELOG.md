@@ -5,12 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Models:
+    - `region`
+    - `node` - add `region` relationship
+    - `user` - add `defaultRegion` relationship
+- Feature flags:
+    - `storage_i18n` - enable region selector on project creation
+
 ### Changed
 - refactored feature flags to be loaded from API base (`/v2`)
 - check route feature flags in `Router._doTransition` instead of `Router.willTransition`
 
 ### Removed
-- Feature Flags:
+- Feature flags:
     - `ember_support_page`
     - `ember_home_page`
 
