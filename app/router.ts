@@ -1,7 +1,19 @@
 import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
+
 import { Blocker } from 'ember-osf-web/services/ready';
+import transitionTarget from 'ember-osf-web/utils/transition-target';
+
+const {
+    engines: {
+        collections,
+        handbook,
+    },
+    featureFlagNames: {
+        routes: routeFlags,
+    },
+} = config;
 
 const Router = EmberRouter.extend({
     currentUser: service('current-user'),
@@ -13,7 +25,7 @@ const Router = EmberRouter.extend({
     location: config.locationType,
     rootURL: config.rootURL,
 
-    async willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
+    willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
         if (!this.readyBlocker || this.readyBlocker.isDone()) {
             this.readyBlocker = this.get('ready').getBlocker();
         }
@@ -22,21 +34,32 @@ const Router = EmberRouter.extend({
 
     didTransition(...args: any[]) {
         this._super(...args);
+
         this.get('currentUser').checkShowTosConsentBanner();
         this.get('statusMessages').updateMessages();
+
         window.scrollTo(0, 0);
+
         if (this.readyBlocker && !this.readyBlocker.isDone()) {
             this.readyBlocker.done();
         }
     },
-});
 
-const {
-    engines: {
-        collections,
-        handbook,
+    _doTransition(routeName: string, ...args: any[]) {
+        const transition = this._super(routeName, ...args);
+
+        const flag = routeFlags[routeName];
+        if (flag && !this.get('features').isEnabled(flag)) {
+            try {
+                window.location.href = transitionTarget(transition);
+            } catch (e) {
+                window.location.reload();
+            }
+            transition.abort();
+        }
+        return transition;
     },
-} = config;
+});
 
 /* eslint-disable array-callback-return */
 

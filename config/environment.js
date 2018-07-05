@@ -18,6 +18,7 @@ const {
     HANDBOOK_ENABLED = false,
     HANDBOOK_DOC_GENERATION_ENABLED = false,
     FB_APP_ID,
+    FEATURE_FLAGS: featureFlags,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
     KEEN_PROJECT_ID: keenProjectId,
@@ -185,7 +186,8 @@ module.exports = function(environment) {
             popularNode,
             noteworthyNode,
         },
-        featureFlags: { // default flags (whether they be switches, flags, or polls) go here with default value.
+        featureFlags,
+        featureFlagNames: {
             routes: {
                 support: 'ember_support_page',
                 dashboard: 'ember_home_page',
@@ -198,6 +200,7 @@ module.exports = function(environment) {
             navigation: {
                 institutions: 'institutions_nav_bar',
             },
+            storageI18n: 'storage_i18n',
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,

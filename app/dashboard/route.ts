@@ -5,7 +5,6 @@ import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
 
 import DashboardController from 'ember-osf-web/dashboard/controller';
-import featureFlagRoute from 'ember-osf-web/decorators/feature-flag-route';
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -20,7 +19,6 @@ const {
 } = config;
 
 @requireAuth('home')
-@featureFlagRoute()
 export default class Dashboard extends Route {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;

@@ -1,9 +1,13 @@
-import { Registry as ServiceRegistry } from '@ember/service';
-
 interface Transition {
     targetName: string;
     params: any[];
     queryParams: object;
+    router: {
+        generate(
+            handlerName: string,
+            ...params: any[],
+        ): string;
+    };
 }
 
 /**
@@ -12,12 +16,11 @@ interface Transition {
  */
 export default function transitionTarget(
     transition: Transition,
-    router: ServiceRegistry['router'],
 ) {
     const params = Object.values(transition.params).filter(
         param => Object.values(param).length,
     );
-    return router.urlFor(
+    return transition.router.generate(
         transition.targetName,
         ...params,
         { queryParams: transition.queryParams },

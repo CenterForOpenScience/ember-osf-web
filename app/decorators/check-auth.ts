@@ -46,7 +46,7 @@ export default function checkAuth<T extends Newable<Route>>(
                     // Must have failed to make the request at all.
                     this.transitionTo(
                         'error-no-api',
-                        transitionTarget(transition, this.router).slice(1),
+                        transitionTarget(transition).slice(1),
                     );
                     return;
                 }

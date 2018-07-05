@@ -44,7 +44,7 @@ export default class CurrentUserService extends Service {
     @alias('session.data.authenticated.id') currentUserId: string | undefined;
 
     /**
-     * Return an observable promise proxy for the currently logged in user. If no user is logged in, resolves to null.
+     * Return the currently logged-in user, or null if not logged in.
      */
     @computed('currentUserId')
     get user(this: CurrentUserService): User | null {

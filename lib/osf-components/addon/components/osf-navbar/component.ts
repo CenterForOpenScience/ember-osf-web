@@ -12,7 +12,7 @@ import Session from 'ember-simple-auth/services/session';
 import styles from './styles';
 import layout from './template';
 
-const { featureFlags: { navigation } } = config;
+const { featureFlagNames: { navigation } } = config;
 
 const HOME_APP = 'HOME';
 

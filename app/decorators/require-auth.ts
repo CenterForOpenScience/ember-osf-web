@@ -1,6 +1,5 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { Registry as ServiceRegistry } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -11,9 +10,6 @@ import transitionTarget from 'ember-osf-web/utils/transition-target';
  * In the `beforeModel` hook, check whether the user is logged in.
  * If they are, let the transition continue as normal.
  * If not, transition to the given route or redirect to the login page.
- *
- * For best results, make sure the decorated route (or one of its parent/ancestor
- * routes) is decorated with @checkAuth (ember-osf-web/decorators/check-auth).
  *
  * Use:
  * ```
@@ -33,7 +29,6 @@ export default function requireAuthFactory(
 ) {
     function requireAuthDecorator<T extends Newable<Route>>(RouteSubclass: T) {
         class RequireAuthRoute extends RouteSubclass {
-            @service router!: ServiceRegistry['router'];
             @service session!: SessionService;
             @service currentUser!: CurrentUser;
 
@@ -43,7 +38,7 @@ export default function requireAuthFactory(
                         this.transitionTo(redirectRoute);
                     } else {
                         await this.currentUser.login(
-                            transitionTarget(transition, this.router),
+                            transitionTarget(transition),
                         );
                     }
                 }
