@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Changed
 - refactored feature flags to be loaded from API base (`/v2`)
-- refactored route feature flagging to use a decorator (`@featureFlagRoute`)
+- check route feature flags in `Router._doTransition` instead of `Router.willTransition`
 
 ### Fixed
 - Components:
     - `node-navbar` - banner overlapping
+
+### Removed
+- Feature Flags:
+    - `ember_support_page`
+    - `ember_home_page`
 
 ## [0.4.1] - 2018-06-26
 ### Changed
