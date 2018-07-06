@@ -189,9 +189,6 @@ module.exports = function(environment) {
         featureFlags,
         featureFlagNames: {
             routes: {
-                support: 'ember_support_page',
-                dashboard: 'ember_home_page',
-                home: 'ember_home_page',
                 'guid-node.forks': 'ember_project_forks_page',
                 'guid-registration.forks': 'ember_project_forks_page',
                 'guid-node.analytics.index': 'ember_project_analytics_page',
