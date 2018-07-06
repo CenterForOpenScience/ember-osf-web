@@ -18,7 +18,6 @@ const {
     HANDBOOK_ENABLED = false,
     HANDBOOK_DOC_GENERATION_ENABLED = false,
     FB_APP_ID,
-    FEATURE_FLAGS: featureFlags,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
     KEEN_PROJECT_ID: keenProjectId,
@@ -186,7 +185,6 @@ module.exports = function(environment) {
             popularNode,
             noteworthyNode,
         },
-        featureFlags,
         featureFlagNames: {
             routes: {
                 'guid-node.forks': 'ember_project_forks_page',
