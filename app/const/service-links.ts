@@ -22,6 +22,7 @@ const serviceLinks = {
     settings: `${osfUrl}settings/`,
     reviewsHome: `${osfUrl}reviews/`,
     institutionsLanding: `${osfUrl}institutions/`,
+    collectionsHome: `${osfUrl}collections/`,
 };
 
 const osfServices = [
@@ -45,6 +46,10 @@ const osfServices = [
         name: 'INSTITUTIONS',
         url: serviceLinks.institutionsLanding,
         flag: navigation.institutions,
+    },
+    {
+        name: 'COLLECTIONS',
+        url: serviceLinks.collectionsHome,
     },
 ];
 

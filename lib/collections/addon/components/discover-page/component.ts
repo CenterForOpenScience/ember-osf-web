@@ -5,12 +5,12 @@ import { assert } from '@ember/debug';
 import EmberObject, { setProperties } from '@ember/object';
 import { debounce } from '@ember/runloop';
 import { camelize } from '@ember/string';
-import Theme from 'collections/services/theme';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import Contributor from 'ember-osf-web/models/contributor';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 import moment from 'moment';
@@ -149,6 +149,7 @@ interface Hit {
 export interface FacetContext extends EmberObject {
     didInit: boolean;
     activeFilter: any[];
+    lockedActiveFilter: any[];
     defaultQueryFilters: any[];
     currentQueryFilters: any;
     queryParam: string;
@@ -237,6 +238,7 @@ export default class DiscoverPage extends Component.extend({
                 [component]: {
                     didInit: false,
                     queryParam,
+                    lockedActiveFilter: [],
                     activeFilter,
                     defaultQueryFilters: [],
                     currentQueryFilters: [],
@@ -499,65 +501,17 @@ export default class DiscoverPage extends Component.extend({
         },
     };
 
-    // // Ember-SHARE property.  Watches query params in URL and modifies facetStates
-    // @computed(...filterQueryParams, 'end', 'start')
-    // get facetStates(): any {
-    //     return {
-    //         ...filterQueryParams.reduce((acc: any, val: keyof DiscoverPage) => ({ ...acc, [val]: this[val] }), {}),
-    //         date: {
-    //             start: this.start,
-    //             end: this.end,
-    //         },
-    //     };
-    // }
-
-    // // Modified when query params in URL change.
-    // @computed('facetStates')
-    // get facetStatesArray() {
-    //     return Object.entries(this.facetStates)
-    //         .map(([key, value]) => ({ key, value }));
-    // }
-
     // Ember-SHARE property. Returns pages of hidden search results.
     @computed('clampedPages', 'totalPages')
     get hiddenPages() {
         return this.totalPages === this.clampedPages ? null : this.totalPages - this.clampedPages;
     }
 
-    // providerChanged: Ember.on('init', Ember.observer('provider', function() {
-    //     // For PREPRINTS and REGISTRIES - watches provider query param for changes and modifies activeFilters
-    //     let filter = this.get('provider');
-    //     if (!filter || filter === 'true' || typeof filter === 'object') return;
-    //     if (!this.get('theme.isProvider')) {
-    //         this.setActiveFiltersAndReload('activeFilters.providers', filter.split('OR'));
-    //     }
-    // }))
-
-    // reloadSearch: Ember.observer('activeFilters.providers.@each',
-    //         'activeFilters.subjects.@each', 'activeFilters.types.@each', function() {
-    //     // For PREPRINTS and REGISTRIES.  Reloads page if activeFilters change.
-    //     this.set('page', 1);
-    //     this.loadPage();
-    // }),
-
     @computed('currentUser.sessionKey')
     get searchUrl() {
         // Pulls SHARE search url from config file.
         return `${config.OSF.shareSearchUrl}?preference=${this.currentUser.sessionKey}`;
     }
-
-    // subjectChanged: Ember.on('init', Ember.observer('subject', function() {
-    //     // For PREPRINTS - watches subject query param for changes and modifies activeFilters
-    //     let filter = this.get('subject');
-    //     if (!filter || filter === 'true' || typeof filter === 'object') return;
-    //     this.setActiveFiltersAndReload('activeFilters.subjects', filter.split('OR'));
-    // })),
-    // typeChanged: Ember.on('init', Ember.observer('type', function() {
-    //     // For REGISTRIES - watches type query param for changes and modifies activeFilters
-    //     let filter = this.get('type');
-    //     if (!filter || filter === 'true' || typeof filter === 'object') return;
-    //     this.setActiveFiltersAndReload('activeFilters.types', filter.split('OR'));
-    // })),
 
     // Total pages of search results
     @computed('numberOfResults', 'size')
@@ -765,9 +719,8 @@ export default class DiscoverPage extends Component.extend({
         // Clear all of the activeFilters
         Object.values(this.facetContexts)
             .forEach(context => {
-                // context.activeFilter.clear();
                 setProperties(context, {
-                    activeFilter: [],
+                    activeFilter: [...context.lockedActiveFilter],
                     queryParam: '',
                     currentQueryFilters: context.defaultQueryFilters,
                 });

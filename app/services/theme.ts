@@ -1,12 +1,13 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Service from '@ember/service';
-import config from 'collections/config/environment';
+// import config from 'ember-default-config';
 import DS from 'ember-data';
-import PreprintProvider from 'ember-osf-web/models/preprint-provider';
+import Provider from 'ember-osf-web/models/provider';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
-const { defaultProvider } = config;
+// const { defaultProvider } = config;
+const defaultProvider = 'osf';
 
 export default class Theme extends Service {
     @service store!: DS.Store;
@@ -23,8 +24,8 @@ export default class Theme extends Service {
     }
 
     @computed('id', 'isProvider')
-    get provider(): PreprintProvider | null {
-        const provider = this.store.peekRecord('preprint-provider', this.id);
+    get provider(): Provider | null {
+        const provider = this.store.peekRecord('collection-provider', this.id);
 
         if (!provider) {
             return null;

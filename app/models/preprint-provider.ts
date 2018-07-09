@@ -1,22 +1,12 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
-import License from './license';
-import OsfModel from './osf-model';
+// import License from './license';
 import Preprint from './preprint';
-import Taxonomy from './taxonomy';
+import Provider from './provider';
 
-export default class PreprintProvider extends OsfModel {
-    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
-    @attr('fixstring') description!: string;
-    @attr('string') domain!: string;
-    @attr('boolean') domainRedirectEnabled!: boolean;
-    @attr('fixstring') example!: string;
-    @attr('string') advisoryBoard!: string;
-    @attr('fixstring') emailSupport!: string;
+export default class PreprintProvider extends Provider {
     @attr('array') subjectsAcceptable!: string[];
-    @attr('string') footerLinks!: string;
-    @attr('boolean') allowSubmissions!: boolean;
     @attr('array') additionalProviders!: string[];
     @attr('string') shareSource!: string;
     @attr('string') preprintWord!: string;
@@ -28,10 +18,7 @@ export default class PreprintProvider extends OsfModel {
     @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous!: boolean | null;
 
     // Relationships
-    @hasMany('taxonomy') taxonomies!: DS.PromiseManyArray<Taxonomy>;
-    @hasMany('taxonomy') highlightedTaxonomies!: DS.PromiseManyArray<Taxonomy>;
     @hasMany('preprint', { inverse: 'provider' }) preprints!: DS.PromiseManyArray<Preprint>;
-    @hasMany('license', { inverse: null }) licensesAcceptable!: DS.PromiseManyArray<License>;
 
     @alias('links.relationships.preprints.links.related.meta')
     reviewableStatusCounts!: any;

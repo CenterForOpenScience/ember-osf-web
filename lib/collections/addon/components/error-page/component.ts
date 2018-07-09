@@ -1,9 +1,9 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import Theme from 'collections/services/theme';
-// import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import Analytics from 'ember-osf-web/services/analytics';
+import Theme from 'ember-osf-web/services/theme';
+// import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 // @localClassNames('header', 'header-error')

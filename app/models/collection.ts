@@ -5,8 +5,6 @@ import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import OsfModel from './osf-model';
 
-type statusChoice = 'good';
-
 /**
  * @module ember-osf-web
  * @submodule models
@@ -25,7 +23,7 @@ export default class Collection extends OsfModel {
     @attr('boolean') isPromoted!: boolean;
     @attr('boolean') isPublic!: boolean;
     @attr('array') collectedTypeChoices!: Array<'node' | 'preprint' | 'collection' | 'registration'>;
-    @attr('array') statusChoices!: statusChoice[];
+    @attr('array') statusChoices!: string[];
 
     @belongsTo('collection-provider', { inverse: 'collections' })
     provider!: DS.PromiseObject<CollectionProvider> & CollectionProvider;

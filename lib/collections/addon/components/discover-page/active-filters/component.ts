@@ -2,9 +2,8 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import Theme from 'collections/services/theme';
-
 import { get } from '@ember/object';
+import Theme from 'ember-osf-web/services/theme';
 import { FacetContexts } from '../component';
 
 export default class ActiveFilters extends Component {

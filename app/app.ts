@@ -18,6 +18,7 @@ const App = Application.extend({
                     'i18n',
                     'session',
                     'store',
+                    'theme',
                     'router',
                 ],
             },

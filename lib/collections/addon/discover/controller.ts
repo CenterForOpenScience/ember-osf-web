@@ -3,8 +3,8 @@ import { not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import config from 'collections/config/environment';
-import Theme from 'collections/services/theme';
 import I18N from 'ember-i18n/services/i18n';
+import Theme from 'ember-osf-web/services/theme';
 
 export default class Discover extends Controller {
     @service theme!: Theme;
@@ -24,22 +24,23 @@ export default class Discover extends Controller {
     @not('additionalProviders')
     showActiveFilters!: boolean;
 
-    @computed('themeProvider')
+    @computed('theme.provider')
     get additionalProviders() { // Do additionalProviders exist?
         // for now, using this property to alter many pieces of the landing/discover page
-        return (this.themeProvider!.additionalProviders || []).length > 1;
+        // return (this.theme.provider!.additionalProviders || []).length > 1;
+        return false;
     }
 
     consumingService = 'collections'; // Consuming service - preprints here
     detailRoute = 'content'; // Name of detail route for this application
 
-    @computed('additionalProviders')
-    get discoverHeader(): string { // Header for preprints discover page
-        // If additionalProviders, use more generic Repository Search page title
-        return this.additionalProviders ?
-            'discover.search.heading_repository_search' :
-            'collections.discover.search_heading';
-    }
+    // @computed('additionalProviders')
+    // get discoverHeader(): string { // Header for preprints discover page
+    //     // If additionalProviders, use more generic Repository Search page title
+    //     return this.additionalProviders ?
+    //         'discover.search.heading_repository_search' :
+    //         'collections.discover.search_heading';
+    // }
 
     end = ''; // End query param. Must be passed to component, so can be reflected in the URL
 
@@ -61,8 +62,10 @@ export default class Discover extends Controller {
                 ] :
                 // Regular preprints and branded preprints get provider and taxonomy facets
                 [
-                    ['sources', 'providers', 'provider'],
+                    ['sources', 'providers', 'collection-provider'],
                     ['subjects', 'subject', 'taxonomy'],
+                    ['status', 'status', 'status'],
+                    ['type', 'type', 'collected-type'],
                 ]
         ).map(([key, title, component]) => ({
             key,

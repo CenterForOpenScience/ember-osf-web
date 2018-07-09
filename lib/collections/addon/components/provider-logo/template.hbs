@@ -1,0 +1,9 @@
+{{#if useExternalLink}}
+    <a href="{{provider.domain}}">
+        <img src="{{logoAsset}}">
+    </a>
+{{else}}
+    {{#link-to 'provider.discover' provider.id}}
+        <img src="{{logoAsset}}">
+    {{/link-to}}
+{{/if}}

@@ -1,8 +1,8 @@
 import { service } from '@ember-decorators/service';
 import { setProperties } from '@ember/object';
-import Theme from 'collections/services/theme';
-import PreprintProvider from 'ember-osf-web/models/preprint-provider';
+import Provider from 'ember-osf-web/models/provider';
 import Taxonomy from 'ember-osf-web/models/taxonomy';
+import Theme from 'ember-osf-web/services/theme';
 import Base from '../base/component';
 import styles from './styles';
 import layout from './template';
@@ -91,7 +91,7 @@ export default class SearchFacetTaxonomy extends Base.extend({
         SearchFacetTaxonomy.getTaxonomies(this.item, this.theme.provider!);
     },
 }) {
-    static async getTaxonomies(item: TaxonomyItem, provider: PreprintProvider) {
+    static async getTaxonomies(item: TaxonomyItem, provider: Provider) {
         const results: Taxonomy[] = await provider.queryHasMany('taxonomies', {
             filter: { parents: item.id },
             page: { size: pageSize },

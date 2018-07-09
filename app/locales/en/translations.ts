@@ -564,6 +564,19 @@ export default {
     collections: {
         index: {
             title: 'Collections',
+            services_heading: 'Collection Services',
+            services_paragraph: 'Leading collection service providers use this open source infrastructure to support their communities.',
+            service_bottom: {
+                p1: 'Create your own branded collection service backed by the OSF.',
+                div: {
+                    line1: 'Check out the',
+                    linkText1: 'open source code',
+                    line2: 'and the',
+                    linkText2: 'requirements and road map',
+                    line3: '. Input welcome!',
+                },
+                contact: 'Contact us',
+            },
         },
         provider: {
             title: 'Provider',
@@ -572,6 +585,7 @@ export default {
             title: 'Discover',
             search_heading: 'Collections Search',
             search_placeholder: 'Search collections',
+            other_repositories: 'Other collections',
         },
         submit: {
             title: 'Submit',
@@ -770,6 +784,8 @@ export default {
         main: {
             providers: 'Providers',
             subject: 'Subject',
+            status: 'Status',
+            type: 'Type',
         },
         relevance: 'Relevance',
         sort_oldest_newest: 'Modified Date (oldest to newest)',

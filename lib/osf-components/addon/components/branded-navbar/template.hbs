@@ -1,0 +1,27 @@
+<div class="navbar" local-class="navbar">
+    <div class="container">
+        <div class="navbar-header">
+            {{#link-to "index" class="navbar-brand" click=(action "click" "link" "Navbar - Brand")}}
+                {{t "global.brand"}}
+            {{/link-to}}
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#preprint-navbar-links">
+                <span class="sr-only">{{t "components.preprint-navbar.toggle"}}</span>
+                <span class="fa fa-bars fa-lg"></span>
+            </button>
+        </div>
+        <div id="preprint-navbar-links" class="navbar-collapse collapse navbar-right">
+            <ul class="nav navbar-nav">
+                <li>
+                    {{#link-to "submit" click=(action "click" "link" "Navbar - Add preprint" )}}
+                        {{t "global.add_preprint"}}
+                    {{/link-to}}
+                </li>
+                <li>
+                    {{#link-to "discover" class="" click=(action "click" "link" "Navbar - Search")}}
+                        {{t "global.search"}}
+                    {{/link-to}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

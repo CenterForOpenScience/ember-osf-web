@@ -1,28 +1,22 @@
 {
-  "name": "collections",
+  "name": "app-components",
   "keywords": [
-    "ember-addon",
-    "ember-engine"
+    "ember-addon"
   ],
   "dependencies": {
+    "ember-bootstrap": "*",
+    "ember-bootstrap-datepicker": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-htmlbars-inline-precompile": "*",
-    "ember-cli-sanitize-html": "*",
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
+    "ember-component-attributes": "*",
+    "ember-cp-validations": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
     "ember-i18n": "*",
-    "ember-i18n-inject": "*",
-    "ember-page-title": "*",
-    "ember-power-select": "*"
-  },
-  "ember-addon": {
-    "paths": [
-      "../app-components",
-      "../osf-components"
-    ]
+    "ember-i18n-inject": "*"
   }
 }

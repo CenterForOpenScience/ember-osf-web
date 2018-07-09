@@ -2,7 +2,11 @@
 {{title (t 'general.OSF')}}
 <div local-class="Application">
     {{#unless disableHeaders}}
-        {{osf-navbar signupUrl=signupUrl loginAction=(action 'login')}}
+        {{#if theme.isProvider}}
+            {{branded-navbar}}
+        {{else}}
+            {{osf-navbar signupUrl=signupUrl loginAction=(action 'login')}}
+        {{/if}}
         <div id="{{secondaryNavbarId}}"></div>
         {{maintenance-banner}}
         {{status-banner}}

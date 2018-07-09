@@ -63,11 +63,63 @@
         </div>
     </div>
 
+    {{#unless theme.isProvider}}
+        <div class="p-v-md" local-class="provider-logos">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2>{{t 'collections.index.services_heading'}}</h2>
+                        <p class="m-b-lg">{{t 'collections.index.services_paragraph'}}</p>
+                    </div>
+                </div>
+                <div class="row p-v-md">
+                    {{#each model as |provider|}}
+                        {{provider-logo provider=provider}}
+                    {{/each}}
+                </div>
+                <div class="row p-v-md">
+                    <div class="col-md-12 text-center">
+                        <p class="lead">
+                            {{t 'collections.index.service_bottom.p1'}}
+                            <div class="p-t-sm">
+                                {{t 'collections.index.service_bottom.div.line1'}}
+                                <a
+                                    local-class="source-code-link"
+                                    href="https://github.com/CenterForOpenScience/ember-osf-registries"
+                                    onclick={{action "click" "link" "Index - GitHub Repo" target=analytics}}
+                                >
+                                    {{t 'collections.index.service_bottom.div.linkText1'}}
+                                </a>
+                                {{t 'collections.index.service_bottom.div.line2'}}
+                                <a
+                                    local-class="source-code-link"
+                                    href="https://docs.google.com/spreadsheets/d/1SocElbBjc_Nhme4-SJv2_zytBd1ys8R5aZDb3POe94c/edit#gid=331732182"
+                                    onclick={{action "click" "link" "Index - Requirements and Roadmap" target=analytics}}
+                                >
+                                    {{t 'collections.index.service_bottom.div.linkText2'}}
+                                </a>
+                                {{t 'collections.index.service_bottom.div.line3'}}
+                            </div>
+                        </p>
+                        <a
+                            href="mailto:contact@osf.io"
+                            class="btn btn-info btn-lg"
+                            onclick={{action "click" "link" "Index - Contact" target=analytics}}
+                        >
+                            {{t 'collections.index.service_bottom.contact'}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/unless}}
+
     <div class="p-v-md" local-class="subjects">
         <div class="container">
             <div class="row p-v-md">
                 <div class="col-xs-12">
-                    <h2>{{#if theme.provider.additionalProviders}}
+                    <h2>
+                        {{#if theme.provider.additionalProviders}}
                             {{t "index.subjects.heading.provider"}}
                         {{else}}
                             {{!if theme.provider.hasHighlightedSubjects
@@ -103,3 +155,5 @@
         </div>
     {{/if}}
 </div>
+
+{{!-- <a href="{{brandedPreprintUrl provider}}" title="{{provider.name}}" class="provider-logo-item" style="background-image: url('');"></a> --}}

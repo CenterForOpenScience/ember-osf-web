@@ -13,9 +13,15 @@
     </li>
 {{/if}}
 <li>
-    <a href={{searchUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.search' target=analytics}}>
-        {{t 'navbar.search'}}
-    </a>
+    {{#if searchRoute}}
+        {{#link-to searchRoute}}
+            {{t 'navbar.search'}}
+        {{/link-to}}
+    {{else}}
+        <a href={{searchUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.search' target=analytics}}>
+            {{t 'navbar.search'}}
+        </a>
+    {{/if}}
 </li>
 {{#if onInstitutions}}
     <li role='link'>

@@ -8,6 +8,7 @@
                 {{#if (or theme.isProvider providerLogo)}}
                     <div class="col-xs-6 text-right">
                         <div class="provider-brand" id="provider-brand-background"></div>
+                        {{provider-logo provider=theme.provider}}
                     </div>
                 {{/if}}
                 <div class={{if (or theme.isProvider providerLogo) 'col-xs-6 text-left'}}>
@@ -18,16 +19,18 @@
                         <h1>{{t discoverHeader documentType=themeProvider.documentType}}</h1>
                     {{/if}}
                     {{!POWERED BY SHARE}}
-                    <p class="lead">
-                        {{t 'eosf.components.discoverPage.poweredBy'}}
-                        <a
-                            href="https://share.osf.io/"
-                            id="share-logo"
-                            local-class="share-logo"
-                            title={{t 'eosf.components.discoverPage.share'}}
-                            onclick={{action "click" "link" "Discover - SHARE Logo" target=analytics}}
-                        ></a>
-                    </p>
+                    {{#if isPoweredByShare}}
+                        <p class="lead">
+                            {{t 'eosf.components.discoverPage.poweredBy'}}
+                            <a
+                                href="https://share.osf.io/"
+                                id="share-logo"
+                                local-class="share-logo"
+                                title={{t 'eosf.components.discoverPage.share'}}
+                                onclick={{action "click" "link" "Discover - SHARE Logo" target=analytics}}
+                            ></a>
+                        </p>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -163,7 +166,7 @@
                         {{!RESULTS FOUND}}
                         <div class="results-top">
                             {{#each results as |result|}}
-                                {{search-result
+                                {{!search-result
                                     themeProvider=themeProvider
                                     queryParams=queryParams
                                     detailRoute=detailRoute

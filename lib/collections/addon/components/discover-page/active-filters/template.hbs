@@ -12,7 +12,7 @@
         </span>
     </div>
 </div>
-{{#each facetContexts.provider.activeFilter as |item|}}
+{{#each facetContexts.collection-provider.activeFilter as |item|}}
     <span local-class="preprint-filter provider-filter">
         {{filter-replace item filterReplace}}
         {{#unless theme.isProvider}}
@@ -21,7 +21,7 @@
                 <button
                     class="fa fa-times-circle"
                     local-class="removeActiveFilter"
-                    {{action 'removeFilterItem' 'provider' item}}
+                    {{action 'removeFilterItem' 'collection-provider' item}}
                 ></button>
             </span>
         {{/unless}}
@@ -36,6 +36,33 @@
                 class="fa fa-times-circle"
                 local-class="removeActiveFilter"
                 {{action 'removeFilterItem' 'taxonomy' item}}
+            ></button>
+        </span>
+    </span>
+{{/each}}
+{{#each facetContexts.collected-type.activeFilter as |item|}}
+    {{!ACTIVE SUBJECT FILTERS}}
+    <span local-class='preprint-filter subject-filter'>
+        {{item}}
+        <span aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>
+            <button
+                class="fa fa-times-circle"
+                local-class="removeActiveFilter"
+                {{action 'removeFilterItem' 'collected-type' item}}
+            ></button>
+        </span>
+    </span>
+{{/each}}
+
+{{#each facetContexts.status.activeFilter as |item|}}
+    {{!ACTIVE SUBJECT FILTERS}}
+    <span local-class='preprint-filter subject-filter'>
+        {{item}}
+        <span aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>
+            <button
+                class="fa fa-times-circle"
+                local-class="removeActiveFilter"
+                {{action 'removeFilterItem' 'status' item}}
             ></button>
         </span>
     </span>
