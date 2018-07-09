@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Changed
+- `simple-paginator` component: Use &gt; and &lt; instead of font-awesome chevrons
+- Analytics engine: Set page title to "OSF | [node title] Analytics"
+- Test assertions: Collapse all whitespace characters to a single space
 - refactored feature flags to be loaded from API base (`/v2`)
 - check route feature flags in `Router._doTransition` instead of `Router.willTransition`
 

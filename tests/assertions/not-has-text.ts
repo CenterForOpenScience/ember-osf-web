@@ -7,7 +7,9 @@ export default function notHasText<Context extends TestContext>(
     subject: ElemOrSelector,
     message: string = makeMessage(subject, 'does not have text'),
 ) {
-    const actual = getElement(context, subject).innerText.trim();
+    const actual = getElement(context, subject).innerText
+        .trim()
+        .replace(/\s+/g, ' ');
     const expected = '';
     const result = actual === expected;
     this.pushResult({ result, actual, expected, message });
