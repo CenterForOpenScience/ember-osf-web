@@ -1,3 +1,4 @@
+import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import DS from 'ember-data';
@@ -12,7 +13,8 @@ export default class Institutions extends Route {
         return this.store.findAll('institution');
     }
 
+    @action
     didTransition(this: Institutions) {
-        this.get('analytics').trackPage();
+        this.analytics.trackPage();
     }
 }

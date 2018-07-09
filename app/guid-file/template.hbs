@@ -55,14 +55,14 @@
         </div>
     </div>
     {{#bs-modal open=deleteModalOpen onSubmit=(action 'delete') onHidden=(action 'closeDeleteModal') as |modal|}}
-        {{#modal.header onClose=(action 'closeDeleteModal')}}
+        {{#modal.header}}
             <h4 class="modal-title">{{t "file_detail.delete_file.question"}}</h4>
         {{/modal.header}}
         {{#modal.body}}
             <p>{{t 'file_detail.delete_file.confirm' file-name=model.file.name}}</p>
         {{/modal.body}}
         {{#modal.footer}}
-            {{#bs-button onClick=(action 'closeDeleteModal') type='default'}}
+            {{#bs-button onClick=(action modal.close) type='default'}}
                 {{t 'general.cancel'}}
             {{/bs-button}}
             {{#bs-button onClick=(action modal.submit) type='danger'}}
