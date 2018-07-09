@@ -27,6 +27,18 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
+Configure the application for local development, add the following to your `config/local.js`:
+```ts
+module.exports = {
+    // an ally audit can use 100% of your browsers cpu, so use it wisely
+    A11Y_AUDIT: false,
+    // toggle on/off the engine applications you will be working on
+    COLLECTIONS_ENABLED: false,
+    // sourcemaps are useful if you need to step through typescript code in the browser
+    SOURCEMAPS_ENABLED: true,
+};
+```
+
 * `ember serve`
 * View the ember app (alone) at [localhost:4200](http://localhost:4200)
 
@@ -50,7 +62,7 @@ To integrate with the legacy front end at [localhost:5000](http://localhost:5000
 
 To enable the [developer handbook](https://centerforopenscience.github.io/ember-osf-web/handbook) locally,
 add the following to your `config/local.js`:
-```
+```ts
 module.exports = {
     HANDBOOK_ENABLED: true,
 };
