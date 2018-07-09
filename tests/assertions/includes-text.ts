@@ -8,7 +8,9 @@ export default function includesText<Context extends TestContext>(
     expected: string,
     message: string = makeMessage(subject, 'includes text', expected),
 ) {
-    const actual = getElement(context, subject).innerText.trim();
+    const actual = getElement(context, subject).innerText
+        .trim()
+        .replace(/\s+/g, ' ');
     const result = actual.includes(expected);
     this.pushResult({ result, actual, expected, message });
 }

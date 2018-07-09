@@ -575,6 +575,7 @@ export default {
         },
     },
     analytics: {
+        pageTitle: '{{nodeTitle}} Analytics',
         forks: 'Forks',
         viewForks: 'View forks',
         links: 'Links to this project',

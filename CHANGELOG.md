@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Changed
+- `simple-paginator` component: Use &gt; and &lt; instead of font-awesome chevrons
+- Analytics engine: Set page title to "OSF | [node title] Analytics"
+- Test assertions: Collapse all whitespace characters to a single space
+
 ## [0.5.0] - 2018-06-29
 ### Added
 - Routes:
