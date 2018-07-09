@@ -124,6 +124,7 @@ declare const config: {
             dashboard: string;
             home: string;
             'guid-node.forks': string;
+            'guid-node.registrations': string;
             'guid-registration.forks': string;
             'guid-node.analytics.index': string;
             'guid-registration.analytics.index': string;
