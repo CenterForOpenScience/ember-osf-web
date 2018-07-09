@@ -10,6 +10,6 @@ describe('config', () => {
         environments.forEach(environment => it(environment, () => {
             const { status, stdout } = checkConfigTypes(environment);
             assert.isOk(!status, stdout);
-        }).timeout(5000));
+        }).timeout(15000));
     });
 });
