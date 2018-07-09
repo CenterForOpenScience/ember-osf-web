@@ -51,7 +51,7 @@
                     </ul>
                     {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
                 {{else}}
-                    {{t 'registrations.no_registration'}}
+                    {{t 'node.registrations.no_registration' newPublicRegistrationsLink=newPublicRegistrationsLink}}
                 {{/if}}
             {{/if}}
         {{else}}
@@ -70,7 +70,7 @@
                     </ul>
                     {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
                 {{else}}
-                    {{t 'registrations.no_registration'}}
+                    {{t 'node.registrations.no_registration' newPublicRegistrationsLink=newPublicRegistrationsLink}}
                 {{/if}}
             {{/if}}
         {{/if}}

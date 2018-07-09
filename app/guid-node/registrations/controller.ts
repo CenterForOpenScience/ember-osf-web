@@ -20,6 +20,7 @@ export default class GuidNodeRegistrations extends Controller {
     draftRegistrations = [];
     metaschemas = [];
     schemas = [];
+    newPublicRegistrationsLink = '/explore/activity/#newPublicRegistrations';
 
     getRegistrationTypes = task(function *(this: GuidNodeRegistrations) {
         let metaschemas = yield this.store.findAll('registration-metaschema');

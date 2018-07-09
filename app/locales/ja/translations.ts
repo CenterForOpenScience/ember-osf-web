@@ -529,6 +529,7 @@ export default {
                 info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li>Registrations cannot be edited or deleted.</li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li></ul>Continue your registration by selecting a registration form:',
                 create: 'Create draft',
             },
+            no_registration: '<p>There have been no completed registrations of this project. You can start a new registration by clicking the “New registration” button, and you have the option of saving as a draft registration before submission.</p><p><p>For a list of the most viewed and most recent public registrations on the Open Science Framework, <a href="{{newPublicRegistrationsLink}}">click here</a>.<p>',
             new: 'New registration',
             registrations: 'Registrations',
             draft_registrations: 'Draft Registrations',
