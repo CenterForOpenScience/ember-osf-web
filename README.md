@@ -18,6 +18,7 @@ You will need the following things properly installed on your computer.
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with NPM)
 * [Ember CLI](https://ember-cli.com/)
+* [Watchman](https://facebook.github.io/watchman/)
 
 ## Installation
 
@@ -26,6 +27,19 @@ You will need the following things properly installed on your computer.
 * `yarn --frozen-lockfile`
 
 ## Running / Development
+
+### Mac OS File Descriptor Limits
+
+Watchman states "*Only applicable on OS X 10.6 and earlier*". Though it's been observed this setting can remain incorrect on systems where the operation system was upgraded from a legacy version.
+
+> Putting the following into a file named /etc/sysctl.conf on OS X will cause these values to persist across reboots:
+
+```bash
+kern.maxfiles=10485760
+kern.maxfilesperproc=1048576
+```
+
+### Development
 
 Configure the application for local development, add the following to your `config/local.js`:
 ```ts
