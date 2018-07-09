@@ -11,7 +11,11 @@ export default class GuidNodeRegistrations extends Route {
         return this.modelFor('guid-node');
     }
 
-    async setupController(this: GuidNodeRegistrations, controller: GuidNodeRegistrationsController, model: any): Promise<void> {
+    async setupController(
+        this: GuidNodeRegistrations,
+        controller: GuidNodeRegistrationsController,
+        model: any,
+    ): Promise<void> {
         super.setupController(controller, model);
         const blocker = this.get('ready').getBlocker();
         controller.set('page', 1);
