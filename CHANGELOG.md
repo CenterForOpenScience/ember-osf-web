@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `scheduled-banner` - display the "current" banner on the landing page(s)
 
+### Changed
+- `simple-paginator` component: Use &gt; and &lt; instead of font-awesome chevrons
+- Analytics engine: Set page title to "OSF | [node title] Analytics"
+- Test assertions: Collapse all whitespace characters to a single space
+
 ## [0.5.0] - 2018-06-29
 ### Added
 - Routes:
