@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Missing analytics events:
-    - Quick files detail page actions
+    - User quick files page
+    - Quick files detail page
     - Institutions landing page
     - Dashboard filtering
 
