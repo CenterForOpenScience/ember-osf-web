@@ -84,26 +84,12 @@ a {
     }
 }
 
-.column-labels-wrapper {
-    position: relative;
-
-    .column-labels-header::after {
-        position: absolute;
-        background-color: #f5f5f5;
-        width: 20px;
-        height: 33px;
-        top: 1px;
-        right: 1px;
-    }
-}
-
 .column-labels-header {
     margin: 0;
     display: block;
     height: 35px;
     background: #f5f5f5;
     border: 1px solid #eee;
-    overflow-y: scroll;
 }
 
 .file-browser-list {
@@ -174,14 +160,17 @@ a {
 .file-row-item {
     margin-left: 0;
     margin-right: 0;
+    height: 35px;
+    border-bottom: 1px solid $color-border-gray-dark;
+    line-height: 27px;
 
-    :global(.file-row-col) {
-        padding-top: 2px;
+    .file-row-col {
+        padding-top: 3px;
         padding-left: 21px;
         margin-left: 0;
     }
 
-    :global(.upload-file-header) {
+    .upload-file-header {
         color: #000;
     }
 

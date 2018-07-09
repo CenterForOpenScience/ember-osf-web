@@ -8,19 +8,21 @@ import OsfModel from './osf-model';
  * @submodule models
  */
 
+export type ReferentModelName = 'file' | 'node' | 'preprint' | 'registration' | 'user';
+export type ReferentModel = ModelRegistry[ReferentModelName];
+
 /**
  * Model for GUIDs
  * @class Guid
  */
 export default class Guid extends OsfModel {
     @computed('id')
-    get referentType(this: Guid): keyof ModelRegistry {
-        return singularize(this.links.relationships.referent.data.type) as keyof ModelRegistry;
+    get referentType(this: Guid): ReferentModelName {
+        return singularize(this.links.relationships.referent.data.type) as ReferentModelName;
     }
 
-    @computed('id')
-    get resolve(this: Guid): Promise<any> {
-        return this.get('store').findRecord(this.get('referentType'), this.get('id'));
+    resolve(this: Guid) {
+        return this.store.findRecord(this.referentType, this.id);
     }
 }
 

@@ -4,33 +4,96 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased
+### Changed
+- `simple-paginator` component: Use &gt; and &lt; instead of font-awesome chevrons
+- Analytics engine: Set page title to "OSF | [node title] Analytics"
+- Test assertions: Collapse all whitespace characters to a single space
+
+## [0.5.0] - 2018-06-29
 ### Added
-- guid-node.forks route
-- node-blurb component, for the similar node previews all over the osf
-- delete-node-modal component, for the deletion of nodes with the name verification step
-- fork method to node model
-- random-scientist util to support the delete-node modal
-- simple-paginator component
-- custom component blueprint
-- [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint)
-- [ember-css-modules-reporter](https://github.com/dfreeman/ember-css-modules-reporter)
-- developer handbook as in-repo engine
-- flag for enabling mirage in development mode
-- Max length validation for email on the user-registration model
-- handling for guid sub-route: `forks`
+- Routes:
+  - `guid-node.analytics` - analytics tab for nodes
+  - `guid-registration.analytics` - analytics tab for registrations
+- Components:
+  - `paginated-relation` - display a model's hasMany relationship as a paginated list
+- Engines:
+  - `analytics` - engine for analytics tabs
+- DX:
+  - Auto-deployment of handbook to GitHub pages on Travis `develop` branch builds
 
 ### Changed
-- contributor-list component, to accept lists with links
-- update OSF API version to 2.8
-- refactored tos-consent-banner component to use ember-css-modules
-- Make assets prefix configurable (defaults to `/ember_osf_web/`)
-- only show captcha when all other form fields are valid
-- disable lint-on-build by default (enable with `LINT_ON_BUILD`)
-- disable sourcemap generation by default (enable with `SOURCEMAPS_ENABLED`)
+- Routes:
+  - `guid-node.forks` - use `paginated-relation` component
+  - `guid-registration.forks` - use `paginated-relation` component
+- DX:
+  - `rootURL` is now configurable via `ROOT_URL` environment variable
+  - production builds will respect `MIRAGE_ENABLED`
+  - `ember-cli-addon-docs` in handbook will use `ASSETS_PREFIX` to find assets
 
 ### Fixed
-- Max length validation of full name on the user-registration model
+- Components:
+    - `node-navbar` - banner overlapping
+
+## [0.4.1] - 2018-06-26
+### Changed
+- Anonymize IPs sent to Google Analytics
+
+## [0.4.0] - 2018-06-26
+### Added
+- Routes:
+  - `error-no-api` - display a friendly message when the API is not available
+  - `guid-node.forks` - forks tab for nodes
+  - `guid-registration.forks` - forks tab for registrations
+  - `institutions` - institutions landing page
+  - `resolve-guid.forks` - handling for guid sub-route: `forks`
+- Components:
+  - `delete-node-modal` - deletion of nodes with the name verification step
+  - `node-blurb` - similar node previews all over the OSF
+  - `simple-paginator` - you know, for pagination
+- Utils:
+  - `random-scientist` - to support the `delete-node modal` component
+- Engines:
+  - `collections`
+    - Routes:
+      - `application` - placeholder
+      - `index` - placeholder
+      - `provider` - placeholder
+      - `provider.discover` - placeholder
+      - `provider.submit` - placeholder
+    - Components:
+      - `test-component` - engine component example
+- DX:
+  - [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint)
+  - [ember-css-modules-reporter](https://github.com/dfreeman/ember-css-modules-reporter)
+  - flag for enabling mirage in development mode
+  - developer handbook as in-repo engine
+  - custom component blueprint
+
+### Changed
+- Components:
+  - `contributor-list` - modify to accept lists with links
+  - `sign-up-form` - only show captcha when all other form fields are valid
+  - `tos-consent-banner` - refactor to use ember-css-modules
+- Models:
+  - `node` - add `fork()` method
+  - `user-registration` - add max length validation for `email1`
+- Misc:
+  - update OSF API version to 2.8
+  - refactor/simplify auth logic
+- DX:
+  - make assets prefix configurable (defaults to `/ember_osf_web/`)
+  - disable lint-on-build by default (enable with `LINT_ON_BUILD`)
+  - disable sourcemap generation by default (enable with `SOURCEMAPS_ENABLED`)
+  - convert remaining tests to TypeScript and modernize
+  - disable `no-restricted-globals` for type declaration files
+  - enforce consistent spacing before function parens
+  - better code coverage reporting
+  - `zoom-to-guid` is now `zoom-to-route`
+
+### Fixed
+- Models:
+    - `user-registration` - correct max length validation of `fullName`
 
 ## [0.3.7] - 2018-06-08
 ### Changed

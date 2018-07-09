@@ -1,3 +1,4 @@
+import { classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -35,6 +36,7 @@ import layout from './template';
  * ```
  * @class file-icon
  */
+@classNames('container')
 @localClassNames('file-browser-item')
 export default class FileBrowserItem extends Component.extend({ styles }) {
     layout = layout;

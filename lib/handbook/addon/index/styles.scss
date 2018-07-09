@@ -4,7 +4,11 @@
     }
 }
 
+.Content {
+    max-width: 40em;
+    margin: auto;
+}
+
 .Link {
-    display: flex;
-    justify-content: center;
+    text-align: right;
 }

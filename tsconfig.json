@@ -42,6 +42,12 @@
       "handbook/*": [
         "lib/handbook/addon/*"
       ],
+      "analytics-page": [
+        "lib/analytics-page/addon"
+      ],
+      "analytics-page/*": [
+        "lib/analytics-page/addon/*"
+      ],
       "config/*": [
         "config/*"
       ],
@@ -66,6 +72,7 @@
     "types",
     "lib/collections",
     "lib/osf-components",
-    "lib/handbook"
+    "lib/handbook",
+    "lib/analytics-page"
   ]
 }

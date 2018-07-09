@@ -152,6 +152,20 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         }
     },
 
+    normalizeSingleResponse(
+        store: DS.Store,
+        primaryModelClass: any,
+        payload: any,
+        id: string,
+        requestType: string,
+    ): any {
+        const documentHash = this._super(store, primaryModelClass, payload, id, requestType);
+        if (documentHash.meta) {
+            documentHash.data.attributes.apiMeta = documentHash.meta;
+        }
+        return documentHash;
+    },
+
     normalizeArrayResponse(...args: any[]): any {
         const documentHash: any = this._super(...args);
 
