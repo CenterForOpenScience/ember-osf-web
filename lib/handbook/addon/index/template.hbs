@@ -1,12 +1,19 @@
 <div local-class='Hero'>
     {{docs-hero
-        logo='ember'
-        slimHeading='OSF'
-        strongHeading='Web'
-        byline='Developer Handbook'
+        slimHeading='Emb'
+        strongHeading='OSF'
+        byline='It\'s pronounced "emboss"'
     }}
 </div>
 
-<div local-class='Link'>
-    {{#link-to 'docs' class='btn btn-primary'}}Begin!{{/link-to}}
+<div class='docs-container docs-md'>
+    <section local-class='Content'>
+        {{index/index-content}}
+
+        <div local-class='Link'>
+            {{#link-to 'docs' class='btn btn-primary'}}
+                Read the docs
+            {{/link-to}}
+        </div>
+    </section>
 </div>
