@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
 import { Blocker } from 'ember-osf-web/services/ready';
-import transitionTarget from 'ember-osf-web/utils/transition-target';
+import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
     engines: {
@@ -51,7 +51,7 @@ const Router = EmberRouter.extend({
         const flag = routeFlags[routeName];
         if (flag && !this.get('features').isEnabled(flag)) {
             try {
-                window.location.href = transitionTarget(transition);
+                window.location.assign(transitionTargetURL(transition));
             } catch (e) {
                 window.location.reload();
             }

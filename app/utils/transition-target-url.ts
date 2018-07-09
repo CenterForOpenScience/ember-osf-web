@@ -14,7 +14,7 @@ interface Transition {
  * Get the URL (path and query string) that the given transition will resolve to,
  * using the given router.
  */
-export default function transitionTarget(
+export default function transitionTargetURL(
     transition: Transition,
 ) {
     const params = Object.values(transition.params).filter(
