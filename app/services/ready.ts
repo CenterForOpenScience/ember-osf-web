@@ -33,7 +33,7 @@ export default class Ready extends Service.extend(Evented) {
             set(this, 'isReady', true);
             this.trigger(Events.IsReady);
         }
-    }).drop();
+    }).restartable();
 
     getBlocker(this: Ready): Blocker {
         if (get(this, 'isReady')) {

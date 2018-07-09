@@ -10,11 +10,12 @@ import moment, { Moment } from 'moment';
 
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
-import RouteContext from 'ember-osf-web/services/route-context';
 
 const {
     OSF: {
-        analyticsDismissAdblockCookie: dismissAdblockCookie,
+        cookies: {
+            analyticsDismissAdblock: dismissAdblockCookie,
+        },
     },
 } = config;
 
@@ -29,7 +30,6 @@ export default class ApplicationController extends Controller {
     @service i18n!: I18n;
     @service analytics!: AnalyticsService;
     @service store!: DS.Store;
-    @service routeContext!: RouteContext;
 
     dateRanges: DateRange[] = [
         {

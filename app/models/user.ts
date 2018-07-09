@@ -33,6 +33,9 @@ export default class User extends OsfModel.extend(Validations) {
     @attr('array') middleNames!: string[];
     @attr('fixstring') familyName!: string;
 
+    @attr('fixstring') locale!: string;
+    @attr('fixstring') timezone!: string;
+
     @attr('date') dateRegistered!: Date;
     // email
     @attr('fixstring') username!: string;
