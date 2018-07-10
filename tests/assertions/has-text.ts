@@ -8,7 +8,9 @@ export default function hasText<Context extends TestContext>(
     expected: string,
     message: string = makeMessage(subject, 'has text', expected),
 ) {
-    const actual = getElement(context, subject).innerText.trim();
+    const actual = getElement(context, subject).innerText
+        .trim()
+        .replace(/\s+/g, ' ');
     const result = actual === expected;
     this.pushResult({ result, actual, expected, message });
 }

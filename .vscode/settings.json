@@ -1,3 +1,13 @@
 {
-    "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false
+    "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "tmp/**": true,
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "tmp/**": true,
+    },
 }
