@@ -2,6 +2,7 @@ import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
+import Contributor from './contributor';
 import File from './file';
 import Institution from './institution';
 import Node from './node';
@@ -42,6 +43,7 @@ export default class User extends OsfModel.extend(Validations) {
     @attr('boolean') acceptedTermsOfService?: boolean;
 
     @hasMany('node') nodes!: DS.PromiseManyArray<Node>;
+    @hasMany('contributor') contributors!: DS.PromiseManyArray<Contributor>;
     @hasMany('registration') registrations!: DS.PromiseManyArray<Registration>;
 
     @hasMany('file') quickfiles!: DS.PromiseManyArray<File>;
