@@ -1,15 +1,24 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
-
+import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
+
 import Institution from 'ember-osf-web/models/institution';
+import Analytics from 'ember-osf-web/services/analytics';
 
 export default class Institutions extends Controller {
     @service store!: DS.Store;
+    @service analytics!: Analytics;
+
     sortOrder: 'title' | '-title' = 'title';
     page = 1;
     textValue: string = '';
+
+    trackFilter = task(function *(this: Institutions) {
+        yield timeout(1000);
+        this.analytics.track('list', 'filter', 'Institutions - Search');
+    }).restartable();
 
     @computed('model', 'textValue')
     get filtered(): Institution[] {
@@ -39,6 +48,7 @@ export default class Institutions extends Controller {
     @action
     next() {
         this.incrementProperty('page');
+        this.analytics.click('button', 'Institutions - Next page');
     }
 
     @action
