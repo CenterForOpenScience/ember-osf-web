@@ -48,7 +48,7 @@ const Router = EmberRouter.extend({
     _doTransition(routeName: string, ...args: any[]) {
         const transition = this._super(routeName, ...args);
 
-        const flag = routeFlags[routeName];
+        const flag = routeFlags[transition.targetName];
         if (flag && !this.get('features').isEnabled(flag)) {
             try {
                 window.location.assign(transitionTargetURL(transition));
