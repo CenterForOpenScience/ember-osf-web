@@ -501,7 +501,7 @@ export default {
             manage_contributors: 'Manage contributors',
         },
         registration: {
-            title: 'Registered:',
+            dateLabel: 'Registered:',
             tags: {
                 archiving: 'Archiving',
                 pending: 'Pending registration',
