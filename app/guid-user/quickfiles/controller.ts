@@ -5,13 +5,16 @@ import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { all, task, timeout } from 'ember-concurrency';
 import I18N from 'ember-i18n/services/i18n';
+import Toast from 'ember-toastr/services/toast';
+
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
+import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import Toast from 'ember-toastr/services/toast';
 
 export default class UserQuickfiles extends Controller {
+    @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
     @service toast!: Toast;
@@ -29,6 +32,7 @@ export default class UserQuickfiles extends Controller {
     updateFilter = task(function *(this: UserQuickfiles, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
+        this.analytics.track('list', 'filter', 'Quick Files - Filter files');
     }).restartable();
 
     createProject = task(function *(this: UserQuickfiles, node: Node) {
@@ -169,6 +173,8 @@ export default class UserQuickfiles extends Controller {
     @action
     async openFile(this: UserQuickfiles, file: File, show: string) {
         const guid = file.get('guid') || await file.getGuid();
+
+        this.analytics.click('link', 'Quick Files - Open file');
         this.transitionToRoute('guid-file', guid, { queryParams: { show } });
     }
 }

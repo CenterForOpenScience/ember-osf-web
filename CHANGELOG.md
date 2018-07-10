@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Analytics engine: Set page title to "OSF | [node title] Analytics"
 - Test assertions: Collapse all whitespace characters to a single space
 
+### Added
+- Missing analytics events:
+    - User quick files page
+    - Quick files detail page
+    - Institutions landing page
+    - Dashboard filtering
+
 ## [0.5.0] - 2018-06-29
 ### Added
 - Routes:
