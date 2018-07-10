@@ -37,6 +37,7 @@ const App = Application.extend({
                     'analytics',
                     'ready',
                     'features',
+                    'page-title-list',
                     'router',
                     'head-data',
                 ],
