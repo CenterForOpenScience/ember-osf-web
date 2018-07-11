@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [Unreleased]
 ### Added
 - Models:
     - `banner` - used to fetch `/_/banners/current/` from the API
@@ -12,9 +12,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `scheduled-banner` - display the "current" banner on the landing page(s)
 
 ### Changed
-- `simple-paginator` component: Use &gt; and &lt; instead of font-awesome chevrons
-- Analytics engine: Set page title to "OSF | [node title] Analytics"
-- Test assertions: Collapse all whitespace characters to a single space
+- refactored feature flags to be loaded from API base (`/v2`)
+- check route feature flags in `Router._doTransition` instead of `Router.willTransition`
+
+### Removed
+- Feature Flags:
+    - `ember_support_page`
+    - `ember_home_page`
+
+## [0.5.1] - 2018-07-10
+### Added
+- Missing analytics:
+  - Institutions landing page (page and event tracking)
+  - Dashboard filtering
+  - User quick files page (more event tracking)
+  - Quick files detail page (event tracking)
+
+### Changed
+- Components:
+  - `simple-paginator` - use &gt; and &lt; instead of font-awesome chevrons
+- Engines:
+  - `analytics` - set page title to "OSF | [node title] Analytics"
+- DX:
+  - Test assertions: Collapse all whitespace characters to a single space
 
 ## [0.5.0] - 2018-06-29
 ### Added

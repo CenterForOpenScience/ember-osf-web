@@ -2,6 +2,7 @@ import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
+
 import checkAuth from 'ember-osf-web/decorators/check-auth';
 
 const {

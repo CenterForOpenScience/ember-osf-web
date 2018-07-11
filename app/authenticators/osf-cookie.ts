@@ -1,6 +1,7 @@
 import { service } from '@ember-decorators/service';
 import { warn } from '@ember/debug';
 import DS from 'ember-data';
+import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 import Base from 'ember-simple-auth/authenticators/base';
 import Session from 'ember-simple-auth/services/session';
@@ -21,10 +22,12 @@ interface ApiRootResponse {
     meta: {
         version: string,
         current_user: { data: { id: string } } | null, // eslint-disable-line camelcase
+        active_flags: string[], // eslint-disable-line camelcase
     };
 }
 
 export default class OsfCookie extends Base {
+    @service features!: Features;
     @service session!: Session;
     @service store!: DS.Store;
 
@@ -32,34 +35,40 @@ export default class OsfCookie extends Base {
      * @method authenticate
      * @return {Promise}
      */
-    async authenticate(this: OsfCookie): Promise<object> {
+    async authenticate(): Promise<object> {
         const res: ApiRootResponse = await authenticatedAJAX({
             url: `${apiUrl}/${apiNamespace}/`,
         });
 
+        if (devMode) {
+            this._checkApiVersion();
+        }
+
+        if (Array.isArray(res.meta.active_flags)) {
+            this.features.setup(
+                res.meta.active_flags.reduce((acc, flag) => ({ ...acc, [flag]: true }), {}),
+            );
+        }
+
         const userData = res.meta.current_user;
+
         if (!userData) {
             throw new NotLoggedIn();
         }
 
-        const userId = userData.data.id;
-
         // Push the user into the store for later use
-        this.get('store').pushPayload(userData);
+        this.store.pushPayload(userData);
 
-        if (devMode) {
-            this._checkApiVersion();
-        }
-        return { id: userId };
+        return { id: userData.data.id };
     }
 
-    async restore(this: OsfCookie): Promise<any> {
+    restore() {
         // Check for a valid auth cookie.
         // If it fails, the session will be invalidated.
         return this.authenticate();
     }
 
-    async _checkApiVersion(this: OsfCookie) {
+    async _checkApiVersion() {
         const res: ApiRootResponse = await authenticatedAJAX(
             {
                 url: `${apiUrl}/${apiNamespace}/`,

@@ -56,7 +56,10 @@ export default class FileListItem extends Component.extend({ styles }) {
     }
 
     @action
-    open() {
+    open(ev?: Event) {
+        if (ev) {
+            ev.stopPropagation();
+        }
         this.openItem(this.item);
     }
 }

@@ -186,11 +186,8 @@ module.exports = function(environment) {
             popularNode,
             noteworthyNode,
         },
-        featureFlags: { // default flags (whether they be switches, flags, or polls) go here with default value.
+        featureFlagNames: {
             routes: {
-                support: 'ember_support_page',
-                dashboard: 'ember_home_page',
-                home: 'ember_home_page',
                 'guid-node.forks': 'ember_project_forks_page',
                 'guid-registration.forks': 'ember_project_forks_page',
                 'guid-node.analytics.index': 'ember_project_analytics_page',
@@ -199,6 +196,7 @@ module.exports = function(environment) {
             navigation: {
                 institutions: 'institutions_nav_bar',
             },
+            storageI18n: 'storage_i18n',
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,

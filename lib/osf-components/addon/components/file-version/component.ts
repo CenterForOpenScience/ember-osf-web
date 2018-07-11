@@ -1,7 +1,10 @@
 import { classNames, tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+
+import Analytics from 'ember-osf-web/services/analytics';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 import styles from './styles';
 import layout from './template';
@@ -38,6 +41,8 @@ export interface Version {
 @tagName('tr')
 @classNames('file-version')
 export default class FileVersion extends Component {
+    @service analytics!: Analytics;
+
     layout = layout;
     styles = styles;
 
@@ -68,10 +73,12 @@ export default class FileVersion extends Component {
     @action
     downloadVersion(version: Version): void {
         this.download(version);
+        this.analytics.click('button', 'File version - Download');
     }
 
     @action
     changeVersion(version: Version): void {
         this.versionChange(version);
+        this.analytics.click('button', 'File version - Change version');
     }
 }
