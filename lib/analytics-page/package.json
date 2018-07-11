@@ -18,7 +18,8 @@
     "ember-css-modules-sass": "*",
     "ember-i18n": "*",
     "ember-i18n-inject": "*",
-    "ember-font-awesome": "*"
+    "ember-font-awesome": "*",
+    "ember-page-title": "*"
   },
   "ember-addon": {
     "paths": [

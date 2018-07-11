@@ -77,7 +77,7 @@ export default class Analytics extends Service {
         this.get('metrics')
             .trackEvent({
                 category,
-                actionName,
+                action: actionName,
                 label,
                 extra,
             });

@@ -3,7 +3,7 @@ import Route from '@ember/routing/route';
 import SessionService from 'ember-simple-auth/services/session';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
-import transitionTarget from 'ember-osf-web/utils/transition-target';
+import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 /**
  * Class decorator for Routes.
@@ -38,7 +38,7 @@ export default function requireAuthFactory(
                         this.transitionTo(redirectRoute);
                     } else {
                         await this.currentUser.login(
-                            transitionTarget(transition),
+                            transitionTargetURL(transition),
                         );
                     }
                 }

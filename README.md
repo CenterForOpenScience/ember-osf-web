@@ -18,6 +18,7 @@ You will need the following things properly installed on your computer.
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with NPM)
 * [Ember CLI](https://ember-cli.com/)
+* [Watchman](https://facebook.github.io/watchman/)
 
 ## Installation
 
@@ -26,6 +27,31 @@ You will need the following things properly installed on your computer.
 * `yarn --frozen-lockfile`
 
 ## Running / Development
+
+### Mac OS File Descriptor Limits
+
+Watchman [states](https://facebook.github.io/watchman/docs/install.html#mac-os-file-descriptor-limits) "*Only applicable on OS X 10.6 and earlier*". Though it's been observed this setting can remain incorrect on systems where the operation system was upgraded from a legacy version.
+
+> Putting the following into a file named /etc/sysctl.conf on OS X will cause these values to persist across reboots:
+
+```bash
+kern.maxfiles=10485760
+kern.maxfilesperproc=1048576
+```
+
+### Development
+
+Configure the application for local development, add the following to your `config/local.js`:
+```ts
+module.exports = {
+    // an ally audit can use 100% of your browsers cpu, so use it wisely
+    A11Y_AUDIT: false,
+    // toggle on/off the engine applications you will be working on
+    COLLECTIONS_ENABLED: false,
+    // sourcemaps are useful if you need to step through typescript code in the browser
+    SOURCEMAPS_ENABLED: true,
+};
+```
 
 * `ember serve`
 * View the ember app (alone) at [localhost:4200](http://localhost:4200)
@@ -50,7 +76,7 @@ To integrate with the legacy front end at [localhost:5000](http://localhost:5000
 
 To enable the [developer handbook](https://centerforopenscience.github.io/ember-osf-web/handbook) locally,
 add the following to your `config/local.js`:
-```
+```ts
 module.exports = {
     HANDBOOK_ENABLED: true,
 };
