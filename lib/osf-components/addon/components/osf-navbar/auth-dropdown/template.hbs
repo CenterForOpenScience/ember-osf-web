@@ -9,7 +9,7 @@
         {{/dd.toggle}}
         {{#dd.menu classNames='dropdown-menu auth-dropdown' as |ddm|}}
             {{#if headline}}
-                {{#ddm.item (html-attributes role='menuitem')}}
+                {{#ddm.item (html-attributes role='none') local-class='headline'}}
                     {{headline}}
                 {{/ddm.item}}
             {{/if}}
@@ -20,10 +20,10 @@
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                {{#link-to 'support' click=(action 'clicked' 'link' 'Navbar - Support')}}
+                {{#component linkComponent 'support' click=(action 'clicked' 'link' 'Navbar - Support')}}
                     <i class="fa fa-life-ring fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.osf_support'}}
-                {{/link-to}}
+                {{/component}}
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
                 <a href="{{serviceLinks.settings}}" onclick={{action 'clicked' 'link' 'Navbar - Settings'}}>

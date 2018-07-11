@@ -12,6 +12,9 @@ const App = Application.extend({
     engines: {
         collections: {
             dependencies: {
+                externalRoutes: {
+                    support: 'support',
+                },
                 services: [
                     'analytics',
                     'currentUser',

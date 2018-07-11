@@ -3,6 +3,7 @@ import DS from 'ember-data';
 import Comment from './comment';
 import Contributor from './contributor';
 import Node from './node';
+import RegistryProvider from './registry-provider';
 import User from './user';
 
 /**
@@ -37,6 +38,9 @@ export default class Registration extends Node.extend() {
     @belongsTo('user', { inverse: null }) registeredBy!: DS.PromiseObject<User> & User;
     @hasMany('contributor') contributors!: DS.PromiseManyArray<Contributor>;
     @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
+
+    @belongsTo('registry-provider', { inverse: 'registrations' })
+    provider!: DS.PromiseObject<RegistryProvider> & RegistryProvider;
 }
 
 declare module 'ember-data' {

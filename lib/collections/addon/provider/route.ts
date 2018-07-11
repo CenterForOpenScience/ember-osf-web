@@ -1,6 +1,5 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import config from 'collections/config/environment';
 import DS from 'ember-data';
 import Theme from 'ember-osf-web/services/theme';
 
@@ -25,9 +24,12 @@ export default class Provider extends Route {
                 );
             }
 
-            this.theme.set('id', slugLower);
+            this.theme.setProperties({
+                id: slugLower,
+                providerType: 'collection',
+            });
         } catch (e) {
-            this.theme.set('id', config.defaultProvider);
+            this.theme.reset();
 
             if (slug.length === 5) {
                 this.transitionTo('content', slug);
@@ -35,5 +37,9 @@ export default class Provider extends Route {
                 this.replaceWith('page-not-found');
             }
         }
+    }
+
+    deactivate() {
+        this.theme.reset();
     }
 }

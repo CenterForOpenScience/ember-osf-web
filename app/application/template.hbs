@@ -3,7 +3,10 @@
 <div local-class="Application">
     {{#unless disableHeaders}}
         {{#if theme.isProvider}}
-            {{branded-navbar}}
+            <style>
+                @import url('{{theme.stylesheet}}');
+            </style>
+            <div id="branded-navbar"></div>
         {{else}}
             {{osf-navbar signupUrl=signupUrl loginAction=(action 'login')}}
         {{/if}}

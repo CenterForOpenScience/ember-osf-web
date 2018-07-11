@@ -16,13 +16,13 @@ export default class Discover extends Route {
      */
     model() {
         return this.store
-            .findAll('preprint-provider', { reload: true });
+            .findAll('collection-provider', { reload: true });
     }
 
     @action
     willTransition() {
-        const controller = this.controllerFor('collections/discover');
-        controller._clearFilters();
-        controller._clearQueryString();
+        // const controller = this.controllerFor('collections/discover');
+        // controller._clearFilters();
+        // controller._clearQueryString();
     }
 }

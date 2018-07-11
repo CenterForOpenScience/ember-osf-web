@@ -9,8 +9,10 @@ import { serviceLinks } from 'ember-osf-web/const/service-links';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import Session from 'ember-simple-auth/services/session';
 import $ from 'jquery';
+import styles from './styles';
 import layout from './template';
 
 /**
@@ -21,46 +23,41 @@ import layout from './template';
 @tagName('')
 export default class NavbarAuthDropdown extends Component {
     layout = layout;
+    styles = styles;
 
-    /**
-     * Action run when the user clicks "Sign In"
-     *
-     * @property loginAction
-     * @type {Action}
-     */
-    loginAction?: () => void;
-
-    /**
-     * Action run wheneven the user clicks a link
-     *
-     * @property loginAction
-     * @type {Action}
-     */
-    onLinkClicked?: () => void;
-
-    /**
-     * The URL to use for signup
-     *
-     * @property signupUrl
-     * @type {String}
-     */
-    signupUrl?: string;
-
-    /**
-     * The URL to redirect to after logout
-     *
-     * @property redirectUrl
-     * @type {String}
-     */
-    redirectUrl?: string;
-
-    // Private properties
     @service session!: Session;
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
 
+    /**
+     * Action run when the user clicks "Sign In"
+     */
+    loginAction?: () => void;
+
+    /**
+     * Action run wheneven the user clicks a link
+     */
+    onLinkClicked?: () => void;
+
+    /**
+     * The URL to use for signup
+     */
+    signupUrl?: string;
+
+    /**
+     * The URL to redirect to after logout
+     */
+    redirectUrl?: string;
+
     serviceLinks = serviceLinks;
+
+    externalLink: boolean = defaultTo(this.externalLink, false);
+
+    @computed('external')
+    get linkComponent() {
+        return `link-to${this.externalLink ? '-external' : ''}`;
+    }
 
     @alias('currentUser.user') user!: User;
 
