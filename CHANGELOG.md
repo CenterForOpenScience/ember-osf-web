@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Models:
     - `region`
-- Feature flags:
+- Feature Flags:
     - `storage_i18n` - enable region selector on project creation
 
 ### Changed
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - check route feature flags in `Router._doTransition` instead of `Router.willTransition`
 
 ### Removed
-- Feature flags:
+- Feature Flags:
     - `ember_support_page`
     - `ember_home_page`
 
