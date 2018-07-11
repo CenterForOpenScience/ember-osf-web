@@ -32,6 +32,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember_support_page`
     - `ember_home_page`
 
+## [0.5.2] - 2018-07-11
+### Fixed
+- Lazy engine title stealing
+
 ## [0.5.1] - 2018-07-10
 ### Added
 - Missing analytics:
