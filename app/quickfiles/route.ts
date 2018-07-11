@@ -14,7 +14,6 @@ export default class Quickfiles extends Route {
 
     afterModel(model: any, transition: Ember.Transition) {
         if (model) {
-            transition.abort();
             return this.transitionTo('guid-user.quickfiles', model);
         }
         return super.afterModel(model, transition);

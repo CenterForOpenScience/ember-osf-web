@@ -8,7 +8,6 @@ export default class Goodbye extends Route {
 
     async beforeModel(this: Goodbye, transition: Ember.Transition) {
         await super.beforeModel(transition);
-        transition.abort();
         const queryParams = this.session.isAuthenticated ? {} : { goodbye: true };
         this.transitionTo('home', { queryParams });
     }

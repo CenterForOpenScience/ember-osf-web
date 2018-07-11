@@ -3,7 +3,7 @@ import { equal } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { camelize } from '@ember/string';
-import Features from 'ember-feature-flags';
+import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 import { osfServices } from 'ember-osf-web/const/service-links';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -12,7 +12,7 @@ import Session from 'ember-simple-auth/services/session';
 import styles from './styles';
 import layout from './template';
 
-const { featureFlags: { navigation } } = config;
+const { featureFlagNames: { navigation } } = config;
 
 const HOME_APP = 'HOME';
 
