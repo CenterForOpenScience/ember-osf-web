@@ -2,7 +2,7 @@
     {{#bs-dropdown tagName='li' classNames='dropdown secondary-nav-dropdown' as |dd|}}
         {{#dd.toggle classNames='btn-link'}}
             <div class="osf-profile-image">
-                <img src="{{gravatarUrl}}" alt="{{t 'auth_dropdown.user_gravatar'}}">
+                <img src="{{user.profileImage}}&s=25" alt="{{t 'auth_dropdown.user_gravatar'}}">
             </div>
             <div class='nav-profile-name'>{{user.fullName}}</div>
             <span class="caret"></span>
