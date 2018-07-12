@@ -125,6 +125,10 @@ module.exports = function(defaults) {
         test: 'vendor/ember/ember-template-compiler.js',
     });
 
+    app.import('node_modules/keen-tracking/dist/keen-tracking.min.js', {
+        using: [{ transformation: 'amd', as: 'keen-tracking' }],
+    });
+
     if (handbookEnabled) {
         app.import('vendor/highlight.pack.js', {
             using: [{ transformation: 'amd', as: 'highlight.js' }],
