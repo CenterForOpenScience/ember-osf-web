@@ -1,7 +1,5 @@
-import Ember from 'ember';
+import { underscore } from '@ember/string';
 import { JSONAPISerializer } from 'ember-cli-mirage';
-
-const { underscore } = Ember.String;
 
 export default JSONAPISerializer.extend({
     keyForAttribute(attr) {

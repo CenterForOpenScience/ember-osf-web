@@ -165,24 +165,20 @@ export const embed = (schema: any, request: any, json: JsonData, config: any) =>
                     for (const embedItem of paginatedEmbeddables.data) {
                         const serializedItem = config.serialize(embedItem);
                         if (embedItem.modelName in alwaysEmbed) { // If this kind of thing has auto-embeds
-                            // Go through each of the relationships for the embedded resource
-                            for (const foreignKey of embedItem.fks) { // get the fks of this item
-                                // Go through each of the alwaysEmbed strings for this kind of object
-                                for (const aeRelationship of alwaysEmbed[embedItem.modelName]) {
-                                    // See if the relationship matches one on the object
-                                    if (`${aeRelationship}Id` === foreignKey) {
-                                        // If so, embed it
-                                        if (!('data' in serializedItem)) { // First make sure it has a data object
-                                            serializedItem.data = { embeds: {} };
-                                        } else if (!('embeds' in serializedItem.data)) {
-                                            serializedItem.data.embeds = {};
-                                        }
-                                        // Get the items to embed
-                                        const aEmbeddable = config.serialize(embedItem[aeRelationship]);
-                                        serializedItem.data.embeds[aeRelationship] = {
-                                            data: aEmbeddable.data,
-                                        };
+                            // Go through each of the alwaysEmbed strings for this kind of object
+                            for (const aeRelationship of alwaysEmbed[embedItem.modelName]) {
+                                if (embedItem.fks.indexOf(`${aeRelationship}Id`) !== -1) { // is it in fks?
+                                    // If so, embed it
+                                    if (!('data' in serializedItem)) { // First make sure it has a data object
+                                        serializedItem.data = { embeds: {} };
+                                    } else if (!('embeds' in serializedItem.data)) {
+                                        serializedItem.data.embeds = {};
                                     }
+                                    // Get the items to embed
+                                    const aEmbeddable = config.serialize(embedItem[aeRelationship]);
+                                    serializedItem.data.embeds[aeRelationship] = {
+                                        data: aEmbeddable.data,
+                                    };
                                 }
                             }
                         } // end alwaysEmbed items
@@ -197,9 +193,6 @@ export const embed = (schema: any, request: any, json: JsonData, config: any) =>
                 }
             }
         }
-    }
-    if (!config) {
-        return {};
     }
     const returnJson = Object.assign(json);
     returnJson.data = data;
