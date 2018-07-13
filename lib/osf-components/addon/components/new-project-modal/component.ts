@@ -8,6 +8,7 @@ import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import Region from 'ember-osf-web/models/region';
@@ -49,10 +50,10 @@ export default class NewProjectModal extends Component.extend({
     @service features!: Features;
 
     // Required arguments
-    newNode?: Node;
-    searchNodes!: (title: string) => PromiseLike<Node[]>;
-    createProject!: (...args: any[]) => void;
-    closeModal!: (reload?: boolean) => void;
+    newNode!: Node | null;
+    @requiredAction searchNodes!: (title: string) => PromiseLike<Node[]>;
+    @requiredAction createProject!: (...args: any[]) => void;
+    @requiredAction closeModal!: (reload?: boolean) => void;
 
     // Private fields
     nodeTitle?: string;

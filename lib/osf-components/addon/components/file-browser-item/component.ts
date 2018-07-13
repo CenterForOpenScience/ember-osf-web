@@ -2,16 +2,16 @@ import { classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import DS from 'ember-data';
+import moment from 'moment';
+
 import { localClassName, localClassNames } from 'ember-osf-web/decorators/css-modules';
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import eatArgs from 'ember-osf-web/utils/eat-args';
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import moment from 'moment';
 import styles from './styles';
 import layout from './template';
 
@@ -45,6 +45,9 @@ export default class FileBrowserItem extends Component.extend({ styles }) {
     @service store!: DS.Store;
 
     item?: File;
+    @requiredAction openItem!: (item: File | undefined, show: string) => void;
+    @requiredAction selectItem!: (item: File | undefined) => void;
+    @requiredAction selectMultiple!: (item: File | undefined, metaKey: boolean) => void;
 
     @localClassName
     @computed('item.isSelected')
@@ -67,30 +70,6 @@ export default class FileBrowserItem extends Component.extend({ styles }) {
     @computed('item.guid')
     get link(): string {
         return this.item && this.item.guid ? pathJoin(window.location.origin, this.item.guid) : '';
-    }
-
-    /**
-     * Placeholder for closure action: openItem
-     */
-    openItem(item: File | undefined, show: string) {
-        eatArgs(item, show);
-        assert('You should pass in a closure action: openItem');
-    }
-
-    /**
-     * Placeholder for closure action: selectItem
-     */
-    selectItem(item: File | undefined) {
-        eatArgs(item);
-        assert('You should pass in a closure action: selectItem');
-    }
-
-    /**
-     * Placeholder for closure action: selectMultiple
-     */
-    selectMultiple(item: File | undefined, metaKey: boolean) {
-        eatArgs(item, metaKey);
-        assert('You should pass in a closure action: selectMultiple');
     }
 
     @action
