@@ -23,8 +23,8 @@ export const filter = (model: any, request: any) => {
                     const orGroups = fieldResults[1].split(',');
                     for (const group of orGroups) {
                         const fields = group.split('.');
-                        const [field, ...subModelsRev] = fields.reverse();
-                        const subModels = subModelsRev.reverse;
+                        const field = fields[-1];
+                        const subModels = fields.slice(0, -1);
                         if (subModels.length > 0) {
                             throw new Error(`We aren't ready for submodels yet, but we got: ${subModels}`);
                             // If this error comes up, that means we need to implement deep filtering on submodels.
@@ -39,11 +39,11 @@ export const filter = (model: any, request: any) => {
                         const operator = toOperator(operatorString);
                         orResults.push(compare(model[field], comparisonValue, operator));
                     }
-                    andResults.push(orResults.reduce((a: boolean, b: boolean): boolean => (a || b)));
+                    andResults.push(orResults.some((item: boolean) => item));
                 }
             }
         }
-        results = andResults.reduce((a: boolean, b: boolean): boolean => (a && b));
+        results = andResults.every((item: boolean) => item);
     }
     return results;
 };

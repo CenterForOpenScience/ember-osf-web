@@ -158,7 +158,6 @@ export const embed = (schema: any, request: any, json: JsonData, config: any) =>
                 const serializedItems = [];
                 let paginatedEmbeddables: JsonData = { data: [], links: {}, meta: {} };
                 if (embeddable !== null && embeddable !== undefined) {
-                    // TODO: Serialize embedItems
                     const embedModelList = embeddable.models; // Get the items to embed
                     paginatedEmbeddables = paginate(request, embedModelList, {});
                     // Go through each of the items that need to be embedded
