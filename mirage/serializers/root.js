@@ -14,6 +14,7 @@ export default ApplicationSerializer.extend({
             links: object.links,
         };
         if (object.currentUser) {
+            // When we fix links in the application serializer, replace this with a serialization of the user
             data.meta.current_user = {
                 data: {
                     relationships: {

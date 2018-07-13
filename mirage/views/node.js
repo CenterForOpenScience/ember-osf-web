@@ -2,19 +2,13 @@ import { process } from './utils';
 
 export const nodeContributorList = function (schema, request, config) {
     const node = schema.nodes.find(request.params.id);
-    const contributors = [];
-    for (const contributor of node.contributors.models) {
-        contributors.push(config.serialize(contributor).data);
-    }
+    const contributors = node.contributors.models.map(contributor => config.serialize(contributor).data);
     return process(schema, request, config, contributors, {});
 };
 
 export const nodeLinkedNodeList = function (schema, request, config) {
     const node = schema.nodes.find(request.params.id);
-    const linkedNodes = [];
-    for (const linkedNode of node.linkedNodes.models) {
-        linkedNodes.push(config.serialize(linkedNode).data);
-    }
+    const linkedNodes = node.linkedNodes.models.map(linkedNode => config.serialize(linkedNode).data);
     const response = process(schema, request, config, linkedNodes, {});
     return response;
 };

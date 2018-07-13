@@ -1,10 +1,10 @@
-export enum comparisonOperators {
-    eq = 'eq',
-    ne = 'ne',
-    lt = 'lt',
-    lte = 'lte',
-    gt = 'gt',
-    gte = 'gte',
+export enum ComparisonOperators {
+    Eq = 'eq',
+    Ne = 'ne',
+    Lt = 'lt',
+    Lte = 'lte',
+    Gt = 'gt',
+    Gte = 'gte',
 }
 
 export interface ProcessOptions {
@@ -145,7 +145,7 @@ const autoEmbed = ((embedItem: any, serializedData: {}, config: any) => {
     if (embedItem.modelName in alwaysEmbed) { // If this kind of thing has auto-embeds
         // Go through each of the alwaysEmbed strings for this kind of object
         for (const aeRelationship of alwaysEmbed[embedItem.modelName]) {
-            if (embedItem.fks.indexOf(`${aeRelationship}Id`) !== -1) { // is it in fks?
+            if (embedItem.fks.includes(`${aeRelationship}Id`)) { // is it in fks?
                 // If so, embed it
                 const aEmbeddable = config.serialize(embedItem[aeRelationship]);
                 data.embeds[aeRelationship] = {
@@ -163,37 +163,36 @@ const autoEmbed = ((embedItem: any, serializedData: {}, config: any) => {
 export const embed = (schema: any, request: any, json: JsonData, config: any) => {
     const { queryParams } = request;
     const { data } = json;
-    if ('embed' in queryParams && queryParams.embed !== {}) { // If we have embeds query params
-        let embedKeys = [];
-        if (Array.isArray(queryParams.embed)) {
-            embedKeys = queryParams.embed;
-        } else {
-            embedKeys.push(queryParams.embed);
-        }
-        for (const embedded of embedKeys) { // Go through the embed keys
-            for (const datum of data) { // And for every item in our response
-                if (!('embeds' in datum)) { // First make sure it has an embeds array
-                    datum.embeds = {};
+    let requestEmbedKeys = [];
+    if (Array.isArray(queryParams.embed)) {
+        requestEmbedKeys = queryParams.embed.slice();
+    } else {
+        requestEmbedKeys.push(queryParams.embed);
+    }
+    for (const datum of data) { // Go through every item in our response
+        const embedKeys = requestEmbedKeys.slice();
+        for (const embedded of embedKeys) { // And each of the embed keys
+            if (!('embeds' in datum)) { // First make sure it has an embeds array
+                datum.embeds = {};
+            }
+            const embeddable = schema[datum.type].find(datum.id)[embedded];
+            const serializedItems = [];
+            let paginatedEmbeddables: JsonData = { data: [], links: {}, meta: {} };
+            if (embeddable !== null && embeddable !== undefined) {
+                const embedModelList = embeddable.models; // Get the items to embed
+                paginatedEmbeddables = paginate(request, embedModelList, {});
+                // Go through each of the items that need to be embedded
+                for (const embedItem of paginatedEmbeddables.data) {
+                    const serializedItem = config.serialize(embedItem);
+                    serializedItem.data = autoEmbed(embedItem, serializedItem.data, config);
+                    serializedItems.push(serializedItem.data);
                 }
-                const embeddable = schema[datum.type].find(datum.id)[embedded];
-                const serializedItems = [];
-                let paginatedEmbeddables: JsonData = { data: [], links: {}, meta: {} };
-                if (embeddable !== null && embeddable !== undefined) {
-                    const embedModelList = embeddable.models; // Get the items to embed
-                    paginatedEmbeddables = paginate(request, embedModelList, {});
-                    // Go through each of the items that need to be embedded
-                    for (const embedItem of paginatedEmbeddables.data) {
-                        const serializedItem = config.serialize(embedItem);
-                        serializedItem.data = autoEmbed(embedItem, serializedItem.data, config);
-                        serializedItems.push(serializedItem.data);
-                    }
-                    paginatedEmbeddables.data = serializedItems;
-                } // Finished gathering embeddable items
-                // TODO: convert embeditems to dictionary if not a toMany relationship
-                const peData = paginatedEmbeddables.data;
-                if ((Array.isArray(peData) && peData.length > 0) && peData !== null) {
-                    datum.embeds[embedded] = paginatedEmbeddables;
-                }
+                paginatedEmbeddables.data = serializedItems;
+            } // Finished gathering embeddable items
+            // TODO: convert embeditems to dictionary if not a toMany relationship
+            const peData = paginatedEmbeddables.data;
+            if ((Array.isArray(peData) && peData.length > 0) && peData !== null) {
+                datum.embeds[embedded] = paginatedEmbeddables;
             }
         }
     }
@@ -205,14 +204,14 @@ export const embed = (schema: any, request: any, json: JsonData, config: any) =>
 export const compareStrings = (
     actualValue: string,
     comparisonValue: string,
-    operator: comparisonOperators,
+    operator: ComparisonOperators,
 ):
     boolean => {
     switch (operator) {
-    case comparisonOperators.eq:
-        return actualValue.indexOf(comparisonValue) !== -1;
-    case comparisonOperators.ne:
-        return actualValue.indexOf(comparisonValue) === -1;
+    case ComparisonOperators.Eq:
+        return actualValue.includes(comparisonValue);
+    case ComparisonOperators.Ne:
+        return !actualValue.includes(comparisonValue);
     default:
         throw new Error(`Strings can't be compared with "${operator}".`);
     }
@@ -221,20 +220,20 @@ export const compareStrings = (
 export const compareBooleans = (
     actualValue: boolean,
     comparisonValue: boolean,
-    operator: comparisonOperators,
+    operator: ComparisonOperators,
 ):
     boolean => {
     switch (operator) {
-    case comparisonOperators.eq:
+    case ComparisonOperators.Eq:
         return actualValue === comparisonValue;
-    case comparisonOperators.ne:
+    case ComparisonOperators.Ne:
         return actualValue !== comparisonValue;
     default:
         throw new Error(`Booleans can't be compared with "${operator}".`);
     }
 };
 
-export const compare = (actualValue: any, comparisonValue: any, operator: comparisonOperators): boolean => {
+export const compare = (actualValue: any, comparisonValue: any, operator: ComparisonOperators): boolean => {
     if (typeof actualValue === 'string') {
         return compareStrings(actualValue, comparisonValue, operator);
     } else if (typeof actualValue === 'boolean') {
@@ -244,19 +243,11 @@ export const compare = (actualValue: any, comparisonValue: any, operator: compar
     }
 };
 
-export const toOperator = (operatorString: string): comparisonOperators => {
+export const toOperator = (operatorString: string): ComparisonOperators => {
     if (!operatorString || operatorString === 'eq') {
-        return comparisonOperators.eq;
-    } else if (operatorString === 'ne') {
-        return comparisonOperators.ne;
-    } else if (operatorString === 'lt') {
-        return comparisonOperators.lt;
-    } else if (operatorString === 'lte') {
-        return comparisonOperators.lte;
-    } else if (operatorString === 'gt') {
-        return comparisonOperators.gt;
-    } else if (operatorString === 'gte') {
-        return comparisonOperators.gte;
+        return ComparisonOperators.Eq;
+    } else if (Object.values(ComparisonOperators).includes(operatorString)) {
+        return operatorString as ComparisonOperators;
     }
     throw new Error(`The operator ${operatorString} is unknown.`);
 };
