@@ -10,13 +10,13 @@ export const process = (schema: any, request: any, config: {}, data: any[], opti
 export const filter = (model: any, request: any) => {
     const { queryParams } = request;
     let results = true;
-    const andResults = [true];
+    const andResults = [];
     if (typeof queryParams === 'object') {
         for (const key of Object.keys(queryParams)) {
             const comparisonValue = queryParams[key];
             const fieldRegex = /filter\[([a-zA-Z.]+)\]?/;
             const operatorRegex = /filter\[[a-zA-Z.]+\]\[?([a-zA-Z.]+)?\]?/;
-            const orResults = [false];
+            const orResults = [];
             if (fieldRegex.test(key)) {
                 const fieldResults = fieldRegex.exec(key);
                 if (fieldResults !== null) {

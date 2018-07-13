@@ -139,6 +139,27 @@ export const paginate = (request: any, data: any[], options: ProcessOptions): Js
     return paginatedJson;
 };
 
+const autoEmbed = ((embedItem: any, serializedData: {}, config: any) => {
+    const data = Object.assign(serializedData);
+    data.embeds = {};
+    if (embedItem.modelName in alwaysEmbed) { // If this kind of thing has auto-embeds
+        // Go through each of the alwaysEmbed strings for this kind of object
+        for (const aeRelationship of alwaysEmbed[embedItem.modelName]) {
+            if (embedItem.fks.indexOf(`${aeRelationship}Id`) !== -1) { // is it in fks?
+                // If so, embed it
+                const aEmbeddable = config.serialize(embedItem[aeRelationship]);
+                data.embeds[aeRelationship] = {
+                    data: aEmbeddable.data,
+                };
+            }
+        }
+    }
+    if (data.embeds === {}) {
+        delete data.embeds;
+    }
+    return data;
+});
+
 export const embed = (schema: any, request: any, json: JsonData, config: any) => {
     const { queryParams } = request;
     const { data } = json;
@@ -163,24 +184,7 @@ export const embed = (schema: any, request: any, json: JsonData, config: any) =>
                     // Go through each of the items that need to be embedded
                     for (const embedItem of paginatedEmbeddables.data) {
                         const serializedItem = config.serialize(embedItem);
-                        if (embedItem.modelName in alwaysEmbed) { // If this kind of thing has auto-embeds
-                            // Go through each of the alwaysEmbed strings for this kind of object
-                            for (const aeRelationship of alwaysEmbed[embedItem.modelName]) {
-                                if (embedItem.fks.indexOf(`${aeRelationship}Id`) !== -1) { // is it in fks?
-                                    // If so, embed it
-                                    if (!('data' in serializedItem)) { // First make sure it has a data object
-                                        serializedItem.data = { embeds: {} };
-                                    } else if (!('embeds' in serializedItem.data)) {
-                                        serializedItem.data.embeds = {};
-                                    }
-                                    // Get the items to embed
-                                    const aEmbeddable = config.serialize(embedItem[aeRelationship]);
-                                    serializedItem.data.embeds[aeRelationship] = {
-                                        data: aEmbeddable.data,
-                                    };
-                                }
-                            }
-                        } // end alwaysEmbed items
+                        serializedItem.data = autoEmbed(embedItem, serializedItem.data, config);
                         serializedItems.push(serializedItem.data);
                     }
                     paginatedEmbeddables.data = serializedItems;
