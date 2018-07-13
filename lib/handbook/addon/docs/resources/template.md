@@ -6,7 +6,7 @@
 
 ## TypeScript
 - [TypeScript in 5 minutes](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html) - get going fast
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/basic-types.html) - offical from Microsoft
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/basic-types.html) - official from Microsoft
 - [TypeScript Deep Dive](https://basarat.gitbooks.io/typescript/) - unofficial from [@basarat](http://basarat.com)
 
 ## Ember + TypeScript
