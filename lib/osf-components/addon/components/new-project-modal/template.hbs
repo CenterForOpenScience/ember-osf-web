@@ -1,6 +1,6 @@
 {{#bs-modal onHidden=closeModal as |modal|}}
     {{#if (not newNode)}}
-        {{#modal.header onClose=closeModal}}
+        {{#modal.header}}
             <h3 class="modal-title">{{t 'new_project.header'}}</h3>
         {{/modal.header}}
         {{#modal.body}}
@@ -26,14 +26,12 @@
                         <a
                             role="button"
                             onclick={{action 'removeAllInstitutions'}}
-                            {{action 'click' 'button' 'Dashboard - New Project - remove_all' target=analytics}}
                         >
                             {{t 'new_project.remove_all'}}
                         </a>
                         <a
                             role="button"
                             onclick={{action 'selectAllInstitutions'}}
-                            {{action 'click' 'button' 'Dashboard - New Project - select_all' target=analytics}}
                         >
                             {{t 'new_project.select_all'}}
                         </a>
@@ -44,7 +42,6 @@
                                         <a
                                             role='button'
                                             onclick={{action 'selectInstitution' institution}}
-                                            {{action 'click' 'button' 'Dashboard - New Project - select_institution' target=analytics}}
                                         >
                                             <div width="45px" height="45px" local-class="NewProject__institution-item">
                                                 <img
@@ -120,7 +117,7 @@
         {{/modal.body}}
         {{#modal.footer}}
             <button
-                onclick={{action closeModal false}}
+                onclick={{action modal.close}}
                 class="btn btn-default"
                 {{action 'click' 'button' 'Dashboard - New Project - cancel' target=analytics}}
             >
@@ -129,7 +126,6 @@
             <button
                 onclick={{action 'create'}}
                 class="btn btn-success {{unless nodeTitle.length 'disabled'}}"
-                {{action 'click' 'button' 'Dashboard - New Project - create' target=analytics}}
             >
                 {{t 'general.create'}}
             </button>
@@ -139,8 +135,7 @@
             <button
                 aria-label="Close"
                 class="close"
-                onclick={{action closeModal true}}
-                {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}
+                onclick={{action 'stayOnDashboard'}}
             >
                 {{fa-icon 'times' size='sm'}}
             </button>
@@ -150,9 +145,8 @@
         {{/modal.body}}
         {{#modal.footer}}
             <button
-                onclick={{action closeModal true}}
+                onclick={{action 'stayOnDashboard'}}
                 class="btn btn-default"
-                {{action 'click' 'button' 'Dashboard - New Project - stay_on_dashboard' target=analytics}}
             >
                 {{t 'new_project.stay_here'}}
             </button>

@@ -24,15 +24,15 @@ const {
 } = config;
 
 export default class NewProjectModal extends Component.extend({
-    setupTask: task(function *(this: NewProjectModal) {
+    initTask: task(function *(this: NewProjectModal) {
         if (this.storageI18nEnabled) {
             // not yielding so it runs in parallel
-            this.get('setupStorageI18nTask').perform();
+            this.get('getStorageRegionsTask').perform();
         }
         this.set('institutions', yield this.currentUser.user!.institutions);
     }).on('init'),
 
-    setupStorageI18nTask: task(function *(this: NewProjectModal) {
+    getStorageRegionsTask: task(function *(this: NewProjectModal) {
         const regions = yield this.store.findAll('region');
 
         this.setProperties({
@@ -81,16 +81,19 @@ export default class NewProjectModal extends Component.extend({
         } else {
             selected.pushObject(institution);
         }
+        this.analytics.click('button', 'Dashboard - New Project - select_institution');
     }
 
     @action
     selectAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', this.institutions.slice());
+        this.analytics.click('button', 'Dashboard - New Project - select_all');
     }
 
     @action
     removeAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', A([]));
+        this.analytics.click('button', 'Dashboard - New Project - remove_all');
     }
 
     @action
@@ -120,5 +123,12 @@ export default class NewProjectModal extends Component.extend({
             this.templateFrom,
             this.selectedRegion,
         );
+        this.analytics.click('button', 'Dashboard - New Project - create');
+    }
+
+    @action
+    stayOnDashboard() {
+        this.closeModal(true);
+        this.analytics.click('button', 'Dashboard - New Project - stay_on_dashboard');
     }
 }
