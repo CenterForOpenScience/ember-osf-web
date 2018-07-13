@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
     - `ember-cli-mirage` - the 70% that seems possible to express in typescript
+- Engines:
+    - `ember-osf-registries` - moved/upgraded into the registries engine
 
 ### Changed
 - Models:

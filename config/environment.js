@@ -1,5 +1,9 @@
 /* eslint-env node */
 
+function isTruthy(val) {
+    return ['true', '1'].includes(val.toString().toLowerCase());
+}
+
 let localConfig;
 
 try {
@@ -15,6 +19,7 @@ const {
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
     COLLECTIONS_ENABLED = false,
+    REGISTRIES_ENABLED = false,
     HANDBOOK_ENABLED = false,
     HANDBOOK_DOC_GENERATION_ENABLED = false,
     FB_APP_ID,
@@ -228,10 +233,13 @@ module.exports = function(environment) {
         secondaryNavbarId: '__secondaryOSFNavbar__',
         engines: {
             collections: {
-                enabled: COLLECTIONS_ENABLED,
+                enabled: isTruthy(COLLECTIONS_ENABLED),
+            },
+            registries: {
+                enabled: isTruthy(REGISTRIES_ENABLED),
             },
             handbook: {
-                enabled: HANDBOOK_ENABLED,
+                enabled: isTruthy(HANDBOOK_ENABLED),
                 docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
             },
         },
@@ -255,7 +263,7 @@ module.exports = function(environment) {
         Object.assign(ENV, {
             'ember-a11y-testing': {
                 componentOptions: {
-                    turnAuditOff: A11Y_AUDIT !== 'true',
+                    turnAuditOff: !isTruthy(A11Y_AUDIT),
                 },
             },
         });

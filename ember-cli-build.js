@@ -41,7 +41,9 @@ module.exports = function(defaults) {
         addons: {
             blacklist: [
                 'ember-cli-addon-docs', // Only included in the handbook engine
-                ...(handbookEnabled ? [] : ['handbook']),
+                ...Object.keys(config.engines).filter(
+                    engineName => !config.engines[engineName].enabled,
+                ),
             ],
         },
         'ember-bootstrap': {

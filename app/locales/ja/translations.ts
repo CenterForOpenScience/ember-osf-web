@@ -298,6 +298,12 @@ export default {
     not_found: {
         title: 'ページが見つかりません',
         body: '要求されたリソースが見つかりませんでした。これが発生してはならず、問題が解決しない場合は、サポート<a href="mailto:{{supportEmail}}">{{supportEmail}}</a>へ報告してください。',
+        registries: {
+            contact: 'support@osf.io',
+            go_to: 'Go to OSF Registries',
+            line1: 'The page you were looking for is not found on the OSF Registries service.',
+            line2: 'If this should not have occurred and the issue persists, please report it to ',
+        },
     },
     error_no_api: {
         title: 'API Unavailable',
@@ -615,6 +621,83 @@ export default {
             title: 'Submit',
         },
     },
+    registries: {
+        header: {
+            search: 'Search',
+            search_placeholder: 'Search registrations...',
+            searchable_as_of: '{{registrations}} searchable registrations as of {{today}}',
+        },
+
+        facets: {
+            registration_type: {
+                title: 'OSF Registration Type',
+                only_available_with_osf: 'Only available with OSF Registries',
+                registration_schema_error: 'An error occurred getting registration types. Please try again.',
+            },
+        },
+
+        application: {
+            page_title: 'OSF Registries',
+        },
+
+        discover: {
+            page_title: 'Search',
+            SHARE: 'SHARE',
+            sort_by: 'Sort by',
+            powered_by: 'powered by',
+            no_results: 'No results found.',
+            try_broadening: 'Try broadening your search terms',
+            order: {
+                relevance: 'Relevance',
+                modified_ascending: 'Modified Date (oldest to newest)',
+                modified_descending: 'Modified Date (newest to oldest)',
+            },
+            sidebar: {
+                refine_your_search: 'Refine your search by',
+                clear_filters: 'Clear Filters',
+                active_filters: 'Active Filters',
+            },
+            search_result: {
+                last_edited: 'Last Edited: {{date}}',
+                withdrawn: 'Withdrawn',
+            },
+            pagination: {
+                previous: '«',
+                next: '»',
+            },
+        },
+
+        index: {
+            lead: 'The <span class="f-w-lg">open</span> registries network',
+            see_example: 'See an example',
+
+            services: {
+                top: {
+                    heading: 'Registry Services',
+                    paragraph: 'Leading registry service providers use this open source infrastructure to support their communities.',
+                },
+                bottom: {
+                    p1: 'Create your own branded registry backed by the OSF.',
+                    div: {
+                        line1: 'Check out the',
+                        linkText1: 'open source code',
+                        line2: 'and the',
+                        linkText2: 'requirements and road map',
+                        line3: '. Input welcome!',
+                    },
+                    contact: 'Contact us',
+                },
+            },
+            advisory: {
+                heading: 'Advisory Group',
+                paragraph: 'Our advisory group includes leaders in registrations across disciplines',
+            },
+            recent: {
+                title: 'Browse Registrations',
+                more: 'See more',
+            },
+        },
+    },
     analytics: {
         pageTitle: '{{nodeTitle}} Analytics',
         forks: 'Forks',
@@ -726,5 +809,12 @@ export default {
                 idDescription: 'ID used to authenticate with token <strong>{{tokenName}}<strong>:',
             },
         },
+    },
+    searchHelp: {
+        close: 'Close',
+        title: 'Search help',
+        helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
+        queries: 'Queries',
+        searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>',
     },
 };
