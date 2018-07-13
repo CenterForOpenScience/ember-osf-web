@@ -1,0 +1,20 @@
+import { attr } from '@ember-decorators/data';
+
+import OsfModel from './osf-model';
+
+export default class BannerModel extends OsfModel {
+    @attr('date') startDate!: Date;
+    @attr('date') endDate!: Date;
+    @attr('string') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('string') link!: string;
+    @attr('string') mobileAltText!: string;
+    @attr('string') defaultAltText!: string;
+    @attr('string') license!: string;
+    @attr('string') color!: string;
+}
+
+declare module 'ember-data' {
+  interface ModelRegistry {
+    'banner': BannerModel;
+  }
+}
