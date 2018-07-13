@@ -4,22 +4,22 @@ import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { next } from '@ember/runloop';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
+import Toast from 'ember-toastr/services/toast';
+import $ from 'jquery';
+
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import eatArgs from 'ember-osf-web/utils/eat-args';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import Toast from 'ember-toastr/services/toast';
-import $ from 'jquery';
 import { ProjectSelectState } from 'osf-components/components/project-selector/component';
 import styles from './styles';
 import layout from './template';
@@ -56,6 +56,12 @@ export default class FileBrowser extends Component {
     @service ready!: Ready;
     @service store!: DS.Store;
     @service toast!: Toast;
+
+    @requiredAction openFile!: (file: File, show: string) => void;
+    @requiredAction moveFile!: (file: File, node: Node) => void;
+    @requiredAction renameFile!: (file: File, renameValue: string, conflict?: string, conflictingItem?: File) => void;
+    @requiredAction addFile!: (fileId: string) => void;
+    @requiredAction deleteFiles!: (files: File[]) => void;
 
     clickHandler?: JQuery.EventHandlerBase<HTMLElement, JQuery.Event>;
     dismissPop?: () => void;
@@ -160,46 +166,6 @@ export default class FileBrowser extends Component {
             '.dz-upload-button',
             this.hasItems ? '' : '.file-browser-list',
         ].filter(item => item.length);
-    }
-
-    /**
-     * Placeholder for closure action: openFile
-     */
-    openFile(file: File, show: string): void {
-        eatArgs(file, show);
-        assert('You should pass in a closure action: openFile');
-    }
-
-    /**
-     * Placeholder for closure action: moveFile
-     */
-    moveFile(file: File, node: Node): void {
-        eatArgs(file, node);
-        assert('You should pass in a closure action: moveFile');
-    }
-
-    /**
-     * Placeholder for closure action: renameFile
-     */
-    renameFile(file: File, renameValue: string, conflict?: string, conflictingItem?: File): void {
-        eatArgs(file, renameValue, conflict, conflictingItem);
-        assert('You should pass in a closure action: renameFile');
-    }
-
-    /**
-     * Placeholder for closure action: addFile
-     */
-    addFile(fileId: string): void {
-        eatArgs(fileId);
-        assert('You should pass in a closure action: addFile');
-    }
-
-    /**
-     * Placeholder for closure action: deleteFiles
-     */
-    deleteFiles(files: File[]): void {
-        eatArgs(files);
-        assert('You should pass in a closure action: deleteFiles');
     }
 
     didReceiveAttrs() {

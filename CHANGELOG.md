@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Models:
+    - `region`
+- Feature Flags:
+    - `storage_i18n` - enable region selector on project creation
+
+### Changed
+- Models:
+    - `node` - add `region` relationship
+    - `user` - add `defaultRegion` relationship
+
 ## [0.6.0] - 2018-07-13
 ### Added
 - Models:

@@ -1,15 +1,15 @@
 import { className } from '@ember-decorators/component';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import diffAttrs from 'ember-diff-attrs';
 import I18N from 'ember-i18n/services/i18n';
+import Session from 'ember-simple-auth/services/session';
+import $ from 'jquery';
+
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import File from 'ember-osf-web/models/file';
 import { authorizeXHR } from 'ember-osf-web/utils/ajax-helpers';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import eatArgs from 'ember-osf-web/utils/eat-args';
-import Session from 'ember-simple-auth/services/session';
-import $ from 'jquery';
 import layout from './template';
 
 /**
@@ -78,15 +78,8 @@ export default class DropzoneWidget extends Component.extend({
     options: Dropzone.DropzoneOptions = defaultTo(this.options, {});
     defaultMessage: string = defaultTo(this.defaultMessage, this.i18n.t('dropzone_widget.drop_files'));
 
+    @requiredAction buildUrl!: (files: File[]) => void;
     preUpload?: (context: any, drop: any, file: any) => Promise<any>;
-
-    /**
-     * Placeholder for closure action: buildUrl
-     */
-    buildUrl(files: File[]): void {
-        eatArgs(files);
-        assert('You should pass in a closure action: buildUrl');
-    }
 
     didInsertElement() {
         if (this.enable) {

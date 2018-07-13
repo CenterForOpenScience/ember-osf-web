@@ -2,16 +2,9 @@
 {{#if modalOpen}}
     {{new-project-modal
         newNode=newNode
-        institutions=user.institutions
-        institutionsSelected=institutionsSelected
         closeModal=(action 'closeModal')
-        selectInstitution=(action 'selectInstitution')
-        selectAll=(action 'selectAllInstitutions')
-        removeAll=(action 'removeAllInstitutions')
-        search=(perform searchNodes)
-        searchSelected=templateFrom
-        searchChange=(action (mut templateFrom))
-        create=(perform createNode)
+        searchNodes=(perform searchNodes)
+        createProject=(perform createNode)
     }}
 {{/if}}
 {{scheduled-banner}}
