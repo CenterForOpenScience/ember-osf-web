@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `region`
 - Feature Flags:
     - `storage_i18n` - enable region selector on project creation
+  - Assets:
+    - Images for home page
+    - Images for dashboard
 
 ### Changed
 - Models:
