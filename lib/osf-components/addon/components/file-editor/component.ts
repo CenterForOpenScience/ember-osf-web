@@ -1,10 +1,10 @@
 import { classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { next } from '@ember/runloop';
+
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import eatArgs from 'ember-osf-web/utils/eat-args';
 import styles from './styles';
 import layout from './template';
 
@@ -32,18 +32,11 @@ export default class FileEditor extends Component {
 
     fileText: string = defaultTo(this.fileText, '');
     unsavedText: string = defaultTo(this.unsavedText, '');
+    @requiredAction save!: (text: string) => void;
 
     @computed('fileText')
     get newText(): string {
         return String(this.fileText);
-    }
-
-    /**
-     * Placeholder for closure action: save
-     */
-    save(text: string): void {
-        eatArgs(text);
-        assert('You should pass in a closure action: save');
     }
 
     @action

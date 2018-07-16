@@ -1,11 +1,11 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import DS from 'ember-data';
+
 import { localClassName, localClassNames } from 'ember-osf-web/decorators/css-modules';
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import File from 'ember-osf-web/models/file';
-import eatArgs from 'ember-osf-web/utils/eat-args';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
 import layout from './template';
@@ -35,14 +35,7 @@ export default class FileListItem extends Component.extend({ styles }) {
     @service store!: DS.Store;
 
     item?: File;
-
-    /**
-     * Placeholder for closure action: openItem
-     */
-    openItem(item: File | undefined) {
-        eatArgs(item);
-        assert('You should pass in a closure action: openItem');
-    }
+    @requiredAction openItem!: (item: File | undefined) => void;
 
     @localClassName
     @computed('item.isSelected')
@@ -56,7 +49,10 @@ export default class FileListItem extends Component.extend({ styles }) {
     }
 
     @action
-    open() {
+    open(ev?: Event) {
+        if (ev) {
+            ev.stopPropagation();
+        }
         this.openItem(this.item);
     }
 }

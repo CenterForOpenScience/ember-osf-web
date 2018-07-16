@@ -5,7 +5,7 @@ import config from 'ember-get-config';
 import SessionService from 'ember-simple-auth/services/session';
 
 import { NotLoggedIn } from 'ember-osf-web/errors';
-import transitionTarget from 'ember-osf-web/utils/transition-target';
+import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
     OSF: {
@@ -46,7 +46,7 @@ export default function checkAuth<T extends Newable<Route>>(
                     // Must have failed to make the request at all.
                     this.transitionTo(
                         'error-no-api',
-                        transitionTarget(transition, this.router).slice(1),
+                        transitionTargetURL(transition).slice(1),
                     );
                     return;
                 }

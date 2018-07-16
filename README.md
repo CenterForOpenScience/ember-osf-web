@@ -30,7 +30,7 @@ You will need the following things properly installed on your computer.
 
 ### Mac OS File Descriptor Limits
 
-Watchman states "*Only applicable on OS X 10.6 and earlier*". Though it's been observed this setting can remain incorrect on systems where the operation system was upgraded from a legacy version.
+Watchman [states](https://facebook.github.io/watchman/docs/install.html#mac-os-file-descriptor-limits) "*Only applicable on OS X 10.6 and earlier*". Though it's been observed this setting can remain incorrect on systems where the operation system was upgraded from a legacy version.
 
 > Putting the following into a file named /etc/sysctl.conf on OS X will cause these values to persist across reboots:
 

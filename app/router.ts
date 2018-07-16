@@ -1,16 +1,23 @@
 import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
+
 import { Blocker } from 'ember-osf-web/services/ready';
+import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
-    featureFlags: {
-        routes,
+    engines: {
+        collections,
+        handbook,
     },
-} = config as { featureFlags: { routes: { [index: string]: string } } }; // eslint-disable-line no-use-before-define
+    featureFlagNames: {
+        routes: routeFlags,
+    },
+} = config;
 
 const Router = EmberRouter.extend({
     currentUser: service('current-user'),
+    features: service('features'),
     statusMessages: service('status-messages'),
     ready: service('ready'),
 
@@ -18,19 +25,7 @@ const Router = EmberRouter.extend({
     location: config.locationType,
     rootURL: config.rootURL,
 
-    async willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
-        const flag = routes[transition.targetName];
-
-        if (flag) {
-            const enabled = await this.get('currentUser').getWaffle(flag);
-
-            if (!enabled) {
-                window.location.reload();
-            }
-        }
-
-        this.get('currentUser').checkShowTosConsentBanner();
-
+    willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
         if (!this.readyBlocker || this.readyBlocker.isDone()) {
             this.readyBlocker = this.get('ready').getBlocker();
         }
@@ -39,20 +34,32 @@ const Router = EmberRouter.extend({
 
     didTransition(...args: any[]) {
         this._super(...args);
+
+        this.get('currentUser').checkShowTosConsentBanner();
         this.get('statusMessages').updateMessages();
+
         window.scrollTo(0, 0);
+
         if (this.readyBlocker && !this.readyBlocker.isDone()) {
             this.readyBlocker.done();
         }
     },
-});
 
-const {
-    engines: {
-        collections,
-        handbook,
+    _doTransition(routeName: string, ...args: any[]) {
+        const transition = this._super(routeName, ...args);
+
+        const flag = routeFlags[transition.targetName];
+        if (flag && !this.get('features').isEnabled(flag)) {
+            try {
+                window.location.assign(transitionTargetURL(transition));
+            } catch (e) {
+                window.location.reload();
+            }
+            transition.abort();
+        }
+        return transition;
     },
-} = config;
+});
 
 /* eslint-disable array-callback-return */
 

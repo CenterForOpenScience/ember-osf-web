@@ -4,22 +4,22 @@ import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { next } from '@ember/runloop';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
+import Toast from 'ember-toastr/services/toast';
+import $ from 'jquery';
+
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import eatArgs from 'ember-osf-web/utils/eat-args';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import Toast from 'ember-toastr/services/toast';
-import $ from 'jquery';
 import { ProjectSelectState } from 'osf-components/components/project-selector/component';
 import styles from './styles';
 import layout from './template';
@@ -56,6 +56,12 @@ export default class FileBrowser extends Component {
     @service ready!: Ready;
     @service store!: DS.Store;
     @service toast!: Toast;
+
+    @requiredAction openFile!: (file: File, show: string) => void;
+    @requiredAction moveFile!: (file: File, node: Node) => void;
+    @requiredAction renameFile!: (file: File, renameValue: string, conflict?: string, conflictingItem?: File) => void;
+    @requiredAction addFile!: (fileId: string) => void;
+    @requiredAction deleteFiles!: (files: File[]) => void;
 
     clickHandler?: JQuery.EventHandlerBase<HTMLElement, JQuery.Event>;
     dismissPop?: () => void;
@@ -97,6 +103,7 @@ export default class FileBrowser extends Component {
         if (!this.node) {
             return;
         }
+        this.analytics.track('file', 'move', 'Quick Files - Move to project');
 
         this.setProperties({
             isMoving: true,
@@ -107,7 +114,6 @@ export default class FileBrowser extends Component {
         const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships.parent;
 
         const moveSuccess: boolean = yield this.moveFile(selectedItem as File, this.node);
-        this.analytics.track('file', 'move', 'Quick Files - Move to project');
 
         let successPropertyUpdates = {};
 
@@ -162,46 +168,6 @@ export default class FileBrowser extends Component {
         ].filter(item => item.length);
     }
 
-    /**
-     * Placeholder for closure action: openFile
-     */
-    openFile(file: File, show: string): void {
-        eatArgs(file, show);
-        assert('You should pass in a closure action: openFile');
-    }
-
-    /**
-     * Placeholder for closure action: moveFile
-     */
-    moveFile(file: File, node: Node): void {
-        eatArgs(file, node);
-        assert('You should pass in a closure action: moveFile');
-    }
-
-    /**
-     * Placeholder for closure action: renameFile
-     */
-    renameFile(file: File, renameValue: string, conflict?: string, conflictingItem?: File): void {
-        eatArgs(file, renameValue, conflict, conflictingItem);
-        assert('You should pass in a closure action: renameFile');
-    }
-
-    /**
-     * Placeholder for closure action: addFile
-     */
-    addFile(fileId: string): void {
-        eatArgs(fileId);
-        assert('You should pass in a closure action: addFile');
-    }
-
-    /**
-     * Placeholder for closure action: deleteFiles
-     */
-    deleteFiles(files: File[]): void {
-        eatArgs(files);
-        assert('You should pass in a closure action: deleteFiles');
-    }
-
     didReceiveAttrs() {
         if (this.items && this.items.length) {
             this.items.filterBy('isSelected', true)
@@ -249,6 +215,7 @@ export default class FileBrowser extends Component {
             renameValue: '',
             showRename: false,
         });
+        this.analytics.click('button', 'Quick Files - Cancel file rename');
     }
 
     @action
@@ -257,6 +224,7 @@ export default class FileBrowser extends Component {
             showFilterClicked: false,
             filter: '',
         });
+        this.analytics.click('button', 'Quick Files - Close filter');
     }
 
     // dropzone listeners
@@ -293,6 +261,8 @@ export default class FileBrowser extends Component {
 
     @action
     selectItem(this: FileBrowser, currentItem: File) {
+        this.analytics.track('file', 'select', 'Quick Files - Select file');
+
         if (this.openOnSelect) {
             this.openFile(currentItem, 'view');
         }
@@ -355,6 +325,8 @@ export default class FileBrowser extends Component {
                 this.set('shiftAnchor', currentItem);
             }
         });
+
+        this.analytics.track('file', 'select', 'Quick Files - Select multiple files');
     }
 
     @action
@@ -380,6 +352,7 @@ export default class FileBrowser extends Component {
 
     @action
     deleteItems(this: FileBrowser, multiple: boolean = false) {
+        this.analytics.track('file', 'delete', 'Quick Files - Delete files');
         this.deleteFiles(multiple ? this.selectedItems.slice() : this.selectedItems.slice(0, 1));
         this.set('currentModal', modals.None);
     }
@@ -403,10 +376,13 @@ export default class FileBrowser extends Component {
             renameValue: '',
             showRename: false,
         });
+        this.analytics.click('button', `Quick Files - Resolve rename conflict - ${conflict}`);
     }
 
     @action
     rename(this: FileBrowser): void {
+        this.analytics.track('file', 'rename', 'Quick Files - Rename file');
+
         const { renameValue } = this;
         const selectedItem = this.selectedItems.get('firstObject') as File;
         const conflictingItem = this.items ? this.items
@@ -440,29 +416,16 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    cancelRename(this: FileBrowser) {
-        this.setProperties({
-            renameValue: '',
-            currentModal: modals.None,
-        });
-    }
-
-    @action
     copyLink(this: FileBrowser) {
         this.set('popupOpen', true);
+
+        this.analytics.click('button', 'Quick Files - Copy share link');
 
         if (this.link) {
             return;
         }
 
         (this.selectedItems.get('firstObject') as File).getGuid();
-    }
-
-    @action
-    setSelectedNode(this: FileBrowser, node: Node) {
-        this.setProperties({
-            node,
-        });
     }
 
     @action

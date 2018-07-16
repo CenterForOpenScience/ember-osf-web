@@ -1,8 +1,10 @@
 import { classNames, tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
-import eatArgs from 'ember-osf-web/utils/eat-args';
+
+import requiredAction from 'ember-osf-web/decorators/required-action';
+import Analytics from 'ember-osf-web/services/analytics';
 import styles from './styles';
 import layout from './template';
 
@@ -38,6 +40,8 @@ export interface Version {
 @tagName('tr')
 @classNames('file-version')
 export default class FileVersion extends Component {
+    @service analytics!: Analytics;
+
     layout = layout;
     styles = styles;
 
@@ -49,29 +53,18 @@ export default class FileVersion extends Component {
         return +this.version.id !== this.currentVersion;
     }
 
-    /**
-     * Placeholder for closure action: download
-     */
-    download(version: Version): void {
-        eatArgs(version);
-        assert('You should pass in a closure action: download');
-    }
-
-    /**
-     * Placeholder for closure action: versionChange
-     */
-    versionChange(version: Version): void {
-        eatArgs(version);
-        assert('You should pass in a closure action: versionChange');
-    }
+    @requiredAction download!: (version: Version) => void;
+    @requiredAction versionChange!: (version: Version) => void;
 
     @action
     downloadVersion(version: Version): void {
         this.download(version);
+        this.analytics.click('button', 'File version - Download');
     }
 
     @action
     changeVersion(version: Version): void {
         this.versionChange(version);
+        this.analytics.click('button', 'File version - Change version');
     }
 }

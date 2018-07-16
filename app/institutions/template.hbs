@@ -1,4 +1,5 @@
 {{title (t 'institutions.title')}}
+{{scheduled-banner}}
 <div local-class='Institutions__page'>
     <div local-class="Institutions__block Institutions__header">
         <div class="container">
@@ -7,7 +8,13 @@
                     <div local-class="Institutions__header-logo"></div>
                     <p class="lead">
                         {{t 'institutions.description'}}
-                        <a local-class='Institutions__block__link' href='https://cos.io/our-products/osf-institutions/'>{{t 'institutions.read_more'}}</a>
+                        <a
+                            local-class='Institutions__block__link'
+                            href='https://cos.io/our-products/osf-institutions/'
+                            onclick={{action 'click' 'link' 'Institutions - Header - Read more' target=analytics}}
+                        >
+                            {{t 'institutions.read_more'}}
+                        </a>
                     </p>
                 </div>
             </div>
@@ -23,14 +30,26 @@
                                 <div class='row'>
                                     <div class='col-xs-3' local-class='Institutions__sorting'>
                                         {{t 'institutions.title'}}
-                                        {{sort-button sortAction=(action sort) sort=sortOrder sortBy='title'}}
+                                        {{sort-button sortAction=(action 'sort') sort=sortOrder sortBy='title'}}
                                     </div>
                                     <div class="col-xs-9 filter-input">
-                                        {{input (html-attributes aria-label=(t 'institutions.search_placeholder')) placeholder=(t 'institutions.search_placeholder') class='form-control' value=textValue type="text"}}
+                                        {{input
+                                            (html-attributes aria-label=(t 'institutions.search_placeholder'))
+                                            value=textValue
+                                            type='text'
+                                            class='form-control'
+                                            placeholder=(t 'institutions.search_placeholder')
+                                            keyPress=(perform trackFilter)
+                                        }}
                                     </div>
                                 </div>
                                 {{#each institutions as |institution|}}
-                                    <a class="m-v-sm row" local-class='Institutions__table__item' href='{{institution.id}}'>
+                                    <a
+                                        class="m-v-sm row"
+                                        local-class='Institutions__table__item'
+                                        href='{{institution.id}}'
+                                        onclick={{action 'click' 'link' 'Institutions - Visit institution' target=analytics}}
+                                    >
                                         <div class='col-xs-3'>
                                             <img local-class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoPath}}'>
                                         </div>
@@ -55,6 +74,12 @@
                 <div class="text-center col-xs-12">
                     <p class="lead">
                         {{t 'institutions.footer'}}
+                        <a
+                            href='https://cos.io/contact'
+                            onclick={{action 'click' 'link' 'Institutions - Footer - Contact us' target=analytics}}
+                        >
+                            {{t 'institutions.contact_us'}}
+                        </a>
                     </p>
                 </div>
             </div>

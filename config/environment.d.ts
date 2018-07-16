@@ -118,20 +118,14 @@ declare const config: {
         popularNode: string;
         noteworthyNode: string;
     };
-    featureFlags: {
+    featureFlagNames: {
         routes: {
-            support: string;
-            dashboard: string;
-            home: string;
-            'guid-node.forks': string;
-            'guid-node.registrations': string;
-            'guid-registration.forks': string;
-            'guid-node.analytics.index': string;
-            'guid-registration.analytics.index': string;
+            [routeName: string]: string;
         };
         navigation: {
             institutions: string;
         };
+        storageI18n: string;
     };
     gReCaptcha: {
         siteKey: string;
