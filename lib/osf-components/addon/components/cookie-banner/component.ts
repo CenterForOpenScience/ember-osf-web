@@ -29,7 +29,8 @@ export default class CookieBanner extends Component {
     @action
     accept(this: CookieBanner) {
         this.cookies.write(consentCookie, 1, {
-            expires: moment().add('years', 10).toDate(),
+            expires: moment().add(10, 'years').toDate(),
+            path: '/',
         });
         this.set('showBanner', false);
     }
