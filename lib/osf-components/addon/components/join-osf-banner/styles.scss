@@ -1,45 +1,36 @@
-.JoinOsfBanner--banner {
-    padding-top: 10px;
-    padding-bottom: 10px;
+.JoinOsfBanner {
+    position: fixed;
+    bottom: 0;
+    z-index: 9;
     background-color: $color-bg-white;
     border-top: 2px solid $color-text-black;
+    animation-name: slideInFromBottom;
+    width: 100%;
+    animation-fill-mode: both;
+}
+
+.JoinOsfBanner--expand {
+    animation-duration: 1s;
+    animation-delay: 2s;
+    transform: translateY(100%);
+}
+
+.JoinOsfBanner--collapse {
+    animation-direction: reverse;
+}
+
+.JoinOsfBanner__banner {
+    padding-top: 10px;
+    padding-bottom: 10px;
     width: 100%;
 }
 
-.JoinOsfBanner--heading {
+.JoinOsfBanner__heading {
     margin-top: 0;
-}
-
-.JoinOsfBanner__div > a {
-    margin-right: 5px;
-    white-space: nowrap;
 }
 
 .JoinOsfBanner__img {
     height: 120px;
-}
-
-.JoinOsfBanner--expand {
-    position: fixed;
-    bottom: 0;
-    z-index: 9;
-    animation-name: slideInFromBottom;
-    animation-duration: 1s;
-    animation-delay: 2s;
-    width: 100%;
-    transform: translateY(100%);
-    animation-fill-mode: both;
-
-}
-
-.JoinOsfBanner--collapse {
-    position: fixed;
-    bottom: 0;
-    z-index: 9;
-    animation-name: slideInFromBottom;
-    width: 100%;
-    animation-fill-mode: both;
-    animation-direction: reverse;
 }
 
 @keyframes slideInFromBottom {

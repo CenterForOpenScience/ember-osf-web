@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `region`
 - Feature Flags:
     - `storage_i18n` - enable region selector on project creation
+- Components:
+    - `cookie-banner` - Notify logged-out users the site uses cookies
 - `keen` metrics adapter
 
 ### Changed
@@ -20,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `maintenance-banner` - Set cookie on dismiss and check cookie before showing
 - Services:
     - `analytics` - support multiple metrics adapters
+- Add `join-osf-banner` to `guid-node` pages.
 
 ## [0.6.0] - 2018-07-13
 ### Added
