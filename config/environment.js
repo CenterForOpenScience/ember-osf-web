@@ -150,7 +150,6 @@ module.exports = function(environment) {
             devMode,
             cookieDomain,
             authenticator: `authenticator:${osfAuthenticator}`,
-            keenConfig,
             cookies: {
                 status: statusCookie,
                 keenUserId: 'keenUserId',

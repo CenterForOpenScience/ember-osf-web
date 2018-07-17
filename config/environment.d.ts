@@ -83,7 +83,6 @@ declare const config: {
         devMode: boolean;
         cookieDomain: string;
         authenticator: string;
-        keenConfig?: KeenConfig;
         cookies: {
             status: string;
             keenUserId: string;
