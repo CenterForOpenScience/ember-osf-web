@@ -50,7 +50,7 @@ export default class KeenAdapter extends BaseAdapter {
     }
 
     willDestroy() {
-        // Required override
+        // Required override by ember-metrics' BaseAdapter
     }
 
     toStringExtension() {
