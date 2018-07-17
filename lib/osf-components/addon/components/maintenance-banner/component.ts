@@ -1,12 +1,15 @@
-import { computed } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
+import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
-import Analytics from 'ember-osf-web/services/analytics';
 import $ from 'jquery';
 import moment from 'moment';
+
+import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import Analytics from 'ember-osf-web/services/analytics';
+
 import styles from './styles';
 import layout from './template';
 
@@ -16,6 +19,15 @@ interface MaintenanceData {
     start?: string;
     end?: string;
 }
+
+const {
+    OSF: {
+        cookieDomain,
+        cookies: {
+            maintenance: maintenanceCookie,
+        },
+    },
+} = config;
 
 @localClassNames('MaintenanceBanner')
 export default class MaintenanceBanner extends Component.extend({
@@ -29,6 +41,7 @@ export default class MaintenanceBanner extends Component.extend({
     styles = styles;
 
     @service analytics!: Analytics;
+    @service cookies!: Cookies;
 
     maintenance?: MaintenanceData | null;
 
@@ -54,6 +67,18 @@ export default class MaintenanceBanner extends Component.extend({
     }
 
     didReceiveAttrs(this: MaintenanceBanner): void {
-        this.get('getMaintenanceStatus').perform();
+        if (!this.cookies.exists(maintenanceCookie)) {
+            this.get('getMaintenanceStatus').perform();
+        }
+    }
+
+    @action
+    dismiss(this: MaintenanceBanner) {
+        this.cookies.write(maintenanceCookie, 0, {
+            expires: moment().add(24, 'hours').toDate(),
+            path: '/',
+            domain: cookieDomain,
+        });
+        this.set('maintenance', null);
     }
 }

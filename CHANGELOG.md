@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Models:
     - `node` - add `region` relationship
     - `user` - add `defaultRegion` relationship
+- Components:
+    - `maintenance-banner` - Set cookie on dismiss and check cookie before showing
 - Services:
     - `analytics` - support multiple metrics adapters
 

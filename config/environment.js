@@ -155,6 +155,7 @@ module.exports = function(environment) {
                 keenUserId: 'keenUserId',
                 keenSessionId: 'keenSessionId',
                 analyticsDismissAdblock: 'adBlockDismiss',
+                maintenance: 'maintenance',
             },
         },
         social: {
