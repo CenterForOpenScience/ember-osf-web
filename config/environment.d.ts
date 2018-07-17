@@ -5,6 +5,18 @@
  * For now these need to be managed by the developer
  * since different ember addons can materialize new entries.
  */
+
+export interface KeenConfig {
+    public?: {
+        projectId: string;
+        writeKey: string;
+    };
+    private?: {
+        projectId: string;
+        writeKey: string;
+    };
+}
+
 declare const config: {
     environment: any;
     lintOnBuild: boolean;
@@ -36,12 +48,8 @@ declare const config: {
     metricsAdapters: Array<{
         name: string;
         environments: string[];
-        config: {
-            id?: string;
-            cookieDomain?: string;
-            setFields?: { [k: string]: any };
-        };
-        dimensions: {
+        config: any;
+        dimensions?: {
             authenticated: string;
             resource: string;
             isPublic: string;
@@ -73,11 +81,15 @@ declare const config: {
         shareApiUrl: string;
         shareSearchUrl: string;
         devMode: boolean;
-        statusCookie: string;
         cookieDomain: string;
         authenticator: string;
-        keenProjectId?: string;
-        analyticsDismissAdblockCookie: string;
+        keenConfig?: KeenConfig;
+        cookies: {
+            status: string;
+            keenUserId: string;
+            keenSessionId: string;
+            analyticsDismissAdblock: string;
+        },
     };
     social: {
         twitter: {

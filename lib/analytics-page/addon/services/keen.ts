@@ -7,7 +7,7 @@ import Node from 'ember-osf-web/models/node';
 
 const {
     OSF: {
-        keenProjectId,
+        keenConfig,
     },
 } = config;
 
@@ -22,11 +22,11 @@ export default class KeenService extends Service {
         if (!node.analyticsKey) {
             throw Error('No analytics key on this node');
         }
-        if (!keenProjectId) {
-            throw Error('KEEN_PROJECT_ID not defined');
+        if (!keenConfig || !keenConfig.public || !keenConfig.public.projectId) {
+            throw Error('Keen public project ID not defined');
         }
         const keenClient = new KeenAnalysis({
-            projectId: keenProjectId,
+            projectId: keenConfig.public.projectId,
             readKey: node.analyticsKey,
         });
 
