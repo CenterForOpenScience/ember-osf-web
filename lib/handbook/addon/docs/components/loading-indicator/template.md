@@ -1,4 +1,4 @@
-# Loading Indicator
+# loading-indicator
 
 This component indicates loading.
 

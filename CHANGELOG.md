@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Models:
+    - `region`
+- Feature Flags:
+    - `storage_i18n` - enable region selector on project creation
+
+### Changed
+- Models:
+    - `node` - add `region` relationship
+    - `user` - add `defaultRegion` relationship
+
+## [0.6.0] - 2018-07-13
+### Added
+- Models:
     - `banner` - used to fetch `/_/banners/current/` from the API
 - Components:
     - `scheduled-banner` - display the "current" banner on the landing page(s)
