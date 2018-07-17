@@ -3,14 +3,14 @@ import { alias, bool } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
+
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import Node from 'ember-osf-web/models/node';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import eatArgs from 'ember-osf-web/utils/eat-args';
 import styles from './styles';
 import layout from './template';
 
@@ -71,13 +71,20 @@ export default class ProjectSelector extends Component.extend({
     @service i18n!: I18N;
     @service store!: DS.Store;
 
-    didValidate = false;
+    // Required arguments
+    newProject!: Node;
+    @requiredAction projectSelected!: (value: Node) => void;
+    @requiredAction validationChanged!: (isValid: boolean) => void;
+
+    // Optional arguments
     nodeTitle: string | null = defaultTo(this.nodeTitle, null);
     projectSelectState: string = defaultTo(this.projectSelectState, ProjectSelectState.main);
     selected: Node | null = defaultTo(this.selected, null);
     showErrorMessage: boolean = defaultTo(this.showErrorMessage, false);
+
+    // Private properties
+    didValidate = false;
     projectList = A([]);
-    newProject: Node = this.newProject;
 
     @alias('selected.public') isPublicProject!: boolean;
     @bool('selected.links.relationships.parent') isChildNode!: boolean;
@@ -99,23 +106,6 @@ export default class ProjectSelector extends Component.extend({
             this.get('initialLoad').perform();
         }
     }
-
-    /**
-     * Placeholder for closure action: projectSelected
-     */
-    projectSelected(value: Node): void {
-        eatArgs(value);
-        assert('You should pass in a closure action: projectSelected');
-    }
-
-    /**
-     * Placeholder for closure action: validationChanged
-     */
-    validationChanged(isValid: boolean): void {
-        eatArgs(isValid);
-        assert('You should pass in a closure action: validationChanged');
-    }
-
     @action
     valueChanged(this: ProjectSelector, value?: Node): void {
         if (value) {
