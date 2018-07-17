@@ -67,4 +67,18 @@ export default function() {
         }));
         return { data: waffles };
     });
+
+    // Private namespace
+    this.namespace = '/_';
+
+    this.get('/banners/current/', () => {
+        return {
+            data: {
+                attributes: {
+                },
+                type: 'banners',
+                id: '',
+            },
+        };
+    });
 }

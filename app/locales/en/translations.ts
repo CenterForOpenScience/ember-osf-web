@@ -197,6 +197,7 @@ export default {
         success_message: 'New project created successfully!',
         stay_here: 'Keep working here',
         go_to_new: 'Go to new project',
+        storage_region: 'Storage location',
     },
     banners: {
         prereg: {

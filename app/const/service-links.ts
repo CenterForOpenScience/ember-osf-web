@@ -1,6 +1,6 @@
 import config from 'ember-get-config';
 
-const { featureFlags: { navigation } } = config;
+const { featureFlagNames: { navigation } } = config;
 
 const osfUrl = config.OSF.url;
 const serviceLinks = {

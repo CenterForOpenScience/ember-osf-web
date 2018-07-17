@@ -20,7 +20,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
-    KEEN_PROJECT_ID: keenProjectId,
+    KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
@@ -105,6 +105,13 @@ module.exports = function(environment) {
                     isPublic: 'dimension3',
                 },
             },
+            {
+                name: 'Keen',
+                environments: ['all'],
+                config: {
+                    ...keenConfig,
+                },
+            },
         ],
         FB_APP_ID,
         microfeedback: {
@@ -141,11 +148,14 @@ module.exports = function(environment) {
             shareApiUrl,
             shareSearchUrl,
             devMode,
-            statusCookie,
             cookieDomain,
             authenticator: `authenticator:${osfAuthenticator}`,
-            keenProjectId,
-            analyticsDismissAdblockCookie: 'adBlockDismiss',
+            cookies: {
+                status: statusCookie,
+                keenUserId: 'keenUserId',
+                keenSessionId: 'keenSessionId',
+                analyticsDismissAdblock: 'adBlockDismiss',
+            },
         },
         social: {
             twitter: {
@@ -186,11 +196,8 @@ module.exports = function(environment) {
             popularNode,
             noteworthyNode,
         },
-        featureFlags: { // default flags (whether they be switches, flags, or polls) go here with default value.
+        featureFlagNames: {
             routes: {
-                support: 'ember_support_page',
-                dashboard: 'ember_home_page',
-                home: 'ember_home_page',
                 'guid-node.forks': 'ember_project_forks_page',
                 'guid-registration.forks': 'ember_project_forks_page',
                 'guid-node.analytics.index': 'ember_project_analytics_page',
@@ -199,6 +206,7 @@ module.exports = function(environment) {
             navigation: {
                 institutions: 'institutions_nav_bar',
             },
+            storageI18n: 'storage_i18n',
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,

@@ -36,7 +36,9 @@ const App = Application.extend({
                     'store',
                     'analytics',
                     'ready',
+                    'features',
                     'page-title-list',
+                    'router',
                     'head-data',
                 ],
                 externalRoutes: {

@@ -55,7 +55,8 @@
         "config/*"
       ],
       "npm:*": [
-        "node_modules/*"
+        "node_modules/*",
+        "node_modules/@types/*"
       ],
       "ember-bootstrap/components/*": [
         "node_modules/ember-bootstrap/addon/components/bs3/*",

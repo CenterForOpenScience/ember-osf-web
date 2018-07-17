@@ -5,6 +5,18 @@
  * For now these need to be managed by the developer
  * since different ember addons can materialize new entries.
  */
+
+export interface KeenConfig {
+    public?: {
+        projectId: string;
+        writeKey: string;
+    };
+    private?: {
+        projectId: string;
+        writeKey: string;
+    };
+}
+
 declare const config: {
     environment: any;
     lintOnBuild: boolean;
@@ -36,12 +48,8 @@ declare const config: {
     metricsAdapters: Array<{
         name: string;
         environments: string[];
-        config: {
-            id?: string;
-            cookieDomain?: string;
-            setFields?: { [k: string]: any };
-        };
-        dimensions: {
+        config: any;
+        dimensions?: {
             authenticated: string;
             resource: string;
             isPublic: string;
@@ -73,11 +81,14 @@ declare const config: {
         shareApiUrl: string;
         shareSearchUrl: string;
         devMode: boolean;
-        statusCookie: string;
         cookieDomain: string;
         authenticator: string;
-        keenProjectId?: string;
-        analyticsDismissAdblockCookie: string;
+        cookies: {
+            status: string;
+            keenUserId: string;
+            keenSessionId: string;
+            analyticsDismissAdblock: string;
+        },
     };
     social: {
         twitter: {
@@ -118,19 +129,14 @@ declare const config: {
         popularNode: string;
         noteworthyNode: string;
     };
-    featureFlags: {
+    featureFlagNames: {
         routes: {
-            support: string;
-            dashboard: string;
-            home: string;
-            'guid-node.forks': string;
-            'guid-registration.forks': string;
-            'guid-node.analytics.index': string;
-            'guid-registration.analytics.index': string;
+            [routeName: string]: string;
         };
         navigation: {
             institutions: string;
         };
+        storageI18n: string;
     };
     gReCaptcha: {
         siteKey: string;

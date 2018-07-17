@@ -197,6 +197,7 @@ export default {
         success_message: '新项目创建成功！',
         stay_here: '待在这里',
         go_to_new: '前往新项目',
+        storage_region: 'Storage location',
     },
     banners: {
         prereg: {

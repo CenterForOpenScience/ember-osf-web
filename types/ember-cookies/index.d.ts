@@ -24,5 +24,6 @@ declare module 'ember-cookies/services/cookies' {
         read(cookieName: string, options?: ReadOptions): string;
         write(cookieName: string, value: any, options?: WriteOptions): void;
         clear(cookieName: string, options?: ClearOptions): void;
+        exists(cookieName: string): boolean;
     }
 }
