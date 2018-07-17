@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Added
+- Components:
+    - `cookie-banner` - Notify logged-out users the site uses cookies
+
+### Changed
+- Add `join-osf-banner` to `guid-node` pages.
+
 ## [0.6.0] - 2018-07-13
 ### Added
 - Models:
