@@ -78,6 +78,9 @@ declare const config: {
         authenticator: string;
         keenProjectId?: string;
         analyticsDismissAdblockCookie: string;
+        cookies: {
+            cookieConsent: string,
+        },
     };
     social: {
         twitter: {

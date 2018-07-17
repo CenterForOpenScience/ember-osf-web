@@ -146,6 +146,9 @@ module.exports = function(environment) {
             authenticator: `authenticator:${osfAuthenticator}`,
             keenProjectId,
             analyticsDismissAdblockCookie: 'adBlockDismiss',
+            cookies: {
+                cookieConsent: 'osf_cookieconsent',
+            },
         },
         social: {
             twitter: {
