@@ -6,7 +6,9 @@ import config from 'ember-get-config';
 const {
     OSF: {
         cookieDomain,
-        statusCookie,
+        cookies: {
+            status: statusCookie,
+        },
     },
 } = config;
 

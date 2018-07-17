@@ -6,50 +6,64 @@ import config from 'ember-get-config';
 import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
 
-export enum analyticPrivacy {
-    public = 'public',
-    private = 'private',
-    undefined = 'n/a',
-}
+import Ready from 'ember-osf-web/services/ready';
+import RouteContext from 'ember-osf-web/services/route-context';
 
 export default class Analytics extends Service {
     @service metrics!: Metrics;
     @service session!: Session;
+    @service routeContext!: RouteContext;
+    @service ready!: Ready;
     @service router!: any;
 
     trackPageTask = task(function *(
         this: Analytics,
-        publicPrivate: analyticPrivacy,
+        pagePublic: boolean | undefined,
         resourceType: string,
     ) {
-        const {
-            authenticated,
-            isPublic,
-            resource,
-        } = config.metricsAdapters[0].dimensions;
+        // Wait until everything has settled
+        yield this.routeContext.guidTaskInstance;
+        yield waitForQueue('destroy');
 
-        const session = this.get('session');
-        yield waitForQueue('afterRender');
-        const router = this.get('router');
-        const page = router.get('currentURL');
-        const title = router.get('currentRouteName');
+        const eventParams = {
+            page: this.router.currentURL,
+            title: this.router.currentRouteName,
+        };
 
-        /*
-          There's supposed to be a document describing how dimensions should be handled, but it doesn't exist yet.
-          When it does, we'll replace out this comment with the link to that documentation. For now:
-              1) isPublic: public, private, or n/a (for pages that aren't covered by app permissions like the
-              dashboard;
-              2) authenticated: Logged in or Logged out
-              3) resource: the JSONAPI type (node, file, user, etc) or n/a
-        */
-        this.get('metrics').trackPage({
-            [authenticated]: session.get('isAuthenticated') ? 'Logged in' : 'Logged out',
-            [isPublic]: publicPrivate,
-            page,
-            [resource]: resourceType,
-            title,
+        const gaConfig = config.metricsAdapters.findBy('name', 'GoogleAnalytics');
+        if (gaConfig) {
+            const {
+                authenticated,
+                isPublic,
+                resource,
+            } = gaConfig.dimensions!;
+
+            let isPublicValue = 'n/a';
+            if (typeof pagePublic !== 'undefined') {
+                isPublicValue = pagePublic ? 'public' : 'private';
+            }
+
+            /*
+              There's supposed to be a document describing how dimensions should be handled, but it doesn't exist yet.
+              When it does, we'll replace out this comment with the link to that documentation. For now:
+                  1) isPublic: public, private, or n/a (for pages that aren't covered by app permissions like the
+                  dashboard;
+                  2) authenticated: Logged in or Logged out
+                  3) resource: the JSONAPI type (node, file, user, etc) or n/a
+            */
+            this.metrics.trackPage('GoogleAnalytics', {
+                [authenticated]: this.session.isAuthenticated ? 'Logged in' : 'Logged out',
+                [isPublic]: isPublicValue,
+                [resource]: resourceType,
+                ...eventParams,
+            });
+        }
+
+        this.metrics.trackPage('Keen', {
+            pagePublic,
+            ...eventParams,
         });
-    });
+    }).restartable();
 
     @action
     click(this: Analytics, category: string, label: string, extraInfo?: string | object) {
@@ -86,10 +100,10 @@ export default class Analytics extends Service {
 
     trackPage(
         this: Analytics,
-        publicPrivate: analyticPrivacy = analyticPrivacy.undefined,
+        pagePublic?: boolean,
         resourceType: string = 'n/a',
     ) {
-        this.get('trackPageTask').perform(publicPrivate, resourceType);
+        this.get('trackPageTask').perform(pagePublic, resourceType);
     }
 }
 

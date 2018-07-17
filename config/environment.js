@@ -20,7 +20,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
-    KEEN_PROJECT_ID: keenProjectId,
+    KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
@@ -105,6 +105,13 @@ module.exports = function(environment) {
                     isPublic: 'dimension3',
                 },
             },
+            {
+                name: 'Keen',
+                environments: ['all'],
+                config: {
+                    ...keenConfig,
+                },
+            },
         ],
         FB_APP_ID,
         microfeedback: {
@@ -141,11 +148,14 @@ module.exports = function(environment) {
             shareApiUrl,
             shareSearchUrl,
             devMode,
-            statusCookie,
             cookieDomain,
             authenticator: `authenticator:${osfAuthenticator}`,
-            keenProjectId,
-            analyticsDismissAdblockCookie: 'adBlockDismiss',
+            cookies: {
+                status: statusCookie,
+                keenUserId: 'keenUserId',
+                keenSessionId: 'keenSessionId',
+                analyticsDismissAdblock: 'adBlockDismiss',
+            },
         },
         social: {
             twitter: {

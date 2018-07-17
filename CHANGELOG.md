@@ -13,11 +13,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Assets:
     - Images for home page
     - Images for dashboard
+- `keen` metrics adapter
 
 ### Changed
 - Models:
     - `node` - add `region` relationship
     - `user` - add `defaultRegion` relationship
+- Services:
+    - `analytics` - support multiple metrics adapters
 
 ## [0.6.0] - 2018-07-13
 ### Added
