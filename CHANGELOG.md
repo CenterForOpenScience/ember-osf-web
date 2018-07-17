@@ -12,11 +12,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `storage_i18n` - enable region selector on project creation
 - Components:
     - `cookie-banner` - Notify logged-out users the site uses cookies
+- `keen` metrics adapter
 
 ### Changed
 - Models:
     - `node` - add `region` relationship
     - `user` - add `defaultRegion` relationship
+- Services:
+    - `analytics` - support multiple metrics adapters
 - Add `join-osf-banner` to `guid-node` pages.
 
 ## [0.6.0] - 2018-07-13
