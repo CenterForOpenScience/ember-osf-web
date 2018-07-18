@@ -38,6 +38,6 @@ module('Acceptance | logged-out home page', hooks => {
         await click('#acceptedTermsOfService');
         assert.found('[class*="SignUpForm"] iframe', 'Revalidate form: captcha reappears.');
         assert.found('[class*="_integrations"] img[alt*="Dropbox logo"]');
-        assert.notFound('[class*="_integrations"] img[alt*="Missing translation"]');
+        assert.notFound('img[alt*="Missing translation"]');
     });
 });
