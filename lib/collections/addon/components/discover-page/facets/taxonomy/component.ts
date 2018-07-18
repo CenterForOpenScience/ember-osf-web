@@ -58,17 +58,9 @@ export default class SearchFacetTaxonomy extends Base.extend({
                     queryParam: activeFilter.join('OR'),
                     currentQueryFilters: !activeFilter.length ?
                         defaultQueryFilters :
-                        [
-                            {
-                                bool: {
-                                    should: activeFilter.map(subjects => ({
-                                        match: {
-                                            subjects,
-                                        },
-                                    })),
-                                },
-                            },
-                        ],
+                        {
+                            subjects: activeFilter.map(path => path.replace(/^.*\|/, '')),
+                        },
                 });
 
                 filterChanged();

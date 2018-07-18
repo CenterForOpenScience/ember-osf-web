@@ -1,10 +1,9 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import I18N from 'ember-i18n/services/i18n';
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import eatArgs from 'ember-osf-web/utils/eat-args';
 import styles from './styles';
 import layout from './template';
 
@@ -115,10 +114,7 @@ export default class SearchPaginator extends Component {
     /**
      * Placeholder for closure action: pageChanged
      */
-    pageChanged(page: number): void {
-        eatArgs(page);
-        assert('You should pass in a closure action: pageChanged');
-    }
+    @requiredAction pageChanged!: (page: number) => void;
 
     @action
     setPage(this: SearchPaginator, page: string|number): void {

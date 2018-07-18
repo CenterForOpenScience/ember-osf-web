@@ -798,6 +798,10 @@ export default {
         relevance: 'Relevance',
         sort_oldest_newest: 'Modified Date (oldest to newest)',
         sort_newest_oldest: 'Modified Date (newest to oldest)',
+        search_results: {
+            lastEdited: 'Last edited: {{date}} (UTC)',
+            status: 'Status: {{value}}',
+        },
     },
     search_paginator: {
         prev: '«',

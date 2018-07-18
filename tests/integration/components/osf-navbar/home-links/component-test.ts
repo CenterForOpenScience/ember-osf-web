@@ -30,6 +30,10 @@ const currentUserStub = Service.extend({
     }),
 });
 
+const routerStub = Service.extend({
+    currentRouteName: 'test',
+});
+
 module('Integration | Component | osf-navbar/home-links', hooks => {
     setupRenderingTest(hooks);
 
@@ -37,6 +41,7 @@ module('Integration | Component | osf-navbar/home-links', hooks => {
         this.owner.register('service:i18n', i18nStub);
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:current-user', currentUserStub);
+        this.owner.register('service:router', routerStub);
     });
 
     test('it renders', async function(assert) {

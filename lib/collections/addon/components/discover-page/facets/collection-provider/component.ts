@@ -15,8 +15,9 @@ const {
     },
 } = config;
 
-interface ShareProviderHit {
+interface ProviderHit {
     key: string;
+    id: string;
     doc_count: number; // eslint-disable-line camelcase
 }
 
@@ -43,7 +44,7 @@ export default class SearchFacetProvider extends Base.extend({
         const { context, filterChanged, theme } = this;
 
         setProperties(context, {
-            lockedActiveFilter: this.theme.isProvider ? [] : [],
+            lockedActiveFilter: [],
             updateFilters(item?: string) {
                 const { activeFilter, defaultQueryFilters } = context;
 
@@ -56,15 +57,11 @@ export default class SearchFacetProvider extends Base.extend({
 
                 setProperties(context, {
                     queryParam,
-                    currentQueryFilters: !activeFilter.length ?
+                    currentQueryFilters: !activeFilter.length || theme.isProvider ?
                         defaultQueryFilters :
-                        [
-                            {
-                                terms: {
-                                    sources: activeFilter,
-                                },
-                            },
-                        ],
+                        {
+                            provider: activeFilter.mapBy('id'),
+                        },
                 });
 
                 filterChanged();
@@ -76,36 +73,31 @@ export default class SearchFacetProvider extends Base.extend({
 
     initialize: task(function *(this: SearchFacetProvider): IterableIterator<any> {
         if (this.theme.isProvider) {
-            const key = this.theme.provider!.name;
+            const { name: key, id } = this.theme.provider!;
 
-            this.set('allProviders', [
-                {
-                    key,
-                    doc_count: 0,
-                },
-            ]);
+            const provider = {
+                key,
+                id,
+                doc_count: 0,
+            };
 
-            this.context.lockedActiveFilter.pushObject(key);
-            this.context.activeFilter.pushObject(key);
+            this.set('allProviders', [provider]);
+
+            this.context.lockedActiveFilter.pushObject(provider);
+            this.context.activeFilter.pushObject(provider);
         } else {
             const providers: Provider[] = yield this.store.findAll('collection-provider');
 
-            this.set('allProviders', providers.map(({ name }) => ({
+            this.set('allProviders', providers.map(({ name, id }) => ({
                 key: name,
+                id,
                 doc_count: 0,
             })));
         }
 
         setProperties(this.context, {
             didInit: true,
-            defaultQueryFilters: [
-                // {
-                //     terms: {
-                //         // if there are no providers checked, use all whitelisted providers in the query
-                //         sources: this.otherProviders.mapBy('key'),
-                //     },
-                // },
-            ],
+            defaultQueryFilters: this.theme.isProvider ? { provider: [this.theme.id] } : {},
         });
 
         this.context.updateFilters();
@@ -118,17 +110,7 @@ export default class SearchFacetProvider extends Base.extend({
 
     @service store!: DS.Store;
 
-    allProviders!: ShareProviderHit[];
-
-    @computed('allProviders.[]')
-    get checkedProviders() {
-        return this.allProviders.filterBy('checked', true);
-    }
-
-    @computed('checkedProviders')
-    get activeProviders() {
-        return this.checkedProviders.mapBy('key');
-    }
+    allProviders!: ProviderHit[];
 
     @computed('osfUrl')
     get otherReposLink(): string {
@@ -142,7 +124,7 @@ export default class SearchFacetProvider extends Base.extend({
         return this.allProviders
             .map(provider => ({
                 ...provider,
-                checked: activeFilter.includes(provider.key),
+                checked: activeFilter.includes(provider),
             }));
     }
 }

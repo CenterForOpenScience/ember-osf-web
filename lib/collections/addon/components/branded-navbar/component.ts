@@ -5,6 +5,7 @@ import Component from '@ember/component';
 import I18N from 'ember-i18n/services/i18n';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import Session from 'ember-simple-auth/services/session';
@@ -26,6 +27,7 @@ export default class BrandedNavbar extends Component {
     @service theme!: Theme;
 
     objectType: ObjectType = this.objectType;
+    signupUrl: string = this.signupUrl;
 
     myProjectsUrl = serviceLinks.myProjects;
 
@@ -37,4 +39,6 @@ export default class BrandedNavbar extends Component {
 
         return this.i18n.t(this.key, { name });
     }
+
+    @requiredAction loginAction!: () => void;
 }

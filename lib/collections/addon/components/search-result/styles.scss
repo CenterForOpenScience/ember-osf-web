@@ -14,59 +14,6 @@
     }
 }
 
-.badge {
-    background: #808080 !important;
-}
-
-.filter {
-    cursor: pointer;
-    text-decoration: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
-}
-
-.subject-preview { // Copied from ember-preprints
-    display: inline-block;
-    background-color: #f8f8f8;
-    border-radius: 3px;
-    border: 1px solid #eee;
-    padding: 1px 7px;
-    margin-bottom: 4px;
-}
-
-.search-result-providers {
-    font-weight: bold;
-}
-
-.preprints-block-list {
-    display: block;
-    list-style: none;
-    padding-left: 0;
-}
-
-.pointer {
-    cursor: pointer;
-}
-
-.comma-list {
-    display: inline;
-    list-style: none;
-    padding-left: 0;
-
-    li {
-        display: inline;
-    }
-
-    li::after {
-        content: ', ';
-    }
-
-    li:last-child::after {
-        content: '';
-    }
-}
-
-.toggleShowResult.btn:focus {
+.toggleShowBody:focus {
     outline: none;
 }

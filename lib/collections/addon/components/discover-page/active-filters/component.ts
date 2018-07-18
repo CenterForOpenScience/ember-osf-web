@@ -1,8 +1,8 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { get } from '@ember/object';
+import requiredAction from 'ember-osf-web/decorators/required-action';
 import Theme from 'ember-osf-web/services/theme';
 import { FacetContexts } from '../component';
 
@@ -12,9 +12,7 @@ export default class ActiveFilters extends Component {
 
     facetContexts: FacetContexts = this.facetContexts;
 
-    filterChanged() {
-        assert('You should pass in a closure action: filterChanged');
-    }
+    @requiredAction filterChanged!: () => void;
 
     @action
     removeFilterItem(facet: keyof FacetContexts, item: any): void {

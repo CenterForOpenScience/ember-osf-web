@@ -1,6 +1,9 @@
 import Collection from 'ember-osf-web/models/collection';
-import Checklist from '../checklist/component';
+import SearchFacetChecklist from '../checklist/component';
 
-export default class CollectedType extends Checklist {
-    attribute: keyof Collection = 'collectedTypeChoices';
+class CollectedType extends SearchFacetChecklist {
+    get modelAttribute(): keyof Collection { return 'collectedTypeChoices'; }
+    get filterProperty() { return 'collectedType'; }
 }
+
+export default CollectedType;

@@ -1,13 +1,12 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Service from '@ember/service';
-// import config from 'ember-default-config';
 import DS from 'ember-data';
+import config from 'ember-get-config';
 import Provider from 'ember-osf-web/models/provider';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
-// const { defaultProvider } = config;
-const defaultProvider = 'osf';
+const { defaultProvider, assetsPrefix } = config;
 
 type ProviderType = 'collection' | 'preprint' | 'registry';
 
@@ -39,6 +38,8 @@ export default class Theme extends Service {
     @service store!: DS.Store;
 
     id: string = defaultTo(this.id, defaultProvider);
+    defaultProvider = defaultProvider;
+
     providerType?: ProviderType;
 
     // If we're using a provider domain
@@ -102,7 +103,7 @@ export default class Theme extends Service {
 
     @computed('id', 'settings')
     get stylesheet() {
-        return `/ember_osf_web/assets/osf-assets/files/${this.settings.assetPath}/${this.id}/style.css`;
+        return `${assetsPrefix}assets/osf-assets/files/${this.settings.assetPath}/${this.id}/style.css`;
     }
 
     reset(this: Theme) {

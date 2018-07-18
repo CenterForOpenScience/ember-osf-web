@@ -44,9 +44,9 @@ export default class Discover extends Controller {
 
     end = ''; // End query param. Must be passed to component, so can be reflected in the URL
 
-    @computed('model')
+    @computed('model', 'theme.defaultProvider')
     get externalProviders() {
-        return this.model.filter(({ id }) => id !== 'osf');
+        return this.model.filter(({ id }) => id !== this.theme.defaultProvider);
     }
 
     @computed('i18n.locale', 'additionalProviders')
@@ -62,15 +62,16 @@ export default class Discover extends Controller {
                 ] :
                 // Regular preprints and branded preprints get provider and taxonomy facets
                 [
-                    ['sources', 'providers', 'collection-provider'],
+                    ['sources', 'providers', 'collection-provider', { hidden: true }],
                     ['subjects', 'subject', 'taxonomy'],
                     ['status', 'status', 'status'],
                     ['type', 'type', 'collected-type'],
                 ]
-        ).map(([key, title, component]) => ({
+        ).map(([key, title, component, options]) => ({
             key,
             title: this.i18n.t(`discover.main.${title}`),
             component,
+            options,
         }));
     }
 
@@ -82,27 +83,6 @@ export default class Discover extends Controller {
         'Research Papers in Economics': 'RePEc',
     };
 
-    @computed('additionalProviders')
-    get lockedParams() { // Query parameters that cannot be changed.
-        // if additionalProviders, open up search results to all types of results instead of just preprints.
-        return this.additionalProviders ? {} : {
-            bool: {
-                should: [
-                    {
-                        terms: {
-                            types: ['preprint'],
-                        },
-                    },
-                    {
-                        terms: {
-                            sources: ['Thesis Commons'],
-                        },
-                    },
-                ],
-            },
-        };
-    }
-
     page = 1; // Page query param. Must be passed to component, so can be reflected in URL
     provider = ''; // Provider query param. Must be passed to component, so can be reflected in URL
     subject = ''; // Subject query param.  Must be passed to component, so can be reflected in URL
@@ -111,6 +91,9 @@ export default class Discover extends Controller {
     sources = ''; // Sources query param. Must be passed to component, so can be reflected in the URL
     start = ''; // Start query param. Must be passed to component, so can be reflected in the URL
     tags = ''; // Tags query param.  Must be passed to component, so can be reflected in URL
+
+    status = ''; // eslint-disable-line no-restricted-globals
+    collectedType = '';
 
     // Pass in the list of queryParams for this component
     queryParams = [
@@ -123,6 +106,9 @@ export default class Discover extends Controller {
         'end',
         'subject',
         'provider',
+
+        'status',
+        'collectedType',
     ];
 
     @computed('additionalProviders')
@@ -151,11 +137,6 @@ export default class Discover extends Controller {
             display: this.i18n.t(`discover.${display}`),
             sortBy,
         }));
-    }
-
-    @computed('model')
-    get themeProvider() { // Pulls the preprint provider from the already loaded model
-        return this.model.findBy('id', this.theme.id);
     }
 
     type = ''; // Type query param. Must be passed to component, so can be reflected in URL

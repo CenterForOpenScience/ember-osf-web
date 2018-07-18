@@ -1,19 +1,18 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import EmberObject, { setProperties } from '@ember/object';
 import { debounce } from '@ember/runloop';
 import { camelize } from '@ember/string';
+import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
-import Contributor from 'ember-osf-web/models/contributor';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import eatArgs from 'ember-osf-web/utils/eat-args';
-import moment from 'moment';
 import { encodeParams, getSplitParams, getUniqueList } from '../../utils/elastic-query';
 import styles from './styles';
 import layout from './template';
@@ -33,32 +32,8 @@ import layout from './template';
  * query parameters that are always locked in your application. Each query parameter must be passed in individually,
  * so they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet.
  * Individual components can additionally be overridden in your application.
- *
- * Sample usage:
- * ```handlebars
- * {{discover-page
- *   activeFilters=activeFilters
- *   detailRoute=detailRoute
- *   discoverHeader=discoverHeader
- *   facets=facets
- *   fetchedProviders=model
- *   filterReplace=filterReplace
- *   lockedParams=lockedParams
- *   page=page
- *   provider=provider
- *   q=q
- *   queryParams=queryParams
- *   searchPlaceholder=searchPlaceholder
- *   showActiveFilters=showActiveFilters
- *   sortOptions=sortOptions
- *   subject=subject
- *   themeProvider=themeProvider
- * }}
- * ```
- * @class discover-page
  */
 
-const MAX_SOURCES = 500;
 const filterQueryParams = [
     'taxonomy',
     'provider',
@@ -71,6 +46,9 @@ const filterQueryParams = [
     'language',
     'contributors',
     'type',
+
+    'status',
+    'collectedType',
 ];
 
 export interface Filters extends EmberObject {
@@ -85,41 +63,22 @@ interface Facet {
     key: string;
     title: string;
     type?: string;
+    options?: any;
 }
 
-interface Provider {
-    domain: string;
-    domainRedirectEnabled: boolean;
-    name: string; // eslint-disable-line no-restricted-globals
-    shareSource: string;
+export interface FacetContext extends EmberObject {
+    didInit: boolean;
+    activeFilter: any[];
+    lockedActiveFilter: any[];
+    defaultQueryFilters: any;
+    currentQueryFilters: any;
+    queryParam: string;
+    options?: any;
+    updateFilters: (item?: string) => void;
 }
 
-interface Result {
-    '@type': string;
-    description: string;
-    identifiers: string[];
-    sources: string[];
-    registration_type?: string; // eslint-disable-line camelcase
-    lists: {
-        contributors: any;
-    };
-    id: string;
-    type: string;
-    workType: string;
-    abstract: string;
-    subjects: Array<{ text: string }>;
-    subject_synonyms: Array<{ text: string }>; // eslint-disable-line camelcase
-    providers: Array<{ name: string }>; // eslint-disable-line no-restricted-globals
-    hyperLinks: Array<{
-        type?: string;
-        url: string;
-    }>;
-    infoLinks: Array<{
-        uri: string;
-        type: string;
-    }>;
-    registrationType?: string;
-    contributors: Contributor[];
+export interface FacetContexts {
+    [index: string]: FacetContext;
 }
 
 interface SortOption {
@@ -127,37 +86,16 @@ interface SortOption {
     sortBy: string;
 }
 
-interface Source {
-    '@type': string;
-    description: string;
-    identifiers: string[];
-    subjects: string[];
-    subject_synonyms: string[]; // eslint-disable-line camelcase
-    sources: string[];
-    type: string;
-    registration_type?: string; // eslint-disable-line camelcase
-    lists: {
-        contributors: any;
+interface ArrayMeta {
+    meta: {
+        total: number;
     };
 }
 
-interface Hit {
-    _id: string;
-    _source: Source;
-}
+type SearchQuery = ArrayProxy<any> & ArrayMeta;
 
-export interface FacetContext extends EmberObject {
-    didInit: boolean;
-    activeFilter: any[];
-    lockedActiveFilter: any[];
-    defaultQueryFilters: any[];
-    currentQueryFilters: any;
-    queryParam: string;
-    updateFilters: (item?: string) => void;
-}
-
-export interface FacetContexts {
-    [index: string]: FacetContext;
+function emptyResults(): SearchQuery {
+    return ArrayProxy.create({ content: [], meta: { total: 0 } });
 }
 
 export default class DiscoverPage extends Component.extend({
@@ -166,7 +104,6 @@ export default class DiscoverPage extends Component.extend({
         // Runs on initial render.
         this._super(...args);
         this.set('firstLoad', true);
-        this.getCounts();
     },
 }) {
     layout = layout;
@@ -174,11 +111,12 @@ export default class DiscoverPage extends Component.extend({
 
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
     @service theme!: Theme;
     @service i18n!: I18N;
 
     firstLoad: boolean = true;
-    results: Result[] = [];
+    results: SearchQuery = emptyResults();
 
     /**
      * Contributors query parameter.  If 'contributors' is one of your query params, it must be passed to the component
@@ -229,8 +167,8 @@ export default class DiscoverPage extends Component.extend({
     facets: Facet[] = this.facets;
 
     facetContexts: FacetContexts = this.facets
-        .reduce((acc, { component }) => {
-            const queryParam: string = this[component as keyof DiscoverPage];
+        .reduce((acc, { component, options }) => {
+            const queryParam: string = this[camelize(component) as keyof DiscoverPage];
             const activeFilter = !queryParam ? [] : queryParam.split('OR').filter(str => !!str);
 
             return {
@@ -238,35 +176,23 @@ export default class DiscoverPage extends Component.extend({
                 [component]: {
                     didInit: false,
                     queryParam,
-                    lockedActiveFilter: [],
+                    lockedActiveFilter: {},
                     activeFilter,
-                    defaultQueryFilters: [],
-                    currentQueryFilters: [],
-                    updateFilters(item: any) {
-                        eatArgs(item);
+                    defaultQueryFilters: {},
+                    currentQueryFilters: {},
+                    options,
+                    updateFilters() {
                         assert('You should set an `updateFilters` function');
                     },
                 },
             };
         }, {});
 
-    /**
-     * For PREPRINTS ONLY.  Pass in the providers fetched in preprints app so they can be used in the provider carousel
-     * @property {Object} fetchedProviders
-     */
-    fetchedProviders: Provider[] = [];
-
-    @computed('fetchedProviders.[]')
-    get domainRedirectProviders(): string[] {
-        return this.fetchedProviders
-            .filter(({ domain, domainRedirectEnabled }) => domain && domainRedirectEnabled)
-            .map(({ domain }) => domain);
-    }
-
-    @computed('facetContexts.{provider,taxonomy}.currentQueryFilters')
-    get filters(): any[] {
+    // TODO: Use dynamic computed property based on this.facets
+    @computed('facetContexts.{provider,taxonomy,collected-type,status}.currentQueryFilters')
+    get filters(): { [index: string]: any } {
         return Object.values(this.facetContexts)
-            .reduce((acc: any[], { currentQueryFilters }) => [...acc, ...currentQueryFilters], []);
+            .reduce((acc, { currentQueryFilters }) => ({ ...acc, ...currentQueryFilters }), {});
     }
 
     @computed('sort')
@@ -280,24 +206,13 @@ export default class DiscoverPage extends Component.extend({
             {};
     }
 
-    @computed('q', 'page', 'filters', 'lockedQueryBody', 'sortQuery')
-    get elasticQuery() {
+    @computed('q', 'page', 'filters', 'sortQuery')
+    get queryAttributes() {
         return {
-            from: (this.page - 1) * 10,
-            ...this.sortQuery,
-            query: {
-                bool: {
-                    must: {
-                        query_string: {
-                            query: this.q || '*',
-                        },
-                    },
-                    filter: [
-                        ...this.lockedQueryBody,
-                        ...this.filters,
-                    ],
-                },
-            },
+            // from: (this.page - 1) * 10,
+            // ...this.sortQuery,
+            q: this.q || undefined,
+            ...this.filters,
         };
     }
 
@@ -383,13 +298,14 @@ export default class DiscoverPage extends Component.extend({
      */
     q: string = defaultTo(this.q, '');
 
+    status: string = defaultTo(this.status, ''); // eslint-disable-line no-restricted-globals
+    collectedType: string = defaultTo(this.collectedType, '');
+
     /**
      * Declare on consuming application's controller for query params to be active in that route.
      * @property {Array} queryParams
      */
     queryParams = ['q', 'start', 'end', 'sort', 'page', ...filterQueryParams];
-
-    // results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
 
     /**
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
@@ -491,22 +407,6 @@ export default class DiscoverPage extends Component.extend({
         return this.totalPages < maxPages ? this.totalPages : maxPages;
     }
 
-    // Ember-SHARE property.
-    elasticAggregations = {
-        sources: {
-            terms: {
-                field: 'sources',
-                size: MAX_SOURCES,
-            },
-        },
-    };
-
-    // Ember-SHARE property. Returns pages of hidden search results.
-    @computed('clampedPages', 'totalPages')
-    get hiddenPages() {
-        return this.totalPages === this.clampedPages ? null : this.totalPages - this.clampedPages;
-    }
-
     @computed('currentUser.sessionKey')
     get searchUrl() {
         // Pulls SHARE search url from config file.
@@ -519,149 +419,21 @@ export default class DiscoverPage extends Component.extend({
         return Math.ceil(this.numberOfResults / this.size);
     }
 
-    // ************************************************************
-    // Discover-page METHODS and HOOKS
-    // ************************************************************
-
-    /**
-     * For PREPRINTS, REGISTRIES, RETRACTION WATCH - services where portion of query is restricted.
-     * Builds the locked portion of the query.  For example, in preprints, types=['preprint', 'thesis']
-     * is something that cannot be modified by the user.
-     *
-     * @method buildLockedQueryBody
-     * @param {Object} lockedParams - Locked param keys matched to the locked value.
-     * @return {Object} queryBody - locked portion of query body
-     */
-    @computed('lockedParams')
-    get lockedQueryBody(): Array<string | object> {
-        return Object.entries(this.lockedParams)
-            .map(([key, value]) => {
-                let queryKey: string;
-
-                switch (key) {
-                case 'contributors':
-                    queryKey = 'lists.contributors.name';
-                    break;
-                default:
-                    queryKey = key;
-                }
-
-                const query = {
-                    [queryKey]: value,
-                };
-
-                return key === 'bool' ? query : { terms: query };
-            });
-    }
-
-    async getCounts(this: DiscoverPage) {
-        // Ember-SHARE method
-        const { hits, aggregations }: any = await $.ajax({
-            url: this.searchUrl,
-            crossDomain: true,
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                size: 0,
-                aggregations: {
-                    sources: {
-                        cardinality: {
-                            field: 'sources',
-                            precision_threshold: MAX_SOURCES,
-                        },
-                    },
-                },
-            }),
-        });
-
-        this.setProperties({
-            numberOfEvents: hits.total,
-            numberOfSources: aggregations.sources.value,
-        });
-    }
-
     async loadPage(this: DiscoverPage) {
         // const data = JSON.stringify(this.getQueryBody());
 
         this.set('loading', true);
 
         try {
-            const json = await $.ajax({
-                url: this.searchUrl,
-                crossDomain: true,
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(this.elasticQuery),
-            });
-
-            if (this.isDestroyed || this.isDestroying) {
-                return;
-            }
-
-            // Safeguard: if query has changed since request was sent, dont update results
-            // if (this.queryBody !== JSON.stringify(this.getQueryBody())) {
-            //     return;
-            // }
-
-            const results = (json.hits.hits as Hit[]).map(hit => {
-                // HACK: Make share data look like apiv2 preprints data
-                const result: Result = {
-                    ...hit._source,
-                    id: hit._id,
-                    type: 'elastic-search-result',
-                    workType: hit._source['@type'],
-                    abstract: hit._source.description,
-                    subjects: hit._source.subjects.map(text => ({ text })),
-                    subject_synonyms: hit._source.subject_synonyms.map(text => ({ text })),
-                    providers: hit._source.sources.map(name => ({ name })), // For PREPRINTS, REGISTRIES
-                    hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
-                        {
-                            type: 'share',
-                            url: `${config.OSF.shareBaseUrl}${hit._source.type.replace(/ /g, '')}/hit._id`,
-                        },
-                    ],
-                    infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
-                    registrationType: hit._source.registration_type, // For REGISTRIES
-                    contributors: (hit._source.lists.contributors || [])
-                        .sort((b: any, a: any) => +b.order_cited - +a.order_cited)
-                        .map((contributor: any) => ({
-                            users: Object.entries(contributor)
-                                .reduce(
-                                    (acc, [key, val]) => ({ ...acc, [camelize(key)]: val }),
-                                    { bibliographic: contributor.relation !== 'contributor' },
-                                ),
-                        })),
-                };
-
-                hit._source.identifiers.forEach(identifier => {
-                    if (identifier.startsWith('http://')) {
-                        result.hyperLinks.push({ url: identifier });
-                    } else {
-                        const [type, uri] = identifier.split('://');
-                        result.infoLinks.push({ type, uri });
-                    }
-                });
-
-                // Temporary fix to handle half way migrated SHARE ES
-                // Only false will result in a false here.
-                // result.contributors
-                // .map(contributor => contributor.users.bibliographic = !(contributor.users.bibliographic === false));
-
-                return result;
-            });
-
-            if (json.aggregations) {
-                this.set('aggregations', json.aggregations);
-            }
+            const collectedMetadata = (await this.store
+                .query('collected-metadatum', this.queryAttributes) as SearchQuery);
 
             this.setProperties({
-                numberOfResults: json.hits.total,
-                took: moment.duration(json.took).asSeconds(),
+                numberOfResults: collectedMetadata.meta.total,
                 loading: false,
                 firstLoad: false,
-                results,
+                results: collectedMetadata,
                 queryError: false,
-                shareDown: false,
             });
 
             if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
@@ -672,7 +444,7 @@ export default class DiscoverPage extends Component.extend({
                 loading: false,
                 firstLoad: false,
                 numberOfResults: 0,
-                results: [],
+                results: emptyResults(),
             });
 
             // If issue with search query, for example, invalid lucene search syntax
@@ -692,7 +464,7 @@ export default class DiscoverPage extends Component.extend({
 
         this.setProperties({
             loading: true,
-            results: [],
+            results: emptyResults(),
         });
 
         debounce(this, this.loadPage, 500);
@@ -780,7 +552,7 @@ export default class DiscoverPage extends Component.extend({
         this.setProperties({
             page: 1,
             ...contexts.reduce((acc, [key, { queryParam }]) => ({
-                ...acc, [key]: queryParam,
+                ...acc, [camelize(key)]: queryParam,
             }), {}),
         });
 

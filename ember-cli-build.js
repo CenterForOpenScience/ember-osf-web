@@ -56,6 +56,7 @@ module.exports = function(defaults) {
             enabled: true,
             exclude: [
                 'zxcvbn.js',
+                'assets/osf-assets',
             ],
             prepend: config.assetsPrefix,
         },

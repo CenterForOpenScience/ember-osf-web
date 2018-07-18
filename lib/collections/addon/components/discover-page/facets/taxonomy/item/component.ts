@@ -26,19 +26,19 @@ export default class TaxonomyListItem extends Component {
     @alias('item.path')
     path!: string;
 
-    @computed('path', 'activeFilter.[]')
+    @computed('item.text', 'activeFilter.[]')
     get checked() {
-        return this.activeFilter.includes(this.path);
+        return this.activeFilter.includes(this.item.text);
     }
 
-    @computed('path', 'expandedList.[]')
+    @computed('item.text', 'expandedList.[]')
     get expanded() {
-        return this.expandedList.includes(this.path);
+        return this.expandedList.includes(this.item.text);
     }
 
     @action
     toggleExpand() {
-        const { text, path, childCount, children } = this.item;
+        const { text, childCount, children } = this.item;
 
         this.analytics.track(
             'tree',
@@ -47,7 +47,7 @@ export default class TaxonomyListItem extends Component {
         );
 
         const method = this.expanded ? 'removeObject' : 'pushObject';
-        this.expandedList[method](path);
+        this.expandedList[method](text);
 
         if (childCount !== children.length) {
             SearchFacetTaxonomy.getTaxonomies(this.item, this.theme.provider!);

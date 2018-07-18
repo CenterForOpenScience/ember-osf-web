@@ -171,6 +171,8 @@ declare const config: {
     'ember-cli-tailwind'?: {
         shouldIncludeStyleguide: boolean,
     };
+
+    defaultProvider: string;
 };
 
 export default config;

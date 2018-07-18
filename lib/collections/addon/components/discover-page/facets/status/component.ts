@@ -1,6 +1,9 @@
 import Collection from 'ember-osf-web/models/collection';
-import Checklist from '../checklist/component';
+import SearchFacetChecklist from '../checklist/component';
 
-export default class Status extends Checklist {
-    attribute: keyof Collection = 'statusChoices';
+class Status extends SearchFacetChecklist {
+    get modelAttribute(): keyof Collection { return 'statusChoices'; }
+    get filterProperty() { return 'status'; }
 }
+
+export default Status;

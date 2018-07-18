@@ -74,7 +74,7 @@ export default class OsfAdapter extends JSONAPIAdapter.extend({
         requestType: string,
     ): string {
         let url: string = this._super(modelName, id, snapshot, requestType);
-        const { record, adapterOptions } = snapshot;
+        const { record, adapterOptions } = snapshot || { record: null, adapterOptions: null };
         const opts: AdapterOptions = adapterOptions || {};
 
         if (requestType === 'deleteRecord') {

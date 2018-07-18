@@ -13,27 +13,11 @@ interface Item {
     key: string;
 }
 
-/**
- * Builds preprint provider facets for discover page.
- * To be used with discover-page component and faceted-search component.
- *
- * Sample usage:
- * ```handlebars
- * {{search-facet-provider
- *      updateFilters=(action 'updateFilters')
- *      activeFilters=activeFilters
- *      options=facet
- *      filterReplace=filterReplace
- *      key=key
- * }}
- * ```
- * @class search-facet-provider
- */
 export default abstract class SearchFacetChecklist extends Base.extend({
     didReceiveAttrs(this: SearchFacetChecklist, ...args: any[]) {
         this._super(...args);
 
-        const { context, filterChanged } = this;
+        const { context, filterChanged, filterProperty } = this;
 
         setProperties(context, {
             updateFilters(item?: string) {
@@ -48,13 +32,9 @@ export default abstract class SearchFacetChecklist extends Base.extend({
                     queryParam: activeFilter.join('OR'),
                     currentQueryFilters: !activeFilter.length ?
                         defaultQueryFilters :
-                        [
-                            {
-                                terms: {
-                                    sources: activeFilter,
-                                },
-                            },
-                        ],
+                        {
+                            [filterProperty]: activeFilter,
+                        },
                 });
 
                 filterChanged();
@@ -77,25 +57,16 @@ export default abstract class SearchFacetChecklist extends Base.extend({
 
         const allItems = primaryCollections
             .reduce(
-                (acc, val) => [...acc, ...(val[this.attribute] as string[])],
+                (acc, val) => [...acc, ...(val[this.modelAttribute] as string[])],
                 [],
             )
             .map(key => ({ key }));
 
-        this.setProperties({
-            allItems,
-        });
+        this.allItems.pushObjects(allItems);
 
         setProperties(this.context, {
             didInit: true,
-            defaultQueryFilters: [
-                // {
-                //     terms: {
-                //         // if there are no providers checked, use all whitelisted providers in the query
-                //         sources: this.otherProviders.mapBy('key'),
-                //     },
-                // },
-            ],
+            defaultQueryFilters: {},
         });
 
         this.context.updateFilters();
@@ -108,9 +79,10 @@ export default abstract class SearchFacetChecklist extends Base.extend({
 
     allItems: Item[] = [];
 
-    abstract attribute: keyof Collection;
+    abstract get modelAttribute(): keyof Collection;
+    abstract get filterProperty(): string;
 
-    @computed('allItems', 'context.activeFilter.[]')
+    @computed('allItems.[]', 'context.activeFilter.[]')
     get items(this: SearchFacetChecklist) {
         const { activeFilter } = this.context;
 

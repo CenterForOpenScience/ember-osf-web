@@ -1,7 +1,7 @@
 {{!Copied from Ember-SHARE}}
 <div class="p-t-md">
     {{#each facets as |facet|}}
-        <div class="panel panel-default" local-class="facet-panel">
+        <div class="panel panel-default" local-class="facet-panel" hidden={{get (get facetContexts facet.component) 'options.hidden'}}>
             <div class="panel-heading">
                 {{facet.title}}
             </div>

@@ -14,7 +14,7 @@
 </div>
 {{#each facetContexts.collection-provider.activeFilter as |item|}}
     <span local-class="preprint-filter provider-filter">
-        {{filter-replace item filterReplace}}
+        {{filter-replace item.key filterReplace}}
         {{#unless theme.isProvider}}
             {{!ACTIVE PROVIDER FILTERS}}
             <span aria-label={{t 'eosf.components.discoverPage.removeProvider'}}>

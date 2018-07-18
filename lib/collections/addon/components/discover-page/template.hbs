@@ -166,14 +166,9 @@
                         {{!RESULTS FOUND}}
                         <div class="results-top">
                             {{#each results as |result|}}
-                                {{!search-result
-                                    themeProvider=themeProvider
-                                    queryParams=queryParams
-                                    detailRoute=detailRoute
-                                    filterReplace=filterReplace
+                                {{search-result
                                     result=result
                                     currentService=currentService
-                                    domainRedirectProviders=domainRedirectProviders
                                     facetContexts=facetContexts
                                     filterChanged=(action 'filterChanged')
                                 }}
