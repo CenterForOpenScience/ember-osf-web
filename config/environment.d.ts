@@ -89,6 +89,7 @@ declare const config: {
             keenSessionId: string;
             analyticsDismissAdblock: string;
             cookieConsent: string;
+            maintenance: string;
         };
     };
     social: {

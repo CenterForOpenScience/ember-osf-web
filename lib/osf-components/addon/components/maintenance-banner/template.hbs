@@ -1,7 +1,7 @@
 {{#if maintenance}}
     {{#bs-alert
         type=alertType
-        onDismiss=(action 'click' 'button' 'Maintenance Banner - dismiss' target=analytics)
+        onDismiss=(action 'dismiss')
     }}
         <strong>{{t 'maintenance.title'}}</strong>
         {{#if maintenance.message.length}}
