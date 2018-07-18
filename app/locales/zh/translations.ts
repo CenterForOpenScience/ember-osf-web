@@ -682,4 +682,21 @@ export default {
             delete_draft_confirm: 'Are you sure you want to delete this draft registration?',
         },
     },
+    settings: {
+        nav: {
+            profile: 'Profile information',
+            account: 'Account settings',
+            addons: 'Configure add-on accounts',
+            notifications: 'Notifications',
+            apps: 'Developer apps',
+            tokens: 'Personal access tokens',
+        },
+        tokens: {
+            explanation: 'Personal access tokens function like ordinary OAuth access tokens. They can be used to authenticate to the API.',
+            listDescription: 'You have generated the following personal access tokens:',
+            newToken: 'New token',
+            tokenName: 'Token name',
+            scopes: 'Scopes',
+        },
+    },
 };

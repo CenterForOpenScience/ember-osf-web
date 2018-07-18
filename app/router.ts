@@ -66,10 +66,13 @@ const Router = EmberRouter.extend({
 Router.map(function() {
     // All non-guid routes (except error routes) belong above "Guid Routing"
     this.route('home', { path: '/' });
-    this.route('goodbye');
     this.route('dashboard');
-    this.route('quickfiles');
+    this.route('goodbye');
     this.route('institutions');
+    this.route('quickfiles');
+    this.route('settings', function() {
+        this.route('tokens');
+    });
     this.route('support');
 
     if (collections.enabled) {
