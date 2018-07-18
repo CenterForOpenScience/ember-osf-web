@@ -74,6 +74,7 @@ export default class MaintenanceBanner extends Component.extend({
 
     @action
     dismiss(this: MaintenanceBanner) {
+        this.analytics.click('button', 'Maintenance Banner - dismiss');
         this.cookies.write(maintenanceCookie, 0, {
             expires: moment().add(24, 'hours').toDate(),
             path: '/',
