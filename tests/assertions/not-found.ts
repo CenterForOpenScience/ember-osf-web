@@ -9,7 +9,7 @@ export default function notFound<Context extends TestContext>(
 ) {
     const result = !(typeof subject === 'string' ? context.element.querySelector(subject) : subject);
     const actual = result ? 'not found' : 'found';
-    const expected = 'found';
+    const expected = 'not found';
     this.pushResult({ result, actual, expected, message, negative: true });
 }
 
