@@ -1,7 +1,7 @@
 /* stylelint-disable */
 .quickSearch {
     min-height: 700px;
-    background: #C5D6E6 url('/static/img/bg6.jpg') top center repeat-y;
+    background: #C5D6E6 url('/assets/images/dashboard/bg6.jpg') top center repeat-y;
     background-size: cover;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .bg-web {
-    background: #166595 url("/static/img/front-page/bg-web.png") no-repeat center top;
+    background: #166595 url("/assets/images/home/bg-web.png") no-repeat center top;
     background-size: cover;
 }
 
@@ -36,17 +36,6 @@
 .meetings {
     color: $color-text-white;
 }
-
-// .prereg {
-//     background: #C5D6E6 url("/static/img/bg6.jpg") no-repeat center top;
-//     background-size: cover;
-
-// }
-
-// .prereg-banner {
-//     background: $color-bg-blue-dark;
-//     color: $color-text-white;
-// }
 
 .preprints {
     background: $color-bg-gray-blue-dark;
@@ -185,26 +174,3 @@
     color: $color-text-placeholder-grey-dark;
     opacity: 1;
 }
-
-// ::-webkit-input-placeholder {
-//     /* Webkit, Blink, Edge */
-//     color: $color-text-placeholder-grey-dark;
-// }
-// :-moz-placeholder {
-//     /* Mozilla Firefox 4 to 18 */
-//     color: $color-text-placeholder-grey-dark;
-//     opacity: 1;
-// }
-// ::-moz-placeholder {
-//     /* Mozilla Firefox 19+ */
-//     color: $color-text-placeholder-grey-dark;
-//     opacity: 1;
-// }
-// :-ms-input-placeholder {
-//     /* Internet Explorer 10-11 */
-//     color: $color-text-placeholder-grey-dark;
-// }
-// ::-ms-input-placeholder {
-//     /* Microsoft Edge */
-//     color: $color-text-placeholder-grey-dark;
-// }

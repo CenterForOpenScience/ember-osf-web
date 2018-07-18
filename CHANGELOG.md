@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `storage_i18n` - enable region selector on project creation
 - Components:
     - `cookie-banner` - Notify logged-out users the site uses cookies
+  - Assets:
+    - Images for home page
+    - Images for dashboard
 - `keen` metrics adapter
 
 ### Changed

@@ -38,7 +38,7 @@
                     <a class="youtube" href="//www.youtube.com/watch?v={{youtubeId}}" aria-label="{{t 'home.youtube_label'}}" {{action (mut modalOpen) true}} {{action 'click' 'link' 'Home - youtube_video' target=analytics}}>
                         <i local-class="icon icon-play"></i>
                     </a>
-                    <img src="/static/img/front-page/screenshot.png" class="img-responsive" id="screenshot" alt="{{t 'home.osf_screenshot_alt'}}">
+                    <img src="/assets/images/home/screenshot.png" class="img-responsive" id="screenshot" alt="{{t 'home.osf_screenshot_alt'}}">
                 </div>
                 <div class="col-sm-6" local-class="sign-up-div">
                     <h2>{{t 'home.signup_title'}}</h2>
@@ -117,15 +117,34 @@
                 <h2>{{t 'home.integrations_title'}}</h2>
             </div>
         </div>
-        {{#each integrations as | integrationsRow |}}
-            <div class="row" local-class="integrations">
-                {{#each integrationsRow as | integration |}}
-                    <div class="col-sm-3 col-xs-6">
-                        <img src="/static/img/front-page/{{integration}}.png" class="img-responsive" alt="{{t (concat 'home.integrations_alt_' integration)}}">
-                    </div>
-                {{/each}}
+        <div class="row" local-class="integrations">
+            <div class="col-sm-3 col-xs-6">
+                <img src="/assets/images/home/dropbox.png" class="img-responsive" alt="{{t (concat 'home.integrations_alt_' integration)}}">
             </div>
-        {{/each}}
+            <div class="col-sm-3 col-xs-6">
+                <img src="/assets/images/home/github.png" class="img-responsive" alt="{{t (concat 'home.integrations_alt_' integration)}}">
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <img src="/assets/images/home/amazon.png" class="img-responsive" alt="{{t (concat 'home.integrations_alt_' integration)}}">
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <img src="/assets/images/home/box.png" class="img-responsive" alt="{{t (concat 'home.integrations_alt_' integration)}}">
+            </div>
+        </div>
+        <div class="row" local-class="integrations">
+            <div class="col-sm-3 col-xs-6">
+                <img src="/assets/images/home/google.png" class="img-responsive" alt="{{t (concat 'home.integrations_alt_' integration)}}">
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <img src="/assets/images/home/figshare.png" class="img-responsive" alt="{{t (concat 'home.integrations_alt_' integration)}}">
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <img src="/assets/images/home/dataverse.png" class="img-responsive" alt="{{t (concat 'home.integrations_alt_' integration)}}">
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <img src="/assets/images/home/mendeley.png" class="img-responsive" alt="{{t (concat 'home.integrations_alt_' integration)}}">
+            </div>
+        </div>
     </div>
 </div>
 <div local-class="feature-3">
@@ -181,7 +200,7 @@
         </div>
         <div class="row">
             <div class="col-xs-4 col-md-3">
-                <img src="/static/img/front-page/user2.jpg" class="img-circle img-responsive" alt="{{t 'home.users_1_alt'}}">
+                <img src="/assets/images/home/user2.jpg" class="img-circle img-responsive" alt="{{t 'home.users_1_alt'}}">
             </div>
             <div class="col-xs-8">
                 <h3>{{t 'home.users_1_title'}}</h3>
@@ -206,12 +225,12 @@
                 </p>
             </div>
             <div class="col-md-3">
-                <img src="/static/img/front-page/user3.jpg" class="img-circle img-responsive" alt="{{t 'home.users_2_alt'}}">
+                <img src="/assets/images/home/user3.jpg" class="img-circle img-responsive" alt="{{t 'home.users_2_alt'}}">
             </div>
         </div>
         <div class="row hidden-xs hidden-sm">
             <div class="col-md-3">
-                <img src="/static/img/front-page/user4.jpg" class="img-circle img-responsive" alt="{{t 'home.users_3_alt'}}">
+                <img src="/assets/images/home/user4.jpg" class="img-circle img-responsive" alt="{{t 'home.users_3_alt'}}">
             </div>
             <div class="col-md-7">
                 <h3>{{t 'home.users_3_title'}}</h3>
