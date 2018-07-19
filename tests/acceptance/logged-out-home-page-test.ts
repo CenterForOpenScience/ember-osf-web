@@ -37,5 +37,9 @@ module('Acceptance | logged-out home page', hooks => {
         assert.notFound('[class*="SignUpForm"] iframe', 'Invalidate form: captcha disappears.');
         await click('#acceptedTermsOfService');
         assert.found('[class*="SignUpForm"] iframe', 'Revalidate form: captcha reappears.');
+
+        // Alt text for integration logos
+        assert.found('[class*="_integrations"] img[alt*="Dropbox logo"]');
+        assert.notFound('img[alt*="Missing translation"]');
     });
 });
