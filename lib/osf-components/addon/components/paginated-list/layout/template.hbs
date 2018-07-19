@@ -1,0 +1,35 @@
+{{#if this.loading}}
+    {{#if this.placeholderCount}}
+        <ul class="list-group m-md">
+            {{#each (range 1 @placeholderCount)}}
+                {{yield (hash
+                    item=(component 'paginated-list/x-item')
+                )}}
+            {{/each}}
+        </ul>
+    {{else}}
+        {{loading-indicator dark=true}}
+    {{/if}}
+{{else if this.errorShown}}
+    <p>{{t 'paginatedRelation.error'}}</p>
+{{else if @items.length}}
+    <ul class="list-group m-md">
+        {{#each @items as |item index|}}
+            {{#unless item.isDeleted}}
+                {{yield (hash
+                    item=(component 'paginated-list/x-item' item=item index=index onDelete=(action @onDeleteItem))
+                )}}
+            {{/unless}}
+        {{/each}}
+    </ul>
+    {{simple-paginator
+        maxPage=this.maxPage
+        nextPage=(action @next)
+        previousPage=(action @previous)
+        curPage=@page
+    }}
+{{else}}
+    {{yield (hash
+        empty=(component 'paginated-list/layout/x-render')
+    )}}
+{{/if}}
