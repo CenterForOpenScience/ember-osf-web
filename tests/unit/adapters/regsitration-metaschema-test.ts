@@ -1,12 +1,12 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-module('Unit | Adapter | metaschema', hooks => {
+module('Unit | Adapter | registration-metaschema', hooks => {
     setupTest(hooks);
 
     // Replace this with your real tests.
     test('it exists', function(assert) {
-        const adapter = this.owner.lookup('adapter:metaschema');
+        const adapter = this.owner.lookup('adapter:registration-metaschema');
         assert.ok(adapter);
     });
 });

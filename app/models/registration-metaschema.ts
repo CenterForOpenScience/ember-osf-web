@@ -12,7 +12,7 @@ import OsfModel from './osf-model';
  *
  * @class Metaschema
  */
-export default class Metaschema extends OsfModel {
+export default class RegistrationMetaschema extends OsfModel {
     @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: any;
@@ -20,6 +20,6 @@ export default class Metaschema extends OsfModel {
 
 declare module 'ember-data' {
     interface ModelRegistry {
-        'metaschema': Metaschema;
+        'registration-metaschema': RegistrationMetaschema;
     }
 }
