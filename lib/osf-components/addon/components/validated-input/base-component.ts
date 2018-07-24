@@ -2,7 +2,7 @@
 // See https://github.com/offirgolan/ember-cp-validations for more information
 import { className } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
-import { and, not, notEmpty } from '@ember-decorators/object/computed';
+import { equal } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { defineProperty } from '@ember/object';
 import { alias as aliasMacro, oneWay as oneWayMacro } from '@ember/object/computed';
@@ -10,43 +10,55 @@ import { isEmpty } from '@ember/utils';
 import DS from 'ember-data';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
+export enum ValidationStatus {
+    Hidden,
+    Success,
+    HasError,
+    HasWarning,
+}
+
 export default abstract class BaseValidatedInput extends Component {
     // Required arguments
     model!: DS.Model;
     valuePath!: string;
 
     // Optional arguments
+    label?: string;
     ariaLabel?: string;
     placeholder?: string;
     disabled: boolean = defaultTo(this.disabled, false);
+    messagesShown: boolean = defaultTo(this.messagesShown, true);
 
     // Private properties
     validation?: any; // defined in constructor
-    value?: string; // defined in constructor
-
-    @and('validation.{isDirty,isInvalid}') showErrorMessage!: boolean;
-    @notEmpty('value') hasContent!: boolean;
-    @not('validation.isValidating') notValidating!: boolean;
+    value?: any; // defined in constructor
 
     @className('has-success')
-    @and('hasContent', 'validation.isValid', 'notValidating')
-    isValid!: boolean;
+    @equal('validationStatus', ValidationStatus.Success)
+    hasSuccess!: boolean;
 
     // TODO delete?
     @className('has-error')
-    showErrorClass!: boolean;
+    @equal('validationStatus', ValidationStatus.HasError)
+    hasError!: boolean;
 
-    @computed('validation.{isDirty,warnings.[]}', 'isValid')
-    get showWarningMessage(): boolean {
-        return this.validation
-            && this.validation.isDirty
-            && this.isValid
-            && !isEmpty(this.validation.warnings);
-    }
-
-    @computed('elementId', 'valuePath')
-    get inputElementId() {
-        return `${this.elementId}__${this.valuePath}`;
+    @computed(
+        'messagesShown',
+        'value',
+        'validation.{isInvalid,isValidating,warnings.[]}',
+    )
+    get validationStatus(): ValidationStatus {
+        const { validation } = this;
+        if (!this.messagesShown || validation.isValidating) {
+            return ValidationStatus.Hidden;
+        }
+        if (validation.isInvalid) {
+            return ValidationStatus.HasError;
+        }
+        if (!isEmpty(validation.warnings)) {
+            return ValidationStatus.HasWarning;
+        }
+        return isEmpty(this.value) ? ValidationStatus.Hidden : ValidationStatus.Success;
     }
 
     constructor(...args: any[]) {

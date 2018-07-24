@@ -1,16 +1,14 @@
 /* stylelint-disable selector-class-pattern */
 
 .SignUpForm {
-    :global(.form-group) {
-        margin-bottom: 0;
-    }
+    :global(.has-error) {
+        input:not(:placeholder-shown) {
+            border: 1px solid #a94442;
+        }
 
-    :global(.has-error) input:not(:placeholder-shown) {
-        border: 1px solid #a94442;
-    }
-
-    :global(.error) {
-        background-color: #e0ebf3;
+        :global(.help-block) {
+            background-color: #e0ebf3;
+        }
     }
 
     button,
@@ -29,7 +27,7 @@
             width: #{$i * 20%};
         }
     }
-    
+
     @each $class, $color in $progress-bar-bg-bright {
         :global(.progress-bar-#{$class}) {
             background-color: $color;

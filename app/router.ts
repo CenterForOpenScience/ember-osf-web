@@ -71,7 +71,10 @@ Router.map(function() {
     this.route('institutions');
     this.route('quickfiles');
     this.route('settings', function() {
-        this.route('tokens');
+        this.route('tokens', function() {
+            this.route('edit', { path: '/:token_id' });
+            this.route('create');
+        });
     });
     this.route('support');
 

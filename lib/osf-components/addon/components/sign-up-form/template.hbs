@@ -2,7 +2,7 @@
     {{validated-input/text
         model=model
         valuePath='fullName'
-        didValidate=didValidate
+        messagesShown=didValidate
         disabled=hasSubmitted
         placeholder=(t 'sign_up_form.full_name')
         ariaLabel=(t 'sign_up_form.full_name')
@@ -10,7 +10,7 @@
     {{validated-input/text
         model=model
         valuePath='email1'
-        didValidate=didValidate
+        messagesShown=didValidate
         disabled=hasSubmitted
         placeholder=(t 'sign_up_form.contact_email')
         ariaLabel=(t 'sign_up_form.contact_email')
@@ -18,7 +18,7 @@
     {{validated-input/text
         model=model
         valuePath='email2'
-        didValidate=didValidate
+        messagesShown=didValidate
         disabled=hasSubmitted
         placeholder=(t 'sign_up_form.confirm_email')
         ariaLabel=(t 'sign_up_form.confirm_email')
@@ -26,9 +26,9 @@
     {{validated-input/text password=true
         model=model
         valuePath='password'
-        didValidate=didValidate
+        messagesShown=didValidate
         disabled=hasSubmitted
-        keyUp=(perform strength value=model.password)
+        onKeyUp=(perform strength model.password)
         placeholder=(t 'sign_up_form.password')
         ariaLabel=(t 'sign_up_form.password')
     }}
@@ -45,7 +45,7 @@
     {{#validated-input/checkbox
         model=model
         valuePath='acceptedTermsOfService'
-        didValidate=didValidate
+        messagesShown=didValidate
         disabled=hasSubmitted
         local-class='tos-checkbox'
     }}
@@ -59,7 +59,7 @@
             {{validated-input/recaptcha
                 model=model
                 valuePath='recaptchaResponse'
-                didValidate=didValidate
+                messagesShown=didValidate
             }}
         </div>
     {{/if}}

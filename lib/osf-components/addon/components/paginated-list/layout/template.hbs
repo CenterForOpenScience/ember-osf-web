@@ -22,12 +22,14 @@
             {{/unless}}
         {{/each}}
     </ul>
-    {{simple-paginator
-        maxPage=this.maxPage
-        nextPage=(action @next)
-        previousPage=(action @previous)
-        curPage=@page
-    }}
+    <div class="text-center">
+        {{simple-paginator
+            maxPage=this.maxPage
+            nextPage=(action @next)
+            previousPage=(action @previous)
+            curPage=@page
+        }}
+    </div>
 {{else}}
     {{yield (hash
         empty=(component 'paginated-list/layout/x-render')

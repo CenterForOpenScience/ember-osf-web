@@ -1,15 +1,11 @@
-<div class="form-group {{if showErrorMessage 'has-error'}}">
-    {{yield}}
+{{#if this.label}}
+    <label for='{{this.inputElementId}}'>{{this.label}}</label>
+{{/if}}
 
-    {{#if isValid}}
-        <span class="valid-input"></span>
-    {{/if}}
+{{yield this.inputElementId}}
 
-    <div class="input-error help-block">
-        {{#if showErrorMessage}}
-            <div class="error">
-                {{v-get model valuePath 'message'}}
-            </div>
-        {{/if}}
+{{#if (or this.hasError this.hasWarning)}}
+    <div class="help-block">
+        {{v-get this.model this.valuePath 'message'}}
     </div>
-</div>
+{{/if}}

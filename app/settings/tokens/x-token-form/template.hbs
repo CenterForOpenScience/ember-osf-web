@@ -1,0 +1,43 @@
+{{#bs-form onSubmit=(perform this.saveTokenTask)}}
+    {{validated-input/text
+        tagName='span'
+        model=this.token
+        valuePath='name'
+        label=(t 'settings.tokens.tokenName')
+        messagesShown=this.messagesShown
+        disabled=this.inputsDisabled
+        placeholder=(t 'settings.tokens.tokenName')
+        aria-label=(t 'settings.tokens.tokenName')
+    }}
+
+    <div>
+        <label>{{t 'settings.tokens.scopes'}}</label>
+        <p>{{t 'settings.tokens.scopesDescription'}}</p>
+
+        {{#validated-input/checkboxes
+            model=this.token
+            valuePath='scopes'
+            options=this.allScopes
+            messagesShown=this.messagesShown
+            disabled=this.inputsDisabled
+            aria-label=(t 'settings.tokens.scopes')
+            as |cb|
+        }}
+            <div local-class='Scope'>
+                {{cb.checkbox}}
+                <label for={{cb.checkboxId}}>
+                    {{cb.option.id}}
+                    <div local-class='Scope__description'>
+                        {{cb.option.description}}
+                    </div>
+                </label>
+            </div>
+        {{/validated-input/checkboxes}}
+    </div>
+
+    <div>
+        {{yield (hash
+            disabled=this.inputsDisabled
+        )}}
+    </div>
+{{/bs-form}}

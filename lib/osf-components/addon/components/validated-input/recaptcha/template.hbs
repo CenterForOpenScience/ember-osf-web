@@ -1,12 +1,11 @@
 {{#validated-input/x-input-wrapper
-    model=model
-    valuePath=valuePath
-    isValid=isValid
-    showErrorMessage=showErrorMessage
+    model=this.model
+    valuePath=this.valuePath
+    validationStatus=this.validationStatus
 }}
     {{g-recaptcha
         onSuccess=(action 'onCaptchaResolved')
         onExpired=(action 'onCaptchaExpired')
-        disabled=disabled
+        disabled=this.disabled
     }}
 {{/validated-input/x-input-wrapper}}

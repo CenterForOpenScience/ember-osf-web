@@ -1,8 +1,10 @@
 import { service } from '@ember-decorators/service';
-import Component from '@ember/component';
+import Controller from '@ember/controller';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class SettingsSideNav extends Component {
+export default class SettingsController extends Controller {
     @service analytics!: Analytics;
+
+    navCollapsed: boolean = true;
 }

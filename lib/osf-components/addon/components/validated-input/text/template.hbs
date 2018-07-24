@@ -1,18 +1,19 @@
 {{#validated-input/x-input-wrapper
-    model=model
-    valuePath=valuePath
-    isValid=isValid
-    showErrorMessage=showErrorMessage
+    model=this.model
+    label=this.label
+    valuePath=this.valuePath
+    validationStatus=this.validationStatus
+    as |inputElementId|
 }}
     {{input
-        (html-attributes aria-label=ariaLabel)
+        (html-attributes aria-label=this.ariaLabel)
         id=inputElementId
-        type=(if password 'password' 'text')
-        value=value
-        placeholder=placeholder
+        type=(if this.password 'password' 'text')
+        value=this.value
+        placeholder=this.placeholder
         class='form-control'
-        name=valuePath
-        key-up=keyUp
-        disabled=disabled
+        name=this.valuePath
+        key-up=this.onKeyUp
+        disabled=this.disabled
     }}
 {{/validated-input/x-input-wrapper}}

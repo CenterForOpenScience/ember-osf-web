@@ -682,20 +682,45 @@ export default {
         },
     },
     settings: {
-        nav: {
-            profile: 'Profile information',
-            account: 'Account settings',
-            addons: 'Configure add-on accounts',
-            notifications: 'Notifications',
-            apps: 'Developer apps',
-            tokens: 'Personal access tokens',
+        toggleNav: 'Toggle navigation',
+        profile: {
+            title: 'Profile information',
+        },
+        account: {
+            title: 'Account settings',
+        },
+        addons: {
+            title: 'Configure add-on accounts',
+        },
+        notifications: {
+            title: 'Notifications',
+        },
+        apps: {
+            title: 'Developer apps',
         },
         tokens: {
+            title: 'Personal access tokens',
             explanation: 'Personal access tokens function like ordinary OAuth access tokens. They can be used to authenticate to the API.',
-            listDescription: 'You have generated the following personal access tokens:',
-            newToken: 'New token',
+            listDescription: 'Your personal access tokens:',
+            emptyList: 'You have not created any tokens.',
+            createToken: 'Create token',
+            deleteToken: 'Delete token',
+            editToken: 'Edit token',
+            copyToken: 'Copy token ID',
+            backToList: 'Back to list of tokens',
             tokenName: 'Token name',
             scopes: 'Scopes',
+            scopesDescription: 'Scopes limit access for personal access tokens.',
+            confirmDelete: {
+                title: 'Delete token <strong>{{tokenName}}</strong>?',
+                body: 'Are you sure you want to delete this personal access token? This cannot be reversed.',
+            },
+            createSuccess: {
+                message: 'Successfully created personal access token <strong>{{tokenName}}</strong>.',
+                instructions: 'This token will never expire. This token should never be shared with others. If it is accidentally revealed publicly, it should be deactivated immediately.',
+                warning: 'This is the only time your token will be displayed.',
+                idDescription: 'ID used to authenticate with token <strong>{{tokenName}}<strong>:',
+            },
         },
     },
 };
