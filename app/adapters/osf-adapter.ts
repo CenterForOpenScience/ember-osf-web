@@ -5,10 +5,11 @@ import config from 'ember-get-config';
 import { pluralize } from 'ember-inflector';
 import Session from 'ember-simple-auth/services/session';
 
+import CurrentUser from 'ember-osf-web/services/current-user';
+
 const { JSONAPIAdapter } = DS;
 const {
     OSF: {
-        apiHeaders,
         apiUrl: host,
         apiNamespace: namespace,
     },
@@ -41,7 +42,6 @@ enum RequestType {
 export default class OsfAdapter extends JSONAPIAdapter.extend({
     host,
     namespace,
-    headers: apiHeaders,
 
     /**
      * Overrides buildQuery method - Allows users to embed resources with findRecord
@@ -129,6 +129,12 @@ export default class OsfAdapter extends JSONAPIAdapter.extend({
     },
 }) {
     @service session!: Session;
+    @service currentUser!: CurrentUser;
+
+    get headers() {
+        // Not a computed; evaluate every time in case something changes
+        return this.currentUser.ajaxHeaders();
+    }
 
     handleResponse(
         status: number,
