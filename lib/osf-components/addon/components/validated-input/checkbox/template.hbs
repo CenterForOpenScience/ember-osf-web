@@ -1,0 +1,15 @@
+{{#validated-input/x-input-wrapper
+    model=model
+    valuePath=valuePath
+    isValid=isValid
+    showErrorMessage=showErrorMessage
+}}
+    {{input
+        id=inputElementId
+        type='checkbox'
+        checked=value
+        name=valuePath
+        disabled=disabled
+    }}
+    <label for="{{inputElementId}}">{{yield}}</label>
+{{/validated-input/x-input-wrapper}}

@@ -1,0 +1,16 @@
+{{#validated-input/x-input-wrapper
+    model=model
+    valuePath=valuePath
+    isValid=isValid
+    showErrorMessage=showErrorMessage
+}}
+    {{textarea
+        (html-attributes aria-label=ariaLabel)
+        id=inputElementId
+        value=value
+        placeholder=placeholder
+        class='form-control'
+        name=valuePath
+        disabled=disabled
+    }}
+{{/validated-input/x-input-wrapper}}

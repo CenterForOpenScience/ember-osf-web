@@ -1,0 +1,12 @@
+{{#validated-input/x-input-wrapper
+    model=model
+    valuePath=valuePath
+    isValid=isValid
+    showErrorMessage=showErrorMessage
+}}
+    {{g-recaptcha
+        onSuccess=(action 'onCaptchaResolved')
+        onExpired=(action 'onCaptchaExpired')
+        disabled=disabled
+    }}
+{{/validated-input/x-input-wrapper}}

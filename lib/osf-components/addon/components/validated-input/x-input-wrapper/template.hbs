@@ -1,0 +1,15 @@
+<div class="form-group {{if showErrorMessage 'has-error'}}">
+    {{yield}}
+
+    {{#if isValid}}
+        <span class="valid-input"></span>
+    {{/if}}
+
+    <div class="input-error help-block">
+        {{#if showErrorMessage}}
+            <div class="error">
+                {{v-get model valuePath 'message'}}
+            </div>
+        {{/if}}
+    </div>
+</div>

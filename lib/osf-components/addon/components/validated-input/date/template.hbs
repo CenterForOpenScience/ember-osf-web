@@ -1,0 +1,16 @@
+{{#validated-input/x-input-wrapper
+    model=model
+    valuePath=valuePath
+    isValid=isValid
+    showErrorMessage=showErrorMessage
+}}
+    {{bootstrap-datepicker
+        (html-attributes aria-label=ariaLabel)
+        id=inputElementId
+        value=value
+        class='form-control'
+        name=valuePath
+        focus-out='forceParse'
+        disabled=disabled
+    }}
+{{/validated-input/x-input-wrapper}}

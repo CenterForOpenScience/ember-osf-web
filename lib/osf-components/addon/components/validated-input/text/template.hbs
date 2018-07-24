@@ -1,0 +1,18 @@
+{{#validated-input/x-input-wrapper
+    model=model
+    valuePath=valuePath
+    isValid=isValid
+    showErrorMessage=showErrorMessage
+}}
+    {{input
+        (html-attributes aria-label=ariaLabel)
+        id=inputElementId
+        type=(if password 'password' 'text')
+        value=value
+        placeholder=placeholder
+        class='form-control'
+        name=valuePath
+        key-up=keyUp
+        disabled=disabled
+    }}
+{{/validated-input/x-input-wrapper}}
