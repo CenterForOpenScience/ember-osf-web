@@ -1,0 +1,45 @@
+.CookieBanner {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: $color-bg-gray-blue;
+    color: $color-text-white;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+
+    a {
+        color: $color-text-white;
+        text-decoration: underline;
+
+        &:hover,
+        &:visited {
+            color: $color-text-blue-light;
+        }
+    }
+}
+
+@media(min-width: 481px) {
+    .Warning {
+        margin: 10px 10%;
+    }
+
+    .Accept {
+        margin: 10px 10% 10px 0;
+    }
+}
+
+@media(max-width: 480px) {
+    .CookieBanner {
+        flex-direction: column;
+    }
+
+    .Warning {
+        margin: 10px;
+    }
+
+    .Accept {
+        margin: 0 0 10px;
+    }
+
+}

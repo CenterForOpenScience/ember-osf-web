@@ -53,6 +53,7 @@ module.exports = function(defaults) {
             bundleZxcvbn: !useCdn,
         },
         fingerprint: {
+            enabled: true,
             exclude: [
                 'zxcvbn.js',
             ],

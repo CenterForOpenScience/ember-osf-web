@@ -153,7 +153,7 @@
 .student-image {
     width: 100%;
     padding-bottom: 100%;
-    background: url('/static/img/front-page/student-1.png') no-repeat center bottom;
+    background: url('/assets/images/home/Ana_transparent_gradient.png') no-repeat center bottom;
     background-size: contain;
     position: relative;
     margin: -80px 0 -65px 0;
@@ -198,7 +198,7 @@
 }
 
 .grey-pullout {
-    background: #eee url('/static/img/front-page/circles.png') no-repeat bottom right;
+    background: #eee url('/assets/images/home/circles.png') no-repeat bottom right;
     border-bottom: 1px solid #ccc;
     position: relative;
     z-index: 2;
@@ -251,7 +251,7 @@
 
 .feature-3 {
     margin-top: 40px;
-    background: #282828 url('/static/img/front-page/collaboration.jpg') no-repeat center center;
+    background: #282828 url('/assets/images/home/collaboration.jpg') no-repeat center center;
     background-size: cover;
     color: #fff;
 
@@ -307,7 +307,7 @@
 }
 
 .feature-4 {
-    background: #166595 url('/static/img/front-page/bg-web.png') no-repeat center top;
+    background: #166595 url('/assets/images/home/bg-web.png') no-repeat center top;
     background-size: cover;
     color: #fff;
     padding: 50px 0;
@@ -378,7 +378,7 @@ footer {
 }
 
 .network-bg {
-    background: url('/static/img/front-page/bg-web.png') repeat;
+    background: url('/assets/images/home/bg-web.png') repeat;
     background-size: contain;
     height: 1000px;
     margin-bottom: -1000px;
