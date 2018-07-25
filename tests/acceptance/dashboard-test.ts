@@ -105,9 +105,6 @@ module('Acceptance | dashboard', hooks => {
             'div[class*="quick-project"]',
             'You have no projects yet. Create a project with the button on the top right.',
         );
-        const node = server.create('node', {}, 'withContributors');
-        server.create('contributor', { node, users: currentUser, index: 11 });
-        await visit('/dashboard');
     });
 
     test('user has a project', async assert => {
@@ -149,5 +146,75 @@ module('Acceptance | dashboard', hooks => {
 
         // All projects loaded, should not have a loading control any more
         assert.notFound('#loadMoreProjects');
+    });
+
+    test('sorting projects', async function(assert) {
+        const currentUser = server.create('user');
+        server.create('root', { currentUser });
+        const nodeOne = server.create(
+            'node',
+            { title: 'z', lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+        );
+        const nodeTwo = server.create(
+            'node',
+            { title: 'az', lastLogged: '2017-10-17T12:05:10.571Z', dateModified: '2017-10-17T12:05:10.571Z' },
+        );
+        const nodeThree = server.create(
+            'node',
+            { title: 'a', lastLogged: '2017-10-18T12:05:10.571Z', dateModified: '2017-10-18T12:05:10.571Z' },
+        );
+        server.create(
+            'contributor',
+            { node: nodeOne, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+        server.create(
+            'contributor',
+            { node: nodeTwo, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+        server.create(
+            'contributor',
+            { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+        await visit('/dashboard');
+        assert.notFound('img[alt*="Missing translation"]');
+
+        // Default sort
+        let projectTitles = this.element.querySelectorAll('.di-title>strong');
+        assert.equal(projectTitles.length, 3);
+        assert.equal(projectTitles[0].innerHTML, 'z', 'default sort no filtering item 0');
+        assert.equal(projectTitles[1].innerHTML, 'a', 'default sort no filtering item 1');
+        assert.equal(projectTitles[2].innerHTML, 'az', 'default sort no filtering item 2');
+
+        // Sort date ascending
+        await click('#last_loggedAscendingSort');
+        projectTitles = this.element.querySelectorAll('.di-title>strong');
+        assert.equal(projectTitles.length, 3);
+        assert.equal(projectTitles[0].innerHTML, 'az', 'date asc sort no filtering item 0');
+        assert.equal(projectTitles[1].innerHTML, 'a', 'date asc sort no filtering item 1');
+        assert.equal(projectTitles[2].innerHTML, 'z', 'date asc sort no filtering item 2');
+
+        // Sort date descending (should be same as default)
+        await click('#last_loggedDescendingSort');
+        projectTitles = this.element.querySelectorAll('.di-title>strong');
+        assert.equal(projectTitles.length, 3);
+        assert.equal(projectTitles[0].innerHTML, 'z', 'date desc sort no filtering item 0');
+        assert.equal(projectTitles[1].innerHTML, 'a', 'date desc sort no filtering item 1');
+        assert.equal(projectTitles[2].innerHTML, 'az', 'date desc sort no filtering item 2');
+
+        // Sort title ascending
+        await click('#titleAscendingSort');
+        projectTitles = this.element.querySelectorAll('.di-title>strong');
+        assert.equal(projectTitles.length, 3);
+        assert.equal(projectTitles[0].innerHTML, 'a', 'title asc sort no filtering item 0');
+        assert.equal(projectTitles[1].innerHTML, 'az', 'title asc sort no filtering item 1');
+        assert.equal(projectTitles[2].innerHTML, 'z', 'title asc sort no filtering item 2');
+
+        // Sort title descending
+        await click('#titleDescendingSort');
+        projectTitles = this.element.querySelectorAll('.di-title>strong');
+        assert.equal(projectTitles.length, 3);
+        assert.equal(projectTitles[0].innerHTML, 'z', 'title desc sort no filtering item 0');
+        assert.equal(projectTitles[1].innerHTML, 'az', 'title desc sort no filtering item 1');
+        assert.equal(projectTitles[2].innerHTML, 'a', 'title desc sort no filtering item 2');
     });
 });
