@@ -9,6 +9,7 @@ import config from 'ember-get-config';
 
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
+import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Region from 'ember-osf-web/models/region';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -21,13 +22,6 @@ const {
         popularNode,
     },
 } = config;
-
-interface QueryHasManyResponse<T> extends Array<T> {
-    meta?: {
-        total?: number;
-    };
-    get: (key: string) => any;
-}
 
 export default class Dashboard extends Controller {
     @service analytics!: Analytics;
@@ -48,9 +42,9 @@ export default class Dashboard extends Controller {
     'failedLoading-popular': boolean = false;
 
     institutions: Institution[] = A([]);
-    nodes: QueryHasManyResponse<Node> = A([]);
-    noteworthy = A([]);
-    popular = A([]);
+    nodes!: QueryHasManyResult<Node>;
+    noteworthy!: QueryHasManyResult<Node>;
+    popular!: QueryHasManyResult<Node>;
 
     setupTask = task(function *(this: Dashboard) {
         this.set('filter', null);
@@ -79,9 +73,9 @@ export default class Dashboard extends Controller {
         this.set(indicatorProperty, true);
 
         const filter = this.get('filter');
-        const user = yield this.get('currentUser').get('user');
+        const user: User = yield this.get('currentUser').get('user');
 
-        const nodes = yield user.queryHasMany('nodes', {
+        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany<Node>('nodes', {
             embed: ['contributors', 'parent', 'root'],
             filter: filter ? { title: $('<div>').text(filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
@@ -100,8 +94,8 @@ export default class Dashboard extends Controller {
 
     getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
         try {
-            const node = yield this.get('store').findRecord('node', id);
-            const linkedNodes = yield node.queryHasMany('linkedNodes', {
+            const node: Node = yield this.get('store').findRecord('node', id);
+            const linkedNodes: QueryHasManyResult<Node> = yield node.queryHasMany<Node>('linkedNodes', {
                 embed: 'contributors',
                 page: { size: 5 },
             });
@@ -114,8 +108,8 @@ export default class Dashboard extends Controller {
 
     searchNodes = task(function *(this: Dashboard, title: string) {
         yield timeout(500);
-        const user = yield this.get('user');
-        return yield user.queryHasMany('nodes', { filter: { title } });
+        const user: User = yield this.get('user');
+        return yield user.queryHasMany<Node>('nodes', { filter: { title } });
     }).restartable();
 
     createNode = task(function *(
@@ -156,7 +150,7 @@ export default class Dashboard extends Controller {
 
     @computed('nodes.{length,meta.total}')
     get hasMore(this: Dashboard): boolean {
-        return this.get('nodes').length < this.get('nodes').get('meta.total');
+        return this.nodes.length < this.nodes.meta.total;
     }
 
     @action

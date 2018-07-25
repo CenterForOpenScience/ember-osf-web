@@ -2,8 +2,19 @@ import DS from 'ember-data';
 import OsfAdapter from 'ember-osf-web/adapters/osf-adapter';
 
 export default class CollectedMetadatum extends OsfAdapter.extend({
-    pathForType(): string {
-        return 'search/collections';
+    /**
+     * Stub for typing
+     */
+    urlPrefix(...args: any[]): string {
+        return this._super(...args);
+    },
+
+    urlForCreateRecord(_: 'collected-metadatum', { record }: DS.Snapshot): string {
+        return `${this.urlPrefix()}/collections/${record.get('collection.id')}/collected_metadata/`;
+    },
+
+    urlForQuery(this: CollectedMetadatum): string {
+        return `${this.urlPrefix()}/search/collections/`;
     },
 
     query(_: DS.Store, type: any, query: any): Promise<any> {

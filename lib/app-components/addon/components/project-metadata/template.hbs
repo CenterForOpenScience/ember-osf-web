@@ -1,0 +1,59 @@
+<div class="col-md-6">
+    <label>
+        {{t 'app_components.project_metadata.field_title_label'}}
+        {{validated-input
+            model=node
+            valuePath='title'
+            aria-label=(t 'move_to_project.enter_project_title')
+            didValidate=didValidate
+        }}
+    </label>
+    <br>
+    <label>
+        {{t 'app_components.project_metadata.field_description_label'}}
+        {{validated-input
+            model=node
+            type='textarea'
+            valuePath='description'
+            didValidate=didValidate
+        }}
+    </label>
+</div>
+<div class="col-md-6">
+    {{#license-picker node=node}}
+        {{t 'app_components.project_metadata.field_license_label'}}
+    {{/license-picker}}
+    <br>
+    <label>
+        {{t 'app_components.project_metadata.field_tags_label'}}
+        {{#validated-input
+            type='custom'
+            model=node
+            valuePath='tags'
+            didValidate=didValidate
+        }}
+            {{#tag-input
+                tags=node.tags
+                addTag=(action 'addTag')
+                removeTagAtIndex=(action 'removeTagAtIndex')
+                allowSpacesInTags=true
+                placeholder=(t 'file_detail.add_tag')
+                aria_label=(t 'file_detial.tags')
+                readOnly=false
+                as |tag|
+            }}
+                <a
+                    href='{{searchUrl}}?q=(tags:"{{tag}}")'
+                    onclick={{action 'click' 'link' 'Collections - Submit - Search by tag' target=analytics}}
+                >
+                    {{tag}}
+                </a>
+            {{/tag-input}}
+        {{/validated-input}}
+    </label>
+</div>
+{{submit-section-buttons
+    discard=(action (perform reset))
+    continue=(action (perform save))
+    continueDisabled=(v-get node 'isInvalid')
+}}

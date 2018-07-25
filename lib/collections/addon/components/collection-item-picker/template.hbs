@@ -1,0 +1,32 @@
+{{#if (not findNodes.last)}}
+    <div class="ball-pulse ball-dark text-center">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+{{else}}
+    <div class="form-group">
+        <div class="m-t-sm">
+            {{#power-select
+                renderInPlace=false
+                placeholder=(t 'move_to_project.select_placeholder')
+                options=items
+                matcher=matcher
+                afterOptionsComponent=(component
+                    'collection-item-picker/after-options'
+                    loadMore=(action 'loadMore')
+                    hasMore=hasMore
+                    isLoading=loadingMore
+                )
+                search=(perform findNodes)
+                oninput=(action 'oninput')
+                selected=selected
+                searchField='title'
+                onchange=(action 'valueChanged')
+                as |item|
+            }}
+                {{get-ancestor-descriptor item}} <strong>{{item.title}}</strong>
+            {{/power-select}}
+        </div>
+    </div>
+{{/if}}

@@ -1,6 +1,7 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { Permission } from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -28,7 +29,7 @@ export default class NodeBlurb extends Component {
         if (!this.node || !this.node.get('currentUserPermissions')) {
             return false;
         }
-        return this.node.get('currentUserPermissions').includes('write');
+        return this.node.get('currentUserPermissions').includes(Permission.write);
     }
 
     @computed('node.dateCreated')

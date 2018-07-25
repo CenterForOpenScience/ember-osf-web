@@ -4,8 +4,8 @@ import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import EmberObject, { setProperties } from '@ember/object';
-import { debounce } from '@ember/runloop';
 import { camelize } from '@ember/string';
+import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
@@ -16,23 +16,6 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import { encodeParams, getSplitParams, getUniqueList } from '../../utils/elastic-query';
 import styles from './styles';
 import layout from './template';
-
-/**
- * Discover-page component. Builds a search interface utilizing SHARE.
- * See retraction-watch, registries, and preprints discover pages for working examples.
- *
- * Majority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from PREPRINTS
- * and REGISTRIES discover pages. Original Ember-SHARE facets and PREPRINTS/REGISTRIES facets behave differently at this
- * time. You can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/REGISTRIES type facets.
- * Would not recommend mixing until code is combined.
- *
- * How to Use:
- * Pass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters
- * on the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the
- * query parameters that are always locked in your application. Each query parameter must be passed in individually,
- * so they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet.
- * Individual components can additionally be overridden in your application.
- */
 
 const filterQueryParams = [
     'taxonomy',
@@ -46,7 +29,6 @@ const filterQueryParams = [
     'language',
     'contributors',
     'type',
-
     'status',
     'collectedType',
 ];
@@ -67,9 +49,12 @@ interface Facet {
 }
 
 export interface FacetContext extends EmberObject {
+    component: string;
+    title: string;
+    key: string;
     didInit: boolean;
     activeFilter: any[];
-    lockedActiveFilter: any[];
+    lockedActiveFilter: any;
     defaultQueryFilters: any;
     currentQueryFilters: any;
     queryParam: string;
@@ -100,8 +85,6 @@ function emptyResults(): SearchQuery {
 
 export default class DiscoverPage extends Component.extend({
     didInsertElement(this: DiscoverPage, ...args: any[]) {
-        // TODO Sort initial results on date_modified
-        // Runs on initial render.
         this._super(...args);
         this.set('firstLoad', true);
     },
@@ -115,23 +98,11 @@ export default class DiscoverPage extends Component.extend({
     @service theme!: Theme;
     @service i18n!: I18N;
 
+    query!: (params: any) => Promise<any>;
+    searchResultComponent: string = this.searchResultComponent;
+
     firstLoad: boolean = true;
     results: SearchQuery = emptyResults();
-
-    /**
-     * Contributors query parameter.  If 'contributors' is one of your query params, it must be passed to the component
-     * so it can be reflected in the URL.
-     * @property {String} contributors
-     * @default ''
-     */
-    contributors: string = defaultTo(this.contributors, '');
-
-    /**
-     * Name of detail route for consuming application, like 'content' or 'detail'. Override if search result title
-     * should link to detail route.
-     * @property {String} detailRoute
-     */
-    detailRoute: string = defaultTo(this.detailRoute, '');
 
     /**
      * Text header for top of discover page.
@@ -140,58 +111,58 @@ export default class DiscoverPage extends Component.extend({
     discoverHeader: string = defaultTo(this.discoverHeader, '');
 
     /**
-     * End query parameter.  If 'end' is one of your query params, it must be passed to the component so it can be
-     * reflected in the URL.
-     * @property {String} end
-     * @default ''
+     * Query params
      */
+    contributors: string = defaultTo(this.contributors, '');
     end = '';
+    funders: string = defaultTo(this.funders, '');
+    institutions: string = defaultTo(this.institutions, '');
+    language: string = defaultTo(this.language, '');
+    organizations: string = defaultTo(this.organizations, '');
+    page: number = defaultTo(this.page, 1);
+    provider: string = defaultTo(this.provider, '');
+    publishers = '';
+    q: string = defaultTo(this.q, '');
+    size: number = defaultTo(this.size, 10);
+    sort: string = defaultTo(this.sort, '');
+    sources: string = defaultTo(this.sources, '');
+    start: string = defaultTo(this.start, '');
+    taxonomy: string = defaultTo(this.taxonomy, '');
+    tags: string = defaultTo(this.tags, '');
+    type: string = defaultTo(this.type, '');
+    status: string = defaultTo(this.status, ''); // eslint-disable-line no-restricted-globals
+    collectedType: string = defaultTo(this.collectedType, '');
 
     /**
-     * A list of the components to be used for the search facets.  Each list item should be a dictionary including the
-     * key (SHARE filter), title (search-facet heading in UI), and component (name of component).
-     * @property {Array} facets
-     * @default [
-     *       { key: 'sources', title: 'Source', component: 'search-facet-source' },
-     *       { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-     *       { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
-     *       { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
-     *       { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents',
-     *          type: 'publisher' },
-     *       { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
-     *       { key: 'language', title: 'Language', component: 'search-facet-language' },
-     *       { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents',
-     *          type: 'person' }
-     *   ]
+     * A list of the components to be used for the search facets.
      */
     facets: Facet[] = this.facets;
 
-    facetContexts: FacetContexts = this.facets
-        .reduce((acc, { component, options }) => {
+    facetContexts: FacetContext[] = this.facets
+        .map(({ component, options, key, title }) => {
             const queryParam: string = this[camelize(component) as keyof DiscoverPage];
             const activeFilter = !queryParam ? [] : queryParam.split('OR').filter(str => !!str);
 
-            return {
-                ...acc,
-                [component]: {
-                    didInit: false,
-                    queryParam,
-                    lockedActiveFilter: {},
-                    activeFilter,
-                    defaultQueryFilters: {},
-                    currentQueryFilters: {},
-                    options,
-                    updateFilters() {
-                        assert('You should set an `updateFilters` function');
-                    },
+            return EmberObject.create({
+                title,
+                key,
+                component,
+                didInit: false,
+                queryParam,
+                lockedActiveFilter: {},
+                activeFilter,
+                defaultQueryFilters: {},
+                currentQueryFilters: {},
+                options,
+                updateFilters() {
+                    assert('You should set an `updateFilters` function');
                 },
-            };
-        }, {});
+            });
+        });
 
-    // TODO: Use dynamic computed property based on this.facets
-    @computed('facetContexts.{provider,taxonomy,collected-type,status}.currentQueryFilters')
+    @computed('facetContexts.@each.currentQueryFilters')
     get filters(): { [index: string]: any } {
-        return Object.values(this.facetContexts)
+        return this.facetContexts
             .reduce((acc, { currentQueryFilters }) => ({ ...acc, ...currentQueryFilters }), {});
     }
 
@@ -222,30 +193,6 @@ export default class DiscoverPage extends Component.extend({
      */
     filterReplace: object = defaultTo(this.filterReplace, {});
 
-    /**
-     * Funders query parameter. If 'funders' is one of your query params, it must be passed to the component so it can
-     * be reflected in the URL.
-     * @property {String} funders
-     * @default ''
-     */
-    funders: string = defaultTo(this.funders, '');
-
-    /**
-     * Institutions query parameter. If 'institutions' is one of your query params, it must be passed to the component
-     * so it can be reflected in the URL.
-     * @property {String} institutions
-     * @default ''
-     */
-    institutions: string = defaultTo(this.institutions, '');
-
-    /**
-     * Language query parameter. If 'language' is one of your query params, it must be passed to the component so it
-     * can be reflected in the URL.
-     * @property {String} language
-     * @default ''
-     */
-    language: string = defaultTo(this.language, '');
-
     loading: boolean = defaultTo(this.loading, true);
 
     /**
@@ -259,49 +206,6 @@ export default class DiscoverPage extends Component.extend({
     numberOfSources = 0; // Number of sources
 
     /**
-     * Organizations query parameter.  If 'organizations' is one of your query params, it must be passed to the
-     * component so it can be reflected in the URL.
-     * @property {String} organizations
-     * @default ''
-     */
-    organizations: string = defaultTo(this.organizations, '');
-
-    /**
-     * Page query parameter.  If 'page' is one of your query params, it must be passed to the component so it can be
-     * reflected in the URL.
-     * @property {Integer} page
-     * @default 1
-     */
-    page: number = defaultTo(this.page, 1);
-
-    /**
-     * Provider query parameter.  If 'provider' is one of your query params, it must be passed to the component so it
-     * can be reflected in the URL.
-     * @property {String} provider
-     * @default ''
-     */
-    provider: string = defaultTo(this.provider, '');
-
-    /**
-     * Publishers query parameter.  If 'publishers' is one of your query params, it must be passed to the component so
-     * it can be reflected in the URL.
-     * @property {String} publishers
-     * @default ''
-     */
-    publishers = '';
-
-    /**
-     * q query parameter.  If 'q' is one of your query params, it must be passed to the component so it can be
-     * reflected in the URL.
-     * @property {String} q
-     * @default ''
-     */
-    q: string = defaultTo(this.q, '');
-
-    status: string = defaultTo(this.status, ''); // eslint-disable-line no-restricted-globals
-    collectedType: string = defaultTo(this.collectedType, '');
-
-    /**
      * Declare on consuming application's controller for query params to be active in that route.
      * @property {Array} queryParams
      */
@@ -312,18 +216,6 @@ export default class DiscoverPage extends Component.extend({
      */
     showActiveFilters: boolean = defaultTo(this.showActiveFilters, false);
     showLuceneHelp: boolean = false; // Is Lucene Search help modal open?
-
-    /**
-     * Size query parameter.  If 'size' is one of your query params, it must be passed to the component so it can be
-     * reflected in the URL.
-     */
-    size: number = defaultTo(this.size, 10);
-
-    /**
-     * Sort query parameter.  If 'sort' is one of your query params, it must be passed to the component so it can be
-     * reflected in the URL.
-     */
-    sort: string = defaultTo(this.sort, '');
 
     /**
      * Sort dropdown options - Array of dictionaries.  Each dictionary should have display and sortBy keys.
@@ -345,47 +237,7 @@ export default class DiscoverPage extends Component.extend({
         return sortOption ? sortOption.display : '';
     }
 
-    /**
-     * Sources query parameter.  If 'sources' is one of your query params, it must be passed to the component so it can
-     * be reflected in the URL.
-     * @property {String} sources
-     * @default ''
-     */
-    sources: string = defaultTo(this.sources, '');
-
-    /**
-     * Start query parameter.  If 'start' is one of your query params, it must be passed to the component so it can be
-     * reflected in the URL.
-     * @property {String} start
-     * @default ''
-     */
-    start: string = defaultTo(this.start, '');
-
-    /**
-     * Subject query parameter.  If 'subject' is one of your query params, it must be passed to the component so it can
-     * be reflected in the URL.
-     * @property {String} subject
-     * @default ''
-     */
-    taxonomy: string = defaultTo(this.taxonomy, '');
-
-    /**
-     * Tags query parameter.  If 'tags' is one of your query params, it must be passed to the component so it can be
-     * reflected in the URL.
-     * @property {String} tags
-     * @default ''
-     */
-    tags: string = defaultTo(this.tags, '');
-
     took = 0;
-
-    /**
-     * type query parameter.  If 'type' is one of your query params, it must be passed to the component so it can be
-     * reflected in the URL.
-     * @property {String} type
-     * @default ''
-     */
-    type: string = defaultTo(this.type, '');
 
     displayQueryBody: { query?: string } = {};
     queryBody: {} = {};
@@ -419,20 +271,26 @@ export default class DiscoverPage extends Component.extend({
         return Math.ceil(this.numberOfResults / this.size);
     }
 
-    async loadPage(this: DiscoverPage) {
-        // const data = JSON.stringify(this.getQueryBody());
+    @computed('facetContexts.@each.didInit')
+    get hasInitializedFacets() {
+        return this.facetContexts.every(({ didInit }) => didInit);
+    }
 
+    loadPage = task(function *(this: DiscoverPage) {
         this.set('loading', true);
 
+        if (!this.firstLoad) {
+            yield timeout(500);
+        }
+
         try {
-            const collectedMetadata = (await this.store
-                .query('collected-metadatum', this.queryAttributes) as SearchQuery);
+            const results = yield this.query(this.queryAttributes);
 
             this.setProperties({
-                numberOfResults: collectedMetadata.meta.total,
+                numberOfResults: results.meta.total,
                 loading: false,
                 firstLoad: false,
-                results: collectedMetadata,
+                results,
                 queryError: false,
             });
 
@@ -450,7 +308,7 @@ export default class DiscoverPage extends Component.extend({
             // If issue with search query, for example, invalid lucene search syntax
             this.set(errorResponse.status === 400 ? 'queryError' : 'shareDown', true);
         }
-    }
+    }).keepLatest();
 
     scrollToResults() {
         // Scrolls to top of search results
@@ -462,12 +320,7 @@ export default class DiscoverPage extends Component.extend({
             this.set('page', 1);
         }
 
-        this.setProperties({
-            loading: true,
-            results: emptyResults(),
-        });
-
-        debounce(this, this.loadPage, 500);
+        this.get('loadPage').perform();
     }
 
     trackDebouncedSearch() {
@@ -489,7 +342,7 @@ export default class DiscoverPage extends Component.extend({
         this.analytics.track('button', 'click', 'Discover - Clear Filters');
 
         // Clear all of the activeFilters
-        Object.values(this.facetContexts)
+        this.facetContexts
             .forEach(context => {
                 setProperties(context, {
                     activeFilter: [...context.lockedActiveFilter],
@@ -547,18 +400,15 @@ export default class DiscoverPage extends Component.extend({
      */
     @action
     filterChanged(this: DiscoverPage) {
-        const contexts = Object.entries(this.facetContexts);
-
         this.setProperties({
             page: 1,
-            ...contexts.reduce((acc, [key, { queryParam }]) => ({
-                ...acc, [camelize(key)]: queryParam,
+            ...this.facetContexts.reduce((acc, { component, queryParam }) => ({
+                ...acc,
+                [camelize(component)]: queryParam,
             }), {}),
         });
 
-        const hasInitializedFacets = contexts.every(([, { didInit }]) => didInit);
-
-        if (!hasInitializedFacets) {
+        if (!this.hasInitializedFacets) {
             return;
         }
 

@@ -1,0 +1,21 @@
+{{component
+    (concat 'collection-search-result/' type)
+    item=item
+    collectedType=result.collectedType
+    status=result.status
+    subjects=subjects
+    addFilter=(action 'addFilter')
+}}
+
+{{#if expandable}}
+    <div class="text-center">
+        <button
+            class='btn btn-link'
+            local-class="toggleShowBody"
+            aria-label={{t (concat 'collections.search_result.' (if showBody 'collapse' 'expand'))}}
+            {{action 'toggleShowBody'}}
+        >
+            <i class="fa fa-caret-{{if showBody 'up' 'down'}}"></i>
+        </button>
+    </div>
+{{/if}}

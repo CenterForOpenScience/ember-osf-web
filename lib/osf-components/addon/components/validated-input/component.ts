@@ -18,6 +18,8 @@ enum InputType {
     Text = 'text',
     TextArea = 'textarea',
     ReCaptcha = 'reCaptcha',
+    PowerSelect = 'power-select',
+    Custom = 'custom',
 }
 
 @classNames('validated-input')
@@ -38,8 +40,9 @@ export default class ValidatedInput extends Component {
     placeholder: string = defaultTo(this.placeholder, '');
     validation: any = defaultTo(this.validation, null);
     isTyping: boolean = defaultTo(this.isTyping, false);
+    onchange?: (value: string) => void;
 
-    @oneWay('targetObject.didValidate') didValidate!: boolean;
+    @oneWay('target.didValidate') didValidate!: boolean;
     @oneWay('validation.isInvalid') isInvalid!: boolean;
     @not('validation.isValidating') notValidating!: boolean;
     @notEmpty('value') hasContent!: boolean;
@@ -79,6 +82,17 @@ export default class ValidatedInput extends Component {
     onCaptchaExpired(this: ValidatedInput) {
         if (this.model && this.valuePath) {
             this.model.set(this.valuePath, '');
+        }
+    }
+
+    @action
+    powerSelectChanged(this: ValidatedInput, value: any) {
+        if (this.model && this.valuePath) {
+            this.model.set(this.valuePath, value);
+        }
+
+        if (this.onchange) {
+            this.onchange(value);
         }
     }
 }

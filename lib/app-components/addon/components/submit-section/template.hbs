@@ -1,0 +1,44 @@
+{{yield}}
+{{#if showTooltip}}
+    {{bs-tooltip
+        title=tooltip
+        triggerElement='parentView'
+        autoPlacement=true
+        viewportSelector=elementId
+    }}
+{{/if}}
+{{#panels.panel
+    open=open
+    as |panel|
+}}
+    <header local-class="{{if (not open) 'closed'}}">
+        {{title}}
+        <span class="pull-right">
+            <i class="fa fa-icon fa-floppy-o" local-class="{{if didSave 'green'}}"></i>
+        </span>
+    </header>
+    {{#panel.body}}
+        {{#if description}}
+            <p>{{description}}</p>
+        {{/if}}
+        <div class="row">
+            {{#yield-slot 'active'}}
+                {{yield}}
+            {{/yield-slot}}
+        </div>
+    {{/panel.body}}
+    {{#if showReopen}}
+        <div
+            role="button"
+            {{action 'editSection'}}
+            local-class="{{if showReopen 'pointer'}}"
+        >
+            {{#yield-slot 'complete'}}
+                {{yield}}
+            {{/yield-slot}}
+            <p class="text-smaller" local-class="edit-message">
+                {{t 'app_components.submit_section.click_to_edit'}}
+            </p>
+        </div>
+    {{/if}}
+{{/panels.panel}}

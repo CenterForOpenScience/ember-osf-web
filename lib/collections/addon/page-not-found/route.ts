@@ -1,4 +1,4 @@
-import Component from '@ember/component';
+import Route from '@ember/routing/route';
 
-export default class PageNotFound extends Component {
+export default class PageNotFound extends Route {
 }

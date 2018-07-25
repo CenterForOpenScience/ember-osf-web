@@ -1,28 +1,29 @@
-{{title 'Search'}}
+{{title (t 'collections.discover.title')}}
 
 {{discover-page
+    query=(action 'query')
+    searchResultComponent='collection-search-result'
     activeFilters=activeFilters
     consumingService=consumingService
-    detailRoute=detailRoute
     discoverHeader=discoverHeader
-    end=end
     facets=facets
-    fetchedProviders=externalProviders
-    filterReplace=filterReplace
     lockedParams=lockedParams
-    page=page
-    provider=provider
-    q=q
+    
     queryParams=queryParams
     searchPlaceholder=searchPlaceholder
     showActiveFilters=true
     sortOptions=sortOptions
+
     sources=sources
     start=start
-    taxonomy=subject
+    end=end
     tags=tags
+
+    page=page
+    provider=provider
+    q=q
     type=type
-    whiteListedProviders=whiteListedProviders
+    taxonomy=subject
     status=status
     collectedType=collectedType
 }}

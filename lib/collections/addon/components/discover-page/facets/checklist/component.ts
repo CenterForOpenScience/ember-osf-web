@@ -14,7 +14,7 @@ interface Item {
 }
 
 export default abstract class SearchFacetChecklist extends Base.extend({
-    didReceiveAttrs(this: SearchFacetChecklist, ...args: any[]) {
+    didInsertElement(this: SearchFacetChecklist, ...args: any[]) {
         this._super(...args);
 
         const { context, filterChanged, filterProperty } = this;

@@ -1,12 +1,15 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { bool, equal } from '@ember-decorators/object/computed';
+import EmberObject from '@ember/object';
+import { not } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
-
+import { Deserialized as NodeLicense } from 'ember-osf-web/transforms/node-license';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import BaseFileItem from './base-file-item';
 import Citation from './citation';
 import Comment from './comment';
-import Contributor from './contributor';
+import Contributor, { Permission } from './contributor';
 import DraftRegistration from './draft-registration';
 import FileProvider from './file-provider';
 import Institution from './institution';
@@ -26,6 +29,34 @@ const Validations = buildValidations({
     title: [
         validator('presence', true),
     ],
+    description: [
+        validator('presence', {
+            presence: true,
+            disabled: not('model.collectable'),
+        }),
+    ],
+    license: [
+        validator('presence', {
+            presence: true,
+            disabled: not('model.collectable'),
+        }),
+    ],
+    nodeLicense: [
+        validator('presence', {
+            presence: true,
+            disabled: not('model.collectable'),
+        }),
+        validator('node-license', {
+            on: 'license',
+            disabled: not('model.collectable'),
+        }),
+    ],
+    tags: [
+        validator('presence', {
+            presence: true,
+            disabled: not('model.collectable'),
+        }),
+    ],
 });
 
 /**
@@ -39,7 +70,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @attr('fixstring') description!: string;
     @attr('fixstring') category!: string;
 
-    @attr('array') currentUserPermissions!: string[];
+    @attr('array') currentUserPermissions!: Permission[];
     @attr('boolean') currentUserIsContributor!: boolean;
 
     @attr('boolean') fork!: boolean;
@@ -52,7 +83,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     @attr('date') forkedDate!: Date;
 
-    @attr('object') nodeLicense!: any;
+    @attr('node-license') nodeLicense!: NodeLicense | null;
     @attr('array') tags!: string[];
 
     @attr('fixstring') templateFrom!: string;
@@ -123,6 +154,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     // BaseFileItem override
     isNode = true;
+    collectable: boolean = defaultTo(this.collectable, false);
 
     makeFork(this: Node): Promise<object> {
         const url = this.get('links').relationships.forks.links.related.href;
@@ -137,10 +169,40 @@ export default class Node extends BaseFileItem.extend(Validations) {
             }),
         });
     }
+
+    /**
+     * Sets the nodeLicense field defaults based on required fields from a License
+     */
+    setNodeLicenseDefaults(this: Node, requiredFields: Array<keyof NodeLicense>): void {
+        if (!requiredFields.length && this.nodeLicense) {
+            // If the nodeLicense exists, notify property change so that validation is triggered
+            this.notifyPropertyChange('nodeLicense');
+
+            return;
+        }
+
+        const {
+            copyrightHolders = '',
+            year = new Date().getUTCFullYear().toString(),
+        } = (this.nodeLicense || {});
+
+        const nodeLicenseDefaults: NodeLicense = EmberObject.create({
+            copyrightHolders,
+            year,
+        });
+
+        // Only set the required fields on nodeLicense
+        const props = requiredFields.reduce(
+            (acc, val) => ({ ...acc, [val]: nodeLicenseDefaults[val] }),
+            {},
+        );
+
+        this.set('nodeLicense', EmberObject.create(props));
+    }
 }
 
 declare module 'ember-data' {
     interface ModelRegistry {
-        'node': Node;
+        node: Node;
     }
 }

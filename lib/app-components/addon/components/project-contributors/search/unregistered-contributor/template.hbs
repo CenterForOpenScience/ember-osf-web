@@ -1,0 +1,38 @@
+<h3>{{t 'app_components.project_contributors.search.unregistered_contributor.title'}}</h3>
+<label local-class="fullwidth">
+    {{t 'app_components.project_contributors.search.unregistered_contributor.full_name'}}
+    {{validated-input
+        model=model
+        didValidate=didValidate
+        valuePath='fullName'
+        placeholder=(t 'app_components.project_contributors.search.unregistered_contributor.full_name')
+    }}
+</label>
+<br>
+<label local-class="fullwidth">
+    {{t 'app_components.project_contributors.search.unregistered_contributor.email'}}
+    {{validated-input
+        model=model
+        didValidate=didValidate
+        valuePath='email'
+        placeholder=(t 'app_components.project_contributors.search.unregistered_contributor.email')
+    }}
+</label>
+<p class="text-muted">
+    {{t 'app_components.project_contributors.search.unregistered_contributor.paragraph'}}
+</p>
+<div class="pull-right text-right">
+    <button
+        class="btn btn-default"
+        {{action 'cancel'}}
+    >
+        {{t 'app_components.project_contributors.search.unregistered_contributor.cancel'}}
+    </button>
+    <button
+        class="btn btn-success"
+        disabled={{v-get model 'isInvalid'}}
+        {{action (perform add)}}
+    >
+        {{t 'app_components.project_contributors.search.unregistered_contributor.add'}}
+    </button>
+</div>

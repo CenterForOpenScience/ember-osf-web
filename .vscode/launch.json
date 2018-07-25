@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url": "http://localhost:4200/collections/studyswap/discover",
+            "url": "http://localhost:5000/collections/studyswap/submit",
             "webRoot": "${workspaceFolder}"
         },
         {

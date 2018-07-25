@@ -1,14 +1,16 @@
-import { computed } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import config from 'collections/config/environment';
+import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Theme from 'ember-osf-web/services/theme';
 
 export default class Discover extends Controller {
     @service theme!: Theme;
     @service i18n!: I18N;
+    @service store!: DS.Store;
 
     activeFilters = {
         providers: [],
@@ -155,6 +157,11 @@ export default class Discover extends Controller {
 
     _clearQueryString(this: Discover) {
         this.set('q', '');
+    }
+
+    @action
+    query(params: any) {
+        return this.store.query('collected-metadatum', params);
     }
 }
 

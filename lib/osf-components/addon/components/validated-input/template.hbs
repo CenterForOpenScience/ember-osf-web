@@ -52,6 +52,22 @@
             onExpired=(action 'onCaptchaExpired')
             disabled=disabled
         }}
+    {{else if (eq type 'power-select')}}
+        {{#power-select
+            id=valuePath
+            name=valuePath
+            options=options
+            selected=(or (get model valuePath) null)
+            onchange=(action 'powerSelectChanged')
+            search=search
+            noMatchesMessage=noMatchesMessage
+            disabled=disabled
+            as |option|
+        }}
+            {{yield option}}
+        {{/power-select}}
+    {{else if (eq type 'custom')}}
+        {{yield}}
     {{/if}}
 
     {{#if isValid}}

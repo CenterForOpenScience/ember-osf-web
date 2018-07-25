@@ -1,9 +1,7 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
-import { task } from 'ember-concurrency';
 import DS, { ModelRegistry } from 'ember-data';
-
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 const { Model } = DS;
@@ -13,9 +11,13 @@ const { Model } = DS;
  * @submodule models
  */
 
-interface QueryHasManyResult extends Array<any> {
-    meta?: any;
+export interface QueryHasManyResult<T> extends Array<T> {
+    meta: {
+        total: number;
+        per_page: number; // eslint-disable-line camelcase
+    };
     links?: any;
+    version: string;
 }
 
 /**
@@ -25,40 +27,7 @@ interface QueryHasManyResult extends Array<any> {
  * @public
  */
 
-export default class OsfModel extends Model.extend({
-    queryHasManyTask: task(function *(
-        this: OsfModel,
-        propertyName: any, // TODO constrain to DS.RelationshipsFor<M>
-        queryParams?: object,
-        ajaxOptions?: object,
-    ) {
-        const store = this.get('store');
-
-        const reference = this.hasMany(propertyName);
-
-        // HACK: ember-data discards/ignores the link if an object on the belongsTo side
-        // came first. In that case, grab the link where we expect it from OSF's API
-        const url: string = reference.link() || this.links.relationships.get(propertyName).links.related.href;
-        if (!url) {
-            throw new Error(`Could not find a link for '${propertyName}' relationship`);
-        }
-
-        const options: object = {
-            url,
-            data: queryParams,
-            ...ajaxOptions,
-        };
-
-        const payload = yield this.currentUser.authenticatedAJAX(options);
-
-        store.pushPayload(payload);
-        const records: QueryHasManyResult = payload.data.map((datum: { type: keyof ModelRegistry, id: string }) =>
-            store.peekRecord(datum.type, datum.id));
-        records.meta = payload.meta;
-        records.links = payload.links;
-        return records;
-    }),
-}) {
+export default class OsfModel extends Model {
     @service store!: DS.Store;
     @service currentUser!: CurrentUser;
 
@@ -76,12 +45,39 @@ export default class OsfModel extends Model.extend({
      * @param {Object} [ajaxOptions] A hash of options to be passed to jQuery.ajax
      * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
      */
-    queryHasMany(
+    async queryHasMany<T>(
         this: OsfModel,
-        propertyName: string,
+        propertyName: any,
         queryParams?: object,
         ajaxOptions?: object,
-    ) {
-        return this.get('queryHasManyTask').perform(propertyName, queryParams, ajaxOptions);
+    ): Promise<QueryHasManyResult<T>> {
+        const store = this.get('store');
+
+        const reference = this.hasMany(propertyName);
+
+        // HACK: ember-data discards/ignores the link if an object on the belongsTo side
+        // came first. In that case, grab the link where we expect it from OSF's API
+        const url: string = reference.link() || this.links.relationships.get(propertyName).links.related.href;
+
+        if (!url) {
+            throw new Error(`Could not find a link for '${propertyName}' relationship`);
+        }
+
+        const options: object = {
+            url,
+            data: queryParams,
+            ...ajaxOptions,
+        };
+
+        const payload = await this.currentUser.authenticatedAJAX(options);
+
+        store.pushPayload(payload);
+
+        const records = payload.data
+            .map((datum: { type: keyof ModelRegistry, id: string }) => store.peekRecord(datum.type, datum.id));
+
+        const { meta, links } = payload;
+
+        return Object.assign(records, { meta, links });
     }
 }

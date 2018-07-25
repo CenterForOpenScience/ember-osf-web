@@ -1,1 +1,164 @@
-<h1>{{t 'collections.submit.title'}}</h1>
+<div class="submit-header" local-class="header">
+    <h1>{{t 'collections.submit.header'}}</h1>
+</div>
+<div local-class="body">
+    <div class="container">
+        <div class="row m-t-lg">
+            {{#cp-panels accordion=true as |panels|}}
+                {{#submit-section
+                    panels=panels
+                    section=sections.project
+                    activeSection=activeSection
+                    savedSections=savedSections
+                    title=(t 'collections.submit.project_select_title')
+                    continue=(action 'nextSection' sections.project)
+                }}
+                    {{#block-slot 'active'}}
+                        {{collection-item-picker
+                            class="col-xs-12"
+                            collection=collection
+                            projectSelected=(action 'projectSelected')
+                            validationChanged=(action (mut isProjectSelectorValid))
+                        }}
+                    {{/block-slot}}
+                    {{#block-slot 'complete'}}
+                        <p>
+                            <em>{{t 'collections.submit.project_select_project_label'}}</em>
+                            <span>{{collectionItem.title}}</span>
+                        </p>
+                    {{/block-slot}}
+                {{/submit-section}}
+
+                {{#submit-section
+                    panels=panels
+                    section=sections.projectMetadata
+                    activeSection=activeSection
+                    savedSections=savedSections
+                    tooltip=(t 'collections.submit.closed_tooltip')
+                    title=(t 'collections.submit.project_metadata_title')
+                    description=(t 'collections.submit.project_metadata_description')
+                }}
+                    {{#block-slot 'active'}}
+                        {{project-metadata
+                            node=collectionItem
+                            continue=(action 'nextSection')
+                        }}
+                    {{/block-slot}}
+                    {{#block-slot 'complete'}}
+                        <p>
+                            <em>{{t 'collections.submit.project_metadata_title_label'}}</em>
+                            <span>{{collectionItem.title}}</span>
+                        </p>
+                        <p>
+                            <em>{{t 'collections.submit.project_metadata_description_label'}}</em>
+                            <span>{{collectionItem.description}}</span>
+                        </p>
+                        <p>
+                            <em>{{t 'collections.submit.project_metadata_license_label'}}</em>
+                            <span>{{collectionItem.license.name}}</span>
+                        </p>
+                        <p>
+                            <em>{{t 'collections.submit.project_metadata_tags_label'}}</em>
+                            {{#each collectionItem.tags as |tag|}}
+                                <div local-class="subject">{{tag}}</div>
+                            {{/each}}
+                        </p>
+                    {{/block-slot}}
+                {{/submit-section}}
+
+                {{#submit-section
+                    panels=panels
+                    section=sections.projectContributors
+                    activeSection=activeSection
+                    savedSections=savedSections
+                    tooltip=(t 'collections.submit.closed_tooltip')
+                    title=(t 'collections.submit.project_contributors_title')
+                    description=(t 'collections.submit.project_contributors_description')
+                }}
+                    {{#block-slot 'active'}}
+                        {{project-contributors
+                            node=collectionItem
+                            contributors=collectionItem.contributors
+                            discard=(action 'noop')
+                            continue=(action 'nextSection')
+                        }}
+                    {{/block-slot}}
+                    {{#block-slot 'complete'}}
+                        <p>{{contributor-list contributors=collectionItem.contributors}}</p>
+                    {{/block-slot}}
+                {{/submit-section}}
+
+                {{#submit-section
+                    panels=panels
+                    section=sections.collectionSubjects
+                    activeSection=activeSection
+                    savedSections=savedSections
+                    tooltip=(t 'collections.submit.closed_tooltip')
+                    title=(t 'collections.submit.subjects_title')
+                    description=(t 'collections.submit.subjects_description')
+                }}
+                    {{#block-slot 'active'}}
+                        {{subject-picker
+                            id='subjects'
+                            currentSubjects=collectedMetadatum.subjects
+                            model=collectedMetadatum
+                            valuePath='subjects'
+                            didValidate=didValidate
+                            continue=(action 'nextSection')
+                        }}
+                    {{/block-slot}}
+                    {{#block-slot 'complete'}}
+                        <div>
+                            {{#each collectedMetadatum.subjects as |subject|}}
+                                <div local-class="subject">
+                                    {{#each subject as |segment|}}
+                                        <span>{{segment.text}}</span>
+                                    {{/each}}
+                                </div>
+                            {{/each}}
+                        </div>
+                    {{/block-slot}}
+                {{/submit-section}}
+
+                {{#submit-section
+                    panels=panels
+                    section=sections.collectionMetadata
+                    activeSection=activeSection
+                    savedSections=savedSections
+                    tooltip=(t 'collections.submit.closed_tooltip')
+                    title=(t 'collections.submit.collection_metadata_title')
+                }}
+                    {{#block-slot 'active'}}
+                        {{collection-metadata
+                            collection=collection
+                            collectedMetadatum=collectedMetadatum
+                            didValidate=didValidate
+                            continue=(action 'nextSection')
+                        }}
+                    {{/block-slot}}
+                    {{#block-slot 'complete'}}
+                        <p>
+                            <em>{{t 'collections.submit.collection_metadata_type_label'}}</em>
+                            <span>{{collectedMetadatum.collectedType}}</span>
+                        </p>
+                        <p>
+                            <em>{{t 'collections.submit.collection_metadata_status_label'}}</em>
+                            <span>{{collectedMetadatum.status}}</span>
+                        </p>
+                    {{/block-slot}}
+                {{/submit-section}}
+            {{/cp-panels}}
+
+            <section class="row" local-class="last-buttons">
+                <div class="col-xs-12 text-right">
+                    <button class="btn btn-default" {{action 'cancel'}}>
+                        {{t 'collections.submit.cancel'}}
+                    </button>
+                    <button class="btn btn-success" {{action (perform save)}} disabled={{not (eq activeSection sections.submit)}}>
+                        {{t 'collections.submit.add_to_collection'}}
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

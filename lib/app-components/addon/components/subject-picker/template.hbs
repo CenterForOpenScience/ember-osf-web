@@ -1,0 +1,41 @@
+<div local-class="current-subjects">
+    {{#each currentSubjects as |subject index|}}
+        <span local-class="subject">
+            {{#each subject as |segment|}}
+                <div local-class="subject-container">
+                    <span local-class="subject-container-text">
+                        {{segment.text}}
+                        <button
+                            class="fa fa-close"
+                            local-class="remove-subject"
+                            aria-label="{{t 'submit.body.remove_subject_aria'}}"
+                            title="{{t 'app_components.subject_picker.remove'}}"
+                            {{action 'deselect' index}}
+                        ></button>
+                    </span>
+                </div>
+                <span local-class="right-arrow"></span>
+            {{/each}}
+        </span>
+    {{/each}}
+</div>
+<div local-class="columns">
+    {{#each columns as |column tier|}}
+        {{subject-picker/column
+            selection=column.selection
+            subjects=column.subjects
+            select=(action 'select' tier)
+        }}
+    {{/each}}
+</div>
+{{validated-input
+    type='custom'
+    model=model
+    valuePath=valuePath
+    didValidate=didValidate
+}}
+{{submit-section-buttons
+    discard=(action 'discard')
+    continue=continue
+    continueDisabled=(v-get model valuePath 'isInvalid')
+}}

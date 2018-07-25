@@ -21,22 +21,6 @@ interface ProviderHit {
     doc_count: number; // eslint-disable-line camelcase
 }
 
-/**
- * Builds preprint provider facets for discover page.
- * To be used with discover-page component and faceted-search component.
- *
- * Sample usage:
- * ```handlebars
- * {{search-facet-provider
- *      updateFilters=(action 'updateFilters')
- *      activeFilters=activeFilters
- *      options=facet
- *      filterReplace=filterReplace
- *      key=key
- * }}
- * ```
- * @class search-facet-provider
- */
 export default class SearchFacetProvider extends Base.extend({
     didReceiveAttrs(this: SearchFacetProvider, ...args: any[]) {
         this._super(...args);

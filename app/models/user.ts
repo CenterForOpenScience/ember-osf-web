@@ -2,7 +2,6 @@ import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
-
 import Contributor from './contributor';
 import File from './file';
 import Institution from './institution';

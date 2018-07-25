@@ -1,0 +1,101 @@
+{{!Copied from Ember SHARE}}
+{{! template-lint-disable bare-strings }}
+<div class="query-syntax-help">
+    <h2>{{t 'app_components.query_syntax.couldNotPerformQuery'}}</h2>
+    <p class='lead'>{{t 'app_components.query_syntax.moreInformationOnSearch'}}</p>
+    <div>
+        <h3>{{t 'app_components.query_syntax.reservedChars'}}</h3>
+        <p>
+            {{t 'app_components.query_syntax.specialMeanings'}}:<code>+ - = &amp;&amp; || &gt; &lt; ! ( ) { } [ ] ^ " ~ * ? : \ /</code>
+        </p>
+        <p>
+            {{t 'app_components.query_syntax.escapeReservedChars'}}<code>(1+1)=2</code>,
+            {{t 'app_components.query_syntax.needToType'}} <code>\(1\+1\)\=2</code>.
+        </p>
+    </div>
+    <div>
+        <h3>{{t 'app_components.query_syntax.searchByField'}}</h3>
+        <p>
+            {{t 'app_components.query_syntax.allFieldsSearched'}}:
+        </p>
+        <ul>
+            <li><code>title:giraffe</code> -- {{t 'app_components.query_syntax.titleContainsWord'}} "giraffe".</li>
+            <li><code>description:"giraffe neck"</code> -- {{t 'app_components.query_syntax.descriptionContainsPhrase'}} "giraffe neck".</li>
+            <li><code>contributors:"degrasse tyson"</code> -- {{t 'app_components.query_syntax.listContainsExactPhrase'}} "degrasse tyson".</li>
+            <li><code>identifiers:"10.1371/journal.pbio.1002456"</code> -- {{t 'app_components.query_syntax.listOfIdentifiersContains'}} "10.1371/journal.pbio.1002456"</li>
+        </ul>
+    </div>
+    <div>
+        <h3>{{t 'app_components.query_syntax.booleanOperators'}}</h3>
+        <p>
+            {{t 'app_components.query_syntax.booleanDesc1'}} (<code>+</code>, <code>-</code>, <code>AND</code>, <code>OR</code>, <code>NOT</code>) {{t 'app_components.query_syntax.booleanDesc2'}}:
+        </p>
+        <ul>
+            <li><code>+giraffe neck spots</code> -- {{t 'app_components.query_syntax.booleanDesc3'}} "giraffe" <b>{{t 'app_components.query_syntax.must'}}</b> {{t 'app_components.query_syntax.booleanDesc4'}} "neck" {{t 'app_components.query_syntax.and'}} "spots" {{t 'app_components.query_syntax.booleanDesc5'}}.</li>
+            <li><code>+giraffe neck spots -stripes</code> -- {{t 'app_components.query_syntax.booleanDesc6'}} "stripes" <b>{{t 'app_components.query_syntax.mustNot'}}</b> {{t 'app_components.query_syntax.booleanDesc7'}}.</li>
+            <li><code>giraffe AND lion</code> -- {{t 'app_components.query_syntax.both'}} "giraffe" {{t 'app_components.query_syntax.and'}} "lion" <b>must</b> {{t 'app_components.query_syntax.booleanDesc7'}}. {{t 'app_components.query_syntax.booleanDesc8'}} <code>+giraffe +lion</code>.</li>
+            <li><code>giraffe AND NOT lion</code> -- {{t 'app_components.query_syntax.booleanDesc9'}} "giraffe" <b>must</b> {{t 'app_components.query_syntax.booleanDesc7'}}, {{t 'app_components.query_syntax.theWord'}} "lion" <b>{{t 'app_components.query_syntax.mustNot'}}</b>. {{t 'app_components.query_syntax.booleanDesc8'}} <code>+giraffe -lion</code>.</li>
+            <li><code>tags:(ungulate OR feline)</code> -- {{t 'app_components.query_syntax.booleanDesc10'}} "ungulate", "feline", {{t 'app_components.query_syntax.or'}} {{t 'app_components.query_syntax.both'}}.</li>
+        </ul>
+    </div>
+    <div>
+        <h3>{{t 'app_components.query_syntax.wildcards'}}</h3>
+        <p>
+            {{t 'app_components.query_syntax.wildcardsDesc1'}} <code>?</code> {{t 'app_components.query_syntax.wildcardsDesc2'}} <code>*</code> {{t 'app_components.query_syntax.wildcardsDesc3'}}
+        </p>
+        <ul>
+            <li><code>giraf*</code> -- {{t 'app_components.query_syntax.matchWordStartsWith'}} "giraf".</li>
+            <li><code>l?on</code> -- {{t 'app_components.query_syntax.match'}} "lion", "loon", "leon", etc.</li>
+        </ul>
+    </div>
+    <div>
+        <h3>{{t 'app_components.query_syntax.fuzziness'}}</h3>
+        <p>
+            {{t 'app_components.query_syntax.use'}} <code>~</code> {{t 'app_components.query_syntax.fuzzinessDesc1'}}
+        </p>
+        <ul>
+            <li><code>girafe~ nekc~</code> -- {{t 'app_components.query_syntax.match'}} "giraffe neck".</li>
+        </ul>
+        <p>
+            {{t 'app_components.query_syntax.thisUsesThe'}} <a href='http://en.wikipedia.org/wiki/Damerau-Levenshtein_distance'>Damerau-Levenshtein distance</a> {{t 'app_components.query_syntax.damerauLevenshteinDistanceDesc'}} <code>~</code>.
+        </p>
+        <ul>
+            <li><code>girafe~2</code> -- {{t 'app_components.query_syntax.match'}} "giraffe", "gyrate", "pirate", etc.</li>
+        </ul>
+    </div>
+    <div>
+        <h3>{{t 'app_components.query_syntax.phraseProximity'}}</h3>
+        <p>
+            {{t 'app_components.query_syntax.phraseProximityDesc1'}}
+        </p>
+        <ul>
+            <li><code>"giraffe neck"~2</code> -- {{t 'app_components.query_syntax.match'}} "giraffe has a neck", {{t 'app_components.query_syntax.butNot'}} "giraffe has a long neck".</li>
+        </ul>
+    </div>
+    <div>
+        <h3>{{t 'app_components.query_syntax.ranges'}}</h3>
+        <p>
+            {{t 'app_components.query_syntax.rangesDesc1'}} <code>[min TO max]</code> {{t 'app_components.query_syntax.rangesDesc2'}} <code>{min TO max}</code> {{t 'app_components.query_syntax.rangesDesc3'}}.
+        </p>
+        <ul>
+            <li><code>date:[2016-01-01 TO 2016-12-31]</code> -- {{t 'app_components.query_syntax.match'}} {{t 'app_components.query_syntax.allDatesIn'}} 2016.</li>
+            <li><code>tags:{alpha TO omega}</code> -- {{t 'app_components.query_syntax.match'}} {{t 'app_components.query_syntax.allTagsBetween'}} "alpha" {{t 'app_components.query_syntax.and'}} "omega", {{t 'app_components.query_syntax.excluding'}} "alpha" {{t 'app_components.query_syntax.and'}} "omega".</li>
+            <li><code>date:[2016-01-01 TO 2016-12-31}</code> -- {{t 'app_components.query_syntax.match'}} {{t 'app_components.query_syntax.allDatesIn'}} 2016 {{t 'app_components.query_syntax.except'}} December 31.</li>
+        </ul>
+    </div>
+    <div>
+        <h3>{{t 'app_components.query_syntax.boosting'}}</h3>
+        <p>
+            {{t 'app_components.query_syntax.boostingDesc1'}} <code>^</code> {{t 'app_components.query_syntax.boostingDesc2'}}
+        </p>
+        <ul>
+            <li><code>giraffe^2 lion</code> -- {{t 'app_components.query_syntax.boostingDesc3'}} "giraffe" {{t 'app_components.query_syntax.booleanDesc4'}} "lion".</li>
+        </ul>
+    </div>
+    <div>
+        <h3>{{t 'app_components.query_syntax.moreInformation'}}</h3>
+        <p>
+            {{t 'app_components.query_syntax.moreInfoQuerySyntax'}} <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax'>Elasticsearch {{t 'app_components.query_syntax.documentation'}} </a>.
+        </p>
+    </div>
+</div>

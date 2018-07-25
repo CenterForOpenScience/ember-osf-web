@@ -1,84 +1,21 @@
 <div class="row">
     <div class="col-sm-6">
-        <h4>{{t "eosf.components.discoverPage.activeFilters.heading"}}:</h4>
+        <h4>{{t "collections.discover_page.active_filters.heading"}}:</h4>
     </div>
     <div class="col-sm-6">
         <span class="pull-right">
             {{!CLEAR FILTERS BUTTON}}
             <button class="btn btn-default btn-sm" {{action clearFilters}}>
-                {{t 'eosf.components.discoverPage.activeFilters.button'}}
+                {{t 'collections.discover_page.active_filters.button'}}
                 <i class="fa fa-remove"></i>
             </button>
         </span>
     </div>
 </div>
-{{#each facetContexts.collection-provider.activeFilter as |item|}}
-    <span local-class="preprint-filter provider-filter">
-        {{filter-replace item.key filterReplace}}
-        {{#unless theme.isProvider}}
-            {{!ACTIVE PROVIDER FILTERS}}
-            <span aria-label={{t 'eosf.components.discoverPage.removeProvider'}}>
-                <button
-                    class="fa fa-times-circle"
-                    local-class="removeActiveFilter"
-                    {{action 'removeFilterItem' 'collection-provider' item}}
-                ></button>
-            </span>
-        {{/unless}}
-    </span>
-{{/each}}
-{{#each facetContexts.taxonomy.activeFilter as |item|}}
-    {{!ACTIVE SUBJECT FILTERS}}
-    <span local-class='preprint-filter subject-filter'>
-        {{custom-taxonomy-filter item}}
-        <span aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>
-            <button
-                class="fa fa-times-circle"
-                local-class="removeActiveFilter"
-                {{action 'removeFilterItem' 'taxonomy' item}}
-            ></button>
-        </span>
-    </span>
-{{/each}}
-{{#each facetContexts.collected-type.activeFilter as |item|}}
-    {{!ACTIVE SUBJECT FILTERS}}
-    <span local-class='preprint-filter subject-filter'>
-        {{item}}
-        <span aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>
-            <button
-                class="fa fa-times-circle"
-                local-class="removeActiveFilter"
-                {{action 'removeFilterItem' 'collected-type' item}}
-            ></button>
-        </span>
-    </span>
-{{/each}}
 
-{{#each facetContexts.status.activeFilter as |item|}}
-    {{!ACTIVE SUBJECT FILTERS}}
-    <span local-class='preprint-filter subject-filter'>
-        {{item}}
-        <span aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>
-            <button
-                class="fa fa-times-circle"
-                local-class="removeActiveFilter"
-                {{action 'removeFilterItem' 'status' item}}
-            ></button>
-        </span>
-    </span>
+{{#each facetContexts as |context|}}
+    {{component
+        (concat 'discover-page/active-filters/' context.component)
+        context=context
+    }}
 {{/each}}
-{{!ACTIVE TYPE FILTERS}}
-{{!--
-{{#each activeFilters.types as |filter|}}
-    <span local-class='preprint-filter type-filter'>
-        {{filter}}
-        <span aria-label={{t 'eosf.components.discoverPage.removeRegistrationType'}}>
-            <button
-                class="fa fa-times-circle"
-                local-class="removeActiveFilter"
-                {{action updateFilters 'types' filter}}
-            ></button>
-        </span>
-    </span>
-{{/each}}
---}}

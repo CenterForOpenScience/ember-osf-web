@@ -1,0 +1,25 @@
+{{#each fields as |field|}}
+    <div class="col-md-6">
+        <label>
+            {{t (concat 'collections.submit.' field.labelKey)}}
+            {{#validated-input
+                type='power-select'
+                model=collectedMetadatum
+                valuePath=field.valuePath
+                options=(get collection field.optionsKey)
+                didValidate=didValidate
+                as |option|
+            }}
+                {{option}}
+            {{/validated-input}}
+        </label>
+    </div>
+{{/each}}
+{{submit-section-buttons
+    discard=(action 'discard')
+    continue=continue
+    continueDisabled=(or 
+        (v-get collectedMetadatum 'collectedType' 'isInvalid')
+        (v-get collectedMetadatum 'status' 'isInvalid')
+    )
+}}

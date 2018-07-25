@@ -58,7 +58,6 @@ module.exports = function(defaults) {
                 'zxcvbn.js',
                 'assets/osf-assets',
             ],
-            prepend: config.assetsPrefix,
         },
         sassOptions: {
             includePaths: [

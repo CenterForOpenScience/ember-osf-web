@@ -36,6 +36,12 @@
       "ember-osf-web/mirage/*": [
         "mirage/*"
       ],
+      "app-components": [
+        "lib/app-components/addon"
+      ],
+      "app-components/*": [
+        "lib/app-components/addon/*"
+      ],
       "osf-components": [
         "lib/osf-components/addon"
       ],
@@ -79,6 +85,7 @@
     "mirage",
     "types",
     "lib/collections",
+    "lib/app-components",
     "lib/osf-components",
     "lib/handbook",
     "lib/analytics-page"

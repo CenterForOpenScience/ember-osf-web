@@ -12,7 +12,7 @@ export default async function loadAll(
     query: QueryOptions = { 'page[size]': 10, page: 1 },
     results: any[] = A([]),
 ): Promise<any[]> {
-    const currentResults = await model.queryHasMany(relationship, query);
+    const currentResults = await model.queryHasMany<typeof relationship>(relationship, query);
     results.pushObjects(currentResults.toArray());
 
     const { meta: { total } } = currentResults;

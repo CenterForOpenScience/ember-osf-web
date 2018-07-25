@@ -42,15 +42,19 @@ export default class PaginatedList extends Component {
 
     loadItemsTask = task(function *(this: PaginatedList) {
         const blocker = this.ready.getBlocker();
+
         try {
             let model = this.modelInstance;
+
             if (!model && this.modelTaskInstance) {
                 model = yield this.modelTaskInstance;
             }
+
             if (!model) {
                 throw new Error('Error loading model');
             }
-            const items = yield model.queryHasManyTask.linked().perform(
+
+            const items = yield model.queryHasMany(
                 this.relationshipName,
                 {
                     page: this.page,
@@ -58,11 +62,13 @@ export default class PaginatedList extends Component {
                     ...this.queryParams,
                 },
             );
+
             this.setProperties({
                 items,
                 maxPage: Math.ceil(items.meta.total / this.pageSize),
                 errorShown: false,
             });
+
             blocker.done();
         } catch (e) {
             this.set('errorShown', true);

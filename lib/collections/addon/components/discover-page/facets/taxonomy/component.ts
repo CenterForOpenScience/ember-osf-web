@@ -1,5 +1,7 @@
 import { service } from '@ember-decorators/service';
 import { setProperties } from '@ember/object';
+import { task } from 'ember-concurrency';
+import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Provider from 'ember-osf-web/models/provider';
 import Taxonomy from 'ember-osf-web/models/taxonomy';
 import Theme from 'ember-osf-web/services/theme';
@@ -18,40 +20,61 @@ export interface TaxonomyItem {
     path: string;
 }
 
-/**
- * @module ember-preprints
- * @submodule components
- */
+function getParentPaths(item: string): string[] {
+    const [prefix, ...subjectNames] = item.split('|').slice(0, -1);
 
-/**
- * Builds taxonomy facet for discover page - to be used with Ember-OSF's discover-page component.
- *
- * Sample usage:
- * ```handlebars
- * {{search-facet-taxonomy
- *      updateFilters=(action 'updateFilters')
- *      activeFilters=activeFilters
- *      options=facet
- *      filterReplace=filterReplace
- *      key=key
- * }}
- * ```
- * @class search-facet-taxonomy
- */
+    return subjectNames
+        .reduce((acc, val) => acc.concat(`${acc.lastObject}|${val}`), [prefix])
+        .slice(1);
+}
+
+export const getTaxonomies = task(function *(item: TaxonomyItem, provider: Provider) {
+    const results: QueryHasManyResult<Taxonomy> = yield provider.queryHasMany<Taxonomy>('taxonomies', {
+        filter: { parents: item.id },
+        page: { size: pageSize },
+    });
+
+    setProperties(item, {
+        children: results
+            .map(({ id, text, childCount, shareTitle, path }) => ({
+                id,
+                text,
+                children: [],
+                childCount,
+                shareTitle,
+                path,
+            }))
+            .sortBy('text'),
+    });
+});
+
 export default class SearchFacetTaxonomy extends Base.extend({
-    didReceiveAttrs(this: SearchFacetTaxonomy, ...args: any[]) {
+    getTaxonomies,
+
+    didInsertElement(this: SearchFacetTaxonomy, ...args: any[]) {
         this._super(...args);
 
         const { context, filterChanged } = this;
 
         setProperties(context, {
             didInit: true,
+            expandedList: (context.activeFilter as string[])
+                .map(getParentPaths)
+                .reduce((acc, val) => acc.concat(val), [])
+                .uniq(),
             updateFilters(item?: string) {
-                const { activeFilter, defaultQueryFilters } = context;
+                const { activeFilter, defaultQueryFilters, expandedList } = context;
 
                 if (item) {
-                    const method = activeFilter.includes(item) ? 'removeObject' : 'pushObject';
+                    const inFilter = activeFilter.includes(item);
+
+                    const method = inFilter ? 'removeObject' : 'pushObject';
                     activeFilter[method](item);
+
+                    if (!inFilter) {
+                        const parents = getParentPaths(item).filter(path => !expandedList.includes(path));
+                        expandedList.pushObjects(parents);
+                    }
                 }
 
                 setProperties(context, {
@@ -80,34 +103,14 @@ export default class SearchFacetTaxonomy extends Base.extend({
             },
         });
 
-        SearchFacetTaxonomy.getTaxonomies(this.item, this.theme.provider!);
+        this.get('getTaxonomies').perform(this.item, this.theme.provider!);
     },
 }) {
-    static async getTaxonomies(item: TaxonomyItem, provider: Provider) {
-        const results: Taxonomy[] = await provider.queryHasMany('taxonomies', {
-            filter: { parents: item.id },
-            page: { size: pageSize },
-        });
-
-        setProperties(item, {
-            children: results
-                .map(({ id, text, childCount, shareTitle, path }) => ({
-                    id,
-                    text,
-                    children: [],
-                    childCount,
-                    shareTitle,
-                    path,
-                }))
-                .sortBy('text'),
-        });
-    }
-
-    @service theme!: Theme;
-
     layout = layout;
     styles = styles;
 
+    @service theme!: Theme;
+
     item: TaxonomyItem = this.item;
-    expandedList: string[] = [];
+    context!: Base['context'] & { expandedList: string[]; };
 }
