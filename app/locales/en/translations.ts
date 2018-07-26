@@ -535,7 +535,6 @@ export default {
         facebook: 'Facebook',
         google_group: 'Google Group',
         github: 'GitHub',
-        google_plus: 'Google Plus',
         linkedin: 'LinkedIn',
     },
     institutions: {
