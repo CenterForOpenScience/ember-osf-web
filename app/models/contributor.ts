@@ -24,7 +24,7 @@ export default class Contributor extends OsfModel {
     @attr('fixstring') email!: string;
     @attr('boolean') sendEmail!: boolean;
 
-    @belongsTo('user') users!: DS.PromiseObject<User> & User;
+    @belongsTo('user', { inverse: 'contributors' }) users!: DS.PromiseObject<User> & User;
 
     @belongsTo('node', { inverse: 'contributors' }) node!: DS.PromiseObject<Node> & Node;
 }

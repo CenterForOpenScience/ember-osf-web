@@ -30,6 +30,9 @@
         "app/*",
         "lib/test/app/*"
       ],
+      "ember-osf-web/mirage/*": [
+        "mirage/*"
+      ],
       "osf-components": [
         "lib/osf-components/addon"
       ],
@@ -70,6 +73,7 @@
     "app",
     "config",
     "tests",
+    "mirage",
     "types",
     "lib/collections",
     "lib/osf-components",

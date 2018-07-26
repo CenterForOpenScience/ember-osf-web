@@ -6,6 +6,7 @@ module('Acceptance | logged-out home page', hooks => {
     setupApplicationTest(hooks);
 
     test('visiting /', async assert => {
+        server.create('root', { currentUser: null });
         await visit('/');
 
         assert.equal(currentURL(), '/', "Still at '/'.");

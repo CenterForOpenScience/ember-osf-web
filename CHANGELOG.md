@@ -55,6 +55,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Dashboard filtering
   - User quick files page (more event tracking)
   - Quick files detail page (event tracking)
+- Mirage/Tests:
+  - Factories (and supporting code) for Mirage and the Dashboard
+  - Dashboard application test
 
 ### Changed
 - Components:

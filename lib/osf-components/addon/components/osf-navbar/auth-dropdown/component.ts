@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
+import { action } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -63,15 +63,6 @@ export default class NavbarAuthDropdown extends Component {
     serviceLinks = serviceLinks;
 
     @alias('currentUser.user') user!: User;
-
-    @computed('user.links.profile_image')
-    get gravatarUrl(): string {
-        if (!this.user || !this.user.get('links')) {
-            return '';
-        }
-        const imgLink = this.user.get('links').profile_image;
-        return imgLink ? `${imgLink}&s=25` : '';
-    }
 
     @action
     logout(this: NavbarAuthDropdown) {
