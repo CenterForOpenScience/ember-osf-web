@@ -346,8 +346,8 @@ export default {
         workflow_title: 'Respect for your workflow',
         workflow_paragraph: '<strong>Connect your favorite third party services</strong> directly to OSF.',
         workflow_span: '3rd Party Integrations',
-        student_main: '"The OSF is a great way to collaborate and stay organized while still using your favorite external services."',
-        student_attrib: '<strong>Kara Woo</strong> - Information Manager, Aquatic Ecology, Washington State',
+        student_main: '"OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration."',
+        student_attrib: '<strong>Ana Patricia Ayala</strong>',
         integrations_title: 'OSF integrations make your <strong>workflow more efficient</strong>',
         integrations_alt_dropbox: 'Dropbox logo',
         integrations_alt_github: 'Github logo',
@@ -628,5 +628,9 @@ export default {
     },
     paginatedRelation: {
         error: 'There was an error loading this list.',
+    },
+    cookieBanner: {
+        cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.',
+        accept: 'Accept',
     },
 };

@@ -346,8 +346,8 @@ export default {
         workflow_title: 'あなたのワークフローを尊重する',
         workflow_paragraph: '<strong>あなたのお気に入りのサードパーティサービスをOSFに直接接続してください。</strong>',
         workflow_span: 'サードパーティインテグレーション',
-        student_main: '"OSFは、お気に入りの外部サービスを使用しながら、コラボレーションして組織を整える素晴らしい方法です。"',
-        student_attrib: '<strong>Kara Woo</strong> - ワシントン州の水生生態系情報マネージャー',
+        student_main: '"OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration."',
+        student_attrib: '<strong>Ana Patricia Ayala</strong>',
         integrations_title: 'OSFの統合により、<strong>ワークフローの効率化</strong>',
         integrations_alt_dropbox: 'Dropbox ロゴ',
         integrations_alt_github: 'Github ロゴ',
@@ -628,5 +628,9 @@ export default {
     },
     paginatedRelation: {
         error: 'There was an error loading this list.',
+    },
+    cookieBanner: {
+        cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.',
+        accept: 'Accept',
     },
 };

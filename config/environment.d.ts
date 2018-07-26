@@ -88,7 +88,9 @@ declare const config: {
             keenUserId: string;
             keenSessionId: string;
             analyticsDismissAdblock: string;
-        },
+            cookieConsent: string;
+            maintenance: string;
+        };
     };
     social: {
         twitter: {

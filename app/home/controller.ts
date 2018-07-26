@@ -46,17 +46,6 @@ export default class Home extends Controller.extend({
     };
     queryParams = ['goodbye'];
 
-    integrationsList = [
-        'dropbox',
-        'github',
-        'amazon',
-        'box',
-        'google',
-        'figshare',
-        'dataverse',
-        'mendeley',
-    ];
-
     featuresList = [
         'manage',
         'share',
@@ -67,11 +56,6 @@ export default class Home extends Controller.extend({
         'workflow',
         'registration',
     ];
-
-    @computed('integrationsList')
-    get integrations(this: Home): string[][] {
-        return chunkArray(this.get('integrationsList'), 4);
-    }
 
     @computed('featuresList')
     get features(this: Home): string[][] {
