@@ -8,7 +8,7 @@ import $ from 'jquery';
 
 import requiredAction from 'ember-osf-web/decorators/required-action';
 import File from 'ember-osf-web/models/file';
-import { authorizeXHR } from 'ember-osf-web/utils/ajax-helpers';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import layout from './template';
 
@@ -69,6 +69,7 @@ export default class DropzoneWidget extends Component.extend({
 
     @service session!: Session;
     @service i18n!: I18N;
+    @service currentUser!: CurrentUser;
 
     @className
     dropzone: boolean = defaultTo(this.dropzone, true);
@@ -132,6 +133,8 @@ export default class DropzoneWidget extends Component.extend({
             // @ts-ignore - Dropzone is a global
             return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
         };
+
+        const authorizeXHR = this.currentUser.authorizeXHR.bind(this.currentUser);
 
         // @ts-ignore
         const drop = new CustomDropzone(`#${this.elementId}`, {

@@ -7,7 +7,7 @@ import Base from 'ember-simple-auth/authenticators/base';
 import Session from 'ember-simple-auth/services/session';
 
 import { NotLoggedIn } from 'ember-osf-web/errors';
-import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 const {
     OSF: {
@@ -30,13 +30,14 @@ export default class OsfCookie extends Base {
     @service features!: Features;
     @service session!: Session;
     @service store!: DS.Store;
+    @service currentUser!: CurrentUser;
 
     /**
      * @method authenticate
      * @return {Promise}
      */
     async authenticate(): Promise<object> {
-        const res: ApiRootResponse = await authenticatedAJAX({
+        const res: ApiRootResponse = await this.currentUser.authenticatedAJAX({
             url: `${apiUrl}/${apiNamespace}/`,
         });
 
@@ -69,7 +70,7 @@ export default class OsfCookie extends Base {
     }
 
     async _checkApiVersion() {
-        const res: ApiRootResponse = await authenticatedAJAX(
+        const res: ApiRootResponse = await this.currentUser.authenticatedAJAX(
             {
                 url: `${apiUrl}/${apiNamespace}/`,
                 data: {

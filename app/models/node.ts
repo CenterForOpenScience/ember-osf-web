@@ -3,8 +3,6 @@ import { bool, equal } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
-import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
-
 import BaseFileItem from './base-file-item';
 import Citation from './citation';
 import Comment from './comment';
@@ -128,7 +126,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     makeFork(this: Node): Promise<object> {
         const url = this.get('links').relationships.forks.links.related.href;
-        return authenticatedAJAX({
+        return this.currentUser.authenticatedAJAX({
             url,
             type: 'POST',
             headers: {
