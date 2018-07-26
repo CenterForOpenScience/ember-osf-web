@@ -90,6 +90,7 @@ declare const config: {
             analyticsDismissAdblock: string;
             cookieConsent: string;
             maintenance: string;
+            csrf: string;
         };
     };
     social: {

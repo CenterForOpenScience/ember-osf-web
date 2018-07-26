@@ -157,6 +157,7 @@ module.exports = function(environment) {
                 analyticsDismissAdblock: 'adBlockDismiss',
                 cookieConsent: 'osf_cookieconsent',
                 maintenance: 'maintenance',
+                csrf: 'api-csrf',
             },
         },
         social: {

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Images for home page
     - Images for dashboard
 - `keen` metrics adapter
+- CSRF support on all ajax requests
 
 ### Changed
 - Models:

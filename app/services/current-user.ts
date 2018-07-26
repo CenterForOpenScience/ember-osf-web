@@ -2,6 +2,7 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Service from '@ember/service';
+import Cookies from 'ember-cookies/services/cookies';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
@@ -12,6 +13,10 @@ import User from 'ember-osf-web/models/user';
 const {
     OSF: {
         url: osfUrl,
+        apiHeaders,
+        cookies: {
+            csrf: csrfCookie,
+        },
     },
 } = config;
 
@@ -35,6 +40,7 @@ enum AuthRoute {
 export default class CurrentUserService extends Service {
     @service store!: DS.Store;
     @service session!: Session;
+    @service cookies!: Cookies;
 
     showTosConsentBanner = false;
 
@@ -93,6 +99,55 @@ export default class CurrentUserService extends Service {
             user.set('acceptedTermsOfService', undefined);
             this.set('showTosConsentBanner', true);
         }
+    }
+
+    /**
+     * Perform an AJAX request as the current user.
+     */
+    async authenticatedAJAX(
+        options: JQuery.AjaxSettings,
+        addApiHeaders: boolean = true,
+    ): Promise<any> {
+        const opts = { ...options };
+
+        if (addApiHeaders) {
+            opts.headers = {
+                ...this.ajaxHeaders(),
+                ...opts.headers,
+            };
+        }
+
+        opts.xhrFields = {
+            withCredentials: true,
+            ...opts.xhrFields,
+        };
+
+        // Return RSVP.Promise so the callbacks are run within the current runloop
+        return new RSVP.Promise((resolve, reject) => $.ajax(opts).then(resolve).catch(reject));
+    }
+
+    /**
+     * Modify a given XMLHttpRequest to add the current user's authorization.
+     */
+    authorizeXHR(xhr: XMLHttpRequest, addApiHeaders: boolean = true): void {
+        if (addApiHeaders) {
+            Object.entries(this.ajaxHeaders()).forEach(([key, value]) => {
+                xhr.setRequestHeader(key, value);
+            });
+        }
+        xhr.withCredentials = true; // eslint-disable-line no-param-reassign
+    }
+
+    /**
+     * Return headers that should be included with every AJAX request to the API
+     */
+    ajaxHeaders() {
+        const headers = { ...apiHeaders };
+        const csrfToken = this.cookies.read(csrfCookie);
+        if (csrfToken) {
+            headers['X-CSRFToken'] = csrfToken;
+        }
+        return headers;
     }
 }
 
