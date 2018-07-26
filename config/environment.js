@@ -146,6 +146,12 @@ module.exports = function(environment) {
             authenticator: `authenticator:${osfAuthenticator}`,
             keenProjectId,
             analyticsDismissAdblockCookie: 'adBlockDismiss',
+            cookies: {
+                authSession: 'embosf-auth-session',
+            },
+            localStorageKeys: {
+                authSession: 'embosf-auth-session',
+            },
         },
         social: {
             twitter: {

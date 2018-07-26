@@ -78,6 +78,12 @@ declare const config: {
         authenticator: string;
         keenProjectId?: string;
         analyticsDismissAdblockCookie: string;
+        cookies: {
+            authSession: string;
+        };
+        localStorageKeys: {
+            authSession: string;
+        };
     };
     social: {
         twitter: {
