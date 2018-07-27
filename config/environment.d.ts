@@ -114,7 +114,6 @@ declare const config: {
         facebook: string,
         googleGroup: string,
         github: string,
-        googlePlus: string,
     },
     support: {
         preregUrl: string;
