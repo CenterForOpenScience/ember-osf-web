@@ -283,6 +283,13 @@
   version "1.7.0"
   resolved "https://github.com/CenterForOpenScience/osf-style#e15bf09f4d4e3c6f3f89fcfdaf6d72e91faf8a7d"
 
+"@cos-forks/ember-content-placeholders@https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19":
+  version "1.0.0"
+  resolved "https://github.com/cos-forks/ember-content-placeholders#640cef7dfb89956c5de1333bf5272ea8edd18211"
+  dependencies:
+    ember-cli-babel "^6.6.0"
+    ember-cli-htmlbars "^2.0.1"
+
 "@ember-decorators/argument@^0.8.13":
   version "0.8.13"
   resolved "https://registry.yarnpkg.com/@ember-decorators/argument/-/argument-0.8.13.tgz#217804178c4278a8c264a2878b66c0cb55b77e3d"

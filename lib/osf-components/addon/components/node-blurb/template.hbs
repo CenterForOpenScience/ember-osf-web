@@ -1,19 +1,31 @@
-<h4 class="list-group-item-heading">
+<h4 class="list-group-item-heading" local-class="NodeBlurb__heading">
     <span class="component-overflow f-w-lg" style="line-height: 1.5;">
-        {{#unless node.public}}
-            <span>
-                {{fa-icon 'lock'}}
-                {{#bs-tooltip}}{{t 'node_blurb.private_tooltip'}}{{/bs-tooltip}}
-            </span>
-        {{/unless}}
-        {{node-blurb/node-icon category=node.category}}
-        <a href='/{{node.id}}/' onclick={{action 'click' 'link' (concat blurbType ' - NodeBlurb - node_blurb.node_title') target=analytics}}>{{node.title}}</a>
-        | {{t dateLabelKey}} {{date}}
+        {{#if node}}
+            {{#unless node.public}}
+                <span>
+                    {{fa-icon 'lock'}}
+                    {{#bs-tooltip}}{{t 'node_blurb.private_tooltip'}}{{/bs-tooltip}}
+                </span> |
+            {{/unless}}
+            {{#if node.pendingRegistrationApproval}}
+                <span class="label label-info">{{t 'node_blurb.registration.statuses.pending'}}</span> |
+            {{/if}}
+            {{#if node.archiving}}
+                <span class="label label-primary">{{t 'node_blurb.registration.statuses.archiving'}}</span> |
+            {{/if}}
+            {{node-blurb/node-icon category=node.category}}
+            <a href='/{{node.id}}/' onclick={{action 'click' 'link' (concat blurbType ' - NodeBlurb - node_blurb.node_title') target=analytics}}>{{node.title}}</a> |
+            {{t dateLabelKey}} {{date}}
+        {{else}}
+            {{#content-placeholders as |placeholder|}}
+                {{placeholder.heading subtitle=false}}
+            {{/content-placeholders}}
+        {{/if}}
     </span>
     {{#if (and (eq blurbType 'fork') canEdit)}}
         <div class="pull-right generic-dropdown" local-class="NodeBlurb__dropdown">
             {{#bs-dropdown as |dd|}}
-                {{#dd.button local-class='NodeBlurb__dropdown-button'}}
+                {{#dd.button local-class='NodeBlurb__dropdown-button' disabled=(not node)}}
                     <span aria-label='Options' class="glyphicon glyphicon-option-horizontal"></span>
                 {{/dd.button}}
                 {{#dd.menu class=(concat (local-class 'NodeBlurb__dropdown-list') ' dropdown-menu-right')}}
@@ -37,7 +49,43 @@
         </div>
     {{/if}}
 </h4>
-<div local-class="NodeBlurb__authors">
-    {{contributor-list contributors=node.contributors useLink=true nodeId=node.id}}
+<div local-class="NodeBlurb__body">
+    {{#if node}}
+        {{#if (eq blurbType 'registration')}}
+            {{#if registrationTitle}}
+                <div local-class="NodeBlurb__registration-title">
+                    {{registrationTitle}}
+                </div>
+            {{/if}}
+            <div local-class="NodeBlurb__schema-name">
+                {{node.registrationSchema.name}}
+            </div>
+        {{/if}}
+        <div local-class="NodeBlurb__authors">
+            {{contributor-list contributors=node.contributors useLink=true nodeId=node.id}}
+        </div>
+        <div local-class="NodeBlurb__description">
+            {{node.description}}
+        </div>
+    {{else}}
+        {{#content-placeholders as |placeholder|}}
+            {{placeholder.text lines=placeholderBodyLines}}
+        {{/content-placeholders}}
+    {{/if}}
+    {{#if (and showTags node.tags)}}
+        <div local-class="NodeBlurb__tags">
+            <h4>{{t 'node_blurb.tags'}}</h4>
+            {{#tag-input
+                tags=node.tags
+                readOnly=true
+                as |tag|
+            }}
+                {{#if onClickTag}}
+                    <span role="link" {{action clickTag tag}}>{{tag}}</span>
+                {{else}}
+                    {{tag}}
+                {{/if}}
+            {{/tag-input}}
+        </div>
+    {{/if}}
 </div>
-<span local-class="NodeBlurb__description">{{node.description}}</span>

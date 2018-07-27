@@ -1,3 +1,22 @@
+.NodeBlurb__heading {
+    :global(.ember-content-placeholders-heading__title) {
+        height: 1em;
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+        &:first-child {
+            width: 100%;
+        }
+    }
+}
+
+.NodeBlurb__body {
+    :global(.ember-content-placeholders-text__line) {
+        height: 1em;
+        margin-bottom: 5px;
+    }
+}
+
 .NodeBlurb__dropdown {
     padding-left: 5px;
 }
@@ -23,6 +42,10 @@
     line-height: 0;
 }
 
+.NodeBlurb__authors {
+    font-weight: 500;
+}
+
 .NodeBlurb__description {
     font-weight: 300;
     text-overflow: ellipsis;
@@ -31,6 +54,28 @@
     overflow: hidden;
 }
 
-.NodeBlurb__authors {
-    font-weight: 500;
+.NodeBlurb__tags {
+    h4 {
+        font-weight: 500;
+    }
+
+    ul {
+        border: 0;
+        padding: 0;
+    }
+
+    :global(.emberTagInput-tag) {
+        cursor: initial;
+
+        &:hover span {
+            text-decoration: underline;
+            cursor: pointer;
+            background: initial;
+            color: #000;
+        }
+    }
+
+    :global(.emberTagInput-new) {
+        display: none;
+    }
 }
