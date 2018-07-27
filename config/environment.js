@@ -181,7 +181,6 @@ module.exports = function(environment) {
             facebook: 'https://www.facebook.com/CenterForOpenScience/',
             googleGroup: 'https://groups.google.com/forum/#!forum/openscienceframework',
             github: 'https://www.github.com/centerforopenscience',
-            googlePlus: 'https://plus.google.com/b/104751442909573665859',
         },
         support: {
             preregUrl: 'https://cos.io/prereg/',
