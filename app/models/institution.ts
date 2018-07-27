@@ -30,7 +30,7 @@ export default class Institution extends OsfModel {
     @computed('assets', 'id')
     get logoUrl(this: Institution): string {
         let assetsUrl = '';
-        if (this.assets !== null && this.assets !== undefined) {
+        if (this.assets) {
             const { logo } = this.assets;
             assetsUrl = logo;
         } else {
