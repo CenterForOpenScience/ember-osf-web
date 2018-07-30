@@ -347,7 +347,7 @@ export default {
         workflow_paragraph: '<strong>あなたのお気に入りのサードパーティサービスをOSFに直接接続してください。</strong>',
         workflow_span: 'サードパーティインテグレーション',
         student_main: '"OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration."',
-        student_attrib: '<strong>Ana Patricia Ayala</strong>',
+        student_attrib: '<strong>Patricia Ayala</strong>, Research Services Librarian, University of Toronto',
         integrations_title: 'OSFの統合により、<strong>ワークフローの効率化</strong>',
         integrations_alt_dropbox: 'Dropbox ロゴ',
         integrations_alt_github: 'Github ロゴ',

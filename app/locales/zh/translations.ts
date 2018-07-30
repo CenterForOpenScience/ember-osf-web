@@ -347,7 +347,7 @@ export default {
         workflow_paragraph: '<strong>Connect your favorite third party services</strong> directly to OSF.',
         workflow_span: '3rd Party Integrations',
         student_main: '"OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration."',
-        student_attrib: '<strong>Ana Patricia Ayala</strong>',
+        student_attrib: '<strong>Patricia Ayala</strong>, Research Services Librarian, University of Toronto',
         integrations_title: 'OSF integrations make your <strong>workflow more efficient</strong>',
         integrations_alt_dropbox: 'Dropbox logo',
         integrations_alt_github: 'Github logo',
