@@ -63,6 +63,7 @@ export default class OsfModel extends Model.extend({
     @service currentUser!: CurrentUser;
 
     @attr() links: any;
+    @attr('object', { defaultValue: () => ({}) }) relatedCounts!: { [relName: string]: number | undefined };
     @attr() apiMeta: any;
 
     @alias('links.relationships') relationshipLinks: any;
@@ -83,5 +84,23 @@ export default class OsfModel extends Model.extend({
         ajaxOptions?: object,
     ) {
         return this.get('queryHasManyTask').perform(propertyName, queryParams, ajaxOptions);
+    }
+
+    incrementRelatedCount(this: OsfModel, relationshipName: string) {
+        if (this.relatedCounts[relationshipName] || this.relatedCounts[relationshipName] === 0) {
+            this.set('relatedCounts', {
+                ...this.relatedCounts,
+                [relationshipName]: this.relatedCounts[relationshipName] as number + 1,
+            });
+        }
+    }
+
+    decrementRelatedCount(this: OsfModel, relationshipName: string) {
+        if (this.relatedCounts[relationshipName]) {
+            this.set('relatedCounts', {
+                ...this.relatedCounts,
+                [relationshipName]: this.relatedCounts[relationshipName] as number - 1,
+            });
+        }
     }
 }
