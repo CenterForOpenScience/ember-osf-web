@@ -93,6 +93,7 @@ Router.map(function() {
     this.route('guid-node', { path: '/:node_guid' }, function() {
         this.mount('analytics-page', { as: 'analytics' });
         this.route('forks');
+        this.route('registrations');
     });
     this.route('guid-preprint', { path: '/:preprint_guid' });
     this.route('guid-registration', { path: '/:registration_guid' }, function() {
