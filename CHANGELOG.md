@@ -4,6 +4,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased']
+### Added
+- Models:
+    - `registration-metaschema` (including related adapter & serializer)
+- Components:
+    - `draft-registrations-blurb` - used for lists of draft registrations
+- Routes:
+    - `guid-node/registrations` - registrations tab
+
+### Changed
+- Models:
+    - `osf-model` - add `relatedCounts` attribute and `incrementRelatedCount()`/`decrementRelatedCount()` methods
+    - `registration` - add `archiving` attribute and `registrationSchema` relationship
+    - `draft-registration` - changed `registrationSchema` relationship type to be `registration-metaschema`
+- Adapters:
+    - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
+- Serializers:
+    - `osf-serializer` - populate `relatedCounts` attribute from relationship meta
+- Services:
+    - `route-context` - added ability to pass query params to `setGuid()`/`loadModel()`
+- Components:
+    - `node-blurb` - add `registration` type, optional tags display, and placeholder when `node` is not set
+    - `node-navbar` - use `linkTo` for registrations
+    - `paginated-relation` - add ability to specify placeholders, and pass actions to items for incrementing/decrementing count
+- Routes:
+    - `guid-node` - request `forks`, `registrations`, and `draft_registrations` related counts when resolving guid
+    - `guid-node/forks` - use placeholder for forks list
+    - `guid-registration` - request `forks` related count when resolving guid
+    - `guid-registration/forks` - use placeholder for forks list
+    - `resolve-guid/resolved-guid-route` - pass-through query params to `routeContext.setGuid()`
+- Engines:
+    - `analytics-page` - use placeholder for linked nodes list
+- Misc:
+    - install `@cos-forks/ember-content-placeholders`
+
+### Removed
+- Models:
+    - `metaschema` (including related adapter & serializer)
+
 ## [Unreleased]
 ### Changed
 - Components:
