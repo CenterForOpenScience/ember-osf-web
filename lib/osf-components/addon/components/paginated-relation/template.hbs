@@ -1,12 +1,22 @@
 {{#if loadItemsTask.isRunning}}
-    {{loading-indicator dark=true}}
+    {{#if (and usePlaceholders placeholderCount)}}
+        <ul class="list-group m-md">
+            {{#each (range 1 placeholderCount) as |item index|}}
+                {{yield (hash
+                    placeholder=(component 'paginated-relation/x-item' item=item index=index)
+                )}}
+            {{/each}}
+        </ul>
+    {{else}}
+        {{loading-indicator dark=true}}
+    {{/if}}
 {{else if errorShown}}
     <p>{{t 'paginatedRelation.error'}}</p>
 {{else if items.length}}
     <ul class="list-group m-md">
         {{#each items as |item index|}}
             {{yield (hash
-                item=(component 'paginated-relation/x-item' item=item index=index)
+                item=(component 'paginated-relation/x-item' item=item index=index incrementCount=(action incrementCount) decrementCount=(action decrementCount))
             )}}
         {{/each}}
     </ul>

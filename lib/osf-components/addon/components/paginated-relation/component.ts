@@ -1,4 +1,4 @@
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -29,6 +29,7 @@ export default class PaginatedList extends Component {
     page: number = defaultTo(this.page, 1);
     pageSize: number = defaultTo(this.pageSize, 10);
     reload: boolean = defaultTo(this.reload, false);
+    usePlaceholders: boolean = defaultTo(this.usePlaceholders, true);
     queryParams?: any;
     analyticsScope?: string;
 
@@ -73,6 +74,23 @@ export default class PaginatedList extends Component {
         }
     }).restartable();
 
+    @computed('modelInstance.relatedCounts.@each', 'relationshipName')
+    get count() {
+        return this.modelInstance ? this.modelInstance.relatedCounts[this.relationshipName] : undefined;
+    }
+
+    @computed('count')
+    get placeholderCount() {
+        if (this.count && this.count > this.pageSize) {
+            const pages = Math.ceil(this.count / this.pageSize);
+            if (this.page < pages) {
+                return this.pageSize;
+            }
+            return this.count - ((pages - 1) * this.pageSize);
+        }
+        return this.count;
+    }
+
     constructor(...args: any[]) {
         super(...args);
 
@@ -98,7 +116,7 @@ export default class PaginatedList extends Component {
     }
 
     @action
-    next(this: PaginatedList) {
+    next() {
         if (this.analyticsScope) {
             this.analytics.click('button', `${this.analyticsScope} - Pagination Next`);
         }
@@ -107,11 +125,25 @@ export default class PaginatedList extends Component {
     }
 
     @action
-    previous(this: PaginatedList) {
+    previous() {
         if (this.analyticsScope) {
             this.analytics.click('button', `${this.analyticsScope} - Pagination Previous`);
         }
         this.decrementProperty('page');
         this.loadItems();
+    }
+
+    @action
+    incrementCount() {
+        if (this.modelInstance) {
+            this.modelInstance.incrementRelatedCount(this.relationshipName);
+        }
+    }
+
+    @action
+    decrementCount() {
+        if (this.modelInstance) {
+            this.modelInstance.decrementRelatedCount(this.relationshipName);
+        }
     }
 }
