@@ -1,9 +1,21 @@
+import { TaskInstance } from 'ember-concurrency';
+
+import { ReferentModel } from 'ember-osf-web/models/guid';
 import ResolvedGuidRoute from 'ember-osf-web/resolve-guid/resolved-guid-route';
 
+export interface GuidNodeModel {
+    taskInstance: TaskInstance<ReferentModel>;
+    nodeId: string;
+}
+
 export default class GuidNode extends ResolvedGuidRoute {
-    model(this: GuidNode, params: { node_guid: string }) {
+    model(this: GuidNode, params: { node_guid: string }): GuidNodeModel {
         return {
-            taskInstance: this.get('resolveGuid').perform(params.node_guid, 'node'),
+            taskInstance: this.get('resolveGuid').perform(
+                params.node_guid,
+                'node',
+                { related_counts: 'forks,registrations,draft_registrations' },
+            ),
             nodeId: params.node_guid,
         };
     }
