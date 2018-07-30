@@ -1,0 +1,89 @@
+<div class="container">
+    {{#bs-modal open=newModal onSubmit=(action 'newRegistration') onHide=(action (mut newModal) false) as |m|}}
+        {{#m.header}}
+            <h2>{{t 'node.registrations.new_registration_modal.title'}}</h2>
+        {{/m.header}}
+        {{#m.body}}
+            <label>
+                <p>{{t 'node.registrations.new_registration_modal.info'}}</p>
+                <ul>
+                    {{#each metaschemas as |schema|}}
+                        <li>
+                            <input name='selectedSchema' type='radio' value={{schema}} onclick={{action (mut selectedSchema) schema}}>
+                            {{schema.name}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </label>
+        {{/m.body}}
+        {{#m.footer}}
+            {{#bs-button onClick=(action (mut newModal) false)}}{{t 'general.cancel'}}{{/bs-button}}
+            {{#bs-button onClick=(action m.submit) type='info'}}{{t 'node.registrations.new_registration_modal.create'}}{{/bs-button}}
+        {{/m.footer}}
+    {{/bs-modal}}
+
+    <div class="m-md">
+        <ul class="nav nav-tabs">
+            <li class="{{if (eq tabOpen 'registrations') 'active'}}">
+                <a role='button' onclick={{action (mut tabOpen) 'registrations'}} aria-controls="registrations">{{t 'node.registrations.registrations'}}</a>
+            </li>
+            {{#if draftRegistrations.length}}
+                <li class="{{if (eq tabOpen 'drafts') 'active'}}">
+                    <a role='button' onclick={{action (mut tabOpen) 'drafts'}} aria-controls="drafts">{{t 'node.registrations.draft_registrations'}}</a>
+                </li>
+            {{/if}}
+        </ul>
+    </div>
+    <div>
+        {{#if (eq tabOpen 'registrations')}}
+            {{#if getRegistrations.isRunning}}
+                {{loading-indicator dark=true}}
+            {{else}}
+                {{#if registrations.length}}
+                    <ul class="list-group m-md">
+                        <span class="render-nodes-list">
+                            {{#each registrations as | registration |}}
+                                <li class="project list-group-item list-group-item-node cite-container">
+                                    {{node-blurb node=registration blurbType='registration'}}
+                                </li>
+                            {{/each}}
+                        </span>
+                    </ul>
+                    {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
+                {{else}}
+                    {{t 'node.registrations.no_registration' newPublicRegistrationsLink=newPublicRegistrationsLink}}
+                {{/if}}
+            {{/if}}
+        {{else}}
+            {{#if getDrafts.isRunning}}
+                {{loading-indicator dark=true}}
+            {{else}}
+                {{#if draftRegistrations.length}}
+                    <ul class="list-group m-md">
+                        <span class="render-nodes-list">
+                            {{#each draftRegistrations as | registration |}}
+                                <li class="project list-group-item list-group-item-node cite-container">
+                                    {{node-blurb node=registration blurbType='draft'}}
+                                </li>
+                            {{/each}}
+                        </span>
+                    </ul>
+                    {{simple-paginator maxPage=maxPage nextPage=(action 'next') previousPage=(action 'previous') curPage=page}}
+                {{else}}
+                    {{t 'node.registrations.no_registration' newPublicRegistrationsLink=newPublicRegistrationsLink}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    </div>
+    <div>
+        <div class="m-md">
+            {{#bs-button type='success' disabled=loadingNew onClick=(action (mut newModal) true)}}
+                {{#if getRegistrationTypes.isRunning}}
+                    {{t 'general.loading'}}
+                {{else}}
+                    {{t 'node.registrations.new'}}
+                {{/if}}
+            {{/bs-button}}
+        </div>
+    </div>
+</div>

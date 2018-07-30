@@ -201,6 +201,7 @@ module.exports = function(environment) {
         featureFlagNames: {
             routes: {
                 'guid-node.forks': 'ember_project_forks_page',
+                'guid-node.registrations': 'ember_project_registrations_page',
                 'guid-registration.forks': 'ember_project_forks_page',
                 'guid-node.analytics.index': 'ember_project_analytics_page',
                 'guid-registration.analytics.index': 'ember_project_analytics_page',

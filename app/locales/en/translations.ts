@@ -501,6 +501,13 @@ export default {
             dateLabel: 'Forked:',
             manage_contributors: 'Manage contributors',
         },
+        registration: {
+            dateLabel: 'Registered:',
+            tags: {
+                archiving: 'Archiving',
+                pending: 'Pending registration',
+            },
+        },
         private_tooltip: 'This project is private',
     },
     forks: {
@@ -518,6 +525,19 @@ export default {
         no_forks: 'A fork is a copy of a project that you can change without affecting the original project.',
         new_fork_failed: 'Failed to create a new fork. Please try again later.',
         delete_fork_failed: 'Failed to delete the project. Please try again later.',
+    },
+    node: {
+        registrations: {
+            new_registration_modal: {
+                title: 'Register',
+                info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li>Registrations cannot be edited or deleted.</li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li></ul>Continue your registration by selecting a registration form:',
+                create: 'Create draft',
+            },
+            no_registration: '<p>There have been no completed registrations of this project. You can start a new registration by clicking the “New registration” button, and you have the option of saving as a draft registration before submission.</p><p><p>For a list of the most viewed and most recent public registrations on the Open Science Framework, <a href="{{newPublicRegistrationsLink}}">click here</a>.<p>',
+            new: 'New registration',
+            registrations: 'Registrations',
+            draft_registrations: 'Draft Registrations',
+        },
     },
     delete_modal: {
         title: 'Are you sure you want to delete this {{nodeType}}?',
