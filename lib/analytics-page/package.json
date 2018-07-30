@@ -8,6 +8,7 @@
     "ember-bootstrap": "*",
     "ember-truth-helpers": "*",
     "ember-component-attributes": "*",
+    "ember-content-placeholders": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-sass": "*",
