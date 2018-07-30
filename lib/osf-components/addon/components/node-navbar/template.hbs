@@ -21,7 +21,7 @@
                     {{node-navbar/link nodeId=node.id useLinkTo=false destination='wiki'}}
                     {{node-navbar/link nodeId=node.id useLinkTo=true destination='analytics'}}
                     {{#unless node.registration}}
-                        {{node-navbar/link nodeId=node.id useLinkTo=false destination='registrations'}}
+                        {{node-navbar/link nodeId=node.id useLinkTo=true destination='registrations'}}
                     {{/unless}}
 
                     {{#if node.currentUserIsContributor}}
