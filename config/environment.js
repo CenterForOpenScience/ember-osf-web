@@ -158,6 +158,10 @@ module.exports = function(environment) {
                 cookieConsent: 'osf_cookieconsent',
                 maintenance: 'maintenance',
                 csrf: 'api-csrf',
+                authSession: 'embosf-auth-session',
+            },
+            localStorageKeys: {
+                authSession: 'embosf-auth-session',
             },
         },
         social: {

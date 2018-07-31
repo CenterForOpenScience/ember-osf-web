@@ -91,6 +91,10 @@ declare const config: {
             cookieConsent: string;
             maintenance: string;
             csrf: string;
+            authSession: string;
+        };
+        localStorageKeys: {
+            authSession: string;
         };
     };
     social: {
