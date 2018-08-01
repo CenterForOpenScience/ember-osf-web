@@ -45,7 +45,7 @@ const {
     SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
     SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
-    SOURCEMAPS_ENABLED: sourcemapsEnabled = false,
+    SOURCEMAPS_ENABLED: sourcemapsEnabled = true,
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {

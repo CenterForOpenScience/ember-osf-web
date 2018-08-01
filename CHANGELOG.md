@@ -27,6 +27,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Services:
     - `analytics` - support multiple metrics adapters
 - Add `join-osf-banner` to `guid-node` pages.
+- DX:
+  - enable sourcemap generation by default
 
 ## [0.6.1] - 2018-07-31
 ### Changed
