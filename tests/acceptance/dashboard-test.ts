@@ -1,6 +1,8 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+
 import { setupApplicationTest } from 'ember-osf-web/tests/helpers/osf-qunit';
 import { module, test } from 'qunit';
+import 'qunit-dom';
 
 module('Acceptance | dashboard', hooks => {
     setupApplicationTest(hooks);
@@ -25,74 +27,51 @@ module('Acceptance | dashboard', hooks => {
         assert.notFound('img[alt*="Missing translation"]');
     });
 
-    test('institutions carousel', async function(assert) {
+    test('institutions carousel', async assert => {
         const currentUser = server.create('user');
         server.create('root', { currentUser });
         const institutions = server.createList('institution', 20);
 
         await visit('/dashboard');
         assert.notFound('img[alt*="Missing translation"]');
-        assert.found(`[class*="InstitutionCarousel__item"] img[name*="${institutions[0].name}"]`);
-        assert.found(`[class*="InstitutionCarousel__item"] a[href="/institutions/${institutions[1].id}"]`);
-        let nextPageItem = this.element.querySelector(
-            `[class*="InstitutionCarousel__item"] img[name*="${institutions[6].name}"]`,
-        );
-        // Item 6 should be in page 2 of the carousel and thus not visible
-        if (nextPageItem !== null) {
-            assert.equal(nextPageItem.clientWidth, 0, 'Item is invisible since it is on another page 1/2');
-            assert.equal(nextPageItem.clientHeight, 0, 'Item is invisible since it is on another page 2/2');
-        } else {
-            assert.ok(false, 'Item 6 in the institutions list exists on page load');
-        }
+        assert.found(`[data-test-institution-carousel] img[name*="${institutions[0].name}"]`);
+        assert.found('[data-test-institution-carousel-item="1"]');
+        assert.dom('[data-test-institution-carousel-item="6"]').isNotVisible();
 
         // Click next to make item six visible
         await click('.carousel-control.right');
 
-        // Institutions should be linked properly
         assert.found(
-            `[class*="InstitutionCarousel__item"] a[href="/institutions/${institutions[6].id}"]`,
-            'Institutions are linked',
+            `[data-test-institution-carousel-item] a[href="/institutions/${institutions[6].id}"]`,
+            'Institutions are linked properly',
         );
 
-        // Item 6 should be visible now
-        nextPageItem = this.element.querySelector(
-            `[class*="InstitutionCarousel__item"] img[name*="${institutions[6].name}"]`,
-        );
-        if (nextPageItem !== null) {
-            assert.notEqual(nextPageItem.clientWidth, 0, 'Item is visible now that it is on the current page 1/2');
-            assert.notEqual(nextPageItem.clientHeight, 0, 'Item is visible now that it is on the current page 2/2');
-        } else {
-            assert.ok(false, 'Item 6 in the institutions list exists after clicking');
-        }
+        assert.dom('[data-test-institution-carousel-item="6"]').isVisible();
     });
 
-    test('popular projects and new/noteworthy titles', async function(assert) {
+    test('popular projects and new/noteworthy titles', async assert => {
         const currentUser = server.create('user');
         server.create('root', { currentUser });
         const nodes = server.createList('node', 10, {}, 'withContributors');
         server.loadFixtures('nodes');
         await visit('/dashboard');
         assert.notFound('img[alt*="Missing translation"]');
-        const noteworthyTitles = this.element.querySelectorAll('[id="noteworthyList"] h5');
-        const popularTitles = this.element.querySelectorAll('[id="popularList"] h5');
-        const nnwNodes = nodes.slice(0, 5).map((node: any) => node.attrs.title);
-        const popularNodes = nodes.slice(5, 10).map((node: any) => node.attrs.title);
-        for (const noteworthyTitle of noteworthyTitles) {
-            if (noteworthyTitle !== null && noteworthyTitle !== undefined) {
-                assert.ok(
-                    nnwNodes.includes(noteworthyTitle.innerHTML),
-                    'Noteworthy title is in list of noteworthy nodes',
-                );
-            } else {
-                assert.ok(false, 'Noteworthy title is not null or undefined');
+        for (const node of nodes) {
+            let projectType = 'noteworthy';
+            if (node.attrs.id > 5) {
+                projectType = 'popular';
             }
-        }
-        for (const popularTitle of popularTitles) {
-            if (popularTitle !== null && popularTitle !== undefined) {
-                assert.ok(popularNodes.includes(popularTitle.innerHTML), 'Popular title is in list of popular nodes');
-            } else {
-                assert.ok(false, 'Popular title is not null or undefined');
-            }
+            assert.found(`[data-test-${projectType}-project="${node.attrs.id}"]`);
+            assert.includesText(
+                `[data-test-${projectType}-project="${node.attrs.id}"] [data-test-nnwp-project-title]`,
+                node.attrs.title,
+                `The ${projectType} project ${node.attrs.id} has correct title`,
+            );
+            assert.includesText(
+                `[data-test-${projectType}-project="${node.attrs.id}"] [data-test-nnwp-project-description]`,
+                node.attrs.description,
+                `The ${projectType} project ${node.attrs.id} has correct description`,
+            );
         }
     });
 
@@ -255,13 +234,13 @@ module('Acceptance | dashboard', hooks => {
         assert.equal(projectTitles[1].innerHTML, 'a', 'Default filtering item 1 is correct');
         assert.equal(projectTitles[2].innerHTML, 'az', 'Default filtering item 2 is correct');
 
-        await fillIn('#quickSearchInput', 'z');
+        await fillIn('[data-test-quick-search-input]', 'z');
         projectTitles = this.element.querySelectorAll('.di-title>strong');
         assert.equal(projectTitles.length, 2, 'One character filtering has correct number of projects');
         assert.equal(projectTitles[0].innerHTML, 'z', 'One character filtering item 0 is correct');
         assert.equal(projectTitles[1].innerHTML, 'az', 'One character filtering item 1 is correct');
 
-        await fillIn('#quickSearchInput', 'az');
+        await fillIn('[data-test-quick-search-input]', 'az');
         projectTitles = this.element.querySelectorAll('.di-title>strong');
         assert.equal(projectTitles.length, 1, 'Two character filtering has correct number of projects');
         assert.equal(projectTitles[0].innerHTML, 'az', 'Two character filtering item is correct');
