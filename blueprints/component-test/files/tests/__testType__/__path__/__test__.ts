@@ -22,7 +22,7 @@ module('<%= friendlyTestDescription %>', hooks => {
             {{/<%= componentPathName %>}}
         `);
 
-        assert.dom(this.element.hasText('template block text');
+        assert.dom(this.element).hasText('template block text');
     });
 });<% } else if (testType === 'unit') { %>import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
