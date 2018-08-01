@@ -3,7 +3,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import I18N from 'ember-i18n/services/i18n';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -91,7 +91,7 @@ module('Integration | Component | contributor-list', hooks => {
             };
             this.set('contributors', contributors);
             await render(hbs`{{contributor-list contributors=contributors}}`);
-            assert.hasText(this.element, expected);
+            assert.dom(this.element).hasText(expected);
         }
     });
 });

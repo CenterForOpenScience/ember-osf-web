@@ -1,7 +1,8 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+import 'qunit-dom';
 
 module('Integration | Component | x-foo', hooks => {
     setupRenderingTest(hooks);
@@ -12,7 +13,7 @@ module('Integration | Component | x-foo', hooks => {
 
         await render(hbs`{{x-foo}}`);
 
-        assert.hasText(this.element, '');
+        assert.dom(this.element).hasText('');
 
         // Template block usage:
         await render(hbs`
@@ -21,6 +22,6 @@ module('Integration | Component | x-foo', hooks => {
             {{/x-foo}}
         `);
 
-        assert.hasText(this.element, 'template block text');
+        assert.dom(this.element).hasText('template block text');
     });
 });

@@ -1,9 +1,10 @@
 import { render } from '@ember/test-helpers';
 import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, skip, test } from 'qunit';
+import 'qunit-dom';
 
 module('Integration | Component | file-browser', hooks => {
     setupRenderingTest(hooks);
@@ -16,7 +17,7 @@ module('Integration | Component | file-browser', hooks => {
         this.set('user', FactoryGuy.make('user'));
         this.set('display', ['header']);
         await render(hbs`{{file-browser  user=user display=display}}`);
-        assert.hasClass('div[class*="column-labels-header"] > div:nth-child(1)', 'col-xs-12');
+        assert.dom('div[class*="column-labels-header"] > div:nth-child(1)').hasClass('col-xs-12');
     });
 
     skip('test name\'s column width (share-link-column)', async function(assert) {

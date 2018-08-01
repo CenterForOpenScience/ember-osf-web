@@ -1,7 +1,7 @@
 import { run } from '@ember/runloop';
 import { settled } from '@ember/test-helpers';
 import Ready from 'ember-osf-web/services/ready';
-import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 module('Unit | Service | ready', hooks => {

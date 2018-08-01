@@ -1,11 +1,13 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 
-import { setupApplicationTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import 'qunit-dom';
 
 module('Acceptance | dashboard', hooks => {
     setupApplicationTest(hooks);
+    setupMirage(hooks);
 
     test('visiting /dashboard', async assert => {
         // A fully loaded dashboard should have no major troubles
@@ -21,10 +23,11 @@ module('Acceptance | dashboard', hooks => {
         await visit('/dashboard');
 
         assert.equal(currentURL(), '/dashboard', 'We stayed on the proper page');
-        assert.found('nav.navbar');
-        assert.hasText('nav.navbar .service-name', 'OSF HOME');
-        assert.hasText('nav.navbar .secondary-nav-dropdown .nav-profile-name', currentUser.fullName);
-        assert.notFound('img[alt*="Missing translation"]');
+        assert.dom('nav.navbar').exists();
+        assert.dom('nav.navbar .service-name').hasText('OSF HOME');
+        assert.dom('nav.navbar .secondary-nav-dropdown .nav-profile-name')
+            .hasText(currentUser.fullName, 'User\'s name is in navbar');
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
     });
 
     test('institutions carousel', async assert => {
@@ -33,18 +36,16 @@ module('Acceptance | dashboard', hooks => {
         const institutions = server.createList('institution', 20);
 
         await visit('/dashboard');
-        assert.notFound('img[alt*="Missing translation"]');
-        assert.found(`[data-test-institution-carousel] img[name*="${institutions[0].name}"]`);
-        assert.found('[data-test-institution-carousel-item="1"]');
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        assert.dom(`[data-test-institution-carousel] img[name*="${institutions[0].name}"]`).exists();
+        assert.dom('[data-test-institution-carousel-item="1"]').exists();
         assert.dom('[data-test-institution-carousel-item="6"]').isNotVisible();
 
         // Click next to make item six visible
         await click('.carousel-control.right');
 
-        assert.found(
-            `[data-test-institution-carousel-item] a[href="/institutions/${institutions[6].id}"]`,
-            'Institutions are linked properly',
-        );
+        assert.dom(`[data-test-institution-carousel-item] a[href="/institutions/${institutions[6].id}"]`)
+            .exists('Institutions are linked properly');
 
         assert.dom('[data-test-institution-carousel-item="6"]').isVisible();
     });
@@ -55,23 +56,19 @@ module('Acceptance | dashboard', hooks => {
         const nodes = server.createList('node', 10, {}, 'withContributors');
         server.loadFixtures('nodes');
         await visit('/dashboard');
-        assert.notFound('img[alt*="Missing translation"]');
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         for (const node of nodes) {
+            const { id, title, description } = node.attrs;
             let projectType = 'noteworthy';
-            if (node.attrs.id > 5) {
+            if (id > 5) {
                 projectType = 'popular';
             }
-            assert.found(`[data-test-${projectType}-project="${node.attrs.id}"]`);
-            assert.includesText(
-                `[data-test-${projectType}-project="${node.attrs.id}"] [data-test-nnwp-project-title]`,
-                node.attrs.title,
-                `The ${projectType} project ${node.attrs.id} has correct title`,
-            );
-            assert.includesText(
-                `[data-test-${projectType}-project="${node.attrs.id}"] [data-test-nnwp-project-description]`,
-                node.attrs.description,
-                `The ${projectType} project ${node.attrs.id} has correct description`,
-            );
+            assert.dom(`[data-test-${projectType}-project="${id}"]`)
+                .exists(`The ${projectType} project ${id} exists`);
+            assert.dom(`[data-test-${projectType}-project="${id}"] [data-test-nnwp-project-title]`)
+                .includesText(title, `The ${projectType} project ${id} has correct title`);
+            assert.dom(`[data-test-${projectType}-project="${id}"] [data-test-nnwp-project-description]`)
+                .includesText(description, `The ${projectType} project ${id} has correct description`);
         }
     });
 
@@ -79,11 +76,9 @@ module('Acceptance | dashboard', hooks => {
         const currentUser = server.create('user');
         server.create('root', { currentUser });
         await visit('/dashboard');
-        assert.notFound('img[alt*="Missing translation"]');
-        assert.includesText(
-            'div[class*="quick-project"]',
-            'You have no projects yet. Create a project with the button on the top right.',
-        );
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        assert.dom('div[class*="quick-project"]')
+            .includesText('You have no projects yet. Create a project with the button on the top right.');
     });
 
     test('user has a project', async assert => {
@@ -92,12 +87,10 @@ module('Acceptance | dashboard', hooks => {
         const node = server.create('node', {}, 'withContributors');
         server.create('contributor', { node, users: currentUser, index: 11 });
         await visit('/dashboard');
-        assert.notFound('img[alt*="Missing translation"]');
-        assert.notIncludesText(
-            'div[class*="quick-project"]',
-            'You have no projects yet. Create a project with the button on the top right.',
-        );
-        assert.includesText('div[class*="quick-project"]', node.attrs.title);
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        assert.dom('div[class*="quick-project"]')
+            .doesNotIncludeText('You have no projects yet. Create a project with the button on the top right.');
+        assert.dom('div[class*="quick-project"]').includesText(node.attrs.title);
     });
 
     test('user has many projects', async function(assert) {
@@ -109,22 +102,21 @@ module('Acceptance | dashboard', hooks => {
         }
         server.create('root', { currentUser });
         await visit('/dashboard');
-        assert.notFound('img[alt*="Missing translation"]');
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
-        // There should be a control to load more projects
-        assert.found('#loadMoreProjects');
+        assert.dom('[data-test-load-more]').exists('The control to load more projects exists');
         let projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
         assert.equal(projects.length, 10, 'Only the first page of projects loaded');
-        await click('#loadMoreProjects');
+        await click('[data-test-load-more]');
         projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
         assert.equal(projects.length, 20, 'Only the first two pages of projects are loaded after clicking `more` once');
-        assert.found('#loadMoreProjects');
-        await click('#loadMoreProjects');
+        assert.dom('[data-test-load-more]').exists('The control to load more projects still exists');
+        await click('[data-test-load-more]');
         projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
         assert.equal(projects.length, 30, 'All 30 projects are loaded after clicking `more` twice');
 
-        // All projects loaded, should not have a loading control any more
-        assert.notFound('#loadMoreProjects');
+        assert.dom('[data-test-load-more]')
+            .doesNotExist('The control to load more projects is gone after all projects are loaded');
     });
 
     test('sorting projects', async function(assert) {
@@ -155,7 +147,7 @@ module('Acceptance | dashboard', hooks => {
             { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
         );
         await visit('/dashboard');
-        assert.notFound('img[alt*="Missing translation"]');
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
         // Default sort
         let projectTitles = this.element.querySelectorAll('.di-title>strong');
@@ -225,14 +217,14 @@ module('Acceptance | dashboard', hooks => {
             { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
         );
         await visit('/dashboard');
-        assert.notFound('img[alt*="Missing translation"]');
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
         // No filtering
         let projectTitles = this.element.querySelectorAll('.di-title>strong');
-        assert.equal(projectTitles.length, 3, 'Default filtering has correct number of projects');
-        assert.equal(projectTitles[0].innerHTML, 'z', 'Default filtering item 0 is correct');
-        assert.equal(projectTitles[1].innerHTML, 'a', 'Default filtering item 1 is correct');
-        assert.equal(projectTitles[2].innerHTML, 'az', 'Default filtering item 2 is correct');
+        assert.equal(projectTitles.length, 3, 'Not filtering has correct number of projects');
+        assert.equal(projectTitles[0].innerHTML, 'z', 'Not filtering item 0 is correct');
+        assert.equal(projectTitles[1].innerHTML, 'a', 'Not filtering item 1 is correct');
+        assert.equal(projectTitles[2].innerHTML, 'az', 'Not filtering item 2 is correct');
 
         await fillIn('[data-test-quick-search-input]', 'z');
         projectTitles = this.element.querySelectorAll('.di-title>strong');

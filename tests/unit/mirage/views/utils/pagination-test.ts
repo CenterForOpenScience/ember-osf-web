@@ -2,7 +2,7 @@ import {
     buildQueryParams,
     paginate,
 } from 'ember-osf-web/mirage/views/private/utils';
-import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 module('Unit | Mirage | Views | Utils | Pagination', hooks => {

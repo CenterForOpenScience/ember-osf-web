@@ -93,7 +93,7 @@
                                                 {{loading-indicator}}
                                             {{else}}
                                                 <div class="text-center">
-                                                    <button aria-label='More' id='loadMoreProjects' class="col-sm-12 text-muted" onclick={{action 'more'}} {{action 'click' 'button' 'Dashboard - load_nodes' target=analytics}}>
+                                                    <button aria-label='More' class="col-sm-12 text-muted" onclick={{action 'more'}} {{action 'click' 'button' 'Dashboard - load_nodes' target=analytics}} data-test-load-more>
                                                         {{fa-icon 'caret-down' class=(concat (local-class 'load-nodes') ' m-b-xl')}}
                                                     </button>
                                                 </div>

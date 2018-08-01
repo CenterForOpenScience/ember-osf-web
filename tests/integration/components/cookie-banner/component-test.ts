@@ -1,7 +1,8 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+import 'qunit-dom';
 
 module('Integration | Component | cookie-banner', hooks => {
     setupRenderingTest(hooks);
@@ -9,8 +10,9 @@ module('Integration | Component | cookie-banner', hooks => {
     test('it renders', async function(assert) {
         await render(hbs`{{cookie-banner}}`);
 
-        assert.hasText(this.element, 'This website relies on cookies to help provide a better user experience. ' +
-            'By clicking Accept or continuing to use the site, you agree. ' +
-            'For more information, see our Privacy Policy and information on cookie use. Accept');
+        assert.dom(this.element)
+            .hasText('This website relies on cookies to help provide a better user experience. ' +
+                'By clicking Accept or continuing to use the site, you agree. ' +
+                'For more information, see our Privacy Policy and information on cookie use. Accept');
     });
 });

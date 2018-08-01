@@ -1,8 +1,9 @@
 import EmberObject from '@ember/object';
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+import 'qunit-dom';
 
 module('Integration | Component | file-icon', hooks => {
     setupRenderingTest(hooks);
@@ -10,28 +11,28 @@ module('Integration | Component | file-icon', hooks => {
     test('default file icon', async function(assert) {
         this.set('item', EmberObject.create({}));
         await render(hbs`{{file-icon item=item}}`);
-        assert.hasClass('i', 'fa-file-o');
+        assert.dom('i').hasClass('fa-file-o');
     });
 
     test('file type not found uses default', async function(assert) {
         const file = EmberObject.create({ itemName: 'file.notafiletype' });
         this.set('item', file);
         await render(hbs`{{file-icon item=item}}`);
-        assert.hasClass('i', 'fa-file-o');
+        assert.dom('i').hasClass('fa-file-o');
     });
 
     test('file doesnt have a type, uses default', async function(assert) {
         const file = EmberObject.create({ itemName: 'doesntevenhaveatypelikewow' });
         this.set('item', file);
         await render(hbs`{{file-icon item=item}}`);
-        assert.hasClass('i', 'fa-file-o');
+        assert.dom('i').hasClass('fa-file-o');
     });
 
     test('file gets the right icon for type', async function(assert) {
         const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.c' });
         this.set('item', file);
         await render(hbs`{{file-icon item=item}}`);
-        assert.hasClass('i', 'fa-file-code-o');
-        assert.notHasClass('i', 'fa-file-o');
+        assert.dom('i').hasClass('fa-file-code-o');
+        assert.dom('i').doesNotHaveClass('fa-file-o');
     });
 });

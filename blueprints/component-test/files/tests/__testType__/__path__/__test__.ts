@@ -1,7 +1,8 @@
 <% if (testType === 'integration') { %>import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+import 'qunit-dom';
 
 module('<%= friendlyTestDescription %>', hooks => {
     setupRenderingTest(hooks);
@@ -12,7 +13,7 @@ module('<%= friendlyTestDescription %>', hooks => {
 
         await render(hbs`{{<%= componentPathName %>}}`);
 
-        assert.hasText(this.element, '');
+        assert.dom(this.element).hasText('');
 
         // Template block usage:
         await render(hbs`
@@ -21,9 +22,9 @@ module('<%= friendlyTestDescription %>', hooks => {
             {{/<%= componentPathName %>}}
         `);
 
-        assert.hasText(this.element, 'template block text');
+        assert.dom(this.element.hasText('template block text');
     });
-});<% } else if (testType === 'unit') { %>import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+});<% } else if (testType === 'unit') { %>import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 module('<%= friendlyTestDescription %>', hooks => {

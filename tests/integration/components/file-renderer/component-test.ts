@@ -1,6 +1,6 @@
 import { render, settled } from '@ember/test-helpers';
 import config from 'ember-get-config';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 

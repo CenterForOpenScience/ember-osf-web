@@ -2,7 +2,7 @@ import { run } from '@ember/runloop';
 import DS from 'ember-data';
 import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
 import Node from 'ember-osf-web/models/node';
-import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupTest } from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 import { TestContext } from 'ember-test-helpers';
 import { module, skip } from 'qunit';

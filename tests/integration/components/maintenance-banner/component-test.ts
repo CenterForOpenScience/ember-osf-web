@@ -1,9 +1,10 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import { module } from 'qunit';
+import 'qunit-dom';
 
 module('Integration | Component | maintenance-banner', hooks => {
     setupRenderingTest(hooks);
@@ -13,7 +14,7 @@ module('Integration | Component | maintenance-banner', hooks => {
             maintenance: null,
         }));
         await render(hbs`{{maintenance-banner}}`);
-        assert.notFound('.alert');
+        assert.dom('.alert').doesNotExist();
     });
 
     test('it renders maintenance message', async function(assert) {
@@ -24,6 +25,6 @@ module('Integration | Component | maintenance-banner', hooks => {
             },
         }));
         await render(hbs`{{maintenance-banner}}`);
-        assert.includesText('.alert', 'longstringy');
+        assert.dom('.alert').includesText('longstringy');
     });
 });

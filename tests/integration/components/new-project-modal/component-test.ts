@@ -1,10 +1,11 @@
 import { A } from '@ember/array';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+import 'qunit-dom';
 
 const currentUserStub = Service.extend({
     user: Object.freeze({
@@ -33,7 +34,7 @@ module('Integration | Component | new-project-modal', hooks => {
             createProject=create
             closeModal=closeModal
         }}`);
-        assert.found('.modal');
-        assert.hasText('.modal-title', 'Create new project');
+        assert.dom('.modal').exists();
+        assert.dom('.modal-title').hasText('Create new project');
     });
 });
