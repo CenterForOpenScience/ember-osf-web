@@ -4,7 +4,6 @@ import { make, mockFindRecord, setupFactoryGuy } from 'ember-data-factory-guy';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
-import 'qunit-dom';
 
 module('Integration | Component | tos-consent-banner', hooks => {
     setupRenderingTest(hooks);

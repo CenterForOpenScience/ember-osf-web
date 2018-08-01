@@ -4,7 +4,6 @@ import test from 'ember-sinon-qunit/test-support/test';
 import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import { module } from 'qunit';
-import 'qunit-dom';
 
 module('Integration | Component | maintenance-banner', hooks => {
     setupRenderingTest(hooks);

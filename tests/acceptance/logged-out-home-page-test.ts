@@ -2,7 +2,6 @@ import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import 'qunit-dom';
 
 module('Acceptance | logged-out home page', hooks => {
     setupApplicationTest(hooks);

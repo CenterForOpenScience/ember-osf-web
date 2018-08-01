@@ -4,7 +4,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
-import 'qunit-dom';
 
 module('Integration | Component | noteworthy-and-popular-project', hooks => {
     setupRenderingTest(hooks);
