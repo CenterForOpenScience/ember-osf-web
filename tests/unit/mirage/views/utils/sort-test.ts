@@ -3,7 +3,7 @@ import {
     ProcessOptions,
     sort,
 } from 'ember-osf-web/mirage/views/private/utils';
-import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupTest } from 'ember-qunit';
 import moment from 'moment';
 import { module, test } from 'qunit';
 

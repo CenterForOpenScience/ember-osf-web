@@ -10,7 +10,7 @@ export const userNodeList = function (schema, request, config) {
             nodes.push(config.serialize(node).data);
         }
     }
-    const json = process(schema, request, config, nodes, {});
+    const json = process(schema, request, config, nodes, { defaultSortKey: 'last_logged' });
     return json;
 };
 

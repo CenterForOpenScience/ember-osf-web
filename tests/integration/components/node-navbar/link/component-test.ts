@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import hbs from 'htmlbars-inline-precompile';
@@ -9,7 +9,7 @@ module('Integration | Component | node-navbar/link', hooks => {
 
     test('destination', async function(assert) {
         await render(hbs`{{node-navbar/link destination='registrations'}}`);
-        assert.hasText(this.element, 'Registrations');
+        assert.dom(this.element).hasText('Registrations');
     });
 
     test('block', async function(assert) {
@@ -18,6 +18,6 @@ module('Integration | Component | node-navbar/link', hooks => {
             template block text
             {{/node-navbar/link}}
         `);
-        assert.hasText(this.element, 'template block text');
+        assert.dom(this.element).hasText('template block text');
     });
 });

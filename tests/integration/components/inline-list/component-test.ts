@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
@@ -70,7 +70,7 @@ module('Integration | Component | inline-list', hooks => {
                     {{~l.item~}}
                 {{/inline-list}}
             `);
-            assert.hasText(this.element, expected);
+            assert.dom(this.element).hasText(expected);
         }
     });
     test('it renders with truncate', async function(assert) {
@@ -109,7 +109,7 @@ module('Integration | Component | inline-list', hooks => {
                     {{/if}}
                 {{/inline-list}}
             `);
-            assert.hasText(this.element, expected);
+            assert.dom(this.element).hasText(expected);
         }
     });
 });

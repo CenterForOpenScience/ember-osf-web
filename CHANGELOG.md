@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Assets:
     - Images for home page
     - Images for dashboard
+  - Third-party Packages:
+    - `qunit-dom` - Better test assetions (especially for hidden things)
+    - `ember-test-selectors` - Find things in your dom without messing everything up
+- Tests
+    - More dashboard application tests
 - `keen` metrics adapter
 - CSRF support on all ajax requests
 

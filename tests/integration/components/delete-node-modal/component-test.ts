@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
@@ -15,11 +15,11 @@ module('Integration | Component | delete-node-modal', hooks => {
 
     test('hidden by default', async function(assert) {
         await render(hbs`{{delete-node-modal closeModal=closeModal delete=delete}}`);
-        assert.notHasText(this.element);
+        assert.dom(this.element).hasText('');
     });
 
     test('shown when openModal=true', async function(assert) {
         await render(hbs`{{delete-node-modal closeModal=closeModal delete=delete openModal=true}}`);
-        assert.includesText(this.element, 'Are you sure you want to delete this project?');
+        assert.dom(this.element).includesText('Are you sure you want to delete this project?');
     });
 });

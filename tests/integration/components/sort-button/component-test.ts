@@ -1,5 +1,5 @@
 import { findAll, render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -15,13 +15,9 @@ module('Integration | Component | sort-button', hooks => {
         await render(hbs`{{sort-button sortAction=sortAction sortBy='kindness' sort='-kindndess'}}`);
 
         assert.equal(findAll('button').length, 2, 'Two buttons found.');
-        assert.found(
-            'button[title="Sort ascending"][class*="not-selected"]',
-            'Sort ascending button is not selected.',
-        );
-        assert.found(
-            'button[title="Sort descending"][class*="not-selected"]',
-            'Sort descending button is not selected.',
-        );
+        assert.dom('button[title="Sort ascending"][class*="not-selected"]')
+            .exists('Sort ascending button is not selected.');
+        assert.dom('button[title="Sort descending"][class*="not-selected"]')
+            .exists('Sort descending button is not selected.');
     });
 });
