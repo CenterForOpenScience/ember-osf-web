@@ -6,6 +6,42 @@ import OsfModel from './osf-model';
  * @submodule models
  */
 
+interface Q {
+    type: 'string' | 'multiselect' | 'osf-author-import' | 'osf-upload' | 'choose' | 'object';
+    required?: boolean;
+    description?: string;
+    properties?: Subquestion[];
+}
+
+export interface Subquestion extends Q {
+    id: string;
+}
+
+export interface Question extends Q {
+    qid: string;
+    format: string;
+    title: string;
+    nav: string;
+}
+
+export interface Page {
+    id: string;
+    title: string;
+    questions: Question[];
+}
+
+export interface Schema {
+    name: string; // eslint-disable-line no-restricted-globals
+    title: string;
+    version: number;
+    active: boolean;
+    config: {
+        hasFiles: boolean;
+    };
+    pages: Page[];
+    description: string;
+}
+
 /**
  * Model for OSF APIv2 metaschemas.
  * This model describes metaschemas and can be directly queried.
@@ -15,7 +51,7 @@ import OsfModel from './osf-model';
 export default class RegistrationMetaschema extends OsfModel {
     @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
     @attr('number') schemaVersion!: number;
-    @attr('object') schema!: any;
+    @attr('object') schema!: Schema;
 }
 
 declare module 'ember-data' {

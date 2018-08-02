@@ -12,22 +12,6 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
 import layout from './template';
 
-interface Property {
-    id: string;
-    required: boolean;
-}
-
-interface Question {
-    qid: string;
-    type: string;
-    required: boolean;
-    properties: Property[];
-}
-
-interface Page {
-    questions: Question[];
-}
-
 const { OSF: { url: baseURL } } = config;
 
 @localClassNames('DraftRegistrationBlurb')
@@ -52,23 +36,14 @@ export default class DraftRegistrationBlurb extends Component {
         return pathJoin(baseURL, this.draftRegistration.branchedFrom.get('id'), 'drafts', this.draftRegistration.id);
     }
 
-    @computed('draftRegistration', 'draftRegistration.registrationSchema')
-    get showProgress() {
-        return this.draftRegistration ? this.draftRegistration.registrationSchema.get('schema').pages.some(
-            (page: Page) => page.questions.some(
-                (question: Question) => question.required,
-            ),
-        ) : false;
-    }
-
     @computed('draftRegistration.registrationSchema', 'draftRegistration.registration_metadata')
     get percentComplete() {
         let requiredQuestions = 0;
         let answeredRequiredQuestions = 0;
-        this.draftRegistration.registrationSchema.get('schema').pages.forEach((page: Page) =>
+        this.draftRegistration.registrationSchema.get('schema').pages.forEach(page =>
             page.questions.forEach(question => {
                 const { value } = this.draftRegistration.registrationMetadata[question.qid];
-                if (question.type === 'object') {
+                if (question.type === 'object' && question.properties) {
                     question.properties.forEach(property => {
                         if (property.required) {
                             requiredQuestions++;
@@ -85,7 +60,12 @@ export default class DraftRegistrationBlurb extends Component {
                     }
                 }
             }));
-        return (answeredRequiredQuestions / requiredQuestions) * 100;
+        return requiredQuestions ? (answeredRequiredQuestions / requiredQuestions) * 100 : -1;
+    }
+
+    @computed('percentComplete')
+    get showProgress() {
+        return this.percentComplete >= 0;
     }
 
     @computed('percentComplete')
