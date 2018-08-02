@@ -241,6 +241,7 @@ export default class KeenAdapter extends BaseAdapter {
             name: 'keen:ip_to_geo',
             input: {
                 ip: 'tech.ip',
+                remove_ip_property: true,
             },
             output: 'geo',
         });
