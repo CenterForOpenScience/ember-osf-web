@@ -190,6 +190,9 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         links: {
             serialize: false,
         },
+        relatedCounts: {
+            serialize: false,
+        },
     };
 }
 
