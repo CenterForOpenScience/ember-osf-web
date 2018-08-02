@@ -1,6 +1,8 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import { set } from '@ember/object';
+import { underscore } from '@ember/string';
 import { task } from 'ember-concurrency';
 import DS, { ModelRegistry } from 'ember-data';
 
@@ -86,21 +88,24 @@ export default class OsfModel extends Model.extend({
         return this.get('queryHasManyTask').perform(propertyName, queryParams, ajaxOptions);
     }
 
-    incrementRelatedCount(this: OsfModel, relationshipName: string) {
-        if (this.relatedCounts[relationshipName] || this.relatedCounts[relationshipName] === 0) {
-            this.set('relatedCounts', {
-                ...this.relatedCounts,
-                [relationshipName]: this.relatedCounts[relationshipName] as number + 1,
-            });
-        }
-    }
+    async loadRelatedCount(this: OsfModel, relationshipName: string) {
+        const modelName = (this.constructor as typeof OsfModel).modelName as string & keyof ModelRegistry;
+        const apiModelName = this.store.adapterFor(modelName).pathForType(modelName);
+        const apiRelationshipName = underscore(relationshipName);
 
-    decrementRelatedCount(this: OsfModel, relationshipName: string) {
-        if (this.relatedCounts[relationshipName]) {
-            this.set('relatedCounts', {
-                ...this.relatedCounts,
-                [relationshipName]: this.relatedCounts[relationshipName] as number - 1,
-            });
-        }
+        // Get related count with sparse filedset.
+        const result = await this.currentUser.authenticatedAJAX({
+            url: this.links.self,
+            data: {
+                related_counts: apiRelationshipName,
+                [`fields[${apiModelName}]`]: apiRelationshipName,
+            },
+        });
+
+        set(
+            this.relatedCounts,
+            relationshipName,
+            result.data.relationships[apiRelationshipName].links.related.meta.count,
+        );
     }
 }

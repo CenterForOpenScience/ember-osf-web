@@ -40,7 +40,11 @@ export default class DraftRegistrationBlurb extends Component {
     get percentComplete() {
         let requiredQuestions = 0;
         let answeredRequiredQuestions = 0;
-        this.draftRegistration.registrationSchema.get('schema').pages.forEach(page =>
+        const schema = this.draftRegistration.registrationSchema.get('schema');
+        if (!schema) {
+            return -1;
+        }
+        schema.pages.forEach(page =>
             page.questions.forEach(question => {
                 const { value } = this.draftRegistration.registrationMetadata[question.qid];
                 if (question.type === 'object' && question.properties) {
@@ -104,9 +108,6 @@ export default class DraftRegistrationBlurb extends Component {
         this.analytics.click('button', 'Draft Registrations - Confirm Delete');
         this.set('deleteModalOpen', false);
         await this.draftRegistration.destroyRecord();
-        if (this.decrementCount) {
-            this.decrementCount();
-        }
         if (this.onDelete) {
             this.onDelete(this.draftRegistration);
         }

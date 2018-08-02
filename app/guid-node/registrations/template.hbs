@@ -102,8 +102,8 @@
                             analyticsScope='Project Draft Registrations'
                             as |pr|
                         }}
-                            {{#pr.item as |draftRegistration index incrementCount decrementCount|}}
-                                {{draft-registration-blurb draftRegistration=draftRegistration onDelete=(action onDeleteDraft) decrementCount=decrementCount}}
+                            {{#pr.item as |draftRegistration index onDelete|}}
+                                {{draft-registration-blurb draftRegistration=draftRegistration onDelete=onDelete}}
                             {{/pr.item}}
 
                             {{#pr.empty}}

@@ -3,6 +3,7 @@ import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { computed as computedProperty, defineProperty } from '@ember/object';
 import { task, TaskInstance } from 'ember-concurrency';
 
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
@@ -37,47 +38,45 @@ export default class PaginatedList extends Component {
     maxPage?: number;
     items?: any[];
     errorShown: boolean = false;
+    count!: number;
 
     @or('model', 'modelTaskInstance.value')
     modelInstance?: OsfModel;
 
-    loadItemsTask = task(function *(this: PaginatedList) {
-        const blocker = this.ready.getBlocker();
-        try {
-            let model = this.modelInstance;
-            if (!model && this.modelTaskInstance) {
-                model = yield this.modelTaskInstance;
-            }
-            if (!model) {
-                throw new Error('Error loading model');
-            }
-            const items = yield model.queryHasManyTask.linked().perform(
-                this.relationshipName,
-                {
-                    page: this.page,
-                    'page[size]': this.pageSize,
-                    ...this.queryParams,
-                },
-            );
-            this.setProperties({
-                items,
-                maxPage: Math.ceil(items.meta.total / this.pageSize),
-                errorShown: false,
-            });
-            blocker.done();
-        } catch (e) {
-            this.set('errorShown', true);
-            blocker.errored(e);
-            throw e;
-        } finally {
-            this.set('reload', false);
+    getModelTask = task(function *(this: PaginatedList) {
+        let model = this.modelInstance;
+        if (!model && this.modelTaskInstance) {
+            model = yield this.modelTaskInstance;
         }
+        if (!model) {
+            throw new Error('Error loading model');
+        }
+        return model;
+    });
+
+    loadItemsTask = task(function *(this: PaginatedList) {
+        const model = yield this.get('getModelTask').perform();
+        const items = yield model.queryHasManyTask.linked().perform(
+            this.relationshipName,
+            {
+                page: this.page,
+                'page[size]': this.pageSize,
+                ...this.queryParams,
+            },
+        );
+        this.setProperties({
+            items,
+            maxPage: Math.ceil(items.meta.total / this.pageSize),
+            errorShown: false,
+        });
     }).restartable();
 
-    @computed('modelInstance.relatedCounts.@each', 'relationshipName')
-    get count() {
-        return this.modelInstance ? this.modelInstance.relatedCounts[this.relationshipName] : undefined;
-    }
+    loadRelatedCountTask = task(function *(this: PaginatedList, reload: boolean) {
+        const model = yield this.get('getModelTask').perform();
+        if (reload || typeof model.relatedCounts[this.relationshipName] === 'undefined') {
+            yield model.loadRelatedCount(this.relationshipName);
+        }
+    }).restartable();
 
     @computed('count')
     get placeholderCount() {
@@ -99,6 +98,15 @@ export default class PaginatedList extends Component {
             Boolean(this.model) !== Boolean(this.modelTaskInstance),
         );
 
+        defineProperty(
+            this,
+            'count',
+            computedProperty(
+                `modelInstance.relatedCounts.${this.relationshipName}`,
+                () => (this.modelInstance ? this.modelInstance.relatedCounts[this.relationshipName] : undefined),
+            ),
+        );
+
         this.loadItems();
     }
 
@@ -108,11 +116,24 @@ export default class PaginatedList extends Component {
                 page: 1,
             });
         }
-        this.loadItems();
+        this.loadItems(this.reload);
     }
 
-    loadItems(this: PaginatedList) {
-        return this.get('loadItemsTask').perform();
+    async loadItems(this: PaginatedList, reloadCount: boolean = false) {
+        const blocker = this.ready.getBlocker();
+        try {
+            if (this.usePlaceholders) {
+                await this.get('loadRelatedCountTask').perform(reloadCount);
+            }
+            await this.get('loadItemsTask').perform();
+            blocker.done();
+        } catch (e) {
+            this.set('errorShown', true);
+            blocker.errored(e);
+            throw e;
+        } finally {
+            this.set('reload', false);
+        }
     }
 
     @action
@@ -134,16 +155,7 @@ export default class PaginatedList extends Component {
     }
 
     @action
-    incrementCount() {
-        if (this.modelInstance) {
-            this.modelInstance.incrementRelatedCount(this.relationshipName);
-        }
-    }
-
-    @action
-    decrementCount() {
-        if (this.modelInstance) {
-            this.modelInstance.decrementRelatedCount(this.relationshipName);
-        }
+    onDeleteItem() {
+        this.loadItems(true);
     }
 }

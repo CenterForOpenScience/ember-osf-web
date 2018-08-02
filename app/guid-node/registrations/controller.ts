@@ -120,11 +120,6 @@ export default class GuidNodeRegistrations extends Controller {
             pathJoin(baseURL, draftRegistration.branchedFrom.get('id'), 'drafts', draftRegistration.id),
         );
     }
-
-    @action
-    onDeleteDraft(this: GuidNodeRegistrations) {
-        this.set('reloadDrafts', true);
-    }
 }
 
 declare module '@ember/controller' {

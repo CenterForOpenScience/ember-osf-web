@@ -1,5 +1,7 @@
-{{#if loadItemsTask.isRunning}}
-    {{#if (and usePlaceholders placeholderCount)}}
+{{#if getModelTask.isRunning}}
+    {{loading-indicator dark=true}}
+{{else if loadItemsTask.isRunning}}
+    {{#if usePlaceholders}}
         <ul class="list-group m-md">
             {{#each (range 1 placeholderCount)}}
                 {{yield (hash
@@ -15,9 +17,11 @@
 {{else if items.length}}
     <ul class="list-group m-md">
         {{#each items as |item index|}}
-            {{yield (hash
-                item=(component 'paginated-relation/x-item' item=item index=index incrementCount=(action incrementCount) decrementCount=(action decrementCount))
-            )}}
+            {{#unless item.isDeleted}}
+                {{yield (hash
+                    item=(component 'paginated-relation/x-item' item=item index=index onDelete=(action onDeleteItem))
+                )}}
+            {{/unless}}
         {{/each}}
     </ul>
     {{simple-paginator
