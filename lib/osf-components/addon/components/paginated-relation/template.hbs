@@ -3,7 +3,7 @@
         <ul class="list-group m-md">
             {{#each (range 1 placeholderCount)}}
                 {{yield (hash
-                    placeholder=(component 'paginated-relation/x-item')
+                    item=(component 'paginated-relation/x-item')
                 )}}
             {{/each}}
         </ul>

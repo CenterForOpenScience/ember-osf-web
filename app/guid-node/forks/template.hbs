@@ -40,10 +40,6 @@
                 {{node-blurb node=fork blurbType='fork' delete=(action openDeleteModal fork)}}
             {{/pr.item}}
 
-            {{#pr.placeholder}}
-                {{node-blurb blurbType='fork'}}
-            {{/pr.placeholder}}
-
             {{#pr.empty}}
                 <div local-class='Forks__placeholder'>
                     {{t 'forks.no_forks'}}

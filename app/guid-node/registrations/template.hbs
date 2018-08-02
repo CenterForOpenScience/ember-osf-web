@@ -16,10 +16,6 @@
                                 {{node-blurb node=registration blurbType='registration' showTags=true onClickTag=(action clickTag)}}
                             {{/pr.item}}
 
-                            {{#pr.placeholder}}
-                                {{node-blurb blurbType='registration'}}
-                            {{/pr.placeholder}}
-
                             {{#pr.empty}}
                                 <p>{{t 'node.registrations.no_registrations'}}</p>
                                 <p>{{t 'node.registrations.start_new'}}</p>
@@ -109,10 +105,6 @@
                             {{#pr.item as |draftRegistration index incrementCount decrementCount|}}
                                 {{draft-registration-blurb draftRegistration=draftRegistration onDelete=(action onDeleteDraft) decrementCount=decrementCount}}
                             {{/pr.item}}
-
-                            {{#pr.placeholder}}
-                                {{draft-registration-blurb}}
-                            {{/pr.placeholder}}
 
                             {{#pr.empty}}
                                 <p>{{t 'node.registrations.no_drafts'}}</p>
