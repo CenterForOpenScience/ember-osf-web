@@ -74,7 +74,7 @@
     {{/if}}
     {{#if (and showTags node.tags)}}
         <div local-class="NodeBlurb__tags">
-            <h4>{{t 'node_blurb.tags'}}</h4>
+            <strong>{{t 'node_blurb.tags'}}</strong>
             {{#tag-input
                 tags=node.tags
                 readOnly=true

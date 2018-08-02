@@ -55,11 +55,14 @@
 }
 
 .NodeBlurb__tags {
-    h4 {
-        font-weight: 500;
+    margin-top: 2px;
+
+    strong {
+        font-weight: 600;
     }
 
     ul {
+        display: inline-block;
         border: 0;
         padding: 0;
     }
