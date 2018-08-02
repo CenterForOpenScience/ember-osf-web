@@ -86,7 +86,7 @@ export default class PaginatedList extends Component {
             if (this.page < pages) {
                 return this.pageSize;
             }
-            return this.count - ((pages - 1) * this.pageSize);
+            return this.count % this.pageSize;
         }
         return this.count;
     }
