@@ -5,6 +5,7 @@
     "ember-engine"
   ],
   "dependencies": {
+    "ember-bootstrap": "*",
     "ember-cli-addon-docs": "*",
     "ember-cli-addon-docs-typedoc": "*",
     "ember-cli-babel": "*",
@@ -12,7 +13,8 @@
     "ember-cli-sass": "*",
     "ember-code-snippet": "*",
     "ember-css-modules": "*",
-    "ember-css-modules-sass": "*"
+    "ember-css-modules-sass": "*",
+    "ember-font-awesome": "*"
   },
   "ember-addon": {
     "paths": [
