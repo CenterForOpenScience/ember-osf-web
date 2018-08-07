@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import hbs from 'htmlbars-inline-precompile';
@@ -9,6 +9,6 @@ module('Integration | Component | status-banner', hooks => {
 
     test('it renders', async function(assert) {
         await render(hbs`{{status-banner}}`);
-        assert.notHasText(this.element);
+        assert.dom(this.element).hasText('');
     });
 });

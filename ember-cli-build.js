@@ -53,6 +53,7 @@ module.exports = function(defaults) {
             bundleZxcvbn: !useCdn,
         },
         fingerprint: {
+            enabled: true,
             exclude: [
                 'zxcvbn.js',
             ],
@@ -123,6 +124,10 @@ module.exports = function(defaults) {
 
     app.import({
         test: 'vendor/ember/ember-template-compiler.js',
+    });
+
+    app.import('node_modules/keen-tracking/dist/keen-tracking.min.js', {
+        using: [{ transformation: 'amd', as: 'keen-tracking' }],
     });
 
     if (handbookEnabled) {

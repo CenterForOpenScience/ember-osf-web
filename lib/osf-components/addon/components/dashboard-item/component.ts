@@ -26,7 +26,7 @@ export default class DashboardItem extends Component.extend({
         }
 
         // One ancestor
-        if (parentId === rootId) {
+        if (parentId === rootId && rootId !== null) {
             const parentNode = yield this.node.parent;
             return [parentNode.title];
         }

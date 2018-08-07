@@ -1,15 +1,26 @@
 import { action, computed } from '@ember-decorators/object';
-import { alias, oneWay, or } from '@ember-decorators/object/computed';
+import { alias, or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
-import { task, timeout } from 'ember-concurrency';
+import { all, task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
+import config from 'ember-get-config';
+
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
+import Region from 'ember-osf-web/models/region';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+
+// TODO pull these from the database
+const {
+    dashboard: {
+        noteworthyNode,
+        popularNode,
+    },
+} = config;
 
 interface QueryHasManyResponse<T> extends Array<T> {
     meta?: {
@@ -36,13 +47,24 @@ export default class Dashboard extends Controller {
     'failedLoading-noteworthy': boolean = false;
     'failedLoading-popular': boolean = false;
 
-    institutions = A([]);
+    institutions: Institution[] = A([]);
     nodes: QueryHasManyResponse<Node> = A([]);
     noteworthy = A([]);
     popular = A([]);
 
-    getInstitutions = task(function *(this: Dashboard) {
-        this.set('institutions', yield this.get('store').findAll('institution'));
+    setupTask = task(function *(this: Dashboard) {
+        this.set('filter', null);
+
+        const institutions = this.store.findAll('institution');
+
+        yield all([
+            institutions,
+            this.get('findNodes').perform(),
+            this.get('getPopularAndNoteworthy').perform(popularNode, 'popular'),
+            this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy'),
+        ]);
+
+        this.set('institutions', institutions.toArray());
     }).restartable();
 
     filterNodes = task(function *(this: Dashboard, filter: string) {
@@ -96,22 +118,32 @@ export default class Dashboard extends Controller {
         return yield user.queryHasMany('nodes', { filter: { title } });
     }).restartable();
 
-    createNode = task(function *(this: Dashboard, title: string, description: string, templateFrom: Node) {
+    createNode = task(function *(
+        this: Dashboard,
+        title: string,
+        description: string,
+        institutions: Institution[],
+        templateFrom?: Node,
+        storageRegion?: Region,
+    ) {
         if (!title) {
             return;
         }
-        const store = this.get('store');
-        const data = {
+        const node = this.store.createRecord('node', {
             category: 'project',
             description,
             public: false,
-            templateFrom,
             title,
-        };
-        const node = store.createRecord('node', data);
-        const institutions = this.get('institutionsSelected');
+        });
+
+        if (templateFrom) {
+            node.set('templateFrom', templateFrom.id);
+        }
         if (institutions.length) {
             node.set('affiliatedInstitutions', institutions.slice());
+        }
+        if (storageRegion) {
+            node.set('region', storageRegion);
         }
         yield node.save();
 
@@ -119,7 +151,6 @@ export default class Dashboard extends Controller {
     }).drop();
 
     @alias('currentUser.user') user!: User;
-    @oneWay('user.institutions') institutionsSelected!: DS.PromiseManyArray<Institution> | Institution[];
 
     @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes!: boolean;
 
@@ -137,27 +168,6 @@ export default class Dashboard extends Controller {
     sortProjects(this: Dashboard, sort: string) {
         this.setProperties({ sort });
         this.get('findNodes').perform();
-    }
-
-    @action
-    selectInstitution(this: Dashboard, institution: Institution) {
-        const selected = this.set('institutionsSelected', this.get('institutionsSelected').slice());
-
-        if (selected.includes(institution)) {
-            selected.removeObject(institution);
-        } else {
-            selected.pushObject(institution);
-        }
-    }
-
-    @action
-    selectAllInstitutions(this: Dashboard) {
-        this.set('institutionsSelected', this.get('user').get('institutions').slice());
-    }
-
-    @action
-    removeAllInstitutions(this: Dashboard) {
-        this.set('institutionsSelected', A([]));
     }
 
     @action

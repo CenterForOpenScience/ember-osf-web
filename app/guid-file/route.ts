@@ -9,7 +9,7 @@ import File from 'ember-osf-web/models/file';
 import Institution from 'ember-osf-web/models/institution';
 import User from 'ember-osf-web/models/user';
 import ResolvedGuidRoute from 'ember-osf-web/resolve-guid/resolved-guid-route';
-import Analytics, { analyticPrivacy } from 'ember-osf-web/services/analytics';
+import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
@@ -75,7 +75,7 @@ export default class GuidFile extends ResolvedGuidRoute {
     }
 
     @action
-    didTransition(this: GuidFile) {
-        this.get('analytics').trackPage(analyticPrivacy.public, 'files');
+    didTransition() {
+        this.analytics.trackPage(true, 'files');
     }
 }

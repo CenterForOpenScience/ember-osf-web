@@ -1,4 +1,4 @@
-import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupTest } from 'ember-qunit';
 import { module, skip } from 'qunit';
 
 module('Unit | Controller | dashboard', hooks => {

@@ -1,7 +1,6 @@
 import { attr } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { or } from '@ember-decorators/object/computed';
-import { get } from '@ember/object';
 import OsfModel from './osf-model';
 
 /**
@@ -34,12 +33,12 @@ export default class BaseFileItem extends OsfModel {
     @or('isNode', 'isProvider', 'isFolder') canHaveChildren!: boolean;
 
     @computed('isFileModel', 'kind')
-    get isFolder(this: BaseFileItem): boolean {
-        return get(this, 'isFileModel') && get(this, 'kind') === FileItemKinds.Folder;
+    get isFolder() {
+        return this.isFileModel && this.kind === FileItemKinds.Folder;
     }
 
     @computed('isFileModel', 'kind')
-    get isFile(this: BaseFileItem) {
-        return get(this, 'isFileModel') && get(this, 'kind') === FileItemKinds.File;
+    get isFile() {
+        return this.isFileModel && this.kind === FileItemKinds.File;
     }
 }

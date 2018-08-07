@@ -1,41 +1,48 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 module('Acceptance | logged-out home page', hooks => {
     setupApplicationTest(hooks);
+    setupMirage(hooks);
 
     test('visiting /', async assert => {
+        server.create('root', { currentUser: null });
         await visit('/');
 
         assert.equal(currentURL(), '/', "Still at '/'.");
 
         // Check navbar.
-        assert.found('nav.navbar');
-        assert.hasText('nav.navbar .service-name', 'OSF HOME');
-        assert.found('nav.navbar .sign-in');
+        assert.dom('nav.navbar').exists();
+        assert.dom('nav.navbar .service-name').hasText('OSF HOME');
+        assert.dom('nav.navbar .sign-in').exists();
 
         // Check page.
-        assert.hasText('h1[class*="hero-brand"]', 'Open Science Framework');
+        assert.dom('h1[class*="hero-brand"]').hasText('Open Science Framework');
 
         // Check footer.
-        assert.found('footer');
+        assert.dom('footer').exists();
 
         // Check sign-up form.
-        assert.notFound('[class*="SignUpForm"] iframe', 'Empty form: no captcha appears.');
+        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Empty form: no captcha appears.');
         await fillIn('#fullName', 'Test User');
-        assert.notFound('[class*="SignUpForm"] iframe', 'Filled in fullName: no captcha appears.');
+        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Filled in fullName: no captcha appears.');
         await fillIn('#email1', 'test@user.com');
-        assert.notFound('[class*="SignUpForm"] iframe', 'Filled in email1: no captcha appears.');
+        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Filled in email1: no captcha appears.');
         await fillIn('#email2', 'test@user.com');
-        assert.notFound('[class*="SignUpForm"] iframe', 'Filled in email2: no captcha appears.');
+        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Filled in email2: no captcha appears.');
         await fillIn('#password', 'correct horse battery staple');
-        assert.notFound('[class*="SignUpForm"] iframe', 'Filled in password: no captcha appears.');
+        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Filled in password: no captcha appears.');
         await click('#acceptedTermsOfService');
-        assert.found('[class*="SignUpForm"] iframe', 'All fields valid: captcha appears.');
+        assert.dom('[class*="SignUpForm"] iframe').exists('All fields valid: captcha appears.');
         await click('#acceptedTermsOfService');
-        assert.notFound('[class*="SignUpForm"] iframe', 'Invalidate form: captcha disappears.');
+        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Invalidate form: captcha disappears.');
         await click('#acceptedTermsOfService');
-        assert.found('[class*="SignUpForm"] iframe', 'Revalidate form: captcha reappears.');
+        assert.dom('[class*="SignUpForm"] iframe').exists('Revalidate form: captcha reappears.');
+
+        // Alt text for integration logos
+        assert.dom('[class*="_integrations"] img[alt*="Dropbox logo"]').exists();
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
     });
 });

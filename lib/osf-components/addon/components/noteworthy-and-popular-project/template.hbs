@@ -1,13 +1,13 @@
 <a href="{{project.links.html}}">
     <div local-class="NoteworthyProject__item">
-        <h5>{{project.title}}</h5>
+        <h5 data-test-nnwp-project-title>{{project.title}}</h5>
         <span class="prevent-overflow" local-class="Byline">
             <i>
                 {{t 'dashboard.noteworthy.by'}}
-                {{contributor-list contributors=project.contributors}}
+                {{contributor-list data-test-nnwp-project-contributors contributors=project.contributors}}
             </i>
         </span>
-        <p class="prevent-overflow">
+        <p class="prevent-overflow" data-test-nnwp-project-description>
             {{bs-tooltip title=compactDescription}}
             {{project.description}}
         </p>

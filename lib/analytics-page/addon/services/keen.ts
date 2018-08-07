@@ -5,11 +5,7 @@ import { Moment } from 'moment';
 
 import Node from 'ember-osf-web/models/node';
 
-const {
-    OSF: {
-        keenProjectId,
-    },
-} = config;
+const { metricsAdapters } = config;
 
 export default class KeenService extends Service {
     async queryNode(
@@ -22,11 +18,12 @@ export default class KeenService extends Service {
         if (!node.analyticsKey) {
             throw Error('No analytics key on this node');
         }
-        if (!keenProjectId) {
-            throw Error('KEEN_PROJECT_ID not defined');
+        const keenConfig = metricsAdapters.findBy('name', 'Keen');
+        if (!keenConfig || !keenConfig.config || !keenConfig.config.public || !keenConfig.config.public.projectId) {
+            throw Error('Keen adapter not configured');
         }
         const keenClient = new KeenAnalysis({
-            projectId: keenProjectId,
+            projectId: keenConfig.config.public.projectId,
             readKey: node.analyticsKey,
         });
 

@@ -1,0 +1,12 @@
+{{#if showBanner}}
+    <div local-class="CookieBanner">
+        <div local-class="Warning">
+            {{t 'cookieBanner.cookieWarning'}}
+        </div>
+        <div local-class="Accept">
+            {{#bs-button onClick=(action 'accept')}}
+                {{t 'cookieBanner.accept'}}
+            {{/bs-button}}
+        </div>
+    </div>
+{{/if}}

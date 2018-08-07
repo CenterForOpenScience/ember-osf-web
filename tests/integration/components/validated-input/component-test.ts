@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, skip, test } from 'qunit';
 
@@ -13,10 +13,10 @@ module('Integration | Component | validated-input', hooks => {
             value=''
         }}`);
 
-        assert.found('div');
-        assert.notFound('.valid-input');
-        assert.notFound('.error');
-        assert.notFound('.warning');
+        assert.dom('div').exists();
+        assert.dom('.valid-input').doesNotExist();
+        assert.dom('.error').doesNotExist();
+        assert.dom('.warning').doesNotExist();
     });
 
     test('render valid', async assert => {
@@ -28,9 +28,9 @@ module('Integration | Component | validated-input', hooks => {
             isValid=true
         }}`);
 
-        assert.found('.valid-input');
-        assert.notFound('.error');
-        assert.notFound('.warning');
+        assert.dom('.valid-input').exists();
+        assert.dom('.error').doesNotExist();
+        assert.dom('.warning').doesNotExist();
     });
 
     test('render error message', async assert => {
@@ -43,9 +43,9 @@ module('Integration | Component | validated-input', hooks => {
             isInvalid=true
         }}`);
 
-        assert.notFound('.valid-input');
-        assert.found('.error');
-        assert.notFound('.warning');
+        assert.dom('.valid-input').doesNotExist();
+        assert.dom('.error').exists();
+        assert.dom('.warning').doesNotExist();
     });
 
     test('render to text by default', async assert => {
@@ -55,7 +55,7 @@ module('Integration | Component | validated-input', hooks => {
             value=''
         }}`);
 
-        assert.found('input[type="text"]');
+        assert.dom('input[type="text"]').exists();
     });
 
     test('render to text when explicitly specified', async assert => {
@@ -66,7 +66,7 @@ module('Integration | Component | validated-input', hooks => {
             type='text'
         }}`);
 
-        assert.found('input[type="text"]');
+        assert.dom('input[type="text"]').exists();
     });
 
     test('render to password when explicitly specified', async assert => {
@@ -77,7 +77,7 @@ module('Integration | Component | validated-input', hooks => {
             type='password'
         }}`);
 
-        assert.found('input[type="password"]');
+        assert.dom('input[type="password"]').exists();
     });
 
     test('render to textarea when explicitly speficied', async assert => {
@@ -88,7 +88,7 @@ module('Integration | Component | validated-input', hooks => {
             type='textarea'
         }}`);
 
-        assert.found('textarea');
+        assert.dom('textarea').exists();
     });
 
     test('render to date when explicitly speficied', async assert => {
@@ -100,7 +100,7 @@ module('Integration | Component | validated-input', hooks => {
             type='date'
         }}`);
 
-        assert.found('input');
+        assert.dom('input').exists();
     });
 
     // TODO: Test currently cannot find '.warning'
@@ -113,8 +113,8 @@ module('Integration | Component | validated-input', hooks => {
             showWarningMessage=true
         }}`);
 
-        assert.notFound('.valid-input');
-        assert.notFound('.error');
-        assert.found('.warning');
+        assert.dom('.valid-input').doesNotExist();
+        assert.dom('.error').doesNotExist();
+        assert.dom('.warning').exists();
     });
 });

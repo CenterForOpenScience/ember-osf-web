@@ -1,4 +1,4 @@
-import { setupTest } from 'ember-osf-web/tests/helpers/osf-qunit';
+import { setupTest } from 'ember-qunit';
 import faker from 'faker';
 import { module, test } from 'qunit';
 

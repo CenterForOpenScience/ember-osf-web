@@ -4,6 +4,7 @@ import config from 'ember-get-config';
 import Application from 'ember-osf-web/app';
 import manifest from 'ember-osf-web/config/asset-manifest';
 import { start } from 'ember-qunit';
+import 'qunit-dom';
 
 setApplication(Application.create(config.APP) as any);
 

@@ -19,6 +19,7 @@
                         class="{{if (not index) (concat "col-sm-2 col-sm-offset-" columnOffset) "col-sm-2"}}"
                         local-class="InstitutionCarousel__item"
                         role="option"
+                        data-test-institution-carousel-item="{{institution.id}}"
                     >
                         <a
                             href="/institutions/{{institution.id}}"
@@ -27,8 +28,8 @@
                             <img
                                 class="img-circle img-responsive"
                                 name={{institution.name}}
-                                logopath="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png"
-                                src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png"
+                                logopath={{institution.logoUrl}}
+                                src={{institution.logoUrl}}
                                 alt="{{institution.name}}"
                                 title="{{institution.name}}"
                             >

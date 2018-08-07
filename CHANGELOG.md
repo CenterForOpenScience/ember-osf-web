@@ -4,6 +4,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2018-08-07
+### Added
+- Models:
+    - `region` - for storage i18n
+- Components:
+    - `cookie-banner` - notify logged-out users the site uses cookies
+- Feature Flags:
+    - `storage_i18n` - enable region selector on project creation
+- Assets:
+    - images for home page
+    - images for dashboard
+- Third-party Packages:
+    - `qunit-dom` - Better test assetions (especially for hidden things)
+    - `ember-test-selectors` - Find things in your dom without messing everything up
+- Tests:
+    - `dashboard` - more application tests
+- Misc:
+    - `keen` metrics adapter configured for anonymized IP addresses
+    - CSRF support on all ajax requests
+- DX:
+    - `ember-cli-mirage` factories for users, nodes, contributors, and institutions
+    - resources to the handbook
+
+### Changed
+- Models:
+    - `node` - add `region` relationship
+    - `user` - add `defaultRegion` relationship
+- Components:
+    - `maintenance-banner` - set cookie on dismiss and check cookie before showing
+    - `osf-footer` - remove Google Plus logo/link
+- Services:
+    - `analytics` - support multiple metrics adapters
+- Routes:
+    - `guid-node` - add `join-osf-banner`
+    - `home` - replace testimonial and use local assets
+    - `dashboard` - use local assets
+- DX:
+  - enable sourcemap generation by default
+
 ## [0.6.1] - 2018-07-31
 ### Changed
 - local storage key used for `ember-simple-auth`
@@ -35,6 +74,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Dashboard filtering
   - User quick files page (more event tracking)
   - Quick files detail page (event tracking)
+- Mirage/Tests:
+  - Factories (and supporting code) for Mirage and the Dashboard
+  - Dashboard application test
 
 ### Changed
 - Components:

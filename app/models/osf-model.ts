@@ -3,7 +3,8 @@ import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { task } from 'ember-concurrency';
 import DS, { ModelRegistry } from 'ember-data';
-import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 const { Model } = DS;
 
@@ -48,7 +49,7 @@ export default class OsfModel extends Model.extend({
             ...ajaxOptions,
         };
 
-        const payload = yield authenticatedAJAX(options);
+        const payload = yield this.currentUser.authenticatedAJAX(options);
 
         store.pushPayload(payload);
         const records: QueryHasManyResult = payload.data.map((datum: { type: keyof ModelRegistry, id: string }) =>
@@ -59,6 +60,7 @@ export default class OsfModel extends Model.extend({
     }),
 }) {
     @service store!: DS.Store;
+    @service currentUser!: CurrentUser;
 
     @attr() links: any;
     @attr() apiMeta: any;

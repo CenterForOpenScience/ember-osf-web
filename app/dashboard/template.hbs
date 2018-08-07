@@ -2,16 +2,9 @@
 {{#if modalOpen}}
     {{new-project-modal
         newNode=newNode
-        institutions=user.institutions
-        institutionsSelected=institutionsSelected
         closeModal=(action 'closeModal')
-        selectInstitution=(action 'selectInstitution')
-        selectAll=(action 'selectAllInstitutions')
-        removeAll=(action 'removeAllInstitutions')
-        search=(perform searchNodes)
-        searchSelected=templateFrom
-        searchChange=(action (mut templateFrom))
-        create=(perform createNode)
+        searchNodes=(perform searchNodes)
+        createProject=(perform createNode)
     }}
 {{/if}}
 {{scheduled-banner}}
@@ -39,7 +32,7 @@
                                     <div class='col-xs-12'>
                                         <div class='m-b-sm text-center'>
                                             <div class="m-v-sm" local-class="quick-search-input">
-                                                <input class='form-control' placeholder="{{t 'dashboard.quicksearch.search'}}" type="text" oninput={{perform filterNodes value="target.value"}}>
+                                                <input class='form-control' placeholder="{{t 'dashboard.quicksearch.search'}}" type="text" oninput={{perform filterNodes value="target.value"}} data-test-quick-search-input>
                                             </div>
                                         </div>
                                         <p class="text-center f-w-lg">{{t 'dashboard.quicksearch.other_links'}}</p>
@@ -48,7 +41,7 @@
                                                 <div class="col-sm-3 col-md-6">
                                                     <div local-class="quick-search-col">
                                                         <span>{{t 'general.title'}}</span>
-                                                        {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='title'}}
+                                                        {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='title' class='sort_button'}}
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3 col-md-3">
@@ -59,7 +52,7 @@
                                                 <div class="col-sm-3 col-md-3">
                                                     <div local-class="quick-search-col">
                                                         <span>{{t 'general.modified'}}</span>
-                                                        {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='last_logged'}}
+                                                        {{sort-button sortAction=(action 'sortProjects') sort=sort sortBy='last_logged' class='sort_button'}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -83,7 +76,7 @@
                                             </div>
                                             {{#each nodes as | node |}}
                                                 <div class="{{if loading (local-class 'loading-dashboard-item')}}">
-                                                    {{dashboard-item node=node}}
+                                                    {{dashboard-item node=node data-test-dashboard-item=node.id}}
                                                 </div>
                                             {{else}}
                                                 {{#if loading}}
@@ -100,7 +93,7 @@
                                                 {{loading-indicator}}
                                             {{else}}
                                                 <div class="text-center">
-                                                    <button aria-label='More' class="col-sm-12 text-muted" onclick={{action 'more'}} {{action 'click' 'button' 'Dashboard - load_nodes' target=analytics}}>
+                                                    <button aria-label='More' class="col-sm-12 text-muted" onclick={{action 'more'}} {{action 'click' 'button' 'Dashboard - load_nodes' target=analytics}} data-test-load-more>
                                                         {{fa-icon 'caret-down' class=(concat (local-class 'load-nodes') ' m-b-xl')}}
                                                     </button>
                                                 </div>
@@ -112,7 +105,7 @@
                                         <div class="col-sm-12 text-center">
                                             <p>{{t 'dashboard.quicksearch.no_projects.line1'}}</p>
                                             <p>{{t 'dashboard.quicksearch.no_projects.line2'}}</p>
-                                            <img src="/static/img/quicksearch-min.png" alt="{{t 'dashboard.quicksearch.preview_alt'}}" class="img-responsive center-block">
+                                            <img src="/assets/images/dashboard/quicksearch-min.png" alt="{{t 'dashboard.quicksearch.no_projects.preview_alt'}}" class="img-responsive center-block">
                                         </div>
                                     </div>
                                 {{/if}}
@@ -128,7 +121,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                {{institution-carousel institutions=institutions}}
+                {{institution-carousel data-test-institution-carousel institutions=institutions}}
             </div>
         </div>
     </div>
@@ -145,14 +138,14 @@
                 <div>
                     <div class="row">
                         <div class="col-xs-12 col-md-6">
-                            <div local-class="public-projects-box">
+                            <div local-class="public-projects-box" data-test-noteworthy-list>
                                 <h4 class="m-b-md">{{t 'dashboard.noteworthy.new_and_noteworthy'}}</h4>
                                 {{#if failedLoading-noteworthy}}
                                     {{t 'dashboard.noteworthy.failed_noteworthy'}}
                                 {{else}}
                                     {{#if noteworthy.length}}
                                         {{#each noteworthy as | project | }}
-                                            {{noteworthy-and-popular-project project=project}}
+                                            {{noteworthy-and-popular-project project=project data-test-noteworthy-project=project.id}}
                                         {{/each}}
                                     {{else}}
                                         {{loading-indicator}}
@@ -161,14 +154,14 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <div local-class="public-projects-box">
+                            <div local-class="public-projects-box" data-test-popular-list>
                                 <h4 class="m-b-md">{{t 'dashboard.noteworthy.most_popular'}}</h4>
                                 {{#if failedLoading-popular}}
                                     {{t 'dashboard.noteworthy.failed_popular'}}
                                 {{else}}
                                     {{#if popular.length}}
                                         {{#each popular as | project | }}
-                                            {{noteworthy-and-popular-project project=project}}
+                                            {{noteworthy-and-popular-project project=project data-test-popular-project=project.id}}
                                         {{/each}}
                                     {{else}}
                                         {{loading-indicator}}

@@ -20,7 +20,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
-    KEEN_PROJECT_ID: keenProjectId,
+    KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
@@ -45,7 +45,7 @@ const {
     SHARE_BASE_URL: shareBaseUrl = 'https://staging-share.osf.io/',
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
     SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
-    SOURCEMAPS_ENABLED: sourcemapsEnabled = false,
+    SOURCEMAPS_ENABLED: sourcemapsEnabled = true,
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
@@ -105,6 +105,13 @@ module.exports = function(environment) {
                     isPublic: 'dimension3',
                 },
             },
+            {
+                name: 'Keen',
+                environments: keenConfig ? ['all'] : [],
+                config: {
+                    ...keenConfig,
+                },
+            },
         ],
         FB_APP_ID,
         microfeedback: {
@@ -141,12 +148,16 @@ module.exports = function(environment) {
             shareApiUrl,
             shareSearchUrl,
             devMode,
-            statusCookie,
             cookieDomain,
             authenticator: `authenticator:${osfAuthenticator}`,
-            keenProjectId,
-            analyticsDismissAdblockCookie: 'adBlockDismiss',
             cookies: {
+                status: statusCookie,
+                keenUserId: 'keenUserId',
+                keenSessionId: 'keenSessionId',
+                analyticsDismissAdblock: 'adBlockDismiss',
+                cookieConsent: 'osf_cookieconsent',
+                maintenance: 'maintenance',
+                csrf: 'api-csrf',
                 authSession: 'embosf-auth-session',
             },
             localStorageKeys: {
@@ -174,7 +185,6 @@ module.exports = function(environment) {
             facebook: 'https://www.facebook.com/CenterForOpenScience/',
             googleGroup: 'https://groups.google.com/forum/#!forum/openscienceframework',
             github: 'https://www.github.com/centerforopenscience',
-            googlePlus: 'https://plus.google.com/b/104751442909573665859',
         },
         support: {
             preregUrl: 'https://cos.io/prereg/',

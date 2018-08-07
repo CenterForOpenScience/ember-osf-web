@@ -1,4 +1,4 @@
-# Contributing to the handbook
+# Contributing to the Handbook
 
 These pages are nice, friendly markdown files.
 If you see anything you'd like to add or correct, just make a pull request!

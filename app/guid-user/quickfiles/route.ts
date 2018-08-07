@@ -3,7 +3,7 @@ import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import { task } from 'ember-concurrency';
 import GuidUserQuickfilesController from 'ember-osf-web/guid-user/quickfiles/controller';
-import Analytics, { analyticPrivacy } from 'ember-osf-web/services/analytics';
+import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import loadAll from 'ember-osf-web/utils/load-relationship';
@@ -63,6 +63,6 @@ export default class UserQuickfiles extends Route.extend({
         window.addEventListener('dragover', preventDrop);
         window.addEventListener('drop', preventDrop);
 
-        this.get('analytics').trackPage(analyticPrivacy.public);
+        this.analytics.trackPage(true);
     }
 }

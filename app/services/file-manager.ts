@@ -2,10 +2,11 @@ import { service } from '@ember-decorators/service';
 import { run } from '@ember/runloop';
 import Service from '@ember/service';
 import DS from 'ember-data';
-import File from 'ember-osf-web/models/file';
-import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
 import Session from 'ember-simple-auth/services/session';
 import $ from 'jquery';
+
+import File from 'ember-osf-web/models/file';
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 interface WaterbutlerData {
     action?: 'copy' | 'move' | 'rename';
@@ -37,6 +38,7 @@ interface Options<T = string> {
 export default class FileManager extends Service {
     @service session!: Session;
     @service store!: DS.Store;
+    @service currentUser!: CurrentUser;
 
     /**
      * Hash set of URLs for `model.reload()` calls that are still pending.
@@ -436,7 +438,7 @@ export default class FileManager extends Service {
     private waterbutlerRequest(method: string, url: string, options: Options = {}): Promise<any> {
         const { data, query } = options;
 
-        return authenticatedAJAX({
+        return this.currentUser.authenticatedAJAX({
             url: query ? `${url}?${$.param(query)}` : url,
             method,
             data,
