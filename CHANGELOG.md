@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [0.7.0] - 2018-08-07
 ### Added
 - Models:
@@ -253,3 +255,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.1.0] - 2018-02-07
 ### Added
 - Quick Files
+
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.7.0...HEAD
+[0.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.1...0.7.0
+[0.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.0...0.6.1
+[0.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.2...0.6.1
+[0.5.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.1...0.5.2
+[0.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.0...0.5.1
+[0.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.4.1...0.5.0
+[0.4.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.4.0...0.4.1
+[0.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.7...0.4.0
+[0.3.7]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.6...0.3.7
+[0.3.6]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.5...0.3.6
+[0.3.5]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.4...0.3.5
+[0.3.4]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.3...0.3.4
+[0.3.3]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.2...0.3.3
+[0.3.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.1...0.3.2
+[0.3.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.0...0.3.1
+[0.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.2.0...0.3.0
+[0.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.1.1...0.2.0
+[0.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.1.0...0.1.1
+[0.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/7dad0d13c0253de88720dd058e96e11905d56911...0.1.0
