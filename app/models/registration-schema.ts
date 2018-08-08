@@ -43,12 +43,12 @@ export interface Schema {
 }
 
 /**
- * Model for OSF APIv2 metaschemas.
- * This model describes metaschemas and can be directly queried.
+ * Model for OSF APIv2 rgsitration schemas.
+ * This model describes registration schemas and can be directly queried.
  *
- * @class Metaschema
+ * @class RegistrationSchema
  */
-export default class RegistrationMetaschema extends OsfModel {
+export default class RegistrationSchema extends OsfModel {
     @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: Schema;
@@ -56,6 +56,6 @@ export default class RegistrationMetaschema extends OsfModel {
 
 declare module 'ember-data' {
     interface ModelRegistry {
-        'registration-metaschema': RegistrationMetaschema;
+        'registration-schema': RegistrationSchema;
     }
 }

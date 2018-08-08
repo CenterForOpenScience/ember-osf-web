@@ -5,7 +5,7 @@ import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 
-import RegistrationMetaschema from 'ember-osf-web/models/registration-metaschema';
+import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -20,9 +20,9 @@ export default class GuidNodeRegistrations extends Controller {
 
     registrationsQueryParams = { embed: ['contributors', 'registration_schema'] };
     draftsQueryParams = { embed: ['initiator', 'registration_schema', 'branched_from'] };
-    defaultSchema!: RegistrationMetaschema;
-    selectedSchema!: RegistrationMetaschema;
-    metaschemas: RegistrationMetaschema[] = [];
+    defaultSchema!: RegistrationSchema;
+    selectedSchema!: RegistrationSchema;
+    schemas: RegistrationSchema[] = [];
     newModalOpen = false;
     preregModalOpen = false;
     preregConsented = false;
@@ -37,15 +37,15 @@ export default class GuidNodeRegistrations extends Controller {
         terms: 'https://osf.io/4uxbj/',
     };
 
-    getRegistrationMetaschemas = task(function *(this: GuidNodeRegistrations) {
-        let metaschemas = yield this.store.findAll('registration-metaschema');
-        metaschemas = metaschemas.toArray();
-        metaschemas.sort((a: RegistrationMetaschema, b: RegistrationMetaschema) => {
+    getRegistrationSchemas = task(function *(this: GuidNodeRegistrations) {
+        let schemas = yield this.store.findAll('registration-schema');
+        schemas = schemas.toArray();
+        schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => {
             return a.name.length > b.name.length;
         });
-        this.set('defaultSchema', metaschemas.firstObject);
+        this.set('defaultSchema', schemas.firstObject);
         this.set('selectedSchema', this.defaultSchema);
-        this.set('metaschemas', metaschemas);
+        this.set('schemas', schemas);
     });
 
     @computed('tab')
@@ -94,7 +94,7 @@ export default class GuidNodeRegistrations extends Controller {
     }
 
     @action
-    schemaChanged(this: GuidNodeRegistrations, schema: RegistrationMetaschema) {
+    schemaChanged(this: GuidNodeRegistrations, schema: RegistrationSchema) {
         this.set('selectedSchema', schema);
         this.analytics.click('radio', `Registrations Tab - Select schema: ${schema.name}`);
     }

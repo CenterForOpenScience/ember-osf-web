@@ -16,7 +16,7 @@ export default class GuidNodeRegistrations extends Route {
 
     setupController(controller: Controller, model: GuidNodeModel): void {
         super.setupController(controller, model);
-        controller.get('getRegistrationMetaschemas').perform();
+        controller.get('getRegistrationSchemas').perform();
     }
 
     @action

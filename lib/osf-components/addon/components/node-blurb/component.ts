@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
-import { Question } from 'ember-osf-web/models/registration-metaschema';
+import { Question } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 

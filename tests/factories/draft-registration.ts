@@ -8,6 +8,6 @@ FactoryGuy.define('draft-registration', {
         datetimeUpdated: () => faker.date.recent(),
         branchedFrom: FactoryGuy.belongsTo('node'),
         initiator: FactoryGuy.belongsTo('user'),
-        registrationSchema: FactoryGuy.belongsTo('metaschema'),
+        registrationSchema: FactoryGuy.belongsTo('registration-schema'),
     },
 });

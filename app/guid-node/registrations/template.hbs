@@ -34,14 +34,14 @@
                         {{/modal.header}}
                         {{#modal.body}}
                             <p class="NewRegistrationModal__info">{{t 'node.registrations.new_registration_modal.info'}}</p>
-                            <div class="NewRegistrationModal__metaschema-list">
-                                {{#if getRegistrationMetaschemas.isRunning}}
+                            <div class="NewRegistrationModal__schema-list">
+                                {{#if getRegistrationSchemas.isRunning}}
                                     {{#content-placeholders as |placeholder|}}
                                         {{placeholder.list items=8}}
                                     {{/content-placeholders}}
                                 {{else}}
                                     <ul>
-                                        {{#each metaschemas as |schema|}}
+                                        {{#each schemas as |schema|}}
                                             <li>
                                                 {{#radio-button value=schema groupValue=selectedSchema changed=(action schemaChanged)}}
                                                     <div>
