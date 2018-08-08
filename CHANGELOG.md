@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased']
+## [Unreleased]
 ### Added
 - Models:
     - `registration-metaschema` (including related adapter & serializer)
@@ -25,7 +25,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Services:
     - `route-context` - added ability to pass query params to `setGuid()`/`loadModel()`
 - Components:
-    - `node-blurb` - add `registration` type, optional tags display, and placeholder when `node` is not set
+    - `file-renderer` - remove initialWidth MFR parameter
+    - `node-blurb` - renamed to `node-card`
+    - `node-card` - add `registration` type, optional tags display, and placeholder when `node` is not set
     - `node-navbar` - use `linkTo` for registrations
     - `paginated-relation` - add ability to specify placeholders, and pass actions to items for incrementing/decrementing count
 - Routes:
@@ -36,25 +38,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `resolve-guid/resolved-guid-route` - pass-through query params to `routeContext.setGuid()`
 - Engines:
     - `analytics-page` - use placeholder for linked nodes list
-- Misc:
-    - install `@cos-forks/ember-content-placeholders`
-
-### Removed
-- Models:
-    - `metaschema` (including related adapter & serializer)
-
-## [Unreleased]
-### Changed
-- Components:
-    - `file-renderer` - remove initialWidth MFR parameter
 - Handbook:
     - Fix link styling, remove double underline
     - Update ember-cli-addon-docs dependency
 - Misc:
+    - install `@cos-forks/ember-content-placeholders`
     - upgrade to ember(-(cli|data))@~3.3.0
 - DX:
     - No more mirage fixtures
     - Have guid-like IDs for mirage factories (nodes and users to start)
+
+### Removed
+- Models:
+    - `metaschema` (including related adapter & serializer)
 
 ## [0.7.0] - 2018-08-07
 ### Added
