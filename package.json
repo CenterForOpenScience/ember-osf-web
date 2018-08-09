@@ -41,8 +41,8 @@
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "https://github.com/CenterForOpenScience/osf-style#e15bf09f4d4e3c6f3f89fcfdaf6d72e91faf8a7d",
-    "@ember/test-helpers": "^0.7.21",
     "@cos-forks/ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
+    "@ember/test-helpers": "^0.7.21",
     "@types/ace": "^0.0.39",
     "@types/dropzone": "^5.0.2",
     "@types/ember": "^2.8.32",
@@ -144,6 +144,7 @@
     "flat": "^4.0.0",
     "husky": "^0.14.3",
     "js-md5": "^0.7.3",
+    "jsonapi-typescript": "^0.0.9",
     "keen-analysis": "^2.0.0",
     "keen-dataviz": "^2.0.4",
     "keen-tracking": "^2.0.9",

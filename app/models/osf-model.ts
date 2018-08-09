@@ -8,6 +8,8 @@ import DS, { ModelRegistry } from 'ember-data';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 
+import OSFAPI from 'osf-api';
+
 const { Model } = DS;
 
 /**
@@ -51,14 +53,22 @@ export default class OsfModel extends Model.extend({
             ...ajaxOptions,
         };
 
-        const payload = yield this.currentUser.authenticatedAJAX(options);
+        const response: OSFAPI.Document<OSFAPI.Document.Data.Data<keyof ModelRegistry>> =
+            yield this.currentUser.authenticatedAJAX(options);
 
-        store.pushPayload(payload);
-        const records: QueryHasManyResult = payload.data.map((datum: { type: keyof ModelRegistry, id: string }) =>
-            store.peekRecord(datum.type, datum.id));
-        records.meta = payload.meta;
-        records.links = payload.links;
-        return records;
+        if ('data' in response && Array.isArray(response.data)) {
+            store.pushPayload(response);
+            const records: QueryHasManyResult = response.data.map(
+                datum => store.peekRecord(datum.type, datum.id),
+            );
+            records.meta = response.meta;
+            records.links = response.links;
+            return records;
+        } else if ('errors' in response) {
+            throw new Error(response.errors.map(error => error.detail).join('\n'));
+        } else {
+            throw new Error(`Unexpected response while loading relationship ${this.modelName}.${propertyName}`);
+        }
     }),
 }) {
     @service store!: DS.Store;
@@ -69,6 +79,8 @@ export default class OsfModel extends Model.extend({
     @attr() apiMeta: any;
 
     @alias('links.relationships') relationshipLinks: any;
+
+    @alias('constructor.modelName') modelName!: string & keyof ModelRegistry;
 
     /*
      * Query a hasMany relationship with query params
@@ -88,13 +100,19 @@ export default class OsfModel extends Model.extend({
         return this.get('queryHasManyTask').perform(propertyName, queryParams, ajaxOptions);
     }
 
+    /*
+     * Load related count for a given relationship using sparse fieldsets.
+     *
+     * @method loadRelatedCount
+     * @param {String} relationshipName Name of a hasMany relationship on the model
+     * @returns {Promise} Promise that will resolve when count is loaded
+     */
     async loadRelatedCount(this: OsfModel, relationshipName: string) {
-        const modelName = (this.constructor as typeof OsfModel).modelName as string & keyof ModelRegistry;
-        const apiModelName = this.store.adapterFor(modelName).pathForType(modelName);
+        const apiModelName = this.store.adapterFor(this.modelName).pathForType(this.modelName);
         const apiRelationshipName = underscore(relationshipName);
 
-        // Get related count with sparse filedset.
-        const result = await this.currentUser.authenticatedAJAX({
+        // Get related count with sparse fieldset.
+        const response: OSFAPI.Document = await this.currentUser.authenticatedAJAX({
             url: this.links.self,
             data: {
                 related_counts: apiRelationshipName,
@@ -102,10 +120,25 @@ export default class OsfModel extends Model.extend({
             },
         });
 
-        set(
-            this.relatedCounts,
-            relationshipName,
-            result.data.relationships[apiRelationshipName].links.related.meta.count,
-        );
+        if ('data' in response &&
+            !Array.isArray(response.data) &&
+            response.data.relationships &&
+            apiRelationshipName in response.data.relationships
+        ) {
+            const relationship = response.data.relationships[apiRelationshipName];
+            if ('links' in relationship) {
+                set(
+                    this.relatedCounts,
+                    relationshipName,
+                    relationship.links.related.meta.count,
+                );
+            }
+        } else if ('errors' in response) {
+            throw new Error(response.errors.map(error => error.detail).join('\n'));
+        } else {
+            throw new Error(
+                `Unexpected response while loading related counts for ${this.modelName}.${relationshipName}`,
+            );
+        }
     }
 }
