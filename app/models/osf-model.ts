@@ -110,6 +110,7 @@ export default class OsfModel extends Model.extend({
     async loadRelatedCount(this: OsfModel, relationshipName: string) {
         const apiModelName = this.store.adapterFor(this.modelName).pathForType(this.modelName);
         const apiRelationshipName = underscore(relationshipName);
+        const errorContext = `while loading related counts for ${this.modelName}.${relationshipName}`;
 
         // Get related count with sparse fieldset.
         const response: OSFAPI.Document = await this.currentUser.authenticatedAJAX({
@@ -120,25 +121,21 @@ export default class OsfModel extends Model.extend({
             },
         });
 
-        if ('data' in response &&
-            !Array.isArray(response.data) &&
-            response.data.relationships &&
-            apiRelationshipName in response.data.relationships
-        ) {
-            const relationship = response.data.relationships[apiRelationshipName];
-            if ('links' in relationship) {
-                set(
-                    this.relatedCounts,
-                    relationshipName,
-                    relationship.links.related.meta.count,
-                );
+        if ('data' in response && !Array.isArray(response.data)) {
+            if (response.data.relationships && apiRelationshipName in response.data.relationships) {
+                const relationship = response.data.relationships[apiRelationshipName];
+                if ('links' in relationship) {
+                    set(this.relatedCounts, relationshipName, relationship.links.related.meta.count);
+                } else {
+                    throw new Error(`Relationship link not found ${errorContext}`);
+                }
+            } else {
+                throw new Error(`Relationship not serialized ${errorContext}`);
             }
         } else if ('errors' in response) {
-            throw new Error(response.errors.map(error => error.detail).join('\n'));
+            throw new Error(response.errors.map(error => error.detail).concat(errorContext).join('\n'));
         } else {
-            throw new Error(
-                `Unexpected response while loading related counts for ${this.modelName}.${relationshipName}`,
-            );
+            throw new Error(`Unexpected response ${errorContext}`);
         }
     }
 }
