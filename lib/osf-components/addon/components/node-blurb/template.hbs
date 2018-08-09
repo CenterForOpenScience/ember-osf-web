@@ -9,6 +9,14 @@
             {{/unless}}
             {{#if node.pendingRegistrationApproval}}
                 <span class="label label-info">{{t 'node_blurb.registration.statuses.pending'}}</span> |
+            {{else if node.withdrawn}}
+                <span class="label label-danger">{{t 'node_blurb.registration.statuses.withdrawn'}}</span> |
+            {{else if node.pendingWithdrawal}}
+                <span class="label label-info">{{t 'node_blurb.registration.statuses.pending_withdrawal'}}</span> |
+            {{else if node.embargoed}}
+                <span class="label label-info">{{t 'node_blurb.registration.statuses.embargoed'}}</span> |
+            {{else if node.pendingEmbargoApproval}}
+                <span class="label label-info">{{t 'node_blurb.registration.statuses.pending_embargo'}}</span> |
             {{/if}}
             {{#if node.archiving}}
                 <span class="label label-primary">{{t 'node_blurb.registration.statuses.archiving'}}</span> |

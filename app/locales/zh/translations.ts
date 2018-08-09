@@ -508,8 +508,12 @@ export default {
             private_tooltip: 'This registration is private',
             dateLabel: 'Registered:',
             statuses: {
-                archiving: 'Archiving',
                 pending: 'Pending registration',
+                withdrawn: 'Withdrawn',
+                pending_withdrawl: 'Pending withdrawal',
+                embargoed: 'Embargoed',
+                pending_embargo: 'Pending embargo',
+                archiving: 'Archiving',
             },
         },
         private_tooltip: 'This project is private',

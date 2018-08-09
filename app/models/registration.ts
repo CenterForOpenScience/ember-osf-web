@@ -21,6 +21,7 @@ export default class Registration extends Node.extend() {
     @attr('date') dateRegistered!: Date;
     @attr('boolean') pendingRegistrationApproval!: boolean;
     @attr('boolean') archiving!: boolean;
+    @attr('boolean') embargoed!: boolean;
     @attr('date') embargoEndDate!: Date | null;
     @attr('boolean') pendingEmbargoApproval!: boolean;
     @attr('boolean') withdrawn!: boolean;
