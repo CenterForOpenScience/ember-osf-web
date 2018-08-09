@@ -496,13 +496,16 @@ export default {
     },
     node_blurb: {
         generic: {
+            private_tooltip: 'This project is private',
             dateLabel: '',
         },
         fork: {
+            private_tooltip: 'This fork is private',
             dateLabel: 'Forked:',
             manage_contributors: 'Manage contributors',
         },
         registration: {
+            private_tooltip: 'This registration is private',
             dateLabel: 'Registered:',
             statuses: {
                 archiving: 'Archiving',

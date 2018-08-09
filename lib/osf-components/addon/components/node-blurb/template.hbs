@@ -4,7 +4,7 @@
             {{#unless node.public}}
                 <span>
                     {{fa-icon 'lock'}}
-                    {{#bs-tooltip}}{{t 'node_blurb.private_tooltip'}}{{/bs-tooltip}}
+                    {{#bs-tooltip}}{{t privateTooltip}}{{/bs-tooltip}}
                 </span> |
             {{/unless}}
             {{#if node.pendingRegistrationApproval}}

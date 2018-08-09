@@ -50,6 +50,24 @@ export default class NodeBlurb extends Component {
         return moment(this.node.get('dateCreated')).format('YYYY-MM-DD h:mm A');
     }
 
+    @computed('node.isRegistration')
+    get nodeType() {
+        if (this.node) {
+            if (this.node.fork) {
+                return 'fork';
+            }
+            if (this.node.isRegistration) {
+                return 'registration';
+            }
+        }
+        return 'generic';
+    }
+
+    @computed('node.Type')
+    get privateTooltip() {
+        return `node_blurb.${this.nodeType}.private_tooltip`;
+    }
+
     @computed('blurbType')
     get dateLabelKey(): string {
         return `node_blurb.${this.blurbType}.dateLabel`;
