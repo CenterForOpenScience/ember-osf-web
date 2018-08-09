@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Components:
     - `file-renderer` - remove initialWidth MFR parameter
+- Handbook:
+    - Fix link styling, remove double underline
+    - Update ember-cli-addon-docs dependency
 
 ## [0.7.0] - 2018-08-07
 ### Added
