@@ -41,7 +41,6 @@
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "https://github.com/CenterForOpenScience/osf-style#e15bf09f4d4e3c6f3f89fcfdaf6d72e91faf8a7d",
-    "@cos-forks/ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
     "@ember/test-helpers": "^0.7.21",
     "@types/ace": "^0.0.39",
     "@types/dropzone": "^5.0.2",
@@ -100,6 +99,7 @@
     "ember-click-outside": "^0.1.12",
     "ember-component-attributes": "^0.1.1",
     "ember-concurrency": "^0.8.12",
+    "ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
     "ember-cookies": "^0.3.0",
     "ember-cp-validations": "^3.5.2",
     "ember-css-modules": "^0.7.10",
