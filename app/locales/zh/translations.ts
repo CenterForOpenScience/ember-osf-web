@@ -494,7 +494,7 @@ export default {
         learn_more: 'learn more',
         hide_message: 'Hide this message',
     },
-    node_blurb: {
+    node_card: {
         generic: {
             private_tooltip: 'This project is private',
             dateLabel: '',

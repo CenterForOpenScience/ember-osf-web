@@ -25,19 +25,19 @@ const iconMap: { [index: string]: string } = {
 };
 
 @tagName('span')
-export default class NodeBlurbNodeIcon extends Component {
+export default class NodeCardNodeIcon extends Component {
     layout = layout;
 
     category: string = defaultTo(this.category, '');
 
     @computed('category')
-    get iconType(this: NodeBlurbNodeIcon): string {
+    get iconType(this: NodeCardNodeIcon): string {
         return iconMap[this.get('category')] || 'circle-o-notch';
     }
 
     @className('text-muted', '')
     @computed('category')
-    get isMuted(this: NodeBlurbNodeIcon): boolean {
+    get isMuted(this: NodeCardNodeIcon): boolean {
         return ['registration', 'registeredComponent'].includes(this.get('category'));
     }
 }

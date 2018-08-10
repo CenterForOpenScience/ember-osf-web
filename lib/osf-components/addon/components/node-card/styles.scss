@@ -1,4 +1,4 @@
-.NodeBlurb__heading {
+.NodeCard__heading {
     :global(.ember-content-placeholders-heading__title) {
         height: 1em;
         margin-top: 5px;
@@ -10,23 +10,23 @@
     }
 }
 
-.NodeBlurb__body {
+.NodeCard__body {
     :global(.ember-content-placeholders-text__line) {
         height: 1em;
         margin-bottom: 5px;
     }
 }
 
-.NodeBlurb__dropdown {
+.NodeCard__dropdown {
     padding-left: 5px;
 }
 
-.NodeBlurb__dropdown-list {
+.NodeCard__dropdown-list {
     background-color: $color-bg-gray-light !important;
     min-width: 180px;
 }
 
-.NodeBlurb__dropdown-link {
+.NodeCard__dropdown-link {
     color: $color-link-black !important;
 
     &:hover,
@@ -37,16 +37,16 @@
     }
 }
 
-.NodeBlurb__dropdown-button {
+.NodeCard__dropdown-button {
     padding: 4px 12px;
     line-height: 0;
 }
 
-.NodeBlurb__authors {
+.NodeCard__authors {
     font-weight: 500;
 }
 
-.NodeBlurb__description {
+.NodeCard__description {
     font-weight: 300;
     text-overflow: ellipsis;
     display: block;
@@ -54,7 +54,7 @@
     overflow: hidden;
 }
 
-.NodeBlurb__tags {
+.NodeCard__tags {
     margin-top: 2px;
 
     strong {

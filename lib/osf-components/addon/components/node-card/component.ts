@@ -12,13 +12,13 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import layout from './template';
 
-enum BlurbType {
+enum CardType {
     Fork = 'fork',
     Generic = 'generic',
     Registration = 'registration',
 }
 
-export default class NodeBlurb extends Component {
+export default class NodeCard extends Component {
     layout = layout;
     styles = styles;
 
@@ -26,7 +26,7 @@ export default class NodeBlurb extends Component {
 
     // Optional arguments
     node?: Node | Registration;
-    blurbType: BlurbType = defaultTo(this.blurbType, BlurbType.Fork);
+    cardType: CardType = defaultTo(this.cardType, CardType.Fork);
     showTags: boolean = defaultTo(this.showTags, false);
     onClickTag?: (tag: string) => void;
 
@@ -35,7 +35,7 @@ export default class NodeBlurb extends Component {
     archivingRegistration = true;
 
     @computed('node.dateCreated')
-    get date(this: NodeBlurb): string {
+    get date(this: NodeCard): string {
         if (!this.node) {
             return '';
         }
@@ -57,17 +57,17 @@ export default class NodeBlurb extends Component {
 
     @computed('node.Type')
     get privateTooltip() {
-        return `node_blurb.${this.nodeType}.private_tooltip`;
+        return `node_card.${this.nodeType}.private_tooltip`;
     }
 
-    @computed('blurbType')
+    @computed('cardType')
     get dateLabelKey(): string {
-        return `node_blurb.${this.blurbType}.dateLabel`;
+        return `node_card.${this.cardType}.dateLabel`;
     }
 
-    @computed('blurbType')
+    @computed('cardType')
     get placeholderBodyLines(): number {
-        if (this.blurbType === BlurbType.Registration) {
+        if (this.cardType === CardType.Registration) {
             return 3;
         }
         return 2;
