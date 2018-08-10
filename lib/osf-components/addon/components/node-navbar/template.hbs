@@ -26,7 +26,7 @@
 
                     {{#if node.currentUserIsContributor}}
                         {{node-navbar/link nodeId=node.id useLinkTo=false destination='contributors'}}
-                        {{#if currentUserCanEdit}}
+                        {{#if node.canEdit}}
                             {{node-navbar/link nodeId=node.id useLinkTo=false destination='addons'}}
                         {{/if}}
                         {{node-navbar/link nodeId=node.id useLinkTo=false destination='settings'}}

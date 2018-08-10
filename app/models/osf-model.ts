@@ -17,6 +17,12 @@ const { Model } = DS;
  * @submodule models
  */
 
+export enum Permission {
+    Read = 'read',
+    Write = 'write',
+    Admin = 'admin',
+}
+
 interface QueryHasManyResult extends Array<any> {
     meta?: any;
     links?: any;

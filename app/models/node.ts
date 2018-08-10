@@ -1,4 +1,5 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import { computed } from '@ember-decorators/object';
 import { bool, equal } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
@@ -12,6 +13,7 @@ import FileProvider from './file-provider';
 import Institution from './institution';
 import License from './license';
 import Log from './log';
+import { Permission } from './osf-model';
 import Preprint from './preprint';
 import Region from './region';
 import Registration from './registration';
@@ -39,7 +41,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @attr('fixstring') description!: string;
     @attr('fixstring') category!: string;
 
-    @attr('array') currentUserPermissions!: string[];
+    @attr('array') currentUserPermissions!: Permission[];
     @attr('boolean') currentUserIsContributor!: boolean;
 
     @attr('boolean') fork!: boolean;
@@ -120,6 +122,26 @@ export default class Node extends BaseFileItem.extend(Validations) {
      * @type boolean
      */
     @bool('meta.anonymous') isAnonymous!: boolean;
+
+    /**
+     * Does the current user have write permission on this node?
+     * @property canEdit
+     * @type boolean
+     */
+    @computed('currentUserPermissions')
+    get canEdit() {
+        return this.currentUserPermissions.includes(Permission.Write);
+    }
+
+    /**
+     * Is the current user an admin on this node?
+     * @property isAdmin
+     * @type boolean
+     */
+    @computed('currentUserPermissions')
+    get isAdmin() {
+        return this.currentUserPermissions.includes(Permission.Admin);
+    }
 
     // BaseFileItem override
     isNode = true;

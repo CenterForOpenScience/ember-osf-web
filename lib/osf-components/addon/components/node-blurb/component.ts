@@ -34,14 +34,6 @@ export default class NodeBlurb extends Component {
     pendingRegistration = true;
     archivingRegistration = true;
 
-    @computed('node.currentUserPermissions')
-    get canEdit(this: NodeBlurb): boolean {
-        if (!this.node || !this.node.get('currentUserPermissions')) {
-            return false;
-        }
-        return this.node.get('currentUserPermissions').includes('write');
-    }
-
     @computed('node.dateCreated')
     get date(this: NodeBlurb): string {
         if (!this.node) {

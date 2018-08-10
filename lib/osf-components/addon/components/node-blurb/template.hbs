@@ -30,7 +30,7 @@
             {{/content-placeholders}}
         {{/if}}
     </span>
-    {{#if (and (eq blurbType 'fork') canEdit)}}
+    {{#if (and (eq blurbType 'fork') node.canEdit)}}
         <div class="pull-right generic-dropdown" local-class="NodeBlurb__dropdown">
             {{#bs-dropdown as |dd|}}
                 {{#dd.button local-class='NodeBlurb__dropdown-button' disabled=(not node)}}
