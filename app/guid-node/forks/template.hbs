@@ -37,7 +37,7 @@
             as |pr|
         }}
             {{#pr.item as |fork|}}
-                {{node-card node=fork cardType='fork' delete=(action openDeleteModal fork)}}
+                {{node-card node=fork delete=(action openDeleteModal fork)}}
             {{/pr.item}}
 
             {{#pr.empty}}

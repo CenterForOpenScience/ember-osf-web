@@ -14,7 +14,7 @@
                                 as |pr|
                             }}
                                 {{#pr.item as |registration|}}
-                                    {{node-card node=registration cardType='registration' showTags=true onClickTag=(action clickTag)}}
+                                    {{node-card node=registration showTags=true onClickTag=(action clickTag)}}
                                 {{/pr.item}}
 
                                 {{#pr.empty}}

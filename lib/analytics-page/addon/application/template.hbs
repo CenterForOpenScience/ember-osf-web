@@ -40,8 +40,8 @@
                                     queryParams=linksQueryParams
                                     as |pr|
                                 }}
-                                    {{#pr.item as |item|}}
-                                        {{node-card node=item cardType='generic'}}
+                                    {{#pr.item as |node|}}
+                                        {{node-card node=node}}
                                     {{/pr.item}}
 
                                     {{#pr.empty}}

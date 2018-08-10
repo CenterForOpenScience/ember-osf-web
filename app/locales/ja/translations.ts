@@ -497,16 +497,16 @@ export default {
     node_card: {
         generic: {
             private_tooltip: 'This project is private',
-            dateLabel: '',
+            timestamp_label: '',
         },
         fork: {
             private_tooltip: 'This fork is private',
-            dateLabel: 'Forked:',
+            timestamp_label: 'Forked:',
             manage_contributors: 'Manage contributors',
         },
         registration: {
             private_tooltip: 'This registration is private',
-            dateLabel: 'Registered:',
+            timestamp_label: 'Registered:',
             statuses: {
                 pending: 'Pending registration',
                 withdrawn: 'Withdrawn',

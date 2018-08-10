@@ -1,6 +1,6 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
-import { bool, equal } from '@ember-decorators/object/computed';
+import { alias, bool, equal } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
@@ -30,6 +30,12 @@ const Validations = buildValidations({
     ],
 });
 
+export enum NodeType {
+    Fork = 'fork',
+    Generic = 'generic',
+    Registration = 'registration',
+}
+
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
@@ -45,6 +51,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @attr('boolean') currentUserIsContributor!: boolean;
 
     @attr('boolean') fork!: boolean;
+    @alias('fork') isFork!: boolean;
     @attr('boolean') collection!: boolean;
     @attr('boolean') registration!: boolean;
     @attr('boolean') public!: boolean;
@@ -141,6 +148,22 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @computed('currentUserPermissions')
     get isAdmin() {
         return this.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    /**
+     * The type of this node.
+     * @property nodeType
+     * @type NodeType
+     */
+    @computed('isFork', 'isRegistration')
+    get nodeType(): NodeType {
+        if (this.isFork) {
+            return NodeType.Fork;
+        }
+        if (this.isRegistration) {
+            return NodeType.Registration;
+        }
+        return NodeType.Generic;
     }
 
     // BaseFileItem override

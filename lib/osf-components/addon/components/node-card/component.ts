@@ -3,7 +3,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import moment from 'moment';
 
-import Node from 'ember-osf-web/models/node';
+import Node, { NodeType } from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import { Question } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -12,65 +12,39 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import layout from './template';
 
-enum CardType {
-    Fork = 'fork',
-    Generic = 'generic',
-    Registration = 'registration',
-}
-
 export default class NodeCard extends Component {
     layout = layout;
     styles = styles;
 
     @service analytics!: Analytics;
 
-    // Optional arguments
+    // Optional parameters
     node?: Node | Registration;
-    cardType: CardType = defaultTo(this.cardType, CardType.Fork);
     showTags: boolean = defaultTo(this.showTags, false);
     onClickTag?: (tag: string) => void;
 
-    // Private properties
-    pendingRegistration = true;
-    archivingRegistration = true;
+    @computed('node.nodeType')
+    get privateTooltip() {
+        if (!this.node) {
+            return `node_card.${NodeType.Generic}.private_tooltip`;
+        }
+        return `node_card.${this.node.nodeType}.private_tooltip`;
+    }
+
+    @computed('node.nodeType')
+    get timestampLabel() {
+        if (!this.node) {
+            return `node_card.${NodeType.Generic}.timestamp_label`;
+        }
+        return `node_card.${this.node.nodeType}.timestamp_label`;
+    }
 
     @computed('node.dateCreated')
-    get date(this: NodeCard): string {
+    get timestamp(): string {
         if (!this.node) {
             return '';
         }
-        return moment(this.node.get('dateCreated')).format('YYYY-MM-DD h:mm A');
-    }
-
-    @computed('node.isRegistration')
-    get nodeType() {
-        if (this.node) {
-            if (this.node.fork) {
-                return 'fork';
-            }
-            if (this.node.isRegistration) {
-                return 'registration';
-            }
-        }
-        return 'generic';
-    }
-
-    @computed('node.Type')
-    get privateTooltip() {
-        return `node_card.${this.nodeType}.private_tooltip`;
-    }
-
-    @computed('cardType')
-    get dateLabelKey(): string {
-        return `node_card.${this.cardType}.dateLabel`;
-    }
-
-    @computed('cardType')
-    get placeholderBodyLines(): number {
-        if (this.cardType === CardType.Registration) {
-            return 3;
-        }
-        return 2;
+        return moment(this.node.dateCreated).format('YYYY-MM-DD h:mm A');
     }
 
     @computed('node.registrationSchema.name', 'node.registeredMeta.q1.value')
