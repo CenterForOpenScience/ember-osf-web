@@ -24,6 +24,7 @@ const App = Application.extend({
             dependencies: {
                 services: [
                     'router',
+                    'store',
                 ],
             },
         },
