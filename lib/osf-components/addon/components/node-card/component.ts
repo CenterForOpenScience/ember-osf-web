@@ -23,20 +23,9 @@ export default class NodeCard extends Component {
     showTags: boolean = defaultTo(this.showTags, false);
     onClickTag?: (tag: string) => void;
 
-    @computed('node.nodeType')
-    get privateTooltip() {
-        if (!this.node) {
-            return `node_card.${NodeType.Generic}.private_tooltip`;
-        }
-        return `node_card.${this.node.nodeType}.private_tooltip`;
-    }
-
-    @computed('node.nodeType')
-    get timestampLabel() {
-        if (!this.node) {
-            return `node_card.${NodeType.Generic}.timestamp_label`;
-        }
-        return `node_card.${this.node.nodeType}.timestamp_label`;
+    @computed('node', 'node.nodeType')
+    get nodeType() {
+        return this.node ? this.node.nodeType : NodeType.Generic;
     }
 
     @computed('node.dateCreated')

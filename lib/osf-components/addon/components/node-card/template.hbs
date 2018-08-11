@@ -4,7 +4,7 @@
             {{#unless node.public}}
                 <span>
                     {{fa-icon 'lock'}}
-                    {{#bs-tooltip}}{{t privateTooltip}}{{/bs-tooltip}}
+                    {{#bs-tooltip}}{{t (concat 'node_card.' this.nodeType '.private_tooltip')}}{{/bs-tooltip}}
                 </span> |
             {{/unless}}
             {{#if node.pendingRegistrationApproval}}
@@ -23,7 +23,7 @@
             {{/if}}
             {{node-card/node-icon category=node.category}}
             <a href='/{{node.id}}/' onclick={{action 'click' 'link' (concat node.nodeType ' - NodeCard - node_card.node_title') target=analytics}}>{{node.title}}</a> |
-            {{t timestampLabel}} {{timestamp}}
+            {{t (concat 'node_card.' this.nodeType '.timestamp_label')}} {{timestamp}}
         {{else}}
             {{#content-placeholders as |placeholder|}}
                 {{placeholder.heading subtitle=false}}
