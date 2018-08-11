@@ -1,16 +1,19 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import moment from 'moment';
+import config from 'ember-get-config';
 
-import Node, { NodeType } from 'ember-osf-web/models/node';
+import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import { Question } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
 import layout from './template';
+
+const { OSF: { url: baseURL } } = config;
 
 export default class NodeCard extends Component {
     layout = layout;
@@ -20,23 +23,13 @@ export default class NodeCard extends Component {
 
     // Optional parameters
     node?: Node | Registration;
+    delete?: (node: Node) => void;
     showTags: boolean = defaultTo(this.showTags, false);
-    onClickTag?: (tag: string) => void;
 
-    @computed('node', 'node.nodeType')
-    get nodeType() {
-        return this.node ? this.node.nodeType : NodeType.Generic;
-    }
+    // Private properties
+    searchUrl = pathJoin(baseURL, 'search');
 
-    @computed('node.dateCreated')
-    get timestamp(): string {
-        if (!this.node) {
-            return '';
-        }
-        return moment(this.node.dateCreated).format('YYYY-MM-DD h:mm A');
-    }
-
-    @computed('node.registrationSchema.name', 'node.registeredMeta.q1.value')
+    @computed('node', 'node.isRegistration', 'node.registrationSchema', 'node.registeredMeta.@each')
     get registrationTitle(): string | undefined {
         if (this.node && this.node.isRegistration) {
             const registration = this.node as Registration;
@@ -53,8 +46,7 @@ export default class NodeCard extends Component {
 
     @action
     clickTag(tag: string): void {
-        if (this.onClickTag) {
-            this.onClickTag(tag);
-        }
+        this.analytics.click('link', `Node Card - Tag: ${tag}`);
+        window.location.assign(`${this.searchUrl}?q=(tags:"${tag}")`);
     }
 }

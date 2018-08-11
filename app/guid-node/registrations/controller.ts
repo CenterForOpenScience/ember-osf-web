@@ -27,7 +27,6 @@ export default class GuidNodeRegistrations extends Controller {
     preregModalOpen = false;
     preregConsented = false;
     reloadDrafts = false;
-    searchUrl = pathJoin(baseURL, 'search');
 
     preregLinks = {
         approvedJournal: 'http://cos.io/our-services/prereg-more-information/',
@@ -57,12 +56,6 @@ export default class GuidNodeRegistrations extends Controller {
     changeTab(this: GuidNodeRegistrations, activeId: string) {
         this.set('tab', activeId === 'registrations' ? undefined : activeId);
         this.analytics.click('tab', `Registrations Tab - Change tab to: ${activeId}`);
-    }
-
-    @action
-    clickTag(tag: string) {
-        this.analytics.click('link', `Registrations Tab - Tag: ${tag}`);
-        window.location.assign(`${this.searchUrl}?q=(tags:"${tag}")`);
     }
 
     @action
