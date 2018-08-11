@@ -157,11 +157,11 @@ export default class Node extends BaseFileItem.extend(Validations) {
      */
     @computed('isFork', 'isRegistration')
     get nodeType(): NodeType {
-        if (this.isFork) {
-            return NodeType.Fork;
-        }
         if (this.isRegistration) {
             return NodeType.Registration;
+        }
+        if (this.isFork) {
+            return NodeType.Fork;
         }
         return NodeType.Generic;
     }
