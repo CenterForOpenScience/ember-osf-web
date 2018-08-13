@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Models:
-    - `registration-metaschema` (including related adapter & serializer)
+    - `registration-schema` (including related adapter & serializer)
 - Components:
-    - `draft-registrations-blurb` - used for lists of draft registrations
+    - `draft-registration-card` - summary card for draft registrations
+    - `node-list` - produce a paginated list of nodes from a relationship
 - Routes:
     - `guid-node/registrations` - registrations tab
 
@@ -17,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Models:
     - `osf-model` - add `relatedCounts` attribute and `incrementRelatedCount()`/`decrementRelatedCount()` methods
     - `registration` - add `archiving` attribute and `registrationSchema` relationship
-    - `draft-registration` - changed `registrationSchema` relationship type to be `registration-metaschema`
+    - `draft-registration` - changed `registrationSchema` relationship type to be `registration-schema`
 - Adapters:
     - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
 - Serializers:
@@ -37,7 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `guid-registration/forks` - use placeholder for forks list
     - `resolve-guid/resolved-guid-route` - pass-through query params to `routeContext.setGuid()`
 - Engines:
-    - `analytics-page` - use placeholder for linked nodes list
+    - `analytics-page` - use `node-list` component for linked nodes list
 - Handbook:
     - Fix link styling, remove double underline
     - Update ember-cli-addon-docs dependency
