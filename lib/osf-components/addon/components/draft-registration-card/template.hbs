@@ -15,9 +15,9 @@
                     <div class="progress-bar" style={{progressStyle}}></div>
                 </div>
             {{/if}}
-            <p>{{t 'draft_registrations_card.initiated_by'}} {{draftRegistration.initiator.fullName}}</p>
-            <p>{{t 'draft_registrations_card.started'}} {{moment draftRegistration.datetimeInitiated}}</p>
-            <p>{{t 'draft_registrations_card.last_updated'}} {{moment draftRegistration.datetimeUpdated}}</p>
+            <p>{{t 'osf-components.draft-registration-card.initiated_by'}} {{draftRegistration.initiator.fullName}}</p>
+            <p>{{t 'osf-components.draft-registration-card.started'}} {{moment draftRegistration.datetimeInitiated}}</p>
+            <p>{{t 'osf-components.draft-registration-card.last_updated'}} {{moment draftRegistration.datetimeUpdated}}</p>
         {{else}}
             {{#content-placeholders as |placeholder|}}
                 {{placeholder.text lines=3}}
@@ -37,7 +37,7 @@
                     <h4>{{t 'general.please_confirm'}}</h4>
                 {{/modal.header}}
                 {{#modal.body}}
-                    {{t 'draft_registrations_card.delete_draft_confirm'}}
+                    {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
                 {{/modal.body}}
                 {{#modal.footer}}
                     {{#bs-button onClick=(action modal.close) type='default'}}
@@ -51,7 +51,7 @@
         </div>
         <div class="col-md-1">
             {{#bs-button type='success' onClick=(action register) disabled=(not enableRegister)}}
-                {{t 'draft_registrations_card.register'}}
+                {{t 'osf-components.draft-registration-card.register'}}
             {{/bs-button}}
         </div>
     </div>
