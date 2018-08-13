@@ -1,10 +1,11 @@
 const { spawnSync } = require('child_process');
 
-module.exports = function(locale, localesOutDir) {
-    const outDir = `${localesOutDir}/${locale}`;
+module.exports = function(locale, appOrAddon, localesOutDir) {
+    const outDir = `${localesOutDir}/${appOrAddon}/${locale}`;
+    const baseDir = appOrAddon === 'app' ? 'app' : `lib/${appOrAddon}/addon`;
     return {
         result: spawnSync('tsc', [
-            `app/locales/${locale}/translations.ts`,
+            `${baseDir}/locales/${locale}/translations.ts`,
             '--skipLibCheck',
             '--module',
             'commonjs',
