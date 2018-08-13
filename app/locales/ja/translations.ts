@@ -518,7 +518,7 @@ export default {
         },
         tags: 'Tags:',
     },
-    draft_registrations_blurb: {
+    draft_registrations_card: {
         initiated_by: 'Initiated by:',
         started: 'Started:',
         last_updated: 'Last updated:',

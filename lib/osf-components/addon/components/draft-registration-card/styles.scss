@@ -1,4 +1,4 @@
-.DraftRegistrationBlurb {
+.DraftRegistrationCard {
     :global(.ember-content-placeholders-text__line) {
         height: 1em;
     }
@@ -12,13 +12,13 @@
     }
 }
 
-.DraftRegistratrionBlurb__title {
+.DraftRegistratrionCard__title {
     :global(.ember-content-placeholders-text) {
         width: 50%;
     }
 }
 
-.DraftRegistratrionBlurb__body {
+.DraftRegistratrionCard__body {
     :global(.ember-content-placeholders-text) {
         width: 33%;
     }

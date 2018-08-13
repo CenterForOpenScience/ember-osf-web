@@ -519,7 +519,7 @@ export default {
         private_tooltip: 'This project is private',
         tags: 'Tags:',
     },
-    draft_registrations_blurb: {
+    draft_registrations_card: {
         initiated_by: 'Initiated by:',
         started: 'Started:',
         last_updated: 'Last updated:',

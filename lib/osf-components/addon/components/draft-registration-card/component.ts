@@ -14,8 +14,8 @@ import layout from './template';
 
 const { OSF: { url: baseURL } } = config;
 
-@localClassNames('DraftRegistrationBlurb')
-export default class DraftRegistrationBlurb extends Component {
+@localClassNames('DraftRegistrationCard')
+export default class DraftRegistrationCard extends Component {
     layout = layout;
     styles = styles;
 
@@ -92,19 +92,19 @@ export default class DraftRegistrationBlurb extends Component {
     }
 
     @action
-    delete(this: DraftRegistrationBlurb) {
+    delete(this: DraftRegistrationCard) {
         this.analytics.click('button', 'Draft Registrations - Delete');
         this.set('deleteModalOpen', true);
     }
 
     @action
-    cancelDelete(this: DraftRegistrationBlurb) {
+    cancelDelete(this: DraftRegistrationCard) {
         this.analytics.click('button', 'Draft Registrations - Cancel Delete');
         this.set('deleteModalOpen', false);
     }
 
     @action
-    async confirmDelete(this: DraftRegistrationBlurb) {
+    async confirmDelete(this: DraftRegistrationCard) {
         this.analytics.click('button', 'Draft Registrations - Confirm Delete');
         this.set('deleteModalOpen', false);
         await this.draftRegistration.destroyRecord();
