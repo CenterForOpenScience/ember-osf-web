@@ -4,26 +4,20 @@
             {{#bs-tab activeId=activeTab onChange=(action changeTab) as |tab|}}
                 {{#tab.pane id='registrations' title=(t 'node.registrations.registrations')}}
                     <div class="row" local-class="RegistrationsPane">
-                        <ul class="list-group">
-                            {{#paginated-relation
-                                modelTaskInstance=model.taskInstance
-                                relationshipName='registrations'
-                                reload=reloadRegistrations
-                                queryParams=registrationsQueryParams
-                                analyticsScope='Project Registrations'
-                                as |pr|
-                            }}
-                                {{#pr.item as |registration|}}
-                                    {{node-card node=registration showTags=true}}
-                                {{/pr.item}}
-
-                                {{#pr.empty}}
-                                    <p>{{t 'node.registrations.no_registrations'}}</p>
-                                    <p>{{t 'node.registrations.start_new'}}</p>
-                                    <p>{{t 'node.registrations.learn_more' learnMoreLink='http://help.osf.io/m/registrations/l/524205-register-your-project'}}</p>
-                                {{/pr.empty}}
-                            {{/paginated-relation}}
-                        </ul>
+                        {{#node-list
+                            modelTaskInstance=this.model.taskInstance
+                            relationshipName='registrations'
+                            showTags=true
+                            reload=this.reloadRegistrations
+                            analyticsScope='Project Registrations'
+                            as |nl|
+                        }}
+                            {{#nl.empty}}
+                                <p>{{t 'node.registrations.no_registrations'}}</p>
+                                <p>{{t 'node.registrations.start_new'}}</p>
+                                <p>{{t 'node.registrations.learn_more' learnMoreLink='http://help.osf.io/m/registrations/l/524205-register-your-project'}}</p>
+                            {{/nl.empty}}
+                        {{/node-list}}
                     </div>
                 {{/tab.pane}}
                 {{#if model.taskInstance.value.isAdmin}}

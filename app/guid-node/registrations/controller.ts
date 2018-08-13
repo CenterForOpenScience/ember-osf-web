@@ -18,7 +18,6 @@ export default class GuidNodeRegistrations extends Controller {
     queryParams = ['tab'];
     tab?: string;
 
-    registrationsQueryParams = { embed: ['contributors', 'registration_schema'] };
     draftsQueryParams = { embed: ['initiator', 'registration_schema', 'branched_from'] };
     defaultSchema!: RegistrationSchema;
     selectedSchema!: RegistrationSchema;

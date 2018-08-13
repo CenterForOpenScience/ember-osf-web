@@ -51,7 +51,6 @@ export default class ApplicationController extends Controller {
 
     activeDateRange = this.dateRanges[0];
     linksModalShown = false;
-    linksQueryParams = { embed: 'contributors' };
 
     hideAdblockWarning = Boolean(this.cookies.read(dismissAdblockCookie));
     userIsBot = navigator.userAgent.includes('Prerender');

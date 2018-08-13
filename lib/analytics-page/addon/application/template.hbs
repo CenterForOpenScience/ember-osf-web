@@ -34,20 +34,16 @@
                                 closeTitle=(t 'general.close')
                                 onHide=(action 'hideLinksModal')
                             }}
-                                {{#paginated-relation
-                                    model=node
+                                {{#node-list
+                                    modelTaskInstance=this.model.taskInstance
                                     relationshipName='linkedByNodes'
-                                    queryParams=linksQueryParams
-                                    as |pr|
+                                    analyticsScope='Project Analytics - Links'
+                                    as |nl|
                                 }}
-                                    {{#pr.item as |node|}}
-                                        {{node-card node=node}}
-                                    {{/pr.item}}
-
-                                    {{#pr.empty}}
+                                    {{#nl.empty}}
                                         {{t 'analytics.noLinks'}}
-                                    {{/pr.empty}}
-                                {{/paginated-relation}}
+                                    {{/nl.empty}}
+                                {{/node-list}}
                             {{/bs-modal-simple}}
                         {{/if}}
                     {{/if}}
