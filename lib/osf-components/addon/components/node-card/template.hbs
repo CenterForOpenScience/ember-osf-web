@@ -22,7 +22,7 @@
                 <span class="label label-primary">{{t 'node_card.registration.statuses.archiving'}}</span> |
             {{/if}}
             {{node-card/node-icon category=@node.category}}
-            <a href='/{{@node.id}}/' onclick={{action 'click' 'link' 'Node Card - Title' target=this.analytics}}>{{@node.title}}</a> |
+            <a href='/{{@node.id}}/' onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Title') target=this.analytics}}>{{@node.title}}</a> |
             {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}} {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
         {{else}}
             {{#content-placeholders as |placeholder|}}
@@ -39,12 +39,12 @@
                     {{/dd.button}}
                     {{#dd.menu class='dropdown-menu-right' local-class='NodeCard__dropdown-list'}}
                         <li role='menuitem'>
-                            <a local-class='NodeCard__dropdown-link' href="/{{@node.id}}/contributors/" onclick={{action 'click' 'link' 'Node Card - Manage Contributors' target=this.analytics}}>
+                            <a local-class='NodeCard__dropdown-link' href="/{{@node.id}}/contributors/" onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Manage Contributors') target=this.analytics}}>
                                 {{t 'node_card.fork.manage_contributors'}}
                             </a>
                         </li>
                         <li role='menuitem'>
-                            <a local-class='NodeCard__dropdown-link' href="/{{@node.id}}/settings/" onclick={{action 'click' 'link' 'Node Card - Settings' target=analytics}}>
+                            <a local-class='NodeCard__dropdown-link' href="/{{@node.id}}/settings/" onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Settings') target=analytics}}>
                                 {{t 'general.settings'}}
                             </a>
                         </li>

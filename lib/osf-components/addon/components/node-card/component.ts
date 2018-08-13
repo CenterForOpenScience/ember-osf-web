@@ -25,6 +25,7 @@ export default class NodeCard extends Component {
     node?: Node | Registration;
     delete?: (node: Node) => void;
     showTags: boolean = defaultTo(this.showTags, false);
+    analyticsScope?: string;
 
     // Private properties
     searchUrl = pathJoin(baseURL, 'search');
@@ -44,9 +45,14 @@ export default class NodeCard extends Component {
         return undefined;
     }
 
+    @computed('analyticsScope')
+    get analyticsScopePrefix() {
+        return this.analyticsScope ? `${this.analyticsScope} - ` : '';
+    }
+
     @action
     clickTag(tag: string): void {
-        this.analytics.click('link', `Node Card - Tag: ${tag}`);
+        this.analytics.click('link', `${this.analyticsScopePrefix}Node Card - Tag: ${tag}`);
         window.location.assign(`${this.searchUrl}?q=(tags:"${tag}")`);
     }
 }
