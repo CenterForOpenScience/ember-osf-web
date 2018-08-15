@@ -26,7 +26,7 @@ export default class Contributor extends OsfModel {
 
     @belongsTo('user', { inverse: 'contributors' }) users!: DS.PromiseObject<User> & User;
 
-    @belongsTo('node', { inverse: 'contributors' }) node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'contributors', polymorphic: true }) node!: DS.PromiseObject<Node> & Node;
 }
 
 declare module 'ember-data' {
