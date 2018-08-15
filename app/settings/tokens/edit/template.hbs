@@ -5,7 +5,7 @@
     {{/link-to}}
 </div>
 
-{{#if this.tokenId}}
+{{#if this.token.id}}
     <hr>
     <div local-class='NewToken'>
         <p class='text-success'>
@@ -22,14 +22,12 @@
         <p>
             {{t 'settings.tokens.createSuccess.idDescription' tokenName=this.token.name}}
             <samp local-class='NewTokenId'>
-                {{this.tokenId}}
+                {{this.token.id}}
             </samp>
             {{#copy-button
-                clipboardText=this.tokenId
-                success=(action this.copySuccess)
-                error=(action this.copyError)
+                clipboardText=this.token.id
             }}
-                {{t 'settings.token.copyToken'}}
+                {{t 'settings.tokens.copyToken'}}
             {{/copy-button}}
         </p>
     </div>
