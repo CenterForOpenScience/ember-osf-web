@@ -13,7 +13,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
-import loadAll from 'ember-osf-web/utils/load-relationship';
 
 export default class GuidFile extends ResolvedGuidRoute {
     @service analytics!: Analytics;
@@ -47,7 +46,7 @@ export default class GuidFile extends ResolvedGuidRoute {
             const fileId = file.get('id');
             const fileUser: User = await file.get('user');
             const user: User = await fileUser.reload();
-            const files: File[] = (await loadAll(user, 'quickfiles', { 'page[size]': 100 }))
+            const files: File[] = (await user.loadAll('quickfiles'))
                 .map((item: File) => {
                     item.set('isSelected', item.get('id') === fileId);
                     return item;

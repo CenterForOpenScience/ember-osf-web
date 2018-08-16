@@ -29,6 +29,11 @@ export interface QueryHasManyResult<T extends keyof ModelRegistry> extends Array
     links?: Links | PaginationLinks;
 }
 
+export interface PaginatedQueryOptions {
+    'page[size]': number;
+    page: number;
+}
+
 /**
  * Common properties and behaviors shared by all OSF APIv2 models
  *
@@ -94,6 +99,39 @@ export default class OsfModel extends Model {
         } else {
             throw new Error(`Unexpected response while loading relationship ${this.modelName}.${propertyName}`);
         }
+    }
+
+    /*
+     * Load all values for a hasMany relationship with query params and automatic depagination.
+     *
+     * @method loadAll
+     * @param {String} relationshipName Name of a hasMany relationship on the model
+     * @param {Object} queryParams A hash to be serialized into the query string of the request
+     * @param {Number} [totalPreviouslyLoaded] The number of results previously loaded (used for recursion)
+     * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
+     */
+    async loadAll<T extends keyof ModelRegistry>(
+        relationshipName: RelationshipsFor<this>,
+        queryParams: PaginatedQueryOptions = { 'page[size]': 100, page: 1 },
+        totalPreviouslyLoaded = 0,
+    ): Promise<QueryHasManyResult<T> | Array<ModelRegistry[T]>> {
+        const currentResults = await this.queryHasMany<T>(relationshipName, queryParams);
+
+        const { meta: { total } } = currentResults;
+
+        const totalLoaded = totalPreviouslyLoaded + currentResults.length;
+
+        if (totalLoaded < total) {
+            return currentResults.concat(
+                await this.loadAll(
+                    relationshipName,
+                    { ...queryParams, page: (queryParams.page || 0) + 1 },
+                    totalLoaded,
+                ),
+            );
+        }
+
+        return currentResults;
     }
 
     /*
