@@ -56,7 +56,7 @@ export default class PaginatedList extends Component {
 
     loadItemsTask = task(function *(this: PaginatedList) {
         const model = yield this.get('getModelTask').perform();
-        const items = yield model.queryHasManyTask.linked().perform(
+        const items = yield model.queryHasMany(
             this.relationshipName,
             {
                 page: this.page,
