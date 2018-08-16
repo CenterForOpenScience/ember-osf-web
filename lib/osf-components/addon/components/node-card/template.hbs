@@ -31,7 +31,7 @@
         {{/if}}
     </span>
     {{#if @node}}
-        {{#if (and @node.isFork @node.canEdit)}}
+        {{#if (and @node.isFork @node.currentUserCanEdit)}}
             <div class="pull-right generic-dropdown" local-class="NodeCard__dropdown">
                 {{#bs-dropdown as |dd|}}
                     {{#dd.button local-class='NodeCard__dropdown-button'}}

@@ -20,7 +20,7 @@
                         {{/node-list}}
                     </div>
                 {{/tab.pane}}
-                {{#if model.taskInstance.value.isAdmin}}
+                {{#if this.model.taskInstance.value.currentUserIsAdmin}}
                     {{#tab.pane id='drafts' title=(t 'node.registrations.draft_registrations')}}
                         <div class="row" local-class="RegistrationsPane">
                             <ul class="list-group">
@@ -48,7 +48,7 @@
                 {{/if}}
             {{/bs-tab}}
         </div>
-        {{#if model.taskInstance.value.isAdmin}}
+        {{#if this.model.taskInstance.value.currentUserIsAdmin}}
             <div class="col-xs-3 col-sm-4">
                 {{#bs-button type='success' onClick=(action openNewModal)}}
                     {{t 'node.registrations.new'}}

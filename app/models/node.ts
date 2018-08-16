@@ -132,22 +132,22 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     /**
      * Does the current user have write permission on this node?
-     * @property canEdit
+     * @property currentUserCanEdit
      * @type boolean
      */
     @computed('currentUserPermissions')
-    get canEdit() {
-        return this.currentUserPermissions.includes(Permission.Write);
+    get currentUserCanEdit() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Write);
     }
 
     /**
      * Is the current user an admin on this node?
-     * @property isAdmin
+     * @property currentUserIsAdmin
      * @type boolean
      */
     @computed('currentUserPermissions')
-    get isAdmin() {
-        return this.currentUserPermissions.includes(Permission.Admin);
+    get currentUserIsAdmin() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);
     }
 
     /**
