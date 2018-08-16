@@ -24,7 +24,7 @@ export enum Permission {
     Admin = 'admin',
 }
 
-export interface QueryHasManyResult<T extends keyof ModelRegistry> extends Array<ModelRegistry[T]> {
+export interface QueryHasManyResult<T extends ModelRegistry[keyof ModelRegistry]> extends Array<T> {
     meta: PaginatedMeta;
     links?: Links | PaginationLinks;
 }
@@ -62,7 +62,7 @@ export default class OsfModel extends Model {
      * @param {Object} [ajaxOptions] A hash of options to be passed to jQuery.ajax
      * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
      */
-    async queryHasMany<T extends keyof ModelRegistry>(
+    async queryHasMany<T extends ModelRegistry[keyof ModelRegistry]>(
         propertyName: RelationshipsFor<this>,
         queryParams?: object,
         ajaxOptions?: object,
@@ -90,7 +90,7 @@ export default class OsfModel extends Model {
                 datum => this.store.peekRecord(
                     (dasherize(singularize(datum.type)) as keyof ModelRegistry),
                     datum.id,
-                ) as ModelRegistry[T],
+                ) as T,
             );
             const { meta, links } = response as ResourceCollectionDocument;
             return Object.assign(records, { meta, links });
@@ -110,11 +110,11 @@ export default class OsfModel extends Model {
      * @param {Number} [totalPreviouslyLoaded] The number of results previously loaded (used for recursion)
      * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
      */
-    async loadAll<T extends keyof ModelRegistry>(
+    async loadAll<T extends ModelRegistry[keyof ModelRegistry]>(
         relationshipName: RelationshipsFor<this>,
         queryParams: PaginatedQueryOptions = { 'page[size]': 100, page: 1 },
         totalPreviouslyLoaded = 0,
-    ): Promise<QueryHasManyResult<T> | Array<ModelRegistry[T]>> {
+    ): Promise<QueryHasManyResult<T>> {
         const currentResults = await this.queryHasMany<T>(relationshipName, queryParams);
 
         const { meta: { total } } = currentResults;
@@ -122,8 +122,8 @@ export default class OsfModel extends Model {
         const totalLoaded = totalPreviouslyLoaded + currentResults.length;
 
         if (totalLoaded < total) {
-            return currentResults.concat(
-                await this.loadAll(
+            currentResults.pushObjects(
+                await this.loadAll<T>(
                     relationshipName,
                     { ...queryParams, page: (queryParams.page || 0) + 1 },
                     totalLoaded,
