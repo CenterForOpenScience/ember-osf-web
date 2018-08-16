@@ -9,7 +9,7 @@ import { singularize } from 'ember-inflector';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-import OSFAPI from 'osf-api';
+import { Document as ApiResponseDocument } from 'osf-api';
 
 const { Model } = DS;
 
@@ -60,7 +60,7 @@ export default class OsfModel extends Model.extend({
             ...ajaxOptions,
         };
 
-        const response: OSFAPI.Document = yield this.currentUser.authenticatedAJAX(options);
+        const response: ApiResponseDocument = yield this.currentUser.authenticatedAJAX(options);
 
         if ('data' in response && Array.isArray(response.data)) {
             store.pushPayload(response);
@@ -122,7 +122,7 @@ export default class OsfModel extends Model.extend({
         const errorContext = `while loading related counts for ${this.modelName}.${relationshipName}`;
 
         // Get related count with sparse fieldset.
-        const response: OSFAPI.Document = await this.currentUser.authenticatedAJAX({
+        const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX({
             url: this.links.self,
             data: {
                 related_counts: apiRelationshipName,

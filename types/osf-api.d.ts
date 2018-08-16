@@ -1,93 +1,71 @@
-/* eslint-disable no-use-before-define,space-infix-ops */
+/* eslint-disable no-use-before-define,camelcase */
 
 import * as JSONAPI from 'jsonapi-typescript';
 
-namespace OSFAPI {
+export type Document = DataDocument | ErrorDocument;
 
-    type Document<
-        T extends Document.Data.Data = Document.Data.Data
-        > = Document.Data<T> | Document.Error;
+export type DataDocument = SingleResourceDocument | ResourceCollectionDocument;
 
-    namespace Document {
-
-        interface DocBase {
-            meta: {
-                version: string;
-            };
-            links: JSONAPI.Links;
-        }
-
-        interface Data<T extends Data.Data = Data.Data> extends DocBase {
-            data: T;
-        }
-
-        namespace Data {
-
-            type Data<
-                T extends string = string,
-                A extends Attributes = Attributes
-                > = Resource<T, A> | Array<Resource<T, A>>;
-
-            type SingleResource<
-                T extends string = string,
-                A extends Attributes = Attributes
-                > = Document.Data<Resource<T, A>>;
-
-            type CollectionResource<
-                T extends string = string,
-                A extends Attributes = Attributes
-                > = Document.Data<Array<Resource<T, A>>>;
-
-            type Attributes = JSONAPI.AttributesObject;
-
-            interface Resource<
-                T extends string = string,
-                A extends Attributes = Attributes
-            > extends JSONAPI.ResourceObject<T, A> {
-                id: string | number;
-                relationships?: Relationships;
-                embeds?: any;
-            }
-
-            interface Relationships {
-                [k: string]: Relationship;
-            }
-
-            type Relationship = Relationship.WithData | Relationship.WithLinks;
-
-            namespace Relationship {
-
-                interface WithData {
-                    data: JSONAPI.ResourceLinkage;
-                }
-
-                interface WithLinks {
-                    links: RelatedLink;
-                }
-
-                interface RelatedLink {
-                    related: {
-                        href: string;
-                        meta: RelationshipMeta;
-                    };
-                }
-
-                interface RelationshipMeta {
-                    count?: number;
-                }
-
-            }
-
-        }
-
-        interface Error extends DocBase {
-            errors: JSONAPI.Errors;
-        }
-
-    }
-
+export interface ErrorDocument extends DocBase {
+    errors: JSONAPI.Errors;
 }
 
-export default OSFAPI;
+export interface SingleResourceDocument extends DocBase {
+    data: Resource;
+}
 
-/* eslint-enable no-use-before-define,space-infix-ops */
+export interface ResourceCollectionDocument extends DocBase {
+    data: Resource[];
+    meta: PaginatedMeta;
+}
+
+export interface DocBase extends JSONAPI.DocBase {
+    meta: BaseMeta;
+}
+
+export interface PaginatedMeta extends BaseMeta {
+    total: number;
+    per_page: number;
+}
+
+export interface BaseMeta {
+    version: string;
+    total_bibliographic?: number;
+}
+
+export interface Resource extends JSONAPI.ResourceObject {
+    id: string | number;
+    relationships?: Relationships;
+    embeds?: Embeds;
+}
+
+export interface Relationships {
+    [k: string]: Relationship;
+}
+
+export interface Embeds {
+    [k: string]: DataDocument;
+}
+
+export type Relationship = RelationshipWithData | RelationshipWithLinks;
+
+export interface RelationshipWithData {
+    data: JSONAPI.ResourceLinkage;
+}
+
+export interface RelationshipWithLinks {
+    links: RelatedLink;
+}
+
+export interface RelatedLink {
+    related: {
+        href: string;
+        meta: RelatedLinkMeta;
+    };
+}
+
+export interface RelatedLinkMeta {
+    count?: number;
+}
+
+/* eslint-enable no-use-before-define,camelcase */
