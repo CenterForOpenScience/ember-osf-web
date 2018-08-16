@@ -2,9 +2,10 @@ import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { set } from '@ember/object';
-import { underscore } from '@ember/string';
+import { dasherize, underscore } from '@ember/string';
 import { task } from 'ember-concurrency';
 import DS, { ModelRegistry } from 'ember-data';
+import { singularize } from 'ember-inflector';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 
@@ -59,13 +60,15 @@ export default class OsfModel extends Model.extend({
             ...ajaxOptions,
         };
 
-        const response: OSFAPI.Document<OSFAPI.Document.Data.Data<keyof ModelRegistry>> =
-            yield this.currentUser.authenticatedAJAX(options);
+        const response: OSFAPI.Document = yield this.currentUser.authenticatedAJAX(options);
 
         if ('data' in response && Array.isArray(response.data)) {
             store.pushPayload(response);
             const records: QueryHasManyResult = response.data.map(
-                datum => store.peekRecord(datum.type, datum.id),
+                datum => store.peekRecord(
+                    (dasherize(singularize(datum.type)) as keyof ModelRegistry),
+                    datum.id,
+                ),
             );
             records.meta = response.meta;
             records.links = response.links;
