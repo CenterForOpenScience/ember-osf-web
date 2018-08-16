@@ -1,7 +1,5 @@
 import config from 'ember-get-config';
 
-const { featureFlagNames: { navigation } } = config;
-
 const osfUrl = config.OSF.url;
 const serviceLinks = {
     exploreActivity: `${osfUrl}explore/activity/`,
@@ -24,31 +22,6 @@ const serviceLinks = {
     institutionsLanding: `${osfUrl}institutions/`,
 };
 
-const osfServices = [
-    {
-        name: 'HOME',
-        url: serviceLinks.osfHome,
-    },
-    {
-        name: 'PREPRINTS',
-        url: serviceLinks.preprintsHome,
-    },
-    {
-        name: 'REGISTRIES',
-        url: serviceLinks.registriesHome,
-    },
-    {
-        name: 'MEETINGS',
-        url: serviceLinks.meetingsHome,
-    },
-    {
-        name: 'INSTITUTIONS',
-        url: serviceLinks.institutionsLanding,
-        flag: navigation.institutions,
-    },
-];
-
 export {
     serviceLinks,
-    osfServices,
 };

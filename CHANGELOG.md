@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `copyable-text` - display some read-only text with a button to copy it
     - `validated-input/checkboxes` - list of checkboxes to choose what belongs in a has-many relation
     - `paginated-list/all` - list of all models of a given type
+    - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
+    - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
 - Routes:
     - `guid-node/registrations` - registrations tab
     - `settings` - includes the settings side nav
@@ -59,6 +61,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `validated-input/recaptcha`
         - `validated-input/text`
         - `validated-input/textarea`
+    - `osf-navbar` - modified to yield a list home links for engines to override, if required
 - Routes:
     - `guid-node` - request `forks`, `registrations`, and `draft_registrations` related counts when resolving guid
     - `guid-node/forks` - use placeholder for forks list
