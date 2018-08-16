@@ -87,7 +87,7 @@ export default class PaginatedList extends Component {
             }
             return this.count % this.pageSize;
         }
-        return this.count;
+        return this.count || 0;
     }
 
     constructor(...args: any[]) {
