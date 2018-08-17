@@ -19,7 +19,7 @@
                     </p>
                     <a href="{{faqPageUrl}}" class="btn btn-info m-t-lg pull-right" onclick={{action 'click' 'link' 'Support - faq_button' target=analytics}}>
                         {{t 'support.faq_button'}}
-                        <i class="fa fa-angle-right"></i>
+                        {{fa-icon 'angle-right'}}
                     </a>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                     </p>
                     <a href="{{helpUrl}}" class="btn btn-info m-t-lg pull-right" target="_blank" rel="noreferrer" onclick={{action 'click' 'link' 'Support - guides_button' target=analytics}}>
                         {{t 'support.guides_button'}}
-                        <i class="fa fa-angle-right"></i>
+                        {{fa-icon 'angle-right'}}
                     </a>
                 </div>
             </div>
@@ -85,10 +85,10 @@
     <div class="row m-b-lg">
         <div class="col-sm-12 text-center" local-class="bold-links">
             <h4 class="m-t-md f-w-xl">{{t 'support.social_title'}}</h4>
-            <a href="{{twitterUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_twitter' target=analytics}}><i class="fa fa-twitter"></i> {{t 'support.social_twitter'}}</a>
-            <a href="{{mailingUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_email' target=analytics}}><i class="fa fa-users"></i> {{t 'support.social_mailing'}}</a>
-            <a href="{{facebookUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_facebook' target=analytics}}><i class="fa fa-facebook"></i> {{t 'support.social_facebook'}}</a>
-            <a href="{{githubUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_github' target=analytics}}><i class="fa fa-github"></i> {{t 'support.social_github'}}</a>
+            <a href="{{twitterUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_twitter' target=analytics}}>{{fa-icon 'twitter' prefix='fab'}} {{t 'support.social_twitter'}}</a>
+            <a href="{{mailingUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_email' target=analytics}}>{{fa-icon 'users'}} {{t 'support.social_mailing'}}</a>
+            <a href="{{facebookUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_facebook' target=analytics}}>{{fa-icon 'facebook' prefix='fab'}} {{t 'support.social_facebook'}}</a>
+            <a href="{{githubUrl}}" class="btn btn-link" onclick={{action 'click' 'link' 'Support - social_github' target=analytics}}>{{fa-icon 'github' prefix='fab'}} {{t 'support.social_github'}}</a>
         </div>
     </div>
 </div>

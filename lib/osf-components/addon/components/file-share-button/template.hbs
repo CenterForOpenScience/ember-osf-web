@@ -24,7 +24,7 @@
                                         aria-label={{t 'general.clipboard_copy'}}
                                         onclick={{action 'click' 'button' 'Quick Files - Share file' target=analytics}}
                                     {{action 'share'}}>
-                                    <div class='fa fa-copy'></div>
+                                    {{fa-icon 'copy'}}
                                 </button>
                             </span>
                             <input readonly='true' type='text' class='form-control SharePane__mfr-url'
@@ -42,7 +42,7 @@
                                                  preventDefault=false
                                                  target=analytics}}
                             >
-                                <i aria-hidden='true' class='fa fa-twitter'></i>
+                                {{fa-icon 'twitter' prefix='fab'}}
                             </a>
                             <a
                                 local-class='SharePane__share-link'
@@ -54,7 +54,7 @@
                                                  target=analytics
                                                  preventDefault=false}}
                             >
-                                <i aria-hidden='true' class='fa fa-facebook'></i>
+                                {{fa-icon 'facebook' prefix='fab'}}
                             </a>
                             <a
                                 local-class='SharePane__share-link'
@@ -66,7 +66,7 @@
                                                  preventDefault=false
                                                  target=analytics}}
                             >
-                                <i aria-hidden='true' class='fa fa-linkedin'></i>
+                                {{fa-icon 'linkedin' prefix='fab'}}
                             </a>
                             <a
                                 local-class='SharePane__share-link'
@@ -78,7 +78,7 @@
                                                  preventDefault=false
                                                  target=analytics}}
                             >
-                                <i aria-hidden='true' class='fa fa-envelope'></i>
+                                {{fa-icon 'envelope'}}
                             </a>
                         </div>
                     {{/tab.pane}}

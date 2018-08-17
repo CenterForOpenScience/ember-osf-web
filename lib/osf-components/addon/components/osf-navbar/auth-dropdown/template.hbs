@@ -15,25 +15,25 @@
             {{/if}}
             {{#ddm.item (html-attributes role='menuitem')}}
                 <a href="{{serviceLinks.profile}}" onclick={{action 'clicked' 'link' 'Navbar - MyProfile'}}>
-                    <i class="fa fa-user fa-lg p-r-xs"></i>
+                    {{fa-icon 'user'}}
                     {{t 'auth_dropdown.my_profile'}}
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
                 {{#link-to 'support' click=(action 'clicked' 'link' 'Navbar - Support')}}
-                    <i class="fa fa-life-ring fa-lg p-r-xs"></i>
+                    {{fa-icon 'life-ring'}}
                     {{t 'auth_dropdown.osf_support'}}
                 {{/link-to}}
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
                 <a href="{{serviceLinks.settings}}" onclick={{action 'clicked' 'link' 'Navbar - Settings'}}>
-                    <i class="fa fa-cog fa-lg p-r-xs"></i>
+                    {{fa-icon 'cog'}}
                     {{t 'general.settings'}}
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
                 <a class="logoutLink" {{action 'logout'}} onclick={{action 'clicked' 'button' 'Navbar - Logout'}} role="button">
-                    <i class="fa fa-sign-out fa-lg p-r-xs"></i>
+                    {{fa-icon 'sign-out-alt'}}
                     {{t 'auth_dropdown.log_out'}}
                 </a>
             {{/ddm.item}}

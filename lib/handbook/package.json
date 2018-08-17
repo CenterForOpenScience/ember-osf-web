@@ -14,7 +14,7 @@
     "ember-code-snippet": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
-    "ember-font-awesome": "*"
+    "@fortawesome/ember-fontawesome": "*"
   },
   "ember-addon": {
     "paths": [
