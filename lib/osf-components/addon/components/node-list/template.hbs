@@ -11,10 +11,6 @@
             {{node-card node=node showTags=@showTags analyticsScope=@analyticsScope}}
         {{/pr.item}}
 
-        {{#pr.empty}}
-            {{yield (hash
-                empty=(component 'paginated-relation/x-render')
-            )}}
-        {{/pr.empty}}
+        {{yield (hash empty=pr.empty)}}
     {{/paginated-relation}}
 </ul>
