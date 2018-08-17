@@ -80,12 +80,12 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @hasMany('preprint', { inverse: 'node' }) preprints!: DS.PromiseManyArray<Preprint>;
     @hasMany('institution', { inverse: 'nodes' })
     affiliatedInstitutions!: DS.PromiseManyArray<Institution> | Institution[];
-    @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
+    @hasMany('comment', { inverse: 'node' }) comments!: DS.PromiseManyArray<Comment>;
     @belongsTo('citation') citation!: DS.PromiseObject<Citation> & Citation;
 
     @belongsTo('license', { inverse: null }) license!: DS.PromiseObject<License> & License;
 
-    @hasMany('file-provider') files!: DS.PromiseManyArray<FileProvider>;
+    @hasMany('file-provider', { inverse: 'node' }) files!: DS.PromiseManyArray<FileProvider>;
 
     @hasMany('node', { inverse: null }) linkedNodes!: DS.PromiseManyArray<Node>;
     @hasMany('registration', { inverse: 'registeredFrom' }) registrations!: DS.PromiseManyArray<Registration>;
@@ -105,7 +105,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     @hasMany('wiki', { inverse: 'node' }) wikis!: DS.PromiseManyArray<Wiki>;
 
-    @hasMany('log') logs!: DS.PromiseManyArray<Log>;
+    @hasMany('log', { inverse: 'originalNode' }) logs!: DS.PromiseManyArray<Log>;
 
     // These are only computeds because maintaining separate flag values on different classes would be a
     // headache TODO: Improve.

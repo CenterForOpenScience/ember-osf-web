@@ -39,7 +39,7 @@ export default class Registration extends Node.extend() {
     @belongsTo('node', { inverse: 'registrations' }) registeredFrom!: DS.PromiseObject<Node> & Node;
     @belongsTo('user', { inverse: null }) registeredBy!: DS.PromiseObject<User> & User;
     @hasMany('contributor', { inverse: 'node' }) contributors!: DS.PromiseManyArray<Contributor>;
-    @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
+    @hasMany('comment', { inverse: 'node' }) comments!: DS.PromiseManyArray<Comment>;
     @belongsTo('registration-schema', { inverse: null })
     registrationSchema!: DS.PromiseObject<RegistrationSchema> & RegistrationSchema;
 }
