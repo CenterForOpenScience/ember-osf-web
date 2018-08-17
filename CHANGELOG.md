@@ -12,7 +12,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Fix link styling, remove double underline
     - Update ember-cli-addon-docs dependency
 - Misc:
-    - upgrade to ember(-(cli|data))@~3.3.0
+    - Upgrade to ember(-(cli|data))@~3.3.0
+    - Upgrade to FontAwesome 5 Pro
+
+### Removed
+- Components:
+    - `institution-carousel` - was incompatible with FA5 and also was no longer necessary
+    - `search-dropdown` - was never ever used
 
 ## [0.7.0] - 2018-08-07
 ### Added

@@ -5,14 +5,14 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import layout from './template';
 
 const iconMap: { [index: string]: string } = {
-    hypothesis: 'lightbulb-o',
-    'methods and measures': 'pencil',
+    hypothesis: 'lightbulb',
+    'methods and measures': 'pencil-alt',
     procedure: 'cogs',
     instrumentation: 'flask',
     data: 'database',
     software: 'laptop',
     project: 'cube',
-    analysis: 'bar-chart',
+    analysis: 'chart-bar',
     communication: 'comment',
     other: 'th-large',
     collection: 'cubes',
@@ -21,7 +21,7 @@ const iconMap: { [index: string]: string } = {
     component: 'th-large',
     registeredComponent: 'th-large',
     link: 'link',
-    preprint: 'file-text',
+    preprint: 'file-alt',
 };
 
 @tagName('span')
@@ -32,7 +32,7 @@ export default class NodeBlurbNodeIcon extends Component {
 
     @computed('category')
     get iconType(this: NodeBlurbNodeIcon): string {
-        return iconMap[this.get('category')] || 'circle-o-notch';
+        return iconMap[this.get('category')] || 'circle-notch';
     }
 
     @className('text-muted', '')

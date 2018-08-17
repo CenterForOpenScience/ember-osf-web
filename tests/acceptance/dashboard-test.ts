@@ -29,26 +29,6 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
     });
 
-    test('institutions carousel', async assert => {
-        const currentUser = server.create('user');
-        server.create('root', { currentUser });
-        const institutions = server.createList('institution', 20);
-
-        await visit('/dashboard');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
-        assert.dom(`[data-test-institution-carousel] img[name*="${institutions[0].name}"]`).exists();
-        assert.dom('[data-test-institution-carousel-item="1"]').exists();
-        assert.dom('[data-test-institution-carousel-item="6"]').isNotVisible();
-
-        // Click next to make item six visible
-        await click('.carousel-control.right');
-
-        assert.dom(`[data-test-institution-carousel-item] a[href="/institutions/${institutions[6].id}"]`)
-            .exists('Institutions are linked properly');
-
-        assert.dom('[data-test-institution-carousel-item="6"]').isVisible();
-    });
-
     test('popular projects and new/noteworthy titles', async assert => {
         const currentUser = server.create('user');
         server.create('root', { currentUser });

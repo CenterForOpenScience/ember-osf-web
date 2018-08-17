@@ -26,6 +26,9 @@ You will need the following things properly installed on your computer.
 * `cd ember-osf-web`
 * `yarn --frozen-lockfile`
 
+### Font Awesome 5 Pro
+We are using some pro icons from Font Awesome 5. To get those, go to [the Developer Credentials OSF project](https://osf.io/m2hig/wiki/Font%20Awesome%205/) and follow the directions there.
+
 ## Running / Development
 
 ### Mac OS File Descriptor Limits
