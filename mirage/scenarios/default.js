@@ -14,16 +14,16 @@ export default function (server) {
     const nodes = server.createList('node', 10, {}, 'withContributors');
     server.create('node', {
         id: noteworthyNode,
-        linkedNodeIds: ['node1', 'node2', 'node3', 'node4', 'node5'],
+        linkedNodes: nodes.slice(0, 5),
         title: 'NNW',
     });
     server.create('node', {
         id: popularNode,
-        linkedNodeIds: ['node6', 'node7', 'node8', 'node9', 'nod10'],
+        linkedNodes: nodes.slice(5, 10),
         title: 'Popular',
     });
-    for (let i = 4; i < 10; i++) {
-        server.create('contributor', { node: nodes[i], users: currentUser, index: 11 });
+    for (const node of nodes.slice(4, 10)) {
+        server.create('contributor', { node, users: currentUser, index: 11 });
     }
     server.create('root', { currentUser });
     server.createList('institution', 20);

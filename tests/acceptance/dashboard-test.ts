@@ -23,16 +23,16 @@ module('Acceptance | dashboard', hooks => {
         const nodes = server.createList('node', 10, {}, 'withContributors');
         server.create('node', {
             id: noteworthyNode,
-            linkedNodeIds: ['node0', 'node1', 'node2', 'node3', 'node4'],
+            linkedNodes: nodes.slice(0, 5),
             title: 'NNW',
         });
         server.create('node', {
             id: popularNode,
-            linkedNodeIds: ['node5', 'node6', 'node7', 'node8', 'node9'],
+            linkedNodes: nodes.slice(5, 10),
             title: 'Popular',
         });
-        for (let i = 4; i < 10; i++) {
-            server.create('contributor', { node: nodes[i], users: currentUser, index: 11 });
+        for (const node of nodes.slice(4, 10)) {
+            server.create('contributor', { node, users: currentUser, index: 11 });
         }
         server.create('root', { currentUser });
         server.createList('institution', 20);
@@ -73,12 +73,12 @@ module('Acceptance | dashboard', hooks => {
         const nodes = server.createList('node', 10, {}, 'withContributors');
         server.create('node', {
             id: noteworthyNode,
-            linkedNodeIds: ['node0', 'node1', 'node2', 'node3', 'node4'],
+            linkedNodes: nodes.slice(0, 5),
             title: 'NNW',
         });
         server.create('node', {
             id: popularNode,
-            linkedNodeIds: ['node5', 'node6', 'node7', 'node8', 'node9'],
+            linkedNodes: nodes.slice(5, 10),
             title: 'Popular',
         });
         await visit('/dashboard');
@@ -126,12 +126,12 @@ module('Acceptance | dashboard', hooks => {
         const nodes = server.createList('node', 30, {}, 'withContributors');
         server.create('node', {
             id: noteworthyNode,
-            linkedNodeIds: ['node0', 'node1', 'node2', 'node3', 'node4'],
+            linkedNodes: nodes.slice(0, 5),
             title: 'NNW',
         });
         server.create('node', {
             id: popularNode,
-            linkedNodeIds: ['node5', 'node6', 'node7', 'node8', 'node9'],
+            linkedNodes: nodes.slice(5, 10),
             title: 'Popular',
         });
         for (const node of nodes) {
