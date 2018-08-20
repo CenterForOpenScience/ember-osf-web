@@ -1,6 +1,10 @@
 import { Factory, faker, trait } from 'ember-cli-mirage';
+import { guid } from './utils';
 
 export default Factory.extend({
+    id(i) {
+        return guid(i, 'user');
+    },
     fullName() {
         return `${faker.name.firstName()} ${faker.name.lastName()}`;
     },

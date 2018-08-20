@@ -12,8 +12,16 @@ module('Acceptance | dashboard', hooks => {
         // A fully loaded dashboard should have no major troubles
         const currentUser = server.create('user');
         const nodes = server.createList('node', 10, {}, 'withContributors');
-        server.create('node', { id: 'z3sg2', linkedNodeIds: ['1', '2', '3', '4', '5'], title: 'NNW' });
-        server.create('node', { id: '57tnq', linkedNodeIds: ['6', '7', '8', '9', '10'], title: 'Popular' });
+        server.create('node', {
+            id: 'z3sg2',
+            linkedNodeIds: ['node1', 'node2', 'node3', 'node4', 'node5'],
+            title: 'NNW',
+        });
+        server.create('node', {
+            id: '57tnq',
+            linkedNodeIds: ['node6', 'node7', 'node8', 'node9', 'nod10'],
+            title: 'Popular',
+        });
         for (let i = 4; i < 10; i++) {
             server.create('contributor', { node: nodes[i], users: currentUser, index: 11 });
         }
@@ -54,8 +62,16 @@ module('Acceptance | dashboard', hooks => {
         const currentUser = server.create('user');
         server.create('root', { currentUser });
         const nodes = server.createList('node', 10, {}, 'withContributors');
-        server.create('node', { id: 'z3sg2', linkedNodeIds: ['1', '2', '3', '4', '5'], title: 'NNW' });
-        server.create('node', { id: '57tnq', linkedNodeIds: ['6', '7', '8', '9', '10'], title: 'Popular' });
+        server.create('node', {
+            id: 'z3sg2',
+            linkedNodeIds: ['node1', 'node2', 'node3', 'node4', 'node5'],
+            title: 'NNW',
+        });
+        server.create('node', {
+            id: '57tnq',
+            linkedNodeIds: ['node6', 'node7', 'node8', 'node9', 'nod10'],
+            title: 'Popular',
+        });
         await visit('/dashboard');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         for (const node of nodes) {
@@ -97,8 +113,16 @@ module('Acceptance | dashboard', hooks => {
     test('user has many projects', async function(assert) {
         const currentUser = server.create('user');
         const nodes = server.createList('node', 30, {}, 'withContributors');
-        server.create('node', { id: 'z3sg2', linkedNodeIds: ['1', '2', '3', '4', '5'], title: 'NNW' });
-        server.create('node', { id: '57tnq', linkedNodeIds: ['6', '7', '8', '9', '10'], title: 'Popular' });
+        server.create('node', {
+            id: 'z3sg2',
+            linkedNodeIds: ['node1', 'node2', 'node3', 'node4', 'node5'],
+            title: 'NNW',
+        });
+        server.create('node', {
+            id: '57tnq',
+            linkedNodeIds: ['node6', 'node7', 'node8', 'node9', 'nod10'],
+            title: 'Popular',
+        });
         for (const node of nodes) {
             server.create('contributor', { node, users: currentUser, index: 11 });
         }
