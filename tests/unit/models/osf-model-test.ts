@@ -19,18 +19,18 @@ module('Unit | Model | osf-model', hooks => {
         await run(async () => {
             const userOne = server.create('user', { id: userId });
             const nodeList = server.createList('node', 3, {});
-            for (let i = 0; i < 3; i++) {
-                server.create('contributor', { node: nodeList[i], users: userOne });
+            for (const node of nodeList) {
+                server.create('contributor', { node, users: userOne });
             }
             const user = await store.findRecord('user', userId);
             assert.ok(!!user);
             assert.equal(user.get('id'), userId, 'Checking user id.');
-
-            const nodeIds = ['node0', 'node1', 'node2'];
+            const nodeIds = nodeList.map(node => node.id);
 
             const nodes = await user.queryHasMany('nodes');
 
             assert.equal(nodes.length, nodeIds.length);
+            assert.notEqual(nodes.length, 0);
             for (const node of nodes) {
                 assert.ok((nodeIds.indexOf(node.id) !== -1),
                     `All the node ids should be in the array, but ${node.id} isn't in nodeIds.`);
