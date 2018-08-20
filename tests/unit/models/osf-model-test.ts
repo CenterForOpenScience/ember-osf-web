@@ -17,7 +17,7 @@ module('Unit | Model | osf-model', hooks => {
         const userId = '1';
 
         await run(async () => {
-            const userOne = server.create('user');
+            const userOne = server.create('user', { id: userId });
             const nodeList = server.createList('node', 3, {});
             for (let i = 0; i < 3; i++) {
                 server.create('contributor', { node: nodeList[i], users: userOne });
@@ -26,7 +26,7 @@ module('Unit | Model | osf-model', hooks => {
             assert.ok(!!user);
             assert.equal(user.get('id'), userId, 'Checking user id.');
 
-            const nodeIds = ['1', '2', '3'];
+            const nodeIds = ['node0', 'node1', 'node2'];
 
             const nodes = await user.queryHasMany('nodes');
 
