@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Handbook:
     - Fix link styling, remove double underline
     - Update ember-cli-addon-docs dependency
+    - Add info for dev-env, testing, visual style, and written style
 - Misc:
     - upgrade to ember(-(cli|data))@~3.3.0
 - DX:
