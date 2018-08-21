@@ -1,4 +1,5 @@
 import { action, computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
@@ -45,6 +46,8 @@ export default class GuidNodeRegistrations extends Controller {
         this.set('selectedSchema', this.defaultSchema);
         this.set('schemas', schemas);
     });
+
+    @alias('model.taskInstance.value') node!: Node;
 
     @computed('tab')
     get activeTab() {
@@ -101,7 +104,7 @@ export default class GuidNodeRegistrations extends Controller {
         }
         const draftRegistration = this.store.createRecord('draft-registration', {
             registrationSupplement: this.selectedSchema.id,
-            branchedFrom: this.model.taskInstance.value,
+            branchedFrom: this.node,
             registrationSchema: this.selectedSchema,
         });
         await draftRegistration.save();

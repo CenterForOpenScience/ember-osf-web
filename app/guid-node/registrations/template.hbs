@@ -20,15 +20,15 @@
                         {{/node-list}}
                     </div>
                 {{/tab.pane}}
-                {{#if this.model.taskInstance.value.currentUserIsAdmin}}
+                {{#if this.node.currentUserIsAdmin}}
                     {{#tab.pane id='drafts' title=(t 'node.registrations.draft_registrations')}}
                         <div class="row" local-class="RegistrationsPane">
                             <ul class="list-group">
                                 {{#paginated-relation
-                                    modelTaskInstance=model.taskInstance
+                                    modelTaskInstance=this.model.taskInstance
                                     relationshipName='draftRegistrations'
-                                    reload=reloadDrafts
-                                    queryParams=draftsQueryParams
+                                    reload=this.reloadDrafts
+                                    queryParams=this.draftsQueryParams
                                     analyticsScope='Project Draft Registrations'
                                     as |pr|
                                 }}
@@ -48,7 +48,7 @@
                 {{/if}}
             {{/bs-tab}}
         </div>
-        {{#if this.model.taskInstance.value.currentUserIsAdmin}}
+        {{#if this.node.currentUserIsAdmin}}
             <div class="col-xs-3 col-sm-4">
                 {{#bs-button type='success' onClick=(action openNewModal)}}
                     {{t 'node.registrations.new'}}
