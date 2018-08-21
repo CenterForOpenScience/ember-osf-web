@@ -74,7 +74,7 @@ export default class Dashboard extends Controller {
 
         const user: User = yield this.currentUser.user;
 
-        const nodes = yield user.queryHasMany<Node>('nodes', {
+        const nodes = yield user.queryHasMany('nodes', {
             embed: ['contributors', 'parent', 'root'],
             filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
@@ -94,7 +94,7 @@ export default class Dashboard extends Controller {
     getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
         try {
             const node: Node = yield this.store.findRecord('node', id);
-            const linkedNodes = yield node.queryHasMany<Node>('linkedNodes', {
+            const linkedNodes = yield node.queryHasMany('linkedNodes', {
                 embed: 'contributors',
                 page: { size: 5 },
             });
@@ -108,7 +108,7 @@ export default class Dashboard extends Controller {
     searchNodes = task(function *(this: Dashboard, title: string) {
         yield timeout(500);
         const user: User = yield this.user;
-        return yield user.queryHasMany<Node>('nodes', { filter: { title } });
+        return yield user.queryHasMany('nodes', { filter: { title } });
     }).restartable();
 
     createNode = task(function *(

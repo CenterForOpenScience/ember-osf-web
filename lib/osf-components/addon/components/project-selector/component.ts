@@ -57,7 +57,7 @@ export default class ProjectSelector extends Component.extend({
             return [];
         }
 
-        const nodes = yield user.queryHasMany<Node>('nodes', {
+        const nodes = yield user.queryHasMany('nodes', {
             filter: filter ? { title: filter } : undefined,
         });
 
