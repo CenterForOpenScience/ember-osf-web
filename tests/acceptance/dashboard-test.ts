@@ -4,6 +4,15 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import config from 'ember-get-config';
+
+const {
+    dashboard: {
+        noteworthyNode,
+        popularNode,
+    },
+} = config;
+
 module('Acceptance | dashboard', hooks => {
     setupApplicationTest(hooks);
     setupMirage(hooks);
@@ -12,10 +21,18 @@ module('Acceptance | dashboard', hooks => {
         // A fully loaded dashboard should have no major troubles
         const currentUser = server.create('user');
         const nodes = server.createList('node', 10, {}, 'withContributors');
-        server.create('node', { id: 'z3sg2', linkedNodeIds: ['1', '2', '3', '4', '5'], title: 'NNW' });
-        server.create('node', { id: '57tnq', linkedNodeIds: ['6', '7', '8', '9', '10'], title: 'Popular' });
-        for (let i = 4; i < 10; i++) {
-            server.create('contributor', { node: nodes[i], users: currentUser, index: 11 });
+        server.create('node', {
+            id: noteworthyNode,
+            linkedNodes: nodes.slice(0, 5),
+            title: 'NNW',
+        });
+        server.create('node', {
+            id: popularNode,
+            linkedNodes: nodes.slice(5, 10),
+            title: 'Popular',
+        });
+        for (const node of nodes.slice(4, 10)) {
+            server.create('contributor', { node, users: currentUser, index: 11 });
         }
         server.create('root', { currentUser });
         server.createList('institution', 20);
@@ -54,16 +71,26 @@ module('Acceptance | dashboard', hooks => {
         const currentUser = server.create('user');
         server.create('root', { currentUser });
         const nodes = server.createList('node', 10, {}, 'withContributors');
-        server.create('node', { id: 'z3sg2', linkedNodeIds: ['1', '2', '3', '4', '5'], title: 'NNW' });
-        server.create('node', { id: '57tnq', linkedNodeIds: ['6', '7', '8', '9', '10'], title: 'Popular' });
+        server.create('node', {
+            id: noteworthyNode,
+            linkedNodes: nodes.slice(0, 5),
+            title: 'NNW',
+        });
+        server.create('node', {
+            id: popularNode,
+            linkedNodes: nodes.slice(5, 10),
+            title: 'Popular',
+        });
         await visit('/dashboard');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        let i = 0;
         for (const node of nodes) {
             const { id, title, description } = node.attrs;
             let projectType = 'noteworthy';
-            if (id > 5) {
+            if (i > 4) {
                 projectType = 'popular';
             }
+            i++;
             assert.dom(`[data-test-${projectType}-project="${id}"]`)
                 .exists(`The ${projectType} project ${id} exists`);
             assert.dom(`[data-test-${projectType}-project="${id}"] [data-test-nnwp-project-title]`)
@@ -97,8 +124,16 @@ module('Acceptance | dashboard', hooks => {
     test('user has many projects', async function(assert) {
         const currentUser = server.create('user');
         const nodes = server.createList('node', 30, {}, 'withContributors');
-        server.create('node', { id: 'z3sg2', linkedNodeIds: ['1', '2', '3', '4', '5'], title: 'NNW' });
-        server.create('node', { id: '57tnq', linkedNodeIds: ['6', '7', '8', '9', '10'], title: 'Popular' });
+        server.create('node', {
+            id: noteworthyNode,
+            linkedNodes: nodes.slice(0, 5),
+            title: 'NNW',
+        });
+        server.create('node', {
+            id: popularNode,
+            linkedNodes: nodes.slice(5, 10),
+            title: 'Popular',
+        });
         for (const node of nodes) {
             server.create('contributor', { node, users: currentUser, index: 11 });
         }
