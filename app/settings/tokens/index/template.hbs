@@ -1,4 +1,5 @@
 {{#paginated-list/all
+    data-test-token-list
     modelName='token'
     analyticsScope='Settings'
     reload=this.reloadList
@@ -6,7 +7,11 @@
 }}
     {{#list.item as |token|}}
         <div local-class='Token'>
-            {{#link-to 'settings.tokens.edit' token.id}}
+            {{#link-to
+                'settings.tokens.edit'
+                token.id
+                data-test-token-link=token.id
+            }}
                 {{token.name}}
             {{/link-to}}
 
@@ -20,6 +25,7 @@
                     size='xs'
                     onClick=modal.show
                     disabled=modal.disabled
+                    data-test-open-delete=token.id
                 }}
                     {{t 'settings.tokens.deleteToken'}}
                 {{/bs-button}}
@@ -28,14 +34,18 @@
     {{/list.item}}
 
     {{#list.empty}}
-        <div local-class='EmptyList'>
+        <div local-class='EmptyList' data-test-no-tokens>
             {{t 'settings.tokens.emptyList'}}
         </div>
     {{/list.empty}}
 {{/paginated-list/all}}
 
 <div local-class='ButtonBar'>
-    {{#link-to 'settings.tokens.create' class='btn btn-primary'}}
+    {{#link-to
+        data-test-create-token-link
+        'settings.tokens.create'
+        class='btn btn-primary'
+    }}
         {{t 'settings.tokens.createToken'}}
     {{/link-to}}
 </div>

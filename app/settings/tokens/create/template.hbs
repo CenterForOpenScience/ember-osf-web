@@ -1,5 +1,8 @@
 <div>
-    {{#link-to 'settings.tokens'}}
+    {{#link-to
+        data-test-tokens-link
+        'settings.tokens'
+    }}
         {{fa-icon 'arrow-left'}}
         {{t 'settings.tokens.backToList'}}
     {{/link-to}}
@@ -14,6 +17,7 @@
     as |form|
 }}
     {{#bs-button
+        data-test-create-token-button
         type='primary'
         buttonType='submit'
         disabled=form.submitting

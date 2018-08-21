@@ -13354,15 +13354,9 @@ tslint@^5.5.0:
     tslib "^1.8.0"
     tsutils "^2.12.1"
 
-tsutils@2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.8.0.tgz#0160173729b3bf138628dd14a1537e00851d814a"
-  dependencies:
-    tslib "^1.7.1"
-
-tsutils@^2.12.1, tsutils@^2.21.0:
-  version "2.21.1"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.21.1.tgz#5b23c263233300ed7442b4217855cbc7547c296a"
+tsutils@2.29.0, tsutils@2.8.0, tsutils@^2.12.1, tsutils@^2.21.0:
+  version "2.29.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.29.0.tgz#32b488501467acbedd4b85498673a0812aca0b99"
   dependencies:
     tslib "^1.8.1"
 

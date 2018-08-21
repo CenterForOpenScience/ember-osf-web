@@ -1,5 +1,6 @@
 {{#bs-form onSubmit=(perform this.saveTokenTask)}}
     {{validated-input/text
+        data-test-token-name
         tagName='span'
         model=this.token
         valuePath='name'
@@ -24,10 +25,10 @@
             as |cb|
         }}
             <div local-class='Scope'>
-                {{cb.checkbox}}
+                {{cb.checkbox data-test-scope-checkbox=cb.option.id}}
                 <label for={{cb.checkboxId}}>
                     {{cb.option.id}}
-                    <div local-class='Scope__description'>
+                    <div local-class='Scope__description' data-test-scope-description>
                         {{cb.option.description}}
                     </div>
                 </label>

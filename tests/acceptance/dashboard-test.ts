@@ -19,7 +19,7 @@ module('Acceptance | dashboard', hooks => {
 
     test('visiting /dashboard', async assert => {
         // A fully loaded dashboard should have no major troubles
-        const currentUser = server.create('user');
+        const currentUser = server.create('user', 'loggedIn');
         const nodes = server.createList('node', 10, {}, 'withContributors');
         server.create('node', {
             id: noteworthyNode,
@@ -34,7 +34,6 @@ module('Acceptance | dashboard', hooks => {
         for (const node of nodes.slice(4, 10)) {
             server.create('contributor', { node, users: currentUser, index: 11 });
         }
-        server.create('root', { currentUser });
         server.createList('institution', 20);
 
         await visit('/dashboard');
@@ -48,8 +47,7 @@ module('Acceptance | dashboard', hooks => {
     });
 
     test('institutions carousel', async assert => {
-        const currentUser = server.create('user');
-        server.create('root', { currentUser });
+        server.create('user', 'loggedIn');
         const institutions = server.createList('institution', 20);
 
         await visit('/dashboard');
@@ -68,8 +66,7 @@ module('Acceptance | dashboard', hooks => {
     });
 
     test('popular projects and new/noteworthy titles', async assert => {
-        const currentUser = server.create('user');
-        server.create('root', { currentUser });
+        server.create('user', 'loggedIn');
         const nodes = server.createList('node', 10, {}, 'withContributors');
         server.create('node', {
             id: noteworthyNode,
@@ -101,8 +98,7 @@ module('Acceptance | dashboard', hooks => {
     });
 
     test('user has no projects', async assert => {
-        const currentUser = server.create('user');
-        server.create('root', { currentUser });
+        server.create('user', 'loggedIn');
         await visit('/dashboard');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom('div[class*="quick-project"]')
@@ -110,8 +106,7 @@ module('Acceptance | dashboard', hooks => {
     });
 
     test('user has a project', async assert => {
-        const currentUser = server.create('user');
-        server.create('root', { currentUser });
+        const currentUser = server.create('user', 'loggedIn');
         const node = server.create('node', {}, 'withContributors');
         server.create('contributor', { node, users: currentUser, index: 11 });
         await visit('/dashboard');
@@ -122,7 +117,7 @@ module('Acceptance | dashboard', hooks => {
     });
 
     test('user has many projects', async function(assert) {
-        const currentUser = server.create('user');
+        const currentUser = server.create('user', 'loggedIn');
         const nodes = server.createList('node', 30, {}, 'withContributors');
         server.create('node', {
             id: noteworthyNode,
@@ -137,7 +132,6 @@ module('Acceptance | dashboard', hooks => {
         for (const node of nodes) {
             server.create('contributor', { node, users: currentUser, index: 11 });
         }
-        server.create('root', { currentUser });
         await visit('/dashboard');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
@@ -157,8 +151,7 @@ module('Acceptance | dashboard', hooks => {
     });
 
     test('sorting projects', async function(assert) {
-        const currentUser = server.create('user');
-        server.create('root', { currentUser });
+        const currentUser = server.create('user', 'loggedIn');
         const nodeOne = server.create(
             'node',
             { title: 'z', lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
@@ -227,8 +220,7 @@ module('Acceptance | dashboard', hooks => {
     });
 
     test('filtering projects', async function(assert) {
-        const currentUser = server.create('user');
-        server.create('root', { currentUser });
+        const currentUser = server.create('user', 'loggedIn');
         const nodeOne = server.create(
             'node',
             { title: 'z', lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },

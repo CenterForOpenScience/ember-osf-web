@@ -1,5 +1,6 @@
 import { service } from '@ember-decorators/service';
 import { warn } from '@ember/debug';
+import Ember from 'ember';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
@@ -41,7 +42,7 @@ export default class OsfCookie extends Base {
             url: `${apiUrl}/${apiNamespace}/`,
         });
 
-        if (devMode) {
+        if (devMode && !Ember.testing) {
             this._checkApiVersion();
         }
 
