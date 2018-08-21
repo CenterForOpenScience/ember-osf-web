@@ -1,6 +1,7 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import EmberArray from '@ember/array';
 import { set } from '@ember/object';
 import { dasherize, underscore } from '@ember/string';
 import DS, { ModelRegistry, RelationshipsFor } from 'ember-data';
@@ -24,7 +25,10 @@ export enum Permission {
     Admin = 'admin',
 }
 
-export interface QueryHasManyResult<T extends ModelRegistry[keyof ModelRegistry]> extends Array<T> {
+// eslint-disable-next-line space-infix-ops
+type RelationshipType<T, R extends keyof T> = T[R] extends EmberArray<infer U> ? U : never;
+
+export interface QueryHasManyResult<T> extends Array<T> {
     meta: PaginatedMeta;
     links?: Links | PaginationLinks;
 }
@@ -40,7 +44,6 @@ export interface PaginatedQueryOptions {
  * @class OsfModel
  * @public
  */
-
 export default class OsfModel extends Model {
     @service store!: DS.Store;
     @service currentUser!: CurrentUser;
@@ -62,11 +65,16 @@ export default class OsfModel extends Model {
      * @param {Object} [ajaxOptions] A hash of options to be passed to jQuery.ajax
      * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
      */
-    async queryHasMany<T extends ModelRegistry[keyof ModelRegistry]>(
-        propertyName: RelationshipsFor<this>,
+    async queryHasMany<
+    T extends OsfModel,
+    R extends RelationshipsFor<T>,
+    RT = RelationshipType<T, R>
+    >(
+        this: T,
+        propertyName: R,
         queryParams?: object,
         ajaxOptions?: object,
-    ): Promise<QueryHasManyResult<T>> {
+    ): Promise<QueryHasManyResult<RT>> {
         const reference = this.hasMany(propertyName);
 
         // HACK: ember-data discards/ignores the link if an object on the belongsTo side
@@ -86,12 +94,14 @@ export default class OsfModel extends Model {
 
         if ('data' in response && Array.isArray(response.data)) {
             this.store.pushPayload(response);
+
             const records = response.data.map(
                 datum => this.store.peekRecord(
                     (dasherize(singularize(datum.type)) as keyof ModelRegistry),
                     datum.id,
-                ) as T,
-            );
+                ) as RT | null,
+            ).filter((v): v is RT => Boolean(v));
+
             const { meta, links } = response as ResourceCollectionDocument;
             return Object.assign(records, { meta, links });
         } else if ('errors' in response) {
@@ -110,12 +120,16 @@ export default class OsfModel extends Model {
      * @param {Number} [totalPreviouslyLoaded] The number of results previously loaded (used for recursion)
      * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
      */
-    async loadAll<T extends ModelRegistry[keyof ModelRegistry]>(
-        relationshipName: RelationshipsFor<this>,
+    async loadAll<
+    T extends OsfModel,
+    R extends RelationshipsFor<T>,
+    >(
+        this: T,
+        relationshipName: R,
         queryParams: PaginatedQueryOptions = { 'page[size]': 100, page: 1 },
         totalPreviouslyLoaded = 0,
-    ): Promise<QueryHasManyResult<T>> {
-        const currentResults = await this.queryHasMany<T>(relationshipName, queryParams);
+    ): Promise<QueryHasManyResult<RelationshipType<T, R>>> {
+        const currentResults = await this.queryHasMany(relationshipName, queryParams);
 
         const { meta: { total } } = currentResults;
 
@@ -123,7 +137,7 @@ export default class OsfModel extends Model {
 
         if (totalLoaded < total) {
             currentResults.pushObjects(
-                await this.loadAll<T>(
+                await this.loadAll(
                     relationshipName,
                     { ...queryParams, page: (queryParams.page || 0) + 1 },
                     totalLoaded,
