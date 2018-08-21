@@ -843,14 +843,6 @@ append-transform@^1.0.0:
   dependencies:
     default-require-extensions "^2.0.0"
 
-applause@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/applause/-/applause-1.2.2.tgz#a8468579e81f67397bb5634c29953bedcd0f56c0"
-  dependencies:
-    cson-parser "^1.1.0"
-    js-yaml "^3.3.0"
-    lodash "^3.10.0"
-
 aproba@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
@@ -2449,14 +2441,6 @@ broccoli-postcss@^3.5.2:
     object-assign "4.1.1"
     postcss "6.0.14"
 
-broccoli-replace@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/broccoli-replace/-/broccoli-replace-0.12.0.tgz#36460a984c45c61731638c53068b0ab12ea8fdb7"
-  dependencies:
-    applause "1.2.2"
-    broccoli-persistent-filter "^1.2.0"
-    minimatch "^3.0.0"
-
 broccoli-rollup@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/broccoli-rollup/-/broccoli-rollup-1.3.0.tgz#43a0a7798555bab54217009eb470a4ff5a056df0"
@@ -3388,10 +3372,6 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-coffee-script@^1.10.0:
-  version "1.12.7"
-  resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.12.7.tgz#c05dae0cb79591d05b3070a8433a98c9a89ccc53"
-
 collapse-white-space@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/collapse-white-space/-/collapse-white-space-1.0.3.tgz#4b906f670e5a963a87b76b0e1689643341b6023c"
@@ -3803,12 +3783,6 @@ crypto-browserify@^3.0.0:
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
-
-cson-parser@^1.1.0:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/cson-parser/-/cson-parser-1.3.5.tgz#7ec675e039145533bf2a6a856073f1599d9c2d24"
-  dependencies:
-    coffee-script "^1.10.0"
 
 css-select@~1.2.0:
   version "1.2.0"
@@ -4896,23 +4870,23 @@ ember-cli-meta-tags@^5.0.0:
     ember-cli-head "^0.4.1"
     ember-cli-htmlbars "^2.0.1"
 
-ember-cli-mirage@^0.4.7:
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/ember-cli-mirage/-/ember-cli-mirage-0.4.7.tgz#aa7cf2d7247703b03d216b2fe6ca5b9d514eaf84"
+ember-cli-mirage@^0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/ember-cli-mirage/-/ember-cli-mirage-0.4.9.tgz#c49bfe875d0cdf88c85a6ee55103d1980175b914"
   dependencies:
     broccoli-funnel "^1.0.2"
     broccoli-merge-trees "^1.1.0"
-    broccoli-replace "^0.12.0"
     broccoli-stew "^1.5.0"
+    broccoli-string-replace "^0.1.2"
     chalk "^1.1.1"
     ember-cli-babel "^6.8.2"
     ember-cli-node-assets "^0.1.4"
     ember-get-config "^0.2.2"
     ember-inflector "^2.0.0"
     ember-lodash "^4.17.3"
-    exists-sync "0.0.3"
     fake-xml-http-request "^1.4.0"
     faker "^3.0.0"
+    jsdom "^11.12.0"
     pretender "^1.6.1"
     route-recognizer "^0.2.3"
 
@@ -8784,7 +8758,7 @@ js-yaml@^3.12.0:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
-js-yaml@^3.2.5, js-yaml@^3.2.7, js-yaml@^3.3.0, js-yaml@^3.6.1:
+js-yaml@^3.2.5, js-yaml@^3.2.7, js-yaml@^3.6.1:
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.11.0.tgz#597c1a8bd57152f26d622ce4117851a51f5ebaef"
   dependencies:
@@ -8809,7 +8783,7 @@ jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
 
-jsdom@^11.11.0:
+jsdom@^11.11.0, jsdom@^11.12.0:
   version "11.12.0"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-11.12.0.tgz#1a80d40ddd378a1de59656e9e6dc5a3ba8657bc8"
   dependencies:
