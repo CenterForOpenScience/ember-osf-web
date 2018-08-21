@@ -1,0 +1,35 @@
+.DraftRegistrationCard {
+    :global(.ember-content-placeholders-text__line) {
+        height: 1em;
+    }
+
+    :global(.btn) {
+        margin-left: 5px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+.DraftRegistratrionCard__title {
+    :global(.ember-content-placeholders-text) {
+        width: 50%;
+    }
+}
+
+.DraftRegistratrionCard__body {
+    :global(.ember-content-placeholders-text) {
+        width: 33%;
+    }
+
+}
+
+:global(.delete_draft_registration) {
+    :global(.modal-header) {
+        h4 {
+            font-size: 24px;
+            font-weight: 400;
+        }
+    }
+}

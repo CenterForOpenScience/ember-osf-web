@@ -41,7 +41,7 @@ export default class File extends BaseFileItem {
 
     // File attributes
     @hasMany('file-version') versions!: DS.PromiseManyArray<FileVersion>;
-    @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
+    @hasMany('comment', { inverse: null }) comments!: DS.PromiseManyArray<Comment>;
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
     @belongsTo('node') node!: DS.PromiseObject<Node> & Node;
     @belongsTo('user') user!: DS.PromiseObject<User> & User;

@@ -456,8 +456,8 @@ export default class FileManager extends Service {
      * @return {Promise} Promise that resolves to the new file's model or
      * rejects with an error message.
      */
-    private async getNewFileInfo(parentFolder: any, name: string): Promise<File> {
-        const files: File[] = await parentFolder.queryHasMany('files', { 'filter[name]': name });
+    private async getNewFileInfo(parentFolder: File, name: string): Promise<File> {
+        const files = await parentFolder.queryHasMany('files', { 'filter[name]': name });
         const file = files.findBy('name', name);
 
         if (!file) {

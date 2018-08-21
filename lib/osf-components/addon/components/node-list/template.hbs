@@ -1,0 +1,16 @@
+<ul class="list-group">
+    {{#paginated-relation
+        modelTaskInstance=@modelTaskInstance
+        relationshipName=@relationshipName
+        reload=@reload
+        queryParams=this.queryParams
+        analyticsScope=@analyticsScope
+        as |pr|
+    }}
+        {{#pr.item as |node|}}
+            {{node-card node=node showTags=@showTags analyticsScope=@analyticsScope}}
+        {{/pr.item}}
+
+        {{yield (hash empty=pr.empty)}}
+    {{/paginated-relation}}
+</ul>

@@ -5,6 +5,8 @@ import { userNodeList, userList } from './views/user';
 const { OSF: { apiUrl } } = config;
 
 export default function() {
+    this.passthrough('/write-coverage'); // for ember-cli-code-coverage
+
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
     this.apiBaseUrl = `${this.urlPrefix}${this.namespace}`;

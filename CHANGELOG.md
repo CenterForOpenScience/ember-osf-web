@@ -5,17 +5,53 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Models:
+    - `registration-schema` (including related adapter & serializer)
+- Components:
+    - `draft-registration-card` - summary card for draft registrations
+    - `node-list` - produce a paginated list of nodes from a relationship
+- Routes:
+    - `guid-node/registrations` - registrations tab
+
 ### Changed
+- Models:
+    - `osf-model` - add `relatedCounts` attribute and `incrementRelatedCount()`/`decrementRelatedCount()` methods
+    - `registration` - add `archiving` attribute and `registrationSchema` relationship
+    - `draft-registration` - changed `registrationSchema` relationship type to be `registration-schema`
+- Adapters:
+    - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
+- Serializers:
+    - `osf-serializer` - populate `relatedCounts` attribute from relationship meta
+- Services:
+    - `route-context` - added ability to pass query params to `setGuid()`/`loadModel()`
 - Components:
     - `file-renderer` - remove initialWidth MFR parameter
+    - `node-blurb` - renamed to `node-card`
+    - `node-card` - add `registration` type, optional tags display, and placeholder when `node` is not set
+    - `node-navbar` - use `linkTo` for registrations
+    - `paginated-relation` - add ability to specify placeholders, and pass actions to items for incrementing/decrementing count
+- Routes:
+    - `guid-node` - request `forks`, `registrations`, and `draft_registrations` related counts when resolving guid
+    - `guid-node/forks` - use placeholder for forks list
+    - `guid-registration` - request `forks` related count when resolving guid
+    - `guid-registration/forks` - use placeholder for forks list
+    - `resolve-guid/resolved-guid-route` - pass-through query params to `routeContext.setGuid()`
+- Engines:
+    - `analytics-page` - use `node-list` component for linked nodes list
 - Handbook:
     - Fix link styling, remove double underline
     - Update ember-cli-addon-docs dependency
 - Misc:
+    - install `@cos-forks/ember-content-placeholders`
     - upgrade to ember(-(cli|data))@~3.3.0
 - DX:
     - No more mirage fixtures
     - Have guid-like IDs for mirage factories (nodes and users to start)
+
+### Removed
+- Models:
+    - `metaschema` (including related adapter & serializer)
 
 ## [0.7.0] - 2018-08-07
 ### Added

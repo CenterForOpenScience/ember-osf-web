@@ -15,21 +15,21 @@
             {{#bs-collapse collapsed=collapsedNav class='navbar-collapse'}}
                 <ul class='nav navbar-nav'>
                     {{#node-navbar/link nodeId=node.id useLinkTo=false extraClasses='project-title'}}
-                        {{node.title}}
+                        {{@node.title}}
                     {{/node-navbar/link}}
-                    {{node-navbar/link nodeId=node.id useLinkTo=false destination='files'}}
-                    {{node-navbar/link nodeId=node.id useLinkTo=false destination='wiki'}}
-                    {{node-navbar/link nodeId=node.id useLinkTo=true destination='analytics'}}
-                    {{#unless node.registration}}
-                        {{node-navbar/link nodeId=node.id useLinkTo=false destination='registrations'}}
+                    {{node-navbar/link nodeId=@node.id useLinkTo=false destination='files'}}
+                    {{node-navbar/link nodeId=@node.id useLinkTo=false destination='wiki'}}
+                    {{node-navbar/link nodeId=@node.id useLinkTo=true destination='analytics'}}
+                    {{#unless @node.isRegistration}}
+                        {{node-navbar/link nodeId=@node.id useLinkTo=true destination='registrations'}}
                     {{/unless}}
 
-                    {{#if node.currentUserIsContributor}}
-                        {{node-navbar/link nodeId=node.id useLinkTo=false destination='contributors'}}
-                        {{#if currentUserCanEdit}}
-                            {{node-navbar/link nodeId=node.id useLinkTo=false destination='addons'}}
+                    {{#if @node.currentUserIsContributor}}
+                        {{node-navbar/link nodeId=@node.id useLinkTo=false destination='contributors'}}
+                        {{#if @node.currentUserCanEdit}}
+                            {{node-navbar/link nodeId=@node.id useLinkTo=false destination='addons'}}
                         {{/if}}
-                        {{node-navbar/link nodeId=node.id useLinkTo=false destination='settings'}}
+                        {{node-navbar/link nodeId=@node.id useLinkTo=false destination='settings'}}
                     {{/if}}
                 </ul>
             {{/bs-collapse}}

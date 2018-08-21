@@ -1,10 +1,16 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
-import { task } from 'ember-concurrency';
-import DS, { ModelRegistry } from 'ember-data';
+import EmberArray from '@ember/array';
+import { set } from '@ember/object';
+import { dasherize, underscore } from '@ember/string';
+import DS, { ModelRegistry, RelationshipsFor } from 'ember-data';
+import { singularize } from 'ember-inflector';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
+
+import { Links, PaginationLinks } from 'jsonapi-typescript';
+import { Document as ApiResponseDocument, PaginatedMeta, ResourceCollectionDocument } from 'osf-api';
 
 const { Model } = DS;
 
@@ -13,9 +19,23 @@ const { Model } = DS;
  * @submodule models
  */
 
-interface QueryHasManyResult extends Array<any> {
-    meta?: any;
-    links?: any;
+export enum Permission {
+    Read = 'read',
+    Write = 'write',
+    Admin = 'admin',
+}
+
+// eslint-disable-next-line space-infix-ops
+type RelationshipType<T, R extends keyof T> = T[R] extends EmberArray<infer U> ? U : never;
+
+export interface QueryHasManyResult<T> extends Array<T> {
+    meta: PaginatedMeta;
+    links?: Links | PaginationLinks;
+}
+
+export interface PaginatedQueryOptions {
+    'page[size]': number;
+    page: number;
 }
 
 /**
@@ -24,16 +44,37 @@ interface QueryHasManyResult extends Array<any> {
  * @class OsfModel
  * @public
  */
+export default class OsfModel extends Model {
+    @service store!: DS.Store;
+    @service currentUser!: CurrentUser;
 
-export default class OsfModel extends Model.extend({
-    queryHasManyTask: task(function *(
-        this: OsfModel,
-        propertyName: any, // TODO constrain to DS.RelationshipsFor<M>
+    @attr() links: any;
+    @attr('object', { defaultValue: () => ({}) }) relatedCounts!: { [relName: string]: number | undefined };
+    @attr() apiMeta: any;
+
+    @alias('links.relationships') relationshipLinks: any;
+
+    @alias('constructor.modelName') modelName!: string & keyof ModelRegistry;
+
+    /*
+     * Query a hasMany relationship with query params
+     *
+     * @method queryHasMany
+     * @param {String} propertyName Name of a hasMany relationship on the model
+     * @param {Object} queryParams A hash to be serialized into the query string of the request
+     * @param {Object} [ajaxOptions] A hash of options to be passed to jQuery.ajax
+     * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
+     */
+    async queryHasMany<
+    T extends OsfModel,
+    R extends RelationshipsFor<T>,
+    RT = RelationshipType<T, R>
+    >(
+        this: T,
+        propertyName: R,
         queryParams?: object,
         ajaxOptions?: object,
-    ) {
-        const store = this.get('store');
-
+    ): Promise<QueryHasManyResult<RT>> {
         const reference = this.hasMany(propertyName);
 
         // HACK: ember-data discards/ignores the link if an object on the belongsTo side
@@ -49,39 +90,100 @@ export default class OsfModel extends Model.extend({
             ...ajaxOptions,
         };
 
-        const payload = yield this.currentUser.authenticatedAJAX(options);
+        const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX(options);
 
-        store.pushPayload(payload);
-        const records: QueryHasManyResult = payload.data.map((datum: { type: keyof ModelRegistry, id: string }) =>
-            store.peekRecord(datum.type, datum.id));
-        records.meta = payload.meta;
-        records.links = payload.links;
-        return records;
-    }),
-}) {
-    @service store!: DS.Store;
-    @service currentUser!: CurrentUser;
+        if ('data' in response && Array.isArray(response.data)) {
+            this.store.pushPayload(response);
 
-    @attr() links: any;
-    @attr() apiMeta: any;
+            const records = response.data.map(
+                datum => this.store.peekRecord(
+                    (dasherize(singularize(datum.type)) as keyof ModelRegistry),
+                    datum.id,
+                ) as RT | null,
+            ).filter((v): v is RT => Boolean(v));
 
-    @alias('links.relationships') relationshipLinks: any;
+            const { meta, links } = response as ResourceCollectionDocument;
+            return Object.assign(records, { meta, links });
+        } else if ('errors' in response) {
+            throw new Error(response.errors.map(error => error.detail).join('\n'));
+        } else {
+            throw new Error(`Unexpected response while loading relationship ${this.modelName}.${propertyName}`);
+        }
+    }
 
     /*
-     * Query a hasMany relationship with query params
+     * Load all values for a hasMany relationship with query params and automatic depagination.
      *
-     * @method queryHasMany
-     * @param {String} propertyName Name of a hasMany relationship on the model
+     * @method loadAll
+     * @param {String} relationshipName Name of a hasMany relationship on the model
      * @param {Object} queryParams A hash to be serialized into the query string of the request
-     * @param {Object} [ajaxOptions] A hash of options to be passed to jQuery.ajax
+     * @param {Number} [totalPreviouslyLoaded] The number of results previously loaded (used for recursion)
      * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
      */
-    queryHasMany(
-        this: OsfModel,
-        propertyName: string,
-        queryParams?: object,
-        ajaxOptions?: object,
-    ) {
-        return this.get('queryHasManyTask').perform(propertyName, queryParams, ajaxOptions);
+    async loadAll<
+    T extends OsfModel,
+    R extends RelationshipsFor<T>,
+    >(
+        this: T,
+        relationshipName: R,
+        queryParams: PaginatedQueryOptions = { 'page[size]': 100, page: 1 },
+        totalPreviouslyLoaded = 0,
+    ): Promise<QueryHasManyResult<RelationshipType<T, R>>> {
+        const currentResults = await this.queryHasMany(relationshipName, queryParams);
+
+        const { meta: { total } } = currentResults;
+
+        const totalLoaded = totalPreviouslyLoaded + currentResults.length;
+
+        if (totalLoaded < total) {
+            currentResults.pushObjects(
+                await this.loadAll(
+                    relationshipName,
+                    { ...queryParams, page: (queryParams.page || 0) + 1 },
+                    totalLoaded,
+                ),
+            );
+        }
+
+        return currentResults;
+    }
+
+    /*
+     * Load related count for a given relationship using sparse fieldsets.
+     *
+     * @method loadRelatedCount
+     * @param {String} relationshipName Name of a hasMany relationship on the model
+     * @returns {Promise} Promise that will resolve when count is loaded
+     */
+    async loadRelatedCount<T extends OsfModel>(this: T, relationshipName: RelationshipsFor<T>) {
+        const apiModelName = this.store.adapterFor(this.modelName).pathForType(this.modelName);
+        const apiRelationshipName = underscore(relationshipName);
+        const errorContext = `while loading related counts for ${this.modelName}.${relationshipName}`;
+
+        // Get related count with sparse fieldset.
+        const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX({
+            url: this.links.self,
+            data: {
+                related_counts: apiRelationshipName,
+                [`fields[${apiModelName}]`]: apiRelationshipName,
+            },
+        });
+
+        if ('data' in response && !Array.isArray(response.data)) {
+            if (response.data.relationships && apiRelationshipName in response.data.relationships) {
+                const relationship = response.data.relationships[apiRelationshipName];
+                if ('links' in relationship) {
+                    set(this.relatedCounts, relationshipName, relationship.links.related.meta.count);
+                } else {
+                    throw new Error(`Relationship link not found ${errorContext}`);
+                }
+            } else {
+                throw new Error(`Relationship not serialized ${errorContext}`);
+            }
+        } else if ('errors' in response) {
+            throw new Error(response.errors.map(error => error.detail).concat(errorContext).join('\n'));
+        } else {
+            throw new Error(`Unexpected response ${errorContext}`);
+        }
     }
 }

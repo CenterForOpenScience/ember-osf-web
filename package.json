@@ -18,7 +18,7 @@
     "test:config": "mocha node-tests/config-test.js",
     "test:translations": "mocha node-tests/translations-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
-    "test:node-tests": "mocha node-tests --recursive",
+    "test:node-tests": "mocha 'node-tests/**/*-test.js'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -99,6 +99,7 @@
     "ember-click-outside": "^0.1.12",
     "ember-component-attributes": "^0.1.1",
     "ember-concurrency": "^0.8.12",
+    "ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
     "ember-cookies": "^0.3.0",
     "ember-cp-validations": "^3.5.2",
     "ember-css-modules": "^0.7.10",
@@ -126,6 +127,7 @@
     "ember-page-title": "4.0.3",
     "ember-power-select": "^2.0.0",
     "ember-promise-helpers": "^1.0.4",
+    "ember-radio-button": "^1.2.4",
     "ember-resolver": "^4.0.0",
     "ember-simple-auth": "^1.6.0",
     "ember-sinon": "^2.1.0",
@@ -142,6 +144,7 @@
     "flat": "^4.0.0",
     "husky": "^0.14.3",
     "js-md5": "^0.7.3",
+    "jsonapi-typescript": "^0.0.9",
     "keen-analysis": "^2.0.0",
     "keen-dataviz": "^2.0.4",
     "keen-tracking": "^2.0.9",

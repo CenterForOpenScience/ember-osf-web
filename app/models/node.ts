@@ -1,5 +1,6 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import { bool, equal } from '@ember-decorators/object/computed';
+import { computed } from '@ember-decorators/object';
+import { alias, bool, equal } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
@@ -12,6 +13,7 @@ import FileProvider from './file-provider';
 import Institution from './institution';
 import License from './license';
 import Log from './log';
+import { Permission } from './osf-model';
 import Preprint from './preprint';
 import Region from './region';
 import Registration from './registration';
@@ -28,6 +30,12 @@ const Validations = buildValidations({
     ],
 });
 
+export enum NodeType {
+    Fork = 'fork',
+    Generic = 'generic',
+    Registration = 'registration',
+}
+
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
@@ -39,10 +47,11 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @attr('fixstring') description!: string;
     @attr('fixstring') category!: string;
 
-    @attr('array') currentUserPermissions!: string[];
+    @attr('array') currentUserPermissions!: Permission[];
     @attr('boolean') currentUserIsContributor!: boolean;
 
     @attr('boolean') fork!: boolean;
+    @alias('fork') isFork!: boolean;
     @attr('boolean') collection!: boolean;
     @attr('boolean') registration!: boolean;
     @attr('boolean') public!: boolean;
@@ -71,12 +80,12 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @hasMany('preprint', { inverse: 'node' }) preprints!: DS.PromiseManyArray<Preprint>;
     @hasMany('institution', { inverse: 'nodes' })
     affiliatedInstitutions!: DS.PromiseManyArray<Institution> | Institution[];
-    @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
+    @hasMany('comment', { inverse: 'node' }) comments!: DS.PromiseManyArray<Comment>;
     @belongsTo('citation') citation!: DS.PromiseObject<Citation> & Citation;
 
     @belongsTo('license', { inverse: null }) license!: DS.PromiseObject<License> & License;
 
-    @hasMany('file-provider') files!: DS.PromiseManyArray<FileProvider>;
+    @hasMany('file-provider', { inverse: 'node' }) files!: DS.PromiseManyArray<FileProvider>;
 
     @hasMany('node', { inverse: null }) linkedNodes!: DS.PromiseManyArray<Node>;
     @hasMany('registration', { inverse: 'registeredFrom' }) registrations!: DS.PromiseManyArray<Registration>;
@@ -96,7 +105,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     @hasMany('wiki', { inverse: 'node' }) wikis!: DS.PromiseManyArray<Wiki>;
 
-    @hasMany('log') logs!: DS.PromiseManyArray<Log>;
+    @hasMany('log', { inverse: 'originalNode' }) logs!: DS.PromiseManyArray<Log>;
 
     // These are only computeds because maintaining separate flag values on different classes would be a
     // headache TODO: Improve.
@@ -120,6 +129,42 @@ export default class Node extends BaseFileItem.extend(Validations) {
      * @type boolean
      */
     @bool('meta.anonymous') isAnonymous!: boolean;
+
+    /**
+     * Does the current user have write permission on this node?
+     * @property currentUserCanEdit
+     * @type boolean
+     */
+    @computed('currentUserPermissions')
+    get currentUserCanEdit() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Write);
+    }
+
+    /**
+     * Is the current user an admin on this node?
+     * @property currentUserIsAdmin
+     * @type boolean
+     */
+    @computed('currentUserPermissions')
+    get currentUserIsAdmin() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    /**
+     * The type of this node.
+     * @property nodeType
+     * @type NodeType
+     */
+    @computed('isFork', 'isRegistration')
+    get nodeType(): NodeType {
+        if (this.isRegistration) {
+            return NodeType.Registration;
+        }
+        if (this.isFork) {
+            return NodeType.Fork;
+        }
+        return NodeType.Generic;
+    }
 
     // BaseFileItem override
     isNode = true;
