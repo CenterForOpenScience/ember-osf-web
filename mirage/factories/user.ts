@@ -37,10 +37,16 @@ export default Factory.extend({
     dateRegistered() {
         return faker.date.past();
     },
+
     withNodes: trait({
         afterCreate(user, server) {
             server.createList('node', 5, { user }, 'withContributors');
         },
     }),
 
+    loggedIn: trait({
+        afterCreate(currentUser, server) {
+            server.create('root', { currentUser });
+        },
+    }),
 });

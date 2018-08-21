@@ -81,7 +81,7 @@ export const buildQueryParams = (params: QueryParameters): string => {
     }
 };
 
-export const paginate = (request: any, data: any[], options: ProcessOptions): JsonData => {
+export const paginate = (request: any, data: any[], options: ProcessOptions = {}): JsonData => {
     const total = data.length;
     const { queryParams, url } = request;
     const self = `${url}${buildQueryParams(queryParams)}`;
