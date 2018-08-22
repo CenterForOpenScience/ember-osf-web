@@ -90,9 +90,6 @@ Follow these guidelines when making forms or add elements such as drop downs.
 - Use a good combination of placeholder and label for inputs, often one is enough, both are unnecessary. Don't repeat the label in the placeholder. Label is better for cross browser use.
 - Tie your labels to your form elements with "for" so that when users click on the label the input gets selection.
 
-### Respect history
-If you are using a single page approach where page loads are not required for significant events, remember that users consider significant layout changes to denote page changes and will want to press back to go back to the previous state.
-
 ### Ignore these rules when necessary
 There are times where these general practices may not make sense for rare instances. In those cases it is better UI practice to abandon convention and use custom solutions. These cases should be few and should require discussion.
 
