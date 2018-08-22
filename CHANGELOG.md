@@ -65,7 +65,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - images for home page
     - images for dashboard
 - Third-party Packages:
-    - `qunit-dom` - Better test assetions (especially for hidden things)
+    - `qunit-dom` - Better test assertions (especially for hidden things)
     - `ember-test-selectors` - Find things in your dom without messing everything up
 - Tests:
     - `dashboard` - more application tests
@@ -253,7 +253,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Node navbar: to accompany all node pages
 - Status Banner: shows status messages
 - Maintenance Banner: shows maintenance messages
-- TypeScript: Add ember-cli-typscript and ember-cli-tslint
+- TypeScript: Add ember-cli-typescript and ember-cli-tslint
 - CSS: Add `_typography.scss` with responsive font styling and `_accessibility.scss` for accessibility-related styling
 - Addon: ember-a11y-testing
 - Test: make sure all translations files contain all terms
