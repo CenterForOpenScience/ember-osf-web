@@ -1,12 +1,21 @@
 import DS from 'ember-data';
 
 import Token from 'ember-osf-web/models/token';
+import { Resource } from 'osf-api';
 import OsfSerializer from './osf-serializer';
 
 export default class TokenSerializer extends OsfSerializer {
-    normalize(typeClass: Token, hash: any) {
+    attrs: any = {
+        // eslint-disable-next-line ember/no-attrs-in-components
+        ...this.attrs, // from OsfSerializer
+        scopes: {
+            serialize: true, // always serialize, even when not dirty
+        },
+    };
+
+    normalize(typeClass: Token, hash: Resource) {
         // convert `scopes` from a space-delimited string to a relationship
-        const { scopes } = hash.attributes;
+        const { scopes } = hash.attributes!;
         let newHash = hash;
         if (scopes) {
             newHash = {
@@ -14,7 +23,9 @@ export default class TokenSerializer extends OsfSerializer {
                 relationships: {
                     ...hash.relationships,
                     scopes: {
-                        data: scopes.split(' ').map((s: string) => ({ id: s, type: 'scopes' })),
+                        data: (scopes as string).split(' ').map(
+                            s => ({ id: s, type: 'scopes' }),
+                        ),
                     },
                 },
             };
@@ -22,7 +33,7 @@ export default class TokenSerializer extends OsfSerializer {
         return super.normalize(typeClass, newHash);
     }
 
-    serializeHasMany(snapshot: DS.Snapshot, json: any, relationship: any) {
+    serializeHasMany(snapshot: DS.Snapshot, json: Resource, relationship: { key: string }) {
         // convert `scopes` from a relationship to a space-delimited string
         const { key } = relationship;
         if (key === 'scopes') {

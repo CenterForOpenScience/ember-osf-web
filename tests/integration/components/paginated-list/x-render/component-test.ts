@@ -3,22 +3,22 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-module('Integration | Component | paginated-relation/x-item', hooks => {
+module('Integration | Component | paginated-list/x-render', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async function(assert) {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.set('myAction', function(val) { ... });
 
-        await render(hbs`{{paginated-relation/x-item}}`);
+        await render(hbs`{{paginated-list/x-render}}`);
 
         assert.dom(this.element).hasText('');
 
         // Template block usage:
         await render(hbs`
-            {{#paginated-relation/x-item}}
+            {{#paginated-list/x-render}}
                 template block text
-            {{/paginated-relation/x-item}}
+            {{/paginated-list/x-render}}
         `);
 
         assert.dom(this.element).hasText('template block text');

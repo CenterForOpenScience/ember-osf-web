@@ -7,7 +7,7 @@ module('Integration | Component | validated-input', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async assert => {
-        await render(hbs`{{validated-input
+        await render(hbs`{{validated-input/text
             valuePath='fullName'
             placeholder='Full Name'
             value=''
@@ -21,7 +21,7 @@ module('Integration | Component | validated-input', hooks => {
 
     test('render valid', async assert => {
         // simulates that the success element renders on success
-        await render(hbs`{{validated-input
+        await render(hbs`{{validated-input/text
             valuePath='fullName'
             placeholder='Full Name'
             value=''
@@ -35,11 +35,11 @@ module('Integration | Component | validated-input', hooks => {
 
     test('render error message', async assert => {
         // checks that the error message renders
-        await render(hbs`{{validated-input
+        await render(hbs`{{validated-input/text
             valuePath='fullName'
             placeholder='Full Name'
             value=''
-            didValidate=true
+            messagesShown=true
             isInvalid=true
         }}`);
 
@@ -49,7 +49,7 @@ module('Integration | Component | validated-input', hooks => {
     });
 
     test('render to text by default', async assert => {
-        await render(hbs`{{validated-input
+        await render(hbs`{{validated-input/text
             valuePath='fullName'
             placeholder='Full Name'
             value=''
@@ -59,7 +59,7 @@ module('Integration | Component | validated-input', hooks => {
     });
 
     test('render to text when explicitly specified', async assert => {
-        await render(hbs`{{validated-input
+        await render(hbs`{{validated-input/text
             valuePath='fullName'
             placeholder='Full Name'
             value=''
@@ -70,7 +70,7 @@ module('Integration | Component | validated-input', hooks => {
     });
 
     test('render to password when explicitly specified', async assert => {
-        await render(hbs`{{validated-input
+        await render(hbs`{{validated-input/text
             valuePath='password'
             placeholder='Password'
             value=''
@@ -81,7 +81,7 @@ module('Integration | Component | validated-input', hooks => {
     });
 
     test('render to textarea when explicitly speficied', async assert => {
-        await render(hbs`{{validated-input
+        await render(hbs`{{validated-input/text
             valuePath='fullName'
             placeholder='Full Name'
             value=''
@@ -93,11 +93,10 @@ module('Integration | Component | validated-input', hooks => {
 
     test('render to date when explicitly speficied', async assert => {
         // TODO: Needs improvement as there are no obvious ways to distinguish a dateField from a text.
-        await render(hbs`{{validated-input
+        await render(hbs`{{validated-input/date
             valuePath='fullName'
             placeholder='Full Name'
             value=''
-            type='date'
         }}`);
 
         assert.dom('input').exists();
@@ -106,7 +105,7 @@ module('Integration | Component | validated-input', hooks => {
     // TODO: Test currently cannot find '.warning'
     skip('render warning message', async assert => {
         // checks that the warnng message renders
-        await render(hbs`{{validated-input
+        await render(hbs`{{validated-input/text
             valuePath='fullName'
             placeholder='Full Name'
             value=''

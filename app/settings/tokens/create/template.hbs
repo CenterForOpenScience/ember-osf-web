@@ -1,7 +1,6 @@
 <div>
-    {{#link-to
-        data-test-tokens-link
-        'settings.tokens'
+    {{#link-to 'settings.tokens'
+        click=(action 'click' 'link' 'Settings - Tokens - Create - Back to list' target=this.analytics)
     }}
         {{fa-icon 'arrow-left'}}
         {{t 'settings.tokens.backToList'}}
@@ -14,6 +13,7 @@
 
 {{#settings/tokens/x-token-form
     onSave=(action 'onSave')
+    analyticsScope='Settings - Tokens - Create'
     as |form|
 }}
     {{#bs-button

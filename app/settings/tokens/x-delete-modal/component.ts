@@ -14,16 +14,14 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 @tagName('span')
 export default class TokenDeleteModal extends Component.extend({
     deleteTokenTask: task(function *(this: TokenDeleteModal) {
+        if (this.analyticsScope) {
+            this.analytics.click('button', `${this.analyticsScope} - Confirm delete token`);
+        }
         // TODO analytics
         yield this.token.destroyRecord();
         this.tokenDeleted(this.token);
     }).drop(),
 }) {
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-    @service router!: any;
-    @service store!: DS.Store;
-
     // Required arguments
     token!: Token;
     @requiredAction tokenDeleted!: (token: Token) => void;
@@ -31,16 +29,27 @@ export default class TokenDeleteModal extends Component.extend({
     // Optional arguments
     modalShown: boolean = defaultTo(this.modalShown, false);
     buttonDisabled: boolean = defaultTo(this.buttonDisabled, false);
+    analyticsScope?: string;
+
+    // Private properties
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service router!: any;
+    @service store!: DS.Store;
 
     @action
     show(this: TokenDeleteModal) {
-        // TODO analytics
+        if (this.analyticsScope) {
+            this.analytics.click('button', `${this.analyticsScope} - Open delete token confirmation`);
+        }
         this.set('modalShown', true);
     }
 
     @action
     hide(this: TokenDeleteModal) {
-        // TODO analytics
+        if (this.analyticsScope) {
+            this.analytics.click('button', `${this.analyticsScope} - Cancel delete token`);
+        }
         this.set('modalShown', false);
     }
 }

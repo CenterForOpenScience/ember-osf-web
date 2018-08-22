@@ -18,10 +18,10 @@
             {{validated-input/text
                 model=newProject
                 valuePath='title'
-                didValidate=didValidate
+                messagesShown=didValidate
                 placeholder=(t 'move_to_project.enter_project_title')
                 ariaLabel=(t 'move_to_project.enter_project_title')
-                keyUp=(action 'valueChanged')
+                onKeyUp=(action 'valueChanged')
             }}
         </div>
     </form>

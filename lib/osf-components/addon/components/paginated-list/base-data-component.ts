@@ -10,8 +10,12 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 export default abstract class BaseDataComponent extends Component.extend({
     loadItemsWrapperTask: task(function *(this: BaseDataComponent) {
         const blocker = this.ready.getBlocker();
+
+        // Resolve race condition on init: Let component finish initializing before continuing
+        yield;
+
         try {
-            yield this.loadItemsTask.perform(this.reload);
+            yield this.get('loadItemsTask').perform(this.reload);
             blocker.done();
         } catch (e) {
             this.set('errorShown', true);
@@ -43,7 +47,6 @@ export default abstract class BaseDataComponent extends Component.extend({
 
     constructor(...args: any[]) {
         super(...args);
-
         this.loadItemsWrapperTask.perform();
     }
 

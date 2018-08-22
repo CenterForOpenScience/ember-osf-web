@@ -6,12 +6,16 @@ import DS from 'ember-data';
 
 import requiredAction from 'ember-osf-web/decorators/required-action';
 import Token from 'ember-osf-web/models/token';
+import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 export default class TokenForm extends Component.extend({
     saveTokenTask: task(function *(this: TokenForm) {
         const token = this.token!;
+        if (this.analyticsScope) {
+            this.analytics.click('button', `${this.analyticsScope} - Save token`);
+        }
 
         const { validations } = yield token.validate();
         this.set('messagesShown', true);
@@ -23,18 +27,20 @@ export default class TokenForm extends Component.extend({
         }
     }),
 }) {
-    @service currentUser!: CurrentUser;
-    @service router!: any;
-    @service store!: DS.Store;
-
     // Required arguments
     @requiredAction onSave!: (token: Token) => void;
 
     // Optional arguments
     token!: Token; // If not provided, new token created in constructor
     disabled: boolean = defaultTo(this.disabled, false);
+    analyticsScope?: string;
 
     // Private properties
+    @service currentUser!: CurrentUser;
+    @service router!: any;
+    @service store!: DS.Store;
+    @service analytics!: Analytics;
+
     messagesShown: boolean = false;
     tokenSaved: boolean = false;
 
@@ -53,7 +59,6 @@ export default class TokenForm extends Component.extend({
 
     willDestroy() {
         if (!this.tokenSaved) {
-            // TODO scopes :(
             this.token.rollbackAttributes();
         }
     }

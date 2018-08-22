@@ -1,8 +1,6 @@
 // This component is derived from ember-cp-validations.
 // See https://github.com/offirgolan/ember-cp-validations for more information
-import { className } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
-import { equal } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { defineProperty } from '@ember/object';
 import { alias as aliasMacro, oneWay as oneWayMacro } from '@ember/object/computed';
@@ -32,15 +30,6 @@ export default abstract class BaseValidatedInput extends Component {
     // Private properties
     validation?: any; // defined in constructor
     value?: any; // defined in constructor
-
-    @className('has-success')
-    @equal('validationStatus', ValidationStatus.Success)
-    hasSuccess!: boolean;
-
-    // TODO delete?
-    @className('has-error')
-    @equal('validationStatus', ValidationStatus.HasError)
-    hasError!: boolean;
 
     @computed(
         'messagesShown',

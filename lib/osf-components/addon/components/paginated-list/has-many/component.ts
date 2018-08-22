@@ -23,10 +23,8 @@ export default class PaginatedHasMany extends BaseDataComponent {
     // Private properties
     layout = layout;
 
-    @or('model', 'modelTaskInstance.value')
-    modelInstance?: OsfModel;
-
-    loadItemsTask = task(function *(this: PaginatedHasMany, reloading: boolean = false) {
+    // Tasks assigned to prototype below
+    loadItemsTask = task(function *(this: PaginatedHasMany, reloading: boolean) {
         const model = yield this.get('getModelTask').perform();
         if (this.usePlaceholders) {
             yield this.get('loadRelatedCountTask').perform(reloading);
@@ -64,6 +62,9 @@ export default class PaginatedHasMany extends BaseDataComponent {
             yield model.loadRelatedCount(this.relationshipName);
         }
     }).restartable();
+
+    @or('model', 'modelTaskInstance.value')
+    modelInstance?: OsfModel;
 
     constructor(...args: any[]) {
         super(...args);

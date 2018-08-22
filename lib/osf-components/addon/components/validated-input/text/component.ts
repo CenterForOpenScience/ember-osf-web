@@ -8,5 +8,5 @@ export default class ValidatedText extends BaseValidatedComponent {
 
     // Additional arguments
     password: boolean = defaultTo(this.password, false);
-    keyUp?: () => void; // Action
+    onKeyUp?: () => void; // Action
 }

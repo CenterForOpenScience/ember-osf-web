@@ -1,11 +1,13 @@
 <div>
-    {{#link-to 'settings.tokens'}}
+    {{#link-to 'settings.tokens'
+        click=(action 'click' 'link' 'Settings - Tokens - Edit - Back to list' target=this.analytics)
+    }}
         {{fa-icon 'arrow-left'}}
         {{t 'settings.tokens.backToList'}}
     {{/link-to}}
 </div>
 
-{{#if this.token.id}}
+{{#if this.tokenId}}
     <hr>
     <div local-class='NewToken'>
         <p class='text-success'>
@@ -21,14 +23,10 @@
         </p>
         <p>
             {{t 'settings.tokens.createSuccess.idDescription' tokenName=this.token.name}}
-            <samp local-class='NewTokenId'>
-                {{this.token.id}}
-            </samp>
-            {{#copy-button
-                clipboardText=this.token.id
+            {{copyable-text
+                text=this.tokenId
+                analyticsLabel='Settings - Tokens - Copy token ID'
             }}
-                {{t 'settings.tokens.copyToken'}}
-            {{/copy-button}}
         </p>
     </div>
 {{/if}}
@@ -44,12 +42,14 @@
         token=token
         disabled=model.taskInstance.isRunning
         onSave=(action this.tokenSaved)
+        analyticsScope='Settings - Tokens - Edit'
         as |form|
     }}
         {{settings/tokens/x-delete-modal
             token=this.token
             tokenDeleted=(action this.tokenSaved)
             buttonDisabled=form.disabled
+            analyticsScope='Settings - Tokens - Edit'
         }}
 
         {{#bs-button

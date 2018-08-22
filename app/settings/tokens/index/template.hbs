@@ -1,7 +1,7 @@
 {{#paginated-list/all
     data-test-token-list
     modelName='token'
-    analyticsScope='Settings'
+    analyticsScope='Settings - Tokens'
     reload=this.reloadList
     as |list|
 }}
@@ -18,6 +18,7 @@
             {{#settings/tokens/x-delete-modal
                 token=token
                 tokenDeleted=(action (mut this.reloadList) true)
+                analyticsScope='Settings - Tokens'
                 as |modal|
             }}
                 {{#bs-button

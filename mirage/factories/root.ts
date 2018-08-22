@@ -8,7 +8,7 @@ const {
 } = config;
 
 export default Factory.extend({
-    activeFlags: Object.keys(routes),
+    activeFlags: Object.keys(routes), // Pretend all routes are flagged on
     message: 'Welcome to the OSF API.',
     version: '2.8',
     links: {},
