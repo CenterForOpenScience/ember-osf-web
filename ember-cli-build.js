@@ -57,7 +57,6 @@ module.exports = function(defaults) {
             exclude: [
                 'zxcvbn.js',
             ],
-            prepend: config.assetsPrefix,
         },
         sassOptions: {
             includePaths: [
