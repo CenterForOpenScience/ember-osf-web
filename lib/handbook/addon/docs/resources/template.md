@@ -21,7 +21,7 @@
 - [ember-css-modules](https://github.com/salsify/ember-css-modules) - Don't style globally when you can style locally
 - [ember-decorators](https://github.com/ember-decorators/ember-decorators) - Save a lot of trouble coding… with decorators!
 - [ember-engines](https://github.com/ember-engines/ember-engines) - How we separate code now
-- [ember-feature-flags](https://github.com/kategengler/ember-feature-flags) - For waffle feature flags
+- [ember-feature-flags](https://github.com/kategengler/ember-feature-flags)
 - [ember-i18n](https://github.com/jamesarosen/ember-i18n) - Localization utilities
 - [ember-metrics](https://github.com/poteto/ember-metrics) - "Send data to multiple analytics services without re-implementing new API"
 - [ember-test-selectors](https://github.com/simplabs/ember-test-selectors) - The best way to define what you need to select from the DOM in tests
