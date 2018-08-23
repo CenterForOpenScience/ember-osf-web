@@ -673,4 +673,13 @@ export default {
         cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.',
         accept: 'Accept',
     },
+    'osf-components': {
+        'draft-registration-card': {
+            initiated_by: 'Initiated by:',
+            started: 'Started:',
+            last_updated: 'Last updated:',
+            register: 'Register',
+            delete_draft_confirm: 'Are you sure you want to delete this draft registration?',
+        },
+    },
 };
