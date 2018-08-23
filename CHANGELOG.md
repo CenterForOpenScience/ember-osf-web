@@ -52,6 +52,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Models:
     - `metaschema` (including related adapter & serializer)
+- Services:
+    - `file-manager` (including skipped tests and one unused reference)
 
 ## [0.7.0] - 2018-08-07
 ### Added
