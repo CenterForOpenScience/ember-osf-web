@@ -179,14 +179,16 @@ export function embed(schema: any, request: any, json: JsonData, config: any) {
             let paginatedEmbeddables: JsonData = { data: [], links: {}, meta: {} };
             if (embeddable !== null && embeddable !== undefined) {
                 const embedModelList = embeddable.models; // Get the items to embed
-                paginatedEmbeddables = paginate(request, embedModelList, {});
-                // Go through each of the items that need to be embedded
-                for (const embedItem of paginatedEmbeddables.data) {
-                    const serializedItem = config.serialize(embedItem);
-                    serializedItem.data = autoEmbed(embedItem, serializedItem.data, config);
-                    serializedItems.push(serializedItem.data);
+                if (Array.isArray(embedModelList)) {
+                    paginatedEmbeddables = paginate(request, embedModelList, {});
+                    // Go through each of the items that need to be embedded
+                    for (const embedItem of paginatedEmbeddables.data) {
+                        const serializedItem = config.serialize(embedItem);
+                        serializedItem.data = autoEmbed(embedItem, serializedItem.data, config);
+                        serializedItems.push(serializedItem.data);
+                    }
+                    paginatedEmbeddables.data = serializedItems;
                 }
-                paginatedEmbeddables.data = serializedItems;
             } // Finished gathering embeddable items
             // TODO: convert embeditems to dictionary if not a toMany relationship
             const peData = paginatedEmbeddables.data;
