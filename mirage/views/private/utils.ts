@@ -1,3 +1,5 @@
+import { camelize } from '@ember/string';
+
 export enum ComparisonOperators {
     Eq = 'eq',
     Ne = 'ne',
@@ -172,7 +174,7 @@ export function embed(schema: any, request: any, json: JsonData, config: any) {
             if (!('embeds' in datum)) { // First make sure it has an embeds array
                 datum.embeds = {};
             }
-            const embeddable = schema[datum.type].find(datum.id)[embedded];
+            const embeddable = schema[camelize(datum.type)].find(datum.id)[embedded];
             const serializedItems = [];
             let paginatedEmbeddables: JsonData = { data: [], links: {}, meta: {} };
             if (embeddable !== null && embeddable !== undefined) {
