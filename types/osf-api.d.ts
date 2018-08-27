@@ -54,15 +54,14 @@ export interface RelationshipWithData {
 }
 
 export interface RelationshipWithLinks {
-    links: RelatedLink;
+    links: RelationshipLinks;
 }
 
-export interface RelatedLink {
-    related: {
-        href: string;
-        meta: RelatedLinkMeta;
-    };
+export interface RelationshipLinks extends JSONAPI.Links {
+    related: RelatedLink;
 }
+
+export type RelatedLink = string | { href: string; meta?: RelatedLinkMeta };
 
 export interface RelatedLinkMeta {
     count?: number;
