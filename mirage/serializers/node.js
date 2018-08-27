@@ -23,6 +23,22 @@ export default ApplicationSerializer.extend({
                     meta: {},
                 },
             },
+            registrations: {
+                related: {
+                    href: `${apiUrl}/v2/nodes/${model.id}/registrations/`,
+                    meta: {
+                        count: 10,
+                    },
+                },
+            },
+            draftRegistrations: {
+                related: {
+                    href: `${apiUrl}/v2/nodes/${model.id}/draft_registrations/`,
+                    meta: {
+                        count: 10,
+                    },
+                },
+            },
         };
         if (model.attrs.parentId !== null) {
             returnValue.parent = {
