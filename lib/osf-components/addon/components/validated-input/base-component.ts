@@ -5,6 +5,7 @@ import Component from '@ember/component';
 import { defineProperty } from '@ember/object';
 import { alias as aliasMacro, oneWay as oneWayMacro } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
+import { ResultCollection } from 'ember-cp-validations';
 import DS from 'ember-data';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
@@ -28,8 +29,8 @@ export default abstract class BaseValidatedInput extends Component {
     messagesShown: boolean = defaultTo(this.messagesShown, true);
 
     // Private properties
-    validation?: any; // defined in constructor
-    value?: any; // defined in constructor
+    validation?: ResultCollection; // defined in constructor
+    value: any; // defined in constructor
 
     @computed(
         'messagesShown',
@@ -38,7 +39,7 @@ export default abstract class BaseValidatedInput extends Component {
     )
     get validationStatus(): ValidationStatus {
         const { validation } = this;
-        if (!this.messagesShown || validation.isValidating) {
+        if (!this.messagesShown || !validation || validation.isValidating) {
             return ValidationStatus.Hidden;
         }
         if (validation.isInvalid) {

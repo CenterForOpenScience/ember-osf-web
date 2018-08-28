@@ -24,7 +24,7 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
      * @private
      */
     _extractEmbeds(this: OsfSerializer, resourceHash: ResourceHash): ResourceHash {
-        if (!resourceHash.embeds) {
+        if (!resourceHash.embeds || !resourceHash.relationships) {
             return resourceHash;
         }
         const relationships: { [k: string]: any } = {};

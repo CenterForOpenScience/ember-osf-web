@@ -40,8 +40,8 @@ export default function(this: Server) {
         return userNodeList(schema, request, this);
     });
 
-    this.get('tokens', (schema, request) => {
-        return tokenList(schema, request);
+    this.get('tokens', function(schema, request) {
+        return tokenList(schema, request, this);
     });
     this.resource('tokens', { except: ['index'] });
     this.resource('scopes', { only: ['index', 'show'] });

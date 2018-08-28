@@ -159,6 +159,8 @@ export interface Server {
         attrs?: AnyAttrs,
         ...traits: string[],
     ): Array<ModelInstance<AnyAttrs>>;
+
+    shutdown(): void;
 }
 
 export function trait(options: AnyAttrs & {

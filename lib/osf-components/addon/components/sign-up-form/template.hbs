@@ -1,5 +1,6 @@
 <form {{action 'submit' on='submit'}}>
     {{validated-input/text
+        data-test-sign-up-full-name
         model=model
         valuePath='fullName'
         messagesShown=didValidate
@@ -8,6 +9,7 @@
         ariaLabel=(t 'sign_up_form.full_name')
     }}
     {{validated-input/text
+        data-test-sign-up-email-1
         model=model
         valuePath='email1'
         messagesShown=didValidate
@@ -16,6 +18,7 @@
         ariaLabel=(t 'sign_up_form.contact_email')
     }}
     {{validated-input/text
+        data-test-sign-up-email-2
         model=model
         valuePath='email2'
         messagesShown=didValidate
@@ -23,7 +26,9 @@
         placeholder=(t 'sign_up_form.confirm_email')
         ariaLabel=(t 'sign_up_form.confirm_email')
     }}
-    {{validated-input/text password=true
+    {{validated-input/text
+        data-test-sign-up-password
+        password=true
         model=model
         valuePath='password'
         messagesShown=didValidate
@@ -43,6 +48,7 @@
         </div>
     </div>
     {{#validated-input/checkbox
+        data-test-sign-up-tos
         model=model
         valuePath='acceptedTermsOfService'
         messagesShown=didValidate
