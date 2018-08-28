@@ -117,6 +117,9 @@ module.exports = function(defaults) {
                 return config.assetsPrefix.replace(/\/$/, '') + filePath;
             },
         },
+        'ember-test-selectors': {
+            strip: false,
+        },
     });
 
     app.import('node_modules/dropzone/dist/dropzone.css');
