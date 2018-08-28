@@ -38,6 +38,7 @@ export default {
         ellipsis: '\u2026',
         warning: 'Warning',
         clipboard_copy: 'Copy to clipboard',
+        clipboard_copied: 'Copied!',
         sort_asc: 'Sort ascending',
         sort_desc: 'Sort descending',
         sort: 'Sort',

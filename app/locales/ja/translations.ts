@@ -38,6 +38,7 @@ export default {
         ellipsis: '\u2026',
         warning: '警告',
         clipboard_copy: 'クリップボードへコピー',
+        clipboard_copied: 'Copied!',
         sort_asc: '昇順ソート',
         sort_desc: '降順ソート',
         sort: 'ソート',

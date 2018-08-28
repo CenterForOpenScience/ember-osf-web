@@ -24,6 +24,8 @@ const App = Application.extend({
             dependencies: {
                 services: [
                     'router',
+                    'analytics',
+                    'i18n',
                 ],
             },
         },
