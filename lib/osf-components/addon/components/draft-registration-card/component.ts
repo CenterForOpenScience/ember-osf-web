@@ -46,21 +46,25 @@ export default class DraftRegistrationCard extends Component {
         }
         schema.pages.forEach(page =>
             page.questions.forEach(question => {
-                const { value } = this.draftRegistration.registrationMetadata[question.qid];
-                if (question.type === 'object' && question.properties) {
-                    question.properties.forEach(property => {
-                        if (property.required) {
-                            requiredQuestions++;
-                            const { value: propertyValue } = value[property.id];
-                            if (propertyValue && propertyValue.length) {
-                                answeredRequiredQuestions++;
+                if (question.qid in this.draftRegistration.registrationMetadata) {
+                    const { value } = this.draftRegistration.registrationMetadata[question.qid];
+                    if (question.type === 'object' && question.properties) {
+                        question.properties.forEach(property => {
+                            if (property.required) {
+                                requiredQuestions++;
+                                if (property.id in value) {
+                                    const { value: propertyValue } = value[property.id];
+                                    if (propertyValue && propertyValue.length) {
+                                        answeredRequiredQuestions++;
+                                    }
+                                }
                             }
+                        });
+                    } else if (question.required) {
+                        requiredQuestions++;
+                        if (value && value.length) {
+                            answeredRequiredQuestions++;
                         }
-                    });
-                } else if (question.required) {
-                    requiredQuestions++;
-                    if (value && value.length) {
-                        answeredRequiredQuestions++;
                     }
                 }
             }));

@@ -41,7 +41,9 @@ export default class NodeCard extends Component {
                     ).firstObject),
                     undefined,
                 );
-            return titleQuestion ? registration.registeredMeta[titleQuestion.qid].value : undefined;
+            return titleQuestion && titleQuestion.qid in registration.registeredMeta &&
+                'value' in registration.registeredMeta[titleQuestion.qid] ?
+                registration.registeredMeta[titleQuestion.qid].value : undefined;
         }
         return undefined;
     }
