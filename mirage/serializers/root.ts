@@ -1,11 +1,24 @@
 import config from 'ember-get-config';
+import { Links } from 'jsonapi-typescript';
+import { RootDocument } from 'osf-api';
+
+import User from 'ember-osf-web/models/user';
+
 import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default ApplicationSerializer.extend({
-    serialize(object) {
-        const data = {
+interface RootObject {
+    activeFlags: string[];
+    message: string;
+    version: string;
+    links: Links;
+    currentUser: User;
+}
+
+export default class RootSerializer extends ApplicationSerializer {
+    serialize(object: RootObject) {
+        const data: RootDocument = {
             meta: {
                 activeFlags: object.activeFlags,
                 message: object.message,
@@ -22,16 +35,17 @@ export default ApplicationSerializer.extend({
                             links: {
                                 related: {
                                     href: `${apiUrl}/v2/users/${object.currentUser.id}/nodes/`,
-                                    meta: {},
+                                    meta: this.buildRelatedLinkMeta(object.currentUser, 'nodes'),
                                 },
                             },
                         },
                     },
                     attributes: {
-                        accepted_terms_of_service: object.currentUser.acceptedTermsOfService,
+                        accepted_terms_of_service: object.currentUser.acceptedTermsOfService ?
+                            object.currentUser.acceptedTermsOfService : false,
                         full_name: object.currentUser.fullName,
                         given_name: object.currentUser.givenName,
-                        last_name: object.currentUser.lastName,
+                        family_name: object.currentUser.familyName,
                         suffix: object.currentUser.suffix,
                         locale: object.currentUser.locale,
                         middle_names: object.currentUser.middleNames,
@@ -40,7 +54,7 @@ export default ApplicationSerializer.extend({
                         timezone: object.currentUser.timezone,
                     },
                     links: {
-                        self: `/v2/users/${object.currentUser.attrs.id}/`,
+                        self: `/v2/users/${object.currentUser.id}/`,
                         profile_image: object.currentUser.profileImage,
                     },
                     type: 'users',
@@ -49,5 +63,5 @@ export default ApplicationSerializer.extend({
             };
         }
         return data;
-    },
-});
+    }
+}

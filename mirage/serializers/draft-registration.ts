@@ -1,20 +1,11 @@
-import { RelationshipsFor } from 'ember-data';
 import config from 'ember-get-config';
-import { RelationshipLinks } from 'osf-api';
-
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-
-// @ts-ignore
-import ApplicationSerializer from './application';
+import ApplicationSerializer, { SerializedLinks } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-type SerializedDraftRegistrationLinks = {
-    [relName in Exclude<RelationshipsFor<DraftRegistration>, 'toString'>]?: RelationshipLinks;
-};
-
 export default class DraftRegistrationSerializer extends ApplicationSerializer {
-    links(model: any): SerializedDraftRegistrationLinks {
+    links(model: DraftRegistration): SerializedLinks<DraftRegistration> {
         return {
             branchedFrom: {
                 related: {

@@ -1,16 +1,16 @@
 import config from 'ember-get-config';
-import ApplicationSerializer from './application';
+import Node from 'ember-osf-web/models/registration';
+import ApplicationSerializer, { SerializedLinks } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-
-export default ApplicationSerializer.extend({
-    links(model) {
-        const returnValue = {
+export default class NodeSerializer extends ApplicationSerializer {
+    links(model: Node & { attrs: any }) {
+        const returnValue: SerializedLinks<Node> = {
             linkedNodes: {
                 related: {
                     href: `${apiUrl}/v2/nodes/${model.id}/linked_nodes/`,
-                    meta: {},
+                    meta: this.buildRelatedLinkMeta(model, 'linkedNodes'),
                 },
                 self: {
                     href: `${apiUrl}/v2/nodes/${model.id}/relationships/linked_nodes/`,
@@ -20,23 +20,25 @@ export default ApplicationSerializer.extend({
             contributors: {
                 related: {
                     href: `${apiUrl}/v2/nodes/${model.id}/contributors/`,
-                    meta: {},
+                    meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                },
+            },
+            forks: {
+                related: {
+                    href: `${apiUrl}/v2/nodes/${model.id}/forks/`,
+                    meta: this.buildRelatedLinkMeta(model, 'forks'),
                 },
             },
             registrations: {
                 related: {
                     href: `${apiUrl}/v2/nodes/${model.id}/registrations/`,
-                    meta: {
-                        count: 10,
-                    },
+                    meta: this.buildRelatedLinkMeta(model, 'registrations'),
                 },
             },
             draftRegistrations: {
                 related: {
                     href: `${apiUrl}/v2/nodes/${model.id}/draft_registrations/`,
-                    meta: {
-                        count: 10,
-                    },
+                    meta: this.buildRelatedLinkMeta(model, 'draftRegistrations'),
                 },
             },
         };
@@ -57,5 +59,5 @@ export default ApplicationSerializer.extend({
             };
         }
         return returnValue;
-    },
-});
+    }
+}

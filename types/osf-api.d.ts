@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define,camelcase */
 
+import * as JSON from 'json-typescript';
 import * as JSONAPI from 'jsonapi-typescript';
 
 export type Document = DataDocument | ErrorDocument;
@@ -19,6 +20,10 @@ export interface ResourceCollectionDocument extends DocBase {
     meta: PaginatedMeta;
 }
 
+export interface RootDocument extends DocBase {
+    meta: RootMeta;
+}
+
 export interface DocBase extends JSONAPI.DocBase {
     meta: BaseMeta;
 }
@@ -26,6 +31,12 @@ export interface DocBase extends JSONAPI.DocBase {
 export interface PaginatedMeta extends BaseMeta {
     total: number;
     per_page: number;
+}
+
+export interface RootMeta extends BaseMeta {
+    activeFlags: string[];
+    message: string;
+    current_user?: { data: UserResource };
 }
 
 export interface BaseMeta {
@@ -37,6 +48,10 @@ export interface Resource extends JSONAPI.ResourceObject {
     id: string | number;
     relationships?: Relationships;
     embeds?: Embeds;
+}
+
+export interface UserResource extends Resource {
+    links: JSONAPI.Links & { profile_image: string };
 }
 
 export interface Relationships {

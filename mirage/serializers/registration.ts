@@ -1,25 +1,16 @@
-import { RelationshipsFor } from 'ember-data';
 import config from 'ember-get-config';
-import { RelationshipLinks } from 'osf-api';
-
 import Registration from 'ember-osf-web/models/registration';
-
-// @ts-ignore
-import ApplicationSerializer from './application';
+import ApplicationSerializer, { SerializedLinks } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-type SerializedRegistrationLinks = {
-    [relName in Exclude<RelationshipsFor<Registration>, 'toString'>]?: RelationshipLinks;
-};
-
 export default class RegistrationSerializer extends ApplicationSerializer {
-    links(model: any) {
-        const returnValue: SerializedRegistrationLinks = {
+    links(model: Registration & { attrs: any }) {
+        const returnValue: SerializedLinks<Registration> = {
             linkedNodes: {
                 related: {
                     href: `${apiUrl}/v2/nodes/${model.id}/linked_nodes/`,
-                    meta: {},
+                    meta: this.buildRelatedLinkMeta(model, 'linkedNodes'),
                 },
                 self: {
                     href: `${apiUrl}/v2/nodes/${model.id}/relationships/linked_nodes/`,
@@ -29,7 +20,13 @@ export default class RegistrationSerializer extends ApplicationSerializer {
             contributors: {
                 related: {
                     href: `${apiUrl}/v2/nodes/${model.id}/contributors/`,
-                    meta: {},
+                    meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                },
+            },
+            forks: {
+                related: {
+                    href: `${apiUrl}/v2/nodes/${model.id}/forks/`,
+                    meta: this.buildRelatedLinkMeta(model, 'forks'),
                 },
             },
             registrationSchema: {
