@@ -35,6 +35,7 @@ export default class User extends OsfModel.extend(Validations) {
     @attr('fixstring') givenName!: string;
     @attr('array') middleNames!: string[];
     @attr('fixstring') familyName!: string;
+    @attr('fixstring') suffix!: string;
 
     @attr('fixstring') locale!: string;
     @attr('fixstring') timezone!: string;
@@ -46,6 +47,8 @@ export default class User extends OsfModel.extend(Validations) {
     @attr('boolean', { defaultValue: false }) canViewReviews!: boolean;
 
     @attr('boolean') acceptedTermsOfService?: boolean;
+    @attr('boolean') active!: boolean;
+    @attr('object') social!: boolean;
 
     @belongsTo('region') defaultRegion!: DS.PromiseObject<Region> & Region;
 
