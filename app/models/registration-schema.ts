@@ -22,12 +22,15 @@ export interface Question extends Q {
     format: string;
     title: string;
     nav: string;
+    help?: string;
 }
 
 export interface Page {
     id: string;
     title: string;
     questions: Question[];
+    type?: 'object';
+    description?: string;
 }
 
 export interface Schema {
@@ -61,6 +64,7 @@ export interface RegistrationMetadata {
  * @class RegistrationSchema
  */
 export default class RegistrationSchema extends OsfModel {
+    @attr('boolean') active!: boolean;
     @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: Schema;
