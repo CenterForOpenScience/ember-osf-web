@@ -74,6 +74,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Misc:
     - install `@cos-forks/ember-content-placeholders`
     - upgrade to ember(-(cli|data))@~3.3.0
+    - don't strip ember-test-selectors from production builds
 - DX:
     - No more mirage fixtures
     - Have guid-like IDs for mirage factories (nodes and users to start)
