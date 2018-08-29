@@ -42,6 +42,18 @@ export interface Schema {
     description: string;
 }
 
+export interface Answer {
+    value?: string;
+}
+
+export interface Answers {
+    [id: string]: Answer;
+}
+
+export interface RegistrationMetadata {
+    [qid: string]: Answer | Answers;
+}
+
 /**
  * Model for OSF APIv2 rgsitration schemas.
  * This model describes registration schemas and can be directly queried.
