@@ -209,6 +209,10 @@ module.exports = function(environment) {
                 'guid-node.analytics.index': 'ember_project_analytics_page',
                 'guid-registration.analytics.index': 'ember_project_analytics_page',
                 'guid-node.registrations': 'ember_project_registrations_page',
+                'settings.tokens': 'ember_user_settings_tokens_page',
+                'settings.tokens.index': 'ember_user_settings_tokens_page',
+                'settings.tokens.create': 'ember_user_settings_tokens_page',
+                'settings.tokens.edit': 'ember_user_settings_tokens_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
