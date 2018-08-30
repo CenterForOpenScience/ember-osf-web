@@ -1,8 +1,8 @@
 // @ts-ignore
-import { association, faker } from 'ember-cli-mirage';
+import { association, faker, trait } from 'ember-cli-mirage';
 
 import NodeFactory from './node';
-import { guid } from './utils';
+import { createRegistrationMetadata, guid } from './utils';
 
 export default NodeFactory.extend({
     id(i: number) {
@@ -34,6 +34,15 @@ export default NodeFactory.extend({
     pendingWithdrawal() {
         return faker.random.boolean();
     },
-    registeredMeta: {},
     registrationSchema: association(),
+
+    registeredMeta: {},
+
+    withRegisteredMeta: trait({
+        afterCreate(registration: any) {
+            registration.update({
+                registeredMeta: createRegistrationMetadata(registration.registrationSchema.schemaNoConflict, true),
+            });
+        },
+    }),
 });
