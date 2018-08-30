@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 // tslint:disable:max-line-length
 
+import { MirageRegistrationSchema } from '../../fixtures/registration-schemas';
+
 export default {
     id: 'as_predicted_preregsitration',
     active: true,
@@ -83,6 +85,6 @@ export default {
         ],
         name: 'AsPredicted Preregistration',
     },
-};
+} as MirageRegistrationSchema;
 
 /* eslint-enable max-len */

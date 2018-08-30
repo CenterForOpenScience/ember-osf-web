@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 // tslint:disable:max-line-length
 
+import { MirageRegistrationSchema } from '../../fixtures/registration-schemas';
+
 export default {
     id: 'prereg_challenge',
     active: true,
@@ -441,6 +443,6 @@ export default {
         ],
         description: 'Preregistration Challenge (pre-data collection): You will be asked a series of questions to ensure that your sampling, design, and analysis plans are solidified prior to beginning your study. Publications that pre register with this registration form may be eligible for a $1,000 prize. See project page for complete information.',
     },
-};
+} as MirageRegistrationSchema;
 
 /* eslint-enable max-len */

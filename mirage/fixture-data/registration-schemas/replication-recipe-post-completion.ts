@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 // tslint:disable:max-line-length
 
+import { MirageRegistrationSchema } from '../../fixtures/registration-schemas';
+
 export default {
     id: 'replication_recipe_post_completion',
     active: true,
@@ -101,6 +103,6 @@ export default {
         ],
         name: 'Replication Recipe (Brandt et al., 2013): Post-Completion',
     },
-};
+} as MirageRegistrationSchema;
 
 /* eslint-enable max-len */

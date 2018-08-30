@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 // tslint:disable:max-line-length
 
+import { MirageRegistrationSchema } from '../../fixtures/registration-schemas';
+
 export default {
     id: 'osf_standard_pre_data_collection_registration',
     active: true,
@@ -53,6 +55,6 @@ export default {
         ],
         name: 'OSF-Standard Pre-Data Collection Registration',
     },
-};
+} as MirageRegistrationSchema;
 
 /* eslint-enable max-len */

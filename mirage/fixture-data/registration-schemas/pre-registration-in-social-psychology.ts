@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 // tslint:disable:max-line-length
 
+import { MirageRegistrationSchema } from '../../fixtures/registration-schemas';
+
 export default {
     id: 'pre_registration_in_social_psychology',
     active: true,
@@ -568,6 +570,6 @@ export default {
         ],
         description: "This registration form is intended for use when conducting a pre-registration. You will be asked to fill out the elements for a pre-registration as described in: van 't Veer & Giner-Sorolla (2016). This preregistration form is not a valid submission for the Pre-registration Prize.",
     },
-};
+} as MirageRegistrationSchema;
 
 /* eslint-enable max-len */

@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 // tslint:disable:max-line-length
 
+import { MirageRegistrationSchema } from '../../fixtures/registration-schemas';
+
 export default {
     id: 'registered_report_protocol_preregistration.',
     active: true,
@@ -113,6 +115,6 @@ export default {
         ],
         description: 'You will be asked a few simple questions about your study and given the chance to attach your accepted manuscript to the form. Use this form after receiving an "in-principle acceptance" from a journal the offers the Registered Reports format. See https://cos.io/rr for more information. This form is not eligible for a Prereg Prize.',
     },
-};
+} as MirageRegistrationSchema;
 
 /* eslint-enable max-len */

@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 // tslint:disable import-spacing
 
+import RegistrationSchema from 'ember-osf-web/models/registration-schema';
+
 import as_predicted_preregistration from
     '../fixture-data/registration-schemas/as-predicted-preregistration';
 import open_ended_registration from
@@ -18,6 +20,10 @@ import replication_recipe_post_completion from
 import replication_recipe_pre_registration from
     '../fixture-data/registration-schemas/replication-recipe-pre-registration';
 
+export type MirageRegistrationSchema =
+    Pick<RegistrationSchema, 'id' | 'active' | 'name' | 'schemaVersion'> &
+    { schemaNoConflict: RegistrationSchema['schema'] };
+
 export default [
     prereg_challenge,
     open_ended_registration,
@@ -27,6 +33,6 @@ export default [
     replication_recipe_post_completion,
     replication_recipe_pre_registration,
     pre_registration_in_social_psychology,
-];
+] as MirageRegistrationSchema[];
 
 /* eslint-enable camelcase */
