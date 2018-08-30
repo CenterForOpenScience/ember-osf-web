@@ -70,7 +70,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
         super(...args);
 
         assert(
-            'Must provide either `model` xor `modelTaskInstance` to {{paginated-relation}}',
+            'Must provide either `model` xor `modelTaskInstance` to {{paginated-list/has-many}}',
             Boolean(this.model) !== Boolean(this.modelTaskInstance),
         );
 

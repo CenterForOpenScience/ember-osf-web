@@ -37,8 +37,6 @@ export default {
         save: '保存',
         ellipsis: '\u2026',
         warning: '警告',
-        clipboard_copy: 'クリップボードへコピー',
-        clipboard_copied: 'Copied!',
         sort_asc: '昇順ソート',
         sort_desc: '降順ソート',
         sort: 'ソート',
@@ -680,6 +678,10 @@ export default {
             last_updated: 'Last updated:',
             register: 'Register',
             delete_draft_confirm: 'Are you sure you want to delete this draft registration?',
+        },
+        'copyable-text': {
+            copyToClipboard: 'クリップボードへコピー',
+            copied: 'Copied!',
         },
     },
     settings: {

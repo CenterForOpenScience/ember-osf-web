@@ -5,12 +5,12 @@
         error=(action this._error)
         class='btn btn-default btn-sm'
         local-class='CopyButton'
-        aria-label=(t 'general.clipboard_copy')
+        aria-label=(t 'osf-components.copyable-text.copyToClipboard')
     }}
         {{fa-icon 'copy'}}
         {{#if this.hasCopied}}
             {{#bs-tooltip visible=true}}
-                {{t 'general.clipboard_copied'}}
+                {{t 'osf-components.copyable-text.copied'}}
             {{/bs-tooltip}}
         {{/if}}
     {{/copy-button}}

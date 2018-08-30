@@ -24,11 +24,11 @@
                     {{#tab.pane id='drafts' title=(t 'node.registrations.draft_registrations')}}
                         <div class="row" local-class="RegistrationsPane">
                             <ul class="list-group">
-                                {{#paginated-relation
+                                {{#paginated-list/has-many
                                     modelTaskInstance=this.model.taskInstance
                                     relationshipName='draftRegistrations'
                                     reload=this.reloadDrafts
-                                    queryParams=this.draftsQueryParams
+                                    query=this.draftsQueryParams
                                     analyticsScope='Project Draft Registrations'
                                     as |pr|
                                 }}
@@ -41,7 +41,7 @@
                                         <p>{{t 'node.registrations.start_new'}}</p>
                                         <p>{{t 'node.registrations.learn_more' learnMoreLink='http://help.osf.io/m/registrations/l/524205-register-your-project'}}</p>
                                     {{/pr.empty}}
-                                {{/paginated-relation}}
+                                {{/paginated-list/has-many}}
                             </ul>
                         </div>
                     {{/tab.pane}}

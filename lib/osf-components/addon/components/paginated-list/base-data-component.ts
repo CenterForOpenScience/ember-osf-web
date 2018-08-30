@@ -12,6 +12,7 @@ export default abstract class BaseDataComponent extends Component.extend({
         const blocker = this.ready.getBlocker();
 
         // Resolve race condition on init: Let component finish initializing before continuing
+        // TODO: Remove once we have task decorators, so the task is defined on the prototype
         yield;
 
         try {

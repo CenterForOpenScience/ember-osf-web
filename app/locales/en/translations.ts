@@ -37,8 +37,6 @@ export default {
         save: 'Save',
         ellipsis: '\u2026',
         warning: 'Warning',
-        clipboard_copy: 'Copy to clipboard',
-        clipboard_copied: 'Copied!',
         sort_asc: 'Sort ascending',
         sort_desc: 'Sort descending',
         sort: 'Sort',
@@ -680,6 +678,10 @@ export default {
             last_updated: 'Last updated:',
             register: 'Register',
             delete_draft_confirm: 'Are you sure you want to delete this draft registration?',
+        },
+        'copyable-text': {
+            copyToClipboard: 'Copy to clipboard',
+            copied: 'Copied!',
         },
     },
     settings: {

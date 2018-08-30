@@ -1,7 +1,7 @@
 {{#if this.loading}}
     {{#if this.placeholderCount}}
         <ul class="list-group m-md">
-            {{#each (range 1 @placeholderCount)}}
+            {{#each (range 1 this.placeholderCount)}}
                 {{yield (hash
                     item=(component 'paginated-list/x-item')
                 )}}
