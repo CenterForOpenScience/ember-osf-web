@@ -39,16 +39,15 @@
     {{model.taskInstance.error}}
 {{else}}
     {{#settings/tokens/x-token-form
-        token=token
-        disabled=model.taskInstance.isRunning
+        token=this.token
+        disabled=this.model.taskInstance.isRunning
         onSave=(action this.tokenSaved)
         analyticsScope='Settings - Tokens - Edit'
         as |form|
     }}
-        {{settings/tokens/x-delete-modal
-            token=this.token
-            tokenDeleted=(action this.tokenSaved)
-            buttonDisabled=form.disabled
+        {{delete-button
+            delete=(action this.deleteToken)
+            disabled=form.disabled
             analyticsScope='Settings - Tokens - Edit'
         }}
 

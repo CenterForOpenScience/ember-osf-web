@@ -20,7 +20,15 @@ export default class SettingsTokensEditController extends Controller {
 
     @action
     tokenSaved() {
-        // Analytics handled by x-token-form and x-delete-modal
+        // Analytics handled by x-token-form
+        this.router.transitionTo('settings.tokens');
+    }
+
+    @action
+    async deleteToken() {
+        // Analytics handled by delete-button
+        await this.token!.destroyRecord();
+
         this.router.transitionTo('settings.tokens');
     }
 

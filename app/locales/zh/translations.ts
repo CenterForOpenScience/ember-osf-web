@@ -768,6 +768,14 @@ export default {
             copyToClipboard: 'Copy to clipboard',
             copied: 'Copied!',
         },
+        'delete-button': {
+            buttonLabel: 'Delete',
+            modalTitle: 'Are you sure?',
+            modalBody: 'This action is irreversible.',
+            hardConfirm: 'Type the following to continue:',
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel',
+        },
     },
     settings: {
         toggleNav: 'Toggle navigation',

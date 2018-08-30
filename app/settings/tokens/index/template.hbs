@@ -15,22 +15,11 @@
                 {{token.name}}
             {{/link-to}}
 
-            {{#settings/tokens/x-delete-modal
-                token=token
-                tokenDeleted=(action (mut this.reloadList) true)
+            {{delete-button
+                small=true
+                delete=(action deleteToken token)
                 analyticsScope='Settings - Tokens'
-                as |modal|
             }}
-                {{#bs-button
-                    type='danger'
-                    size='xs'
-                    onClick=modal.show
-                    disabled=modal.disabled
-                    data-test-open-delete=token.id
-                }}
-                    {{t 'settings.tokens.deleteToken'}}
-                {{/bs-button}}
-            {{/settings/tokens/x-delete-modal}}
         </div>
     {{/list.item}}
 
