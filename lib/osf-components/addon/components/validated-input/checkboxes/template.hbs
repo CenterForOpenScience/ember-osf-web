@@ -1,0 +1,22 @@
+{{#validated-input/x-input-wrapper
+    model=this.model
+    valuePath=this.valuePath
+    validationStatus=this.validationStatus
+}}
+    <div local-class='CheckboxesFormControl' class='form-control'>
+        {{#each options as |option|}}
+            {{yield (hash
+                option=option
+                checkboxId=(concat this.elementId '__' option.id)
+                checkbox=(component 'validated-input/checkboxes/x-checkbox'
+                    relationArray=this.value
+                    option=option
+                    checkboxName=this.valuePath
+                    ariaLabel=this.ariaLabel
+                    disabled=this.disabled
+                    checkboxId=(concat this.elementId '__' option.id)
+                )
+            )}}
+        {{/each}}
+    </div>
+{{/validated-input/x-input-wrapper}}

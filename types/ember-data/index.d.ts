@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export,space-infix-ops */
+/* eslint-disable space-infix-ops */
 
 declare module 'ember-data' {
     export type RelationshipsFor<Model> = keyof Model;
@@ -9,4 +9,4 @@ declare module 'ember-data' {
     }
 }
 
-/* eslint-enable import/prefer-default-export,space-infix-ops */
+/* eslint-enable space-infix-ops */

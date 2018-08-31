@@ -1,0 +1,52 @@
+{{#paginated-list/all
+    data-test-token-list
+    modelName='token'
+    analyticsScope='Settings - Tokens'
+    reload=this.reloadList
+    as |list|
+}}
+    {{#list.item as |token|}}
+        <div local-class='Token'>
+            {{#link-to
+                'settings.tokens.edit'
+                token.id
+                data-test-token-link=token.id
+            }}
+                {{token.name}}
+            {{/link-to}}
+
+            {{#settings/tokens/x-delete-modal
+                token=token
+                tokenDeleted=(action (mut this.reloadList) true)
+                analyticsScope='Settings - Tokens'
+                as |modal|
+            }}
+                {{#bs-button
+                    type='danger'
+                    size='xs'
+                    onClick=modal.show
+                    disabled=modal.disabled
+                    data-test-open-delete=token.id
+                }}
+                    {{t 'settings.tokens.deleteToken'}}
+                {{/bs-button}}
+            {{/settings/tokens/x-delete-modal}}
+        </div>
+    {{/list.item}}
+
+    {{#list.empty}}
+        <div local-class='EmptyList' data-test-no-tokens>
+            {{t 'settings.tokens.emptyList'}}
+        </div>
+    {{/list.empty}}
+{{/paginated-list/all}}
+
+<div local-class='ButtonBar'>
+    {{#link-to
+        data-test-create-token-link
+        'settings.tokens.create'
+        class='btn btn-primary'
+    }}
+        {{t 'settings.tokens.createToken'}}
+    {{/link-to}}
+</div>

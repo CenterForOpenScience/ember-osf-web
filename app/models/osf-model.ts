@@ -155,7 +155,7 @@ export default class OsfModel extends Model {
      * @param {String} relationshipName Name of a hasMany relationship on the model
      * @returns {Promise} Promise that will resolve when count is loaded
      */
-    async loadRelatedCount<T extends OsfModel>(this: T, relationshipName: RelationshipsFor<T>) {
+    async loadRelatedCount<T extends OsfModel>(this: T, relationshipName: RelationshipsFor<T> & string) {
         const apiModelName = this.store.adapterFor(this.modelName).pathForType(this.modelName);
         const apiRelationshipName = underscore(relationshipName);
         const errorContext = `while loading related counts for ${this.modelName}.${relationshipName}`;

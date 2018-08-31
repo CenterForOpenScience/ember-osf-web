@@ -1,0 +1,27 @@
+<div>
+    {{#link-to 'settings.tokens'
+        click=(action 'click' 'link' 'Settings - Tokens - Create - Back to list' target=this.analytics)
+    }}
+        {{fa-icon 'arrow-left'}}
+        {{t 'settings.tokens.backToList'}}
+    {{/link-to}}
+</div>
+
+<hr>
+
+<h4>{{t 'settings.tokens.createToken'}}</h4>
+
+{{#settings/tokens/x-token-form
+    onSave=(action 'onSave')
+    analyticsScope='Settings - Tokens - Create'
+    as |form|
+}}
+    {{#bs-button
+        data-test-create-token-button
+        type='primary'
+        buttonType='submit'
+        disabled=form.submitting
+    }}
+        {{t 'settings.tokens.createToken'}}
+    {{/bs-button}}
+{{/settings/tokens/x-token-form}}

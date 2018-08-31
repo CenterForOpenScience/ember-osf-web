@@ -15,14 +15,13 @@
                     }}
                 </h4>
                 <h5>
-                    {{#validated-input
-                        type='checkbox'
+                    {{#validated-input/checkbox
                         model=currentUser.user
-                        didValidate=didValidate
                         valuePath='acceptedTermsOfService'
+                        messagesShown=this.didValidate
                     }}
                         {{t 'tos_consent.have_read_and_agree'}}
-                    {{/validated-input}}
+                    {{/validated-input/checkbox}}
                 </h5>
             </div>
             <button type="submit" class="btn btn-primary" {{action (perform saveUser)}} {{action 'click' 'button' 'ToS Consent Banner - continue' target=analytics}}>

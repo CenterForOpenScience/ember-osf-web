@@ -1,7 +1,7 @@
 import OsfAdapter from './osf-adapter';
 
 export default class ReviewAction extends OsfAdapter {
-    pathForType(): string {
+    pathForType(_: string): string {
         return 'actions/reviews/';
     }
 }

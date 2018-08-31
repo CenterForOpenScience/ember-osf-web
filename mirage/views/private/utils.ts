@@ -29,7 +29,7 @@ const alwaysEmbed: { [key: string]: string[] } = {
 };
 
 // https://stackoverflow.com/a/4760279
-export const dynamicSort = (property: string) => {
+export function dynamicSort(property: string) {
     let sortOrder = 1;
     let newProp = property;
     if (newProp[0] === '-') {
@@ -47,22 +47,19 @@ export const dynamicSort = (property: string) => {
         const result = (aAt[newProp] < bAt[newProp]) ? -1 : (aAt[newProp] > bAt[newProp]) ? 1 : 0;
         return result * sortOrder;
     };
-};
+}
 
-export const sort = (request: any, data: any[], options: ProcessOptions): any[] => {
+export function sort(request: any, data: any[], options: ProcessOptions = {}): any[] {
     const { queryParams } = request;
-    let { defaultSortKey } = options;
-    if (defaultSortKey === undefined) {
-        defaultSortKey = 'date_modified';
-    }
+    const { defaultSortKey = 'date_modified' } = options;
     let sortKey: string = defaultSortKey;
     if (typeof queryParams === 'object' && 'sort' in queryParams) {
         sortKey = queryParams.sort;
     }
     return data.sort(dynamicSort(sortKey));
-};
+}
 
-export const buildQueryParams = (params: QueryParameters): string => {
+export function buildQueryParams(params: QueryParameters): string {
     let paramString = '?';
     Object.keys(params).forEach(key => {
         if (paramString.length > 1) {
@@ -79,9 +76,9 @@ export const buildQueryParams = (params: QueryParameters): string => {
     } else {
         return '';
     }
-};
+}
 
-export const paginate = (request: any, data: any[], options: ProcessOptions): JsonData => {
+export function paginate(request: any, data: any[], options: ProcessOptions = {}): JsonData {
     const total = data.length;
     const { queryParams, url } = request;
     const self = `${url}${buildQueryParams(queryParams)}`;
@@ -137,9 +134,9 @@ export const paginate = (request: any, data: any[], options: ProcessOptions): Js
         },
     };
     return paginatedJson;
-};
+}
 
-const autoEmbed = ((embedItem: any, serializedData: {}, config: any) => {
+function autoEmbed(embedItem: any, serializedData: {}, config: any) {
     const data = Object.assign(serializedData);
     data.embeds = {};
     if (embedItem.modelName in alwaysEmbed) { // If this kind of thing has auto-embeds
@@ -158,9 +155,9 @@ const autoEmbed = ((embedItem: any, serializedData: {}, config: any) => {
         delete data.embeds;
     }
     return data;
-});
+}
 
-export const embed = (schema: any, request: any, json: JsonData, config: any) => {
+export function embed(schema: any, request: any, json: JsonData, config: any) {
     const { queryParams } = request;
     const { data } = json;
     let requestEmbedKeys = [];
@@ -199,14 +196,13 @@ export const embed = (schema: any, request: any, json: JsonData, config: any) =>
     const returnJson = Object.assign(json);
     returnJson.data = data;
     return returnJson;
-};
+}
 
-export const compareStrings = (
+export function compareStrings (
     actualValue: string,
     comparisonValue: string,
     operator: ComparisonOperators,
-):
-    boolean => {
+): boolean {
     switch (operator) {
     case ComparisonOperators.Eq:
         return actualValue.includes(comparisonValue);
@@ -215,14 +211,13 @@ export const compareStrings = (
     default:
         throw new Error(`Strings can't be compared with "${operator}".`);
     }
-};
+}
 
-export const compareBooleans = (
+export function compareBooleans (
     actualValue: boolean,
     comparisonValue: boolean,
     operator: ComparisonOperators,
-):
-    boolean => {
+): boolean {
     switch (operator) {
     case ComparisonOperators.Eq:
         return actualValue === comparisonValue;
@@ -231,9 +226,9 @@ export const compareBooleans = (
     default:
         throw new Error(`Booleans can't be compared with "${operator}".`);
     }
-};
+}
 
-export const compare = (actualValue: any, comparisonValue: any, operator: ComparisonOperators): boolean => {
+export function compare(actualValue: any, comparisonValue: any, operator: ComparisonOperators): boolean {
     if (typeof actualValue === 'string') {
         return compareStrings(actualValue, comparisonValue, operator);
     } else if (typeof actualValue === 'boolean') {
@@ -241,13 +236,13 @@ export const compare = (actualValue: any, comparisonValue: any, operator: Compar
     } else {
         throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
     }
-};
+}
 
-export const toOperator = (operatorString: string): ComparisonOperators => {
+export function toOperator(operatorString: string): ComparisonOperators {
     if (!operatorString || operatorString === 'eq') {
         return ComparisonOperators.Eq;
     } else if (Object.values(ComparisonOperators).includes(operatorString)) {
         return operatorString as ComparisonOperators;
     }
     throw new Error(`The operator ${operatorString} is unknown.`);
-};
+}

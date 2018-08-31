@@ -1,0 +1,14 @@
+{{#paginated-list/layout
+    items=this.items
+    page=this.page
+    pageSize=this.pageSize
+    loading=this.loadItemsWrapperTask.isRunning
+    errorShown=this.errorShown
+    totalCount=this.totalCount
+    next=(action this.next)
+    previous=(action this.previous)
+    onDeleteItem=(action this.onDeleteItem)
+    as |list|
+}}
+    {{yield list}}
+{{/paginated-list/layout}}
