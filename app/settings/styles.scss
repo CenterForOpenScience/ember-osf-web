@@ -1,0 +1,10 @@
+@media(min-width: $screen-md-min) {
+    .SideNav.SideNav {
+        display: block;
+    }
+}
+
+.NavToggle {
+    color: $color-text-black;
+    float: right;
+}

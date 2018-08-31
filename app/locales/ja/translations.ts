@@ -37,7 +37,6 @@ export default {
         save: '保存',
         ellipsis: '\u2026',
         warning: '警告',
-        clipboard_copy: 'クリップボードへコピー',
         sort_asc: '昇順ソート',
         sort_desc: '降順ソート',
         sort: 'ソート',
@@ -679,6 +678,52 @@ export default {
             last_updated: 'Last updated:',
             register: 'Register',
             delete_draft_confirm: 'Are you sure you want to delete this draft registration?',
+        },
+        'copyable-text': {
+            copyToClipboard: 'クリップボードへコピー',
+            copied: 'Copied!',
+        },
+    },
+    settings: {
+        toggleNav: 'Toggle navigation',
+        profile: {
+            title: 'Profile information',
+        },
+        account: {
+            title: 'Account settings',
+        },
+        addons: {
+            title: 'Configure add-on accounts',
+        },
+        notifications: {
+            title: 'Notifications',
+        },
+        apps: {
+            title: 'Developer apps',
+        },
+        tokens: {
+            title: 'Personal access tokens',
+            explanation: 'Personal access tokens function like ordinary OAuth access tokens. They can be used to authenticate to the API.',
+            listDescription: 'Your personal access tokens:',
+            emptyList: 'You have not created any tokens.',
+            createToken: 'Create token',
+            deleteToken: 'Delete token',
+            editToken: 'Edit token',
+            copyToken: 'Copy token ID',
+            backToList: 'Back to list of tokens',
+            tokenName: 'Token name',
+            scopes: 'Scopes',
+            scopesDescription: 'Scopes limit access for personal access tokens.',
+            confirmDelete: {
+                title: 'Delete token <strong>{{tokenName}}</strong>?',
+                body: 'Are you sure you want to delete this personal access token? This cannot be reversed.',
+            },
+            createSuccess: {
+                message: 'Successfully created personal access token <strong>{{tokenName}}</strong>.',
+                instructions: 'This token will never expire. This token should never be shared with others. If it is accidentally revealed publicly, it should be deactivated immediately.',
+                warning: 'This is the only time your token will be displayed.',
+                idDescription: 'ID used to authenticate with token <strong>{{tokenName}}<strong>:',
+            },
         },
     },
 };

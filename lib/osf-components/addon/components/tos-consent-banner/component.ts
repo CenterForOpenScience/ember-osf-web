@@ -12,6 +12,7 @@ import layout from './template';
 
 @localClassNames('TosConsentBanner')
 export default class TosConsentBanner extends Component {
+    // Private properties
     layout = layout;
     styles = styles;
 
@@ -19,7 +20,7 @@ export default class TosConsentBanner extends Component {
     @service currentUser!: CurrentUser;
 
     show = false;
-    didValidate?: boolean;
+    didValidate = false;
     hasSubmitted = false;
 
     saveUser = task(function *(this: TosConsentBanner) {

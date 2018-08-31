@@ -1,0 +1,63 @@
+<div>
+    {{#link-to 'settings.tokens'
+        click=(action 'click' 'link' 'Settings - Tokens - Edit - Back to list' target=this.analytics)
+    }}
+        {{fa-icon 'arrow-left'}}
+        {{t 'settings.tokens.backToList'}}
+    {{/link-to}}
+</div>
+
+{{#if this.tokenId}}
+    <hr>
+    <div local-class='NewToken'>
+        <p class='text-success'>
+            {{t 'settings.tokens.createSuccess.message' tokenName=this.token.name}}
+        </p>
+        <p>
+            {{t 'settings.tokens.createSuccess.instructions'}}
+        </p>
+        <p local-class='NewTokenWarning' class='bg-danger'>
+            <strong>
+                {{t 'settings.tokens.createSuccess.warning'}}
+            </strong>
+        </p>
+        <p>
+            {{t 'settings.tokens.createSuccess.idDescription' tokenName=this.token.name}}
+            {{copyable-text
+                text=this.tokenId
+                analyticsLabel='Settings - Tokens - Copy token ID'
+            }}
+        </p>
+    </div>
+{{/if}}
+
+<hr>
+
+<h4>{{t 'settings.tokens.editToken'}}</h4>
+
+{{#if model.taskInstance.isError}}
+    {{model.taskInstance.error}}
+{{else}}
+    {{#settings/tokens/x-token-form
+        token=token
+        disabled=model.taskInstance.isRunning
+        onSave=(action this.tokenSaved)
+        analyticsScope='Settings - Tokens - Edit'
+        as |form|
+    }}
+        {{settings/tokens/x-delete-modal
+            token=this.token
+            tokenDeleted=(action this.tokenSaved)
+            buttonDisabled=form.disabled
+            analyticsScope='Settings - Tokens - Edit'
+        }}
+
+        {{#bs-button
+            type='primary'
+            buttonType='submit'
+            disabled=form.disabled
+        }}
+            {{t 'general.save'}}
+        {{/bs-button}}
+    {{/settings/tokens/x-token-form}}
+{{/if}}

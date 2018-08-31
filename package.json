@@ -51,7 +51,7 @@
     "@types/ember-test-helpers": "^0.7.1",
     "@types/ember-testing-helpers": "^0.0.3",
     "@types/ember__test-helpers": "^0.7.0",
-    "@types/faker": "^4.1.2",
+    "@types/faker": "^4.1.3",
     "@types/js-md5": "^0.4.2",
     "@types/qunit": "^2.5.0",
     "@types/rsvp": "^4.0.1",
@@ -158,11 +158,13 @@
     "toastr": "^2.1.4",
     "tslint-consistent-codestyle": "^1.11.1",
     "tslint-eslint-rules": "^5.0.0",
-    "typescript": "^2.8.3",
-    "typescript-eslint-parser": "^15.0.0"
+    "typescript": "^3.0.1",
+    "typescript-eslint-parser": "^18.0.0"
   },
   "resolutions": {
-    "typescript": "2.8.3"
+    "tsutils": "2.29.0",
+    "typescript": "3.0.1",
+    "ember-cli-clipboard": "0.9.0"
   },
   "engines": {
     "node": ">= 8"

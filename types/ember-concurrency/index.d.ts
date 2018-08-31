@@ -49,7 +49,7 @@ export enum TaskState {
     Idle = 'idle',
 }
 
-interface Task<T, P> extends TaskProperty<T> {
+interface Task<T> extends TaskProperty<T> {
     readonly isIdle: boolean;
     readonly isQueued: boolean;
     readonly isRunning: boolean;
