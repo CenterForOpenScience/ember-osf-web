@@ -30,6 +30,7 @@ interface ModelInstanceShared<T> {
 
     save(): void;
     update<K extends keyof T>(key: K, val: T[K]): void;
+    update<K extends keyof T>(attrs: { [key: K]: T[K] }): void;
     destroy(): void;
     isNew(): boolean;
     isSaved(): boolean;
