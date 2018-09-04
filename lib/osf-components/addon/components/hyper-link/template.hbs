@@ -1,0 +1,22 @@
+{{#unless hidden}}
+    {{!-- Nasty, but required to make link-to work properly --}}
+    {{#let (hash
+        link=(if (not this.isEmber)
+            (component 'hyper-link/x-anchor' this.route onclick=(action 'onclick'))
+            (if this.model
+                (component 'global-link-to' this.route this.model click=(action 'onclick'))
+                (component 'global-link-to' this.route click=(action 'onclick'))
+            )
+        )
+    ) as |ctx|}}
+        {{#if hasBlock}}
+            {{#ctx.link}}
+                {{yield}}
+            {{/ctx.link}}
+        {{else}}
+            {{#ctx.link click=(action 'onclick') onclick=(action 'onclick')}}
+                {{text}}
+            {{/ctx.link}}
+        {{/if}}
+    {{/let}}
+{{/unless}}

@@ -1,12 +1,8 @@
 {{head-layout}}
 {{title (t 'general.OSF')}}
 <div local-class="Application">
-    {{#unless disableHeaders}}
-        {{osf-navbar signupUrl=signupUrl loginAction=(action 'login')}}
-        <div id="{{secondaryNavbarId}}"></div>
-        {{maintenance-banner}}
-        {{status-banner}}
-        {{tos-consent-banner}}
+    {{#unless disableHeader}}
+        {{osf-header}}
     {{/unless}}
     <div local-class="Application__page">
         {{outlet}}
