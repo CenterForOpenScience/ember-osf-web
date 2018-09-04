@@ -1,3 +1,4 @@
+/* tslint:disable max-classes-per-file */
 export { default as faker } from 'faker';
 
 type ID = number | string;
@@ -175,7 +176,11 @@ export function trait(options: AnyAttrs & {
 // function association(...traits: string[], overrides?: { [key: string]: any }): unknown;
 export function association(...args: any[]): unknown;
 
-export const Factory: any;
+export class FactoryClass {
+    extend<T>(attrs: AnyAttrs): FactoryClass;
+}
+
+export const Factory: FactoryClass;
 
 declare global {
     const server: Server; // TODO: only in tests?
@@ -188,3 +193,4 @@ export class JSONAPISerializer {
 
     keyForRelationship(relationship: string): string;
 }
+/* tslint:enable max-classes-per-file */
