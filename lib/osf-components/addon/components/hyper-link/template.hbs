@@ -2,10 +2,10 @@
     {{!-- Nasty, but required to make link-to work properly --}}
     {{#let (hash
         link=(if (not this.isEmber)
-            (component 'hyper-link/x-anchor' this.route onclick=(action 'onclick'))
-            (if this.model
-                (component 'global-link-to' this.route this.model click=(action 'onclick'))
-                (component 'global-link-to' this.route click=(action 'onclick'))
+            (component 'hyper-link/x-anchor' this.resolvedRoute onclick=(action 'onclick'))
+            (if this.resolvedModel
+                (component 'global-link-to' this.resolvedRoute this.resolvedModel click=(action 'onclick'))
+                (component 'global-link-to' this.resolvedRoute click=(action 'onclick'))
             )
         )
     ) as |ctx|}}
