@@ -59,7 +59,7 @@
                 <ul class="nav navbar-nav">
                     {{#let (hash links=(component 'osf-navbar/x-links')) as |ctx|}}
                         {{#if hasBlock}}
-                            {{yield ctx.links}}
+                            {{yield ctx}}
                         {{else}}
                             {{ctx.links}}
                         {{/if}}

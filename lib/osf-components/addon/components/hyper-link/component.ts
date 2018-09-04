@@ -8,21 +8,35 @@ import layout from './template';
 
 @tagName('') // Don't wrap this component in a div
 export default class HyperLink extends Component {
-    static positionalParams = ['route', 'model'];
+    static positionalParams = ['positionalRoute', 'positionalModel'];
 
     layout = layout;
 
     @service analytics!: Analytics;
 
-    route!: string;
+    route?: string;
+    positionalRoute!: string;
+
+    model?: any;
+    positionalModel?: any;
+
     text?: string;
     analyticsLabel?: string;
-    model?: any;
     hidden: boolean = defaultTo(this.hidden, false);
 
-    @computed('route')
+    @computed('route', 'positionalRoute')
+    get resolvedRoute(): string {
+        return this.route || this.positionalRoute;
+    }
+
+    @computed('model', 'positionalModel')
+    get resolvedModel(): any {
+        return this.model || this.positionalModel;
+    }
+
+    @computed('route', 'positionalRoute')
     get isEmber(): boolean {
-        return !/^(?:http|\/)/i.test(this.route);
+        return !/^(?:http|\/)/i.test(this.resolvedRoute);
     }
 
     @action

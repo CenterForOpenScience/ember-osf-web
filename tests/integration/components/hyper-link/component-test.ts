@@ -59,6 +59,20 @@ module('Integration | Component | hyper-link', hooks => {
         assert.dom('a').hasText('This is not my text');
     });
 
+    test('it allows overriding route when curried', async function(this: TestContext, assert) {
+        await render(hbs`
+            {{#let (
+                hash
+                link=(component 'hyper-link' 'http://example.com/#override-me' text='Override Me')
+            ) as |ctx|}}
+                {{ctx.link route='http://example.com/#overridden' text='Overridden'}}
+            {{/let}}
+        `);
+
+        assert.dom('a').hasText('Overridden');
+        assert.dom('a[href="http://example.com/#overridden"]').exists();
+    });
+
     test('it calls analytics on non-ember routes', async function(this: TestContext) {
         const analytics = sinon.createStubInstance(Analytics);
         this.owner.register('service:analytics', analytics, { instantiate: false });
