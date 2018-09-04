@@ -71,6 +71,9 @@ export interface Request {
     params: {
         [key: string]: string | number,
     };
+    queryParams: {
+        [key: string]: string,
+    };
 }
 
 export interface HandlerContext {
@@ -176,4 +179,12 @@ export const Factory: any;
 
 declare global {
     const server: Server; // TODO: only in tests?
+}
+
+export class JSONAPISerializer {
+    request!: Request;
+
+    keyForAttribute(attr: string): string;
+
+    keyForRelationship(relationship: string): string;
 }

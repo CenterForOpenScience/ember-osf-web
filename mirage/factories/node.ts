@@ -1,4 +1,3 @@
-// @ts-ignore
 import { Factory, faker, trait } from 'ember-cli-mirage';
 import { Permission } from 'ember-osf-web/models/osf-model';
 

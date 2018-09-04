@@ -1,19 +1,14 @@
 import { underscore } from '@ember/string';
-// @ts-ignore
 import { JSONAPISerializer } from 'ember-cli-mirage';
-import { RelationshipsFor } from 'ember-data';
+import { ModelRegistry, RelationshipsFor } from 'ember-data';
 import { RelatedLinkMeta, RelationshipLinks } from 'osf-api';
 
-import OsfModel from 'ember-osf-web/models/osf-model';
-
 // eslint-disable-next-line space-infix-ops
-export type SerializedLinks<T extends OsfModel> = {
+export type SerializedLinks<T extends ModelRegistry[keyof ModelRegistry]> = {
     [relName in Exclude<RelationshipsFor<T>, 'toString'>]?: RelationshipLinks;
 };
 
 export default class ApplicationSerializer extends JSONAPISerializer {
-    request!: any;
-
     keyForAttribute(attr: string) {
         return underscore(attr);
     }
@@ -22,12 +17,16 @@ export default class ApplicationSerializer extends JSONAPISerializer {
         return underscore(relationship);
     }
 
-    buildRelatedLinkMeta<T extends OsfModel>(model: T, relationship: RelationshipsFor<T>): RelatedLinkMeta {
-        let relatedCounts = [];
+    buildRelatedLinkMeta<T extends ModelRegistry[keyof ModelRegistry]>(
+        model: T,
+        relationship: RelationshipsFor<T>,
+    ): RelatedLinkMeta {
+        let relatedCounts: string[] = [];
         if (this.request.queryParams.related_counts) {
             relatedCounts = this.request.queryParams.related_counts.split(',');
         }
-        return relatedCounts.includes(this.keyForRelationship(relationship)) ?
-            { count: model[relationship].length } : {};
+        const related = model[relationship];
+        const count = Array.isArray(related) ? related.length : 0;
+        return relatedCounts.includes(this.keyForRelationship(relationship)) ? { count } : {};
     }
 }

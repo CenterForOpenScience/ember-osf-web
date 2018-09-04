@@ -1,4 +1,3 @@
-// @ts-ignore
 import { association, Factory, faker, trait } from 'ember-cli-mirage';
 
 import { createRegistrationMetadata } from './utils';
