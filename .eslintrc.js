@@ -58,6 +58,7 @@ module.exports = {
             rules: {
                 'no-restricted-globals': 'off',
                 'no-useless-constructor': 'off',
+                'space-infix-ops': 'off',
             },
         },
         {

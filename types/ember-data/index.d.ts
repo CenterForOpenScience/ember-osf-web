@@ -1,6 +1,5 @@
-/* eslint-disable space-infix-ops */
-
 declare module 'ember-data' {
+    export type AttributesFor<Model, T extends keyof Model = keyof Model> = T extends string ? T : never;
     export type RelationshipsFor<Model, T extends keyof Model = keyof Model> = T extends string ? T : never;
     namespace DS {
         interface JSONAPIAdapter {
@@ -8,5 +7,3 @@ declare module 'ember-data' {
         }
     }
 }
-
-/* eslint-enable space-infix-ops */
