@@ -15,6 +15,9 @@ export default Factory.extend({
             active: true,
             pages: [],
             name: faker.lorem.sentence().replace('.', ''),
+            config: {
+                hasFiles: false,
+            },
         };
     },
 });
