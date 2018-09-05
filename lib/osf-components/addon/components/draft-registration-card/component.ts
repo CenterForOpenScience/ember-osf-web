@@ -1,10 +1,10 @@
+import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { htmlSafe } from '@ember/string';
 import config from 'ember-get-config';
 
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import { Answer, Answers } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -15,7 +15,7 @@ import layout from './template';
 
 const { OSF: { url: baseURL } } = config;
 
-@localClassNames('DraftRegistrationCard')
+@tagName('')
 export default class DraftRegistrationCard extends Component {
     layout = layout;
     styles = styles;
