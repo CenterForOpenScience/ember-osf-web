@@ -25,6 +25,10 @@ export interface Database {
     [collectionName: string]: DatabaseCollection;
 }
 
+type Model<T> = {
+    [P in keyof T]: T[P] & { models: any[] };
+};
+
 interface ModelInstanceShared<T> {
     id: ID;
     attrs: T;
@@ -39,7 +43,7 @@ interface ModelInstanceShared<T> {
     toString(): string;
 }
 
-type ModelInstance < T > = ModelInstanceShared<T> & T;
+export type ModelInstance<T> = ModelInstanceShared<T> & Model<T>;
 
 interface Collection<T> {
     models: Array<ModelInstance<T>>;
@@ -135,6 +139,8 @@ export interface Server {
     patch: typeof handlerDefinition;
     del: typeof handlerDefinition;
 
+    schema: Schema;
+
     resource(resourceName: string, options?: { only?: string[], except?: string[], path?: string }): void;
 
     loadFixtures(...fixtures: string[]): void;
@@ -143,27 +149,27 @@ export interface Server {
     // passthrough(...paths: string[], verbs?: Verb[]): void;
     passthrough(...args: any[]): void;
 
-    create(
+    create<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         ...traits: string[],
-    ): ModelInstance<AnyAttrs>;
-    create(
+    ): ModelInstance<T>;
+    create<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
-        attrs?: AnyAttrs,
+        attrs?: Partial<T>,
         ...traits: string[],
-    ): ModelInstance<AnyAttrs>;
+    ): ModelInstance<T>;
 
-    createList(
+    createList<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         amount: number,
         ...traits: string[],
-    ): Array<ModelInstance<AnyAttrs>>;
-    createList(
+    ): Array<ModelInstance<T>>;
+    createList<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         amount: number,
-        attrs?: AnyAttrs,
+        attrs?: Partial<T>,
         ...traits: string[],
-    ): Array<ModelInstance<AnyAttrs>>;
+    ): Array<ModelInstance<T>>;
 
     shutdown(): void;
 }
