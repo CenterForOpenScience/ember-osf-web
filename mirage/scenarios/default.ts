@@ -1,6 +1,10 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import Node from 'ember-osf-web/models/node';
+
+import { draftRegisterNodeMultiple, registerNodeMultiple } from '../helpers';
+
 const {
     dashboard: {
         noteworthyNode,
@@ -12,7 +16,7 @@ export default function(server: Server) {
     const currentUser = server.create('user', 'loggedIn');
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
-    const nodes = server.createList('node', 10, {}, 'withContributors');
+    const nodes = server.createList<Node>('node', 10, {}, 'withContributors');
     server.create('node', {
         id: noteworthyNode,
         linkedNodes: nodes.slice(0, 5),
@@ -28,4 +32,7 @@ export default function(server: Server) {
     }
     server.createList('institution', 20);
     server.createList('token', 7);
+    server.loadFixtures('registration-schemas');
+    registerNodeMultiple(server, nodes[0], 12, {}, 'withRegisteredMeta');
+    draftRegisterNodeMultiple(server, nodes[0], 12, {}, 'withRegistrationMetadata');
 }
