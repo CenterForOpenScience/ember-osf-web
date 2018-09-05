@@ -67,5 +67,11 @@ module.exports = {
                 'max-len': 'off',
             },
         },
+        {
+            files: ['tests/**/*'],
+            rules: {
+                'no-await-in-loop': 'off',
+            },
+        },
     ],
 };
