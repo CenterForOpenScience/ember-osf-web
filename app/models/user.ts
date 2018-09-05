@@ -48,7 +48,7 @@ export default class User extends OsfModel.extend(Validations) {
 
     @attr('boolean') acceptedTermsOfService?: boolean;
     @attr('boolean') active!: boolean;
-    @attr('object') social!: boolean;
+    @attr('object') social!: {};
 
     @belongsTo('region') defaultRegion!: DS.PromiseObject<Region> & Region;
 

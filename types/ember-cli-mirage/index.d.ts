@@ -168,16 +168,27 @@ export interface Server {
     shutdown(): void;
 }
 
-export function trait(options: AnyAttrs & {
-    afterCreate?: (obj: ModelInstance<AnyAttrs>, server: Server) => void,
-}): unknown;
+export type TraitOptions = AnyAttrs & {
+    afterCreate?: (obj: ModelInstance<AnyAttrs>, svr: Server) => void,
+};
+
+export interface Trait<O extends TraitOptions = {}> {
+    extension: O;
+    __isTrait__: true;
+}
+
+export function trait<O extends TraitOptions>(options: O): Trait<O>;
 
 // TODO when https://github.com/Microsoft/TypeScript/issues/1360
 // function association(...traits: string[], overrides?: { [key: string]: any }): unknown;
 export function association(...args: any[]): unknown;
 
+export type FactoryAttrs<T> = {
+    [P in keyof T]?: T[P] | ((...args: any[]) => T[P]);
+};
+
 export class FactoryClass {
-    extend<T>(attrs: AnyAttrs): FactoryClass;
+    extend<T>(attrs: FactoryAttrs<T>): FactoryClass;
 }
 
 export const Factory: FactoryClass;

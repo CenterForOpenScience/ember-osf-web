@@ -1,7 +1,15 @@
-import { Factory, faker, trait } from 'ember-cli-mirage';
+import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
+
+import User from 'ember-osf-web/models/user';
+
 import { guid } from './utils';
 
-export default Factory.extend({
+interface UserTraits {
+    withNodes: Trait;
+    loggedIn: Trait;
+}
+
+export default Factory.extend<User & UserTraits>({
     id(i: number) {
         return guid(i, 'user');
     },
@@ -12,7 +20,7 @@ export default Factory.extend({
         return faker.name.firstName();
     },
     middleNames() {
-        return `${faker.name.firstName()} ${faker.name.firstName()}`;
+        return [`${faker.name.firstName()} ${faker.name.firstName()}`];
     },
     familyName() {
         return faker.name.lastName();
@@ -32,7 +40,7 @@ export default Factory.extend({
         return image;
     },
     acceptedTermsOfService: true,
-    canViewReviews: [],
+    canViewReviews: false,
     social: {},
     dateRegistered() {
         return faker.date.past();

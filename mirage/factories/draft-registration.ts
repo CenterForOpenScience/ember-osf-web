@@ -1,8 +1,14 @@
-import { association, Factory, faker, trait } from 'ember-cli-mirage';
+import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
+
+import DraftRegistration from 'ember-osf-web/models/draft-registration';
 
 import { createRegistrationMetadata } from './utils';
 
-export default Factory.extend({
+interface DraftRegistrationTraits {
+    withRegistrationMetadata: Trait;
+}
+
+export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
     registrationSupplement: 'abcdefghijklmnopqrstuvwxyz',
 
     datetimeInitiated() {
@@ -13,11 +19,11 @@ export default Factory.extend({
         return faker.date.recent(5);
     },
 
-    branchedFrom: association(),
+    branchedFrom: association() as DraftRegistration['branchedFrom'],
 
-    initiator: association(),
+    initiator: association() as DraftRegistration['initiator'],
 
-    registrationSchema: association(),
+    registrationSchema: association() as DraftRegistration['registrationSchema'],
 
     registrationMetadata: {},
 

@@ -1,9 +1,17 @@
-import { Factory, faker, trait } from 'ember-cli-mirage';
+import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
+
+import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
 import { guid } from './utils';
 
-export default Factory.extend({
+interface NodeTraits {
+    withContributors: Trait;
+    withRegistrations: Trait;
+    withDraftRegistrations: Trait;
+}
+
+export default Factory.extend<Node & NodeTraits>({
     category: faker.list.cycle(
         'project',
         'analysis',
@@ -30,7 +38,6 @@ export default Factory.extend({
     dateModified() {
         return faker.date.recent(5);
     },
-    accessRequests_enabled: true,
     title() {
         return faker.lorem.sentence().replace('.', '');
     },
@@ -41,7 +48,7 @@ export default Factory.extend({
         return faker.date.past(5);
     },
     currentUserCanComment: true,
-    node_license: null,
+    nodeLicense: null,
     public: true,
     tags: faker.lorem.words(5).split(' '),
     withContributors: trait({

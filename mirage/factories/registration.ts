@@ -1,9 +1,15 @@
-import { association, faker, trait } from 'ember-cli-mirage';
+import { association, faker, trait, Trait } from 'ember-cli-mirage';
+
+import Registration from 'ember-osf-web/models/registration';
 
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid } from './utils';
 
-export default NodeFactory.extend({
+interface RegistrationTraits {
+    withRegisteredMeta: Trait;
+}
+
+export default NodeFactory.extend<Registration & RegistrationTraits>({
     id(i: number) {
         return guid(i, 'registration');
     },
@@ -33,7 +39,7 @@ export default NodeFactory.extend({
     pendingWithdrawal() {
         return faker.random.boolean();
     },
-    registrationSchema: association(),
+    registrationSchema: association() as Registration['registrationSchema'],
 
     registeredMeta: {},
 
