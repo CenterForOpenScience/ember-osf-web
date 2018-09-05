@@ -1,3 +1,4 @@
+import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -15,6 +16,7 @@ import layout from './template';
 
 const { OSF: { url: baseURL } } = config;
 
+@tagName('')
 export default class NodeCard extends Component {
     layout = layout;
     styles = styles;
