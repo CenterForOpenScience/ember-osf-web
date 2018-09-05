@@ -1,7 +1,6 @@
 import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Node from 'ember-osf-web/models/node';
-import { Permission } from 'ember-osf-web/models/osf-model';
 
 import { guid } from './utils';
 
@@ -34,7 +33,7 @@ export default Factory.extend<Node & NodeTraits>({
     description() {
         return faker.lorem.sentences(faker.random.number({ min: 0, max: 4 }));
     },
-    currentUserPermissions: Object.values(Permission),
+    currentUserPermissions: [],
     dateModified() {
         return faker.date.recent(5);
     },
