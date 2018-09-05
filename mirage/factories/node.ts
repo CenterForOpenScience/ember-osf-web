@@ -5,7 +5,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 
 import { guid } from './utils';
 
-interface NodeTraits {
+export interface NodeTraits {
     withContributors: Trait;
     withRegistrations: Trait;
     withDraftRegistrations: Trait;

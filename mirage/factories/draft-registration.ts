@@ -4,7 +4,7 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 
 import { createRegistrationMetadata } from './utils';
 
-interface DraftRegistrationTraits {
+export interface DraftRegistrationTraits {
     withRegistrationMetadata: Trait;
 }
 

@@ -5,7 +5,7 @@ import Registration from 'ember-osf-web/models/registration';
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid } from './utils';
 
-interface RegistrationTraits {
+export interface RegistrationTraits {
     withRegisteredMeta: Trait;
 }
 

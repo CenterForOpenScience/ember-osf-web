@@ -4,7 +4,7 @@ import User from 'ember-osf-web/models/user';
 
 import { guid } from './utils';
 
-interface UserTraits {
+export interface UserTraits {
     withNodes: Trait;
     loggedIn: Trait;
 }
