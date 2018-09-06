@@ -35,7 +35,9 @@ export default NodeFactory.extend<Registration & RegistrationTraits>({
     withdrawn() {
         return faker.random.boolean();
     },
-    withdrawalJustification: 'faulty logic',
+    withdrawalJustification() {
+        return faker.hacker.phrase();
+    },
     pendingWithdrawal() {
         return faker.random.boolean();
     },
