@@ -35,6 +35,10 @@ export default class PaginatedList extends Component {
         if (typeof this.maxPage === 'undefined' || typeof this.totalCount === 'undefined') {
             return undefined;
         }
-        return this.page < this.maxPage ? this.pageSize : this.totalCount % this.pageSize;
+        if (this.page < this.maxPage || !(this.totalCount % this.pageSize)) {
+            return this.pageSize;
+        } else {
+            return this.totalCount % this.pageSize;
+        }
     }
 }

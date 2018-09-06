@@ -1,3 +1,4 @@
+import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { task } from 'ember-concurrency';
 import DS, { ModelRegistry } from 'ember-data';
@@ -9,9 +10,14 @@ export default class PaginatedAll extends BaseDataComponent {
     // Required arguments
     modelName!: keyof ModelRegistry;
 
+    // Optional arguments
+    initialCount?: number;
+
     // Private properties
     @service store!: DS.Store;
     layout = layout;
+
+    @reads('initialCount') totalCount?: number;
 
     loadItemsTask = task(function *(this: PaginatedAll) {
         const items: any = yield this.store.query(this.modelName, {

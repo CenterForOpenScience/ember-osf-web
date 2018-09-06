@@ -1,36 +1,8 @@
-{{#paginated-list/all
-    data-test-token-list
-    modelName='token'
-    analyticsScope='Settings - Tokens'
-    reload=this.reloadList
-    as |list|
-}}
-    {{#list.item as |token|}}
-        <div local-class='Token'>
-            {{#link-to
-                'settings.tokens.edit'
-                token.id
-                data-test-token-link=token.id
-            }}
-                {{token.name}}
-            {{/link-to}}
+<div local-class='Top'>
+    <p local-class='Top__explanation'>
+        {{t 'settings.tokens.explanation'}}
+    </p>
 
-            {{delete-button
-                small=true
-                delete=(action deleteToken token)
-                analyticsScope='Settings - Tokens'
-            }}
-        </div>
-    {{/list.item}}
-
-    {{#list.empty}}
-        <div local-class='EmptyList' data-test-no-tokens>
-            {{t 'settings.tokens.emptyList'}}
-        </div>
-    {{/list.empty}}
-{{/paginated-list/all}}
-
-<div local-class='ButtonBar'>
     {{#link-to
         data-test-create-token-link
         'settings.tokens.create'
@@ -39,3 +11,25 @@
         {{t 'settings.tokens.createToken'}}
     {{/link-to}}
 </div>
+
+{{#paginated-list/all
+    data-test-token-list
+    modelName='token'
+    initialCount=10
+    analyticsScope='Settings - Tokens'
+    reload=this.reloadList
+    as |list|
+}}
+    {{#list.item as |token|}}
+        {{settings/tokens/x-token-card
+            token=token
+            deleted=(action (mut this.reloadList) true)
+        }}
+    {{/list.item}}
+
+    {{#list.empty}}
+        <div local-class='EmptyList' data-test-no-tokens>
+            {{t 'settings.tokens.emptyList'}}
+        </div>
+    {{/list.empty}}
+{{/paginated-list/all}}

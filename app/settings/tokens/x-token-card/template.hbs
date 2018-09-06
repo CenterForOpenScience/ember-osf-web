@@ -1,0 +1,20 @@
+{{#if @token}}
+    {{#link-to
+        'settings.tokens.edit'
+        @token.id
+        data-test-token-link=@token.id
+    }}
+        {{@token.name}}
+    {{/link-to}}
+{{else}}
+    {{#content-placeholders local-class='TokenCard__placeholder' as |placeholder|}}
+        {{placeholder.heading subtitle=false}}
+    {{/content-placeholders}}
+{{/if}}
+
+{{delete-button
+    small=true
+    disabled=(not @token)
+    delete=(perform this.deleteTask)
+    analyticsScope='Settings - Tokens'
+}}

@@ -1,19 +1,17 @@
-{{#if hasPages}}
-    <span local-class='SimplePaginator__element'>
-        {{#bs-button data-test-previous-page-button disabled=(not hasPrev) onClick=(action previousPage)}}
-            <span aria-label="{{t 'paginator.previous'}}">
-                &lt;
-            </span>
-        {{/bs-button}}
-    </span>
-    <span local-class='SimplePaginator__element'>
-        {{t 'paginator.page' page=curPage max=maxPage}}
-    </span>
-    <span local-class='SimplePaginator__element'>
-        {{#bs-button data-test-next-page-button disabled=(not hasNext) onClick=(action nextPage)}}
-            <span aria-label="{{t 'paginator.previous'}}">
-                &gt;
-            </span>
-        {{/bs-button}}
-    </span>
-{{/if}}
+<span local-class='SimplePaginator__element'>
+    {{#bs-button data-test-previous-page-button disabled=(not hasPrev) onClick=(action this._previous)}}
+        <span aria-label="{{t 'paginator.previous'}}">
+            &lt;
+        </span>
+    {{/bs-button}}
+</span>
+<span local-class='SimplePaginator__element SimplePaginator__text'>
+    {{t 'paginator.page' page=this.curPage max=this.maxPage}}
+</span>
+<span local-class='SimplePaginator__element'>
+    {{#bs-button data-test-next-page-button disabled=(not hasNext) onClick=(action this._next)}}
+        <span aria-label="{{t 'paginator.previous'}}">
+            &gt;
+        </span>
+    {{/bs-button}}
+</span>
