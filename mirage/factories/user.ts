@@ -20,7 +20,7 @@ export default Factory.extend<User & UserTraits>({
         return faker.name.firstName();
     },
     middleNames() {
-        return [`${faker.name.firstName()} ${faker.name.firstName()}`];
+        return `${faker.name.firstName()} ${faker.name.firstName()}`;
     },
     familyName() {
         return faker.name.lastName();
