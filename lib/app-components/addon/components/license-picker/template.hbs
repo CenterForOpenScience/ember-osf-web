@@ -1,7 +1,6 @@
 <label>
     {{yield}}
-    {{#validated-input
-        type='power-select'
+    {{#validated-input/power-select
         model=node
         valuePath='license'
         search=(perform queryLicenses)
@@ -11,7 +10,7 @@
         as |license|
     }}
         {{license.name}}
-    {{/validated-input}}
+    {{/validated-input/power-select}}
 </label>
 <small>
     <a
@@ -26,8 +25,7 @@
     {{#if requiredFields.length}}
         <br>
     {{/if}}
-    {{#validated-input
-        type='custom'
+    {{#validated-input/custom
         model=node
         valuePath='nodeLicense'
     }}
@@ -42,7 +40,7 @@
                 input=(action 'notify')
             }}
         {{/each}}
-    {{/validated-input}}
+    {{/validated-input/custom}}
     <a role="button" onclick={{action (mut showText) (not showText)}}>
         {{t (concat 'app_components.license_picker.' (if showText 'hide' 'show'))}}
     </a>

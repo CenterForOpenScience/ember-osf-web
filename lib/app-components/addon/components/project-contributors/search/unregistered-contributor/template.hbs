@@ -1,9 +1,9 @@
 <h3>{{t 'app_components.project_contributors.search.unregistered_contributor.title'}}</h3>
 <label local-class="fullwidth">
     {{t 'app_components.project_contributors.search.unregistered_contributor.full_name'}}
-    {{validated-input
+    {{validated-input/text
         model=model
-        didValidate=didValidate
+        showMessages=didValidate
         valuePath='fullName'
         placeholder=(t 'app_components.project_contributors.search.unregistered_contributor.full_name')
     }}
@@ -11,9 +11,9 @@
 <br>
 <label local-class="fullwidth">
     {{t 'app_components.project_contributors.search.unregistered_contributor.email'}}
-    {{validated-input
+    {{validated-input/text
         model=model
-        didValidate=didValidate
+        showMessages=didValidate
         valuePath='email'
         placeholder=(t 'app_components.project_contributors.search.unregistered_contributor.email')
     }}
@@ -30,7 +30,7 @@
     </button>
     <button
         class="btn btn-success"
-        disabled={{v-get model 'isInvalid'}}
+        disabled={{and didValidate (v-get model 'isInvalid')}}
         {{action (perform add)}}
     >
         {{t 'app_components.project_contributors.search.unregistered_contributor.add'}}

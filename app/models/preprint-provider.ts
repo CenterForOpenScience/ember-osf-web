@@ -1,7 +1,6 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
-// import License from './license';
 import Preprint from './preprint';
 import Provider from './provider';
 

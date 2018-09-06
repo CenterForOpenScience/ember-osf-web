@@ -5,16 +5,88 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Models:
+    - `registration-schema` (including related adapter & serializer)
+    - `token`
+    - `scope`
+- Components:
+    - `draft-registration-card` - summary card for draft registrations
+    - `node-list` - produce a paginated list of nodes from a relationship
+    - `copyable-text` - display some read-only text with a button to copy it
+    - `validated-input/checkboxes` - list of checkboxes to choose what belongs in a has-many relation
+    - `paginated-list/all` - list of all models of a given type
+    - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
+    - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
+- Routes:
+    - `guid-node/registrations` - registrations tab
+    - `settings` - includes the settings side nav
+    - `settings/tokens` - list of personal access tokens
+    - `settings/tokens/edit`
+    - `settings/tokens/create`
+- Blueprints:
+    - `osf-model` - creates model, adapter, and serializer for an OSF model
+- Types:
+    - `ember-cli-mirage` - the 70% that seems possible to express in typescript
+
 ### Changed
+- Models:
+    - `osf-model` - add `relatedCounts` attribute and `incrementRelatedCount()`/`decrementRelatedCount()` methods
+    - `registration` - add `archiving` attribute and `registrationSchema` relationship
+    - `draft-registration` - changed `registrationSchema` relationship type to be `registration-schema`
+- Adapters:
+    - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
+- Serializers:
+    - `osf-serializer`:
+        - populate `relatedCounts` attribute from relationship meta
+        - allow setting `serialize: true` for an attribute in `FooSerializer.attrs` to guarantee the attribute
+          will always be serialized, even when not dirty
+- Services:
+    - `route-context` - added ability to pass query params to `setGuid()`/`loadModel()`
 - Components:
     - `file-renderer` - remove initialWidth MFR parameter
+    - `node-blurb` - renamed to `node-card`
+    - `node-card` - add `registration` type, optional tags display, and placeholder when `node` is not set
+    - `node-navbar` - use `linkTo` for registrations
+    - `paginated-relation` renamed to `paginated-list/has-many`
+        - refactored to allow sharing functionality among different types of list
+        - add ability to specify placeholders, and pass actions to items for reloading the list
+        - `paginated-list/layout`, the shared layout component for the other `paginated-list/*`
+        - `paginated-list/all`, for listing all models of a given type
+    - `validated-input` - replaced `{{validated-input type='foo'}}` with `{{validated-input/foo}}`,
+      since the interface varies by type
+        - `validated-input/checkbox`
+        - `validated-input/checkboxes` (new!)
+        - `validated-input/date`
+        - `validated-input/recaptcha`
+        - `validated-input/text`
+        - `validated-input/textarea`
+    - `osf-navbar` - modified to yield a list home links for engines to override, if required
+- Routes:
+    - `guid-node` - request `forks`, `registrations`, and `draft_registrations` related counts when resolving guid
+    - `guid-node/forks` - use placeholder for forks list
+    - `guid-registration` - request `forks` related count when resolving guid
+    - `guid-registration/forks` - use placeholder for forks list
+    - `resolve-guid/resolved-guid-route` - pass-through query params to `routeContext.setGuid()`
+- Engines:
+    - `analytics-page` - use `node-list` component for linked nodes list
 - Handbook:
     - Fix link styling, remove double underline
     - Update ember-cli-addon-docs dependency
+    - Add info for dev-env, testing, visual style, and written style
 - Misc:
+    - install `@cos-forks/ember-content-placeholders`
     - upgrade to ember(-(cli|data))@~3.3.0
+    - don't strip ember-test-selectors from production builds
 - DX:
     - No more mirage fixtures
+    - Have guid-like IDs for mirage factories (nodes and users to start)
+
+### Removed
+- Models:
+    - `metaschema` (including related adapter & serializer)
+- Services:
+    - `file-manager` (including skipped tests and one unused reference)
 
 ## [0.7.0] - 2018-08-07
 ### Added
@@ -28,7 +100,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - images for home page
     - images for dashboard
 - Third-party Packages:
-    - `qunit-dom` - Better test assetions (especially for hidden things)
+    - `qunit-dom` - Better test assertions (especially for hidden things)
     - `ember-test-selectors` - Find things in your dom without messing everything up
 - Tests:
     - `dashboard` - more application tests
@@ -216,7 +288,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Node navbar: to accompany all node pages
 - Status Banner: shows status messages
 - Maintenance Banner: shows maintenance messages
-- TypeScript: Add ember-cli-typscript and ember-cli-tslint
+- TypeScript: Add ember-cli-typescript and ember-cli-tslint
 - CSS: Add `_typography.scss` with responsive font styling and `_accessibility.scss` for accessibility-related styling
 - Addon: ember-a11y-testing
 - Test: make sure all translations files contain all terms

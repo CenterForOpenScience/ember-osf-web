@@ -30,8 +30,7 @@
         "tests/*"
       ],
       "ember-osf-web/*": [
-        "app/*",
-        "lib/test/app/*"
+        "app/*"
       ],
       "ember-osf-web/mirage/*": [
         "mirage/*"

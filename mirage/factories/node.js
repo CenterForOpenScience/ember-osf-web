@@ -1,4 +1,5 @@
 import { Factory, faker, trait } from 'ember-cli-mirage';
+import { guid } from './utils';
 
 export default Factory.extend({
     category() {
@@ -15,6 +16,9 @@ export default Factory.extend({
             'software',
             'other',
         ]);
+    },
+    id(i) {
+        return guid(i, 'node');
     },
     fork: false,
     currentUserIsContributor: false,

@@ -62,7 +62,7 @@ export default class CollectionItemPicker extends Component.extend({
             this.set('loadingMore', true);
         }
 
-        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany<Node>('nodes', {
+        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
             filter: this.filter ? { title: this.filter } : undefined,
             page: this.page,
         });

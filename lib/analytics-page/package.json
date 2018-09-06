@@ -8,6 +8,7 @@
     "ember-bootstrap": "*",
     "ember-truth-helpers": "*",
     "ember-component-attributes": "*",
+    "ember-content-placeholders": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-sass": "*",
@@ -19,6 +20,7 @@
     "ember-i18n": "*",
     "ember-i18n-inject": "*",
     "ember-font-awesome": "*",
+    "ember-moment": "*",
     "ember-page-title": "*"
   },
   "ember-addon": {

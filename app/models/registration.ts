@@ -3,6 +3,7 @@ import DS from 'ember-data';
 import Comment from './comment';
 import Contributor from './contributor';
 import Node from './node';
+import RegistrationSchema from './registration-schema';
 import RegistryProvider from './registry-provider';
 import User from './user';
 
@@ -20,6 +21,8 @@ import User from './user';
 export default class Registration extends Node.extend() {
     @attr('date') dateRegistered!: Date;
     @attr('boolean') pendingRegistrationApproval!: boolean;
+    @attr('boolean') archiving!: boolean;
+    @attr('boolean') embargoed!: boolean;
     @attr('date') embargoEndDate!: Date | null;
     @attr('boolean') pendingEmbargoApproval!: boolean;
     @attr('boolean') withdrawn!: boolean;
@@ -36,11 +39,14 @@ export default class Registration extends Node.extend() {
 
     @belongsTo('node', { inverse: 'registrations' }) registeredFrom!: DS.PromiseObject<Node> & Node;
     @belongsTo('user', { inverse: null }) registeredBy!: DS.PromiseObject<User> & User;
-    @hasMany('contributor') contributors!: DS.PromiseManyArray<Contributor>;
-    @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
 
     @belongsTo('registry-provider', { inverse: 'registrations' })
     provider!: DS.PromiseObject<RegistryProvider> & RegistryProvider;
+
+    @hasMany('contributor', { inverse: 'node' }) contributors!: DS.PromiseManyArray<Contributor>;
+    @hasMany('comment', { inverse: 'node' }) comments!: DS.PromiseManyArray<Comment>;
+    @belongsTo('registration-schema', { inverse: null })
+    registrationSchema!: DS.PromiseObject<RegistrationSchema> & RegistrationSchema;
 }
 
 declare module 'ember-data' {

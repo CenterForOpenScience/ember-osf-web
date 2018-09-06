@@ -6,7 +6,6 @@ import GuidUserQuickfilesController from 'ember-osf-web/guid-user/quickfiles/con
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
-import loadAll from 'ember-osf-web/utils/load-relationship';
 
 function preventDrop(e: DragEvent) {
     if ((e.target as HTMLDivElement).id === 'quickfiles-dropzone') {
@@ -42,7 +41,7 @@ export default class UserQuickfiles extends Route.extend({
 
             const model = {
                 user,
-                files: yield loadAll(user, 'quickfiles', { 'page[size]': 100 }),
+                files: yield user.loadAll('quickfiles'),
             };
             blocker.done();
             return model;

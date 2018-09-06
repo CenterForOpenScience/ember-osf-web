@@ -42,7 +42,7 @@ export default class Dashboard extends Controller {
     'failedLoading-popular': boolean = false;
 
     institutions: Institution[] = A([]);
-    nodes!: QueryHasManyResult<Node>;
+    nodes?: QueryHasManyResult<Node>;
     noteworthy!: QueryHasManyResult<Node>;
     popular!: QueryHasManyResult<Node>;
 
@@ -72,18 +72,17 @@ export default class Dashboard extends Controller {
         const indicatorProperty = more ? 'loadingMore' : 'loading';
         this.set(indicatorProperty, true);
 
-        const filter = this.get('filter');
-        const user: User = yield this.get('currentUser').get('user');
+        const user: User = yield this.currentUser.user;
 
-        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany<Node>('nodes', {
+        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
             embed: ['contributors', 'parent', 'root'],
-            filter: filter ? { title: $('<div>').text(filter).html() } : undefined,
+            filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
-            sort: this.get('sort') || undefined,
+            sort: this.sort || undefined,
         });
 
-        if (more) {
-            this.get('nodes').pushObjects(nodes);
+        if (more && this.nodes) {
+            this.nodes.pushObjects(nodes);
         } else {
             this.set('nodes', nodes);
         }
@@ -94,8 +93,8 @@ export default class Dashboard extends Controller {
 
     getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
         try {
-            const node: Node = yield this.get('store').findRecord('node', id);
-            const linkedNodes: QueryHasManyResult<Node> = yield node.queryHasMany<Node>('linkedNodes', {
+            const node: Node = yield this.store.findRecord('node', id);
+            const linkedNodes: QueryHasManyResult<Node> = yield node.queryHasMany('linkedNodes', {
                 embed: 'contributors',
                 page: { size: 5 },
             });
@@ -108,8 +107,8 @@ export default class Dashboard extends Controller {
 
     searchNodes = task(function *(this: Dashboard, title: string) {
         yield timeout(500);
-        const user: User = yield this.get('user');
-        return yield user.queryHasMany<Node>('nodes', { filter: { title } });
+        const user: User = yield this.user;
+        return yield user.queryHasMany('nodes', { filter: { title } });
     }).restartable();
 
     createNode = task(function *(
@@ -149,8 +148,8 @@ export default class Dashboard extends Controller {
     @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes!: boolean;
 
     @computed('nodes.{length,meta.total}')
-    get hasMore(this: Dashboard): boolean {
-        return this.nodes.length < this.nodes.meta.total;
+    get hasMore(): boolean {
+        return !!this.nodes && this.nodes.length < this.nodes.meta.total;
     }
 
     @action
@@ -166,7 +165,7 @@ export default class Dashboard extends Controller {
 
     @action
     toggleModal(this: Dashboard) {
-        if (this.get('modalOpen')) {
+        if (this.modalOpen) {
             this.set('newNode', null);
         }
 

@@ -69,26 +69,28 @@ export default class OsfAdapter extends JSONAPIAdapter.extend({
     buildURL(
         this: OsfAdapter,
         modelName: string,
-        id: string,
-        snapshot: DS.Snapshot,
+        id: string | null,
+        snapshot: DS.Snapshot | null,
         requestType: string,
     ): string {
         let url: string = this._super(modelName, id, snapshot, requestType);
-        const { record, adapterOptions } = snapshot || { record: null, adapterOptions: null };
-        const opts: AdapterOptions = adapterOptions || {};
 
-        if (requestType === 'deleteRecord') {
-            if (record && record.get('links.delete')) {
-                url = record.get('links.delete');
-            } else if (record && record.get('links.self')) {
-                url = record.get('links.self');
+        if (snapshot) {
+            const { record, adapterOptions } = snapshot;
+            const opts: AdapterOptions = adapterOptions || {};
+            if (requestType === 'deleteRecord') {
+                if (record && record.get('links.delete')) {
+                    url = record.get('links.delete');
+                } else if (record && record.get('links.self')) {
+                    url = record.get('links.self');
+                }
+            } else if (requestType === 'updateRecord' || requestType === 'findRecord') {
+                if (record && record.get('links.self')) {
+                    url = record.get('links.self');
+                }
+            } else if (opts.url) {
+                url = opts.url; // eslint-disable-line prefer-destructuring
             }
-        } else if (requestType === 'updateRecord' || requestType === 'findRecord') {
-            if (record && record.get('links.self')) {
-                url = record.get('links.self');
-            }
-        } else if (opts.url) {
-            url = opts.url; // eslint-disable-line prefer-destructuring
         }
 
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing

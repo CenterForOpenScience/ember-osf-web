@@ -1,13 +1,20 @@
+import { HandlerContext } from 'ember-cli-mirage';
 import { compare, embed, paginate, ProcessOptions, sort, toOperator } from './private/utils';
 
-export const process = (schema: any, request: any, config: {}, data: any[], options: ProcessOptions) => {
+export function process(
+    schema: any,
+    request: any,
+    handlerContext: HandlerContext,
+    data: any[],
+    options?: ProcessOptions,
+) {
     const sorted = sort(request, data, options);
     let paginatedJson: any = paginate(request, sorted, options);
-    paginatedJson = embed(schema, request, paginatedJson, config);
+    paginatedJson = embed(schema, request, paginatedJson, handlerContext);
     return paginatedJson;
-};
+}
 
-export const filter = (model: any, request: any) => {
+export function filter(model: any, request: any) {
     const { queryParams } = request;
     const filterRegex = /^filter\[((?:\w+(?:\.\w+)*,?)+)\](?:\[([a-z]+)\])?/;
 
@@ -33,4 +40,4 @@ export const filter = (model: any, request: any) => {
                 return true;
             }
         });
-};
+}

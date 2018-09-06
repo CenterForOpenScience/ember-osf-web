@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 import OsfSerializer from './osf-serializer';
 
-export default class BannerAdapter extends OsfSerializer {
+export default class BannerSerializer extends OsfSerializer {
     normalizeSingleResponse(
         store: DS.Store,
         primaryModelClass: any,
@@ -20,6 +20,6 @@ export default class BannerAdapter extends OsfSerializer {
 
 declare module 'ember-data' {
     interface SerializerRegistry {
-        'banner': BannerAdapter;
+        'banner': BannerSerializer;
     }
 }

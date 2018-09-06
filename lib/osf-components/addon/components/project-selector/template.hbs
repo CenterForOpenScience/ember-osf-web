@@ -15,13 +15,13 @@
 {{#if (eq projectSelectState 'newProject')}}
     <form onsubmit={{action 'prevent'}}>
         <div class="form-group">
-            {{validated-input
+            {{validated-input/text
                 model=newProject
-                didValidate=didValidate
                 valuePath='title'
+                showMessages=didValidate
                 placeholder=(t 'move_to_project.enter_project_title')
-                aria-label=(t 'move_to_project.enter_project_title')
-                key-up=(action 'valueChanged')
+                ariaLabel=(t 'move_to_project.enter_project_title')
+                onKeyUp=(action 'valueChanged')
             }}
         </div>
     </form>

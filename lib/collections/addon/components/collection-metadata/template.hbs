@@ -2,16 +2,15 @@
     <div class="col-md-6">
         <label>
             {{t (concat 'collections.submit.' field.labelKey)}}
-            {{#validated-input
-                type='power-select'
+            {{#validated-input/power-select
                 model=collectedMetadatum
                 valuePath=field.valuePath
                 options=(get collection field.optionsKey)
-                didValidate=didValidate
+                showMessages=didValidate
                 as |option|
             }}
                 {{option}}
-            {{/validated-input}}
+            {{/validated-input/power-select}}
         </label>
     </div>
 {{/each}}

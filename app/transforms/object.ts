@@ -21,6 +21,6 @@ export default Transform.extend({
 
 declare module 'ember-data' {
     interface TransformRegistry {
-        'object': any;
+        object: any;
     }
 }

@@ -5,8 +5,9 @@ import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
-import Contributor, { Permission } from 'ember-osf-web/models/contributor';
+import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
 import Toast from 'ember-toastr/services/toast';
 import { HighlightableContributor } from './item/component';
@@ -103,7 +104,7 @@ export default class List extends Component {
      */
     @computed('node.currentUserPermissions')
     get isAdmin(): boolean {
-        return this.node.currentUserPermissions.includes(Permission.admin);
+        return this.node.currentUserPermissions.includes(Permission.Admin);
     }
 
     /**
@@ -120,7 +121,7 @@ export default class List extends Component {
     @computed('contributors.@each.{unregisteredContributor,permission}')
     get adminCount(): number {
         return this.contributors.reduce(
-            (acc, { permission: p, unregisteredContributor: u }) => acc + +(p === Permission.admin && !u),
+            (acc, { permission: p, unregisteredContributor: u }) => acc + +(p === Permission.Admin && !u),
             0,
         );
     }

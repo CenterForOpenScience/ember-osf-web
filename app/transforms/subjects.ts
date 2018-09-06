@@ -8,9 +8,7 @@ interface Identifiable {
 export default class Subjects extends ArrayTransform {
     serialize(value: Identifiable[][]): string[][] {
         return (super.serialize(value) as Identifiable[][])
-            .map(
-                item => item.map(({ id }) => id),
-            );
+            .map(item => item.map(({ id }) => id));
     }
 }
 

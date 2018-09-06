@@ -37,7 +37,6 @@ export default {
         save: 'Save',
         ellipsis: '\u2026',
         warning: 'Warning',
-        clipboard_copy: 'Copy to clipboard',
         sort_asc: 'Sort ascending',
         sort_desc: 'Sort descending',
         sort: 'Sort',
@@ -54,6 +53,7 @@ export default {
         project: 'project',
         component: 'component',
         hosted_on_the_osf: 'Hosted on OSF',
+        please_confirm: 'Please confirm',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -496,15 +496,29 @@ export default {
         learn_more: 'learn more',
         hide_message: 'Hide this message',
     },
-    node_blurb: {
+    node_card: {
         generic: {
-            dateLabel: '',
+            private_tooltip: 'This project is private',
+            timestamp_label: '',
         },
         fork: {
-            dateLabel: 'Forked:',
+            private_tooltip: 'This fork is private',
+            timestamp_label: 'Forked:',
             manage_contributors: 'Manage contributors',
         },
-        private_tooltip: 'This project is private',
+        registration: {
+            private_tooltip: 'This registration is private',
+            timestamp_label: 'Registered:',
+            statuses: {
+                pending: 'Pending registration',
+                withdrawn: 'Withdrawn',
+                pending_withdrawl: 'Pending withdrawal',
+                embargoed: 'Embargoed',
+                pending_embargo: 'Pending embargo',
+                archiving: 'Archiving',
+            },
+        },
+        tags: 'Tags:',
     },
     forks: {
         fork: 'Fork',
@@ -521,6 +535,31 @@ export default {
         no_forks: 'A fork is a copy of a project that you can change without affecting the original project.',
         new_fork_failed: 'Failed to create a new fork. Please try again later.',
         delete_fork_failed: 'Failed to delete the project. Please try again later.',
+    },
+    node: {
+        registrations: {
+            new_registration_modal: {
+                title: 'Register',
+                info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li></ul>Continue your registration by selecting a registration form:',
+                create: 'Create draft',
+            },
+            prereg_modal: {
+                title: 'Preregistration Challenge',
+                notice: 'Notice',
+                eligibility: 'Articles must be published by an <a href="{{approvedJournalLink}}">approved</a> journal by December 31, 2018, to be eligible for a prize.',
+                info: 'Below are some important items for those who choose to enter the Preregistration Challenge. If you do not agree to the terms you may still continue, use the form, and register your research study without entering the Challenge. <strong>Only Preregistrations that enter the challenge and undergo review are eligible for a $1,000 prize.</strong> We welcome questions and comments (learn more <a href="{{learnMoreLink}}">here</a> or email us at <a href="mailto:prereg@cos.io">prereg@cos.io</a>).',
+                list: '<li>After submitting your research plan for review, it is not yet registered. Your research plan will become a static, time stamped preregistration after it passes review. <strong>Please do not begin your study until it is registered.</strong> You will hear back from the review team within 2 business days.</li><li>The published article must also be reviewed before receiving the prize.</li><li>Prizes will be awarded at predetermined dates to eligible entrants. If more eligible entrants exist than available prizes, entrants will be ranked based on the date of registration.</li><li>Articles must be published in an <a href="{{eligibleJournalLink}}">eligible journal</a>.</li><li>Residents of countries on the U.S. State Department\'s <a href="{{embargoedCountriesLink}}">list of embargoed countries</a> may not participate in the Preregistration Challenge.</li><li>Entering the Preregistration Challenge requires that you agree to <a href="{{termsLink}}">all of its terms</a>.</li>',
+                consent: 'I have read these terms. I understand that articles must be published by December 31, 2018, in order to be eligible for a prize.',
+                continue: 'Continue',
+            },
+            no_registrations: 'There have been no completed registrations of this project.',
+            no_drafts: 'There are no draft registrations of this project.',
+            start_new: 'Start a new registration by clicking the “New registration” button. Once created, registrations cannot be edited or deleted.',
+            learn_more: 'Learn more about registrations <a href="{{learnMoreLink}}">here</a>.',
+            new: 'New registration',
+            registrations: 'Registrations',
+            draft_registrations: 'Draft Registrations',
+        },
     },
     delete_modal: {
         title: 'Are you sure you want to delete this {{nodeType}}?',
@@ -940,5 +979,60 @@ export default {
     resource_deleted: { // 410
         heading: 'Resource deleted',
         message: 'User has deleted this content.',
+    },
+    'osf-components': {
+        'draft-registration-card': {
+            initiated_by: 'Initiated by:',
+            started: 'Started:',
+            last_updated: 'Last updated:',
+            register: 'Register',
+            delete_draft_confirm: 'Are you sure you want to delete this draft registration?',
+        },
+        'copyable-text': {
+            copyToClipboard: 'Copy to clipboard',
+            copied: 'Copied!',
+        },
+    },
+    settings: {
+        toggleNav: 'Toggle navigation',
+        profile: {
+            title: 'Profile information',
+        },
+        account: {
+            title: 'Account settings',
+        },
+        addons: {
+            title: 'Configure add-on accounts',
+        },
+        notifications: {
+            title: 'Notifications',
+        },
+        apps: {
+            title: 'Developer apps',
+        },
+        tokens: {
+            title: 'Personal access tokens',
+            explanation: 'Personal access tokens function like ordinary OAuth access tokens. They can be used to authenticate to the API.',
+            listDescription: 'Your personal access tokens:',
+            emptyList: 'You have not created any tokens.',
+            createToken: 'Create token',
+            deleteToken: 'Delete token',
+            editToken: 'Edit token',
+            copyToken: 'Copy token ID',
+            backToList: 'Back to list of tokens',
+            tokenName: 'Token name',
+            scopes: 'Scopes',
+            scopesDescription: 'Scopes limit access for personal access tokens.',
+            confirmDelete: {
+                title: 'Delete token <strong>{{tokenName}}</strong>?',
+                body: 'Are you sure you want to delete this personal access token? This cannot be reversed.',
+            },
+            createSuccess: {
+                message: 'Successfully created personal access token <strong>{{tokenName}}</strong>.',
+                instructions: 'This token will never expire. This token should never be shared with others. If it is accidentally revealed publicly, it should be deactivated immediately.',
+                warning: 'This is the only time your token will be displayed.',
+                idDescription: 'ID used to authenticate with token <strong>{{tokenName}}<strong>:',
+            },
+        },
     },
 };

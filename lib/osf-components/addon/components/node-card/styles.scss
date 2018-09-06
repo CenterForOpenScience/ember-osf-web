@@ -1,0 +1,84 @@
+.NodeCard__heading {
+    :global(.ember-content-placeholders-heading__title) {
+        height: 1em;
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+        &:first-child {
+            width: 100%;
+        }
+    }
+}
+
+.NodeCard__body {
+    :global(.ember-content-placeholders-text__line) {
+        height: 1em;
+        margin-bottom: 5px;
+    }
+}
+
+.NodeCard__dropdown {
+    padding-left: 5px;
+}
+
+.NodeCard__dropdown-list {
+    background-color: $color-bg-gray-light !important;
+    min-width: 180px;
+}
+
+.NodeCard__dropdown-link {
+    color: $color-link-black !important;
+
+    &:hover,
+    &:focus {
+        cursor: pointer;
+        background-image: none !important;
+        background-color: $color-bg-gray-dark !important;
+    }
+}
+
+.NodeCard__dropdown-button {
+    padding: 4px 12px;
+    line-height: 0;
+}
+
+.NodeCard__authors {
+    font-weight: 500;
+}
+
+.NodeCard__description {
+    font-weight: 300;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.NodeCard__tags {
+    margin-top: 2px;
+
+    strong {
+        font-weight: 600;
+    }
+
+    ul {
+        display: inline-block;
+        border: 0;
+        padding: 0;
+    }
+
+    :global(.emberTagInput-tag) {
+        cursor: initial;
+
+        &:hover span {
+            text-decoration: underline;
+            cursor: pointer;
+            background: initial;
+            color: #000;
+        }
+    }
+
+    :global(.emberTagInput-new) {
+        display: none;
+    }
+}

@@ -4,7 +4,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import Node from './node';
-import OsfModel from './osf-model';
+import OsfModel, { Permission } from './osf-model';
 import User from './user';
 
 const Validations = buildValidations({
@@ -30,12 +30,6 @@ const Validations = buildValidations({
     ],
 });
 
-export enum Permission {
-    admin = 'admin',
-    write = 'write',
-    read = 'read',
-}
-
 export const permissions = Object.freeze(Object.values(Permission));
 
 /**
@@ -55,7 +49,7 @@ export default class Contributor extends OsfModel.extend(Validations) {
 
     @belongsTo('user', { inverse: 'contributors' }) users!: DS.PromiseObject<User> & User;
 
-    @belongsTo('node', { inverse: 'contributors' }) node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'contributors', polymorphic: true }) node!: DS.PromiseObject<Node> & Node;
 
     isUnregistered: boolean = defaultTo(this.isUnregistered, false);
 }

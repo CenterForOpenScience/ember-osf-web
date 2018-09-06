@@ -5,8 +5,9 @@ import { task } from 'ember-concurrency';
 import { DS } from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import requiredAction from 'ember-osf-web/decorators/required-action';
-import Contributor, { Permission } from 'ember-osf-web/models/contributor';
+import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
 import Toast from 'ember-toastr/services/toast';
 import styles from './styles';
@@ -64,7 +65,7 @@ export default class UnregisteredContributor extends Component {
         this.setProperties({
             model: this.store.createRecord('contributor', {
                 nodeId: this.node.id,
-                permission: Permission.write,
+                permission: Permission.Write,
                 isUnregistered: true,
             }),
         });

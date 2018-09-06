@@ -1,4 +1,15 @@
-{{#if session.isAuthenticated }}
+{{#if (not session.isAuthenticated) }}
+    <li class='sign-in'>
+        <div>
+            <a href="{{_signupUrl}}" data-test-sign-up-button onclick={{action 'click' 'link' 'Navbar - SignUp' target=analytics}} class="btn btn-success btn-top-signup m-l-sm m-r-xs">
+                {{t 'auth_dropdown.sign_up'}}
+            </a>
+            <a {{action 'login'}} data-test-sign-in-button onclick={{action 'click' 'button' 'Navbar - SignIn' target=analytics}} class="btn btn-info btn-top-login m-r-xs" role="button">
+                {{t 'auth_dropdown.sign_in'}}
+            </a>
+        </div>
+    </li>
+{{else}}
     {{#bs-dropdown tagName='li' classNames='dropdown secondary-nav-dropdown' as |dd|}}
         {{#dd.toggle classNames='btn-link'}}
             <div class="osf-profile-image">
@@ -7,6 +18,7 @@
             <div class='nav-profile-name'>{{user.fullName}}</div>
             <span class="caret"></span>
         {{/dd.toggle}}
+
         {{#dd.menu classNames='dropdown-menu auth-dropdown' as |ddm|}}
             {{#if headline}}
                 {{#ddm.item (html-attributes role='none') local-class='headline'}}
@@ -14,40 +26,29 @@
                 {{/ddm.item}}
             {{/if}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a href="{{serviceLinks.profile}}" onclick={{action 'clicked' 'link' 'Navbar - MyProfile'}}>
+                <a href="{{profileURL}}" onclick={{action 'click' 'link' 'Navbar - MyProfile' target=analytics}}>
                     <i class="fa fa-user fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.my_profile'}}
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                {{#component linkComponent 'support' click=(action 'clicked' 'link' 'Navbar - Support')}}
+                {{#global-link-to 'support' click=(action 'click' 'link' 'Navbar - Support' target=analytics)}}
                     <i class="fa fa-life-ring fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.osf_support'}}
-                {{/component}}
+                {{/global-link-to}}
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a href="{{serviceLinks.settings}}" onclick={{action 'clicked' 'link' 'Navbar - Settings'}}>
+                <a href="{{settingsURL}}" onclick={{action 'click' 'link' 'Navbar - Settings' target=analytics}}>
                     <i class="fa fa-cog fa-lg p-r-xs"></i>
                     {{t 'general.settings'}}
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a class="logoutLink" {{action 'logout'}} onclick={{action 'clicked' 'button' 'Navbar - Logout'}} role="button">
+                <a class="logoutLink" {{action 'logout'}} onclick={{action 'click' 'button' 'Navbar - Logout' target=analytics}} role="button">
                     <i class="fa fa-sign-out fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.log_out'}}
                 </a>
             {{/ddm.item}}
         {{/dd.menu}}
     {{/bs-dropdown}}
-{{else}}
-    <li class='sign-in'>
-        <div>
-            <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-l-sm m-r-xs" onclick={{action 'click' 'link' 'Navbar - SignUp' target=analytics}}>
-                {{t 'auth_dropdown.sign_up'}}
-            </a>
-            <a {{action loginAction}} onclick={{action 'click' 'button' 'Navbar - SignIn' target=analytics}} class="btn btn-info btn-top-login m-r-xs" role="button">
-                {{t 'auth_dropdown.sign_in'}}
-            </a>
-        </div>
-    </li>
 {{/if}}

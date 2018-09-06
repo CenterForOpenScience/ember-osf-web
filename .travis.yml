@@ -45,8 +45,11 @@ jobs:
         - MIRAGE_ENABLED=1
         - ROOT_URL=/ember-osf-web/
         - ASSETS_PREFIX=/ember-osf-web/
+        - A11Y_AUDIT=0
       script:
-        - ember build --environment=production && cp dist/index.html dist/404.html
+        # TODO: switch back to prod build when ember-cli-mirage is fixed: https://github.com/samselikoff/ember-cli-mirage/pull/1376
+        #- ember build --environment=production && cp dist/index.html dist/404.html
+        - ember build && cp dist/index.html dist/404.html
       deploy:
         provider: pages
         skip-cleanup: true

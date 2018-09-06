@@ -29,7 +29,7 @@ function getParentPaths(item: string): string[] {
 }
 
 export const getTaxonomies = task(function *(item: TaxonomyItem, provider: Provider) {
-    const results: QueryHasManyResult<Taxonomy> = yield provider.queryHasMany<Taxonomy>('taxonomies', {
+    const results: QueryHasManyResult<Taxonomy> = yield provider.queryHasMany('taxonomies', {
         filter: { parents: item.id },
         page: { size: pageSize },
     });

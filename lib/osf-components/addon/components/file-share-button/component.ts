@@ -164,16 +164,6 @@ export default class FileShareButton extends Component {
     }
 
     @action
-    share() {
-        const textArea: HTMLTextAreaElement | null = document.querySelector('.SharePane__mfr-url');
-
-        if (textArea) {
-            textArea.select();
-            document.execCommand('copy');
-        }
-    }
-
-    @action
     togglePopup() {
         this.toggleProperty('showPopup');
     }

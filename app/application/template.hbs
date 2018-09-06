@@ -4,16 +4,14 @@
     {{#unless disableHeaders}}
         {{#if theme.isProvider}}
             <style>
+                {{! template-lint-disable bare-strings }}
                 @import url('{{theme.stylesheet}}');
+                {{! template-lint-enable bare-strings }}
             </style>
             <div id="branded-navbar"></div>
         {{else}}
-            {{osf-navbar signupUrl=signupUrl loginAction=(action 'login')}}
+            {{osf-header}}
         {{/if}}
-        <div id="{{secondaryNavbarId}}"></div>
-        {{maintenance-banner}}
-        {{status-banner}}
-        {{tos-consent-banner}}
     {{/unless}}
     <div local-class="Application__page">
         {{outlet}}

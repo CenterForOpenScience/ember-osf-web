@@ -18,19 +18,10 @@
                 <div class='tab-content'>
                     {{#tab.pane elementId=sharePaneId title=(t 'general.share') local-class='SharePane'}}
                         <br>
-                        <div class='input-group'>
-                            <span class='input-group-btn' local-class="SharePane__copy-url-container">
-                                <button type='button' class='btn btn-default btn-md'
-                                        aria-label={{t 'general.clipboard_copy'}}
-                                        onclick={{action 'click' 'button' 'Quick Files - Share file' target=analytics}}
-                                    {{action 'share'}}>
-                                    <div class='fa fa-copy'></div>
-                                </button>
-                            </span>
-                            <input readonly='true' type='text' class='form-control SharePane__mfr-url'
-                                   aria-label={{t 'general.download_url'}}
-                                   value='{{mfrUrl}}'>
-                        </div>
+                        {{copyable-text
+                            text=this.mfrUrl
+                            analyticsLabel='Quick Files - Share file'
+                        }}
                         <div local-class="SharePane__button-group">
                             <a
                                 local-class='SharePane__share-link'

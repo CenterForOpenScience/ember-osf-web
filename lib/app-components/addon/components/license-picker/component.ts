@@ -27,7 +27,7 @@ export default class LicensePicker extends Component.extend({
         }
 
         const licensesAcceptable: QueryHasManyResult<License> = yield this.provider
-            .queryHasMany<License>('licensesAcceptable', {
+            .queryHasMany('licensesAcceptable', {
                 page: { size: 20 },
                 filter: name ? { name } : undefined,
             });

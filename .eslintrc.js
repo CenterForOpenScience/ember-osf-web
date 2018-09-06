@@ -35,6 +35,7 @@ module.exports = {
         'ember/new-module-imports': 'error',
         'ember/no-attrs-in-components': 'error',
         'ember/no-old-shims': 'error',
+        'import/prefer-default-export': 'off',
     },
     overrides: [
         {

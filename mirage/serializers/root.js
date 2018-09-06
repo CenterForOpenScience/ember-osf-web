@@ -21,7 +21,7 @@ export default ApplicationSerializer.extend({
                         nodes: {
                             links: {
                                 related: {
-                                    href: `${apiUrl}/v2/users/${object.id}/nodes/`,
+                                    href: `${apiUrl}/v2/users/${object.currentUser.id}/nodes/`,
                                     meta: {},
                                 },
                             },
@@ -40,7 +40,7 @@ export default ApplicationSerializer.extend({
                         timezone: object.currentUser.timezone,
                     },
                     links: {
-                        self: `/v2/users/${object.currentUser.id}/`,
+                        self: `/v2/users/${object.currentUser.attrs.id}/`,
                         profile_image: object.currentUser.profileImage,
                     },
                     type: 'users',

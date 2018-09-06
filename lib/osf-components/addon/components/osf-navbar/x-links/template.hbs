@@ -1,0 +1,49 @@
+{{#let (hash
+    quickfiles=(component 'hyper-link'
+        'guid-user.quickfiles'
+        this.currentUser.currentUserId
+        analyticsLabel='Navbar - navbar.my_quick_files'
+        hidden=(or
+            this.onInstitutions
+            (not this.session.isAuthenticated)
+        )
+        tagName='li'
+        text=(t 'navbar.my_quick_files')
+    )
+    myprojects=(component 'hyper-link'
+        this.myProjectsURL
+        analyticsLabel='Navbar - navbar.my_projects'
+        hidden=(not this.session.isAuthenticated)
+        tagName='li'
+        text=(t 'navbar.my_projects')
+    )
+    search=(component 'hyper-link'
+        this.searchURL
+        analyticsLabel='Navbar - navbar.search'
+        tagName='li'
+        text=(t 'navbar.search')
+    )
+    support=(component 'hyper-link'
+        this.supportURL
+        analyticsLabel='Navbar - navbar.support'
+        tagName='li'
+        text=(t 'navbar.support')
+    )
+    donate=(component 'hyper-link'
+        'https://cos.io/donate'
+        analyticsLabel='Navbar - navbar.donate'
+        classNames='navbar-donate-button'
+        tagName='li'
+        text=(t 'navbar.donate')
+    )
+) as |links|}}
+    {{#if hasBlock}}
+        {{yield links}}
+    {{else}}
+        {{links.quickfiles}}
+        {{links.myprojects}}
+        {{links.search}}
+        {{links.support}}
+        {{links.donate}}
+    {{/if}}
+{{/let}}

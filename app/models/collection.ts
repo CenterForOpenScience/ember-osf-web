@@ -22,7 +22,7 @@ export default class Collection extends OsfModel {
     @attr('boolean') bookmarks!: boolean;
     @attr('boolean') isPromoted!: boolean;
     @attr('boolean') isPublic!: boolean;
-    @attr('array') collectedTypeChoices!: Array<'node' | 'preprint' | 'collection' | 'registration'>;
+    @attr('array') collectedTypeChoices!: string[];
     @attr('array') statusChoices!: string[];
 
     @belongsTo('collection-provider', { inverse: 'collections' })

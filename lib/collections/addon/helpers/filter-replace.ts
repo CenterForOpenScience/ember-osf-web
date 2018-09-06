@@ -1,11 +1,7 @@
 import { helper } from '@ember/component/helper';
 
-interface Filter {
-    [key: string]: string;
-}
-
 // Adapted from Ember-preprints.
-const defaultFilters: Filter = {
+const defaultFilters = {
     'Open Science Framework': 'OSF',
     'Cognitive Sciences ePrint Archive': 'Cogprints',
     OSF: 'OSF',
@@ -21,7 +17,7 @@ const defaultFilters: Filter = {
  * @return {String} Return shortened provider filter, if present in filters.
  * Otherwise, return original filter.
  */
-export function filterReplace([key, filters = defaultFilters]: [keyof Filter, Filter]): string {
+export function filterReplace([key, filters = defaultFilters]: [string, { [key: string]: string }]): string {
     return filters[key] || key;
 }
 
