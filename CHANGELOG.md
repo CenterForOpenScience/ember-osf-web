@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings/tokens` - list of personal access tokens
     - `settings/tokens/edit`
     - `settings/tokens/create`
+- Tests:
+    - `guid-node/registrations` acceptance test
 - Blueprints:
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
@@ -31,9 +33,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Models:
-    - `osf-model` - add `relatedCounts` attribute and `incrementRelatedCount()`/`decrementRelatedCount()` methods
-    - `registration` - add `archiving` attribute and `registrationSchema` relationship
+    - `osf-model` - add `relatedCounts` attribute and `loadRelatedCounts()` method
+    - `registration` - add `archiving` attribute and `registrationSchema` relationship, typed `registeredMeta`
     - `draft-registration` - changed `registrationSchema` relationship type to be `registration-schema`
+    - `node` - added attributes: `preprint: boolean`, `subjects: string[]`, and `currentUserCanComment: boolean`
+    - `user` - made `middleNames` `string` (was `string[]`), added `suffix: string`, `active: boolean`, `social: {}`
 - Adapters:
     - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
 - Serializers:
@@ -46,7 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `file-renderer` - remove initialWidth MFR parameter
     - `node-blurb` - renamed to `node-card`
-    - `node-card` - add `registration` type, optional tags display, and placeholder when `node` is not set
+    - `node-card` - add `registration` type, optional tags display, and placeholder when `node` is not set, made tagless
     - `node-navbar` - use `linkTo` for registrations
     - `paginated-relation` renamed to `paginated-list/has-many`
         - refactored to allow sharing functionality among different types of list
@@ -79,8 +83,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - upgrade to ember(-(cli|data))@~3.3.0
     - don't strip ember-test-selectors from production builds
 - DX:
-    - No more mirage fixtures
     - Have guid-like IDs for mirage factories (nodes and users to start)
+    - Disabled `space-infix-ops` eslint rule for .d.ts
+    - Disabled `no-await-in-loop` eslint rule for tests
+    - Made mirage factories TypeScript and type check them against Ember models
+    - TypeScripted mirage serializers
+    - Refactored mirage `node` views relationship lists into single `relationshipList` function
+    - Augmented mirage types
+    - Exported `AttributesFor` from `ember-data` types
+    - Defined `ember-data` `AttributesFor` and `RelationshipsFor` such that they only include `string` keys.
+    - Improved osf-api types
+    - Fixed up types for `faker.list.cycle`/`faker.list.random`
 
 ### Removed
 - Models:
