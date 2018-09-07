@@ -45,14 +45,18 @@ export default class DraftRegistrationCard extends Component {
         if (!schema) {
             return -1;
         }
+        const metadata = this.draftRegistration.registrationMetadata;
+        if (!metadata) {
+            return 0;
+        }
         schema.pages.forEach(page =>
             page.questions.forEach(question => {
                 if (question.type === 'object' && question.properties) {
                     question.properties.forEach(property => {
                         if (property.required) {
                             requiredQuestions++;
-                            if (question.qid in this.draftRegistration.registrationMetadata) {
-                                const answers = this.draftRegistration.registrationMetadata[question.qid] as Answers;
+                            if (question.qid in metadata) {
+                                const answers = metadata[question.qid] as Answers;
                                 if (property.id in answers && 'value' in answers[property.id]) {
                                     const { value } = answers[property.id];
                                     if (value && value.length) {
@@ -64,9 +68,8 @@ export default class DraftRegistrationCard extends Component {
                     });
                 } else if (question.required) {
                     requiredQuestions++;
-                    if (question.qid in this.draftRegistration.registrationMetadata &&
-                        'value' in this.draftRegistration.registrationMetadata[question.qid]) {
-                        const { value } = this.draftRegistration.registrationMetadata[question.qid] as Answer;
+                    if (question.qid in metadata && 'value' in metadata[question.qid]) {
+                        const { value } = metadata[question.qid] as Answer;
                         if (value && value.length) {
                             answeredRequiredQuestions++;
                         }
