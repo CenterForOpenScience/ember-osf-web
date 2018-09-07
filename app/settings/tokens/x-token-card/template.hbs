@@ -14,7 +14,9 @@
 
 {{delete-button
     small=true
+    delete=(action this.delete)
     disabled=(not @token)
-    delete=(perform this.deleteTask)
     analyticsScope='Settings - Tokens'
+    modalTitle=(t 'settings.tokens.confirmDelete.title')
+    modalBody=(t 'settings.tokens.confirmDelete.body')
 }}

@@ -8,7 +8,7 @@
         aria-label=(t 'osf-components.copyable-text.copyToClipboard')
     }}
         {{fa-icon 'copy'}}
-        {{#if this.hasCopied}}
+        {{#if this.showTooltip}}
             {{#bs-tooltip visible=true}}
                 {{t 'osf-components.copyable-text.copied'}}
             {{/bs-tooltip}}

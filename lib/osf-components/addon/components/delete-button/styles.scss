@@ -2,11 +2,15 @@
     color: $color-text-black;
 }
 
-.HardConfirm {
+.Modal__header {
+    margin: 0;
+}
+
+.Modal__confirmBlock {
     display: block;
     font-weight: normal;
 }
 
-.HardConfirm__prompt {
+.Modal__confirmPrompt {
     margin: 10px 0;
 }

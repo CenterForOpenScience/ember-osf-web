@@ -12,11 +12,8 @@ export default class SettingsTokensEditController extends Controller {
 
     deleteModalShown: boolean = false;
 
-    @readOnly('model.taskInstance.value.token')
+    @readOnly('model.taskInstance.value')
     token?: Token;
-
-    @readOnly('model.taskInstance.value.tokenId')
-    tokenId?: string;
 
     @action
     tokenSaved() {
@@ -32,9 +29,17 @@ export default class SettingsTokensEditController extends Controller {
         this.router.transitionTo('settings.tokens');
     }
 
-    clearTokenId() {
-        if (this.token) {
-            this.token.set('tokenId', undefined);
+    @action
+    refresh() {
+        this.clearTokenValue();
+
+        // Send action to route
+        this.send('refreshRoute');
+    }
+
+    clearTokenValue() {
+        if (this.token && this.token.tokenValue) {
+            this.token.unloadRecord();
         }
     }
 }

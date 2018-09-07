@@ -748,9 +748,6 @@ export default {
             </p>
         `,
     },
-    paginatedRelation: {
-        error: 'There was an error loading this list.',
-    },
     cookieBanner: {
         cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.',
         accept: 'Accept',
@@ -765,15 +762,18 @@ export default {
         },
         'copyable-text': {
             copyToClipboard: 'クリップボードへコピー',
-            copied: 'Copied!',
+            copied: 'Copied',
         },
         'delete-button': {
             buttonLabel: 'Delete',
-            modalTitle: 'Are you sure?',
-            modalBody: 'This action is irreversible.',
-            hardConfirm: 'Type the following to continue:',
             confirmButtonText: 'Delete',
             cancelButtonText: 'Cancel',
+            modalTitle: 'Are you sure you want to delete this?',
+            modalBody: 'This action is irreversible.',
+            hardConfirm: 'Type the following to continue: <strong>{{text}}</strong>',
+        },
+        'paginated-list': {
+            error: 'There was an error loading this list.',
         },
     },
     settings: {
@@ -796,12 +796,8 @@ export default {
         tokens: {
             title: 'Personal access tokens',
             explanation: 'Personal access tokens function like ordinary OAuth access tokens. They can be used to authenticate to the API.',
-            listDescription: 'Your personal access tokens:',
-            emptyList: 'You have not created any tokens.',
             createToken: 'Create token',
-            deleteToken: 'Delete token',
             editToken: 'Edit token',
-            copyToken: 'Copy token ID',
             backToList: 'Back to list of tokens',
             tokenName: 'Token name',
             scopes: 'Scopes',
@@ -811,10 +807,10 @@ export default {
                 body: 'Are you sure you want to delete this personal access token? This cannot be reversed.',
             },
             createSuccess: {
-                message: 'Successfully created personal access token <strong>{{tokenName}}</strong>.',
+                message: 'Token <strong>{{tokenName}}</strong> created:',
                 instructions: 'This token will never expire. This token should never be shared with others. If it is accidentally revealed publicly, it should be deactivated immediately.',
                 warning: 'This is the only time your token will be displayed.',
-                idDescription: 'ID used to authenticate with token <strong>{{tokenName}}<strong>:',
+                editScopes: 'Edit scopes',
             },
         },
     },

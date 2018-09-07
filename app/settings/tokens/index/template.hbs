@@ -15,7 +15,6 @@
 {{#paginated-list/all
     data-test-token-list
     modelName='token'
-    initialCount=10
     analyticsScope='Settings - Tokens'
     reload=this.reloadList
     as |list|
@@ -26,10 +25,4 @@
             deleted=(action (mut this.reloadList) true)
         }}
     {{/list.item}}
-
-    {{#list.empty}}
-        <div local-class='EmptyList' data-test-no-tokens>
-            {{t 'settings.tokens.emptyList'}}
-        </div>
-    {{/list.empty}}
 {{/paginated-list/all}}

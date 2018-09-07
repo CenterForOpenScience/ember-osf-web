@@ -7,7 +7,7 @@ import layout from './template';
 
 export default class PaginatedList extends Component {
     // Required arguments
-    items!: any[];
+    items?: Array<unknown>;
     page!: number;
     pageSize!: number;
     @requiredAction next!: () => void;
@@ -40,5 +40,10 @@ export default class PaginatedList extends Component {
         } else {
             return this.totalCount % this.pageSize;
         }
+    }
+
+    @computed('items.length', 'loading', 'placeholderCount')
+    get paginatorShown(): boolean {
+        return Boolean((this.items && this.items.length) || (this.loading && this.placeholderCount));
     }
 }

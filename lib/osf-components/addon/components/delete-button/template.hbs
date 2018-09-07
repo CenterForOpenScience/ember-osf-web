@@ -23,11 +23,12 @@
 
 {{#if this.modalShown}}
     {{#bs-modal
+        tagName='span'
         onHide=(action this._cancel)
         as |modal|
     }}
         {{#modal.header}}
-            <h3>{{this.modalTitle}}</h3>
+            <h3 local-class='Modal__header'>{{this.modalTitle}}</h3>
         {{/modal.header}}
 
         {{#modal.body}}
@@ -38,8 +39,8 @@
             {{/if}}
 
             {{#if this.hardConfirm}}
-                <label local-class='HardConfirm' data-test-confirm-scientist-name>
-                    <p local-class='HardConfirm__prompt'>
+                <label local-class='Modal__confirmBlock' data-test-confirm-scientist-name>
+                    <p local-class='Modal__confirmPrompt'>
                         {{t 'osf-components.delete-button.hardConfirm' text=this.scientistName}}
                     </p>
                     {{input

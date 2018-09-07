@@ -6,7 +6,9 @@
     {{/bs-button}}
 </span>
 <span local-class='SimplePaginator__element SimplePaginator__text'>
-    {{t 'paginator.page' page=this.curPage max=this.maxPage}}
+    {{#if (and this.curPage this.maxPage)}}
+        {{t 'paginator.page' page=this.curPage max=this.maxPage}}
+    {{/if}}
 </span>
 <span local-class='SimplePaginator__element'>
     {{#bs-button data-test-next-page-button disabled=(not hasNext) onClick=(action this._next)}}
