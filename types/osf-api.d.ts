@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define,camelcase */
 
-import * as JSON from 'json-typescript';
 import * as JSONAPI from 'jsonapi-typescript';
 
 export type Document = DataDocument | ErrorDocument;
