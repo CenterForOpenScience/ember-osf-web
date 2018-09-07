@@ -1,4 +1,3 @@
-/* tslint:disable max-classes-per-file */
 export { default as faker } from 'faker';
 
 type ID = number | string;
@@ -210,4 +209,3 @@ export class JSONAPISerializer {
 
     keyForRelationship(relationship: string): string;
 }
-/* tslint:enable max-classes-per-file */

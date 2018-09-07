@@ -94,6 +94,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Defined `ember-data` `AttributesFor` and `RelationshipsFor` such that they only include `string` keys.
     - Improved osf-api types
     - Fixed up types for `faker.list.cycle`/`faker.list.random`
+    - Disable `max-classes-per-file` tslint rule globally
 
 ### Removed
 - Models:
