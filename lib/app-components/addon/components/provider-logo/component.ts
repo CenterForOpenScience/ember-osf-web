@@ -1,6 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
-import { and } from '@ember-decorators/object/computed';
+import { alias, and } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import Provider from 'ember-osf-web/models/provider';
@@ -20,12 +19,6 @@ export default class ProviderLogo extends Component {
     @and('provider.domain', 'provider.domainRedirectEnabled')
     useExternalLink!: boolean;
 
-    @computed('provider.id')
-    get logoAsset(): string {
-        return [
-            '/ember_osf_web/assets/osf-assets/files/collections-assets/',
-            this.provider.id,
-            '/square_color_no_transparent.png',
-        ].join('');
-    }
+    @alias('provider.assets.square_color_no_transparent')
+    logoAsset!: string;
 }

@@ -6,7 +6,7 @@
 </div>
 <div class="col-xs-12 col-md-7">
     <h2 local-class="inline">{{t 'app_components.project_contributors.title'}}</h2>
-    <i class="fa fa-question-circle">
+    {{#fa-icon 'question-circle'}}
         {{#bs-popover
             placement='bottom'
             triggerEvents='hover'
@@ -14,7 +14,7 @@
         }}
             {{t 'app_components.project_contributors.contributors_popover'}}
         {{/bs-popover}}
-    </i>
+    {{/fa-icon}}
     <p>{{t 'app_components.project_contributors.instructions'}}</p>
     {{project-contributors/list
         node=node

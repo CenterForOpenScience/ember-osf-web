@@ -5,6 +5,7 @@
     "ember-engine"
   ],
   "dependencies": {
+    "ember-bootstrap": "*",
     "ember-block-slots": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
@@ -13,12 +14,14 @@
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
+    "ember-concurrency": "*",
     "ember-collapsible-panel": "*",
     "ember-cp-validations": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
     "ember-i18n": "*",
     "ember-i18n-inject": "*",
+    "ember-font-awesome": "*",
     "ember-moment": "*",
     "ember-page-title": "*",
     "ember-power-select": "*",

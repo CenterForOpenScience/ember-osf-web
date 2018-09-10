@@ -14,7 +14,7 @@
     <header local-class="{{if (not open) 'closed'}}">
         {{title}}
         <span class="pull-right">
-            <i class="fa fa-icon fa-floppy-o" local-class="{{if didSave 'green'}}"></i>
+            {{fa-icon 'floppy-o' local-class=(if didSave 'green' '')}}
         </span>
     </header>
     {{#panel.body}}

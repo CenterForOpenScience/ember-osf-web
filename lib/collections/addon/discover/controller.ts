@@ -144,21 +144,6 @@ export default class Discover extends Controller {
     type = ''; // Type query param. Must be passed to component, so can be reflected in URL
     whiteListedProviders = config.whiteListedProviders;
 
-    _clearFilters(this: Discover) {
-        this.setProperties({
-            activeFilters: {
-                providers: [],
-                subjects: [],
-            },
-            provider: '',
-            subject: '',
-        });
-    }
-
-    _clearQueryString(this: Discover) {
-        this.set('q', '');
-    }
-
     @action
     query(params: any) {
         return this.store.query('collected-metadatum', params);

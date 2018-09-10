@@ -6,7 +6,7 @@ import Taxonomy from './taxonomy';
 
 /* eslint-disable camelcase */
 
-interface Assets {
+export interface Assets {
     favicon: string;
     powered_by_share: string;
     sharing: string;

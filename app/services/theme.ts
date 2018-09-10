@@ -102,8 +102,14 @@ export default class Theme extends Service {
     }
 
     @computed('id', 'settings')
+    get assetsDir() {
+        return `${assetsPrefix}assets/osf-assets/files/${this.settings.assetPath}/${this.id}`;
+    }
+
+    @computed('provider.assets.style', 'assetsDir')
     get stylesheet() {
-        return `${assetsPrefix}assets/osf-assets/files/${this.settings.assetPath}/${this.id}/style.css`;
+        return this.provider!.assets.style
+            || `${this.assetsDir}/style.css`;
     }
 
     reset(this: Theme) {

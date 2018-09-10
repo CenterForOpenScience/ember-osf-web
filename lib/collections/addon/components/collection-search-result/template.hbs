@@ -15,7 +15,7 @@
             aria-label={{t (concat 'collections.search_result.' (if showBody 'collapse' 'expand'))}}
             {{action 'toggleShowBody'}}
         >
-            <i class="fa fa-caret-{{if showBody 'up' 'down'}}"></i>
+            {{fa-icon (concat 'caret-' (if showBody 'up' 'down'))}}
         </button>
     </div>
 {{/if}}

@@ -5,7 +5,7 @@
         </div>
         <div class="col-sm-3">
             <strong>{{t 'app_components.project_contributors.list.permissions'}}</strong>
-            <i class="fa fa-question-circle">
+            {{#fa-icon 'question-circle'}}
                 {{#bs-popover
                     placement='bottom'
                     triggerEvents='hover'
@@ -13,11 +13,11 @@
                 }}
                     {{t 'app_components.project_contributors.list.permissions_popover'}}
                 {{/bs-popover}}
-            </i>
+            {{/fa-icon}}
         </div>
         <div class="col-sm-2 bib-padding">
             <strong>{{t 'app_components.project_contributors.list.citation'}}</strong>
-            <i class="fa fa-question-circle">
+            {{#fa-icon 'question-circle'}}
                 {{#bs-popover
                     placement='bottom'
                     triggerEvents='hover'
@@ -25,7 +25,7 @@
                 }}
                     {{t 'app_components.project_contributors.list.citation_popover'}}
                 {{/bs-popover}}
-            </i>
+            {{/fa-icon}}
         </div>
     </div>
     {{#sortable-group onChange=(action (perform reorderContributors)) as |group|}}

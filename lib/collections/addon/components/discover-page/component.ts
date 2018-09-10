@@ -119,7 +119,7 @@ export default class DiscoverPage extends Component.extend({
     institutions: string = defaultTo(this.institutions, '');
     language: string = defaultTo(this.language, '');
     organizations: string = defaultTo(this.organizations, '');
-    page: number = defaultTo(this.page, 1);
+    page: number = defaultTo(+this.page, 1);
     provider: string = defaultTo(this.provider, '');
     publishers = '';
     q: string = defaultTo(this.q, '');
@@ -180,7 +180,7 @@ export default class DiscoverPage extends Component.extend({
     @computed('q', 'page', 'filters', 'sortQuery')
     get queryAttributes() {
         return {
-            // from: (this.page - 1) * 10,
+            page: this.page,
             // ...this.sortQuery,
             q: this.q || undefined,
             ...this.filters,
@@ -386,7 +386,7 @@ export default class DiscoverPage extends Component.extend({
             this.scrollToResults();
         }
 
-        this.loadPage();
+        this.get('loadPage').perform();
     }
 
     @action
@@ -401,7 +401,6 @@ export default class DiscoverPage extends Component.extend({
     @action
     filterChanged(this: DiscoverPage) {
         this.setProperties({
-            page: 1,
             ...this.facetContexts.reduce((acc, { component, queryParam }) => ({
                 ...acc,
                 [camelize(component)]: queryParam,
