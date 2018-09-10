@@ -8,6 +8,7 @@
             onSuccess=(action 'onCaptchaResolved')
             onExpired=(action 'onCaptchaExpired')
             disabled=this.disabled
+            ref=(mut this.gRecaptcha)
         }}
     {{/unless}}
 {{/validated-input/x-input-wrapper}}

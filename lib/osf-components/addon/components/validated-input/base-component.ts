@@ -27,6 +27,7 @@ export default abstract class BaseValidatedInput extends Component {
     placeholder?: string;
     disabled: boolean = defaultTo(this.disabled, false);
     messagesShown: boolean = defaultTo(this.messagesShown, true);
+    ref!: BaseValidatedInput;
 
     // Private properties
     validation?: ResultCollection; // defined in constructor
@@ -56,5 +57,9 @@ export default abstract class BaseValidatedInput extends Component {
 
         defineProperty(this, 'validation', oneWayMacro(`model.validations.attrs.${this.valuePath}`));
         defineProperty(this, 'value', aliasMacro(`model.${this.valuePath}`));
+    }
+
+    didInsertElement() {
+        this.set('ref', this);
     }
 }
