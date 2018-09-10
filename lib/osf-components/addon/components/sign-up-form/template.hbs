@@ -1,39 +1,39 @@
 <form {{action 'submit' on='submit'}}>
     {{validated-input/text
         data-test-sign-up-full-name
-        model=model
+        model=this.userRegistration
         valuePath='fullName'
-        messagesShown=didValidate
-        disabled=hasSubmitted
+        messagesShown=this.didValidate
+        disabled=this.hasSubmitted
         placeholder=(t 'sign_up_form.full_name')
         ariaLabel=(t 'sign_up_form.full_name')
     }}
     {{validated-input/text
         data-test-sign-up-email-1
-        model=model
+        model=this.userRegistration
         valuePath='email1'
-        messagesShown=didValidate
-        disabled=hasSubmitted
+        messagesShown=this.didValidate
+        disabled=this.hasSubmitted
         placeholder=(t 'sign_up_form.contact_email')
         ariaLabel=(t 'sign_up_form.contact_email')
     }}
     {{validated-input/text
         data-test-sign-up-email-2
-        model=model
+        model=this.userRegistration
         valuePath='email2'
-        messagesShown=didValidate
-        disabled=hasSubmitted
+        messagesShown=this.didValidate
+        disabled=this.hasSubmitted
         placeholder=(t 'sign_up_form.confirm_email')
         ariaLabel=(t 'sign_up_form.confirm_email')
     }}
     {{validated-input/text
         data-test-sign-up-password
         password=true
-        model=model
+        model=this.userRegistration
         valuePath='password'
-        messagesShown=didValidate
-        disabled=hasSubmitted
-        onKeyUp=(perform strength model.password)
+        messagesShown=this.didValidate
+        disabled=this.hasSubmitted
+        onKeyUp=(perform strength this.userRegistration.password)
         placeholder=(t 'sign_up_form.password')
         ariaLabel=(t 'sign_up_form.password')
     }}
@@ -49,32 +49,28 @@
     </div>
     {{#validated-input/checkbox
         data-test-sign-up-tos
-        model=model
+        model=this.userRegistration
         valuePath='acceptedTermsOfService'
-        messagesShown=didValidate
-        disabled=hasSubmitted
+        messagesShown=this.didValidate
+        disabled=this.hasSubmitted
         local-class='tos-checkbox'
     }}
         {{sign-up-policy}}
     {{/validated-input/checkbox}}
-    {{#if (and
-        (not hasSubmitted)
-        formIsValid
-    )}}
+    {{#if this.hasSubmitted}}
+        <div class="osf-box-lt" local-class="help-block">
+            <p class="ext-success p-xs">{{t 'sign_up_form.registration_success' email=this.userRegistration.email1}}</p>
+        </div>
+    {{else}}
         <div class="col-md-12" local-class="RecaptchaParent">
             {{validated-input/recaptcha
                 data-test-recaptcha
-                model=model
+                model=this.userRegistration
                 valuePath='recaptchaResponse'
-                messagesShown=didValidate
+                messagesShown=this.didValidate
+                ref=(mut this.recaptcha)
             }}
         </div>
-    {{/if}}
-    {{#if hasSubmitted}}
-        <div class="osf-box-lt" local-class="help-block">
-            <p class="ext-success p-xs">{{t 'sign_up_form.registration_success' email=model.email1}}</p>
-        </div>
-    {{else}}
         <div>
             <button type="submit" class="btn btn-success" {{action submit}} {{action 'click' 'button' 'Home - sign_up' target=analytics}}>
                 {{t 'sign_up_form.sign_up_free'}}
