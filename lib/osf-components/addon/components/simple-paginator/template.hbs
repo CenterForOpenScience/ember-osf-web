@@ -1,6 +1,6 @@
 {{#if hasPages}}
     <span local-class='SimplePaginator__element'>
-        {{#bs-button disabled=(not hasPrev) onClick=(action previousPage)}}
+        {{#bs-button data-test-previous-page-button disabled=(not hasPrev) onClick=(action previousPage)}}
             <span aria-label="{{t 'paginator.previous'}}">
                 &lt;
             </span>
@@ -10,7 +10,7 @@
         {{t 'paginator.page' page=curPage max=maxPage}}
     </span>
     <span local-class='SimplePaginator__element'>
-        {{#bs-button disabled=(not hasNext) onClick=(action nextPage)}}
+        {{#bs-button data-test-next-page-button disabled=(not hasNext) onClick=(action nextPage)}}
             <span aria-label="{{t 'paginator.previous'}}">
                 &gt;
             </span>

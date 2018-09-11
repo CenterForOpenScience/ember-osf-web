@@ -1,6 +1,6 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import { nodeContributorList, nodeLinkedNodeList } from './views/node';
+import { relationshipList } from './views';
 import { tokenList } from './views/token';
 import { userList, userNodeList } from './views/user';
 
@@ -21,11 +21,19 @@ export default function(this: Server) {
 
     this.resource('node', { path: '/nodes' });
     this.get('/nodes/:id/contributors', function(schema, request) {
-        return nodeContributorList(schema, request, this);
+        return relationshipList('nodes', 'contributors', schema, request, this);
     });
     this.get('/nodes/:id/linked_nodes', function(schema, request) {
-        return nodeLinkedNodeList(schema, request, this);
+        return relationshipList('nodes', 'linkedNodes', schema, request, this);
     });
+    this.get('/nodes/:id/registrations', function(schema, request) {
+        return relationshipList('nodes', 'registrations', schema, request, this);
+    });
+    this.get('/nodes/:id/draft_registrations', function(schema, request) {
+        return relationshipList('nodes', 'draftRegistrations', schema, request, this);
+    });
+
+    this.resource('registration-schemas', { path: '/schemas/registrations' });
 
     this.get('/status', () => {
         return { meta: { version: '2.8' }, maintenance: null };

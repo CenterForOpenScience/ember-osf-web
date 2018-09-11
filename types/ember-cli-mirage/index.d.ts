@@ -24,6 +24,10 @@ export interface Database {
     [collectionName: string]: DatabaseCollection;
 }
 
+type Model<T> = {
+    [P in keyof T]: T[P] & { models: any[] };
+};
+
 interface ModelInstanceShared<T> {
     id: ID;
     attrs: T;
@@ -38,7 +42,7 @@ interface ModelInstanceShared<T> {
     toString(): string;
 }
 
-type ModelInstance < T > = ModelInstanceShared<T> & T;
+export type ModelInstance<T> = ModelInstanceShared<T> & Model<T>;
 
 interface Collection<T> {
     models: Array<ModelInstance<T>>;
@@ -70,6 +74,9 @@ export interface Request {
     requestBody: any;
     params: {
         [key: string]: string | number,
+    };
+    queryParams: {
+        [key: string]: string,
     };
 }
 
@@ -131,6 +138,8 @@ export interface Server {
     patch: typeof handlerDefinition;
     del: typeof handlerDefinition;
 
+    schema: Schema;
+
     resource(resourceName: string, options?: { only?: string[], except?: string[], path?: string }): void;
 
     loadFixtures(...fixtures: string[]): void;
@@ -139,41 +148,64 @@ export interface Server {
     // passthrough(...paths: string[], verbs?: Verb[]): void;
     passthrough(...args: any[]): void;
 
-    create(
+    create<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         ...traits: string[],
-    ): ModelInstance<AnyAttrs>;
-    create(
+    ): ModelInstance<T>;
+    create<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
-        attrs?: AnyAttrs,
+        attrs?: Partial<T>,
         ...traits: string[],
-    ): ModelInstance<AnyAttrs>;
+    ): ModelInstance<T>;
 
-    createList(
+    createList<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         amount: number,
         ...traits: string[],
-    ): Array<ModelInstance<AnyAttrs>>;
-    createList(
+    ): Array<ModelInstance<T>>;
+    createList<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         amount: number,
-        attrs?: AnyAttrs,
+        attrs?: Partial<T>,
         ...traits: string[],
-    ): Array<ModelInstance<AnyAttrs>>;
+    ): Array<ModelInstance<T>>;
 
     shutdown(): void;
 }
 
-export function trait(options: AnyAttrs & {
-    afterCreate?: (obj: ModelInstance<AnyAttrs>, server: Server) => void,
-}): unknown;
+export type TraitOptions = AnyAttrs & {
+    afterCreate?: (obj: ModelInstance<AnyAttrs>, svr: Server) => void,
+};
+
+export interface Trait<O extends TraitOptions = {}> {
+    extension: O;
+    __isTrait__: true;
+}
+
+export function trait<O extends TraitOptions>(options: O): Trait<O>;
 
 // TODO when https://github.com/Microsoft/TypeScript/issues/1360
 // function association(...traits: string[], overrides?: { [key: string]: any }): unknown;
 export function association(...args: any[]): unknown;
 
-export const Factory: any;
+export type FactoryAttrs<T> = {
+    [P in keyof T]?: T[P] | ((...args: any[]) => T[P]);
+};
+
+export class FactoryClass {
+    extend<T>(attrs: FactoryAttrs<T>): FactoryClass;
+}
+
+export const Factory: FactoryClass;
 
 declare global {
     const server: Server; // TODO: only in tests?
+}
+
+export class JSONAPISerializer {
+    request!: Request;
+
+    keyForAttribute(attr: string): string;
+
+    keyForRelationship(relationship: string): string;
 }

@@ -8,17 +8,13 @@ export function process(
     data: any[],
     options?: ProcessOptions,
 ) {
-    const sorted = sort(request, data, options);
-    let paginatedJson: any = paginate(request, sorted, options);
-    paginatedJson = embed(schema, request, paginatedJson, handlerContext);
-    return paginatedJson;
+    return embed(schema, request, paginate(request, sort(request, data, options), options), handlerContext);
 }
 
 export function filter(model: any, request: any) {
-    const { queryParams } = request;
     const filterRegex = /^filter\[((?:\w+(?:\.\w+)*,?)+)\](?:\[([a-z]+)\])?/;
 
-    return Object.entries(queryParams)
+    return Object.entries(request.queryParams)
         .filter(([key]) => filterRegex.test(key))
         .every(([key, val]) => {
             const filtered = filterRegex.exec(key);

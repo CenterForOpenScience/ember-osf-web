@@ -549,6 +549,7 @@ export default {
                 consent: 'I have read these terms. I understand that articles must be published by December 31, 2018, in order to be eligible for a prize.',
                 continue: 'Continue',
             },
+            page_title: '{{nodeTitle}} Registrations',
             no_registrations: 'There have been no completed registrations of this project.',
             no_drafts: 'There are no draft registrations of this project.',
             start_new: 'Start a new registration by clicking the “New registration” button. Once created, registrations cannot be edited or deleted.',

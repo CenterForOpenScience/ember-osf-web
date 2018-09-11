@@ -1,6 +1,8 @@
 import { Factory, faker } from 'ember-cli-mirage';
 
-export default Factory.extend({
+import Institution from 'ember-osf-web/models/institution';
+
+export default Factory.extend<Institution>({
     name() {
         return faker.company.companyName();
     },

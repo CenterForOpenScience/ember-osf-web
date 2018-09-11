@@ -173,9 +173,21 @@ export default class OsfModel extends Model {
             if (response.data.relationships && apiRelationshipName in response.data.relationships) {
                 const relationship = response.data.relationships[apiRelationshipName];
                 if ('links' in relationship) {
-                    set(this.relatedCounts, relationshipName, relationship.links.related.meta.count);
+                    if (typeof relationship.links.related === 'object') {
+                        if (relationship.links.related.meta) {
+                            if (typeof relationship.links.related.meta.count === 'number') {
+                                set(this.relatedCounts, relationshipName, relationship.links.related.meta.count);
+                            } else {
+                                throw new Error(`Count not found in related link meta ${errorContext}`);
+                            }
+                        } else {
+                            throw new Error(`Meta not found in related link ${errorContext}`);
+                        }
+                    } else {
+                        throw new Error(`Related link not found in relationship links ${errorContext}`);
+                    }
                 } else {
-                    throw new Error(`Relationship link not found ${errorContext}`);
+                    throw new Error(`Relationship links not found ${errorContext}`);
                 }
             } else {
                 throw new Error(`Relationship not serialized ${errorContext}`);
