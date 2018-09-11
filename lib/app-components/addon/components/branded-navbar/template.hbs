@@ -5,10 +5,10 @@
 }}
     <div class="navbar-header">
         {{navbar.toggle local-class="toggle"}}
-        <a class="navbar-brand">
+        {{#link-to brandRoute provider=theme.provider class="navbar-brand"}}
             <span class="navbar-image" local-class="navbar-image"></span>
             <span class="navbar-title">{{brandTitle}}</span>
-        </a>
+        {{/link-to}}
     </div>
     {{#navbar.content local-class="navbar-content"}}
         {{#navbar.nav
