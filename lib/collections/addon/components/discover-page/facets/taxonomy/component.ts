@@ -42,7 +42,7 @@ export const getTaxonomies = task(function *(item: TaxonomyItem, provider: Provi
                 children: [],
                 childCount,
                 shareTitle,
-                path,
+                path: path.replace(/^\w+/, ''),
             }))
             .sortBy('text'),
     });
