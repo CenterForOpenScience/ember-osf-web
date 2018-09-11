@@ -3,6 +3,8 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import I18N from 'ember-i18n/services/i18n';
+
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -37,19 +39,79 @@ interface ThisTestContext extends TestContext {
 
 module('Integration | Component | contributor-list', hooks => {
     setupRenderingTest(hooks);
+    setupMirage(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.owner.register('service:i18n', i18nStub);
         this.i18n = this.owner.lookup('service:i18n');
     });
 
-    function nameToUsersFamilyNames(familyName: string): EmberObject {
+    function nameToUsersFamilyNames(
+        this: { bibliographic?: boolean, id?: string },
+        familyName: string,
+    ): EmberObject {
         return EmberObject.create({
             users: EmberObject.create({
                 familyName,
+                id: this.id,
             }),
+            bibliographic: this.bibliographic,
         });
     }
+
+    test('showNonBibliographic works', async function(assert) {
+        const nonBiblioUsers: string[] = ['Freddie', 'Jane', 'Doe'];
+        const contributors = {
+            toArray: () => A(nonBiblioUsers.map(nameToUsersFamilyNames, { bibliographic: false })),
+            meta: {
+                total: nonBiblioUsers.length,
+            },
+        };
+        this.set('contributors', contributors);
+
+        await render(hbs`{{contributor-list contributors=contributors showNonBibliographic=true}}`);
+        assert.dom(this.element).hasText('Freddie, Jane, and Doe');
+
+        await render(hbs`{{contributor-list contributors=contributors showNonBibliographic=false}}`);
+        assert.dom(this.element).hasText('');
+    });
+
+    test('useLinks linkifies contributor names', async function(assert) {
+        const users: string[] = ['Freddie', 'Jane', 'Doe', 'Moore'];
+        const contributors = {
+            toArray: () => A(users.map(nameToUsersFamilyNames, { bibliographic: true, id: 'ezcuk' })),
+            meta: {
+                total: users.length,
+            },
+        };
+
+        this.set('contributors', contributors);
+        await render(hbs`{{contributor-list contributors=contributors useLinks=true}}`);
+
+        assert.dom('span.ember-view > a').exists({ count: 3 });
+        assert.dom('span.ember-view > a:first-child').hasAttribute('href', '/ezcuk');
+        assert.dom('span.ember-view > button').hasText('1 more');
+    });
+
+    test('flatten contributors list in Prerender', async function(assert) {
+        const node = server.create('node', {});
+
+        const users: string[] = ['Freddie', 'Jane', 'Doe', 'Moore', 'Ngabo', 'Seka'];
+        const contributors = {
+            toArray: () => A(users.map(nameToUsersFamilyNames, { bibliographic: true })),
+            meta: {
+                total: users.length,
+            },
+        };
+
+        this.set('contributors', contributors);
+        this.set('node', node);
+        this.set('userIsBot', true);
+
+        await render(hbs`{{contributor-list contributors=contributors node=node userIsBot=true}}`);
+
+        assert.dom('span.ember-view > span').exists({ count: users.length });
+    });
 
     test('it renders', async function(assert) {
         const testCases: Array<[string[], string]> = [
@@ -83,7 +145,7 @@ module('Integration | Component | contributor-list', hooks => {
 
         for (const [input, expected] of testCases) {
             const contributors = {
-                toArray: () => A(input.map(nameToUsersFamilyNames)),
+                toArray: () => A(input.map(nameToUsersFamilyNames, { bibliographic: true })),
                 meta: {
                     total: input.length,
                 },

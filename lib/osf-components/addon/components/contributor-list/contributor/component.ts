@@ -8,6 +8,6 @@ import layout from './template';
 export default class ContributorListContributor extends Component {
     layout = layout;
 
-    contributor: Contrib = defaultTo(this.contributor, { title: '', id: '' });
-    useLink: boolean = defaultTo(this.useLink, false);
+    contributor: Contrib = defaultTo(this.contributor, { title: '', id: '', bibliographic: false });
+    showContributorLink: boolean = defaultTo(this.showContributorLink, false);
 }

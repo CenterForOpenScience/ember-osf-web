@@ -1,0 +1,11 @@
+{{#docs-demo as |demo|}}
+    {{#demo.example name='contributor-list.use-links.hbs'}}
+        {{contributor-list contributors=contributors useLinks=useLinks}}
+    {{/demo.example}}
+
+    {{#bs-button class='center-block m-b-lg' onClick=(action (mut useLinks) (not useLinks))}}
+        set: useLinks = {{not useLinks}}
+    {{/bs-button}}
+
+    {{demo.snippet 'contributor-list.use-links.hbs'}}
+{{/docs-demo}}

@@ -3,11 +3,11 @@
             {{#bs-alert type='danger' dismissible=false hidden=hideAlert}}
                     <strong>Danger, Will Robinson!</strong>
             {{/bs-alert}}
-        {{/demo.example}}
+    {{/demo.example}}
 
-        {{#bs-button class='center-block m-b-lg' onClick=(action (mut hideAlert) (not hideAlert))}}
-            set: hideAlert = {{not hideAlert}}
-        {{/bs-button}}
+    {{#bs-button class='center-block m-b-lg' onClick=(action (mut hideAlert) (not hideAlert))}}
+        set: hideAlert = {{not hideAlert}}
+    {{/bs-button}}
 
     {{demo.snippet 'bs-alert.danger-hidden.hbs'}}
 {{/docs-demo}}

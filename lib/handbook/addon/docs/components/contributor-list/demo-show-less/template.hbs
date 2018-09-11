@@ -1,0 +1,12 @@
+{{#docs-demo as |demo|}}
+    {{#demo.example name='contributor-list.show-less.hbs'}}
+        {{contributor-list contributors=contributors useShowMoreLink=true useShowLess=useShowLess}}
+    {{/demo.example}}
+
+    {{#bs-button class='center-block m-b-lg' onClick=(action (mut useShowLess) (not useShowLess))}}
+        set: useShowLess = {{not useShowLess}}
+    {{/bs-button}}
+    <div class='text-center'><small>Hit more first</small></div>
+
+    {{demo.snippet 'contributor-list.show-less.hbs'}}
+{{/docs-demo}}
