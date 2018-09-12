@@ -1,0 +1,31 @@
+.ServicesList {
+    // TODO Colors
+    background-size: cover;
+    background: url('img/index-tool-bg.jpg') top center #cbd9d5;
+    color: $color-text-white;
+    text-shadow: 0 0 5px #506069;
+}
+
+.ServicesList__ExternalLink {
+    color: $color-text-white;
+    text-decoration: underline;
+}
+
+.ServicesList__ProviderLogo {
+    height: 120px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &.provider-ridie {
+        background-image: url('img/provider_logos/RIDIE.png');
+    }
+
+    &.provider-egap {
+        background-image: url('img/provider_logos/EGAP_evidence_logo_white_0.jpg');
+    }
+
+    &.provider-prereg {
+        background-image: url('img/provider_logos/prereg.png');
+    }
+}
