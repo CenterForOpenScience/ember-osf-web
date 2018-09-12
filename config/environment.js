@@ -16,6 +16,7 @@ const {
     A11Y_AUDIT = 'true',
     ASSETS_PREFIX: assetsPrefix = '/ember_osf_web/',
     BACKEND: backend = 'local',
+    CAS_URL: casUrl = 'http://192.168.168.167:8080',
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
     COLLECTIONS_ENABLED = false,
@@ -29,6 +30,7 @@ const {
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
+    ORCID_CLIENT_ID: orcidClientId,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
@@ -168,6 +170,8 @@ module.exports = function(environment) {
             localStorageKeys: {
                 authSession: 'embosf-auth-session',
             },
+            orcidClientId,
+            casUrl,
         },
         social: {
             twitter: {
