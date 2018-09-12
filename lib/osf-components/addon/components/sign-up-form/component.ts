@@ -6,7 +6,6 @@ import PasswordStrength from 'ember-cli-password-strength/services/password-stre
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import Recaptcha from 'osf-components/components/validated-input/recaptcha/component';
@@ -14,7 +13,6 @@ import Recaptcha from 'osf-components/components/validated-input/recaptcha/compo
 import styles from './styles';
 import layout from './template';
 
-@localClassNames('SignUpForm')
 export default class SignUpForm extends Component.extend({
     submitTask: task(function *(this: SignUpForm) {
         const { validations } = yield this.userRegistration.validate();
