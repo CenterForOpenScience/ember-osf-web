@@ -163,6 +163,9 @@ declare const config: {
         collections: {
             enabled: boolean;
         };
+        registries: {
+            enabled: boolean;
+        };
         handbook: {
             enabled: boolean;
             docGenerationEnabled: boolean;

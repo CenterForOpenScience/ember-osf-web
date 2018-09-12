@@ -1,0 +1,28 @@
+{{! template-lint-disable bare-strings }}
+{{!Lucene search help modal}}
+<div id="ember-bootstrap-modal-container">
+    {{#bs-modal open=(mut isOpen) onHidden=(action 'close') as |modal|}}
+        {{#modal.header}}
+            <h3 class="modal-title">{{t 'searchHelp.title'}}</h3>
+        {{/modal.header}}
+
+        {{#modal.body}}
+            <h4> {{t 'searchHelp.queries'}} </h4>
+            <p>
+                {{t 'searchHelp.searchSyntax'}}
+                {{t 'searchHelp.helpDescription'}}
+            </p>
+            <ul>
+                <li><a href={{concat currentPath '?q=repro*'}}>repro*</a></li>
+                <li><a href={{concat currentPath '?q=brian+AND+title%3Amany'}}>brian AND title:many</a></li>
+                <li><a href={{concat currentPath '?q=tags%3A%28psychology%29'}}>tags:(psychology)</a></li>
+            </ul>
+        {{/modal.body}}
+
+        {{#modal.footer}}
+            <div align="right">
+                <button {{action 'close'}} class="btn btn-default"> {{t 'searchHelp.close'}} </button>
+            </div>
+        {{/modal.footer}}
+    {{/bs-modal}}
+</div>

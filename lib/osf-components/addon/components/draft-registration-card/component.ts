@@ -1,11 +1,12 @@
+import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { htmlSafe } from '@ember/string';
 import config from 'ember-get-config';
 
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
+import { Answer, Answers } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -14,7 +15,7 @@ import layout from './template';
 
 const { OSF: { url: baseURL } } = config;
 
-@localClassNames('DraftRegistrationCard')
+@tagName('')
 export default class DraftRegistrationCard extends Component {
     layout = layout;
     styles = styles;
@@ -44,23 +45,34 @@ export default class DraftRegistrationCard extends Component {
         if (!schema) {
             return -1;
         }
+        const metadata = this.draftRegistration.registrationMetadata;
+        if (!metadata) {
+            return 0;
+        }
         schema.pages.forEach(page =>
             page.questions.forEach(question => {
-                const { value } = this.draftRegistration.registrationMetadata[question.qid];
                 if (question.type === 'object' && question.properties) {
                     question.properties.forEach(property => {
                         if (property.required) {
                             requiredQuestions++;
-                            const { value: propertyValue } = value[property.id];
-                            if (propertyValue && propertyValue.length) {
-                                answeredRequiredQuestions++;
+                            if (question.qid in metadata) {
+                                const answers = metadata[question.qid] as Answers;
+                                if (property.id in answers && 'value' in answers[property.id]) {
+                                    const { value } = answers[property.id];
+                                    if (value && value.length) {
+                                        answeredRequiredQuestions++;
+                                    }
+                                }
                             }
                         }
                     });
                 } else if (question.required) {
                     requiredQuestions++;
-                    if (value && value.length) {
-                        answeredRequiredQuestions++;
+                    if (question.qid in metadata && 'value' in metadata[question.qid]) {
+                        const { value } = metadata[question.qid] as Answer;
+                        if (value && value.length) {
+                            answeredRequiredQuestions++;
+                        }
                     }
                 }
             }));

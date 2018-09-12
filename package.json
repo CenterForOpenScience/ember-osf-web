@@ -112,7 +112,7 @@
     "ember-css-modules-stylelint": "^1.2.0",
     "ember-data": "~3.3.0",
     "ember-data-factory-guy": "~3.1.0",
-    "ember-decorators": "^2.1.0",
+    "ember-decorators": "^2.4.1",
     "ember-diff-attrs": "^0.2.1",
     "ember-engines": "https://github.com/cos-forks/ember-engines#v0.5.20+cos1",
     "ember-export-application-global": "^2.0.0",
@@ -127,8 +127,9 @@
     "ember-load-initializers": "^1.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-metrics": "https://github.com/cos-forks/ember-metrics#v0.12.1+cos0",
-    "ember-moment": "^7.6.0",
+    "ember-moment": "^7.7.0",
     "ember-page-title": "4.0.3",
+    "ember-parachute": "https://github.com/cos-forks/ember-parachute#v0.3.7+cos2",
     "ember-power-select": "^2.0.0",
     "ember-promise-helpers": "^1.0.4",
     "ember-radio-button": "^1.2.4",
@@ -148,6 +149,7 @@
     "eslint-plugin-typescript": "^0.11.0",
     "flat": "^4.0.0",
     "husky": "^0.14.3",
+    "immutable": "4.0.0-rc.9",
     "js-md5": "^0.7.3",
     "jsonapi-typescript": "^0.0.9",
     "keen-analysis": "^2.0.0",
@@ -159,6 +161,7 @@
     "mime-types": "~2.1.17",
     "mocha": "^5.1.1",
     "qunit-dom": "^0.7.1",
+    "sinon": "^6.1.4",
     "stylelint-config-css-modules": "^1.2.0",
     "stylelint-config-sass-guidelines": "^5.0.0",
     "toastr": "^2.1.4",
@@ -168,9 +171,10 @@
     "typescript-eslint-parser": "^18.0.0"
   },
   "resolutions": {
+    "ember-cli-clipboard": "0.9.0",
+    "ember-decorators": "2.4.1",
     "tsutils": "2.29.0",
-    "typescript": "3.0.1",
-    "ember-cli-clipboard": "0.9.0"
+    "typescript": "3.0.1"
   },
   "engines": {
     "node": ">= 8"
@@ -182,11 +186,12 @@
   "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme",
   "ember-addon": {
     "paths": [
-      "lib/assets-prefix-middleware",
       "lib/analytics-page",
+      "lib/assets-prefix-middleware",
       "lib/collections",
       "lib/handbook",
-      "lib/osf-components"
+      "lib/osf-components",
+      "lib/registries"
     ]
   },
   "dependencies": {

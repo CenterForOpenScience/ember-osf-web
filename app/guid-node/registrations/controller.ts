@@ -99,6 +99,7 @@ export default class GuidNodeRegistrations extends Controller {
         this.analytics.click('button', 'Registrations Tab - Create draft');
         if (this.selectedSchema.name === 'Prereg Challenge' && this.newModalOpen) {
             this.set('newModalOpen', false);
+            this.set('preregConsented', false);
             this.set('preregModalOpen', true);
             return;
         }

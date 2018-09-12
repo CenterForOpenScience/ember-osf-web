@@ -63,6 +63,7 @@
     )}}
         <div class="col-md-12" local-class="RecaptchaParent">
             {{validated-input/recaptcha
+                data-test-recaptcha
                 model=model
                 valuePath='recaptchaResponse'
                 showMessages=didValidate

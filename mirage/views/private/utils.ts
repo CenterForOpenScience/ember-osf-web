@@ -1,3 +1,5 @@
+import { camelize } from '@ember/string';
+
 export enum ComparisonOperators {
     Eq = 'eq',
     Ne = 'ne',
@@ -151,51 +153,38 @@ function autoEmbed(embedItem: any, serializedData: {}, config: any) {
             }
         }
     }
-    if (data.embeds === {}) {
+    if (!Object.keys(data.embeds).length) {
         delete data.embeds;
     }
     return data;
 }
 
 export function embed(schema: any, request: any, json: JsonData, config: any) {
-    const { queryParams } = request;
-    const { data } = json;
-    let requestEmbedKeys = [];
-    if (Array.isArray(queryParams.embed)) {
-        requestEmbedKeys = queryParams.embed.slice();
-    } else {
-        requestEmbedKeys.push(queryParams.embed);
-    }
-    for (const datum of data) { // Go through every item in our response
-        const embedKeys = requestEmbedKeys.slice();
-        for (const embedded of embedKeys) { // And each of the embed keys
-            if (!('embeds' in datum)) { // First make sure it has an embeds array
-                datum.embeds = {};
-            }
-            const embeddable = schema[datum.type].find(datum.id)[embedded];
-            const serializedItems = [];
-            let paginatedEmbeddables: JsonData = { data: [], links: {}, meta: {} };
-            if (embeddable !== null && embeddable !== undefined) {
-                const embedModelList = embeddable.models; // Get the items to embed
-                paginatedEmbeddables = paginate(request, embedModelList, {});
-                // Go through each of the items that need to be embedded
-                for (const embedItem of paginatedEmbeddables.data) {
-                    const serializedItem = config.serialize(embedItem);
-                    serializedItem.data = autoEmbed(embedItem, serializedItem.data, config);
-                    serializedItems.push(serializedItem.data);
+    return {
+        ...json,
+        data: json.data.map(datum => {
+            const embeds = [].concat(request.queryParams.embed).filter(Boolean).reduce((acc, embedRequest) => {
+                const embeddable = schema[camelize(datum.type)].find(datum.id)[camelize(embedRequest)];
+                if (embeddable !== null && embeddable !== undefined) {
+                    if ('models' in embeddable) {
+                        let paginatedEmbeddables: JsonData = { data: [], links: {}, meta: {} };
+                        if (Array.isArray(embeddable.models)) {
+                            paginatedEmbeddables = paginate(request, embeddable.models, {});
+                            paginatedEmbeddables.data = paginatedEmbeddables.data.map(embedItem =>
+                                autoEmbed(embedItem, config.serialize(embedItem).data, config));
+                        }
+                        return { ...acc, [embedRequest]: paginatedEmbeddables };
+                    }
+                    return {
+                        ...acc,
+                        [embedRequest]: { data: autoEmbed(embeddable, config.serialize(embeddable).data, config) },
+                    };
                 }
-                paginatedEmbeddables.data = serializedItems;
-            } // Finished gathering embeddable items
-            // TODO: convert embeditems to dictionary if not a toMany relationship
-            const peData = paginatedEmbeddables.data;
-            if ((Array.isArray(peData) && peData.length > 0) && peData !== null) {
-                datum.embeds[embedded] = paginatedEmbeddables;
-            }
-        }
-    }
-    const returnJson = Object.assign(json);
-    returnJson.data = data;
-    return returnJson;
+                return acc;
+            }, {});
+            return Object.keys(embeds).length ? { ...datum, embeds } : datum;
+        }),
+    };
 }
 
 export function compareStrings (

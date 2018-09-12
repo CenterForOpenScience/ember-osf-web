@@ -22,7 +22,7 @@ export enum OSFService {
 export const OSF_SERVICES = [
     { name: OSFService.HOME, route: 'home' },
     { name: OSFService.PREPRINTS, route: `${osfURL}preprints/` },
-    { name: OSFService.REGISTRIES, route: `${osfURL}registries/` },
+    { name: OSFService.REGISTRIES, route: config.engines.registries.enabled ? 'registries' : `${osfURL}registries/` },
     { name: OSFService.MEETINGS, route: `${osfURL}meetings/` },
     { name: OSFService.INSTITUTIONS, route: 'institutions' },
 ];

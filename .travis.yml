@@ -26,6 +26,9 @@ jobs:
       install:
         - yarn --prefer-offline --frozen-lockfile --ignore-engines
         - greenkeeper-lockfile-update
+      env:
+        - REGISTRIES_ENABLED=true
+        - COLLECTIONS_ENABLED=true
       script:
         - yarn lint && yarn test:node-tests && yarn test:cover
       after_script:

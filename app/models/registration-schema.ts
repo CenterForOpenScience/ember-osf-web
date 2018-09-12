@@ -22,12 +22,15 @@ export interface Question extends Q {
     format: string;
     title: string;
     nav: string;
+    help?: string;
 }
 
 export interface Page {
     id: string;
     title: string;
     questions: Question[];
+    type?: 'object';
+    description?: string;
 }
 
 export interface Schema {
@@ -42,6 +45,18 @@ export interface Schema {
     description: string;
 }
 
+export interface Answer {
+    value?: string;
+}
+
+export interface Answers {
+    [id: string]: Answer;
+}
+
+export interface RegistrationMetadata {
+    [qid: string]: Answer | Answers;
+}
+
 /**
  * Model for OSF APIv2 rgsitration schemas.
  * This model describes registration schemas and can be directly queried.
@@ -49,6 +64,7 @@ export interface Schema {
  * @class RegistrationSchema
  */
 export default class RegistrationSchema extends OsfModel {
+    @attr('boolean') active!: boolean;
     @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: Schema;

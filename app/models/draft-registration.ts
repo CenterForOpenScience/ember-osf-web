@@ -3,7 +3,7 @@ import DS from 'ember-data';
 
 import Node from './node';
 import OsfModel from './osf-model';
-import RegistrationSchema from './registration-schema';
+import RegistrationSchema, { RegistrationMetadata } from './registration-schema';
 import User from './user';
 
 /**
@@ -19,7 +19,7 @@ import User from './user';
  */
 export default class DraftRegistration extends OsfModel {
     @attr('fixstring') registrationSupplement!: string;
-    @attr('object') registrationMetadata!: any;
+    @attr('object') registrationMetadata!: RegistrationMetadata;
     @attr('date') datetimeInitiated!: Date;
     @attr('date') datetimeUpdated!: Date;
     @belongsTo('node', { inverse: null }) branchedFrom!: DS.PromiseObject<Node> & Node;

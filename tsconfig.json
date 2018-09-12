@@ -26,6 +26,12 @@
       "collections/config/*": [
         "lib/collections/config/*"
       ],
+      "registries/*": [
+        "lib/registries/addon/*"
+      ],
+      "registries/config/*": [
+        "lib/registries/config/*"
+      ],
       "ember-osf-web/tests/*": [
         "tests/*"
       ],
@@ -83,10 +89,11 @@
     "tests",
     "mirage",
     "types",
+    "lib/analytics-page",
     "lib/collections",
     "lib/app-components",
-    "lib/osf-components",
     "lib/handbook",
-    "lib/analytics-page"
+    "lib/osf-components",
+    "lib/registries"
   ]
 }

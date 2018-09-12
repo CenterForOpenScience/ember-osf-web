@@ -3,7 +3,7 @@ import DS from 'ember-data';
 import Comment from './comment';
 import Contributor from './contributor';
 import Node from './node';
-import RegistrationSchema from './registration-schema';
+import RegistrationSchema, { RegistrationMetadata } from './registration-schema';
 import RegistryProvider from './registry-provider';
 import User from './user';
 
@@ -30,7 +30,7 @@ export default class Registration extends Node.extend() {
     @attr('boolean') pendingWithdrawal!: boolean;
 
     @attr('fixstring') registrationSupplement?: string;
-    @attr('object') registeredMeta!: any;
+    @attr('object') registeredMeta!: RegistrationMetadata;
 
     // Write-only attributes
     @attr('fixstring') draftRegistration?: string;
