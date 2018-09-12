@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list/all` - list of all models of a given type
     - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
     - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
+    - `delete-button` - configurable delete button, including a confirmation modal and scientist name
 - Routes:
     - `guid-node/registrations` - registrations tab
     - `settings` - includes the settings side nav

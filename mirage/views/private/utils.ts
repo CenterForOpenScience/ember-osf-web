@@ -1,4 +1,6 @@
 import { camelize } from '@ember/string';
+import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
+import { Resource, ResourceCollectionDocument } from 'osf-api';
 
 export enum ComparisonOperators {
     Eq = 'eq',
@@ -16,12 +18,6 @@ export interface ProcessOptions {
 
 interface QueryParameters {
     [key: string]: string;
-}
-
-export interface JsonData {
-    data: any[];
-    links: {};
-    meta: {};
 }
 
 // Fields marked always_embed in the osf api code should be added to this constant
@@ -51,7 +47,7 @@ export function dynamicSort(property: string) {
     };
 }
 
-export function sort(request: any, data: any[], options: ProcessOptions = {}): any[] {
+export function sort(request: Request, data: any[], options: ProcessOptions = {}): any[] {
     const { queryParams } = request;
     const { defaultSortKey = 'date_modified' } = options;
     let sortKey: string = defaultSortKey;
@@ -63,7 +59,7 @@ export function sort(request: any, data: any[], options: ProcessOptions = {}): a
 
 export function buildQueryParams(params: QueryParameters): string {
     let paramString = '?';
-    Object.keys(params).forEach(key => {
+    Object.keys(params).sort().forEach(key => {
         if (paramString.length > 1) {
             paramString = `${paramString}&`;
         }
@@ -80,26 +76,23 @@ export function buildQueryParams(params: QueryParameters): string {
     }
 }
 
-export function paginate(request: any, data: any[], options: ProcessOptions = {}): JsonData {
+export function paginate(
+    request: Request,
+    data: Array<unknown>,
+    options: ProcessOptions = {},
+): ResourceCollectionDocument {
     const total = data.length;
     const { queryParams, url } = request;
-    const self = `${url}${buildQueryParams(queryParams)}`;
+    const { defaultPageSize = 10 } = options;
     let start: number = 0;
-    let { defaultPageSize } = options;
-    if (defaultPageSize === undefined) {
-        defaultPageSize = 10;
-    }
-    let perPage = defaultPageSize;
+
+    const perPage = Number.parseInt(queryParams['page[size]'], 10) || defaultPageSize;
     let currentPage = 1;
-    if (typeof queryParams === 'object') {
-        if ('page[size]' in queryParams && queryParams['page[size]'] !== 0) {
-            perPage = queryParams['page[size]'];
-        }
-        if ('page' in queryParams) {
-            currentPage = queryParams.page;
-            start = (currentPage - 1) * perPage;
-        }
+    if (typeof queryParams.page !== 'undefined') {
+        currentPage = Number.parseInt(queryParams.page, 10);
+        start = (currentPage - 1) * perPage;
     }
+
     const pages = Math.ceil(total / perPage);
     const nextPage = Math.min(currentPage + 1, pages);
     const prevPage = Math.max(currentPage - 1, 1);
@@ -108,21 +101,18 @@ export function paginate(request: any, data: any[], options: ProcessOptions = {}
     let prev = null;
     let next = null;
 
-    queryParams.page = 1;
-    const first = `${url}${buildQueryParams(queryParams)}`;
-    queryParams.page = lastPage;
-    const last = `${url}${buildQueryParams(queryParams)}`;
+    const self = `${url}${buildQueryParams(queryParams)}`;
+    const first = `${url}${buildQueryParams({ ...queryParams, page: '1' })}`;
+    const last = `${url}${buildQueryParams({ ...queryParams, page: lastPage.toString() })}`;
     if (nextPage > currentPage) {
-        queryParams.page = nextPage;
-        next = `${url}${buildQueryParams(queryParams)}`;
+        next = `${url}${buildQueryParams({ ...queryParams, page: nextPage.toString() })}`;
     }
     if (prevPage < currentPage) {
-        queryParams.page = prevPage;
-        prev = `${url}${buildQueryParams(queryParams)}`;
+        prev = `${url}${buildQueryParams({ ...queryParams, page: prevPage.toString() })}`;
     }
 
     const paginatedJson = {
-        data: data.slice(start, start + perPage),
+        data: data.slice(start, start + perPage) as Resource[],
         links: {
             self,
             first,
@@ -131,6 +121,7 @@ export function paginate(request: any, data: any[], options: ProcessOptions = {}
             last,
         },
         meta: {
+            version: '',
             total,
             per_page: perPage,
         },
@@ -138,7 +129,7 @@ export function paginate(request: any, data: any[], options: ProcessOptions = {}
     return paginatedJson;
 }
 
-function autoEmbed(embedItem: any, serializedData: {}, config: any) {
+function autoEmbed(embedItem: any, serializedData: {}, handlerContext: HandlerContext) {
     const data = Object.assign(serializedData);
     data.embeds = {};
     if (embedItem.modelName in alwaysEmbed) { // If this kind of thing has auto-embeds
@@ -146,7 +137,7 @@ function autoEmbed(embedItem: any, serializedData: {}, config: any) {
         for (const aeRelationship of alwaysEmbed[embedItem.modelName]) {
             if (embedItem.fks.includes(`${aeRelationship}Id`)) { // is it in fks?
                 // If so, embed it
-                const aEmbeddable = config.serialize(embedItem[aeRelationship]);
+                const aEmbeddable = handlerContext.serialize(embedItem[aeRelationship]);
                 data.embeds[aeRelationship] = {
                     data: aEmbeddable.data,
                 };
@@ -159,29 +150,44 @@ function autoEmbed(embedItem: any, serializedData: {}, config: any) {
     return data;
 }
 
-export function embed(schema: any, request: any, json: JsonData, config: any) {
+export function embed(
+    schema: Schema,
+    request: Request,
+    json: ResourceCollectionDocument,
+    handlerContext: HandlerContext,
+) {
     return {
         ...json,
         data: json.data.map(datum => {
-            const embeds = [].concat(request.queryParams.embed).filter(Boolean).reduce((acc, embedRequest) => {
-                const embeddable = schema[camelize(datum.type)].find(datum.id)[camelize(embedRequest)];
-                if (embeddable !== null && embeddable !== undefined) {
-                    if ('models' in embeddable) {
-                        let paginatedEmbeddables: JsonData = { data: [], links: {}, meta: {} };
-                        if (Array.isArray(embeddable.models)) {
-                            paginatedEmbeddables = paginate(request, embeddable.models, {});
-                            paginatedEmbeddables.data = paginatedEmbeddables.data.map(embedItem =>
-                                autoEmbed(embedItem, config.serialize(embedItem).data, config));
+            const embeds = ([] as string[])
+                .concat(request.queryParams.embed)
+                .filter(Boolean)
+                .reduce((acc, embedRequest) => {
+                    const embeddable = schema[camelize(datum.type)].find(datum.id)[camelize(embedRequest)] as any;
+
+                    if (embeddable !== null && embeddable !== undefined) {
+                        if ('models' in embeddable) {
+                            let paginatedEmbeddables: ResourceCollectionDocument = {
+                                data: [],
+                                links: {},
+                                meta: { version: '', total: 0, per_page: 10 },
+                            };
+                            if (Array.isArray(embeddable.models)) {
+                                paginatedEmbeddables = paginate(request, embeddable.models, {});
+                                paginatedEmbeddables.data = paginatedEmbeddables.data.map((embedItem: any) =>
+                                    autoEmbed(embedItem, handlerContext.serialize(embedItem).data, handlerContext));
+                            }
+                            return { ...acc, [embedRequest]: paginatedEmbeddables };
                         }
-                        return { ...acc, [embedRequest]: paginatedEmbeddables };
+                        return {
+                            ...acc,
+                            [embedRequest]: {
+                                data: autoEmbed(embeddable, handlerContext.serialize(embeddable).data, handlerContext),
+                            },
+                        };
                     }
-                    return {
-                        ...acc,
-                        [embedRequest]: { data: autoEmbed(embeddable, config.serialize(embeddable).data, config) },
-                    };
-                }
-                return acc;
-            }, {});
+                    return acc;
+                }, {});
             return Object.keys(embeds).length ? { ...datum, embeds } : datum;
         }),
     };

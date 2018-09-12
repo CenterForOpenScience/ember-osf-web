@@ -1,22 +1,24 @@
-{{#if @token}}
-    {{#link-to
-        'settings.tokens.edit'
-        @token.id
-        data-test-token-link=@token.id
-    }}
-        {{@token.name}}
-    {{/link-to}}
-{{else}}
-    {{#content-placeholders local-class='TokenCard__placeholder' as |placeholder|}}
-        {{placeholder.heading subtitle=false}}
-    {{/content-placeholders}}
-{{/if}}
+<div data-test-token-card={{@token.id}} local-class='TokenCard'>
+    {{#if @token}}
+        {{#link-to
+            'settings.tokens.edit'
+            @token.id
+            data-test-token-link=@token.id
+        }}
+            {{@token.name}}
+        {{/link-to}}
+    {{else}}
+        {{#content-placeholders local-class='TokenCard__placeholder' as |placeholder|}}
+            {{placeholder.heading subtitle=false}}
+        {{/content-placeholders}}
+    {{/if}}
 
-{{delete-button
-    small=true
-    delete=(action this.delete)
-    disabled=(not @token)
-    analyticsScope='Settings - Tokens'
-    modalTitle=(t 'settings.tokens.confirmDelete.title')
-    modalBody=(t 'settings.tokens.confirmDelete.body')
-}}
+    {{delete-button
+        small=true
+        delete=(action this.delete)
+        disabled=(not @token)
+        analyticsScope='Settings - Tokens'
+        modalTitle=(t 'settings.tokens.confirmDelete.title' tokenName=this.token.name)
+        modalBody=(t 'settings.tokens.confirmDelete.body')
+    }}
+</div>

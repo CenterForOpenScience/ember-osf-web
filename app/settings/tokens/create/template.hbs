@@ -1,5 +1,6 @@
 <div>
-    {{#link-to 'settings.tokens'
+    {{#link-to data-test-back-to-tokens
+        'settings.tokens'
         click=(action 'click' 'link' 'Settings - Tokens - Create - Back to list' target=this.analytics)
     }}
         {{fa-icon 'arrow-left'}}
@@ -14,8 +15,7 @@
     analyticsScope='Settings - Tokens - Create'
     as |form|
 }}
-    {{#bs-button
-        data-test-create-token-button
+    {{#bs-button data-test-create-token-button
         type='primary'
         buttonType='submit'
         disabled=form.submitting

@@ -1,5 +1,6 @@
 <div>
-    {{#link-to 'settings.tokens'
+    {{#link-to data-test-back-to-tokens
+        'settings.tokens'
         click=(action 'click' 'link' 'Settings - Tokens - Edit - Back to list' target=this.analytics)
     }}
         {{fa-icon 'arrow-left'}}
@@ -10,7 +11,7 @@
 {{#if this.token.tokenValue}}
     <h4>{{t 'settings.tokens.createSuccess.message' tokenName=this.token.name}}</h4>
     <p>
-        {{copyable-text
+        {{copyable-text data-test-new-token-value
             text=this.token.tokenValue
             analyticsLabel='Settings - Tokens - Copy token'
         }}
@@ -45,11 +46,11 @@
                 delete=(action this.deleteToken)
                 disabled=form.disabled
                 analyticsScope='Settings - Tokens - Edit'
-                modalTitle=(t 'settings.tokens.confirmDelete.title')
+                modalTitle=(t 'settings.tokens.confirmDelete.title' tokenName=this.token.name)
                 modalBody=(t 'settings.tokens.confirmDelete.body')
             }}
 
-            {{#bs-button
+            {{#bs-button data-test-save-token-button
                 type='primary'
                 buttonType='submit'
                 disabled=form.disabled

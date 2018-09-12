@@ -1,9 +1,8 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import { relationshipList } from './views';
+import { modelList, relationshipList } from './views';
 import { rootDetail } from './views/root';
-import { tokenList } from './views/token';
-import { userFileList, userList, userNodeList } from './views/user';
+import { userFileList, userNodeList } from './views/user';
 
 const { OSF: { apiUrl } } = config;
 
@@ -41,8 +40,8 @@ export default function(this: Server) {
         return { meta: { version: '2.8' }, maintenance: null };
     });
 
-    this.get('/users', (schema, request) => {
-        return userList(schema, request);
+    this.get('/users', function(schema, request) {
+        return modelList('users', schema, request, this);
     });
 
     this.get('/users/:id');
@@ -60,10 +59,17 @@ export default function(this: Server) {
         return schema.files.find(id);
     });
 
-    this.get('tokens', function(schema, request) {
-        return tokenList(schema, request, this);
+    this.resource('tokens', { except: ['index', 'create'] });
+    this.get('/tokens', function(schema, request) {
+        return modelList('tokens', schema, request, this);
     });
-    this.resource('tokens', { except: ['index'] });
+    this.post('/tokens', function(schema) {
+        const attrs = this.normalizedRequestAttrs();
+        const token = schema.tokens.create(attrs);
+        token.attrs.tokenId = 'blahblah';
+        return token;
+    });
+
     this.resource('scopes', { only: ['index', 'show'] });
 
     // Private namespace

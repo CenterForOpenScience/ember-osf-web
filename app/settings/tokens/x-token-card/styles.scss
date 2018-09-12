@@ -6,4 +6,8 @@
 
 .TokenCard__placeholder {
     width: 80%;
+
+    :global(.ember-content-placeholders-heading__title) {
+        margin-bottom: 0;
+    }
 }

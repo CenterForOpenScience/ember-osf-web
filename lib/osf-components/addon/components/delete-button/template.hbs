@@ -1,6 +1,5 @@
 {{#if small}}
-    {{#bs-button
-        data-test-delete-button
+    {{#bs-button data-test-delete-button
         (html-attributes aria-label=this.buttonLabel)
         type='link'
         size='sm'
@@ -11,8 +10,7 @@
         {{fa-icon 'times' size='lg'}}
     {{/bs-button}}
 {{else}}
-    {{#bs-button
-        data-test-delete-button
+    {{#bs-button data-test-delete-button
         type='default'
         onClick=(action this._show)
         disabled=this.disabled
