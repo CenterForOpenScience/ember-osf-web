@@ -11,6 +11,7 @@ export default {
         view: '查看',
         edit: '编辑',
         cancel: '取消',
+        ok: 'OK',
         revisions: '版本',
         md5: 'MD5',
         date: '日期',
@@ -841,6 +842,8 @@ export default {
             add_to_collection: 'Add to collection',
             save_success: '{{title}} has been added to the collection.',
             save_error: 'Error adding {{title}} to the collection:\n{{error}}',
+            modal_header: 'Alert',
+            modal_body: 'Are you sure you want to discard changes to the collection? Changes saved to the project will persist, if saved.',
         },
         collection_item_picker: {
             after_options: {

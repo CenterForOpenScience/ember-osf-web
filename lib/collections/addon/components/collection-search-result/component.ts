@@ -3,7 +3,6 @@ import { action } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-// import { get } from '@ember/object';
 import config from 'collections/config/environment';
 import { ModelRegistry } from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
@@ -49,8 +48,6 @@ export default class SearchResult extends Component {
 
     @action
     addFilter(facet: string, item: string): void {
-        // const context = get(this.facetContexts, facet);
-
         this.facetContexts.findBy('component', facet)!.updateFilters(item);
     }
 

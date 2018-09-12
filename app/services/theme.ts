@@ -1,5 +1,6 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import { assert } from '@ember/debug';
 import Service from '@ember/service';
 import DS from 'ember-data';
 import config from 'ember-get-config';
@@ -82,12 +83,12 @@ export default class Theme extends Service {
 
     // If we're using a branded provider and not under a branded domain (e.g. /collections/<provider>)
     @computed('isProvider', 'isDomain')
-    get isSubRoute() {
+    get isSubRoute(): boolean {
         return this.isProvider && !this.isDomain;
     }
 
     @computed('isProvider', 'isDomain', 'id', 'settings')
-    get pathPrefix() {
+    get pathPrefix(): string {
         let pathPrefix = '/';
 
         if (!this.isDomain) {
@@ -102,18 +103,24 @@ export default class Theme extends Service {
     }
 
     @computed('id', 'settings')
-    get assetsDir() {
+    get assetsDir(): string {
         return `${assetsPrefix}assets/osf-assets/files/${this.settings.assetPath}/${this.id}`;
     }
 
     @computed('provider.assets.style', 'assetsDir')
-    get stylesheet() {
+    get stylesheet(): string {
         return this.provider!.assets.style
             || `${this.assetsDir}/style.css`;
     }
 
     reset(this: Theme) {
         this.set('id', defaultProvider);
+    }
+
+    prefixRoute(route: string): string {
+        assert('Route should not start with "provider"', !/^(provider)?\./.test(route));
+
+        return this.isSubRoute ? `provider.${route}` : route;
     }
 }
 

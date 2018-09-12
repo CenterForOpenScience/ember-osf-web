@@ -12,6 +12,7 @@ import Guid from 'ember-osf-web/models/guid';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import Theme from 'ember-osf-web/services/theme';
 import Toast from 'ember-toastr/services/toast';
 
 enum Section {
@@ -28,6 +29,7 @@ export default class Submit extends Controller {
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
     @service store!: DS.Store;
+    @service theme!: Theme;
     @service toast!: Toast;
 
     collectionItem!: Node;
@@ -36,6 +38,7 @@ export default class Submit extends Controller {
     sections = Section;
     activeSection: Section = Section.project;
     savedSections: Section[] = [];
+    showCancelDialog: boolean = false;
 
     @alias('model.taskInstance.value.provider') provider!: CollectionProvider;
     @alias('model.taskInstance.value.primaryCollection') collection!: Collection;
@@ -83,6 +86,13 @@ export default class Submit extends Controller {
         }
     }).drop();
 
+    /**
+     * Leaves the current route for the discover route (currently home for collections)
+     */
+    transition() {
+        this.transitionToRoute(this.theme.prefixRoute('discover'));
+    }
+
     @action
     projectSelected(this: Submit, collectionItem: Node) {
         collectionItem.set('collectable', true);
@@ -94,13 +104,34 @@ export default class Submit extends Controller {
         this.nextSection();
     }
 
+    /**
+     * Reset for the cancel modal
+     */
     @action
-    cancel(this: Submit) {
+    reset(this: Submit) {
         this.collectedMetadatum.rollbackAttributes();
+
         this.setProperties({
             activeSection: Section.project,
             savedSections: [],
+            showCancelDialog: false,
         });
+
+        this.transition();
+    }
+
+    /**
+     * Cancel action for the entire form (bottom of the page). Navigates away if a project has not been selected.
+     * Otherwise, shows the confirmation dialog
+     */
+    @action
+    cancel(this: Submit) {
+        if (this.activeSection === Section.project) {
+            this.transition();
+            return;
+        }
+
+        this.set('showCancelDialog', true);
     }
 
     @action
