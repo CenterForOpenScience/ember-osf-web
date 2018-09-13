@@ -1,11 +1,17 @@
 {{title (t 'dashboard.page_title')}}
 {{#if modalOpen}}
-    {{new-project-modal
-        newNode=newNode
-        closeModal=(action 'closeModal')
-        searchNodes=(perform searchNodes)
-        createProject=(perform createNode)
-    }}
+    {{#if this.showNewNodeNavigation}} 
+        {{new-project-navigation-modal 
+            node=this.newNode
+            stayOnPage = (action closeModal reload=true)
+        }}
+    {{else}}
+        {{new-project-modal
+            projectCreated=(action 'projectCreated')
+            page='Dashboard'
+            closeModal = (action toggleModal reload=false)
+        }}
+    {{/if}}
 {{/if}}
 {{scheduled-banner}}
 <div local-class="quickSearch">

@@ -1,0 +1,30 @@
+{{#bs-modal onHidden=closeModal as |modal|}}
+    {{#modal.body}}
+        <button
+            aria-label="Close"
+            class="close"
+            onclick={{action this.stayOnPage}}
+        >
+            {{fa-icon 'times' size='sm'}}
+        </button>
+        <h4 class="add-project-success text-success">
+            {{t 'new_project.success_message'}}
+        </h4>
+    {{/modal.body}}
+    {{#modal.footer}}
+        <button
+            onclick={{action this.stayOnPage}}
+            class="btn btn-default"
+        >
+            {{t 'new_project.stay_here'}}
+        </button>
+        <a
+            role='button'
+            href="{{newNode.links.html}}"
+            class="btn btn-success"
+            onclick={{action 'click' 'link' (concat page ' - New Project - go_to_new_project') target=analytics}}
+        >
+            {{t 'new_project.go_to_new'}}
+        </a>
+    {{/modal.footer}}
+{{/bs-modal}}

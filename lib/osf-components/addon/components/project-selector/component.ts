@@ -139,4 +139,14 @@ export default class ProjectSelector extends Component.extend({
 
         return false;
     }
+
+    @action
+    closeModal(this: ProjectSelector, reload = false) {
+        // Need to explicitly pass reload when the action in the onclick event of a button
+        // otherwise the first argument is a mouse event which in turn is always truthy
+
+        if (reload) {
+            this.get('findNodes').perform();
+        }
+    }
 }

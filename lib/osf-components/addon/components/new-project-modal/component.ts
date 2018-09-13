@@ -1,9 +1,9 @@
 import { action, computed } from '@ember-decorators/object';
-import { oneWay } from '@ember-decorators/object/computed';
+import { alias, oneWay } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
@@ -12,6 +12,7 @@ import requiredAction from 'ember-osf-web/decorators/required-action';
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import Region from 'ember-osf-web/models/region';
+import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import styles from './styles';
@@ -50,10 +51,8 @@ export default class NewProjectModal extends Component.extend({
     @service features!: Features;
 
     // Required arguments
-    newNode!: Node | null;
-    @requiredAction searchNodes!: (title: string) => PromiseLike<Node[]>;
-    @requiredAction createProject!: (...args: any[]) => void;
-    @requiredAction closeModal!: (reload?: boolean) => void;
+    page!: string;
+    @requiredAction projectCreated!: (newNode: Node) => void;
 
     // Private fields
     nodeTitle?: string;
@@ -64,6 +63,46 @@ export default class NewProjectModal extends Component.extend({
     selectedRegion?: Region;
     institutions: Institution[] = [];
     regions: Region[] = [];
+
+    @alias('currentUser.user') user!: User;
+
+    searchUserNodes = task(function *(this: NewProjectModal, title: string) {
+        yield timeout(500);
+        const user: User = yield this.user;
+        return yield user.queryHasMany('nodes', { filter: { title } });
+    }).restartable();
+
+    createNode = task(function *(
+        this: NewProjectModal,
+        title: string,
+        description: string,
+        institutions: Institution[],
+        templateFrom?: Node,
+        storageRegion?: Region,
+    ) {
+        if (!title) {
+            return;
+        }
+        const node = this.store.createRecord('node', {
+            category: 'project',
+            description,
+            public: false,
+            title,
+        });
+
+        if (templateFrom) {
+            node.set('templateFrom', templateFrom.id);
+        }
+        if (institutions.length) {
+            node.set('affiliatedInstitutions', institutions.slice());
+        }
+        if (storageRegion) {
+            node.set('region', storageRegion);
+        }
+        yield node.save();
+
+        this.projectCreated(node);
+    }).drop();
 
     @oneWay('institutions') selectedInstitutions!: Institution[];
 
@@ -81,54 +120,53 @@ export default class NewProjectModal extends Component.extend({
         } else {
             selected.pushObject(institution);
         }
-        this.analytics.click('button', 'Dashboard - New Project - select_institution');
+        this.analytics.click('button', `${this.page} - New Project - select_institution`);
     }
 
     @action
     selectAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', this.institutions.slice());
-        this.analytics.click('button', 'Dashboard - New Project - select_all');
+        this.analytics.click('button', `${this.page} - New Project - select_all`);
     }
 
     @action
     removeAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', A([]));
-        this.analytics.click('button', 'Dashboard - New Project - remove_all');
+        this.analytics.click('button', `${this.page} - New Project - remove_all`);
     }
 
     @action
     selectTemplateFrom(this: NewProjectModal, templateFrom: Node) {
         this.set('templateFrom', templateFrom);
-        this.analytics.click('button', 'Dashboard - New Project - Select template from');
+        this.analytics.click('button', `${this.page} - New Project - Select template from`);
     }
 
     @action
     selectRegion(this: NewProjectModal, region: Region) {
         this.set('selectedRegion', region);
-        this.analytics.click('button', 'Dashboard - New Project - Select storage region');
+        this.analytics.click('button', `${this.page} - New Project - Select storage region`);
     }
 
     @action
     toggleMore() {
         this.toggleProperty('more');
-        this.analytics.click('button', 'Dashboard - New Project - Toggle more');
+        this.analytics.click('button', `${this.page} - New Project - Toggle more`);
     }
 
     @action
-    create() {
-        this.createProject(
+    create(this: NewProjectModal) {
+        this.get('createNode').perform(
             this.nodeTitle,
             this.description,
             this.selectedInstitutions,
             this.templateFrom,
             this.selectedRegion,
         );
-        this.analytics.click('button', 'Dashboard - New Project - create');
+        this.analytics.click('button', `${this.page} - New Project - create`);
     }
 
     @action
-    stayOnDashboard() {
-        this.closeModal(true);
-        this.analytics.click('button', 'Dashboard - New Project - stay_on_dashboard');
+    searchNodes(this: NewProjectModal, searchTerm: string) {
+        return this.get('searchUserNodes').perform(searchTerm);
     }
 }
