@@ -7,7 +7,6 @@
     "ember-bootstrap": "*",
     "ember-bootstrap-datepicker": "*",
     "ember-component-attributes": "*",
-    "ember-block-slots": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-htmlbars-inline-precompile": "*",

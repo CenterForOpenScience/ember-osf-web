@@ -1,14 +1,13 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
-import SlotsMixin from 'ember-block-slots';
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import styles from './styles';
 import layout from './template';
 
 @tagName('section')
 @localClassNames('Component')
-export default class SubmitSection extends Component.extend(SlotsMixin) {
+export default class SubmitSection extends Component {
     layout = layout;
     styles = styles;
 
@@ -21,7 +20,7 @@ export default class SubmitSection extends Component.extend(SlotsMixin) {
     savedSections: number[] = this.savedSections;
 
     @computed('activeSection', 'section')
-    get open(): boolean {
+    get isOpen(): boolean {
         return this.activeSection === this.section;
     }
 
@@ -32,12 +31,12 @@ export default class SubmitSection extends Component.extend(SlotsMixin) {
 
     @computed('open', 'didSave')
     get showTooltip(): boolean {
-        return !!this.tooltip && !this.open && !this.didSave;
+        return !!this.tooltip && !this.isOpen && !this.didSave;
     }
 
     @computed('open', 'didSave')
     get showReopen(): boolean {
-        return !this.open && this.didSave;
+        return !this.isOpen && this.didSave;
     }
 
     @action

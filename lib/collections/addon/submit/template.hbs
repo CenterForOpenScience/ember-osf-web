@@ -36,21 +36,22 @@
                     savedSections=savedSections
                     title=(t 'collections.submit.project_select_title')
                     continue=(action 'nextSection' sections.project)
+                    as |section|
                 }}
-                    {{#block-slot 'active'}}
+                    {{#section.active}}
                         {{collection-item-picker
                             class="col-xs-12"
                             collection=collection
                             projectSelected=(action 'projectSelected')
                             validationChanged=(action (mut isProjectSelectorValid))
                         }}
-                    {{/block-slot}}
-                    {{#block-slot 'complete'}}
+                    {{/section.active}}
+                    {{#section.complete}}
                         <p>
                             <em>{{t 'collections.submit.project_select_project_label'}}</em>
                             <span>{{collectionItem.title}}</span>
                         </p>
-                    {{/block-slot}}
+                    {{/section.complete}}
                 {{/submit-section}}
 
                 {{#submit-section
@@ -61,14 +62,15 @@
                     tooltip=(t 'collections.submit.closed_tooltip')
                     title=(t 'collections.submit.project_metadata_title')
                     description=(t 'collections.submit.project_metadata_description')
+                    as |section|
                 }}
-                    {{#block-slot 'active'}}
+                    {{#section.active}}
                         {{project-metadata
                             node=collectionItem
                             continue=(action 'nextSection')
                         }}
-                    {{/block-slot}}
-                    {{#block-slot 'complete'}}
+                    {{/section.active}}
+                    {{#section.complete}}
                         <p>
                             <em>{{t 'collections.submit.project_metadata_title_label'}}</em>
                             <span>{{collectionItem.title}}</span>
@@ -87,7 +89,7 @@
                                 <div local-class="subject">{{tag}}</div>
                             {{/each}}
                         </p>
-                    {{/block-slot}}
+                    {{/section.complete}}
                 {{/submit-section}}
 
                 {{#submit-section
@@ -98,18 +100,19 @@
                     tooltip=(t 'collections.submit.closed_tooltip')
                     title=(t 'collections.submit.project_contributors_title')
                     description=(t 'collections.submit.project_contributors_description')
+                    as |section|
                 }}
-                    {{#block-slot 'active'}}
+                    {{#section.active}}
                         {{project-contributors
                             node=collectionItem
                             contributors=collectionItem.contributors
                             discard=(action 'noop')
                             continue=(action 'nextSection')
                         }}
-                    {{/block-slot}}
-                    {{#block-slot 'complete'}}
+                    {{/section.active}}
+                    {{#section.complete}}
                         <p>{{contributor-list contributors=collectionItem.contributors}}</p>
-                    {{/block-slot}}
+                    {{/section.complete}}
                 {{/submit-section}}
 
                 {{#submit-section
@@ -120,8 +123,9 @@
                     tooltip=(t 'collections.submit.closed_tooltip')
                     title=(t 'collections.submit.subjects_title')
                     description=(t 'collections.submit.subjects_description')
+                    as |section|
                 }}
-                    {{#block-slot 'active'}}
+                    {{#section.active}}
                         {{subject-picker
                             id='subjects'
                             currentSubjects=collectedMetadatum.subjects
@@ -130,8 +134,8 @@
                             didValidate=didValidate
                             continue=(action 'nextSection')
                         }}
-                    {{/block-slot}}
-                    {{#block-slot 'complete'}}
+                    {{/section.active}}
+                    {{#section.complete}}
                         <div>
                             {{#each collectedMetadatum.subjects as |subject|}}
                                 <div local-class="subject">
@@ -141,7 +145,7 @@
                                 </div>
                             {{/each}}
                         </div>
-                    {{/block-slot}}
+                    {{/section.complete}}
                 {{/submit-section}}
 
                 {{#submit-section
@@ -151,16 +155,17 @@
                     savedSections=savedSections
                     tooltip=(t 'collections.submit.closed_tooltip')
                     title=(t 'collections.submit.collection_metadata_title')
+                    as |section|
                 }}
-                    {{#block-slot 'active'}}
+                    {{#section.active}}
                         {{collection-metadata
                             collection=collection
                             collectedMetadatum=collectedMetadatum
                             didValidate=didValidate
                             continue=(action 'nextSection')
                         }}
-                    {{/block-slot}}
-                    {{#block-slot 'complete'}}
+                    {{/section.active}}
+                    {{#section.complete}}
                         <p>
                             <em>{{t 'collections.submit.collection_metadata_type_label'}}</em>
                             <span>{{collectedMetadatum.collectedType}}</span>
@@ -169,7 +174,7 @@
                             <em>{{t 'collections.submit.collection_metadata_status_label'}}</em>
                             <span>{{collectedMetadatum.status}}</span>
                         </p>
-                    {{/block-slot}}
+                    {{/section.complete}}
                 {{/submit-section}}
             {{/cp-panels}}
 

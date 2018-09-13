@@ -2,19 +2,19 @@ const glob = require('glob');
 const { expect } = require('chai');
 const { describe, it } = require('mocha');
 
-function getSet(path, rgx) {
+function getFilteredGlobSet(path, rgx) {
     return new Set(glob.sync(path).map(file => file.replace(rgx, '$1')));
 }
 
 /**
  * Checks for components that do not have a test
  */
-describe('Component Metatests', () => {
-    const componentNames = getSet(
+describe.skip('Component Metatests', () => {
+    const componentNames = getFilteredGlobSet(
         './{app,lib/*/addon}/components/**/component.ts',
         /^.*components\/(.*)\/component\.ts$/,
     );
-    const componentTestNames = getSet(
+    const componentTestNames = getFilteredGlobSet(
         './tests/integration/components/**/component-test.ts',
         /^.*components\/(.*)\/component-test\.ts$/,
     );
@@ -30,11 +30,11 @@ describe('Component Metatests', () => {
  * Checks for exports with no component (usually because it was deleted)
  */
 describe('Exported Components', () => {
-    const componentNames = getSet(
+    const componentNames = getFilteredGlobSet(
         './lib/*/addon/components/**/component.ts',
         /^.*components\/(.*)\/component\.ts$/,
     );
-    const exportedComponentNames = getSet(
+    const exportedComponentNames = getFilteredGlobSet(
         './lib/*/app/components/**/component.js',
         /^.*components\/(.*)\/component\.js$/,
     );

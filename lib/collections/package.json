@@ -6,7 +6,6 @@
   ],
   "dependencies": {
     "ember-bootstrap": "*",
-    "ember-block-slots": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-htmlbars-inline-precompile": "*",

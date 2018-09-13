@@ -1,4 +1,3 @@
-{{yield}}
 {{#if showTooltip}}
     {{bs-tooltip
         title=tooltip
@@ -11,34 +10,17 @@
     open=open
     as |panel|
 }}
-    <header local-class="{{if (not open) 'closed'}}">
-        {{title}}
-        <span class="pull-right">
-            {{fa-icon 'floppy-o' local-class=(if didSave 'green' '')}}
-        </span>
-    </header>
-    {{#panel.body}}
-        {{#if description}}
-            <p>{{description}}</p>
-        {{/if}}
-        <div class="row">
-            {{#yield-slot 'active'}}
-                {{yield}}
-            {{/yield-slot}}
-        </div>
-    {{/panel.body}}
-    {{#if showReopen}}
-        <div
-            role="button"
-            {{action 'editSection'}}
-            local-class="{{if showReopen 'pointer'}}"
-        >
-            {{#yield-slot 'complete'}}
-                {{yield}}
-            {{/yield-slot}}
-            <p class="text-smaller" local-class="edit-message">
-                {{t 'app_components.submit_section.click_to_edit'}}
-            </p>
-        </div>
-    {{/if}}
+    {{yield (hash
+        active=(component 'submit-section/active'
+            isOpen=isOpen
+            title=title
+            didSave=didSave
+            panel=panel
+            description=description
+        )
+        complete=(component 'submit-section/complete'
+            showReopen=showReopen
+            editSection=(action 'editSection')
+        )
+    )}}
 {{/panels.panel}}
