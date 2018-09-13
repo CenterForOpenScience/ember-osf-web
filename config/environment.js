@@ -270,21 +270,33 @@ module.exports = function(environment) {
     }
 
     if (environment === 'test') {
-        // Testem prefers this...
-        ENV.locationType = 'none';
-
-        // Test environment needs to find assets in the "regular" location.
-        ENV.assetsPrefix = '/';
-
-        // Always enable mirage for tests.
-        ENV['ember-cli-mirage'].enabled = true;
-
-        // keep test console output quieter
-        ENV.APP.LOG_ACTIVE_GENERATION = false;
-        ENV.APP.LOG_VIEW_LOOKUPS = false;
-
-        ENV.APP.rootElement = '#ember-testing';
-        ENV.APP.autoboot = false;
+        Object.assign(ENV, {
+            // Testem prefers this...
+            locationType: 'none',
+            // Test environment needs to find assets in the "regular" location.
+            assetsPrefix: '/',
+            // Always enable mirage for tests.
+            'ember-cli-mirage': {
+                enabled: true,
+            },
+            APP: {
+                ...ENV.APP,
+                // keep test console output quieter
+                LOG_ACTIVE_GENERATION: false,
+                LOG_VIEW_LOOKUPS: false,
+                rootElement: '#ember-testing',
+                autoboot: false,
+            },
+            engines: {
+                ...ENV.engines,
+                collections: {
+                    enabled: true,
+                },
+                registries: {
+                    enabled: true,
+                },
+            },
+        });
     }
 
     if (devMode) {
