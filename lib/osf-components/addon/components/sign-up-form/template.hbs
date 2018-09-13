@@ -1,37 +1,41 @@
 <form {{action 'submit' on='submit'}}>
-    {{validated-input
+    {{validated-input/text
+        data-test-sign-up-full-name
         model=model
-        didValidate=didValidate
         valuePath='fullName'
+        messagesShown=didValidate
+        disabled=hasSubmitted
         placeholder=(t 'sign_up_form.full_name')
-        disabled=hasSubmitted
-        aria-label=(t 'sign_up_form.full_name')
+        ariaLabel=(t 'sign_up_form.full_name')
     }}
-    {{validated-input
+    {{validated-input/text
+        data-test-sign-up-email-1
         model=model
-        didValidate=didValidate
         valuePath='email1'
+        messagesShown=didValidate
+        disabled=hasSubmitted
         placeholder=(t 'sign_up_form.contact_email')
-        disabled=hasSubmitted
-        aria-label=(t 'sign_up_form.contact_email')
+        ariaLabel=(t 'sign_up_form.contact_email')
     }}
-    {{validated-input
+    {{validated-input/text
+        data-test-sign-up-email-2
         model=model
-        didValidate=didValidate
         valuePath='email2'
+        messagesShown=didValidate
+        disabled=hasSubmitted
         placeholder=(t 'sign_up_form.confirm_email')
-        disabled=hasSubmitted
-        aria-label=(t 'sign_up_form.confirm_email')
+        ariaLabel=(t 'sign_up_form.confirm_email')
     }}
-    {{validated-input
-        type='password'
+    {{validated-input/text
+        data-test-sign-up-password
+        password=true
         model=model
-        didValidate=didValidate
         valuePath='password'
-        placeholder=(t 'sign_up_form.password')
-        key-up=(perform strength value=model.password)
+        messagesShown=didValidate
         disabled=hasSubmitted
-        aria-label=(t 'sign_up_form.password')
+        onKeyUp=(perform strength model.password)
+        placeholder=(t 'sign_up_form.password')
+        ariaLabel=(t 'sign_up_form.password')
     }}
     <div class="row" hidden={{not progress}}>
         <div class="col-xs-12">
@@ -43,26 +47,26 @@
             </div>
         </div>
     </div>
-    {{#validated-input
-        type='checkbox'
+    {{#validated-input/checkbox
+        data-test-sign-up-tos
         model=model
-        didValidate=didValidate
-        disabled=hasSubmitted
         valuePath='acceptedTermsOfService'
+        messagesShown=didValidate
+        disabled=hasSubmitted
         local-class='tos-checkbox'
     }}
         {{sign-up-policy}}
-    {{/validated-input}}
+    {{/validated-input/checkbox}}
     {{#if (and
         (not hasSubmitted)
         formIsValid
     )}}
         <div class="col-md-12" local-class="RecaptchaParent">
-            {{validated-input
-                type='reCaptcha'
+            {{validated-input/recaptcha
+                data-test-recaptcha
                 model=model
-                didValidate=didValidate
                 valuePath='recaptchaResponse'
+                messagesShown=didValidate
             }}
         </div>
     {{/if}}

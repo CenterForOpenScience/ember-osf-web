@@ -62,7 +62,6 @@ module('Integration | Component | inline-list', hooks => {
             ],
         ];
 
-        // eslint-disable-next-line no-await-in-loop
         for (const [input, expected] of testCases) {
             this.set('list', input);
             await render(hbs`
@@ -97,7 +96,6 @@ module('Integration | Component | inline-list', hooks => {
             ],
         ];
 
-        // eslint-disable-next-line no-await-in-loop
         for (const [input, expected] of testCases) {
             this.set('list', input);
             await render(hbs`

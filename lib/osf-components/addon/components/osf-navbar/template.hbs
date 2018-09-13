@@ -2,23 +2,16 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                {{! OSF logo }}
-                {{#if inHomeApp}}
-                    {{#link-to indexRoute (html-attributes aria-label=(t 'navbar.go_home')) class='navbar-brand'}}
-                        <span class="osf-navbar-logo"></span>
-                    {{/link-to}}
-                {{else}}
-                    <a href="/" class="navbar-brand" aria-label={{t 'navbar.go_home'}}>
-                        <span class="osf-navbar-logo"></span>
-                    </a>
-                {{/if}}
+                {{#global-link-to 'home' (html-attributes aria-label=(t 'navbar.go_home')) class='navbar-brand'}}
+                    <span class="osf-navbar-logo"></span>
+                {{/global-link-to}}
 
                 {{! Current app }}
                 <div class="service-name">
-                    {{#link-to indexRoute click=(action (mut showNavLinks) false)}}
+                    {{#hyper-link _activeService.route}}
                         <span class="hidden-xs"> {{t 'general.OSF'}} </span>
-                        <span class="current-service"><strong>{{currentApp}}</strong></span>
-                    {{/link-to}}
+                        <span class="current-service"><strong>{{_activeService.name}}</strong></span>
+                    {{/hyper-link}}
                 </div>
 
                 {{! App list dropdown }}
@@ -34,17 +27,11 @@
                         {{fa-icon 'caret-down' size='2'}}
                     {{/dd.toggle}}
                     {{#dd.menu classNames='dropdown-menu service-dropdown' as |ddm|}}
-                        {{#each osfApps as |app|}}
+                        {{#each services as |service|}}
                             {{#ddm.item (html-attributes role='menuitem')}}
-                                {{#if (eq app.name currentApp)}}
-                                    {{#link-to indexRoute click=(action 'click' 'link' (concat 'Navbar - ' app.name ) target=analytics) }}
-                                        {{t 'general.OSF'}}<b>{{app.name}}</b>
-                                    {{/link-to}}
-                                {{else}}
-                                    <a href="{{app.url}}" onclick={{action 'click' 'link' (concat 'Navbar - ' app.name ) target=analytics }}>
-                                        {{t 'general.OSF'}}<b>{{app.name}}</b>
-                                    </a>
-                                {{/if}}
+                                {{#hyper-link service.route}}
+                                    {{t 'general.OSF'}}<b>{{service.name}}</b>
+                                {{/hyper-link}}
                             {{/ddm.item}}
                         {{/each}}
                     {{/dd.menu}}
@@ -70,13 +57,15 @@
                 collapsed=(not showNavLinks)
             }}
                 <ul class="nav navbar-nav">
-                    {{component linksComponent onLinkClick=(action (mut showNavLinks) false)}}
-                    {{osf-navbar/auth-dropdown
-                        signupUrl=signupUrl
-                        loginAction=loginAction
-                        redirectUrl=redirectUrl
-                        onLinkClicked=(action (mut showNavLinks) false)
-                    }}
+                    {{#let (hash links=(component 'osf-navbar/x-links')) as |ctx|}}
+                        {{#if hasBlock}}
+                            {{yield ctx}}
+                        {{else}}
+                            {{ctx.links}}
+                        {{/if}}
+                    {{/let}}
+
+                    {{osf-navbar/auth-dropdown}}
                 </ul>
             {{/bs-collapse}}
         </div>

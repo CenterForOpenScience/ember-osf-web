@@ -8,29 +8,66 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Models:
     - `registration-schema` (including related adapter & serializer)
+    - `token`
+    - `scope`
 - Components:
     - `draft-registration-card` - summary card for draft registrations
     - `node-list` - produce a paginated list of nodes from a relationship
+    - `copyable-text` - display some read-only text with a button to copy it
+    - `validated-input/checkboxes` - list of checkboxes to choose what belongs in a has-many relation
+    - `paginated-list/all` - list of all models of a given type
+    - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
+    - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
 - Routes:
     - `guid-node/registrations` - registrations tab
+    - `settings` - includes the settings side nav
+    - `settings/tokens` - list of personal access tokens
+    - `settings/tokens/edit`
+    - `settings/tokens/create`
+- Tests:
+    - `guid-node/registrations` acceptance test
+- Blueprints:
+    - `osf-model` - creates model, adapter, and serializer for an OSF model
+- Types:
+    - `ember-cli-mirage` - the 70% that seems possible to express in typescript
+- Engines:
+    - `ember-osf-registries` - moved/upgraded into the registries engine
 
 ### Changed
 - Models:
-    - `osf-model` - add `relatedCounts` attribute and `incrementRelatedCount()`/`decrementRelatedCount()` methods
-    - `registration` - add `archiving` attribute and `registrationSchema` relationship
+    - `osf-model` - add `relatedCounts` attribute and `loadRelatedCounts()` method
+    - `registration` - add `archiving` attribute and `registrationSchema` relationship, typed `registeredMeta`
     - `draft-registration` - changed `registrationSchema` relationship type to be `registration-schema`
+    - `node` - added attributes: `preprint: boolean`, `subjects: string[]`, and `currentUserCanComment: boolean`
+    - `user` - made `middleNames` `string` (was `string[]`), added `suffix: string`, `active: boolean`, `social: {}`
 - Adapters:
     - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
 - Serializers:
-    - `osf-serializer` - populate `relatedCounts` attribute from relationship meta
+    - `osf-serializer`:
+        - populate `relatedCounts` attribute from relationship meta
+        - allow setting `serialize: true` for an attribute in `FooSerializer.attrs` to guarantee the attribute
+          will always be serialized, even when not dirty
 - Services:
     - `route-context` - added ability to pass query params to `setGuid()`/`loadModel()`
 - Components:
     - `file-renderer` - remove initialWidth MFR parameter
     - `node-blurb` - renamed to `node-card`
-    - `node-card` - add `registration` type, optional tags display, and placeholder when `node` is not set
+    - `node-card` - add `registration` type, optional tags display, and placeholder when `node` is not set, made tagless
     - `node-navbar` - use `linkTo` for registrations
-    - `paginated-relation` - add ability to specify placeholders, and pass actions to items for incrementing/decrementing count
+    - `paginated-relation` renamed to `paginated-list/has-many`
+        - refactored to allow sharing functionality among different types of list
+        - add ability to specify placeholders, and pass actions to items for reloading the list
+        - `paginated-list/layout`, the shared layout component for the other `paginated-list/*`
+        - `paginated-list/all`, for listing all models of a given type
+    - `validated-input` - replaced `{{validated-input type='foo'}}` with `{{validated-input/foo}}`,
+      since the interface varies by type
+        - `validated-input/checkbox`
+        - `validated-input/checkboxes` (new!)
+        - `validated-input/date`
+        - `validated-input/recaptcha`
+        - `validated-input/text`
+        - `validated-input/textarea`
+    - `osf-navbar` - modified to yield a list home links for engines to override, if required
 - Routes:
     - `guid-node` - request `forks`, `registrations`, and `draft_registrations` related counts when resolving guid
     - `guid-node/forks` - use placeholder for forks list
@@ -48,8 +85,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - upgrade to ember(-(cli|data))@~3.3.0
     - don't strip ember-test-selectors from production builds
 - DX:
-    - No more mirage fixtures
     - Have guid-like IDs for mirage factories (nodes and users to start)
+    - Disabled `space-infix-ops` eslint rule for .d.ts
+    - Disabled `no-await-in-loop` eslint rule for tests
+    - Made mirage factories TypeScript and type check them against Ember models
+    - TypeScripted mirage serializers
+    - Refactored mirage `node` views relationship lists into single `relationshipList` function
+    - Augmented mirage types
+    - Exported `AttributesFor` from `ember-data` types
+    - Defined `ember-data` `AttributesFor` and `RelationshipsFor` such that they only include `string` keys.
+    - Improved osf-api types
+    - Fixed up types for `faker.list.cycle`/`faker.list.random`
+    - Disable `max-classes-per-file` tslint rule globally
 
 ### Removed
 - Models:

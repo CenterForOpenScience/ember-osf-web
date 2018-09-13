@@ -1,58 +1,60 @@
-<h4 local-class="DraftRegistratrionCard__title">
-    {{#if draftRegistration}}
-        {{draftRegistration.registrationSchema.name}}
-    {{else}}
-        {{#content-placeholders as |placeholder|}}
-            {{placeholder.text lines=1}}
-        {{/content-placeholders}}
-    {{/if}}
-</h4>
-<h4 local-class="DraftRegistratrionCard__body">
-    <small>
+<div local-class="DraftRegistrationCard" data-test-draft-registration-card>
+    <h4 local-class="DraftRegistratrionCard__title" data-test-draft-registration-card-title>
         {{#if draftRegistration}}
-            {{#if showProgress}}
-                <div class="progress progress-bar-md">
-                    <div class="progress-bar" style={{progressStyle}}></div>
-                </div>
-            {{/if}}
-            <p>{{t 'osf-components.draft-registration-card.initiated_by'}} {{draftRegistration.initiator.fullName}}</p>
-            <p>{{t 'osf-components.draft-registration-card.started'}} {{moment draftRegistration.datetimeInitiated}}</p>
-            <p>{{t 'osf-components.draft-registration-card.last_updated'}} {{moment draftRegistration.datetimeUpdated}}</p>
+            {{draftRegistration.registrationSchema.name}}
         {{else}}
             {{#content-placeholders as |placeholder|}}
-                {{placeholder.text lines=3}}
+                {{placeholder.text lines=1}}
             {{/content-placeholders}}
         {{/if}}
-    </small>
-    <div class="row">
-        <div class="col-md-10">
-            {{#bs-button type='info' onClick=(action edit) disabled=(not draftRegistration)}}
-                {{fa-icon 'pencil'}} {{t 'general.edit'}}
-            {{/bs-button}}
-            {{#bs-button type='danger' onClick=(action delete) disabled=(not draftRegistration)}}
-                {{fa-icon 'times'}} {{t 'general.delete'}}
-            {{/bs-button}}
-            {{#bs-modal open=deleteModalOpen onHidden=(action cancelDelete) class='delete_draft_registration' as |modal|}}
-                {{#modal.header}}
-                    <h4>{{t 'general.please_confirm'}}</h4>
-                {{/modal.header}}
-                {{#modal.body}}
-                    {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
-                {{/modal.body}}
-                {{#modal.footer}}
-                    {{#bs-button onClick=(action modal.close) type='default'}}
-                        {{t 'general.cancel'}}
-                    {{/bs-button}}
-                    {{#bs-button onClick=(action 'confirmDelete') type='danger'}}
-                        {{t 'general.delete'}}
-                    {{/bs-button}}
-                {{/modal.footer}}
-            {{/bs-modal}}
+    </h4>
+    <h4 local-class="DraftRegistratrionCard__body" data-test-draft-registration-card-body>
+        <small>
+            {{#if draftRegistration}}
+                {{#if showProgress}}
+                    <div class="progress progress-bar-md" data-test-draft-registration-card-progress-bar>
+                        <div class="progress-bar" style={{progressStyle}}></div>
+                    </div>
+                {{/if}}
+                <p>{{t 'osf-components.draft-registration-card.initiated_by'}} {{draftRegistration.initiator.fullName}}</p>
+                <p>{{t 'osf-components.draft-registration-card.started'}} {{moment draftRegistration.datetimeInitiated}}</p>
+                <p>{{t 'osf-components.draft-registration-card.last_updated'}} {{moment draftRegistration.datetimeUpdated}}</p>
+            {{else}}
+                {{#content-placeholders as |placeholder|}}
+                    {{placeholder.text lines=3}}
+                {{/content-placeholders}}
+            {{/if}}
+        </small>
+        <div class="row">
+            <div class="col-md-10">
+                {{#bs-button type='info' onClick=(action edit) disabled=(not draftRegistration)}}
+                    {{fa-icon 'pencil'}} {{t 'general.edit'}}
+                {{/bs-button}}
+                {{#bs-button type='danger' onClick=(action delete) disabled=(not draftRegistration)}}
+                    {{fa-icon 'times'}} {{t 'general.delete'}}
+                {{/bs-button}}
+                {{#bs-modal open=deleteModalOpen onHidden=(action cancelDelete) class='delete_draft_registration' as |modal|}}
+                    {{#modal.header}}
+                        <h4>{{t 'general.please_confirm'}}</h4>
+                    {{/modal.header}}
+                    {{#modal.body}}
+                        {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
+                    {{/modal.body}}
+                    {{#modal.footer}}
+                        {{#bs-button onClick=(action modal.close) type='default'}}
+                            {{t 'general.cancel'}}
+                        {{/bs-button}}
+                        {{#bs-button onClick=(action 'confirmDelete') type='danger'}}
+                            {{t 'general.delete'}}
+                        {{/bs-button}}
+                    {{/modal.footer}}
+                {{/bs-modal}}
+            </div>
+            <div class="col-md-1">
+                {{#bs-button type='success' onClick=(action register) disabled=(not enableRegister)}}
+                    {{t 'osf-components.draft-registration-card.register'}}
+                {{/bs-button}}
+            </div>
         </div>
-        <div class="col-md-1">
-            {{#bs-button type='success' onClick=(action register) disabled=(not enableRegister)}}
-                {{t 'osf-components.draft-registration-card.register'}}
-            {{/bs-button}}
-        </div>
-    </div>
-</h4>
+    </h4>
+</div>

@@ -1,7 +1,7 @@
 import OsfAdapter from './osf-adapter';
 
 export default class FileProvider extends OsfAdapter {
-    pathForType(): string {
+    pathForType(_: string): string {
         return 'files';
     }
 }

@@ -1,7 +1,7 @@
 import OsfAdapter from './osf-adapter';
 
 export default class RegistrationSchema extends OsfAdapter {
-    pathForType() {
+    pathForType(_: string) {
         return 'schemas/registrations';
     }
 }

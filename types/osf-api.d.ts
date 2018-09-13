@@ -19,6 +19,10 @@ export interface ResourceCollectionDocument extends DocBase {
     meta: PaginatedMeta;
 }
 
+export interface RootDocument extends DocBase {
+    meta: RootMeta;
+}
+
 export interface DocBase extends JSONAPI.DocBase {
     meta: BaseMeta;
 }
@@ -26,6 +30,12 @@ export interface DocBase extends JSONAPI.DocBase {
 export interface PaginatedMeta extends BaseMeta {
     total: number;
     per_page: number;
+}
+
+export interface RootMeta extends BaseMeta {
+    activeFlags: string[];
+    message: string;
+    current_user?: { data: UserResource };
 }
 
 export interface BaseMeta {
@@ -37,6 +47,10 @@ export interface Resource extends JSONAPI.ResourceObject {
     id: string | number;
     relationships?: Relationships;
     embeds?: Embeds;
+}
+
+export interface UserResource extends Resource {
+    links: JSONAPI.Links & { profile_image: string };
 }
 
 export interface Relationships {
@@ -54,15 +68,14 @@ export interface RelationshipWithData {
 }
 
 export interface RelationshipWithLinks {
-    links: RelatedLink;
+    links: RelationshipLinks;
 }
 
-export interface RelatedLink {
-    related: {
-        href: string;
-        meta: RelatedLinkMeta;
-    };
+export interface RelationshipLinks extends JSONAPI.Links {
+    related: RelatedLink;
 }
+
+export type RelatedLink = string | { href: string; meta?: RelatedLinkMeta };
 
 export interface RelatedLinkMeta {
     count?: number;

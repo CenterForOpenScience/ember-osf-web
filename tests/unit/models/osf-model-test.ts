@@ -25,7 +25,7 @@ module('Unit | Model | osf-model', hooks => {
             const user = await store.findRecord('user', userId);
             assert.ok(!!user);
             assert.equal(user.get('id'), userId, 'Checking user id.');
-            const nodeIds = nodeList.map(node => node.id);
+            const nodeIds = nodeList.map((node: any) => node.id);
 
             const nodes = await user.queryHasMany('nodes');
 

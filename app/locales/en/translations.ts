@@ -37,7 +37,6 @@ export default {
         save: 'Save',
         ellipsis: '\u2026',
         warning: 'Warning',
-        clipboard_copy: 'Copy to clipboard',
         sort_asc: 'Sort ascending',
         sort_desc: 'Sort descending',
         sort: 'Sort',
@@ -55,6 +54,7 @@ export default {
         component: 'component',
         hosted_on_the_osf: 'Hosted on OSF',
         please_confirm: 'Please confirm',
+        options: 'Options',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -299,6 +299,12 @@ export default {
     not_found: {
         title: 'Page not found',
         body: 'The requested resource could not be found. If this should not have occurred and the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+        registries: {
+            contact: 'support@osf.io',
+            go_to: 'Go to OSF Registries',
+            line1: 'The page you were looking for is not found on the OSF Registries service.',
+            line2: 'If this should not have occurred and the issue persists, please report it to ',
+        },
     },
     error_no_api: {
         title: 'API Unavailable',
@@ -550,6 +556,7 @@ export default {
                 consent: 'I have read these terms. I understand that articles must be published by December 31, 2018, in order to be eligible for a prize.',
                 continue: 'Continue',
             },
+            page_title: '{{nodeTitle}} Registrations',
             no_registrations: 'There have been no completed registrations of this project.',
             no_drafts: 'There are no draft registrations of this project.',
             start_new: 'Start a new registration by clicking the “New registration” button. Once created, registrations cannot be edited or deleted.',
@@ -613,6 +620,83 @@ export default {
         },
         submit: {
             title: 'Submit',
+        },
+    },
+    registries: {
+        header: {
+            search: 'Search',
+            search_placeholder: 'Search registrations...',
+            searchable_as_of: '{{registrations}} searchable registrations as of {{today}}',
+        },
+
+        facets: {
+            registration_type: {
+                title: 'OSF Registration Type',
+                only_available_with_osf: 'Only available with OSF Registries',
+                registration_schema_error: 'An error occurred getting registration types. Please try again.',
+            },
+        },
+
+        application: {
+            page_title: 'OSF Registries',
+        },
+
+        discover: {
+            page_title: 'Search',
+            SHARE: 'SHARE',
+            sort_by: 'Sort by',
+            powered_by: 'powered by',
+            no_results: 'No results found.',
+            try_broadening: 'Try broadening your search terms',
+            order: {
+                relevance: 'Relevance',
+                modified_ascending: 'Modified Date (oldest to newest)',
+                modified_descending: 'Modified Date (newest to oldest)',
+            },
+            sidebar: {
+                refine_your_search: 'Refine your search by',
+                clear_filters: 'Clear Filters',
+                active_filters: 'Active Filters',
+            },
+            search_result: {
+                last_edited: 'Last Edited: {{date}}',
+                withdrawn: 'Withdrawn',
+            },
+            pagination: {
+                previous: '«',
+                next: '»',
+            },
+        },
+
+        index: {
+            lead: 'The <span class="f-w-lg">open</span> registries network',
+            see_example: 'See an example',
+
+            services: {
+                top: {
+                    heading: 'Registry Services',
+                    paragraph: 'Leading registry service providers use this open source infrastructure to support their communities.',
+                },
+                bottom: {
+                    p1: 'Create your own branded registry backed by the OSF.',
+                    div: {
+                        line1: 'Check out the',
+                        linkText1: 'open source code',
+                        line2: 'and the',
+                        linkText2: 'requirements and road map',
+                        line3: '. Input welcome!',
+                    },
+                    contact: 'Contact us',
+                },
+            },
+            advisory: {
+                heading: 'Advisory Group',
+                paragraph: 'Our advisory group includes leaders in registrations across disciplines',
+            },
+            recent: {
+                title: 'Browse Registrations',
+                more: 'See more',
+            },
         },
     },
     analytics: {
@@ -680,5 +764,58 @@ export default {
             register: 'Register',
             delete_draft_confirm: 'Are you sure you want to delete this draft registration?',
         },
+        'copyable-text': {
+            copyToClipboard: 'Copy to clipboard',
+            copied: 'Copied!',
+        },
+    },
+    settings: {
+        toggleNav: 'Toggle navigation',
+        profile: {
+            title: 'Profile information',
+        },
+        account: {
+            title: 'Account settings',
+        },
+        addons: {
+            title: 'Configure add-on accounts',
+        },
+        notifications: {
+            title: 'Notifications',
+        },
+        apps: {
+            title: 'Developer apps',
+        },
+        tokens: {
+            title: 'Personal access tokens',
+            explanation: 'Personal access tokens function like ordinary OAuth access tokens. They can be used to authenticate to the API.',
+            listDescription: 'Your personal access tokens:',
+            emptyList: 'You have not created any tokens.',
+            createToken: 'Create token',
+            deleteToken: 'Delete token',
+            editToken: 'Edit token',
+            copyToken: 'Copy token ID',
+            backToList: 'Back to list of tokens',
+            tokenName: 'Token name',
+            scopes: 'Scopes',
+            scopesDescription: 'Scopes limit access for personal access tokens.',
+            confirmDelete: {
+                title: 'Delete token <strong>{{tokenName}}</strong>?',
+                body: 'Are you sure you want to delete this personal access token? This cannot be reversed.',
+            },
+            createSuccess: {
+                message: 'Successfully created personal access token <strong>{{tokenName}}</strong>.',
+                instructions: 'This token will never expire. This token should never be shared with others. If it is accidentally revealed publicly, it should be deactivated immediately.',
+                warning: 'This is the only time your token will be displayed.',
+                idDescription: 'ID used to authenticate with token <strong>{{tokenName}}<strong>:',
+            },
+        },
+    },
+    searchHelp: {
+        close: 'Close',
+        title: 'Search help',
+        helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
+        queries: 'Queries',
+        searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>',
     },
 };

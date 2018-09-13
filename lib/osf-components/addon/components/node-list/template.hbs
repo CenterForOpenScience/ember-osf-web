@@ -1,9 +1,9 @@
 <ul class="list-group">
-    {{#paginated-relation
+    {{#paginated-list/has-many
         modelTaskInstance=@modelTaskInstance
         relationshipName=@relationshipName
         reload=@reload
-        queryParams=this.queryParams
+        query=this.queryParams
         analyticsScope=@analyticsScope
         as |pr|
     }}
@@ -12,5 +12,5 @@
         {{/pr.item}}
 
         {{yield (hash empty=pr.empty)}}
-    {{/paginated-relation}}
+    {{/paginated-list/has-many}}
 </ul>

@@ -1,27 +1,15 @@
-import { action } from '@ember-decorators/object';
 import { match } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { Registry as Services } from '@ember/service';
-import config from 'ember-get-config';
-import CurrentUser from 'ember-osf-web/services/current-user';
-import pathJoin from 'ember-osf-web/utils/path-join';
-import $ from 'jquery';
 
 export default class Application extends Controller {
-    @service currentUser!: CurrentUser;
     @service router!: Services['router'];
 
-    secondaryNavbarId = config.secondaryNavbarId;
-    signupUrl = `${pathJoin(config.OSF.url, 'register')}?${$.param({ next: window.location.href })}`;
-
-    // This is a hack until we refactor the nav bar/page headers to be customizable by routes.
-    @match('router.currentRouteName', /^handbook/) disableHeaders!: boolean;
-
-    @action
-    login() {
-        this.currentUser.login();
-    }
+    // This is a hack until we move the main application into it's own engine.
+    // Then each engine will be in charge of rendering/customizing the header.
+    // Feel free to move it over, any time. Just go for it. We'll love you. I promise.
+    @match('router.currentRouteName', /^handbook|^registries/) disableHeader!: boolean;
 }
 
 declare module '@ember/controller' {

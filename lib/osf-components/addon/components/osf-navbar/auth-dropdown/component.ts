@@ -1,14 +1,14 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
-import { serviceLinks } from 'ember-osf-web/const/service-links';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import Session from 'ember-simple-auth/services/session';
 import $ from 'jquery';
 import layout from './template';
@@ -22,29 +22,12 @@ import layout from './template';
 export default class NavbarAuthDropdown extends Component {
     layout = layout;
 
-    /**
-     * Action run when the user clicks "Sign In"
-     *
-     * @property loginAction
-     * @type {Action}
-     */
-    loginAction?: () => void;
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service session!: Session;
 
-    /**
-     * Action run wheneven the user clicks a link
-     *
-     * @property loginAction
-     * @type {Action}
-     */
-    onLinkClicked?: () => void;
-
-    /**
-     * The URL to use for signup
-     *
-     * @property signupUrl
-     * @type {String}
-     */
-    signupUrl?: string;
+    @alias('currentUser.user') user!: User;
 
     /**
      * The URL to redirect to after logout
@@ -54,29 +37,24 @@ export default class NavbarAuthDropdown extends Component {
      */
     redirectUrl?: string;
 
-    // Private properties
-    @service session!: Session;
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    profileURL: string = defaultTo(this.profileURL, `${config.OSF.url}profile/`);
+    settingsURL: string = defaultTo(this.settingsURL, `${config.OSF.url}settings/`);
+    signUpURL: string = defaultTo(this.signUpURL, `${config.OSF.url}register/`);
 
-    serviceLinks = serviceLinks;
+    @computed('signUpURL')
+    get _signupURL() {
+        return `${this.signUpURL}?${$.param({ next: window.location.href })}`;
+    }
 
-    @alias('currentUser.user') user!: User;
+    @action
+    login(this: NavbarAuthDropdown) {
+        this.currentUser.login();
+    }
 
     @action
     logout(this: NavbarAuthDropdown) {
         // Assuming `redirectUrl` comes back to this app, the session will be invalidated then.
         const query = this.redirectUrl ? `?${$.param({ next_url: this.redirectUrl })}` : '';
         window.location.href = `${config.OSF.url}logout/${query}`;
-    }
-
-    @action
-    clicked(category: string, label: string) {
-        this.analytics.click(category, label);
-
-        if (this.onLinkClicked) {
-            this.onLinkClicked();
-        }
     }
 }

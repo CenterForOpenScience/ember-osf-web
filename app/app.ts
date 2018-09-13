@@ -24,7 +24,29 @@ const App = Application.extend({
             dependencies: {
                 services: [
                     'router',
+                    'analytics',
+                    'i18n',
                 ],
+            },
+        },
+        registries: {
+            dependencies: {
+                services: [
+                    'analytics',
+                    'cookies',
+                    'current-user',
+                    'features',
+                    'head-data',
+                    'i18n',
+                    'page-title-list',
+                    'router',
+                    'session',
+                    'status-messages',
+                    'store',
+                ],
+                externalRoutes: {
+                    registration: 'guid-registration',
+                },
             },
         },
         analyticsPage: {

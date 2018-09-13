@@ -1,120 +1,81 @@
+import EmberObject from '@ember/object';
 import { render } from '@ember/test-helpers';
+import { buildValidations, validator } from 'ember-cp-validations';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
+
+const Validations = buildValidations({
+    name: [
+        validator('presence', {
+            presence: true,
+        }),
+        validator('length', {
+            min: 3,
+            isWarning: true,
+        }),
+    ],
+});
+
+const TestModel = EmberObject.extend(Validations);
+
+function createModel(testContext: any, attrs: {}) {
+    return TestModel.create(testContext.owner.ownerInjection(), attrs);
+}
 
 module('Integration | Component | validated-input', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async assert => {
-        await render(hbs`{{validated-input
-            valuePath='fullName'
-            placeholder='Full Name'
-            value=''
+    test('it renders', async function(assert) {
+        this.set('model', createModel(this, {}));
+        await render(hbs` {{validated-input/text
+            model=this.model
+            valuePath='name'
+            messagesShown=false
         }}`);
 
-        assert.dom('div').exists();
-        assert.dom('.valid-input').doesNotExist();
-        assert.dom('.error').doesNotExist();
-        assert.dom('.warning').doesNotExist();
+        assert.dom('input[type="text"]', this.element).hasNoValue();
+        assert.dom('.has-success', this.element).doesNotExist();
+        assert.dom('.has-error', this.element).doesNotExist();
+        assert.dom('.has-warning', this.element).doesNotExist();
     });
 
-    test('render valid', async assert => {
-        // simulates that the success element renders on success
-        await render(hbs`{{validated-input
-            valuePath='fullName'
-            placeholder='Full Name'
-            value=''
-            isValid=true
+    test('render invalid', async function(assert) {
+        this.set('model', createModel(this, {}));
+        await render(hbs` {{validated-input/text
+            model=this.model
+            valuePath='name'
         }}`);
 
-        assert.dom('.valid-input').exists();
-        assert.dom('.error').doesNotExist();
-        assert.dom('.warning').doesNotExist();
+        assert.dom('input[type="text"]', this.element).hasNoValue();
+        assert.dom('.has-success', this.element).doesNotExist();
+        assert.dom('.has-error', this.element).exists();
+        assert.dom('.has-warning', this.element).doesNotExist();
     });
 
-    test('render error message', async assert => {
-        // checks that the error message renders
-        await render(hbs`{{validated-input
-            valuePath='fullName'
-            placeholder='Full Name'
-            value=''
-            didValidate=true
-            isInvalid=true
+    test('render valid', async function(assert) {
+        const model = this.set('model', createModel(this, { name: 'foo' }));
+        await render(hbs` {{validated-input/text
+            model=this.model
+            valuePath='name'
         }}`);
 
-        assert.dom('.valid-input').doesNotExist();
-        assert.dom('.error').exists();
-        assert.dom('.warning').doesNotExist();
+        assert.dom('input[type="text"]', this.element).hasValue(model.name);
+        assert.dom('.has-success', this.element).exists();
+        assert.dom('.has-error', this.element).doesNotExist();
+        assert.dom('.has-warning', this.element).doesNotExist();
     });
 
-    test('render to text by default', async assert => {
-        await render(hbs`{{validated-input
-            valuePath='fullName'
-            placeholder='Full Name'
-            value=''
+    test('render warning message', async function(assert) {
+        const model = this.set('model', createModel(this, { name: 'fo' }));
+        await render(hbs` {{validated-input/text
+            model=this.model
+            valuePath='name'
         }}`);
 
-        assert.dom('input[type="text"]').exists();
-    });
-
-    test('render to text when explicitly specified', async assert => {
-        await render(hbs`{{validated-input
-            valuePath='fullName'
-            placeholder='Full Name'
-            value=''
-            type='text'
-        }}`);
-
-        assert.dom('input[type="text"]').exists();
-    });
-
-    test('render to password when explicitly specified', async assert => {
-        await render(hbs`{{validated-input
-            valuePath='password'
-            placeholder='Password'
-            value=''
-            type='password'
-        }}`);
-
-        assert.dom('input[type="password"]').exists();
-    });
-
-    test('render to textarea when explicitly speficied', async assert => {
-        await render(hbs`{{validated-input
-            valuePath='fullName'
-            placeholder='Full Name'
-            value=''
-            type='textarea'
-        }}`);
-
-        assert.dom('textarea').exists();
-    });
-
-    test('render to date when explicitly speficied', async assert => {
-        // TODO: Needs improvement as there are no obvious ways to distinguish a dateField from a text.
-        await render(hbs`{{validated-input
-            valuePath='fullName'
-            placeholder='Full Name'
-            value=''
-            type='date'
-        }}`);
-
-        assert.dom('input').exists();
-    });
-
-    // TODO: Test currently cannot find '.warning'
-    skip('render warning message', async assert => {
-        // checks that the warnng message renders
-        await render(hbs`{{validated-input
-            valuePath='fullName'
-            placeholder='Full Name'
-            value=''
-            showWarningMessage=true
-        }}`);
-
-        assert.dom('.valid-input').doesNotExist();
-        assert.dom('.error').doesNotExist();
-        assert.dom('.warning').exists();
+        assert.dom('input[type="text"]', this.element).hasValue(model.name);
+        assert.dom('.has-success', this.element).doesNotExist();
+        assert.dom('.has-error', this.element).doesNotExist();
+        assert.dom('.has-warning', this.element).exists();
     });
 });

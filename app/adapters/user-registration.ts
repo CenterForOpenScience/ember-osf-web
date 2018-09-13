@@ -7,7 +7,7 @@ export default class UserRegistration extends RESTAdapter {
     host: string = config.OSF.url.replace(/\/$/, '');
     namespace = 'api/v1';
 
-    pathForType() {
+    pathForType(_: string) {
         return 'register/';
     }
 }

@@ -1,0 +1,45 @@
+.li {
+    display: inline;
+
+    button {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        line-height: 1.42857;
+        text-decoration: none;
+        color: #337ab7;
+        background-color: #fff;
+        border: 1px solid #ddd;
+
+        &:hover {
+            z-index: 2;
+            color: #23527c;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+
+        &.active:hover { /* stylelint-disable-line */
+            z-index: 3;
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #337ab7;
+            cursor: default;
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &:disabled {
+            color: #777;
+        }
+    }
+
+    .active {
+        z-index: 3;
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #337ab7;
+        cursor: default;
+    }
+}

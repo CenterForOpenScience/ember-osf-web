@@ -1,0 +1,25 @@
+.Sidebar {
+    // padding: 15px;
+}
+
+.Sidebar__ActiveFilters {
+    padding: 15px;
+}
+
+.Sidebar__ActiveFilter {
+    margin: 2px;
+    padding: 0 6px;
+    line-height: 30px;
+    color: #333;
+    border: 1px solid #e3e3e3;
+    border-radius: 2px;
+
+    & > i {
+        padding: 5px;
+        color: #777;
+    }
+}
+
+.Sidebar__Facets {
+    padding-top: 15px;
+}

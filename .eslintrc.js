@@ -34,6 +34,7 @@ module.exports = {
         'ember/new-module-imports': 'error',
         'ember/no-attrs-in-components': 'error',
         'ember/no-old-shims': 'error',
+        'import/prefer-default-export': 'off',
     },
     overrides: [
         {
@@ -57,12 +58,19 @@ module.exports = {
             rules: {
                 'no-restricted-globals': 'off',
                 'no-useless-constructor': 'off',
+                'space-infix-ops': 'off',
             },
         },
         {
             files: ['app/locales/*/translations.ts'],
             rules: {
                 'max-len': 'off',
+            },
+        },
+        {
+            files: ['tests/**/*'],
+            rules: {
+                'no-await-in-loop': 'off',
             },
         },
     ],

@@ -1,93 +1,95 @@
-<h4 class="list-group-item-heading" local-class="NodeCard__heading">
-    <span class="component-overflow f-w-lg" style="line-height: 1.5;">
+<div data-test-node-card>
+    <h4 class="list-group-item-heading" local-class="NodeCard__heading" data-test-node-card-heading>
+        <span class="component-overflow f-w-lg" style="line-height: 1.5;">
+            {{#if @node}}
+                {{#unless @node.public}}
+                    <span>
+                        {{fa-icon 'lock'}}
+                        {{#bs-tooltip}}{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}{{/bs-tooltip}}
+                    </span> |
+                {{/unless}}
+                {{#if @node.pendingRegistrationApproval}}
+                    <span class="label label-info">{{t 'node_card.registration.statuses.pending'}}</span> |
+                {{else if @node.withdrawn}}
+                    <span class="label label-danger">{{t 'node_card.registration.statuses.withdrawn'}}</span> |
+                {{else if @node.pendingWithdrawal}}
+                    <span class="label label-info">{{t 'node_card.registration.statuses.pending_withdrawl'}}</span> |
+                {{else if @node.embargoed}}
+                    <span class="label label-info">{{t 'node_card.registration.statuses.embargoed'}}</span> |
+                {{else if @node.pendingEmbargoApproval}}
+                    <span class="label label-info">{{t 'node_card.registration.statuses.pending_embargo'}}</span> |
+                {{/if}}
+                {{#if @node.archiving}}
+                    <span class="label label-primary">{{t 'node_card.registration.statuses.archiving'}}</span> |
+                {{/if}}
+                {{node-card/node-icon category=@node.category}}
+                <a href='/{{@node.id}}/' onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Title') target=this.analytics}}>{{@node.title}}</a> |
+                {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}} {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
+            {{else}}
+                {{#content-placeholders as |placeholder|}}
+                    {{placeholder.heading subtitle=false}}
+                {{/content-placeholders}}
+            {{/if}}
+        </span>
         {{#if @node}}
-            {{#unless @node.public}}
-                <span>
-                    {{fa-icon 'lock'}}
-                    {{#bs-tooltip}}{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}{{/bs-tooltip}}
-                </span> |
-            {{/unless}}
-            {{#if @node.pendingRegistrationApproval}}
-                <span class="label label-info">{{t 'node_card.registration.statuses.pending'}}</span> |
-            {{else if @node.withdrawn}}
-                <span class="label label-danger">{{t 'node_card.registration.statuses.withdrawn'}}</span> |
-            {{else if @node.pendingWithdrawal}}
-                <span class="label label-info">{{t 'node_card.registration.statuses.pending_withdrawal'}}</span> |
-            {{else if @node.embargoed}}
-                <span class="label label-info">{{t 'node_card.registration.statuses.embargoed'}}</span> |
-            {{else if @node.pendingEmbargoApproval}}
-                <span class="label label-info">{{t 'node_card.registration.statuses.pending_embargo'}}</span> |
-            {{/if}}
-            {{#if @node.archiving}}
-                <span class="label label-primary">{{t 'node_card.registration.statuses.archiving'}}</span> |
-            {{/if}}
-            {{node-card/node-icon category=@node.category}}
-            <a href='/{{@node.id}}/' onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Title') target=this.analytics}}>{{@node.title}}</a> |
-            {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}} {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
-        {{else}}
-            {{#content-placeholders as |placeholder|}}
-                {{placeholder.heading subtitle=false}}
-            {{/content-placeholders}}
-        {{/if}}
-    </span>
-    {{#if @node}}
-        {{#if (and @node.isFork @node.currentUserCanEdit)}}
-            <div class="pull-right generic-dropdown" local-class="NodeCard__dropdown">
-                {{#bs-dropdown as |dd|}}
-                    {{#dd.button local-class='NodeCard__dropdown-button'}}
-                        <span aria-label='Options' class="glyphicon glyphicon-option-horizontal"></span>
-                    {{/dd.button}}
-                    {{#dd.menu class='dropdown-menu-right' local-class='NodeCard__dropdown-list'}}
-                        <li role='menuitem'>
-                            <a local-class='NodeCard__dropdown-link' href="/{{@node.id}}/contributors/" onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Manage Contributors') target=this.analytics}}>
-                                {{t 'node_card.fork.manage_contributors'}}
-                            </a>
-                        </li>
-                        <li role='menuitem'>
-                            <a local-class='NodeCard__dropdown-link' href="/{{@node.id}}/settings/" onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Settings') target=analytics}}>
-                                {{t 'general.settings'}}
-                            </a>
-                        </li>
-                        <li role='menuitem'>
-                            <a local-class='NodeCard__dropdown-link' onclick={{action @delete @node}} role='button'>
-                                {{t 'general.delete'}}
-                            </a>
-                        </li>
-                    {{/dd.menu}}
-                {{/bs-dropdown}}
-            </div>
-        {{/if}}
-    {{/if}}
-</h4>
-<div local-class="NodeCard__body">
-    {{#if @node}}
-        {{#if @node.isRegistration}}
-            {{#if this.registrationTitle}}
-                <div local-class="NodeCard__registration-title">
-                    {{this.registrationTitle}}
+            {{#if (and (eq @node.nodeType 'fork') @node.currentUserCanEdit)}}
+                <div class="pull-right generic-dropdown" local-class="NodeCard__dropdown">
+                    {{#bs-dropdown as |dd|}}
+                        {{#dd.button local-class='NodeCard__dropdown-button'}}
+                            <span aria-label={{t 'general.options'}} class="glyphicon glyphicon-option-horizontal"></span>
+                        {{/dd.button}}
+                        {{#dd.menu class='dropdown-menu-right' local-class='NodeCard__dropdown-list'}}
+                            <li role='menuitem'>
+                                <a local-class='NodeCard__dropdown-link' href="/{{@node.id}}/contributors/" onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Manage Contributors') target=this.analytics}}>
+                                    {{t 'node_card.fork.manage_contributors'}}
+                                </a>
+                            </li>
+                            <li role='menuitem'>
+                                <a local-class='NodeCard__dropdown-link' href="/{{@node.id}}/settings/" onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Settings') target=analytics}}>
+                                    {{t 'general.settings'}}
+                                </a>
+                            </li>
+                            <li role='menuitem'>
+                                <a local-class='NodeCard__dropdown-link' onclick={{action @delete @node}} role='button'>
+                                    {{t 'general.delete'}}
+                                </a>
+                            </li>
+                        {{/dd.menu}}
+                    {{/bs-dropdown}}
                 </div>
             {{/if}}
-            <div local-class="NodeCard__schema-name">
-                {{@node.registrationSchema.name}}
-            </div>
         {{/if}}
-        <div local-class="NodeCard__authors">
-            {{contributor-list contributors=@node.contributors useLink=true nodeId=@node.id}}
-        </div>
-        <div local-class="NodeCard__description">
-            {{@node.description}}
-        </div>
-        {{#if (and this.showTags @node.tags)}}
-            <div local-class="NodeCard__tags">
-                <strong>{{t 'node_card.tags'}}</strong>
-                {{#tag-input tags=@node.tags readOnly=true as |tag|}}
-                    <span role="link" {{action this.clickTag tag}}>{{tag}}</span>
-                {{/tag-input}}
+    </h4>
+    <div local-class="NodeCard__body" data-test-node-card-body>
+        {{#if @node}}
+            {{#if @node.isRegistration}}
+                {{#if this.registrationTitle}}
+                    <div local-class="NodeCard__registration-title">
+                        {{this.registrationTitle}}
+                    </div>
+                {{/if}}
+                <div local-class="NodeCard__schema-name">
+                    {{@node.registrationSchema.name}}
+                </div>
+            {{/if}}
+            <div local-class="NodeCard__authors">
+                {{contributor-list contributors=@node.contributors useLink=true nodeId=@node.id}}
             </div>
+            <div local-class="NodeCard__description">
+                {{@node.description}}
+            </div>
+            {{#if (and this.showTags @node.tags)}}
+                <div local-class="NodeCard__tags">
+                    <strong>{{t 'node_card.tags'}}</strong>
+                    {{#tag-input tags=@node.tags readOnly=true as |tag|}}
+                        <span role="link" {{action this.clickTag tag}}>{{tag}}</span>
+                    {{/tag-input}}
+                </div>
+            {{/if}}
+        {{else}}
+            {{#content-placeholders as |placeholder|}}
+                {{placeholder.text lines=2}}
+            {{/content-placeholders}}
         {{/if}}
-    {{else}}
-        {{#content-placeholders as |placeholder|}}
-            {{placeholder.text lines=2}}
-        {{/content-placeholders}}
-    {{/if}}
+    </div>
 </div>

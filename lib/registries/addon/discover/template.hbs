@@ -1,0 +1,77 @@
+{{title (t 'registries.discover.page_title')}}
+
+{{#registries-header showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}} 
+    {{#if (eq header 'lead')}}
+        {{t 'registries.discover.powered_by' }}
+        <a href="https://share.osf.io/" local-class="ShareLogo" data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action "click" "link" "Discover - SHARE Logo" target=analytics}}></a>
+    {{else}}
+        <div class="col-sm-6 pull-right">
+            {{#bs-dropdown class="pull-right" as |dd|}}
+                {{#dd.button data-test-sort-dropdown=''}}
+                    {{t 'registries.discover.sort_by'}}: {{t searchOptions.order.display}}
+                    <span aria-label="{{t 'registries.discover.sort_by'}}" class="caret"></span>
+                {{/dd.button}}
+
+                {{#dd.menu class=(local-class 'SortDropDown__List') as |ddm|}}
+                    {{#each sortOptions as |option index|}}
+                        {{#ddm.item}}
+                            <button data-test-sort-option-id="{{index}}" class="btn" local-class="SortDropDown__Option" {{action 'setOrder' option}}>{{t option.display}}</button>
+                        {{/ddm.item}}
+                    {{/each}}
+                {{/dd.menu}}
+            {{/bs-dropdown}}
+        </div>
+    {{/if}}
+{{/registries-header}}
+{{#registries-discover-search
+    results=results
+    isLoading=doSearch.isIdle
+    searchOptions=searchOptions
+    onSearchOptionsUpdated=(action onSearchOptionsUpdated)
+    as |discover|
+}}
+
+    {{#discover.sidebar filterStyles=filterStyles as |sidebar|}}
+        {{registries-provider-facet
+            options=filterableSources
+            searchOptions=searchOptions
+            onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+        }}
+
+        {{registries-registration-type-facet
+            searchOptions=searchOptions
+            onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+        }}
+    {{/discover.sidebar}}
+
+    {{#if (not doSearch.isIdle) }}
+        <div class="text-center p-v-md" aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
+            {{loading-indicator dark=true}}
+        </div>
+    {{else}}
+        {{#discover.results as |result|}}
+            {{registries-search-result result=result}}
+        {{/discover.results}}
+
+        {{#unless totalResults}}
+            <div class="col-sm-8 col-xs-12">
+                <div class="text-center text-muted">
+                    <p class="lead">
+                        {{t 'registries.discover.no_results'}}
+                    </p>
+                    {{t 'registries.discover.try_broadening'}}
+                </div>
+            </div>
+        {{/unless}}
+
+        {{#if (gt maxPage 1) }}
+            <div class="col-xs-12">
+                <div class="pull-right">
+                    {{registries-paginator current=searchOptions.page maximum=maxPage pageChanged=(action 'changePage')}}
+                </div>
+            </div>
+        {{/if}}
+
+    {{/if}}
+
+{{/registries-discover-search}}

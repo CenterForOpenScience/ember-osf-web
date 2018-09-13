@@ -1,0 +1,15 @@
+<ul local-class="CommaList__List">
+    {{~#each filteredItems as |item index|~}}
+        {{#comma-list/x-item item index=index cutOff=cutOff length=filteredItems.length}}
+            {{~#if hasBlock ~}}
+                {{yield item}}
+            {{~else~}}
+                {{~item~}}
+            {{~/if~}}
+        {{/comma-list/x-item}}
+    {{~/each~}}
+</ul>
+
+{{#if hasUnshown}}
+    <span local-class="CommaList__Extra" class="text-muted">+ {{unshown}}</span>
+{{/if}}

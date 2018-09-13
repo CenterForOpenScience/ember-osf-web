@@ -1,12 +1,9 @@
-/* eslint-disable import/prefer-default-export,space-infix-ops */
-
 declare module 'ember-data' {
-    export type RelationshipsFor<Model> = keyof Model;
+    export type AttributesFor<Model, T extends keyof Model = keyof Model> = T extends string ? T : never;
+    export type RelationshipsFor<Model, T extends keyof Model = keyof Model> = T extends string ? T : never;
     namespace DS {
         interface JSONAPIAdapter {
             buildQuery(snapshot: DS.Snapshot): object;
         }
     }
 }
-
-/* eslint-enable import/prefer-default-export,space-infix-ops */

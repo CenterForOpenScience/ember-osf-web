@@ -25,21 +25,25 @@ module('Acceptance | logged-out home page', hooks => {
         assert.dom('footer').exists();
 
         // Check sign-up form.
-        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Empty form: no captcha appears.');
-        await fillIn('#fullName', 'Test User');
-        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Filled in fullName: no captcha appears.');
-        await fillIn('#email1', 'test@user.com');
-        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Filled in email1: no captcha appears.');
-        await fillIn('#email2', 'test@user.com');
-        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Filled in email2: no captcha appears.');
-        await fillIn('#password', 'correct horse battery staple');
-        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Filled in password: no captcha appears.');
-        await click('#acceptedTermsOfService');
-        assert.dom('[class*="SignUpForm"] iframe').exists('All fields valid: captcha appears.');
-        await click('#acceptedTermsOfService');
-        assert.dom('[class*="SignUpForm"] iframe').doesNotExist('Invalidate form: captcha disappears.');
-        await click('#acceptedTermsOfService');
-        assert.dom('[class*="SignUpForm"] iframe').exists('Revalidate form: captcha reappears.');
+        assert.dom('[class*="SignUpForm"] [data-test-recaptcha]').doesNotExist('Empty form: no captcha appears.');
+        await fillIn('[data-test-sign-up-full-name] input', 'Test User');
+        assert.dom('[class*="SignUpForm"] [data-test-recaptcha]').doesNotExist(
+            'Filled in fullName: no captcha appears.',
+        );
+        await fillIn('[data-test-sign-up-email-1] input', 'test@user.com');
+        assert.dom('[class*="SignUpForm"] [data-test-recaptcha]').doesNotExist('Filled in email1: no captcha appears.');
+        await fillIn('[data-test-sign-up-email-2] input', 'test@user.com');
+        assert.dom('[class*="SignUpForm"] [data-test-recaptcha]').doesNotExist('Filled in email2: no captcha appears.');
+        await fillIn('[data-test-sign-up-password] input', 'correct horse battery staple');
+        assert.dom('[class*="SignUpForm"] [data-test-recaptcha]').doesNotExist(
+            'Filled in password: no captcha appears.',
+        );
+        await click('[data-test-sign-up-tos] input');
+        assert.dom('[class*="SignUpForm"] [data-test-recaptcha]').exists('All fields valid: captcha appears.');
+        await click('[data-test-sign-up-tos] input');
+        assert.dom('[class*="SignUpForm"] [data-test-recaptcha]').doesNotExist('Invalidate form: captcha disappears.');
+        await click('[data-test-sign-up-tos] input');
+        assert.dom('[class*="SignUpForm"] [data-test-recaptcha]').exists('Revalidate form: captcha reappears.');
 
         // Alt text for integration logos
         assert.dom('[class*="_integrations"] img[alt*="Dropbox logo"]').exists();

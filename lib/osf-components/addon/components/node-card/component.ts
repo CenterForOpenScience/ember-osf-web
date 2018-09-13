@@ -1,3 +1,4 @@
+import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -5,7 +6,7 @@ import config from 'ember-get-config';
 
 import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
-import { Question } from 'ember-osf-web/models/registration-schema';
+import { Answer, Question } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
@@ -15,6 +16,7 @@ import layout from './template';
 
 const { OSF: { url: baseURL } } = config;
 
+@tagName('')
 export default class NodeCard extends Component {
     layout = layout;
     styles = styles;
@@ -41,7 +43,14 @@ export default class NodeCard extends Component {
                     ).firstObject),
                     undefined,
                 );
-            return titleQuestion ? registration.registeredMeta[titleQuestion.qid].value : undefined;
+
+            if (titleQuestion && typeof registration.registeredMeta === 'object' &&
+                titleQuestion.qid in registration.registeredMeta) {
+                const answer = registration.registeredMeta[titleQuestion.qid];
+                if ('value' in answer) {
+                    return (answer as Answer).value;
+                }
+            }
         }
         return undefined;
     }

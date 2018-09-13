@@ -13,6 +13,24 @@ time you work through a problem.
 See [the README](https://github.com/CenterForOpenScience/ember-osf-web#developer-handbook)
 to enable the handbook at [localhost:4200/handbook](http://localhost:4200/handbook)
 
+## Adding a component to the gallery
+1. Use `ember g handbook-component my-component` to add a route:
+    ```
+    lib/handbook/addon/docs/components/my-component/
+    ├── demo
+    │   └── template.hbs
+    └── template.md
+    ```
+1. Describe the component and its usage in `template.md`.
+1. Expand on the live demo in `demo/template.hbs`
+    - Uses the [docs-demo](https://ember-learn.github.io/ember-cli-addon-docs/docs/components/docs-demo)
+        component from [ember-cli-addon-docs](https://ember-learn.github.io/ember-cli-addon-docs).
+    - You can add `demo/component.ts` or `demo/styles.scss` if you need.
+    - Add more demos! Show the component in a variety of states.
+    - Check out the
+    {{#link-to 'docs.components.loading-indicator'}}loading-indicator demos{{/link-to}}
+    for a simple example.
+
 ## Adding a new handbook page
 
 1. Add a route to `lib/handbook/addon/routes.js`:
@@ -27,17 +45,3 @@ to enable the handbook at [localhost:4200/handbook](http://localhost:4200/handbo
     {{nav.item 'My new page' 'docs.my-new-page'}}
     ```
 1. Let your thoughts fall into markdown at `lib/handbook/addon/docs/my-new-page/template.md`
-
-> TODO: Add a generator to allow `ember g handbook-page my-new-page`
-
-
-## Adding a component to the gallery
-Follow the steps above to add a markdown page for your component at
-`docs.components.my-component`, then use `{{docs-demo}}` to display your
-component next to the actual code used to render it.
-
-Check out the
-{{#link-to 'docs.components.loading-indicator'}}`{{loading-indicator}}` demo{{/link-to}}
-for a simple example.
-
-> TODO: Make the default `component` generator add a placeholder to the component gallery

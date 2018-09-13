@@ -9,6 +9,7 @@ const {
     engines: {
         collections,
         handbook,
+        registries,
     },
     featureFlagNames: {
         routes: routeFlags,
@@ -24,11 +25,13 @@ const Router = EmberRouter.extend({
     readyBlocker: null as Blocker | null,
     location: config.locationType,
     rootURL: config.rootURL,
+    shouldScrollTop: true,
 
     willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
         if (!this.readyBlocker || this.readyBlocker.isDone()) {
             this.readyBlocker = this.get('ready').getBlocker();
         }
+
         this._super(oldInfo, newInfo, transition);
     },
 
@@ -38,7 +41,9 @@ const Router = EmberRouter.extend({
         this.get('currentUser').checkShowTosConsentBanner();
         this.get('statusMessages').updateMessages();
 
-        window.scrollTo(0, 0);
+        if (this.shouldScrollTop) {
+            window.scrollTo(0, 0);
+        }
 
         if (this.readyBlocker && !this.readyBlocker.isDone()) {
             this.readyBlocker.done();
@@ -47,6 +52,12 @@ const Router = EmberRouter.extend({
 
     _doTransition(routeName: string, ...args: any[]) {
         const transition = this._super(routeName, ...args);
+
+        // Don't snap the page to the top if it's just a query param change
+        // IE registries, preprints, collections, etc
+        // There doesn't appear to be a good way to access the transition
+        // inside of didTransition, so the state is just plucked here for future reference.
+        this.shouldScrollTop = !transition.queryParamsOnly;
 
         const flag = routeFlags[transition.targetName];
         if (flag && !this.get('features').isEnabled(flag)) {
@@ -66,17 +77,28 @@ const Router = EmberRouter.extend({
 Router.map(function() {
     // All non-guid routes (except error routes) belong above "Guid Routing"
     this.route('home', { path: '/' });
-    this.route('goodbye');
     this.route('dashboard');
-    this.route('quickfiles');
+    this.route('goodbye');
     this.route('institutions');
+    this.route('quickfiles');
+    this.route('settings', function() {
+        this.route('tokens', function() {
+            this.route('edit', { path: '/:token_id' });
+            this.route('create');
+        });
+    });
     this.route('support');
 
     if (collections.enabled) {
         this.mount('collections');
     }
+
     if (handbook.enabled) {
         this.mount('handbook');
+    }
+
+    if (registries.enabled) {
+        this.mount('registries');
     }
 
     /*
