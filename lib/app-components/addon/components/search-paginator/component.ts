@@ -95,7 +95,7 @@ export default class SearchPaginator extends Component {
     get items(): Item[] {
         return [
             {
-                text: this.i18n.t('search_paginator.prev'),
+                text: this.i18n.t('app_components.search_paginator.prev'),
                 disabled: this.current === this.minimum,
                 action: 'prevPage',
             },
@@ -104,7 +104,7 @@ export default class SearchPaginator extends Component {
                 disabled: typeof text !== 'number',
             })),
             {
-                text: this.i18n.t('search_paginator.next'),
+                text: this.i18n.t('app_components.search_paginator.next'),
                 disabled: this.current === this.maximum,
                 action: 'nextPage',
             },
