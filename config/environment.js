@@ -226,6 +226,7 @@ module.exports = function(environment) {
                 'settings.developer-apps.index': 'ember_user_settings_apps_page',
                 'settings.developer-apps.create': 'ember_user_settings_apps_page',
                 'settings.developer-apps.edit': 'ember_user_settings_apps_page',
+                register: 'ember_auth_register',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
