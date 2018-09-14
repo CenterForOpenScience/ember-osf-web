@@ -52,11 +52,11 @@
 
             {{! Secondary nav links }}
             {{#bs-collapse
-                elementId='secondary-navigation'
                 classNames='navbar-collapse navbar-right'
+                local-class='secondary-navigation'
                 collapsed=(not showNavLinks)
             }}
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" local-class="links">
                     {{#let (hash links=(component 'osf-navbar/x-links')) as |ctx|}}
                         {{#if hasBlock}}
                             {{yield ctx}}
