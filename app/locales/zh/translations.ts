@@ -773,11 +773,14 @@ export default {
         },
         search_help_modal: {
             close: 'Close',
-            helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
-            searchHelp: 'Search help',
-            searchSyntax: 'search syntax',
-            searchUsesThe: 'Search uses the ',
+            title: 'Search help',
             queries: 'Queries',
+            searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>',
+            helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
+        },
+        search_paginator: {
+            prev: '«',
+            next: '»',
         },
         subject_picker: {
             remove: 'Remove',
@@ -1056,10 +1059,6 @@ export default {
             lastEdited: 'Last edited: {{date}} (UTC)',
             status: 'Status: {{value}}',
         },
-    },
-    search_paginator: {
-        prev: '«',
-        next: '»',
     },
     page_not_found: { // 404
         heading: 'Page not found',
