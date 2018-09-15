@@ -81,4 +81,14 @@ export interface RelatedLinkMeta {
     count?: number;
 }
 
+export interface NormalLinks extends JSONAPI.Links {
+    info?: Link | null;
+    self?: Link | null;
+    move?: Link | null;
+    upload?: Link | null;
+    download?: Link | null;
+    delete?: Link | null;
+    self?: Link | null;
+    html?: Link | null;
+}
 /* eslint-enable no-use-before-define,camelcase */

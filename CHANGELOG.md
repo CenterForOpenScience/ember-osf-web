@@ -97,6 +97,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Improved osf-api types
     - Fixed up types for `faker.list.cycle`/`faker.list.random`
     - Disable `max-classes-per-file` tslint rule globally
+    - Increase mirage support for:
+        - Non-relationship links
+        - Guid files
+        - Root user
 
 ### Removed
 - Models:

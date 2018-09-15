@@ -13,6 +13,18 @@ export default class UserSerializer extends ApplicationSerializer {
                     meta: this.buildRelatedLinkMeta(model, 'nodes'),
                 },
             },
+            quickfiles: {
+                related: {
+                    href: `${apiUrl}/v2/users/${model.id}/quickfiles/`,
+                    meta: this.buildRelatedLinkMeta(model, 'quickfiles'),
+                },
+            },
+            institutions: {
+                related: {
+                    href: `${apiUrl}/v2/users/${model.id}/institutions/`,
+                    meta: this.buildRelatedLinkMeta(model, 'institutions'),
+                },
+            },
         };
     }
 }

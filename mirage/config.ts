@@ -1,8 +1,9 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import { relationshipList } from './views';
+import { rootDetail } from './views/root';
 import { tokenList } from './views/token';
-import { userList, userNodeList } from './views/user';
+import { userFileList, userList, userNodeList } from './views/user';
 
 const { OSF: { apiUrl } } = config;
 
@@ -13,10 +14,11 @@ export default function(this: Server) {
     this.namespace = '/v2';
     this.apiBaseUrl = `${this.urlPrefix}${this.namespace}`;
 
-    this.get('/', schema => {
-        return schema.roots.first();
+    this.get('/', function(schema) {
+        return rootDetail(schema, this);
     });
 
+    this.get('/files/:id');
     this.get('/institutions');
 
     this.resource('node', { path: '/nodes' });
@@ -46,6 +48,13 @@ export default function(this: Server) {
     this.get('/users/:id');
     this.get('/users/:id/nodes', function(schema, request) {
         return userNodeList(schema, request, this);
+    });
+    this.get('/users/:id/quickfiles', function(schema, request) {
+        return userFileList(schema, request, this);
+    });
+    this.get('/users/:userid/quickfiles/:id', (schema, request) => {
+        const { id } = request.params;
+        return schema.files.find(id);
     });
 
     this.get('tokens', function(schema, request) {

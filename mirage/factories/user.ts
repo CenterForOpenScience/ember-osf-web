@@ -1,12 +1,17 @@
 import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
+import config from 'ember-get-config';
 import User from 'ember-osf-web/models/user';
+import { NormalLinks } from 'osf-api';
 
 import { guid } from './utils';
 
+const { OSF: { apiUrl } } = config;
 export interface UserTraits {
     withNodes: Trait;
+    withFiles: Trait;
     loggedIn: Trait;
+    normalLinks: NormalLinks;
 }
 
 export default Factory.extend<User & UserTraits>({
@@ -35,15 +40,17 @@ export default Factory.extend<User & UserTraits>({
     timezone() {
         return 'America/New_York';
     },
-    profileImage() {
-        const image = `https://www.gravatar.com/avatar/${faker.random.uuid().replace(/-/g, '')}?d=identicon`;
-        return image;
-    },
     acceptedTermsOfService: true,
     canViewReviews: false,
     social: {},
     dateRegistered() {
         return faker.date.past();
+    },
+    normalLinks(i: number) {
+        return {
+            self: `${apiUrl}/v2/users/${guid(i, 'user')}/`,
+            profile_image: `https://www.gravatar.com/avatar/${faker.random.uuid().replace(/-/g, '')}?d=identicon`,
+        };
     },
 
     withNodes: trait({
@@ -51,10 +58,10 @@ export default Factory.extend<User & UserTraits>({
             server.createList('node', 5, { user }, 'withContributors');
         },
     }),
-
     loggedIn: trait({
         afterCreate(currentUser, server) {
             server.create('root', { currentUser });
+            server.createList('file', 5, { user: currentUser });
         },
     }),
 });
