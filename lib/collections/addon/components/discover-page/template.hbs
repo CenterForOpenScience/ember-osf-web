@@ -148,7 +148,7 @@
                 {{!SEARCH LOADING}}
                 {{#if loading}}
                     <div class="text-center p-v-md" aria-label={{t 'collections.discover_page.searchLoading'}}>
-                        <span class="fa fa-spinner fa-pulse fa-3x"></span>
+                        {{fa-icon 'spinner' pulse=true size=3}}
                     </div>
                 {{else}}
                     {{#if numberOfResults}}
