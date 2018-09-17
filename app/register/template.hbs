@@ -1,10 +1,10 @@
 {{title (t 'routes.register.sign_up')}}
 <div class="container">
     <div class="row m-t-xl m-b-xl">
-        <div class="col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-2 col-lg-8 p-t-xs p-b-md m-b-m bg-color-light">
-            <h3 class="m-b-lg">{{t 'routes.register.create_a_free_account'}}</h3>
-            <h4 local-class="sign-up-using">{{t 'routes.register.sign_up_using'}}</h4>
-            <div local-class="sign-up-buttons" class="m-t-lg m-b-md">
+        <div local-class="sign-up-container" class="p-md bg-color-light">
+            <h3 class="m-sm">{{t 'routes.register.create_a_free_account'}}</h3>
+            <h4 class="m-md">{{t 'routes.register.sign_up_using'}}</h4>
+            <div local-class="sign-up-buttons" class="m-md">
                 <a class="btn" local-class="sign-up-button" href="{{orcidUrl}}" data-test-orcid-button>
                     <img local-class="sign-up-button__logo" src="/assets/images/register/orcid-logo.png" alt="{{t 'routes.register.orcid'}}">
                     <div local-class="sign-up-button__label">{{t 'routes.register.orcid'}}</div>
@@ -18,7 +18,7 @@
 
             <hr local-class="hr-text" data-content="OR">
 
-            <div local-class="sign-up-form">
+            <div local-class="sign-up-form" class="m-sm">
                 {{sign-up-form}}
             </div>
         </div>

@@ -1,4 +1,6 @@
-.sign-up-using {
+.sign-up-container {
+    max-width: 500px;
+    margin: 0 auto;
     text-align: center;
 }
 
@@ -28,10 +30,6 @@
     padding: 6px;
     height: 44px;
     width: 45px;
-}
-
-.sign-up-button__logo--email {
-    padding: 8px;
 }
 
 .sign-up-button__label {
@@ -70,8 +68,4 @@
         line-height: 1.5em;
         background-color: $color-bg-gray-light;
     }
-}
-
-.sign-up-form {
-    text-align: center;
 }
