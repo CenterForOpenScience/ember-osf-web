@@ -1,22 +1,16 @@
 {{#unless hidden}}
-    {{!-- Nasty, but required to make link-to work properly --}}
     {{#let (hash
-        link=(if (not this.isEmber)
+        link=(if this.isEmber
+            (component 'global-link-to' params=this._params click=(action 'onclick'))
             (component 'hyper-link/x-anchor' this.resolvedRoute onclick=(action 'onclick'))
-            (if this.resolvedModel
-                (component 'global-link-to' this.resolvedRoute this.resolvedModel click=(action 'onclick'))
-                (component 'global-link-to' this.resolvedRoute click=(action 'onclick'))
-            )
         )
     ) as |ctx|}}
-        {{#if hasBlock}}
-            {{#ctx.link}}
+        {{#ctx.link class=@class data-test-hyper-link=@testSelectorVal}}
+            {{#if hasBlock}}
                 {{yield}}
-            {{/ctx.link}}
-        {{else}}
-            {{#ctx.link click=(action 'onclick') onclick=(action 'onclick')}}
+            {{else}}
                 {{text}}
-            {{/ctx.link}}
-        {{/if}}
+            {{/if}}
+        {{/ctx.link}}
     {{/let}}
 {{/unless}}
