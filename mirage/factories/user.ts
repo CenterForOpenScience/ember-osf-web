@@ -1,17 +1,13 @@
 import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
-import config from 'ember-get-config';
 import User from 'ember-osf-web/models/user';
-import { NormalLinks } from 'osf-api';
 
 import { guid } from './utils';
 
-const { OSF: { apiUrl } } = config;
 export interface UserTraits {
     withNodes: Trait;
     withFiles: Trait;
     loggedIn: Trait;
-    normalLinks: NormalLinks;
 }
 
 export default Factory.extend<User & UserTraits>({
@@ -46,13 +42,6 @@ export default Factory.extend<User & UserTraits>({
     dateRegistered() {
         return faker.date.past();
     },
-    normalLinks(i: number) {
-        return {
-            self: `${apiUrl}/v2/users/${guid(i, 'user')}/`,
-            profile_image: `https://www.gravatar.com/avatar/${faker.random.uuid().replace(/-/g, '')}?d=identicon`,
-        };
-    },
-
     withNodes: trait({
         afterCreate(user, server) {
             server.createList('node', 5, { user }, 'withContributors');

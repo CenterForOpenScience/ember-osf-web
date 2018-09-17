@@ -1,3 +1,4 @@
+import { faker, ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import User from 'ember-osf-web/models/user';
 import ApplicationSerializer, { SerializedLinks } from './application';
@@ -25,6 +26,13 @@ export default class UserSerializer extends ApplicationSerializer {
                     meta: this.buildRelatedLinkMeta(model, 'institutions'),
                 },
             },
+        };
+    }
+
+    buildNormalLinks(model: ModelInstance<User>) {
+        return {
+            self: `${apiUrl}/v2/users/${model.id}/`,
+            profile_image: `https://www.gravatar.com/avatar/${faker.random.uuid().replace(/-/g, '')}?d=identicon`,
         };
     }
 }

@@ -1,3 +1,4 @@
+import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import File from 'ember-osf-web/models/file';
 
@@ -7,7 +8,7 @@ const { OSF: { apiUrl } } = config;
 
 export default class FileSerializer extends ApplicationSerializer {
     links(model: File & { attrs: any }) {
-        const returnValue = {
+        return {
             user: {
                 data: {
                     type: 'users',
@@ -25,6 +26,17 @@ export default class FileSerializer extends ApplicationSerializer {
                 },
             },
         };
-        return returnValue;
+    }
+
+    buildNormalLinks(model: ModelInstance<File>) {
+        const { id } = model;
+        return {
+            upload: `${apiUrl}/wb/files/${id}/upload/`,
+            download: `${apiUrl}/wb/files/${id}/download/`,
+            move: `${apiUrl}/wb/files/${id}/move/`,
+            delete: `${apiUrl}/wb/files/${id}/download/`,
+            self: `${apiUrl}/v2/files/${id}/`,
+            info: `${apiUrl}/v2/files/${id}/`,
+        };
     }
 }

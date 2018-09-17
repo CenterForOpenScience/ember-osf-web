@@ -46,6 +46,9 @@ export default function(this: Server) {
     });
 
     this.get('/users/:id');
+    this.get('/users/:id/institutions', function(schema, request) {
+        return relationshipList('users', 'institutions', schema, request, this);
+    });
     this.get('/users/:id/nodes', function(schema, request) {
         return userNodeList(schema, request, this);
     });

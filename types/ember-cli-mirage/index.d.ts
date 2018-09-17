@@ -1,3 +1,5 @@
+import { Document } from 'osf-api';
+
 export { default as faker } from 'faker';
 
 type ID = number | string;
@@ -209,5 +211,5 @@ export class JSONAPISerializer {
 
     keyForRelationship(relationship: string): string;
 
-    serialize(object: ModelInstance, request: Request): Document;
+    serialize(object: ModelInstance, request: Request): SingleResourceDocument;
 }

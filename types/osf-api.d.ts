@@ -47,6 +47,7 @@ export interface Resource extends JSONAPI.ResourceObject {
     id: string | number;
     relationships?: Relationships;
     embeds?: Embeds;
+    links?: NormalLinks;
 }
 
 export interface UserResource extends Resource {
@@ -90,5 +91,6 @@ export interface NormalLinks extends JSONAPI.Links {
     delete?: Link | null;
     self?: Link | null;
     html?: Link | null;
+    profile_image?: Link | null;
 }
 /* eslint-enable no-use-before-define,camelcase */
