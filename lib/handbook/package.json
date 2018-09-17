@@ -11,7 +11,9 @@
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-sass": "*",
+    "ember-cli-typescript": "*",
     "ember-code-snippet": "*",
+    "ember-cp-validations": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
     "ember-font-awesome": "*"

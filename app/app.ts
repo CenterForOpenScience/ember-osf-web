@@ -23,9 +23,11 @@ const App = Application.extend({
         handbook: {
             dependencies: {
                 services: [
-                    'router',
                     'analytics',
                     'i18n',
+                    'router',
+                    'store',
+                    'toast',
                 ],
             },
         },
