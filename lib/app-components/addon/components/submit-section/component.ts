@@ -14,7 +14,6 @@ export default class SubmitSection extends Component {
     tooltip: string = this.tooltip;
     title: string = this.title;
     description?: string = this.description;
-
     section: number = this.section;
     activeSection: number = this.activeSection;
     savedSections: number[] = this.savedSections;
@@ -29,12 +28,12 @@ export default class SubmitSection extends Component {
         return this.savedSections.includes(this.section);
     }
 
-    @computed('open', 'didSave')
+    @computed('isOpen', 'didSave')
     get showTooltip(): boolean {
         return !!this.tooltip && !this.isOpen && !this.didSave;
     }
 
-    @computed('open', 'didSave')
+    @computed('isOpen', 'didSave')
     get showReopen(): boolean {
         return !this.isOpen && this.didSave;
     }

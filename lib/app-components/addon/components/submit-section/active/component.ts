@@ -9,7 +9,6 @@ export default class SubmitSectionActive extends Component {
     styles = styles;
 
     title: string = this.title;
-    isOpen: boolean = this.isOpen;
     didSave: boolean = this.didSave;
     panel: any = this.panel;
     description?: string = this.description;
