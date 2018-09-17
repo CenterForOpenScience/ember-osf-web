@@ -1,4 +1,4 @@
-<form {{action 'findUsers' on='submit'}}>
+<form {{action (perform search) on='submit'}}>
     <div class="input-group" local-class="author-search-box">
         {{input
             value=query
@@ -35,7 +35,11 @@
     <h3>
         {{t 'app_components.project_contributors.search.results'}}
     </h3>
-    {{#if results.length}}
+    {{#if search.isRunning}}
+        <div class="text-center">
+            {{fa-icon 'spinner' pulse=true size=2}}
+        </div>
+    {{else if results.length}}
         <table class="table author-table">
             {{#each results as |result|}}
                 {{project-contributors/search/result
@@ -47,7 +51,7 @@
         </table>
         <div class="pull-right text-right">
             {{search-paginator
-                pageChanged=(action 'findUsers')
+                pageChanged=(action (perform search))
                 current=page
                 maximum=totalPages
             }}

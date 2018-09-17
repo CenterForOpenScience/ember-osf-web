@@ -1,4 +1,3 @@
-import { action } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -36,7 +35,15 @@ export default class Search extends Component {
     @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;
     @alias('results.meta.total_pages') totalPages?: number;
 
-    search = task(function *(this: Search) {
+    search = task(function *(this: Search, page?: number) {
+        if (!this.query) {
+            return;
+        }
+
+        if (page) {
+            this.setProperties({ page });
+        }
+
         yield timeout(250);
         this.analytics.track('list', 'filter', 'Collections - Contributors - Search');
 
@@ -69,13 +76,4 @@ export default class Search extends Component {
             throw e;
         }
     });
-
-    @action
-    findUsers(this: Search) {
-        if (!this.query) {
-            return;
-        }
-
-        this.get('search').perform();
-    }
 }

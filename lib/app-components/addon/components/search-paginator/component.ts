@@ -117,11 +117,8 @@ export default class SearchPaginator extends Component {
     @requiredAction pageChanged!: (page: number) => void;
 
     @action
-    setPage(this: SearchPaginator, page: string|number): void {
-        if (typeof page === 'number') {
-            this.set('current', page);
-            this.pageChanged(page);
-        }
+    setPage(this: SearchPaginator, page: number): void {
+        this.pageChanged(page);
     }
 
     @action
