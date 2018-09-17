@@ -34,7 +34,7 @@ export default class FileSerializer extends ApplicationSerializer {
             upload: `${apiUrl}/wb/files/${id}/upload/`,
             download: `${apiUrl}/wb/files/${id}/download/`,
             move: `${apiUrl}/wb/files/${id}/move/`,
-            delete: `${apiUrl}/wb/files/${id}/download/`,
+            delete: `${apiUrl}/wb/files/${id}/delete/`,
             self: `${apiUrl}/v2/files/${id}/`,
             info: `${apiUrl}/v2/files/${id}/`,
         };

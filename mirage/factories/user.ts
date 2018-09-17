@@ -6,7 +6,6 @@ import { guid } from './utils';
 
 export interface UserTraits {
     withNodes: Trait;
-    withFiles: Trait;
     loggedIn: Trait;
 }
 
