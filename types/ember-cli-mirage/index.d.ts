@@ -1,3 +1,5 @@
+import { Document } from 'osf-api';
+
 export { default as faker } from 'faker';
 
 type ID = number | string;
@@ -42,7 +44,7 @@ interface ModelInstanceShared<T> {
     toString(): string;
 }
 
-export type ModelInstance<T> = ModelInstanceShared<T> & Model<T>;
+export type ModelInstance<T = AnyAttrs> = ModelInstanceShared<T> & Model<T>;
 
 interface Collection<T> {
     models: Array<ModelInstance<T>>;
@@ -208,4 +210,6 @@ export class JSONAPISerializer {
     keyForAttribute(attr: string): string;
 
     keyForRelationship(relationship: string): string;
+
+    serialize(object: ModelInstance, request: Request): SingleResourceDocument;
 }

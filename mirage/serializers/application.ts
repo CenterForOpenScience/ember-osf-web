@@ -1,7 +1,10 @@
 import { underscore } from '@ember/string';
-import { JSONAPISerializer } from 'ember-cli-mirage';
+import { JSONAPISerializer, ModelInstance, Request } from 'ember-cli-mirage';
 import { ModelRegistry, RelationshipsFor } from 'ember-data';
+import config from 'ember-get-config';
 import { RelatedLinkMeta, RelationshipLinks } from 'osf-api';
+
+const { OSF: { apiUrl } } = config;
 
 // eslint-disable-next-line space-infix-ops
 export type SerializedLinks<T extends ModelRegistry[keyof ModelRegistry]> = {
@@ -28,5 +31,28 @@ export default class ApplicationSerializer extends JSONAPISerializer {
         const related = model[relationship];
         const count = Array.isArray(related) ? related.length : 0;
         return relatedCounts.includes(this.keyForRelationship(relationship)) ? { count } : {};
+    }
+
+    buildNormalLinks(model: ModelInstance) {
+        return {
+            self: `${apiUrl}/v2/${model.type}/${model.id}/`,
+        };
+    }
+
+    serialize(model: ModelInstance, request: Request) {
+        const json = super.serialize(model, request);
+        json.data.links = this.buildNormalLinks(model);
+        if ('relationships' in json.data && json.data.relationships !== undefined) {
+            const { relationships } = json.data;
+            for (const key of Object.keys(relationships)) {
+                const relationship = relationships[key].links;
+                if ('data' in relationship) {
+                    json.data.relationships[key].data = relationship.data;
+                    delete json.data.relationships[key].links.data;
+                }
+            }
+        }
+
+        return json;
     }
 }

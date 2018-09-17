@@ -1,3 +1,4 @@
+import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import Node from 'ember-osf-web/models/registration';
 import ApplicationSerializer, { SerializedLinks } from './application';
@@ -59,5 +60,11 @@ export default class NodeSerializer extends ApplicationSerializer {
             };
         }
         return returnValue;
+    }
+    buildNormalLinks(model: ModelInstance<Node>) {
+        return {
+            self: `${apiUrl}/v2/nodes/${model.id}/`,
+            html: `/${model.id}/`,
+        };
     }
 }
