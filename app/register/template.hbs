@@ -5,12 +5,12 @@
             <h3 class="m-b-lg">{{t 'routes.register.create_a_free_account'}}</h3>
             <h4 local-class="sign-up-using">{{t 'routes.register.sign_up_using'}}</h4>
             <div local-class="sign-up-buttons" class="m-t-lg m-b-md">
-                <a class="btn" local-class="sign-up-button" href="{{orcidUrl}}">
+                <a class="btn" local-class="sign-up-button" href="{{orcidUrl}}" data-test-orcid-button>
                     <img local-class="sign-up-button__logo" src="/assets/images/register/orcid-logo.png" alt="{{t 'routes.register.orcid'}}">
                     <div local-class="sign-up-button__label">{{t 'routes.register.orcid'}}</div>
                 </a>
 
-                <a class="btn" local-class="sign-up-button" href="{{institutionUrl}}">
+                <a class="btn" local-class="sign-up-button" href="{{institutionUrl}}" data-test-institution-button>
                     <img local-class="sign-up-button__logo" src="/assets/images/register/institution-logo.png" alt="{{t 'routes.register.institution'}}">
                     <div local-class="sign-up-button__label">{{t 'routes.register.institution'}}</div>
                 </a>
