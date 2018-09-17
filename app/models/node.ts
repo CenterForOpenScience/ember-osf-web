@@ -62,7 +62,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
     @attr('date') forkedDate!: Date;
 
     @attr('object') nodeLicense!: any;
-    @attr('array') tags!: string[];
+    @attr('fixstringarray') tags!: string[];
 
     @attr('fixstring') templateFrom!: string;
 
