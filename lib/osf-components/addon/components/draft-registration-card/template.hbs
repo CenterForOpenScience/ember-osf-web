@@ -27,10 +27,10 @@
         </small>
         <div class="row">
             <div class="col-md-10">
-                {{#bs-button type='info' onClick=(action edit) disabled=(not draftRegistration)}}
+                {{#bs-button type='default' onClick=(action edit) disabled=(not draftRegistration)}}
                     {{fa-icon 'pencil'}} {{t 'general.edit'}}
                 {{/bs-button}}
-                {{#bs-button type='danger' onClick=(action delete) disabled=(not draftRegistration)}}
+                {{#bs-button type='default' onClick=(action delete) disabled=(not draftRegistration)}}
                     {{fa-icon 'times'}} {{t 'general.delete'}}
                 {{/bs-button}}
                 {{#bs-modal open=deleteModalOpen onHidden=(action cancelDelete) class='delete_draft_registration' as |modal|}}
@@ -51,7 +51,7 @@
                 {{/bs-modal}}
             </div>
             <div class="col-md-1">
-                {{#bs-button type='success' onClick=(action register) disabled=(not enableRegister)}}
+                {{#bs-button type='default' onClick=(action register) disabled=(not enableRegister)}}
                     {{t 'osf-components.draft-registration-card.register'}}
                 {{/bs-button}}
             </div>
