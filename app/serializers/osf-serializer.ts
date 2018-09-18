@@ -1,7 +1,11 @@
 import { camelize, underscore } from '@ember/string';
-import DS from 'ember-data';
+import DS, { ModelRegistry } from 'ember-data';
 
 const { JSONAPISerializer } = DS;
+
+const API_TYPE_KEYS: Record<string, string> = {
+    applications: 'developer-app',
+};
 
 interface ResourceHash {
     attributes?: {
@@ -10,6 +14,10 @@ interface ResourceHash {
     links?: any;
     relationships?: any;
     embeds?: any;
+}
+
+interface OsfSerializerOptions {
+    includeCleanData?: boolean;
 }
 
 export default class OsfSerializer extends JSONAPISerializer.extend({
@@ -111,12 +119,13 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         return underscore(key);
     },
 
-    serialize(snapshot: DS.Snapshot, options: object): any {
+    serialize(snapshot: DS.Snapshot, options?: { osf?: OsfSerializerOptions }): any {
         const serialized = this._super(snapshot, options);
         serialized.data.type = underscore(serialized.data.type);
 
-        // Only send dirty attributes and relationships in request
-        if (!snapshot.record.get('isNew')) {
+        const includeCleanData = options && options.osf && options.osf.includeCleanData;
+        if (!includeCleanData && !snapshot.record.get('isNew')) {
+            // Only send dirty attributes and relationships in request
             const changedAttributes = snapshot.record.changedAttributes();
             for (const attribute of Object.keys(serialized.data.attributes)) {
                 const { attrs }: { attrs: any } = this;
@@ -186,6 +195,22 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         }
 
         return documentHash;
+    },
+
+    modelNameFromPayloadKey(key: string): string {
+        if (key in API_TYPE_KEYS) {
+            return API_TYPE_KEYS[key];
+        }
+        return this._super(key);
+    },
+
+    payloadKeyFromModelName<K extends keyof ModelRegistry>(modelName: K): string {
+        for (const [typeKey, model] of Object.entries(API_TYPE_KEYS)) {
+            if (model === modelName) {
+                return typeKey;
+            }
+        }
+        return this._super(modelName);
     },
 }) {
     attrs = {

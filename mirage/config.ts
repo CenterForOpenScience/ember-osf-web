@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import { createDeveloperApp, developerAppReset } from './views/developer-app';
 import { guidDetail } from './views/guid';
 import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
@@ -17,6 +18,10 @@ export default function(this: Server) {
     this.apiBaseUrl = `${this.urlPrefix}${this.namespace}`;
 
     this.get('/', rootDetail);
+
+    osfResource(this, 'developer-apps', { path: 'applications', except: ['create'] });
+    this.post('/applications', createDeveloperApp);
+    this.post('/applications/:id/reset', developerAppReset);
 
     this.get('/files/:id');
 

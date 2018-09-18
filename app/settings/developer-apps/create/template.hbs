@@ -1,0 +1,45 @@
+<div>
+    {{#link-to data-test-back-to-developer-apps
+        'settings.developer-apps'
+        click=(action 'click' 'link' 'Settings - Developer apps - Create - Back to list' target=this.analytics)
+    }}
+        {{fa-icon 'arrow-left'}}
+        {{t 'settings.developer-apps.backToList'}}
+    {{/link-to}}
+</div>
+
+<h4>{{t 'settings.developer-apps.createApp'}}</h4>
+
+{{#validated-model-form
+    modelName='developer-app'
+    onSave=(action 'onSave')
+    analyticsScope='Settings - Developer apps - Create'
+    as |form|
+}}
+    {{form.text data-test-developer-app-name
+        valuePath='name'
+        label=(t 'settings.developer-apps.appName')
+    }}
+    {{form.text data-test-developer-app-homepage
+        valuePath='homeUrl'
+        label=(t 'settings.developer-apps.appHomepage')
+    }}
+    {{form.textarea data-test-developer-app-description
+        valuePath='description'
+        label=(t 'settings.developer-apps.appDescription')
+    }}
+    {{form.text data-test-developer-app-callback-url
+        valuePath='callbackUrl'
+        label=(t 'settings.developer-apps.appCallbackUrl')
+    }}
+
+    <div>
+        {{#bs-button data-test-create-developer-app-button
+            type='primary'
+            buttonType='submit'
+            disabled=form.submitting
+        }}
+            {{t 'settings.developer-apps.createApp'}}
+        {{/bs-button}}
+    </div>
+{{/validated-model-form}}

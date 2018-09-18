@@ -5,18 +5,18 @@ import RouterService from '@ember/routing/router-service';
 import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
-import Token from 'ember-osf-web/models/token';
+import DeveloperApp from 'ember-osf-web/models/developer-app';
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class SettingsTokenCreateController extends Controller {
+export default class SettingsApplicationCreateController extends Controller {
     @service analytics!: Analytics;
     @service i18n!: I18n;
     @service router!: RouterService;
     @service toast!: Toast;
 
     @action
-    onSave(token: Token) {
-        this.toast.success(this.i18n.t('settings.tokens.created'));
-        this.router.transitionTo('settings.tokens.edit', token.id);
+    onSave(developerApp: DeveloperApp) {
+        this.toast.success(this.i18n.t('settings.developer-apps.created'));
+        this.router.transitionTo('settings.developer-apps.edit', developerApp.id);
     }
 }

@@ -1,0 +1,35 @@
+<p>{{t 'settings.developer-apps.clientSecretDescription'}}</p>
+<p>
+    {{copyable-text
+        data-test-client-secret
+        text=(if this.secretShown this.developerApp.clientSecret '*********************')
+        disabled=(not this.secretShown)
+        analyticsLabel='Settings - Developer apps - Copy client secret'
+    }}
+</p>
+
+{{#bs-button
+    data-test-toggle-client-secret
+    onClick=(action this.toggleSecretShown)
+}}
+    {{#if this.secretShown}}
+        {{fa-icon 'eye-slash'}}
+        {{t 'settings.developer-apps.hideSecret'}}
+    {{else}}
+        {{fa-icon 'eye'}}
+        {{t 'settings.developer-apps.showSecret'}}
+    {{/if}}
+{{/bs-button}}
+
+{{#delete-button
+    data-test-reset-client-secret
+    delete=(action this.resetSecret)
+    analyticsScope='Settings - Developer apps - Reset client secret'
+    buttonLabel=(t 'settings.developer-apps.resetSecret.label')
+    confirmButtonText=(t 'settings.developer-apps.resetSecret.label')
+    modalTitle=(t 'settings.developer-apps.resetSecret.modalTitle')
+    errorMessage=(t 'settings.developer-apps.resetSecret.error')
+}}
+    <p>{{t 'settings.developer-apps.resetSecret.description'}}</p>
+    <p>{{t 'settings.developer-apps.resetSecret.confirm'}}</p>
+{{/delete-button}}
