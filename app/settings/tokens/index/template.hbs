@@ -15,13 +15,12 @@
 {{#paginated-list/all
     modelName='token'
     analyticsScope='Settings - Tokens'
-    reload=this.reloadList
     as |list|
 }}
     {{#list.item as |token|}}
         {{settings/tokens/x-token-card
             token=token
-            deleted=(action (mut this.reloadList) true)
+            deleted=list.doReload
         }}
     {{/list.item}}
 {{/paginated-list/all}}

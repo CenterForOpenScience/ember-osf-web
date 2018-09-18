@@ -35,7 +35,7 @@ export default class ApplicationSerializer extends JSONAPISerializer {
 
     buildNormalLinks(model: ModelInstance) {
         return {
-            self: `${apiUrl}/v2/${model.type}/${model.id}/`,
+            self: `${apiUrl}/v2/${this.typeKeyForModel(model)}/${model.id}/`,
         };
     }
 

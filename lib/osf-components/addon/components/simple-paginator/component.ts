@@ -24,6 +24,7 @@ export default class SimplePaginator extends Component {
     }
 
     @gt('curPage', 1) hasPrev!: boolean;
+    @gt('maxPage', 1) hasMultiplePages!: boolean;
 
     @action
     _previous() {

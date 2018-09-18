@@ -4,6 +4,7 @@
             {{#each (range 1 this.placeholderCount)}}
                 {{yield (hash
                     item=(component 'paginated-list/x-item')
+                    doReload=(action @doReload)
                 )}}
             {{/each}}
         </ul>
@@ -17,7 +18,8 @@
         {{#each @items as |item index|}}
             {{#unless item.isDeleted}}
                 {{yield (hash
-                    item=(component 'paginated-list/x-item' item=item index=index onDelete=(action @onDeleteItem))
+                    item=(component 'paginated-list/x-item' item=item index=index)
+                    doReload=(action @doReload)
                 )}}
             {{/unless}}
         {{/each}}
@@ -25,6 +27,7 @@
 {{else}}
     {{yield (hash
         empty=(component 'paginated-list/x-render')
+        doReload=(action @doReload)
     )}}
 {{/if}}
 

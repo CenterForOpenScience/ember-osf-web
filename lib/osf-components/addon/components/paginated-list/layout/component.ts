@@ -12,7 +12,7 @@ export default class PaginatedList extends Component {
     pageSize!: number;
     @requiredAction next!: () => void;
     @requiredAction previous!: () => void;
-    @requiredAction onDeleteItem!: () => void;
+    @requiredAction doReload!: () => void;
 
     // Optional arguments
     loading: boolean = defaultTo(this.loading, false);
