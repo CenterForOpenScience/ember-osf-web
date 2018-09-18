@@ -63,6 +63,6 @@ export default class NodeCard extends Component {
     @action
     clickTag(tag: string): void {
         this.analytics.click('link', `${this.analyticsScopePrefix}Node Card - Tag: ${tag}`);
-        window.location.assign(`${this.searchUrl}?q=(tags:"${tag}")`);
+        window.location.assign(`${this.searchUrl}?q=(tags:"${encodeURIComponent(tag)}")`);
     }
 }
