@@ -100,7 +100,6 @@ export default {
         save_success: '文件已保存',
         save_fail: '错误，无法保存文件',
         mfr_iframe_title: 'Rendering of document',
-        add_tag: 'add a tag to enhance discoverability',
         embed_js_label: 'Embeddable javascript',
         embed_iframe_label: 'Embeddable iframe',
     },
@@ -776,6 +775,9 @@ export default {
         },
         'paginated-list': {
             error: 'There was an error loading this list.',
+        },
+        'tags-widget': {
+            add_tag: 'Add a tag to enhance discoverability',
         },
     },
     settings: {
