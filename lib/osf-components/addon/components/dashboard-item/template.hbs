@@ -5,12 +5,9 @@
     <div class='m-v-sm' local-class='DashboardItem'>
         <div class='row'>
             <div>
-                <div class='col-sm-3 col-md-6 p-v-xs'>
-                    <div local-class='DashboardItem__col' class='di-title'>
-                        {{#each this.ancestry as |ancestorTitle|}}
-                            {{ancestorTitle}} /
-                        {{/each}}
-                        <strong data-test-dashboard-item-title>{{@node.title}}</strong>
+                <div class="col-sm-3 col-md-6 p-v-xs">
+                    <div local-class="DashboardItem__col" class="di-title">
+                        <AncestryDisplay @node={{@node}} />
                     </div>
                 </div>
                 <div class='col-sm-3 col-md-3 p-v-xs'>

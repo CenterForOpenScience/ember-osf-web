@@ -55,6 +55,12 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
     }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
+    // node ancestry
+    const parent = server.create('node', { id: 'ezcuj' });
+    server.create('contributor', { node: parent, users: currentUser });
+    const child = server.create('node', { parent, id: 'ezcuj1' });
+    const grandChild = server.create('node', { parent: child, root: parent, id: 'ezcuj2' });
+    server.create('node', { parent: grandChild, root: parent, id: 'ezcuj3' });
 }
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {

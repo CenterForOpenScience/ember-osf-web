@@ -181,7 +181,7 @@ module('Acceptance | dashboard', hooks => {
         await visit('/dashboard');
 
         // Default sort
-        let projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
+        let projectTitles = this.element.querySelectorAll('[data-test-node-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in default sort');
         assert.dom(projectTitles[0]).hasText('z', 'Default sort item 0 is in proper position');
         assert.dom(projectTitles[1]).hasText('a', 'Default sort item 1 is in proper position');
@@ -189,7 +189,7 @@ module('Acceptance | dashboard', hooks => {
 
         // Sort date ascending
         await click('[data-test-ascending-sort="last_logged"]');
-        projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
+        projectTitles = this.element.querySelectorAll('[data-test-node-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in date asc sort');
         assert.dom(projectTitles[0]).hasText('az', 'Date asc sort item 0 is in proper position');
         assert.dom(projectTitles[1]).hasText('a', 'Date asc sort item 1 is in proper position');
@@ -197,7 +197,7 @@ module('Acceptance | dashboard', hooks => {
 
         // Sort date descending (should be same as default)
         await click('[data-test-descending-sort="last_logged"]');
-        projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
+        projectTitles = this.element.querySelectorAll('[data-test-node-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in date desc sort');
         assert.dom(projectTitles[0]).hasText('z', 'Date desc sort item 0 is in proper position');
         assert.dom(projectTitles[1]).hasText('a', 'Date desc sort item 1 is in proper position');
@@ -205,7 +205,7 @@ module('Acceptance | dashboard', hooks => {
 
         // Sort title ascending
         await click('[data-test-ascending-sort="title"]');
-        projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
+        projectTitles = this.element.querySelectorAll('[data-test-node-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in title asc sort');
         assert.dom(projectTitles[0]).hasText('a', 'Title asc sort item 0 is in proper position');
         assert.dom(projectTitles[1]).hasText('az', 'Title asc sort item 1 is in proper position');
@@ -213,7 +213,7 @@ module('Acceptance | dashboard', hooks => {
 
         // Sort title descending
         await click('[data-test-descending-sort="title"]');
-        projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
+        projectTitles = this.element.querySelectorAll('[data-test-node-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in title desc sort');
         assert.dom(projectTitles[0]).hasText('z', 'Title desc sort item 0 is in proper position');
         assert.dom(projectTitles[1]).hasText('az', 'Title desc sort item 1 is in proper position');
@@ -249,20 +249,20 @@ module('Acceptance | dashboard', hooks => {
         await visit('/dashboard');
 
         // No filtering
-        let projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
+        let projectTitles = this.element.querySelectorAll('[data-test-node-title]');
         assert.equal(projectTitles.length, 3, 'Not filtering has correct number of projects');
         assert.dom(projectTitles[0]).hasText('z', 'Not filtering item 0 is correct');
         assert.dom(projectTitles[1]).hasText('a', 'Not filtering item 1 is correct');
         assert.dom(projectTitles[2]).hasText('az', 'Not filtering item 2 is correct');
 
         await fillIn('[data-test-quick-search-input]', 'z');
-        projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
+        projectTitles = this.element.querySelectorAll('[data-test-node-title]');
         assert.equal(projectTitles.length, 2, 'One character filtering has correct number of projects');
         assert.dom(projectTitles[0]).hasText('z', 'One character filtering item 0 is correct');
         assert.dom(projectTitles[1]).hasText('az', 'One character filtering item 1 is correct');
 
         await fillIn('[data-test-quick-search-input]', 'az');
-        projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
+        projectTitles = this.element.querySelectorAll('[data-test-node-title]');
         assert.equal(projectTitles.length, 1, 'Two character filtering has correct number of projects');
         assert.dom(projectTitles[0]).hasText('az', 'Two character filtering item is correct');
     });
