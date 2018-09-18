@@ -1,27 +1,24 @@
-{{#bs-form onSubmit=(perform this.saveTokenTask)}}
-    {{validated-input/text
-        data-test-token-name
-        tagName='span'
-        model=this.token
+{{#validated-model-form
+    model=this.token
+    modelName='token'
+    disabled=this.disabled
+    onSave=(action this.onSave)
+    analyticsScope=this.analyticsScope
+    as |form|
+}}
+    {{form.text data-test-token-name
         valuePath='name'
         label=(t 'settings.tokens.tokenName')
-        showMessages=this.showMessages
-        disabled=this.inputsDisabled
-        placeholder=(t 'settings.tokens.tokenName')
-        aria-label=(t 'settings.tokens.tokenName')
     }}
 
     <div>
         <label>{{t 'settings.tokens.scopes'}}</label>
         <p>{{t 'settings.tokens.scopesDescription'}}</p>
 
-        {{#validated-input/checkboxes
-            model=this.token
+        {{#form.checkboxes
             valuePath='scopes'
             options=this.allScopes
-            showMessages=this.showMessages
-            disabled=this.inputsDisabled
-            aria-label=(t 'settings.tokens.scopes')
+            ariaLabel=(t 'settings.tokens.scopes')
             as |cb|
         }}
             <div local-class='Scope' data-test-scope=cb.option.id>
@@ -33,12 +30,10 @@
                     </div>
                 </label>
             </div>
-        {{/validated-input/checkboxes}}
+        {{/form.checkboxes}}
     </div>
 
-    <div>
-        {{yield (hash
-            disabled=this.inputsDisabled
-        )}}
-    </div>
-{{/bs-form}}
+    {{yield (hash
+        disabled=this.inputsDisabled
+    )}}
+{{/validated-model-form}}

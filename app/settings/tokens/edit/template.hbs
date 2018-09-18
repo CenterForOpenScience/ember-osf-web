@@ -36,9 +36,9 @@
         {{model.taskInstance.error}}
     {{else}}
         {{#settings/tokens/x-token-form
+            onSave=(action this.tokenSaved)
             token=this.token
             disabled=this.model.taskInstance.isRunning
-            onSave=(action this.tokenSaved)
             analyticsScope='Settings - Tokens - Edit'
             as |form|
         }}
