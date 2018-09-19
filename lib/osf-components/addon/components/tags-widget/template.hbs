@@ -1,4 +1,5 @@
 {{#tag-input
+    data-test-tags-widget-tag-input
     local-class='TagsWidget'
     tags=@tags
     addTag=(action this._addTag)
@@ -9,5 +10,5 @@
     readOnly=@readOnly
     as |tag|
 }}
-    <span role="link" {{action this._clickTag tag}}>{{tag}}</span>
+    <span data-test-tags-widget-tag="{{tag}}" role="link" {{action this._clickTag tag}}>{{tag}}</span>
 {{/tag-input}}
