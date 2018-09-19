@@ -39,9 +39,10 @@ export default abstract class BaseDataComponent extends Component.extend({
     analyticsScope?: string;
 
     // Exposes a reload action the the parent scope.
-    // Invoke this component with `doReload=(mut this.reload)`, then call `this.reload()` to trigger a reload
-    // TODO: Don't use this pattern again; it's messy.
-    doReload?: (action: (page?: number) => void) => void;
+    // Usage: `bindReload=(action (mut this.reload))`, then call `this.reload()` to trigger a reload
+    // NOTE: Don't use this pattern too often, it could get messy. Try to reserve it for telling
+    // data-loading components to refresh themselves.
+    bindReload?: (action: (page?: number) => void) => void;
 
     // Private properties
     @service ready!: Ready;
@@ -56,8 +57,8 @@ export default abstract class BaseDataComponent extends Component.extend({
 
     constructor(...args: any[]) {
         super(...args);
-        if (this.doReload) {
-            this.doReload(this._doReload.bind(this));
+        if (this.bindReload) {
+            this.bindReload(this._doReload.bind(this));
         }
         this.loadItemsWrapperTask.perform({ reloading: false });
     }
