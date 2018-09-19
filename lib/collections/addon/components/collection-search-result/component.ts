@@ -24,7 +24,7 @@ type CollectableType = keyof Pick<ModelRegistry, 'collection' | 'node' | 'prepri
 
 @classNames('p-sm')
 @localClassNames('search-result')
-export default class SearchResult extends Component {
+export default class CollectionSearchResult extends Component {
     layout = layout;
     styles = styles;
 
@@ -47,11 +47,13 @@ export default class SearchResult extends Component {
 
     @computed('result.displayChoiceFields')
     get choiceFilters() {
-        return this.result.displayChoiceFields.map(field => ({
-            label: `collections.collection_metadata.${underscore(field)}_label`,
-            facet: dasherize(field),
-            value: this.result[field],
-        }));
+        return this.result.displayChoiceFields
+            .map(field => ({
+                label: `collections.collection_metadata.${underscore(field)}_label`,
+                facet: dasherize(field),
+                value: this.result[field],
+            }))
+            .filter(({ value }) => !!value);
     }
 
     @action

@@ -5,6 +5,7 @@ import Component from '@ember/component';
 import { underscore } from '@ember/string';
 import CollectedMetadatum, { choiceFields } from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
+import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 interface CollectionMetadataField {
     labelKey: string;
@@ -31,6 +32,11 @@ export default class CollectionMetadata extends Component {
 
                 return choices && !!choices.length;
             });
+    }
+
+    @computed('displayFields.[]')
+    get chunkedDisplayFields(): CollectionMetadataField[][] {
+        return chunkArray(this.displayFields, 2);
     }
 
     @mapBy('displayFields', 'valuePath')
