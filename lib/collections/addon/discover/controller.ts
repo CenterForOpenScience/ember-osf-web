@@ -2,9 +2,11 @@ import { action, computed } from '@ember-decorators/object';
 import { not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { underscore } from '@ember/string';
 import config from 'collections/config/environment';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
+import { choiceFields } from 'ember-osf-web/models/collected-metadatum';
 import Theme from 'ember-osf-web/services/theme';
 
 export default class Discover extends Controller {
@@ -57,21 +59,24 @@ export default class Discover extends Controller {
             this.additionalProviders ?
                 // if additionalProviders exist, use subset of SHARE facets
                 [
-                    ['sources', 'source', 'source'],
-                    ['date', 'date', 'daterange'],
-                    ['type', 'type', 'worktype'],
-                    ['tags', 'tag', 'typeahead'],
+                    ['sources', 'source'],
+                    ['date', 'daterange'],
+                    ['type', 'worktype'],
+                    ['tags', 'typeahead'],
                 ] :
                 // Regular preprints and branded preprints get provider and taxonomy facets
                 [
-                    ['sources', 'providers', 'collection-provider', { hidden: true }],
-                    ['subjects', 'subject', 'taxonomy'],
-                    ['status', 'status', 'status'],
-                    ['type', 'type', 'collected-type'],
+                    ['sources', 'collection-provider', { hidden: true }],
+                    ['subjects', 'taxonomy'],
+                    ['type', 'collected-type'],
+                    ['issue', 'issue'],
+                    ['program-area', 'program-area'],
+                    ['status', 'status'],
+                    ['volume', 'volume'],
                 ]
-        ).map(([key, title, component, options]) => ({
+        ).map(([key, component, options = {}]: [string, string, any]) => ({
             key,
-            title: this.i18n.t(`discover.main.${title}`),
+            title: this.i18n.t(`collections.discover.facet_titles.${underscore(component)}`),
             component,
             options,
         }));
@@ -94,8 +99,11 @@ export default class Discover extends Controller {
     start = ''; // Start query param. Must be passed to component, so can be reflected in the URL
     tags = ''; // Tags query param.  Must be passed to component, so can be reflected in URL
 
-    status = ''; // eslint-disable-line no-restricted-globals
     collectedType = '';
+    issue = '';
+    programArea = '';
+    status = ''; // eslint-disable-line no-restricted-globals
+    volume = '';
 
     // Pass in the list of queryParams for this component
     queryParams = [
@@ -108,9 +116,7 @@ export default class Discover extends Controller {
         'end',
         'subject',
         'provider',
-
-        'status',
-        'collectedType',
+        ...choiceFields,
     ];
 
     @computed('additionalProviders')

@@ -1,4 +1,4 @@
-{{component
+{{#component
     (concat 'collection-search-result/' type)
     item=item
     collectedType=result.collectedType
@@ -6,13 +6,26 @@
     subjects=subjects
     addFilter=(action 'addFilter')
 }}
+    {{#each this.choiceFilters as |choiceFilter|}}
+        <span
+            role="button"
+            local-class="choiceFilter"
+            onclick={{action 'addFilter' choiceFilter.facet choiceFilter.value}}
+        >
+            <b>
+                {{t choiceFilter.label}}
+                {{choiceFilter.value}}
+            </b>
+        </span>
+    {{/each}}
+{{/component}}
 
 {{#if expandable}}
     <div class="text-center">
         <button
             class='btn btn-link'
             local-class="toggleShowBody"
-            aria-label={{t (concat 'collections.search_result.' (if showBody 'collapse' 'expand'))}}
+            aria-label={{t (concat 'collections.collection_search_result.' (if showBody 'collapse' 'expand'))}}
             {{action 'toggleShowBody'}}
         >
             {{fa-icon (concat 'caret-' (if showBody 'up' 'down'))}}

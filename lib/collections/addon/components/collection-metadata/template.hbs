@@ -1,7 +1,7 @@
-{{#each fields as |field|}}
+{{#each displayFields as |field|}}
     <div class="col-md-6">
         <label>
-            {{t (concat 'collections.submit.' field.labelKey)}}
+            {{t (concat 'collections.collection_metadata.' field.labelKey)}}
             {{#validated-input/power-select
                 model=collectedMetadatum
                 valuePath=field.valuePath
@@ -17,8 +17,5 @@
 {{submit-section-buttons
     discard=(action 'discard')
     continue=continue
-    continueDisabled=(or 
-        (v-get collectedMetadatum 'collectedType' 'isInvalid')
-        (v-get collectedMetadatum 'status' 'isInvalid')
-    )
+    continueDisabled=this.isInvalid
 }}

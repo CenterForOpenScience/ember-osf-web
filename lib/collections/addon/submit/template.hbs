@@ -166,14 +166,12 @@
                         }}
                     {{/section.active}}
                     {{#section.complete}}
-                        <p>
-                            <em>{{t 'collections.submit.collection_metadata_type_label'}}</em>
-                            <span>{{collectedMetadatum.collectedType}}</span>
-                        </p>
-                        <p>
-                            <em>{{t 'collections.submit.collection_metadata_status_label'}}</em>
-                            <span>{{collectedMetadatum.status}}</span>
-                        </p>
+                        {{#each this.choiceFields as |field|}}
+                            <p>
+                                <em>{{t field.label}}</em>
+                                <span>{{field.value}}</span>
+                            </p>
+                        {{/each}}
                     {{/section.complete}}
                 {{/submit-section}}
             {{/cp-panels}}

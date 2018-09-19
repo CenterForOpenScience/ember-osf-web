@@ -1,11 +1,11 @@
 import { classNames } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { dasherize, underscore } from '@ember/string';
 import config from 'collections/config/environment';
 import { ModelRegistry } from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import CollectedMetadatum, { DisplaySubject } from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
@@ -29,7 +29,6 @@ export default class SearchResult extends Component {
     styles = styles;
 
     @service analytics!: Analytics;
-    @service i18n!: I18N;
     @service theme!: Theme;
 
     hostAppName = config.hostAppName;
@@ -45,6 +44,15 @@ export default class SearchResult extends Component {
     @alias('result.guid.content') item!: Collectable;
     @alias('item.constructor.modelName') type!: CollectableType;
     @alias('result.displaySubjects')! subjects!: DisplaySubject[];
+
+    @computed('result.displayChoiceFields')
+    get choiceFilters() {
+        return this.result.displayChoiceFields.map(field => ({
+            label: `collections.collection_metadata.${underscore(field)}_label`,
+            facet: dasherize(field),
+            value: this.result[field],
+        }));
+    }
 
     @action
     addFilter(facet: string, item: string): void {

@@ -824,6 +824,15 @@ export default {
             search_heading: 'Collections Search',
             search_placeholder: 'Search collections',
             other_repositories: 'Other collections',
+            facet_titles: {
+                collection_provider: 'Providers',
+                taxonomy: 'Subject',
+                status: 'Status',
+                collected_type: 'Type',
+                issue: 'Issue',
+                program_area: 'Program Area',
+                volume: 'Volume',
+            },
         },
         submit: {
             title: 'Submit',
@@ -842,8 +851,6 @@ export default {
             subjects_title: 'Collection subjects',
             subjects_description: 'Select a discipline and subdiscipline, if relevant. Add more by clicking on a new discipline.',
             collection_metadata_title: 'Collection metadata',
-            collection_metadata_type_label: 'Type:',
-            collection_metadata_status_label: 'Status:',
             cancel: 'Cancel',
             add_to_collection: 'Add to collection',
             save_success: '{{title}} has been added to the collection.',
@@ -857,7 +864,14 @@ export default {
                 load_more: 'Load More Projects',
             },
         },
-        search_result: {
+        collection_metadata: {
+            collected_type_label: 'Type:',
+            issue_label: 'Issue:',
+            program_area_label: 'Program Area:',
+            status_label: 'Status:',
+            volume_label: 'Volume:',
+        },
+        collection_search_result: {
             expand: 'Expand search result',
             collapse: 'Collapse search result',
         },
@@ -869,6 +883,9 @@ export default {
                 remove_subject: 'Remove subject',
                 remove_type: 'Remove type',
                 remove_status: 'Remove status',
+                remove_issue: 'Remove issue',
+                remove_program_area: 'Remove program area',
+                remove_volume: 'Remove volume',
             },
             asOf: 'as of',
             broadenSearch: 'Try broadening your search terms',
@@ -1037,12 +1054,6 @@ export default {
         accept: 'Accept',
     },
     discover: {
-        main: {
-            providers: 'Providers',
-            subject: 'Subject',
-            status: 'Status',
-            type: 'Type',
-        },
         relevance: 'Relevance',
         sort_oldest_newest: 'Modified Date (oldest to newest)',
         sort_newest_oldest: 'Modified Date (newest to oldest)',

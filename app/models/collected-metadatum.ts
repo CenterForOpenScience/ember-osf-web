@@ -1,5 +1,7 @@
 import { attr, belongsTo } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
+import { computed as iComputed } from '@ember/object';
+import { alias as iAlias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import Collection from './collection';
 import Guid from './guid';
@@ -12,13 +14,34 @@ export interface DisplaySubject {
     path: string;
 }
 
+export const choiceFields: Array<keyof CollectedMetadatum> = [
+    'collectedType',
+    'issue',
+    'programArea',
+    'status',
+    'volume',
+];
+
 const Validations = buildValidations({
-    collectedType: [
-        validator('presence', true),
-    ],
-    status: [
-        validator('presence', true),
-    ],
+    ...choiceFields.reduce((acc, val) => {
+        const disabled = iComputed('model.displayChoiceFields.[]', function(): boolean {
+            return !this.model.displayChoiceFields.includes(val);
+        });
+
+        return {
+            ...acc,
+            [val]: [
+                validator('presence', {
+                    presence: true,
+                    disabled,
+                }),
+                validator('inclusion', {
+                    in: iAlias(`model.collection.${val}Choices`),
+                    disabled,
+                }),
+            ],
+        };
+    }, {}),
     subjects: [
         validator('presence', {
             presence: true,
@@ -33,9 +56,12 @@ const Validations = buildValidations({
 });
 
 export default class CollectedMetadatum extends OsfModel.extend(Validations) {
-    @attr('string') collectedType!: string;
-    @attr('string') status!: string; // eslint-disable-line no-restricted-globals
+    @attr('string') collectedType?: string;
+    @attr('string') issue?: string;
+    @attr('string') programArea?: string;
+    @attr('string') status?: string; // eslint-disable-line no-restricted-globals
     @attr('subjects') subjects!: SubjectRef[][];
+    @attr('string') volume?: string;
 
     @belongsTo('collection') collection!: Collection;
     @belongsTo('guid') guid!: Guid;
@@ -51,6 +77,14 @@ export default class CollectedMetadatum extends OsfModel.extend(Validations) {
                 path: ['', ...names].join('|'),
             };
         });
+    }
+
+    @computed('collection.displayChoicesFields.[]')
+    get displayChoiceFields(): Array<keyof CollectedMetadatum> {
+        return choiceFields
+            .filter(field => this.collection
+                .get('displayChoicesFields')
+                .includes(`${field}Choices` as keyof Collection));
     }
 }
 

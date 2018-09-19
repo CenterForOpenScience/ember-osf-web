@@ -1,7 +1,9 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
+import { mapBy } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
-import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
+import { underscore } from '@ember/string';
+import CollectedMetadatum, { choiceFields } from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
 
 interface CollectionMetadataField {
@@ -16,24 +18,35 @@ export default class CollectionMetadata extends Component {
     collectedMetadatum: CollectedMetadatum = this.collectedMetadatum;
     didValidate: boolean = this.didValidate;
 
-    fields: CollectionMetadataField[] = [
-        {
-            labelKey: 'collection_metadata_type_label',
-            valuePath: 'collectedType',
-            optionsKey: 'collectedTypeChoices',
-        },
-        {
-            labelKey: 'collection_metadata_status_label',
-            valuePath: 'status',
-            optionsKey: 'statusChoices',
-        },
-    ];
+    @computed('collection')
+    get displayFields(): CollectionMetadataField[] {
+        return choiceFields
+            .map(valuePath => ({
+                labelKey: `${underscore(valuePath)}_label`,
+                optionsKey: `${valuePath}Choices`,
+                valuePath,
+            } as CollectionMetadataField))
+            .filter(({ optionsKey }) => {
+                const choices = this.collection[optionsKey];
+
+                return choices && !!choices.length;
+            });
+    }
+
+    @mapBy('displayFields', 'valuePath')
+    filteredFields!: Array<keyof CollectedMetadatum>;
+
+    @computed(`collectedMetadatum.validations.attrs.{${choiceFields.join()}}.isInvalid`, 'filteredFields')
+    get isInvalid(): boolean {
+        const { attrs } = this.collectedMetadatum.validations;
+
+        return this.filteredFields.some(field => (attrs[field] as any).isInvalid);
+    }
 
     @action
     discard() {
         this.collectedMetadatum.setProperties({
-            collectedType: '',
-            status: '',
+            ...this.filteredFields.reduce((acc, val) => ({ ...acc, [val]: '' }), {}),
         });
     }
 }

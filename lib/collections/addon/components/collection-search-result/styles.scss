@@ -14,6 +14,14 @@
     }
 }
 
+.choiceFilter {
+    cursor: pointer;
+
+    &:not(:first-of-type)::before {
+        content: ' | ';
+    }
+}
+
 .toggleShowBody:focus {
     outline: none;
 }

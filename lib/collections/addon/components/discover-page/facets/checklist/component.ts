@@ -67,6 +67,10 @@ export default abstract class SearchFacetChecklist extends Base.extend({
         setProperties(this.context, {
             didInit: true,
             defaultQueryFilters: {},
+            options: {
+                ...this.context.options,
+                hidden: !this.allItems.length,
+            },
         });
 
         this.context.updateFilters();

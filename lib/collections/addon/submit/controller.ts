@@ -1,7 +1,8 @@
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { underscore } from '@ember/string';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
@@ -85,6 +86,15 @@ export default class Submit extends Controller {
             }));
         }
     }).drop();
+
+    @computed('collectedMetadatum.displayChoiceFields')
+    get choiceFields(): Array<{ label: string; value: string; }> {
+        return this.collectedMetadatum.displayChoiceFields
+            .map(field => ({
+                label: `collections.collection_metadata.${underscore(field)}_label`,
+                value: this.collectedMetadatum[field],
+            }));
+    }
 
     /**
      * Leaves the current route for the discover route (currently home for collections)
