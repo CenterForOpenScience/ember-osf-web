@@ -6,6 +6,7 @@ import OsfModel from './osf-model';
 const Validations = buildValidations({
     name: [
         validator('presence', true),
+        validator('length', { min: 1, max: 200 }),
     ],
     scopes: [
         validator('collection', true),
@@ -15,7 +16,7 @@ const Validations = buildValidations({
 
 export default class TokenModel extends OsfModel.extend(Validations) {
     @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
-    @attr('fixstring') tokenId?: string; // Exposed only in response to token creation
+    @attr('fixstring') tokenValue?: string; // Exposed only in response to token creation
 
     @hasMany('scope') scopes!: string[];
 

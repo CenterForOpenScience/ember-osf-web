@@ -1,4 +1,4 @@
-import { /* click, currentURL, fillIn, */ visit } from '@ember/test-helpers';
+import { click, currentURL, fillIn, visit, waitFor } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
@@ -13,8 +13,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
 
         await visit('/settings/tokens');
 
-        assert.dom('[data-test-token-list]').exists();
-        assert.dom('[data-test-no-tokens]').exists();
+        assert.dom('[data-test-token-card]').doesNotExist();
     });
 
     test('tokens list', async assert => {
@@ -23,9 +22,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
 
         await visit('/settings/tokens');
 
-        assert.dom('[data-test-token-list]').exists();
-        assert.dom('[data-test-no-tokens]').doesNotExist();
-        assert.dom('[data-test-token-link]').exists({ count: 7 });
+        assert.dom('[data-test-token-card]').exists({ count: 7 });
     });
 
     test('long tokens list', async assert => {
@@ -34,19 +31,76 @@ module('Acceptance | settings | personal access tokens', hooks => {
 
         await visit('/settings/tokens');
 
-        assert.dom('[data-test-token-list]').exists();
-        assert.dom('[data-test-no-tokens]').doesNotExist();
-        assert.dom('[data-test-token-link]').exists({ count: 10 });
+        assert.dom('[data-test-token-card]').exists({ count: 10 });
     });
-    /*
 
     test('create token', async assert => {
-    });
+        server.create('user', 'loggedIn');
+        server.create('scope');
+        const tokenName = 'my token!';
 
-    test('delete token', async assert => {
+        await visit('/settings/tokens');
+
+        assert.dom('[data-test-token-card]').doesNotExist();
+
+        await visit('/settings/tokens/create');
+
+        await fillIn('[data-test-token-name] input', tokenName);
+        await click('[data-test-scope] input[type=checkbox]');
+        await click('[data-test-create-token-button]');
+
+        assert.dom('[data-test-new-token-value]').exists();
+
+        await visit('/settings/tokens');
+
+        assert.dom('[data-test-token-card]').exists({ count: 1 });
     });
 
     test('edit token', async assert => {
+        server.create('user', 'loggedIn');
+
+        const oldName = 'token the grey';
+        const newName = 'token the white';
+        const token = server.create('token', { name: oldName });
+
+        await visit('/settings/tokens');
+
+        const link = `[data-test-token-link='${token.id}']`;
+        assert.dom(link).exists({ count: 1 });
+        assert.dom(link).containsText(oldName);
+
+        await click(link);
+
+        const input = '[data-test-token-name] input';
+        await waitFor(`${input}:enabled`);
+
+        assert.equal(currentURL(), `/settings/tokens/${token.id}`);
+
+        assert.dom(input).hasValue(oldName);
+        await fillIn(input, newName);
+        await click('[data-test-save-token-button]');
+
+        assert.equal(currentURL(), '/settings/tokens');
+
+        assert.dom(link).exists({ count: 1 });
+        assert.dom(link).containsText(newName);
     });
-    */
+
+    test('delete token', async assert => {
+        server.create('user', 'loggedIn');
+
+        const [token] = server.createList('token', 2);
+
+        await visit('/settings/tokens');
+
+        const card = `[data-test-token-card='${token.id}']`;
+        assert.dom('[data-test-token-card]').exists({ count: 2 });
+        assert.dom(card).exists({ count: 1 });
+
+        await click(`${card} [data-test-delete-button]`);
+        await click('[data-test-confirm-delete]');
+
+        assert.dom('[data-test-token-card]').exists({ count: 1 });
+        assert.dom(card).doesNotExist();
+    });
 });

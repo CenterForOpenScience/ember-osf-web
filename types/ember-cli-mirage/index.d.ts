@@ -2,6 +2,10 @@ import { Document } from 'osf-api';
 
 export { default as faker } from 'faker';
 
+declare global {
+    const server: Server; // TODO: only in tests?
+}
+
 type ID = number | string;
 
 interface AnyAttrs {
@@ -74,6 +78,7 @@ export interface Schema {
 
 export interface Request {
     requestBody: any;
+    url: string;
     params: {
         [key: string]: string | number,
     };
@@ -127,6 +132,9 @@ function handlerDefinition(
 /* tslint:enable unified-signatures */
 
 export interface Server {
+    schema: Schema;
+    db: Database;
+
     namespace: string;
     timing: number;
     logging: boolean;
@@ -139,8 +147,6 @@ export interface Server {
     put: typeof handlerDefinition;
     patch: typeof handlerDefinition;
     del: typeof handlerDefinition;
-
-    schema: Schema;
 
     resource(resourceName: string, options?: { only?: string[], except?: string[], path?: string }): void;
 
@@ -191,7 +197,9 @@ export function trait<O extends TraitOptions>(options: O): Trait<O>;
 export function association(...args: any[]): unknown;
 
 export type FactoryAttrs<T> = {
-    [P in keyof T]?: T[P] | ((...args: any[]) => T[P]);
+    [P in keyof T]?: T[P] | ((index: number) => T[P]);
+} & {
+    afterCreate?(newObj: any, server: Server): void;
 };
 
 export class FactoryClass {
@@ -200,16 +208,15 @@ export class FactoryClass {
 
 export const Factory: FactoryClass;
 
-declare global {
-    const server: Server; // TODO: only in tests?
-}
-
 export class JSONAPISerializer {
     request!: Request;
 
     keyForAttribute(attr: string): string;
-
+    keyForCollection(modelName: string): string;
+    keyForModel(modelName: string): string;
     keyForRelationship(relationship: string): string;
+    typeKeyForModel(model: ModelInstance): string;
 
     serialize(object: ModelInstance, request: Request): SingleResourceDocument;
+    normalize(json: any): any;
 }

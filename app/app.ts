@@ -26,6 +26,7 @@ const App = Application.extend({
                     'router',
                     'analytics',
                     'i18n',
+                    'toast',
                 ],
             },
         },

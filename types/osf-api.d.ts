@@ -33,8 +33,9 @@ export interface PaginatedMeta extends BaseMeta {
 }
 
 export interface RootMeta extends BaseMeta {
-    activeFlags: string[];
+    active_flags: string[];
     message: string;
+    version: string;
     current_user?: { data: UserResource };
 }
 

@@ -7,32 +7,41 @@ import Analytics from 'ember-osf-web/services/analytics';
 import Ready from 'ember-osf-web/services/ready';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
+export interface LoadItemsOptions {
+    reloading: boolean;
+}
+
 export default abstract class BaseDataComponent extends Component.extend({
-    loadItemsWrapperTask: task(function *(this: BaseDataComponent) {
+    loadItemsWrapperTask: task(function *(
+        this: BaseDataComponent,
+        { reloading }: LoadItemsOptions,
+    ) {
         const blocker = this.ready.getBlocker();
 
         // Resolve race condition on init: Let component finish initializing before continuing
-        // TODO: Remove once we have task decorators, so the task is defined on the prototype
+        // TODO: Remove once we have task decorators, so the child classes' tasks are defined on the prototype
         yield;
 
         try {
-            yield this.get('loadItemsTask').perform(this.reload);
+            yield this.get('loadItemsTask').perform(reloading);
             blocker.done();
         } catch (e) {
             this.set('errorShown', true);
             blocker.errored(e);
             throw e;
-        } finally {
-            this.set('reload', false);
         }
     }).restartable(),
 }) {
     // Optional arguments
     page: number = defaultTo(this.page, 1);
     pageSize: number = defaultTo(this.pageSize, 10);
-    reload: boolean = defaultTo(this.reload, false);
     query?: any;
     analyticsScope?: string;
+
+    // Exposes a reload action the the parent scope.
+    // Invoke this component with `doReload=(mut this.reload)`, then call `this.reload()` to trigger a reload
+    // TODO: Don't use this pattern again; it's messy.
+    doReload?: (action: (page?: number) => void) => void;
 
     // Private properties
     @service ready!: Ready;
@@ -42,22 +51,21 @@ export default abstract class BaseDataComponent extends Component.extend({
     items?: any[];
     errorShown: boolean = false;
 
-    // Will be performed with arguments:
-    //  reloading: boolean
+    // Will be performed with an options hash of type LoadItemsOptions
     abstract loadItemsTask: Task<void>;
 
     constructor(...args: any[]) {
         super(...args);
-        this.loadItemsWrapperTask.perform();
+        if (this.doReload) {
+            this.doReload(this._doReload.bind(this));
+        }
+        this.loadItemsWrapperTask.perform({ reloading: false });
     }
 
-    didUpdateAttrs(this: BaseDataComponent) {
-        if (this.reload) {
-            this.setProperties({
-                page: 1,
-            });
-        }
-        this.loadItemsWrapperTask.perform();
+    @action
+    _doReload(page: number = 1) {
+        this.setProperties({ page });
+        this.loadItemsWrapperTask.perform({ reloading: true });
     }
 
     @action
@@ -66,7 +74,7 @@ export default abstract class BaseDataComponent extends Component.extend({
             this.analytics.click('button', `${this.analyticsScope} - Pagination Next`);
         }
         this.incrementProperty('page');
-        this.loadItemsWrapperTask.perform();
+        this.loadItemsWrapperTask.perform({ reloading: false });
     }
 
     @action
@@ -75,11 +83,6 @@ export default abstract class BaseDataComponent extends Component.extend({
             this.analytics.click('button', `${this.analyticsScope} - Pagination Previous`);
         }
         this.decrementProperty('page');
-        this.loadItemsWrapperTask.perform();
-    }
-
-    @action
-    onDeleteItem() {
-        this.loadItemsWrapperTask.perform(true);
+        this.loadItemsWrapperTask.perform({ reloading: false });
     }
 }
