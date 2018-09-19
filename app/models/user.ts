@@ -23,6 +23,13 @@ const Validations = buildValidations({
     ],
 });
 
+interface UnconfirmedEmail {
+    token: string;
+    user_merge: string | false; // eslint-disable-line camelcase
+    confirmed: boolean;
+    address: string;
+}
+
 /**
  * Model for OSF APIv2 users. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
@@ -48,6 +55,8 @@ export default class User extends OsfModel.extend(Validations) {
     @attr('boolean') acceptedTermsOfService?: boolean;
     @attr('boolean') active!: boolean;
     @attr('object') social!: {};
+
+    @attr('object') unconfirmedEmails?: UnconfirmedEmail[];
 
     @belongsTo('region') defaultRegion!: DS.PromiseObject<Region> & Region;
 
