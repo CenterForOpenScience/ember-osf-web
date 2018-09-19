@@ -31,7 +31,7 @@
         {{#paginated-list/has-many
             modelTaskInstance=model.taskInstance
             relationshipName='forks'
-            doReload=(mut reloadList)
+            reload=reloadList
             query=forksQueryParams
             analyticsScope='Project Forks'
             as |list|

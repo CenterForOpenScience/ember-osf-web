@@ -29,6 +29,8 @@ export default abstract class BaseDataComponent extends Component.extend({
             this.set('errorShown', true);
             blocker.errored(e);
             throw e;
+        } finally {
+            this.set('reload', false);
         }
     }).restartable(),
 }) {
@@ -38,10 +40,9 @@ export default abstract class BaseDataComponent extends Component.extend({
     query?: any;
     analyticsScope?: string;
 
-    // Exposes a reload action the the parent scope.
-    // Invoke this component with `doReload=(mut this.reload)`, then call `this.reload()` to trigger a reload
+    // Automatically set to false after each load. Set it to `true` in the parent scope to trigger a reload.
     // TODO: Don't use this pattern again; it's messy.
-    doReload?: (action: (page?: number) => void) => void;
+    reload: boolean = defaultTo(this.reload, false);
 
     // Private properties
     @service ready!: Ready;
@@ -56,10 +57,15 @@ export default abstract class BaseDataComponent extends Component.extend({
 
     constructor(...args: any[]) {
         super(...args);
-        if (this.doReload) {
-            this.doReload(this._doReload.bind(this));
-        }
         this.loadItemsWrapperTask.perform({ reloading: false });
+    }
+
+    didUpdateAttrs(this: BaseDataComponent) {
+        if (this.reload) {
+            this._doReload();
+        } else {
+            this.loadItemsWrapperTask.perform({ reloading: false });
+        }
     }
 
     @action
