@@ -8,6 +8,7 @@ import Session from 'ember-simple-auth/services/session';
 
 import { NotLoggedIn } from 'ember-osf-web/errors';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import { RootDocument } from 'osf-api';
 
 const {
     OSF: {
@@ -17,14 +18,6 @@ const {
         devMode,
     },
 } = config;
-
-interface ApiRootResponse {
-    meta: {
-        version: string,
-        current_user: { data: { id: string } } | null, // eslint-disable-line camelcase
-        active_flags: string[], // eslint-disable-line camelcase
-    };
-}
 
 export default class OsfCookie extends Base {
     @service features!: Features;
@@ -37,7 +30,7 @@ export default class OsfCookie extends Base {
      * @return {Promise}
      */
     async authenticate(): Promise<object> {
-        const res: ApiRootResponse = await this.currentUser.authenticatedAJAX({
+        const res: RootDocument = await this.currentUser.authenticatedAJAX({
             url: `${apiUrl}/${apiNamespace}/`,
         });
 
@@ -70,7 +63,7 @@ export default class OsfCookie extends Base {
     }
 
     async _checkApiVersion() {
-        const res: ApiRootResponse = await this.currentUser.authenticatedAJAX(
+        const res: RootDocument = await this.currentUser.authenticatedAJAX(
             {
                 url: `${apiUrl}/${apiNamespace}/`,
                 data: {

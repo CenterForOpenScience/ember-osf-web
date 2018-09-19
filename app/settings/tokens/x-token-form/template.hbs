@@ -24,8 +24,8 @@
             aria-label=(t 'settings.tokens.scopes')
             as |cb|
         }}
-            <div local-class='Scope'>
-                {{cb.checkbox data-test-scope-checkbox=cb.option.id}}
+            <div local-class='Scope' data-test-scope=cb.option.id>
+                {{cb.checkbox}}
                 <label for={{cb.checkboxId}}>
                     {{cb.option.id}}
                     <div local-class='Scope__description' data-test-scope-description>

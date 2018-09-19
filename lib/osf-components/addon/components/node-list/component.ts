@@ -14,7 +14,6 @@ export default class NodeList extends Component {
     relationshipName!: string;
 
     // Optional parameters
-    reload?: boolean;
     analyticsScope?: string;
 
     @computed('relationshipName')

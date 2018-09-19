@@ -18,7 +18,7 @@ export default class RootSerializer extends ApplicationSerializer {
     serialize(object: ModelInstance<RootObject>) {
         const data: RootDocument = {
             meta: {
-                activeFlags: object.activeFlags,
+                active_flags: object.activeFlags,
                 message: object.message,
                 version: object.version,
             },

@@ -21,7 +21,3 @@ export function userFileList(schema: Schema, request: Request, handlerContext: H
     const json = process(schema, request, handlerContext, files, { defaultSortKey: 'date_modified' });
     return json;
 }
-
-export function userList(schema: Schema, request: Request) {
-    return schema.users.where(user => filter(user, request));
-}

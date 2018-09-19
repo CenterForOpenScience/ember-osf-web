@@ -4,6 +4,7 @@
             {{#each (range 1 this.placeholderCount)}}
                 {{yield (hash
                     item=(component 'paginated-list/x-item')
+                    doReload=(action @doReload)
                 )}}
             {{/each}}
         </ul>
@@ -11,17 +12,26 @@
         {{loading-indicator dark=true}}
     {{/if}}
 {{else if this.errorShown}}
-    <p>{{t 'paginatedRelation.error'}}</p>
+    <p>{{t 'osf-components.paginated-list.error'}}</p>
 {{else if @items.length}}
     <ul class="list-group m-md">
         {{#each @items as |item index|}}
             {{#unless item.isDeleted}}
                 {{yield (hash
-                    item=(component 'paginated-list/x-item' item=item index=index onDelete=(action @onDeleteItem))
+                    item=(component 'paginated-list/x-item' item=item index=index)
+                    doReload=(action @doReload)
                 )}}
             {{/unless}}
         {{/each}}
     </ul>
+{{else}}
+    {{yield (hash
+        empty=(component 'paginated-list/x-render')
+        doReload=(action @doReload)
+    )}}
+{{/if}}
+
+{{#if this.paginatorShown}}
     <div class="text-center">
         {{simple-paginator
             maxPage=this.maxPage
@@ -30,8 +40,4 @@
             curPage=@page
         }}
     </div>
-{{else}}
-    {{yield (hash
-        empty=(component 'paginated-list/x-render')
-    )}}
 {{/if}}
