@@ -27,7 +27,7 @@
                                 {{#paginated-list/has-many
                                     modelTaskInstance=this.model.taskInstance
                                     relationshipName='draftRegistrations'
-                                    doReload=(mut this.reloadDrafts)
+                                    bindReload=(action (mut this.reloadDrafts))
                                     query=this.draftsQueryParams
                                     analyticsScope='Project Draft Registrations'
                                     as |list|

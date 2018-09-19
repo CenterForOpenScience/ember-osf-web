@@ -20,7 +20,7 @@ export default class GuidRegistrationForks extends Controller {
     loadingNew = false;
     newModal = false;
 
-    reloadList!: (page?: number) => void;
+    reloadList?: (page?: number) => void;
 
     forksQueryParams = { embed: 'contributors' };
 
@@ -67,7 +67,9 @@ export default class GuidRegistrationForks extends Controller {
                 timeOut: 0,
                 extendedTimeOut: 0,
             });
-            this.reloadList();
+            if (this.reloadList) {
+                this.reloadList();
+            }
         }).catch(() => {
             this.set('loadingNew', false);
             this.toast.error(this.i18n.t('forks.new_fork_failed'));
@@ -86,7 +88,9 @@ export default class GuidRegistrationForks extends Controller {
         node.deleteRecord();
         node.save().then(() => {
             this.toast.success(this.i18n.t('status.project_deleted'));
-            this.reloadList();
+            if (this.reloadList) {
+                this.reloadList();
+            }
         }).catch(() => {
             this.toast.error(this.i18n.t('forks.delete_fork_failed'));
         });

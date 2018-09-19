@@ -15,6 +15,7 @@ export default class NodeList extends Component {
 
     // Optional parameters
     analyticsScope?: string;
+    bindReload?: (action: (page?: number) => void) => void;
 
     @computed('relationshipName')
     get queryParams() {
