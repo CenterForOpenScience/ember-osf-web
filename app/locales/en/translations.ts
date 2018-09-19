@@ -238,6 +238,7 @@ export default {
         donate: 'Donate',
         go_home: 'Go home',
         my_projects: 'My Projects',
+        my_registrations: 'My Registrations',
         my_quick_files: 'My Quick Files',
         reviews: 'My Reviewing',
         search: 'Search',

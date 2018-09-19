@@ -238,6 +238,7 @@ export default {
         donate: '寄付',
         go_home: 'ホームへ',
         my_projects: 'マイプロジェクト',
+        my_registrations: 'My Registrations',
         my_quick_files: 'マイクイックファイル',
         reviews: 'マイレビュー',
         search: '検索',
