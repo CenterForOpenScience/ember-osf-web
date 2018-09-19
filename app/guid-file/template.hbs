@@ -89,24 +89,14 @@
                         <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
                     </div>
                     <div class='panel-body'>
-                        {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
-                        {{#tag-input
-                            tags=tags
-                            addTag=(action 'addTag')
-                            removeTagAtIndex=(action 'removeTagAtIndex')
-                            allowSpacesInTags=true
-                            placeholder=(t 'file_detail.add_tag')
-                            aria_label=(t 'file_detail.tags')
-                            readOnly=(unless canEdit true false)
-                            as |tag|
+                        {{tags-widget
+                            tags=this.file.tags
+                            addTag=(action this.addTag)
+                            removeTag=(action this.removeTag)
+                            readOnly=(not this.canEdit)
+                            showAdd=true
+                            analyticsLabel='Quick Files'
                         }}
-                            <a
-                                href='{{searchUrl}}?q=(tags:"{{tag}}")'
-                                onclick={{action 'click' 'link' 'Quick Files - Search by tag' target=analytics}}
-                            >
-                                {{tag}}
-                            </a>
-                        {{/tag-input}}
                         <div class="tags_clear"></div>
                     </div>
                 </div>
