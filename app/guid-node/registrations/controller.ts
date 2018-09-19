@@ -26,7 +26,8 @@ export default class GuidNodeRegistrations extends Controller {
     newModalOpen = false;
     preregModalOpen = false;
     preregConsented = false;
-    reloadDrafts = false;
+
+    reloadDrafts?: (page?: number) => void; // bound by paginated-list
 
     preregLinks = {
         approvedJournal: 'http://cos.io/our-services/prereg-more-information/',
@@ -110,7 +111,6 @@ export default class GuidNodeRegistrations extends Controller {
         });
         await draftRegistration.save();
         this.set('newModalOpen', false);
-        this.set('reloadDrafts', true);
         this.set('selectedSchema', this.defaultSchema);
         window.location.assign(
             pathJoin(baseURL, draftRegistration.branchedFrom.get('id'), 'drafts', draftRegistration.id),

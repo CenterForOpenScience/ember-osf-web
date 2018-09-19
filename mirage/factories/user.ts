@@ -35,26 +35,21 @@ export default Factory.extend<User & UserTraits>({
     timezone() {
         return 'America/New_York';
     },
-    profileImage() {
-        const image = `https://www.gravatar.com/avatar/${faker.random.uuid().replace(/-/g, '')}?d=identicon`;
-        return image;
-    },
     acceptedTermsOfService: true,
     canViewReviews: false,
     social: {},
     dateRegistered() {
         return faker.date.past();
     },
-
     withNodes: trait({
         afterCreate(user, server) {
             server.createList('node', 5, { user }, 'withContributors');
         },
     }),
-
     loggedIn: trait({
         afterCreate(currentUser, server) {
             server.create('root', { currentUser });
+            server.createList('file', 5, { user: currentUser });
         },
     }),
 });

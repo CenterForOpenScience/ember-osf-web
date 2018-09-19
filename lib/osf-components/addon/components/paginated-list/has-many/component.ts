@@ -6,7 +6,7 @@ import { task, TaskInstance } from 'ember-concurrency';
 
 import OsfModel from 'ember-osf-web/models/osf-model';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import BaseDataComponent from '../base-data-component';
+import BaseDataComponent, { LoadItemsOptions } from '../base-data-component';
 import layout from './template';
 
 export default class PaginatedHasMany extends BaseDataComponent {
@@ -24,7 +24,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
     layout = layout;
 
     // Tasks assigned to prototype below
-    loadItemsTask = task(function *(this: PaginatedHasMany, reloading: boolean) {
+    loadItemsTask = task(function *(this: PaginatedHasMany, { reloading }: LoadItemsOptions) {
         const model = yield this.get('getModelTask').perform();
         if (this.usePlaceholders) {
             yield this.get('loadRelatedCountTask').perform(reloading);

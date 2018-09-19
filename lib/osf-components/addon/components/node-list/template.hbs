@@ -2,8 +2,8 @@
     {{#paginated-list/has-many
         modelTaskInstance=@modelTaskInstance
         relationshipName=@relationshipName
-        reload=@reload
         query=this.queryParams
+        bindReload=this.bindReload
         analyticsScope=@analyticsScope
         as |pr|
     }}

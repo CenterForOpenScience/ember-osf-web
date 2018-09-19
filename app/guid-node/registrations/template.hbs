@@ -9,7 +9,6 @@
                             modelTaskInstance=this.model.taskInstance
                             relationshipName='registrations'
                             showTags=true
-                            reload=this.reloadRegistrations
                             analyticsScope='Project Registrations'
                             as |nl|
                         }}
@@ -28,20 +27,20 @@
                                 {{#paginated-list/has-many
                                     modelTaskInstance=this.model.taskInstance
                                     relationshipName='draftRegistrations'
-                                    reload=this.reloadDrafts
+                                    bindReload=(action (mut this.reloadDrafts))
                                     query=this.draftsQueryParams
                                     analyticsScope='Project Draft Registrations'
-                                    as |pr|
+                                    as |list|
                                 }}
-                                    {{#pr.item as |draftRegistration index onDelete|}}
-                                        {{draft-registration-card draftRegistration=draftRegistration onDelete=onDelete}}
-                                    {{/pr.item}}
+                                    {{#list.item as |draftRegistration|}}
+                                        {{draft-registration-card draftRegistration=draftRegistration onDelete=list.doReload}}
+                                    {{/list.item}}
 
-                                    {{#pr.empty}}
+                                    {{#list.empty}}
                                         <p>{{t 'node.registrations.no_drafts'}}</p>
                                         <p>{{t 'node.registrations.start_new'}}</p>
                                         <p>{{t 'node.registrations.learn_more' learnMoreLink='http://help.osf.io/m/registrations/l/524205-register-your-project'}}</p>
-                                    {{/pr.empty}}
+                                    {{/list.empty}}
                                 {{/paginated-list/has-many}}
                             </ul>
                         </div>

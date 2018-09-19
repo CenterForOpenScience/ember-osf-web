@@ -218,6 +218,10 @@ module.exports = function(environment) {
                 'settings.tokens.index': 'ember_user_settings_tokens_page',
                 'settings.tokens.create': 'ember_user_settings_tokens_page',
                 'settings.tokens.edit': 'ember_user_settings_tokens_page',
+                'settings.developer-apps': 'ember_user_settings_apps_page',
+                'settings.developer-apps.index': 'ember_user_settings_apps_page',
+                'settings.developer-apps.create': 'ember_user_settings_apps_page',
+                'settings.developer-apps.edit': 'ember_user_settings_apps_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',

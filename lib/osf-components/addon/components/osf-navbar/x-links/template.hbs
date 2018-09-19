@@ -17,6 +17,13 @@
         tagName='li'
         text=(t 'navbar.my_projects')
     )
+    myregistrations=(component 'hyper-link'
+        this.myRegistrationsURL
+        analyticsLabel='Navbar - navbar.my_registrations'
+        hidden=(not this.session.isAuthenticated)
+        tagName='li'
+        text=(t 'navbar.my_registrations')
+    )
     search=(component 'hyper-link'
         this.searchURL
         analyticsLabel='Navbar - navbar.search'

@@ -1,8 +1,8 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import { relationshipList } from './views';
-import { tokenList } from './views/token';
-import { userList, userNodeList } from './views/user';
+import { modelList, relationshipList } from './views';
+import { rootDetail } from './views/root';
+import { userFileList, userNodeList } from './views/user';
 
 const { OSF: { apiUrl } } = config;
 
@@ -13,10 +13,11 @@ export default function(this: Server) {
     this.namespace = '/v2';
     this.apiBaseUrl = `${this.urlPrefix}${this.namespace}`;
 
-    this.get('/', schema => {
-        return schema.roots.first();
+    this.get('/', function(schema) {
+        return rootDetail(schema, this);
     });
 
+    this.get('/files/:id');
     this.get('/institutions');
 
     this.resource('node', { path: '/nodes' });
@@ -39,19 +40,36 @@ export default function(this: Server) {
         return { meta: { version: '2.8' }, maintenance: null };
     });
 
-    this.get('/users', (schema, request) => {
-        return userList(schema, request);
+    this.get('/users', function(schema, request) {
+        return modelList('users', schema, request, this);
     });
 
     this.get('/users/:id');
+    this.get('/users/:id/institutions', function(schema, request) {
+        return relationshipList('users', 'institutions', schema, request, this);
+    });
     this.get('/users/:id/nodes', function(schema, request) {
         return userNodeList(schema, request, this);
     });
-
-    this.get('tokens', function(schema, request) {
-        return tokenList(schema, request, this);
+    this.get('/users/:id/quickfiles', function(schema, request) {
+        return userFileList(schema, request, this);
     });
-    this.resource('tokens', { except: ['index'] });
+    this.get('/users/:userid/quickfiles/:id', (schema, request) => {
+        const { id } = request.params;
+        return schema.files.find(id);
+    });
+
+    this.resource('tokens', { except: ['index', 'create'] });
+    this.get('/tokens', function(schema, request) {
+        return modelList('tokens', schema, request, this);
+    });
+    this.post('/tokens', function(schema) {
+        const attrs = this.normalizedRequestAttrs();
+        const token = schema.tokens.create(attrs);
+        token.attrs.tokenId = 'blahblah';
+        return token;
+    });
+
     this.resource('scopes', { only: ['index', 'show'] });
 
     // Private namespace

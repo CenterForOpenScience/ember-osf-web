@@ -1,5 +1,6 @@
 import { association, Factory } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+import { Links } from 'jsonapi-typescript';
 
 import User from 'ember-osf-web/models/user';
 
@@ -9,11 +10,11 @@ const {
     },
 } = config;
 
-interface Root {
+export interface Root {
     activeFlags: string[];
     message: string;
     version: string;
-    links: {};
+    links: Links;
     currentUser: User;
 }
 

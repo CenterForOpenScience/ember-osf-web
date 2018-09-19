@@ -1,8 +1,8 @@
 import { layout } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { task, timeout } from 'ember-concurrency';
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
-import debounce from 'lodash/debounce';
 import styles from './styles';
 import template from './template';
 import itemStyles from './x-item/styles';
@@ -18,6 +18,23 @@ export default class CommaList<T> extends Component {
     resizeCallback: any;
 
     extra = 0;
+
+    onResize = task(function *(this: CommaList<T>) {
+        yield timeout(500);
+
+        const results = this.$(`.${styles.CommaList__List}`);
+        if (!results || results.length < 1) {
+            return;
+        }
+
+        const parentBounds = results[0].getBoundingClientRect();
+
+        const i = this.$(`.${itemStyles.Item}`).toArray().findIndex(el => {
+            return el.getBoundingClientRect().right > parentBounds.right;
+        }) - 1;
+
+        this.set('cutOff', i > 0 ? i : undefined);
+    }).restartable();
 
     @computed('cutOff', 'filteredItems.length')
     get cutOffOrLast(this: CommaList<T>) {
@@ -44,27 +61,12 @@ export default class CommaList<T> extends Component {
     }
 
     didInsertElement(this: CommaList<T>) {
-        this.set('resizeCallback', debounce(this.onResize.bind(this), 250));
+        this.set('resizeCallback', () => this.get('onResize').perform());
         $(window).resize(this.resizeCallback);
         this.resizeCallback();
     }
 
     willDestroyElement() {
         $(window).off('resize', this.resizeCallback);
-    }
-
-    onResize(this: CommaList<T>) {
-        const results = this.$(`.${styles.CommaList__List}`);
-        if (!results || results.length < 1) {
-            return;
-        }
-
-        const parentBounds = results[0].getBoundingClientRect();
-
-        const i = this.$(`.${itemStyles.Item}`).toArray().findIndex(el => {
-            return el.getBoundingClientRect().right > parentBounds.right;
-        }) - 1;
-
-        this.set('cutOff', i > 0 ? i : undefined);
     }
 }

@@ -7,12 +7,12 @@ import layout from './template';
 
 export default class PaginatedList extends Component {
     // Required arguments
-    items!: any[];
+    items?: Array<unknown>;
     page!: number;
     pageSize!: number;
     @requiredAction next!: () => void;
     @requiredAction previous!: () => void;
-    @requiredAction onDeleteItem!: () => void;
+    @requiredAction doReload!: () => void;
 
     // Optional arguments
     loading: boolean = defaultTo(this.loading, false);
@@ -35,6 +35,15 @@ export default class PaginatedList extends Component {
         if (typeof this.maxPage === 'undefined' || typeof this.totalCount === 'undefined') {
             return undefined;
         }
-        return this.page < this.maxPage ? this.pageSize : this.totalCount % this.pageSize;
+        if (this.page < this.maxPage || !(this.totalCount % this.pageSize)) {
+            return this.pageSize;
+        } else {
+            return this.totalCount % this.pageSize;
+        }
+    }
+
+    @computed('items.length', 'loading', 'placeholderCount')
+    get paginatorShown(): boolean {
+        return Boolean((this.items && this.items.length) || (this.loading && this.placeholderCount));
     }
 }

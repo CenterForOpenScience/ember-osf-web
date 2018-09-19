@@ -1,12 +1,8 @@
-.Token {
+.Top {
     display: flex;
-    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.ButtonBar {
-    margin-top: 10px;
-}
-
-.EmptyList {
-    padding: 5px 20px;
+.Top__explanation {
+    padding-right: 20px;
 }
