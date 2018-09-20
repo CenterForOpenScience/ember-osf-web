@@ -266,4 +266,20 @@ module('Acceptance | dashboard', hooks => {
         assert.equal(projectTitles.length, 1, 'Two character filtering has correct number of projects');
         assert.dom(projectTitles[0]).hasText('az', 'Two character filtering item is correct');
     });
+
+    test('confirm emails', async assert => {
+        const currentUser = server.create('user', 'loggedIn', 'withUnverifiedEmails');
+        await visit('/dashboard');
+
+        while (currentUser.unconfirmedEmails.length) {
+            const emailInfo = currentUser.unconfirmedEmails[0];
+            assert.dom('[data-test-confirm-email-prompt]').hasText(
+                emailInfo.user_merge ?
+                    `Would you like to merge ${emailInfo.address} into your account? This action is irreversible.` :
+                    `Would you like to add ${emailInfo.address} to your account?`,
+            );
+            await click('[data-test-confirm-email]');
+        }
+        assert.dom('[data-test-confirm-email-prompt').doesNotExist();
+    });
 });

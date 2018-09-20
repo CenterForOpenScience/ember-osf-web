@@ -1,4 +1,4 @@
-import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { Factory, faker, ModelInstance, Server, trait, Trait } from 'ember-cli-mirage';
 
 import User from 'ember-osf-web/models/user';
 
@@ -8,11 +8,15 @@ export interface UserTraits {
     withNodes: Trait;
     withFiles: Trait;
     loggedIn: Trait;
+    withUnverifiedEmails: Trait;
 }
 
 export default Factory.extend<User & UserTraits>({
     id: guid('user'),
-    afterCreate: guidAfterCreate,
+    afterCreate(user: ModelInstance<User>, server: Server) {
+        guidAfterCreate(user, server);
+        server.create('user-email', { user, primary: true });
+    },
 
     fullName() {
         return `${faker.name.firstName()} ${faker.name.lastName()}`;
@@ -42,20 +46,29 @@ export default Factory.extend<User & UserTraits>({
     dateRegistered() {
         return faker.date.past();
     },
+
     withNodes: trait({
         afterCreate(user, server) {
             server.createList('node', 5, { user }, 'withContributors');
         },
     }),
+
     withFiles: trait({
         afterCreate(user, server) {
             server.createList('file', 5, { user });
         },
     }),
+
     loggedIn: trait({
         afterCreate(currentUser, server) {
             server.create('root', { currentUser });
             server.createList('file', 5, { user: currentUser });
+        },
+    }),
+
+    withUnverifiedEmails: trait({
+        afterCreate(user, server) {
+            server.createList('user-email', 2, { user, verified: false });
         },
     }),
 });

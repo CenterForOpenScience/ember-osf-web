@@ -17,7 +17,6 @@ export default function(this: Server) {
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
-    this.apiBaseUrl = `${this.urlPrefix}${this.namespace}`;
 
     this.get('/', rootDetail);
 

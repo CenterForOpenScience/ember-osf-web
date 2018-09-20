@@ -9,6 +9,7 @@ import Node from './node';
 import OsfModel from './osf-model';
 import Region from './region';
 import Registration from './registration';
+import UserEmail from './user-email';
 
 /**
  * @module ember-osf-web
@@ -22,13 +23,6 @@ const Validations = buildValidations({
         }),
     ],
 });
-
-interface UnconfirmedEmail {
-    token: string;
-    user_merge: string | false; // eslint-disable-line camelcase
-    confirmed: boolean;
-    address: string;
-}
 
 /**
  * Model for OSF APIv2 users. This model may be used with one of several API endpoints. It may be queried directly,
@@ -47,16 +41,12 @@ export default class User extends OsfModel.extend(Validations) {
     @attr('fixstring') timezone!: string;
 
     @attr('date') dateRegistered!: Date;
-    // email
-    @attr('fixstring') username!: string;
 
     @attr('boolean', { defaultValue: false }) canViewReviews!: boolean;
 
     @attr('boolean') acceptedTermsOfService?: boolean;
     @attr('boolean') active!: boolean;
     @attr('object') social!: {};
-
-    @attr('object') unconfirmedEmails?: UnconfirmedEmail[];
 
     @belongsTo('region') defaultRegion!: DS.PromiseObject<Region> & Region;
 
@@ -67,6 +57,8 @@ export default class User extends OsfModel.extend(Validations) {
     @hasMany('file') quickfiles!: DS.PromiseManyArray<File>;
 
     @hasMany('institution', { inverse: 'users' }) institutions!: DS.PromiseManyArray<Institution>;
+
+    @hasMany('user-email', { inverse: 'user' }) emails!: DS.PromiseManyArray<UserEmail>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;
