@@ -29,7 +29,7 @@ export default class DeveloperAppModel extends OsfModel.extend(Validations) {
     @attr() clientId!: string;
     @attr() clientSecret!: string;
     @attr('date') dateCreated!: Date;
-    @attr() description!: string;
+    @attr({ defaultValue: '' }) description!: string;
     @attr() homeUrl!: string;
     @attr() name!: string; // eslint-disable-line no-restricted-globals
     @attr() owner!: string;
