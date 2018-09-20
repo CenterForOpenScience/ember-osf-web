@@ -26,36 +26,12 @@
 
     > input {
         width: inherit;
-    }
 
-    // stylelint-disable selector-no-vendor-prefix
-    ::-webkit-input-placeholder {
-        // Webkit, Blink, Edge
-        color: $color-text-gray-light;
+        &::placeholder {
+            color: $color-text-gray-light;
+            opacity: 1;
+        }
     }
-
-    :-moz-placeholder {
-        // Mozilla Firefox 4 to 18
-        color: $color-text-gray-light;
-        opacity: 1;
-    }
-
-    ::-moz-placeholder {
-        // Mozilla Firefox 19+
-        color: $color-text-gray-light;
-        opacity: 1;
-    }
-
-    :-ms-input-placeholder {
-        // Internet Explorer 10-11
-        color: $color-text-gray-light;
-    }
-
-    ::-ms-input-placeholder {
-        // Microsoft Edge
-        color: $color-text-gray-light;
-    }
-    // stylelint-enable selector-no-vendor-prefix
 }
 
 .inline {
