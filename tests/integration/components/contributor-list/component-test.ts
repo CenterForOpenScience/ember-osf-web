@@ -76,7 +76,7 @@ module('Integration | Component | contributor-list', hooks => {
         assert.dom(this.element).hasText('');
     });
 
-    test('useLinks linkifies contributor names', async function(assert) {
+    test('useContributorLink links contributor names', async function(assert) {
         const users: string[] = ['Freddie', 'Jane', 'Doe', 'Moore'];
         const contributors = {
             toArray: () => A(users.map(nameToUsersFamilyNames, { bibliographic: true, id: 'ezcuk' })),
@@ -86,31 +86,11 @@ module('Integration | Component | contributor-list', hooks => {
         };
 
         this.set('contributors', contributors);
-        await render(hbs`{{contributor-list contributors=contributors useLinks=true}}`);
+        await render(hbs`{{contributor-list contributors=contributors useContributorLink=true useShowMoreLink=true}}`);
 
-        assert.dom('span.ember-view > a').exists({ count: 3 });
-        assert.dom('span.ember-view > a:first-child').hasAttribute('href', '/ezcuk');
-        assert.dom('span.ember-view > button').hasText('1 more');
-    });
-
-    test('flatten contributors list in Prerender', async function(assert) {
-        const node = server.create('node', {});
-
-        const users: string[] = ['Freddie', 'Jane', 'Doe', 'Moore', 'Ngabo', 'Seka'];
-        const contributors = {
-            toArray: () => A(users.map(nameToUsersFamilyNames, { bibliographic: true })),
-            meta: {
-                total: users.length,
-            },
-        };
-
-        this.set('contributors', contributors);
-        this.set('node', node);
-        this.set('userIsBot', true);
-
-        await render(hbs`{{contributor-list contributors=contributors node=node userIsBot=true}}`);
-
-        assert.dom('span.ember-view > span').exists({ count: users.length });
+        assert.dom('[data-test-contributor-title]').exists({ count: 3 });
+        assert.dom('[data-test-contributor-title]:first-child').hasAttribute('href', '/ezcuk');
+        assert.dom('[data-test-load-more-contribs]').hasText('1 more');
     });
 
     test('it renders', async function(assert) {

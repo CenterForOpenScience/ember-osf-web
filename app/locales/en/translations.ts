@@ -610,7 +610,11 @@ export default {
     },
     contributor_list: {
         and_x_more: '{{x}} more',
-        less: 'less',
+        less: {
+            capitalized: 'Less',
+            lowercase: 'less',
+        },
+        more: 'More',
     },
     app_components: {
         branded_navbar: {

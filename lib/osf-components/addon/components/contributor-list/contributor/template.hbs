@@ -1,5 +1,5 @@
-{{#if (and showContributorLink contributor.id)~}}
-    <a href='/{{contributor.id}}'>{{~contributor.title~}}</a>
+{{#if (and useContributorLink @contributor.id)~}}
+    <a href='/{{contributor.id}}' data-test-contributor-title>{{~@contributor.title~}}</a>
 {{~else~}}
-    {{~contributor.title~}}
+    {{~@contributor.title~}}
 {{/if}}

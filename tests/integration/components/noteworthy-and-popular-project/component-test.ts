@@ -13,8 +13,8 @@ module('Integration | Component | noteworthy-and-popular-project', hooks => {
     });
 
     test('it renders', async function(assert) {
-        this.set('project', FactoryGuy.make('node'));
-        await render(hbs`{{noteworthy-and-popular-project project=project}}`);
+        this.set('node', FactoryGuy.make('node'));
+        await render(hbs`{{noteworthy-and-popular-project node=this.node}}`);
         assert.dom('[class*="NoteworthyProject"]').exists();
     });
 });

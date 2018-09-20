@@ -9,7 +9,7 @@ module('Integration | Component | node-card', hooks => {
 
     test('it renders', async function(assert) {
         this.set('contributors', []);
-        this.set('node', { queryHasMany: () => [], get: () => 'it\'s a date' });
+        this.set('node', { queryHasMany: () => [], hasMany: () => ({ value: () => [] }), get: () => 'it\'s a date' });
         this.set('delete', () => []);
         await render(hbs`{{node-card contributors=contributors node=node delete=delete}}`);
 

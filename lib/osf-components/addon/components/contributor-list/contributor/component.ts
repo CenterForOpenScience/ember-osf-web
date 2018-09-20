@@ -9,5 +9,5 @@ export default class ContributorListContributor extends Component {
     layout = layout;
 
     contributor: Contrib = defaultTo(this.contributor, { title: '', id: '', bibliographic: false });
-    showContributorLink: boolean = defaultTo(this.showContributorLink, false);
+    useContributorLink: boolean = defaultTo(this.useContributorLink, false);
 }

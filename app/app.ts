@@ -34,6 +34,7 @@ const App = Application.extend({
                 services: [
                     'analytics',
                     'i18n',
+                    'ready',
                     'router',
                     'store',
                     'toast',

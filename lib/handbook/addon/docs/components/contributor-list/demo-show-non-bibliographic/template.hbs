@@ -1,20 +1,15 @@
 {{#docs-demo as |demo|}}
     {{#demo.example name='contributor-list.show-non-bibliographic.hbs'}}
-        {{contributor-list contributors=contributors showNonBibliographic=showNonBibliographic}}
+        {{contributor-list node=@node showNonBibliographic=showNonBibliographic}}
     {{/demo.example}}
 
     {{#bs-button class='center-block m-b-lg' onClick=(action (mut showNonBibliographic) (not showNonBibliographic))}}
         set: showNonBibliographic = {{not showNonBibliographic}}
     {{/bs-button}}
     <ul>
-        {{#each contributorList as | contrib |}}
+        {{#each @contributorList as | contrib |}}
             <li>
-              <strong>{{contrib.title}}</strong> is
-              {{#if contrib.bibliographic }}
-                  <em>bibliographic</em>
-              {{else}}
-                  <em>not bibliographic</em>
-              {{/if}}
+                <strong>{{contrib.title}}</strong> is <em>{{if contrib.bibliographic 'bibliographic' 'non-bibliographic'}}</em>
             </li>
         {{/each}}
     </ul>

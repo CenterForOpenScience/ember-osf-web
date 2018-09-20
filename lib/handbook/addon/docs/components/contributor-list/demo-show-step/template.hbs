@@ -1,12 +1,12 @@
 {{#docs-demo as |demo|}}
     {{#demo.example name='contributor-list.show-step.hbs'}}
-        {{contributor-list contributors=contributors showStep=showStep useShowMoreLink=true useShowLess=true}}
+        {{contributor-list node=@node showStep=@showStep useShowMoreLink=true useShowLess=true}}
     {{/demo.example}}
 
-    {{#bs-button class='center-block m-b-lg' onClick=(action "bumpStep")}}
-        Increment: showStep = {{ showStep }}
+    {{#bs-button class='center-block m-b-lg' onClick=(action @bumpStep)}}
+        Increment: showStep = {{ @showStep }}
     {{/bs-button}}
-    {{#bs-button class='center-block m-b-lg' onClick=(action "resetStep")}}
+    {{#bs-button class='center-block m-b-lg' onClick=(action @resetStep)}}
         Reset step
     {{/bs-button}}
 

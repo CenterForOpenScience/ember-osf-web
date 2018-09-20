@@ -1,12 +1,12 @@
-{{#inline-list items=contributorList truncate=displayedContribs as |l|}}
+{{#inline-list items=this.contributorList truncate=this.displayedContribs as |l|}}
     {{#if l.item}}
-        {{~contributor-list/contributor showContributorLink=showContributorLink contributor=l.item~}}
+        {{~contributor-list/contributor useContributorLink=this.useContributorLink contributor=l.item~}}
     {{else if l.truncate}}
-        {{#if (and showLoading hasMore loadingMore) }}
-            {{loading-indicator dark=darkBall}}
+        {{#if (and showLoading hasMore loadContributors.isRunning) }}
+            {{loading-indicator dark=dark}}
         {{else}}
-            {{#if showMoreLink}}
-                <button class="btn btn-link" local-class="load-contribs" aria-label='More' onclick={{action 'more'}} data-test-load-more-contribs>
+            {{#if useShowMoreLink}}
+                <button class="btn btn-link" local-class="load-contribs" aria-label={{t 'contributor_list.more'}} onclick={{action 'more'}} data-test-load-more-contribs>
                     {{~t 'contributor_list.and_x_more' x=rest~}}
                 </button>
             {{else}}
@@ -16,7 +16,7 @@
     {{/if}}
 {{/inline-list}}
 {{#if showLess}}
-    <button class="btn btn-link" local-class="load-contribs" aria-label='Less' onclick={{action 'less'}} data-test-show-less-contribs>
-        {{~t 'contributor_list.less'~}}
+    <button class="btn btn-link" local-class="load-contribs" aria-label={{t 'contributor_list.less.capitalized'}} onclick={{action 'less'}} data-test-show-less-contribs>
+        {{~t 'contributor_list.less.lowercase'~}}
     </button>
 {{/if}}
