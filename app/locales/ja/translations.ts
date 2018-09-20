@@ -776,6 +776,7 @@ export default {
             error: 'There was an error loading this list.',
         },
         'tags-widget': {
+            tags: 'Tags',
             add_tag: '検索性を高めるタグを追加する',
         },
     },

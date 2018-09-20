@@ -1,12 +1,12 @@
 {{#tag-input
     data-test-tags-widget-tag-input
+    (html-attributes aria-label=(t 'osf-components.tags-widget.tags'))
     local-class='TagsWidget'
     tags=@tags
     addTag=(action this._addTag)
     removeTagAtIndex=(action this._removeTag)
     allowSpacesInTags=true
     placeholder=(t 'osf-components.tags-widget.add_tag')
-    ariaLabel=(t 'osf-components.tags-widget.tags')
     readOnly=@readOnly
     as |tag|
 }}
