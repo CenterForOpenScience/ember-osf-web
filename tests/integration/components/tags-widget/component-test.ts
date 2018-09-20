@@ -15,7 +15,7 @@ module('Integration | Component | tags-widget', hooks => {
 
         await render(hbs`{{tags-widget
             tags=this.tags
-            analyticsLabel='test'
+            analyticsScope='test'
             addTag=(action this.addTag)
             removeTag=(action this.removeTag)
             showAdd=this.showAdd
@@ -35,7 +35,7 @@ module('Integration | Component | tags-widget', hooks => {
         const tags = ['foo', 'bar', 'baz'];
         this.set('tags', tags);
 
-        await render(hbs`{{tags-widget tags=this.tags analyticsLabel='test' readOnly=true}}`);
+        await render(hbs`{{tags-widget tags=this.tags analyticsScope='test' readOnly=true}}`);
 
         assert.dom('[data-test-tags-widget-tag-input]').exists();
 
@@ -50,7 +50,7 @@ module('Integration | Component | tags-widget', hooks => {
 
         await render(hbs`{{tags-widget
             tags=this.tags
-            analyticsLabel='test'
+            analyticsScope='test'
             readOnly=true
             inline=true
         }}`);
@@ -85,7 +85,7 @@ module('Integration | Component | tags-widget', hooks => {
 
         await render(hbs`{{tags-widget
             tags=this.tags
-            analyticsLabel='test'
+            analyticsScope='test'
             addTag=(action this.addTag)
             removeTag=(action this.removeTag)
             showAdd=true
@@ -113,7 +113,7 @@ module('Integration | Component | tags-widget', hooks => {
 
         await render(hbs`{{tags-widget
             tags=this.tags
-            analyticsLabel='test'
+            analyticsScope='test'
             addTag=(action this.addTag)
             removeTag=(action this.removeTag)
             showAdd=true

@@ -81,7 +81,7 @@
             {{#if (and this.showTags @node.tags)}}
                 <div local-class="NodeCard__tags">
                     <strong>{{t 'node_card.tags'}}</strong>
-                    {{tags-widget tags=@node.tags inline=true readOnly=true analyticsLabel=(concat this.analyticsScopePrefix 'Node Card')}}
+                    {{tags-widget tags=@node.tags inline=true readOnly=true analyticsScope=(concat this.analyticsScopePrefix 'Node Card')}}
                 </div>
             {{/if}}
         {{else}}
