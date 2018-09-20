@@ -34,7 +34,9 @@ export default class TagsWidget extends Component.extend({ styles }) {
         super(properties);
         assert('tags-widget: You must pass in a tags array', Array.isArray(this.tags));
         assert('tags-widget: You must pass in an analytics scope', typeof this.analyticsScope === 'string');
-        if (!this.readOnly) {
+        if (this.readOnly) {
+            assert('tags-widget: showAdd=true has no effect when readOnly=true', !this.showAdd);
+        } else {
             assert(
                 'tags-widget: You must pass in an addTag action when readOnly=false',
                 typeof this.addTag === 'function',
