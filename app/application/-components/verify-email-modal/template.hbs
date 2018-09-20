@@ -1,0 +1,30 @@
+{{#if (and this.shouldShowModal this.userEmail)}}
+    {{#bs-modal
+        backdropClose=false
+        as |modal|
+    }}
+        {{#modal.header}}
+            <h3 class='modal-title'>{{t this.translationKeys.header}}</h3>
+        {{/modal.header}}
+        {{#modal.body}}
+            <p data-test-verify-email-prompt>
+                {{t this.translationKeys.body email=this.userEmail.emailAddress}}
+            </p>
+        {{/modal.body}}
+        {{#modal.footer}}
+            {{#bs-button data-test-deny-email
+                disabled=this.disableButtons
+                onClick=(action this.deny)
+            }}
+                {{t this.translationKeys.denyButton}}
+            {{/bs-button}}
+            {{#bs-button data-test-verify-email
+                type='primary'
+                disabled=this.disableButtons
+                onClick=(action this.verify)
+            }}
+                {{t this.translationKeys.verifyButton}}
+            {{/bs-button}}
+        {{/modal.footer}}
+    {{/bs-modal}}
+{{/if}}

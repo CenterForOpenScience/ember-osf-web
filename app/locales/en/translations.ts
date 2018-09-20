@@ -1197,4 +1197,26 @@ export default {
             },
         },
     },
+    verifyEmail: {
+        merge: {
+            header: 'Merge account?',
+            body: 'Would you like to merge <strong>{{email}}</strong> into your account? This action is irreversible.',
+            verifyButton: 'Merge account',
+            denyButton: 'Do not merge account',
+            verifySuccess: '<strong>{{email}}</strong> has been merged into your account.',
+            denySuccess: 'You have chosen not to merge <strong>{{email}}</strong> into your account. If you change your mind, visit the <a href={{settingsUrl}}>user settings page</a>.',
+            verifyError: 'There was a problem merging <strong>{{email}}</strong> into your account.',
+            denyError: 'There was a problem canceling the request to merge <strong>{{email}}</strong> into your account.',
+        },
+        add: {
+            header: 'Add email?',
+            body: 'Would you like to add <strong>{{email}}</strong> to your account?',
+            verifyButton: 'Add email',
+            denyButton: 'Do not add email',
+            verifySuccess: '<strong>{{email}}</strong> has been added to your account.',
+            denySuccess: 'You have chosen not to add <strong>{{email}}</strong> to your account. If you change your mind, visit the <a href={{settingsUrl}}>user settings page</a>.',
+            verifyError: 'There was a problem adding <strong>{{email}}</strong> to your account.',
+            denyError: 'There was a problem canceling the request to add <strong>{{email}}</strong> to your account.',
+        },
+    },
 };
