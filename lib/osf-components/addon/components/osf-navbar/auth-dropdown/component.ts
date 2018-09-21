@@ -52,7 +52,7 @@ export default class NavbarAuthDropdown extends Component {
 
     @computed('router.currentURL')
     get signUpNext() {
-        return pathJoin(baseUrl, this.router.currentURL);
+        return pathJoin(baseUrl, this.router.currentURL || '');
     }
 
     @computed('signUpURL', 'signUpNext')

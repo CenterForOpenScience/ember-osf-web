@@ -11,7 +11,7 @@ export default class SettingsTokensEditRoute extends Route.extend({
         try {
             return yield this.store.findRecord('token', id, { reload: false });
         } catch (e) {
-            this.replaceWith('not-found', this.router.currentURL.slice(1));
+            this.replaceWith('not-found', this.router.currentURL ? this.router.currentURL.slice(1) : '');
             throw e;
         }
     }),
