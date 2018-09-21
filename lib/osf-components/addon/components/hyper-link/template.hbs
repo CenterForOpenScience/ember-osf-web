@@ -1,11 +1,11 @@
 {{#unless hidden}}
     {{#let (hash
         link=(if this.isEmber
-            (component 'global-link-to' params=this._params click=(action 'onclick'))
-            (component 'hyper-link/x-anchor' this.resolvedRoute onclick=(action 'onclick'))
+            (component 'global-link-to' params=this._params)
+            (component 'hyper-link/x-anchor' this.resolvedRoute)
         )
     ) as |ctx|}}
-        {{#ctx.link class=@class data-test-hyper-link=@testSelectorVal}}
+        {{#ctx.link data-test-hyper-link=@testSelectorVal class=@class click=(action this.onclick)}}
             {{#if hasBlock}}
                 {{yield}}
             {{else}}
