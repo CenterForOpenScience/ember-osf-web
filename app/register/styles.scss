@@ -22,10 +22,13 @@
 
     &:hover {
         text-decoration: none;
+        color: $color-text-black;
+        background-image: linear-gradient(to bottom, $color-bg-gray-lighter 0, $color-bg-gray-dark 100%);
     }
 }
 
 .sign-up-button__logo {
+    flex: 0 0 45px;
     border-right: 1px solid $color-border-gray-darker;
     padding: 6px;
     height: 44px;
@@ -33,7 +36,7 @@
 }
 
 .sign-up-button__label {
-    width: 100%;
+    flex: 1;
     text-align: center;
     padding: 13px 0;
 }
