@@ -5,8 +5,8 @@
         valuePath='fullName'
         messagesShown=this.didValidate
         disabled=this.hasSubmitted
-        placeholder=(t 'sign_up_form.full_name')
-        ariaLabel=(t 'sign_up_form.full_name')
+        placeholder=(t 'osf-components.sign-up-form.full_name')
+        ariaLabel=(t 'osf-components.sign-up-form.full_name')
     }}
     {{validated-input/text
         data-test-sign-up-email-1
@@ -14,8 +14,8 @@
         valuePath='email1'
         messagesShown=this.didValidate
         disabled=this.hasSubmitted
-        placeholder=(t 'sign_up_form.contact_email')
-        ariaLabel=(t 'sign_up_form.contact_email')
+        placeholder=(t 'osf-components.sign-up-form.contact_email')
+        ariaLabel=(t 'osf-components.sign-up-form.contact_email')
     }}
     {{validated-input/text
         data-test-sign-up-email-2
@@ -23,8 +23,8 @@
         valuePath='email2'
         messagesShown=this.didValidate
         disabled=this.hasSubmitted
-        placeholder=(t 'sign_up_form.confirm_email')
-        ariaLabel=(t 'sign_up_form.confirm_email')
+        placeholder=(t 'osf-components.sign-up-form.confirm_email')
+        ariaLabel=(t 'osf-components.sign-up-form.confirm_email')
     }}
     {{validated-input/text
         data-test-sign-up-password
@@ -34,8 +34,8 @@
         messagesShown=this.didValidate
         disabled=this.hasSubmitted
         onKeyUp=(perform strength this.userRegistration.password)
-        placeholder=(t 'sign_up_form.password')
-        ariaLabel=(t 'sign_up_form.password')
+        placeholder=(t 'osf-components.sign-up-form.password')
+        ariaLabel=(t 'osf-components.sign-up-form.password')
     }}
     <div class="row" hidden={{not progress}}>
         <div class="col-xs-12">
@@ -59,7 +59,7 @@
     {{/validated-input/checkbox}}
     {{#if this.hasSubmitted}}
         <div class="osf-box-lt" local-class="help-block">
-            <p class="ext-success p-xs">{{t 'sign_up_form.registration_success' email=this.userRegistration.email1}}</p>
+            <p class="ext-success p-xs">{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
         </div>
     {{else}}
         <div class="col-md-12" local-class="RecaptchaParent">
@@ -73,7 +73,7 @@
         </div>
         <div>
             <button type="submit" class="btn btn-success" {{action submit}} {{action 'click' 'button' 'Home - sign_up' target=analytics}}>
-                {{t 'sign_up_form.sign_up_free'}}
+                {{t 'osf-components.sign-up-form.sign_up_button_label'}}
             </button>
         </div>
     {{/if}}

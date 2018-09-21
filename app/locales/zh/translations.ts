@@ -406,18 +406,6 @@ export default {
         free_title2: 'OSF is a public good built to support your research.',
         free_link: 'Get started',
     },
-    sign_up_form: {
-        full_name: 'Full name',
-        contact_email: 'Contact email',
-        confirm_email: 'Confirm email',
-        password: 'Password',
-        sign_up_free: 'Sign up free',
-        password_placeholder: 'Password (Must be {{min}} to {{max}} characters)',
-        registration_success: 'Registration successful. Please check {{email}} to confirm your email address.',
-    },
-    sign_up_policy: {
-        paragraph: 'I have read and agree to the <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>.',
-    },
     tos_consent: {
         paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
         have_read_and_agree: 'I have read and agree to these terms.',
@@ -785,6 +773,18 @@ export default {
         },
         'paginated-list': {
             error: 'There was an error loading this list.',
+        },
+        'sign-up-form': {
+            full_name: 'Full name',
+            contact_email: 'Contact email',
+            confirm_email: 'Confirm email',
+            password: 'Password',
+            sign_up_button_label: 'Sign up',
+            password_placeholder: 'Password (Must be {{min}} to {{max}} characters)',
+            registration_success: 'Registration successful. Please check {{email}} to confirm your email address.',
+        },
+        'sign-up-policy': {
+            paragraph: 'I have read and agree to the <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>.',
         },
         'tags-widget': {
             tags: 'Tags',
