@@ -100,7 +100,6 @@ export default {
         save_success: 'ファイルが保存されました',
         save_fail: 'エラー、ファイルを保存できません',
         mfr_iframe_title: 'ドキュメントのレンダリング',
-        add_tag: '検索性を高めるタグを追加する',
         embed_js_label: 'Embeddable javascript',
         embed_iframe_label: 'Embeddable iframe',
     },
@@ -775,6 +774,10 @@ export default {
         },
         'paginated-list': {
             error: 'There was an error loading this list.',
+        },
+        'tags-widget': {
+            tags: 'Tags',
+            add_tag: '検索性を高めるタグを追加する',
         },
     },
     settings: {

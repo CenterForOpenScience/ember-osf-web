@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
+import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import config from 'ember-get-config';
@@ -58,11 +58,5 @@ export default class NodeCard extends Component {
     @computed('analyticsScope')
     get analyticsScopePrefix() {
         return this.analyticsScope ? `${this.analyticsScope} - ` : '';
-    }
-
-    @action
-    clickTag(tag: string): void {
-        this.analytics.click('link', `${this.analyticsScopePrefix}Node Card - Tag: ${tag}`);
-        window.location.assign(`${this.searchUrl}?q=(tags:"${tag}")`);
     }
 }
