@@ -10,6 +10,19 @@ export interface GRecaptcha {
 export default class ValidatedRecaptcha extends BaseValidatedComponent {
     layout = layout;
 
+    // Exposes a reset action the the parent scope.
+    // Usage: `bindReset=(action (mut this.resetRecaptcha))`, then call `this.resetRecaptcha()` to trigger a reset
+    bindReset?: (action: () => void) => void;
+
+    gRecaptcha!: GRecaptcha;
+
+    constructor(...args: any[]) {
+        super(...args);
+        if (this.bindReset) {
+            this.bindReset(this._reset.bind(this));
+        }
+    }
+
     @computed
     get isTesting(): boolean {
         // Don't render the recaptcha widget durring testing
@@ -17,9 +30,8 @@ export default class ValidatedRecaptcha extends BaseValidatedComponent {
         return Ember.testing;
     }
 
-    gRecaptcha!: GRecaptcha;
-
-    reset() {
+    @action
+    _reset() {
         this.set('value', '');
         this.gRecaptcha.resetReCaptcha();
     }

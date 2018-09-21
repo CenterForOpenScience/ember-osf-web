@@ -68,7 +68,7 @@
                 model=this.userRegistration
                 valuePath='recaptchaResponse'
                 messagesShown=this.didValidate
-                ref=(mut this.recaptcha)
+                bindReset=(action (mut this.resetRecaptcha))
             }}
         </div>
         <div>

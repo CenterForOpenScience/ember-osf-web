@@ -8,7 +8,6 @@ import DS from 'ember-data';
 
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import Analytics from 'ember-osf-web/services/analytics';
-import Recaptcha from 'osf-components/components/validated-input/recaptcha/component';
 
 import styles from './styles';
 import layout from './template';
@@ -27,7 +26,7 @@ export default class SignUpForm extends Component.extend({
         } catch (e) {
             // Handle email already exists error
             if (+e.errors[0].status === 400) {
-                this.recaptcha.reset();
+                this.resetRecaptcha();
                 this.userRegistration.addExistingEmail();
                 yield this.userRegistration.validate();
             }
@@ -45,7 +44,7 @@ export default class SignUpForm extends Component.extend({
 
     hasSubmitted: boolean = false;
     didValidate = false;
-    recaptcha!: Recaptcha;
+    resetRecaptcha!: () => void; // bound by validated-input/recaptcha
 
     @service passwordStrength!: PasswordStrength;
     @service analytics!: Analytics;
