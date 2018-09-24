@@ -26,16 +26,15 @@ export default class BrandedNavbar extends Component {
     brandRoute: string = this.brandRoute;
     objectType: ObjectType = this.objectType;
     signupUrl: string = this.signupUrl;
+    translateKey: string = this.translateKey;
 
     myProjectsUrl = serviceLinks.myProjects;
 
-    key = 'collections.navbar.brand';
-
-    @computed('i18n.locale', 'theme.provider')
+    @computed('i18n.locale', 'theme.provider', 'translateKey')
     get brandTitle(): string {
         const { name } = this.theme.provider!;
 
-        return this.i18n.t(this.key, { name });
+        return this.i18n.t(this.translateKey, { name });
     }
 
     @requiredAction loginAction!: () => void;

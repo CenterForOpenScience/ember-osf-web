@@ -1,14 +1,21 @@
 import buildRoutes from 'ember-engines/routes';
 
 export default buildRoutes(function() {
+    this.route('page-not-found');
+    this.route('forbidden');
     this.route('discover');
     this.route('submit');
-
-    this.route('provider', { path: '/:slug' }, function() {
-        this.route('discover');
-        this.route('submit');
-        this.route('page-not-found', { path: '*path' });
+    this.route('guid', { path: '/:guid' }, function() {
+        this.route('edit');
     });
 
-    this.route('page-not-found', { path: '*path' });
+    this.route('provider', { path: '/:slug' }, function() {
+        this.route('page-not-found');
+        this.route('forbidden');
+        this.route('discover');
+        this.route('submit');
+        this.route('guid', { path: '/:guid' }, function() {
+            this.route('edit');
+        });
+    });
 });

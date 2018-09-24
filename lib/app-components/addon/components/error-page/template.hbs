@@ -7,22 +7,23 @@
             <p>
                 {{t (concat translateKey '.message')}}
                 <br>
-                <span>{{t 'components.error-page.email_message'}}</span>
-                <a
-                    href="mailto:{{supportEmail}}"
-                    onclick={{action "click" "link" (concat label " - Support") target=analytics}}
-                >
-                    {{supportEmail}}
-                </a>
+                <span>
+                    {{t 'app_components.error_page.email_message'}}
+                    <a
+                        href="mailto:{{supportEmail}}"
+                        onclick={{action 'click' 'link' (concat label ' - Support') target=analytics}}
+                    >
+                        {{supportEmail}}
+                    </a>
+                </span>
             </p>
             <a
                 class="btn btn-primary m-t-md"
                 href={{theme.pathPrefix}}
-                onclick={{action 'click' 'link' (concat label " - Go to Index") target=analytics}}
+                onclick={{action 'click' 'link' (concat label ' - Go to Index') target=analytics}}
             >
-                {{t 'components.error-page.go_to'
-                    brand=(t (if theme.isProvider "global.provider_brand" "global.brand")
-                    name=theme.provider.name)
+                {{t 'app_components.error_page.go_to'
+                    brand=(t @brandKey name=(if theme.isProvider theme.provider.name 'general.osf'))
                 }}
             </a>
         </div>

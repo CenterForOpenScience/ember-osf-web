@@ -612,6 +612,14 @@ export default {
         and_x_more: '{{x}} more',
     },
     app_components: {
+        branded_navbar: {
+            my_osf_projects: 'My OSF Projects',
+            on_the_osf: 'On the OSF:',
+        },
+        error_page: {
+            email_message: 'If this should not have occurred and the issue persists, please report it to',
+            go_to: 'Go to {{brand}}',
+        },
         license_picker: {
             faq: 'License FAQ',
             show: 'Show full text',
@@ -796,8 +804,10 @@ export default {
         },
     },
     collections: {
-        navbar: {
+        general: {
             brand: '{{name}} Collections',
+        },
+        navbar: {
             add: 'Add to Collection',
         },
         index: {
@@ -834,9 +844,10 @@ export default {
                 volume: 'Volume',
             },
         },
-        submit: {
+        collections_submission: {
             title: 'Submit',
-            header: 'Add to Collection',
+            add_header: 'Add to Collection',
+            update_header: 'Update in Collection',
             project_select_title: 'Select a project',
             project_select_project_label: 'Project:',
             closed_tooltip: 'Complete the previous section to edit this section',
@@ -852,9 +863,12 @@ export default {
             subjects_description: 'Select a discipline and subdiscipline, if relevant. Add more by clicking on a new discipline.',
             collection_metadata_title: 'Collection metadata',
             cancel: 'Cancel',
-            add_to_collection: 'Add to collection',
-            save_success: '{{title}} has been added to the collection.',
-            save_error: 'Error adding {{title}} to the collection:\n{{error}}',
+            add_button: 'Add to collection',
+            update_button: 'Update',
+            add_save_success: '{{title}} has been added to the collection.',
+            update_save_success: '{{title}} has been updated in the collection.',
+            add_save_error: 'Error adding {{title}} to the collection:\n{{error}}',
+            update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
             modal_header: 'Alert',
             modal_body: 'Are you sure you want to discard changes to the collection? Changes saved to the project will persist, if saved.',
         },
@@ -913,11 +927,6 @@ export default {
             tag: 'Tag',
             type: 'Type',
         },
-    },
-    branded_navbar: {
-        sr_only: 'Toggle navigation',
-        my_osf_projects: 'My OSF Projects',
-        on_the_osf: 'On the OSF:',
     },
     registries: {
         header: {
@@ -1067,7 +1076,7 @@ export default {
         heading: 'Page not found',
         message: 'The page you were looking for is not found on the {{brand}} service.',
     },
-    page_forbidden: { // 403
+    forbidden: { // 403
         heading: 'Forbidden',
         message: 'User has restricted access to this page.',
     },

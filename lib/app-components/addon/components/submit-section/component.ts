@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import layout from './template';
 
@@ -17,6 +18,7 @@ export default class SubmitSection extends Component {
     section: number = this.section;
     activeSection: number = this.activeSection;
     savedSections: number[] = this.savedSections;
+    editable: boolean = defaultTo(this.editable, true);
 
     @computed('activeSection', 'section')
     get isOpen(): boolean {

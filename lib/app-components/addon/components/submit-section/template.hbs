@@ -1,24 +1,25 @@
-{{#if showTooltip}}
+{{#if this.showTooltip}}
     {{bs-tooltip
-        title=tooltip
+        title=this.tooltip
         triggerElement='parentView'
         autoPlacement=true
-        viewportSelector=elementId
+        viewportSelector=this.elementId
     }}
 {{/if}}
 {{#panels.panel
-    open=isOpen
+    open=this.isOpen
     as |panel|
 }}
     {{yield (hash
         active=(component 'submit-section/active'
-            title=title
-            didSave=didSave
+            title=this.title
+            didSave=this.didSave
             panel=panel
-            description=description
+            description=this.description
         )
         complete=(component 'submit-section/complete'
-            showReopen=showReopen
+            showReopen=this.showReopen
+            editable=this.editable
             editSection=(action 'editSection')
         )
     )}}

@@ -3,22 +3,25 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
-// import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import styles from './styles';
+import layout from './template';
 
-// @localClassNames('header', 'header-error')
 export default class ErrorPage extends Component {
+    layout = layout;
+    styles = styles;
+
     @service analytics!: Analytics;
     @service theme!: Theme;
 
     label: string = defaultTo(this.label, '');
     translationKey: string = defaultTo(this.translationKey, '');
 
-    @computed('theme.isProvider', 'theme.provider')
+    @computed('theme.{isProvider,provider}')
     get supportEmail(): string {
         const { isProvider, provider } = this.theme;
 
         // TODO: get default support email from config
-        return isProvider && provider ? provider.emailSupport : 'support@osf.io';
+        return isProvider && provider && provider.emailSupport ? provider.emailSupport : 'support@osf.io';
     }
 }

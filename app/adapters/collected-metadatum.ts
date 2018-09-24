@@ -1,3 +1,4 @@
+import { assert } from '@ember/debug';
 import DS from 'ember-data';
 import OsfAdapter from 'ember-osf-web/adapters/osf-adapter';
 import $ from 'jquery';
@@ -10,8 +11,26 @@ export default class CollectedMetadatum extends OsfAdapter.extend({
         return this._super(...args);
     },
 
+    urlForHybridGuid(id: string): string {
+        const splitId = id.split('-');
+
+        assert('ID for findRecord should be in the format: collectionId-collectedMetadatumId', splitId.length === 2);
+
+        const [collectionId, collectedMetadatumId] = splitId;
+
+        return `${this.urlPrefix()}/collections/${collectionId}/collected_metadata/${collectedMetadatumId}`;
+    },
+
     urlForCreateRecord(_: 'collected-metadatum', { record }: DS.Snapshot): string {
         return `${this.urlPrefix()}/collections/${record.get('collection.id')}/collected_metadata/`;
+    },
+
+    urlForFindRecord(id: string): string {
+        return this.urlForHybridGuid(id);
+    },
+
+    urlForUpdateRecord(id: string): string {
+        return this.urlForHybridGuid(id);
     },
 
     urlForQuery(this: CollectedMetadatum): string {
