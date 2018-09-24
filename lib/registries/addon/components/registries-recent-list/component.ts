@@ -34,7 +34,7 @@ export default class RegistriesRecentList extends Component {
             }
 
             if (schemaLookup[item.registrationType]) {
-                registrationURL += schemaLookup[item.registrationType].id;
+                registrationURL += `register/${schemaLookup[item.registrationType].id}`;
             }
 
             return { ...item, registrationURL };
