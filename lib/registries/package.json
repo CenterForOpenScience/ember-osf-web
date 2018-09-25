@@ -26,7 +26,8 @@
     "ember-test-selectors": "*",
     "ember-toastr": "*",
     "ember-truth-helpers": "*",
-    "immutable": "*"
+    "immutable": "*",
+    "unicode-byte-truncate": "*"
   },
   "ember-addon": {
     "paths": [
