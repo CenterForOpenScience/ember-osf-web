@@ -101,7 +101,6 @@ export default {
         save_success: 'File saved',
         save_fail: 'Unable to save file',
         mfr_iframe_title: 'Rendering of document',
-        add_tag: 'Add a tag to enhance discoverability',
         embed_js_label: 'Embeddable javascript',
         embed_iframe_label: 'Embeddable iframe',
     },
@@ -1098,6 +1097,10 @@ export default {
         },
         'paginated-list': {
             error: 'There was an error loading this list.',
+        },
+        'tags-widget': {
+            tags: 'Tags',
+            add_tag: 'Add a tag to enhance discoverability',
         },
     },
     settings: {

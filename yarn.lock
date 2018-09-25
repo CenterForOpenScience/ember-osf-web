@@ -5601,9 +5601,9 @@ ember-page-title@4.0.3:
     ember-cli-head "^0.4.0"
     ember-cli-htmlbars "^2.0.1"
 
-"ember-parachute@https://github.com/cos-forks/ember-parachute#v0.3.7+cos2":
+"ember-parachute@https://github.com/cos-forks/ember-parachute#v0.3.7+cos3":
   version "0.3.7"
-  resolved "https://github.com/cos-forks/ember-parachute#0d58a9fb1fa0e54837f1628d0cfab4d75d611294"
+  resolved "https://github.com/cos-forks/ember-parachute#71ebb10c8f626514d5b0de1f340fb911483ac2f3"
   dependencies:
     ember-assign-polyfill "^2.0.1"
     ember-cli-babel "^6.0.0"

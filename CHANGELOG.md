@@ -19,14 +19,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
     - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
     - `delete-button` - configurable delete button, including a confirmation modal and scientist name
+    - `tags-widget` - you know, for tags
 - Routes:
     - `guid-node/registrations` - registrations tab
     - `settings` - includes the settings side nav
     - `settings/tokens` - list of personal access tokens
     - `settings/tokens/edit`
     - `settings/tokens/create`
+- Transforms:
+    - `fixstringarray` - similar to `fixstring` transform (unencodes special characters), but for string arrays
 - Tests:
     - `guid-node/registrations` acceptance test
+    - `tags-widget` component integration test
 - Blueprints:
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
@@ -39,8 +43,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `osf-model` - add `relatedCounts` attribute and `loadRelatedCounts()` method
     - `registration` - add `archiving` attribute and `registrationSchema` relationship, typed `registeredMeta`
     - `draft-registration` - changed `registrationSchema` relationship type to be `registration-schema`
-    - `node` - added attributes: `preprint: boolean`, `subjects: string[]`, and `currentUserCanComment: boolean`
+    - `node`
+        - added attributes: `preprint: boolean`, `subjects: string[]`, and `currentUserCanComment: boolean`
+        - use `fixstringarray` transform for `tags` attribute
     - `user` - made `middleNames` `string` (was `string[]`), added `suffix: string`, `active: boolean`, `social: {}`
+    - `file` - use `fixstringarray` transform for `tags` attribute
 - Adapters:
     - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
 - Serializers:
@@ -53,7 +60,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `file-renderer` - remove initialWidth MFR parameter
     - `node-blurb` - renamed to `node-card`
-    - `node-card` - add `registration` type, optional tags display, and placeholder when `node` is not set, made tagless
+    - `node-card`
+        - add `registration` type
+        - add optional tags display
+        - use placeholder when `node` is not set
+        - made tagless
+        - use `tags-widget` component instead of `ember-tag-input` directly
+        - `encodeURIComponent(tag)` when constructing tags search url
     - `node-navbar` - use `linkTo` for registrations
     - `paginated-relation` renamed to `paginated-list/has-many`
         - refactored to allow sharing functionality among different types of list
@@ -75,6 +88,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `guid-registration` - request `forks` related count when resolving guid
     - `guid-registration/forks` - use placeholder for forks list
     - `resolve-guid/resolved-guid-route` - pass-through query params to `routeContext.setGuid()`
+    - `guid-file` - use `tags-widget` component instead of `ember-tag-input` directly
 - Engines:
     - `analytics-page` - use `node-list` component for linked nodes list
 - Handbook:

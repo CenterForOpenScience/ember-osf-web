@@ -81,9 +81,7 @@
             {{#if (and this.showTags @node.tags)}}
                 <div local-class="NodeCard__tags">
                     <strong>{{t 'node_card.tags'}}</strong>
-                    {{#tag-input tags=@node.tags readOnly=true as |tag|}}
-                        <span role="link" {{action this.clickTag tag}}>{{tag}}</span>
-                    {{/tag-input}}
+                    {{tags-widget tags=@node.tags inline=true readOnly=true analyticsScope=(concat this.analyticsScopePrefix 'Node Card')}}
                 </div>
             {{/if}}
         {{else}}

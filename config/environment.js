@@ -236,11 +236,13 @@ module.exports = function(environment) {
         },
         secondaryNavbarId: '__secondaryOSFNavbar__',
         engines: {
+            // App Engines should always be enabled in production builds
+            // as they will be enabled/disabled at runtime rather than buildtime
             collections: {
-                enabled: isTruthy(COLLECTIONS_ENABLED),
+                enabled: !devMode || isTruthy(COLLECTIONS_ENABLED),
             },
             registries: {
-                enabled: isTruthy(REGISTRIES_ENABLED),
+                enabled: !devMode || isTruthy(REGISTRIES_ENABLED),
             },
             handbook: {
                 enabled: isTruthy(HANDBOOK_ENABLED),

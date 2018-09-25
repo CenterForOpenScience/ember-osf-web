@@ -1,0 +1,57 @@
+.TagsWidget :global(.emberTagInput-tag) {
+    background: $color-bg-blue-light;
+    border-radius: 0;
+    color: $color-text-black;
+    cursor: pointer;
+    font-size: 13px;
+    max-width: 100%;
+    overflow-wrap: break-word;
+
+    > a {
+        color: $color-text-black;
+    }
+
+    &:hover {
+        background: $color-bg-blue-dark;
+        color: $color-text-gray-cool;
+
+        > a {
+            color: $color-text-gray-cool;
+        }
+    }
+}
+
+.TagsWidget :global(.emberTagInput-new) {
+    width: 100%;
+
+    > input {
+        width: inherit;
+
+        &::placeholder {
+            color: $color-text-gray-light;
+            opacity: 1;
+        }
+    }
+}
+
+.inline {
+    display: inline-block;
+
+    :global(.emberTagInput) {
+        display: inline-block;
+        border: 0;
+        padding: 0;
+    }
+}
+
+.show-add :global(.emberTagInput-new) {
+    display: initial;
+}
+
+.hide-add :global(.emberTagInput-new) {
+    display: none;
+}
+
+.TagsWidget:global(emberTagInput--readOnly) :global(.emberTagInput-new) {
+    display: none;
+}

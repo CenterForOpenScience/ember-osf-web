@@ -88,7 +88,7 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
     @attr('date') forkedDate!: Date;
 
     @attr('node-license') nodeLicense!: NodeLicense | null;
-    @attr('array') tags!: string[];
+    @attr('fixstringarray') tags!: string[];
 
     @attr('fixstring') templateFrom!: string;
 
