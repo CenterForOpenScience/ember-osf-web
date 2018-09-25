@@ -1,0 +1,16 @@
+{{#docs-demo as |demo|}}
+    {{#demo.example name='tags-widget.inline.hbs'}}
+        {{tags-widget
+            tags=this.tags
+            addTag=(action this._addTag)
+            removeTag=(action this._removeTag)
+            readOnly=true
+            showAdd=false
+            inline=true
+            analyticsScope='Handbook Tags'
+        }}
+
+    {{/demo.example}}
+
+    {{demo.snippet 'tags-widget.inline.hbs'}}
+{{/docs-demo}}
