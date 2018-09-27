@@ -42,12 +42,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Models:
     - `osf-model` - add `relatedCounts` attribute and `loadRelatedCounts()` method
     - `registration` - add `archiving` attribute and `registrationSchema` relationship, typed `registeredMeta`
-    - `draft-registration` - changed `registrationSchema` relationship type to be `registration-schema`
+    - `draft-registration`
+        - change `registrationSchema` relationship type to be `registration-schema`
+        - define inverse for `node` relationship as `draftRegistrations` instead of `null` (required by ember-data 3.4)
     - `node`
         - added attributes: `preprint: boolean`, `subjects: string[]`, and `currentUserCanComment: boolean`
         - use `fixstringarray` transform for `tags` attribute
     - `user` - made `middleNames` `string` (was `string[]`), added `suffix: string`, `active: boolean`, `social: {}`
     - `file` - use `fixstringarray` transform for `tags` attribute
+    - `preprint` - define inverse for `node` relationship as `preprints` instead of `null` (required by ember-data 3.4)
 - Adapters:
     - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
 - Serializers:
@@ -97,7 +100,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Add info for dev-env, testing, visual style, and written style
 - Misc:
     - install `@cos-forks/ember-content-placeholders`
-    - upgrade to ember(-(cli|data))@~3.3.0
+    - upgrade to ember(-(cli|data))@~3.4.0
     - don't strip ember-test-selectors from production builds
 - DX:
     - Have guid-like IDs for mirage factories (nodes and users to start)
