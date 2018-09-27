@@ -58,6 +58,10 @@ module.exports = function(defaults) {
             enabled: true,
             exclude: [
                 'zxcvbn.js',
+                // Exclude <engine-name>/config/environment.js from fingerprinting so it matches
+                // the engines exclude regex.
+                // https://github.com/ember-engines/ember-engines/blob/master/index.js#L10
+                'config/environment.js',
             ],
             prepend: config.assetsPrefix,
         },
