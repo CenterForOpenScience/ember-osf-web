@@ -20,6 +20,9 @@
     "baseUrl": ".",
     "module": "es6",
     "paths": {
+      "ember-responsive/test-support": [
+        "node_modules/ember-responsive/addon-test-support"
+      ],
       "collections/*": [
         "lib/collections/addon/*"
       ],

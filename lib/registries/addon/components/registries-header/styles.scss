@@ -9,6 +9,14 @@
         color: #80c2f7;
         text-decoration: none;
     }
+
+    p {
+        color: $white;
+    }
+
+    :global(.lead) {
+        font-size: 21px;
+    }
 }
 
 .RegistriesHeader__Brand {

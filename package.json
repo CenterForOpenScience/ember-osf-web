@@ -189,5 +189,8 @@
       "lib/osf-components",
       "lib/registries"
     ]
+  },
+  "dependencies": {
+    "ember-responsive": "^3.0.0-beta.3"
   }
 }

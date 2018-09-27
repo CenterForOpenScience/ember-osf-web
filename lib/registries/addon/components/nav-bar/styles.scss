@@ -1,0 +1,118 @@
+.Nav {
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+}
+
+.Section {
+    display: flex;
+    align-items: center;
+}
+
+.Divider {
+    // height: 100%;
+    height: 60%;
+    width: 1px;
+}
+
+.Item {
+    &:active,
+    &:focus,
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.Primary {
+    &:active,
+    &:hover {
+        border-radius: 2px;
+        background-color: $secondary-green;
+    }
+}
+
+.Secondary {
+    &:active,
+    &:hover {
+        border-radius: 2px;
+        background-color: $secondary-blue;
+    }
+}
+
+.Icon {
+    font-size: 20px;
+}
+
+.Nav.Dark {
+    color: $primary-blue;
+    background: $midnight-blue;
+
+    & .Icon {
+        color: $alto;
+    }
+
+    & .Divider {
+        background: $dark-slate-gray;
+    }
+
+    & .Item {
+        color: $white;
+    }
+
+    h4 {
+        color: $white;
+    }
+}
+
+.Nav.Light {
+    color: $primary-blue;
+    background: $porcelain;
+
+    & .Icon {
+        color: $primary-blue;
+    }
+
+    & .Divider {
+        background: $white;
+    }
+
+    & .Item {
+        color: $primary-blue;
+    }
+}
+
+.Nav:global(.media-desktop) {
+    padding: 0 15px;
+
+    & .Divider {
+        margin: 0 10px;
+    }
+
+    & .Item {
+        padding: 0 10px;
+    }
+}
+
+.Nav:global(.media-tablet) {
+    padding: 0 10px;
+
+    & .Divider {
+        margin: 0 10px;
+    }
+
+    & .Item {
+        padding: 0 10px;
+    }
+}
+
+.Nav:global(.media-mobile) {
+    padding: 0 5px;
+
+    & .Divider {
+        margin: 0 15px;
+    }
+
+    & .Item {
+        padding: 0 15px;
+    }
+}

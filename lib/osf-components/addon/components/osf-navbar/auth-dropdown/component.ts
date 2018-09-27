@@ -13,15 +13,7 @@ import Session from 'ember-simple-auth/services/session';
 import $ from 'jquery';
 import layout from './template';
 
-/**
- * Display the login dropdown on the navbar
- *
- * @class osf-navbar/auth-dropdown
- */
-@tagName('')
-export default class NavbarAuthDropdown extends Component {
-    layout = layout;
-
+export class AuthBase extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
@@ -57,4 +49,14 @@ export default class NavbarAuthDropdown extends Component {
         const query = this.redirectUrl ? `?${$.param({ next_url: this.redirectUrl })}` : '';
         window.location.href = `${config.OSF.url}logout/${query}`;
     }
+}
+
+/**
+ * Display the login dropdown on the navbar
+ *
+ * @class osf-navbar/auth-dropdown
+ */
+@tagName('')
+export default class NavbarAuthDropdown extends AuthBase {
+    layout = layout;
 }

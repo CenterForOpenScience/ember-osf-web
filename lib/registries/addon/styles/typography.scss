@@ -1,0 +1,44 @@
+// RegistriesStyle is controlled by a feature flag
+// in the application template
+:global(.RegistriesStyle) {
+    h1 {
+        color: $midnight-blue;
+        font-size: 36px;
+    }
+
+    h2 {
+        color: $midnight-blue;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    h3 {
+        color: $midnight-blue;
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    h4 {
+        color: $midnight-blue;
+        // font-size: 13px;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    p {
+        color: $midnight-blue;
+        font-size: 14px;
+
+        &:global(.large) {
+            font-size: 16px;
+        }
+
+        &:global(.small) {
+            font-style: italic;
+            opacity: 0.6;
+            font-size: 14px;
+        }
+    }
+}
