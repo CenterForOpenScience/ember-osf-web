@@ -1,25 +1,42 @@
-{{title (t 'routes.register.sign_up')}}
+{{title (t "routes.register.sign_up")}}
 <div class="container">
     <div class="row m-t-xl m-b-xl">
         <div local-class="sign-up-container" class="p-md bg-color-light">
-            <h3 class="m-sm">{{t 'routes.register.create_a_free_account'}}</h3>
-            <h4 class="m-md">{{t 'routes.register.sign_up_using'}}</h4>
+            <h3 class="m-sm">{{t "routes.register.create_a_free_account"}}</h3>
+            <h4 class="m-md">{{t "routes.register.sign_up_using"}}</h4>
             <div local-class="sign-up-buttons" class="m-md">
-                <a local-class="sign-up-button" href="{{orcidUrl}}" onclick={{action 'click' 'button' 'Sign up - ORCID' target=analytics}} data-test-orcid-button>
-                    <img local-class="sign-up-button__logo" src="/assets/images/register/orcid-logo.png" alt="{{t 'routes.register.orcid'}}">
-                    <div local-class="sign-up-button__label">{{t 'routes.register.orcid'}}</div>
+                <a
+                    data-test-orcid-button
+                    href={{orcidUrl}}
+                    local-class="sign-up-button"
+                    onclick={{action "click" "button" "Sign up - ORCID" target=analytics}}
+                >
+                    <img
+                        src="/assets/images/register/orcid-logo.png"
+                        alt={{t "routes.register.orcid"}}
+                        local-class="sign-up-button__logo"
+                    >
+                    <div local-class="sign-up-button__label">{{t "routes.register.orcid"}}</div>
                 </a>
-
-                <a local-class="sign-up-button" href="{{institutionUrl}}" onclick={{action 'click' 'button' 'Sign up - Institution' target=analytics}} data-test-institution-button>
-                    <img local-class="sign-up-button__logo" src="/assets/images/register/institution-logo.png" alt="{{t 'routes.register.institution'}}">
-                    <div local-class="sign-up-button__label">{{t 'routes.register.institution'}}</div>
+                <a
+                    data-test-institution-button
+                    href={{institutionUrl}}
+                    local-class="sign-up-button"
+                    onclick={{action "click" "button" "Sign up - Institution" target=analytics}}
+                >
+                    <img
+                        src="/assets/images/register/institution-logo.png"
+                        alt={{t "routes.register.institution"}}
+                        local-class="sign-up-button__logo"
+                    >
+                    <div local-class="sign-up-button__label">{{t "routes.register.institution"}}</div>
                 </a>
             </div>
 
             <hr local-class="hr-text" data-content="OR">
 
             <div local-class="sign-up-form" class="m-sm">
-                {{sign-up-form}}
+                <SignUpForm />
             </div>
         </div>
     </div>
