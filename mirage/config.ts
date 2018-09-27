@@ -7,7 +7,7 @@ import { userFileList, userNodeList } from './views/user';
 const { OSF: { apiUrl } } = config;
 
 export default function(this: Server) {
-    this.passthrough('/write-coverage'); // for ember-cli-code-coverage
+    this.passthrough(); // pass through all requests on currrent domain
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
