@@ -54,6 +54,12 @@ export default {
         component: 'component',
         hosted_on_the_osf: 'Hosted on OSF',
         please_confirm: 'Please confirm',
+        services: {
+            collections: 'Collections',
+            institutions: 'Institutions',
+            preprints: 'Preprints',
+            registries: 'Registries',
+        },
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -248,6 +254,8 @@ export default {
         toggle_primary: 'Toggle primary navigation',
         toggle_secondary: 'Toggle secondary navigation',
         other_views: 'Other OSF views',
+        login: 'Login',
+        join: 'Join',
     },
     auth_dropdown: {
         log_out: 'Log Out',

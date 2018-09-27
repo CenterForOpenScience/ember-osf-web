@@ -1,0 +1,122 @@
+// Utility classes
+
+// Fighting/interop with bootstrap
+.Dropdown {
+    &:active,
+    &:focus,
+    &:hover {
+        color: $white;
+        text-decoration: none;
+    }
+
+    &:hover,
+    :global(.open) & {
+        color: $slate-gray;
+
+        & i:global(.fa) {
+            color: $secondary-blue;
+        }
+    }
+}
+
+.DropdownMenu {
+    background-color: $midnight-blue;
+    border-radius: 2px;
+    border: 0;
+    left: auto;
+    right: 0;
+    top: 35px;
+
+    // Override bootstrap/osf-style
+    & > li > a:hover {
+        color: $secondary-blue;
+        background-color: $midnight-blue;
+        background-image: none;
+    }
+}
+
+:global(.media-mobile) .HideOnMobile,
+:global(.media-desktop) .OnlyOnMobile,
+:global(.media-tablet) .OnlyOnMobile {
+    display: none;
+}
+
+// /Utility classes
+
+.Logo {
+    width: 35px;
+    height: 35px;
+    margin: 0 5px;
+    background-size: 100%;
+    background-image: url('img/cos-logo-white.png');
+    background-repeat: no-repeat;
+}
+
+.Service {
+    color: $white;
+    font-size: 20px;
+
+    & > strong {
+        text-transform: uppercase;
+        margin-right: -5px;
+    }
+}
+
+.ServiceDropdownMenu {
+    font-size: 20px;
+}
+
+.ServiceDropdownEntry {
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.SearchBar {
+    :global(.media-desktop) & {
+        width: 300px;
+    }
+
+    :global(.media-tablet) & {
+        width: 200px;
+    }
+
+    :global(.media-mobile) & {
+        display: none;
+    }
+
+    & i {
+        font-size: 20px;
+    }
+}
+
+.Gravatar {
+    .Dropdown:hover &,
+    // Bootstrap interop
+    :global(.open) & {
+        opacity: 0.8;
+    }
+}
+
+.AuthDropdownMenu {
+    font-size: 16px;
+}
+
+.SearchDropdown {
+    height: 50px;
+    transition: height 0.4s;
+    overflow: hidden;
+    background: $dark-slate-gray;
+
+    &.Closed {
+        height: 0;
+    }
+
+    & span,
+    & input {
+        height: 100%;
+    }
+
+    & i {
+        font-size: 20px;
+    }
+}

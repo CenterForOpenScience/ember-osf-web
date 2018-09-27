@@ -11,6 +11,9 @@ declare const config: {
         urlRegex: string;
         display?: string;
     }>;
+    featureFlagNames: {
+        newStyle: string;
+    };
 };
 
 export default config;
