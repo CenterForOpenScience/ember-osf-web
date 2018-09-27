@@ -119,6 +119,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - Non-relationship links
         - Guid files
         - Root user
+    - Mirage: pass through all requests on current domain
 
 ### Removed
 - Models:
