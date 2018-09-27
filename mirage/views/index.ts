@@ -1,36 +1,94 @@
-import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
+import { underscore } from '@ember/string';
+import { resourceAction, Server } from 'ember-cli-mirage';
 import { filter, process } from './utils';
 
-export function relationshipList(
-    type: string,
-    relationshipName: string,
-    schema: Schema,
-    request: Request,
-    handlerContext: HandlerContext,
-    defaultSortKey: string = '-id',
-) {
-    return process(
-        schema,
-        request,
-        handlerContext,
-        schema[type].find(request.params.id)[relationshipName].models.map(
-            (model: any) => handlerContext.serialize(model).data,
-        ),
-        { defaultSortKey },
-    );
+interface ResourceOptions {
+    only?: resourceAction[];
+    except?: resourceAction[];
+    path: string;
+    defaultSortKey: string;
 }
 
-export function modelList(
-    type: string,
-    schema: Schema,
-    request: Request,
-    handlerContext: HandlerContext,
-    defaultSortKey: string = '-id',
-) {
-    const models = schema[type]
-        .where(m => filter(m, request))
-        .models
-        .map((token: any) => handlerContext.serialize(token).data);
+interface NestedResourceOptions extends ResourceOptions {
+    relatedModelName: string;
+}
 
-    return process(schema, request, handlerContext, models, { defaultSortKey });
+function gatherActions(opts: ResourceOptions) {
+    let actions: resourceAction[] = ['index', 'show', 'create', 'update', 'delete'];
+    if (opts.only) {
+        actions = opts.only;
+    }
+    if (opts.except) {
+        actions = actions.filter(a => !opts.except!.includes(a));
+    }
+    return actions;
+}
+
+export function osfResource(
+    server: Server,
+    modelName: string,
+    options?: Partial<ResourceOptions>,
+) {
+    const opts: ResourceOptions = Object.assign({
+        path: `/${underscore(modelName)}`,
+        defaultSortKey: '-id',
+    }, options);
+    const detailPath = `${opts.path}/:id`;
+    const actions = gatherActions(opts);
+
+    if (actions.includes('index')) {
+        server.get(opts.path, function(schema, request) {
+            const models = schema[modelName]
+                .where(m => filter(m, request))
+                .models
+                .map((m: any) => this.serialize(m).data);
+
+            return process(schema, request, this, models, { defaultSortKey: opts.defaultSortKey });
+        });
+    }
+
+    if (actions.includes('show')) {
+        server.get(detailPath, modelName);
+    }
+
+    if (actions.includes('create')) {
+        server.post(opts.path, modelName);
+    }
+
+    if (actions.includes('update')) {
+        server.patch(detailPath, modelName);
+        server.put(detailPath, modelName);
+    }
+
+    if (actions.includes('delete')) {
+        server.del(detailPath, modelName);
+    }
+}
+
+export function osfNestedResource(
+    server: Server,
+    parentModelName: string,
+    relationshipName: string,
+    options?: Partial<NestedResourceOptions>,
+) {
+    const opts: NestedResourceOptions = Object.assign({
+        allow: ['list'],
+        path: `/${underscore(parentModelName)}/:parentID/${underscore(relationshipName)}`,
+        relatedModelName: relationshipName,
+        defaultSortKey: '-id',
+    }, options);
+    const actions = gatherActions(opts);
+
+    if (actions.includes('index')) {
+        server.get(opts.path, function(schema, request) {
+            const data = schema[parentModelName].find(request.params.parentID)[relationshipName].models.map(
+                (model: any) => this.serialize(model).data,
+            );
+            return process(schema, request, this, data, { defaultSortKey: opts.defaultSortKey });
+        });
+    }
+
+    if (actions.includes('create')) {
+        server.post(opts.path, opts.relatedModelName);
+    }
 }
