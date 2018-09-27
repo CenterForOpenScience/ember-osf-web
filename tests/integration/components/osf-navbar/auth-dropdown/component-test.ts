@@ -10,9 +10,13 @@ const sessionStub = Service.extend({
     on: () => { /* stub */ },
 });
 
-const routerStub = Service.extend({
+const routingStub = Service.extend({
     transitionTo: () => null,
     generateURL: () => 'url!',
+});
+
+const routerStub = Service.extend({
+    currentURL: '',
 });
 
 module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
@@ -22,7 +26,10 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         this.owner.register('service:session', sessionStub);
 
         // Prevent trying to actually transition
-        this.owner.register('service:-routing', routerStub);
+        this.owner.register('service:-routing', routingStub);
+
+        // Make sure currentURL is always a string
+        this.owner.register('service:router', routerStub);
 
         this.setProperties({
             onLinkClickedCalled: false,
