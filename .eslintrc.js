@@ -71,6 +71,7 @@ module.exports = {
             files: ['tests/**/*'],
             rules: {
                 'no-await-in-loop': 'off',
+                'ember/avoid-leaking-state-in-components': 'off',
             },
         },
     ],
