@@ -7,8 +7,13 @@ module.exports = {
 
     rules: {
         'block-indentation': 4,
-        'bare-strings': true,
-        'nested-interactive': false,
+        'attribute-indentation': {
+            indentation: 4,
+            'open-invocation-max-len': 120,
+            'process-elements': true,
+        },
+        'no-bare-strings': true,
+        'no-nested-interactive': false,
     },
 
     ignore: [
