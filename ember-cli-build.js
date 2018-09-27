@@ -58,6 +58,7 @@ module.exports = function(defaults) {
             enabled: true,
             exclude: [
                 'zxcvbn.js',
+                'config/environment.js',
             ],
             prepend: config.assetsPrefix,
         },
