@@ -48,7 +48,7 @@ export default class Guid extends Route {
             const collectedMetadatum: CollectedMetadatum = yield this.store.findRecord('collected-metadatum', cgmId);
             const collectionItem = this.store.peekRecord('node', collectedItemId)!;
 
-            if (!collectionItem.currentUserCanEdit) {
+            if (!collectionItem.currentUserIsAdmin) {
                 this.intermediateTransitionTo(this.theme.prefixRoute('forbidden'));
                 return;
             }
