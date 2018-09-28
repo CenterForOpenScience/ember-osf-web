@@ -1,9 +1,9 @@
 {{#docs-demo as |demo|}}
     {{#demo.example name='tags-widget.editable.hbs'}}
         {{tags-widget
-            tags=this.tags
-            addTag=(action this._addTag)
-            removeTag=(action this._removeTag)
+            tags=tags
+            addTag=(action addTag)
+            removeTag=(action removeTag)
             readOnly=readOnly
             showAdd=true
             analyticsScope='Handbook Tags'
