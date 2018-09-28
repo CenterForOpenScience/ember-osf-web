@@ -120,6 +120,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - Guid files
         - Root user
     - Mirage: pass through all requests on current domain
+    - Fix up template-lint rules for `ember-cli-template-lint` 1.0
+        - Configure the `attribute-indentation` rule to use 4 spaces and prevent lines > 120 chars
+        - Enable `no-bare-strings` in place of the deprecated `bare-strings` rule
+        - Disable `no-nested-interactive` which has replaced `nested-interactive` in the recommended ruleset
 
 ### Removed
 - Models:
