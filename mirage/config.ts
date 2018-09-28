@@ -38,6 +38,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
 
+    osfResource(this, 'registration');
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });

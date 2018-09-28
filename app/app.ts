@@ -56,7 +56,9 @@ const App = Application.extend({
                     'store',
                 ],
                 externalRoutes: {
-                    registration: 'guid-registration',
+                    'guid-registration': 'guid-registration',
+                    'guid-registration.analytics': 'guid-registration.analytics',
+                    'guid-registration.forks': 'guid-registration.forks',
                 },
             },
         },
@@ -64,7 +66,6 @@ const App = Application.extend({
             dependencies: {
                 services: [
                     'i18n',
-                    'route-context',
                     'cookies',
                     'store',
                     'analytics',

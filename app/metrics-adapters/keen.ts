@@ -1,4 +1,7 @@
 import { service } from '@ember-decorators/service';
+import { getOwner } from '@ember/application';
+import RouterService from '@ember/routing/router-service';
+import { TaskInstance } from 'ember-concurrency';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
@@ -9,7 +12,6 @@ import md5 from 'npm:js-md5';
 import { KeenConfig } from 'config/environment';
 import Node from 'ember-osf-web/models/node';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import RouteContext from 'ember-osf-web/services/route-context';
 
 const {
     OSF: {
@@ -29,8 +31,8 @@ interface PageParams {
 export default class KeenAdapter extends BaseAdapter {
     @service cookies!: Cookies;
     @service currentUser!: CurrentUser;
-    @service routeContext!: RouteContext;
     @service headData!: any;
+    @service router!: RouterService;
 
     config?: KeenConfig;
     publicClient?: KeenTracking;
@@ -57,6 +59,48 @@ export default class KeenAdapter extends BaseAdapter {
         return 'Keen';
     }
 
+    getCurrentModelTask<T>(): TaskInstance<T> | undefined {
+        const owner = getOwner(this);
+        const routes: string[] = this.router.currentRouteName.split('.');
+
+        // This is only guaranteed to work with the current implementation of GuidRoute
+        // as it returns a uniform model
+        for (let i = routes.length; i > 0; i--) {
+            const route = owner.lookup(`route:${routes.slice(0, i).join('.')}`);
+            if (route && route.currentModel && route.currentModel.taskInstance) {
+                const task = route.currentModel.taskInstance;
+                if (task && task.isRunning !== undefined) {
+                    return task;
+                }
+            }
+        }
+
+        return undefined;
+    }
+
+    getCurrentLoadedNode(): Node | undefined {
+        const task = this.getCurrentModelTask<Node>();
+
+        if (task && task.value instanceof Node) {
+            return task.value;
+        }
+
+        return undefined;
+    }
+
+    async getCurrentNode(): Promise<Node | undefined> {
+        const task = this.getCurrentModelTask<Node>();
+
+        if (task) {
+            const model = await task;
+            if (model instanceof Node) {
+                return model;
+            }
+        }
+
+        return undefined;
+    }
+
     async trackPage(params: PageParams) {
         const eventProperties = {
             page: {
@@ -68,11 +112,10 @@ export default class KeenAdapter extends BaseAdapter {
         };
 
         let sendPublicEvent = params.pagePublic;
-        if (this.routeContext.guidTaskInstance) {
-            const routeModel = await this.routeContext.guidTaskInstance;
-            if (routeModel instanceof Node) {
-                sendPublicEvent = routeModel.public;
-            }
+
+        const node = await this.getCurrentNode();
+        if (node) {
+            sendPublicEvent = node.public;
         }
 
         if (sendPublicEvent) {
@@ -132,17 +175,15 @@ export default class KeenAdapter extends BaseAdapter {
         this.createOrUpdateKeenSession();
 
         let nodeInfo = {};
-        const taskInstance = this.routeContext.guidTaskInstance;
-        if (taskInstance) {
-            const node = taskInstance.value;
-            if (node instanceof Node) {
-                nodeInfo = {
-                    id: node.id,
-                    title: node.title,
-                    type: node.category,
-                    tags: node.tags,
-                };
-            }
+
+        const node = this.getCurrentLoadedNode();
+        if (node) {
+            nodeInfo = {
+                id: node.id,
+                title: node.title,
+                type: node.category,
+                tags: node.tags,
+            };
         }
 
         const now = new Date();

@@ -1,10 +1,7 @@
-import ResolvedGuidRoute from 'ember-osf-web/resolve-guid/resolved-guid-route';
+import GuidRoute from 'ember-osf-web/resolve-guid/guid-route';
 
-export default class GuidPreprint extends ResolvedGuidRoute {
-    model(this: GuidPreprint, params: { preprint_guid: string }) {
-        return {
-            taskInstance: this.get('resolveGuid').perform(params.preprint_guid, 'preprint'),
-            preprintId: params.preprint_guid,
-        };
+export default class GuidPreprint extends GuidRoute {
+    modelName(): 'preprint' {
+        return 'preprint';
     }
 }

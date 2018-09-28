@@ -1,10 +1,7 @@
-import ResolvedGuidRoute from 'ember-osf-web/resolve-guid/resolved-guid-route';
+import GuidRoute from 'ember-osf-web/resolve-guid/guid-route';
 
-export default class GuidUser extends ResolvedGuidRoute {
-    model(this: GuidUser, params: { user_guid: string }) {
-        return {
-            taskInstance: this.get('resolveGuid').perform(params.user_guid, 'user'),
-            userId: params.user_guid,
-        };
+export default class GuidUser extends GuidRoute {
+    modelName(): 'user' {
+        return 'user';
     }
 }

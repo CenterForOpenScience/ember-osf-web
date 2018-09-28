@@ -1,11 +1,13 @@
 import EngineInstance from '@ember/engine/instance';
-import { click, visit } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import Analytics from 'ember-osf-web/services/analytics';
-import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
+import { visit } from 'ember-osf-web/tests/helpers';
+import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
+import param from 'ember-osf-web/utils/param';
+import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { OrderedSet } from 'immutable';
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
 import ShareSearch, {
@@ -153,7 +155,6 @@ const AnalyticsTestCases: Array<{
     extra?: string;
     }
     }> = [{
-
         name: 'SHARE Logo Clicked',
         action: async () => click('[data-test-share-logo]'),
         expected: {
@@ -327,7 +328,11 @@ const AnalyticsTestCases: Array<{
         },
     }, {
         name: 'Collapse Result',
-        action: async () => click('[data-test-result-toggle-id="1"]'),
+        action: async stub => {
+            await click('[data-test-result-toggle-id="1"]');
+            stub.reset();
+            await click('[data-test-result-toggle-id="1"]');
+        },
         expected: {
             category: 'result',
             action: 'contract',
@@ -346,15 +351,15 @@ const AnalyticsTestCases: Array<{
     }];
 
 module('Registries | Integration | discover', hooks => {
-    setupEngineApplicationTest(hooks, 'registries');
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(async function(this: TestContext) {
         server.create('root', { currentUser: null });
         server.create('registration-schema', { name: 'Open Ended' });
         server.create('registration-schema', { name: 'Close Fronted' });
 
-        const engine = this.owner.lookup('-engine-instance:registries-registries') as EngineInstance;
+        const engine = await loadEngine('registries', 'registries');
 
         const shareSearch = new ShareSearch();
 
@@ -381,7 +386,7 @@ module('Registries | Integration | discover', hooks => {
             stub.reset();
             stub.returns(emptyResults);
 
-            await visit(`/registries/discover?${$.param(testCase.params)}`);
+            await visit(`/--registries/registries/discover?${param(testCase.params)}`);
 
             assert.ok(true, testCase.name);
             sinon.assert.calledOnce(stub);

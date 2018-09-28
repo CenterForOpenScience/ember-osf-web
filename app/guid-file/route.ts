@@ -1,5 +1,6 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Route from '@ember/routing/route';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import { task } from 'ember-concurrency';
 import moment from 'moment';
@@ -8,13 +9,12 @@ import GuidFileController from 'ember-osf-web/guid-file/controller';
 import File from 'ember-osf-web/models/file';
 import Institution from 'ember-osf-web/models/institution';
 import User from 'ember-osf-web/models/user';
-import ResolvedGuidRoute from 'ember-osf-web/resolve-guid/resolved-guid-route';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 
-export default class GuidFile extends ResolvedGuidRoute {
+export default class GuidFile extends Route {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service('head-tags') headTagsService!: HeadTagsService;
@@ -40,9 +40,9 @@ export default class GuidFile extends ResolvedGuidRoute {
         blocker.done();
     });
 
-    async model(this: GuidFile, params: { file_guid: string }) {
+    async model(this: GuidFile, params: { guid: string }) {
         try {
-            const file: File = await this.get('resolveGuid').perform(params.file_guid, 'file');
+            const file = await this.store.findRecord('file', params.guid);
             const fileId = file.get('id');
             const fileUser: User = await file.get('user');
             const user: User = await fileUser.reload();
@@ -58,7 +58,7 @@ export default class GuidFile extends ResolvedGuidRoute {
                 files,
             };
         } catch (error) {
-            this.transitionTo('not-found', params.file_guid);
+            this.transitionTo('not-found', params.guid);
             throw error;
         }
     }

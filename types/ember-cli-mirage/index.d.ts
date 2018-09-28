@@ -77,6 +77,10 @@ export interface Schema {
     [modelName: string]: ModelClass;
 }
 
+export declare class Response {
+    constructor(code: number, headers: Record<string, string>, body: any);
+}
+
 export interface Request {
     requestBody: any;
     url: string;
