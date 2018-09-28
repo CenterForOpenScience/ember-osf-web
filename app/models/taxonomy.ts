@@ -23,7 +23,7 @@ export default class Taxonomy extends OsfModel {
     @attr('string') shareTitle!: string;
     @attr('string') path!: string;
     @attr('number') childCount!: number;
-    @attr('object') parent!: SubjectRef; // eslint-disable-line no-restricted-globals
+    @attr('object') parent!: SubjectRef;
 }
 
 declare module 'ember-data' {

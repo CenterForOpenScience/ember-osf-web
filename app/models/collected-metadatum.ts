@@ -59,7 +59,7 @@ export default class CollectedMetadatum extends OsfModel.extend(Validations) {
     @attr('string') collectedType?: string;
     @attr('string') issue?: string;
     @attr('string') programArea?: string;
-    @attr('string') status?: string; // eslint-disable-line no-restricted-globals
+    @attr('string') status?: string;
     @attr('subjects') subjects!: SubjectRef[][];
     @attr('string') volume?: string;
 

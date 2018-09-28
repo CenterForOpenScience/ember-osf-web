@@ -35,6 +35,7 @@ module.exports = {
         'ember/no-attrs-in-components': 'error',
         'ember/no-old-shims': 'error',
         'import/prefer-default-export': 'off',
+        'no-restricted-globals': 'off',
     },
     overrides: [
         {
@@ -56,7 +57,6 @@ module.exports = {
         {
             files: ['**/*.d.ts'],
             rules: {
-                'no-restricted-globals': 'off',
                 'no-useless-constructor': 'off',
                 'space-infix-ops': 'off',
             },

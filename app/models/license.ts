@@ -3,7 +3,7 @@ import { Deserialized } from 'ember-osf-web/transforms/node-license';
 import OsfModel from './osf-model';
 
 export default class License extends OsfModel {
-    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') name!: string;
     @attr('fixstring') text!: string;
     @attr('array') requiredFields!: Array<keyof Deserialized>;
 }

@@ -21,7 +21,7 @@ export interface Assets {
 /* eslint-enable camelcase */
 
 export default abstract class Provider extends OsfModel {
-    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') name!: string;
     @attr('fixstring') description!: string;
     @attr('string') advisoryBoard!: string;
     @attr('fixstring') example!: string;

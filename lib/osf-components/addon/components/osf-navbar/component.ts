@@ -39,7 +39,6 @@ export default class OsfNavbar extends Component {
     showNavLinks: boolean = false;
 
     activeService: OSFService = defaultTo(this.activeService, OSFService.HOME);
-    // eslint-disable-next-line no-restricted-globals
     services: Array<{name: OSFService, route: string}> = defaultTo(this.services, OSF_SERVICES);
 
     @computed('activeService', 'router.currentRouteName')

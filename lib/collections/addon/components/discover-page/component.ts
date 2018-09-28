@@ -130,7 +130,7 @@ export default class DiscoverPage extends Component.extend({
     taxonomy: string = defaultTo(this.taxonomy, '');
     tags: string = defaultTo(this.tags, '');
     type: string = defaultTo(this.type, '');
-    status: string = defaultTo(this.status, ''); // eslint-disable-line no-restricted-globals
+    status: string = defaultTo(this.status, '');
     collectedType: string = defaultTo(this.collectedType, '');
 
     /**

@@ -20,7 +20,7 @@ import User from './user';
  * @class File
  */
 export default class File extends BaseFileItem {
-    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') name!: string;
     @attr('fixstring') guid!: string;
     @attr('string') path!: string;
     @attr('number') size!: number;

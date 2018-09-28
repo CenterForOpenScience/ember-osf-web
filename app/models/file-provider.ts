@@ -17,7 +17,7 @@ import Node from './node';
  * @class FileProvider
  */
 export default class FileProvider extends BaseFileItem {
-    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') name!: string;
     @attr('string') path!: string;
     @attr('fixstring') provider!: string;
     @hasMany('file') files!: DS.PromiseManyArray<File>;
