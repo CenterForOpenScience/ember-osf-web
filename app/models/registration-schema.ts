@@ -34,7 +34,7 @@ export interface Page {
 }
 
 export interface Schema {
-    name: string; // eslint-disable-line no-restricted-globals
+    name: string;
     title: string;
     version: number;
     active: boolean;
@@ -63,7 +63,7 @@ export interface RegistrationMetadata {
  */
 export default class RegistrationSchema extends OsfModel {
     @attr('boolean') active!: boolean;
-    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') name!: string;
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: Schema;
 }

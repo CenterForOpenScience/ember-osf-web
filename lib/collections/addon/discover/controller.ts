@@ -102,7 +102,7 @@ export default class Discover extends Controller {
     collectedType = '';
     issue = '';
     programArea = '';
-    status = ''; // eslint-disable-line no-restricted-globals
+    status = '';
     volume = '';
 
     // Pass in the list of queryParams for this component

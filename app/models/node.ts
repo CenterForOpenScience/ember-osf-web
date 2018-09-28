@@ -104,7 +104,7 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
     contributors!: DS.PromiseManyArray<Contributor>;
 
     @belongsTo('node', { inverse: 'children' })
-    parent!: DS.PromiseObject<Node> & Node; // eslint-disable-line no-restricted-globals
+    parent!: DS.PromiseObject<Node> & Node;
 
     @belongsTo('region') region!: Region;
 

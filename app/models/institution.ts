@@ -18,7 +18,7 @@ import User from './user';
  * @class Institution
  */
 export default class Institution extends OsfModel {
-    @attr('string') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('string') name!: string;
     @attr('fixstring') description!: string;
     @attr('string') logoPath!: string;
     @attr('string') authUrl!: string;
