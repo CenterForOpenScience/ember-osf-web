@@ -39,7 +39,7 @@ export default class Preprint extends OsfModel {
     @attr('date') preprintDoiCreated!: Date;
 
     // Relationships
-    @belongsTo('node', { inverse: null }) node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'preprints' }) node!: DS.PromiseObject<Node> & Node;
     @belongsTo('license', { inverse: null }) license!: DS.PromiseObject<License> & License;
     @belongsTo('file', { inverse: null }) primaryFile!: DS.PromiseObject<File> & File;
 
