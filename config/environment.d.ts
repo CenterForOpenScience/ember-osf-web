@@ -96,6 +96,8 @@ declare const config: {
         localStorageKeys: {
             authSession: string;
         };
+        orcidClientId?: string;
+        casUrl: string;
     };
     social: {
         twitter: {

@@ -6,11 +6,11 @@ import Session from 'ember-simple-auth/services/session';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class Home extends Route {
+export default class Register extends Route {
     @service analytics!: Analytics;
     @service session!: Session;
 
-    async beforeModel(this: Home, transition: Ember.Transition) {
+    async beforeModel(this: Register, transition: Ember.Transition) {
         await super.beforeModel(transition);
 
         if (this.session.isAuthenticated) {
@@ -18,8 +18,12 @@ export default class Home extends Route {
         }
     }
 
+    model() {
+        return this.store.createRecord('user-registration');
+    }
+
     @action
-    didTransition(this: Home) {
+    didTransition(this: Register) {
         this.get('analytics').trackPage();
     }
 }

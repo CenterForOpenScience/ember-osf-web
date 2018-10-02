@@ -6,13 +6,14 @@ import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 const routerStub = Service.extend({
-    currentRouteName: 'test',
+    currentURL: '',
 });
 
 module('Integration | Component | osf-navbar', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
+        // Make sure currentURL is always a string
         this.owner.register('service:router', routerStub);
     });
 

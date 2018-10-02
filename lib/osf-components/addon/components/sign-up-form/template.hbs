@@ -1,41 +1,41 @@
-<form {{action 'submit' on='submit'}}>
+<form local-class="SignUpForm" {{action 'submit' on='submit'}}>
     {{validated-input/text
         data-test-sign-up-full-name
-        model=model
+        model=this.userRegistration
         valuePath='fullName'
-        showMessages=didValidate
-        disabled=hasSubmitted
-        placeholder=(t 'sign_up_form.full_name')
-        ariaLabel=(t 'sign_up_form.full_name')
+        showMessages=this.didValidate
+        disabled=this.hasSubmitted
+        placeholder=(t 'osf-components.sign-up-form.full_name')
+        ariaLabel=(t 'osf-components.sign-up-form.full_name')
     }}
     {{validated-input/text
         data-test-sign-up-email-1
-        model=model
+        model=this.userRegistration
         valuePath='email1'
-        showMessages=didValidate
-        disabled=hasSubmitted
-        placeholder=(t 'sign_up_form.contact_email')
-        ariaLabel=(t 'sign_up_form.contact_email')
+        showMessages=this.didValidate
+        disabled=this.hasSubmitted
+        placeholder=(t 'osf-components.sign-up-form.contact_email')
+        ariaLabel=(t 'osf-components.sign-up-form.contact_email')
     }}
     {{validated-input/text
         data-test-sign-up-email-2
-        model=model
+        model=this.userRegistration
         valuePath='email2'
-        showMessages=didValidate
-        disabled=hasSubmitted
-        placeholder=(t 'sign_up_form.confirm_email')
-        ariaLabel=(t 'sign_up_form.confirm_email')
+        showMessages=this.didValidate
+        disabled=this.hasSubmitted
+        placeholder=(t 'osf-components.sign-up-form.confirm_email')
+        ariaLabel=(t 'osf-components.sign-up-form.confirm_email')
     }}
     {{validated-input/text
         data-test-sign-up-password
         password=true
-        model=model
+        model=this.userRegistration
         valuePath='password'
-        showMessages=didValidate
-        disabled=hasSubmitted
-        onKeyUp=(perform strength model.password)
-        placeholder=(t 'sign_up_form.password')
-        ariaLabel=(t 'sign_up_form.password')
+        showMessages=this.didValidate
+        disabled=this.hasSubmitted
+        onKeyUp=(perform strength this.userRegistration.password)
+        placeholder=(t 'osf-components.sign-up-form.password')
+        ariaLabel=(t 'osf-components.sign-up-form.password')
     }}
     <div class="row" hidden={{not progress}}>
         <div class="col-xs-12">
@@ -49,35 +49,31 @@
     </div>
     {{#validated-input/checkbox
         data-test-sign-up-tos
-        model=model
+        model=this.userRegistration
         valuePath='acceptedTermsOfService'
-        showMessages=didValidate
-        disabled=hasSubmitted
+        messagesShown=this.didValidate
+        disabled=this.hasSubmitted
         local-class='tos-checkbox'
     }}
         {{sign-up-policy}}
     {{/validated-input/checkbox}}
-    {{#if (and
-        (not hasSubmitted)
-        formIsValid
-    )}}
+    {{#if this.hasSubmitted}}
+        <div class="osf-box-lt" local-class="help-block">
+            <p class="ext-success p-xs">{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
+        </div>
+    {{else}}
         <div class="col-md-12" local-class="RecaptchaParent">
             {{validated-input/recaptcha
                 data-test-recaptcha
-                model=model
+                model=this.userRegistration
                 valuePath='recaptchaResponse'
-                showMessages=didValidate
+                showMessages=this.didValidate
+                bindReset=(action (mut this.resetRecaptcha))
             }}
         </div>
-    {{/if}}
-    {{#if hasSubmitted}}
-        <div class="osf-box-lt" local-class="help-block">
-            <p class="ext-success p-xs">{{t 'sign_up_form.registration_success' email=model.email1}}</p>
-        </div>
-    {{else}}
         <div>
             <button type="submit" class="btn btn-success" {{action submit}} {{action 'click' 'button' 'Home - sign_up' target=analytics}}>
-                {{t 'sign_up_form.sign_up_free'}}
+                {{t 'osf-components.sign-up-form.sign_up_button_label'}}
             </button>
         </div>
     {{/if}}

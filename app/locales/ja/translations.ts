@@ -407,18 +407,6 @@ export default {
         free_title2: 'OSFはあなたの研究をサポートするために作られた公共財です。',
         free_link: '始めよう',
     },
-    sign_up_form: {
-        full_name: 'フルネーム',
-        contact_email: 'コンタクトemail',
-        confirm_email: 'emailの確認',
-        password: 'パスワード',
-        sign_up_free: '無料サインアップ',
-        password_placeholder: 'パスワード（{{min}〜{{max}}文字である必要があります）',
-        registration_success: '登録に成功。{{email}}にメールアドレスを確認してください。',
-    },
-    sign_up_policy: {
-        paragraph: '「無料で登録」をクリックすると、<a href="{{link1}}">利用規約</a>に同意し、<a href="{{link3}}">Cookieの使用</a>に関する情報を含む<a href="{{link2}}">プライバシーポリシー</a>を読んだことになります。', // TODO: update this based on en translation
-    },
     tos_consent: {
         paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
         have_read_and_agree: 'I have read and agree to these terms.',
@@ -1084,6 +1072,16 @@ export default {
         heading: 'Resource deleted',
         message: 'User has deleted this content.',
     },
+    routes: {
+        register: {
+            sign_up: 'Sign Up',
+            create_a_free_account: 'Create a free account',
+            sign_up_using: 'Sign up using:',
+            orcid: 'ORCID',
+            institution: 'Institution',
+            email: 'Email',
+        },
+    },
     'osf-components': {
         'draft-registration-card': {
             initiated_by: 'Initiated by:',
@@ -1106,6 +1104,18 @@ export default {
         },
         'paginated-list': {
             error: 'There was an error loading this list.',
+        },
+        'sign-up-form': {
+            full_name: 'フルネーム',
+            contact_email: 'コンタクトemail',
+            confirm_email: 'emailの確認',
+            password: 'パスワード',
+            sign_up_button_label: 'Sign up',
+            password_placeholder: 'パスワード（{{min}〜{{max}}文字である必要があります）',
+            registration_success: '登録に成功。{{email}}にメールアドレスを確認してください。',
+        },
+        'sign-up-policy': {
+            paragraph: 'I have read and agree to the <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>.',
         },
         'tags-widget': {
             tags: 'Tags',

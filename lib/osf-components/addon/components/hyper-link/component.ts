@@ -23,6 +23,8 @@ export default class HyperLink extends Component {
     text?: string;
     analyticsLabel?: string;
     hidden: boolean = defaultTo(this.hidden, false);
+    queryParams?: { [k: string]: string };
+    params: any[] = defaultTo(this.params, []);
 
     @computed('route', 'positionalRoute')
     get resolvedRoute(): string {
@@ -37,6 +39,19 @@ export default class HyperLink extends Component {
     @computed('route', 'positionalRoute')
     get isEmber(): boolean {
         return !/^(?:http|\/)/i.test(this.resolvedRoute);
+    }
+
+    @computed('params', 'queryParams', 'resolvedModel', 'resolvedRoute')
+    get _params() {
+        const params = this.params.slice();
+        if (this.queryParams) {
+            params.push({ isQueryParams: true, values: this.queryParams });
+        }
+        if (this.resolvedModel) {
+            params.unshift(this.resolvedModel);
+        }
+        params.unshift(this.resolvedRoute);
+        return params;
     }
 
     @action
