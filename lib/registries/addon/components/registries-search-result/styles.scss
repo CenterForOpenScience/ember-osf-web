@@ -41,3 +41,24 @@
         transition: max-height 1s ease-in-out;
     }
 }
+
+.Contributors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+
+    & > li {
+        display: inline-flex;
+        padding-right: 5px;
+
+        &::after {
+            content: ', ';
+        }
+    }
+
+    & > li:last-child::after {
+        content: '';
+    }
+}
