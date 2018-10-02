@@ -37,7 +37,7 @@
     <p>
         <div class="text-muted m-t-sm">
             {{#if showBody}}
-                {{fix-special-char item.description}}
+                {{unescape-xml-entities item.description}}
             {{else}}
                 {{#if abbreviation}}
                     {{abbreviation}}

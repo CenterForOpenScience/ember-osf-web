@@ -7,9 +7,7 @@ export default class UnescapeXMLEntities extends Helper {
         [/&gt;/g, '>'],
     ];
 
-    compute(params: [string]/* , hash */) {
-        const [text] = params;
-
+    compute([text]: [string]/* , hash */) {
         if (!text) {
             return text;
         }
