@@ -1,18 +1,17 @@
 <div class="row">
     <div class="col-xs-12">
-
         <h4 local-class="RegistriesSearchResult__Title">
             {{#if osfID}}
                 {{#link-to-external 'registration' osfID data-test-result-title-id=result.id}}
-                    {{math (unescape-xml-entities result.title)}}
+                    {{math result.title}}
                 {{/link-to-external}}
             {{else}}
                 <a
-                    href="{{result.mainLink}}"
-                    data-test-result-title-id="{{result.id}}"
+                    href={{result.mainLink}}
+                    data-test-result-title-id={{result.id}}
                     onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' result.mainLink) result.id target=analytics}}
                 >
-                    {{math (unescape-xml-entities result.title)}}
+                    {{math result.title}}
                 </a>
             {{/if}}
 
@@ -21,8 +20,12 @@
             {{/if}}
         </h4>
 
-        {{#comma-list result.contributors filter=contribFilter as |contrib|}}
-            {{contrib.users.citedAs}}
+        {{#comma-list this.contributors as |contrib|}}
+            {{#if contrib.link}}
+                <a href={{contrib.link}}>{{contrib.name}}</a>
+            {{else}}
+                {{contrib.name}}
+            {{/if}}
         {{/comma-list}}
 
         {{#if result.dateUpdated}}
@@ -32,7 +35,7 @@
         {{/if}}
 
         <p local-class="Description {{if expanded 'Expanded' 'Collapsed'}}" class="text-muted m-t-sm">
-            {{math (unescape-xml-entities result.description)}}
+            {{math result.description}}
         </p>
 
         <div class="m-t-sm">
@@ -52,7 +55,7 @@
                 {{#each result.hyperLinks as |hyperlink index|}}
                     <li>
                         <a 
-                            href="{{hyperlink}}"
+                            href={{hyperlink}}
                             data-test-result-hyperlink-id="{{result.id}} - {{index}}"
                             onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' hyperlink) result.id target=analytics}}
                         >
@@ -78,7 +81,7 @@
         </div>
 
         <div class="text-center">
-            <button data-test-result-toggle-id="{{result.id}}" local-class="RegistriesSearchResult__Toggle" class="btn btn-link" aria-label={{t 'eosf.components.searchResult.showResult'}} {{action 'toggleExpanded'}}>
+            <button {{action this.toggleExpanded}} data-test-result-toggle-id={{result.id}} local-class="RegistriesSearchResult__Toggle" class="btn btn-link" aria-label={{t 'eosf.components.searchResult.showResult'}}>
                 {{fa-icon footerIcon size=1 ariaHidden=false}}
             </button>
         </div>
