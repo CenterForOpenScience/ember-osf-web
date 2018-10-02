@@ -1,0 +1,26 @@
+<div>
+    <ul local-class="nobullet">
+        {{#each providers as |item|}}
+            <li>
+                <label local-class="provider-label">
+                    {{input
+                        type="checkbox"
+                        checked=item.checked
+                        change=(action 'updateFilters' item.key)
+                        disabled=theme.isProvider
+                    }}
+                    {{filter-replace item.key filterReplace}}
+                    <small>({{number-format item.doc_count}})</small>
+                </label>
+            </li>
+        {{/each}}
+        {{#if theme.isProvider}}
+            <a
+                href={{otherReposLink}}
+                onclick={{action 'click' 'link' 'Discover - Other Collections' target=analytics}}
+            >
+                {{t 'collections.discover.other_repositories'}}
+            </a>
+        {{/if}}
+    </ul>
+</div>

@@ -5,7 +5,7 @@
         model=this.token
         valuePath='name'
         label=(t 'settings.tokens.tokenName')
-        messagesShown=this.messagesShown
+        showMessages=this.showMessages
         disabled=this.inputsDisabled
         placeholder=(t 'settings.tokens.tokenName')
         aria-label=(t 'settings.tokens.tokenName')
@@ -19,7 +19,7 @@
             model=this.token
             valuePath='scopes'
             options=this.allScopes
-            messagesShown=this.messagesShown
+            showMessages=this.showMessages
             disabled=this.inputsDisabled
             aria-label=(t 'settings.tokens.scopes')
             as |cb|

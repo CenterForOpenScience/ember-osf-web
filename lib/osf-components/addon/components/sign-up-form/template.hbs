@@ -3,7 +3,7 @@
         data-test-sign-up-full-name
         model=this.userRegistration
         valuePath='fullName'
-        messagesShown=this.didValidate
+        showMessages=this.didValidate
         disabled=this.hasSubmitted
         placeholder=(t 'osf-components.sign-up-form.full_name')
         ariaLabel=(t 'osf-components.sign-up-form.full_name')
@@ -12,7 +12,7 @@
         data-test-sign-up-email-1
         model=this.userRegistration
         valuePath='email1'
-        messagesShown=this.didValidate
+        showMessages=this.didValidate
         disabled=this.hasSubmitted
         placeholder=(t 'osf-components.sign-up-form.contact_email')
         ariaLabel=(t 'osf-components.sign-up-form.contact_email')
@@ -21,7 +21,7 @@
         data-test-sign-up-email-2
         model=this.userRegistration
         valuePath='email2'
-        messagesShown=this.didValidate
+        showMessages=this.didValidate
         disabled=this.hasSubmitted
         placeholder=(t 'osf-components.sign-up-form.confirm_email')
         ariaLabel=(t 'osf-components.sign-up-form.confirm_email')
@@ -31,7 +31,7 @@
         password=true
         model=this.userRegistration
         valuePath='password'
-        messagesShown=this.didValidate
+        showMessages=this.didValidate
         disabled=this.hasSubmitted
         onKeyUp=(perform strength this.userRegistration.password)
         placeholder=(t 'osf-components.sign-up-form.password')
@@ -67,7 +67,7 @@
                 data-test-recaptcha
                 model=this.userRegistration
                 valuePath='recaptchaResponse'
-                messagesShown=this.didValidate
+                showMessages=this.didValidate
                 bindReset=(action (mut this.resetRecaptcha))
             }}
         </div>

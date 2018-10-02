@@ -11,6 +11,7 @@ export default {
         view: '表示',
         edit: '編集',
         cancel: 'キャンセル',
+        ok: 'OK',
         revisions: 'バージョン管理',
         md5: 'MD5',
         date: '日付',
@@ -454,6 +455,9 @@ export default {
         password_match: 'パスワードが一致する必要があります。',
         recaptcha: 'reCAPTCHAを完了してください。',
         affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.',
+        min_subjects: 'You must select at least {{minLength}} subject(s).',
+        node_license_invalid: 'Invalid required fields for the license',
+        node_license_missing_fields: 'The following required fields are missing: {{missingFields}}',
     },
     node_navbar: {
         toggle: 'Toggle navigation',
@@ -595,18 +599,321 @@ export default {
     contributor_list: {
         and_x_more: '{{x}} more',
     },
+    app_components: {
+        branded_navbar: {
+            my_osf_projects: 'My OSF Projects',
+            on_the_osf: 'On the OSF:',
+        },
+        error_page: {
+            email_message: 'If this should not have occurred and the issue persists, please report it to',
+            go_to: 'Go to {{brand}}',
+        },
+        license_picker: {
+            faq: 'License FAQ',
+            show: 'Show full text',
+            hide: 'Hide full text',
+            fields: {
+                copyrightHolders: 'Copyright Holders',
+                year: 'Year',
+            },
+        },
+        navbar: {
+            add_item: 'Add to {{objectType}}',
+        },
+        project_contributors: {
+            title: 'Contributors',
+            contributors_popover_title: 'Contributor Information',
+            contributors_popover: 'Projects must have at least one registered administrator and one author showing in the citation at all times. A registered administrator is a user who has both confirmed their account and has administrator privileges.',
+            instructions: 'Drag and drop authors to change authorship order.',
+            list: {
+                name: 'Name',
+                permissions: 'Permissions',
+                permissions_popover_title: 'Permission Information',
+                permissions_popover: `
+                    <dl>
+                        <dt>Read</dt>
+                        <dd>
+                            <ul>
+                                <li>View project</li>
+                            </ul>
+                        </dd>
+                        <dt>Read + Write</dt>
+                        <dd>
+                            <ul>
+                                <li>Read privileges</li>
+                                <li>Add and configure project</li>
+                                <li>Add and edit content</li>
+                            </ul>
+                        </dd>
+                        <dt>Administrator</dt>
+                        <dd>
+                            <ul>
+                                <li>Read and write privileges</li>
+                                <li>Manage contributors</li>
+                                <li>Public-private settings</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                `,
+                citation: 'Citiation',
+                citation_popover_title: 'Citation Information',
+                citation_popover: 'Only checked contribotrs will be included in project citations. Contributors not in the citation can read and modify the project as normal.',
+                remove_contributor_success: 'Project contributor removed!',
+                remove_contributor_error: 'Could not remove contributor. Please try again.',
+                item: {
+                    img_alt: 'Gravatar',
+                    in_citation_label: 'In citation:',
+                    permissions_label: 'Permissions:',
+                    permissions: {
+                        admin: 'Administrator',
+                        write: 'Read + Write',
+                        read: 'Read',
+                    },
+                    remove: 'Remove',
+                    remove_author: 'Remove author',
+                },
+            },
+            search: {
+                placeholder: 'Search by name',
+                unregistered_description: 'Can\'t find the user that you\'re looking for?',
+                unregistered_button: 'Add author by email address',
+                results: 'Results',
+                no_results: 'No results found.',
+                unregistered_contributor: {
+                    title: 'Add author by email',
+                    full_name: 'Full name',
+                    email: 'Email',
+                    paragraph: 'We will notify the user that they have been added to your project.',
+                    cancel: 'Cancel',
+                    add: 'Add',
+                    add_success: 'Unregistered contributor added!',
+                    add_error: 'Could not add unregistered contributor. Please try again.',
+                },
+                result: {
+                    yourself: 'yourself',
+                    add: 'Add',
+                },
+                add_contributor_success: 'Project contributor added!',
+                add_contributor_error: 'Could not add contributor. Please try again.',
+            },
+        },
+        project_metadata: {
+            field_title_label: 'Title:',
+            field_title_placeholder: '',
+            field_description_label: 'Description:',
+            field_description_placeholder: '',
+            field_license_label: 'Choose a license:',
+            field_license_placeholder: '',
+            field_tags_label: 'Tags:',
+            field_tags_placeholder: 'Add a tag',
+            save_success: 'Project Metadata saved.',
+            save_error: 'Unable to save Project Metadata.',
+        },
+        query_syntax: {
+            allDatesIn: 'all dates in',
+            allFieldsSearched: 'By default, all available fields are searched, but you can choose to search specific fields instead',
+            allTagsBetween: 'all tags between',
+            and: 'and',
+            booleanDesc1: 'By default, all terms in the query are optional, as long as one term matches. You can use boolean operators',
+            booleanDesc2: 'to have more control over the search',
+            booleanDesc3: 'The word',
+            booleanDesc4: 'be present. The words',
+            booleanDesc5: 'are optional but used for sorting by relevance',
+            booleanDesc6: 'Same as above, except the word',
+            booleanDesc7: 'be present',
+            booleanDesc8: 'Equivalent to',
+            booleanDesc9: 'The word',
+            booleanDesc10: 'The list of tags contains',
+            booleanOperators: 'Boolean Operators',
+            boosting: 'Boosting',
+            boostingDesc1: 'Use the boost operator',
+            boostingDesc2: 'with a number to make one term more relevant than another. The boost can be any positive number. Boosts between 0 and 1 reduce relevance.',
+            boostingDesc3: 'Boost results with',
+            boostingDesc4: 'higher than results with just',
+            both: 'both',
+            butNot: 'but not',
+            couldNotPerformQuery: 'Could not perform search query.',
+            damerauLevenshteinDistanceDesc: 'to match all words with at most 1 change. You can specify a different maximum edit distance with a number after the',
+            descriptionContainsPhrase: 'The description contains the exact phrase',
+            documentation: 'documentation',
+            escapeReservedChars: ' If you want to use any of these reserved characters in your query, escape them with a leading backslash. For instance, to search for ',
+            except: 'except',
+            excluding: 'excluding',
+            fuzziness: 'Fuzziness',
+            fuzzinessDesc1: 'after a word to indicate a \'fuzzy\' search, to include matches that are similar but not exactly the same.',
+            listContainsExactPhrase: 'The list of contributor names contains the exact phrase',
+            listOfIdentifiersContains: 'The list of identifiers contains',
+            match: 'Match',
+            matchWordStartsWith: 'Match any word that starts with',
+            moreInformation: 'More Information',
+            moreInformationOnSearch: 'Please see below for more information on advanced search queries.',
+            moreInfoQuerySyntax: 'For more details about query syntax, see the',
+            must: 'must',
+            mustNot: 'must not',
+            needToType: 'you would need to type',
+            or: 'or',
+            phraseProximity: 'Phrase Proximity',
+            phraseProximityDesc1: 'You can also specify a maximum edit distance for phrases, to allow the words in the phrase to be farther apart or in a different order.',
+            ranges: 'Ranges',
+            rangesDesc1: 'Use brackets to specify ranges for a field. Square brackets',
+            rangesDesc2: 'indicate inclusive ranges and curly brackets',
+            rangesDesc3: 'indicate exclusive ranges',
+            reservedChars: 'Reserved Characters',
+            searchByField: 'Searching by Field',
+            specialMeanings: 'The following characters have special meanings in a query',
+            theWord: 'the word',
+            thisUsesThe: 'This uses the',
+            titleContainsWord: 'The title contains the word',
+            use: 'Use',
+            wildcards: 'Wildcards',
+            wildcardsDesc1: 'Use wildcards to match multiple terms at once. Use',
+            wildcardsDesc2: 'to match any single character, or',
+            wildcardsDesc3: 'to match zero or more characters.',
+        },
+        search_help_modal: {
+            close: 'Close',
+            helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
+            searchHelp: 'Search help',
+            searchSyntax: 'search syntax',
+            searchUsesThe: 'Search uses the ',
+            queries: 'Queries',
+        },
+        subject_picker: {
+            remove: 'Remove',
+            discard: 'Discard',
+            column: {
+                search: 'Search',
+            },
+        },
+        submit_section: {
+            discard: 'Discard changes',
+            save: 'Save and continue',
+            click_to_edit: 'Click to edit',
+        },
+    },
     collections: {
+        general: {
+            brand: '{{name}} Collections',
+        },
+        navbar: {
+            add: 'Add to Collection',
+        },
         index: {
             title: 'Collections',
+            services_heading: 'Collection Services',
+            services_paragraph: 'Leading collection service providers use this open source infrastructure to support their communities.',
+            service_bottom: {
+                p1: 'Create your own branded collection service backed by the OSF.',
+                div: {
+                    line1: 'Check out the',
+                    linkText1: 'open source code',
+                    line2: 'and the',
+                    linkText2: 'requirements and road map',
+                    line3: '. Input welcome!',
+                },
+                contact: 'Contact us',
+            },
         },
         provider: {
             title: 'Provider',
         },
         discover: {
             title: 'Discover',
+            search_heading: 'Collections Search',
+            search_placeholder: 'Search collections',
+            other_repositories: 'Other collections',
+            facet_titles: {
+                collection_provider: 'Providers',
+                taxonomy: 'Subject',
+                status: 'Status',
+                collected_type: 'Type',
+                issue: 'Issue',
+                program_area: 'Program Area',
+                volume: 'Volume',
+            },
         },
-        submit: {
+        collections_submission: {
             title: 'Submit',
+            add_header: 'Add to Collection',
+            update_header: 'Update in Collection',
+            project_select_title: 'Select a project',
+            project_select_project_label: 'Project:',
+            closed_tooltip: 'Complete the previous section to edit this section',
+            project_metadata_title: 'Project metadata',
+            project_metadata_description: 'Updates made in this section will update the project.',
+            project_metadata_title_label: 'Title:',
+            project_metadata_description_label: 'Description:',
+            project_metadata_license_label: 'License:',
+            project_metadata_tags_label: 'Tags:',
+            project_contributors_title: 'Project contributors',
+            project_contributors_description: 'Updates made to this section will update the project.',
+            subjects_title: 'Collection subjects',
+            subjects_description: 'Select a discipline and subdiscipline, if relevant. Add more by clicking on a new discipline.',
+            collection_metadata_title: 'Collection metadata',
+            cancel: 'Cancel',
+            add_button: 'Add to collection',
+            update_button: 'Update',
+            add_save_success: '{{title}} has been added to the collection.',
+            update_save_success: '{{title}} has been updated in the collection.',
+            add_save_error: 'Error adding {{title}} to the collection:\n{{error}}',
+            update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
+            modal_header: 'Alert',
+            modal_body: 'Are you sure you want to discard changes to the collection? Changes saved to the project will persist, if saved.',
+        },
+        collection_item_picker: {
+            after_options: {
+                loading: 'Loading\u2026',
+                load_more: 'Load More Projects',
+            },
+        },
+        collection_metadata: {
+            collected_type_label: 'Type:',
+            issue_label: 'Issue:',
+            program_area_label: 'Program Area:',
+            status_label: 'Status:',
+            volume_label: 'Volume:',
+        },
+        collection_search_result: {
+            expand: 'Expand search result',
+            collapse: 'Collapse search result',
+        },
+        discover_page: {
+            active_filters: {
+                button: 'Clear filters',
+                heading: 'Active Filters',
+                remove_provider: 'Remove provider',
+                remove_subject: 'Remove subject',
+                remove_type: 'Remove type',
+                remove_status: 'Remove status',
+                remove_issue: 'Remove issue',
+                remove_program_area: 'Remove program area',
+                remove_volume: 'Remove volume',
+            },
+            asOf: 'as of',
+            broadenSearch: 'Try broadening your search terms',
+            date: 'Date',
+            funder: 'Funder',
+            language: 'Language',
+            luceneHelp: 'Lucene search help',
+            noResults: 'No results. Try removing some filters.',
+            noResultsFound: 'No results found.',
+            partnerRepositories: 'Partner Repositories',
+            people: 'People',
+            poweredBy: 'powered by',
+            publisher: 'Publisher',
+            refineSearch: 'Refine your search by',
+            removeRegistrationType: 'Remove registration type',
+            search: 'Search',
+            searchLoading: 'Search loading',
+            searchPlaceholder: 'Search...',
+            share: 'SHARE',
+            shareUnavailable: 'Search is Unavailable',
+            shareUnavailableDescription: 'SHARE Search is temporarily unavailable. We have been notified and are working to fix the problem. Please try again later.',
+            sortBy: 'Sort by',
+            sortSearchResults: 'Sort search results',
+            source: 'Source',
+            tag: 'Tag',
+            type: 'Type',
         },
     },
     registries: {
@@ -739,6 +1046,31 @@ export default {
     cookieBanner: {
         cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.',
         accept: 'Accept',
+    },
+    discover: {
+        relevance: 'Relevance',
+        sort_oldest_newest: 'Modified Date (oldest to newest)',
+        sort_newest_oldest: 'Modified Date (newest to oldest)',
+        search_results: {
+            lastEdited: 'Last edited: {{date}} (UTC)',
+            status: 'Status: {{value}}',
+        },
+    },
+    search_paginator: {
+        prev: '«',
+        next: '»',
+    },
+    page_not_found: { // 404
+        heading: 'Page not found',
+        message: 'The page you were looking for is not found on the {{brand}} service.',
+    },
+    forbidden: { // 403
+        heading: 'Forbidden',
+        message: 'User has restricted access to this page.',
+    },
+    resource_deleted: { // 410
+        heading: 'Resource deleted',
+        message: 'User has deleted this content.',
     },
     routes: {
         register: {

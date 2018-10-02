@@ -1,9 +1,7 @@
 import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
 import config from 'ember-get-config';
-
 import Node from 'ember-osf-web/models/node';
-
 import styles from './styles';
 import layout from './template';
 

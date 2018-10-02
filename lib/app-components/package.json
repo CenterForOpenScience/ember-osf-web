@@ -1,0 +1,32 @@
+{
+  "name": "app-components",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {
+    "ember-bootstrap": "*",
+    "ember-bootstrap-datepicker": "*",
+    "ember-component-attributes": "*",
+    "ember-cli-babel": "*",
+    "ember-cli-htmlbars": "*",
+    "ember-cli-htmlbars-inline-precompile": "*",
+    "ember-cli-sanitize-html": "*",
+    "ember-cli-sass": "*",
+    "ember-cli-template-lint": "*",
+    "ember-cli-typescript": "*",
+    "ember-collapsible-panel": "*",
+    "ember-cp-validations": "*",
+    "ember-css-modules": "*",
+    "ember-css-modules-sass": "*",
+    "ember-i18n": "*",
+    "ember-i18n-inject": "*",
+    "ember-moment": "*",
+    "ember-page-title": "*",
+    "ember-power-select": "*",
+    "ember-sortable": "*",
+    "ember-tag-input": "*",
+    "ember-toastr": "*",
+    "ember-wormhole": "*",
+    "liquid-fire": "*"
+  }
+}

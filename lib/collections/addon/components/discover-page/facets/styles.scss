@@ -1,0 +1,20 @@
+/* Override in consuming application to customize appearance of search facets */
+
+.facet-panel {
+    font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
+    border: 0;
+    box-shadow: none;
+}
+
+.facet-heading {
+    border: 0;
+    background-color: #efefef !important;
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    font-size: 18px;
+}
+
+.facet-body {
+    background-color: #fbfbfb;
+}

@@ -20,6 +20,11 @@
         {{/dd.toggle}}
 
         {{#dd.menu classNames='dropdown-menu auth-dropdown' as |ddm|}}
+            {{#if headline}}
+                {{#ddm.item (html-attributes role='none') local-class='headline'}}
+                    {{headline}}
+                {{/ddm.item}}
+            {{/if}}
             {{#ddm.item (html-attributes role='menuitem')}}
                 <a href="{{profileURL}}" onclick={{action 'click' 'link' 'Navbar - MyProfile' target=analytics}}>
                     <i class="fa fa-user fa-lg p-r-xs"></i>

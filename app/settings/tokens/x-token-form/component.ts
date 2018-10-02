@@ -19,7 +19,7 @@ export default class TokenForm extends Component.extend({
         }
 
         const { validations } = yield token.validate();
-        this.set('messagesShown', true);
+        this.set('showMessages', true);
 
         if (validations.get('isValid')) {
             try {
@@ -48,7 +48,7 @@ export default class TokenForm extends Component.extend({
     @service analytics!: Analytics;
     @service toast!: Toast;
 
-    messagesShown: boolean = false;
+    showMessages: boolean = false;
     tokenSaved: boolean = false;
 
     allScopes = this.store.findAll('scope');

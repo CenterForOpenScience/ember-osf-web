@@ -4,6 +4,7 @@ import Comment from './comment';
 import Contributor from './contributor';
 import Node from './node';
 import RegistrationSchema, { RegistrationMetadata } from './registration-schema';
+import RegistryProvider from './registry-provider';
 import User from './user';
 
 /**
@@ -38,6 +39,10 @@ export default class Registration extends Node.extend() {
 
     @belongsTo('node', { inverse: 'registrations' }) registeredFrom!: DS.PromiseObject<Node> & Node;
     @belongsTo('user', { inverse: null }) registeredBy!: DS.PromiseObject<User> & User;
+
+    @belongsTo('registry-provider', { inverse: 'registrations' })
+    provider!: DS.PromiseObject<RegistryProvider> & RegistryProvider;
+
     @hasMany('contributor', { inverse: 'node' }) contributors!: DS.PromiseManyArray<Contributor>;
     @hasMany('comment', { inverse: 'node' }) comments!: DS.PromiseManyArray<Comment>;
     @belongsTo('registration-schema', { inverse: null })

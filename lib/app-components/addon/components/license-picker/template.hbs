@@ -1,0 +1,50 @@
+<label>
+    {{yield}}
+    {{#validated-input/power-select
+        model=node
+        valuePath='license'
+        search=(perform queryLicenses)
+        options=licensesAcceptable
+        onchange=(action 'changeLicense')
+        noMatchesMessage=(t 'new_project.no_matches')
+        as |license|
+    }}
+        {{license.name}}
+    {{/validated-input/power-select}}
+</label>
+<small>
+    <a
+        target="_blank"
+        rel="noopener"
+        href={{helpLink}}
+    >
+        {{t 'app_components.license_picker.faq'}}
+    </a>
+</small>
+{{#if selected}}
+    {{#if requiredFields.length}}
+        <br>
+    {{/if}}
+    {{#validated-input/custom
+        model=node
+        valuePath='nodeLicense'
+    }}
+        {{#each requiredFields as |key|}}
+            <br>
+            <label for="nodeLicense-{{key}}">{{t (concat 'app_components.license_picker.fields.' key)}}</label>
+            <br>
+            {{input
+                class='form-control'
+                id=(concat 'nodeLicense-' key)
+                value=(mut (get node.nodeLicense key))
+                input=(action 'notify')
+            }}
+        {{/each}}
+    {{/validated-input/custom}}
+    <a role="button" onclick={{action (mut showText) (not showText)}}>
+        {{t (concat 'app_components.license_picker.' (if showText 'hide' 'show'))}}
+    </a>
+    {{#if showText}}
+        <pre>{{licenseText}}</pre>
+    {{/if}}
+{{/if}}

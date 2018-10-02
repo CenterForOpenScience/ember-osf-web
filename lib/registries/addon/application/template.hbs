@@ -3,8 +3,8 @@
 {{#osf-header as |header|}}
     {{#header.navbar activeService=activeService as |ctx|}}
         {{#ctx.links as |links|}}
-            {{!-- {{links.quickfiles}} --}}
-            {{!-- {{links.myprojects}} --}}
+            {{!links.quickfiles}}
+            {{!links.myprojects}}
             {{links.myregistrations}}
             {{links.search route=searchRoute}}
             {{links.support route=supportRoute}}

@@ -7,15 +7,14 @@ import { Registry as Services } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
-import Session from 'ember-simple-auth/services/session';
-
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import param from 'ember-osf-web/utils/param';
 import pathJoin from 'ember-osf-web/utils/path-join';
-
+import Session from 'ember-simple-auth/services/session';
+import styles from './styles';
 import layout from './template';
 
 const { OSF: { url: baseUrl }, featureFlagNames } = config;
@@ -28,6 +27,7 @@ const { OSF: { url: baseUrl }, featureFlagNames } = config;
 @tagName('')
 export default class NavbarAuthDropdown extends Component {
     layout = layout;
+    styles = styles;
 
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
@@ -39,10 +39,12 @@ export default class NavbarAuthDropdown extends Component {
     @alias('currentUser.user') user!: User;
 
     /**
+     * Action run when the user clicks "Sign In"
+     */
+    loginAction?: () => void;
+
+    /**
      * The URL to redirect to after logout
-     *
-     * @property redirectUrl
-     * @type {String}
      */
     redirectUrl?: string;
 

@@ -1,0 +1,13 @@
+{{#if showReopen}}
+    {{! template-lint-disable invalid-interactive }}
+    <div
+        role="{{if this.editable 'button'}}"
+        {{action 'edit'}}
+    >
+        {{! template-lint-enable invalid-interactive }}
+        {{yield}}
+        <p class="text-smaller" local-class="edit-message" hidden={{not this.editable}}>
+            {{t 'app_components.submit_section.click_to_edit'}}
+        </p>
+    </div>
+{{/if}}

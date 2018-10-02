@@ -25,7 +25,7 @@ import { SubjectRef } from './taxonomy';
 export default class Preprint extends OsfModel {
     @attr('fixstring') title!: string;
     // TODO!: May be a relationship in the future pending APIv2 changes
-    @attr('object') subjects!: [ SubjectRef[] ];
+    @attr('array') subjects!: SubjectRef[][];
     @attr('date') dateCreated!: Date;
     @attr('date') datePublished!: Date;
     @attr('date') originalPublicationDate!: Date | null;

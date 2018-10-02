@@ -1,0 +1,38 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+.tagInput {
+    :global(.emberTagInput-tag) {
+        background: $color-bg-blue-light;
+        border-radius: 0;
+        color: $color-text-black;
+        cursor: pointer;
+        font-size: 13px;
+        max-width: 100%;
+        overflow-wrap: break-word;
+
+        > a {
+            color: $color-text-black;
+        }
+
+        :hover {
+            background: $color-bg-blue-dark;
+            color: $color-text-gray-cool;
+
+            > a {
+                color: $color-text-gray-cool;
+            }
+        }
+    }
+
+    :global(.emberTagInput-new) {
+        width: 100%;
+    
+        > input {
+            width: inherit;
+        }
+    
+        ::placeholder {
+            color: $color-text-gray-light;
+            opacity: 1;
+        }
+    }
+}

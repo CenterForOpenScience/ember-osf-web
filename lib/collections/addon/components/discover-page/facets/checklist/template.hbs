@@ -1,0 +1,16 @@
+<div>
+    <ul local-class="nobullet">
+        {{#each items as |item|}}
+            <li>
+                <label local-class="label">
+                    {{input
+                        type="checkbox"
+                        checked=item.checked
+                        change=(action 'updateFilters' item.key)
+                    }}
+                    {{item.key}}
+                </label>
+            </li>
+        {{/each}}
+    </ul>
+</div>

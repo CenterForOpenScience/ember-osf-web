@@ -1,0 +1,12 @@
+<header local-class="{{if (not panel.open) 'closed'}}">
+    {{title}}
+    <span class="pull-right">
+        {{fa-icon 'floppy-o' local-class=(if didSave 'green' '')}}
+    </span>
+</header>
+{{#panel.body}}
+    {{#if description}}
+        <p>{{description}}</p>
+    {{/if}}
+    {{yield}}
+{{/panel.body}}

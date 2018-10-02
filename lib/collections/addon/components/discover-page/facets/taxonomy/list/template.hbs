@@ -1,0 +1,8 @@
+{{#each children as |child|}}
+    {{discover-page/facets/taxonomy/item
+        item=child
+        activeFilter=activeFilter
+        updateFilters=updateFilters
+        expandedList=expandedList
+    }}
+{{/each}}

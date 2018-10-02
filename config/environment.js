@@ -260,6 +260,8 @@ module.exports = function(environment) {
         'ember-cli-mirage': {
             enabled: Boolean(MIRAGE_ENABLED),
         },
+
+        defaultProvider: 'osf',
     };
 
     if (environment === 'development') {
