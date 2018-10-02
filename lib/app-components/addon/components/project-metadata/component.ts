@@ -8,6 +8,7 @@ import I18N from 'ember-i18n/services/i18n';
 import requiredAction from 'ember-osf-web/decorators/required-action';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import Toast from 'ember-toastr/services/toast';
 import styles from './styles';
 import layout from './template';
@@ -23,6 +24,7 @@ export default class ProjectMetadata extends Component {
     @service toast!: Toast;
 
     node: Node = this.node;
+    makePublicOnSave: boolean = defaultTo(this.makePublicOnSave, false);
     @requiredAction continue!: () => void;
 
     reset = task(function *(this: ProjectMetadata) {
@@ -32,6 +34,10 @@ export default class ProjectMetadata extends Component {
 
     save = task(function *(this: ProjectMetadata) {
         try {
+            if (this.makePublicOnSave) {
+                this.node.set('public', true);
+            }
+
             yield this.node.save();
             this.toast.success(this.i18n.t('app_components.project_metadata.save_success'));
             this.continue();

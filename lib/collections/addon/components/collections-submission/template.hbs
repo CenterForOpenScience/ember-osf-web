@@ -65,6 +65,7 @@
                 {{#if this.collectionItem}}
                     {{project-metadata
                         node=this.collectionItem
+                        makePublicOnSave=true
                         continue=(action 'nextSection')
                     }}
                 {{else}}
