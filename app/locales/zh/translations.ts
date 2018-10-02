@@ -516,8 +516,8 @@ export default {
                 archiving: 'Archiving',
             },
         },
-        private_tooltip: 'This project is private',
         tags: 'Tags:',
+        options: 'Options',
     },
     forks: {
         fork: 'Fork',

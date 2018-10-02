@@ -517,6 +517,7 @@ export default {
             },
         },
         tags: 'Tags:',
+        options: 'Options',
     },
     forks: {
         fork: 'Fork',
