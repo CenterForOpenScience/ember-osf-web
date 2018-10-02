@@ -81,6 +81,7 @@ Router.map(function() {
     this.route('goodbye');
     this.route('institutions');
     this.route('quickfiles');
+    this.route('register');
     this.route('settings', function() {
         this.route('tokens', function() {
             this.route('edit', { path: '/:token_id' });
