@@ -3,7 +3,7 @@
         <div class="col-xs-12">
             <h2>
                 {{t "registries.index.recent.title"}}
-                <span style='font-size: 16px'>
+                <span local-class="SeeMore">
                     {{link-to (t 'registries.index.recent.more') 'discover'}}
                 </span>
             </h2>
@@ -15,8 +15,8 @@
             <div class="col-xs-12">
                 <h4>
                     <a
-                        href="{{reg.registrationURL}}"
-                        data-test-recent-registration-id="{{reg.id}}"
+                        href={{reg.registrationURL}}
+                        data-test-recent-registration-id={{reg.id}}
                         onclick={{action 'click' 'link' (concat 'Index - Browse Recent: ' reg.title) reg.mainLink target=analytics}}
                     >
                         {{reg.title}}
@@ -28,8 +28,8 @@
             <div class="col-xs-12">
                 <ul local-class="RecentList__Contributors">
                     {{#each reg.contributors as |contrib|}}
-                        {{#if contrib.users.bibliographic}}
-                            <li>{{contrib.users.citedAs}}</li>
+                        {{#if contrib.bibliographic}}
+                            <li>{{contrib.name}}</li>
                         {{/if}}
                     {{/each}}
                 </ul>

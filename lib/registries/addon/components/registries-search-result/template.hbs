@@ -20,13 +20,17 @@
             {{/if}}
         </h4>
 
-        {{#comma-list this.contributors as |contrib|}}
-            {{#if contrib.link}}
-                <a href={{contrib.link}}>{{contrib.name}}</a>
-            {{else}}
-                {{contrib.name}}
-            {{/if}}
-        {{/comma-list}}
+        <ul local-class="Contributors">
+            {{#each this.contributors as |contrib|}}
+                <li>
+                    {{#if contrib.link}}
+                        <a href={{contrib.link}}>{{contrib.name}}</a>
+                    {{else}}
+                        {{contrib.name}}
+                    {{/if}}
+                </li>
+            {{/each}}
+        </ul>
 
         {{#if result.dateUpdated}}
             <div class="m-t-sm">
