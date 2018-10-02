@@ -18,7 +18,8 @@ const App = Application.extend({
                 },
                 services: [
                     'analytics',
-                    'currentUser',
+                    'current-user',
+                    'features',
                     'i18n',
                     'session',
                     'store',
