@@ -6,7 +6,6 @@
   "dependencies": {
     "ember-bootstrap": "*",
     "ember-bootstrap-datepicker": "*",
-    "ember-component-attributes": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-htmlbars-inline-precompile": "*",
@@ -15,6 +14,7 @@
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
     "ember-collapsible-panel": "*",
+    "ember-component-attributes": "*",
     "ember-cp-validations": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
@@ -27,6 +27,7 @@
     "ember-tag-input": "*",
     "ember-toastr": "*",
     "ember-wormhole": "*",
+    "katex": "*",
     "liquid-fire": "*"
   }
 }

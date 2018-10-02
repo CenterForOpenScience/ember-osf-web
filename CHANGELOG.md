@@ -46,6 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `tags-widget` - added to the handbook
 - Utils:
     - `param` - drop-in replacement for jQuery.param
+- Helpers:
+    - `math` - A helper to render TeX statements using KaTeX
 
 ### Changed
 - Models:
