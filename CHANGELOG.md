@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `token`
     - `scope`
 - Components:
+    - `search-help-modal` - you know, the search help modal but as it's own component
     - `draft-registration-card` - summary card for draft registrations
     - `node-list` - produce a paginated list of nodes from a relationship
     - `copyable-text` - display some read-only text with a button to copy it
@@ -143,6 +144,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `metaschema` (including related adapter & serializer)
 - Services:
     - `file-manager` (including skipped tests and one unused reference)
+- Components:
+    - `search-dropdown` (Unused)
 
 ## [0.7.0] - 2018-08-07
 ### Added
