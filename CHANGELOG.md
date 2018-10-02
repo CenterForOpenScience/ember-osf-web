@@ -26,19 +26,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings/tokens` - list of personal access tokens
     - `settings/tokens/edit`
     - `settings/tokens/create`
+    - `register` - sign up page
 - Transforms:
     - `fixstringarray` - similar to `fixstring` transform (unencodes special characters), but for string arrays
 - Tests:
     - `guid-node/registrations` acceptance test
     - `tags-widget` component integration test
+    - `register` route acceptance test
+    - `param` util unit test
 - Blueprints:
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
     - `ember-cli-mirage` - the 70% that seems possible to express in typescript
 - Engines:
     - `ember-osf-registries` - moved/upgraded into the registries engine
+    - `collections` - Add collections engine
 - Handbook:
     - `tags-widget` - added to the handbook
+- Utils:
+    - `param` - drop-in replacement for jQuery.param
 
 ### Changed
 - Models:
@@ -83,10 +89,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `validated-input/checkbox`
         - `validated-input/checkboxes` (new!)
         - `validated-input/date`
-        - `validated-input/recaptcha`
+        - `validated-input/recaptcha` - added ability to bind action to reset recaptcha
         - `validated-input/text`
         - `validated-input/textarea`
     - `osf-navbar` - modified to yield a list home links for engines to override, if required
+    - `sign-up-form` - added submit task & user-registration model creation
+    - `osf-navbar/auth-dropdown` - make Sign Up button transition to register route, if enabled
 - Routes:
     - `guid-node` - request `forks`, `registrations`, and `draft_registrations` related counts when resolving guid
     - `guid-node/forks` - use placeholder for forks list
@@ -94,8 +102,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `guid-registration/forks` - use placeholder for forks list
     - `resolve-guid/resolved-guid-route` - pass-through query params to `routeContext.setGuid()`
     - `guid-file` - use `tags-widget` component instead of `ember-tag-input` directly
+    - `home` - remove submit task & user-registration model creation (moved to `sign-up-form` component)
 - Engines:
     - `analytics-page` - use `node-list` component for linked nodes list
+- Tests:
+    - Removed captcha visibility assertions from logged-out home page test
 - Handbook:
     - Fix link styling, remove double underline
     - Update ember-cli-addon-docs dependency

@@ -6,7 +6,7 @@ import { ValidationStatus } from '../base-component';
 import layout from './template';
 
 @classNames('form-group')
-export default class ValidatedInput extends Component {
+export default class ValidatedXInputWrapper extends Component {
     layout = layout;
 
     // Required arguments

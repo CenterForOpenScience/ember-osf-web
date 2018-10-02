@@ -1,0 +1,22 @@
+{{input
+    value=filterText
+    class='form-control'
+    local-class='input'
+    placeholder=(t 'app_components.subject_picker.column.search')
+}}
+<ol
+    local-class="list"
+    role="listbox"
+    aria-multiselectable="false"
+    aria-orientation="vertical"
+>
+    {{#each subjectsFiltered as |subject|}}
+        <li
+            {{action select subject}}
+            role="option"
+            aria-selected="{{eq subject.id selection.id}}"
+        >
+            {{subject.text}}
+        </li>
+    {{/each}}
+</ol>

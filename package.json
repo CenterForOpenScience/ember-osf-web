@@ -56,6 +56,7 @@
     "@types/js-md5": "^0.4.2",
     "@types/qunit": "^2.5.0",
     "@types/rsvp": "^4.0.1",
+    "@types/sanitize-html": "^1.14.0",
     "@types/sinon": "^5.0.1",
     "bootstrap-sass": "^3.3.7",
     "broccoli-asset-rev": "^2.7.0",
@@ -89,6 +90,7 @@
     "ember-cli-password-strength": "^2.0.0",
     "ember-cli-qunit": "^4.3.2",
     "ember-cli-release": "^0.2.9",
+    "ember-cli-sanitize-html": "^2.0.1",
     "ember-cli-sass": "7.1.7",
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.1",
@@ -99,6 +101,7 @@
     "ember-cli-typescript": "^1.4.3",
     "ember-cli-uglify": "^2.1.0",
     "ember-click-outside": "^0.1.12",
+    "ember-collapsible-panel": "^3.1.1",
     "ember-component-attributes": "^0.1.1",
     "ember-concurrency": "^0.8.12",
     "ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
@@ -135,6 +138,7 @@
     "ember-simple-auth": "^1.6.0",
     "ember-sinon": "^2.1.0",
     "ember-sinon-qunit": "^3.1.0",
+    "ember-sortable": "^1.11.2",
     "ember-source": "~3.4.0",
     "ember-tag-input": "^1.2.0",
     "ember-template-compiler": "^1.9.0-alpha",
@@ -153,6 +157,7 @@
     "keen-dataviz": "^2.0.4",
     "keen-tracking": "^2.0.9",
     "lint-staged": "^7.1.0",
+    "liquid-fire": "^0.29.3",
     "loader.js": "^4.7.0",
     "mime-types": "~2.1.17",
     "mocha": "^5.1.1",
@@ -189,5 +194,7 @@
       "lib/osf-components",
       "lib/registries"
     ]
+  },
+  "dependencies": {
   }
 }

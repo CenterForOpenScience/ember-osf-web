@@ -1,0 +1,58 @@
+<div class="col-md-6">
+    <label>
+        {{t 'app_components.project_metadata.field_title_label'}}
+        {{validated-input/text
+            model=node
+            valuePath='title'
+            aria-label=(t 'move_to_project.enter_project_title')
+            showMessages=didValidate
+        }}
+    </label>
+    <br>
+    <label>
+        {{t 'app_components.project_metadata.field_description_label'}}
+        {{validated-input/textarea
+            model=node
+            valuePath='description'
+            showMessages=didValidate
+        }}
+    </label>
+</div>
+<div class="col-md-6">
+    {{#license-picker node=node}}
+        {{t 'app_components.project_metadata.field_license_label'}}
+    {{/license-picker}}
+    <br>
+    <label>
+        {{t 'app_components.project_metadata.field_tags_label'}}
+        {{#validated-input/custom
+            model=node
+            valuePath='tags'
+            showMessages=didValidate
+        }}
+            {{#tag-input
+                tags=node.tags
+                addTag=(action 'addTag')
+                removeTagAtIndex=(action 'removeTagAtIndex')
+                allowSpacesInTags=true
+                placeholder=(t 'osf-components.tags-widget.add_tag')
+                aria_label=(t 'file_detial.tags')
+                local-class='tagInput'
+                readOnly=false
+                as |tag|
+            }}
+                <a
+                    href='{{searchUrl}}?q=(tags:"{{tag}}")'
+                    onclick={{action 'click' 'link' 'Collections - Submit - Search by tag' target=analytics}}
+                >
+                    {{tag}}
+                </a>
+            {{/tag-input}}
+        {{/validated-input/custom}}
+    </label>
+</div>
+{{submit-section-buttons
+    discard=(action (perform reset))
+    continue=(action (perform save))
+    continueDisabled=(v-get node 'isInvalid')
+}}

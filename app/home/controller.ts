@@ -1,43 +1,15 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
-import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
 
-export default class Home extends Controller.extend({
-    submit: task(function *(this: Home) {
-        const model = this.get('model');
-        const { validations } = yield model.validate();
-        this.set('didValidate', true);
-
-        if (!validations.get('isValid')) {
-            return;
-        }
-
-        try {
-            yield model.save();
-        } catch (e) {
-            // Handle email already exists error
-            if (+e.errors[0].status === 400) {
-                model.addExistingEmail();
-                yield model.validate();
-            }
-
-            return;
-        }
-
-        this.set('hasSubmitted', true);
-    }).drop(),
-}) {
+export default class Home extends Controller {
     @service analytics!: Analytics;
 
-    // Initialized in setupController.
-    didValidate!: boolean;
     goodbye = null;
-    hasSubmitted = false;
     modalOpen: boolean = this.modalOpen || false;
     model!: UserRegistration;
     playerVars = {

@@ -96,6 +96,8 @@ declare const config: {
         localStorageKeys: {
             authSession: string;
         };
+        orcidClientId?: string;
+        casUrl: string;
     };
     social: {
         twitter: {
@@ -174,6 +176,8 @@ declare const config: {
     'ember-cli-tailwind'?: {
         shouldIncludeStyleguide: boolean,
     };
+
+    defaultProvider: string;
 };
 
 export default config;

@@ -23,6 +23,9 @@
       "collections/*": [
         "lib/collections/addon/*"
       ],
+      "collections/config/*": [
+        "lib/collections/config/*"
+      ],
       "registries/*": [
         "lib/registries/addon/*"
       ],
@@ -37,6 +40,12 @@
       ],
       "ember-osf-web/mirage/*": [
         "mirage/*"
+      ],
+      "app-components": [
+        "lib/app-components/addon"
+      ],
+      "app-components/*": [
+        "lib/app-components/addon/*"
       ],
       "osf-components": [
         "lib/osf-components/addon"
@@ -82,6 +91,7 @@
     "types",
     "lib/analytics-page",
     "lib/collections",
+    "lib/app-components",
     "lib/handbook",
     "lib/osf-components",
     "lib/registries"

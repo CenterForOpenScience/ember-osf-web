@@ -1,0 +1,60 @@
+.current-subjects {
+    margin-bottom: 1em;
+}
+
+.subject {
+    display: inline-block;
+    background-color: #337ab7;
+    color: #fff;
+    margin-bottom: 0.5em;
+}
+
+.subject-container {
+    display: inline-block;
+    transition: background-color 0.1s linear;
+
+    &:not(:first-of-type) {
+        padding-left: 1em;
+    }
+
+    &:not(:last-of-type) {
+        .remove-subject {
+            display: none;
+        }
+    }
+}
+
+.subject-container-text {
+    display: inline-block;
+    padding: 5px 15px;
+}
+
+.right-arrow {
+    border-top: 1em solid transparent;
+    border-bottom: 1em solid transparent;
+    border-left: 1em solid #fff;
+    position: absolute;
+    display: inline;
+
+    &::before {
+        content: '';
+        border-top: 1em solid transparent;
+        border-bottom: 1em solid transparent;
+        border-left: 1em solid #337ab7;
+        position: absolute;
+        margin-left: -1.1em;
+        margin-top: -1em;
+        transition: border-color 0.1s linear;
+    }
+
+    &:last-of-type {
+        display: none;
+    }
+}
+
+.remove-subject {
+    background: 0 0;
+    border: 0;
+    margin-left: 10px;
+    padding: 0;
+}

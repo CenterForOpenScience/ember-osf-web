@@ -1,5 +1,3 @@
-/* stylelint-disable selector-class-pattern */
-
 .SignUpForm {
     :global(.has-error) {
         input:not(:placeholder-shown) {

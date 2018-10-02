@@ -106,6 +106,7 @@ export default class ProjectSelector extends Component.extend({
             this.get('initialLoad').perform();
         }
     }
+
     @action
     valueChanged(this: ProjectSelector, value?: Node): void {
         if (value) {

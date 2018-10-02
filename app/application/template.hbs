@@ -2,7 +2,16 @@
 {{title (t 'general.OSF')}}
 <div local-class="Application">
     {{#unless disableHeader}}
-        {{osf-header}}
+        {{#if theme.isProvider}}
+            <style>
+                {{! template-lint-disable bare-strings }}
+                @import url('{{theme.stylesheet}}');
+                {{! template-lint-enable bare-strings }}
+            </style>
+            <div id="branded-navbar"></div>
+        {{else}}
+            {{osf-header}}
+        {{/if}}
     {{/unless}}
     <div local-class="Application__page">
         {{outlet}}

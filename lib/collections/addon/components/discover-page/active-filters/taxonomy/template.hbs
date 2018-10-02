@@ -1,0 +1,8 @@
+{{#each context.activeFilter as |item|}}
+    {{discover-page/active-filters/filter
+        item=item
+        text=(custom-taxonomy-filter item)
+        ariaLabel=(t 'collections.discover_page.active_filters.remove_subject')
+        removeFilterItem=(action 'removeFilterItem' item)
+    }}
+{{/each}}

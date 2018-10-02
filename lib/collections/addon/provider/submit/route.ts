@@ -1,4 +1,6 @@
-import Route from '@ember/routing/route';
+import Submit from '../../submit/route';
 
-export default class Discover extends Route {
+export default class ProviderSubmit extends Submit {
+    controllerName = 'submit';
+    templateName = 'submit';
 }

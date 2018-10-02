@@ -31,7 +31,7 @@ module('Integration | Component | validated-input', hooks => {
         await render(hbs` {{validated-input/text
             model=this.model
             valuePath='name'
-            messagesShown=false
+            showMessages=false
         }}`);
 
         assert.dom('input[type="text"]', this.element).hasNoValue();
