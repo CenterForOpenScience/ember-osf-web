@@ -1,5 +1,5 @@
 import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
-import { OrderedSet } from 'immutable';
+import { is, OrderedSet } from 'immutable';
 import { module, test } from 'qunit';
 import { SearchFilter, SearchOptions } from 'registries/services/search';
 
@@ -20,17 +20,17 @@ class TestSearchFilter extends SearchFilter {
     }
 }
 
-module('Unit | Registries | Service | Search', hooks => {
+module('Registries | Unit | Service | search', hooks => {
     setupEngineTest(hooks, 'registries');
 
     // Replace this with your real tests.
     test('it exists', function(assert) {
-        const service = this.owner.lookup('service:');
+        const service = this.owner.lookup('service:search');
         assert.ok(service);
     });
 
     test('SearchOptions immutable', assert => {
-        const options = new SearchOptions({});
+        const options = new SearchOptions({ page: 10 });
         const changed = options.set('page', 420);
 
         assert.equal(options.page, 10);
@@ -38,17 +38,30 @@ module('Unit | Registries | Service | Search', hooks => {
     });
 
     test('SearchOptions equality', assert => {
-        assert.equal(
+        assert.ok(is(
             new SearchOptions({ query: 'Foo Bar' }),
             new SearchOptions({ query: 'Foo Bar' }),
-        );
+        ));
 
-        assert.notEqual(
+        assert.notOk(is(
             new SearchOptions({ query: 'Foo Bar' }),
-            new SearchOptions({ query: 'Foo Bar' }),
-        );
+            new SearchOptions({ query: 'Foo bar' }),
+        ));
 
-        assert.equal(
+        assert.ok(is(
+            new SearchOptions({
+                filters: OrderedSet([
+                    new TestSearchFilter('Foo', 'foo', 43),
+                ]),
+            }),
+            new SearchOptions({
+                filters: OrderedSet([
+                    new TestSearchFilter('Foo', 'foo', 43),
+                ]),
+            }),
+        ));
+
+        assert.ok(is(
             new SearchOptions({
                 filters: OrderedSet([
                     new TestSearchFilter('Foo', 'foo', 43),
@@ -60,6 +73,6 @@ module('Unit | Registries | Service | Search', hooks => {
                     new TestSearchFilter('Foo', 'foo', 43),
                 ]),
             }),
-        );
+        ));
     });
 });
