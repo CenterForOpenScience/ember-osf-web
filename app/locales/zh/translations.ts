@@ -478,6 +478,9 @@ export default {
         project_deleted: 'Project has been successfully deleted.',
         component_deleted: 'Component has been successfully deleted.',
         remove_self_contrib: 'You have removed yourself as a contributor from this project.',
+        registration_archiving: 'Files are being copied to the newly created registration, and you will receive an email notification when the copying is finished.',
+        registration_submitted: 'Your submission has been received. You will be notified within two business days regarding the status of your submission. If you have questions you may contact us at prereg@cos.io.',
+        redirected_to_registrations: "You have been redirected to the project's registrations page. From here you can initiate a new Draft Registration to complete the registration process.",
     },
     dropzone_widget: {
         drop_files: 'Drop files here to upload',
