@@ -782,7 +782,7 @@ export default {
             close: 'Close',
             title: 'Search help',
             queries: 'Queries',
-            searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>',
+            searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>.',
             helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
         },
         search_paginator: {
@@ -1166,12 +1166,5 @@ export default {
                 editScopes: 'Edit scopes',
             },
         },
-    },
-    searchHelp: {
-        close: 'Close',
-        title: 'Search help',
-        helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
-        queries: 'Queries',
-        searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>',
     },
 };

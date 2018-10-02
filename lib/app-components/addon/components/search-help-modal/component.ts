@@ -1,7 +1,7 @@
 import { service } from '@ember-decorators/service';
 import { getOwner } from '@ember/application';
 import Component from '@ember/component';
-import { Registry as Services } from '@ember/service';
+import RouterService from '@ember/routing/router-service';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import layout from './template';
@@ -19,7 +19,7 @@ export default class SearchHelpModal extends Component {
     layout = layout;
     styles = styles;
 
-    @service router!: Services['router'];
+    @service router!: RouterService;
 
     isOpen: boolean = defaultTo(this.isOpen, false);
 
