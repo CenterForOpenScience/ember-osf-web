@@ -13,8 +13,15 @@
                             as |nl|
                         }}
                             {{#nl.empty}}
-                                <p>{{t 'node.registrations.no_registrations'}}</p>
-                                <p>{{t 'node.registrations.start_new'}}</p>
+                                <p>
+                                    {{t 'node.registrations.no_registrations'}}
+                                    {{#if (and this.node.currentUserIsContributor (not this.node.currentUserIsAdmin))}}
+                                        {{t 'node.registrations.only_admins_can_initiate'}}
+                                    {{/if}}
+                                </p>
+                                {{#if this.node.currentUserIsAdmin}}
+                                    <p>{{t 'node.registrations.start_new'}}</p>
+                                {{/if}}
                                 <p>{{t 'node.registrations.learn_more' learnMoreLink='http://help.osf.io/m/registrations/l/524205-register-your-project'}}</p>
                             {{/nl.empty}}
                         {{/node-list}}
