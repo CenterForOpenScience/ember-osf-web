@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-cli-mirage` - the 70% that seems possible to express in typescript
 - Engines:
     - `ember-osf-registries` - moved/upgraded into the registries engine
+    - `collections` - Add collections engine
 - Utils:
     - `param` - drop-in replacement for jQuery.param
 
