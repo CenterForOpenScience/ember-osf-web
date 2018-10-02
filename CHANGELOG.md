@@ -41,6 +41,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Engines:
     - `ember-osf-registries` - moved/upgraded into the registries engine
     - `collections` - Add collections engine
+- Handbook:
+    - `tags-widget` - added to the handbook
 - Utils:
     - `param` - drop-in replacement for jQuery.param
 

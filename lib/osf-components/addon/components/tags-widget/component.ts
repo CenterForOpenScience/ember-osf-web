@@ -24,7 +24,7 @@ export default class TagsWidget extends Component.extend({ styles }) {
     addTag?: (tag: string) => void;
     removeTag?: (index: number) => void;
     @localClassName('show-add', 'hide-add') showAdd: boolean = defaultTo(this.showAdd, false);
-    @localClassName inline: boolean = defaultTo(this.inline, false);
+    @localClassName('inline') inline: boolean = defaultTo(this.inline, false);
 
     // private properties
     layout = layout;
