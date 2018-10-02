@@ -43,8 +43,8 @@
                         id="searchBox"
                         value=q
                         class='form-control'
-                        enter='searchAction'
-                        key-up='searchAction'
+                        enter=(action 'searchAction')
+                        key-up=(action 'searchAction')
                         placeholder=(t
                             (or searchPlaceholder 'collections.discover_page.searchPlaceholder')
                             documentType=themeProvider.documentType
@@ -89,15 +89,6 @@
         {{/if}}
 
         <div class="row p-v-sm">
-            {{!-- {{#if (not showActiveFilters)}}
-                <div class="col-xs-6">
-                    {{!CLEAR FILTERS BUTTON - ONLY IF ACTIVE FILTERS NOT SHOWN}}
-                    <button {{action 'clearFilters'}} class='btn btn-default clear-filters'>
-                        {{t 'collections.discover_page.activeFilters.button'}}
-                    </button>
-                </div>
-            {{/if}} --}}
-
             <div class="col-sm-6 pull-right">
                 {{#bs-dropdown classNames='dropdown pull-right' as |dd|}}
                     {{#dd.button classNames='btn btn-default'}}

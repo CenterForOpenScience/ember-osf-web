@@ -56,6 +56,7 @@
     "@types/js-md5": "^0.4.2",
     "@types/qunit": "^2.5.0",
     "@types/rsvp": "^4.0.1",
+    "@types/sanitize-html": "^1.14.0",
     "@types/sinon": "^5.0.1",
     "bootstrap-sass": "^3.3.7",
     "broccoli-asset-rev": "^2.7.0",
@@ -195,7 +196,5 @@
     ]
   },
   "dependencies": {
-    "@types/sanitize-html": "^1.14.0",
-    "langs": "^2.0.0"
   }
 }
