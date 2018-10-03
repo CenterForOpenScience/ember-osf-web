@@ -57,10 +57,13 @@ export default class DraftRegistrationCard extends Component {
                             requiredQuestions++;
                             if (question.qid in metadata) {
                                 const answers = metadata[question.qid] as Answers;
-                                if (property.id in answers && 'value' in answers[property.id]) {
-                                    const { value } = answers[property.id];
-                                    if (value && value.length) {
-                                        answeredRequiredQuestions++;
+                                if ('value' in answers) {
+                                    const { value } = answers;
+                                    if (value && property.id in value) {
+                                        const propertyValue = value[property.id].value;
+                                        if (propertyValue && propertyValue.length) {
+                                            answeredRequiredQuestions++;
+                                        }
                                     }
                                 }
                             }
