@@ -1,7 +1,7 @@
 {{title (t 'registries.application.page_title') replace=true}}
 
 {{#osf-header as |header|}}
-    {{#header.navbar activeService=activeService as |ctx|}}
+    {{#header.navbar campaign='osf-registries' activeService=activeService as |ctx|}}
         {{#ctx.links as |links|}}
             {{!links.quickfiles}}
             {{!links.myprojects}}
