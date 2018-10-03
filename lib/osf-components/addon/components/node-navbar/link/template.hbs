@@ -1,5 +1,5 @@
 {{#if useLinkTo}}
-    {{#link-to routeName nodeId class=extraClasses}}
+    {{#link-to routeName node.id class=extraClasses}}
         {{#if (has-block)}}
             {{yield}}
         {{else}}
@@ -7,7 +7,7 @@
         {{/if}}
     {{/link-to}}
 {{else}}
-    <a href="/{{nodeId}}/{{destination}}" class="{{extraClasses}}">
+    <a href="/{{node.id}}/{{destination}}" class={{extraClasses}}>
         {{#if (has-block)}}
             {{yield}}
         {{else}}

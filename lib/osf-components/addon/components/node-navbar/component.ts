@@ -1,4 +1,4 @@
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import config from 'ember-get-config';
 import Node from 'ember-osf-web/models/node';
@@ -16,6 +16,21 @@ export default class NodeNavbar extends Component {
     // Private properties
     secondaryNavbarId = config.secondaryNavbarId;
     collapsedNav = true;
+
+    @computed('node')
+    get fakeParent(): Pick<Node, 'id' | 'isRegistration'> | undefined {
+        if (!this.node) {
+            return undefined;
+        }
+        const id = this.node.belongsTo('parent').id();
+        if (!id) {
+            return undefined;
+        }
+        return {
+            id,
+            isRegistration: this.node.isRegistration,
+        };
+    }
 
     @action
     toggleNav() {
