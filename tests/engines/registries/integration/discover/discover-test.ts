@@ -42,7 +42,7 @@ const QueryParamTestCases: Array<{
         expected: {
             query: '',
             order: new SearchOrder({
-                display: '',
+                display: 'registries.discover.order.relevance',
                 ascending: false,
                 key: 'date_modified',
             }),

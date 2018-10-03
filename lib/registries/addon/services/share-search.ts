@@ -166,10 +166,10 @@ export default class ShareSearch extends Search {
         return registrations.hits.hits.map((r: any): ShareRegistration => {
             const contributors = (r._source.lists.contributors || [])
                 .map((contrib: any): ShareContributor => ({
+                    id: contrib.id as string,
                     bibliographic: contrib.relation !== 'contributor',
                     citedAs: unescapeXMLEntities(contrib.cited_as),
-                    id: contrib.id,
-                    identifiers: contrib.identifiers,
+                    identifiers: contrib.identifiers as string[],
                     name: unescapeXMLEntities(contrib.name),
                     orderCited: contrib.order_cited || -1,
                 } as ShareContributor))

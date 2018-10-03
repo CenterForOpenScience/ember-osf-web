@@ -19,6 +19,11 @@ import ShareSearch, {
 } from 'registries/services/share-search';
 import styles from './styles';
 
+interface DoSearchOptions {
+    scrollTop?: boolean;
+    noPageReset?: boolean;
+}
+
 interface DiscoverQueryParams {
     page: number;
     query: string;
@@ -129,6 +134,9 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     @service analytics!: Analytics;
     @service shareSearch!: ShareSearch;
 
+    // List of keys that, when changed, reset the page to 1
+    pageResetKeys = ['query', 'order', 'filter'];
+
     results: EmberArray<ShareRegistration> = A([]);
     searchable!: number;
     totalResults: number = 0;
@@ -173,13 +181,30 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return max;
     }
 
-    doSearch = task(function *(this: Discover, opts: SearchOptions, scrollTop?: boolean) {
+    doSearch = task(function *(this: Discover, opts: SearchOptions, { scrollTop, noPageReset }: DoSearchOptions = {}) {
         let options = opts;
 
         // Unless OSF is the only source, registration_type filters must be cleared
         const sourceFilters = options.filters.filter(filter => filter.key === 'sources');
         if (!(sourceFilters.size === 1 && sourceFilters.first()!.value === 'OSF')) {
             options = options.set('filters', options.filters.filter(filter => filter.key !== 'registration_type'));
+        }
+
+        // If there is no query, no filters, and no sort, default to -date_modified rather
+        // than relevance.
+        if (!options.order.key && (!options.query || options.query === '') && options.filters.size === 0) {
+            options = options.set('order', new SearchOrder({
+                display: '',
+                ascending: false,
+                key: 'date_modified',
+            }));
+        }
+
+        // Latter bit is just a janky array intersection
+        // If any of the specified keys have changed, reset to the first page
+        if ((this.searchOptions && !noPageReset) &&
+            this.searchOptions.differingKeys(options).filter(k => this.pageResetKeys.includes(k)).length > 0) {
+            options = options.set('page', 1);
         }
 
         this.set('searchOptions', options);
@@ -192,16 +217,6 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         }
 
         yield timeout(250);
-
-        // If there is no query, no filters, and no sort, default to -date_modified rather
-        // than relevance.
-        if (!options.order.key && (!options.query || options.query === '') && options.filters.size === 0) {
-            options = options.set('order', new SearchOrder({
-                display: '',
-                ascending: false,
-                key: 'date_modified',
-            }));
-        }
 
         const results: SearchResults<ShareRegistration> = yield this.shareSearch.registrations(options);
 
@@ -243,14 +258,18 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             page: event.queryParams.page,
             order: order || this.sortOptions[0],
             filters: OrderedSet(filters),
-        }));
+        }), { noPageReset: true });
     }
 
     setQueryParams(this: Discover, options: SearchOptions) {
         this.set('page', options.page);
         this.set('size', options.size);
         this.set('query', options.query || '');
-        this.set('sort', `${options.order.ascending ? '' : '-'}${options.order.key || ''}`);
+
+        // date_modified is a weird case, so don't save it in a query param.
+        if (options.order.key !== 'date_modified') {
+            this.set('sort', `${options.order.ascending ? '' : '-'}${options.order.key || ''}`);
+        }
 
         const providers: string[] = [];
         const registrationTypes: string[] = [];
@@ -277,7 +296,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     changePage(this: Discover, page: number) {
         this.get('doSearch').perform(
             this.searchOptions.set('page', page),
-            true, // Scroll to top
+            { scrollTop: true },
         );
     }
 

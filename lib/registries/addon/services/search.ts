@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { Map, OrderedSet, ValueObject } from 'immutable';
+import { is, Map, OrderedSet, ValueObject } from 'immutable';
 import $ from 'jquery';
 
 // Used later on for slightly stricter typing of immutable Maps
@@ -27,6 +27,12 @@ export class MapProxy<T> implements ValueObject {
 
     hashCode(): number {
         return this.internal.hashCode();
+    }
+
+    differingKeys(other: MapProxy<T>): Array<keyof T> {
+        return Array.from(this.internal.filter(
+            (val, key) => !is(val, other.internal.get(key)),
+        ).keys());
     }
 }
 
