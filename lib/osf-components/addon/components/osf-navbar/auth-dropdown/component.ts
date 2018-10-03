@@ -48,6 +48,8 @@ export default class NavbarAuthDropdown extends Component {
      */
     redirectUrl?: string;
 
+    campaign?: string;
+
     profileURL: string = defaultTo(this.profileURL, pathJoin(baseUrl, 'profile'));
     settingsURL: string = defaultTo(this.settingsURL, pathJoin(baseUrl, 'settings'));
     signUpURL: string = defaultTo(this.signUpURL, pathJoin(baseUrl, 'register'));
@@ -60,12 +62,22 @@ export default class NavbarAuthDropdown extends Component {
     @computed('signUpURL', 'signUpNext')
     get signUpRoute() {
         return this.features.isEnabled(featureFlagNames.routes.register) ? 'register' :
-            `${this.signUpURL}?${param({ next: this.signUpNext })}`;
+            `${this.signUpURL}?${param(this.signUpQueryParams)}`;
     }
 
     @computed('router.currentRouteName', 'signUpNext')
     get signUpQueryParams() {
-        return this.router.currentRouteName === 'register' ? {} : { next: this.signUpNext };
+        const params: Record<string, string> = {};
+
+        if (this.campaign) {
+            params.campaign = this.campaign;
+        }
+
+        if (this.router.currentRouteName !== 'register') {
+            params.next = this.signUpNext;
+        }
+
+        return params;
     }
 
     @action
