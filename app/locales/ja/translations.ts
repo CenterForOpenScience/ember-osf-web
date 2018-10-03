@@ -961,10 +961,10 @@ export default {
             sidebar: {
                 refine_your_search: 'Refine your search by',
                 clear_filters: 'Clear Filters',
-                active_filters: 'Active Filters',
+                active_filters: 'Active filters',
             },
             search_result: {
-                last_edited: 'Last Edited: {{date}}',
+                last_edited: 'Last edited: {{date}}',
                 withdrawn: 'Withdrawn',
             },
             pagination: {
