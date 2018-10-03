@@ -194,7 +194,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         // than relevance.
         if (!options.order.key && (!options.query || options.query === '') && options.filters.size === 0) {
             options = options.set('order', new SearchOrder({
-                display: '',
+                display: 'registries.discover.order.relevance',
                 ascending: false,
                 key: 'date_modified',
             }));
