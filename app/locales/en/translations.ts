@@ -557,6 +557,8 @@ export default {
             no_drafts: 'There are no draft registrations of this project.',
             start_new: 'Start a new registration by clicking the “New registration” button. Once created, registrations cannot be edited or deleted.',
             learn_more: 'Learn more about registrations <a href="{{learnMoreLink}}">here</a>.',
+            register_entire_project: 'To register the entire project "{{{rootNodeTitle}}}" instead, click',
+            here: 'here',
             new: 'New registration',
             registrations: 'Registrations',
             draft_registrations: 'Draft Registrations',

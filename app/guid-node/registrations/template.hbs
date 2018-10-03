@@ -1,4 +1,4 @@
-{{title (t 'node.registrations.page_title' nodeTitle=model.taskInstance.value.title)}}
+{{title (t 'node.registrations.page_title' nodeTitle=node.title)}}
 <div class="container" local-class="RegistrationsContainer" data-test-registrations-container>
     <div class="row">
         <div class="col-xs-9 col-sm-8">
@@ -122,4 +122,13 @@
             </div>
         {{/if}}
     </div>
+    {{#if this.isComponentRootAdmin}}
+        <div class="row">
+            {{t 'node.registrations.register_entire_project' rootNodeTitle=this.node.root.title}}
+            {{#link-to 'guid-node.registrations' this.node.root.id}}
+                {{t 'node.registrations.here'~}}
+            {{/link-to}}
+            {{~t 'general.period'}}
+        </div>
+    {{/if}}
 </div>
