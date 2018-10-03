@@ -50,7 +50,9 @@ export interface Answer {
 }
 
 export interface Answers {
-    [id: string]: Answer;
+    value?: {
+        [id: string]: Answer;
+    };
 }
 
 export interface RegistrationMetadata {
