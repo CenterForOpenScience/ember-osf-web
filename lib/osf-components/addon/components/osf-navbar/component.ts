@@ -20,11 +20,11 @@ export enum OSFService {
 }
 
 export const OSF_SERVICES = [
-    { name: OSFService.HOME, route: 'home' },
+    { name: OSFService.HOME, route: 'osf.home' },
     { name: OSFService.PREPRINTS, route: `${osfURL}preprints/` },
     { name: OSFService.REGISTRIES, route: config.engines.registries.enabled ? 'registries' : `${osfURL}registries/` },
     { name: OSFService.MEETINGS, route: `${osfURL}meetings/` },
-    { name: OSFService.INSTITUTIONS, route: 'institutions' },
+    { name: OSFService.INSTITUTIONS, route: 'osf.institutions' },
 ];
 
 export default class OsfNavbar extends Component {

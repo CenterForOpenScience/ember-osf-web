@@ -59,7 +59,7 @@ const ES_RESPONSE = {
     },
 };
 
-module('Registries | Unit | Service | share-search', hooks => {
+module('Unit | Registries | Service | share-search', hooks => {
     setupEngineTest(hooks, 'registries');
 
     // Replace this with your real tests.

@@ -32,7 +32,7 @@
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                {{#global-link-to 'support' click=(action 'click' 'link' 'Navbar - Support' target=analytics)}}
+                {{#global-link-to 'osf.support' click=(action 'click' 'link' 'Navbar - Support' target=analytics)}}
                     <i class="fa fa-life-ring fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.osf_support'}}
                 {{/global-link-to}}

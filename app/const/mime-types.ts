@@ -6,6 +6,8 @@
  * https://github.com/CenterForOpenScience/osf.io/blob/develop/website/static/js/mime.js
  */
 
+import mime from 'mime-types';
+
 const extensions: string[] = [
     '1',
     '2',
@@ -442,4 +444,6 @@ const extensions: string[] = [
 
 const types: object = extensions.reduce((acc: object, val: string) => ({ ...acc, [val]: 'text/plain' }), {});
 
-export default types;
+Object.assign(mime.types, types);
+
+export default mime;

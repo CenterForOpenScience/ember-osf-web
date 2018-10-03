@@ -1,0 +1,42 @@
+{
+  "name": "osf",
+  "keywords": [
+    "ember-addon",
+    "ember-engine"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "*",
+    "ember-bootstrap": "*",
+    "ember-cli-babel": "*",
+    "ember-cli-htmlbars": "*",
+    "ember-cli-htmlbars-inline-precompile": "*",
+    "ember-cli-moment-shim": "*",
+    "ember-cli-sanitize-html": "*",
+    "ember-cli-sass": "*",
+    "ember-cli-template-lint": "*",
+    "ember-cli-typescript": "*",
+    "ember-component-attributes": "*",
+    "ember-content-placeholders": "*",
+    "ember-css-modules": "*",
+    "ember-css-modules-sass": "*",
+    "ember-decorators": "*",
+    "ember-font-awesome": "*",
+    "ember-i18n": "*",
+    "ember-i18n-inject": "*",
+    "ember-moment": "*",
+    "ember-page-title": "*",
+    "ember-parachute": "*",
+    "ember-radio-button": "*",
+    "ember-tag-input": "*",
+    "ember-test-selectors": "*",
+    "ember-toastr": "*",
+    "ember-truth-helpers": "*",
+    "ember-wormhole": "*"
+  },
+  "ember-addon": {
+    "paths": [
+      "../analytics-page",
+      "../osf-components"
+    ]
+  }
+}

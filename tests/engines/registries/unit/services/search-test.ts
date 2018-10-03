@@ -20,7 +20,7 @@ class TestSearchFilter extends SearchFilter {
     }
 }
 
-module('Registries | Unit | Service | search', hooks => {
+module('Unit | Registries | Service | search', hooks => {
     setupEngineTest(hooks, 'registries');
 
     // Replace this with your real tests.

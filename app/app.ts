@@ -10,6 +10,30 @@ const App = Application.extend({
     Resolver,
 
     engines: {
+        osf: {
+            dependencies: {
+                services: [
+                    'analytics',
+                    'cookies',
+                    'current-user',
+                    'features',
+                    'head-data',
+                    'i18n',
+                    'page-title-list',
+                    'password-strength',
+                    'ready',
+                    'route-context',
+                    'router',
+                    'session',
+                    'status-messages',
+                    'store',
+                    'theme',
+                ],
+                externalRoutes: {
+                    registration: 'guid-registration',
+                },
+            },
+        },
         collections: {
             dependencies: {
                 externalRoutes: {

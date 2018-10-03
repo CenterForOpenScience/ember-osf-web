@@ -61,7 +61,7 @@ export default class NavbarAuthDropdown extends Component {
 
     @computed('signUpURL', 'signUpNext')
     get signUpRoute() {
-        return this.features.isEnabled(featureFlagNames.routes.register) ? 'register' :
+        return this.features.isEnabled(featureFlagNames.routes.register) ? 'osf.register' :
             `${this.signUpURL}?${param(this.signUpQueryParams)}`;
     }
 
@@ -73,7 +73,7 @@ export default class NavbarAuthDropdown extends Component {
             params.campaign = this.campaign;
         }
 
-        if (this.router.currentRouteName !== 'register') {
+        if (this.router.currentRouteName !== 'osf.register') {
             params.next = this.signUpNext;
         }
 

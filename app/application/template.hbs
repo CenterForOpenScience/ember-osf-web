@@ -1,18 +1,13 @@
 {{head-layout}}
-{{title (t 'general.OSF')}}
 <div local-class="Application">
-    {{#unless disableHeader}}
-        {{#if theme.isProvider}}
-            <style>
-                {{! template-lint-disable bare-strings }}
-                @import url('{{theme.stylesheet}}');
-                {{! template-lint-enable bare-strings }}
-            </style>
-            <div id="branded-navbar"></div>
-        {{else}}
-            {{osf-header}}
-        {{/if}}
-    {{/unless}}
+    {{#if theme.isProvider}}
+        <style>
+            {{! template-lint-disable bare-strings }}
+            @import url('{{theme.stylesheet}}');
+            {{! template-lint-enable bare-strings }}
+        </style>
+        <div id="branded-navbar"></div>
+    {{/if}}
     <div local-class="Application__page">
         {{outlet}}
     </div>
