@@ -50,6 +50,7 @@ const CollectableValidations = buildValidations({
     tags: [
         validator('presence', {
             presence: true,
+            disabled: true,
         }),
     ],
 }, {
