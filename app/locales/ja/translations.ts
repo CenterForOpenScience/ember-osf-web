@@ -471,6 +471,7 @@ export default {
         settings: 'Settings',
         comments: 'Comments',
     },
+    // These keys come from the "osf_status" cookie set by Flask to expose status messages added to the session with push_status_message()
     status: {
         welcome_message: '<h1>OSFへようこそ！</h1><p>プロジェクトの作成方法や<a href="https://osf.io/explore/activity/#popularPublicProjects">ポピュラーな公開プロジェクト</a>からのインスピレーションを得るには、<a href="http://help.osf.io/" target="_blank" rel="noreferrer">ガイド</a>をご覧ください。</p>',
         alternate_email_error: 'メールアドレスはあなたのアカウントに<b>追加されていません</b>。ログアウトして、あなたのメールのリンクを再訪してください。ありがとうございました。',
