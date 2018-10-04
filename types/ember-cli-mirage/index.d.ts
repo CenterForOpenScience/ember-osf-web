@@ -6,7 +6,7 @@ declare global {
     const server: Server; // TODO: only in tests?
 }
 
-type ID = number | string;
+export type ID = number | string;
 
 interface AnyAttrs {
     [key: string]: any;
@@ -30,7 +30,7 @@ export interface Database {
     [collectionName: string]: DatabaseCollection;
 }
 
-type Model<T> = {
+export type Model<T> = {
     [P in keyof T]: T[P] & { models: any[] };
 };
 

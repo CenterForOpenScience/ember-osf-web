@@ -1,5 +1,5 @@
 import { underscore } from '@ember/string';
-import { JSONAPISerializer, ModelInstance, Request } from 'ember-cli-mirage';
+import { JSONAPISerializer, Model, ModelInstance, Request } from 'ember-cli-mirage';
 import { ModelRegistry, RelationshipsFor } from 'ember-data';
 import config from 'ember-get-config';
 import { RelatedLinkMeta, RelationshipLinks } from 'osf-api';
@@ -21,15 +21,15 @@ export default class ApplicationSerializer extends JSONAPISerializer {
     }
 
     buildRelatedLinkMeta<T extends ModelRegistry[keyof ModelRegistry]>(
-        model: T,
+        model: ModelInstance<T>,
         relationship: RelationshipsFor<T>,
     ): RelatedLinkMeta {
         let relatedCounts: string[] = [];
         if (this.request.queryParams.related_counts) {
             relatedCounts = this.request.queryParams.related_counts.split(',');
         }
-        const related = model[relationship];
-        const count = Array.isArray(related) ? related.length : 0;
+        const related = (model as Model<T>)[relationship];
+        const count = Array.isArray(related.models) ? related.models.length : 0;
         return relatedCounts.includes(this.keyForRelationship(relationship)) ? { count } : {};
     }
 
