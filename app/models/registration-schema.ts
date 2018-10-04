@@ -45,18 +45,14 @@ export interface Schema {
     description: string;
 }
 
-export interface Answer {
-    value?: string;
-}
-
-export interface Answers {
-    value?: {
-        [id: string]: Answer;
-    };
+export interface Answer<T> {
+    value?: T;
+    comments?: any[]; // String?
+    extra?: object[];
 }
 
 export interface RegistrationMetadata {
-    [qid: string]: Answer | Answers;
+    [qid: string]: Answer<string | RegistrationMetadata>;
 }
 
 /**
