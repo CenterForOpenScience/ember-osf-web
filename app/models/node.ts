@@ -3,6 +3,7 @@ import { computed } from '@ember-decorators/object';
 import { alias, bool, equal } from '@ember-decorators/object/computed';
 import EmberObject from '@ember/object';
 import { not } from '@ember/object/computed';
+import { htmlSafe } from '@ember/string';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import { Deserialized as NodeLicense } from 'ember-osf-web/transforms/node-license';
@@ -195,6 +196,12 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
             return NodeType.Fork;
         }
         return NodeType.Generic;
+    }
+
+    // This is for the title helper, which does its own encoding of unsafe characters
+    @computed('title')
+    get unsafeTitle() {
+        return htmlSafe(this.title);
     }
 
     // BaseFileItem override

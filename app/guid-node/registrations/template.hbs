@@ -1,4 +1,5 @@
-{{title (t 'node.registrations.page_title' nodeTitle=node.title)}}
+{{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
+{{title (t 'node.registrations.page_title' nodeTitle=this.node.unsafeTitle)}}
 <div class="container" local-class="RegistrationsContainer" data-test-registrations-container>
     <div class="row">
         <div class="col-xs-9 col-sm-8">
