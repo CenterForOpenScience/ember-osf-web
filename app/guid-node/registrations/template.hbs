@@ -1,4 +1,5 @@
-{{title (t 'node.registrations.page_title' nodeTitle=model.taskInstance.value.title)}}
+{{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
+{{title (t 'node.registrations.page_title' nodeTitle=this.node.unsafeTitle)}}
 <div class="container" local-class="RegistrationsContainer" data-test-registrations-container>
     <div class="row">
         <div class="col-xs-9 col-sm-8">
@@ -13,8 +14,15 @@
                             as |nl|
                         }}
                             {{#nl.empty}}
-                                <p>{{t 'node.registrations.no_registrations'}}</p>
-                                <p>{{t 'node.registrations.start_new'}}</p>
+                                <p>
+                                    {{t 'node.registrations.no_registrations'}}
+                                    {{#if (and this.node.currentUserIsContributor (not this.node.currentUserIsAdmin))}}
+                                        {{t 'node.registrations.only_admins_can_initiate'}}
+                                    {{/if}}
+                                </p>
+                                {{#if this.node.currentUserIsAdmin}}
+                                    <p>{{t 'node.registrations.start_new'}}</p>
+                                {{/if}}
                                 <p>{{t 'node.registrations.learn_more' learnMoreLink='http://help.osf.io/m/registrations/l/524205-register-your-project'}}</p>
                             {{/nl.empty}}
                         {{/node-list}}
@@ -115,4 +123,13 @@
             </div>
         {{/if}}
     </div>
+    {{#if this.isComponentRootAdmin}}
+        <div class="row">
+            {{t 'node.registrations.register_entire_project' rootNodeTitle=this.node.root.title}}
+            {{#link-to 'guid-node.registrations' this.node.root.id}}
+                {{t 'node.registrations.here'~}}
+            {{/link-to}}
+            {{~t 'general.period'}}
+        </div>
+    {{/if}}
 </div>

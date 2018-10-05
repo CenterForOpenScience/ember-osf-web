@@ -6,7 +6,7 @@ import config from 'ember-get-config';
 
 import Node from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
-import { Answer, Question } from 'ember-osf-web/models/registration-schema';
+import { Question } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
@@ -48,7 +48,7 @@ export default class NodeCard extends Component {
                 titleQuestion.qid in registration.registeredMeta) {
                 const answer = registration.registeredMeta[titleQuestion.qid];
                 if ('value' in answer) {
-                    return (answer as Answer).value;
+                    return answer.value as string;
                 }
             }
         }

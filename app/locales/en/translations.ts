@@ -471,6 +471,7 @@ export default {
         settings: 'Settings',
         comments: 'Comments',
     },
+    // These keys come from the "osf_status" cookie set by Flask to expose status messages added to the session with push_status_message()
     status: {
         welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="http://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>',
         alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.',
@@ -478,6 +479,9 @@ export default {
         project_deleted: 'Project has been successfully deleted.',
         component_deleted: 'Component has been successfully deleted.',
         remove_self_contrib: 'You have removed yourself as a contributor from this project.',
+        registration_archiving: 'Files are being copied to the newly created registration, and you will receive an email notification when the copying is finished.',
+        registration_submitted: 'Your submission has been received. You will be notified within two business days regarding the status of your submission. If you have questions you may contact us at prereg@cos.io.',
+        redirected_to_registrations: "You have been redirected to the project's registrations page. From here you can initiate a new Draft Registration to complete the registration process.",
     },
     dropzone_widget: {
         drop_files: 'Drop files here to upload',
@@ -514,6 +518,7 @@ export default {
             },
         },
         tags: 'Tags:',
+        options: 'Options',
     },
     forks: {
         fork: 'Fork',
@@ -549,9 +554,12 @@ export default {
             },
             page_title: '{{nodeTitle}} Registrations',
             no_registrations: 'There have been no completed registrations of this project.',
+            only_admins_can_initiate: 'Only project administrators can initiate registrations.',
             no_drafts: 'There are no draft registrations of this project.',
             start_new: 'Start a new registration by clicking the “New registration” button. Once created, registrations cannot be edited or deleted.',
             learn_more: 'Learn more about registrations <a href="{{learnMoreLink}}">here</a>.',
+            register_entire_project: 'To register the entire project "{{rootNodeTitle}}" instead, click',
+            here: 'here',
             new: 'New registration',
             registrations: 'Registrations',
             draft_registrations: 'Draft Registrations',

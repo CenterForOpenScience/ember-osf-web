@@ -7,7 +7,7 @@ import ApplicationSerializer from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class FileSerializer extends ApplicationSerializer {
-    links(model: File & { attrs: any }) {
+    links(model: ModelInstance<File>) {
         return {
             user: {
                 data: {
