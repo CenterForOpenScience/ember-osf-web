@@ -28,6 +28,7 @@ export default class ApplicationSerializer extends JSONAPISerializer {
         if (this.request.queryParams.related_counts) {
             relatedCounts = this.request.queryParams.related_counts.split(',');
         }
+        // We have to narrow model here because keys in ModelInstanceShared don't have .models
         const related = (model as Model<T>)[relationship];
         const count = Array.isArray(related.models) ? related.models.length : 0;
         return relatedCounts.includes(this.keyForRelationship(relationship)) ? { count } : {};
