@@ -1,0 +1,14 @@
+
+<div class="dropdown pull-right">
+    {{#bs-dropdown as |dd|}}
+        {{#dd.button class='btn-link' local-class='SharingIconsPopover__button'}}
+            <span class="fa fa-share-alt"></span>
+        {{/dd.button}}
+
+        {{#dd.menu class='dropdown-menu' local-class='SharingIconsPopover'}}
+            {{yield}}
+        {{/dd.menu}}
+    {{/bs-dropdown}}
+</div>
+
+{{!-- ember bootstrap popover to see if it likes me more --}}

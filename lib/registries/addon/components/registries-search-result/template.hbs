@@ -1,6 +1,15 @@
 <div class="row">
     <div class="col-xs-12">
-
+        {{#if result.mainLink}}
+            {{#sharing-icons/popover resultId=result.id}}
+                {{sharing-icons
+                    title=result.title
+                    description=result.description
+                    hyperlink=result.mainLink
+                    resultId=result.id
+                }}
+            {{/sharing-icons/popover}}
+        {{/if}}
         <h4 local-class="RegistriesSearchResult__Title">
             {{#if osfID}}
                 {{#link-to-external 'registration' osfID data-test-result-title-id=result.id}}
