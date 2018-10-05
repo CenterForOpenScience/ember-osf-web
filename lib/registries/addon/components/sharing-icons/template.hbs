@@ -1,0 +1,12 @@
+<a tabindex="0" local-class="SharingIconsPopover__anchor" class="btn-link pull-right">
+    <span class="fa fa-share-alt"></span>
+    {{#bs-popover placement="left" triggerEvents="focus" local-class="Popover" viewportSelector=(concat '#' parentId) autoPlacement=true }}
+        <a class="m-r-xs text-smaller" href={{twitterHref}} onclick={{action 'click' 'link' 'Twitter' 'Content - tweet' extraInfo=resultId  preventDefault=false target=analytics}}>{{fa-icon 'twitter-square' size=2}}</a>
+        {{!-- facebook app ids are required for sharing and will not always exist --}}
+        {{#if facebookHref}}
+            <a class="m-r-xs text-smaller" href={{facebookHref}} onclick={{action 'click' 'link' 'Facebook' 'Content - share' extraInfo=resultId preventDefault=false target=analytics}}>{{fa-icon 'facebook-square' size=2}}</a>
+        {{/if}}
+        <a class="m-r-xs text-smaller" href={{linkedinHref}} onclick={{action 'click' 'link' 'LinkedIn' 'Content - share' extraInfo=resultId preventDefault=false target=analytics}}>{{fa-icon 'linkedin-square' size=2}}</a>
+        <a class="m-r-xs text-smaller" href={{emailHref}} onclick={{action 'click' 'link' 'link' 'Content - share' extraInfo=resultId preventDefault=false target=analytics}}>{{fa-icon 'envelope-square' size=2}}</a>
+    {{/bs-popover}}
+</a>

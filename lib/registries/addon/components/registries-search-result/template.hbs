@@ -1,5 +1,14 @@
 <div class="row">
     <div class="col-xs-12">
+        {{#if result.mainLink}}
+            {{sharing-icons
+                title=result.title
+                description=result.description
+                hyperlink=result.mainLink
+                resultId=result.id
+                parentId=this.elementId
+            }}
+        {{/if}}
         <h4 local-class="RegistriesSearchResult__Title">
             {{#if osfID}}
                 {{#link-to-external 'registration' osfID data-test-result-title-id=result.id}}
@@ -58,7 +67,7 @@
             <ul local-class="RegistriesSearchResult__HyperLinks" class="m-t-sm">
                 {{#each result.hyperLinks as |hyperlink index|}}
                     <li>
-                        <a 
+                        <a
                             href={{hyperlink}}
                             data-test-result-hyperlink-id="{{result.id}} - {{index}}"
                             onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' hyperlink) result.id target=analytics}}
@@ -92,4 +101,3 @@
 
     </div>
 </div>
-
