@@ -21,6 +21,10 @@ describe('translations', () => {
 
     const addons = fs.readdirSync('lib');
 
+    for (const addon of addons.concat(['app'])) {
+        locales[addon] = [];
+    }
+
     if (transFiles.length > 0) {
         ['app', ...addons].forEach(appOrAddon => {
             const baseDir = appOrAddon === 'app' ? 'app' : `lib/${appOrAddon}/addon`;
