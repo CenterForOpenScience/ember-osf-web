@@ -6,7 +6,6 @@ export default class Application extends Route.extend({
 
         // If we're not on a provider, redirect
         if (!/^collections\.provider/.test(transition.targetName)) {
-            // @ts-ignore
             this.transitionToExternal('home');
         }
     },

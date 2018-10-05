@@ -307,6 +307,9 @@ export default class DiscoverPage extends Component.extend({
 
             // If issue with search query, for example, invalid lucene search syntax
             this.set(errorResponse.status === 400 ? 'queryError' : 'shareDown', true);
+
+            // re-throw for error monitoring
+            throw errorResponse;
         }
     }).keepLatest();
 
