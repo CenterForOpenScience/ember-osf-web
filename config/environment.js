@@ -169,6 +169,7 @@ module.exports = function(environment) {
             },
             localStorageKeys: {
                 authSession: 'embosf-auth-session',
+                joinBannerDismissed: 'slide', // TODO: update legacy UI to use a more unique key
             },
             orcidClientId,
             casUrl,

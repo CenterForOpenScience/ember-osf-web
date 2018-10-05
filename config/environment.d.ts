@@ -95,6 +95,7 @@ declare const config: {
         };
         localStorageKeys: {
             authSession: string;
+            joinBannerDismissed: string;
         };
         orcidClientId?: string;
         casUrl: string;
