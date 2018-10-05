@@ -52,7 +52,7 @@ export interface Answer<T> {
 }
 
 export interface RegistrationMetadata {
-    [qid: string]: Answer<string | RegistrationMetadata>;
+    [qid: string]: Answer<string | string[] | boolean | RegistrationMetadata>;
 }
 
 /**
