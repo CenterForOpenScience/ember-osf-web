@@ -6,7 +6,7 @@ import OsfModel from './osf-model';
 const Validations = buildValidations({
     name: [
         validator('presence', true),
-        validator('length', { min: 1, max: 200 }),
+        validator('length', { min: 1, max: 100 }),
     ],
     scopes: [
         validator('collection', true),
