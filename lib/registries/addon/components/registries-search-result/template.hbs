@@ -10,19 +10,13 @@
             }}
         {{/if}}
         <h4 local-class="RegistriesSearchResult__Title">
-            {{#if osfID}}
-                {{#link-to-external 'registration' osfID data-test-result-title-id=result.id}}
-                    {{math result.title}}
-                {{/link-to-external}}
-            {{else}}
-                <a
-                    href={{result.mainLink}}
-                    data-test-result-title-id={{result.id}}
-                    onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' result.mainLink) result.id target=analytics}}
-                >
-                    {{math result.title}}
-                </a>
-            {{/if}}
+            <a
+                href={{result.mainLink}}
+                data-test-result-title-id={{result.id}}
+                onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' result.mainLink) result.id target=analytics}}
+            >
+                {{math result.title}}
+            </a>
 
             {{#if result.withdrawn}}
                 <span class="label label-default">{{t 'registries.discover.search_result.withdrawn'}}</span>
