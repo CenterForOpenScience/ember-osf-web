@@ -148,6 +148,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `file-manager` (including skipped tests and one unused reference)
 - Components:
     - `search-dropdown` (Unused)
+- Flags:
+    - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on
+    - `ember_project_analytics_page` - `guid-node.analytics` and `guid-registration.analytics` now always on
 
 ## [0.7.0] - 2018-08-07
 ### Added
