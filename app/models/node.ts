@@ -99,6 +99,7 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
     @attr('boolean') preprint!: boolean;
     @attr('array') subjects!: string[];
     @attr('boolean') currentUserCanComment!: boolean;
+    @attr('boolean') wikiEnabled!: boolean;
 
     @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<Contributor>;

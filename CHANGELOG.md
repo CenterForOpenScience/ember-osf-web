@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased']
+### Changed
+- Models:
+    - `node` - add `wikiEnabled` boolean attribute
+- Components:
+    - `node-navbar` - only display the Wiki link when `node.wikiEnabled`
+- Tests:
+    - `node-navbar` integration test - added checks for Wiki link presence/omission based on `node.wikiEnabled`
+
 ## [Unreleased]
 ### Added
 - Models:
