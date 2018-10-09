@@ -1,7 +1,9 @@
 import { SingleResourceDocument } from 'osf-api';
+
+import Token from 'ember-osf-web/models/token';
 import ApplicationSerializer from './application';
 
-export default class TokenSerializer extends ApplicationSerializer {
+export default class TokenSerializer extends ApplicationSerializer<Token> {
     normalize(json: SingleResourceDocument) {
         if (json.data.attributes && json.data.attributes.scopes) {
             const { scopes } = json.data.attributes;

@@ -3,59 +3,83 @@ import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
 
-import ApplicationSerializer, { SerializedLinks } from './application';
+import ApplicationSerializer, { SerializedRelationships } from './application';
 import { Attrs } from './node';
 
 const { OSF: { apiUrl } } = config;
 
-export default class RegistrationSerializer extends ApplicationSerializer {
-    links(model: ModelInstance<Registration & { attrs: Attrs }>) {
-        const returnValue: SerializedLinks<Registration> = {
+type MirageRegistration = Registration & { attrs: Attrs };
+
+export default class RegistrationSerializer extends ApplicationSerializer<MirageRegistration> {
+    buildRelationships(model: ModelInstance<MirageRegistration>) {
+        const relationships: SerializedRelationships<MirageRegistration> = {
             linkedNodes: {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/linked_nodes/`,
-                    meta: this.buildRelatedLinkMeta(model, 'linkedNodes'),
-                },
-                self: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/relationships/linked_nodes/`,
-                    meta: {},
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/linked_nodes/`,
+                        meta: this.buildRelatedLinkMeta(model, 'linkedNodes'),
+                    },
+                    self: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/relationships/linked_nodes/`,
+                        meta: {},
+                    },
                 },
             },
             contributors: {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/contributors/`,
-                    meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/contributors/`,
+                        meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                    },
                 },
             },
             forks: {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/forks/`,
-                    meta: this.buildRelatedLinkMeta(model, 'forks'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/forks/`,
+                        meta: this.buildRelatedLinkMeta(model, 'forks'),
+                    },
                 },
             },
             registrationSchema: {
-                related: {
-                    href: `${apiUrl}/v2/schemas/registrations/${model.registrationSchema.id}`,
-                    meta: {},
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/schemas/registrations/${model.registrationSchema.id}`,
+                        meta: {},
+                    },
                 },
             },
         };
         if (model.attrs.parentId !== null) {
-            returnValue.parent = {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.attrs.parentId}`,
-                    meta: {},
+            const { parentId } = model.attrs;
+            relationships.parent = {
+                data: {
+                    id: parentId,
+                    type: this.typeKeyForModel(model),
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${parentId}`,
+                        meta: {},
+                    },
                 },
             };
         }
         if (model.attrs.rootId !== null) {
-            returnValue.root = {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.attrs.rootId}`,
-                    meta: {},
+            const { rootId } = model.attrs;
+            relationships.root = {
+                data: {
+                    id: rootId,
+                    type: this.typeKeyForModel(model),
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${rootId}`,
+                        meta: {},
+                    },
                 },
             };
         }
-        return returnValue;
+        return relationships;
     }
 }

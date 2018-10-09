@@ -14,7 +14,7 @@ interface RootObject {
     currentUser: ModelInstance<User>;
 }
 
-export default class RootSerializer extends ApplicationSerializer {
+export default class RootSerializer extends ApplicationSerializer<RootObject> {
     serialize(object: ModelInstance<RootObject>) {
         const data: RootDocument = {
             meta: {
