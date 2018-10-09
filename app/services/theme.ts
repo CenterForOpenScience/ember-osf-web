@@ -114,7 +114,10 @@ export default class Theme extends Service {
     }
 
     reset(this: Theme) {
-        this.set('id', defaultProvider);
+        this.setProperties({
+            id: defaultProvider,
+            providerType: undefined,
+        });
     }
 
     prefixRoute(route: string): string {
