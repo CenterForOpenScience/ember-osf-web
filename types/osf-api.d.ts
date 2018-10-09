@@ -81,6 +81,7 @@ export type RelatedLink = string | { href: string; meta?: RelatedLinkMeta };
 
 export interface RelatedLinkMeta {
     count?: number;
+    type?: string;
 }
 
 export interface NormalLinks extends JSONAPI.Links {

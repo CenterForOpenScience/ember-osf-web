@@ -1,12 +1,27 @@
-import { faker } from 'ember-cli-mirage';
+import { faker, ModelInstance, Server } from 'ember-cli-mirage';
+import SeedRandom from 'seedrandom';
 
 import { RegistrationMetadata, Schema } from 'ember-osf-web/models/registration-schema';
 
-export const guid = (id: number, type: string): string => {
-    const numPart = String(id);
-    const typPart = type.substr(0, 5 - numPart.length);
-    return `${typPart}${numPart}`;
-};
+const GUID_CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+export function guid(referentType: string) {
+    return (id: number) => {
+        // Generate a pseudo-random guid
+        const prng = new SeedRandom(`${referentType}-${id}`);
+        const chars = new Array(5).fill(undefined).map(
+            () => GUID_CHARS[Math.floor(prng() * GUID_CHARS.length)],
+        );
+        return ''.concat(...chars);
+    };
+}
+
+export function guidAfterCreate(newObj: ModelInstance, server: Server) {
+    server.schema.guids.create({
+        id: newObj.id,
+        referentType: newObj.modelName,
+    });
+}
 
 /**
  * Create registration metadata with a random number of questions answered.

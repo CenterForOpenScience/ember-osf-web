@@ -195,5 +195,8 @@
       "lib/osf-components",
       "lib/registries"
     ]
+  },
+  "dependencies": {
+    "seedrandom": "^2.4.4"
   }
 }

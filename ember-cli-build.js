@@ -132,6 +132,10 @@ module.exports = function(defaults) {
     app.import('node_modules/dropzone/dist/dropzone.css');
     app.import('node_modules/dropzone/dist/dropzone.js');
 
+    app.import('node_modules/seedrandom/seedrandom.min.js', {
+        using: [{ transformation: 'amd', as: 'seedrandom' }],
+    });
+
     app.import({
         test: 'vendor/ember/ember-template-compiler.js',
     });

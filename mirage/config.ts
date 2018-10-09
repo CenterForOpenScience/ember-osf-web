@@ -6,6 +6,12 @@ import { userFileList, userNodeList } from './views/user';
 
 const { OSF: { apiUrl } } = config;
 
+function queryParamIsTruthy(value?: string) {
+    return Boolean(
+        value && ['true', '1'].includes(value.toString().toLowerCase()),
+    );
+}
+
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
 
@@ -18,6 +24,17 @@ export default function(this: Server) {
     });
 
     this.get('/files/:id');
+
+    this.get('/guids/:id', (schema, request) => {
+        const { id } = request.params;
+        const { resolve } = request.queryParams;
+        const guid = schema.guids.find(id);
+        if (queryParamIsTruthy(resolve)) {
+            return schema[guid.referentType].find(id);
+        }
+        return guid;
+    });
+
     this.get('/institutions');
 
     osfResource(this, 'nodes');
