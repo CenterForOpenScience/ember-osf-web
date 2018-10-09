@@ -20,6 +20,7 @@ const serviceLinks = {
     settings: `${osfUrl}settings/`,
     reviewsHome: `${osfUrl}reviews/`,
     institutionsLanding: `${osfUrl}institutions/`,
+    collectionsHome: `${osfUrl}collections/`,
 };
 
 export {

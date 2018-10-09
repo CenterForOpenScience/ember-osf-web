@@ -6,6 +6,7 @@ import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 
+import Node from 'ember-osf-web/models/node';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
@@ -26,7 +27,8 @@ export default class GuidNodeRegistrations extends Controller {
     newModalOpen = false;
     preregModalOpen = false;
     preregConsented = false;
-    reloadDrafts = false;
+
+    reloadDrafts?: (page?: number) => void; // bound by paginated-list
 
     preregLinks = {
         approvedJournal: 'http://cos.io/our-services/prereg-more-information/',
@@ -47,11 +49,16 @@ export default class GuidNodeRegistrations extends Controller {
         this.set('schemas', schemas);
     });
 
-    @alias('model.taskInstance.value') node!: Node;
+    @alias('model.taskInstance.value') node!: Node | null;
 
     @computed('tab')
     get activeTab() {
         return this.tab ? this.tab : 'registrations';
+    }
+
+    @computed('node.id', 'node.root.id', 'node.root.currentUserIsAdmin')
+    get isComponentRootAdmin() {
+        return this.node && this.node.id !== this.node.root.get('id') && this.node.root.get('currentUserIsAdmin');
     }
 
     @action
@@ -110,7 +117,6 @@ export default class GuidNodeRegistrations extends Controller {
         });
         await draftRegistration.save();
         this.set('newModalOpen', false);
-        this.set('reloadDrafts', true);
         this.set('selectedSchema', this.defaultSchema);
         window.location.assign(
             pathJoin(baseURL, draftRegistration.branchedFrom.get('id'), 'drafts', draftRegistration.id),

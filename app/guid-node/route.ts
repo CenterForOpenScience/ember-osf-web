@@ -14,7 +14,10 @@ export default class GuidNode extends ResolvedGuidRoute {
             taskInstance: this.get('resolveGuid').perform(
                 params.node_guid,
                 'node',
-                { related_counts: 'forks,registrations,draft_registrations' },
+                {
+                    related_counts: 'forks,registrations,draft_registrations',
+                    include: 'root',
+                },
             ),
             nodeId: params.node_guid,
         };

@@ -11,6 +11,9 @@ export default class TokenSerializer extends OsfSerializer {
         scopes: {
             serialize: true, // always serialize, even when not dirty
         },
+
+        // Because it's confusing to have both tokenId and token.id
+        tokenValue: 'token_id',
     };
 
     normalize(typeClass: Token, hash: Resource) {

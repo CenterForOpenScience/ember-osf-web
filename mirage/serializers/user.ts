@@ -6,7 +6,7 @@ import ApplicationSerializer, { SerializedLinks } from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class UserSerializer extends ApplicationSerializer {
-    links(model: User): SerializedLinks<User> {
+    links(model: ModelInstance<User>): SerializedLinks<User> {
         return {
             nodes: {
                 related: {

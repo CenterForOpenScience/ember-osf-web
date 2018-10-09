@@ -25,6 +25,13 @@ enum AuthRoute {
     Logout = 'logout',
 }
 
+function hashCode(str: string): number {
+    return str
+        .split('')
+        // eslint-disable-next-line no-bitwise
+        .reduce((acc, _, i) => ((acc << 5) - acc) + str.charCodeAt(i), 0); // tslint:disable-line no-bitwise
+}
+
 /**
  * @module ember-osf-web
  * @submodule services
@@ -148,6 +155,22 @@ export default class CurrentUserService extends Service {
             headers['X-CSRFToken'] = csrfToken;
         }
         return headers;
+    }
+
+    /**
+     * Return a simple hash of the currentUser ID if user is logged in, otherwise return a generated random string.
+     * sessionKey can be used to identify the current session or any general purposes.
+     * For Elasticsearch requests, sessionKey is used as the "preference" URL parameter to ensure reproducible search
+     * results ordering.
+     *
+     * @property sessionKey
+     * @return {String}
+     */
+    @computed('currentUserId')
+    get sessionKey(): string {
+        return this.currentUserId ?
+            hashCode(this.currentUserId).toString() :
+            Math.random().toString(36).substr(2, 10);
     }
 }
 

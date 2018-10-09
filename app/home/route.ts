@@ -6,30 +6,16 @@ import Session from 'ember-simple-auth/services/session';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class Home extends Route.extend({
-    async beforeModel(this: Home, transition: Ember.Transition) {
-        await this._super(transition);
-
-        if (this.get('session').get('isAuthenticated')) {
-            this.transitionTo('dashboard');
-        }
-    },
-
-    setupController(...args: any[]) {
-        const [controller] = args;
-
-        controller.setProperties({
-            didValidate: false,
-        });
-
-        this._super(...args);
-    },
-}) {
+export default class Home extends Route {
     @service analytics!: Analytics;
     @service session!: Session;
 
-    model() {
-        return this.store.createRecord('user-registration');
+    async beforeModel(this: Home, transition: Ember.Transition) {
+        await super.beforeModel(transition);
+
+        if (this.session.isAuthenticated) {
+            this.transitionTo('dashboard');
+        }
     }
 
     @action

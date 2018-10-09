@@ -1,8 +1,8 @@
 import { classNames, tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { gt } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
+
 import styles from './styles';
 import layout from './template';
 
@@ -12,15 +12,31 @@ export default class SimplePaginator extends Component {
     layout = layout;
     styles = styles;
 
-    maxPage: number = defaultTo(this.maxPage, 1);
-    curPage: number = defaultTo(this.curPage, 1);
+    // Optional arguments (omitting will display a placeholder)
+    curPage?: number;
+    maxPage?: number;
+    previousPage?: () => unknown;
+    nextPage?: () => unknown;
 
     @computed('curPage', 'maxPage')
     get hasNext(this: SimplePaginator): boolean {
-        return this.get('curPage') < this.get('maxPage');
+        return Boolean(this.curPage && this.maxPage && this.curPage < this.maxPage);
     }
 
     @gt('curPage', 1) hasPrev!: boolean;
+    @gt('maxPage', 1) hasMultiplePages!: boolean;
 
-    @gt('maxPage', 1) hasPages!: boolean;
+    @action
+    _previous() {
+        if (this.previousPage) {
+            this.previousPage();
+        }
+    }
+
+    @action
+    _next() {
+        if (this.nextPage) {
+            this.nextPage();
+        }
+    }
 }

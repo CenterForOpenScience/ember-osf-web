@@ -34,7 +34,7 @@ export interface Page {
 }
 
 export interface Schema {
-    name: string; // eslint-disable-line no-restricted-globals
+    name: string;
     title: string;
     version: number;
     active: boolean;
@@ -45,16 +45,14 @@ export interface Schema {
     description: string;
 }
 
-export interface Answer {
-    value?: string;
-}
-
-export interface Answers {
-    [id: string]: Answer;
+export interface Answer<T> {
+    value?: T;
+    comments?: any[]; // String?
+    extra?: object[];
 }
 
 export interface RegistrationMetadata {
-    [qid: string]: Answer | Answers;
+    [qid: string]: Answer<string | string[] | boolean | RegistrationMetadata>;
 }
 
 /**
@@ -65,7 +63,7 @@ export interface RegistrationMetadata {
  */
 export default class RegistrationSchema extends OsfModel {
     @attr('boolean') active!: boolean;
-    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') name!: string;
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: Schema;
 }

@@ -22,8 +22,8 @@ describe('Blueprint: component-addon', function() {
 
         it('in addon (app tree)', function() {
             return emberGenerateDestroy(['component-addon', 'foo-bar'], file => {
-                expect(file('app/components/foo-bar/component.ts'))
-                    .to.equal(fixture('blueprints/component-addon/component.ts'));
+                expect(file('app/components/foo-bar/component.js'))
+                    .to.equal(fixture('blueprints/component-addon/component.js'));
             });
         });
     });

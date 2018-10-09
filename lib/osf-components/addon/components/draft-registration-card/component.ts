@@ -6,7 +6,7 @@ import { htmlSafe } from '@ember/string';
 import config from 'ember-get-config';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import { Answer, Answers } from 'ember-osf-web/models/registration-schema';
+import { RegistrationMetadata } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -56,11 +56,14 @@ export default class DraftRegistrationCard extends Component {
                         if (property.required) {
                             requiredQuestions++;
                             if (question.qid in metadata) {
-                                const answers = metadata[question.qid] as Answers;
-                                if (property.id in answers && 'value' in answers[property.id]) {
-                                    const { value } = answers[property.id];
-                                    if (value && value.length) {
-                                        answeredRequiredQuestions++;
+                                const answers = metadata[question.qid] as RegistrationMetadata;
+                                if ('value' in answers) {
+                                    const value = answers.value as RegistrationMetadata;
+                                    if (value && property.id in value) {
+                                        const propertyValue = value[property.id].value;
+                                        if (Array.isArray(propertyValue) ? propertyValue.length : propertyValue) {
+                                            answeredRequiredQuestions++;
+                                        }
                                     }
                                 }
                             }
@@ -69,8 +72,8 @@ export default class DraftRegistrationCard extends Component {
                 } else if (question.required) {
                     requiredQuestions++;
                     if (question.qid in metadata && 'value' in metadata[question.qid]) {
-                        const { value } = metadata[question.qid] as Answer;
-                        if (value && value.length) {
+                        const { value } = metadata[question.qid];
+                        if (Array.isArray(value) ? value.length : value) {
                             answeredRequiredQuestions++;
                         }
                     }

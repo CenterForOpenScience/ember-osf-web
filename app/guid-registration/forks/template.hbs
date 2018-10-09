@@ -1,4 +1,5 @@
-{{title (t 'forks.page_title' nodeTitle=model.taskInstance.value.title)}}
+{{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
+{{title (t 'forks.page_title' nodeTitle=model.taskInstance.value.unsafeTitle)}}
 <div class="container" local-class="Forks">
     {{#bs-modal open=newModal onSubmit=(action 'newFork') onHide=(action (mut newModal) false) as |m|}}
         {{#m.body}}
@@ -31,7 +32,7 @@
         {{#paginated-list/has-many
             modelTaskInstance=model.taskInstance
             relationshipName='forks'
-            reload=reloadList
+            bindReload=(action (mut reloadList))
             query=forksQueryParams
             analyticsScope='Registration Forks'
             as |list|

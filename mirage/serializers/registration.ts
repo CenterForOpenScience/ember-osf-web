@@ -1,11 +1,15 @@
+import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+
 import Registration from 'ember-osf-web/models/registration';
+
 import ApplicationSerializer, { SerializedLinks } from './application';
+import { Attrs } from './node';
 
 const { OSF: { apiUrl } } = config;
 
 export default class RegistrationSerializer extends ApplicationSerializer {
-    links(model: Registration & { attrs: any }) {
+    links(model: ModelInstance<Registration & { attrs: Attrs }>) {
         const returnValue: SerializedLinks<Registration> = {
             linkedNodes: {
                 related: {

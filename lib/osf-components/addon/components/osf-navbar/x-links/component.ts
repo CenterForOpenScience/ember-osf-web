@@ -20,6 +20,7 @@ export default class XLinks extends Component {
 
     searchURL: string = defaultTo(this.searchURL, `${osfURL}search/`);
     myProjectsURL: string = defaultTo(this.myProjectsURL, `${osfURL}myprojects/`);
+    myRegistrationsURL: string = defaultTo(this.myRegistrationsURL, `${osfURL}myprojects/#registrations`);
 
     @computed('router.currentRouteName')
     get supportURL() {

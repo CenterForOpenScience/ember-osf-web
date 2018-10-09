@@ -1,0 +1,24 @@
+<div id="ember-bootstrap-modal-container">
+    {{#bs-modal open=isOpen as |modal|}}
+        {{#modal.header}}
+            <h3 class="modal-title">{{t 'app_components.search_help_modal.title'}}</h3>
+        {{/modal.header}}
+        {{#modal.body}}
+            <h4> {{t 'app_components.search_help_modal.queries'}} </h4>
+            <p>
+                {{t 'app_components.search_help_modal.searchSyntax'}}
+                {{t 'app_components.search_help_modal.helpDescription'}}
+            </p>
+            <ul class="ex-list">
+                {{#each examples as |example|}}
+                    <li>
+                        <a href={{concat currentPath '?q=' example.q}}>{{example.text}}</a>
+                    </li>
+                {{/each}}
+            </ul>
+        {{/modal.body}}
+        {{#modal.footer}}
+            {{#bs-button onClick=(action modal.close)}}{{t 'app_components.search_help_modal.close'}}{{/bs-button}}
+        {{/modal.footer}}
+    {{/bs-modal}}
+</div>

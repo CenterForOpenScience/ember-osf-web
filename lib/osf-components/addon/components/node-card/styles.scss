@@ -8,6 +8,10 @@
             width: 100%;
         }
     }
+
+    & > span {
+        line-height: 1.5;
+    }
 }
 
 .NodeCard__body {
@@ -59,26 +63,5 @@
 
     strong {
         font-weight: 600;
-    }
-
-    ul {
-        display: inline-block;
-        border: 0;
-        padding: 0;
-    }
-
-    :global(.emberTagInput-tag) {
-        cursor: initial;
-
-        &:hover span {
-            text-decoration: underline;
-            cursor: pointer;
-            background: initial;
-            color: #000;
-        }
-    }
-
-    :global(.emberTagInput-new) {
-        display: none;
     }
 }

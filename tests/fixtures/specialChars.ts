@@ -20,4 +20,8 @@ export default [
         'for now, intentionally limit which characters are fixed &amp; &lt; &gt;',
         'for now, intentionally limit which characters are fixed & < >',
     ],
+    [
+        '&Amp; ingore casing because usability &gT; correctness',
+        '& ingore casing because usability > correctness',
+    ],
 ] as Array<[string, string]>;

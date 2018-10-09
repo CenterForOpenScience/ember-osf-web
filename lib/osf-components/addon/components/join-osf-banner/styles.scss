@@ -4,19 +4,17 @@
     z-index: 9;
     background-color: $color-bg-white;
     border-top: 2px solid $color-text-black;
-    animation-name: slideInFromBottom;
     width: 100%;
-    animation-fill-mode: both;
-}
 
-.JoinOsfBanner--expand {
-    animation-duration: 1s;
+    animation-name: slideUp;
     animation-delay: 2s;
-    transform: translateY(100%);
+    animation-fill-mode: both;
+    animation-duration: 1s;
 }
 
-.JoinOsfBanner--collapse {
-    animation-direction: reverse;
+.JoinOsfBanner--collapsed {
+    animation-name: slideDown;
+    animation-delay: 0s;
 }
 
 .JoinOsfBanner__banner {
@@ -33,12 +31,22 @@
     height: 120px;
 }
 
-@keyframes slideInFromBottom {
-    0% {
+@keyframes slideUp {
+    from {
         transform: translateY(100%);
     }
 
-    100% {
+    to {
         transform: translateY(0%);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0%);
+    }
+
+    to {
+        transform: translateY(100%);
     }
 }

@@ -1,29 +1,39 @@
-import { action, computed } from '@ember-decorators/object';
+import { layout } from '@ember-decorators/component';
+import { action } from '@ember-decorators/object';
+import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import config from 'ember-get-config';
 import Analytics from 'ember-osf-web/services/analytics';
 import Session from 'ember-simple-auth/services/session';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+const {
+    OSF: {
+        localStorageKeys: {
+            joinBannerDismissed: dismissedKey,
+        },
+    },
+} = config;
+
+@layout(template)
 export default class JoinOsfBanner extends Component {
-    layout = layout;
     styles = styles;
 
     @service analytics!: Analytics;
     @service session!: Session;
 
+    dismissed: boolean = false;
     storage = window.localStorage;
-    dismissedBanner = this.storage.getItem('slide') !== null;
+    previouslyDismissed = this.storage.getItem(dismissedKey) !== null;
+
+    @or('session.isAuthenticated', 'previouslyDismissed')
+    hideBanner!: boolean;
 
     @action
-    dismiss(this: JoinOsfBanner) {
-        this.set('dismissedBanner', true);
-        this.storage.setItem('slide', '0');
-    }
-
-    @computed('session.isAuthenticated', 'dismissedBanner')
-    get collapsed(): string {
-        return this.dismissedBanner || this.session.isAuthenticated ? 'collapse' : 'expand';
+    dismiss() {
+        this.set('dismissed', true);
+        this.storage.setItem(dismissedKey, '0');
     }
 }

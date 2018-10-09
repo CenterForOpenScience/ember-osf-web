@@ -3,9 +3,10 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import Analytics from 'ember-osf-web/services/analytics';
-import config from 'registries/config/environment';
 import { ShareRegistration } from 'registries/services/share-search';
 import layout from './template';
+
+const OSF_GUID_REGEX = /^https?:\/\/.*osf\.io\/([^/]+)/;
 
 @localClassNames('RegistriesSearchResult')
 export default class RegistriesSearchResult extends Component {
@@ -16,23 +17,26 @@ export default class RegistriesSearchResult extends Component {
 
     expanded = false;
 
+    // For use later, when the registration overview page is implemented
+    // @computed('result')
+    // get osfID() {
+    //     const res = OSF_GUID_REGEX.exec(this.result.mainLink || '');
+
+    //     if (res) {
+    //         return res[1];
+    //     }
+
+    //     return false;
+    // }
+
     @computed('result')
-    get osfID() {
-        const OSF = config.sourcesWhitelist.find(source => source.name === 'OSF')!;
-        const osfRegex = new RegExp(OSF.urlRegex);
-
-        for (const link of this.result.hyperLinks) {
-            if (!osfRegex.test(link)) {
-                continue;
-            }
-
-            const res = /^https?:\/\/.*osf\.io\/([^/]+)/.exec(link);
-            if (res) {
-                return res[1];
-            }
-        }
-
-        return false;
+    get contributors() {
+        return this.result.contributors.filter(
+            contrib => contrib.bibliographic,
+        ).map(contrib => ({
+            name: contrib.name,
+            link: contrib.identifiers.filter(ident => OSF_GUID_REGEX.test(ident))[0],
+        }));
     }
 
     @computed('expanded')
@@ -49,9 +53,5 @@ export default class RegistriesSearchResult extends Component {
             `Discover - ${this.result.title}`,
             this.result.id,
         );
-    }
-
-    contribFilter(contrib: any) {
-        return contrib.users.bibliographic;
     }
 }

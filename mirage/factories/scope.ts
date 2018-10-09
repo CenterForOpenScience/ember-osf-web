@@ -4,7 +4,7 @@ import Scope from 'ember-osf-web/models/scope';
 
 export default Factory.extend<Scope>({
     id() {
-        return faker.lorem.slug();
+        return faker.lorem.word();
     },
 
     description() {

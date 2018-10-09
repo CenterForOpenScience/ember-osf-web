@@ -1,3 +1,4 @@
+import unescapeXMLEntities from 'ember-osf-web/utils/fix-special-char';
 import { Map } from 'immutable';
 import config from 'registries/config/environment';
 import Search, {
@@ -75,13 +76,19 @@ export class ShareTermsAggregation implements SearchModifier {
     }
 }
 
+export interface ShareContributor {
+    id: string;
+    bibliographic: boolean;
+    citedAs: string;
+    identifiers: string[];
+    name: string;
+    orderCited: number;
+}
+
 export interface ShareRegistration {
     id: string;
     description: string;
-    contributors: Array<{
-        citedAs: string;
-        bibilographic: boolean;
-    }>;
+    contributors: ShareContributor[];
     dateCreated?: Date;
     dateModified?: Date;
     datePublished?: Date;
@@ -158,16 +165,15 @@ export default class ShareSearch extends Search {
     _postProcessRegistrations(registrations: any): ShareRegistration[] {
         return registrations.hits.hits.map((r: any): ShareRegistration => {
             const contributors = (r._source.lists.contributors || [])
-                .sort((a: any, b: any) => (a.order_cited || -1) - (b.order_cited || -1))
-                .map((contrib: any) => ({
-                    users: Object.keys(contrib).reduce(
-                        (acc: {[k: string]: any}, key: string) => ({
-                            ...acc,
-                            [(key as any).camelize()]: contrib[key],
-                        }),
-                        { bibliographic: contrib.relation !== 'contributor' },
-                    ),
-                }));
+                .map((contrib: any): ShareContributor => ({
+                    id: contrib.id as string,
+                    bibliographic: contrib.relation !== 'contributor',
+                    citedAs: unescapeXMLEntities(contrib.cited_as),
+                    identifiers: contrib.identifiers as string[],
+                    name: unescapeXMLEntities(contrib.name),
+                    orderCited: contrib.order_cited || -1,
+                } as ShareContributor))
+                .sort((a: ShareContributor, b: ShareContributor) => a.orderCited - b.orderCited);
 
             let mainLink: string | undefined;
             const infoLinks: Array<{ type: string; uri: string; }> = [];
@@ -206,15 +212,15 @@ export default class ShareSearch extends Search {
                 ),
                 mainLink: mainLink || hyperLinks[0],
                 registrationType: r._source.registration_type,
-                title: r._source.title,
+                title: unescapeXMLEntities(r._source.title),
                 subjects: r._source.subjects,
                 subjectSynonyms: r._source.subject_synonyms,
-                description: r._source.description,
+                description: unescapeXMLEntities(r._source.description),
                 dateUpdated: r._source.date_updated ? new Date(r._source.date_updated) : undefined,
                 dateCreated: r._source.date_created ? new Date(r._source.date_created) : undefined,
                 dateModified: r._source.date_modified ? new Date(r._source.date_modified) : undefined,
                 datePublished: r._source.date_published ? new Date(r._source.date_published) : undefined,
-                tags: r._source.tags,
+                tags: r._source.tags.map(unescapeXMLEntities),
                 withdrawn: r._source.withdrawn,
             };
         });

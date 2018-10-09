@@ -5,7 +5,7 @@
         model=this.token
         valuePath='name'
         label=(t 'settings.tokens.tokenName')
-        messagesShown=this.messagesShown
+        showMessages=this.showMessages
         disabled=this.inputsDisabled
         placeholder=(t 'settings.tokens.tokenName')
         aria-label=(t 'settings.tokens.tokenName')
@@ -19,13 +19,13 @@
             model=this.token
             valuePath='scopes'
             options=this.allScopes
-            messagesShown=this.messagesShown
+            showMessages=this.showMessages
             disabled=this.inputsDisabled
             aria-label=(t 'settings.tokens.scopes')
             as |cb|
         }}
-            <div local-class='Scope'>
-                {{cb.checkbox data-test-scope-checkbox=cb.option.id}}
+            <div local-class='Scope' data-test-scope=cb.option.id>
+                {{cb.checkbox}}
                 <label for={{cb.checkboxId}}>
                     {{cb.option.id}}
                     <div local-class='Scope__description' data-test-scope-description>

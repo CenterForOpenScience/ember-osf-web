@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `token`
     - `scope`
 - Components:
+    - `search-help-modal` - you know, the search help modal but as it's own component
     - `draft-registration-card` - summary card for draft registrations
     - `node-list` - produce a paginated list of nodes from a relationship
     - `copyable-text` - display some read-only text with a button to copy it
@@ -18,28 +19,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list/all` - list of all models of a given type
     - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
     - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
+    - `delete-button` - configurable delete button, including a confirmation modal and scientist name
+    - `tags-widget` - you know, for tags
 - Routes:
     - `guid-node/registrations` - registrations tab
     - `settings` - includes the settings side nav
     - `settings/tokens` - list of personal access tokens
     - `settings/tokens/edit`
     - `settings/tokens/create`
+    - `register` - sign up page
+- Transforms:
+    - `fixstringarray` - similar to `fixstring` transform (unencodes special characters), but for string arrays
 - Tests:
     - `guid-node/registrations` acceptance test
+    - `tags-widget` component integration test
+    - `register` route acceptance test
+    - `param` util unit test
 - Blueprints:
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
     - `ember-cli-mirage` - the 70% that seems possible to express in typescript
 - Engines:
     - `ember-osf-registries` - moved/upgraded into the registries engine
+    - `collections` - Add collections engine
+- Handbook:
+    - `tags-widget` - added to the handbook
+- Utils:
+    - `param` - drop-in replacement for jQuery.param
+- Helpers:
+    - `math` - A helper to render TeX statements using KaTeX
 
 ### Changed
 - Models:
     - `osf-model` - add `relatedCounts` attribute and `loadRelatedCounts()` method
     - `registration` - add `archiving` attribute and `registrationSchema` relationship, typed `registeredMeta`
-    - `draft-registration` - changed `registrationSchema` relationship type to be `registration-schema`
-    - `node` - added attributes: `preprint: boolean`, `subjects: string[]`, and `currentUserCanComment: boolean`
+    - `draft-registration`
+        - change `registrationSchema` relationship type to be `registration-schema`
+        - define inverse for `node` relationship as `draftRegistrations` instead of `null` (required by ember-data 3.4)
+    - `node`
+        - added attributes: `preprint: boolean`, `subjects: string[]`, and `currentUserCanComment: boolean`
+        - use `fixstringarray` transform for `tags` attribute
     - `user` - made `middleNames` `string` (was `string[]`), added `suffix: string`, `active: boolean`, `social: {}`
+    - `file` - use `fixstringarray` transform for `tags` attribute
+    - `preprint` - define inverse for `node` relationship as `preprints` instead of `null` (required by ember-data 3.4)
 - Adapters:
     - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
 - Serializers:
@@ -52,7 +74,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `file-renderer` - remove initialWidth MFR parameter
     - `node-blurb` - renamed to `node-card`
-    - `node-card` - add `registration` type, optional tags display, and placeholder when `node` is not set, made tagless
+    - `node-card`
+        - add `registration` type
+        - add optional tags display
+        - use placeholder when `node` is not set
+        - made tagless
+        - use `tags-widget` component instead of `ember-tag-input` directly
+        - `encodeURIComponent(tag)` when constructing tags search url
     - `node-navbar` - use `linkTo` for registrations
     - `paginated-relation` renamed to `paginated-list/has-many`
         - refactored to allow sharing functionality among different types of list
@@ -64,25 +92,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `validated-input/checkbox`
         - `validated-input/checkboxes` (new!)
         - `validated-input/date`
-        - `validated-input/recaptcha`
+        - `validated-input/recaptcha` - added ability to bind action to reset recaptcha
         - `validated-input/text`
         - `validated-input/textarea`
     - `osf-navbar` - modified to yield a list home links for engines to override, if required
+    - `sign-up-form` - added submit task & user-registration model creation
+    - `osf-navbar/auth-dropdown` - make Sign Up button transition to register route, if enabled
 - Routes:
     - `guid-node` - request `forks`, `registrations`, and `draft_registrations` related counts when resolving guid
     - `guid-node/forks` - use placeholder for forks list
     - `guid-registration` - request `forks` related count when resolving guid
     - `guid-registration/forks` - use placeholder for forks list
     - `resolve-guid/resolved-guid-route` - pass-through query params to `routeContext.setGuid()`
+    - `guid-file` - use `tags-widget` component instead of `ember-tag-input` directly
+    - `home` - remove submit task & user-registration model creation (moved to `sign-up-form` component)
 - Engines:
     - `analytics-page` - use `node-list` component for linked nodes list
+- Tests:
+    - Removed captcha visibility assertions from logged-out home page test
 - Handbook:
     - Fix link styling, remove double underline
     - Update ember-cli-addon-docs dependency
     - Add info for dev-env, testing, visual style, and written style
 - Misc:
     - install `@cos-forks/ember-content-placeholders`
-    - upgrade to ember(-(cli|data))@~3.3.0
+    - upgrade to ember(-(cli|data))@~3.4.0
     - don't strip ember-test-selectors from production builds
 - DX:
     - Have guid-like IDs for mirage factories (nodes and users to start)
@@ -101,12 +135,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - Non-relationship links
         - Guid files
         - Root user
+    - Mirage: pass through all requests on current domain
+    - Fix up template-lint rules for `ember-cli-template-lint` 1.0
+        - Configure the `attribute-indentation` rule to use 4 spaces and prevent lines > 120 chars
+        - Enable `no-bare-strings` in place of the deprecated `bare-strings` rule
+        - Disable `no-nested-interactive` which has replaced `nested-interactive` in the recommended ruleset
 
 ### Removed
 - Models:
     - `metaschema` (including related adapter & serializer)
 - Services:
     - `file-manager` (including skipped tests and one unused reference)
+- Components:
+    - `search-dropdown` (Unused)
 
 ## [0.7.0] - 2018-08-07
 ### Added

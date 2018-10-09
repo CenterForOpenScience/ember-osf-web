@@ -20,7 +20,7 @@ import User from './user';
  * @class File
  */
 export default class File extends BaseFileItem {
-    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') name!: string;
     @attr('fixstring') guid!: string;
     @attr('string') path!: string;
     @attr('number') size!: number;
@@ -31,7 +31,7 @@ export default class File extends BaseFileItem {
     @attr('date') dateModified!: Date;
     @attr('date') dateCreated!: Date;
     @attr('object') extra!: any;
-    @attr('array') tags!: string[];
+    @attr('fixstringarray') tags!: string[];
     @attr('fixstring') checkout!: string;
 
     @belongsTo('file', { inverse: 'files' }) parentFolder!: DS.PromiseObject<File> & File;

@@ -19,36 +19,35 @@ export enum ValidationStatus {
 export default abstract class BaseValidatedInput extends Component {
     // Required arguments
     model!: DS.Model;
-    valuePath!: string;
+    valuePath!: keyof DS.Model;
 
     // Optional arguments
     label?: string;
     ariaLabel?: string;
     placeholder?: string;
     disabled: boolean = defaultTo(this.disabled, false);
-    messagesShown: boolean = defaultTo(this.messagesShown, true);
+    showMessages: boolean = defaultTo(this.showMessages, true);
 
     // Private properties
     validation?: ResultCollection; // defined in constructor
     value: any; // defined in constructor
 
-    @computed(
-        'messagesShown',
-        'value',
-        'validation.{isInvalid,isValidating,warnings.[]}',
-    )
+    @computed('showMessages', 'value', 'validation.{isInvalid,isValidating,warnings.[]}')
     get validationStatus(): ValidationStatus {
-        const { validation } = this;
-        if (!this.messagesShown || !validation || validation.isValidating) {
+        const { showMessages, validation, value } = this;
+
+        switch (true) {
+        case !validation || !showMessages || validation.isValidating:
             return ValidationStatus.Hidden;
-        }
-        if (validation.isInvalid) {
+        case validation && validation.isInvalid:
             return ValidationStatus.HasError;
-        }
-        if (!isEmpty(validation.warnings)) {
+        case validation && !isEmpty(validation.warnings):
             return ValidationStatus.HasWarning;
+        case isEmpty(value):
+            return ValidationStatus.Hidden;
+        default:
+            return ValidationStatus.Success;
         }
-        return isEmpty(this.value) ? ValidationStatus.Hidden : ValidationStatus.Success;
     }
 
     constructor(...args: any[]) {

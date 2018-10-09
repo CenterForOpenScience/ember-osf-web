@@ -65,10 +65,12 @@
         {{/unless}}
 
         {{#if (gt maxPage 1) }}
-            <div class="col-xs-12">
-                <div class="pull-right">
-                    {{registries-paginator current=searchOptions.page maximum=maxPage pageChanged=(action 'changePage')}}
-                </div>
+            <div local-class="Pagination" class="col-xs-12">
+                {{search-paginator
+                    current=searchOptions.page
+                    maximum=maxPage
+                    pageChanged=(action 'changePage')
+                }}
             </div>
         {{/if}}
 

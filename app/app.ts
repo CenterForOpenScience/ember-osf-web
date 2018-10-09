@@ -12,10 +12,19 @@ const App = Application.extend({
     engines: {
         collections: {
             dependencies: {
+                externalRoutes: {
+                    home: 'home',
+                    support: 'support',
+                },
                 services: [
+                    'analytics',
+                    'current-user',
+                    'features',
                     'i18n',
                     'session',
                     'store',
+                    'theme',
+                    'toast',
                     'router',
                 ],
             },
@@ -23,9 +32,11 @@ const App = Application.extend({
         handbook: {
             dependencies: {
                 services: [
-                    'router',
                     'analytics',
                     'i18n',
+                    'router',
+                    'store',
+                    'toast',
                 ],
             },
         },

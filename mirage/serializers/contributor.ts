@@ -1,11 +1,14 @@
+import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+
 import Contributor from 'ember-osf-web/models/contributor';
+
 import ApplicationSerializer, { SerializedLinks } from './application';
 
 const { OSF: { apiUrl } } = config;
 
 export default class ContributorSerializer extends ApplicationSerializer {
-    links(model: Contributor): SerializedLinks<Contributor> {
+    links(model: ModelInstance<Contributor>): SerializedLinks<Contributor> {
         return {
             users: {
                 related: {

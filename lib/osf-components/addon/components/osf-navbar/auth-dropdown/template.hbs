@@ -1,9 +1,9 @@
 {{#if (not session.isAuthenticated) }}
     <li class='sign-in'>
         <div>
-            <a href="{{_signupURL}}" data-test-sign-up-button onclick={{action 'click' 'link' 'Navbar - SignUp' target=analytics}} class="btn btn-success btn-top-signup m-l-sm m-r-xs">
+            {{#hyper-link this.signUpRoute queryParams=this.signUpQueryParams class='btn btn-success btn-top-signup m-l-sm m-r-xs' analyticsLabel='Navbar - SignUp' testSelectorVal='sign-up-button'}}
                 {{t 'auth_dropdown.sign_up'}}
-            </a>
+            {{/hyper-link}}
             <a {{action 'login'}} data-test-sign-in-button onclick={{action 'click' 'button' 'Navbar - SignIn' target=analytics}} class="btn btn-info btn-top-login m-r-xs" role="button">
                 {{t 'auth_dropdown.sign_in'}}
             </a>
@@ -20,6 +20,11 @@
         {{/dd.toggle}}
 
         {{#dd.menu classNames='dropdown-menu auth-dropdown' as |ddm|}}
+            {{#if headline}}
+                {{#ddm.item (html-attributes role='none') local-class='headline'}}
+                    {{headline}}
+                {{/ddm.item}}
+            {{/if}}
             {{#ddm.item (html-attributes role='menuitem')}}
                 <a href="{{profileURL}}" onclick={{action 'click' 'link' 'Navbar - MyProfile' target=analytics}}>
                     <i class="fa fa-user fa-lg p-r-xs"></i>

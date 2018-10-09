@@ -3,6 +3,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
+import Toast from 'ember-toastr/services/toast';
 
 import requiredAction from 'ember-osf-web/decorators/required-action';
 import Token from 'ember-osf-web/models/token';
@@ -18,12 +19,17 @@ export default class TokenForm extends Component.extend({
         }
 
         const { validations } = yield token.validate();
-        this.set('messagesShown', true);
+        this.set('showMessages', true);
 
         if (validations.get('isValid')) {
-            yield token.save();
-            this.set('tokenSaved', true);
-            this.onSave(token);
+            try {
+                yield token.save();
+                this.set('tokenSaved', true);
+                this.onSave(token);
+            } catch (e) {
+                this.toast.error(e);
+                throw e;
+            }
         }
     }),
 }) {
@@ -40,8 +46,9 @@ export default class TokenForm extends Component.extend({
     @service router!: any;
     @service store!: DS.Store;
     @service analytics!: Analytics;
+    @service toast!: Toast;
 
-    messagesShown: boolean = false;
+    showMessages: boolean = false;
     tokenSaved: boolean = false;
 
     allScopes = this.store.findAll('scope');
@@ -59,7 +66,7 @@ export default class TokenForm extends Component.extend({
 
     willDestroy() {
         if (!this.tokenSaved) {
-            this.token.rollbackAttributes();
+            this.token.unloadRecord();
         }
     }
 }

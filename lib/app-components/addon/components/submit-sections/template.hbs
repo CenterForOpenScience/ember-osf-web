@@ -1,0 +1,11 @@
+<div class="row m-t-lg">
+    {{#cp-panels accordion=true as |panels|}}
+        {{yield (hash
+            section=(component 'submit-section'
+                panels=panels
+                activeSection=@activeSection
+                savedSections=@savedSections
+            )
+        )}}
+    {{/cp-panels}}
+</div>

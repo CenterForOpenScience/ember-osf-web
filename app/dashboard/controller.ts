@@ -43,8 +43,8 @@ export default class Dashboard extends Controller {
 
     institutions: Institution[] = A([]);
     nodes?: QueryHasManyResult<Node>;
-    noteworthy = A([]);
-    popular = A([]);
+    noteworthy!: QueryHasManyResult<Node>;
+    popular!: QueryHasManyResult<Node>;
 
     setupTask = task(function *(this: Dashboard) {
         this.set('filter', null);
@@ -74,7 +74,7 @@ export default class Dashboard extends Controller {
 
         const user: User = yield this.currentUser.user;
 
-        const nodes = yield user.queryHasMany('nodes', {
+        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
             embed: ['contributors', 'parent', 'root'],
             filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
@@ -94,7 +94,7 @@ export default class Dashboard extends Controller {
     getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
         try {
             const node: Node = yield this.store.findRecord('node', id);
-            const linkedNodes = yield node.queryHasMany('linkedNodes', {
+            const linkedNodes: QueryHasManyResult<Node> = yield node.queryHasMany('linkedNodes', {
                 embed: 'contributors',
                 page: { size: 5 },
             });
@@ -110,8 +110,8 @@ export default class Dashboard extends Controller {
     @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes!: boolean;
 
     @computed('nodes.{length,meta.total}')
-    get hasMore(): boolean | undefined {
-        return this.nodes ? this.nodes.length < this.nodes.meta.total : undefined;
+    get hasMore(): boolean {
+        return !!this.nodes && this.nodes.length < this.nodes.meta.total;
     }
 
     @action

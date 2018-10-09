@@ -11,6 +11,7 @@ export default {
         view: 'View',
         edit: 'Edit',
         cancel: 'Cancel',
+        ok: 'OK',
         revisions: 'Revisions',
         md5: 'MD5',
         date: 'Date',
@@ -101,7 +102,6 @@ export default {
         save_success: 'File saved',
         save_fail: 'Unable to save file',
         mfr_iframe_title: 'Rendering of document',
-        add_tag: 'Add a tag to enhance discoverability',
         embed_js_label: 'Embeddable javascript',
         embed_iframe_label: 'Embeddable iframe',
     },
@@ -239,6 +239,7 @@ export default {
         donate: 'Donate',
         go_home: 'Go home',
         my_projects: 'My Projects',
+        my_registrations: 'My Registrations',
         my_quick_files: 'My Quick Files',
         reviews: 'My Reviewing',
         search: 'Search',
@@ -258,12 +259,6 @@ export default {
         sign_in: 'Sign In',
         user_gravatar: 'User gravatar',
         toggle_auth_dropdown: 'Toggle auth dropdown',
-    },
-    search_help_modal: {
-        close: 'Close',
-        search_help: 'Search help',
-        queries: 'Queries',
-        paragraph: 'Search uses the <a href={{link}}>Lucene search syntax</a>. This gives you many options, but can be very simple as well. Examples of valid searches include:',
     },
     support: {
         title: 'Support',
@@ -407,18 +402,6 @@ export default {
         free_title2: 'OSF is a public good built to support your research.',
         free_link: 'Get started',
     },
-    sign_up_form: {
-        full_name: 'Full name',
-        contact_email: 'Contact email',
-        confirm_email: 'Confirm email',
-        password: 'Password',
-        sign_up_free: 'Sign up free',
-        password_placeholder: 'Password (Must be {{min}} to {{max}} characters)',
-        registration_success: 'Registration successful. Please check {{email}} to confirm your email address.',
-    },
-    sign_up_policy: {
-        paragraph: 'I have read and agree to the <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>.',
-    },
     tos_consent: {
         paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
         have_read_and_agree: 'I have read and agree to these terms.',
@@ -467,6 +450,9 @@ export default {
         password_match: 'Passwords must match.',
         recaptcha: 'Please complete reCAPTCHA.',
         affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.',
+        min_subjects: 'You must select at least {{minLength}} subject(s).',
+        node_license_invalid: 'Invalid required fields for the license',
+        node_license_missing_fields: 'The following required fields are missing: {{missingFields}}',
     },
     node_navbar: {
         toggle: 'Toggle navigation',
@@ -480,6 +466,7 @@ export default {
         settings: 'Settings',
         comments: 'Comments',
     },
+    // These keys come from the "osf_status" cookie set by Flask to expose status messages added to the session with push_status_message()
     status: {
         welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="http://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>',
         alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.',
@@ -487,6 +474,9 @@ export default {
         project_deleted: 'Project has been successfully deleted.',
         component_deleted: 'Component has been successfully deleted.',
         remove_self_contrib: 'You have removed yourself as a contributor from this project.',
+        registration_archiving: 'Files are being copied to the newly created registration, and you will receive an email notification when the copying is finished.',
+        registration_submitted: 'Your submission has been received. You will be notified within two business days regarding the status of your submission. If you have questions you may contact us at prereg@cos.io.',
+        redirected_to_registrations: "You have been redirected to the project's registrations page. From here you can initiate a new Draft Registration to complete the registration process.",
     },
     dropzone_widget: {
         drop_files: 'Drop files here to upload',
@@ -523,6 +513,7 @@ export default {
             },
         },
         tags: 'Tags:',
+        options: 'Options',
     },
     forks: {
         fork: 'Fork',
@@ -558,9 +549,12 @@ export default {
             },
             page_title: '{{nodeTitle}} Registrations',
             no_registrations: 'There have been no completed registrations of this project.',
+            only_admins_can_initiate: 'Only project administrators can initiate registrations.',
             no_drafts: 'There are no draft registrations of this project.',
             start_new: 'Start a new registration by clicking the “New registration” button. Once created, registrations cannot be edited or deleted.',
             learn_more: 'Learn more about registrations <a href="{{learnMoreLink}}">here</a>.',
+            register_entire_project: 'To register the entire project "{{rootNodeTitle}}" instead, click',
+            here: 'here',
             new: 'New registration',
             registrations: 'Registrations',
             draft_registrations: 'Draft Registrations',
@@ -608,18 +602,324 @@ export default {
     contributor_list: {
         and_x_more: '{{x}} more',
     },
+    app_components: {
+        branded_navbar: {
+            my_osf_projects: 'My OSF Projects',
+            on_the_osf: 'On the OSF:',
+        },
+        error_page: {
+            email_message: 'If this should not have occurred and the issue persists, please report it to',
+            go_to: 'Go to {{brand}}',
+        },
+        license_picker: {
+            faq: 'License FAQ',
+            show: 'Show full text',
+            hide: 'Hide full text',
+            fields: {
+                copyrightHolders: 'Copyright Holders',
+                year: 'Year',
+            },
+        },
+        navbar: {
+            add_item: 'Add to {{objectType}}',
+        },
+        project_contributors: {
+            title: 'Contributors',
+            contributors_popover_title: 'Contributor Information',
+            contributors_popover: 'Projects must have at least one registered administrator and one author showing in the citation at all times. A registered administrator is a user who has both confirmed their account and has administrator privileges.',
+            instructions: 'Drag and drop authors to change authorship order.',
+            list: {
+                name: 'Name',
+                permissions: 'Permissions',
+                permissions_popover_title: 'Permission Information',
+                permissions_popover: `
+                    <dl>
+                        <dt>Read</dt>
+                        <dd>
+                            <ul>
+                                <li>View project</li>
+                            </ul>
+                        </dd>
+                        <dt>Read + Write</dt>
+                        <dd>
+                            <ul>
+                                <li>Read privileges</li>
+                                <li>Add and configure project</li>
+                                <li>Add and edit content</li>
+                            </ul>
+                        </dd>
+                        <dt>Administrator</dt>
+                        <dd>
+                            <ul>
+                                <li>Read and write privileges</li>
+                                <li>Manage contributors</li>
+                                <li>Public-private settings</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                `,
+                citation: 'Citiation',
+                citation_popover_title: 'Citation Information',
+                citation_popover: 'Only checked contribotrs will be included in project citations. Contributors not in the citation can read and modify the project as normal.',
+                remove_contributor_success: 'Project contributor removed!',
+                remove_contributor_error: 'Could not remove contributor. Please try again.',
+                item: {
+                    img_alt: 'Gravatar',
+                    in_citation_label: 'In citation:',
+                    permissions_label: 'Permissions:',
+                    permissions: {
+                        admin: 'Administrator',
+                        write: 'Read + Write',
+                        read: 'Read',
+                    },
+                    remove: 'Remove',
+                    remove_author: 'Remove author',
+                },
+            },
+            search: {
+                placeholder: 'Search by name',
+                unregistered_description: 'Can\'t find the user that you\'re looking for?',
+                unregistered_button: 'Add author by email address',
+                results: 'Results',
+                no_results: 'No results found.',
+                unregistered_contributor: {
+                    title: 'Add author by email',
+                    full_name: 'Full name',
+                    email: 'Email',
+                    paragraph: 'We will notify the user that they have been added to your project.',
+                    cancel: 'Cancel',
+                    add: 'Add',
+                    add_success: 'Unregistered contributor added!',
+                    add_error: 'Could not add unregistered contributor. Please try again.',
+                },
+                result: {
+                    yourself: 'yourself',
+                    add: 'Add',
+                },
+                add_contributor_success: 'Project contributor added!',
+                add_contributor_error: 'Could not add contributor. Please try again.',
+            },
+        },
+        project_metadata: {
+            field_title_label: 'Title:',
+            field_title_placeholder: '',
+            field_description_label: 'Description:',
+            field_description_placeholder: '',
+            field_license_label: 'Choose a license:',
+            field_license_placeholder: '',
+            field_tags_label: 'Tags:',
+            field_tags_placeholder: 'Add a tag',
+            save_success: 'Project Metadata saved.',
+            save_error: 'Unable to save Project Metadata.',
+        },
+        query_syntax: {
+            allDatesIn: 'all dates in',
+            allFieldsSearched: 'By default, all available fields are searched, but you can choose to search specific fields instead',
+            allTagsBetween: 'all tags between',
+            and: 'and',
+            booleanDesc1: 'By default, all terms in the query are optional, as long as one term matches. You can use boolean operators',
+            booleanDesc2: 'to have more control over the search',
+            booleanDesc3: 'The word',
+            booleanDesc4: 'be present. The words',
+            booleanDesc5: 'are optional but used for sorting by relevance',
+            booleanDesc6: 'Same as above, except the word',
+            booleanDesc7: 'be present',
+            booleanDesc8: 'Equivalent to',
+            booleanDesc9: 'The word',
+            booleanDesc10: 'The list of tags contains',
+            booleanOperators: 'Boolean Operators',
+            boosting: 'Boosting',
+            boostingDesc1: 'Use the boost operator',
+            boostingDesc2: 'with a number to make one term more relevant than another. The boost can be any positive number. Boosts between 0 and 1 reduce relevance.',
+            boostingDesc3: 'Boost results with',
+            boostingDesc4: 'higher than results with just',
+            both: 'both',
+            butNot: 'but not',
+            couldNotPerformQuery: 'Could not perform search query.',
+            damerauLevenshteinDistanceDesc: 'to match all words with at most 1 change. You can specify a different maximum edit distance with a number after the',
+            descriptionContainsPhrase: 'The description contains the exact phrase',
+            documentation: 'documentation',
+            escapeReservedChars: ' If you want to use any of these reserved characters in your query, escape them with a leading backslash. For instance, to search for ',
+            except: 'except',
+            excluding: 'excluding',
+            fuzziness: 'Fuzziness',
+            fuzzinessDesc1: 'after a word to indicate a \'fuzzy\' search, to include matches that are similar but not exactly the same.',
+            listContainsExactPhrase: 'The list of contributor names contains the exact phrase',
+            listOfIdentifiersContains: 'The list of identifiers contains',
+            match: 'Match',
+            matchWordStartsWith: 'Match any word that starts with',
+            moreInformation: 'More Information',
+            moreInformationOnSearch: 'Please see below for more information on advanced search queries.',
+            moreInfoQuerySyntax: 'For more details about query syntax, see the',
+            must: 'must',
+            mustNot: 'must not',
+            needToType: 'you would need to type',
+            or: 'or',
+            phraseProximity: 'Phrase Proximity',
+            phraseProximityDesc1: 'You can also specify a maximum edit distance for phrases, to allow the words in the phrase to be farther apart or in a different order.',
+            ranges: 'Ranges',
+            rangesDesc1: 'Use brackets to specify ranges for a field. Square brackets',
+            rangesDesc2: 'indicate inclusive ranges and curly brackets',
+            rangesDesc3: 'indicate exclusive ranges',
+            reservedChars: 'Reserved Characters',
+            searchByField: 'Searching by Field',
+            specialMeanings: 'The following characters have special meanings in a query',
+            theWord: 'the word',
+            thisUsesThe: 'This uses the',
+            titleContainsWord: 'The title contains the word',
+            use: 'Use',
+            wildcards: 'Wildcards',
+            wildcardsDesc1: 'Use wildcards to match multiple terms at once. Use',
+            wildcardsDesc2: 'to match any single character, or',
+            wildcardsDesc3: 'to match zero or more characters.',
+        },
+        search_help_modal: {
+            close: 'Close',
+            title: 'Search help',
+            queries: 'Queries',
+            searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>.',
+            helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
+        },
+        search_paginator: {
+            prev: '«',
+            next: '»',
+        },
+        subject_picker: {
+            remove: 'Remove',
+            discard: 'Discard',
+            column: {
+                search: 'Search',
+            },
+        },
+        submit_section: {
+            discard: 'Discard changes',
+            save: 'Save and continue',
+            click_to_edit: 'Click to edit',
+        },
+    },
     collections: {
+        general: {
+            brand: '{{name}} Collections',
+        },
+        navbar: {
+            add: 'Add to Collection',
+        },
         index: {
             title: 'Collections',
+            services_heading: 'Collection Services',
+            services_paragraph: 'Leading collection service providers use this open source infrastructure to support their communities.',
+            service_bottom: {
+                p1: 'Create your own branded collection service backed by the OSF.',
+                div: {
+                    line1: 'Check out the',
+                    linkText1: 'open source code',
+                    line2: 'and the',
+                    linkText2: 'requirements and road map',
+                    line3: '. Input welcome!',
+                },
+                contact: 'Contact us',
+            },
         },
         provider: {
             title: 'Provider',
         },
         discover: {
             title: 'Discover',
+            search_heading: 'Collections Search',
+            search_placeholder: 'Search collections',
+            other_repositories: 'Other collections',
+            facet_titles: {
+                collection_provider: 'Providers',
+                taxonomy: 'Subject',
+                status: 'Status',
+                collected_type: 'Type',
+                issue: 'Issue',
+                program_area: 'Program Area',
+                volume: 'Volume',
+            },
         },
-        submit: {
+        collections_submission: {
             title: 'Submit',
+            add_header: 'Add to Collection',
+            update_header: 'Update in Collection',
+            project_select_title: 'Select a project',
+            project_select_project_label: 'Project:',
+            closed_tooltip: 'Complete the previous section to edit this section',
+            project_metadata_title: 'Project metadata',
+            project_metadata_description: 'Updates made in this section will update the project.',
+            project_metadata_title_label: 'Title:',
+            project_metadata_description_label: 'Description:',
+            project_metadata_license_label: 'License:',
+            project_metadata_tags_label: 'Tags:',
+            project_contributors_title: 'Project contributors',
+            project_contributors_description: 'Updates made to this section will update the project.',
+            subjects_title: 'Collection subjects',
+            subjects_description: 'Select a discipline and subdiscipline, if relevant. Add more by clicking on a new discipline.',
+            collection_metadata_title: 'Collection metadata',
+            cancel: 'Cancel',
+            add_button: 'Add to collection',
+            update_button: 'Update',
+            add_save_success: '{{title}} has been added to the collection.',
+            update_save_success: '{{title}} has been updated in the collection.',
+            add_save_error: 'Error adding {{title}} to the collection:\n{{error}}',
+            update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
+            modal_header: 'Alert',
+            modal_body: 'Are you sure you want to discard changes to the collection? Changes saved to the project will persist, if saved.',
+        },
+        collection_item_picker: {
+            after_options: {
+                loading: 'Loading\u2026',
+                load_more: 'Load More Projects',
+            },
+        },
+        collection_metadata: {
+            collected_type_label: 'Type:',
+            issue_label: 'Issue:',
+            program_area_label: 'Program Area:',
+            status_label: 'Status:',
+            volume_label: 'Volume:',
+        },
+        collection_search_result: {
+            expand: 'Expand search result',
+            collapse: 'Collapse search result',
+        },
+        discover_page: {
+            active_filters: {
+                button: 'Clear filters',
+                heading: 'Active Filters',
+                remove_provider: 'Remove provider',
+                remove_subject: 'Remove subject',
+                remove_type: 'Remove type',
+                remove_status: 'Remove status',
+                remove_issue: 'Remove issue',
+                remove_program_area: 'Remove program area',
+                remove_volume: 'Remove volume',
+            },
+            asOf: 'as of',
+            broadenSearch: 'Try broadening your search terms',
+            date: 'Date',
+            funder: 'Funder',
+            language: 'Language',
+            luceneHelp: 'Lucene search help',
+            noResults: 'No results. Try removing some filters.',
+            noResultsFound: 'No results found.',
+            partnerRepositories: 'Partner Repositories',
+            people: 'People',
+            poweredBy: 'powered by',
+            publisher: 'Publisher',
+            refineSearch: 'Refine your search by',
+            removeRegistrationType: 'Remove registration type',
+            search: 'Search',
+            searchLoading: 'Search loading',
+            searchPlaceholder: 'Search...',
+            share: 'SHARE',
+            shareUnavailable: 'Search is Unavailable',
+            shareUnavailableDescription: 'SHARE Search is temporarily unavailable. We have been notified and are working to fix the problem. Please try again later.',
+            sortBy: 'Sort by',
+            sortSearchResults: 'Sort search results',
+            source: 'Source',
+            tag: 'Tag',
+            type: 'Type',
         },
     },
     registries: {
@@ -655,11 +955,11 @@ export default {
             },
             sidebar: {
                 refine_your_search: 'Refine your search by',
-                clear_filters: 'Clear Filters',
-                active_filters: 'Active Filters',
+                clear_filters: 'Clear filters',
+                active_filters: 'Active filters',
             },
             search_result: {
-                last_edited: 'Last Edited: {{date}}',
+                last_edited: 'Last edited: {{date}}',
                 withdrawn: 'Withdrawn',
             },
             pagination: {
@@ -749,12 +1049,40 @@ export default {
             </p>
         `,
     },
-    paginatedRelation: {
-        error: 'There was an error loading this list.',
-    },
     cookieBanner: {
         cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.',
         accept: 'Accept',
+    },
+    discover: {
+        relevance: 'Relevance',
+        sort_oldest_newest: 'Modified Date (oldest to newest)',
+        sort_newest_oldest: 'Modified Date (newest to oldest)',
+        search_results: {
+            lastEdited: 'Last edited: {{date}} (UTC)',
+            status: 'Status: {{value}}',
+        },
+    },
+    page_not_found: { // 404
+        heading: 'Page not found',
+        message: 'The page you were looking for is not found on the {{brand}} service.',
+    },
+    forbidden: { // 403
+        heading: 'Forbidden',
+        message: 'User has restricted access to this page.',
+    },
+    resource_deleted: { // 410
+        heading: 'Resource deleted',
+        message: 'User has deleted this content.',
+    },
+    routes: {
+        register: {
+            sign_up: 'Sign Up',
+            create_a_free_account: 'Create a free account',
+            sign_up_using: 'Sign up using:',
+            orcid: 'ORCID',
+            institution: 'Institution',
+            email: 'Email',
+        },
     },
     'osf-components': {
         'draft-registration-card': {
@@ -766,7 +1094,34 @@ export default {
         },
         'copyable-text': {
             copyToClipboard: 'Copy to clipboard',
-            copied: 'Copied!',
+            copied: 'Copied',
+        },
+        'delete-button': {
+            buttonLabel: 'Delete',
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel',
+            modalTitle: 'Are you sure you want to delete this?',
+            modalBody: 'This action is irreversible.',
+            hardConfirm: 'Type the following to continue: <strong>{{text}}</strong>',
+        },
+        'paginated-list': {
+            error: 'There was an error loading this list.',
+        },
+        'sign-up-form': {
+            full_name: 'Full name',
+            contact_email: 'Contact email',
+            confirm_email: 'Confirm email',
+            password: 'Password',
+            sign_up_button_label: 'Sign up',
+            password_placeholder: 'Password (Must be {{min}} to {{max}} characters)',
+            registration_success: 'Registration successful. Please check {{email}} to confirm your email address.',
+        },
+        'sign-up-policy': {
+            paragraph: 'I have read and agree to the <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>.',
+        },
+        'tags-widget': {
+            tags: 'Tags',
+            add_tag: 'Add a tag to enhance discoverability',
         },
     },
     settings: {
@@ -789,12 +1144,8 @@ export default {
         tokens: {
             title: 'Personal access tokens',
             explanation: 'Personal access tokens function like ordinary OAuth access tokens. They can be used to authenticate to the API.',
-            listDescription: 'Your personal access tokens:',
-            emptyList: 'You have not created any tokens.',
             createToken: 'Create token',
-            deleteToken: 'Delete token',
             editToken: 'Edit token',
-            copyToken: 'Copy token ID',
             backToList: 'Back to list of tokens',
             tokenName: 'Token name',
             scopes: 'Scopes',
@@ -804,18 +1155,11 @@ export default {
                 body: 'Are you sure you want to delete this personal access token? This cannot be reversed.',
             },
             createSuccess: {
-                message: 'Successfully created personal access token <strong>{{tokenName}}</strong>.',
+                message: 'Token <strong>{{tokenName}}</strong> created:',
                 instructions: 'This token will never expire. This token should never be shared with others. If it is accidentally revealed publicly, it should be deactivated immediately.',
                 warning: 'This is the only time your token will be displayed.',
-                idDescription: 'ID used to authenticate with token <strong>{{tokenName}}<strong>:',
+                editScopes: 'Edit scopes',
             },
         },
-    },
-    searchHelp: {
-        close: 'Close',
-        title: 'Search help',
-        helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
-        queries: 'Queries',
-        searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>',
     },
 };

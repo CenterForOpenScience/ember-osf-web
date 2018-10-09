@@ -1,5 +1,3 @@
-.CheckboxesFormControl {
-    &#{&} { // double specificity to override form-control
-        height: auto;
-    }
+.Checkboxes {
+    padding-left: 10px;
 }

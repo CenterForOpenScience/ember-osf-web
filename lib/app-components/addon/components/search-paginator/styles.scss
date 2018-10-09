@@ -1,0 +1,27 @@
+.ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.li {
+    display: inline;
+
+    button {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        line-height: 1.42857;
+        text-decoration: none;
+        color: #337ab7;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+
+    .active {
+        z-index: 3;
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #337ab7;
+        cursor: default;
+    }
+}
