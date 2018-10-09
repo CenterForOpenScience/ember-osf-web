@@ -19,7 +19,7 @@
                     {{/node-navbar/link}}
                     {{node-navbar/link nodeId=@node.id useLinkTo=false destination='files'}}
                     {{#if @node.wikiEnabled}}
-                        {{node-navbar/link nodeId=@node.id useLinkTo=false destination='wiki'}}
+                        {{node-navbar/link data-test-node-navbar-link-wiki nodeId=@node.id useLinkTo=false destination='wiki'}}
                     {{/if}}
                     {{node-navbar/link nodeId=@node.id useLinkTo=true destination='analytics'}}
                     {{#unless @node.isRegistration}}
