@@ -61,7 +61,8 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 }
 
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
-    const firstNode = server.create('node', {});
+    server.create('user-setting', { user: currentUser });
+    const firstNode = server.create('node', 'withInstitutions');
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList('node', 10, {
         currentUserPermissions: Object.values(Permission),
@@ -91,6 +92,11 @@ function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
         server.create('contributor', { node, users: currentUser, index: 11 });
     }
     server.createList('institution', 20);
+    server.createList('token', 23);
+    server.createList('scope', 5);
+    server.createList('developer-app', 12);
+    server.loadFixtures('registration-schemas');
+    server.loadFixtures('regions');
 }
 
 function forksScenario(server: Server, currentUser: ModelInstance<User>) {

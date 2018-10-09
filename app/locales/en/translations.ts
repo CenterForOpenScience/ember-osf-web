@@ -1349,6 +1349,10 @@ export default {
             add_tag: 'Add a tag to enhance discoverability',
             no_tags: 'No tags',
         },
+        'institutions-widget': {
+            affiliated_institutions: 'Affiliated Institutions',
+            add_affiliation: 'Add Affiliation',
+        },
     },
     settings: {
         toggleNav: 'Toggle navigation',

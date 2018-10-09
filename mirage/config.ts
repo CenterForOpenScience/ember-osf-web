@@ -48,6 +48,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
+    osfNestedResource(this, 'node', 'affiliatedInstitutions', { only: ['index'] });
 
     osfResource(this, 'registration', { except: ['show'] });
     this.get('/registrations/:id', registrationDetail);

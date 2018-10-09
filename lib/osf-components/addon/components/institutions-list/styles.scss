@@ -1,0 +1,20 @@
+.InstitutionList__item {
+    display: inline-block;
+    float: none;
+    margin-right: 18px;
+
+    a {
+        background: inherit;
+    }
+
+    img {
+        background-color: $color-bg-white;
+    }
+
+    .InstitutionList__image {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #fff;
+        background-size: cover;
+    }
+}

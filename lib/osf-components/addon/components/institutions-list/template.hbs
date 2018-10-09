@@ -1,0 +1,18 @@
+<div data-test-institutions-list>
+    {{#each institutions as |institution|}}
+        <div local-class="InstitutionList__item">
+            <a href="/institutions/">
+                <img
+                    data-test-institution-list-institution={{institution.name}}
+                    local-class="InstitutionList__image"
+                    class="img-circle img-responsive"
+                    name={{institution.name}}
+                    logopath={{institution.logoUrl}}
+                    src={{institution.logoUrl}}
+                    alt={{institution.name}}
+                    title={{institution.name}}
+                >
+            </a>
+        </div>
+    {{/each}}
+</div>

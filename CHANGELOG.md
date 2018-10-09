@@ -160,6 +160,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
+    - `institutions-widget` - showing a list of institutions
 - Models:
     - `user-email`
 - Routes:
@@ -328,6 +329,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
     - `delete-button` - configurable delete button, including a confirmation modal and scientist name
     - `tags-widget` - you know, for tags
+    - `institutions-widget` - has a list of institutions associated with a node. Has a modal to add/remove
+    - `institutions-list` - shows a list of institutions
 - Routes:
     - `guid-node.registrations` - registrations tab
     - `settings` - includes the settings side nav
