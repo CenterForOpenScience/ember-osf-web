@@ -1,5 +1,6 @@
 import { underscore } from '@ember/string';
 import { resourceAction, Server } from 'ember-cli-mirage';
+
 import { filter, process } from './utils';
 
 interface ResourceOptions {
@@ -77,6 +78,7 @@ export function osfNestedResource(
         relatedModelName: relationshipName,
         defaultSortKey: '-id',
     }, options);
+    const detailPath = `${opts.path}/:id`;
     const actions = gatherActions(opts);
 
     if (actions.includes('index')) {
@@ -88,7 +90,20 @@ export function osfNestedResource(
         });
     }
 
+    if (actions.includes('show')) {
+        server.get(detailPath, opts.relatedModelName);
+    }
+
     if (actions.includes('create')) {
         server.post(opts.path, opts.relatedModelName);
+    }
+
+    if (actions.includes('update')) {
+        server.put(opts.path, opts.relatedModelName);
+        server.patch(opts.path, opts.relatedModelName);
+    }
+
+    if (actions.includes('delete')) {
+        server.del(opts.path, opts.relatedModelName);
     }
 }
