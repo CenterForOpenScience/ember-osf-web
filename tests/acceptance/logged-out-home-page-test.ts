@@ -1,4 +1,4 @@
-import { currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -25,7 +25,11 @@ module('Acceptance | logged-out home page', hooks => {
         assert.dom('footer').exists();
 
         // Check sign-up form.
-        assert.dom('[data-test-sign-up-full-name]').exists();
+        assert.dom('[data-test-sign-up-form] .has-error').doesNotExist('Sign up form: no premature validation');
+        assert.dom('[data-test-sign-up-form] .help-block').doesNotExist('Sign up form: no validation messages shown');
+        await click('[data-test-sign-up-form] [data-test-sign-up-button]');
+        assert.dom('[data-test-sign-up-form] .has-error').exists('Sign up form: validation errors present');
+        assert.dom('[data-test-sign-up-form] .help-block').exists('Sign up form: validation messages shown');
 
         // Alt text for integration logos
         assert.dom('[class*="_integrations"] img[alt*="Dropbox logo"]').exists();
