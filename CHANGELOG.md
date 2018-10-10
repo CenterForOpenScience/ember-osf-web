@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased']
+### Removed
+- Flags:
+    - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on
+    - `ember_project_analytics_page` - `guid-node.analytics` and `guid-registration.analytics` now always on
+
 ## [Unreleased]
 ### Added
 - Models:
@@ -148,9 +154,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `file-manager` (including skipped tests and one unused reference)
 - Components:
     - `search-dropdown` (Unused)
-- Flags:
-    - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on
-    - `ember_project_analytics_page` - `guid-node.analytics` and `guid-registration.analytics` now always on
 
 ## [0.7.0] - 2018-08-07
 ### Added
