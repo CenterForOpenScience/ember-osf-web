@@ -49,7 +49,7 @@ export default class OsfModel extends Model {
     @service currentUser!: CurrentUser;
 
     @attr() links: any;
-    @attr('object', { defaultValue: () => ({}) }) relatedCounts!: { [relName: string]: number | undefined };
+    @attr('object', { defaultValue: () => ({}) }) relatedCounts!: { [relName: string]: number };
     @attr() apiMeta: any;
 
     @alias('links.relationships') relationshipLinks: any;

@@ -52,6 +52,10 @@ export default function(this: Server) {
 
     osfResource(this, 'user', { except: ['create', 'delete'] });
     osfNestedResource(this, 'user', 'institutions', { only: ['index'] });
+    osfNestedResource(this, 'user', 'emails', {
+        path: '/users/:parentID/settings/emails',
+        relatedModelName: 'user-email',
+    });
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
