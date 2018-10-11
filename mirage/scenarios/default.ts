@@ -14,7 +14,7 @@ const {
 } = config;
 
 export default function(server: Server) {
-    const currentUser = server.create('user', 'loggedIn', 'withUnverifiedEmails');
+    const currentUser = server.create('user', 'loggedIn');
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList<Node>('node', 10, {

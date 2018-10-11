@@ -8,6 +8,7 @@ export interface UserTraits {
     withNodes: Trait;
     withFiles: Trait;
     loggedIn: Trait;
+    withUnverifiedEmail: Trait;
     withUnverifiedEmails: Trait;
 }
 
@@ -63,6 +64,12 @@ export default Factory.extend<User & UserTraits>({
         afterCreate(currentUser, server) {
             server.create('root', { currentUser });
             server.createList('file', 5, { user: currentUser });
+        },
+    }),
+
+    withUnverifiedEmail: trait({
+        afterCreate(user, server) {
+            server.create('user-email', { user, verified: false });
         },
     }),
 

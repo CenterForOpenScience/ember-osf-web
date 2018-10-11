@@ -9,7 +9,7 @@ export default class UserEmailModel extends OsfModel {
     @attr('boolean') confirmed!: boolean;
     @attr('boolean') verified!: boolean;
     @attr('boolean') primary!: boolean;
-    @attr('boolean') userMerge!: boolean;
+    @attr('boolean') isMerge!: boolean;
 
     @belongsTo('user', { inverse: 'emails' }) user!: DS.PromiseObject<User> & User;
 }

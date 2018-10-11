@@ -26,6 +26,8 @@ enum EmailActions {
     Deny = 'deny',
 }
 
+type MessageLevel = 'error' | 'info' | 'success' | 'warning';
+
 export default class VerifyEmailModal extends Component.extend({
     loadEmailsTask: task(function *(this: VerifyEmailModal) {
         const { user } = this.currentUser;
@@ -43,17 +45,20 @@ export default class VerifyEmailModal extends Component.extend({
     verifyTask: task(function *(this: VerifyEmailModal, emailAction: EmailActions) {
         const { userEmail } = this;
         let successKey: keyof TranslationKeys;
+        let successMessageLevel: MessageLevel;
         let errorKey: keyof TranslationKeys;
 
         switch (emailAction) {
         case EmailActions.Verify:
             userEmail.set('verified', true);
             successKey = 'verifySuccess';
+            successMessageLevel = 'success';
             errorKey = 'verifyError';
             break;
         case EmailActions.Deny:
             userEmail.deleteRecord();
             successKey = 'denySuccess';
+            successMessageLevel = 'warning';
             errorKey = 'denyError';
             break;
         default:
@@ -67,7 +72,7 @@ export default class VerifyEmailModal extends Component.extend({
                 this.unverifiedEmails.shiftObject();
             }
 
-            this.showMessage('success', successKey, userEmail);
+            this.showMessage(successMessageLevel, successKey, userEmail);
 
             // Close the modal and open another one (if needed) because it's confusing for the text to change in place
             this.set('shouldShowModal', false);
@@ -95,7 +100,7 @@ export default class VerifyEmailModal extends Component.extend({
 
     @computed('emailInfo.user_merge')
     get translationKeys(): TranslationKeys {
-        if (!this.userEmail || !this.userEmail.userMerge) {
+        if (!this.userEmail || !this.userEmail.isMerge) {
             return {
                 header: 'verifyEmail.add.header',
                 body: 'verifyEmail.add.body',
@@ -126,7 +131,7 @@ export default class VerifyEmailModal extends Component.extend({
     }
 
     showMessage(
-        level: 'error' | 'info' | 'success' | 'warning',
+        level: MessageLevel,
         key: keyof TranslationKeys,
         userEmail: UserEmail,
     ) {

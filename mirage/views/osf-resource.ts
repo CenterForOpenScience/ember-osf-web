@@ -1,5 +1,5 @@
 import { underscore } from '@ember/string';
-import { resourceAction, Server } from 'ember-cli-mirage';
+import { ModelInstance, resourceAction, Server } from 'ember-cli-mirage';
 
 import { filter, process } from './utils';
 
@@ -73,7 +73,6 @@ export function osfNestedResource(
     options?: Partial<NestedResourceOptions>,
 ) {
     const opts: NestedResourceOptions = Object.assign({
-        allow: ['list'],
         path: `/${underscore(parentModelName)}/:parentID/${underscore(relationshipName)}`,
         relatedModelName: relationshipName,
         defaultSortKey: '-id',
@@ -83,9 +82,11 @@ export function osfNestedResource(
 
     if (actions.includes('index')) {
         server.get(opts.path, function(schema, request) {
-            const data = schema[parentModelName].find(request.params.parentID)[relationshipName].models.map(
-                (model: any) => this.serialize(model).data,
-            );
+            const data = schema[parentModelName]
+                .find(request.params.parentID)[relationshipName]
+                .models
+                .filter((m: ModelInstance) => filter(m, request))
+                .map((model: any) => this.serialize(model).data);
             return process(schema, request, this, data, { defaultSortKey: opts.defaultSortKey });
         });
     }
@@ -99,11 +100,11 @@ export function osfNestedResource(
     }
 
     if (actions.includes('update')) {
-        server.put(opts.path, opts.relatedModelName);
-        server.patch(opts.path, opts.relatedModelName);
+        server.put(detailPath, opts.relatedModelName);
+        server.patch(detailPath, opts.relatedModelName);
     }
 
     if (actions.includes('delete')) {
-        server.del(opts.path, opts.relatedModelName);
+        server.del(detailPath, opts.relatedModelName);
     }
 }

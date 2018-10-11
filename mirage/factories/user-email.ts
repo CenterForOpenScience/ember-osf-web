@@ -6,6 +6,9 @@ export default Factory.extend<UserEmail>({
     emailAddress() {
         return faker.internet.email();
     },
+    isMerge() {
+        return faker.random.boolean();
+    },
     confirmed: true,
     verified: true,
     primary: false,
