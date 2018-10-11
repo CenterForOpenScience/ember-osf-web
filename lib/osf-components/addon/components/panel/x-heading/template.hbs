@@ -1,0 +1,8 @@
+<div data-test-panel-heading class="panel-heading clearfix">
+    {{#if @title}}
+        <h3 data-test-panel-title class="panel-title">{{@title}}</h3>
+    {{/if}}
+    {{#if (has-block)}}
+        {{yield}}
+    {{/if}}
+</div>
