@@ -3,23 +3,27 @@ import config from 'ember-get-config';
 
 import Contributor from 'ember-osf-web/models/contributor';
 
-import ApplicationSerializer, { SerializedLinks } from './application';
+import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class ContributorSerializer extends ApplicationSerializer {
-    links(model: ModelInstance<Contributor>): SerializedLinks<Contributor> {
+export default class ContributorSerializer extends ApplicationSerializer<Contributor> {
+    buildRelationships(model: ModelInstance<Contributor>) {
         return {
             users: {
-                related: {
-                    href: `${apiUrl}/v2/users/${model.users.id}/`,
-                    meta: this.buildRelatedLinkMeta(model, 'users'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.users.id}/`,
+                        meta: this.buildRelatedLinkMeta(model, 'users'),
+                    },
                 },
             },
             node: {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.node.id}`,
-                    meta: this.buildRelatedLinkMeta(model, 'node'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.node.id}`,
+                        meta: this.buildRelatedLinkMeta(model, 'node'),
+                    },
                 },
             },
         };

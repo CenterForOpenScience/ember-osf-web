@@ -2,7 +2,7 @@ import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Node from 'ember-osf-web/models/node';
 
-import { guid } from './utils';
+import { guid, guidAfterCreate } from './utils';
 
 export interface NodeTraits {
     withContributors: Trait;
@@ -11,6 +11,9 @@ export interface NodeTraits {
 }
 
 export default Factory.extend<Node & NodeTraits>({
+    id: guid('node'),
+    afterCreate: guidAfterCreate,
+
     category: faker.list.cycle(
         'project',
         'analysis',
@@ -24,9 +27,6 @@ export default Factory.extend<Node & NodeTraits>({
         'software',
         'other',
     ),
-    id(i: number) {
-        return guid(i, 'node');
-    },
     fork: false,
     currentUserIsContributor: false,
     preprint: false,
@@ -50,6 +50,7 @@ export default Factory.extend<Node & NodeTraits>({
     nodeLicense: null,
     public: true,
     tags: faker.lorem.words(5).split(' '),
+
     withContributors: trait({
         afterCreate(node: any, server: any) {
             const contributorCount = faker.random.number({ min: 1, max: 5 });
@@ -65,6 +66,7 @@ export default Factory.extend<Node & NodeTraits>({
             }
         },
     }),
+
     withRegistrations: trait({
         afterCreate(node: any, server: any) {
             const registrationCount = faker.random.number({ min: 5, max: 15 });
@@ -80,6 +82,7 @@ export default Factory.extend<Node & NodeTraits>({
             }
         },
     }),
+
     withDraftRegistrations: trait({
         afterCreate(node: any, server: any) {
             const draftRegistrationCount = faker.random.number({ min: 5, max: 15 });

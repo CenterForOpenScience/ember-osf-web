@@ -37,6 +37,7 @@ export type Model<T> = {
 interface ModelInstanceShared<T> {
     id: ID;
     attrs: T;
+    schema: Schema;
 
     save(): void;
     update<K extends keyof T>(key: K, val: T[K]): void;
@@ -131,6 +132,8 @@ function handlerDefinition(
 ): void;
 /* tslint:enable unified-signatures */
 
+export type resourceAction = 'index' | 'show' | 'create' | 'update' | 'delete';
+
 export interface Server {
     schema: Schema;
     db: Database;
@@ -148,7 +151,10 @@ export interface Server {
     patch: typeof handlerDefinition;
     del: typeof handlerDefinition;
 
-    resource(resourceName: string, options?: { only?: string[], except?: string[], path?: string }): void;
+    resource(
+        resourceName: string,
+        options?: { only?: resourceAction[], except?: resourceAction[], path?: string },
+    ): void;
 
     loadFixtures(...fixtures: string[]): void;
 
