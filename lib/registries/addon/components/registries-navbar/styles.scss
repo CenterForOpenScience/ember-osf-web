@@ -115,6 +115,12 @@
         height: 0;
     }
 
+    // Remove padding from the icon-input component
+    // and rely on the padding from <Container />
+    & span > span {
+        padding: 0;
+    }
+
     & span,
     & input {
         height: 100%;

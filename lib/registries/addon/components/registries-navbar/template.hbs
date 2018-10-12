@@ -16,11 +16,11 @@
 
                 {{#dd.menu data-test-service-list classNames=(local-class 'ServiceDropdownMenu DropdownMenu') as |ddm|}}
                     {{#each services as |service|}}
-                        {{#ddm.item (html-attributes role='menuitem')}}
+                        <ddm.item role="menuitem">
                             {{#hyper-link service.route}}
                                 <strong local-class="ServiceDropdownEntry">{{service.name}}</strong>
                             {{/hyper-link}}
-                        {{/ddm.item}}
+                        </ddm.item>
                     {{/each}}
                 {{/dd.menu}}
             {{/bs-dropdown}}
@@ -63,30 +63,30 @@
                     {{/dd.toggle}}
 
                     {{#dd.menu data-test-auth-dropdown classNames=(concat 'dropdown-menu-right ' (local-class 'AuthDropdownMenu DropdownMenu')) as |ddm|}}
-                        {{#ddm.item (html-attributes role='menuitem')}}
+                        <ddm.item role="menuitem">
                             <a href="{{profileURL}}" onclick={{action 'click' 'link' 'Navbar - MyProfile' target=analytics}}>
                                 {{fa-icon 'user' fixedWidth=true}}
                                 {{t 'auth_dropdown.my_profile'}}
                             </a>
-                        {{/ddm.item}}
-                        {{#ddm.item (html-attributes role='menuitem')}}
+                        </ddm.item>
+                        <ddm.item role="menuitem">
                             {{#global-link-to 'support' click=(action 'click' 'link' 'Navbar - Support' target=analytics)}}
                                 {{fa-icon 'life-ring' fixedWidth=true}}
                                 {{t 'auth_dropdown.osf_support'}}
                             {{/global-link-to}}
-                        {{/ddm.item}}
-                        {{#ddm.item (html-attributes role='menuitem')}}
+                        </ddm.item>
+                        <ddm.item role="menuitem">
                             <a href="{{settingsURL}}" onclick={{action 'click' 'link' 'Navbar - Settings' target=analytics}}>
                                 {{fa-icon 'cog' fixedWidth=true}}
                                 {{t 'general.settings'}}
                             </a>
-                        {{/ddm.item}}
-                        {{#ddm.item (html-attributes role='menuitem')}}
+                        </ddm.item>
+                        <ddm.item role="menuitem">
                             <a class="logoutLink" {{action 'logout'}} onclick={{action 'click' 'button' 'Navbar - Logout' target=analytics}} role="button">
                                 {{fa-icon 'sign-out' fixedWidth=true}}
                                 {{t 'auth_dropdown.log_out'}}
                             </a>
-                        {{/ddm.item}}
+                        </ddm.item>
                     {{/dd.menu}}
                 {{/bs-dropdown}}
 
@@ -96,9 +96,9 @@
     </nav.container>
 </Navbar>
 
-<div data-test-search-bar-mobile local-class="SearchDropdown {{if (media 'isMobile') '' 'Closed'}}">
+<Container data-test-search-bar-mobile="1" local-class="SearchDropdown {{if (media 'isMobile') '' 'Closed'}}">
     {{icon-input 'search' dark=true enter=(action '_onSearch')}}
-</div>
+</Container>
 
 {{maintenance-banner}}
 {{status-banner}}

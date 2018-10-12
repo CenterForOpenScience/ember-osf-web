@@ -14,6 +14,10 @@ declare const config: {
     featureFlagNames: {
         newStyle: string;
     };
+    externalLinks: {
+        help: string;
+        donate: string;
+    };
 };
 
 export default config;

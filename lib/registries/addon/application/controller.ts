@@ -1,4 +1,5 @@
-import { action, computed } from '@ember-decorators/object';
+import { action } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { camelize } from '@ember/string';
@@ -12,15 +13,11 @@ const {
 
 export default class Application extends Controller {
     @service features!: Features;
+    @alias(`features.${camelize(newStyle)}`) newStyleEnabled!: boolean;
 
     activeService = OSFService.REGISTRIES;
     searchRoute = 'registries.discover';
     supportRoute = 'http://help.osf.io/m/registrations/';
-
-    @computed(`features.${camelize(newStyle)}`)
-    get newStyleEnabled(): boolean {
-        return this.get('features').isEnabled(newStyle);
-    }
 
     @action
     search(query: string) {
