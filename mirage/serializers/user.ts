@@ -1,29 +1,35 @@
 import { faker, ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import User from 'ember-osf-web/models/user';
-import ApplicationSerializer, { SerializedLinks } from './application';
+import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class UserSerializer extends ApplicationSerializer {
-    links(model: ModelInstance<User>): SerializedLinks<User> {
+export default class UserSerializer extends ApplicationSerializer<User> {
+    buildRelationships(model: ModelInstance<User>) {
         return {
             nodes: {
-                related: {
-                    href: `${apiUrl}/v2/users/${model.id}/nodes/`,
-                    meta: this.buildRelatedLinkMeta(model, 'nodes'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/nodes/`,
+                        meta: this.buildRelatedLinkMeta(model, 'nodes'),
+                    },
                 },
             },
             quickfiles: {
-                related: {
-                    href: `${apiUrl}/v2/users/${model.id}/quickfiles/`,
-                    meta: this.buildRelatedLinkMeta(model, 'quickfiles'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/quickfiles/`,
+                        meta: this.buildRelatedLinkMeta(model, 'quickfiles'),
+                    },
                 },
             },
             institutions: {
-                related: {
-                    href: `${apiUrl}/v2/users/${model.id}/institutions/`,
-                    meta: this.buildRelatedLinkMeta(model, 'institutions'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/institutions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'institutions'),
+                    },
                 },
             },
         };

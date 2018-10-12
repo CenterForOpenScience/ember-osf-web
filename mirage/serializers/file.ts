@@ -6,23 +6,27 @@ import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class FileSerializer extends ApplicationSerializer {
-    links(model: ModelInstance<File>) {
+export default class FileSerializer extends ApplicationSerializer<File> {
+    buildRelationships(model: ModelInstance<File>) {
         return {
             user: {
                 data: {
                     type: 'users',
                     id: model.user.id,
                 },
-                related: {
-                    href: `${apiUrl}/v2/users/${model.user.id}/`,
-                    meta: this.buildRelatedLinkMeta(model, 'user'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.user.id}/`,
+                        meta: this.buildRelatedLinkMeta(model, 'user'),
+                    },
                 },
             },
             versions: {
-                related: {
-                    href: `${apiUrl}/v2/files/${model.id}/versions/`,
-                    meta: this.buildRelatedLinkMeta(model, 'versions'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/files/${model.id}/versions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'versions'),
+                    },
                 },
             },
         };

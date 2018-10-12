@@ -1,17 +1,17 @@
 import { underscore } from '@ember/string';
 import { JSONAPISerializer, Model, ModelInstance, Request } from 'ember-cli-mirage';
-import { ModelRegistry, RelationshipsFor } from 'ember-data';
+import { RelationshipsFor } from 'ember-data';
 import config from 'ember-get-config';
-import { RelatedLinkMeta, RelationshipLinks } from 'osf-api';
+import { RelatedLinkMeta, Relationship } from 'osf-api';
 
 const { OSF: { apiUrl } } = config;
 
 // eslint-disable-next-line space-infix-ops
-export type SerializedLinks<T extends ModelRegistry[keyof ModelRegistry]> = {
-    [relName in Exclude<RelationshipsFor<T>, 'toString'>]?: RelationshipLinks;
+export type SerializedRelationships<T> = {
+    [relName in Exclude<RelationshipsFor<T>, 'toString'>]?: Relationship;
 };
 
-export default class ApplicationSerializer extends JSONAPISerializer {
+export default class ApplicationSerializer<T> extends JSONAPISerializer {
     keyForAttribute(attr: string) {
         return underscore(attr);
     }
@@ -20,7 +20,7 @@ export default class ApplicationSerializer extends JSONAPISerializer {
         return underscore(relationship);
     }
 
-    buildRelatedLinkMeta<T extends ModelRegistry[keyof ModelRegistry]>(
+    buildRelatedLinkMeta(
         model: ModelInstance<T>,
         relationship: RelationshipsFor<T>,
     ): RelatedLinkMeta {
@@ -34,25 +34,25 @@ export default class ApplicationSerializer extends JSONAPISerializer {
         return relatedCounts.includes(this.keyForRelationship(relationship)) ? { count } : {};
     }
 
-    buildNormalLinks(model: ModelInstance) {
+    buildNormalLinks(model: ModelInstance<T>) {
         return {
             self: `${apiUrl}/v2/${this.typeKeyForModel(model)}/${model.id}/`,
         };
     }
 
-    serialize(model: ModelInstance, request: Request) {
+    buildRelationships(_: ModelInstance<T>): SerializedRelationships<T> {
+        return {};
+    }
+
+    serialize(model: ModelInstance<T>, request: Request) {
         const json = super.serialize(model, request);
         json.data.links = this.buildNormalLinks(model);
-        if ('relationships' in json.data && json.data.relationships !== undefined) {
-            const { relationships } = json.data;
-            for (const key of Object.keys(relationships)) {
-                const relationship = relationships[key].links;
-                if ('data' in relationship) {
-                    json.data.relationships[key].data = relationship.data;
-                    delete json.data.relationships[key].links.data;
-                }
-            }
-        }
+        json.data.relationships = Object
+            .entries(this.buildRelationships(model))
+            .reduce((acc, [key, value]) => {
+                acc[underscore(key)] = value;
+                return acc;
+            }, {} as Record<string, Relationship>);
 
         return json;
     }

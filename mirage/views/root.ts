@@ -1,10 +1,10 @@
 import { HandlerContext, Schema } from 'ember-cli-mirage';
 
-export function rootDetail(schema: Schema, handlerContext: HandlerContext) {
+export function rootDetail(this: HandlerContext, schema: Schema) {
     const root = schema.roots.first();
-    const json = handlerContext.serialize(root);
+    const json = this.serialize(root);
     if (root.currentUser && 'meta' in json) {
-        json.meta.current_user = handlerContext.serialize(root.currentUser);
+        json.meta.current_user = this.serialize(root.currentUser);
     }
     return json;
 }

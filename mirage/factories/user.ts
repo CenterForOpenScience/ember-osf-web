@@ -2,7 +2,7 @@ import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import User from 'ember-osf-web/models/user';
 
-import { guid } from './utils';
+import { guid, guidAfterCreate } from './utils';
 
 export interface UserTraits {
     withNodes: Trait;
@@ -10,9 +10,9 @@ export interface UserTraits {
 }
 
 export default Factory.extend<User & UserTraits>({
-    id(i: number) {
-        return guid(i, 'user');
-    },
+    id: guid('user'),
+    afterCreate: guidAfterCreate,
+
     fullName() {
         return `${faker.name.firstName()} ${faker.name.lastName()}`;
     },
