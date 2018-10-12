@@ -22,14 +22,15 @@ export function guid(referentType: string) {
         // Seed faker to guarantee consistent guids across page reloads
         faker.seed(hashString(`${referentType}-${id}`));
 
-        const chars = new Array(5).fill(undefined).map(
+        const newGuid = Array.from(
+            { length: 5 },
             () => faker.random.arrayElement(GUID_CHARS),
-        );
+        ).join('');
 
         // Reseed so all other data is appropriately random
         faker.seed(new Date().getTime() % 1000000000);
 
-        return ''.concat(...chars);
+        return newGuid;
     };
 }
 
