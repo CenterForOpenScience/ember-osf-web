@@ -6,6 +6,10 @@
     height: 50px;
     border-radius: 0 !important;
     margin-bottom: 0 !important;
+
+    :global(.container) {
+        height: 50px;
+    }
 }
 
 .navbar-content {
