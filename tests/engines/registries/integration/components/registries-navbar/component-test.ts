@@ -1,7 +1,6 @@
 import Service from '@ember/service';
 import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
 import { t } from 'ember-i18n/test-support';
-import breakpoints from 'ember-osf-web/breakpoints';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
@@ -53,7 +52,6 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.lookup('service:router').set('_router.currentURL', 'FakeURL');
-        this.owner.register('breakpoints:main', breakpoints, { instantiate: false });
 
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:features', featuresStub);
@@ -78,10 +76,10 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('[data-test-search-bar-mobile]').isNotVisible('Mobile search bar is not visible on desktop');
 
         assert.dom('a[data-test-help]').isVisible('Help button is visible');
-        assert.dom('a[data-test-help]').hasText(t('general.help'), 'Help button has correct text');
+        assert.dom('a[data-test-help]').hasText(`${t('general.help')}`, 'Help button has correct text');
 
         assert.dom('a[data-test-donate]').isVisible('Donate button is visible');
-        assert.dom('a[data-test-donate]').hasText(t('navbar.donate'), 'Donate button has correct text');
+        assert.dom('a[data-test-donate]').hasText(`${t('navbar.donate')}`, 'Donate button has correct text');
     });
 
     test('desktop layout (logged out)', async function(assert) {
@@ -90,14 +88,14 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         await render(hbs`<RegistriesNavbar @campaign="osf-registries" @signUpURL="http://example.com" />`);
 
-        assert.dom('a[data-test-join]').hasText(t('navbar.join'));
+        assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
         assert.dom('a[data-test-join]').hasAttribute(
             'href',
             'http://example.com?campaign=osf-registries&next=http%3A%2F%2Flocalhost%3A5000%2FFakeURL',
         );
         assert.dom('a[data-test-join]').isVisible('Join button is visible');
 
-        assert.dom('a[role="button"][data-test-login]').hasText(t('navbar.login'));
+        assert.dom('a[role="button"][data-test-login]').hasText(`${t('navbar.login')}`);
         assert.dom('a[role="button"][data-test-login]').isVisible('Login button is visible');
 
         assert.dom('img[data-test-gravatar]').isNotVisible('No user Gravatar when logged out');
@@ -112,7 +110,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         // Not visible due to not having a test image
         assert.dom('img[data-test-gravatar]').exists('User Gravatar is rendered');
         assert.dom('img[data-test-gravatar]').hasAttribute('src', 'example.png?&s=30');
-        assert.dom('img[data-test-gravatar]').hasAttribute('alt', t('auth_dropdown.user_gravatar'));
+        assert.dom('img[data-test-gravatar]').hasAttribute('alt', `${t('auth_dropdown.user_gravatar')}`);
 
         assert.dom('a[role="button"][data-test-join]').isNotVisible('Join button not is visible');
         assert.dom('a[role="button"][data-test-login]').isNotVisible('Login button not is visible');
@@ -128,10 +126,10 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('[data-test-search-bar-mobile]').isNotVisible('Mobile search bar is not visible on tablet');
 
         assert.dom('a[data-test-help]').isVisible('Help button is visible');
-        assert.dom('a[data-test-help]').hasText(t('general.help'), 'Help button has correct text');
+        assert.dom('a[data-test-help]').hasText(`${t('general.help')}`, 'Help button has correct text');
 
         assert.dom('a[data-test-donate]').isVisible('Donate button is visible');
-        assert.dom('a[data-test-donate]').hasText(t('navbar.donate'), 'Donate button has correct text');
+        assert.dom('a[data-test-donate]').hasText(`${t('navbar.donate')}`, 'Donate button has correct text');
     });
 
     test('tablet layout (logged out)', async function(assert) {
@@ -140,10 +138,10 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         await render(hbs`<RegistriesNavbar />`);
 
-        assert.dom('a[data-test-join]').hasText(t('navbar.join'));
+        assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
         assert.dom('a[data-test-join]').isVisible('Join button is visible');
 
-        assert.dom('a[role="button"][data-test-login]').hasText(t('navbar.login'));
+        assert.dom('a[role="button"][data-test-login]').hasText(`${t('navbar.login')}`);
         assert.dom('a[role="button"][data-test-login]').isVisible('Login button is visible');
 
         assert.dom('img[data-test-gravatar]').isNotVisible('No user Gravatar when logged out');
@@ -182,10 +180,10 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
 
-        assert.dom('a[data-test-join]').hasText(t('navbar.join'));
+        assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
         assert.dom('a[data-test-join]').isVisible('Join button is visible');
 
-        assert.dom('a[role="button"][data-test-login]').hasText(t('navbar.login'));
+        assert.dom('a[role="button"][data-test-login]').hasText(`${t('navbar.login')}`);
         assert.dom('a[role="button"][data-test-login]').isVisible('Login button is visible');
 
         assert.dom('img[data-test-gravatar]').isNotVisible('No user Gravatar when logged out');
