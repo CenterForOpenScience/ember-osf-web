@@ -126,12 +126,8 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    toggleModal(this: Dashboard) {
-        if (this.modalOpen) {
-            this.closeModal(false);
-        } else {
-            this.toggleProperty('modalOpen');
-        }
+    openModal(this: Dashboard) {
+        this.set('modalOpen', true);
     }
 
     @action
@@ -151,9 +147,9 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    projectCreated(newNode: Node) {
-        this.newNode = newNode;
-        this.showNewNodeNavigation = true;
+    projectCreated(this: Dashboard, newNode: Node) {
+        this.set('newNode', newNode);
+        this.set('showNewNodeNavigation', true);
         this.analytics.click('button', 'Dashboard - New Project - dashboard');
     }
 }

@@ -1,9 +1,9 @@
 {{#bs-modal onHidden=closeModal as |modal|}}
     {{#modal.body}}
         <button
-            aria-label="Close"
+            aria-label={{t 'general.close'}}
             class="close"
-            onclick={{action this.stayOnPage}}
+            onclick={{action modal.close reload=true}}
         >
             {{fa-icon 'times' size='sm'}}
         </button>
@@ -13,14 +13,14 @@
     {{/modal.body}}
     {{#modal.footer}}
         <button
-            onclick={{action this.stayOnPage}}
+            onclick={{action modal.close reload=true}}
             class="btn btn-default"
         >
             {{t 'new_project.stay_here'}}
         </button>
         <a
             role='button'
-            href="{{newNode.links.html}}"
+            href="{{node.links.html}}"
             class="btn btn-success"
             onclick={{action 'click' 'link' (concat page ' - New Project - go_to_new_project') target=analytics}}
         >

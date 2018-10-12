@@ -9,6 +9,7 @@ import I18N from 'ember-i18n/services/i18n';
 
 import requiredAction from 'ember-osf-web/decorators/required-action';
 import Node from 'ember-osf-web/models/node';
+import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
@@ -70,6 +71,7 @@ export default class ProjectSelector extends Component.extend({
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
     @service store!: DS.Store;
+    @service analytics!: Analytics;
 
     // Required arguments
     newProject!: Node;
@@ -149,5 +151,12 @@ export default class ProjectSelector extends Component.extend({
         if (reload) {
             this.get('findNodes').perform();
         }
+    }
+
+    @action
+    projectCreated(this: ProjectSelector, newNode: Node) {
+        this.set('newProject', newNode);
+        this.analytics.click('button', 'Quick Files - New Project');
+        this.closeModal(true);
     }
 }

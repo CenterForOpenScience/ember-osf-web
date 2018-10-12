@@ -16,7 +16,7 @@
     <form onsubmit={{action 'prevent'}}>
         <div class="form-group">
             {{new-project-modal
-                newNode=newNode
+                projectCreated=(action 'projectCreated')
                 closeModal=(action 'closeModal')
                 page='Quick Files'
             }}
