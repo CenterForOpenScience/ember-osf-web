@@ -75,7 +75,8 @@ export default Factory.extend<User & UserTraits>({
 
     withUnverifiedEmails: trait({
         afterCreate(user, server) {
-            server.createList('user-email', 2, { user, verified: false });
+            server.create('user-email', { user, verified: false, isMerge: true });
+            server.create('user-email', { user, verified: false, isMerge: false });
         },
     }),
 });

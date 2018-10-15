@@ -1,7 +1,7 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
-import EmberArray from '@ember/array';
+import EmberArray, { A } from '@ember/array';
 import { set } from '@ember/object';
 import { dasherize, underscore } from '@ember/string';
 import DS, { ModelRegistry, RelationshipsFor } from 'ember-data';
@@ -104,7 +104,7 @@ export default class OsfModel extends Model {
             ).filter((v): v is RT => Boolean(v));
 
             const { meta, links } = response as ResourceCollectionDocument;
-            return Object.assign(records, { meta, links });
+            return Object.assign(A(records), { meta, links });
         } else if ('errors' in response) {
             throw new Error(response.errors.map(error => error.detail).join('\n'));
         } else {

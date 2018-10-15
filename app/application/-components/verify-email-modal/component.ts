@@ -44,6 +44,10 @@ export default class VerifyEmailModal extends Component.extend({
 
     verifyTask: task(function *(this: VerifyEmailModal, emailAction: EmailActions) {
         const { userEmail } = this;
+        if (!userEmail) {
+            return;
+        }
+
         let successKey: keyof TranslationKeys;
         let successMessageLevel: MessageLevel;
         let errorKey: keyof TranslationKeys;
@@ -93,12 +97,12 @@ export default class VerifyEmailModal extends Component.extend({
     unverifiedEmails?: UserEmail[];
 
     @alias('unverifiedEmails.firstObject')
-    userEmail!: UserEmail;
+    userEmail?: UserEmail;
 
     @or('verifyTask.isRunning', 'denyTask.isRunning')
     disableButtons!: boolean;
 
-    @computed('emailInfo.user_merge')
+    @computed('userEmail.isMerge')
     get translationKeys(): TranslationKeys {
         if (!this.userEmail || !this.userEmail.isMerge) {
             return {
