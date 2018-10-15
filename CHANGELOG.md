@@ -33,6 +33,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `root` factory now adds all feature flags, not just route flags
     - `user` factory has 'withFiles' trait so non-current users can have files easily
     - `user` serializer has default_region relationship (hardcoded to us)
+- Models:
+    - `user-email`
+- Adapters:
+    - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
+- Routes:
+    - Add email verification modal to application template
 
 ### Removed
 - Flags:
