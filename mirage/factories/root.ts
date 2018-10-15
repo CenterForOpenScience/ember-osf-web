@@ -25,6 +25,8 @@ export default Factory.extend<Root>({
         ...Object.values(routes),
         ...Object.values(navigation),
         storageI18n,
+        'ember_verify_email_modals',
+        ...Object.values(routes), // Pretend all routes are flagged on
     ],
     message: 'Welcome to the OSF API.',
     version: '2.8',

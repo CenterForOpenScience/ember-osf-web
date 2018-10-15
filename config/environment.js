@@ -229,6 +229,7 @@ module.exports = function(environment) {
                 institutions: 'institutions_nav_bar',
             },
             storageI18n: 'storage_i18n',
+            verifyEmailModals: 'ember_verify_email_modals',
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,
