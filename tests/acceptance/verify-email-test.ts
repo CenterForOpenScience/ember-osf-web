@@ -96,9 +96,9 @@ module('Acceptance | verify email', hooks => {
 
         const emails = unverifiedEmails(user);
         for (const unverifiedEmail of emails) {
-            const { emailAddress } = unverifiedEmail;
+            const { emailAddress, isMerge } = unverifiedEmail;
             assert.dom('[data-test-verify-email-prompt]').hasText(
-                unverifiedEmail.isMerge ?
+                isMerge ?
                     `Would you like to merge ${emailAddress} into your account? This action is irreversible.` :
                     `Would you like to add ${emailAddress} to your account?`,
             );
