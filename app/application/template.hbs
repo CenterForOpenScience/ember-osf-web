@@ -13,7 +13,9 @@
             {{osf-header}}
         {{/if}}
     {{/unless}}
-    {{application/-components/verify-email-modal}}
+    {{#if this.shouldShowVerifyEmailModals}}
+        {{application/-components/verify-email-modal}}
+    {{/if}}
     <div local-class="Application__page">
         {{outlet}}
     </div>

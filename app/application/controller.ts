@@ -1,12 +1,26 @@
-import { match } from '@ember-decorators/object/computed';
+import { alias, match } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
-import { Registry as Services } from '@ember/service';
+import RouterService from '@ember/routing/router-service';
+import { camelize } from '@ember/string';
+import Features from 'ember-feature-flags/services/features';
+import config from 'ember-get-config';
+
 import Theme from 'ember-osf-web/services/theme';
 
+const {
+    featureFlagNames: {
+        verifyEmailModals,
+    },
+} = config;
+
 export default class Application extends Controller {
-    @service router!: Services['router'];
+    @service router!: RouterService;
     @service theme!: Theme;
+    @service features!: Features;
+
+    @alias(`features.${camelize(verifyEmailModals)}`)
+    shouldShowVerifyEmailModals!: boolean;
 
     // This is a hack until we move the main application into it's own engine.
     // Then each engine will be in charge of rendering/customizing the header.
