@@ -1,0 +1,8 @@
+<div data-test-panel-body class="panel-body">
+    {{#if @text}}
+        {{@text}}
+    {{/if}}
+    {{#if (has-block)}}
+        {{yield}}
+    {{/if}}
+</div>

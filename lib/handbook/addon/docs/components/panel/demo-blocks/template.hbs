@@ -1,0 +1,17 @@
+{{#docs-demo as |demo|}}
+    {{#demo.example name='panel.demo-blocks.hbs'}}
+        <Panel as |panel|>
+            <panel.heading>
+                <h2>I'm a panel</h2>
+            </panel.heading>
+            <panel.body>
+                <strong>This is my body</strong>
+            </panel.body>
+            <panel.footer>
+                <h3>This is my footer</h3>
+            </panel.footer>
+        </Panel>
+    {{/demo.example}}
+
+    {{demo.snippet 'panel.demo-blocks.hbs'}}
+{{/docs-demo}}
