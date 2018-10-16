@@ -184,11 +184,11 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
 
     /**
      * Does the current user have read permission on this node?
-     * @property currentUserHasReadPermission
+     * @property currentUserCanRead
      * @type boolean
      */
     @computed('currentUserPermissions')
-    get currentUserHasReadPermission() {
+    get currentUserCanRead() {
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read);
     }
 

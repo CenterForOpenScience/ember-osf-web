@@ -1,5 +1,5 @@
 {{#if @node}}
-    {{#ember-wormhole to=secondaryNavbarId renderInPlace=renderInPlace}}
+    {{#ember-wormhole to=this.secondaryNavbarId renderInPlace=this.renderInPlace}}
         <nav class="navbar osf-project-navbar" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -19,7 +19,7 @@
                     </span>
                 </div>
                 {{#bs-collapse collapsed=collapsedNav class="navbar-collapse"}}
-                    <ul class="nav navbar-nav">
+                    <ul data-test-node-navbar-links class="nav navbar-nav">
                         {{#if this.fakeParent}}
                             {{#node-navbar/link node=this.fakeParent useLinkTo=false}}
                                 {{fa-icon "level-down" rotate=180}}
@@ -29,7 +29,9 @@
                             {{@node.title}}
                         {{/node-navbar/link}}
                         {{node-navbar/link node=@node useLinkTo=false destination="files"}}
-                        {{node-navbar/link node=@node useLinkTo=false destination="wiki"}}
+                        {{#if @node.wikiEnabled}}
+                            {{node-navbar/link node=@node useLinkTo=false destination="wiki"}}
+                        {{/if}}
                         {{#if (or @node.public @node.currentUserIsContributor)}}
                             {{node-navbar/link node=@node useLinkTo=true destination="analytics"}}
                         {{/if}}
@@ -42,12 +44,7 @@
                         {{#if (and @node.currentUserCanEdit (not @node.isRegistration))}}
                             {{node-navbar/link node=@node useLinkTo=false destination="addons"}}
                         {{/if}}
-                        {{#if
-                            (or
-                                (and @node.currentUserCanEdit @node.isRegistration)
-                                (and @node.currentUserHasReadPermission (not @node.isRegistration))
-                            )
-                        }}
+                        {{#if (if @node.isRegistration @node.currentUserCanEdit @node.currentUserCanRead)}}
                             {{node-navbar/link node=@node useLinkTo=false destination="settings"}}
                         {{/if}}
                     </ul>

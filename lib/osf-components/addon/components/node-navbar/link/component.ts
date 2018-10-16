@@ -6,15 +6,16 @@ import Component from '@ember/component';
 import RouterService from '@ember/routing/router-service';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import Node from 'ember-osf-web/models/node';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
+import { NodeLike } from '../component';
 import template from './template';
 
 @layout(template)
 @tagName('li')
 export default class NodeNavbarLink extends Component {
     // Required arguments
-    node!: Node;
+    node!: NodeLike;
 
     // Optional arguments
     useLinkTo: boolean = defaultTo(this.useLinkTo, true);

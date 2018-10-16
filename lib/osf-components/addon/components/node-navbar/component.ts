@@ -5,6 +5,8 @@ import Node from 'ember-osf-web/models/node';
 import styles from './styles';
 import layout from './template';
 
+export type NodeLike = Pick<Node, 'id' | 'isRegistration'>;
+
 export default class NodeNavbar extends Component {
     layout = layout;
     styles = styles;
@@ -12,24 +14,24 @@ export default class NodeNavbar extends Component {
     // Optional parameters
     node?: Node;
     allowComments?: boolean;
+    renderInPlace?: boolean;
 
     // Private properties
     secondaryNavbarId = config.secondaryNavbarId;
     collapsedNav = true;
 
     @computed('node')
-    get fakeParent(): Pick<Node, 'id' | 'isRegistration'> | undefined {
-        if (!this.node) {
-            return undefined;
+    get fakeParent(): NodeLike | null {
+        if (this.node) {
+            const id = this.node.belongsTo('parent').id();
+            if (id) {
+                return {
+                    id,
+                    isRegistration: this.node.isRegistration,
+                };
+            }
         }
-        const id = this.node.belongsTo('parent').id();
-        if (!id) {
-            return undefined;
-        }
-        return {
-            id,
-            isRegistration: this.node.isRegistration,
-        };
+        return null;
     }
 
     @action

@@ -1,5 +1,10 @@
 {{#if useLinkTo}}
-    {{#link-to routeName node.id class=extraClasses}}
+    {{#link-to
+        routeName
+        node.id
+        class=extraClasses
+        data-test-node-navbar-link=(or @destination @node.id)
+    }}
         {{#if (has-block)}}
             {{yield}}
         {{else}}
@@ -7,7 +12,11 @@
         {{/if}}
     {{/link-to}}
 {{else}}
-    <a href="/{{node.id}}/{{destination}}" class={{extraClasses}}>
+    <a
+        href="/{{node.id}}/{{destination}}"
+        class={{extraClasses}}
+        data-test-node-navbar-link={{or @destination @node.id}}
+    >
         {{#if (has-block)}}
             {{yield}}
         {{else}}
