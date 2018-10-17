@@ -35,16 +35,27 @@
                                 closeTitle=(t 'general.close')
                                 onHide=(action 'hideLinksModal')
                             }}
-                                {{#node-list
-                                    modelTaskInstance=this.model.taskInstance
-                                    relationshipName='linkedByNodes'
-                                    analyticsScope='Project Analytics - Links'
-                                    as |nl|
-                                }}
-                                    {{#nl.empty}}
-                                        {{t 'analytics.noLinks'}}
-                                    {{/nl.empty}}
-                                {{/node-list}}
+                                {{#if this.node}}
+                                    <ul class="list-group">
+                                        {{#paginated-list/has-many
+                                            model=this.node
+                                            relationshipName='linkedByNodes'
+                                            query=this.linkedByQueryParams
+                                            analyticsScope='Project Analytics - Links'
+                                            as |list|
+                                        }}
+                                            <list.item as |node|>
+                                                <NodeCard @node={{node}} @readOnly=true @analyticsScope='Project Analytics - Links' />
+                                            </list.item>
+
+                                            <list.empty>
+                                                {{t 'analytics.noLinks'}}
+                                            </list.empty>
+                                        {{/paginated-list/has-many}}
+                                    </ul>
+                                {{else}}
+                                    <LoadingIndicator @dark=true />
+                                {{/if}}
                             {{/bs-modal-simple}}
                         {{/if}}
                     {{/if}}
