@@ -81,6 +81,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - made tagless
         - use `tags-widget` component instead of `ember-tag-input` directly
         - `encodeURIComponent(tag)` when constructing tags search url
+        - add `readOnly` argument to force-hide the dropdown controls
     - `node-navbar` - use `linkTo` for registrations
     - `paginated-relation` renamed to `paginated-list/has-many`
         - refactored to allow sharing functionality among different types of list
@@ -107,7 +108,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `guid-file` - use `tags-widget` component instead of `ember-tag-input` directly
     - `home` - remove submit task & user-registration model creation (moved to `sign-up-form` component)
 - Engines:
-    - `analytics-page` - use `node-list` component for linked nodes list
+    - `analytics-page` - set `readOnly=true` for node-cards in "links to this project" modal
 - Tests:
     - Removed captcha visibility assertions from logged-out home page test
 - Handbook:
