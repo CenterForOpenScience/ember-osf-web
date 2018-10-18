@@ -25,3 +25,36 @@
 * [CSS Sidebar Transitions](https://tympanus.net/Development/SidebarTransitions/#)
 * [CSS Page Transitions](https://tympanus.net/Development/PageTransitions/)
 * [Shrinking/Sticky navbar](https://foundation.zurb.com/building-blocks/blocks/topbar-sticky-shrink.html) (Might not be used for anything)
+
+## Diagrams
+
+### Registration Workflow
+
+```
+                                                                                                                                                                             ┌──────────────  48 Hours Passed  ──────────────┬─────────────── Admins Disapprove ────────────────┐
+                                                                                                                                                                             │                                               │                                                  │
+                                                                                                                                                                             │                                               ▼                                                  │
+                                                                                                               ┌───────────────────────┐                         ┌───────────────────────┐                       ┌───────────────────────┐                          ┌───────────────────────┐
+                                                                                                               │     Registration      │                         │     Registration      │                       │     Registration      │          Embargo         │     Registration      │
+                                                                                      ┌────── Embargoed ──────▶│      (Archiving)      │─ Archival Finished ────▶│  (Pending Approval)   │── Admins Approved ───▶│      (Embargoed)      │─────   Ended Early   ───▶│  (Pending Early End)  │
+                                                                                      │                        │      (Embargoed)      │                         │      (Embargoed)      │                       │                       │                          │                       │
+                                                                                      │                        └───────────────────────┘                         └───────────────────────┘                       └───────────────────────┘                          └───────────────────────┘
+                         Approval Not                                                 │                                                                                                                                Embargo Date                                              │
+                           Required    ┌─────────────────────┐                        │                                                                                                                                   Passes                                                 │
+                          Or Ommited   │ Draft Registration  │ Registered             │                                                                                                                                      │                                                   │
+                        ┌─────────────▶│     (Approved)      │────────────────────────┤                                                                                                                                      ├────────────────  Admins Approve   ────────────────┘
+                        │              └─────────────────────┘                        │                                                                                                                                      │
+           Registration │                         ▲                                   │                                                                                                                                      │
+┌─────────┐  Initiated  │                         │                                   │                                                                                                                                      ▼                                                                                      ┌───────────────────────┐
+│ Project │─────────────┤                         └────────────┐                      │                        ┌───────────────────────┐                        ┌───────────────────────┐                        ┌───────────────────────┐                          ┌───────────────────────┐                       │                       │
+└─────────┘             │                          Approved by │                      │                        │     Registration      │                        │     Registration      │                        │     Registration      │                          │     Registration      │                       │     Registration      │
+                        │                           OSF Admin  │                      └─ Public Immediately ──▶│      (Archiving)      │── Archival Finished ──▶│  (Pending Approval)   │─── Admins Approved ───▶│       (Public)        │────     Withdrawn     ──▶│ (Pending Withdrawal)  │──  Admins Approve   ─▶│      (Withdrawn)      │
+                        │                                      │                                               │ (Public Immediately)  │                        │ (Public Immediately)  │                        │                       │                          │                       │                       │                       │
+                        │  Approval   ┌─────────────────────┐  │                                               └───────────────────────┘                        └───────────────────────┘                        └───────────────────────┘                          └───────────────────────┘                       └───────────────────────┘
+                        │  Required   │ Draft Registration  │  │                                                                                                            │                                                ▲                                                  │
+                        └────────────▶│      (Pending)      │──┘                                                                                                            │                                                │                                                  │
+                                      └─────────────────────┘                                                                                                               └────────────  48 Hours Passed  ─────────────────┴─────────────── Admins Disapprove ────────────────┘
+                                      
+                                      
+                                      
+```
