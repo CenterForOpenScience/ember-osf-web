@@ -57,7 +57,11 @@
                 collapsed=(not showNavLinks)
             }}
                 <ul class="nav navbar-nav" local-class="links">
-                    {{#let (hash links=(component 'osf-navbar/x-links')) as |ctx|}}
+                    {{#let (hash
+                        links=(component 'osf-navbar/x-links'
+                            onLinkClicked=(action 'onLinkClicked')
+                        )
+                    ) as |ctx|}}
                         {{#if hasBlock}}
                             {{yield ctx}}
                         {{else}}
@@ -65,7 +69,7 @@
                         {{/if}}
                     {{/let}}
 
-                    {{osf-navbar/auth-dropdown campaign=@campaign}}
+                    {{osf-navbar/auth-dropdown onLinkClicked=(action 'onLinkClicked') campaign=@campaign}}
                 </ul>
             {{/bs-collapse}}
         </div>
