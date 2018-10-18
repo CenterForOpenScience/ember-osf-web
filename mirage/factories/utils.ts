@@ -2,7 +2,7 @@ import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 
 import { RegistrationMetadata, Schema } from 'ember-osf-web/models/registration-schema';
 
-const GUID_CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
+const GUID_CHARS = '23456789abcdefghjkmnpqrstuvwxyz'.split('');
 
 // Implementation of Java's String.hashCode -- https://stackoverflow.com/a/7616484/
 function hashString(str: string): number {

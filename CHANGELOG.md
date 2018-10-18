@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased']
+### Added
+- Components:
+    - `panel` - a general-use abstraction of bootstrap panels
+- Tests:
+    - `panel` component integration test
+- Handbook:
+    - `panel` component
 ### Removed
 - Flags:
     - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on

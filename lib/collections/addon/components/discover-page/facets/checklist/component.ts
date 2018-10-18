@@ -60,6 +60,7 @@ export default abstract class SearchFacetChecklist extends Base.extend({
                 (acc, val) => [...acc, ...(val[this.modelAttribute] as string[])],
                 [],
             )
+            .sort()
             .map(key => ({ key }));
 
         this.allItems.pushObjects(allItems);
