@@ -2,6 +2,7 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { guidDetail } from './views/guid';
+import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
@@ -25,7 +26,8 @@ export default function(this: Server) {
 
     this.get('/institutions');
 
-    osfResource(this, 'nodes');
+    osfResource(this, 'nodes', { except: ['create'] });
+    this.post('/nodes/', createNode);
     osfNestedResource(this, 'nodes', 'contributors');
     osfNestedResource(this, 'nodes', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'nodes', 'registrations', { only: ['index'] });
