@@ -13,16 +13,11 @@
     </div>
 {{/if}}
 {{#if (eq projectSelectState 'newProject')}}
-    <form onsubmit={{action 'prevent'}}>
-        <div class="form-group">
-            {{new-project-modal
-                projectCreated=(action 'projectCreated')
-                closeModal=(action 'closeModal')
-                page='Quick Files'
-            }}
-        </div>
-    </form>
-    {{t 'move_to_project.new_project_message'}}
+    <NewProjectModal
+        @projectCreated={{action projectCreated}}
+        @closeModal={{action closeModal}}
+        @page="Quick Files"
+    />
 {{else if (eq projectSelectState 'existingProject')}}
     {{#if initialLoad.isRunning}}
         <div class="ball-pulse ball-dark text-center">

@@ -11,4 +11,4 @@ A string passed to the analytics service. Should be the name you're using for th
 An action you pass in to handle clean-up things related to the modal closing. Useful for hiding the div that contains the dialog box and passing information about whether to reload a list.
 
 ## demo
-{{docs/components/new-project-modal/demo projectCreated=(action this.projectCreated) closeModal=(action this.closeModal)}}
+{{docs/components/new-project-modal/demo projectCreated=this.projectCreated closeModal=this.closeModal openModal=this.openModal}}

@@ -89,6 +89,7 @@ export interface Request {
 }
 
 export interface HandlerContext {
+    request: Request;
     serialize(modelOrCollection: ModelInstance | ModelInstance[] | ModelClass, serializerName?: string): any;
     normalizedRequestAttrs(): any;
 }

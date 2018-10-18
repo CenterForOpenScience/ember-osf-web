@@ -5,19 +5,28 @@ import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-export default class TagsWidgetController extends Controller {
+export default class NewProjectModalController extends Controller {
     @service currentUser!: CurrentUser;
     @service analytics!: Analytics;
-
     newNode: Node | null = null;
+    shouldShowModal: boolean = false;
+    shouldReload: boolean = true;
 
     @action
-    projectCreated() {
-        return true;
+    openModal(this: NewProjectModalController) {
+        this.set('newNode', null);
+        this.set('shouldShowModal', true);
     }
 
     @action
-    closeModal(reload = false) {
-        return reload;
+    projectCreated(this: NewProjectModalController, newNode: Node) {
+        this.set('newNode', newNode);
+        this.closeModal(true);
+    }
+
+    @action
+    closeModal(this: NewProjectModalController, reload = false) {
+        this.set('shouldShowModal', false);
+        this.set('shouldReload', reload);
     }
 }

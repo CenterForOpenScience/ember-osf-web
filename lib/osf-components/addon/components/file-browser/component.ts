@@ -435,4 +435,9 @@ export default class FileBrowser extends Component {
             currentModal: modals.None,
         });
     }
+
+    @action
+    projectSelected(this: FileBrowser, node: Node) {
+        this.set('node', node);
+    }
 }

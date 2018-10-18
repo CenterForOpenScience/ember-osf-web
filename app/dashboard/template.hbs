@@ -1,16 +1,16 @@
 {{title (t 'dashboard.page_title')}}
 {{#if modalOpen}}
     {{#if this.showNewNodeNavigation}} 
-        {{new-project-navigation-modal 
-            node=this.newNode
-            closeModal = (action closeModal reload=true)
-        }}
+        <NewProjectNavigationModal
+            @node={{newNode}}
+            @closeModal={{action closeModal reload=true}}
+        />
     {{else}}
-        {{new-project-modal
-            projectCreated=(action 'projectCreated')
-            page='Dashboard'
-            closeModal = (action closeModal reload=false)
-        }}
+        <NewProjectModal
+            @projectCreated={{action projectCreated}}
+            @page="Dashboard"
+            @closeModal={{action closeModal reload=false}}
+        />
     {{/if}}
 {{/if}}
 {{scheduled-banner}}

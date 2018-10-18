@@ -1,9 +1,10 @@
 {{#bs-modal onHidden=closeModal as |modal|}}
     {{#modal.body}}
         <button
+            data-test-close-with-x
             aria-label={{t 'general.close'}}
             class="close"
-            onclick={{action modal.close reload=true}}
+            onclick={{action closeModal reload=true}}
         >
             {{fa-icon 'times' size='sm'}}
         </button>
@@ -13,12 +14,14 @@
     {{/modal.body}}
     {{#modal.footer}}
         <button
-            onclick={{action modal.close reload=true}}
+            data-test-stay-here
+            onclick={{action closeModal reload=true}}
             class="btn btn-default"
         >
             {{t 'new_project.stay_here'}}
         </button>
         <a
+            data-test-go-to-new
             role='button'
             href="{{node.links.html}}"
             class="btn btn-success"

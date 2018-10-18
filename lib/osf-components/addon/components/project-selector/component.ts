@@ -23,6 +23,7 @@ import layout from './template';
 export enum ProjectSelectState {
     main = 'main',
     newProject = 'newProject',
+    newProjectSelected = 'newProjectSelected',
     existingProject = 'existingProject',
 }
 
@@ -96,6 +97,8 @@ export default class ProjectSelector extends Component.extend({
         switch (this.projectSelectState) {
         case ProjectSelectState.newProject:
             return this.newProject.validations.isValid;
+        case ProjectSelectState.newProjectSelected:
+            return this.newProject.validations.isValid;
         case ProjectSelectState.existingProject:
             return !!this.selected;
         default:
@@ -124,8 +127,7 @@ export default class ProjectSelector extends Component.extend({
 
     @action
     changeState(this: ProjectSelector, projectSelectState: ProjectSelectState): void {
-        const selected = projectSelectState === ProjectSelectState.newProject ? this.newProject : null;
-
+        const selected = projectSelectState === ProjectSelectState.newProjectSelected ? this.newProject : null;
         this.setProperties({
             projectSelectState,
             selected,
@@ -144,19 +146,17 @@ export default class ProjectSelector extends Component.extend({
     }
 
     @action
-    closeModal(this: ProjectSelector, reload = false) {
+    closeModal(this: ProjectSelector) {
         // Need to explicitly pass reload when the action in the onclick event of a button
         // otherwise the first argument is a mouse event which in turn is always truthy
-
-        if (reload) {
-            this.get('findNodes').perform();
-        }
+        this.changeState(ProjectSelectState.main);
     }
 
     @action
     projectCreated(this: ProjectSelector, newNode: Node) {
         this.set('newProject', newNode);
-        this.analytics.click('button', 'Quick Files - New Project');
-        this.closeModal(true);
+        this.projectSelected(newNode);
+        this.changeState(ProjectSelectState.newProjectSelected);
+        this.validationChanged(this.isValid);
     }
 }

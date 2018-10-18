@@ -209,11 +209,9 @@
     {{#modal.body}}
         {{project-selector
             user=user
-            newProject=newProject
-            file=selectedItems.firstObject
             projectSelectState=projectSelectState
             validationChanged=(action (mut isProjectSelectorValid))
-            projectSelected=(action (mut node))
+            projectSelected=(action projectSelected)
         }}
     {{/modal.body}}
     {{#modal.footer}}

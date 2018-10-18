@@ -6,6 +6,7 @@ import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { userNodeList } from './views/user';
+import { moveFile } from './views/wb';
 
 const { OSF: { apiUrl } } = config;
 
@@ -47,6 +48,10 @@ export default function(this: Server) {
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'users', 'quickfiles', { only: ['index', 'show'] });
+
+    // Waterbutler namespace
+    this.namespace = '/wb';
+    this.post('/files/:id/move', moveFile);
 
     // Private namespace
     this.namespace = '/_';
