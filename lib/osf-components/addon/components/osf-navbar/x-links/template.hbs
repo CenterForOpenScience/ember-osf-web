@@ -9,6 +9,7 @@
         )
         tagName='li'
         text=(t 'navbar.my_quick_files')
+        onClicked=this.onLinkClicked
     )
     myprojects=(component 'hyper-link'
         this.myProjectsURL
@@ -16,6 +17,7 @@
         hidden=(not this.session.isAuthenticated)
         tagName='li'
         text=(t 'navbar.my_projects')
+        onClicked=this.onLinkClicked
     )
     myregistrations=(component 'hyper-link'
         this.myRegistrationsURL
@@ -23,18 +25,21 @@
         hidden=(not this.session.isAuthenticated)
         tagName='li'
         text=(t 'navbar.my_registrations')
+        onClicked=this.onLinkClicked
     )
     search=(component 'hyper-link'
         this.searchURL
         analyticsLabel='Navbar - navbar.search'
         tagName='li'
         text=(t 'navbar.search')
+        onClicked=this.onLinkClicked
     )
     support=(component 'hyper-link'
         this.supportURL
         analyticsLabel='Navbar - navbar.support'
         tagName='li'
         text=(t 'navbar.support')
+        onClicked=this.onLinkClicked
     )
     donate=(component 'hyper-link'
         'https://cos.io/donate'
@@ -42,6 +47,7 @@
         classNames='navbar-donate-button'
         tagName='li'
         text=(t 'navbar.donate')
+        onClicked=this.onLinkClicked
     )
 ) as |links|}}
     {{#if hasBlock}}

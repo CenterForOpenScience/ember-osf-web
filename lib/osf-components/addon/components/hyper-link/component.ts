@@ -25,6 +25,7 @@ export default class HyperLink extends Component {
     hidden: boolean = defaultTo(this.hidden, false);
     queryParams?: { [k: string]: string };
     params: any[] = defaultTo(this.params, []);
+    onClicked?: () => void;
 
     @computed('route', 'positionalRoute')
     get resolvedRoute(): string {
@@ -56,10 +57,11 @@ export default class HyperLink extends Component {
 
     @action
     onclick(...args: any[]) {
-        if (this.analyticsLabel) {
-            return this.analytics.click('link', this.analyticsLabel, ...args);
+        if (this.onClicked) {
+            this.onClicked();
         }
-
-        return true;
+        if (this.analyticsLabel) {
+            this.analytics.click('link', this.analyticsLabel, ...args);
+        }
     }
 }

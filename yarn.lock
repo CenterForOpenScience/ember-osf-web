@@ -3965,6 +3965,7 @@ commander@^2.12.1, commander@^2.9.0:
 commander@^2.16.0:
   version "2.18.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.18.0.tgz#2bf063ddee7c7891176981a2cc798e5754bc6970"
+  integrity sha512-6CYPa+JP2ftfRU2qkDK+UTVeQYosOg/2GbcjIcKPHfinyOLPVGXu/ovN86RP49Re5ndJK1N0kuiidFFuepc4ZQ==
 
 commander@~2.17.1:
   version "2.17.1"
@@ -10350,6 +10351,7 @@ just-extend@^1.1.27:
 katex@^0.10.0-rc.1:
   version "0.10.0-rc.1"
   resolved "https://registry.yarnpkg.com/katex/-/katex-0.10.0-rc.1.tgz#bd46155281f61c4855a064e2b7a89d137ee04b41"
+  integrity sha512-JmnreLp0lWPA1z1krzO5drN1qBrkhqzMg5qv0l5y+Fr97sqgOuh37k9ky7VD1k/Ec+yvOe2BptiYSR9OoShkFg==
   dependencies:
     commander "^2.16.0"
 
