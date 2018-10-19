@@ -64,7 +64,7 @@ export default class CollectionItemPicker extends Component.extend({
 
         const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
             filter: {
-                current_user_permission: Permission.Admin,
+                current_user_permissions: Permission.Admin,
                 title: this.filter ? this.filter : undefined,
             },
             page: this.page,
