@@ -27,8 +27,8 @@ export default class FileProvider extends BaseFileItem {
     isProvider = true;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'file-provider': FileProvider;
-    }
+    } // eslint-disable-line semi
 }

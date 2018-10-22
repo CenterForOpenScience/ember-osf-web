@@ -26,8 +26,8 @@ export default class Log extends OsfModel {
     @belongsTo('node', { inverse: null }) templateNode!: DS.PromiseObject<Node> & Node;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'log': Log;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        log: Log;
+    } // eslint-disable-line semi
 }

@@ -17,8 +17,8 @@ export default class NodeLink extends OsfSerializer.extend({
     },
 }) {}
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
         'node-link': NodeLink;
-    }
+    } // eslint-disable-line semi
 }

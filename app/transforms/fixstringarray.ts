@@ -8,8 +8,8 @@ export default class FixStringArrayTransform extends ArrayTransform {
     }
 }
 
-declare module 'ember-data' {
-    interface TransformRegistry {
-        'fixstringarray': string[];
-    }
+declare module 'ember-data/types/registries/transform' {
+    export default interface TransformRegistry {
+        fixstringarray: string[];
+    } // eslint-disable-line semi
 }

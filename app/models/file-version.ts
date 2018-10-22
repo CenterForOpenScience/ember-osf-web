@@ -19,8 +19,8 @@ export default class FileVersion extends OsfModel {
     @attr('fixstring') contentType!: string;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'file-version': FileVersion;
-    }
+    } // eslint-disable-line semi
 }

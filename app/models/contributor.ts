@@ -54,8 +54,8 @@ export default class Contributor extends OsfModel.extend(Validations) {
     isUnregistered: boolean = defaultTo(this.isUnregistered, false);
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         contributor: Contributor;
-    }
+    } // eslint-disable-line semi
 }

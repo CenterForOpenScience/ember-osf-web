@@ -18,8 +18,8 @@ export default class CommentReport extends OsfModel {
     @belongsTo('comment') text!: DS.PromiseObject<Comment> & Comment;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'comment-report': CommentReport;
-    }
+    } // eslint-disable-line semi
 }

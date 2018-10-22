@@ -23,8 +23,8 @@ export default class Contributor extends OsfSerializer.extend({
 }) {
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
         contributor: Contributor;
-    }
+    } // eslint-disable-line semi
 }

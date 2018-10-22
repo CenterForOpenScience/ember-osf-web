@@ -7,8 +7,8 @@ export default class RegistryProvider extends Provider {
     @hasMany('registration', { inverse: 'provider' }) registrations!: DS.PromiseManyArray<Registration>;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'registry-provider': RegistryProvider;
-    }
+    } // eslint-disable-line semi
 }

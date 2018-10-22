@@ -265,8 +265,8 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         node: Node;
-    }
+    } // eslint-disable-line semi
 }

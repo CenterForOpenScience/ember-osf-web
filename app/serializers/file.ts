@@ -30,8 +30,8 @@ export default class File extends OsfSerializer.extend({
     },
 }) {}
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'file': File;
-    }
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        file: File;
+    } // eslint-disable-line semi
 }

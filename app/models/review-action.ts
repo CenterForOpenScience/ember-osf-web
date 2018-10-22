@@ -19,8 +19,8 @@ export default class ReviewAction extends OsfModel {
     @belongsTo('user', { inverse: null }) creator!: DS.PromiseObject<User> & User;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'review-action': ReviewAction;
-    }
+    } // eslint-disable-line semi
 }

@@ -36,8 +36,8 @@ export default class UserRegistration extends RESTSerializer.extend({
     }
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
         'user-registration': UserRegistration;
-    }
+    } // eslint-disable-line semi
 }

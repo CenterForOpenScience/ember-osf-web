@@ -33,8 +33,8 @@ export default class CollectedMetadatum extends Osf.extend({
 }) {
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
         'collected-metadatum': CollectedMetadatum;
-    }
+    } // eslint-disable-line semi
 }

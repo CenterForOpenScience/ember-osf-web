@@ -15,8 +15,8 @@ export default class Citation extends OsfModel {
     @attr('string') citation!: string;
 }
 
-declare module 'ember-data' {
-  interface ModelRegistry {
-    'citation': Citation;
-  }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        citation: Citation;
+    } // eslint-disable-line semi
 }

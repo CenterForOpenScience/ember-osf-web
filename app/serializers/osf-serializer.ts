@@ -227,9 +227,3 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         },
     };
 }
-
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'osf-serializer': OsfSerializer;
-    }
-}

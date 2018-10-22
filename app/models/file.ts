@@ -125,8 +125,8 @@ export default class File extends BaseFileItem {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'file': File;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        file: File;
+    } // eslint-disable-line semi
 }

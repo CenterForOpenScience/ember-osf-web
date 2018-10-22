@@ -5,7 +5,8 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { task } from 'ember-concurrency';
-import DS, { ModelRegistry } from 'ember-data';
+import DS from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
 import Toast from 'ember-toastr/services/toast';
 
 import { requiredAction } from 'ember-osf-web/decorators/component';

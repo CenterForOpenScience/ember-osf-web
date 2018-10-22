@@ -68,8 +68,8 @@ export default class RegistrationSchema extends OsfModel {
     @attr('object') schema!: Schema;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'registration-schema': RegistrationSchema;
-    }
+    } // eslint-disable-line semi
 }

@@ -30,8 +30,8 @@ export default StringTransform.extend({
     },
 });
 
-declare module 'ember-data' {
-  interface TransformRegistry {
-      'fixstring': string;
-  }
+declare module 'ember-data/types/registries/transform' {
+    export default interface TransformRegistry {
+        fixstring: string;
+    } // eslint-disable-line semi
 }

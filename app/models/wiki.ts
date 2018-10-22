@@ -18,8 +18,8 @@ export default class Wiki extends OsfModel {
     @belongsTo('node', { inverse: 'wikis' }) node!: DS.PromiseObject<Node> & Node;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-      'wiki': Wiki;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        wiki: Wiki;
+    } // eslint-disable-line semi
 }

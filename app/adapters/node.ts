@@ -16,8 +16,8 @@ export default class Node extends OsfAdapter.extend({
 }) {
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'node': Node;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        node: Node;
+    } // eslint-disable-line semi
 }

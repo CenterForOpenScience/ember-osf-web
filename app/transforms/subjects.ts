@@ -12,8 +12,8 @@ export default class Subjects extends ArrayTransform {
     }
 }
 
-declare module 'ember-data' {
-    interface TransformRegistry {
+declare module 'ember-data/types/registries/transform' {
+    export default interface TransformRegistry {
         subjects: Subjects;
-    }
+    } // eslint-disable-line semi
 }

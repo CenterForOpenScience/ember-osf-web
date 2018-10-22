@@ -24,8 +24,8 @@ export default class Comment extends OsfSerializer.extend({
     },
 }) {}
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
         comment: Comment;
-    }
+    } // eslint-disable-line semi
 }

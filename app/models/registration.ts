@@ -52,8 +52,8 @@ export default class Registration extends Node.extend() {
     @hasMany('registration', { inverse: 'parent' }) children!: DS.PromiseManyArray<Registration>;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'registration': Registration;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        registration: Registration;
+    } // eslint-disable-line semi
 }

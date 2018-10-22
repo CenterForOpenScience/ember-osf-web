@@ -6,8 +6,8 @@ export default class RegistrationSchema extends OsfAdapter {
     }
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
         'registration-schema': RegistrationSchema;
-    }
+    } // eslint-disable-line semi
 }

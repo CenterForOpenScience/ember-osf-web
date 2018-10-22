@@ -9,8 +9,8 @@ export default class Guid extends OsfAdapter.extend({
     },
 }) {}
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'guid': Guid;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        guid: Guid;
+    } // eslint-disable-line semi
 }

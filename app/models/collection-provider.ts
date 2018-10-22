@@ -8,8 +8,8 @@ export default class CollectionProvider extends Provider {
     @hasMany('collection', { inverse: 'provider' }) collections!: DS.PromiseManyArray<Collection>;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'collection-provider': CollectionProvider;
-    }
+    } // eslint-disable-line semi
 }

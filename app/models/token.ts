@@ -23,8 +23,8 @@ export default class TokenModel extends OsfModel.extend(Validations) {
     // @attr('fixstring') owner!: string; Always the current user
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'token': TokenModel;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        token: TokenModel;
+    } // eslint-disable-line semi
 }

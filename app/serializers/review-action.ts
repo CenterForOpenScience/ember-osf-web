@@ -9,8 +9,8 @@ export default class ReviewAction extends OsfSerializer {
     };
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
         'review-action': ReviewAction;
-    }
+    } // eslint-disable-line semi
 }

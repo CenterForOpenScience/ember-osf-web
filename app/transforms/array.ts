@@ -13,8 +13,8 @@ export default class ArrayTransform extends Transform {
     }
 }
 
-declare module 'ember-data' {
-    interface TransformRegistry {
+declare module 'ember-data/types/registries/transform' {
+    export default interface TransformRegistry {
         array: ArrayTransform;
-    }
+    } // eslint-disable-line semi
 }

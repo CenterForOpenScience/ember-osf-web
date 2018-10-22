@@ -54,8 +54,8 @@ export default class TokenSerializer extends OsfSerializer {
     }
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'token': TokenSerializer;
-    }
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        token: TokenSerializer;
+    } // eslint-disable-line semi
 }

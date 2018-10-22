@@ -19,8 +19,8 @@ export default Transform.extend({
     },
 });
 
-declare module 'ember-data' {
-    interface TransformRegistry {
+declare module 'ember-data/types/registries/transform' {
+    export default interface TransformRegistry {
         object: any;
-    }
+    } // eslint-disable-line semi
 }

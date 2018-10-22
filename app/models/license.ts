@@ -8,8 +8,8 @@ export default class License extends OsfModel {
     @attr('array') requiredFields!: Array<keyof Deserialized>;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         license: License;
-    }
+    } // eslint-disable-line semi
 }

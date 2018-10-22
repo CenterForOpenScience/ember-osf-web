@@ -41,8 +41,8 @@ export default class Comment extends OsfModel {
     replies!: DS.PromiseManyArray<Comment>;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'comment': Comment;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        comment: Comment;
+    } // eslint-disable-line semi
 }

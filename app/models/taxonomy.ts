@@ -26,8 +26,8 @@ export default class Taxonomy extends OsfModel {
     @attr('object') parent!: SubjectRef;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'taxonomy': Taxonomy;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        taxonomy: Taxonomy;
+    } // eslint-disable-line semi
 }

@@ -95,8 +95,8 @@ export default class CollectedMetadatum extends OsfModel.extend(Validations) {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'collected-metadatum': CollectedMetadatum;
-    }
+    } // eslint-disable-line semi
 }

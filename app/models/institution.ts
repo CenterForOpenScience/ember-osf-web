@@ -40,8 +40,8 @@ export default class Institution extends OsfModel {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'institution': Institution;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        institution: Institution;
+    } // eslint-disable-line semi
 }

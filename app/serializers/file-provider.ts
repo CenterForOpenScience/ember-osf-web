@@ -7,8 +7,8 @@ export default class FileProvider extends OsfSerializer {
     }
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
         'file-provider': FileProvider;
-    }
+    } // eslint-disable-line semi
 }

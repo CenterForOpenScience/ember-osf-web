@@ -92,8 +92,8 @@ export default class UserRegistration extends Model.extend(Validations) {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'user-registration': UserRegistration;
-    }
+    } // eslint-disable-line semi
 }

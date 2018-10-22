@@ -23,8 +23,8 @@ export default class Institution extends OsfSerializer.extend({
     },
 }) {}
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'institution': Institution;
-    }
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        institution: Institution;
+    } // eslint-disable-line semi
 }

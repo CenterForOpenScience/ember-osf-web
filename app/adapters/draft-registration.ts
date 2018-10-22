@@ -9,8 +9,8 @@ export default class DraftRegistration extends OsfAdapter {
     }
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
         'draft-registration': DraftRegistration;
-    }
+    } // eslint-disable-line semi
 }

@@ -23,8 +23,8 @@ export default class Collection extends OsfAdapter.extend({
 }) {
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'collection': Collection;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        collection: Collection;
+    } // eslint-disable-line semi
 }

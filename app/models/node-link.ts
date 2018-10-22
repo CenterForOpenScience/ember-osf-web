@@ -18,8 +18,8 @@ export default class NodeLink extends OsfModel {
     @belongsTo('node') targetNode!: DS.PromiseObject<Node> & Node;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'node-link': NodeLink;
-    }
+    } // eslint-disable-line semi
 }

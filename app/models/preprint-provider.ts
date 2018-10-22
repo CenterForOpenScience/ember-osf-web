@@ -26,8 +26,8 @@ export default class PreprintProvider extends Provider {
     hasHighlightedSubjects!: boolean;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'preprint-provider': PreprintProvider;
-    }
+    } // eslint-disable-line semi
 }

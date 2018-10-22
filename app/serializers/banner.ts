@@ -18,8 +18,8 @@ export default class BannerSerializer extends OsfSerializer {
     }
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'banner': BannerSerializer;
-    }
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        banner: BannerSerializer;
+    } // eslint-disable-line semi
 }

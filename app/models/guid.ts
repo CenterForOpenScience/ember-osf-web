@@ -1,5 +1,5 @@
 import { computed } from '@ember-decorators/object';
-import { ModelRegistry } from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
 import { singularize } from 'ember-inflector';
 import OsfModel from './osf-model';
 
@@ -26,8 +26,8 @@ export default class Guid extends OsfModel {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         guid: Guid;
-    }
+    } // eslint-disable-line semi
 }

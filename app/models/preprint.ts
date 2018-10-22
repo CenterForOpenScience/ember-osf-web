@@ -74,8 +74,8 @@ export default class Preprint extends OsfModel {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'preprint': Preprint;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        preprint: Preprint;
+    } // eslint-disable-line semi
 }

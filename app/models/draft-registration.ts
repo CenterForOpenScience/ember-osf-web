@@ -28,8 +28,8 @@ export default class DraftRegistration extends OsfModel {
     registrationSchema!: DS.PromiseObject<RegistrationSchema> & RegistrationSchema;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'draft-registration': DraftRegistration;
-    }
+    } // eslint-disable-line semi
 }

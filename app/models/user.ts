@@ -94,8 +94,8 @@ export default class User extends OsfModel.extend(Validations) {
     @alias('links.profile_image') profileImage!: string;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'user': User;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        user: User;
+    } // eslint-disable-line semi
 }
