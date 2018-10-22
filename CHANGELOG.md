@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `panel` component integration test
 - Handbook:
     - `panel` component
+### Changed
+- Components:
+    - `loading-indicator` - added inline option
+- Tests:
+    - `loading-indicator` - added tests for inline
+- Handbook:
+    - `loading-indicator` - added examples for inline
 ### Removed
 - Flags:
     - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on
