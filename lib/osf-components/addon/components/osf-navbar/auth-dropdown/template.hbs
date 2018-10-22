@@ -26,7 +26,7 @@
                 {{/ddm.item}}
             {{/if}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a href="{{profileURL}}" {{action '_onLinkClicked' 'Navbar - MyProfile'}}>
+                <a href="{{profileURL}}" onclick={{action '_onLinkClicked' 'Navbar - MyProfile'}}>
                     <i class="fa fa-user fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.my_profile'}}
                 </a>
@@ -38,13 +38,13 @@
                 {{/global-link-to}}
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a href="{{settingsURL}}" {{action '_onLinkClicked' 'Navbar - Settings'}}>
+                <a href="{{settingsURL}}" onclick={{action '_onLinkClicked' 'Navbar - Settings'}}>
                     <i class="fa fa-cog fa-lg p-r-xs"></i>
                     {{t 'general.settings'}}
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a class="logoutLink" {{action 'logout'}} {{action '_onLinkClicked' 'Navbar - Logout'}} role="button">
+                <a class="logoutLink" role="button" {{action 'logout'}} {{action '_onLinkClicked' 'Navbar - Logout'}}>
                     <i class="fa fa-sign-out fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.log_out'}}
                 </a>
