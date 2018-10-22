@@ -1,6 +1,6 @@
 {{#bs-modal onHidden=closeModal as |modal|}}
     {{#modal.header}}
-        <h3 class="modal-title">{{t 'new_project.header'}}</h3>
+        <h3 data-test-create-project-header class="modal-title">{{t 'new_project.header'}}</h3>
     {{/modal.header}}
     {{#modal.body}}
         <div class="text-left">
@@ -8,6 +8,7 @@
                 <label class="f-w-lg text-bigger" local-class="NewProject__label">
                     {{t 'general.title'}}
                     {{input
+                        data-test-new-project-title
                         placeholder=(t 'new_project.title_placeholder')
                         autofocus='autofocus'
                         class='form-control project-name'
@@ -61,7 +62,7 @@
                 </div>
             {{/if}}
             {{#if storageI18nEnabled}}
-                <div class="form-group m-v-md">
+                <div data-test-select-storage-location class="form-group m-v-md">
                     <label class="f-w-lg text-bigger" local-class="NewProject__label">
                         {{t 'new_project.storage_region'}}
                         {{#power-select
@@ -78,7 +79,7 @@
                     </label>
                 </div>
             {{/if}}
-            <div class="text" role="button" onclick={{action 'toggleMore'}}>
+            <div data-test-more-toggle class="text" role="button" onclick={{action 'toggleMore'}}>
                 {{fa-icon (concat 'caret-' (if more 'down' 'right'))}} {{t 'new_project.more'}}
             </div>
             {{#if more}}
@@ -86,6 +87,7 @@
                     <label for="projectDesc" class="f-w-lg text-bigger" local-class="NewProject__label">
                         {{t 'general.description'}}
                         {{input
+                            data-test-project-description-input
                             placeholder=(t 'new_project.description_placeholder')
                             class='form-control noresize project-desc'
                             value=description
@@ -93,7 +95,7 @@
                         }}
                     </label>
                 </div>
-                <div class="form-group m-v-md">
+                <div data-test-select-template class="form-group m-v-md">
                     <label class="f-w-lg text-bigger" local-class="NewProject__label">
                         {{t 'new_project.template_title'}}
                         <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
@@ -116,6 +118,7 @@
     {{/modal.body}}
     {{#modal.footer}}
         <button
+            data-test-create-project-cancel
             onclick={{action modal.close}}
             class="btn btn-default"
             {{action 'click' 'button' (concat page ' - New Project - cancel') target=analytics}}
@@ -123,6 +126,7 @@
             {{t 'general.cancel'}}
         </button>
         <button
+            data-test-create-project-submit
             onclick={{action 'create'}}
             class="btn btn-success {{unless nodeTitle.length 'disabled'}}"
         >

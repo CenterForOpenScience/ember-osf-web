@@ -7,6 +7,8 @@ import User from 'ember-osf-web/models/user';
 const {
     featureFlagNames: {
         routes,
+        navigation,
+        storageI18n,
     },
 } = config;
 
@@ -19,7 +21,7 @@ export interface Root {
 }
 
 export default Factory.extend<Root>({
-    activeFlags: Object.values(routes), // Pretend all routes are flagged on
+    activeFlags: Object.values(routes).concat(Object.values(navigation)).concat([storageI18n]),
     message: 'Welcome to the OSF API.',
     version: '2.8',
     links: {},

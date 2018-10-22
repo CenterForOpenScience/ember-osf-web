@@ -36,6 +36,7 @@ export default function(this: Server) {
     osfResource(this, 'registrationSchemas', { path: '/schemas/registrations' });
 
     osfResource(this, 'scopes', { only: ['index', 'show'] });
+    osfResource(this, 'regions', { only: ['index', 'show'] });
 
     this.get('/status', () => {
         return { meta: { version: '2.8' }, maintenance: null };

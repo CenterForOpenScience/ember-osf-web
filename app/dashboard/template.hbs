@@ -23,7 +23,12 @@
                         <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
                         <div class='m-b-lg col-xs-3'>
                             <div class='pull-right'>
-                                <button onclick={{action 'openModal'}} class="btn btn-success btn-success-high-contrast m-t-md f-w-xl" {{action 'click' 'button' 'Dashboard - create_new_project' target=analytics}}>
+                                <button 
+                                    data-test-create-project-modal-button
+                                    onclick={{action 'openModal'}} 
+                                    class="btn btn-success btn-success-high-contrast m-t-md f-w-xl" 
+                                    {{action 'click' 'button' 'Dashboard - create_new_project' target=analytics}}
+                                >
                                     {{t 'dashboard.create_new_project_button'}}
                                 </button>
                             </div>
