@@ -23,6 +23,7 @@ module('Integration | Component | new-project-navigation-modal', hooks => {
         await render(hbs`<NewProjectNavigationModal
             @node={{theNode}}
             @closeModal={{action closeModel reload=true}}
+            @title="New project created successfully!"
         />`);
 
         assert.dom(this.element).hasText('New project created successfully! Keep working here Go to new project');

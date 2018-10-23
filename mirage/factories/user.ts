@@ -6,6 +6,7 @@ import { guid, guidAfterCreate } from './utils';
 
 export interface UserTraits {
     withNodes: Trait;
+    withFiles: Trait;
     loggedIn: Trait;
 }
 
@@ -44,6 +45,11 @@ export default Factory.extend<User & UserTraits>({
     withNodes: trait({
         afterCreate(user, server) {
             server.createList('node', 5, { user }, 'withContributors');
+        },
+    }),
+    withFiles: trait({
+        afterCreate(user, server) {
+            server.createList('file', 5, { user });
         },
     }),
     loggedIn: trait({

@@ -17,7 +17,7 @@ export interface Root {
     message: string;
     version: string;
     links: Links;
-    currentUser: User;
+    currentUser?: User;
 }
 
 export default Factory.extend<Root>({

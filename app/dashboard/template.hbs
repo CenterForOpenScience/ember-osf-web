@@ -4,6 +4,7 @@
         <NewProjectNavigationModal
             @node={{newNode}}
             @closeModal={{action closeModal reload=true}}
+            @title={{t 'new_project.success_message'}}
         />
     {{else}}
         <NewProjectModal
