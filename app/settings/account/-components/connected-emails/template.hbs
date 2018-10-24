@@ -11,7 +11,9 @@
                 {{#if loadPrimaryEmail.isRunning}}
                     <LoadingIndicator local-class="loading-icon" @dark=true @inline=true />
                 {{else}}
-                    {{loadPrimaryEmail.lastSuccessful.value.emailAddress}}
+                    <span data-test-primary-email value={{loadPrimaryEmail.lastSuccessful.value.emailAddress}}>
+                        {{loadPrimaryEmail.lastSuccessful.value.emailAddress}}
+                    </span>
                 {{/if}}
             </span>
         </div>
@@ -35,13 +37,13 @@
                                 {{placeholder.heading subtitle=false}}
                             {{/content-placeholders}}
                         {{else}}
-                            <div local-class="email-object alternate-email">
+                            <div local-class="email-object alternate-email" value={{email.emailAddress}} data-test-alternate-email>
                                 {{email.emailAddress}}
                                 <div local-class="options">
-                                    {{#bs-button onClick=(action this.makePrimary email) type='link'}}
+                                    {{#bs-button data-test-make-primary onClick=(action this.makePrimary email) type='link'}}
                                         {{t 'settings.account.connectedEmails.makePrimary'}}
                                     {{/bs-button}}
-                                    {{#bs-button onClick=(action this.removeEmail email) type='link'}}
+                                    {{#bs-button data-test-remove-email onClick=(action this.removeEmail email) type='link'}}
                                         {{fa-icon 'times' local-class='remove-email-btn'}}                              
                                     {{/bs-button}}
                                 </div>
@@ -71,7 +73,7 @@
                                 {{placeholder.heading subtitle=false}}
                             {{/content-placeholders}}
                         {{else}}
-                            <div local-class="email-object unconfirmed-email">
+                            <div local-class="email-object unconfirmed-email" data-test-unconfirmed-email>
                                 {{email.emailAddress}}
                                 <div local-class="options">
                                     {{#bs-button onClick=(action this.resendConfirmation) type='link'}}
@@ -90,6 +92,7 @@
                 {{t 'settings.account.connectedEmails.mergeExplanation'}}
             </p>
             {{validated-input/text
+                data-test-add-email
                 local-class='input-form'
                 model=this.userEmail
                 valuePath='emailAddress'
@@ -97,7 +100,7 @@
                 placeholder=(t 'settings.account.connectedEmails.placeholderText')
                 ariaLabel=(t 'settings.account.connectedEmails.placeholderText')
             }}
-            {{#bs-button onClick=(action this.submit) type='default'}}
+            {{#bs-button data-test-add-email-button onClick=(action this.submit) type='default'}}
                 {{t 'settings.account.connectedEmails.addEmail'}}
             {{/bs-button}}
         </div>
