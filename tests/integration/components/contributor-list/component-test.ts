@@ -81,7 +81,6 @@ module('Integration | Component | contributor-list', hooks => {
 
         assert.expect(testCases.length);
 
-        // eslint-disable-next-line no-await-in-loop
         for (const [input, expected] of testCases) {
             const contributors = {
                 toArray: () => A(input.map(nameToUsersFamilyNames)),

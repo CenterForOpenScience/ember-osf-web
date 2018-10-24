@@ -1,0 +1,27 @@
+.search-result {
+    background: #fff;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    box-shadow: 0 1px 2px #ddd;
+    border: 0;
+
+    :global(.row) {
+        font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+
+.choiceFilter {
+    cursor: pointer;
+
+    &:not(:first-of-type)::before {
+        content: ' | ';
+    }
+}
+
+.toggleShowBody:focus {
+    outline: none;
+}

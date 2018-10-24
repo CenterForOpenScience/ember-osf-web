@@ -1,80 +1,62 @@
 import { action, computed } from '@ember-decorators/object';
-import { equal } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
-import { osfServices } from 'ember-osf-web/const/service-links';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import Session from 'ember-simple-auth/services/session';
 import styles from './styles';
 import layout from './template';
 
-const { featureFlagNames: { navigation } } = config;
+const osfURL = config.OSF.url;
 
-const HOME_APP = 'HOME';
+export enum OSFService {
+    HOME = 'HOME',
+    PREPRINTS = 'PREPRINTS',
+    REGISTRIES = 'REGISTRIES',
+    MEETINGS = 'MEETINGS',
+    INSTITUTIONS = 'INSTITUTIONS',
+}
 
-/**
- * Display the OSF navbar
- *
- * @class osf-navbar
- */
+export const OSF_SERVICES = [
+    { name: OSFService.HOME, route: 'home' },
+    { name: OSFService.PREPRINTS, route: `${osfURL}preprints/` },
+    { name: OSFService.REGISTRIES, route: config.engines.registries.enabled ? 'registries' : `${osfURL}registries/` },
+    { name: OSFService.MEETINGS, route: `${osfURL}meetings/` },
+    { name: OSFService.INSTITUTIONS, route: 'institutions' },
+];
+
 export default class OsfNavbar extends Component {
     layout = layout;
     styles = styles;
 
-    @service session!: Session;
     @service analytics!: Analytics;
     @service features!: Features;
     @service router!: any;
+    @service session!: Session;
 
-    /**
-     * Action run when the user clicks "Sign In"
-     *
-     * @property loginAction
-     * @type {Action}
-     */
-    loginAction?: () => void;
-
-    /**
-     * The URL to use for signup
-     * May be overridden, e.g. for special campaign pages
-     *
-     * @property signupUrl
-     * @type {String}
-     */
-    signupUrl: string = defaultTo(this.signupUrl, `${config.OSF.url}register`);
-
-    /**
-     * The URL to redirect to after logout
-     *
-     * @property redirectUrl
-     * @type {String}
-     */
-    redirectUrl: string = defaultTo(this.redirectUrl, '');
-
-    // TODO: When used in other apps, update to expect these as arguments or from the config
-    hostAppName: string = HOME_APP;
-    linksComponent: string = 'osf-navbar/home-links';
-    indexRoute: string = 'dashboard';
     showNavLinks: boolean = false;
 
-    @computed(`features.${camelize(navigation.institutions)}`)
-    get osfApps(this: OsfNavbar) {
-        return osfServices.filter(each => !each.flag || this.features.isEnabled(each.flag));
+    activeService: OSFService = defaultTo(this.activeService, OSFService.HOME);
+    services: Array<{name: OSFService, route: string}> = defaultTo(this.services, OSF_SERVICES);
+
+    @computed('activeService', 'router.currentRouteName')
+    get _activeService() {
+        let { activeService } = this;
+
+        // HACK/Special case until institutions are put into an engine
+        if (activeService === OSFService.HOME && this.router.currentRouteName === 'institutions') {
+            activeService = OSFService.INSTITUTIONS;
+        }
+
+        return this.services.find(x => x.name === activeService);
     }
 
-    @equal('currentApp', HOME_APP) inHomeApp!: boolean;
-
-    @computed('hostAppName', 'router.currentRouteName')
-    get currentApp(this: OsfNavbar): string {
-        if (this.router.currentRouteName === 'institutions') {
-            this.set('indexRoute', 'institutions');
-            return 'INSTITUTIONS';
-        }
-        return (this.hostAppName === 'Dummy App' ? HOME_APP : this.hostAppName).toUpperCase();
+    @action
+    onClickPrimaryDropdown(this: OsfNavbar) {
+        this.set('showNavLinks', false);
+        this.analytics.click('button', 'Navbar - Dropdown Arrow');
     }
 
     @action
@@ -83,8 +65,7 @@ export default class OsfNavbar extends Component {
     }
 
     @action
-    onClickPrimaryDropdown(this: OsfNavbar) {
+    onLinkClicked() {
         this.set('showNavLinks', false);
-        this.analytics.click('button', 'Navbar - Dropdown Arrow');
     }
 }

@@ -1,0 +1,70 @@
+.RegistrationsContainer {
+    margin-top: 15px;
+}
+
+.RegistrationsPane {
+    padding-top: 20px;
+    min-height: 150px;
+}
+
+h4:global(.NewRegistrationModal__header) {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+:global(.NewRegistrationModal__info) {
+    strong {
+        font-weight: 600;
+    }
+}
+
+:global(.NewRegistrationModal__schema-list) {
+    ul {
+        list-style: none;
+    }
+
+    li {
+        position: relative;
+
+        input {
+            position: absolute;
+            left: -1.4em;
+            top: -0.1em;
+        }
+
+        &:global(.ember-content-placeholders-list__item)::before {
+            content: '\25EF';
+            position: absolute;
+            left: -1.45em;
+            color: #555;
+        }
+    }
+}
+
+:global(.PreRegChallengeModal__title) {
+    text-align: center;
+}
+
+:global(.PreRegChallengeModal__notice) {
+    text-align: center;
+}
+
+:global(.PreRegChallengeModal__eligibility) {
+    font-weight: 600;
+}
+
+:global(.PreRegChallengeModal__info) {
+    strong {
+        font-weight: 600;
+    }
+}
+
+:global(.PreRegChallengeModal__list) {
+    strong {
+        font-weight: 600;
+    }
+}
+
+:global(.PreRegChallengeModal__consent) {
+    font-weight: normal;
+}

@@ -27,10 +27,10 @@ module('Unit | Instance Initializer | prerender', hooks => {
             initialize,
         });
 
-        this.application = this.TestApplication.create({ autoboot: false }) as any;
+        this.application = this.TestApplication.create({ autoboot: false });
         this.application.register('service:ready', ReadyStub);
 
-        this.instance = (this.application as any).buildInstance();
+        this.instance = this.application.buildInstance();
         window.prerenderReady = false;
     });
 
@@ -42,7 +42,7 @@ module('Unit | Instance Initializer | prerender', hooks => {
     test('it sets prerenderReady', async function(this: Context, assert) {
         assert.notOk(window.prerenderReady, 'prerenderReady starts false');
 
-        await (this.instance as any).boot(); // private method
+        await this.instance.boot();
 
         assert.ok(window.prerenderReady, 'prerenderReady set true');
     });

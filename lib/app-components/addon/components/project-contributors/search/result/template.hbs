@@ -1,0 +1,33 @@
+<td class="p-v-xs">
+    <img
+        class="m-l-xs"
+        src={{user.links.profile_image}}
+        alt="{{user.fullname}}"
+        height="30"
+        width="30"
+    >
+    <a href={{user.links.html}} target="_blank" rel="noopener">
+        {{~user.fullName~}}
+    </a>
+    {{#if isSelf}}
+        <span class="small">
+            {{t 'app_components.project_contributors.search.result.yourself'}}
+        </span>
+    {{/if}}
+</td>
+<td class="p-v-xs">
+    {{#if isContributor}}
+        <span
+            class="hint hint--left pull-right"
+            aria-label="{{t "components.preprint-form-authors.already_added"}}"
+        >
+            <button class="btn btn-default btn-small disabled disabled-checkmark">
+                {{fa-icon 'check' aria-hidden='true'}}
+            </button>
+        </span>
+    {{else}}
+        <button class="btn btn-success btn-small pull-right" {{action addContributor user}}>
+            {{t 'app_components.project_contributors.search.result.add'}}
+        </button>
+    {{/if}}
+</td>

@@ -12,10 +12,19 @@ const App = Application.extend({
     engines: {
         collections: {
             dependencies: {
+                externalRoutes: {
+                    home: 'home',
+                    support: 'support',
+                },
                 services: [
+                    'analytics',
+                    'current-user',
+                    'features',
                     'i18n',
                     'session',
                     'store',
+                    'theme',
+                    'toast',
                     'router',
                 ],
             },
@@ -23,8 +32,32 @@ const App = Application.extend({
         handbook: {
             dependencies: {
                 services: [
+                    'analytics',
+                    'i18n',
                     'router',
+                    'store',
+                    'toast',
                 ],
+            },
+        },
+        registries: {
+            dependencies: {
+                services: [
+                    'analytics',
+                    'cookies',
+                    'current-user',
+                    'features',
+                    'head-data',
+                    'i18n',
+                    'page-title-list',
+                    'router',
+                    'session',
+                    'status-messages',
+                    'store',
+                ],
+                externalRoutes: {
+                    registration: 'guid-registration',
+                },
             },
         },
         analyticsPage: {

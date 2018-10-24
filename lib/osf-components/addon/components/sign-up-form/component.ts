@@ -1,26 +1,54 @@
-import { computed } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias, and } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { task, timeout } from 'ember-concurrency';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import DS from 'ember-data';
+
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import styles from './styles';
 import layout from './template';
 
-@localClassNames('SignUpForm')
-export default class SignUpForm extends Component {
+export default class SignUpForm extends Component.extend({
+    submitTask: task(function *(this: SignUpForm) {
+        const { validations } = yield this.userRegistration.validate();
+        this.set('didValidate', true);
+
+        if (!validations.isValid) {
+            return;
+        }
+
+        try {
+            yield this.userRegistration.save();
+        } catch (e) {
+            // Handle email already exists error
+            if (+e.errors[0].status === 400) {
+                this.resetRecaptcha();
+                this.userRegistration.addExistingEmail();
+                yield this.userRegistration.validate();
+            }
+
+            return;
+        }
+
+        this.set('hasSubmitted', true);
+    }).drop(),
+}) {
     layout = layout;
     styles = styles;
 
-    hasSubmitted?: boolean;
-    model?: UserRegistration;
+    userRegistration!: UserRegistration;
+
+    hasSubmitted: boolean = false;
+    didValidate = false;
+    resetRecaptcha!: () => void; // bound by validated-input/recaptcha
 
     @service passwordStrength!: PasswordStrength;
     @service analytics!: Analytics;
+    @service store!: DS.Store;
 
     strength = task(function *(this: SignUpForm, value: string) {
         if (!value) {
@@ -32,10 +60,10 @@ export default class SignUpForm extends Component {
         return yield this.passwordStrength.strength(value);
     }).restartable();
 
-    @computed('model.password', 'strength.lastSuccessful.value.score')
+    @computed('userRegistration.password', 'strength.lastSuccessful.value.score')
     get progress(this: SignUpForm): number {
-        const { lastSuccessful } = this.get('strength');
-        return this.model && this.model.password && lastSuccessful ? 1 + lastSuccessful.value.score : 0;
+        const { lastSuccessful } = this.strength;
+        return this.userRegistration.password && lastSuccessful ? 1 + lastSuccessful.value.score : 0;
     }
 
     @computed('progress')
@@ -54,7 +82,7 @@ export default class SignUpForm extends Component {
         }
     }
 
-    @alias('model.validations.attrs') a!: object;
+    @alias('userRegistration.validations.attrs') a!: object;
 
     @and(
         'a.fullName.isValid',
@@ -63,4 +91,14 @@ export default class SignUpForm extends Component {
         'a.password.isValid',
         'a.acceptedTermsOfService.isValid',
     ) formIsValid!: boolean;
+
+    init() {
+        this.set('userRegistration', this.store.createRecord('user-registration'));
+        return super.init();
+    }
+
+    @action
+    submit() {
+        this.get('submitTask').perform();
+    }
 }

@@ -83,30 +83,20 @@
                 updateFilter=(perform updateFilter)
                 openFile=(action 'openFile')
             }}
-            {{#if (or canEdit tags)}}
+            {{#if (or this.canEdit this.file.tags)}}
                 <div class='panel panel-default' local-class="TagsPanel">
                     <div class='panel-heading clearfix' local-class="TagsPanel__heading">
                         <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
                     </div>
                     <div class='panel-body'>
-                        {{!-- Passing a mutable value to readOnly breaks tag-input. Instead render it with a set value --}}
-                        {{#tag-input
-                            tags=tags
-                            addTag=(action 'addTag')
-                            removeTagAtIndex=(action 'removeTagAtIndex')
-                            allowSpacesInTags=true
-                            placeholder=(t 'file_detail.add_tag')
-                            aria_label=(t 'file_detial.tags')
-                            readOnly=(unless canEdit true false)
-                            as |tag|
-                        }}
-                            <a
-                                href='{{searchUrl}}?q=(tags:"{{tag}}")'
-                                onclick={{action 'click' 'link' 'Quick Files - Search by tag' target=analytics}}
-                            >
-                                {{tag}}
-                            </a>
-                        {{/tag-input}}
+                        <TagsWidget
+                            @tags={{this.file.tags}}
+                            @addTag={{action this.addTag}}
+                            @removeTag={{action this.removeTag}}
+                            @readOnly={{not this.canEdit}}
+                            @showAdd={{this.canEdit}}
+                            @analyticsScope='Quick Files'
+                        />
                         <div class="tags_clear"></div>
                     </div>
                 </div>

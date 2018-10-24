@@ -1,9 +1,9 @@
-.SimplePaginator {
-    display: table-cell;
-}
-
 .SimplePaginator__element {
     padding-left: 20px;
+
+    &:first-of-type {
+        padding-left: 0;
+    }
 
     button {
         appearance: none;
@@ -14,3 +14,7 @@
     }
 }
 
+.SimplePaginator__text {
+    display: inline-block;
+    width: 10em;
+}

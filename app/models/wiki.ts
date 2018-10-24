@@ -5,7 +5,7 @@ import OsfModel from './osf-model';
 
 export default class Wiki extends OsfModel {
     @attr('string') kind!: string;
-    @attr('string') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('string') name!: string;
     @attr('date') dateModified!: Date;
 
     @attr('object') extra!: any;

@@ -1,0 +1,8 @@
+{{#if showDiscard}}
+    <button class="btn btn-default" {{action discard}}>
+        {{t (concat 'app_components.submit_section.discard')}}
+    </button>
+{{/if}}
+<button class="btn btn-primary" {{action continue}} disabled={{continueDisabled}}>
+    {{t (concat 'app_components.submit_section.save')}}
+</button>

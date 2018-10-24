@@ -1,0 +1,64 @@
+.RegistriesSearchResult__Title {
+    font-weight: 400;
+}
+
+.RegistriesSearchResult__Sources {
+    font-weight: 700;
+}
+
+.RegistriesSearchResult__Toggle:focus {
+    outline: 0;
+}
+
+.RegistriesSearchResult__HyperLinks {
+    list-style: none;
+    padding-left: 0;
+}
+
+.RegistriesSearchResult__InfoLinks {
+    list-style: none;
+    padding-left: 0;
+}
+
+.Description {
+    max-height: 42px;  // Roughtly 2x line height;
+    overflow-y: hidden;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+
+    &.Expanded {
+        max-height: 500px;
+        transition: max-height 1s ease-in-out;
+    }
+}
+
+.Details {
+    max-height: 0;
+    overflow-y: hidden;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+
+    &.Expanded {
+        max-height: 500px;
+        transition: max-height 1s ease-in-out;
+    }
+}
+
+.Contributors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+
+    & > li {
+        display: inline-flex;
+        padding-right: 5px;
+
+        &::after {
+            content: ', ';
+        }
+    }
+
+    & > li:last-child::after {
+        content: '';
+    }
+}

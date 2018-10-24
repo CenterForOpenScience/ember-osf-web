@@ -4,6 +4,8 @@
     "ember-addon"
   ],
   "dependencies": {
+    "ember-bootstrap": "*",
+    "ember-bootstrap-datepicker": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-htmlbars-inline-precompile": "*",
@@ -15,6 +17,7 @@
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
     "ember-i18n": "*",
-    "ember-i18n-inject": "*"
+    "ember-i18n-inject": "*",
+    "ember-test-selectors": "*"
   }
 }

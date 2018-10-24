@@ -41,7 +41,9 @@ module.exports = function(defaults) {
         addons: {
             blacklist: [
                 'ember-cli-addon-docs', // Only included in the handbook engine
-                ...(handbookEnabled ? [] : ['handbook']),
+                ...Object.keys(config.engines).filter(
+                    engineName => !config.engines[engineName].enabled,
+                ),
             ],
         },
         'ember-bootstrap': {
@@ -56,6 +58,11 @@ module.exports = function(defaults) {
             enabled: true,
             exclude: [
                 'zxcvbn.js',
+                'assets/osf-assets',
+                // Exclude <engine-name>/config/environment.js from fingerprinting so it matches
+                // the engines exclude regex.
+                // https://github.com/ember-engines/ember-engines/blob/master/index.js#L10
+                'config/environment.js',
             ],
             prepend: config.assetsPrefix,
         },
@@ -116,6 +123,9 @@ module.exports = function(defaults) {
             generateURI(filePath) {
                 return config.assetsPrefix.replace(/\/$/, '') + filePath;
             },
+        },
+        'ember-test-selectors': {
+            strip: false,
         },
     });
 

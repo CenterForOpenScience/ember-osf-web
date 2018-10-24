@@ -7,8 +7,8 @@ module.exports = {
 
     rules: {
         'block-indentation': 4,
-        'bare-strings': true,
-        'nested-interactive': false,
+        'no-bare-strings': true,
+        'no-nested-interactive': false,
     },
 
     ignore: [

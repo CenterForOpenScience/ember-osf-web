@@ -58,7 +58,6 @@ export default class GuidFile extends Controller {
     @alias('canEdit') canDelete!: boolean;
     @alias('model.file') file!: File;
     @alias('model.file.links.download') downloadLink!: string;
-    @alias('model.file.tags') tags!: string[];
     @alias('model.files') allFiles!: File[];
     @alias('model.user') user!: User;
 
@@ -190,19 +189,15 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    addTag(this: GuidFile, tag: string) {
-        const model = this.file;
-        model.set('tags', [...this.tags.slice(), tag].sort());
-        model.save();
-        this.analytics.click('button', 'Quick Files - Add tag');
+    addTag(tag: string) {
+        this.file.set('tags', [...this.file.tags, tag].sort());
+        this.file.save();
     }
 
     @action
-    removeTagAtIndex(this: GuidFile, index: number) {
-        const model = this.file;
-        model.set('tags', this.tags.slice().removeAt(index));
-        model.save();
-        this.analytics.click('button', 'Quick Files - Remove tag');
+    removeTag(index: number) {
+        this.file.set('tags', this.file.tags.slice().removeAt(index));
+        this.file.save();
     }
 
     @action

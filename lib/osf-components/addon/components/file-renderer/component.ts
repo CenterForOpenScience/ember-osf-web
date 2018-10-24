@@ -11,7 +11,6 @@ const { OSF: { renderUrl } } = config;
 interface Params {
     direct?: '';
     mode: 'render';
-    initialWidth: number;
     version?: number;
 }
 
@@ -37,7 +36,6 @@ export default class FileRenderer extends Component {
     params: Params = {
         direct: '',
         mode: 'render',
-        initialWidth: 766,
     };
 
     download?: string;

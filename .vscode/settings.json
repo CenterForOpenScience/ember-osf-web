@@ -5,9 +5,16 @@
         "**/.DS_Store": true,
         "tmp/**": true,
     },
+    "files.watcherExclude": {
+        "**/.git/**": true,
+        "**/node_modules/**": true,
+        "**/tmp/**": true
+    },
     "search.exclude": {
         "**/node_modules": true,
         "**/bower_components": true,
         "tmp/**": true,
     },
+    "javascript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
 }

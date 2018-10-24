@@ -1,0 +1,62 @@
+<form {{action (perform search) on='submit'}}>
+    <div class="input-group" local-class="author-search-box">
+        {{input
+            value=query
+            class='form-control'
+            placeholder=(t 'app_components.project_contributors.search.placeholder')
+        }}
+        <span class="input-group-btn">
+            <button
+                class="btn btn-default"
+                local-class="authors-search-button"
+                type="submit"
+            >
+                <i class="glyphicon glyphicon-search"></i>
+            </button>
+        </span>
+    </div>
+</form>
+
+{{#if showUnregisteredForm}}
+    {{project-contributors/search/unregistered-contributor
+        node=node
+        closeForm=(action (mut showUnregisteredForm) false)
+    }}
+{{else if results.isLoaded}}
+    <div class="text-center" local-class="unregisteredUsers">
+        <p>{{t 'app_components.project_contributors.search.unregistered_description'}}</p>
+        <button
+            class="btn btn-primary btn-small"
+            {{action (mut showUnregisteredForm) true}}
+        >
+            {{t 'app_components.project_contributors.search.unregistered_button'}}
+        </button>
+    </div>
+    <h3>
+        {{t 'app_components.project_contributors.search.results'}}
+    </h3>
+    {{#if search.isRunning}}
+        <div class="text-center">
+            {{fa-icon 'spinner' pulse=true size=2}}
+        </div>
+    {{else if results.length}}
+        <table class="table author-table">
+            {{#each results as |result|}}
+                {{project-contributors/search/result
+                    user=result
+                    contributors=contributors
+                    addContributor=(action (perform addContributor))
+                }}
+            {{/each}}
+        </table>
+        <div class="pull-right text-right">
+            {{search-paginator
+                pageChanged=(action (perform search))
+                current=page
+                maximum=totalPages
+            }}
+        </div>
+    {{else}}
+        {{t 'app_components.project_contributors.search.no_results'}}
+    {{/if}}
+{{/if}}

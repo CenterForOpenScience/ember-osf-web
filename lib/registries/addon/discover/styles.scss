@@ -1,0 +1,40 @@
+.ShareLogo {
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background: url('img/share-logo-white.png');
+    display: inline-block;
+    height: 33px;
+    vertical-align: middle;
+    width: 69px;
+}
+
+.SortDropDown__List {
+    background-color: $color-bg-gray-light;
+}
+
+.SortDropDown__Option {
+    text-align: left;
+    background-color: transparent;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    width: 100%;
+}
+
+.ActiveFilters--RegistrationType {
+    background-color: #d7e6e9;
+}
+
+.ActiveFilters--Sources {
+    background-color: #578ca2;
+    color: #eee;
+
+    & > i {
+        color: #eee;
+    }
+}
+
+.Pagination {
+    display: inline-flex;
+    justify-content: flex-end;
+}

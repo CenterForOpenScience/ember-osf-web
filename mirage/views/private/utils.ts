@@ -1,3 +1,7 @@
+import { camelize } from '@ember/string';
+import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
+import { Resource, ResourceCollectionDocument } from 'osf-api';
+
 export enum ComparisonOperators {
     Eq = 'eq',
     Ne = 'ne',
@@ -16,12 +20,6 @@ interface QueryParameters {
     [key: string]: string;
 }
 
-export interface JsonData {
-    data: any[];
-    links: {};
-    meta: {};
-}
-
 // Fields marked always_embed in the osf api code should be added to this constant
 // The key is the model and the list contains the relationships to embed.
 const alwaysEmbed: { [key: string]: string[] } = {
@@ -29,7 +27,7 @@ const alwaysEmbed: { [key: string]: string[] } = {
 };
 
 // https://stackoverflow.com/a/4760279
-export const dynamicSort = (property: string) => {
+export function dynamicSort(property: string) {
     let sortOrder = 1;
     let newProp = property;
     if (newProp[0] === '-') {
@@ -47,24 +45,21 @@ export const dynamicSort = (property: string) => {
         const result = (aAt[newProp] < bAt[newProp]) ? -1 : (aAt[newProp] > bAt[newProp]) ? 1 : 0;
         return result * sortOrder;
     };
-};
+}
 
-export const sort = (request: any, data: any[], options: ProcessOptions): any[] => {
+export function sort(request: Request, data: any[], options: ProcessOptions = {}): any[] {
     const { queryParams } = request;
-    let { defaultSortKey } = options;
-    if (defaultSortKey === undefined) {
-        defaultSortKey = 'date_modified';
-    }
+    const { defaultSortKey = 'date_modified' } = options;
     let sortKey: string = defaultSortKey;
     if (typeof queryParams === 'object' && 'sort' in queryParams) {
         sortKey = queryParams.sort;
     }
     return data.sort(dynamicSort(sortKey));
-};
+}
 
-export const buildQueryParams = (params: QueryParameters): string => {
+export function buildQueryParams(params: QueryParameters): string {
     let paramString = '?';
-    Object.keys(params).forEach(key => {
+    Object.keys(params).sort().forEach(key => {
         if (paramString.length > 1) {
             paramString = `${paramString}&`;
         }
@@ -79,28 +74,25 @@ export const buildQueryParams = (params: QueryParameters): string => {
     } else {
         return '';
     }
-};
+}
 
-export const paginate = (request: any, data: any[], options: ProcessOptions): JsonData => {
+export function paginate(
+    request: Request,
+    data: Array<unknown>,
+    options: ProcessOptions = {},
+): ResourceCollectionDocument {
     const total = data.length;
     const { queryParams, url } = request;
-    const self = `${url}${buildQueryParams(queryParams)}`;
+    const { defaultPageSize = 10 } = options;
     let start: number = 0;
-    let { defaultPageSize } = options;
-    if (defaultPageSize === undefined) {
-        defaultPageSize = 10;
-    }
-    let perPage = defaultPageSize;
+
+    const perPage = Number.parseInt(queryParams['page[size]'], 10) || defaultPageSize;
     let currentPage = 1;
-    if (typeof queryParams === 'object') {
-        if ('page[size]' in queryParams && queryParams['page[size]'] !== 0) {
-            perPage = queryParams['page[size]'];
-        }
-        if ('page' in queryParams) {
-            currentPage = queryParams.page;
-            start = (currentPage - 1) * perPage;
-        }
+    if (typeof queryParams.page !== 'undefined') {
+        currentPage = Number.parseInt(queryParams.page, 10);
+        start = (currentPage - 1) * perPage;
     }
+
     const pages = Math.ceil(total / perPage);
     const nextPage = Math.min(currentPage + 1, pages);
     const prevPage = Math.max(currentPage - 1, 1);
@@ -109,21 +101,18 @@ export const paginate = (request: any, data: any[], options: ProcessOptions): Js
     let prev = null;
     let next = null;
 
-    queryParams.page = 1;
-    const first = `${url}${buildQueryParams(queryParams)}`;
-    queryParams.page = lastPage;
-    const last = `${url}${buildQueryParams(queryParams)}`;
+    const self = `${url}${buildQueryParams(queryParams)}`;
+    const first = `${url}${buildQueryParams({ ...queryParams, page: '1' })}`;
+    const last = `${url}${buildQueryParams({ ...queryParams, page: lastPage.toString() })}`;
     if (nextPage > currentPage) {
-        queryParams.page = nextPage;
-        next = `${url}${buildQueryParams(queryParams)}`;
+        next = `${url}${buildQueryParams({ ...queryParams, page: nextPage.toString() })}`;
     }
     if (prevPage < currentPage) {
-        queryParams.page = prevPage;
-        prev = `${url}${buildQueryParams(queryParams)}`;
+        prev = `${url}${buildQueryParams({ ...queryParams, page: prevPage.toString() })}`;
     }
 
     const paginatedJson = {
-        data: data.slice(start, start + perPage),
+        data: data.slice(start, start + perPage) as Resource[],
         links: {
             self,
             first,
@@ -132,14 +121,15 @@ export const paginate = (request: any, data: any[], options: ProcessOptions): Js
             last,
         },
         meta: {
+            version: '',
             total,
             per_page: perPage,
         },
     };
     return paginatedJson;
-};
+}
 
-const autoEmbed = ((embedItem: any, serializedData: {}, config: any) => {
+function autoEmbed(embedItem: any, serializedData: {}, handlerContext: HandlerContext) {
     const data = Object.assign(serializedData);
     data.embeds = {};
     if (embedItem.modelName in alwaysEmbed) { // If this kind of thing has auto-embeds
@@ -147,66 +137,67 @@ const autoEmbed = ((embedItem: any, serializedData: {}, config: any) => {
         for (const aeRelationship of alwaysEmbed[embedItem.modelName]) {
             if (embedItem.fks.includes(`${aeRelationship}Id`)) { // is it in fks?
                 // If so, embed it
-                const aEmbeddable = config.serialize(embedItem[aeRelationship]);
+                const aEmbeddable = handlerContext.serialize(embedItem[aeRelationship]);
                 data.embeds[aeRelationship] = {
                     data: aEmbeddable.data,
                 };
             }
         }
     }
-    if (data.embeds === {}) {
+    if (!Object.keys(data.embeds).length) {
         delete data.embeds;
     }
     return data;
-});
+}
 
-export const embed = (schema: any, request: any, json: JsonData, config: any) => {
-    const { queryParams } = request;
-    const { data } = json;
-    let requestEmbedKeys = [];
-    if (Array.isArray(queryParams.embed)) {
-        requestEmbedKeys = queryParams.embed.slice();
-    } else {
-        requestEmbedKeys.push(queryParams.embed);
-    }
-    for (const datum of data) { // Go through every item in our response
-        const embedKeys = requestEmbedKeys.slice();
-        for (const embedded of embedKeys) { // And each of the embed keys
-            if (!('embeds' in datum)) { // First make sure it has an embeds array
-                datum.embeds = {};
-            }
-            const embeddable = schema[datum.type].find(datum.id)[embedded];
-            const serializedItems = [];
-            let paginatedEmbeddables: JsonData = { data: [], links: {}, meta: {} };
-            if (embeddable !== null && embeddable !== undefined) {
-                const embedModelList = embeddable.models; // Get the items to embed
-                paginatedEmbeddables = paginate(request, embedModelList, {});
-                // Go through each of the items that need to be embedded
-                for (const embedItem of paginatedEmbeddables.data) {
-                    const serializedItem = config.serialize(embedItem);
-                    serializedItem.data = autoEmbed(embedItem, serializedItem.data, config);
-                    serializedItems.push(serializedItem.data);
-                }
-                paginatedEmbeddables.data = serializedItems;
-            } // Finished gathering embeddable items
-            // TODO: convert embeditems to dictionary if not a toMany relationship
-            const peData = paginatedEmbeddables.data;
-            if ((Array.isArray(peData) && peData.length > 0) && peData !== null) {
-                datum.embeds[embedded] = paginatedEmbeddables;
-            }
-        }
-    }
-    const returnJson = Object.assign(json);
-    returnJson.data = data;
-    return returnJson;
-};
+export function embed(
+    schema: Schema,
+    request: Request,
+    json: ResourceCollectionDocument,
+    handlerContext: HandlerContext,
+) {
+    return {
+        ...json,
+        data: json.data.map(datum => {
+            const embeds = ([] as string[])
+                .concat(request.queryParams.embed)
+                .filter(Boolean)
+                .reduce((acc, embedRequest) => {
+                    const embeddable = schema[camelize(datum.type)].find(datum.id)[camelize(embedRequest)] as any;
 
-export const compareStrings = (
+                    if (embeddable !== null && embeddable !== undefined) {
+                        if ('models' in embeddable) {
+                            let paginatedEmbeddables: ResourceCollectionDocument = {
+                                data: [],
+                                links: {},
+                                meta: { version: '', total: 0, per_page: 10 },
+                            };
+                            if (Array.isArray(embeddable.models)) {
+                                paginatedEmbeddables = paginate(request, embeddable.models, {});
+                                paginatedEmbeddables.data = paginatedEmbeddables.data.map((embedItem: any) =>
+                                    autoEmbed(embedItem, handlerContext.serialize(embedItem).data, handlerContext));
+                            }
+                            return { ...acc, [embedRequest]: paginatedEmbeddables };
+                        }
+                        return {
+                            ...acc,
+                            [embedRequest]: {
+                                data: autoEmbed(embeddable, handlerContext.serialize(embeddable).data, handlerContext),
+                            },
+                        };
+                    }
+                    return acc;
+                }, {});
+            return Object.keys(embeds).length ? { ...datum, embeds } : datum;
+        }),
+    };
+}
+
+export function compareStrings (
     actualValue: string,
     comparisonValue: string,
     operator: ComparisonOperators,
-):
-    boolean => {
+): boolean {
     switch (operator) {
     case ComparisonOperators.Eq:
         return actualValue.includes(comparisonValue);
@@ -215,14 +206,13 @@ export const compareStrings = (
     default:
         throw new Error(`Strings can't be compared with "${operator}".`);
     }
-};
+}
 
-export const compareBooleans = (
+export function compareBooleans (
     actualValue: boolean,
     comparisonValue: boolean,
     operator: ComparisonOperators,
-):
-    boolean => {
+): boolean {
     switch (operator) {
     case ComparisonOperators.Eq:
         return actualValue === comparisonValue;
@@ -231,9 +221,9 @@ export const compareBooleans = (
     default:
         throw new Error(`Booleans can't be compared with "${operator}".`);
     }
-};
+}
 
-export const compare = (actualValue: any, comparisonValue: any, operator: ComparisonOperators): boolean => {
+export function compare(actualValue: any, comparisonValue: any, operator: ComparisonOperators): boolean {
     if (typeof actualValue === 'string') {
         return compareStrings(actualValue, comparisonValue, operator);
     } else if (typeof actualValue === 'boolean') {
@@ -241,13 +231,13 @@ export const compare = (actualValue: any, comparisonValue: any, operator: Compar
     } else {
         throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
     }
-};
+}
 
-export const toOperator = (operatorString: string): ComparisonOperators => {
+export function toOperator(operatorString: string): ComparisonOperators {
     if (!operatorString || operatorString === 'eq') {
         return ComparisonOperators.Eq;
     } else if (Object.values(ComparisonOperators).includes(operatorString)) {
         return operatorString as ComparisonOperators;
     }
     throw new Error(`The operator ${operatorString} is unknown.`);
-};
+}

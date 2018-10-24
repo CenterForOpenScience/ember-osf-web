@@ -1,0 +1,49 @@
+.header {
+    padding-top: 90px;
+    border-bottom: 1px solid #eee;
+    height: 200px;
+
+    h1 {
+        text-align: center;
+    }
+}
+
+.body {
+    background-color: #f8f8f8;
+
+    label {
+        display: inline;
+    }
+
+    textarea {
+        height: 10em;
+    }
+}
+
+.buttons {
+    margin: 20px 10%;
+    padding: 10px 20px 20px;
+}
+
+.last-buttons {
+    margin: 20px 10%;
+    padding: 10px 20px 20px;
+}
+
+.subject {
+    display: inline-block;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 2px;
+    margin: 2px;
+
+    > :not(:last-child) {
+        padding: 1px;
+
+        &::after {
+            content: '⮁';
+            padding-left: 0.5em;
+        }
+    }
+}

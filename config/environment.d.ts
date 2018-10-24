@@ -95,7 +95,10 @@ declare const config: {
         };
         localStorageKeys: {
             authSession: string;
+            joinBannerDismissed: string;
         };
+        orcidClientId?: string;
+        casUrl: string;
     };
     social: {
         twitter: {
@@ -163,6 +166,9 @@ declare const config: {
         collections: {
             enabled: boolean;
         };
+        registries: {
+            enabled: boolean;
+        };
         handbook: {
             enabled: boolean;
             docGenerationEnabled: boolean;
@@ -171,6 +177,8 @@ declare const config: {
     'ember-cli-tailwind'?: {
         shouldIncludeStyleguide: boolean,
     };
+
+    defaultProvider: string;
 };
 
 export default config;

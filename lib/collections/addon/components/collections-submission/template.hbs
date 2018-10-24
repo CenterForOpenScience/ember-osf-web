@@ -1,0 +1,184 @@
+{{#bs-modal
+    onSubmit=(action 'reset')
+    onHide=(action (mut this.showCancelDialog) false)
+    open=this.showCancelDialog
+    as |modal|
+}}
+    {{#modal.header}}
+        <h4 class="modal-title">
+            <i class="glyphicon glyphicon-alert"></i>
+            {{t (concat this.i18nKeyPrefix 'modal_header')}}
+        </h4>
+    {{/modal.header}}
+    {{#modal.body}}
+        {{t (concat this.i18nKeyPrefix 'modal_body')}}
+    {{/modal.body}}
+    {{#modal.footer}}
+        {{#bs-button onClick=(action modal.close) type='default'}}
+            {{t 'general.cancel'}}
+        {{/bs-button}}
+        {{#bs-button onClick=(action modal.submit) type='danger'}}
+            {{t 'general.ok'}}
+        {{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
+<div class="submit-header" local-class="header">
+    <h1>{{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
+</div>
+<div local-class="body">
+    {{#submit-sections
+        activeSection=this.activeSection
+        savedSections=this.savedSections
+        as |sections|
+    }}
+        {{#sections.section
+            section=this.sections.project
+            title=(t (concat this.i18nKeyPrefix 'project_select_title'))
+            continue=(action 'nextSection' this.sections.project)
+            editable=(not this.edit)
+            as |section|
+        }}
+            {{#section.active}}
+                {{collection-item-picker
+                    class="col-xs-12"
+                    collection=this.collection
+                    projectSelected=(action 'projectSelected')
+                    validationChanged=(action (mut this.isProjectSelectorValid))
+                }}
+            {{/section.active}}
+            {{#section.complete}}
+                <p>
+                    <em>{{t (concat this.i18nKeyPrefix 'project_select_project_label')}}</em>
+                    <span>{{collectionItem.title}}</span>
+                </p>
+            {{/section.complete}}
+        {{/sections.section}}
+
+        {{#sections.section
+            section=this.sections.projectMetadata
+            tooltip=(t (concat this.i18nKeyPrefix 'closed_tooltip'))
+            title=(t (concat this.i18nKeyPrefix 'project_metadata_title'))
+            description=(t (concat this.i18nKeyPrefix 'project_metadata_description'))
+            as |section|
+        }}
+            {{#section.active}}
+                {{#if this.collectionItem}}
+                    {{project-metadata
+                        node=this.collectionItem
+                        makePublicOnSave=true
+                        continue=(action 'nextSection')
+                    }}
+                {{else}}
+                    <div class="text-center">
+                        {{fa-icon 'spinner' pulse=true size=2}}
+                    </div>
+                {{/if}}
+            {{/section.active}}
+            {{#section.complete}}
+                <p>
+                    <em>{{t (concat this.i18nKeyPrefix 'project_metadata_title_label')}}</em>
+                    <span>{{this.collectionItem.title}}</span>
+                </p>
+                <p>
+                    <em>{{t (concat this.i18nKeyPrefix 'project_metadata_description_label')}}</em>
+                    <span>{{this.collectionItem.description}}</span>
+                </p>
+                <p>
+                    <em>{{t (concat this.i18nKeyPrefix 'project_metadata_license_label')}}</em>
+                    <span>{{this.collectionItem.license.name}}</span>
+                </p>
+                <p>
+                    <em>{{t (concat this.i18nKeyPrefix 'project_metadata_tags_label')}}</em>
+                    {{#each this.collectionItem.tags as |tag|}}
+                        <div local-class="subject">{{tag}}</div>
+                    {{/each}}
+                </p>
+            {{/section.complete}}
+        {{/sections.section}}
+
+        {{#sections.section
+            section=this.sections.projectContributors
+            tooltip=(t (concat this.i18nKeyPrefix 'closed_tooltip'))
+            title=(t (concat this.i18nKeyPrefix 'project_contributors_title'))
+            description=(t (concat this.i18nKeyPrefix 'project_contributors_description'))
+            as |section|
+        }}
+            {{#section.active}}
+                {{project-contributors
+                    node=this.collectionItem
+                    contributors=this.collectionItem.contributors
+                    discard=(action 'noop')
+                    continue=(action 'nextSection')
+                }}
+            {{/section.active}}
+            {{#section.complete}}
+                <p>{{contributor-list contributors=this.collectionItem.contributors}}</p>
+            {{/section.complete}}
+        {{/sections.section}}
+
+        {{#sections.section
+            section=this.sections.collectionSubjects
+            tooltip=(t (concat this.i18nKeyPrefix 'closed_tooltip'))
+            title=(t (concat this.i18nKeyPrefix 'subjects_title'))
+            description=(t (concat this.i18nKeyPrefix 'subjects_description'))
+            as |section|
+        }}
+            {{#section.active}}
+                {{subject-picker
+                    id='subjects'
+                    currentSubjects=this.collectedMetadatum.subjects
+                    model=this.collectedMetadatum
+                    valuePath='subjects'
+                    didValidate=this.didValidate
+                    continue=(action 'nextSection')
+                }}
+            {{/section.active}}
+            {{#section.complete}}
+                <div>
+                    {{#each this.collectedMetadatum.subjects as |subject|}}
+                        <div local-class="subject">
+                            {{#each subject as |segment|}}
+                                <span>{{segment.text}}</span>
+                            {{/each}}
+                        </div>
+                    {{/each}}
+                </div>
+            {{/section.complete}}
+        {{/sections.section}}
+
+        {{#sections.section
+            section=this.sections.collectionMetadata
+            tooltip=(t (concat this.i18nKeyPrefix 'closed_tooltip'))
+            title=(t (concat this.i18nKeyPrefix 'collection_metadata_title'))
+            as |section|
+        }}
+            {{#section.active}}
+                {{collection-metadata
+                    collection=this.collection
+                    collectedMetadatum=this.collectedMetadatum
+                    didValidate=this.didValidate
+                    continue=(action 'nextSection')
+                }}
+            {{/section.active}}
+            {{#section.complete}}
+                {{#each this.choiceFields as |field|}}
+                    <p>
+                        <em>{{t field.label}}</em>
+                        <span>{{field.value}}</span>
+                    </p>
+                {{/each}}
+            {{/section.complete}}
+        {{/sections.section}}
+
+        <section class="row" local-class="last-buttons">
+            <div class="col-xs-12 text-right">
+                <button class="btn btn-default" {{action 'cancel'}}>
+                    {{t (concat this.i18nKeyPrefix 'cancel')}}
+                </button>
+                <button class="btn btn-success" {{action (perform this.save)}} disabled={{not (eq this.activeSection this.sections.submit)}}>
+                    {{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_button')}}
+                </button>
+            </div>
+        </section>
+    {{/submit-sections}}
+</div>

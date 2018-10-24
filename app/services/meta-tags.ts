@@ -37,7 +37,7 @@ export interface MetaTagsDefs {
 }
 
 export interface NameMetaTagAttrs {
-    name: string; // eslint-disable-line no-restricted-globals
+    name: string;
     content: Content;
 }
 

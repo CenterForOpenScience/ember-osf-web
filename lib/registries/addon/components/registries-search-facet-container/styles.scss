@@ -1,0 +1,16 @@
+.SearchFacet {
+    border-width: 0;
+    box-shadow: none;
+}
+
+.SearchFacet__Heading {
+    background-color: $color-bg-gray-light !important;
+    border-radius: 2px;
+    border-width: 0;
+    font-size: 18px;
+}
+
+.SearchFacet__Body {
+    background-color: #fbfbfb;
+    padding: 10px 0;
+}

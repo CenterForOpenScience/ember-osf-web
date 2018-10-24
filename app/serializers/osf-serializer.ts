@@ -24,7 +24,7 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
      * @private
      */
     _extractEmbeds(this: OsfSerializer, resourceHash: ResourceHash): ResourceHash {
-        if (!resourceHash.embeds) {
+        if (!resourceHash.embeds || !resourceHash.relationships) {
             return resourceHash;
         }
         const relationships: { [k: string]: any } = {};
@@ -119,7 +119,9 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         if (!snapshot.record.get('isNew')) {
             const changedAttributes = snapshot.record.changedAttributes();
             for (const attribute of Object.keys(serialized.data.attributes)) {
-                if (!(camelize(attribute) in changedAttributes)) {
+                const { attrs }: { attrs: any } = this;
+                const alwaysSerialize = attrs && attrs[attribute] && attrs[attribute].serialize === true;
+                if (!alwaysSerialize && !(camelize(attribute) in changedAttributes)) {
                     delete serialized.data.attributes[attribute];
                 }
             }
@@ -163,6 +165,15 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         if (documentHash.meta) {
             documentHash.data.attributes.apiMeta = documentHash.meta;
         }
+        if (documentHash.data.relationships) {
+            documentHash.data.attributes.relatedCounts = Object.entries(documentHash.data.relationships).reduce(
+                (acc: { [k: string]: number | undefined }, [relName, rel]: [string, any]) => {
+                    acc[camelize(relName)] = rel.links ? rel.links.related.meta.count : undefined;
+                    return acc;
+                },
+                {},
+            );
+        }
         return documentHash;
     },
 
@@ -179,6 +190,9 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
 }) {
     attrs = {
         links: {
+            serialize: false,
+        },
+        relatedCounts: {
             serialize: false,
         },
     };

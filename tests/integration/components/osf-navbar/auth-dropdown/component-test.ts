@@ -10,9 +10,13 @@ const sessionStub = Service.extend({
     on: () => { /* stub */ },
 });
 
-const routerStub = Service.extend({
+const routingStub = Service.extend({
     transitionTo: () => null,
     generateURL: () => 'url!',
+});
+
+const routerStub = Service.extend({
+    currentURL: '',
 });
 
 module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
@@ -22,15 +26,14 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         this.owner.register('service:session', sessionStub);
 
         // Prevent trying to actually transition
-        this.owner.register('service:-routing', routerStub);
+        this.owner.register('service:-routing', routingStub);
+
+        // Make sure currentURL is always a string
+        this.owner.register('service:router', routerStub);
 
         this.setProperties({
-            loginActionCalled: false,
             onLinkClickedCalled: false,
             actions: {
-                loginAction: () => {
-                    this.set('loginActionCalled', true);
-                },
                 onLinkClicked: () => {
                     this.set('onLinkClickedCalled', true);
                 },
@@ -38,21 +41,34 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         });
     });
 
-    test('loginAction called', async function(assert) {
-        await render(hbs`{{osf-navbar/auth-dropdown loginAction=(action 'loginAction')}}`);
+    test('login called', async function(assert) {
+        this.owner.register('service:currentUser', Service.extend({
+            loginCalled: false,
+            login() {
+                this.set('loginCalled', true);
+            },
+        }));
 
-        assert.ok(!this.get('loginActionCalled'));
-        await click('.btn-top-login');
-        assert.ok(this.get('loginActionCalled'));
+        await render(hbs`{{osf-navbar/auth-dropdown}}`);
+
+        assert.ok(!this.owner.lookup('service:currentUser').loginCalled, 'login has not been called');
+        await click('[data-test-sign-in-button]');
+        assert.ok(this.owner.lookup('service:currentUser').loginCalled, 'login was called');
     });
 
     test('onLinkClicked called', async function(assert) {
         this.owner.lookup('service:session').set('isAuthenticated', true);
+        this.owner.register('service:analytics', Service.extend({
+            clickCalled: false,
+            click() {
+                this.set('clickCalled', true);
+            },
+        }));
 
-        await render(hbs`{{osf-navbar/auth-dropdown onLinkClicked=(action 'onLinkClicked')}}`);
+        await render(hbs`{{osf-navbar/auth-dropdown}}`);
 
-        assert.ok(!this.get('onLinkClickedCalled'));
+        assert.ok(!this.owner.lookup('service:analytics').clickCalled);
         await click('.fa-life-ring');
-        assert.ok(this.get('onLinkClickedCalled'));
+        assert.ok(this.owner.lookup('service:analytics').clickCalled);
     });
 });

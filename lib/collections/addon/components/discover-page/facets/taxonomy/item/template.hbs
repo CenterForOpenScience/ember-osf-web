@@ -1,0 +1,30 @@
+{{#if item.childCount}}
+    <button
+        class="pointer m-r-xs"
+        local-class="button {{if expanded 'show-children'}}"
+        {{action 'toggleExpand'}}
+    >
+        <i
+            class="fa fa-caret-{{if expanded 'down' 'right'}}"
+            local-class="caret"
+        ></i>
+    </button>
+{{else}}
+    <span local-class="no-children"></span>
+{{/if}}
+<label local-class="checkbox">
+    {{input
+        type='checkbox'
+        checked=checked
+        change=(action updateFilters item.path)
+    }}
+    {{item.text}}
+</label>
+{{#if expanded}}
+    {{discover-page/facets/taxonomy/list
+        children=item.children
+        activeFilter=activeFilter
+        updateFilters=updateFilters
+        expandedList=expandedList
+    }}
+{{/if}}

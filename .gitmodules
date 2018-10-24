@@ -1,0 +1,3 @@
+[submodule "public/assets/osf-assets"]
+	path = public/assets/osf-assets
+	url = https://github.com/CenterForOpenScience/osf-assets.git

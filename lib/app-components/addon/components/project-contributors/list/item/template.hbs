@@ -1,0 +1,96 @@
+{{#sortable-item
+    model=contributor
+    class="row"
+    local-class=(concat 'row ' (get contributor 'highlightClass'))
+    group=group
+    spacing=1
+    handle=".handle"
+}}
+    {{! Handle }}
+    <div class="col-xs-2 col-sm-1 text-nowrap">
+        <span class="fa fa-bars sortable-bars handle small"></span>
+    </div>
+
+    {{! Profile image}}
+    <div class="col-xs-2 col-sm-1">
+        <img
+            alt={{t 'app_components.project_contributors.list.item.img_alt'}}
+            class="m-l-xs"
+            local-class="profile-image"
+            src={{contributor.users.profileImage}}
+        >
+    </div>
+
+    {{! Name }}
+    <div class="col-xs-7 col-sm-3 text-nowrap">
+        {{#if contributor.unregisteredContributor}}
+            {{contributor.unregisteredContributor}}
+        {{else}}
+            <a href={{contributor.users.links.html}} target="_blank" rel="noopener">
+                {{contributor.users.fullName}}
+            </a>
+        {{/if}}
+    </div>
+
+    <div class="visible-xs-inline-block col-xs-1">
+        <button
+            {{action removeContributor contributor}}
+            class="text-danger"
+            aria-label={{t 'app_components.project_contributors.list.item.remove_author'}}
+            hidden={{not canRemove}}
+        >
+            {{fa-icon 'times'}}
+        </button>
+    </div>
+
+    {{! Permissions }}
+    <div class="col-xs-10 col-xs-offset-2 col-sm-3 col-sm-offset-0 text-nowrap">
+        <span class="visible-xs-inline permission-label">
+            <em>
+                {{t 'app_components.project_contributors.list.item.permissions_label'}}
+            </em>
+        </span>
+        {{#if canChangePermissions}}
+            {{#power-select
+                searchEnabled=false
+                options=permissions
+                onchange=(action (action updatePermissions contributor))
+                selected=contributor.permission
+                as |option|
+            }}
+                {{t (concat 'app_components.project_contributors.list.item.permissions.' option)}}
+            {{/power-select}}
+        {{else}}
+            <span class="text-smaller">
+                {{t (concat 'app_components.project_contributors.list.item.permissions.' contributor.permission)}}
+            </span>
+        {{/if}}
+    </div>
+
+    {{! Bibliographic (Citation) }}
+    <div class="col-xs-10 col-xs-offset-2 col-sm-2 col-sm-offset-0 bib-padding" local-class="text-sm-center">
+        <label for="{{contributor.id}}-citation" class="visible-xs-inline" local-class="checkbox-label">
+            <em>
+                {{t 'app_components.project_contributors.list.item.in_citation_label'}}
+            </em>
+        </label>
+        {{input
+            id=(concat contributor.id '-citation')
+            type='checkbox'
+            disabled=(not canChangeBibliographic)
+            checked=contributor.bibliographic
+            change=(action toggleBibliographic contributor)
+        }}
+    </div>
+
+    {{! Remove }}
+    <div class="hidden-xs col-sm-2 text-center">
+        <button
+            {{action removeContributor contributor}}
+            class="btn btn-danger btn-sm"
+            disabled={{not canRemove}}
+        >
+            {{t 'app_components.project_contributors.list.item.remove'}}
+        </button>
+    </div>
+{{/sortable-item}}

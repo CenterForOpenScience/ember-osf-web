@@ -35,7 +35,7 @@ export default class Comment extends OsfModel {
 
     // TODO dynamic belongsTo
     @belongsTo('user') user!: DS.PromiseObject<User> & User;
-    @belongsTo('node') node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'comments', polymorphic: true }) node!: DS.PromiseObject<Node> & Node;
 
     @hasMany('comment', { inverse: null })
     replies!: DS.PromiseManyArray<Comment>;

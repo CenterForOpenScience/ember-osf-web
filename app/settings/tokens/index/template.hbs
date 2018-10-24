@@ -1,0 +1,26 @@
+<div local-class='Top'>
+    <p local-class='Top__explanation'>
+        {{t 'settings.tokens.explanation'}}
+    </p>
+
+    {{#link-to
+        data-test-create-token-link
+        'settings.tokens.create'
+        class='btn btn-primary'
+    }}
+        {{t 'settings.tokens.createToken'}}
+    {{/link-to}}
+</div>
+
+{{#paginated-list/all
+    modelName='token'
+    analyticsScope='Settings - Tokens'
+    as |list|
+}}
+    {{#list.item as |token|}}
+        {{settings/tokens/x-token-card
+            token=token
+            deleted=list.doReload
+        }}
+    {{/list.item}}
+{{/paginated-list/all}}

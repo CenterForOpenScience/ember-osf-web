@@ -1,11 +1,22 @@
+import { Request } from 'ember-cli-mirage';
+import { setupTest } from 'ember-qunit';
+import moment from 'moment';
+import { module, test } from 'qunit';
+
 import {
     dynamicSort,
     ProcessOptions,
     sort,
 } from 'ember-osf-web/mirage/views/private/utils';
-import { setupTest } from 'ember-qunit';
-import moment from 'moment';
-import { module, test } from 'qunit';
+
+function fakeRequest(queryParams: { [key: string]: string }): Request {
+    return {
+        requestBody: '',
+        url: '',
+        params: {},
+        queryParams,
+    };
+}
 
 module('Unit | Mirage | Views | Utils | dynamicSort', hooks => {
     setupTest(hooks);
@@ -78,9 +89,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     setupTest(hooks);
 
     test('it can sort', assert => {
-        const request = {
-            queryParams: { sort: 'string' },
-        };
+        const request = fakeRequest({ sort: 'string' });
         const unsorted = [
             { attributes: { string: 'a', num: 3 } },
             { attributes: { string: 'c', num: 2 } },
@@ -96,9 +105,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     });
 
     test('it can use a different key', assert => {
-        const request = {
-            queryParams: { sort: 'num' },
-        };
+        const request = fakeRequest({ sort: 'num' });
         const unsorted = [
             { attributes: { string: 'a', num: 3 } },
             { attributes: { string: 'c', num: 2 } },
@@ -114,9 +121,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     });
 
     test('it can reverse sort', assert => {
-        const request = {
-            queryParams: { sort: '-num' },
-        };
+        const request = fakeRequest({ sort: '-num' });
         const unsorted = [
             { attributes: { string: 'a', num: 3 } },
             { attributes: { string: 'c', num: 1 } },
@@ -132,9 +137,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     });
 
     test('it can use a default sort key', assert => {
-        const request = {
-            queryParams: { },
-        };
+        const request = fakeRequest({ });
         const options: ProcessOptions = { defaultSortKey: 'num' };
         const unsorted = [
             { attributes: { string: 'a', num: 3 } },
@@ -151,9 +154,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     });
 
     test('it can sort by id', assert => {
-        const request = {
-            queryParams: { sort: 'id' },
-        };
+        const request = fakeRequest({ sort: 'id' });
         const unsorted = [
             { id: 2, attributes: { string: 'a', num: 3 } },
             { id: 1, attributes: { string: 'c', num: 2 } },
@@ -169,9 +170,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     });
 
     test('it can reverse sort by id', assert => {
-        const request = {
-            queryParams: { sort: '-id' },
-        };
+        const request = fakeRequest({ sort: '-id' });
         const unsorted = [
             { id: 2, attributes: { string: 'a', num: 3 } },
             { id: 1, attributes: { string: 'c', num: 2 } },

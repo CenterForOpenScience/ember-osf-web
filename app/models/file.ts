@@ -20,7 +20,7 @@ import User from './user';
  * @class File
  */
 export default class File extends BaseFileItem {
-    @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
+    @attr('fixstring') name!: string;
     @attr('fixstring') guid!: string;
     @attr('string') path!: string;
     @attr('number') size!: number;
@@ -31,7 +31,7 @@ export default class File extends BaseFileItem {
     @attr('date') dateModified!: Date;
     @attr('date') dateCreated!: Date;
     @attr('object') extra!: any;
-    @attr('array') tags!: string[];
+    @attr('fixstringarray') tags!: string[];
     @attr('fixstring') checkout!: string;
 
     @belongsTo('file', { inverse: 'files' }) parentFolder!: DS.PromiseObject<File> & File;
@@ -41,7 +41,7 @@ export default class File extends BaseFileItem {
 
     // File attributes
     @hasMany('file-version') versions!: DS.PromiseManyArray<FileVersion>;
-    @hasMany('comment') comments!: DS.PromiseManyArray<Comment>;
+    @hasMany('comment', { inverse: null }) comments!: DS.PromiseManyArray<Comment>;
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
     @belongsTo('node') node!: DS.PromiseObject<Node> & Node;
     @belongsTo('user') user!: DS.PromiseObject<User> & User;

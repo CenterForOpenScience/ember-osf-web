@@ -1,8 +1,9 @@
 import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
-import Metaschema from './metaschema';
+
 import Node from './node';
 import OsfModel from './osf-model';
+import RegistrationSchema, { RegistrationMetadata } from './registration-schema';
 import User from './user';
 
 /**
@@ -18,12 +19,13 @@ import User from './user';
  */
 export default class DraftRegistration extends OsfModel {
     @attr('fixstring') registrationSupplement!: string;
-    @attr('object') registrationMetadata!: any;
+    @attr('object') registrationMetadata!: RegistrationMetadata;
     @attr('date') datetimeInitiated!: Date;
     @attr('date') datetimeUpdated!: Date;
-    @belongsTo('node', { inverse: null }) branchedFrom!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'draftRegistrations' }) branchedFrom!: DS.PromiseObject<Node> & Node;
     @belongsTo('user', { inverse: null }) initiator!: DS.PromiseObject<User> & User;
-    @belongsTo('metaschema', { inverse: null }) registrationSchema!: DS.PromiseObject<Metaschema> & Metaschema;
+    @belongsTo('registration-schema', { inverse: null })
+    registrationSchema!: DS.PromiseObject<RegistrationSchema> & RegistrationSchema;
 }
 
 declare module 'ember-data' {

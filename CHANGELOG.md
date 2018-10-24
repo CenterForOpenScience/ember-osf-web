@@ -4,6 +4,152 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [18.0.0] - 2018-10-24
+### Added
+- Models:
+    - `registration-schema` (including related adapter & serializer)
+    - `token`
+    - `scope`
+- Components:
+    - `search-help-modal` - you know, the search help modal but as it's own component
+    - `draft-registration-card` - summary card for draft registrations
+    - `node-list` - produce a paginated list of nodes from a relationship
+    - `copyable-text` - display some read-only text with a button to copy it
+    - `validated-input/checkboxes` - list of checkboxes to choose what belongs in a has-many relation
+    - `paginated-list/all` - list of all models of a given type
+    - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
+    - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
+    - `delete-button` - configurable delete button, including a confirmation modal and scientist name
+    - `tags-widget` - you know, for tags
+- Routes:
+    - `guid-node/registrations` - registrations tab
+    - `settings` - includes the settings side nav
+    - `settings/tokens` - list of personal access tokens
+    - `settings/tokens/edit`
+    - `settings/tokens/create`
+    - `register` - sign up page
+- Transforms:
+    - `fixstringarray` - similar to `fixstring` transform (unencodes special characters), but for string arrays
+- Utils:
+    - `param` - drop-in replacement for jQuery.param
+- Helpers:
+    - `math` - A helper to render TeX statements using KaTeX
+- Engines:
+    - `ember-osf-registries` - moved/upgraded into the registries engine
+    - `collections` - Add collections engine
+- Tests:
+    - `guid-node/registrations` acceptance test
+    - `tags-widget` component integration test
+    - `register` route acceptance test
+    - `param` util unit test
+- Blueprints:
+    - `osf-model` - creates model, adapter, and serializer for an OSF model
+- Types:
+    - `ember-cli-mirage` - the 70% that seems possible to express in typescript
+- Handbook:
+    - `tags-widget` - added to the handbook
+
+### Changed
+- Models:
+    - `osf-model` - add `relatedCounts` attribute and `loadRelatedCounts()` method
+    - `registration` - add `archiving` attribute and `registrationSchema` relationship, typed `registeredMeta`
+    - `draft-registration`
+        - change `registrationSchema` relationship type to be `registration-schema`
+        - define inverse for `node` relationship as `draftRegistrations` instead of `null` (required by ember-data 3.4)
+    - `node`
+        - added attributes: `preprint: boolean`, `subjects: string[]`, and `currentUserCanComment: boolean`
+        - use `fixstringarray` transform for `tags` attribute
+    - `user` - made `middleNames` `string` (was `string[]`), added `suffix: string`, `active: boolean`, `social: {}`
+    - `file` - use `fixstringarray` transform for `tags` attribute
+    - `preprint` - define inverse for `node` relationship as `preprints` instead of `null` (required by ember-data 3.4)
+- Adapters:
+    - `draft-registration` - override `urlForCreateRecord()` to `POST` to `nodes/{guid}/draft_registrations`
+- Serializers:
+    - `osf-serializer`:
+        - populate `relatedCounts` attribute from relationship meta
+        - allow setting `serialize: true` for an attribute in `FooSerializer.attrs` to guarantee the attribute
+          will always be serialized, even when not dirty
+- Services:
+    - `route-context` - added ability to pass query params to `setGuid()`/`loadModel()`
+- Components:
+    - `file-renderer` - remove initialWidth MFR parameter
+    - `node-blurb` - renamed to `node-card`
+    - `node-card`
+        - add `registration` type
+        - add optional tags display
+        - use placeholder when `node` is not set
+        - made tagless
+        - use `tags-widget` component instead of `ember-tag-input` directly
+        - `encodeURIComponent(tag)` when constructing tags search url
+        - add `readOnly` argument to force-hide the dropdown controls
+    - `node-navbar` - use `linkTo` for registrations
+    - `paginated-relation` renamed to `paginated-list/has-many`
+        - refactored to allow sharing functionality among different types of list
+        - add ability to specify placeholders, and pass actions to items for reloading the list
+        - `paginated-list/layout`, the shared layout component for the other `paginated-list/*`
+        - `paginated-list/all`, for listing all models of a given type
+    - `validated-input` - replaced `{{validated-input type='foo'}}` with `{{validated-input/foo}}`,
+      since the interface varies by type
+        - `validated-input/checkbox`
+        - `validated-input/checkboxes` (new!)
+        - `validated-input/date`
+        - `validated-input/recaptcha` - added ability to bind action to reset recaptcha
+        - `validated-input/text`
+        - `validated-input/textarea`
+    - `osf-navbar` - modified to yield a list home links for engines to override, if required
+    - `sign-up-form` - added submit task & user-registration model creation
+    - `osf-navbar/auth-dropdown` - make Sign Up button transition to register route, if enabled
+- Routes:
+    - `guid-node` - request `forks`, `registrations`, and `draft_registrations` related counts when resolving guid
+    - `guid-node/forks` - use placeholder for forks list
+    - `guid-registration` - request `forks` related count when resolving guid
+    - `guid-registration/forks` - use placeholder for forks list
+    - `resolve-guid/resolved-guid-route` - pass-through query params to `routeContext.setGuid()`
+    - `guid-file` - use `tags-widget` component instead of `ember-tag-input` directly
+    - `home` - remove submit task & user-registration model creation (moved to `sign-up-form` component)
+- Engines:
+    - `analytics-page` - set `readOnly=true` for node-cards in "links to this project" modal
+- Tests:
+    - Removed captcha visibility assertions from logged-out home page test
+- Handbook:
+    - Fix link styling, remove double underline
+    - Update ember-cli-addon-docs dependency
+    - Add info for dev-env, testing, visual style, and written style
+- Misc:
+    - install `@cos-forks/ember-content-placeholders`
+    - upgrade to ember(-(cli|data))@~3.4.0
+    - don't strip ember-test-selectors from production builds
+- DX:
+    - Have guid-like IDs for mirage factories (nodes and users to start)
+    - Disabled `space-infix-ops` eslint rule for .d.ts
+    - Disabled `no-await-in-loop` eslint rule for tests
+    - Made mirage factories TypeScript and type check them against Ember models
+    - TypeScripted mirage serializers
+    - Refactored mirage `node` views relationship lists into single `relationshipList` function
+    - Augmented mirage types
+    - Exported `AttributesFor` from `ember-data` types
+    - Defined `ember-data` `AttributesFor` and `RelationshipsFor` such that they only include `string` keys.
+    - Improved osf-api types
+    - Fixed up types for `faker.list.cycle`/`faker.list.random`
+    - Disable `max-classes-per-file` tslint rule globally
+    - Increase mirage support for:
+        - Non-relationship links
+        - Guid files
+        - Root user
+    - Mirage: pass through all requests on current domain
+    - Fix up template-lint rules for `ember-cli-template-lint` 1.0
+        - Configure the `attribute-indentation` rule to use 4 spaces and prevent lines > 120 chars
+        - Enable `no-bare-strings` in place of the deprecated `bare-strings` rule
+        - Disable `no-nested-interactive` which has replaced `nested-interactive` in the recommended ruleset
+
+### Removed
+- Models:
+    - `metaschema` (including related adapter & serializer)
+- Services:
+    - `file-manager` (including skipped tests and one unused reference)
+- Components:
+    - `search-dropdown` (Unused)
+
 ## [0.7.0] - 2018-08-07
 ### Added
 - Models:
@@ -16,7 +162,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - images for home page
     - images for dashboard
 - Third-party Packages:
-    - `qunit-dom` - Better test assetions (especially for hidden things)
+    - `qunit-dom` - Better test assertions (especially for hidden things)
     - `ember-test-selectors` - Find things in your dom without messing everything up
 - Tests:
     - `dashboard` - more application tests
@@ -204,7 +350,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Node navbar: to accompany all node pages
 - Status Banner: shows status messages
 - Maintenance Banner: shows maintenance messages
-- TypeScript: Add ember-cli-typscript and ember-cli-tslint
+- TypeScript: Add ember-cli-typescript and ember-cli-tslint
 - CSS: Add `_typography.scss` with responsive font styling and `_accessibility.scss` for accessibility-related styling
 - Addon: ember-a11y-testing
 - Test: make sure all translations files contain all terms
@@ -253,3 +399,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.1.0] - 2018-02-07
 ### Added
 - Quick Files
+
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.7.0...HEAD
+[0.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.1...0.7.0
+[0.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.0...0.6.1
+[0.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.2...0.6.1
+[0.5.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.1...0.5.2
+[0.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.0...0.5.1
+[0.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.4.1...0.5.0
+[0.4.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.4.0...0.4.1
+[0.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.7...0.4.0
+[0.3.7]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.6...0.3.7
+[0.3.6]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.5...0.3.6
+[0.3.5]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.4...0.3.5
+[0.3.4]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.3...0.3.4
+[0.3.3]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.2...0.3.3
+[0.3.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.1...0.3.2
+[0.3.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.0...0.3.1
+[0.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.2.0...0.3.0
+[0.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.1.1...0.2.0
+[0.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.1.0...0.1.1
+[0.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/7dad0d13c0253de88720dd058e96e11905d56911...0.1.0

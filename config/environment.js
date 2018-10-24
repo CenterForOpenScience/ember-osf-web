@@ -1,5 +1,9 @@
 /* eslint-env node */
 
+function isTruthy(val) {
+    return ['true', '1'].includes(val.toString().toLowerCase());
+}
+
 let localConfig;
 
 try {
@@ -12,9 +16,11 @@ const {
     A11Y_AUDIT = 'true',
     ASSETS_PREFIX: assetsPrefix = '/ember_osf_web/',
     BACKEND: backend = 'local',
+    CAS_URL: casUrl = 'http://192.168.168.167:8080',
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
     COLLECTIONS_ENABLED = false,
+    REGISTRIES_ENABLED = false,
     HANDBOOK_ENABLED = false,
     HANDBOOK_DOC_GENERATION_ENABLED = false,
     FB_APP_ID,
@@ -24,6 +30,7 @@ const {
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
+    ORCID_CLIENT_ID: orcidClientId,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
@@ -162,7 +169,10 @@ module.exports = function(environment) {
             },
             localStorageKeys: {
                 authSession: 'embosf-auth-session',
+                joinBannerDismissed: 'slide', // TODO: update legacy UI to use a more unique key
             },
+            orcidClientId,
+            casUrl,
         },
         social: {
             twitter: {
@@ -208,6 +218,16 @@ module.exports = function(environment) {
                 'guid-registration.forks': 'ember_project_forks_page',
                 'guid-node.analytics.index': 'ember_project_analytics_page',
                 'guid-registration.analytics.index': 'ember_project_analytics_page',
+                'guid-node.registrations': 'ember_project_registrations_page',
+                'settings.tokens': 'ember_user_settings_tokens_page',
+                'settings.tokens.index': 'ember_user_settings_tokens_page',
+                'settings.tokens.create': 'ember_user_settings_tokens_page',
+                'settings.tokens.edit': 'ember_user_settings_tokens_page',
+                'settings.developer-apps': 'ember_user_settings_apps_page',
+                'settings.developer-apps.index': 'ember_user_settings_apps_page',
+                'settings.developer-apps.create': 'ember_user_settings_apps_page',
+                'settings.developer-apps.edit': 'ember_user_settings_apps_page',
+                register: 'ember_auth_register',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
@@ -222,11 +242,16 @@ module.exports = function(environment) {
         },
         secondaryNavbarId: '__secondaryOSFNavbar__',
         engines: {
+            // App Engines should always be enabled in production builds
+            // as they will be enabled/disabled at runtime rather than buildtime
             collections: {
-                enabled: COLLECTIONS_ENABLED,
+                enabled: !devMode || isTruthy(COLLECTIONS_ENABLED),
+            },
+            registries: {
+                enabled: !devMode || isTruthy(REGISTRIES_ENABLED),
             },
             handbook: {
-                enabled: HANDBOOK_ENABLED,
+                enabled: isTruthy(HANDBOOK_ENABLED),
                 docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
             },
         },
@@ -236,6 +261,8 @@ module.exports = function(environment) {
         'ember-cli-mirage': {
             enabled: Boolean(MIRAGE_ENABLED),
         },
+
+        defaultProvider: 'osf',
     };
 
     if (environment === 'development') {
@@ -250,28 +277,40 @@ module.exports = function(environment) {
         Object.assign(ENV, {
             'ember-a11y-testing': {
                 componentOptions: {
-                    turnAuditOff: A11Y_AUDIT !== 'true',
+                    turnAuditOff: !isTruthy(A11Y_AUDIT),
                 },
             },
         });
     }
 
     if (environment === 'test') {
-        // Testem prefers this...
-        ENV.locationType = 'none';
-
-        // Test environment needs to find assets in the "regular" location.
-        ENV.assetsPrefix = '/';
-
-        // Always enable mirage for tests.
-        ENV['ember-cli-mirage'].enabled = true;
-
-        // keep test console output quieter
-        ENV.APP.LOG_ACTIVE_GENERATION = false;
-        ENV.APP.LOG_VIEW_LOOKUPS = false;
-
-        ENV.APP.rootElement = '#ember-testing';
-        ENV.APP.autoboot = false;
+        Object.assign(ENV, {
+            // Testem prefers this...
+            locationType: 'none',
+            // Test environment needs to find assets in the "regular" location.
+            assetsPrefix: '/',
+            // Always enable mirage for tests.
+            'ember-cli-mirage': {
+                enabled: true,
+            },
+            APP: {
+                ...ENV.APP,
+                // keep test console output quieter
+                LOG_ACTIVE_GENERATION: false,
+                LOG_VIEW_LOOKUPS: false,
+                rootElement: '#ember-testing',
+                autoboot: false,
+            },
+            engines: {
+                ...ENV.engines,
+                collections: {
+                    enabled: true,
+                },
+                registries: {
+                    enabled: true,
+                },
+            },
+        });
     }
 
     if (devMode) {

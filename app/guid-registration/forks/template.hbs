@@ -1,4 +1,5 @@
-{{title (t 'forks.page_title' nodeTitle=model.taskInstance.value.title)}}
+{{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
+{{title (t 'forks.page_title' nodeTitle=model.taskInstance.value.unsafeTitle)}}
 <div class="container" local-class="Forks">
     {{#bs-modal open=newModal onSubmit=(action 'newFork') onHide=(action (mut newModal) false) as |m|}}
         {{#m.body}}
@@ -28,24 +29,24 @@
         <p local-class="Forks__nav__link">{{t 'forks.info'}}</p>
     </div>
     <div local-class="Forks__forks">
-        {{#paginated-relation
+        {{#paginated-list/has-many
             modelTaskInstance=model.taskInstance
             relationshipName='forks'
-            reload=reloadList
-            queryParams=forksQueryParams
+            bindReload=(action (mut reloadList))
+            query=forksQueryParams
             analyticsScope='Registration Forks'
-            as |pr|
+            as |list|
         }}
-            {{#pr.item as |fork|}}
-                {{node-blurb node=fork blurbType='fork' delete=(action openDeleteModal fork)}}
-            {{/pr.item}}
+            {{#list.item as |fork|}}
+                {{node-card node=fork delete=(action openDeleteModal fork)}}
+            {{/list.item}}
 
-            {{#pr.empty}}
+            {{#list.empty}}
                 <div local-class='Forks__placeholder'>
                     {{t 'forks.no_forks'}}
                 </div>
-            {{/pr.empty}}
-        {{/paginated-relation}}
+            {{/list.empty}}
+        {{/paginated-list/has-many}}
     </div>
     <div local-class="Forks__new-fork">
         <div class="m-md">

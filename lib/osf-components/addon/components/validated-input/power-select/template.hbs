@@ -1,0 +1,19 @@
+{{#validated-input/x-input-wrapper
+    model=this.model
+    valuePath=this.valuePath
+    validationStatus=this.validationStatus
+}}
+    {{#power-select
+        id=valuePath
+        name=valuePath
+        options=options
+        selected=(or (get model valuePath) null)
+        onchange=(action 'powerSelectChanged')
+        search=search
+        noMatchesMessage=noMatchesMessage
+        disabled=this.disabled
+        as |option|
+    }}
+        {{yield option}}
+    {{/power-select}}
+{{/validated-input/x-input-wrapper}}

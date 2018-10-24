@@ -1,0 +1,39 @@
+.RecentList {
+    background-color: #f3f5f7;
+    border-bottom: 1px solid #e0e6ea;
+    padding-bottom: 15px;
+    padding-top: 15px;
+
+    hr {
+        border-style: inset;
+        border-width: 1px;
+        display: block;
+        margin-bottom: 0.5em;
+        margin-top: 0.5em;
+    }
+}
+
+.SeeMore {
+    font-size: 16px;
+}
+
+.RecentList__Contributors {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    list-style: none;
+    padding-left: 0;
+
+    li {
+        font-size: 16px;
+        display: inline;
+
+        &::after {
+            content: ', ';
+        }
+
+        &:last-child::after {
+            content: '';
+        }
+    }
+}

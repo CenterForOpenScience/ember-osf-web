@@ -1,37 +1,41 @@
-<form {{action 'submit' on='submit'}}>
-    {{validated-input
-        model=model
-        didValidate=didValidate
+<form local-class="SignUpForm" {{action 'submit' on='submit'}}>
+    {{validated-input/text
+        data-test-sign-up-full-name
+        model=this.userRegistration
         valuePath='fullName'
-        placeholder=(t 'sign_up_form.full_name')
-        disabled=hasSubmitted
-        aria-label=(t 'sign_up_form.full_name')
+        showMessages=this.didValidate
+        disabled=this.hasSubmitted
+        placeholder=(t 'osf-components.sign-up-form.full_name')
+        ariaLabel=(t 'osf-components.sign-up-form.full_name')
     }}
-    {{validated-input
-        model=model
-        didValidate=didValidate
+    {{validated-input/text
+        data-test-sign-up-email-1
+        model=this.userRegistration
         valuePath='email1'
-        placeholder=(t 'sign_up_form.contact_email')
-        disabled=hasSubmitted
-        aria-label=(t 'sign_up_form.contact_email')
+        showMessages=this.didValidate
+        disabled=this.hasSubmitted
+        placeholder=(t 'osf-components.sign-up-form.contact_email')
+        ariaLabel=(t 'osf-components.sign-up-form.contact_email')
     }}
-    {{validated-input
-        model=model
-        didValidate=didValidate
+    {{validated-input/text
+        data-test-sign-up-email-2
+        model=this.userRegistration
         valuePath='email2'
-        placeholder=(t 'sign_up_form.confirm_email')
-        disabled=hasSubmitted
-        aria-label=(t 'sign_up_form.confirm_email')
+        showMessages=this.didValidate
+        disabled=this.hasSubmitted
+        placeholder=(t 'osf-components.sign-up-form.confirm_email')
+        ariaLabel=(t 'osf-components.sign-up-form.confirm_email')
     }}
-    {{validated-input
-        type='password'
-        model=model
-        didValidate=didValidate
+    {{validated-input/text
+        data-test-sign-up-password
+        password=true
+        model=this.userRegistration
         valuePath='password'
-        placeholder=(t 'sign_up_form.password')
-        key-up=(perform strength value=model.password)
-        disabled=hasSubmitted
-        aria-label=(t 'sign_up_form.password')
+        showMessages=this.didValidate
+        disabled=this.hasSubmitted
+        onKeyUp=(perform strength this.userRegistration.password)
+        placeholder=(t 'osf-components.sign-up-form.password')
+        ariaLabel=(t 'osf-components.sign-up-form.password')
     }}
     <div class="row" hidden={{not progress}}>
         <div class="col-xs-12">
@@ -43,37 +47,38 @@
             </div>
         </div>
     </div>
-    {{#validated-input
-        type='checkbox'
-        model=model
-        didValidate=didValidate
-        disabled=hasSubmitted
+    {{#validated-input/checkbox
+        data-test-sign-up-tos
+        model=this.userRegistration
         valuePath='acceptedTermsOfService'
+        showMessages=this.didValidate
+        disabled=this.hasSubmitted
         local-class='tos-checkbox'
     }}
         {{sign-up-policy}}
-    {{/validated-input}}
-    {{#if (and
-        (not hasSubmitted)
-        formIsValid
-    )}}
-        <div class="col-md-12" local-class="RecaptchaParent">
-            {{validated-input
-                type='reCaptcha'
-                model=model
-                didValidate=didValidate
-                valuePath='recaptchaResponse'
-            }}
-        </div>
-    {{/if}}
-    {{#if hasSubmitted}}
+    {{/validated-input/checkbox}}
+    {{#if this.hasSubmitted}}
         <div class="osf-box-lt" local-class="help-block">
-            <p class="ext-success p-xs">{{t 'sign_up_form.registration_success' email=model.email1}}</p>
+            <p class="ext-success p-xs">{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
         </div>
     {{else}}
+        <div class="col-md-12" local-class="RecaptchaParent">
+            {{validated-input/recaptcha
+                data-test-recaptcha
+                model=this.userRegistration
+                valuePath='recaptchaResponse'
+                showMessages=this.didValidate
+                bindReset=(action (mut this.resetRecaptcha))
+            }}
+        </div>
         <div>
-            <button type="submit" class="btn btn-success" {{action submit}} {{action 'click' 'button' 'Home - sign_up' target=analytics}}>
-                {{t 'sign_up_form.sign_up_free'}}
+            <button data-test-sign-up-button
+                type="submit"
+                class="btn btn-success"
+                {{action submit}}
+                {{action 'click' 'button' 'Home - sign_up' target=analytics}}
+            >
+                {{t 'osf-components.sign-up-form.sign_up_button_label'}}
             </button>
         </div>
     {{/if}}

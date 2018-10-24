@@ -1,0 +1,44 @@
+.list {
+    list-style: none;
+    overflow: scroll;
+    height: 15rem;
+    padding: 0;
+    border: 1px solid #d3d3d3;
+    border-top: 0;
+
+    li {
+        cursor: pointer;
+        padding: 0.5em;
+        border-radius: 4px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        position: relative;
+        transition-property: background-color, color, font-weight;
+        transition-duration: 0.1s;
+        transition-timing-function: linear;
+
+        &[aria-selected='true'] { // stylelint-disable-line selector-no-qualifying-type
+            background-color: #337ab7;
+            color: #fff;
+            font-weight: 700;
+            white-space: normal;
+        }
+    }
+
+    li:hover {
+        background-color: #67a3bf;
+        color: #fff;
+    }
+}
+
+.input {
+    box-shadow: none;
+}
+
+.selected {
+    background-color: #337ab7;
+    color: #fff;
+    font-weight: 700;
+    white-space: normal;
+}

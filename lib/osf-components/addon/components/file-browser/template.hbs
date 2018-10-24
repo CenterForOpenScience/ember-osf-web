@@ -44,21 +44,13 @@
                     <button id="shareButton" class="btn btn-light popover-toggler" local-class="action-button" {{action 'copyLink'}}>
                         {{fa-icon 'share-alt'}}
                         {{t 'general.share'}}
-                        {{#bs-popover placement="bottom" title=(t 'general.share') visible=popupOpen local-class='file-browser__popover'}}
+                        {{#bs-popover placement="bottom" title=(t 'general.share') visible=popupOpen}}
                             {{#if link}}
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        {{#copy-button
-                                            success=(action (mut popupOpen) false)
-                                            class='btn btn-default'
-                                            aria-label=(t 'general.clipboard_copy')
-                                            clipboardText=link
-                                        }}
-                                            {{fa-icon 'files-o'}}
-                                        {{/copy-button}}
-                                    </span>
-                                    <input readonly="true" type="text" value={{link}} class="form-control share-link">
-                                </div>
+                                {{copyable-text
+                                    text=this.link
+                                    success=(action (mut this.popupOpen) false)
+                                    analyticsLabel='Quick Files - Share - Copy link'
+                                }}
                             {{else}}
                                 {{t 'file_browser.loading'}}
                             {{/if}}

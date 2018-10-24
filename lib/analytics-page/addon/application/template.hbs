@@ -1,4 +1,5 @@
-{{title (t 'analytics.pageTitle' nodeTitle=node.title)}}
+{{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
+{{title (t 'analytics.pageTitle' nodeTitle=node.unsafeTitle)}}
 <div class="container">
     <div local-class='Counts' class='row'>
         <div class='col-sm-4 panel panel-default' local-class='CountBox'>
@@ -34,20 +35,27 @@
                                 closeTitle=(t 'general.close')
                                 onHide=(action 'hideLinksModal')
                             }}
-                                {{#paginated-relation
-                                    model=node
-                                    relationshipName='linkedByNodes'
-                                    queryParams=linksQueryParams
-                                    as |pr|
-                                }}
-                                    {{#pr.item as |item|}}
-                                        {{node-blurb node=item blurbType='generic'}}
-                                    {{/pr.item}}
+                                {{#if this.node}}
+                                    <ul class="list-group">
+                                        {{#paginated-list/has-many
+                                            model=this.node
+                                            relationshipName='linkedByNodes'
+                                            query=this.linkedByQueryParams
+                                            analyticsScope='Project Analytics - Links'
+                                            as |list|
+                                        }}
+                                            <list.item as |node|>
+                                                <NodeCard @node={{node}} @readOnly=true @analyticsScope='Project Analytics - Links' />
+                                            </list.item>
 
-                                    {{#pr.empty}}
-                                        {{t 'analytics.noLinks'}}
-                                    {{/pr.empty}}
-                                {{/paginated-relation}}
+                                            <list.empty>
+                                                {{t 'analytics.noLinks'}}
+                                            </list.empty>
+                                        {{/paginated-list/has-many}}
+                                    </ul>
+                                {{else}}
+                                    <LoadingIndicator @dark=true />
+                                {{/if}}
                             {{/bs-modal-simple}}
                         {{/if}}
                     {{/if}}

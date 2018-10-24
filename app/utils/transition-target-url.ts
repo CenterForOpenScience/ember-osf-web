@@ -3,10 +3,7 @@ interface Transition {
     params: any[];
     queryParams: object;
     router: {
-        generate(
-            handlerName: string,
-            ...params: any[],
-        ): string;
+        generate(handlerName: string, ...params: any[]): string;
     };
 }
 

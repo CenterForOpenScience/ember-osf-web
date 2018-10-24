@@ -1,10 +1,11 @@
 'use strict';
 
+const fs = require('fs-extra');
+
 const { beforeEach, describe, it } = require('mocha');
 const {
     emberGenerateDestroy,
     emberNew,
-    setupPodConfig,
     setupTestHooks,
 } = require('ember-cli-blueprint-test-helpers/helpers');
 const { expect } = require('ember-cli-blueprint-test-helpers/chai');
@@ -14,13 +15,17 @@ const fixture = require('../helpers/fixture');
 describe('Blueprint: component-test', function() {
     setupTestHooks(this);
 
-    beforeEach(function() {
-        setupPodConfig({ usePods: true });
-    });
-
     describe('in app', function() {
         beforeEach(function() {
-            return emberNew().then(linkBlueprints);
+            return emberNew().then(linkBlueprints).then(() => {
+                fs.writeFileSync(
+                    '.ember-cli',
+                    `{
+                    "disableAnalytics": false,
+                    "usePods": true
+                    }`,
+                );
+            });
         });
 
         it('component-test x-foo', function() {
@@ -42,7 +47,15 @@ describe('Blueprint: component-test', function() {
 
     describe('in addon', function() {
         beforeEach(function() {
-            return emberNew({ target: 'addon' }).then(linkBlueprints);
+            return emberNew({ target: 'addon' }).then(linkBlueprints).then(() => {
+                fs.writeFileSync(
+                    '.ember-cli',
+                    `{
+                    "disableAnalytics": false,
+                    "usePods": true
+                    }`,
+                );
+            });
         });
 
         it('component-test x-foo', function() {
@@ -72,7 +85,15 @@ describe('Blueprint: component-test', function() {
 
     describe('in in-repo-addon', function() {
         beforeEach(function() {
-            return emberNew({ target: 'in-repo-addon' }).then(linkBlueprints);
+            return emberNew({ target: 'in-repo-addon' }).then(linkBlueprints).then(() => {
+                fs.writeFileSync(
+                    '.ember-cli',
+                    `{
+                    "disableAnalytics": false,
+                    "usePods": true
+                    }`,
+                );
+            });
         });
 
         it('component-test x-foo --in-repo-addon=my-addon', function() {

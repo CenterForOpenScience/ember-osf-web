@@ -21,7 +21,6 @@ module.exports = {
         'class-methods-use-this': 'off',
         'max-len': ['error', { code: 120 }],
         strict: 'off',
-        'ember/named-functions-in-promises': 'off',
         'function-paren-newline': ['error', 'consistent'],
         'prefer-rest-params': 'error',
         'generator-star-spacing': ['error', 'before'],
@@ -31,6 +30,12 @@ module.exports = {
             ImportDeclaration: { multiline: true, consistent: true },
             ExportDeclaration: { multiline: true, consistent: true },
         }],
+        'ember/named-functions-in-promises': 'off',
+        'ember/new-module-imports': 'error',
+        'ember/no-attrs-in-components': 'error',
+        'ember/no-old-shims': 'error',
+        'import/prefer-default-export': 'off',
+        'no-restricted-globals': 'off',
     },
     overrides: [
         {
@@ -52,14 +57,20 @@ module.exports = {
         {
             files: ['**/*.d.ts'],
             rules: {
-                'no-restricted-globals': 'off',
                 'no-useless-constructor': 'off',
+                'space-infix-ops': 'off',
             },
         },
         {
             files: ['app/locales/*/translations.ts'],
             rules: {
                 'max-len': 'off',
+            },
+        },
+        {
+            files: ['tests/**/*'],
+            rules: {
+                'no-await-in-loop': 'off',
             },
         },
     ],

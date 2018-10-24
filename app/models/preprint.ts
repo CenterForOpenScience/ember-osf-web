@@ -25,7 +25,7 @@ import { SubjectRef } from './taxonomy';
 export default class Preprint extends OsfModel {
     @attr('fixstring') title!: string;
     // TODO!: May be a relationship in the future pending APIv2 changes
-    @attr('object') subjects!: [ SubjectRef[] ];
+    @attr('array') subjects!: SubjectRef[][];
     @attr('date') dateCreated!: Date;
     @attr('date') datePublished!: Date;
     @attr('date') originalPublicationDate!: Date | null;
@@ -39,7 +39,7 @@ export default class Preprint extends OsfModel {
     @attr('date') preprintDoiCreated!: Date;
 
     // Relationships
-    @belongsTo('node', { inverse: null }) node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'preprints' }) node!: DS.PromiseObject<Node> & Node;
     @belongsTo('license', { inverse: null }) license!: DS.PromiseObject<License> & License;
     @belongsTo('file', { inverse: null }) primaryFile!: DS.PromiseObject<File> & File;
 

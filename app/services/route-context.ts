@@ -5,6 +5,14 @@ import DS from 'ember-data';
 
 import Guid, { ReferentModel, ReferentModelName } from 'ember-osf-web/models/guid';
 
+export interface Query {
+    related_counts?: string; // eslint-disable-line camelcase
+}
+
+interface AdapterOptions {
+    query?: Query;
+}
+
 /**
  * Holds route information that might be needed by engines, e.g. the current guid
  * at the root of the route's path and the object it refers to.
@@ -20,12 +28,21 @@ export default class RouteContextService extends Service {
         this: RouteContextService,
         guid: string,
         expectedType?: ReferentModelName,
+        query?: Query,
     ) {
+        const adapterOptions: AdapterOptions = {};
+        if (query) {
+            adapterOptions.query = query;
+        }
         if (expectedType) {
             this.set('modelName', expectedType);
-            return yield this.store.findRecord(expectedType, guid);
+            return yield this.store.findRecord(expectedType, guid, { adapterOptions });
         } else {
-            const guidModel: Guid = yield this.store.findRecord('guid', guid, { backgroundReload: false });
+            const guidModel: Guid = yield this.store.findRecord(
+                'guid',
+                guid,
+                { backgroundReload: false, adapterOptions },
+            );
             this.set('modelName', guidModel.referentType);
             return yield guidModel.resolve();
         }
@@ -41,8 +58,9 @@ export default class RouteContextService extends Service {
         this: RouteContextService,
         guid: string,
         expectedType?: ReferentModelName,
+        query?: Query,
     ) {
-        const guidTaskInstance = this.get('loadModel').perform(guid, expectedType);
+        const guidTaskInstance = this.get('loadModel').perform(guid, expectedType, query);
         this.setProperties({ guidTaskInstance, guid });
         return guidTaskInstance;
     }
