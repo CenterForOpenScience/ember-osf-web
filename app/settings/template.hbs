@@ -27,11 +27,11 @@
                             </a>
                         {{/nav.item}}
                         {{#nav.item}}
-                            <a href='/settings/account'
-                               onclick={{action 'click' 'link' 'Settings - Account settings' target=analytics}}
-                            >
+                            {{#nav.link-to 'settings.account'
+                                click=(action 'click' 'link' 'Settings - Account settings' target=analytics)
+                            }}
                                 {{t 'settings.account.title'}}
-                            </a>
+                        {{/nav.link-to}}
                         {{/nav.item}}
                         {{#nav.item}}
                             <a href='/settings/addons'

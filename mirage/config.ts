@@ -7,6 +7,7 @@ import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
+import { updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
 import { moveFile } from './views/wb';
 
@@ -52,9 +53,11 @@ export default function(this: Server) {
     osfResource(this, 'users', { except: ['create', 'delete'] });
     osfNestedResource(this, 'users', 'institutions', { only: ['index'] });
     osfNestedResource(this, 'users', 'emails', {
+        except: ['update'],
         path: '/users/:parentID/settings/emails',
         relatedModelName: 'userEmails',
     });
+    this.patch('/users/:parentID/settings/emails/:emailID/', updateEmails);
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'users', 'quickfiles', { only: ['index', 'show'] });

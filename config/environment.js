@@ -215,6 +215,7 @@ module.exports = function(environment) {
         featureFlagNames: {
             routes: {
                 'guid-node.registrations': 'ember_project_registrations_page',
+                'settings.account': 'ember_user_settings_account_page',
                 'settings.tokens': 'ember_user_settings_tokens_page',
                 'settings.tokens.index': 'ember_user_settings_tokens_page',
                 'settings.tokens.create': 'ember_user_settings_tokens_page',

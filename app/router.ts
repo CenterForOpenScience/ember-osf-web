@@ -87,6 +87,7 @@ Router.map(function() {
             this.route('edit', { path: '/:developer_app_id' });
             this.route('create');
         });
+        this.route('account');
         this.route('tokens', function() {
             this.route('edit', { path: '/:token_id' });
             this.route('create');

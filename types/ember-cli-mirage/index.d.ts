@@ -51,7 +51,7 @@ interface ModelInstanceShared<T> {
 
 export type ModelInstance<T = AnyAttrs> = ModelInstanceShared<T> & Model<T>;
 
-interface Collection<T> {
+export interface Collection<T> {
     models: Array<ModelInstance<T>>;
     modelName: string;
     update<K extends keyof T>(key: K, val: T[K]): void;
@@ -199,7 +199,7 @@ export interface Trait<O extends TraitOptions = {}> {
 export function trait<O extends TraitOptions>(options: O): Trait<O>;
 
 // TODO when https://github.com/Microsoft/TypeScript/issues/1360
-// function association(...traits: string[], overrides?: { [key: string]: any }): any;
+
 export function association(...args: any[]): any;
 
 export type FactoryAttrs<T> = {
