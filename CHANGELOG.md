@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [18.0.0] - 2018-10-24
 ### Added
 - Models:
     - `registration-schema` (including related adapter & serializer)
@@ -30,6 +30,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `register` - sign up page
 - Transforms:
     - `fixstringarray` - similar to `fixstring` transform (unencodes special characters), but for string arrays
+- Utils:
+    - `param` - drop-in replacement for jQuery.param
+- Helpers:
+    - `math` - A helper to render TeX statements using KaTeX
+- Engines:
+    - `ember-osf-registries` - moved/upgraded into the registries engine
+    - `collections` - Add collections engine
 - Tests:
     - `guid-node/registrations` acceptance test
     - `tags-widget` component integration test
@@ -39,15 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
     - `ember-cli-mirage` - the 70% that seems possible to express in typescript
-- Engines:
-    - `ember-osf-registries` - moved/upgraded into the registries engine
-    - `collections` - Add collections engine
 - Handbook:
     - `tags-widget` - added to the handbook
-- Utils:
-    - `param` - drop-in replacement for jQuery.param
-- Helpers:
-    - `math` - A helper to render TeX statements using KaTeX
 
 ### Changed
 - Models:
