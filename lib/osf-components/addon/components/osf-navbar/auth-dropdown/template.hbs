@@ -19,32 +19,32 @@
             <span class="caret"></span>
         {{/dd.toggle}}
 
-        {{#dd.menu classNames='dropdown-menu auth-dropdown' as |ddm|}}
+        {{#dd.menu classNames='auth-dropdown' local-class='AuthDropdown' as |ddm|}}
             {{#if headline}}
-                {{#ddm.item (html-attributes role='none') local-class='headline'}}
+                {{#ddm.item (html-attributes role='none') local-class='Headline'}}
                     {{headline}}
                 {{/ddm.item}}
             {{/if}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a href="{{profileURL}}" onclick={{action 'click' 'link' 'Navbar - MyProfile' target=analytics}}>
+                <a href="{{profileURL}}" onclick={{action '_onLinkClicked' 'Navbar - MyProfile'}}>
                     <i class="fa fa-user fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.my_profile'}}
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                {{#global-link-to 'support' click=(action 'click' 'link' 'Navbar - Support' target=analytics)}}
+                {{#global-link-to 'support' click=(action '_onLinkClicked' 'Navbar - Support')}}
                     <i class="fa fa-life-ring fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.osf_support'}}
                 {{/global-link-to}}
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a href="{{settingsURL}}" onclick={{action 'click' 'link' 'Navbar - Settings' target=analytics}}>
+                <a href="{{settingsURL}}" onclick={{action '_onLinkClicked' 'Navbar - Settings'}}>
                     <i class="fa fa-cog fa-lg p-r-xs"></i>
                     {{t 'general.settings'}}
                 </a>
             {{/ddm.item}}
             {{#ddm.item (html-attributes role='menuitem')}}
-                <a class="logoutLink" {{action 'logout'}} onclick={{action 'click' 'button' 'Navbar - Logout' target=analytics}} role="button">
+                <a class="logoutLink" role="button" {{action 'logout'}} {{action '_onLinkClicked' 'Navbar - Logout'}}>
                     <i class="fa fa-sign-out fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.log_out'}}
                 </a>

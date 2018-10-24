@@ -6,6 +6,11 @@
     padding: 1px 7px 2px;
 }
 
+// The default 340px isn't quite enough for the auth dropdown
+.secondary-navigation {
+    max-height: 400px !important;
+}
+
 @media (min-width: 992px) {
     .secondary-navigation {
         /* necessary for the parent flexbox container to shrink smaller than the child element's text */

@@ -53,6 +53,7 @@ export default class NavbarAuthDropdown extends Component {
     profileURL: string = defaultTo(this.profileURL, pathJoin(baseUrl, 'profile'));
     settingsURL: string = defaultTo(this.settingsURL, pathJoin(baseUrl, 'settings'));
     signUpURL: string = defaultTo(this.signUpURL, pathJoin(baseUrl, 'register'));
+    onLinkClicked?: () => void;
 
     @computed('router.currentURL')
     get signUpNext() {
@@ -90,5 +91,13 @@ export default class NavbarAuthDropdown extends Component {
         // Assuming `redirectUrl` comes back to this app, the session will be invalidated then.
         const query = this.redirectUrl ? `?${param({ next_url: this.redirectUrl })}` : '';
         window.location.href = `${config.OSF.url}logout/${query}`;
+    }
+
+    @action
+    _onLinkClicked(analyticsLabel: string) {
+        this.analytics.click('link', analyticsLabel);
+        if (this.onLinkClicked) {
+            this.onLinkClicked();
+        }
     }
 }
