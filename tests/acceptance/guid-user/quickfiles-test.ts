@@ -1,7 +1,7 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-// import { selectChoose, selectSearch } from 'ember-power-select/test-support';
+import { selectChoose } from 'ember-power-select/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -108,5 +108,70 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await click('[data-test-ps-new-project-button]');
         assert.dom('[data-test-new-project-title]')
             .hasNoValue('Should not be filled out after leaving and re-entering');
+    });
+
+    test('Select existing project and back', async function(assert) {
+        const title = 'Giraffical Interchange Format';
+        const currentUser = server.create('user', 'loggedIn');
+        const node = server.create(
+            'node',
+            { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+        );
+        server.create(
+            'contributor',
+            { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+
+        server.loadFixtures('regions');
+        await visit(`/${currentUser.id}/quickfiles`);
+        const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
+        assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
+        await click(files[0]);
+        await click('[data-test-move-button]');
+        await click('[data-test-ps-existing-project-button');
+        assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
+            .doesNotExist();
+        assert.dom('[data-test-ps-select-project]').exists();
+        await click('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
+        await selectChoose('[data-test-ps-select-project]', title);
+        assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
+            .containsText(title);
+        await click('[data-test-move-to-project-modal-back-button]');
+        await click('[data-test-ps-existing-project-button');
+        assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
+            .doesNotExist();
+    });
+
+    test('Select existing project and cancel', async function(assert) {
+        const title = 'Giraffical Interchange Format';
+        const currentUser = server.create('user', 'loggedIn');
+        const node = server.create(
+            'node',
+            { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+        );
+        server.create(
+            'contributor',
+            { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+
+        server.loadFixtures('regions');
+        await visit(`/${currentUser.id}/quickfiles`);
+        const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
+        assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
+        await click(files[0]);
+        await click('[data-test-move-button]');
+        await click('[data-test-ps-existing-project-button');
+        assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
+            .doesNotExist();
+        assert.dom('[data-test-ps-select-project]').exists();
+        await click('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
+        await selectChoose('[data-test-ps-select-project]', title);
+        assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
+            .containsText(title);
+        await click('[data-test-move-to-project-modal-close-button]');
+        await click('[data-test-move-button]');
+        await click('[data-test-ps-existing-project-button');
+        assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
+            .doesNotExist();
     });
 });
