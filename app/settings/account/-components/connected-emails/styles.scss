@@ -1,0 +1,76 @@
+p {
+    padding-top: 8px;
+    padding-left: 8px;
+}
+
+.input-form {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    margin-left: 8px;
+}
+
+button {
+    margin-left: 8px;
+}
+
+.section-container {
+    margin-bottom: 20px;
+}
+
+.section-header {
+    font-weight: 600;
+    padding: 8px;
+    border-bottom: 1px solid $color-border-gray;
+    border-bottom-width: 2px;
+}
+
+.primary-email {
+    padding-left: 8px;
+}
+
+.email-section {
+    :global(.list-group-item):first-of-type {
+        margin-top: -10px;
+    }
+
+    :global(.list-group-item):last-of-type {
+        & > .alternate-email,
+        & > .unconfirmed-email {
+            border-bottom: 0;
+        }
+    }
+}
+
+.email-object {
+    border-bottom: 1px solid $color-border-gray;
+    padding: 8px;
+}
+
+.options {
+    margin-right: 0;
+    margin-top: -8px;
+    float: right;
+}
+
+.remove-email-btn {
+    color: $brand-danger;
+}
+
+.loading-icon :global(.ball-scale) {
+    line-height: 1em;
+
+    & > div {
+        height: 2em;
+        width: 2em;
+    }
+}
+
+:global(.list-group) {
+    margin: 0;
+}
+
+:global(.list-group-item) {
+    border: 0;
+    padding: 0;
+    margin-bottom: 0;
+}

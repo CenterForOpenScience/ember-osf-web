@@ -1,0 +1,105 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title">{{t 'settings.account.connectedEmails.title'}}</h3>
+    </div>
+    <div class="panel-body">
+        <div local-class="section-container">
+            <h5 local-class="section-header">
+                {{t 'settings.account.connectedEmails.primaryEmail'}}
+            </h5>
+            <span local-class="primary-email">
+                {{#if loadPrimaryEmail.isRunning}}
+                    <LoadingIndicator local-class="loading-icon" @dark=true @inline=true />
+                {{else}}
+                    {{loadPrimaryEmail.lastSuccessful.value.emailAddress}}
+                {{/if}}
+            </span>
+        </div>
+        <div local-class="section-container">
+            <h5 local-class="section-header">
+                {{t 'settings.account.connectedEmails.alternateEmails'}}
+            </h5>
+            <span local-class="email-section">
+                {{#paginated-list/has-many
+                    model=this.currentUser.user
+                    relationshipName='emails'
+                    bindReload=(action (mut this.reloadAlternateList))
+                    query=alternateQueryParams
+                    usePlaceholders=false
+                    analyticsScope='Account Settings - Alternate Emails'
+                    as |list|
+                }}
+                    <list.item as |email|>
+                        {{#if (not email)}}
+                            {{#content-placeholders as |placeholder|}}
+                                {{placeholder.heading subtitle=false}}
+                            {{/content-placeholders}}
+                        {{else}}
+                            <div local-class="email-object alternate-email">
+                                {{email.emailAddress}}
+                                <div local-class="options">
+                                    {{#bs-button onClick=(action this.makePrimary email) type='link'}}
+                                        {{t 'settings.account.connectedEmails.makePrimary'}}
+                                    {{/bs-button}}
+                                    {{#bs-button onClick=(action this.removeEmail email) type='link'}}
+                                        {{fa-icon 'times' local-class='remove-email-btn'}}                              
+                                    {{/bs-button}}
+                                </div>
+                            </div>
+                        {{/if}}
+                    </list.item>
+                {{/paginated-list/has-many}}
+            </span>
+        </div>
+        <div local-class="section-container">
+            <h5 local-class="section-header">
+                {{t 'settings.account.connectedEmails.unconfirmedEmails'}}
+            </h5>
+            <span local-class="email-section">
+                {{#paginated-list/has-many
+                    model=this.currentUser.user
+                    relationshipName='emails'
+                    bindReload=(action (mut this.reloadUnconfirmedList))
+                    query=unconfirmedQueryParams
+                    usePlaceholders=false
+                    analyticsScope='Account Settings - Unconfirmed Emails'
+                    as |list|
+                }}
+                    <list.item as |email|>
+                        {{#if (not email)}}
+                            {{#content-placeholders as |placeholder|}}
+                                {{placeholder.heading subtitle=false}}
+                            {{/content-placeholders}}
+                        {{else}}
+                            <div local-class="email-object unconfirmed-email">
+                                {{email.emailAddress}}
+                                <div local-class="options">
+                                    {{#bs-button onClick=(action this.resendConfirmation) type='link'}}
+                                        {{t 'settings.account.connectedEmails.resendConfirmation'}}
+                                    {{/bs-button}}
+                                    {{#bs-button onClick=(action this.removeEmail email) type='link'}}
+                                        {{fa-icon 'times' local-class='remove-email-btn'}}                              
+                                    {{/bs-button}}
+                                </div>
+                            </div>
+                        {{/if}}
+                    </list.item>
+                {{/paginated-list/has-many}}
+            </span>
+            <p>
+                {{t 'settings.account.connectedEmails.mergeExplanation'}}
+            </p>
+            {{validated-input/text
+                local-class='input-form'
+                model=this.userEmail
+                valuePath='emailAddress'
+                showMessages=this.didValidate
+                placeholder=(t 'settings.account.connectedEmails.placeholderText')
+                ariaLabel=(t 'settings.account.connectedEmails.placeholderText')
+            }}
+            {{#bs-button onClick=(action this.submit) type='default'}}
+                {{t 'settings.account.connectedEmails.addEmail'}}
+            {{/bs-button}}
+        </div>
+    </div>
+</div>

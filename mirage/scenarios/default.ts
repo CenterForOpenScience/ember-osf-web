@@ -17,7 +17,7 @@ const {
 } = config;
 
 export default function(server: Server) {
-    const userTraits = defaultLoggedOut ? [] : ['loggedIn', 'withInstitutions'];
+    const userTraits = defaultLoggedOut ? [] : ['loggedIn', 'withInstitutions', 'withAlternateEmails', 'withUnconfirmedEmails', 'withUnverifiedEmails'];
     const currentUser = server.create('user', ...userTraits);
 
     server.create('user-setting', { user: currentUser });
@@ -42,6 +42,8 @@ export default function(server: Server) {
         index: 0,
     });
 
+    const firstNode = server.create('node', {});
+    server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList<Node>('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');
