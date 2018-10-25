@@ -8,17 +8,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Components:
     - `panel` - a general-use abstraction of bootstrap panels
+    - `new-project-navigation-modal` - For navigating away to nodes. Or not.
 - Tests:
     - `panel` component integration test
+    - `new-project-navigation-modal` - component integration test
+    - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
 - Handbook:
     - `panel` component
+    - `new-project-modal` component
+    - `new-project-navigation-modal` component
+- Mirage:
+    - `node` POST view to add currentUser as contributor
+    - `regions` fixtures
+    - `wb` view to move files from user or node to a node
+- Types:
+    - `ember-power-select/test-support` - types for useful functions
 ### Changed
+- Pages:
+    - `dashboard` - replaced project creation modal with `new-project-modal` component
 - Components:
     - `loading-indicator` - added inline option
+    - `file-browser` - replaced project navigation modal with `new-project-navigation-modal` component
+    - `new-project-modal` - Made it smarter and more reusable
+    - `project-selector` - replaced project creation modal with `new-project-modal` component
 - Tests:
     - `loading-indicator` - added tests for inline
+    - `dashboard` - acceptance tests related to project creation workflow
 - Handbook:
     - `loading-indicator` - added examples for inline
+- Mirage:
+    - `root` factory now adds all feature flags, not just route flags
+    - `user` factory has 'withFiles' trait so non-current users can have files easily
+    - `user` serializer has default_region relationship (hardcoded to us)
 ### Removed
 - Flags:
     - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on
