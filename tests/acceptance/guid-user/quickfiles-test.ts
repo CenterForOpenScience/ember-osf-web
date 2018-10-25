@@ -163,15 +163,21 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await click('[data-test-ps-existing-project-button');
         assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
             .doesNotExist();
+        assert.dom('[data-test-move-to-project-modal-perform-button]')
+            .isDisabled('Should be disabled before selecting a project');
         assert.dom('[data-test-ps-select-project]').exists();
         await click('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
         await selectChoose('[data-test-ps-select-project]', title);
         assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
             .containsText(title);
+        assert.dom('[data-test-move-to-project-modal-perform-button]')
+            .isNotDisabled('Should be enabled after selecting a project');
         await click('[data-test-move-to-project-modal-close-button]');
         await click('[data-test-move-button]');
         await click('[data-test-ps-existing-project-button');
         assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
             .doesNotExist();
+        assert.dom('[data-test-move-to-project-modal-perform-button]')
+            .isDisabled('Should be disabled after leaving and re-entering');
     });
 });

@@ -21,7 +21,11 @@ export interface Root {
 }
 
 export default Factory.extend<Root>({
-    activeFlags: Object.values(routes).concat(Object.values(navigation)).concat([storageI18n]),
+    activeFlags: [
+        ...Object.values(routes),
+        ...Object.values(navigation),
+        storageI18n,
+    ],
     message: 'Welcome to the OSF API.',
     version: '2.8',
     links: {},

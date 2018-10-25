@@ -90,6 +90,7 @@ export default class FileBrowser extends Component {
     shiftAnchor: File | null = null;
     isNewProject?: boolean;
     isChildNode?: boolean;
+    isProjectSelectorValid: boolean = false;
 
     dropzoneOptions = {
         createImageThumbnails: false,
@@ -123,6 +124,7 @@ export default class FileBrowser extends Component {
                 isNewProject,
                 isChildNode,
                 projectSelectState: ProjectSelectState.main,
+                isProjectSelectorValid: false,
             };
         }
 
@@ -433,6 +435,7 @@ export default class FileBrowser extends Component {
         this.setProperties({
             projectSelectState: ProjectSelectState.main,
             currentModal: modals.None,
+            isProjectSelectorValid: false,
         });
     }
 
