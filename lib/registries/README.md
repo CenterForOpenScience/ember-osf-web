@@ -25,3 +25,106 @@
 * [CSS Sidebar Transitions](https://tympanus.net/Development/SidebarTransitions/#)
 * [CSS Page Transitions](https://tympanus.net/Development/PageTransitions/)
 * [Shrinking/Sticky navbar](https://foundation.zurb.com/building-blocks/blocks/topbar-sticky-shrink.html) (Might not be used for anything)
+
+## Diagrams
+
+### Registration Workflow
+
+```
+                                                                      ┌─────────┐                                                                                  
+                                                                      │ Project │                                                                                  
+                                                                      └─────────┘                                                                                  
+                                                                           │                                                                                       
+                                                                                                                                                                   
+                                                                     Registration                                                                                  
+                                                                       Initiated                                                                                   
+                                                                                                                                                                   
+                                                                           │                                                                                       
+                                                                           │                                                                                       
+                                                     ┌─────────────────────┴───────────────────┐                                                                   
+                                                                                                                                                                   
+                                                 Approval                                Approval Not                                                              
+                                                 Required                                  Required                                                                
+                                                                                          Or Ommited                                                               
+                                                     │                                                                                                             
+                                                     │                                         │                                                                   
+                                                     ▼                                         ▼                                                                   
+                                          ┌─────────────────────┐                   ┌─────────────────────┐                                                        
+                                          │ Draft Registration  │    Approved by    │ Draft Registration  │                                                        
+                                          │      (Pending)      │───  OSF Admin  ──▶│     (Approved)      │                                                        
+                                          └─────────────────────┘                   └─────────────────────┘                                                        
+              ┌─────────────────────┐                │                                         │                                                                   
+              │ Draft Registration  │                                                          │                                                                   
+              │      (Deleted)      │◀──────────   Deleted    ─────────────────────────────────┤                                                                   
+              └─────────────────────┘                                                          │                                                                   
+                                                                                               │                                                                   
+                                                                                               │                                                                   
+                                                                                               │                                                                   
+                                                                                               │                                                                   
+                                                                   ┌───────  Registered  ──────┘                                                                   
+                                                                   │                                                                                               
+                                                                   │                                                                                               
+                                                                   │                                                                                               
+                                                                   │                                                                                               
+                                                                   │                                                                                               
+                                                                   │                                                                                               
+                                                                   │                                                                                               
+                                                                   ▼                                                                                               
+                                                       ┌───────────────────────┐                             ┌───────────────────────┐                             
+                                                       │     Registration      │                             │     Registration      │                             
+                                                       │      (Archiving)      │───  Archival Failed  ──────▶│       (Deleted)       │                             
+                                                       │                       │                             │                       │                             
+                                                       └───────────────────────┘                             └───────────────────────┘                             
+                                                                   │                                                     ▲                                         
+                                                                                                                         │                                         
+                                                           Archival Finished                                             │                                         
+                                                                                                                         │                                         
+                                                                   │                                                     │                                         
+                                            ┌──────────────────────┴──────────────────┐                                  │                                         
+                                            │                                         │                                  │                                         
+                                                                                                                         │                                         
+                                    Public Immediately                            Embargoed                              │                                         
+                                                                                                                         │                                         
+                                            │                                         │                                  │                                         
+                                            ▼                                         ▼                                  │                                         
+                                ┌───────────────────────┐                 ┌───────────────────────┐                      │                                         
+                                │     Registration      │                 │     Registration      │                      │                                         
+                                │  (Pending Approval)   │─────────────────┤  (Pending Approval)   ├───  Admins Reject  ──┘                                         
+                                │ (Public Immediately)  │                 │      (Embargoed)      │                                                                
+                                └───────────────────────┘                 └───────────────────────┘                                                                
+                                            │                                         │                                                                            
+                                                                                                                                                                   
+                                     Admins Approve                             Admins Approve                                                                     
+                                                                                                                                                                   
+                                            │                                         │                                                                            
+                                            │                                         │                                                                            
+        ┌───────────────────────────────────┤                                         ├────────────────────────────────────  Admins Reject  ────┬─────────────────┐
+        │                                   │                                         │                                                         │                 │
+        │                                   ▼                                         ▼                                                         △                 │
+        │                       ┌───────────────────────┐                 ┌───────────────────────┐                                 ┌───────────────────────┐     │
+        │                       │     Registration      │   Embargo Date  │     Registration      │                                 │     Registration      │     │
+        │              ┌────────│       (Public)        │◀─    Passes    ─│      (Embargoed)      │────────  End Embargo Early  ───▶│  (Pending Early End)  │     │
+        │              │        │                       │                 │                       │                                 │                       │     │
+  Admins│Reject                 └───────────────────────┘                 └───────────────────────┘                                 └───────────────────────┘     │
+        │          Withdrawal               ▲                                         │                                                         │                 │
+        │          Initiated                │                               Withdrawal Initiated                                                │                 │
+        │                                   └─────────────────────────────────────────┼────────────────────────────────────  Admins Approve  ───┘                 │
+        │              │                                                              │                                                                           │
+        │              ▼                                                              ▼                                                                           │
+        │  ┌───────────────────────┐                                      ┌───────────────────────┐                                                               │
+        │  │     Registration      │                                      │     Registration      │                                                               │
+        └─◁│ (Pending Withdrawal)  │◀───────  Embargo Date Passes   ──────│      (Embargoed)      │▷──────────────────────────────────────────────────────────────┘
+           │                       │                                      │ (Pending Withdrawal)  │                                                                
+           └───────────────────────┘                                      └───────────────────────┘                                                                
+                       │                                                              │                                                                            
+                                                                                                                                                                   
+                Admins Approve                                                 Admins Approve                                                                      
+                                                                                                                                                                   
+                       │                                                              │                                                                            
+                       ▼                                                              ▼                                                                            
+           ┌───────────────────────┐                                      ┌───────────────────────┐                                                                
+           │     Registration      │                                      │     Registration      │                                                                
+           │      (Withdrawn)      │◀───────  Embargo Date Passes   ──────│      (Embargoed)      │                                                                
+           │                       │                                      │      (Withdrawn)      │                                                                
+           └───────────────────────┘                                      └───────────────────────┘                                                                                                 
+```
