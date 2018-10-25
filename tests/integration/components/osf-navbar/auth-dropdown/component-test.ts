@@ -60,10 +60,8 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         this.owner.lookup('service:session').set('isAuthenticated', true);
         this.owner.register('service:analytics', Service.extend({
             clickCalled: false,
-            actions: {
-                click() {
-                    this.set('clickCalled', true);
-                },
+            click() {
+                this.set('clickCalled', true);
             },
         }));
 

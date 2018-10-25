@@ -83,20 +83,20 @@
                 updateFilter=(perform updateFilter)
                 openFile=(action 'openFile')
             }}
-            {{#if (or canEdit tags)}}
+            {{#if (or this.canEdit this.file.tags)}}
                 <div class='panel panel-default' local-class="TagsPanel">
                     <div class='panel-heading clearfix' local-class="TagsPanel__heading">
                         <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
                     </div>
                     <div class='panel-body'>
-                        {{tags-widget
-                            tags=this.file.tags
-                            addTag=(action this.addTag)
-                            removeTag=(action this.removeTag)
-                            readOnly=(not this.canEdit)
-                            showAdd=true
-                            analyticsScope='Quick Files'
-                        }}
+                        <TagsWidget
+                            @tags={{this.file.tags}}
+                            @addTag={{action this.addTag}}
+                            @removeTag={{action this.removeTag}}
+                            @readOnly={{not this.canEdit}}
+                            @showAdd={{this.canEdit}}
+                            @analyticsScope='Quick Files'
+                        />
                         <div class="tags_clear"></div>
                     </div>
                 </div>

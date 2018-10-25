@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased']
+## [Unreleased]
 ### Added
 - Components:
     - `panel` - a general-use abstraction of bootstrap panels
@@ -12,12 +12,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `panel` component integration test
 - Handbook:
     - `panel` component
+### Changed
+- Components:
+    - `loading-indicator` - added inline option
+- Tests:
+    - `loading-indicator` - added tests for inline
+- Handbook:
+    - `loading-indicator` - added examples for inline
 ### Removed
 - Flags:
     - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on
     - `ember_project_analytics_page` - `guid-node.analytics` and `guid-registration.analytics` now always on
 
-## [Unreleased]
+## [18.0.0] - 2018-10-24
 ### Added
 - Models:
     - `registration-schema` (including related adapter & serializer)
@@ -43,6 +50,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `register` - sign up page
 - Transforms:
     - `fixstringarray` - similar to `fixstring` transform (unencodes special characters), but for string arrays
+- Utils:
+    - `param` - drop-in replacement for jQuery.param
+- Helpers:
+    - `math` - A helper to render TeX statements using KaTeX
+- Engines:
+    - `ember-osf-registries` - moved/upgraded into the registries engine
+    - `collections` - Add collections engine
 - Tests:
     - `guid-node/registrations` acceptance test
     - `tags-widget` component integration test
@@ -52,15 +66,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
     - `ember-cli-mirage` - the 70% that seems possible to express in typescript
-- Engines:
-    - `ember-osf-registries` - moved/upgraded into the registries engine
-    - `collections` - Add collections engine
 - Handbook:
     - `tags-widget` - added to the handbook
-- Utils:
-    - `param` - drop-in replacement for jQuery.param
-- Helpers:
-    - `math` - A helper to render TeX statements using KaTeX
 
 ### Changed
 - Models:
@@ -94,6 +101,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - made tagless
         - use `tags-widget` component instead of `ember-tag-input` directly
         - `encodeURIComponent(tag)` when constructing tags search url
+        - add `readOnly` argument to force-hide the dropdown controls
     - `node-navbar` - use `linkTo` for registrations
     - `paginated-relation` renamed to `paginated-list/has-many`
         - refactored to allow sharing functionality among different types of list
@@ -120,7 +128,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `guid-file` - use `tags-widget` component instead of `ember-tag-input` directly
     - `home` - remove submit task & user-registration model creation (moved to `sign-up-form` component)
 - Engines:
-    - `analytics-page` - use `node-list` component for linked nodes list
+    - `analytics-page` - set `readOnly=true` for node-cards in "links to this project" modal
 - Tests:
     - Removed captcha visibility assertions from logged-out home page test
 - Handbook:

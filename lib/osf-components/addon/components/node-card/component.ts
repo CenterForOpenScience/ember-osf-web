@@ -4,7 +4,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import config from 'ember-get-config';
 
-import Node from 'ember-osf-web/models/node';
+import Node, { NodeType } from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import { Question } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -28,6 +28,7 @@ export default class NodeCard extends Component {
     delete?: (node: Node) => void;
     showTags: boolean = defaultTo(this.showTags, false);
     analyticsScope?: string;
+    readOnly: boolean = defaultTo(this.readOnly, false);
 
     // Private properties
     searchUrl = pathJoin(baseURL, 'search');
@@ -58,5 +59,10 @@ export default class NodeCard extends Component {
     @computed('analyticsScope')
     get analyticsScopePrefix() {
         return this.analyticsScope ? `${this.analyticsScope} - ` : '';
+    }
+
+    @computed('readOnly', 'node', 'node.nodeType', 'node.currentUserCanEdit')
+    get showDropdown() {
+        return !this.readOnly && this.node && this.node.nodeType === NodeType.Fork && this.node.currentUserCanEdit;
     }
 }

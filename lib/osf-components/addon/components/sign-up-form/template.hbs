@@ -51,7 +51,7 @@
         data-test-sign-up-tos
         model=this.userRegistration
         valuePath='acceptedTermsOfService'
-        messagesShown=this.didValidate
+        showMessages=this.didValidate
         disabled=this.hasSubmitted
         local-class='tos-checkbox'
     }}
@@ -72,7 +72,12 @@
             }}
         </div>
         <div>
-            <button type="submit" class="btn btn-success" {{action submit}} {{action 'click' 'button' 'Home - sign_up' target=analytics}}>
+            <button data-test-sign-up-button
+                type="submit"
+                class="btn btn-success"
+                {{action submit}}
+                {{action 'click' 'button' 'Home - sign_up' target=analytics}}
+            >
                 {{t 'osf-components.sign-up-form.sign_up_button_label'}}
             </button>
         </div>

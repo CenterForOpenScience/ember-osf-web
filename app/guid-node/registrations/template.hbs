@@ -41,7 +41,7 @@
                                     as |list|
                                 }}
                                     {{#list.item as |draftRegistration|}}
-                                        {{draft-registration-card draftRegistration=draftRegistration onDelete=list.doReload}}
+                                        <DraftRegistrationCard @draftRegistration={{draftRegistration}} @onDelete={{action list.doReload 1}} />
                                     {{/list.item}}
 
                                     {{#list.empty}}
