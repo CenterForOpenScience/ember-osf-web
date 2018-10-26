@@ -1,12 +1,12 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import DeveloperApp from 'ember-osf-web/models/developer-app';
 
+import DeveloperApp from 'ember-osf-web/models/developer-app';
 import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class FileSerializer extends ApplicationSerializer {
+export default class DeveloperAppSerializer extends ApplicationSerializer<DeveloperApp> {
     typeKeyForModel(_: ModelInstance<DeveloperApp>) {
         return 'applications';
     }
