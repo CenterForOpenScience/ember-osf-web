@@ -2,7 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import Contributor, { permissions } from 'ember-osf-web/models/contributor';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import styles from './styles';

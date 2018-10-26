@@ -1,7 +1,7 @@
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import layout from './template';
 

@@ -3,7 +3,7 @@ import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
 import User from 'ember-osf-web/models/user';
 import CurrentUser from 'ember-osf-web/services/current-user';
