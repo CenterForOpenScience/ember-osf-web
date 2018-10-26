@@ -328,11 +328,7 @@ const AnalyticsTestCases: Array<{
         },
     }, {
         name: 'Collapse Result',
-        action: async stub => {
-            await click('[data-test-result-toggle-id="1"]');
-            stub.reset();
-            await click('[data-test-result-toggle-id="1"]');
-        },
+        action: async () => click('[data-test-result-toggle-id="1"]'),
         expected: {
             category: 'result',
             action: 'contract',
@@ -368,7 +364,7 @@ module('Registries | Integration | discover', hooks => {
     });
 
     test('query parameters', async function(this: TestContext, assert: Assert) {
-        assert.expect(2 + (QueryParamTestCases.length * 3));
+        assert.expect(2 + (QueryParamTestCases.length * 6));
         const stub = sinon.stub(this.owner.lookup('service:share-search'), 'registrations').returns(emptyResults);
 
         // Initial load so we don't have to deal with the aggregations loading
@@ -382,15 +378,17 @@ module('Registries | Integration | discover', hooks => {
             ]),
         }));
 
-        for (const testCase of QueryParamTestCases) {
-            stub.reset();
-            stub.returns(emptyResults);
+        for (const url of ['/--registries/registries/discover', '/registries/discover']) {
+            for (const testCase of QueryParamTestCases) {
+                stub.reset();
+                stub.returns(emptyResults);
 
-            await visit(`/--registries/registries/discover?${param(testCase.params)}`);
+                await visit(`${url}?${param(testCase.params)}`);
 
-            assert.ok(true, testCase.name);
-            sinon.assert.calledOnce(stub);
-            sinon.assert.calledWith(stub, new SearchOptions(testCase.expected));
+                assert.ok(true, testCase.name);
+                sinon.assert.calledOnce(stub);
+                sinon.assert.calledWith(stub, new SearchOptions(testCase.expected));
+            }
         }
     });
 
@@ -449,7 +447,7 @@ module('Registries | Integration | discover', hooks => {
             stub.reset();
             assert.ok(true, testCase.name);
 
-            await visit('/registries/discover');
+            await visit('/--registries/registries/discover');
 
             await testCase.action(stub);
 

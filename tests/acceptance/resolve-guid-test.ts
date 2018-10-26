@@ -19,7 +19,7 @@ const KeenStub = Service.extend({
 });
 
 function routingAssertions(assert: Assert, segment: string, url: string, route: string) {
-    assert.equal(currentURL(), `/${segment}${url}`, `The "real" URL contains the hidden "--${segment}" segment`);
+    assert.equal(currentURL(), `/${segment}${url}`, `The "real" URL contains the hidden "${segment}" segment`);
     assert.equal(currentLocationURL(), url, 'The Location URL is the same');
     assert.equal(currentRouteName(), route, 'The correct route was reached');
 }

@@ -50,6 +50,7 @@ const App = Application.extend({
                     'head-data',
                     'i18n',
                     'page-title-list',
+                    'ready',
                     'router',
                     'session',
                     'status-messages',

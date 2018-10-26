@@ -86,11 +86,19 @@ export default class ResolveGuid extends Route {
             url = `${url}/${params.path}`;
         }
 
+        let newTransition = this.replaceWith(url);
+
         if (transition.queryParams && Object.keys(transition.queryParams).length > 0) {
             url = `${url}?${param(transition.queryParams)}`;
+
+            // Hack/work around this.replaceWith including query params will result
+            // in query param hooks not being fired as they technically did not change.
+            // So start a transition without query params and immediately transition into the same
+            // route with the updated query params.
+            newTransition = this.replaceWith(url);
         }
 
-        return this.replaceWith(url);
+        return newTransition;
     }
 
     @action

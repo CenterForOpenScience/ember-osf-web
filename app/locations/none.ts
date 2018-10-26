@@ -13,10 +13,4 @@ export default class GuidNoneLocation extends NoneLocation.extend(GuidLocationMi
     setURL(url: string) {
         return this.set('path', url);
     }
-
-    // As URLs are not "cleaned" in setURL they have to
-    // be cleaned on the way out.
-    getURL() {
-        return this.cleanURL(super.getURL());
-    }
 }
