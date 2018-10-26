@@ -5,6 +5,7 @@ import Component from '@ember/component';
 import { timeout } from 'ember-concurrency';
 
 import Analytics from 'ember-osf-web/services/analytics';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import layout from './template';
 
@@ -17,6 +18,7 @@ export default class CopyableText extends Component {
     analyticsLabel?: string;
     success?: () => void;
     error?: () => void;
+    disabled: boolean = defaultTo(this.disabled, false);
 
     // Private properties
     @service analytics!: Analytics;

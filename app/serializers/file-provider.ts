@@ -1,7 +1,8 @@
+import { ModelRegistry } from 'ember-data';
 import OsfSerializer from './osf-serializer';
 
 export default class FileProvider extends OsfSerializer {
-    modelNameFromPayloadKey(): string {
+    modelNameFromPayloadKey(): keyof ModelRegistry {
         return 'file-provider';
     }
 }

@@ -1,0 +1,13 @@
+.DeveloperAppCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.DeveloperAppCard__placeholder {
+    width: 80%;
+
+    :global(.ember-content-placeholders-heading__title) {
+        margin-bottom: 0;
+    }
+}

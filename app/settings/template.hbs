@@ -48,11 +48,11 @@
                             </a>
                         {{/nav.item}}
                         {{#nav.item}}
-                            <a href='/settings/applications'
-                               onclick={{action 'click' 'link' 'Settings - Developer apps' target=analytics}}
-                            >
-                                {{t 'settings.apps.title'}}
-                            </a>
+                            {{#nav.link-to 'settings.developer-apps'
+                                click=(action 'click' 'link' 'Settings - Developer apps' target=analytics)
+                            }}
+                                {{t 'settings.developer-apps.title'}}
+                            {{/nav.link-to}}
                         {{/nav.item}}
                         {{#nav.item}}
                             {{#nav.link-to 'settings.tokens'

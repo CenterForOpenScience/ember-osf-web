@@ -37,7 +37,7 @@ export default class UserSerializer extends ApplicationSerializer<User> {
 
     buildNormalLinks(model: ModelInstance<User>) {
         return {
-            self: `${apiUrl}/v2/users/${model.id}/`,
+            ...super.buildNormalLinks(model),
             profile_image: `https://www.gravatar.com/avatar/${faker.random.uuid().replace(/-/g, '')}?d=identicon`,
         };
     }
