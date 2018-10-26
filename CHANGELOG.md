@@ -115,6 +115,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `new-project-navigation-modal` - component integration test
     - Acceptance:
         - `settings.profile.name`
+        - `settings.account`
         - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
         - Add percy everywhere in the main app
     - Helpers:
@@ -213,6 +214,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `panel` - a general-use abstraction of bootstrap panels
     - `validated-model-form` - wraps common logic for forms made with `validated-input/*`
+    - `connected-email` - a list of all emails connected to an account
 - Tests:
     - `panel` component integration test
 - Handbook:
