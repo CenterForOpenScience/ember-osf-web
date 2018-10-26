@@ -31,9 +31,11 @@ export default class DeveloperAppModel extends OsfModel.extend(Validations) {
     @attr('date') dateCreated!: Date;
     @attr({ defaultValue: '' }) description!: string;
     @attr() homeUrl!: string;
-    @attr() name!: string; // eslint-disable-line no-restricted-globals
+    @attr() name!: string;
     @attr() owner!: string;
 
+    // TODO (EMB-407) When the API is updated, remove this method and reset the secret
+    // by PATCHing `clientSecret` to `null`
     async resetSecret(): Promise<void> {
         const resetUrl = this.links.reset;
         const adapter = this.store.adapterFor('developer-app');

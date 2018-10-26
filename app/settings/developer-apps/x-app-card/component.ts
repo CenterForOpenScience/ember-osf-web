@@ -17,13 +17,13 @@ export default class DeveloperAppCard extends Component {
 
     // Required arguments
     developerApp!: DeveloperApp;
-    @requiredAction deleted!: () => unknown;
+    @requiredAction onDelete!: () => unknown;
 
     @action
     async delete() {
         // Not a task -- if this removes the component, still want to run the callback
         await this.developerApp.destroyRecord();
         this.toast.success(this.i18n.t('settings.developer-apps.deleted'));
-        this.deleted();
+        this.onDelete();
     }
 }

@@ -9,7 +9,7 @@ export function createDeveloperApp(this: HandlerContext, schema: Schema) {
     return schema.developerApps.create(attrs);
 }
 
-export function developerAppReset(this: HandlerContext, schema: Schema, request: Request) {
+export function resetClientSecret(this: HandlerContext, schema: Schema, request: Request) {
     const developerApp = schema.developerApps.find(request.params.id);
     developerApp.update('clientSecret', faker.random.uuid());
     return this.serialize(developerApp);

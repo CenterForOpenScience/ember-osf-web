@@ -20,18 +20,19 @@ export default class DeveloperAppClientSecret extends Component {
     @service router!: RouterService;
     @service toast!: Toast;
 
-    secretShown: boolean = false;
+    shouldShowSecret: boolean = false;
 
     @action
-    toggleSecretShown() {
-        this.toggleProperty('secretShown');
+    toggleShowSecret() {
+        this.toggleProperty('shouldShowSecret');
         this.analytics.click('button', 'Settings - Developer apps - Toggle client secret');
     }
 
     @action
     async resetSecret() {
         if (this.developerApp) {
-            this.set('secretShown', false);
+            this.set('shouldShowSecret', false);
+            // TODO (EMB-407) When the API is updated, PATCH `clientSecret` to `null`
             await this.developerApp.resetSecret();
             this.toast.success(this.i18n.t('settings.developer-apps.resetSecret.success'));
         }

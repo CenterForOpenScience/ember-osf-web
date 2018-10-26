@@ -9,7 +9,7 @@ export default class ValidatedModelFormController extends Controller {
 
     @action
     async onSave() {
-        await timeout(1000);
+        await timeout(1000); // Long enough to demo loading state
         this.toast.success('Saved!');
     }
 }

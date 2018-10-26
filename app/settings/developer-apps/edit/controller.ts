@@ -27,7 +27,7 @@ export default class SettingsDeveloperAppsEditController extends Controller {
 
     @action
     async deleteApp() {
-        // Analytics handled by delete-button
+        // Analytics and errors handled by delete-button
         if (this.developerApp) {
             await this.developerApp.destroyRecord();
             this.toast.success(this.i18n.t('settings.developer-apps.deleted'));

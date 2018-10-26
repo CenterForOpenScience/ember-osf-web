@@ -17,7 +17,7 @@ export default class TokenCard extends Component {
 
     // Required arguments
     token!: Token;
-    @requiredAction deleted!: () => unknown;
+    @requiredAction onDelete!: () => unknown;
 
     @action
     async delete() {
@@ -25,6 +25,6 @@ export default class TokenCard extends Component {
         this.token.deleteRecord();
         await this.token.save();
         this.toast.success(this.i18n.t('settings.tokens.deleted'));
-        this.deleted();
+        this.onDelete();
     }
 }

@@ -3,7 +3,7 @@ import DS, { ModelRegistry } from 'ember-data';
 
 const { JSONAPISerializer } = DS;
 
-const API_TYPE_KEYS: Record<string, string> = {
+const API_TYPE_KEYS: Record<string, keyof ModelRegistry> = {
     applications: 'developer-app',
 };
 
@@ -197,14 +197,14 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         return documentHash;
     },
 
-    modelNameFromPayloadKey(key: string): string {
+    modelNameFromPayloadKey(key: string): keyof ModelRegistry {
         if (key in API_TYPE_KEYS) {
             return API_TYPE_KEYS[key];
         }
         return this._super(key);
     },
 
-    payloadKeyFromModelName<K extends keyof ModelRegistry>(modelName: K): string {
+    payloadKeyFromModelName(modelName: keyof ModelRegistry): string {
         for (const [typeKey, model] of Object.entries(API_TYPE_KEYS)) {
             if (model === modelName) {
                 return typeKey;

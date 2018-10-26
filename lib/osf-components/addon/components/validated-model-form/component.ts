@@ -1,3 +1,4 @@
+import { layout } from '@ember-decorators/component';
 import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -10,12 +11,13 @@ import requiredAction from 'ember-osf-web/decorators/required-action';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
-import layout from './template';
+import template from './template';
 
 type ValidatedModelName = {
     [K in keyof ModelRegistry]: ModelRegistry[K] extends (Validations & DS.Model) ? K : never
 }[keyof ModelRegistry];
 
+@layout(template)
 export default class ValidatedModelForm<M extends ValidatedModelName> extends Component {
     // Required arguments
     @requiredAction onSave!: (model: ModelRegistry[M]) => void;
@@ -30,7 +32,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @service store!: DS.Store;
     @service analytics!: Analytics;
     @service toast!: Toast;
-    layout = layout;
 
     messagesShown: boolean = false;
     saved: boolean = false;

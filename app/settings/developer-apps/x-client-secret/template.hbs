@@ -2,17 +2,17 @@
 <p>
     {{copyable-text
         data-test-client-secret
-        text=(if this.secretShown this.developerApp.clientSecret '*********************')
-        disabled=(not this.secretShown)
+        text=(if this.shouldShowSecret this.developerApp.clientSecret '*********************')
+        disabled=(not this.shouldShowSecret)
         analyticsLabel='Settings - Developer apps - Copy client secret'
     }}
 </p>
 
 {{#bs-button
     data-test-toggle-client-secret
-    onClick=(action this.toggleSecretShown)
+    onClick=(action this.toggleShowSecret)
 }}
-    {{#if this.secretShown}}
+    {{#if this.shouldShowSecret}}
         {{fa-icon 'eye-slash'}}
         {{t 'settings.developer-apps.hideSecret'}}
     {{else}}
