@@ -18,13 +18,22 @@ module('Acceptance | settings | account information page', hooks => {
     });
 
     // empty alternate/unconfirmed emails list
-    test('empty alternate emails list', async assert => {
+    test('empty email lists', async assert => {
         server.create('user', 'loggedIn');
 
         await visit('/settings/account');
 
         assert.dom('[data-test-alternate-email]').doesNotExist();
         assert.dom('[data-test-unconfirmed-email]').doesNotExist();
+    });
+
+    test('email lists have emails', async assert => {
+        server.create('user', 'loggedIn', 'withAlternateEmails', 'withUnconfirmedEmails');
+
+        await visit('/settings/account');
+
+        assert.dom('[data-test-alternate-email]').exists();
+        assert.dom('[data-test-unconfirmed-email]').exists();
     });
 
     // add new email
@@ -42,15 +51,17 @@ module('Acceptance | settings | account information page', hooks => {
         assert.dom('[data-test-unconfirmed-email]').exists();
     });
 
-    // remove email
-    test('delete email', async assert => {
+    // remove alternate email
+    test('delete alternate email', async assert => {
         server.create('user', 'loggedIn', 'withAlternateEmails');
 
         await visit('/settings/account');
 
         assert.dom('[data-test-alternate-email]').exists();
 
-        await click('[data-test-remove-email]');
+        await click('[data-test-delete-button]');
+
+        await click('[data-test-confirm-delete]');
 
         assert.dom('[data-test-alternate-email]').doesNotExist();
     });

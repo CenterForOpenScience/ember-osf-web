@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `panel` - a general-use abstraction of bootstrap panels
     - `validated-model-form` - wraps common logic for forms made with `validated-input/*`
+    - `connected-email` - a list of all emails connected to an account
 - Tests:
     - `panel` component integration test
+    - `settings` - acceptance test
 - Handbook:
     - `panel` component
 - Mirage:
@@ -21,6 +23,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings.applications` - list of developer apps
     - `settings.applications.edit`
     - `settings.applications.create`
+- Page
+    - `settings` page
 
 ### Changed
 - Components:

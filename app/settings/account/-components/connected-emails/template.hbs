@@ -1,21 +1,19 @@
-<div class="panel panel-default">
-    <div class="panel-heading clearfix">
-        <h3 class="panel-title">{{t 'settings.account.connectedEmails.title'}}</h3>
-    </div>
-    <div class="panel-body">
+<Panel as |panel|>
+    <panel.heading @title={{t 'settings.account.connectedEmails.title'}} />
+    <panel.body>
         <div local-class="section-container">
             <h5 local-class="section-header">
                 {{t 'settings.account.connectedEmails.primaryEmail'}}
             </h5>
-            <span local-class="primary-email">
+            <div local-class="primary-email">
                 {{#if loadPrimaryEmail.isRunning}}
                     <LoadingIndicator local-class="loading-icon" @dark=true @inline=true />
                 {{else}}
-                    <span data-test-primary-email value={{loadPrimaryEmail.lastSuccessful.value.emailAddress}}>
+                    <span data-test-primary-email={{loadPrimaryEmail.lastSuccessful.value.emailAddress}}>
                         {{loadPrimaryEmail.lastSuccessful.value.emailAddress}}
                     </span>
                 {{/if}}
-            </span>
+            </div>
         </div>
         <div local-class="section-container">
             <h5 local-class="section-header">
@@ -23,6 +21,7 @@
             </h5>
             <span local-class="email-section">
                 {{#paginated-list/has-many
+                    local-class="email-list"
                     model=this.currentUser.user
                     relationshipName='emails'
                     bindReload=(action (mut this.reloadAlternateList))
@@ -32,23 +31,29 @@
                     as |list|
                 }}
                     <list.item as |email|>
-                        {{#if (not email)}}
-                            {{#content-placeholders as |placeholder|}}
-                                {{placeholder.heading subtitle=false}}
-                            {{/content-placeholders}}
-                        {{else}}
-                            <div local-class="email-object alternate-email" value={{email.emailAddress}} data-test-alternate-email>
-                                {{email.emailAddress}}
+                        <div local-class="email-object" class="clearfix">
+                            {{#if (not email)}}
+                                {{#content-placeholders as |placeholder|}}
+                                    {{placeholder.heading subtitle=false}}
+                                {{/content-placeholders}}
+                            {{else}}
+                                <span data-test-alternate-email={{email.emailAddress}}>
+                                    {{email.emailAddress}}
+                                </span>
                                 <div local-class="options">
                                     {{#bs-button data-test-make-primary onClick=(action this.makePrimary email) type='link'}}
                                         {{t 'settings.account.connectedEmails.makePrimary'}}
                                     {{/bs-button}}
-                                    {{#bs-button data-test-remove-email onClick=(action this.removeEmail email) type='link'}}
-                                        {{fa-icon 'times' local-class='remove-email-btn'}}                              
-                                    {{/bs-button}}
+                                    {{delete-button
+                                        small=true
+                                        delete=(action this.removeEmail email)
+                                        analyticsScope='Settings - Alternate Emails'
+                                        modalTitle=(t 'settings.account.connectedEmails.confirmDelete.title')
+                                        modalBody=(t 'settings.account.connectedEmails.confirmDelete.body' emailAddress=email.emailAddress)
+                                    }}
                                 </div>
-                            </div>
-                        {{/if}}
+                            {{/if}}
+                        </div>
                     </list.item>
                 {{/paginated-list/has-many}}
             </span>
@@ -59,6 +64,7 @@
             </h5>
             <span local-class="email-section">
                 {{#paginated-list/has-many
+                    local-class="email-list"
                     model=this.currentUser.user
                     relationshipName='emails'
                     bindReload=(action (mut this.reloadUnconfirmedList))
@@ -68,27 +74,31 @@
                     as |list|
                 }}
                     <list.item as |email|>
-                        {{#if (not email)}}
-                            {{#content-placeholders as |placeholder|}}
-                                {{placeholder.heading subtitle=false}}
-                            {{/content-placeholders}}
-                        {{else}}
-                            <div local-class="email-object unconfirmed-email" data-test-unconfirmed-email>
+                        <div local-class="email-object" class="clearfix" data-test-unconfirmed-email>
+                            {{#if (not email)}}
+                                {{#content-placeholders as |placeholder|}}
+                                    {{placeholder.heading subtitle=false}}
+                                {{/content-placeholders}}
+                            {{else}}
                                 {{email.emailAddress}}
                                 <div local-class="options">
                                     {{#bs-button onClick=(action this.resendConfirmation) type='link'}}
                                         {{t 'settings.account.connectedEmails.resendConfirmation'}}
                                     {{/bs-button}}
-                                    {{#bs-button onClick=(action this.removeEmail email) type='link'}}
-                                        {{fa-icon 'times' local-class='remove-email-btn'}}                              
-                                    {{/bs-button}}
+                                    {{delete-button
+                                        small=true
+                                        delete=(action this.removeEmail email)
+                                        analyticsScope='Settings - Unconfirmed Emails'
+                                        modalTitle=(t 'settings.account.connectedEmails.confirmDelete.title')
+                                        modalBody=(t 'settings.account.connectedEmails.confirmDelete.body' emailAddress=email.emailAddress)
+                                    }}
                                 </div>
-                            </div>
-                        {{/if}}
+                            {{/if}}
+                        </div>
                     </list.item>
                 {{/paginated-list/has-many}}
             </span>
-            <p>
+            <p local-class="merge-explanation">
                 {{t 'settings.account.connectedEmails.mergeExplanation'}}
             </p>
             {{validated-input/text
@@ -100,9 +110,9 @@
                 placeholder=(t 'settings.account.connectedEmails.placeholderText')
                 ariaLabel=(t 'settings.account.connectedEmails.placeholderText')
             }}
-            {{#bs-button data-test-add-email-button onClick=(action this.submit) type='default'}}
+            {{#bs-button data-test-add-email-button local-class="add-email-button" onClick=(action this.submit) type='default'}}
                 {{t 'settings.account.connectedEmails.addEmail'}}
             {{/bs-button}}
         </div>
-    </div>
-</div>
+    </panel.body>
+</Panel>

@@ -1136,6 +1136,10 @@ export default {
             connectedEmails: {
                 addEmail: 'Add email',
                 alternateEmails: 'Alternate Emails',
+                confirmDelete: {
+                    title: 'Delete email',
+                    body: 'Are you sure you want to delete <strong>{{emailAddress}}</strong>? This cannot be reversed.',
+                },
                 deleteFail: 'Unable to delete email',
                 deleteSuccess: 'Email deleted',
                 loadFail: 'Unable to load emails',

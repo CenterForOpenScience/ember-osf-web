@@ -1,16 +1,10 @@
-p {
-    padding-top: 8px;
-    padding-left: 8px;
-}
+.loading-icon :global(.ball-pulse) {
+    text-align: left;
 
-.input-form {
-    margin-top: 8px;
-    margin-bottom: 16px;
-    margin-left: 8px;
-}
-
-button {
-    margin-left: 8px;
+    & > div {
+        height: 0.5em;
+        width: 0.5em;
+    }
 }
 
 .section-container {
@@ -22,22 +16,27 @@ button {
     padding: 8px;
     border-bottom: 1px solid $color-border-gray;
     border-bottom-width: 2px;
+    margin-bottom: 0;
 }
 
 .primary-email {
     padding-left: 8px;
+    margin-top: 8px;
 }
 
 .email-section {
-    :global(.list-group-item):first-of-type {
-        margin-top: -10px;
+    :global(.list-group-item):last-of-type > .email-object {
+        border-bottom: 0;
     }
+}
 
-    :global(.list-group-item):last-of-type {
-        & > .alternate-email,
-        & > .unconfirmed-email {
-            border-bottom: 0;
-        }
+.email-list ul {
+    margin: 0;
+
+    & > li {
+        border: 0;
+        padding: 0;
+        margin-bottom: 0;
     }
 }
 
@@ -56,21 +55,17 @@ button {
     color: $brand-danger;
 }
 
-.loading-icon :global(.ball-scale) {
-    line-height: 1em;
-
-    & > div {
-        height: 2em;
-        width: 2em;
-    }
+.merge-explanation {
+    padding-top: 8px;
+    padding-left: 8px;
 }
 
-:global(.list-group) {
-    margin: 0;
+.input-form {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    margin-left: 8px;
 }
 
-:global(.list-group-item) {
-    border: 0;
-    padding: 0;
-    margin-bottom: 0;
+.add-email-button {
+    margin-left: 8px;
 }
