@@ -19,7 +19,7 @@ export default function(this: Server) {
 
     this.get('/', rootDetail);
 
-    osfResource(this, 'developer-apps', { path: 'applications', except: ['create'] });
+    osfResource(this, 'developerApps', { path: 'applications', except: ['create'] });
     this.post('/applications', createDeveloperApp);
     this.post('/applications/:id/reset', resetClientSecret);
 

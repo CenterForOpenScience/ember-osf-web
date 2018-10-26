@@ -21,7 +21,7 @@ When invoked in block form, `validated-model-form` yields a hash with the follow
 * `model`: The model instance being created/edited
 * `disabled`: `true` when the model is being saved or the passed-in `disabled` param is `true`
 * `submit`: Action to submit the form. Alternately, you can put a `<button type="submit">` in the form.
-* Several `validated-input/*` components with common arguments (`model`, `messagesShown`, `disabled`) already bound:
+* Several `validated-input/*` components with common arguments (`model`, `shouldShowMessages`, `disabled`) already bound:
     * `checkbox`
     * `checkboxes`
     * `date`

@@ -29,7 +29,7 @@ export default abstract class BaseValidatedInput extends Component {
     ariaLabel?: string;
     placeholder?: string;
     disabled: boolean = defaultTo(this.disabled, false);
-    showMessages: boolean = defaultTo(this.showMessages, true);
+    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 
     // Private properties
     @service i18n!: I18n;
@@ -52,15 +52,15 @@ export default abstract class BaseValidatedInput extends Component {
     }
 
     @computed(
-        'showMessages',
+        'shouldShowMessages',
         'value',
         'validation.{isInvalid,isValidating,warnings.[]}',
     )
     get validationStatus(): ValidationStatus {
-        const { showMessages, validation, value } = this;
+        const { shouldShowMessages, validation, value } = this;
 
         switch (true) {
-        case !validation || !showMessages || validation.isValidating:
+        case !validation || !shouldShowMessages || validation.isValidating:
             return ValidationStatus.Hidden;
         case validation && validation.isInvalid:
             return ValidationStatus.HasError;

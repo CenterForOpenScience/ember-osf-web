@@ -33,7 +33,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @service analytics!: Analytics;
     @service toast!: Toast;
 
-    messagesShown: boolean = false;
+    shouldShowMessages: boolean = false;
     saved: boolean = false;
 
     @or('disabled', 'saveModelTask.isRunning')
@@ -48,7 +48,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         }
 
         const { validations } = yield this.model.validate();
-        this.set('messagesShown', true);
+        this.set('shouldShowMessages', true);
 
         if (validations.get('isValid')) {
             try {
