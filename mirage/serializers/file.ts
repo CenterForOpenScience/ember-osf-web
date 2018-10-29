@@ -40,7 +40,7 @@ export default class FileSerializer extends ApplicationSerializer<File> {
                 },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/${model.node.id}/`,
+                        href: `${apiUrl}/v2/nodes/${model.node.id}/`,
                         meta: this.buildRelatedLinkMeta(model, 'node'),
                     },
                 },
