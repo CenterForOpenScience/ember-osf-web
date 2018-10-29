@@ -2,6 +2,7 @@ import { layout } from '@ember-decorators/component';
 import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { set } from '@ember/object';
 import { task } from 'ember-concurrency';
 import { Validations } from 'ember-cp-validations';
 import DS, { ModelRegistry } from 'ember-data';
@@ -23,6 +24,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @requiredAction onSave!: (model: ModelRegistry[M]) => void;
 
     // Optional arguments
+    onError?: (model: ModelRegistry[M], e: object) => void;
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
     disabled: boolean = defaultTo(this.disabled, false);
@@ -35,6 +37,8 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
 
     shouldShowMessages: boolean = false;
     saved: boolean = false;
+    modelProperties: object = defaultTo(this.modelProperties, {});
+    recreateModel: boolean = defaultTo(this.recreateModel, false);
 
     @or('disabled', 'saveModelTask.isRunning')
     inputsDisabled!: boolean;
@@ -44,7 +48,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
             return;
         }
         if (this.analyticsScope) {
-            this.analytics.click('button', `${this.analyticsScope} - Save developer app`);
+            this.analytics.click('button', `${this.analyticsScope} - Save`);
         }
 
         const { validations } = yield this.model.validate();
@@ -55,8 +59,16 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
                 yield this.model.save();
                 this.set('saved', true);
                 this.onSave(this.model);
+                if (this.modelName && this.recreateModel) {
+                    set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
+                }
+                this.set('shouldShowMessages', false);
             } catch (e) {
-                this.toast.error(e);
+                if (this.onError) {
+                    this.onError(this.model, e);
+                } else {
+                    this.toast.error(e);
+                }
                 throw e;
             }
         }
@@ -66,7 +78,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         super(...args);
 
         if (!this.model && this.modelName) {
-            this.model = this.store.createRecord(this.modelName, {});
+            this.model = this.store.createRecord(this.modelName, this.modelProperties);
         }
     }
 
