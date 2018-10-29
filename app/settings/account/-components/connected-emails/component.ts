@@ -29,7 +29,6 @@ export default class ConnectedEmails extends Component.extend({
     submitEmail: task(function *(this: ConnectedEmails) {
         const userEmail = this.get('userEmail');
         const successMessage: string = this.i18n.t('settings.account.connectedEmails.saveSuccess');
-        const errorMessage: string = this.i18n.t('settings.account.connectedEmails.saveFail');
 
         if (!userEmail) {
             return undefined;
@@ -45,9 +44,14 @@ export default class ConnectedEmails extends Component.extend({
         try {
             yield userEmail.save();
         } catch (e) {
-            return this.toast.error(errorMessage);
+            if (e instanceof DS.ConflictError) {
+                this.userEmail.addExistingEmail();
+                yield this.userEmail.validate();
+            }
+            return;
         }
-
+        this.set('lastUserEmail', userEmail.emailAddress);
+        this.toggleModal();
         this.reloadUnconfirmedList();
         this.set('userEmail', this.store.createRecord('user-email', { user: this.currentUser.user }));
         this.set('didValidate', false);
@@ -106,7 +110,9 @@ export default class ConnectedEmails extends Component.extend({
     @service toast!: Toast;
 
     userEmail!: UserEmail;
+    lastUserEmail = '';
 
+    modalShown: boolean = false;
     reloadAlternateList!: (page?: number) => void; // bound by paginated-list
     reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
 
@@ -137,5 +143,10 @@ export default class ConnectedEmails extends Component.extend({
     @action
     removeEmail(this: ConnectedEmails, email: UserEmail) {
         this.get('deleteEmail').perform(email);
+    }
+
+    @action
+    toggleModal(this: ConnectedEmails) {
+        this.toggleProperty('modalShown');
     }
 }
