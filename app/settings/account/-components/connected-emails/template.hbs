@@ -101,18 +101,24 @@
             <p local-class="merge-explanation">
                 {{t 'settings.account.connectedEmails.mergeExplanation'}}
             </p>
-            {{validated-input/text
-                data-test-add-email
-                local-class='input-form'
-                model=this.userEmail
-                valuePath='emailAddress'
-                showMessages=this.didValidate
-                placeholder=(t 'settings.account.connectedEmails.placeholderText')
-                ariaLabel=(t 'settings.account.connectedEmails.placeholderText')
+            {{#validated-model-form
+                onSave=(action this.submit)
+                onError=(action this.error)
+                modelName='userEmail'
+                modelProperties=this.modelProperties
+                as |form|
             }}
-            {{#bs-button data-test-add-email-button local-class="add-email-button" onClick=(action this.submit) type='default'}}
-                {{t 'settings.account.connectedEmails.addEmail'}}
-            {{/bs-button}}
+                {{form.text
+                    data-test-add-email
+                    local-class='input-form'
+                    valuePath='emailAddress'
+                    placeholder=(t 'settings.account.connectedEmails.placeholderText')
+                    ariaLabel=(t 'settings.account.connectedEmails.placeholderText')
+                }}
+                {{#bs-button data-test-add-email-button buttonType="submit" local-class="add-email-button" type="default"}}
+                    {{t 'settings.account.connectedEmails.addEmail'}}
+                {{/bs-button}}
+            {{/validated-model-form}}
             {{#if modalShown}}
                 {{#bs-modal
                     tagName='span'

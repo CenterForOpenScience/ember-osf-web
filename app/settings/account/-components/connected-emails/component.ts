@@ -26,38 +26,6 @@ export default class ConnectedEmails extends Component.extend({
         }
     }).restartable(),
 
-    submitEmail: task(function *(this: ConnectedEmails) {
-        const userEmail = this.get('userEmail');
-        const successMessage: string = this.i18n.t('settings.account.connectedEmails.saveSuccess');
-
-        if (!userEmail) {
-            return undefined;
-        }
-
-        const { validations } = yield this.userEmail.validate();
-        this.set('didValidate', true);
-
-        if (!validations.isValid) {
-            return;
-        }
-
-        try {
-            yield userEmail.save();
-        } catch (e) {
-            if (e instanceof DS.ConflictError) {
-                this.userEmail.addExistingEmail();
-                yield this.userEmail.validate();
-            }
-            return;
-        }
-        this.set('lastUserEmail', userEmail.emailAddress);
-        this.toggleModal();
-        this.reloadUnconfirmedList();
-        this.set('userEmail', this.store.createRecord('user-email', { user: this.currentUser.user }));
-        this.set('didValidate', false);
-        return this.toast.success(successMessage);
-    }),
-
     deleteEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
         const errorMessage: string = this.i18n.t('settings.account.connectedEmails.deleteFail');
         const successMessage: string = this.i18n.t('settings.account.connectedEmails.deleteSuccess');
@@ -111,6 +79,7 @@ export default class ConnectedEmails extends Component.extend({
 
     userEmail!: UserEmail;
     lastUserEmail = '';
+    modelProperties = { user: this.currentUser.user };
 
     modalShown: boolean = false;
     reloadAlternateList!: (page?: number) => void; // bound by paginated-list
@@ -121,13 +90,27 @@ export default class ConnectedEmails extends Component.extend({
 
     init(this: ConnectedEmails) {
         super.init();
-        this.set('userEmail', this.store.createRecord('user-email', { user: this.currentUser.user }));
         this.get('loadPrimaryEmail').perform();
     }
 
     @action
-    submit(this: ConnectedEmails) {
-        this.get('submitEmail').perform();
+    submit(this: ConnectedEmails, email: any) {
+        const successMessage: string = this.i18n.t('settings.account.connectedEmails.saveSuccess');
+        if (email.emailAddress) {
+            this.set('lastUserEmail', email.emailAddress);
+            this.toggleModal();
+            this.reloadUnconfirmedList();
+            return this.toast.success(successMessage);
+        }
+    }
+    @action
+    error(this: ConnectedEmails, userEmail: UserEmail, e: any) {
+        if (e instanceof DS.ConflictError) {
+            userEmail.addExistingEmail();
+            userEmail.validate();
+        } else {
+            return this.toast.error(e);
+        }
     }
 
     @action
