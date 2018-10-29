@@ -22,7 +22,7 @@ export default class SettingsTokensEditController extends Controller {
 
     @action
     tokenSaved() {
-        // Analytics handled by x-token-form
+        // Analytics handled by `settings/tokens/-components/token-form`
         this.toast.success(this.i18n.t('settings.tokens.saved'));
         this.router.transitionTo('settings.tokens');
     }

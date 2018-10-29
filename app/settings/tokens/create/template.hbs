@@ -10,7 +10,7 @@
 
 <h4>{{t 'settings.tokens.createToken'}}</h4>
 
-{{#settings/tokens/x-token-form
+{{#settings/tokens/-components/token-form
     onSave=(action 'onSave')
     analyticsScope='Settings - Tokens - Create'
     as |form|
@@ -22,4 +22,4 @@
     }}
         {{t 'settings.tokens.createToken'}}
     {{/bs-button}}
-{{/settings/tokens/x-token-form}}
+{{/settings/tokens/-components/token-form}}
