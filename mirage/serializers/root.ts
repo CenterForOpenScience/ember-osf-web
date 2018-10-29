@@ -11,7 +11,7 @@ interface RootObject {
     message: string;
     version: string;
     links: Links;
-    currentUser: ModelInstance<User>;
+    currentUser?: ModelInstance<User>;
 }
 
 export default class RootSerializer extends ApplicationSerializer<RootObject> {

@@ -3,10 +3,12 @@ import config from 'ember-get-config';
 
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { guidDetail } from './views/guid';
+import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { userNodeList } from './views/user';
+import { moveFile } from './views/wb';
 
 const { OSF: { apiUrl } } = config;
 
@@ -29,7 +31,8 @@ export default function(this: Server) {
 
     this.get('/institutions');
 
-    osfResource(this, 'nodes');
+    osfResource(this, 'nodes', { except: ['create'] });
+    this.post('/nodes/', createNode);
     osfNestedResource(this, 'nodes', 'contributors');
     osfNestedResource(this, 'nodes', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'nodes', 'registrations', { only: ['index'] });
@@ -38,6 +41,7 @@ export default function(this: Server) {
     osfResource(this, 'registrationSchemas', { path: '/schemas/registrations' });
 
     osfResource(this, 'scopes', { only: ['index', 'show'] });
+    osfResource(this, 'regions', { only: ['index', 'show'] });
 
     this.get('/status', () => {
         return { meta: { version: '2.8' }, maintenance: null };
@@ -52,6 +56,10 @@ export default function(this: Server) {
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'users', 'quickfiles', { only: ['index', 'show'] });
+
+    // Waterbutler namespace
+    this.namespace = '/wb';
+    this.post('/files/:id/move', moveFile);
 
     // Private namespace
     this.namespace = '/_';
