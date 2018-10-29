@@ -1,6 +1,6 @@
 {{#docs-demo as |demo|}}
     {{#demo.example name='contributor-list.show-contributor-link.hbs'}}
-        {{contributor-list node=@node useContributorLink=useContributorLink}}
+        {{contributor-list node=@node useContributorLink=useContributorLink showNonBibliographic=true}}
     {{/demo.example}}
 
     {{#bs-button class='center-block m-b-lg' onClick=(action (mut useContributorLink) (not useContributorLink))}}

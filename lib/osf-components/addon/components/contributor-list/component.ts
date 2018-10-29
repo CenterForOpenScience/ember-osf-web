@@ -43,9 +43,9 @@ export default class ContributorList extends Component.extend({
             return;
         }
 
-        const contributors = yield this.node.hasMany('contributors');
+        const contributors = yield this.node.contributors;
         if (!more && contributors) {
-            this.set('contributors', contributors.value());
+            this.set('contributors', contributors);
             return;
         }
 

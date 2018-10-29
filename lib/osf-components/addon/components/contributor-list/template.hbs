@@ -3,7 +3,7 @@
         {{~contributor-list/contributor useContributorLink=this.useContributorLink contributor=l.item~}}
     {{else if l.truncate}}
         {{#if (and showLoading hasMore loadContributors.isRunning) }}
-            {{loading-indicator dark=dark}}
+            {{loading-indicator inline=true dark=dark}}
         {{else}}
             {{#if useShowMoreLink}}
                 <button class="btn btn-link" local-class="load-contribs" aria-label={{t 'contributor_list.more'}} onclick={{action 'more'}} data-test-load-more-contribs>

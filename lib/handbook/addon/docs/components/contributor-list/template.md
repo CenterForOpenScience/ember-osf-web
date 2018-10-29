@@ -43,16 +43,17 @@ Whether or not to use the dark ball in the `loading-indicator`
 Number of contributors to show or add to already shown contributor list upon clicking `more`
 
 ## showNonBibliographic
-{{docs/components/contributor-list/demo-show-non-bibliographic contributorList=this.contributorList node=this.nodeWithNonBibliographic}}
+{{docs/components/contributor-list/demo-show-non-bibliographic node=this.model}}
 
 ## useShowMoreLink
-{{docs/components/contributor-list/demo-show-more-link node=this.node}}
+{{docs/components/contributor-list/demo-show-more-link node=this.model}}
 
 ## useContributorLink
-{{docs/components/contributor-list/demo-show-contributor-link node=this.node}}
+{{docs/components/contributor-list/demo-show-contributor-link node=this.model}}
 
 ## useShowLess
-{{docs/components/contributor-list/demo-show-less node=this.node}}
+{{docs/components/contributor-list/demo-show-less node=this.model}}
 
 ## showStep
-{{docs/components/contributor-list/demo-show-step node=this.node showStep=this.showStep bumpStep=(action this.bumpStep) resetStep=(action this.resetStep)}}
+{{docs/components/contributor-list/demo-show-step node=this.model showStep=this.showStep bumpStep=(action this.bumpStep)
+  resetStep=(action this.resetStep)}}

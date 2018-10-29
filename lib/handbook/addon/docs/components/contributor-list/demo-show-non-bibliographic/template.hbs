@@ -7,9 +7,9 @@
         set: showNonBibliographic = {{not showNonBibliographic}}
     {{/bs-button}}
     <ul>
-        {{#each @contributorList as | contrib |}}
+        {{#each @node.contributors as | contrib |}}
             <li>
-                <strong>{{contrib.title}}</strong> is <em>{{if contrib.bibliographic 'bibliographic' 'non-bibliographic'}}</em>
+                <strong>{{contrib.users.familyName}}</strong> is <em>{{if contrib.bibliographic 'bibliographic' 'non-bibliographic'}}</em>
             </li>
         {{/each}}
     </ul>

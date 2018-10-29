@@ -16,7 +16,16 @@ const {
 export default function(server: Server) {
     const currentUser = server.create('user', 'loggedIn');
     const firstNode = server.create('node', {});
-    server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
+    server.create('contributor', { node: firstNode, users: currentUser, bibliographic: true });
+
+    const nodeManyContribs = server.create('node', { id: 'x2pqs' });
+    server.create('contributor', { node: nodeManyContribs, users: currentUser, bibliographic: true });
+    server.create('contributor', { node: nodeManyContribs, bibliographic: true });
+    server.create('contributor', { node: nodeManyContribs, bibliographic: true });
+    server.create('contributor', { node: nodeManyContribs, bibliographic: false });
+    server.create('contributor', { node: nodeManyContribs, bibliographic: false });
+    server.create('contributor', { node: nodeManyContribs, bibliographic: false });
+
     const nodes = server.createList<Node>('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');
