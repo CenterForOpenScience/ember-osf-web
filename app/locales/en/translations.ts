@@ -446,6 +446,7 @@ export default {
         // custom
         email_registered: 'This email address has already been registered.',
         email_match: 'Email addresses must match.',
+        email_duplicate: 'Duplicate email',
         password_email: 'Your password cannot be the same as your email address.',
         password_old: 'Your new password cannot be the same as your old password.',
         password_match: 'Passwords must match.',
@@ -1135,10 +1136,14 @@ export default {
             title: 'Account settings',
             connectedEmails: {
                 addEmail: 'Add email',
+                addEmailModal: {
+                    title: 'Confirmation email sent',
+                    body: '<strong>{{emailAddress}}</strong> was added to your account. You will receive a confirmation email at <strong>{{emailAddress}}</strong>. Please click the link in your email to confirm this action. You will be required to enter your password.',
+                },
                 alternateEmails: 'Alternate Emails',
                 confirmDelete: {
-                    title: 'Delete email',
-                    body: 'Are you sure you want to delete <strong>{{emailAddress}}</strong>? This cannot be reversed.',
+                    title: 'Remove email',
+                    body: 'Are you sure you want to remove <strong>{{emailAddress}}</strong> from your email list?',
                 },
                 deleteFail: 'Unable to delete email',
                 deleteSuccess: 'Email deleted',
