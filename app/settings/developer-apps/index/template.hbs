@@ -18,7 +18,7 @@
     as |list|
 }}
     {{#list.item as |developerApp|}}
-        {{settings/developer-apps/x-app-card
+        {{settings/developer-apps/-components/app-card
             developerApp=developerApp
             onDelete=(action list.doReload)
         }}
