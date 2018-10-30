@@ -258,7 +258,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             page: event.queryParams.page,
             order: order || this.sortOptions[0],
             filters: OrderedSet(filters),
-        }), { noPageReset: true });
+        }), { noPageReset: 'page' in event.changed });
     }
 
     setQueryParams(this: Discover, options: SearchOptions) {
