@@ -29,29 +29,6 @@ export function requiredAction(
 }
 
 /**
- * Property decorator for optional action arguments in components.
- * Provides a default action method that does nothing.
- *
- * Usage:
- *
- * ```ts
- *  import { optionalAction } from 'ember-osf-web/utils/required-action';
- *
- *  class MyComponent extends Component {
- *      // Optional arguments
- *      @optionalAction doTheThing: (arg: number) => void;
- *  }
- * ```
- */
-export function optionalAction(
-    classPrototype: any,
-    propertyName: string,
-): any {
-    // eslint-disable-next-line no-param-reassign
-    classPrototype[propertyName] = () => { /* empty */ };
-}
-
-/**
  * Class decorator to set layout and styles in components.
  *
  * Same as ember-decorator's `@layout`, but with an additional optional `styles` param

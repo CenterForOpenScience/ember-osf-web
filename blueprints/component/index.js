@@ -32,23 +32,19 @@ module.exports = {
     },
 
     locals(options) {
-        let osfImports = "import { localClassNames } from 'ember-osf-web/decorators/css-modules';";
-        let layoutDecorator = '';
+        let addonLayout = '';
         // if we're in an addon, build import statements
         if (options.project.isEmberCLIAddon() || (options.inRepoAddon && !options.inDummy)) {
-            osfImports = [
+            addonLayout = [
                 "import { layout } from 'ember-osf-web/decorators/component';",
-                "import { localClassNames } from 'ember-osf-web/decorators/css-modules';",
                 "import styles from './styles';",
                 "import template from './template';",
+                '\n@layout(template, styles)\n',
             ].join('\n');
-
-            layoutDecorator = '@layout(template, styles)\n';
         }
 
         return {
-            osfImports,
-            layoutDecorator,
+            addonLayout,
             path: getPathOption(options),
         };
     },
