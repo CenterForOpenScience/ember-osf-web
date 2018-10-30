@@ -18,9 +18,9 @@
     as |list|
 }}
     {{#list.item as |token|}}
-        {{settings/tokens/x-token-card
+        {{settings/tokens/-components/token-card
             token=token
-            deleted=list.doReload
+            onDelete=list.doReload
         }}
     {{/list.item}}
 {{/paginated-list/all}}

@@ -1,0 +1,26 @@
+<div local-class='Top'>
+    <p local-class='Top__explanation'>
+        {{t 'settings.developer-apps.explanation'}}
+    </p>
+
+    {{#link-to
+        data-test-create-app-link
+        'settings.developer-apps.create'
+        class='btn btn-primary'
+    }}
+        {{t 'settings.developer-apps.createApp'}}
+    {{/link-to}}
+</div>
+
+{{#paginated-list/all
+    modelName='developer-app'
+    analyticsScope='Settings - Developer apps'
+    as |list|
+}}
+    {{#list.item as |developerApp|}}
+        {{settings/developer-apps/-components/app-card
+            developerApp=developerApp
+            onDelete=(action list.doReload)
+        }}
+    {{/list.item}}
+{{/paginated-list/all}}

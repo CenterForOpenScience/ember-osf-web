@@ -1,0 +1,24 @@
+<div data-test-developer-app-card={{@developerApp.id}} local-class='DeveloperAppCard'>
+    {{#if @developerApp}}
+        {{#link-to
+            'settings.developer-apps.edit'
+            @developerApp.id
+            data-test-developer-app-link=@developerApp.id
+        }}
+            {{@developerApp.name}}
+        {{/link-to}}
+    {{else}}
+        {{#content-placeholders local-class='DeveloperAppCard__placeholder' as |placeholder|}}
+            {{placeholder.heading subtitle=false}}
+        {{/content-placeholders}}
+    {{/if}}
+
+    {{delete-button
+        small=true
+        delete=(action this.delete)
+        disabled=(not @developerApp)
+        analyticsScope='Settings - Developer apps'
+        modalTitle=(t 'settings.developer-apps.confirmDelete.title' appName=@developerApp.name)
+        modalBody=(t 'settings.developer-apps.confirmDelete.body')
+    }}
+</div>

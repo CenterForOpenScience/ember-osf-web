@@ -55,7 +55,9 @@ export default {
         component: 'component',
         hosted_on_the_osf: 'Hosted on OSF',
         please_confirm: 'Please confirm',
+        required: 'Required',
         options: 'Options',
+        optional: 'Optional',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -1103,6 +1105,7 @@ export default {
             modalTitle: 'Are you sure you want to delete this?',
             modalBody: 'This action is irreversible.',
             hardConfirm: 'Type the following to continue: <strong>{{text}}</strong>',
+            error: 'There was an error deleting this item.',
         },
         'paginated-list': {
             error: 'There was an error loading this list.',
@@ -1138,8 +1141,38 @@ export default {
         notifications: {
             title: 'Notifications',
         },
-        apps: {
+        'developer-apps': {
             title: 'Developer apps',
+            explanation: 'The OSF allows third-party web applications to connect to the OSF on behalf of other users via the OAuth 2.0 web application flow.',
+            createApp: 'Create developer app',
+            backToList: 'Back to list of developer apps',
+            appDetail: 'Detail for app <strong>{{appName}}</strong>',
+            editApp: 'Edit app',
+            appName: 'App name',
+            appHomepage: 'Project homepage URL',
+            appDescription: 'App description',
+            appCallbackUrl: 'Authorization callback URL',
+            clientID: 'Client ID',
+            clientIDDescription: 'The unique identifier for this developer app. It is safe to share publicly with others.',
+            clientSecret: 'Client secret',
+            clientSecretDescription: 'The client secret is known only to you and OSF. Do not display or expose it to others.',
+            showSecret: 'Show client secret',
+            hideSecret: 'Hide client secret',
+            created: 'Developer app created.',
+            saved: 'Developer app saved.',
+            deleted: 'Developer app deleted.',
+            resetSecret: {
+                label: 'Reset secret',
+                description: 'Resetting the client secret will render your application unusable until it is updated with the new client secret, and all users must reauthorize access. Previously issued access tokens will no longer work.',
+                modalTitle: 'Reset client secret?',
+                confirm: 'Are you sure you want to reset the client secret? This cannot be reversed.',
+                success: 'Client secret successfully reset.',
+                error: 'Error resetting client secret.',
+            },
+            confirmDelete: {
+                title: 'Delete app <strong>{{appName}}</strong>?',
+                body: 'Are you sure you want to delete this developer app? All users\' access tokens will be revoked. This cannot be reversed.',
+            },
         },
         tokens: {
             title: 'Personal access tokens',
@@ -1150,6 +1183,9 @@ export default {
             tokenName: 'Token name',
             scopes: 'Scopes',
             scopesDescription: 'Scopes limit access for personal access tokens.',
+            created: 'Token created.',
+            saved: 'Token saved.',
+            deleted: 'Token deleted.',
             confirmDelete: {
                 title: 'Delete token <strong>{{tokenName}}</strong>?',
                 body: 'Are you sure you want to delete this personal access token? This cannot be reversed.',

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Components:
     - `panel` - a general-use abstraction of bootstrap panels
+    - `validated-model-form` - wraps common logic for forms made with `validated-input/*`
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
 - Tests:
     - `panel` component integration test
@@ -23,6 +24,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `wb` view to move files from user or node to a node
 - Types:
     - `ember-power-select/test-support` - types for useful functions
+- Routes:
+    - `settings.applications` - list of developer apps
+    - `settings.applications.edit`
+    - `settings.applications.create`
+
 ### Changed
 - Pages:
     - `dashboard` - replaced project creation modal with `new-project-modal` component
@@ -40,6 +46,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `root` factory now adds all feature flags, not just route flags
     - `user` factory has 'withFiles' trait so non-current users can have files easily
     - `user` serializer has default_region relationship (hardcoded to us)
+
 ### Removed
 - Flags:
     - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on
@@ -51,6 +58,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `registration-schema` (including related adapter & serializer)
     - `token`
     - `scope`
+    - `developer-app`
 - Components:
     - `search-help-modal` - you know, the search help modal but as it's own component
     - `draft-registration-card` - summary card for draft registrations
@@ -63,7 +71,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `delete-button` - configurable delete button, including a confirmation modal and scientist name
     - `tags-widget` - you know, for tags
 - Routes:
-    - `guid-node/registrations` - registrations tab
+    - `guid-node.registrations` - registrations tab
     - `settings` - includes the settings side nav
     - `settings/tokens` - list of personal access tokens
     - `settings/tokens/edit`

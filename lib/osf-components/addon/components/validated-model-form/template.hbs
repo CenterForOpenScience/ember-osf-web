@@ -1,0 +1,14 @@
+{{#bs-form onSubmit=(perform this.saveModelTask)}}
+    {{yield (hash
+        model=this.model
+        disabled=this.inputsDisabled
+        submit=(perform this.saveModelTask)
+
+        checkbox=(component 'validated-input/checkbox' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
+        checkboxes=(component 'validated-input/checkboxes' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
+        date=(component 'validated-input/date' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
+        recaptcha=(component 'validated-input/recaptcha' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
+        text=(component 'validated-input/text' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
+        textarea=(component 'validated-input/textarea' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
+    )}}
+{{/bs-form}}

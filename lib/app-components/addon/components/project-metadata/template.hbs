@@ -5,7 +5,7 @@
             model=node
             valuePath='title'
             aria-label=(t 'move_to_project.enter_project_title')
-            showMessages=didValidate
+            shouldShowMessages=didValidate
         }}
     </label>
     <br>
@@ -14,7 +14,7 @@
         {{validated-input/textarea
             model=node
             valuePath='description'
-            showMessages=didValidate
+            shouldShowMessages=didValidate
         }}
     </label>
 </div>
@@ -28,7 +28,7 @@
         {{#validated-input/custom
             model=node
             valuePath='tags'
-            showMessages=didValidate
+            shouldShowMessages=didValidate
         }}
             {{#tag-input
                 tags=node.tags
