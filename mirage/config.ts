@@ -21,7 +21,7 @@ export default function(this: Server) {
 
     this.get('/', rootDetail);
 
-    osfResource(this, 'developerApps', { path: 'applications', except: ['create'] });
+    osfResource(this, 'developer-app', { path: 'applications', except: ['create'] });
     this.post('/applications', createDeveloperApp);
     this.post('/applications/:id/reset', resetClientSecret);
 
@@ -31,31 +31,30 @@ export default function(this: Server) {
 
     this.get('/institutions');
 
-    osfResource(this, 'nodes', { except: ['create'] });
+    osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);
-    osfNestedResource(this, 'nodes', 'contributors');
-    osfNestedResource(this, 'nodes', 'linkedNodes', { only: ['index'] });
-    osfNestedResource(this, 'nodes', 'registrations', { only: ['index'] });
-    osfNestedResource(this, 'nodes', 'draftRegistrations', { only: ['index'] });
+    osfNestedResource(this, 'node', 'contributors');
+    osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
+    osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
+    osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
 
-    osfResource(this, 'registrationSchemas', { path: '/schemas/registrations' });
+    osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
-    osfResource(this, 'scopes', { only: ['index', 'show'] });
-    osfResource(this, 'regions', { only: ['index', 'show'] });
+    osfResource(this, 'scope', { only: ['index', 'show'] });
+    osfResource(this, 'region', { only: ['index', 'show'] });
 
     this.get('/status', () => {
         return { meta: { version: '2.8' }, maintenance: null };
     });
 
-    osfResource(this, 'tokens', { except: ['create'] });
+    osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
 
-    osfResource(this, 'users', { except: ['create', 'delete'] });
-    osfNestedResource(this, 'users', 'institutions', { only: ['index'] });
-    osfNestedResource(this, 'users', 'emails', { path: '/users/:parentID/settings/emails' });
+    osfResource(this, 'user', { except: ['create', 'delete'] });
+    osfNestedResource(this, 'user', 'institutions', { only: ['index'] });
 
     this.get('/users/:id/nodes', userNodeList);
-    osfNestedResource(this, 'users', 'quickfiles', { only: ['index', 'show'] });
+    osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 
     // Waterbutler namespace
     this.namespace = '/wb';
