@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings.applications` - list of developer apps
     - `settings.applications.edit`
     - `settings.applications.create`
+- Decorators:
+    - `@layout(template, styles)` in `ember-osf-web/decorators/component`
 
 ### Changed
 - Components:
@@ -35,6 +37,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `root` factory now adds all feature flags, not just route flags
     - `user` factory has 'withFiles' trait so non-current users can have files easily
     - `user` serializer has default_region relationship (hardcoded to us)
+- Decorators:
+    - `@requiredAction` moved to `ember-osf-web/decorators/component`
+- Blueprints:
+    - `component` - use `@layout`, don't add `styles.scss` or `@localClassNames`
 
 ### Removed
 - Flags:
