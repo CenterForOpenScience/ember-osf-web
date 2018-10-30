@@ -36,10 +36,10 @@ module.exports = {
         // if we're in an addon, build import statements
         if (options.project.isEmberCLIAddon() || (options.inRepoAddon && !options.inDummy)) {
             addonLayout = [
-                "import { layout } from 'ember-osf-web/decorators/component';",
+                "import { layout } from 'ember-osf-web/decorators/component';\n",
                 "import styles from './styles';",
-                "import template from './template';",
-                '\n@layout(template, styles)\n',
+                "import template from './template';\n",
+                '@layout(template, styles)\n',
             ].join('\n');
         }
 
