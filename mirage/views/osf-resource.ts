@@ -77,7 +77,7 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
 ) {
     const opts: NestedResourceOptions = Object.assign({
         allow: ['list'],
-        path: `/${pluralize(underscore(parentModelName))}/:parentID/${pluralize(underscore(relationshipName))}`,
+        path: `/${pluralize(underscore(parentModelName))}/:parentID/${underscore(relationshipName)}`,
         relatedModelName: relationshipName,
         defaultSortKey: '-id',
     }, options);
