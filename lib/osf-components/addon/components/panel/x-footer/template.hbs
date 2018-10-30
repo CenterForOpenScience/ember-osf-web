@@ -1,0 +1,8 @@
+<div data-test-panel-footer class="panel-footer clearfix">
+    {{#if @text}}
+        {{@text}}
+    {{/if}}
+    {{#if (has-block)}}
+        {{yield}}
+    {{/if}}
+</div>

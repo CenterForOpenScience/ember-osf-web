@@ -1,19 +1,22 @@
 <div class="row">
     <div class="col-xs-12">
+        {{#if result.mainLink}}
+            {{sharing-icons
+                title=result.title
+                description=result.description
+                hyperlink=result.mainLink
+                resultId=result.id
+                parentId=this.elementId
+            }}
+        {{/if}}
         <h4 local-class="RegistriesSearchResult__Title">
-            {{#if osfID}}
-                {{#link-to-external 'registration' osfID data-test-result-title-id=result.id}}
-                    {{math result.title}}
-                {{/link-to-external}}
-            {{else}}
-                <a
-                    href={{result.mainLink}}
-                    data-test-result-title-id={{result.id}}
-                    onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' result.mainLink) result.id target=analytics}}
-                >
-                    {{math result.title}}
-                </a>
-            {{/if}}
+            <a
+                href={{result.mainLink}}
+                data-test-result-title-id={{result.id}}
+                onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' result.mainLink) result.id target=analytics}}
+            >
+                {{math result.title}}
+            </a>
 
             {{#if result.withdrawn}}
                 <span class="label label-default">{{t 'registries.discover.search_result.withdrawn'}}</span>
@@ -58,7 +61,7 @@
             <ul local-class="RegistriesSearchResult__HyperLinks" class="m-t-sm">
                 {{#each result.hyperLinks as |hyperlink index|}}
                     <li>
-                        <a 
+                        <a
                             href={{hyperlink}}
                             data-test-result-hyperlink-id="{{result.id}} - {{index}}"
                             onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' hyperlink) result.id target=analytics}}
@@ -92,4 +95,3 @@
 
     </div>
 </div>
-

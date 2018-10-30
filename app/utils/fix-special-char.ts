@@ -5,7 +5,7 @@
  */
 export default function fixSpecialChar(inputString: string = ''): string {
     return inputString
-        .replace(/&amp;/g, '&')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>');
+        .replace(/&amp;/gi, '&')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>');
 }

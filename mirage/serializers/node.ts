@@ -1,7 +1,7 @@
 import { ID, ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import Node from 'ember-osf-web/models/registration';
-import ApplicationSerializer, { SerializedLinks } from './application';
+import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
@@ -10,65 +10,92 @@ export interface Attrs {
     rootId: ID | null;
 }
 
-export default class NodeSerializer extends ApplicationSerializer {
-    links(model: ModelInstance<Node & { attrs: Attrs }>) {
-        const returnValue: SerializedLinks<Node> = {
+type MirageNode = Node & { attrs: Attrs };
+
+export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
+    buildRelationships(model: ModelInstance<MirageNode>) {
+        const relationships: SerializedRelationships<Node> = {
             linkedNodes: {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/linked_nodes/`,
-                    meta: this.buildRelatedLinkMeta(model, 'linkedNodes'),
-                },
-                self: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/relationships/linked_nodes/`,
-                    meta: {},
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/linked_nodes/`,
+                        meta: this.buildRelatedLinkMeta(model, 'linkedNodes'),
+                    },
+                    self: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/relationships/linked_nodes/`,
+                        meta: {},
+                    },
                 },
             },
             contributors: {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/contributors/`,
-                    meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/contributors/`,
+                        meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                    },
                 },
             },
             forks: {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/forks/`,
-                    meta: this.buildRelatedLinkMeta(model, 'forks'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/forks/`,
+                        meta: this.buildRelatedLinkMeta(model, 'forks'),
+                    },
                 },
             },
             registrations: {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/registrations/`,
-                    meta: this.buildRelatedLinkMeta(model, 'registrations'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'registrations'),
+                    },
                 },
             },
             draftRegistrations: {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.id}/draft_registrations/`,
-                    meta: this.buildRelatedLinkMeta(model, 'draftRegistrations'),
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/draft_registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'draftRegistrations'),
+                    },
                 },
             },
         };
         if (model.attrs.parentId !== null) {
-            returnValue.parent = {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.attrs.parentId}`,
-                    meta: {},
+            const { parentId } = model.attrs;
+            relationships.parent = {
+                data: {
+                    id: parentId,
+                    type: this.typeKeyForModel(model),
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${parentId}`,
+                        meta: {},
+                    },
                 },
             };
         }
         if (model.attrs.rootId !== null) {
-            returnValue.root = {
-                related: {
-                    href: `${apiUrl}/v2/nodes/${model.attrs.rootId}`,
-                    meta: {},
+            const { rootId } = model.attrs;
+            relationships.root = {
+                data: {
+                    id: rootId,
+                    type: this.typeKeyForModel(model),
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${rootId}`,
+                        meta: {},
+                    },
                 },
             };
         }
-        return returnValue;
+        return relationships;
     }
-    buildNormalLinks(model: ModelInstance<Node>) {
+
+    buildNormalLinks(model: ModelInstance<MirageNode>) {
         return {
-            self: `${apiUrl}/v2/nodes/${model.id}/`,
+            ...super.buildNormalLinks(model),
             html: `/${model.id}/`,
         };
     }

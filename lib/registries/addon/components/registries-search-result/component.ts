@@ -17,16 +17,17 @@ export default class RegistriesSearchResult extends Component {
 
     expanded = false;
 
-    @computed('result')
-    get osfID() {
-        const res = OSF_GUID_REGEX.exec(this.result.mainLink || '');
+    // For use later, when the registration overview page is implemented
+    // @computed('result')
+    // get osfID() {
+    //     const res = OSF_GUID_REGEX.exec(this.result.mainLink || '');
 
-        if (res) {
-            return res[1];
-        }
+    //     if (res) {
+    //         return res[1];
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
     @computed('result')
     get contributors() {

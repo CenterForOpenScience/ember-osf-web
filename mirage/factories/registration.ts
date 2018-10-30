@@ -3,16 +3,16 @@ import { association, faker, trait, Trait } from 'ember-cli-mirage';
 import Registration from 'ember-osf-web/models/registration';
 
 import NodeFactory from './node';
-import { createRegistrationMetadata, guid } from './utils';
+import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
 export interface RegistrationTraits {
     withRegisteredMeta: Trait;
 }
 
 export default NodeFactory.extend<Registration & RegistrationTraits>({
-    id(i: number) {
-        return guid(i, 'registration');
-    },
+    id: guid('registration'),
+    afterCreate: guidAfterCreate,
+
     registration: true,
     dateRegistered() {
         return faker.date.recent(5);

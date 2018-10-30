@@ -8,7 +8,7 @@ import I18N from 'ember-i18n/services/i18n';
 import requiredAction from 'ember-osf-web/decorators/required-action';
 import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
@@ -63,7 +63,10 @@ export default class CollectionItemPicker extends Component.extend({
         }
 
         const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
-            filter: this.filter ? { title: this.filter } : undefined,
+            filter: {
+                current_user_permissions: Permission.Admin,
+                title: this.filter ? this.filter : undefined,
+            },
             page: this.page,
         });
 

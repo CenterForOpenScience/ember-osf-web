@@ -7,7 +7,7 @@
                     {{#validated-input/power-select
                         model=this.collectedMetadatum
                         valuePath=field.valuePath
-                        options=(get this.collection field.optionsKey)
+                        options=(sort (get this.collection field.optionsKey))
                         showMessages=this.didValidate
                         as |option|
                     }}

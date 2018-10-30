@@ -14,6 +14,12 @@ export default class LoadingIndicator extends Component {
     dark: boolean = defaultTo(this.dark, false);
 
     /**
+     * Whether to use the inline loading icon.
+     * Default: false
+     */
+    inline: boolean = defaultTo(this.inline, false);
+
+    /**
      * @ignore
      */
     layout = layout;

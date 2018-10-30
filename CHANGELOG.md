@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [18.1.0] - 2018-10-30
+### Added
+- Components:
+    - `panel` - a general-use abstraction of bootstrap panels
+- Tests:
+    - `panel` component integration test
+- Handbook:
+    - `panel` component
+### Changed
+- Components:
+    - `loading-indicator` - added inline option
+- Utilities:
+    - `fix-special-chars` - made case-insensitive
+- Tests:
+    - `loading-indicator` - added tests for inline
+- Handbook:
+    - `loading-indicator` - added examples for inline
+### Removed
+- Flags:
+    - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on
+    - `ember_project_analytics_page` - `guid-node.analytics` and `guid-registration.analytics` now always on
+
 ## [18.0.0] - 2018-10-24
 ### Added
 - Models:

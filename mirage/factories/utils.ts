@@ -1,12 +1,45 @@
-import { faker } from 'ember-cli-mirage';
+import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 
 import { RegistrationMetadata, Schema } from 'ember-osf-web/models/registration-schema';
 
-export const guid = (id: number, type: string): string => {
-    const numPart = String(id);
-    const typPart = type.substr(0, 5 - numPart.length);
-    return `${typPart}${numPart}`;
-};
+const GUID_CHARS = '23456789abcdefghjkmnpqrstuvwxyz'.split('');
+
+// Implementation of Java's String.hashCode -- https://stackoverflow.com/a/7616484/
+function hashString(str: string): number {
+    /* eslint-disable no-bitwise */
+    /* tslint:disable no-bitwise */
+    return Array.prototype.reduce.call(
+        str,
+        (hash: number, char: string) => (((hash << 5) - hash) + char.charCodeAt(0)) | 0,
+        0,
+    );
+    /* tslint:enable no-bitwise */
+    /* eslint-enable no-bitwise */
+}
+
+export function guid(referentType: string) {
+    return (id: number) => {
+        // Seed faker to guarantee consistent guids across page reloads
+        faker.seed(hashString(`${referentType}-${id}`));
+
+        const newGuid = Array.from(
+            { length: 5 },
+            () => faker.random.arrayElement(GUID_CHARS),
+        ).join('');
+
+        // Reseed so all other data is appropriately random
+        faker.seed(new Date().getTime() % 1000000000);
+
+        return newGuid;
+    };
+}
+
+export function guidAfterCreate(newObj: ModelInstance, server: Server) {
+    server.schema.guids.create({
+        id: newObj.id,
+        referentType: newObj.modelName,
+    });
+}
 
 /**
  * Create registration metadata with a random number of questions answered.

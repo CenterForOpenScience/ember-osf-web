@@ -1,9 +1,11 @@
 {{theme-styles}}
-{{branded-navbar
-    translateKey='collections.general.brand'
-    brandRoute='provider.discover'
-    signupUrl=signupUrl
-    loginAction=(action 'login')
-    addLinkKey='collections.navbar.add'
-}}
+{{#if theme.isProvider}}
+    {{branded-navbar
+        translateKey='collections.general.brand'
+        brandRoute='provider.discover'
+        signupUrl=signupUrl
+        loginAction=(action 'login')
+        addLinkKey='collections.navbar.add'
+    }}
+{{/if}}
 {{outlet}}
