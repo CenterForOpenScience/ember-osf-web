@@ -13,10 +13,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `panel` component integration test
 - Handbook:
     - `panel` component
+- Mirage:
+    - `node` POST view to add currentUser as contributor
+    - `regions` fixtures
+    - `wb` view to move files from user or node to a node
 - Routes:
     - `settings.applications` - list of developer apps
     - `settings.applications.edit`
     - `settings.applications.create`
+
 ### Changed
 - Components:
     - `loading-indicator` - added inline option
@@ -24,6 +29,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `loading-indicator` - added tests for inline
 - Handbook:
     - `loading-indicator` - added examples for inline
+- Mirage:
+    - `root` factory now adds all feature flags, not just route flags
+    - `user` factory has 'withFiles' trait so non-current users can have files easily
+    - `user` serializer has default_region relationship (hardcoded to us)
+
 ### Removed
 - Flags:
     - `ember_project_forks_page` - `guid-node.forks` and `guid-registration.forks` now always on

@@ -2,14 +2,24 @@ import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import File from 'ember-osf-web/models/file';
 
-import ApplicationSerializer from './application';
+import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
 export default class FileSerializer extends ApplicationSerializer<File> {
     buildRelationships(model: ModelInstance<File>) {
-        return {
-            user: {
+        const returnValue: SerializedRelationships<File> = {
+            versions: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/files/${model.id}/versions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'versions'),
+                    },
+                },
+            },
+        };
+        if (model.user !== null) {
+            returnValue.user = {
                 data: {
                     type: 'users',
                     id: model.user.id,
@@ -20,16 +30,23 @@ export default class FileSerializer extends ApplicationSerializer<File> {
                         meta: this.buildRelatedLinkMeta(model, 'user'),
                     },
                 },
-            },
-            versions: {
+            };
+        }
+        if (model.node !== null) {
+            returnValue.node = {
+                data: {
+                    type: 'nodes',
+                    id: model.node.id,
+                },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/files/${model.id}/versions/`,
-                        meta: this.buildRelatedLinkMeta(model, 'versions'),
+                        href: `${apiUrl}/v2/nodes/${model.node.id}/`,
+                        meta: this.buildRelatedLinkMeta(model, 'node'),
                     },
                 },
-            },
-        };
+            };
+        }
+        return returnValue;
     }
 
     buildNormalLinks(model: ModelInstance<File>) {
