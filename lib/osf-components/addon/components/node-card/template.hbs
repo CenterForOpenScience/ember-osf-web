@@ -92,7 +92,7 @@
                 </div>
             {{/if}}
             <div local-class="NodeCard__authors">
-                {{contributor-list contributors=@node.contributors useLink=true nodeId=@node.id}}
+                {{contributor-list node=@node useContributorLink=true}}
             </div>
             <div local-class="NodeCard__description">
                 {{@node.description}}

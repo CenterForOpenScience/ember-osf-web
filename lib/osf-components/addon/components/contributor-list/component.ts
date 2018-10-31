@@ -53,11 +53,7 @@ export default class ContributorList extends Component.extend({
             // we have enough contributors to show, don't request any more.
             const hiddenContribs = this.contributorList.length - this.displayedContribs;
             if (this.rest <= hiddenContribs) {
-                if (this.useShowStep) {
-                    this.incrementProperty('displayedContribs', this.showStep);
-                } else {
-                    this.set('displayedContribs', this.contributorList.length);
-                }
+                this.set('displayedContribs', this.contributorList.length);
                 return;
             }
         }
@@ -67,16 +63,12 @@ export default class ContributorList extends Component.extend({
         // Fetch more contributors.
         const contribs = yield this.node.queryHasMany('contributors', {
             page: more ? this.incrementProperty('page') : this.set('page', 1),
-            'page[size]': this.contribsPerPage,
+            'page[size]': this.pageSize,
         });
 
         if (more && this.contributors) {
             this.contributors.pushObjects(contribs);
-            if (this.useShowStep) {
-                this.incrementProperty('displayedContribs', this.showStep);
-            } else {
-                this.set('displayedContribs', this.contributorList.length);
-            }
+            this.set('displayedContribs', this.contributorList.length);
         } else {
             this.set('contributors', contribs);
         }
@@ -100,14 +92,13 @@ export default class ContributorList extends Component.extend({
     node!: Node;
 
     // Optional arguments
-    showStep: number = defaultTo(this.showStep, 0);
-    contribsPerPage: number = defaultTo(this.contribsPerPage, 10);
+    pageSize: number = defaultTo(this.pageSize, 10);
     displayedContribs: number = defaultTo(this.displayedContribs, this.defaultStep);
     showLoading: boolean = defaultTo(this.showLoading, true);
     dark: boolean = defaultTo(this.dark, true);
     useContributorLink: boolean = defaultTo(this.useContributorLink, false);
+    // useShowMoreLink=true also shows `less` link when all available contributors are displayed.
     useShowMoreLink: boolean = defaultTo(this.useShowMoreLink, false);
-    useShowLess: boolean = defaultTo(this.useShowLess, false);
     showNonBibliographic: boolean = defaultTo(this.showNonBibliographic, false);
 
     @computed('contributors.[]', 'showNonBibliographic')
@@ -130,11 +121,6 @@ export default class ContributorList extends Component.extend({
         return contribs;
     }
 
-    @computed('showStep')
-    get useShowStep(this: ContributorList): boolean {
-        return Boolean(this.showStep);
-    }
-
     @computed('contributors.meta.total', 'displayedContribs')
     get rest(this: ContributorList): number {
         if (!this.contributors) {
@@ -148,12 +134,12 @@ export default class ContributorList extends Component.extend({
         return this.contributors ? this.contributors.toArray().length < this.contributors.meta.total : undefined;
     }
 
-    @computed('contributors.meta.total', 'showStep', 'displayedContribs', 'useShowLess', 'userIsBot')
+    @computed('contributors.meta.total', 'displayedContribs', 'userIsBot')
     get showLess(this: ContributorList): boolean {
         if (!this.contributors) {
             return false;
         }
-        return !this.userIsBot && (this.useShowLess as boolean) &&
+        return !this.userIsBot &&
               (this.displayedContribs > this.defaultStep) &&
             (this.displayedContribs >= this.contributors.meta.total);
     }

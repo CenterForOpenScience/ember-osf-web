@@ -12,21 +12,18 @@ Note: `showMore` link is disabled in case `node` is not provided.
 
 - **useShowMoreLink** | <span style="color:red"> *optional* </span>  
 *Boolean*  
-Whether or not to use a link for `N more` or plain text
+Whether or not to use a link for `N more` or plain text  
+`useShowMoreLink=true` also shows `less` link when all available contributors are displayed.
 
 - **useContributorLink** | <span style="color:red"> *optional* </span>  
 *Boolean*  
 Whether or not to make contributor name a link (to their detail page).
 
-- **useShowLess** | <span style="color:red"> *optional* </span>  
-*Boolean*  
-Whether or not to make the list retractable.
-
 - **showNonBibliographic** | <span style="color:red"> *optional* </span>  
 *Boolean*  
 Whether or not show `non-bibliographic` contributors
 
-- **contribsPerPage** | <span style="color:red"> *optional* </span>  
+- **pageSize** | <span style="color:red"> *optional* </span>  
 *Number*  
 Page size for `N more` requests
 
@@ -34,13 +31,9 @@ Page size for `N more` requests
 *Boolean*  
 Whether or not to use `loading-indicator`
 
-- **ball** | <span style="color:red"> *optional* </span>  
+- **dark** | <span style="color:red"> *optional* </span>  
 *Boolean*  
 Whether or not to use the dark ball in the `loading-indicator`
-
-- **showStep** | <span style="color:red"> *optional* </span>  
-*Number*  
-Number of contributors to show or add to already shown contributor list upon clicking `more`
 
 ## showNonBibliographic
 {{docs/components/contributor-list/demo-show-non-bibliographic node=this.model}}
@@ -50,10 +43,3 @@ Number of contributors to show or add to already shown contributor list upon cli
 
 ## useContributorLink
 {{docs/components/contributor-list/demo-show-contributor-link node=this.model}}
-
-## useShowLess
-{{docs/components/contributor-list/demo-show-less node=this.model}}
-
-## showStep
-{{docs/components/contributor-list/demo-show-step node=this.model showStep=this.showStep bumpStep=(action this.bumpStep)
-  resetStep=(action this.resetStep)}}

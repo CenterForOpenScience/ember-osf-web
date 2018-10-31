@@ -53,9 +53,9 @@ export function osfResource(
 
     if (actions.includes('show')) {
         server.get(detailPath, function(schema, request) {
-            const model = this.serialize(schema[modelName].find(request.params.id)).data;
-            const x = process(schema, request, this, [model], { defaultSortKey: opts.defaultSortKey });
-            return { data: x.data[0] };
+            const model = schema[mirageModelName].find(request.params.id);
+            const { data } = process(schema, request, this, [this.serialize(model).data]);
+            return { data: data[0] };
         });
     }
 
@@ -101,17 +101,7 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     }
 
     if (actions.includes('show')) {
-<<<<<<< HEAD
         server.get(detailPath, mirageRelatedModelName);
-=======
-        server.get(detailPath, function(schema, request) {
-            const data = schema[parentModelName].find(request.params.parentID)[relationshipName].models.map(
-                (model: any) => this.serialize(model).data,
-            );
-            const x = process(schema, request, this, data, { defaultSortKey: opts.defaultSortKey });
-            return { data: x.data[0] };
-        });
->>>>>>> Use mirage in handbook and tests
     }
 
     if (actions.includes('create')) {

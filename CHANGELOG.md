@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
+    - `contributor-list` - modified to take in additional (optional) parameters
+        - `useShowMoreLink`
+        - `showLoading`
+        - `useContributorLink`
+        - `showNonBibliographic`
 - Models:
     - `node`
         - added `wikiEnabled` boolean attribute
@@ -171,13 +176,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `validated-input/text`
         - `validated-input/textarea`
     - `osf-navbar` - modified to yield a list home links for engines to override, if required
-    - `contributor-list` - modified to take in additional (optional) parameters
-        - `useShowMoreLink`
-        - `useShowLess`
-        - `showLoading`
-        - `useContributorLink`
-        - `showNonBibliographic`
-        - `showStep`
     - `sign-up-form` - added submit task & user-registration model creation
     - `osf-navbar/auth-dropdown` - make Sign Up button transition to register route, if enabled
 - Routes:
