@@ -79,4 +79,37 @@ module('Acceptance | settings | account information page', hooks => {
         const primaryEmail = $('[data-test-primary-email]').val();
         assert.equal(primaryEmail, emailAddress);
     });
+
+    // Identities do not exist
+    test('identities does not exist', async assert => {
+        server.create('user', 'loggedIn');
+
+        await visit('/settings/account');
+
+        assert.dom('[data-test-identity]').doesNotExist();
+    });
+
+    // Identities exist
+    test('identities do exist', async assert => {
+        server.create('user', 'loggedIn', 'withIdentities');
+
+        await visit('/settings/account');
+
+        assert.dom('[data-test-identity]').exists();
+    });
+
+    // remove identity
+    test('delete identity', async assert => {
+        server.create('user', 'loggedIn', 'withIdentities');
+
+        await visit('/settings/account');
+
+        assert.dom('[data-test-identity]').exists();
+
+        await click('[data-test-delete-button]');
+
+        await click('[data-test-confirm-delete]');
+
+        assert.dom('[data-test-identity]').doesNotExist();
+    });
 });

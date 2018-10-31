@@ -1160,6 +1160,16 @@ export default {
                 updateFail: 'Unable to update email',
                 updateSuccess: 'Email updated',
             },
+            connectedIdentities: {
+                bodyText: 'Connected identities allow you to log in to the OSF via a third-party service. You can revoke these authorizations here.',
+                title: 'Connected Identities',
+                confirmDelete: {
+                    title: 'Remove authorization',
+                    body: 'Are you sure you want to remove this authorization?',
+                },
+                deleteFail: 'Unable to delete authorization',
+                deleteSuccess: 'Authorization deleted',
+            },
         },
         addons: {
             title: 'Configure add-on accounts',

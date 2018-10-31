@@ -59,6 +59,11 @@ export default function(this: Server) {
     });
     this.patch('/users/:parentID/settings/emails/:emailID/', updateEmails);
 
+    osfNestedResource(this, 'users', 'identities', {
+        path: '/users/:parentID/settings/identities',
+        relatedModelName: 'identities',
+    });
+
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'users', 'quickfiles', { only: ['index', 'show'] });
 

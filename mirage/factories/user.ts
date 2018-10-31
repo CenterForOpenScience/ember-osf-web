@@ -12,6 +12,7 @@ export interface UserTraits {
     withUnconfirmedEmails: Trait;
     withUnverifiedEmail: Trait;
     withUnverifiedEmails: Trait;
+    withIdentities: Trait;
 }
 
 export default Factory.extend<User & UserTraits>({
@@ -91,6 +92,12 @@ export default Factory.extend<User & UserTraits>({
         afterCreate(user, server) {
             server.create('user-email', { user, verified: false, isMerge: true });
             server.create('user-email', { user, verified: false, isMerge: false });
+        },
+    }),
+
+    withIdentities: trait({
+        afterCreate(user, server) {
+            server.create('identity', { user });
         },
     }),
 });

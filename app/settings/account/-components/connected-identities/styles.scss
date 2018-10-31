@@ -1,0 +1,32 @@
+.explanation {
+    padding-bottom: 8px;
+}
+
+.identity-section {
+    padding-top: 8px;
+}
+
+.identity-list ul {
+    margin: 0;
+
+    & > li {
+        border: 0;
+        padding: 0;
+        margin-bottom: 0;
+    }
+}
+
+.identity-object {
+    border-top: 1px solid $color-border-gray;
+    padding: 8px;
+}
+
+.status {
+    text-transform: lowercase;
+}
+
+.options {
+    margin-right: 0;
+    margin-top: -8px;
+    float: right;
+}

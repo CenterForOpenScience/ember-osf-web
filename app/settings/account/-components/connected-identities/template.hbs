@@ -1,0 +1,42 @@
+<Panel as |panel|>
+    <panel.heading @title={{t 'settings.account.connectedIdentities.title'}} />
+    <panel.body>
+        <div local-class="explanation">
+            {{t 'settings.account.connectedIdentities.bodyText'}}
+        </div>
+        <div local-class="identity-section">
+            {{#paginated-list/has-many
+                local-class="identity-list"
+                model=this.currentUser.user
+                relationshipName='identities'
+                bindReload=(action (mut this.reloadIdentityList))
+                usePlaceholders=false
+                analyticsScope='Account Settings - Identities List'
+                as |list|
+            }}
+                <list.item as |identity|>
+                    <div local-class="identity-object" class="clearfix">
+                        {{#if (not identity)}}
+                            {{#content-placeholders as |placeholder|}}
+                                {{placeholder.heading subtitle=false}}
+                            {{/content-placeholders}}
+                        {{else}}
+                            <span data-test-identity={{identity.externalID}}>
+                                {{concat identity.name ': ' identity.externalID}} ( <span local-class="status">{{identity.status}}</span> )
+                            </span>
+                            <span local-class="options">
+                                {{delete-button
+                                    small=true
+                                    delete=(action this.removeIdentity identity)
+                                    analyticsScope='Settings - Identities List'
+                                    modalTitle=(t 'settings.account.connectedIdentities.confirmDelete.title')
+                                    modalBody=(t 'settings.account.connectedIdentities.confirmDelete.body')
+                                }}
+                            </span>
+                        {{/if}}
+                    </div>
+                </list.item>
+            {{/paginated-list/has-many}}
+        </div>
+    </panel.body>
+</Panel>

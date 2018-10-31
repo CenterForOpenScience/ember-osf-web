@@ -15,6 +15,13 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                     },
                 },
             },
+            identities: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/settings/identities/`,
+                    },
+                },
+            },
             institutions: {
                 links: {
                     related: {

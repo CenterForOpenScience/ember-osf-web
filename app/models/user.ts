@@ -4,6 +4,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import Contributor from './contributor';
 import File from './file';
+import Identity from './identity';
 import Institution from './institution';
 import Node from './node';
 import OsfModel from './osf-model';
@@ -59,6 +60,7 @@ export default class User extends OsfModel.extend(Validations) {
     @hasMany('institution', { inverse: 'users' }) institutions!: DS.PromiseManyArray<Institution>;
 
     @hasMany('user-email', { inverse: 'user' }) emails!: DS.PromiseManyArray<UserEmail>;
+    @hasMany('identity', { inverse: 'user' }) identities!: DS.PromiseManyArray<Identity>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;

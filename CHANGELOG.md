@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `panel` - a general-use abstraction of bootstrap panels
     - `validated-model-form` - wraps common logic for forms made with `validated-input/*`
     - `connected-email` - a list of all emails connected to an account
+    - `connected-identities` - a list of all authorized connections
 - Tests:
     - `panel` component integration test
     - `settings` - acceptance test
