@@ -16,11 +16,11 @@
                             {{#nl.empty}}
                                 <p>
                                     {{t 'node.registrations.no_registrations'}}
-                                    {{#if (and this.node.currentUserIsContributor (not this.node.currentUserIsAdmin))}}
+                                    {{#if (and this.node.currentUserIsContributor (not this.node.userHasAdminPermission))}}
                                         {{t 'node.registrations.only_admins_can_initiate'}}
                                     {{/if}}
                                 </p>
-                                {{#if this.node.currentUserIsAdmin}}
+                                {{#if this.node.userHasAdminPermission}}
                                     <p>{{t 'node.registrations.start_new'}}</p>
                                 {{/if}}
                                 <p>{{t 'node.registrations.learn_more' learnMoreLink='http://help.osf.io/m/registrations/l/524205-register-your-project'}}</p>
@@ -28,7 +28,7 @@
                         {{/node-list}}
                     </div>
                 {{/tab.pane}}
-                {{#if this.node.currentUserIsAdmin}}
+                {{#if this.node.userHasAdminPermission}}
                     {{#tab.pane id='drafts' title=(t 'node.registrations.draft_registrations')}}
                         <div class="row" local-class="RegistrationsPane" data-test-draft-registrations-pane>
                             <ul class="list-group">
@@ -56,7 +56,7 @@
                 {{/if}}
             {{/bs-tab}}
         </div>
-        {{#if this.node.currentUserIsAdmin}}
+        {{#if this.node.userHasAdminPermission}}
             <div class="col-xs-3 col-sm-4">
                 {{#bs-button data-test-new-registration-button type='success' onClick=(action openNewModal)}}
                     {{t 'node.registrations.new'}}

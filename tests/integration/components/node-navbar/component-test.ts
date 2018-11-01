@@ -9,8 +9,8 @@ enum NavCondition {
     HasParent,
     IsRegistration = 'isRegistration',
     IsPublic = 'public',
-    UserCanRead = 'currentUserCanRead',
-    UserCanWrite = 'currentUserCanEdit',
+    UserCanRead = 'userHasReadPermission',
+    UserCanWrite = 'userHasWritePermission',
     UserIsContributor = 'currentUserIsContributor',
     WikiEnabled = 'wikiEnabled',
 }
@@ -39,8 +39,8 @@ export class FakeNode {
     isRegistration: boolean = false;
     wikiEnabled: boolean = false;
     currentUserIsContributor: boolean = false;
-    currentUserCanEdit: boolean = false;
-    currentUserCanRead: boolean = false;
+    userHasWritePermission: boolean = false;
+    userHasReadPermission: boolean = false;
     parentId: string | null = null;
 
     constructor(conditions: NavCondition[] = []) {

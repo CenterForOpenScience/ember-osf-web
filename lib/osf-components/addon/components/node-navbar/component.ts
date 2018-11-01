@@ -1,16 +1,17 @@
 import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import config from 'ember-get-config';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
+
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 export type NodeLike = Pick<Node, 'id' | 'isRegistration'>;
 
+@layout(template, styles)
 export default class NodeNavbar extends Component {
-    layout = layout;
-    styles = styles;
-
     // Optional parameters
     node?: Node;
     allowComments?: boolean;
@@ -27,6 +28,8 @@ export default class NodeNavbar extends Component {
             if (id) {
                 return {
                     id,
+                    // The parent of a registration is always a registration. When a component
+                    // is registered without its parent, the registration is its own root.
                     isRegistration: this.node.isRegistration,
                 };
             }

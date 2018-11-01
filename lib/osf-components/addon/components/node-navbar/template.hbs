@@ -41,10 +41,10 @@
                         {{#if @node.currentUserIsContributor}}
                             {{node-navbar/link node=@node useLinkTo=false destination="contributors"}}
                         {{/if}}
-                        {{#if (and @node.currentUserCanEdit (not @node.isRegistration))}}
+                        {{#if (and @node.userHasWritePermission (not @node.isRegistration))}}
                             {{node-navbar/link node=@node useLinkTo=false destination="addons"}}
                         {{/if}}
-                        {{#if (if @node.isRegistration @node.currentUserCanEdit @node.currentUserCanRead)}}
+                        {{#if (if @node.isRegistration @node.userHasWritePermission @node.userHasReadPermission)}}
                             {{node-navbar/link node=@node useLinkTo=false destination="settings"}}
                         {{/if}}
                     </ul>
