@@ -7,12 +7,10 @@ import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
 
 import Ready from 'ember-osf-web/services/ready';
-import RouteContext from 'ember-osf-web/services/route-context';
 
 export default class Analytics extends Service {
     @service metrics!: Metrics;
     @service session!: Session;
-    @service routeContext!: RouteContext;
     @service ready!: Ready;
     @service router!: any;
 
@@ -22,7 +20,6 @@ export default class Analytics extends Service {
         resourceType: string,
     ) {
         // Wait until everything has settled
-        yield this.routeContext.guidTaskInstance;
         yield waitForQueue('destroy');
 
         const eventParams = {

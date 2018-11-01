@@ -1,14 +1,15 @@
-import ResolvedGuidRoute from 'ember-osf-web/resolve-guid/resolved-guid-route';
+import GuidRoute from 'ember-osf-web/resolve-guid/guid-route';
 
-export default class GuidRegistration extends ResolvedGuidRoute {
-    model(this: GuidRegistration, params: { registration_guid: string }) {
+export default class GuidRegistration extends GuidRoute {
+    modelName(): 'registration' {
+        return 'registration';
+    }
+
+    adapterOptions() {
         return {
-            taskInstance: this.get('resolveGuid').perform(
-                params.registration_guid,
-                'registration',
-                { related_counts: 'forks' },
-            ),
-            registrationId: params.registration_guid,
+            query: {
+                related_counts: 'forks',
+            },
         };
     }
 }

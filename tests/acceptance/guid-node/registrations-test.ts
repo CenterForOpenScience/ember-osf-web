@@ -1,4 +1,4 @@
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentRouteName } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -9,6 +9,7 @@ import {
     registerNode,
     registerNodeMultiple,
 } from 'ember-osf-web/mirage/helpers';
+import { currentURL, visit } from 'ember-osf-web/tests/helpers';
 
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -27,6 +28,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         await visit(url);
 
         assert.equal(currentURL(), url, `We are on ${url}`);
+        assert.equal(currentRouteName(), 'guid-node.registrations', 'We are at guid-node.registrations');
 
         assert.dom('[data-test-new-registration-button]').doesNotExist();
 
