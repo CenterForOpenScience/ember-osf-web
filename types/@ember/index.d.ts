@@ -46,9 +46,13 @@ declare module '@ember/routing/transition' {
     }
 
     export default interface Transition extends Ember.Transition {
+        targetName: string;
         params: Record<string, Record<string, string>>;
         handlerInfos: Array<HandlerInfo | UnresolvedHandlerInfo>;
         resolvedModels: Record<string, any>;
         queryParams?: Record<string, any>;
+        router: {
+            generate(handlerName: string, ...params: any[]): string;
+        }
     } // eslint-disable-line semi
 }

@@ -1,11 +1,4 @@
-interface Transition {
-    targetName: string;
-    params: any[];
-    queryParams: object;
-    router: {
-        generate(handlerName: string, ...params: any[]): string;
-    };
-}
+import Transition from '@ember/routing/transition';
 
 /**
  * Get the URL (path and query string) that the given transition will resolve to,

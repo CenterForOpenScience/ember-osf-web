@@ -15,12 +15,18 @@ export default class AnalyticsPageRoute extends Route {
     @service ready!: Ready;
     @service store!: DS.Store;
 
-    thunk = task(function *<T>(this: AnalyticsPageRoute, promise: Promise<T>, blocker: Blocker) {
-        const value = yield promise;
+    reloadNode = task(function *(this: AnalyticsPageRoute, model: Node, blocker: Blocker) {
+        const node = yield model.reload({
+            adapterOptions: {
+                query: {
+                    related_counts: true,
+                },
+            },
+        });
 
         blocker.done();
 
-        return value;
+        return node;
     });
 
     getNodeWithCounts = task(function *(this: AnalyticsPageRoute, taskInstance: TaskInstance<Node>) {
@@ -33,13 +39,7 @@ export default class AnalyticsPageRoute extends Route {
         return {
             id: node.id,
             modelName: node.modelName,
-            taskInstance: this.get('thunk').perform(node.reload({
-                adapterOptions: {
-                    query: {
-                        related_counts: true,
-                    },
-                },
-            }), blocker),
+            taskInstance: this.get('reloadNode').perform(node, blocker),
         };
     });
 

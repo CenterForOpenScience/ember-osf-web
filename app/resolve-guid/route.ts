@@ -8,6 +8,7 @@ import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 import param from 'ember-osf-web/utils/param';
+import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 interface RouterMicroLib {
     generate(routeName: string, ...args: any[]): string;
@@ -62,7 +63,7 @@ export default class ResolveGuid extends Route {
         );
 
         if (!this.isEngineRoute(params.guid) && !this.looksLikeGUID(params.guid)) {
-            return this.replaceWith('not-found');
+            throw new Error(`Invalid GUID and no matching engine: ${params.guid}`);
         }
 
         let expanded: string;
@@ -103,7 +104,7 @@ export default class ResolveGuid extends Route {
 
     @action
     error(error: Error, transition: Transition) {
-        this.replaceWith('not-found', (transition as any).intent.url.slice(1));
+        this.replaceWith('not-found', transitionTargetURL(transition).slice(1));
 
         throw error;
     }

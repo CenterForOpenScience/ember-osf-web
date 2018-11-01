@@ -170,6 +170,30 @@ module('Acceptance | resolve-guid', hooks => {
         });
     });
 
+    test('Invalid GUIDs', async assert => {
+        server.create('root', { currentUser: null });
+
+        const testCases = [
+            { url: '/decof', guid: 'decof', test: 'Invalid GUID' },
+            { url: '/dec1f/foo', guid: 'dec1f', test: 'Invalid GUID with sub route' },
+        ];
+
+        for (const testCase of testCases) {
+            try {
+                await visit(testCase.url);
+            } catch (e) {
+                assert.equal(e.message, `Invalid GUID and no matching engine: ${testCase.guid}`);
+            }
+
+            await settled();
+
+            assert.ok(true, testCase.test);
+            assert.equal(currentURL(), testCase.url, 'The URL has not changed');
+            assert.equal(currentLocationURL(), testCase.url, 'The URL has not changed');
+            assert.equal(currentRouteName(), 'not-found', 'The correct route was reached');
+        }
+    });
+
     test('Not found', async assert => {
         server.create('root', { currentUser: null });
 
