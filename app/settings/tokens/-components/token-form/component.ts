@@ -2,7 +2,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import DS from 'ember-data';
 
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import Token from 'ember-osf-web/models/token';
 
 export default class TokenForm extends Component {

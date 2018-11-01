@@ -4,7 +4,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import I18N from 'ember-i18n/services/i18n';
 import { serviceLinks } from 'ember-osf-web/const/service-links';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import Session from 'ember-simple-auth/services/session';

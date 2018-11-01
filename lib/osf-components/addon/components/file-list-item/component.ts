@@ -3,8 +3,8 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import DS from 'ember-data';
 
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import { localClassName, localClassNames } from 'ember-osf-web/decorators/css-modules';
-import requiredAction from 'ember-osf-web/decorators/required-action';
 import File from 'ember-osf-web/models/file';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';

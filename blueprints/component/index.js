@@ -32,20 +32,19 @@ module.exports = {
     },
 
     locals(options) {
-        let importStyles = '';
-        let importTemplate = '';
-        let contents = '';
+        let addonLayout = '';
         // if we're in an addon, build import statements
         if (options.project.isEmberCLIAddon() || (options.inRepoAddon && !options.inDummy)) {
-            importStyles = 'import styles from \'./styles\';\n';
-            importTemplate = 'import layout from \'./template\';\n';
-            contents = '\n    layout = layout;\n    styles = styles;';
+            addonLayout = [
+                "import { layout } from 'ember-osf-web/decorators/component';\n",
+                "import styles from './styles';",
+                "import template from './template';\n",
+                '@layout(template, styles)\n',
+            ].join('\n');
         }
 
         return {
-            importStyles,
-            importTemplate,
-            contents,
+            addonLayout,
             path: getPathOption(options),
         };
     },

@@ -5,8 +5,8 @@ import Component from '@ember/component';
 import DS from 'ember-data';
 import moment from 'moment';
 
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import { localClassName, localClassNames } from 'ember-osf-web/decorators/css-modules';
-import requiredAction from 'ember-osf-web/decorators/required-action';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';

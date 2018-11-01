@@ -1,8 +1,8 @@
 import { classNames } from '@ember-decorators/component';
 import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import { localClassNames } from 'ember-osf-web/decorators/css-modules';
-import requiredAction from 'ember-osf-web/decorators/required-action';
 import { SearchOptions } from 'registries/services/search';
 import layout from './template';
 
