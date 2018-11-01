@@ -1,3 +1,4 @@
+import { getOwner } from '@ember/application';
 import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
@@ -42,7 +43,13 @@ const Router = EmberRouter.extend({
         this.get('statusMessages').updateMessages();
 
         if (this.shouldScrollTop) {
-            window.scrollTo(0, 0);
+            const owner = getOwner(this);
+            // Don't use window.scrollTo here to avoid throwing
+            // QUnit's test interface to the top every time visit is called
+            const rootElement = document.querySelector(
+                owner.application.rootElement,
+            );
+            rootElement.parentElement.scrollTop = 0;
         }
 
         if (this.readyBlocker && !this.readyBlocker.isDone()) {
