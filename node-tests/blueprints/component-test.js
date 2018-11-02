@@ -16,8 +16,6 @@ function checkComponentFiles(file, root) {
         .to.equal(fixture(`blueprints/component/in-${root}.ts`));
     expect(file(`${root}/components/foo-bar/template.hbs`))
         .to.equal('{{yield}}');
-    expect(file(`${root}/components/foo-bar/styles.scss`))
-        .to.equal('.FooBar {\n}\n');
 }
 
 describe('Blueprint: component', function() {

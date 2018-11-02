@@ -1,7 +1,8 @@
 import EngineInstance from '@ember/engine/instance';
-import { click, fillIn, triggerKeyEvent, visit } from '@ember/test-helpers';
+import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import Analytics from 'ember-osf-web/services/analytics';
+import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';

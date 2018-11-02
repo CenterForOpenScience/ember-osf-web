@@ -6,7 +6,7 @@ import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import Toast from 'ember-toastr/services/toast';

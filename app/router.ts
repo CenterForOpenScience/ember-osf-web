@@ -103,40 +103,43 @@ Router.map(function() {
     }
 
     if (registries.enabled) {
-        this.mount('registries');
+        this.mount('registries', { path: '--registries' });
     }
+
+    this.route('guid-file', { path: '--file/:guid' });
+
+    this.route('guid-node', { path: '--node/:guid' }, function() {
+        this.mount('analytics-page', { as: 'analytics' });
+        this.route('forks');
+        this.route('registrations');
+    });
+
+    this.route('guid-preprint', { path: '--preprint/:guid' });
+
+    this.route('guid-registration', { path: '--registration/:guid' }, function() {
+        this.mount('analytics-page', { as: 'analytics' });
+        this.route('forks');
+    });
+
+    this.route('guid-user', { path: '--user/:guid' }, function() {
+        this.route('quickfiles');
+    });
 
     /*
      * Guid Routing
      *
      * Root guid URLs (e.g. "/mst3k/") will match the `resolve-guid` route, which
      * will ask the API what type of object the guid refers to, then transition
-     * to the appropriate `guid-<type>` route below.
+     * to the appropriate route based off the `routeMap` property.
      *
-     * Non-unique nested routes that begin with a guid need special handling.
-     * See `resolve-guid.forks` for an example.
+     * Routes that handle guid objects should prefix their routes with the type
+     * it handles prefixed with `--` (e.g. "--user/:user_guid")
+     * The GuidLocation implementation will remove URL segments prefixed with `--`
+     * resulting in clean guid URLs while still respecting Ember's routing semantics.
      */
-    this.route('guid-file', { path: '/:file_guid' });
-    this.route('guid-node', { path: '/:node_guid' }, function() {
-        this.mount('analytics-page', { as: 'analytics' });
-        this.route('forks');
-        this.route('registrations');
+    this.route('resolve-guid', { path: ':guid' }, function() {
+        this.route('subpath', { path: '*path' });
     });
-    this.route('guid-preprint', { path: '/:preprint_guid' });
-    this.route('guid-registration', { path: '/:registration_guid' }, function() {
-        this.mount('analytics-page', { as: 'analytics' });
-        this.route('forks');
-    });
-    this.route('guid-user', { path: '/:user_guid' }, function() {
-        this.route('quickfiles');
-    });
-
-    // If there are multiple routes with the same path pattern (e.g. `resolve-guid`
-    // and all the `guid-*` routes above), URLs that match will resolve to the
-    // route defined last. It's very intuitive.
-    this.route('resolve-guid', { path: '/:guid' });
-    this.route('resolve-guid.forks', { path: '/:guid/forks' });
-    this.route('resolve-guid.analytics', { path: '/:guid/analytics' });
 
     // Error routes
     this.route('error-no-api', { path: '*no_api_path' });

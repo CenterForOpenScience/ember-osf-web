@@ -3,7 +3,7 @@ import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import styles from './styles';
 import layout from './template';

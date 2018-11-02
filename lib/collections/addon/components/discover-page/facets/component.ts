@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import { FacetContexts } from '../component';
 import styles from './styles';
 import layout from './template';

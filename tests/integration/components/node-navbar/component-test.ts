@@ -1,14 +1,21 @@
 import Service from '@ember/service';
 import { findAll, render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 module('Integration | Component | node-navbar', hooks => {
     setupRenderingTest(hooks);
 
+    hooks.beforeEach(function(this: TestContext) {
+        this.set('node', {
+            modelName: 'node',
+        });
+    });
+
     test('it renders', async function(assert) {
-        await render(hbs`{{node-navbar renderInPlace=true}}`);
+        await render(hbs`{{node-navbar node=this.node renderInPlace=true}}`);
 
         assert.ok((this.element.textContent as string).trim());
     });
@@ -19,7 +26,7 @@ module('Integration | Component | node-navbar', hooks => {
         });
 
         this.owner.register('service:router', routerStub);
-        await render(hbs`{{node-navbar renderInPlace=true}}`);
+        await render(hbs`{{node-navbar node=this.node renderInPlace=true}}`);
 
         assert.ok(findAll('li.active').length);
         assert.ok(findAll('li.active')[0].innerHTML.includes('wiki'));
@@ -31,7 +38,7 @@ module('Integration | Component | node-navbar', hooks => {
         });
 
         this.owner.register('service:router', routerStub);
-        await render(hbs`{{node-navbar renderInPlace=true}}`);
+        await render(hbs`{{node-navbar node=this.node renderInPlace=true}}`);
 
         assert.ok(!findAll('li.active').length);
     });

@@ -8,7 +8,7 @@ import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import Region from 'ember-osf-web/models/region';

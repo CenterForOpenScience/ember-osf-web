@@ -5,7 +5,7 @@ import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
 import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';

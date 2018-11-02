@@ -3,17 +3,33 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-
 ## [Unreleased]
+### Added
+- Components:
+    - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+- Tests:
+    - `new-project-navigation-modal` - component integration test
+    - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
+- Types:
+    - `ember-power-select/test-support` - types for useful functions
+
+### Changed
+- Components:
+    - `file-browser` - replaced project navigation modal with `new-project-navigation-modal` component
+    - `new-project-modal` - Made it smarter and more reusable
+    - `project-selector` - replaced project creation modal with `new-project-modal` component
+- Pages:
+    - `dashboard` - replaced project creation modal with `new-project-modal` component
+- Tests:
+    - `dashboard` - acceptance tests related to project creation workflow
+ 
+## [18.1.0] - 2018-10-30
 ### Added
 - Components:
     - `panel` - a general-use abstraction of bootstrap panels
     - `validated-model-form` - wraps common logic for forms made with `validated-input/*`
-    - `new-project-navigation-modal` - For navigating away to nodes. Or not.
 - Tests:
     - `panel` component integration test
-    - `new-project-navigation-modal` - component integration test
-    - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
 - Handbook:
     - `panel` component
     - `new-project-modal` component
@@ -22,30 +38,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `node` POST view to add currentUser as contributor
     - `regions` fixtures
     - `wb` view to move files from user or node to a node
-- Types:
-    - `ember-power-select/test-support` - types for useful functions
 - Routes:
     - `settings.applications` - list of developer apps
     - `settings.applications.edit`
     - `settings.applications.create`
+- Decorators:
+    - `@layout(template, styles)` in `ember-osf-web/decorators/component`
 
 ### Changed
-- Pages:
-    - `dashboard` - replaced project creation modal with `new-project-modal` component
 - Components:
     - `loading-indicator` - added inline option
-    - `file-browser` - replaced project navigation modal with `new-project-navigation-modal` component
-    - `new-project-modal` - Made it smarter and more reusable
-    - `project-selector` - replaced project creation modal with `new-project-modal` component
+- Utilities:
+    - `fix-special-chars` - made case-insensitive
 - Tests:
     - `loading-indicator` - added tests for inline
-    - `dashboard` - acceptance tests related to project creation workflow
 - Handbook:
     - `loading-indicator` - added examples for inline
 - Mirage:
     - `root` factory now adds all feature flags, not just route flags
     - `user` factory has 'withFiles' trait so non-current users can have files easily
     - `user` serializer has default_region relationship (hardcoded to us)
+- Decorators:
+    - `@requiredAction` moved to `ember-osf-web/decorators/component`
+- Blueprints:
+    - `component` - use `@layout`, don't add `styles.scss` or `@localClassNames`
 
 ### Removed
 - Flags:

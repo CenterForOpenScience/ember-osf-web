@@ -6,7 +6,7 @@ import I18N from 'ember-i18n/services/i18n';
 import Session from 'ember-simple-auth/services/session';
 import $ from 'jquery';
 
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
