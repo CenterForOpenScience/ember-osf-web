@@ -50,6 +50,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
 
     test('move file to a new project', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
+        const title = 'Giraffical Interchange Format';
         server.loadFixtures('regions');
         await visit(`/${currentUser.id}/quickfiles`);
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
@@ -59,11 +60,13 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await click('[data-test-move-button]');
         await click('[data-test-ps-new-project-button]');
         assert.dom('[data-test-create-project-header]').includesText('Create new project');
-        await fillIn('[data-test-new-project-title]', 'new project title');
+        await fillIn('[data-test-new-project-title]', title);
         await click('[data-test-create-project-submit]');
         await click('[data-test-stay-here]');
         const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(newFiles.length, files.length - 1);
+        const newNode = server.schema.nodes.findBy({ title });
+        assert.equal(newNode.attrs.public, true, 'Projects created from quickfiles should be public.');
     });
 
     test('create new and cancel', async function(assert) {
@@ -105,6 +108,70 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await click('[data-test-ps-new-project-button]');
         assert.dom('[data-test-new-project-title]')
             .hasNoValue('Should not be filled out after leaving and re-entering');
+    });
+
+    test('move file to an existing public project', async function(assert) {
+        const currentUser = server.create('user', 'loggedIn');
+        server.loadFixtures('regions');
+        const title = 'Giraffical Interchange Format';
+        const node = server.create(
+            'node',
+            { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z', public: true },
+        );
+        server.create(
+            'contributor',
+            { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+        await visit(`/${currentUser.id}/quickfiles`);
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
+        assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
+        await click(files[0]);
+        await click('[data-test-move-button]');
+        await click('[data-test-ps-existing-project-button]');
+        await click('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
+        await selectChoose('[data-test-ps-select-project]', title);
+        assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
+            .containsText(title);
+        assert.dom('[data-test-no-longer-public]')
+            .doesNotExist('There should not be a warning about moving files to a private project');
+        await click('[data-test-move-to-project-modal-perform-button]');
+        await click('[data-test-stay-here]');
+        const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
+        assert.equal(newFiles.length, files.length - 1);
+    });
+
+    test('move file to an existing private project', async function(assert) {
+        const currentUser = server.create('user', 'loggedIn');
+        server.loadFixtures('regions');
+        const title = 'Giraffical Interchange Format';
+        const node = server.create(
+            'node',
+            { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z', public: false },
+        );
+        server.create(
+            'contributor',
+            { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+        await visit(`/${currentUser.id}/quickfiles`);
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
+        assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
+        await click(files[0]);
+        await click('[data-test-move-button]');
+        await click('[data-test-ps-existing-project-button]');
+        await click('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
+        await selectChoose('[data-test-ps-select-project]', title);
+        assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
+            .containsText(title);
+        assert.dom('[data-test-no-longer-public]')
+            .exists('Should be a warning about moving files to a private project');
+        assert.dom('[data-test-no-longer-public]')
+            .containsText('Files moved to private projects will no longer be public or discoverable by others.');
+        await click('[data-test-move-to-project-modal-perform-button]');
+        await click('[data-test-stay-here]');
+        const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
+        assert.equal(newFiles.length, files.length - 1);
     });
 
     test('Select existing project and back', async function(assert) {

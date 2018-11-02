@@ -57,7 +57,7 @@
             )}}
         </p>
         {{#unless isPublicProject}}
-            <p class="text-danger m-t-sm">
+            <p data-test-no-longer-public class="text-danger m-t-sm">
                 {{t (concat
                     'move_to_project.no_longer_public_warning.'
                     (if isChildNode 'component' 'project')

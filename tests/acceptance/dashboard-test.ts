@@ -393,5 +393,6 @@ module('Acceptance | dashboard', hooks => {
         assert.equal(newNode.attrs.description, description);
         assert.equal(newNode.attrs.regionId, 'de-1');
         assert.equal(newNode.attrs.templateFrom, nodeTwo.id);
+        assert.equal(newNode.attrs.public, false, 'Projects created from the dashboard should not be public.');
     });
 });
