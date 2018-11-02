@@ -1,4 +1,4 @@
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { click, fillIn, visit } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { selectChoose } from 'ember-power-select/test-support';
@@ -12,8 +12,9 @@ module('Acceptance | Guid User Quickfiles', hooks => {
     test('visiting another\'s guid-user/quickfiles unauthenticated', async function(assert) {
         server.create('root', { currentUser: null });
         const user = server.create('user', 'withFiles');
-        await visit(`/${user.id}/quickfiles`);
-        assert.equal(currentURL(), `/${user.id}/quickfiles`, 'We stayed on the proper page');
+        assert.ok(this.element === undefined, 'Should not have element before visit');
+        await visit(`--user/${user.id}/quickfiles`);
+        assert.ok(this.element !== undefined, 'Should have element after visit');
         assert.dom('nav.navbar').exists();
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown').doesNotExist('Should not have user menu if not logged in');
@@ -26,8 +27,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const currentUser = server.create('user', 'loggedIn');
         const user = server.create('user', 'withFiles');
         server.createList('file', 5, { user });
-        await visit(`/${user.id}/quickfiles`);
-        assert.equal(currentURL(), `/${user.id}/quickfiles`, 'We stayed on the proper page');
+        await visit(`--user/${user.id}/quickfiles`);
         assert.dom('nav.navbar').exists();
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown .nav-profile-name')
@@ -41,8 +41,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const currentUser = server.create('user', 'loggedIn');
         const user = server.create('user', 'withFiles');
         server.createList('file', 5, { user });
-        await visit(`/${currentUser.id}/quickfiles`);
-        assert.equal(currentURL(), `/${currentUser.id}/quickfiles`, 'We stayed on the proper page');
+        await visit(`--user/${currentUser.id}/quickfiles`);
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('a[class*="filename"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
@@ -52,7 +51,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const currentUser = server.create('user', 'loggedIn');
         const title = 'Giraffical Interchange Format';
         server.loadFixtures('regions');
-        await visit(`/${currentUser.id}/quickfiles`);
+        await visit(`--user/${currentUser.id}/quickfiles`);
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
@@ -73,7 +72,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const title = 'Giraffical Interchange Format';
         const currentUser = server.create('user', 'loggedIn');
         server.loadFixtures('regions');
-        await visit(`/${currentUser.id}/quickfiles`);
+        await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
         await click(files[0]);
@@ -94,7 +93,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const title = 'Giraffical Interchange Format';
         const currentUser = server.create('user', 'loggedIn');
         server.loadFixtures('regions');
-        await visit(`/${currentUser.id}/quickfiles`);
+        await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
         await click(files[0]);
@@ -122,7 +121,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             'contributor',
             { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
         );
-        await visit(`/${currentUser.id}/quickfiles`);
+        await visit(`--user/${currentUser.id}/quickfiles`);
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
@@ -153,7 +152,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             'contributor',
             { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
         );
-        await visit(`/${currentUser.id}/quickfiles`);
+        await visit(`--user/${currentUser.id}/quickfiles`);
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
@@ -187,7 +186,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         );
 
         server.loadFixtures('regions');
-        await visit(`/${currentUser.id}/quickfiles`);
+        await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
         await click(files[0]);
@@ -219,7 +218,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         );
 
         server.loadFixtures('regions');
-        await visit(`/${currentUser.id}/quickfiles`);
+        await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
         await click(files[0]);

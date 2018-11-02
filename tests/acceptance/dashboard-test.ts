@@ -133,7 +133,9 @@ module('Acceptance | dashboard', hooks => {
         for (const node of nodes) {
             server.create('contributor', { node, users: currentUser, index: 11 });
         }
+        assert.ok(this.element === undefined, 'Should not have element before visit');
         await visit('/dashboard');
+        assert.ok(this.element !== undefined, 'Should have element after visit');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
         assert.dom('[data-test-load-more]').exists('The control to load more projects exists');
