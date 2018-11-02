@@ -3,14 +3,15 @@
     {{#if this.showNewNodeNavigation}} 
         <NewProjectNavigationModal
             @node={{newNode}}
-            @closeModal={{action closeModal reload=true}}
+            @closeModal={{action closeModal}}
             @title={{t 'new_project.success_message'}}
+            @afterStayHere={{action afterStay}}
         />
     {{else}}
         <NewProjectModal
-            @projectCreated={{action projectCreated}}
+            @afterProjectCreated={{action projectCreated}}
             @page="Dashboard"
-            @closeModal={{action closeModal reload=false}}
+            @closeModal={{action closeModal}}
         />
     {{/if}}
 {{/if}}

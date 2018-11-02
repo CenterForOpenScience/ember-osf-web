@@ -78,6 +78,7 @@ export default class ProjectSelector extends Component.extend({
     newProject!: Node;
     @requiredAction projectSelected!: (value: Node) => void;
     @requiredAction validationChanged!: (isValid: boolean) => void;
+    @requiredAction moveToNewProject!: () => unknown;
 
     // Optional arguments
     nodeTitle: string | null = defaultTo(this.nodeTitle, null);
@@ -141,22 +142,11 @@ export default class ProjectSelector extends Component.extend({
     @action
     prevent(event: Event) {
         event.preventDefault();
-
         return false;
     }
 
     @action
-    closeModal(this: ProjectSelector) {
-        // Need to explicitly pass reload when the action in the onclick event of a button
-        // otherwise the first argument is a mouse event which in turn is always truthy
-        this.changeState(ProjectSelectState.main);
-    }
-
-    @action
-    projectCreated(this: ProjectSelector, newNode: Node) {
-        this.set('newProject', newNode);
-        this.projectSelected(newNode);
-        this.changeState(ProjectSelectState.newProjectSelected);
-        this.validationChanged(this.isValid);
+    moveToNew(this: ProjectSelector) {
+        this.moveToNewProject();
     }
 }

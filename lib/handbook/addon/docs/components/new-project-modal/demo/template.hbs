@@ -15,7 +15,7 @@
         {{#demo.example name='new-project-modal.demo.hbs'}}
             {{#if shouldShowModal}}
                 <NewProjectModal
-                    @projectCreated={{action projectCreated}}
+                    @afterProjectCreated={{action projectCreated}}
                     @page="Dashboard"
                     @closeModal={{action closeModal reload=false}}
                 />

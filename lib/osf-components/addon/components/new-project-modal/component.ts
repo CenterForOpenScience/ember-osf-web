@@ -52,7 +52,10 @@ export default class NewProjectModal extends Component.extend({
 
     // Required arguments
     page!: string;
-    @requiredAction projectCreated!: (newNode: Node) => void;
+    @requiredAction afterProjectCreated!: (newNode: Node) => void;
+
+    // Optional arguments
+    isPublic?: boolean;
 
     // Private fields
     nodeTitle?: string;
@@ -79,6 +82,7 @@ export default class NewProjectModal extends Component.extend({
         institutions: Institution[],
         templateFrom?: Node,
         storageRegion?: Region,
+        isPublic?: boolean,
     ) {
         if (!title) {
             return;
@@ -86,7 +90,7 @@ export default class NewProjectModal extends Component.extend({
         const node = this.store.createRecord('node', {
             category: 'project',
             description,
-            public: false,
+            public: isPublic !== undefined ? isPublic : false,
             title,
         });
 
@@ -101,7 +105,7 @@ export default class NewProjectModal extends Component.extend({
         }
         yield node.save();
 
-        this.projectCreated(node);
+        this.afterProjectCreated(node);
     }).drop();
 
     @oneWay('institutions') selectedInstitutions!: Institution[];
@@ -161,6 +165,7 @@ export default class NewProjectModal extends Component.extend({
             this.selectedInstitutions,
             this.templateFrom,
             this.selectedRegion,
+            this.isPublic,
         );
         this.analytics.click('button', `${this.page} - New Project - create`);
     }

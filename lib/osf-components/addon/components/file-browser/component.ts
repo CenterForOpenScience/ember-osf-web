@@ -31,6 +31,7 @@ enum modals {
     DeleteMultiple = 'deleteMultiple',
     RenameConflict = 'renameConflict',
     Move = 'move',
+    MoveToNew = 'moveToNew',
     SuccessMove = 'successMove',
 }
 
@@ -442,5 +443,21 @@ export default class FileBrowser extends Component {
     @action
     projectSelected(this: FileBrowser, node: Node) {
         this.set('node', node);
+    }
+
+    @action
+    moveToNewProject(this: FileBrowser) {
+        this.set('currentModal', modals.MoveToNew);
+    }
+
+    @action
+    afterStay(this: FileBrowser) {
+        this.set('currentModal', modals.None);
+    }
+
+    @action
+    projectCreated(this: FileBrowser, node: Node) {
+        this.set('node', node);
+        this.get('moveToProject').perform();
     }
 }

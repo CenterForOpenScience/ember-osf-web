@@ -209,7 +209,7 @@ export default {
         },
     },
     move_to_project: {
-        create_new_project: 'Create new project',
+        create_new_project: 'Create new public project',
         connect_to_existing: 'Connect file to existing OSF project',
         enter_project_title: 'Enter project title',
         new_project_message: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.',
