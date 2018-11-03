@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
 - Models:
-    - `node` - add `wikiEnabled` boolean attribute
+    - `node`
+        - added `wikiEnabled` boolean attribute
+        - added `userHasReadPermission` computed property
+        - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
+        - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+- Tests:
+    - improved integration tests for `node-navbar` component
 
 ## [18.1.0] - 2018-10-30
 ### Added
