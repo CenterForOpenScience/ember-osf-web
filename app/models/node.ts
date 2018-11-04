@@ -99,6 +99,7 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
     @attr('boolean') preprint!: boolean;
     @attr('array') subjects!: string[];
     @attr('boolean') currentUserCanComment!: boolean;
+    @attr('boolean') wikiEnabled!: boolean;
 
     @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<Contributor>;
@@ -164,22 +165,32 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
 
     /**
      * Does the current user have write permission on this node?
-     * @property currentUserCanEdit
+     * @property userHasWritePermission
      * @type boolean
      */
     @computed('currentUserPermissions')
-    get currentUserCanEdit() {
+    get userHasWritePermission() {
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Write);
     }
 
     /**
      * Is the current user an admin on this node?
-     * @property currentUserIsAdmin
+     * @property userHasAdminPermission
      * @type boolean
      */
     @computed('currentUserPermissions')
-    get currentUserIsAdmin() {
+    get userHasAdminPermission() {
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    /**
+     * Does the current user have read permission on this node?
+     * @property userHasReadPermission
+     * @type boolean
+     */
+    @computed('currentUserPermissions')
+    get userHasReadPermission() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read);
     }
 
     /**

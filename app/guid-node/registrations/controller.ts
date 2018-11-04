@@ -56,9 +56,9 @@ export default class GuidNodeRegistrations extends Controller {
         return this.tab ? this.tab : 'registrations';
     }
 
-    @computed('node.id', 'node.root.id', 'node.root.currentUserIsAdmin')
+    @computed('node.id', 'node.root.id', 'node.root.userHasAdminPermission')
     get isComponentRootAdmin() {
-        return this.node && this.node.id !== this.node.root.get('id') && this.node.root.get('currentUserIsAdmin');
+        return this.node && this.node.id !== this.node.root.get('id') && this.node.root.get('userHasAdminPermission');
     }
 
     @action
