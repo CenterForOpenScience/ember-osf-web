@@ -45,12 +45,17 @@ declare module '@ember/routing/transition' {
         isResolved: false;
     }
 
+    interface TransitionState {
+        queryParams: Record<string, any>;
+    }
+
     export default interface Transition extends Ember.Transition {
-        targetName: string;
-        params: Record<string, Record<string, string>>;
         handlerInfos: Array<HandlerInfo | UnresolvedHandlerInfo>;
-        resolvedModels: Record<string, any>;
+        params: Record<string, Record<string, string>>;
         queryParams?: Record<string, any>;
+        resolvedModels: Record<string, any>;
+        state: TransitionState;
+        targetName: string;
         router: {
             generate(handlerName: string, ...params: any[]): string;
         }
