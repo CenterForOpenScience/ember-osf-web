@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [18.1.2] - 2018-11-05
+- Engines:
+    - `registries/discover` - reset to first page on user search input
+
 ## [18.1.1] - 2018-11-05
 - Routes:
     - `guid-node/registrations` - fix sorting of registration schema on new registration modal

@@ -1,10 +1,10 @@
 import EngineInstance from '@ember/engine/instance';
-import { click, getRootElement, visit } from '@ember/test-helpers';
+import { click, fillIn, getRootElement, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import Analytics from 'ember-osf-web/services/analytics';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
-import { OrderedSet } from 'immutable';
+import { OrderedSet, ValueObject } from 'immutable';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import { SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
@@ -14,6 +14,10 @@ import ShareSearch, {
     ShareTermsFilter,
 } from 'registries/services/share-search';
 import sinon from 'sinon';
+
+const equals = (expected: ValueObject) => {
+    return sinon.match((x: any) => expected.equals(x));
+};
 
 const emptyResults: SearchResults<ShareRegistration> = {
     total: 0,
@@ -523,6 +527,79 @@ module('Registries | Integration | discover', hooks => {
                 key: 'date_updated',
             }),
         }));
+    });
+
+    test('page resets on typing query', async function(this: TestContext) {
+        const stub = sinon.stub(this.owner.lookup('service:share-search'), 'registrations').returns({
+            total: 0,
+            results: [],
+            aggregations: {
+                sources: {
+                    buckets: [{ key: 'OSF', doc_count: 10 }],
+                },
+            },
+        });
+
+        await visit('/registries/discover?page=10');
+
+        sinon.assert.calledWith(stub, equals(new SearchOptions({
+            query: '',
+            page: 10,
+            order: new SearchOrder({
+                display: 'registries.discover.order.relevance',
+                ascending: false,
+                key: 'date_modified',
+            }),
+        })));
+
+        await fillIn('[data-test-search-box]', 'Test Query');
+
+        sinon.assert.calledWith(stub, equals(new SearchOptions({
+            query: 'Test Query',
+            page: 1,
+            order: new SearchOrder({
+                display: 'registries.discover.order.relevance',
+                ascending: true,
+                key: undefined,
+            }),
+        })));
+    });
+
+    test('page resets on clicking search', async function(this: TestContext) {
+        sinon.stub(this.owner.lookup('service:analytics'), 'click');
+        const stub = sinon.stub(this.owner.lookup('service:share-search'), 'registrations').returns({
+            total: 0,
+            results: [],
+            aggregations: {
+                sources: {
+                    buckets: [{ key: 'OSF', doc_count: 10 }],
+                },
+            },
+        });
+
+        await visit('/registries/discover?page=10&q=Testing');
+
+        sinon.assert.calledWith(stub, equals(new SearchOptions({
+            query: 'Testing',
+            page: 10,
+            order: new SearchOrder({
+                display: 'registries.discover.order.relevance',
+                ascending: true,
+                key: undefined,
+            }),
+        })));
+
+        await click('[data-test-search-button]');
+
+        sinon.assert.calledWith(stub, equals(new SearchOptions({
+            query: 'Testing',
+            page: 1,
+            order: new SearchOrder({
+                display: 'registries.discover.order.relevance',
+                ascending: true,
+                key: undefined,
+            }),
+        })));
     });
 
     test('scroll top on pagination', async function(this: TestContext, assert: Assert) {
