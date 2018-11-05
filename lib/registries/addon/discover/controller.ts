@@ -214,6 +214,12 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             this.set('registrationTypes', A([]));
         }
 
+        // If query has changed but page has not changed reset page to 1.
+        // The page check stops other tests from breaking
+        if (this.searchOptions && this.searchOptions.query !== this.query && this.searchOptions.page === this.page) {
+            this.set('page', 1);
+        }
+
         let options = new SearchOptions({
             query: this.query,
             size: this.size,
