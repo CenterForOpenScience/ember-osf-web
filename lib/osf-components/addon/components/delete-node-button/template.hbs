@@ -1,0 +1,24 @@
+{{#delete-button
+    delete=(action this._deleteNode)
+    onShowModal=(action (perform this._loadDescendentsTask))
+    disabled=(not this._loadDescendentsTask.isSuccessful)
+    buttonStyle=@buttonStyle
+    hardConfirm=true
+}}
+    {{#let this._loadDescendentsTask.last as |taskInstance|}}
+        {{#if taskInstance.isRunning}}
+            {{loading-indicator dark=true}}
+        {{else if taskInstance.isError}}
+            Error!
+        {{else if taskInstance.isSuccessful}}
+            {{#if this.tooManyChildren}}
+                Too many children!
+            {{else if taskInstance.value.length}}
+                These will be deleted:
+                {{#each taskInstance.value as |childNode|}}
+                    {{node-card node=childNode showControls=false}}
+                {{/each}}
+            {{/if}}
+        {{/if}}
+    {{/let}}
+{{/delete-button}}

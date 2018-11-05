@@ -15,8 +15,6 @@ export default class GuidNodeForks extends Controller {
     @service statusMessages!: StatusMessages;
     @service analytics!: Analytics;
 
-    toDelete: Node | null = null;
-    deleteModal = false;
     loadingNew = false;
     newModal = false;
 
@@ -33,25 +31,6 @@ export default class GuidNodeForks extends Controller {
             return;
         }
         return this.node.parent ? 'component' : 'project';
-    }
-
-    @action
-    openDeleteModal(this: GuidNodeForks, node: Node) {
-        node.get('children').then(children => {
-            if (children.toArray().length) {
-                const message = this.i18n.t('forks.unable_to_delete_fork');
-                this.toast.error(message);
-            } else {
-                this.set('toDelete', node);
-                this.set('deleteModal', true);
-            }
-        });
-    }
-
-    @action
-    closeDeleteModal(this: GuidNodeForks) {
-        this.set('toDelete', null);
-        this.set('deleteModal', false);
     }
 
     @action
@@ -73,26 +52,6 @@ export default class GuidNodeForks extends Controller {
         }).catch(() => {
             this.set('loadingNew', false);
             this.toast.error(this.i18n.t('forks.new_fork_failed'));
-        });
-    }
-
-    @action
-    delete(this: GuidNodeForks) {
-        this.analytics.click('button', 'Project Forks - Delete Fork');
-        this.set('deleteModal', false);
-        const node = this.toDelete;
-        if (!node) {
-            return;
-        }
-        this.set('toDelete', null);
-        node.deleteRecord();
-        node.save().then(() => {
-            this.toast.success(this.i18n.t('status.project_deleted'));
-            if (this.reloadList) {
-                this.reloadList();
-            }
-        }).catch(() => {
-            this.toast.error(this.i18n.t('forks.delete_fork_failed'));
         });
     }
 }

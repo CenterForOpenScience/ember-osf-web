@@ -61,14 +61,13 @@
                                     {{t 'general.settings'}}
                                 </a>
                             </li>
-                            <li role='menuitem'>
-                                <a
-                                    onclick={{action @delete @node}}
-                                    role='button'
-                                    local-class='NodeCard__dropdown-link'
-                                >
-                                    {{t 'general.delete'}}
-                                </a>
+                            <li role='menuitem' local-class='NodeCard__dropdown-link'>
+                                {{delete-node-button
+                                    node=@node
+                                    buttonStyle='link'
+                                    hardConfirm=true
+                                    onDelete=@onDelete
+                                }}
                             </li>
                         {{/dd.menu}}
                     {{/bs-dropdown}}

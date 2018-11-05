@@ -3,7 +3,12 @@
 <div class="container" local-class="Forks">
     {{#bs-modal open=newModal onSubmit=(action 'newFork') onHide=(action (mut newModal) false) as |m|}}
         {{#m.body}}
-            <button aria-label="Close" class="close" onclick={{action (mut newModal) false}} {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}>
+            <button
+                aria-label={{t 'general.close'}}
+                class="close"
+                onclick={{action (mut newModal) false}}
+                {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}
+            >
                 {{fa-icon 'times' size='sm'}}
             </button>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
@@ -13,8 +18,6 @@
             {{#bs-button onClick=(action m.submit) type='info'}}{{t 'forks.fork'}}{{/bs-button}}
         {{/m.footer}}
     {{/bs-modal}}
-    {{! Analytics being called in the controller action }}
-    {{delete-node-modal delete=(action 'delete') openModal=deleteModal closeModal=(action 'closeDeleteModal') nodeType=nodeType}}
     <div local-class="Forks__header" class="page-header visible-xs">
         <h2 class="text-300">{{t 'forks.title'}}</h2>
     </div>
@@ -38,7 +41,7 @@
             as |list|
         }}
             {{#list.item as |fork|}}
-                {{node-card node=fork delete=(action openDeleteModal fork)}}
+                {{node-card node=fork onDelete=list.doReload}}
             {{/list.item}}
 
             {{#list.empty}}

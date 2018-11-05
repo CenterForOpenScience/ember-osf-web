@@ -1,4 +1,4 @@
-{{#if small}}
+{{#if this.displayIcon}}
     {{#bs-button data-test-delete-button
         (html-attributes aria-label=this.buttonLabel)
         type='link'
@@ -9,7 +9,7 @@
     }}
         {{fa-icon 'times' size='lg'}}
     {{/bs-button}}
-{{else}}
+{{else if this.displayButton}}
     {{#bs-button data-test-delete-button
         type='default'
         onClick=(action this._show)
@@ -17,9 +17,17 @@
     }}
         {{this.buttonLabel}}
     {{/bs-button}}
+{{else if this.displayLink}}
+    <a data-test-delete-button
+       role="button"
+       disabled={{this.disabled}}
+       {{action this._show}}
+    >
+        {{this.buttonLabel}}
+    </a>
 {{/if}}
 
-{{#if this.modalShown}}
+{{#if this.shouldShowModal}}
     {{#bs-modal
         tagName='span'
         onHide=(action this._cancel)

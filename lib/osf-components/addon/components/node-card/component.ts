@@ -2,8 +2,10 @@ import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import DS from 'ember-data';
 import config from 'ember-get-config';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import Node, { NodeType } from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import { Question } from 'ember-osf-web/models/registration-schema';
@@ -12,21 +14,21 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const { OSF: { url: baseURL } } = config;
 
 @tagName('')
+@layout(template, styles)
 export default class NodeCard extends Component {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
+    @service store!: DS.Store;
 
     // Optional parameters
     node?: Node | Registration;
-    delete?: (node: Node) => void;
     showTags: boolean = defaultTo(this.showTags, false);
+    showControls: boolean = defaultTo(this.showControls, true);
+    onDelete?: () => void;
     analyticsScope?: string;
     readOnly: boolean = defaultTo(this.readOnly, false);
 

@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
+import { equal } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
@@ -14,7 +15,13 @@ import randomScientist from 'ember-osf-web/utils/random-scientist';
 import styles from './styles';
 import layout from './template';
 
-@tagName('span')
+export enum ButtonStyle {
+    Button = 'button',
+    Icon = 'icon',
+    Link = 'link',
+}
+
+@tagName('')
 export default class DeleteButton extends Component.extend({
     _deleteTask: task(function *(this: DeleteButton) {
         try {
@@ -22,7 +29,7 @@ export default class DeleteButton extends Component.extend({
                 this.analytics.click('button', `${this.analyticsScope} - Confirm delete`);
             }
             yield this.delete();
-            this.set('modalShown', false);
+            this.set('shouldShowModal', false);
         } catch (e) {
             this.toast.error(this.errorMessage);
             throw e;
@@ -37,7 +44,8 @@ export default class DeleteButton extends Component.extend({
     @requiredAction delete!: () => unknown;
 
     // Optional arguments
-    small: boolean = defaultTo(this.small, false);
+    onModalShown?: () => unknown;
+    buttonStyle: ButtonStyle = defaultTo(this.buttonStyle, ButtonStyle.Button);
     hardConfirm: boolean = defaultTo(this.hardConfirm, false);
     disabled: boolean = defaultTo(this.disabled, false);
     analyticsScope?: string;
@@ -69,9 +77,13 @@ export default class DeleteButton extends Component.extend({
     // Private properties
     layout = layout;
     styles = styles;
-    modalShown: boolean = false;
+    shouldShowModal: boolean = false;
     scientistName: string = '';
     scientistInput: string = '';
+
+    @equal('buttonStyle', ButtonStyle.Button) displayButton!: boolean;
+    @equal('buttonStyle', ButtonStyle.Icon) displayIcon!: boolean;
+    @equal('buttonStyle', ButtonStyle.Link) displayLink!: boolean;
 
     @computed('_deleteTask.isRunning', 'hardConfirm', 'scientistName', 'scientistInput')
     get confirmDisabled() {
@@ -86,12 +98,15 @@ export default class DeleteButton extends Component.extend({
             this.analytics.click('button', `${this.analyticsScope} - Open delete confirmation`);
         }
 
-        this.set('modalShown', true);
         if (this.hardConfirm) {
             this.setProperties({
                 scientistName: randomScientist(),
                 scientistInput: '',
             });
+        }
+        this.set('shouldShowModal', true);
+        if (this.onModalShown) {
+            this.onModalShown();
         }
     }
 
@@ -100,6 +115,6 @@ export default class DeleteButton extends Component.extend({
         if (this.analyticsScope) {
             this.analytics.click('button', `${this.analyticsScope} - Cancel delete`);
         }
-        this.set('modalShown', false);
+        this.set('shouldShowModal', false);
     }
 }
