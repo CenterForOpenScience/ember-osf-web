@@ -49,7 +49,7 @@
             {{loading-indicator dark=true}}
         </div>
     {{else}}
-        {{#discover.results as |result|}}
+        {{#discover.results data-test-results as |result|}}
             {{registries-search-result result=result}}
         {{/discover.results}}
 
