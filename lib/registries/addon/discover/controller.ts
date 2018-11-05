@@ -1,5 +1,6 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import { getOwner } from '@ember/application';
 import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
@@ -8,7 +9,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
-import $ from 'jquery';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
 import config from 'registries/config/environment';
 import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
@@ -267,7 +267,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             }
         }
 
-        const changes = {} as any;
+        const changes = {} as Pick<typeof this, keyof typeof this>;
 
         if (!isEqual(this.sources, sources)) {
             changes.page = 1;
@@ -287,10 +287,15 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     changePage(this: Discover, page: number) {
         this.set('page', page);
 
+        // Get the application owner by using
+        // passed down services as rootElement
+        // isn't defined on engines' owners
+        const owner = getOwner(this.i18n);
+        const rootElement = document.querySelector(owner.rootElement)! as HTMLElement;
+        const discoverBody = document.querySelector(`.${discoverStyles.Discover__Body}`)! as HTMLElement;
+
         // Scroll to the top of results on pagination
-        $('html, body').scrollTop(
-            $(`.${discoverStyles.Discover__Body}`).parent().position().top,
-        );
+        rootElement.parentElement!.scrollTop = discoverBody.offsetTop;
     }
 
     @action
