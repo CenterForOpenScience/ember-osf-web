@@ -42,7 +42,7 @@ export default class GuidNodeRegistrations extends Controller {
         let schemas = yield this.store.findAll('registration-schema');
         schemas = schemas.toArray();
         schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => {
-            return a.name.length > b.name.length;
+            return a.name.length - b.name.length;
         });
         this.set('defaultSchema', schemas.firstObject);
         this.set('selectedSchema', this.defaultSchema);
