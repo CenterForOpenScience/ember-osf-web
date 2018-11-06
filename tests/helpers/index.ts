@@ -12,6 +12,11 @@ export async function visit(url: string) {
         if (e.message !== 'TransitionAborted') {
             throw e;
         }
+
+        // Set this.element for application tests as the original
+        // visit's attempt to do so was interupted by an exception
+        const context: any = getContext();
+        context.element = document.querySelector('#ember-testing');
     }
 
     await settled();
