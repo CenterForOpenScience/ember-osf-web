@@ -3,10 +3,9 @@
 pull_request_rules:
   - name: automatic strict merge on CI success and review
     conditions:
-      - base~=develop|^release/                         # only for PRs targeting develop or release branches
+      - base~=^develop$|^release/                       # only for PRs targeting develop or release branches
       - status-success=continuous-integration/travis-ci # must pass travis
-      - approved-reviews-by=front-end                   # only accept approvals from the front-end team
-      - "#approved-reviews-by>=1"                       # at least one approval
+      - approved-reviews-by=front-end                   # at least one approval from the front-end team
       - "#changes-requested-reviews-by=0"               # no changes requested
       - label!=no merge                                 # use this label to prevent automatic merge
     actions:
