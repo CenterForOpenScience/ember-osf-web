@@ -1,6 +1,6 @@
 {{#validated-model-form
     model=this.token
-    modelName='token'
+    modelName=(if this.token undefined 'token')
     disabled=this.disabled
     onSave=(action this.onSave)
     analyticsScope=this.analyticsScope

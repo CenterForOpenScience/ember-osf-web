@@ -2,6 +2,7 @@ import { layout } from '@ember-decorators/component';
 import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { task } from 'ember-concurrency';
 import { Validations } from 'ember-cp-validations';
@@ -24,7 +25,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @requiredAction onSave!: (model: ModelRegistry[M]) => void;
 
     // Optional arguments
-    onError?: (model: ModelRegistry[M], e: object) => void;
+    onError?: (e: object, model: ModelRegistry[M]) => void;
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
     disabled: boolean = defaultTo(this.disabled, false);
@@ -38,7 +39,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     shouldShowMessages: boolean = false;
     saved: boolean = false;
     modelProperties: object = defaultTo(this.modelProperties, {});
-    recreateModel: boolean = defaultTo(this.recreateModel, false);
 
     @or('disabled', 'saveModelTask.isRunning')
     inputsDisabled!: boolean;
@@ -59,13 +59,13 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
                 yield this.model.save();
                 this.set('saved', true);
                 this.onSave(this.model);
-                if (this.modelName && this.recreateModel) {
+                if (this.modelName) {
                     set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
                 }
                 this.set('shouldShowMessages', false);
             } catch (e) {
                 if (this.onError) {
-                    this.onError(this.model, e);
+                    this.onError(e, this.model);
                 } else {
                     this.toast.error(e);
                 }
@@ -76,6 +76,8 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
 
     constructor(...args: any[]) {
         super(...args);
+
+        assert('Can only pass either a model or a modelName', !(Boolean(this.model) && Boolean(this.modelName)));
 
         if (!this.model && this.modelName) {
             this.model = this.store.createRecord(this.modelName, this.modelProperties);
