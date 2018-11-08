@@ -1011,6 +1011,11 @@ export default {
         overview: {
             overview: 'Overview',
             metadata: 'Metadata',
+            collapse: 'Collapse',
+            expand: 'Expand',
+            no_children: 'This registration has no children.',
+            no_links: 'This registration has no links.',
+            see_more: 'See more',
         },
     },
     analytics: {
