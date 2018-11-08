@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Routes:
+    - `settings.profile` - redirects to `settings.profile.name`
+    - `settings.profile.education`
+    - `settings.profile.employment`
+    - `settings.profile.name`
+    - `settings.profile.social`
 ### Changed
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
@@ -14,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `userHasReadPermission` computed property
         - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+- Routes:
+    - `settings` - redirects to `settings.profile.name`
 - Tests:
     - improved integration tests for `node-navbar` component
 
