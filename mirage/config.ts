@@ -33,12 +33,18 @@ export default function(this: Server) {
 
     osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);
+    osfNestedResource(this, 'node', 'children');
     osfNestedResource(this, 'node', 'contributors');
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
+    osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
 
     osfResource(this, 'registration');
+    osfNestedResource(this, 'registration', 'children');
+    osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
+    osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
+
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
