@@ -1,0 +1,25 @@
+{{#each this.form.sections as |form-section|}}
+    <section local-class="Section {{if (eq form-section this.form.sections.lastObject) 'Last'}}">
+        <a href="#{{slugify form-section.title}}">
+            <h2 id="{{slugify form-section.title}}" local-class="SectionTitle">
+                {{form-section.title}}
+            </h2>
+        </a>
+
+        {{#each form-section.questions as |question|}}
+            <a href="#{{slugify form-section.title}}.{{slugify question.title}}">
+                <h3 id="{{slugify form-section.title}}.{{slugify question.title}}" local-class="QuestionTitle">
+                    {{question.title}}
+                </h3>
+            </a>
+
+            <p class="small">{{question.description}}</p>
+
+            <div local-class="Answer">
+                {{#each question.parts as |part|}}
+                    {{component (concat 'registration-form-view/' part.component) part}}
+                {{/each}}
+            </div>
+        {{/each}}
+    </section>
+{{/each}}

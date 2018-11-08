@@ -8,6 +8,7 @@ import OsfModel from './osf-model';
 
 interface Q {
     type: 'string' | 'multiselect' | 'osf-author-import' | 'osf-upload' | 'choose' | 'object';
+    format: string;
     required?: boolean;
     description?: string;
     properties?: Subquestion[];
@@ -19,7 +20,6 @@ export interface Subquestion extends Q {
 
 export interface Question extends Q {
     qid: string;
-    format: string;
     title: string;
     nav: string;
     help?: string;
@@ -47,8 +47,8 @@ export interface Schema {
 
 export interface Answer<T> {
     value?: T;
-    comments?: any[]; // String?
-    extra?: object[];
+    comments: any[]; // String?
+    extra: object[];
 }
 
 export interface RegistrationMetadata {
