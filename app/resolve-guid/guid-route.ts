@@ -18,6 +18,7 @@ export default abstract class GuidRoute extends Route.extend({}) {
         const blocker = this.ready.getBlocker();
 
         const model = yield this.store.findRecord(this.modelName(), guid, {
+            include: this.include(),
             adapterOptions: this.adapterOptions(),
         });
 
@@ -30,6 +31,10 @@ export default abstract class GuidRoute extends Route.extend({}) {
 
     adapterOptions(): {} {
         return {};
+    }
+
+    include(): string[] {
+        return [];
     }
 
     model(params: { guid: string }) {

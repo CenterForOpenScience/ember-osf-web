@@ -1,5 +1,6 @@
 h1.Title { /* stylelint-disable-line selector-no-qualifying-type*/
     color: $white;
+    font-weight: 400;
     word-break: break-word;
 }
 
@@ -17,6 +18,13 @@ h1.Title { /* stylelint-disable-line selector-no-qualifying-type*/
     display: flex;
     flex-grow: 1;
     justify-content: center;
+}
+
+.Loading {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Body {

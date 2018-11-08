@@ -2,7 +2,8 @@ import Route from '@ember/routing/route';
 
 export default class AnalyticsPage extends Route {
     beforeModel() {
-        const { registrationId: guid } = (this.modelFor('overview') as { registrationId: string });
+        const model = this.modelFor('overview') as any;
+        const guid = model.id || model.registrationId;
         this.transitionToExternal('guid-registration.analytics', guid);
     }
 }
