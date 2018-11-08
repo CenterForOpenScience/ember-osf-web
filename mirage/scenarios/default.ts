@@ -46,9 +46,16 @@ export default function(server: Server) {
         currentUserPermissions: Object.values(Permission),
     }, 'withRegisteredMeta');
     draftRegisterNodeMultiple(server, nodes[0], 12, {}, 'withRegistrationMetadata');
-    server.create('registration', {
+
+    server.create('registration', { id: 'beefs' });
+
+    const reg = server.create('registration', {
         id: 'decaf',
-    });
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        linkedNodes: server.createList('node', 21),
+        linkedRegistrations: server.createList('registration', 19),
+    }, 'withRegisteredMeta');
+    server.createList('registration', 15, { parent: reg });
 
     // For the handbook
 

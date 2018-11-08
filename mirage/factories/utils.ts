@@ -37,17 +37,21 @@ export function createRegistrationMetadata(schema: Schema, answerAllRequired = f
     schema.pages.forEach(page =>
         page.questions.forEach(question => {
             if (question.type === 'object' && question.properties) {
-                const value: { [k: string]: { value: string } } = {};
+                const value: RegistrationMetadata = { };
                 question.properties.forEach(property => {
                     const answerQuestion = answerAllRequired && property.required ? true : faker.random.boolean();
                     value[property.id] = {
+                        comments: [],
+                        extra: [],
                         value: answerQuestion ? faker.lorem.sentence().replace('.', '') : '',
                     };
                 });
-                registrationMetadata[question.qid] = value;
+                registrationMetadata[question.qid] = { comments: [], extra: [], value };
             } else {
                 const answerQuestion = answerAllRequired && question.required ? true : faker.random.boolean();
                 registrationMetadata[question.qid] = {
+                    comments: [],
+                    extra: [],
                     value: answerQuestion ? faker.lorem.sentence().replace('.', '') : '',
                 };
             }

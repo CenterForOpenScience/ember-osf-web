@@ -27,11 +27,31 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
                     },
                 },
             },
+            linkedRegistrations: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/linked_registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'linkedRegistrations'),
+                    },
+                    self: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/relationships/linked_registrations/`,
+                        meta: {},
+                    },
+                },
+            },
             contributors: {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/nodes/${model.id}/contributors/`,
                         meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                    },
+                },
+            },
+            children: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/children/`,
+                        meta: this.buildRelatedLinkMeta(model, 'children'),
                     },
                 },
             },
