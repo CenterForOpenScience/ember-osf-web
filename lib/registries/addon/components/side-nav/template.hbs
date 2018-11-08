@@ -1,0 +1,24 @@
+<nav
+    data-test-side-nav="1"
+    data-test-collapsed="{{this.collapsed}}"
+    local-class="SideNav {{if this.collapsed 'Collapased'}}"
+    ...attributes
+>
+    <div local-class="Links">
+        {{yield (hash
+            link-to=(component 'side-nav/x-link' collapsed=(mut this.collapsed))
+        )}}
+    </div>
+
+    {{#let (component 'side-nav/x-link') as |Link|}}
+        <Link 
+             data-test-toggle="1"
+             class={{local-class 'Toggle'}}
+             @collapsed={{this.collapsed}}
+             @expandParent={{false}}
+             @icon={{if this.collapsed 'chevron-right' 'chevron-left'}}
+             @label={{t (if this.collapsed 'registries.overview.expand' 'registries.overview.collapse')}}
+             @onclick={{action 'toggle'}}
+        />
+    {{/let}}
+</nav>

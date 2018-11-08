@@ -1,0 +1,10 @@
+<a
+    onclick={{action this.onclick}}
+    href={{this.href}}
+    target={{this.target}}
+    data-active={{this.isActive}}
+    class={{if this.isActive 'active'}}
+    ...attributes
+>
+    {{yield}}
+</a>
