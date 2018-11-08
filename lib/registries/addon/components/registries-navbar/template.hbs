@@ -1,0 +1,105 @@
+<Navbar @dark={{true}} as |nav|>
+    <nav.container>
+        {{!-- Left Side (Band, Service Dropdown) --}}
+        <nav.section data-test-left>
+
+            {{#global-link-to data-test-brand 'home' (html-attributes aria-label=(t 'navbar.go_home'))}}
+                <div local-class="Logo"></div>
+            {{/global-link-to}}
+
+            {{#bs-dropdown as |dd|}}
+                {{#dd.toggle data-test-service classNames=(local-class 'Service Dropdown')}}
+                    <span local-class="HideOnMobile">{{t 'general.OSF'}}</span>
+                    <strong>{{t 'general.services.registries'}}</strong>
+                    {{nav.icon (if dd.isOpen 'caret-up' 'caret-down')}}
+                {{/dd.toggle}}
+
+                {{#dd.menu data-test-service-list classNames=(local-class 'ServiceDropdownMenu DropdownMenu') as |ddm|}}
+                    {{#each services as |service|}}
+                        <ddm.item role="menuitem">
+                            {{#hyper-link service.route}}
+                                <strong local-class="ServiceDropdownEntry">{{service.name}}</strong>
+                            {{/hyper-link}}
+                        </ddm.item>
+                    {{/each}}
+                {{/dd.menu}}
+            {{/bs-dropdown}}
+
+        </nav.section>
+
+        {{!-- Right Side (Search, Buttons, Gravatar, Dropdown) --}}
+        <nav.section data-test-right>
+
+            <nav.item @classNames={{local-class 'HideOnMobile SearchBar'}} data-test-search-bar="1">
+                {{icon-input 'search' dark=true enter=(action '_onSearch')}}
+            </nav.item>
+
+            <nav.links.secondary @classNames={{local-class 'HideOnMobile'}} href={{this.helpRoute}} data-test-help="1">
+                <h4>{{t 'general.help'}}</h4>
+            </nav.links.secondary>
+
+            <nav.links.primary @classNames={{local-class 'HideOnMobile'}} href={{this.donateRoute}} data-test-donate="1">
+                <h4>{{t 'navbar.donate'}}</h4>
+            </nav.links.primary>
+
+            {{#if (not session.isAuthenticated)}}
+
+                <nav.divider @classNames={{local-class 'HideOnMobile'}} />
+
+                <nav.links.secondary href={{this.signUpRoute}} data-test-join="1">
+                    <h4>{{t 'navbar.join'}}</h4>
+                </nav.links.secondary>
+
+                <nav.buttons.secondary @onclick={{action 'login'}} data-test-login="1">
+                    <h4>{{t 'navbar.login'}}</h4>
+                </nav.buttons.secondary>
+
+            {{else}}
+
+                {{#bs-dropdown classNames=(local-class 'AuthDropdown') as |dd|}}
+                    {{#dd.toggle classNames=(local-class 'Dropdown')}}
+                        <img data-test-gravatar alt="{{t 'auth_dropdown.user_gravatar'}}" local-class="Gravatar" src="{{currentUser.user.profileImage}}&s=30">
+                        {{nav.icon (if dd.isOpen 'caret-up' 'caret-down')}}
+                    {{/dd.toggle}}
+
+                    {{#dd.menu data-test-auth-dropdown classNames=(concat 'dropdown-menu-right ' (local-class 'AuthDropdownMenu DropdownMenu')) as |ddm|}}
+                        <ddm.item role="menuitem">
+                            <a href="{{profileURL}}" onclick={{action 'click' 'link' 'Navbar - MyProfile' target=analytics}}>
+                                {{fa-icon 'user' fixedWidth=true}}
+                                {{t 'auth_dropdown.my_profile'}}
+                            </a>
+                        </ddm.item>
+                        <ddm.item role="menuitem">
+                            {{#global-link-to 'support' click=(action 'click' 'link' 'Navbar - Support' target=analytics)}}
+                                {{fa-icon 'life-ring' fixedWidth=true}}
+                                {{t 'auth_dropdown.osf_support'}}
+                            {{/global-link-to}}
+                        </ddm.item>
+                        <ddm.item role="menuitem">
+                            <a href="{{settingsURL}}" onclick={{action 'click' 'link' 'Navbar - Settings' target=analytics}}>
+                                {{fa-icon 'cog' fixedWidth=true}}
+                                {{t 'general.settings'}}
+                            </a>
+                        </ddm.item>
+                        <ddm.item role="menuitem">
+                            <a class="logoutLink" {{action 'logout'}} onclick={{action 'click' 'button' 'Navbar - Logout' target=analytics}} role="button">
+                                {{fa-icon 'sign-out' fixedWidth=true}}
+                                {{t 'auth_dropdown.log_out'}}
+                            </a>
+                        </ddm.item>
+                    {{/dd.menu}}
+                {{/bs-dropdown}}
+
+            {{/if}}
+
+        </nav.section>
+    </nav.container>
+</Navbar>
+
+<Container data-test-search-bar-mobile="1" local-class="SearchDropdown {{if (media 'isMobile') '' 'Closed'}}">
+    {{icon-input 'search' dark=true enter=(action '_onSearch')}}
+</Container>
+
+{{maintenance-banner}}
+{{status-banner}}
+{{tos-consent-banner}}

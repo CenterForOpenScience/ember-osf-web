@@ -4,6 +4,15 @@
     background: url('img/index-tool-bg.jpg') top center #cbd9d5;
     color: $color-text-white;
     text-shadow: 0 0 5px #506069;
+
+    h2,
+    p {
+        color: $white;
+    }
+
+    :global(.lead) {
+        font-size: 21px;
+    }
 }
 
 .ServicesList__ExternalLink {
