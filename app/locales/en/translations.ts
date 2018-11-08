@@ -1130,6 +1130,18 @@ export default {
         toggleNav: 'Toggle navigation',
         profile: {
             title: 'Profile information',
+            name: {
+                title: 'Name',
+            },
+            social: {
+                title: 'Social',
+            },
+            education: {
+                title: 'Education',
+            },
+            employment: {
+                title: 'Employment',
+            },
         },
         account: {
             title: 'Account settings',
