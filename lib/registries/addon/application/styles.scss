@@ -1,0 +1,10 @@
+:global(.Application__page) {
+    display: flex;
+    flex-direction: column;
+}
+
+:global(.RegistriesStyle) {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}

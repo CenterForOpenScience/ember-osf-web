@@ -1,15 +1,30 @@
 import EngineInstance from '@ember/engine/instance';
 import { getContext } from '@ember/test-helpers/setup-context';
 import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
+import breakpoints from 'ember-osf-web/breakpoints';
+import enConfig from 'ember-osf-web/locales/en/config';
+import enTranslations from 'ember-osf-web/locales/en/translations';
 import { setupApplicationTest, setupRenderingTest, setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 
+function setupEngineFixtures(hooks: any) {
+    hooks.beforeEach(function(this: TestContext) {
+        // Register constants that injected services use to simulate the same
+        // behavior as the actual app/engine
+        this.owner.register('breakpoints:main', breakpoints, { instantiate: false });
+        this.owner.register('locale:en/config', enConfig);
+        this.owner.register('locale:en/translations', enTranslations, { instantiate: false });
+    });
+}
+
 export function setupEngineTest(hooks: any, engine: string) {
     setupTest(hooks, { resolver: engineResolverFor(engine) });
+    setupEngineFixtures(hooks);
 }
 
 export function setupEngineRenderingTest(hooks: any, engine: string) {
     setupRenderingTest(hooks, { resolver: engineResolverFor(engine) });
+    setupEngineFixtures(hooks);
 }
 
 export async function loadEngine(engine: string, mountPoint: string): Promise<EngineInstance> {
@@ -38,6 +53,8 @@ export async function loadEngine(engine: string, mountPoint: string): Promise<En
 
 export function setupEngineApplicationTest(hooks: any, engine: string, mountPoint?: string) {
     setupApplicationTest(hooks);
+    setupEngineFixtures(hooks);
+
     hooks.beforeEach(async function(this: TestContext) {
         await loadEngine(engine, mountPoint || engine);
     });

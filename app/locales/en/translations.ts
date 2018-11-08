@@ -57,6 +57,12 @@ export default {
         please_confirm: 'Please confirm',
         required: 'Required',
         optional: 'Optional',
+        services: {
+            collections: 'Collections',
+            institutions: 'Institutions',
+            preprints: 'Preprints',
+            registries: 'Registries',
+        },
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -251,6 +257,8 @@ export default {
         toggle_primary: 'Toggle primary navigation',
         toggle_secondary: 'Toggle secondary navigation',
         other_views: 'Other OSF views',
+        login: 'Login',
+        join: 'Join',
     },
     auth_dropdown: {
         log_out: 'Log Out',
@@ -999,6 +1007,11 @@ export default {
                 more: 'See more',
             },
         },
+
+        overview: {
+            overview: 'Overview',
+            metadata: 'Metadata',
+        },
     },
     analytics: {
         pageTitle: '{{nodeTitle}} Analytics',
@@ -1208,5 +1221,10 @@ export default {
                 editScopes: 'Edit scopes',
             },
         },
+    },
+    ipsum: {
+        title: 'tempor nec feugiat nisl pretium',
+        sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id velit ut tortor pretium. Nisi porta lorem mollis aliquam ut porttitor leo a. Cras fermentum odio eu feugiat. Eget mi proin sed libero enim. Quam adipiscing vitae proin sagittis. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. At varius vel pharetra vel turpis nunc eget. Purus ut faucibus pulvinar elementum integer enim neque volutpat. Turpis nunc eget lorem dolor. Mattis pellentesque id nibh tortor id aliquet lectus proin nibh. Arcu felis bibendum ut tristique et egestas quis. Nisl tincidunt eget nullam non nisi est sit amet. Fringilla urna porttitor rhoncus dolor purus non enim.',
     },
 };

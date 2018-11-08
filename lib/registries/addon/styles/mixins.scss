@@ -1,0 +1,9 @@
+%BorderRadius {
+    border-radius: 2px;
+}
+
+%NoFocusOutline {
+    &:focus {
+        outline: none;
+    }
+}
