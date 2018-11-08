@@ -1,5 +1,5 @@
 .RegistriesHeader {
-    background: url('img/preprints-bg.jpg') top center $color-bg-blue-darker;
+    background: url('img/bg-dark.jpg') top center $color-bg-blue-darker;
     border-bottom: 1px solid #ddd;
     color: #fff;
     padding-bottom: 30px;
@@ -9,10 +9,18 @@
         color: #80c2f7;
         text-decoration: none;
     }
+
+    p {
+        color: $white;
+    }
+
+    :global(.lead) {
+        font-size: 21px;
+    }
 }
 
 .RegistriesHeader__Brand {
-    background: url('img/osfregistries_white.png') top center no-repeat;
+    background: url('img/osf-registries-white.png') top center no-repeat;
     background-size: contain;
     height: 70px;
 }

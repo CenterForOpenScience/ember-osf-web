@@ -1,0 +1,38 @@
+.IconInput {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+
+    & > span,
+    & > input {
+        color: $primary-blue;
+        background-color: $porcelain;
+    }
+
+
+    & > input {
+        @extend %BorderRadius;
+        @extend %NoFocusOutline;
+
+        border: 0;
+        height: 30px;
+        width: 100%;
+    }
+
+    & > span {
+        align-items: center;
+        display: inline-flex;
+        height: 30px;
+        padding: 0 5px;
+        margin: 0;
+        margin-right: -1px;
+    }
+}
+
+.Dark {
+    & > span,
+    & > input {
+        color: $white;
+        background-color: $dark-slate-gray;
+    }
+}
