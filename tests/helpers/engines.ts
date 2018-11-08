@@ -37,6 +37,10 @@ export async function loadEngine(engine: string, mountPoint: string): Promise<En
     // Idempotent router setup, would otherwise be triggered by calling `visit()`
     router.setupRouter();
 
+    if (!(mountPoint in router._engineInfoByRoute)) {
+        throw new Error(`No engine is mounted at ${mountPoint}`);
+    }
+
     // Create the engine instance using the engineInfo loaded by calling `setupRouter`
     const instance: EngineInstance = await router._loadEngineInstance(
         router._engineInfoByRoute[mountPoint],
