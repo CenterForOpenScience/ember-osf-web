@@ -10,8 +10,11 @@ creating (if necessary), validating, and saving the model.
 
 ### Params
 * `onSave(model)` (required): Action called after the model is successfully validated and saved.
+* `onError(model, error)` (optional): Action called if saving the model fails.
 * `model` (optional): Model instance to edit.
 * `modelName` (optional): Name of the model to create.
+* `modelProperties` (optional): Properties to be passed through to the model on creation.
+* `recreateModel` (optional): Will create a new model instance upon saving.
 * `disabled` (default `false`)
 * `analyticsScope` (optional)
 
