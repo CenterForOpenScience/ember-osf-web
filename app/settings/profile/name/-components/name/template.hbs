@@ -1,0 +1,17 @@
+{{#validated-model-form
+    onSave=(action this.onSave)
+    model=this.user
+    as |form|
+}}
+    {{form.text valuePath='fullName' label=(t 'settings.profile.name.fullName')}}
+    {{t 'settings.profile.name.instructions'}}
+    
+    <h3>{{t 'settings.profile.name.citationName'}}</h3>
+    {{form.text valuePath='givenName' label=(t 'settings.profile.name.givenName')}}
+    {{form.text valuePath='middleNames' label=(t 'settings.profile.name.middleNames')}}
+    {{form.text valuePath='familyName' label=(t 'settings.profile.name.familyName')}}
+    {{form.text valuePath='suffix' label=(t 'settings.profile.name.suffix')}}
+    {{#bs-button buttonType='submit' disabled=form.disabled}}
+        {{t 'general.save'}}
+    {{/bs-button}}
+{{/validated-model-form}}

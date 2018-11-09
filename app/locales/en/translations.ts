@@ -1145,6 +1145,13 @@ export default {
             title: 'Profile information',
             name: {
                 title: 'Name',
+                fullName: 'Display name (e.g. Rosalind Elsie Franklin)',
+                givenName: 'Given name (e.g. Rosalind)',
+                middleNames: 'Middle names (e.g. Elsie)',
+                familyName: 'Family name (e.g. Franklin)',
+                suffix: 'Suffix',
+                citationName: 'Citation name',
+                instructions: 'Your full name, above, will be displayed in your profile. To control the way your name will appear in citations, edit the fields below.',
             },
             social: {
                 title: 'Social',
