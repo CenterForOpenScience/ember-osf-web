@@ -46,7 +46,7 @@ module('Acceptance | dashboard', hooks => {
             .hasText(currentUser.fullName, 'User\'s name is in navbar');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
-        await percySnapshot('dashboard');
+        await percySnapshot(assert);
     });
 
     test('institutions carousel', async assert => {

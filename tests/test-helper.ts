@@ -9,6 +9,7 @@ import 'qunit-dom';
 
 setApplication(Application.create(config.APP) as any);
 
+// Run tests with a seed for consistent visual diffs in Percy
 faker.seed(17);
 
 (async () => {
