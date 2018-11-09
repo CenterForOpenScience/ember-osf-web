@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 
 import { RegistrationMetadata, Schema } from 'ember-osf-web/models/registration-schema';
@@ -20,7 +21,9 @@ function hashString(str: string): number {
 export function guid(referentType: string) {
     return (id: number) => {
         // Seed faker to guarantee consistent guids across page reloads
-        faker.seed(hashString(`${referentType}-${id}`));
+        if (!Ember.testing) {
+            faker.seed(hashString(`${referentType}-${id}`));
+        }
 
         const newGuid = Array.from(
             { length: 5 },
@@ -28,7 +31,9 @@ export function guid(referentType: string) {
         ).join('');
 
         // Reseed so all other data is appropriately random
-        faker.seed(new Date().getTime() % 1000000000);
+        if (!Ember.testing) {
+            faker.seed(new Date().getTime() % 1000000000);
+        }
 
         return newGuid;
     };

@@ -1,6 +1,7 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -44,6 +45,8 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('nav.navbar .secondary-nav-dropdown .nav-profile-name')
             .hasText(currentUser.fullName, 'User\'s name is in navbar');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
+
+        await percySnapshot('dashboard');
     });
 
     test('institutions carousel', async assert => {
