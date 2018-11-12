@@ -13,6 +13,9 @@
             {{osf-header}}
         {{/if}}
     {{/unless}}
+    {{#if this.shouldShowVerifyEmailModals}}
+        {{application/-components/verify-email-modal}}
+    {{/if}}
     {{!--
     NOTE: the global Application__page class is used in registries
     to fix weird styling issues that break other embosf pages (quickfiles).
