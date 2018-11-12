@@ -5,9 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Addons:
+    - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
+
 ### Changed
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
+    - `validated-model-form` - Add an optional hook for onWillDestroy
+- Handbook:
+    - `validated-model-form` - Show how onWillDestroy works and use ember-onbeforeunload
 - Models:
     - `node`
         - added `wikiEnabled` boolean attribute

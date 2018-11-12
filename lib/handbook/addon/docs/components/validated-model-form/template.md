@@ -11,6 +11,7 @@ creating (if necessary), validating, and saving the model.
 ### Params
 * `onSave(model)` (required): Action called after the model is successfully validated and saved.
 * `onError(model, error)` (optional): Action called if saving the model fails.
+* `onWillDestroy()` (optional): Action called if you transition. Default behavior is to unload the object.
 * `model` (optional): Model instance to edit.
 * `modelName` (optional): Name of the model to create.
 * `modelProperties` (optional): Properties to be passed through to the model on creation.
@@ -36,4 +37,6 @@ When invoked in block form, `validated-model-form` yields a hash with the follow
 {{docs/components/validated-model-form/demo-create onSave=(action this.onSave)}}
 
 ## Demo: Edit
-{{docs/components/validated-model-form/demo-edit onSave=(action this.onSave)}}
+This also show how to use the `onWillDestroy()` action to bring up a "are you sure you want to leave" dialog if there are unsaved changes.
+
+{{docs/components/validated-model-form/demo-edit onSave=(action this.onSave) onWillDestroy=(action this.onWillDestroy) node=this.existingNode}}

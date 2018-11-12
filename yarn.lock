@@ -6576,6 +6576,13 @@ ember-moment@^7.7.0:
     ember-getowner-polyfill "^2.0.1"
     ember-macro-helpers "^0.17.0"
 
+ember-onbeforeunload@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ember-onbeforeunload/-/ember-onbeforeunload-1.2.0.tgz#96736d7532d5add9830466082d02300e84a872c0"
+  integrity sha512-b/vAqD17TBOB5oUqEqN7JpIwIxJ9Ei+D8lhXifsfFjCSs60iIDEEE6zJiajlnmKetJl0YqVlh666grIEo7qS6Q==
+  dependencies:
+    ember-cli-babel "^6.6.0"
+
 ember-page-title@4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/ember-page-title/-/ember-page-title-4.0.3.tgz#0bb83c4519a5c79ed04a167bba3160884c198f86"

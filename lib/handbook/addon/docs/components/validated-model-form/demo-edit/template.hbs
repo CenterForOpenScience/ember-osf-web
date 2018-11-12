@@ -2,7 +2,9 @@
     {{#demo.example name='validated-model-form.demo-edit.hbs'}}
         {{#validated-model-form
             onSave=(action this.onSave)
+            onWillDestroy=(action this.onWillDestroy)
             model=this.node
+            disabled=this.model.taskInstance.isRunning
             as |form|
         }}
             {{form.text valuePath='title' label='Title'}}

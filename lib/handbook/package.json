@@ -17,6 +17,7 @@
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
     "ember-font-awesome": "*",
+    "ember-onbeforeunload": "*",
     "ember-tag-input": "*"
   },
   "ember-addon": {
