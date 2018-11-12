@@ -54,10 +54,10 @@ export default class OsfAdapter extends JSONAPIAdapter {
      *
      * e.g. If the contributor adapter has `parentRelationship = 'node'`, creating a new contributor
      * for node xyz will POST to /v2/nodes/xyz/contributors/
+     *
+     * TODO: `OsfAdapter<M extends OsfModel>`, `parentRelationship: RelationshipsFor<M> | null`
      */
-    get parentRelationship(): string | null {
-        return null;
-    }
+    parentRelationship: string | null = null;
 
     get headers() {
         // Not a computed; evaluate every time in case something changes

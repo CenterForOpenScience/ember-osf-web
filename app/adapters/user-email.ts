@@ -1,7 +1,7 @@
 import OsfAdapter from './osf-adapter';
 
 export default class UserEmailAdapter extends OsfAdapter {
-    paarentRelationship = 'user';
+    parentRelationship = 'user';
 }
 
 declare module 'ember-data' {
