@@ -1,7 +1,7 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
-import EmberArray from '@ember/array';
+import EmberArray, { A } from '@ember/array';
 import { set } from '@ember/object';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
@@ -54,7 +54,7 @@ export default class OsfModel extends Model {
     @service currentUser!: CurrentUser;
 
     @attr() links: any;
-    @attr('object', { defaultValue: () => ({}) }) relatedCounts!: { [relName: string]: number | undefined };
+    @attr('object', { defaultValue: () => ({}) }) relatedCounts!: { [relName: string]: number };
     @attr() apiMeta: any;
 
     @alias('links.relationships') relationshipLinks: any;
@@ -84,7 +84,7 @@ export default class OsfModel extends Model {
 
         // HACK: ember-data discards/ignores the link if an object on the belongsTo side
         // came first. In that case, grab the link where we expect it from OSF's API
-        const url: string = reference.link() || this.links.relationships.get(propertyName).links.related.href;
+        const url: string = reference.link() || this.relationshipLinks[propertyName].links.related.href;
 
         if (!url) {
             throw new Error(`Could not find a link for '${propertyName}' relationship`);
@@ -109,7 +109,7 @@ export default class OsfModel extends Model {
             ).filter((v): v is RT => Boolean(v));
 
             const { meta, links } = response as ResourceCollectionDocument;
-            return Object.assign(records, { meta, links });
+            return Object.assign(A(records), { meta, links });
         } else if ('errors' in response) {
             throw new Error(response.errors.map(error => error.detail).join('\n'));
         } else {

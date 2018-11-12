@@ -1,5 +1,5 @@
 import { camelize, underscore } from '@ember/string';
-import { resourceAction, Server } from 'ember-cli-mirage';
+import { ModelInstance, resourceAction, Server } from 'ember-cli-mirage';
 import { ModelRegistry, RelationshipsFor } from 'ember-data';
 import { pluralize } from 'ember-inflector';
 
@@ -76,7 +76,6 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     options?: Partial<NestedResourceOptions>,
 ) {
     const opts: NestedResourceOptions = Object.assign({
-        allow: ['list'],
         path: `/${pluralize(underscore(parentModelName))}/:parentID/${underscore(relationshipName)}`,
         relatedModelName: relationshipName,
         defaultSortKey: '-id',
@@ -88,9 +87,11 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
 
     if (actions.includes('index')) {
         server.get(opts.path, function(schema, request) {
-            const data = schema[mirageParentModelName].find(request.params.parentID)[relationshipName].models.map(
-                (model: any) => this.serialize(model).data,
-            );
+            const data = schema[mirageParentModelName]
+                .find(request.params.parentID)[relationshipName]
+                .models
+                .filter((m: ModelInstance) => filter(m, request))
+                .map((model: any) => this.serialize(model).data);
             return process(schema, request, this, data, { defaultSortKey: opts.defaultSortKey });
         });
     }
@@ -104,11 +105,11 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     }
 
     if (actions.includes('update')) {
-        server.put(opts.path, mirageRelatedModelName);
-        server.patch(opts.path, mirageRelatedModelName);
+        server.put(detailPath, opts.relatedModelName);
+        server.patch(detailPath, opts.relatedModelName);
     }
 
     if (actions.includes('delete')) {
-        server.del(opts.path, mirageRelatedModelName);
+        server.del(detailPath, opts.relatedModelName);
     }
 }

@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Addons:
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
+- Models:
+    - `user-email`
 
 ### Changed
 - Components:
@@ -23,6 +25,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
 - Tests:
     - improved integration tests for `node-navbar` component
+- Adapters:
+    - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
+- Routes:
+    - Add email verification modal to application template
 
 ## [18.1.2] - 2018-11-05
 - Engines:
