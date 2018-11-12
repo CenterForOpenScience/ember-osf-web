@@ -1,14 +1,14 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import { getOwner } from '@ember/application';
 import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 import I18N from 'ember-i18n/services/i18n';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import QueryParams, { ParachuteEvent } from 'ember-parachute';
-import { OrderedSet } from 'immutable';
-import $ from 'jquery';
+import QueryParams from 'ember-parachute';
+import { is, OrderedSet } from 'immutable';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
 import config from 'registries/config/environment';
 import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
@@ -19,53 +19,87 @@ import ShareSearch, {
 } from 'registries/services/share-search';
 import styles from './styles';
 
-interface DoSearchOptions {
-    scrollTop?: boolean;
-    noPageReset?: boolean;
+// Helper for Immutable.is as it doesn't like Native Arrays
+function isEqual(obj1: any, obj2: any) {
+    if (Array.isArray(obj1) && Array.isArray(obj2)) {
+        if (obj1.length !== obj2.length) {
+            return false;
+        }
+
+        for (let i = 0; i < obj1.length; i++) {
+            if (!(isEqual(obj1[i], obj2[i]))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    return is(obj1, obj2);
 }
 
 interface DiscoverQueryParams {
     page: number;
     query: string;
-    registrationTypes: string[];
     size: number;
-    sort: string;
-    sources: string[];
+    sort: SearchOrder;
+    registrationTypes: ShareTermsFilter[];
+    sources: ShareTermsFilter[];
 }
+
+const sortOptions = [
+    new SearchOrder({
+        ascending: true,
+        display: 'registries.discover.order.relevance',
+        key: undefined,
+    }),
+    new SearchOrder({
+        ascending: true,
+        display: 'registries.discover.order.modified_ascending',
+        key: 'date_updated',
+    }),
+    new SearchOrder({
+        ascending: false,
+        display: 'registries.discover.order.modified_descending',
+        key: 'date_updated',
+    }),
+];
 
 const queryParams = {
     sources: {
         as: 'provider',
-        defaultValue: [],
-        // refresh: true,
-        serialize(value: string[]) {
-            return value.join('|');
+        defaultValue: [] as ShareTermsFilter[],
+        serialize(value: ShareTermsFilter[]) {
+            return value.map(filter => filter.value).join('|');
         },
         deserialize(value: string) {
-            if (value.trim().length < 1) {
-                return [];
-            }
-            return value.split(/OR|\|/);
+            return value.split(/OR|\|/).map(
+                name => config.sourcesWhitelist.find(x => x.name === name),
+            ).filter(Boolean).map(
+                source => new ShareTermsFilter('sources', source!.name, source!.display || source!.name),
+            );
         },
     },
     registrationTypes: {
         as: 'type',
         refresh: true,
-        defaultValue: [],
-        serialize(value: string[]) {
-            return value.join('|');
+        defaultValue: [] as ShareTermsFilter[],
+        serialize(value: ShareTermsFilter[]) {
+            return value.map(filter => filter.value).join('|');
         },
         deserialize(value: string) {
+            // Handle empty strings
             if (value.trim().length < 1) {
                 return [];
             }
-            return value.split(/OR|\|/);
+            return value.split(/OR|\|/).map(
+                registrationType => new ShareTermsFilter('registration_type', registrationType, registrationType),
+            );
         },
     },
     query: {
         as: 'q',
         defaultValue: '',
-        // refresh: true,
         replace: true,
     },
     size: {
@@ -76,15 +110,27 @@ const queryParams = {
         deserialize(value: string) {
             return parseInt(value, 10) || this.defaultValue;
         },
-        // refresh: true,
     },
     sort: {
-        defaultValue: '',
-        // refresh: true,
+        defaultValue: sortOptions[0],
+        serialize(value: SearchOrder) {
+            if (value.key === 'date_modified') {
+                return '';
+            }
+
+            return `${value.ascending ? '' : '-'}${value.key || ''}`;
+        },
+        deserialize(value: string) {
+            return sortOptions.find(
+                option =>
+                    !!option.key
+                    && value.endsWith(option.key)
+                    && option.ascending === !value.startsWith('-'),
+            ) || sortOptions[0];
+        },
     },
     page: {
         defaultValue: 1,
-        // refresh: true,
         serialize(value: number) {
             return value.toString();
         },
@@ -134,8 +180,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     @service analytics!: Analytics;
     @service shareSearch!: ShareSearch;
 
-    // List of keys that, when changed, reset the page to 1
-    pageResetKeys = ['query', 'order', 'filter'];
+    sortOptions = sortOptions;
 
     results: EmberArray<ShareRegistration> = A([]);
     searchable!: number;
@@ -146,24 +191,6 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         count: number;
         filter: SearchFilter;
     }> = defaultTo(this.filterableSources, []);
-
-    sortOptions = [
-        new SearchOrder({
-            ascending: true,
-            display: 'registries.discover.order.relevance',
-            key: undefined,
-        }),
-        new SearchOrder({
-            ascending: true,
-            display: 'registries.discover.order.modified_ascending',
-            key: 'date_updated',
-        }),
-        new SearchOrder({
-            ascending: false,
-            display: 'registries.discover.order.modified_descending',
-            key: 'date_updated',
-        }),
-    ];
 
     get filterStyles() {
         return {
@@ -181,14 +208,28 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return max;
     }
 
-    doSearch = task(function *(this: Discover, opts: SearchOptions, { scrollTop, noPageReset }: DoSearchOptions = {}) {
-        let options = opts;
-
+    doSearch = task(function *(this: Discover) {
         // Unless OSF is the only source, registration_type filters must be cleared
-        const sourceFilters = options.filters.filter(filter => filter.key === 'sources');
-        if (!(sourceFilters.size === 1 && sourceFilters.first()!.value === 'OSF')) {
-            options = options.set('filters', options.filters.filter(filter => filter.key !== 'registration_type'));
+        if (!(this.sources.length === 1 && this.sources[0]!.value === 'OSF')) {
+            this.set('registrationTypes', A([]));
         }
+
+        // If query has changed but page has not changed reset page to 1.
+        // The page check stops other tests from breaking
+        if (this.searchOptions && this.searchOptions.query !== this.query && this.searchOptions.page === this.page) {
+            this.set('page', 1);
+        }
+
+        let options = new SearchOptions({
+            query: this.query,
+            size: this.size,
+            page: this.page,
+            order: this.sort,
+            filters: OrderedSet([
+                ...this.sources,
+                ...this.registrationTypes,
+            ]),
+        });
 
         // If there is no query, no filters, and no sort, default to -date_modified rather
         // than relevance.
@@ -200,21 +241,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             }));
         }
 
-        // Latter bit is just a janky array intersection
-        // If any of the specified keys have changed, reset to the first page
-        if ((this.searchOptions && !noPageReset) &&
-            this.searchOptions.differingKeys(options).filter(k => this.pageResetKeys.includes(k)).length > 0) {
-            options = options.set('page', 1);
-        }
-
         this.set('searchOptions', options);
-        this.setQueryParams(options);
-
-        if (scrollTop) {
-            $('html, body').scrollTop(
-                $(`.${discoverStyles.Discover__Body}`).parent().position().top,
-            );
-        }
 
         yield timeout(250);
 
@@ -224,95 +251,72 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         this.set('totalResults', results.total);
     }).restartable();
 
-    setup(this: Discover, event: ParachuteEvent<DiscoverQueryParams>) {
-        this.rehydrateFromQueryParameters(event);
+    setup(this: Discover) {
+        this.get('doSearch').perform();
     }
 
-    queryParamsDidChange(this: Discover, event: ParachuteEvent<DiscoverQueryParams>) {
-        this.rehydrateFromQueryParameters(event);
-    }
-
-    rehydrateFromQueryParameters(this: Discover, event: ParachuteEvent<DiscoverQueryParams>) {
-        const filters: SearchFilter[] = [];
-
-        for (const name of event.queryParams.sources) {
-            const source = config.sourcesWhitelist.find(x => x.name === name);
-            if (!source) {
-                continue;
-            }
-            filters.push(new ShareTermsFilter('sources', source.name, source.display || source.name));
-        }
-
-        for (const type of event.queryParams.registrationTypes) {
-            filters.push(new ShareTermsFilter('registration_type', type, type));
-        }
-
-        const order = this.sortOptions.find(option =>
-            !!option.key
-            && event.queryParams.sort.endsWith(option.key)
-            && option.ascending === !event.queryParams.sort.startsWith('-'));
-
-        this.get('doSearch').perform(new SearchOptions({
-            query: event.queryParams.query,
-            size: event.queryParams.size,
-            page: event.queryParams.page,
-            order: order || this.sortOptions[0],
-            filters: OrderedSet(filters),
-        }), { noPageReset: true });
-    }
-
-    setQueryParams(this: Discover, options: SearchOptions) {
-        this.set('page', options.page);
-        this.set('size', options.size);
-        this.set('query', options.query || '');
-
-        // date_modified is a weird case, so don't save it in a query param.
-        if (options.order.key !== 'date_modified') {
-            this.set('sort', `${options.order.ascending ? '' : '-'}${options.order.key || ''}`);
-        }
-
-        const providers: string[] = [];
-        const registrationTypes: string[] = [];
-        for (const filter of options.filters.values()) {
-            if (filter.key === 'sources') {
-                providers.push(filter.value as string);
-            }
-
-            if (filter.key === 'registration_type') {
-                registrationTypes.push(filter.value as string);
-            }
-        }
-
-        this.set('sources', providers);
-        this.set('registrationTypes', registrationTypes);
+    queryParamsDidChange(this: Discover) {
+        this.get('doSearch').perform();
     }
 
     @action
     onSearchOptionsUpdated(this: Discover, options: SearchOptions) {
-        this.get('doSearch').perform(options);
+        const sources: ShareTermsFilter[] = [];
+        const registrationTypes: ShareTermsFilter[] = [];
+        for (const filter of options.filters.values()) {
+            if (filter.key === 'sources') {
+                sources.push(filter as ShareTermsFilter);
+            }
+
+            if (filter.key === 'registration_type') {
+                registrationTypes.push(filter as ShareTermsFilter);
+            }
+        }
+
+        const changes = {} as Pick<typeof this, keyof typeof this>;
+
+        if (!isEqual(this.sources, sources)) {
+            changes.page = 1;
+            changes.sources = sources;
+        }
+
+        if (!isEqual(this.registrationTypes, registrationTypes)) {
+            changes.page = 1;
+            changes.registrationTypes = registrationTypes;
+        }
+
+        // If any filters are changed page is reset to 1
+        this.setProperties(changes);
     }
 
     @action
     changePage(this: Discover, page: number) {
-        this.get('doSearch').perform(
-            this.searchOptions.set('page', page),
-            { scrollTop: true },
-        );
+        this.set('page', page);
+
+        // Get the application owner by using
+        // passed down services as rootElement
+        // isn't defined on engines' owners
+        const owner = getOwner(this.i18n);
+        const rootElement = document.querySelector(owner.rootElement)! as HTMLElement;
+        const discoverBody = document.querySelector(`.${discoverStyles.Discover__Body}`)! as HTMLElement;
+
+        // Scroll to the top of results on pagination
+        rootElement.parentElement!.scrollTop = discoverBody.offsetTop;
     }
 
     @action
     onSearch(this: Discover, value: string) {
-        this.get('doSearch').perform(
-            this.searchOptions.set('query', value),
-        );
+        // Set page to 1 here to ensure page is always reset when updating a query
+        this.setProperties({ page: 1, query: value });
+        // If query or page don't actually change ember won't fire related events
+        // So always kick off a doSearch task to allow forcing a "re-search"
+        this.get('doSearch').perform();
     }
 
     @action
     setOrder(this: Discover, value: SearchOrder) {
         this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.i18n.t(value.display)}`);
-
-        this.get('doSearch').perform(
-            this.searchOptions.set('order', value),
-        );
+        // Set page to 1 here to ensure page is always reset when changing the order/sorting of a search
+        this.setProperties({ page: 1, sort: value });
     }
 }

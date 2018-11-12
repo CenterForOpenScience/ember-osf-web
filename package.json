@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "18.1.0",
+  "version": "18.1.2",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -135,6 +135,7 @@
     "ember-promise-helpers": "^1.0.4",
     "ember-radio-button": "^1.2.4",
     "ember-resolver": "^5.0.1",
+    "ember-responsive": "^3.0.0-beta.3",
     "ember-simple-auth": "^1.6.0",
     "ember-sinon": "^2.1.0",
     "ember-sinon-qunit": "^3.1.0",

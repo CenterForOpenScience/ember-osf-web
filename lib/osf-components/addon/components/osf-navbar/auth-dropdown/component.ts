@@ -19,16 +19,7 @@ import layout from './template';
 
 const { OSF: { url: baseUrl }, featureFlagNames } = config;
 
-/**
- * Display the login dropdown on the navbar
- *
- * @class osf-navbar/auth-dropdown
- */
-@tagName('')
-export default class NavbarAuthDropdown extends Component {
-    layout = layout;
-    styles = styles;
-
+export class AuthBase extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
@@ -100,4 +91,15 @@ export default class NavbarAuthDropdown extends Component {
             this.onLinkClicked();
         }
     }
+}
+
+/**
+ * Display the login dropdown on the navbar
+ *
+ * @class osf-navbar/auth-dropdown
+ */
+@tagName('')
+export default class NavbarAuthDropdown extends AuthBase {
+    layout = layout;
+    styles = styles;
 }

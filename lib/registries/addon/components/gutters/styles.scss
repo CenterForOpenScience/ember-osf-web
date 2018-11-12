@@ -1,0 +1,90 @@
+@mixin gutter($side) {
+    $modifier: 1 !default;
+    $border-side: 'right' !default;
+
+    @if $side == 'right' {
+        $modifier: 1;
+        $border-side: 'left';
+    } @else {
+        $modifier: -1;
+        $border-side: 'right';
+    }
+
+    border-#{$border-side}: $alto 1px solid;
+
+
+    &[data-gutter-mode='page'] {
+        #{$side}: 0;
+
+        &[data-gutter-closed='true'] {
+            transform: translate3d(($modifier * 100%), 0, 0);
+        }
+    }
+
+    &[data-gutter-mode='drawer'] {
+        // Fix side to the edges of the parent element
+        #{$side}: 0;
+
+        // Display a box shadow to either side when opened
+        &[data-gutter-closed='false'] {
+            box-shadow: ($modifier * 5px) 0 5px -4px rgba(0, 0, 0, 0.2);
+        }
+
+        // Slide off the page when closed
+        &[data-gutter-closed='true'] {
+            transform: translate3d(($modifier * 100%), 0, 0);
+        }
+    }
+
+}
+
+.Container {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.Body {
+    // Animate page slide ins/outs
+    transition: transform 0.4s;
+
+    &.SlideRight {
+        transform: translate3d(100%, 0, 0);
+    }
+
+    &.SlideLeft {
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+.Left {
+    @include gutter('left');
+}
+
+.Right {
+    @include gutter('right');
+}
+
+.Gutter {
+    // Animate Everything
+    transition: all 0.4s;
+
+    // Nothing special for column mode
+    &[data-gutter-mode='column'] { } /* stylelint-disable-line */
+
+    &[data-gutter-mode='page'] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        // Must be lower than the drawer's z-index
+        z-index: 15;
+    }
+
+    &[data-gutter-mode='drawer'] {
+        height: 100%;
+        position: absolute;
+        z-index: 20;
+    }
+}
+

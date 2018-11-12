@@ -9,10 +9,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Models:
     - `user-email`
 ### Changed
+- Components:
+    - `node-navbar` - Choose links to display with the same logic as legacy
+- Models:
+    - `node`
+        - added `wikiEnabled` boolean attribute
+        - added `userHasReadPermission` computed property
+        - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
+        - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+- Tests:
+    - improved integration tests for `node-navbar` component
 - Adapters:
     - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
 - Routes:
     - Add email verification modal to application template
+
+## [18.1.2] - 2018-11-05
+- Engines:
+    - `registries/discover` - reset to first page on user search input
+
+## [18.1.1] - 2018-11-05
+- Routes:
+    - `guid-node/registrations` - fix sorting of registration schema on new registration modal
+- Engines:
+    - `registries` - page resetting and scrolling fixes
 
 ## [18.1.0] - 2018-10-30
 ### Added

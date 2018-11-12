@@ -68,21 +68,21 @@ module('Registries | Integration | index', hooks => {
                 {
                     name: 'Search Button (Clicked, With query)',
                     action: async () => {
-                        await fillIn('input', 'My Query');
-                        await click('button');
+                        await fillIn('[data-test-search-box]', 'My Query');
+                        await click('[data-test-search-button]');
                     },
                     expected: ['link', 'Index - Search', 'My Query'],
                 },
                 {
                     name: 'Search Button (Submitted)',
-                    action: async () => triggerKeyEvent('input', 'keydown', 13),
+                    action: async () => triggerKeyEvent('[data-test-search-box]', 'keydown', 13),
                     expected: ['link', 'Index - Search', ''],
                 },
                 {
                     name: 'Search Button (Submitted, With query)',
                     action: async () => {
-                        await fillIn('input', 'My Query');
-                        await triggerKeyEvent('input', 'keydown', 13);
+                        await fillIn('[data-test-search-box]', 'My Query');
+                        await triggerKeyEvent('[data-test-search-box]', 'keydown', 13);
                     },
                     expected: ['link', 'Index - Search', 'My Query'],
                 },

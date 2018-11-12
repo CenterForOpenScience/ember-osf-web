@@ -3,26 +3,35 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import Node from 'ember-osf-web/models/node';
-import defaultTo from 'ember-osf-web/utils/default-to';
-import layout from './template';
+import RouterService from '@ember/routing/router-service';
 
+import { layout } from 'ember-osf-web/decorators/component';
+import defaultTo from 'ember-osf-web/utils/default-to';
+
+import { NodeLike } from '../component';
+import template from './template';
+
+@layout(template)
 @tagName('li')
 export default class NodeNavbarLink extends Component {
-    layout = layout;
+    // Required arguments
+    node!: NodeLike;
 
-    @service router!: any;
-    @alias('node.id') nodeId!: string;
-
-    node!: Node;
+    // Optional arguments
     useLinkTo: boolean = defaultTo(this.useLinkTo, true);
+    setActive: boolean = defaultTo(this.setActive, true);
     destination?: string;
     extraClasses?: string;
 
+    // Private properties
+    @service router!: RouterService;
+
+    @alias('node.id') nodeId!: string;
+
     @computed('destination')
     get routeName(): string {
-        const dest = this.destination;
-        return `guid-${this.node.modelName}${dest ? '.' : ''}${dest}`;
+        const base = this.node && this.node.isRegistration ? 'guid-registration' : 'guid-node';
+        return this.destination ? `${base}.${this.destination}` : base;
     }
 
     @computed('destination')
@@ -31,9 +40,8 @@ export default class NodeNavbarLink extends Component {
     }
 
     @className
-    @computed('routeName', 'router.currentRouteName')
+    @computed('setActive', 'routeName', 'router.currentRouteName', 'node')
     get active(): boolean {
-        const currentRoute = this.router.currentRouteName || '';
-        return this.routeName === currentRoute.replace(/\.index$/, '');
+        return this.setActive && this.router.isActive(this.routeName, this.node.id);
     }
 }

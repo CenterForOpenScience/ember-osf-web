@@ -1,16 +1,23 @@
 {{title (t 'registries.application.page_title') replace=true}}
 
-{{#osf-header as |header|}}
-    {{#header.navbar campaign='osf-registries' activeService=activeService as |ctx|}}
-        {{#ctx.links as |links|}}
-            {{!links.quickfiles}}
-            {{!links.myprojects}}
-            {{links.myregistrations}}
-            {{links.search route=searchRoute}}
-            {{links.support route=supportRoute}}
-            {{links.donate}}
-        {{/ctx.links}}
-    {{/header.navbar}}
-{{/osf-header}}
+<div class="{{if this.newStyleEnabled 'RegistriesStyle' 'OldRegistriesStyle'}}">
 
-{{outlet}}
+    {{#if this.newStyleEnabled}}
+        <RegistriesNavbar @campaign='osf-registries' @onSearch={{action 'search'}} />
+    {{else}}
+        {{#osf-header as |header|}}
+            {{#header.navbar campaign='osf-registries' activeService=activeService as |ctx|}}
+                {{#ctx.links as |links|}}
+                    {{!-- {{links.quickfiles}} --}}
+                    {{!-- {{links.myprojects}} --}}
+                    {{links.myregistrations}}
+                    {{links.search route=searchRoute}}
+                    {{links.support route=supportRoute}}
+                    {{links.donate}}
+                {{/ctx.links}}
+            {{/header.navbar}}
+        {{/osf-header}}
+    {{/if}}
+
+    {{outlet}}
+</div>
