@@ -445,6 +445,7 @@ export default {
         url: '{{description}} must be a valid url.',
         // custom
         email_registered: 'This email address has already been registered.',
+        email_invalid: 'Invalid email address. If this should not have occurred, please report this to {{supportEmail}}',
         email_match: 'Email addresses must match.',
         password_email: 'Your password cannot be the same as your email address.',
         password_old: 'Your new password cannot be the same as your old password.',
