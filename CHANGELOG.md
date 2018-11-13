@@ -11,12 +11,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
+    - `sign-up-form` - Distinguish between alrteady registered and invalid (e.g. blacklisted) emails
 - Models:
     - `node`
         - added `wikiEnabled` boolean attribute
         - added `userHasReadPermission` computed property
         - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+    - `user-registration` - added invalid email validation and `addInvalidEmail` method
 - Tests:
     - improved integration tests for `node-navbar` component
 - Adapters:
