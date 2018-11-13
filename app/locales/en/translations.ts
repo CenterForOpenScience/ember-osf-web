@@ -1229,6 +1229,28 @@ export default {
             },
         },
     },
+    verifyEmail: {
+        merge: {
+            header: 'Merge account?',
+            body: 'Would you like to merge <strong>{{email}}</strong> into your account? This action is irreversible.',
+            verifyButton: 'Merge account',
+            denyButton: 'Do not merge account',
+            verifySuccess: '<strong>{{email}}</strong> has been merged into your account.',
+            denySuccess: '<strong>{{email}}</strong> has not been merged into your account.',
+            verifyError: 'There was a problem merging <strong>{{email}}</strong> into your account.',
+            denyError: 'There was a problem canceling the request to merge <strong>{{email}}</strong> into your account.',
+        },
+        add: {
+            header: 'Add alternate email?',
+            body: 'Would you like to add <strong>{{email}}</strong> to your account?',
+            verifyButton: 'Add email',
+            denyButton: 'Do not add email',
+            verifySuccess: '<strong>{{email}}</strong> has been added to your account.',
+            denySuccess: '<strong>{{email}}</strong> has not been added to your account.',
+            verifyError: 'There was a problem adding <strong>{{email}}</strong> to your account.',
+            denyError: 'There was a problem canceling the request to add <strong>{{email}}</strong> to your account.',
+        },
+    },
     ipsum: {
         title: 'tempor nec feugiat nisl pretium',
         sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',

@@ -129,6 +129,7 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-metrics": "https://github.com/cos-forks/ember-metrics#v0.12.1+cos0",
     "ember-moment": "^7.7.0",
+    "ember-onbeforeunload": "^1.2.0",
     "ember-page-title": "4.0.3",
     "ember-parachute": "https://github.com/cos-forks/ember-parachute#v0.3.7+cos3",
     "ember-power-select": "^2.0.0",
@@ -196,5 +197,8 @@
       "lib/osf-components",
       "lib/registries"
     ]
+  },
+  "dependencies": {
+    "ember-code-snippet": "2.3.1"
   }
 }

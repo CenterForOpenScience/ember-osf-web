@@ -6,15 +6,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Addons:
+    - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
+- Models:
+    - `user-email`
 - Routes:
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
     - `settings.profile.employment`
     - `settings.profile.name`
-    - `settings.profile.social`
+
 ### Changed
+- Addons:
+    - `ember-code-snippet@2.3.1`
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
+    - `validated-model-form` - Add an optional hook for onWillDestroy
+- Handbook:
+    - `validated-model-form` - Show how onWillDestroy works and use ember-onbeforeunload
 - Models:
     - `node`
         - added `wikiEnabled` boolean attribute
@@ -25,6 +34,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings` - redirects to `settings.profile.name`
 - Tests:
     - improved integration tests for `node-navbar` component
+- Adapters:
+    - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
+- Routes:
+    - Add email verification modal to application template
 
 ## [18.1.2] - 2018-11-05
 - Engines:

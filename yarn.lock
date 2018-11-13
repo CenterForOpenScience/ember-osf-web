@@ -2559,6 +2559,14 @@ broccoli-flatiron@^0.1.2:
     mkdirp "^0.3.5"
     rsvp "~3.0.6"
 
+broccoli-flatiron@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/broccoli-flatiron/-/broccoli-flatiron-0.1.3.tgz#fc7bd8faf7db429ed7199933aa2ec7ef84a8d943"
+  integrity sha512-dD/4ck+LKOLTBzFlxP2zX7fhWt1TFMVR/88b9/wd8LkAHUyAzWs1vBah94ObSvajYGZ7ic+XvMXw+OhmvdlYoQ==
+  dependencies:
+    broccoli-plugin "^1.3.0"
+    mkdirp "^0.5.1"
+
 broccoli-funnel-reducer@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/broccoli-funnel-reducer/-/broccoli-funnel-reducer-1.0.0.tgz#11365b2a785aec9b17972a36df87eef24c5cc0ea"
@@ -6032,6 +6040,18 @@ ember-click-outside@^0.1.12:
     ember-cli-babel "^6.3.0"
     ember-cli-htmlbars "^2.0.1"
 
+ember-code-snippet@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/ember-code-snippet/-/ember-code-snippet-2.3.1.tgz#dd4b05d6fe9595c6cab532b70d70f9a442962046"
+  integrity sha512-vx6Oia5+fEw4kh0Jl6H3RPIJ9PFfAIHEjVza6FfEwZNdWlsXQbu+jff7KGBTw5oqEeXpXPd9L8Jbk0TgZw5f6w==
+  dependencies:
+    broccoli-flatiron "^0.1.3"
+    broccoli-merge-trees "^1.0.0"
+    broccoli-static-compiler "^0.1.4"
+    broccoli-writer "^0.1.1"
+    es6-promise "^1.0.0"
+    glob "^7.1.3"
+
 ember-code-snippet@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ember-code-snippet/-/ember-code-snippet-2.1.0.tgz#d548ceaf7b6e3afc262790a931e27a65adf1081c"
@@ -6575,6 +6595,13 @@ ember-moment@^7.7.0:
     ember-cli-babel "^6.7.2"
     ember-getowner-polyfill "^2.0.1"
     ember-macro-helpers "^0.17.0"
+
+ember-onbeforeunload@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ember-onbeforeunload/-/ember-onbeforeunload-1.2.0.tgz#96736d7532d5add9830466082d02300e84a872c0"
+  integrity sha512-b/vAqD17TBOB5oUqEqN7JpIwIxJ9Ei+D8lhXifsfFjCSs60iIDEEE6zJiajlnmKetJl0YqVlh666grIEo7qS6Q==
+  dependencies:
+    ember-cli-babel "^6.6.0"
 
 ember-page-title@4.0.3:
   version "4.0.3"
@@ -8470,7 +8497,7 @@ glob@^6.0.4:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.0.5:
+glob@^7.0.5, glob@^7.1.3:
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1"
   integrity sha512-vcfuiIxogLV4DlGBHIUOwI0IbrJ8HWPc4MU7HzviGeNho/UJDfi6B5p3sHeWIQ0KGIU0Jpxi5ZHxemQfLkkAwQ==

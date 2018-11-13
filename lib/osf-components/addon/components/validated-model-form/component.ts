@@ -2,20 +2,18 @@ import { layout } from '@ember-decorators/component';
 import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
+import { set } from '@ember/object';
 import { task } from 'ember-concurrency';
-import { Validations } from 'ember-cp-validations';
 import DS, { ModelRegistry } from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
 
 import { requiredAction } from 'ember-osf-web/decorators/component';
+import { ValidatedModelName } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
-
-type ValidatedModelName = {
-    [K in keyof ModelRegistry]: ModelRegistry[K] extends (Validations & DS.Model) ? K : never
-}[keyof ModelRegistry];
 
 @layout(template)
 export default class ValidatedModelForm<M extends ValidatedModelName> extends Component {
@@ -23,6 +21,8 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @requiredAction onSave!: (model: ModelRegistry[M]) => void;
 
     // Optional arguments
+    onError?: (e: object, model: ModelRegistry[M]) => void;
+    onWillDestroy?: (model: ModelRegistry[M]) => void;
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
     disabled: boolean = defaultTo(this.disabled, false);
@@ -35,6 +35,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
 
     shouldShowMessages: boolean = false;
     saved: boolean = false;
+    modelProperties: object = defaultTo(this.modelProperties, {});
 
     @or('disabled', 'saveModelTask.isRunning')
     inputsDisabled!: boolean;
@@ -44,7 +45,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
             return;
         }
         if (this.analyticsScope) {
-            this.analytics.click('button', `${this.analyticsScope} - Save developer app`);
+            this.analytics.click('button', `${this.analyticsScope} - Save`);
         }
 
         const { validations } = yield this.model.validate();
@@ -55,8 +56,16 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
                 yield this.model.save();
                 this.set('saved', true);
                 this.onSave(this.model);
+                if (this.modelName) {
+                    set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
+                }
+                this.set('shouldShowMessages', false);
             } catch (e) {
-                this.toast.error(e);
+                if (this.onError) {
+                    this.onError(e, this.model);
+                } else {
+                    this.toast.error(e);
+                }
                 throw e;
             }
         }
@@ -65,14 +74,20 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     constructor(...args: any[]) {
         super(...args);
 
+        assert('Can only pass either a model or a modelName', !(Boolean(this.model) && Boolean(this.modelName)));
+
         if (!this.model && this.modelName) {
-            this.model = this.store.createRecord(this.modelName, {});
+            this.model = this.store.createRecord(this.modelName, this.modelProperties);
         }
     }
 
     willDestroy() {
-        if (this.model && !this.saved) {
-            this.model.unloadRecord();
+        if (this.model) {
+            if (this.onWillDestroy !== undefined) {
+                this.onWillDestroy(this.model);
+            } else if (!this.saved) {
+                this.model.unloadRecord();
+            }
         }
     }
 }
