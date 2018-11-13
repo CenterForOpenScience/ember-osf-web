@@ -23,11 +23,12 @@ export default class ValidatedModelFormController extends Controller {
             this.toast.error('Nothing to save');
         }
     }
-
+    // BEGIN-SNIPPET validated-model-form.on-will-destroy.ts
     @action
     onWillDestroy() {
         if (this.existingNode !== undefined) {
             this.existingNode.rollbackAttributes();
         }
     }
+    // END-SNIPPET
 }

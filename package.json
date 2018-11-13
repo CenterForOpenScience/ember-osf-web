@@ -197,5 +197,8 @@
       "lib/osf-components",
       "lib/registries"
     ]
+  },
+  "dependencies": {
+    "ember-code-snippet": "2.3.1"
   }
 }

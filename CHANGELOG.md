@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `user-email`
 
 ### Changed
+- Addons:
+    - `ember-code-snippet@2.3.1`
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
     - `validated-model-form` - Add an optional hook for onWillDestroy
