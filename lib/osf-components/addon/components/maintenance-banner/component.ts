@@ -3,11 +3,11 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import Cookies from 'ember-cookies/services/cookies';
+import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
 import $ from 'jquery';
 import moment from 'moment';
 
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import styles from './styles';

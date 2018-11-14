@@ -2,8 +2,8 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
+import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 

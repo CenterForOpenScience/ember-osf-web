@@ -2,8 +2,9 @@ import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
+import { localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+
 import Institution from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';
 import chunkArray from 'ember-osf-web/utils/chunk-array';

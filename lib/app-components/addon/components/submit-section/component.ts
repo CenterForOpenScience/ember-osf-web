@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { localClassNames } from 'ember-css-modules';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import layout from './template';

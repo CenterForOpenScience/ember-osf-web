@@ -2,10 +2,10 @@ import { action, computed } from '@ember-decorators/object';
 import { notEmpty } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { localClassNames } from 'ember-css-modules';
 import I18N from 'ember-i18n/services/i18n';
 
 import { requiredAction } from 'ember-osf-web/decorators/component';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';

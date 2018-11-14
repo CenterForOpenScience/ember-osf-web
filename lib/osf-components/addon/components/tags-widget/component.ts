@@ -2,9 +2,9 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { localClassName } from 'ember-css-modules';
 import config from 'ember-get-config';
 
-import { localClassName } from 'ember-osf-web/decorators/css-modules';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';

@@ -1,10 +1,10 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { localClassName, localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 
 import { requiredAction } from 'ember-osf-web/decorators/component';
-import { localClassName, localClassNames } from 'ember-osf-web/decorators/css-modules';
 import File from 'ember-osf-web/models/file';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
@@ -37,7 +37,7 @@ export default class FileListItem extends Component.extend({ styles }) {
     item?: File;
     @requiredAction openItem!: (item: File | undefined) => void;
 
-    @localClassName
+    @localClassName()
     @computed('item.isSelected')
     get selected(): boolean {
         return !!this.item && this.item.isSelected;

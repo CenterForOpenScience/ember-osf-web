@@ -1,7 +1,7 @@
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { localClassNames } from 'ember-css-modules';
 import StatusMessages, { StatusMessage } from 'ember-osf-web/services/status-messages';
 import styles from './styles';
 import layout from './template';

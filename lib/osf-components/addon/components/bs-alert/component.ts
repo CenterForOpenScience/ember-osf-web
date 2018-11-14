@@ -1,5 +1,5 @@
 import OriginalBsAlert from 'ember-bootstrap/components/bs-alert';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { localClassNames } from 'ember-css-modules';
 
 import styles from './styles';
 import layout from './template';
