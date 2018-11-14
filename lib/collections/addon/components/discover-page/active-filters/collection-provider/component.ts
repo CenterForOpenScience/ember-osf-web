@@ -1,6 +1,6 @@
 import { classNames } from '@ember-decorators/component';
 import { service } from '@ember-decorators/service';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { localClassNames } from 'ember-css-modules';
 import Theme from 'ember-osf-web/services/theme';
 import Base from '../base/component';
 import styles from './styles';

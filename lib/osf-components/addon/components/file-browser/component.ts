@@ -6,13 +6,13 @@ import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
 import { next } from '@ember/runloop';
 import { task } from 'ember-concurrency';
+import { localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 
 import { requiredAction } from 'ember-osf-web/decorators/component';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';

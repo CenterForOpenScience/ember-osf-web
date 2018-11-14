@@ -1,8 +1,9 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { localClassNames } from 'ember-css-modules';
 import Store from 'ember-data/store';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import { ShareRegistration } from 'registries/services/share-search';
