@@ -4,11 +4,11 @@ import Component from '@ember/component';
 import { localClassName, localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 /**
  * @module ember-osf-web
@@ -28,10 +28,9 @@ import layout from './template';
  * ```
  * @class file-icon
  */
+@layout(template)
 @localClassNames('FileListItem')
 export default class FileListItem extends Component.extend({ styles }) {
-    layout = layout;
-
     @service store!: DS.Store;
 
     item?: File;

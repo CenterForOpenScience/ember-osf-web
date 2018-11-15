@@ -6,12 +6,14 @@ import PasswordStrength from 'ember-cli-password-strength/services/password-stre
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 export default class SignUpForm extends Component.extend({
     submitTask: task(function *(this: SignUpForm) {
         const { validations } = yield this.userRegistration.validate();
@@ -37,9 +39,6 @@ export default class SignUpForm extends Component.extend({
         this.set('hasSubmitted', true);
     }).drop(),
 }) {
-    layout = layout;
-    styles = styles;
-
     userRegistration!: UserRegistration;
 
     hasSubmitted: boolean = false;

@@ -7,12 +7,12 @@ import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 /**
  * @module ember-osf-web
@@ -38,6 +38,7 @@ export enum ProjectSelectState {
  * ```
  * @class project-selector
  */
+@layout(template, styles)
 export default class ProjectSelector extends Component.extend({
     initialLoad: task(function *(this: ProjectSelector) {
         this.setProperties({
@@ -64,9 +65,6 @@ export default class ProjectSelector extends Component.extend({
         return nodes;
     }).restartable(),
 }) {
-    layout = layout;
-    styles = styles;
-
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
     @service store!: DS.Store;

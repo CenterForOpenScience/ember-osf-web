@@ -5,18 +5,19 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
-import layout from './template';
+import template from './template';
 
 export interface Contrib {
     title: string;
     id: string | null;
 }
 
+@layout(template)
 @tagName('span')
 export default class ContributorList extends Component {
-    layout = layout;
-
     @service i18n!: I18N;
     max = 3;
     nodeId?: string;

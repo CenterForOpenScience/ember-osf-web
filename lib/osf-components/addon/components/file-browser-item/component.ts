@@ -6,14 +6,14 @@ import { localClassName, localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 import moment from 'moment';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 /**
  * @module ember-osf-web
@@ -36,11 +36,10 @@ import layout from './template';
  * ```
  * @class file-icon
  */
+@layout(template, styles)
 @classNames('container')
 @localClassNames('file-browser-item')
-export default class FileBrowserItem extends Component.extend({ styles }) {
-    layout = layout;
-
+export default class FileBrowserItem extends Component {
     @service analytics!: Analytics;
     @service store!: DS.Store;
 

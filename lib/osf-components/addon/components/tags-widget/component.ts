@@ -5,15 +5,17 @@ import { assert } from '@ember/debug';
 import { localClassName } from 'ember-css-modules';
 import config from 'ember-get-config';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const { OSF: { url: baseUrl } } = config;
 
+@layout(template, styles)
 export default class TagsWidget extends Component.extend({ styles }) {
     // required arguments
     tags?: string[];
@@ -27,7 +29,6 @@ export default class TagsWidget extends Component.extend({ styles }) {
     @localClassName('inline') inline: boolean = defaultTo(this.inline, false);
 
     // private properties
-    layout = layout;
     @service analytics!: Analytics;
 
     constructor(properties: object) {

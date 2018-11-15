@@ -4,16 +4,16 @@ import Component from '@ember/component';
 import { localClassNames } from 'ember-css-modules';
 import Store from 'ember-data/store';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import { ShareRegistration } from 'registries/services/share-search';
-import layout from './template';
+import template from './template';
 
+@layout(template)
 @localClassNames('RecentList')
 export default class RegistriesRecentList extends Component {
     static positionalParams = ['items'];
-
-    layout = layout;
 
     @service analytics!: Analytics;
     @service store!: Store;

@@ -5,24 +5,26 @@ import I18n from 'ember-i18n/services/i18n';
 import KeenDataviz from 'keen-dataviz';
 import { Moment } from 'moment';
 
-import { ChartSpec } from 'analytics-page/components/analytics-charts/component';
-import KeenService from 'analytics-page/services/keen';
+import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
+
+import { ChartSpec } from 'analytics-page/components/analytics-charts/component';
+import KeenService from 'analytics-page/services/keen';
+
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 enum OverlayReason {
     Error,
     Loading,
 }
 
+@layout(template, styles)
 export default class ChartWrapper extends Component {
     @service keen!: KeenService;
     @service i18n!: I18n;
     @service analytics!: AnalyticsService;
-    layout = layout;
-    styles = styles;
 
     // Required arguments
     chartSpec!: ChartSpec;
