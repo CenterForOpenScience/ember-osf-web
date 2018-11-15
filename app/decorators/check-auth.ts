@@ -25,7 +25,7 @@ const {
  *
  * Uses the mixin pattern here: https://github.com/Microsoft/TypeScript/pull/13743
  */
-export default function checkAuth<T extends Newable<Route>>(
+export default function checkAuth<T extends ConcreteSubclass<Route>>(
     RouteSubclass: T,
 ) {
     class AuthenticatedRoute extends RouteSubclass {
