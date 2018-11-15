@@ -14,7 +14,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
     - `settings.profile.employment`
-    - `settings.profile.name`
+    - `settings.profile.name` - Adds ability to change your name and name parts (with citation preview)
+- Tests:
+    - Integration:
+        - `settings.profile.name.-components.citation-preview`
+    - Acceptance:
+        - `settings.profile.name`
+    - Helpers:
+        - `require-auth` - Mocks currentUser service to verify that routes that require auth redirect if unauthenticated
 
 ### Changed
 - Addons:
@@ -30,6 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `userHasReadPermission` computed property
         - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+    - `user`
+        - added validations for name fields
 - Routes:
     - `settings` - redirects to `settings.profile.name`
 - Tests:
