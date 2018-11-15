@@ -4,13 +4,16 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { allSettled, task } from 'ember-concurrency';
 import I18N from 'ember-i18n/services/i18n';
+import moment from 'moment';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
-import moment from 'moment';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 export default class DashboardItem extends Component.extend({
     getAncestorTitles: task(function *(this: DashboardItem) {
         if (!this.node) {
@@ -49,9 +52,6 @@ export default class DashboardItem extends Component.extend({
         return titles;
     }).restartable(),
 }) {
-    layout = layout;
-    styles = styles;
-
     @service i18n!: I18N;
     @service analytics!: Analytics;
 

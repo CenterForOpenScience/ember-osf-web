@@ -4,21 +4,21 @@ import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 @localClassNames('TosConsentBanner')
 export default class TosConsentBanner extends Component {
-    // Private properties
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
 
+    // Private properties
     show = false;
     didValidate = false;
     hasSubmitted = false;

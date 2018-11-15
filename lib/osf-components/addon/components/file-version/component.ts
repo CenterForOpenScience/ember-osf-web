@@ -3,10 +3,10 @@ import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 /**
  * @module ember-osf
@@ -37,13 +37,11 @@ export interface Version {
  * ```
  * @class FileVersion
  */
+@layout(template, styles)
 @tagName('tr')
 @classNames('file-version')
 export default class FileVersion extends Component {
     @service analytics!: Analytics;
-
-    layout = layout;
-    styles = styles;
 
     currentVersion!: number;
     version!: Version;

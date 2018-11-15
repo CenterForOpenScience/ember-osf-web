@@ -3,17 +3,18 @@ import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import config from 'ember-get-config';
+import Session from 'ember-simple-auth/services/session';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import Session from 'ember-simple-auth/services/session';
-import layout from './template';
+import template from './template';
 
 const osfURL = config.OSF.url;
 
+@layout(template)
 @tagName('') // Don't wrap this component in a div
 export default class XLinks extends Component {
-    layout = layout;
-
     @service router!: any;
     @service session!: Session;
     @service currentUser!: CurrentUser;

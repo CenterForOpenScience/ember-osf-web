@@ -8,10 +8,11 @@ import config from 'ember-get-config';
 import $ from 'jquery';
 import moment from 'moment';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 interface MaintenanceData {
     level?: number;
@@ -29,6 +30,7 @@ const {
     },
 } = config;
 
+@layout(template, styles)
 @localClassNames('MaintenanceBanner')
 export default class MaintenanceBanner extends Component.extend({
     getMaintenanceStatus: task(function *(this: MaintenanceBanner): IterableIterator<any> {
@@ -37,9 +39,6 @@ export default class MaintenanceBanner extends Component.extend({
         this.set('maintenance', data.maintenance);
     }).restartable(),
 }) {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service cookies!: Cookies;
 
