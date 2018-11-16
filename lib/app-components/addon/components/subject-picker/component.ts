@@ -31,8 +31,11 @@ export default class SubjectPicker extends Component.extend({
     didInsertElement(this: SubjectPicker, ...args: any[]) {
         this._super(...args);
 
+        if (this.currentSubjects) {
+            this.set('initialSubjects', [...this.currentSubjects]);
+        }
+
         this.setProperties({
-            initialSubjects: [],
             hasChanged: false,
             columns: new Array(3)
                 .fill(null)
