@@ -20,6 +20,7 @@ export interface Contrib {
 export default class ContributorList extends Component {
     @service i18n!: I18N;
     max = 3;
+    truncated = true;
     nodeId?: string;
     useLink?: boolean;
     contributors!: DS.PromiseManyArray<Contributor> & { meta: { total: number } };
