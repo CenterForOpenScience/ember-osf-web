@@ -7,6 +7,13 @@ module('Acceptance | settings | developer apps', hooks => {
     setupApplicationTest(hooks);
     setupMirage(hooks);
 
+    test('visit page', async assert => {
+        server.create('user', 'loggedIn');
+        await visit('/settings/applications');
+
+        assert.equal(currentURL(), '/settings/applications', 'Went to the Applications route.');
+    });
+
     test('empty app list', async assert => {
         server.create('user', 'loggedIn');
         await visit('/settings/applications');
@@ -89,7 +96,6 @@ module('Acceptance | settings | developer apps', hooks => {
         const [app] = server.createList('developer-app', 2);
 
         await visit('/settings/applications');
-
         const card = `[data-test-developer-app-card='${app.id}']`;
         assert.dom('[data-test-developer-app-card]').exists({ count: 2 });
         assert.dom(card).exists({ count: 1 });

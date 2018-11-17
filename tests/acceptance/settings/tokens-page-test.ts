@@ -8,6 +8,13 @@ module('Acceptance | settings | personal access tokens', hooks => {
     setupApplicationTest(hooks);
     setupMirage(hooks);
 
+    test('visit page', async assert => {
+        server.create('user', 'loggedIn');
+        await visit('/settings/tokens');
+
+        assert.equal(currentURL(), '/settings/tokens', 'Went to the PAT route.');
+    });
+
     test('empty tokens list', async assert => {
         server.create('user', 'loggedIn');
 
