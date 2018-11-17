@@ -8,8 +8,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Addons:
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
+- Components:
+    - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+- Handbook:
+    - `new-project-modal` component
+    - `new-project-navigation-modal` component
 - Models:
     - `user-email`
+- Routes:
+    - `settings.profile` - redirects to `settings.profile.name`
+    - `settings.profile.education`
+    - `settings.profile.employment`
+    - `settings.profile.name`
+    - `settings.profile.social`
+- Tests:
+    - `new-project-navigation-modal` - component integration test
+    - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
+- Types:
+    - `ember-power-select/test-support` - types for useful functions
 
 ### Changed
 - Addons:
@@ -25,6 +41,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `userHasReadPermission` computed property
         - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+- Routes:
+    - `settings` - redirects to `settings.profile.name`
 - Tests:
     - improved integration tests for `node-navbar` component
 - Adapters:
@@ -42,6 +60,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Engines:
     - `registries` - page resetting and scrolling fixes
 
+### Changed
+- Components:
+    - `file-browser` - replaced project navigation modal with `new-project-navigation-modal` component
+    - `new-project-modal` - Made it smarter and more reusable
+    - `project-selector` - replaced project creation modal with `new-project-modal` component
+- Pages:
+    - `dashboard` - replaced project creation modal with `new-project-modal` component
+- Tests:
+    - `dashboard` - acceptance tests related to project creation workflow
+ 
 ## [18.1.0] - 2018-10-30
 ### Added
 - Components:

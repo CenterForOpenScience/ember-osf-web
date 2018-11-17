@@ -56,6 +56,7 @@ export default {
         hosted_on_the_osf: 'Hosted on OSF',
         please_confirm: 'Please confirm',
         required: 'Required',
+        options: 'Options',
         optional: 'Optional',
         services: {
             collections: 'Collections',
@@ -214,7 +215,7 @@ export default {
         },
     },
     move_to_project: {
-        create_new_project: 'Create new project',
+        create_new_project: 'Create new public project',
         connect_to_existing: 'Connect file to existing OSF project',
         enter_project_title: 'Enter project title',
         new_project_message: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.',
@@ -1143,6 +1144,18 @@ export default {
         toggleNav: 'Toggle navigation',
         profile: {
             title: 'Profile information',
+            name: {
+                title: 'Name',
+            },
+            social: {
+                title: 'Social',
+            },
+            education: {
+                title: 'Education',
+            },
+            employment: {
+                title: 'Employment',
+            },
         },
         account: {
             title: 'Account settings',
