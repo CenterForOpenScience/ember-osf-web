@@ -18,6 +18,7 @@
     "ember-css-modules-sass": "*",
     "ember-font-awesome": "*",
     "ember-onbeforeunload": "*",
+    "ember-power-select": "*",
     "ember-tag-input": "*"
   },
   "ember-addon": {
