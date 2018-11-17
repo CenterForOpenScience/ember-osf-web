@@ -2,7 +2,9 @@
     {{#demo.example name='validated-model-form.demo-edit.hbs'}}
         {{#validated-model-form
             onSave=(action this.onSave)
+            onWillDestroy=(action this.onWillDestroy)
             model=this.node
+            disabled=this.model.taskInstance.isRunning
             as |form|
         }}
             {{form.text valuePath='title' label='Title'}}
@@ -14,4 +16,6 @@
     {{/demo.example}}
 
     {{demo.snippet 'validated-model-form.demo-edit.hbs'}}
+    {{demo.snippet 'validated-model-form.on-will-destroy.ts' label='controller.ts'}}
+    {{demo.snippet 'validated-model-form.is-page-dirty.ts' label='route.ts'}}
 {{/docs-demo}}
