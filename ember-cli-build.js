@@ -136,6 +136,12 @@ module.exports = function(defaults) {
         test: 'vendor/ember/ember-template-compiler.js',
     });
 
+    app.import({
+        test: 'node_modules/seedrandom/seedrandom.min.js',
+    }, {
+        using: [{ transformation: 'amd', as: 'seedrandom' }],
+    });
+
     app.import('node_modules/keen-tracking/dist/keen-tracking.min.js', {
         using: [{ transformation: 'amd', as: 'keen-tracking' }],
     });
