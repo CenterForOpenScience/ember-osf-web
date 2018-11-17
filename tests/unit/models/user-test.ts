@@ -41,12 +41,6 @@ module('Unit | Model | user', hooks => {
         assert.ok(hasAttr);
     });
 
-    test('it has an attribute: username', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('user'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('username') > -1;
-        assert.ok(hasAttr);
-    });
-
     test('it has an attribute: fullName', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('user'));
         const hasAttr = Object.keys(model.toJSON()).indexOf('fullName') > -1;

@@ -51,6 +51,7 @@ const App = Application.extend({
                     'features',
                     'head-data',
                     'i18n',
+                    'media',
                     'page-title-list',
                     'ready',
                     'router',

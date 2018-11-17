@@ -11,6 +11,13 @@ declare const config: {
         urlRegex: string;
         display?: string;
     }>;
+    featureFlagNames: {
+        newStyle: string;
+    };
+    externalLinks: {
+        help: string;
+        donate: string;
+    };
 };
 
 export default config;

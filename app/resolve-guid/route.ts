@@ -87,19 +87,20 @@ export default class ResolveGuid extends Route {
             url = `${url}/${params.path}`;
         }
 
-        let newTransition = this.replaceWith(url);
-
         if (transition.queryParams && Object.keys(transition.queryParams).length > 0) {
-            url = `${url}?${param(transition.queryParams)}`;
+            // Remove query params from the existing transition's
+            // state to force query param change hooks to fire.
+            // The previous solution appears to have run into a
+            // bug with how Ember handles queryParams only transitions.
+            // The previous solution was to transition into the target
+            // route without the QPs added and then again with the QPs.
+            // eslint-disable-next-line no-param-reassign
+            transition.state.queryParams = {};
 
-            // Hack/work around this.replaceWith including query params will result
-            // in query param hooks not being fired as they technically did not change.
-            // So start a transition without query params and immediately transition into the same
-            // route with the updated query params.
-            newTransition = this.replaceWith(url);
+            url = `${url}?${param(transition.queryParams)}`;
         }
 
-        return newTransition;
+        return this.replaceWith(url);
     }
 
     @action

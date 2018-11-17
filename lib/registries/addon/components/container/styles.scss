@@ -1,0 +1,15 @@
+.Container {
+    display: flex;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
+
+    &:global(.media-desktop) {
+        max-width: 1140px;
+    }
+
+    &:global(.media-tablet) { } // stylelint-disable-line block-no-empty
+
+    &:global(.media-mobile) { } // stylelint-disable-line block-no-empty
+}

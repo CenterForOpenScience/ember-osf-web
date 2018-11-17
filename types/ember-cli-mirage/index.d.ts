@@ -148,7 +148,6 @@ export interface Server {
     logging: boolean;
     pretender: any;
     urlPrefix: string;
-    apiBaseUrl: string;
 
     get: typeof handlerDefinition;
     post: typeof handlerDefinition;
@@ -204,8 +203,8 @@ export interface Trait<O extends TraitOptions = {}> {
 export function trait<O extends TraitOptions>(options: O): Trait<O>;
 
 // TODO when https://github.com/Microsoft/TypeScript/issues/1360
-// function association(...traits: string[], overrides?: { [key: string]: any }): unknown;
-export function association(...args: any[]): unknown;
+// function association(...traits: string[], overrides?: { [key: string]: any }): any;
+export function association(...args: any[]): any;
 
 export type FactoryAttrs<T> = {
     [P in keyof T]?: T[P] | ((index: number) => T[P]);

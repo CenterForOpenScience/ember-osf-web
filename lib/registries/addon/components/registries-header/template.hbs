@@ -12,12 +12,12 @@
     <div class="row m-t-md m-b-lg text-center">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2">
             <div class="input-group input-group-lg">
-                {{input value=value class="form-control" placeholder=(t 'registries.header.search_placeholder')}}
+                {{input data-test-search-box value=value class="form-control" placeholder=(t 'registries.header.search_placeholder')}}
                 <span class="input-group-btn">
                     {{#if showHelp}}
                         <button class="btn btn-default" type="button" {{action "toggleHelp"}}>{{fa-icon "question" class="text-muted"}}</button>
                     {{/if}}
-                    <button class="btn btn-default" type="button" {{action "onClick"}}>{{t 'registries.header.search'}}</button>
+                    <button data-test-search-button class="btn btn-default" type="button" {{action "onClick"}}>{{t 'registries.header.search'}}</button>
                 </span>
             </div>
             <p class="p-l-md text-left">

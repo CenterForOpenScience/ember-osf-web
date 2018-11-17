@@ -17,7 +17,6 @@ export default function(this: Server) {
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
-    this.apiBaseUrl = `${this.urlPrefix}${this.namespace}`;
 
     this.get('/', rootDetail);
 
@@ -53,6 +52,10 @@ export default function(this: Server) {
 
     osfResource(this, 'user', { except: ['create', 'delete'] });
     osfNestedResource(this, 'user', 'institutions', { only: ['index'] });
+    osfNestedResource(this, 'user', 'emails', {
+        path: '/users/:parentID/settings/emails',
+        relatedModelName: 'user-email',
+    });
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });

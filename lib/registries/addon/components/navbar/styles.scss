@@ -1,0 +1,110 @@
+.Nav {
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+}
+
+.Container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Section {
+    display: flex;
+    align-items: center;
+
+    &.Bordered > .Item:not(:last-child) {
+        border-right-style: solid;
+        border-right-width: 1px;
+    }
+}
+
+.Divider {
+    height: 60%;
+    margin: 0 5px;
+    width: 1px;
+}
+
+.Icon {
+    font-size: 16px;
+}
+
+.Item {
+    display: inline-flex;
+    padding: 0 16px;
+
+    &:active,
+    &:focus,
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.Default {
+    padding: 16px;
+}
+
+.Primary {
+    &:active,
+    &:hover {
+        border-radius: 2px;
+        background-color: $secondary-green;
+    }
+}
+
+.Secondary {
+    &:active,
+    &:hover {
+        border-radius: 2px;
+        background-color: $secondary-blue;
+    }
+}
+
+// --- \Color "Themes" ---
+.Nav.Dark {
+    color: $primary-blue;
+    background: $midnight-blue;
+
+    & .Icon {
+        color: $alto;
+    }
+
+    & .Divider {
+        background: $dark-slate-gray;
+    }
+
+    & .Item {
+        color: $white;
+    }
+
+    & .Section.Bordered > .Item:not(:last-child) {
+        border-right-color: $dark-slate-gray;
+    }
+
+    h4 {
+        color: $white;
+    }
+}
+
+.Nav.Light {
+    color: $primary-blue;
+    background: $porcelain;
+
+    & .Icon {
+        color: $primary-blue;
+    }
+
+    & .Divider {
+        background: $white;
+    }
+
+    & .Item {
+        color: $primary-blue;
+    }
+
+
+    & .Section.Bordered > .Item:not(:last-child) {
+        border-right-color: $white;
+    }
+}
+// --- \Color "Themes" ---

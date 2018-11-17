@@ -8,6 +8,21 @@ const { OSF: { apiUrl } } = config;
 export default class UserSerializer extends ApplicationSerializer<User> {
     buildRelationships(model: ModelInstance<User>) {
         return {
+            emails: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/settings/emails/`,
+                    },
+                },
+            },
+            institutions: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/institutions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'institutions'),
+                    },
+                },
+            },
             nodes: {
                 links: {
                     related: {
@@ -21,14 +36,6 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                     related: {
                         href: `${apiUrl}/v2/users/${model.id}/quickfiles/`,
                         meta: this.buildRelatedLinkMeta(model, 'quickfiles'),
-                    },
-                },
-            },
-            institutions: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/users/${model.id}/institutions/`,
-                        meta: this.buildRelatedLinkMeta(model, 'institutions'),
                     },
                 },
             },

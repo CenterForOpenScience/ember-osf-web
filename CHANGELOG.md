@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
 ## [Unreleased]
 ### Added
 - Components:
@@ -10,11 +11,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
+- Models:
+    - `user-email`
 - Tests:
     - `new-project-navigation-modal` - component integration test
     - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
 - Types:
     - `ember-power-select/test-support` - types for useful functions
+### Changed
+- Components:
+    - `node-navbar` - Choose links to display with the same logic as legacy
+- Models:
+    - `node`
+        - added `wikiEnabled` boolean attribute
+        - added `userHasReadPermission` computed property
+        - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
+        - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+- Tests:
+    - improved integration tests for `node-navbar` component
+- Adapters:
+    - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
+- Routes:
+    - Add email verification modal to application template
+
+## [18.1.2] - 2018-11-05
+- Engines:
+    - `registries/discover` - reset to first page on user search input
+
+## [18.1.1] - 2018-11-05
+- Routes:
+    - `guid-node/registrations` - fix sorting of registration schema on new registration modal
+- Engines:
+    - `registries` - page resetting and scrolling fixes
 
 ### Changed
 - Components:

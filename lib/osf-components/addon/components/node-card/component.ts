@@ -61,8 +61,8 @@ export default class NodeCard extends Component {
         return this.analyticsScope ? `${this.analyticsScope} - ` : '';
     }
 
-    @computed('readOnly', 'node', 'node.nodeType', 'node.currentUserCanEdit')
+    @computed('readOnly', 'node', 'node.nodeType', 'node.userHasWritePermission')
     get showDropdown() {
-        return !this.readOnly && this.node && this.node.nodeType === NodeType.Fork && this.node.currentUserCanEdit;
+        return !this.readOnly && this.node && this.node.nodeType === NodeType.Fork && this.node.userHasWritePermission;
     }
 }
