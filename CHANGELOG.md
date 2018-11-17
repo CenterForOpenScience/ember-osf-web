@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `new-project-navigation-modal` component
 - Models:
     - `user-email`
+- Routes:
+    - `settings.profile` - redirects to `settings.profile.name`
+    - `settings.profile.education`
+    - `settings.profile.employment`
+    - `settings.profile.name`
+    - `settings.profile.social`
 - Tests:
     - `new-project-navigation-modal` - component integration test
     - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
@@ -27,6 +33,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `userHasReadPermission` computed property
         - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+- Routes:
+    - `settings` - redirects to `settings.profile.name`
 - Tests:
     - improved integration tests for `node-navbar` component
 - Adapters:
