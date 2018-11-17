@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Addons:
+    - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
 - Handbook:
@@ -24,9 +26,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
 - Types:
     - `ember-power-select/test-support` - types for useful functions
+
 ### Changed
+- Addons:
+    - `ember-code-snippet@2.3.1`
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
+    - `validated-model-form` - Add an optional hook for onWillDestroy
+- Handbook:
+    - `validated-model-form` - Show how onWillDestroy works and use ember-onbeforeunload
 - Models:
     - `node`
         - added `wikiEnabled` boolean attribute
