@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Models:
+    - `user-email`
 - Routes:
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
@@ -25,6 +27,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings` - redirects to `settings.profile.name`
 - Tests:
     - improved integration tests for `node-navbar` component
+- Adapters:
+    - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
+- Routes:
+    - Add email verification modal to application template
 
 ## [18.1.2] - 2018-11-05
 - Engines:

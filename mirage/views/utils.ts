@@ -1,9 +1,9 @@
-import { HandlerContext } from 'ember-cli-mirage';
+import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
 import { compare, embed, paginate, ProcessOptions, sort, toOperator } from './private/utils';
 
 export function process(
-    schema: any,
-    request: any,
+    schema: Schema,
+    request: Request,
     handlerContext: HandlerContext,
     data: any[],
     options?: ProcessOptions,
@@ -11,7 +11,7 @@ export function process(
     return embed(schema, request, paginate(request, sort(request, data, options), options), handlerContext);
 }
 
-export function filter(model: any, request: any) {
+export function filter(model: ModelInstance, request: Request) {
     const filterRegex = /^filter\[((?:\w+(?:\.\w+)*,?)+)\](?:\[([a-z]+)\])?/;
 
     return Object.entries(request.queryParams)
@@ -36,4 +36,10 @@ export function filter(model: any, request: any) {
                 return true;
             }
         });
+}
+
+export function queryParamIsTruthy(value?: string) {
+    return Boolean(
+        value && ['true', '1'].includes(value.toString().toLowerCase()),
+    );
 }

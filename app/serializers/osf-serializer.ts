@@ -176,8 +176,13 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         }
         if (documentHash.data.relationships) {
             documentHash.data.attributes.relatedCounts = Object.entries(documentHash.data.relationships).reduce(
-                (acc: { [k: string]: number | undefined }, [relName, rel]: [string, any]) => {
-                    acc[camelize(relName)] = rel.links ? rel.links.related.meta.count : undefined;
+                (acc: Record<string, number>, [relName, rel]: [string, any]) => {
+                    if (rel.links && rel.links.related && rel.links.related.meta) {
+                        const { count } = rel.links.related.meta;
+                        if (typeof count === 'number') {
+                            acc[camelize(relName)] = count;
+                        }
+                    }
                     return acc;
                 },
                 {},
