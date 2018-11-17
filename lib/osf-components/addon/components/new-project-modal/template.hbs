@@ -121,7 +121,7 @@
             data-test-create-project-cancel
             onclick={{action modal.close}}
             class="btn btn-default"
-            {{action 'click' 'button' (concat page ' - New Project - cancel') target=analytics}}
+            {{action 'click' 'button' (concat this.analyticsContext ' - New Project - cancel') target=analytics}}
         >
             {{t 'general.cancel'}}
         </button>

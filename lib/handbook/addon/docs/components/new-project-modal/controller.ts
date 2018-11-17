@@ -2,16 +2,15 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import Node from 'ember-osf-web/models/node';
-import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 export default class NewProjectModalController extends Controller {
     @service currentUser!: CurrentUser;
-    @service analytics!: Analytics;
     newNode: Node | null = null;
     shouldShowModal: boolean = false;
-    shouldReload: boolean = true;
+    shouldReload: boolean = false;
 
+    // BEGIN-SNIPPET new-project-modal.controller.ts
     @action
     openModal(this: NewProjectModalController) {
         this.set('newNode', null);
@@ -29,4 +28,5 @@ export default class NewProjectModalController extends Controller {
         this.set('shouldShowModal', false);
         this.set('shouldReload', reload);
     }
+    // END-SNIPPET
 }

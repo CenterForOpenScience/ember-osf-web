@@ -2,16 +2,16 @@
 {{#if modalOpen}}
     {{#if this.showNewNodeNavigation}} 
         <NewProjectNavigationModal
-            @node={{newNode}}
-            @closeModal={{action closeModal}}
+            @node={{this.newNode}}
+            @closeModal={{action this.closeModal}}
             @title={{t 'new_project.success_message'}}
-            @afterStayHere={{action afterStay}}
+            @afterStayHere={{action this.afterStay}}
         />
     {{else}}
         <NewProjectModal
-            @afterProjectCreated={{action projectCreated}}
-            @page="Dashboard"
-            @closeModal={{action closeModal}}
+            @afterProjectCreated={{action this.projectCreated}}
+            @analyticsContext="Dashboard"
+            @closeModal={{action this.closeModal}}
         />
     {{/if}}
 {{/if}}
@@ -28,7 +28,7 @@
                                 <button 
                                     data-test-create-project-modal-button
                                     onclick={{action 'openModal'}} 
-                                    class="btn btn-success btn-success-high-contrast m-t-md f-w-xl" 
+                                    class="btn btn-success m-t-md f-w-xl" 
                                     {{action 'click' 'button' 'Dashboard - create_new_project' target=analytics}}
                                 >
                                     {{t 'dashboard.create_new_project_button'}}

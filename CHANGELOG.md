@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+- Handbook:
+    - `new-project-modal` component
+    - `new-project-navigation-modal` component
 - Tests:
     - `new-project-navigation-modal` - component integration test
     - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
@@ -32,8 +35,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `panel` component integration test
 - Handbook:
     - `panel` component
-    - `new-project-modal` component
-    - `new-project-navigation-modal` component
 - Mirage:
     - `node` POST view to add currentUser as contributor
     - `regions` fixtures

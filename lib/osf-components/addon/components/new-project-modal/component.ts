@@ -41,41 +41,13 @@ export default class NewProjectModal extends Component.extend({
             selectedRegion: this.currentUser.user!.defaultRegion,
         });
     }),
-}) {
-    layout = layout;
-    styles = styles;
-
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
-    @service features!: Features;
-
-    // Required arguments
-    page!: string;
-    @requiredAction afterProjectCreated!: (newNode: Node) => void;
-
-    // Optional arguments
-    isPublic?: boolean;
-
-    // Private fields
-    nodeTitle?: string;
-    description?: string;
-    styleNamespace?: string;
-    more: boolean = false;
-    templateFrom?: Node;
-    selectedRegion?: Region;
-    institutions: Institution[] = [];
-    regions: Region[] = [];
-
-    @alias('currentUser.user') user!: User;
-
-    searchUserNodes = task(function *(this: NewProjectModal, title: string) {
+    searchUserNodesTask: task(function *(this: NewProjectModal, title: string) {
         yield timeout(500);
         const user: User = yield this.user;
         return yield user.queryHasMany('nodes', { filter: { title } });
-    }).restartable();
+    }).restartable(),
 
-    createNode = task(function *(
+    createNodeTask: task(function *(
         this: NewProjectModal,
         title: string,
         description: string,
@@ -106,7 +78,35 @@ export default class NewProjectModal extends Component.extend({
         yield node.save();
 
         this.afterProjectCreated(node);
-    }).drop();
+    }).drop(),
+
+}) {
+    layout = layout;
+    styles = styles;
+
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
+    @service features!: Features;
+
+    // Required arguments
+    analyticsContext!: string;
+    @requiredAction afterProjectCreated!: (newNode: Node) => void;
+
+    // Optional arguments
+    isPublic?: boolean;
+
+    // Private fields
+    nodeTitle?: string;
+    description?: string;
+    styleNamespace?: string;
+    more: boolean = false;
+    templateFrom?: Node;
+    selectedRegion?: Region;
+    institutions: Institution[] = [];
+    regions: Region[] = [];
+
+    @alias('currentUser.user') user!: User;
 
     @oneWay('institutions') selectedInstitutions!: Institution[];
 
@@ -124,42 +124,42 @@ export default class NewProjectModal extends Component.extend({
         } else {
             selected.pushObject(institution);
         }
-        this.analytics.click('button', `${this.page} - New Project - select_institution`);
+        this.analytics.click('button', `${this.analyticsContext} - New Project - select_institution`);
     }
 
     @action
     selectAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', this.institutions.slice());
-        this.analytics.click('button', `${this.page} - New Project - select_all`);
+        this.analytics.click('button', `${this.analyticsContext} - New Project - select_all`);
     }
 
     @action
     removeAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', A([]));
-        this.analytics.click('button', `${this.page} - New Project - remove_all`);
+        this.analytics.click('button', `${this.analyticsContext} - New Project - remove_all`);
     }
 
     @action
     selectTemplateFrom(this: NewProjectModal, templateFrom: Node) {
         this.set('templateFrom', templateFrom);
-        this.analytics.click('button', `${this.page} - New Project - Select template from`);
+        this.analytics.click('button', `${this.analyticsContext} - New Project - Select template from`);
     }
 
     @action
     selectRegion(this: NewProjectModal, region: Region) {
         this.set('selectedRegion', region);
-        this.analytics.click('button', `${this.page} - New Project - Select storage region`);
+        this.analytics.click('button', `${this.analyticsContext} - New Project - Select storage region`);
     }
 
     @action
     toggleMore() {
         this.toggleProperty('more');
-        this.analytics.click('button', `${this.page} - New Project - Toggle more`);
+        this.analytics.click('button', `${this.analyticsContext} - New Project - Toggle more`);
     }
 
     @action
     create(this: NewProjectModal) {
-        this.get('createNode').perform(
+        this.get('createNodeTask').perform(
             this.nodeTitle,
             this.description,
             this.selectedInstitutions,
@@ -167,11 +167,11 @@ export default class NewProjectModal extends Component.extend({
             this.selectedRegion,
             this.isPublic,
         );
-        this.analytics.click('button', `${this.page} - New Project - create`);
+        this.analytics.click('button', `${this.analyticsContext} - New Project - create`);
     }
 
     @action
     searchNodes(this: NewProjectModal, searchTerm: string) {
-        return this.get('searchUserNodes').perform(searchTerm);
+        return this.get('searchUserNodesTask').perform(searchTerm);
     }
 }

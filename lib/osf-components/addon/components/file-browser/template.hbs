@@ -253,8 +253,7 @@
         @page="Quick Files"
         @isPublic={{true}}
     />
-{{/if}}
-{{#if (eq currentModal 'successMove')}}
+{{else if (eq currentModal 'successMove')}}
     <NewProjectNavigationModal
         @node={{node}}
         @closeModal={{action (mut currentModal) ''}}
