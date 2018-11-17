@@ -37,6 +37,6 @@ When invoked in block form, `validated-model-form` yields a hash with the follow
 {{docs/components/validated-model-form/demo-create onSave=(action this.onSave)}}
 
 ## Demo: Edit
-This also show how to use the `onWillDestroy()` action to bring up a "are you sure you want to leave" dialog if there are unsaved changes.
+This also shows how to use the `onWillDestroy()` action to bring up an "are you sure you want to leave" dialog if there are unsaved changes.
 
 {{docs/components/validated-model-form/demo-edit onSave=(action this.onSave) onWillDestroy=(action this.onWillDestroy) node=this.existingNode}}
