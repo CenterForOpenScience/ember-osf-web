@@ -464,6 +464,9 @@ export default {
         node_license_invalid: 'Invalid required fields for the license',
         node_license_missing_fields: 'The following required fields are missing: {{missingFields}}',
     },
+    validated_input_form: {
+        discard_changes: 'Discard changes',
+    },
     node_navbar: {
         toggle: 'Toggle navigation',
         project_nav: 'Project Navigation',
@@ -1146,6 +1149,16 @@ export default {
             title: 'Profile information',
             name: {
                 title: 'Name',
+                fullName: 'Display name (e.g. Rosalind Elsie Franklin)',
+                givenName: 'Given name (e.g. Rosalind)',
+                middleNames: 'Middle names (e.g. Elsie)',
+                familyName: 'Family name (e.g. Franklin)',
+                suffix: 'Suffix',
+                citationName: 'Citation name',
+                instructions: 'Your full name, above, will be displayed in your profile. To control the way your name will appear in citations, edit the fields below.',
+                apa: 'APA',
+                mla: 'MLA',
+                citationPreview: 'Citation preview',
             },
             social: {
                 title: 'Social',

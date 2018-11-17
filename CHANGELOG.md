@@ -19,11 +19,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
     - `settings.profile.employment`
-    - `settings.profile.name`
+    - `settings.profile.name` - Adds ability to change your name and name parts (with citation preview)
     - `settings.profile.social`
 - Tests:
-    - `new-project-navigation-modal` - component integration test
-    - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
+    - Integration:
+        - `settings.profile.name.-components.citation-preview`
+        - `new-project-navigation-modal` - component integration test
+    - Acceptance:
+        - `settings.profile.name`
+        - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
+    - Helpers:
+        - `require-auth` - Mocks currentUser service to verify that routes that require auth redirect if unauthenticated    
 - Types:
     - `ember-power-select/test-support` - types for useful functions
 
@@ -41,6 +47,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `userHasReadPermission` computed property
         - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+    - `user`
+        - added validations for name fields
 - Routes:
     - `settings` - redirects to `settings.profile.name`
 - Tests:
