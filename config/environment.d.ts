@@ -146,6 +146,7 @@ declare const config: {
             institutions: string;
         };
         storageI18n: string;
+        verifyEmailModals: string;
     };
     gReCaptcha: {
         siteKey: string;

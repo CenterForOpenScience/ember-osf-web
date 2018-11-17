@@ -9,6 +9,7 @@ const {
         routes,
         navigation,
         storageI18n,
+        verifyEmailModals,
     },
 } = config;
 
@@ -25,6 +26,7 @@ export default Factory.extend<Root>({
         ...Object.values(routes),
         ...Object.values(navigation),
         storageI18n,
+        verifyEmailModals,
         'ember_registries_new_style',
     ],
     message: 'Welcome to the OSF API.',

@@ -56,6 +56,7 @@ export default {
         hosted_on_the_osf: 'Hosted on OSF',
         please_confirm: 'Please confirm',
         required: 'Required',
+        options: 'Options',
         optional: 'Optional',
         services: {
             collections: 'Collections',
@@ -214,7 +215,7 @@ export default {
         },
     },
     move_to_project: {
-        create_new_project: 'Create new project',
+        create_new_project: 'Create new public project',
         connect_to_existing: 'Connect file to existing OSF project',
         enter_project_title: 'Enter project title',
         new_project_message: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.',
@@ -1208,6 +1209,28 @@ export default {
                 warning: 'This is the only time your token will be displayed.',
                 editScopes: 'Edit scopes',
             },
+        },
+    },
+    verifyEmail: {
+        merge: {
+            header: 'Merge account?',
+            body: 'Would you like to merge <strong>{{email}}</strong> into your account? This action is irreversible.',
+            verifyButton: 'Merge account',
+            denyButton: 'Do not merge account',
+            verifySuccess: '<strong>{{email}}</strong> has been merged into your account.',
+            denySuccess: '<strong>{{email}}</strong> has not been merged into your account.',
+            verifyError: 'There was a problem merging <strong>{{email}}</strong> into your account.',
+            denyError: 'There was a problem canceling the request to merge <strong>{{email}}</strong> into your account.',
+        },
+        add: {
+            header: 'Add alternate email?',
+            body: 'Would you like to add <strong>{{email}}</strong> to your account?',
+            verifyButton: 'Add email',
+            denyButton: 'Do not add email',
+            verifySuccess: '<strong>{{email}}</strong> has been added to your account.',
+            denySuccess: '<strong>{{email}}</strong> has not been added to your account.',
+            verifyError: 'There was a problem adding <strong>{{email}}</strong> to your account.',
+            denyError: 'There was a problem canceling the request to add <strong>{{email}}</strong> to your account.',
         },
     },
     ipsum: {
