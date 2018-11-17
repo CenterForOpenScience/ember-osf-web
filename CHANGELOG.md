@@ -6,8 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components:
+    - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+- Handbook:
+    - `new-project-modal` component
+    - `new-project-navigation-modal` component
 - Models:
     - `user-email`
+- Tests:
+    - `new-project-navigation-modal` - component integration test
+    - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
+- Types:
+    - `ember-power-select/test-support` - types for useful functions
 ### Changed
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
@@ -34,6 +44,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Engines:
     - `registries` - page resetting and scrolling fixes
 
+### Changed
+- Components:
+    - `file-browser` - replaced project navigation modal with `new-project-navigation-modal` component
+    - `new-project-modal` - Made it smarter and more reusable
+    - `project-selector` - replaced project creation modal with `new-project-modal` component
+- Pages:
+    - `dashboard` - replaced project creation modal with `new-project-modal` component
+- Tests:
+    - `dashboard` - acceptance tests related to project creation workflow
+ 
 ## [18.1.0] - 2018-10-30
 ### Added
 - Components:
