@@ -13,7 +13,7 @@ export default class CitationPreview extends Component {
     @and('user.givenName', 'user.familyName')
     shouldCite!: boolean;
 
-    initials = (names: string): string => {
+    initials(names: string): string {
         const trimmedName = names.trim();
         return trimmedName
             .split(/\s+/)
@@ -25,33 +25,30 @@ export default class CitationPreview extends Component {
             }).join(' ');
     }
 
-    suffix = (suffix: string): string => {
+    suffix(suffix: string): string {
         let returnValue = suffix;
         const suffixLower = suffix.toLowerCase();
-        if ($.inArray(suffixLower, ['jr', 'sr']) !== -1) {
+        if (['jr', 'sr'].includes(suffixLower)) {
             returnValue = `${suffix}.`;
             returnValue = suffixLower.charAt(0).toUpperCase() + suffixLower.slice(1);
-        } else if ($.inArray(suffixLower, ['ii', 'iii', 'iv', 'v']) !== -1) {
+        } else if (['ii', 'iii', 'iv', 'v'].includes(suffixLower)) {
             returnValue = suffixLower.toUpperCase();
         }
         return returnValue;
     }
 
     @computed('user.familyName', 'user.givenName', 'user.middleNames', 'user.suffix')
-    get citeApa (): string {
-        let cite: string = '';
+    get citeApa(): string {
         const currentUser = this.user;
-        if (this.shouldCite) {
-            cite = `${currentUser.familyName}, ${this.initials(currentUser.givenName)}`;
-            if (currentUser.middleNames) {
-                cite = `${cite} ${this.initials(currentUser.middleNames)}`;
-            }
-            if (currentUser.suffix) {
-                cite = `${cite}, ${this.suffix(currentUser.suffix)}`;
-            }
-            if (!cite.endsWith('.')) {
-                cite = `${cite}.`;
-            }
+        let cite = `${currentUser.familyName}, ${this.initials(currentUser.givenName)}`;
+        if (currentUser.middleNames) {
+            cite = `${cite} ${this.initials(currentUser.middleNames)}`;
+        }
+        if (currentUser.suffix) {
+            cite = `${cite}, ${this.suffix(currentUser.suffix)}`;
+        }
+        if (!cite.endsWith('.')) {
+            cite = `${cite}.`;
         }
         return cite;
     }
@@ -59,18 +56,15 @@ export default class CitationPreview extends Component {
     @computed('user.familyName', 'user.givenName', 'user.middleNames', 'user.suffix')
     get citeMla() {
         const currentUser = this.user;
-        let cite: string = '';
-        if (this.shouldCite) {
-            cite = `${currentUser.familyName}, ${currentUser.givenName}`;
-            if (currentUser.middleNames) {
-                cite = `${cite} ${this.initials(currentUser.middleNames)}`;
-            }
-            if (currentUser.suffix) {
-                cite = `${cite}, ${this.suffix(currentUser.suffix)}`;
-            }
-            if (!cite.endsWith('.')) {
-                cite = `${cite}.`;
-            }
+        let cite = `${currentUser.familyName}, ${currentUser.givenName}`;
+        if (currentUser.middleNames) {
+            cite = `${cite} ${this.initials(currentUser.middleNames)}`;
+        }
+        if (currentUser.suffix) {
+            cite = `${cite}, ${this.suffix(currentUser.suffix)}`;
+        }
+        if (!cite.endsWith('.')) {
+            cite = `${cite}.`;
         }
         return cite;
     }
