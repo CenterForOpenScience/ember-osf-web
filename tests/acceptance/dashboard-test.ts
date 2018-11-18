@@ -1,6 +1,8 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy';
+import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -44,6 +46,8 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('nav.navbar .secondary-nav-dropdown .nav-profile-name')
             .hasText(currentUser.fullName, 'User\'s name is in navbar');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
+
+        await percySnapshot(assert);
     });
 
     test('institutions carousel', async assert => {
@@ -132,7 +136,9 @@ module('Acceptance | dashboard', hooks => {
         for (const node of nodes) {
             server.create('contributor', { node, users: currentUser, index: 11 });
         }
+        assert.ok(this.element === undefined, 'Should not have element before visit');
         await visit('/dashboard');
+        assert.ok(this.element !== undefined, 'Should have element after visit');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
         assert.dom('[data-test-load-more]').exists('The control to load more projects exists');
@@ -265,5 +271,133 @@ module('Acceptance | dashboard', hooks => {
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 1, 'Two character filtering has correct number of projects');
         assert.dom(projectTitles[0]).hasText('az', 'Two character filtering item is correct');
+    });
+
+    test('create project modal creates project - basic', async assert => {
+        server.loadFixtures('regions');
+        server.create('user', 'loggedIn');
+        const title = 'Giraffical Interchange Format';
+        await visit('/dashboard');
+        assert.dom('div[class*="quick-project"]')
+            .includesText('You have no projects yet. Create a project with the button on the top right.');
+        assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
+
+        await click('[data-test-create-project-modal-button]');
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        assert.dom('[data-test-create-project-header]').includesText('Create new project');
+        await fillIn('[data-test-new-project-title]', title);
+        await click('[data-test-create-project-submit]');
+        await click('[data-test-stay-here]');
+
+        assert.dom('div[class*="quick-project"]')
+            .doesNotIncludeText('You have no projects yet. Create a project with the button on the top right.');
+        assert.dom('div[class*="quick-project"]').includesText(title);
+        const newNode = server.schema.nodes.findBy({ title });
+        assert.equal(newNode.attrs.regionId, 'us');
+    });
+
+    // TODO: When we have fake institutions connected to users, add tests for selecting and deselecting institutions
+    // in the create project modal.
+
+    test('create project modal cancel does not create project', async assert => {
+        server.loadFixtures('regions');
+        server.create('user', 'loggedIn');
+        const title = 'Giraffical Interchange Format';
+        await visit('/dashboard');
+        assert.dom('div[class*="quick-project"]')
+            .includesText('You have no projects yet. Create a project with the button on the top right.');
+        await click('[data-test-create-project-modal-button]');
+        await fillIn('[data-test-new-project-title]', title);
+        await click('[data-test-create-project-cancel]');
+        assert.dom('[data-test-create-project-header]').doesNotExist();
+        assert.dom('[data-test-stay-here]').doesNotExist();
+        assert.dom('div[class*="quick-project"]')
+            .includesText('You have no projects yet. Create a project with the button on the top right.');
+    });
+
+    test('create project modal close does not create project', async assert => {
+        server.loadFixtures('regions');
+        server.create('user', 'loggedIn');
+        const title = 'Giraffical Interchange Format';
+        await visit('/dashboard');
+        assert.dom('div[class*="quick-project"]')
+            .includesText('You have no projects yet. Create a project with the button on the top right.');
+        await click('[data-test-create-project-modal-button]');
+        await fillIn('[data-test-new-project-title]', title);
+        await click('button[class*="close"]');
+        assert.dom('[data-test-create-project-header]').doesNotExist();
+        assert.dom('[data-test-stay-here]').doesNotExist();
+        assert.dom('div[class*="quick-project"]')
+            .includesText('You have no projects yet. Create a project with the button on the top right.');
+    });
+
+    test('create project modal more toggle', async function(assert) {
+        const currentUser = server.create('user', 'loggedIn');
+        const title = 'Giraffical Interchange Format';
+        const description = 'GIF';
+        const location = 'Germany - Frankfurt';
+        const templatedFrom = 'az';
+        const nodeOne = server.create(
+            'node',
+            { title: 'z', lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+        );
+        const nodeTwo = server.create(
+            'node',
+            { title: templatedFrom, lastLogged: '2017-10-17T12:05:10.571Z', dateModified: '2017-10-17T12:05:10.571Z' },
+        );
+        const nodeThree = server.create(
+            'node',
+            { title: 'a', lastLogged: '2017-10-18T12:05:10.571Z', dateModified: '2017-10-18T12:05:10.571Z' },
+        );
+        server.create(
+            'contributor',
+            { node: nodeOne, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+        server.create(
+            'contributor',
+            { node: nodeTwo, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+        server.create(
+            'contributor',
+            { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+        );
+        server.loadFixtures('regions');
+        await visit('/dashboard');
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
+
+        await click('[data-test-create-project-modal-button]');
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        assert.dom('[data-test-create-project-header]').includesText('Create new project');
+        this.element.querySelector('[data-test-select-storage-location]');
+        assert.dom('[data-test-select-storage-location]').exists();
+        assert.dom('[data-test-select-storage-location] span[class~="ember-power-select-selected-item"]')
+            .hasText('United States');
+        await fillIn('[data-test-new-project-title]', title);
+        await click('[data-test-select-storage-location] div[class~="ember-power-select-trigger"]');
+        await selectChoose('[data-test-select-storage-location]', location);
+        assert.dom('[data-test-select-storage-location] span[class~="ember-power-select-selected-item"]')
+            .hasText(location);
+        assert.dom('[data-test-project-description-input]').doesNotExist();
+        assert.dom('[data-test-select-template]').doesNotExist();
+
+        await click('[data-test-more-toggle]');
+        assert.dom('[data-test-project-description-input]').exists();
+        assert.dom('[data-test-select-template]').exists();
+        await fillIn('[data-test-project-description-input]', description);
+        await click('[data-test-select-template] div[class~="ember-power-select-trigger"]');
+        await selectSearch('[data-test-select-template]', templatedFrom);
+        await selectChoose('[data-test-select-template]', templatedFrom);
+        assert.dom('[data-test-select-template] span[class~="ember-power-select-selected-item"]')
+            .hasText(templatedFrom);
+
+        await click('[data-test-create-project-submit]');
+        await click('[data-test-stay-here]');
+
+        const newNode = server.schema.nodes.findBy({ title });
+        assert.equal(newNode.attrs.description, description);
+        assert.equal(newNode.attrs.regionId, 'de-1');
+        assert.equal(newNode.attrs.templateFrom, nodeTwo.id);
+        assert.equal(newNode.attrs.public, false, 'Projects created from the dashboard should not be public.');
     });
 });
