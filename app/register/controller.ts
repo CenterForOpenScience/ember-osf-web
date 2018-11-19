@@ -18,7 +18,7 @@ export default class Register extends Controller {
         client_id: orcidClientId || '',
         scope: '/authenticate',
         response_type: 'code',
-        redirect_uri: `${casUrl}/login?client_name=OrcidClient#show_login`,
+        redirect_uri: `${casUrl}/login?client_name=OrcidClient`,
     })}`;
 
     @computed('next')
