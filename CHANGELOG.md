@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `sign-up-form` - Distinguish between alrteady registered and invalid (e.g. blacklisted) emails
 - Models:
     - `user-registration` - added invalid email validation and `addInvalidEmail` method
+- Routes:
+    - `register` - let CAS redirect to ORCID
 
 ## [18.1.2] - 2018-11-05
 - Engines:

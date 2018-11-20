@@ -30,7 +30,6 @@ const {
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
-    ORCID_CLIENT_ID: orcidClientId,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
@@ -171,7 +170,6 @@ module.exports = function(environment) {
                 authSession: 'embosf-auth-session',
                 joinBannerDismissed: 'slide', // TODO: update legacy UI to use a more unique key
             },
-            orcidClientId,
             casUrl,
         },
         social: {
