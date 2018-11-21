@@ -14,4 +14,11 @@ export default class Submit extends Controller {
     returnToDiscoverPage() {
         this.transitionToRoute('provider.discover', this.provider.id);
     }
+
+    showCancelDialog: boolean = false;
+
+    @action
+    setShowCancelDialog() {
+        this.set('showCancelDialog', true);
+    }
 }

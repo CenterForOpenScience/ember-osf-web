@@ -117,6 +117,12 @@ export default class Submit extends Component {
     @requiredAction
     transition!: () => void;
 
+    /**
+     * Set the showCancelDialog property on the controller
+     */
+    @requiredAction
+    setShowCancelDialog!: () => void;
+
     @action
     projectSelected(this: Submit, collectionItem: Node) {
         collectionItem.set('collectable', true);
@@ -138,7 +144,6 @@ export default class Submit extends Component {
         this.setProperties({
             activeSection: Section.project,
             savedSections: [],
-            showCancelDialog: false,
         });
 
         this.transition();
@@ -152,10 +157,7 @@ export default class Submit extends Component {
     cancel(this: Submit) {
         if (this.activeSection === Section.project) {
             this.transition();
-            return;
         }
-
-        this.set('showCancelDialog', true);
     }
 
     @action
@@ -167,5 +169,6 @@ export default class Submit extends Component {
     nextSection() {
         this.savedSections.pushObject(this.activeSection);
         this.incrementProperty('activeSection');
+        this.setShowCancelDialog();
     }
 }

@@ -18,4 +18,11 @@ export default class GuidEdit extends Controller {
         // change to using `transitionToRoute()` once the project overview page is in Ember
         window.location.href = `${config.OSF.url}${this.collectionItem.id}`;
     }
+
+    showCancelDialog: boolean = false;
+
+    @action
+    setShowCancelDialog() {
+        this.set('showCancelDialog', true);
+    }
 }
