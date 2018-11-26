@@ -57,6 +57,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
 - Routes:
     - Add email verification modal to application template
+- Misc:
+    - Upgraded to `osf-style` 1.8.0
 
 ## [18.1.2] - 2018-11-05
 - Engines:
