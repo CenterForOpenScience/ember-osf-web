@@ -45,7 +45,7 @@ export default Factory.extend<User & UserTraits>({
     canViewReviews: false,
     social: {},
     dateRegistered() {
-        return faker.date.past();
+        return faker.date.past(2, new Date(2018, 0, 0));
     },
 
     withNodes: trait({
