@@ -59,13 +59,13 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
         await click(files[0]);
         await click('[data-test-move-button]');
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | Guid User Quickfiles | move file to a new project | Move');
         await click('[data-test-ps-new-project-button]');
         assert.dom('[data-test-create-project-header]').includesText('Create new project');
         await fillIn('[data-test-new-project-title]', title);
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | Guid User Quickfiles | move file to a new project | New project');
         await click('[data-test-create-project-submit]');
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | Guid User Quickfiles | move file to a new project | Create project');
         await click('[data-test-stay-here]');
         const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(newFiles.length, files.length - 1);
