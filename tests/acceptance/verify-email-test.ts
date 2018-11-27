@@ -2,6 +2,7 @@ import { click, visit } from '@ember/test-helpers';
 
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 

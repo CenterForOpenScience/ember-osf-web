@@ -1,5 +1,6 @@
 import { currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
