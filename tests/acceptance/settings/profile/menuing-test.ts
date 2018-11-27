@@ -3,7 +3,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-module('Acceptance | settings | developer apps', hooks => {
+module('Acceptance | settings | profile | menu', hooks => {
     setupApplicationTest(hooks);
     setupMirage(hooks);
 
