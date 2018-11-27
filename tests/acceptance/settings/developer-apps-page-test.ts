@@ -1,5 +1,6 @@
 import { click, currentURL, fillIn, settled, visit, waitFor } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -36,6 +37,7 @@ module('Acceptance | settings | developer apps', hooks => {
         await visit('/settings/applications');
 
         assert.dom('[data-test-developer-app-card]').exists({ count: 10 });
+        await percySnapshot(assert);
     });
 
     test('create app', async assert => {
@@ -51,7 +53,9 @@ module('Acceptance | settings | developer apps', hooks => {
         await fillIn('[data-test-developer-app-name] input', appName);
         await fillIn('[data-test-developer-app-homepage] input', 'http://osf.io/');
         await fillIn('[data-test-developer-app-callback-url] input', 'http://osf.io/');
+        await percySnapshot(assert);
         await click('[data-test-create-developer-app-button]');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-client-secret]').exists();
 
@@ -82,6 +86,7 @@ module('Acceptance | settings | developer apps', hooks => {
 
         assert.dom(input).hasValue(oldName);
         await fillIn(input, newName);
+        await percySnapshot(assert);
         await click('[data-test-save-developer-app-button]');
 
         assert.equal(currentURL(), '/settings/applications');
@@ -101,6 +106,7 @@ module('Acceptance | settings | developer apps', hooks => {
         assert.dom(card).exists({ count: 1 });
 
         await click(`${card} [data-test-delete-button]`);
+        await percySnapshot(assert);
         await click('[data-test-confirm-delete]');
 
         assert.dom('[data-test-developer-app-card]').exists({ count: 1 });

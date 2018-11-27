@@ -1,6 +1,7 @@
 import { click, fillIn, visit } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy';
 import { selectChoose } from 'ember-power-select/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -35,6 +36,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('a[class*="filename"]');
         assert.equal(files.length, 10, `Check for proper number of files in list. Found ${files.length}`);
+        await percySnapshot(assert);
     });
 
     test('visiting your guid-user/quickfiles authenticated', async function(assert) {
@@ -57,10 +59,13 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
         await click(files[0]);
         await click('[data-test-move-button]');
+        await percySnapshot(assert);
         await click('[data-test-ps-new-project-button]');
         assert.dom('[data-test-create-project-header]').includesText('Create new project');
         await fillIn('[data-test-new-project-title]', title);
+        await percySnapshot(assert);
         await click('[data-test-create-project-submit]');
+        await percySnapshot(assert);
         await click('[data-test-stay-here]');
         const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(newFiles.length, files.length - 1);
@@ -134,6 +139,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             .containsText(title);
         assert.dom('[data-test-no-longer-public]')
             .doesNotExist('There should not be a warning about moving files to a private project');
+        await percySnapshot(assert);
         await click('[data-test-move-to-project-modal-perform-button]');
         await click('[data-test-stay-here]');
         const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');

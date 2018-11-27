@@ -18,6 +18,7 @@ module('Acceptance | register (sign up page)', hooks => {
         assert.dom('[data-test-sign-up-full-name]').exists();
 
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
+        await percySnapshot(assert);
     });
 
     test('visiting /register?next=foo', async assert => {

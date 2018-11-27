@@ -33,6 +33,7 @@ module('Acceptance | verify email', hooks => {
         await visit('/dashboard');
 
         assert.dom('[data-test-verify-email-prompt]').exists();
+        await percySnapshot(assert);
 
         await click('[data-test-verify-email]');
 

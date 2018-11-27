@@ -107,6 +107,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom('div[class*="quick-project"]')
             .includesText('You have no projects yet. Create a project with the button on the top right.');
+        await percySnapshot(assert);
     });
 
     test('user has a project', async assert => {
@@ -154,6 +155,7 @@ module('Acceptance | dashboard', hooks => {
 
         assert.dom('[data-test-load-more]')
             .doesNotExist('The control to load more projects is gone after all projects are loaded');
+        await percySnapshot(assert);
     });
 
     test('sorting projects', async function(assert) {
@@ -281,6 +283,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('div[class*="quick-project"]')
             .includesText('You have no projects yet. Create a project with the button on the top right.');
         assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
+        await percySnapshot(assert);
 
         await click('[data-test-create-project-modal-button]');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
@@ -387,7 +390,9 @@ module('Acceptance | dashboard', hooks => {
         await fillIn('[data-test-project-description-input]', description);
         await click('[data-test-select-template] div[class~="ember-power-select-trigger"]');
         await selectSearch('[data-test-select-template]', templatedFrom);
+        await percySnapshot(assert);
         await selectChoose('[data-test-select-template]', templatedFrom);
+        await percySnapshot(assert);
         assert.dom('[data-test-select-template] span[class~="ember-power-select-selected-item"]')
             .hasText(templatedFrom);
 
