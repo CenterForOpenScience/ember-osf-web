@@ -12,6 +12,10 @@
     & > span {
         line-height: 1.5;
     }
+    
+    :global(.label-info) {
+        background-color: darken($brand-info, 20%);
+    }
 }
 
 .NodeCard__body {
