@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import I18N from 'ember-i18n/services/i18n';
@@ -27,6 +27,7 @@ export default class BrandedNavbar extends Component {
     objectType: ObjectType = this.objectType;
     signupUrl: string = this.signupUrl;
     translateKey: string = this.translateKey;
+    showNavLinks: boolean = false;
 
     myProjectsUrl = serviceLinks.myProjects;
 
@@ -38,4 +39,9 @@ export default class BrandedNavbar extends Component {
     }
 
     @requiredAction loginAction!: () => void;
+
+    @action
+    toggleSecondaryNavigation() {
+        this.toggleProperty('showNavLinks');
+    }
 }
