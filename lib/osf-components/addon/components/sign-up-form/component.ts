@@ -25,9 +25,13 @@ export default class SignUpForm extends Component.extend({
             yield this.userRegistration.save();
         } catch (e) {
             // Handle email already exists error
-            if (+e.errors[0].status === 400) {
+            if (+e.errors[0].status === 409) {
                 this.resetRecaptcha();
                 this.userRegistration.addExistingEmail();
+                yield this.userRegistration.validate();
+            } else if (+e.errors[0].status === 400) {
+                this.resetRecaptcha();
+                this.userRegistration.addInvalidEmail();
                 yield this.userRegistration.validate();
             }
 

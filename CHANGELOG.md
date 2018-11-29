@@ -63,6 +63,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Misc:
     - Upgraded to `osf-style` 1.8.0
 
+## [18.2.0] - 2018-11-29
+### Changed
+- Components:
+    - `sign-up-form` - Distinguish between alrteady registered and invalid (e.g. blacklisted) emails
+- Models:
+    - `user-registration` - added invalid email validation and `addInvalidEmail` method
+- Routes:
+    - `register` - let CAS redirect to ORCID
+
 ## [18.1.2] - 2018-11-05
 - Engines:
     - `registries/discover` - reset to first page on user search input
