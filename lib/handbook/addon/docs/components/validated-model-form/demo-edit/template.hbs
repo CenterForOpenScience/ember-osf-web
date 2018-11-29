@@ -1,0 +1,17 @@
+{{#docs-demo as |demo|}}
+    {{#demo.example name='validated-model-form.demo-edit.hbs'}}
+        {{#validated-model-form
+            onSave=(action this.onSave)
+            model=this.node
+            as |form|
+        }}
+            {{form.text valuePath='title' label='Title'}}
+            {{form.textarea valuePath='description' label='Description'}}
+            {{#bs-button buttonType='submit' disabled=form.disabled}}
+                Save
+            {{/bs-button}}
+        {{/validated-model-form}}
+    {{/demo.example}}
+
+    {{demo.snippet 'validated-model-form.demo-edit.hbs'}}
+{{/docs-demo}}

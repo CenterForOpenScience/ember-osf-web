@@ -1,12 +1,15 @@
 // This component is derived from ember-cp-validations.
 // See https://github.com/offirgolan/ember-cp-validations for more information
 import { computed } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { defineProperty } from '@ember/object';
 import { alias as aliasMacro, oneWay as oneWayMacro } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
 import { ResultCollection } from 'ember-cp-validations';
 import DS from 'ember-data';
+import I18n from 'ember-i18n/services/i18n';
+
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 export enum ValidationStatus {
@@ -26,18 +29,38 @@ export default abstract class BaseValidatedInput extends Component {
     ariaLabel?: string;
     placeholder?: string;
     disabled: boolean = defaultTo(this.disabled, false);
-    showMessages: boolean = defaultTo(this.showMessages, true);
+    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 
     // Private properties
+    @service i18n!: I18n;
+
     validation?: ResultCollection; // defined in constructor
     value: any; // defined in constructor
 
-    @computed('showMessages', 'value', 'validation.{isInvalid,isValidating,warnings.[]}')
+    @computed('validation.options')
+    get isRequired(): boolean {
+        if (!this.validation) {
+            return false;
+        }
+        const { options } = this.validation;
+        return options && options.presence && options.presence.presence;
+    }
+
+    @computed('placeholder', 'isRequired')
+    get _placeholder(): string {
+        return this.placeholder || this.i18n.t(this.isRequired ? 'general.required' : 'general.optional');
+    }
+
+    @computed(
+        'shouldShowMessages',
+        'value',
+        'validation.{isInvalid,isValidating,warnings.[]}',
+    )
     get validationStatus(): ValidationStatus {
-        const { showMessages, validation, value } = this;
+        const { shouldShowMessages, validation, value } = this;
 
         switch (true) {
-        case !validation || !showMessages || validation.isValidating:
+        case !validation || !shouldShowMessages || validation.isValidating:
             return ValidationStatus.Hidden;
         case validation && validation.isInvalid:
             return ValidationStatus.HasError;

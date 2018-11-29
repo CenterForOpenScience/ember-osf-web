@@ -38,7 +38,10 @@ export default function(server: Server) {
     server.createList('institution', 20);
     server.createList('token', 23);
     server.createList('scope', 5);
+    server.createList('developer-app', 12);
     server.loadFixtures('registration-schemas');
+    server.loadFixtures('regions');
+
     registerNodeMultiple(server, nodes[0], 12, {
         currentUserPermissions: Object.values(Permission),
     }, 'withRegisteredMeta');

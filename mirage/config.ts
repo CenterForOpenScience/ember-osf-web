@@ -1,11 +1,14 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { guidDetail } from './views/guid';
+import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { userNodeList } from './views/user';
+import { moveFile } from './views/wb';
 
 const { OSF: { apiUrl } } = config;
 
@@ -18,35 +21,44 @@ export default function(this: Server) {
 
     this.get('/', rootDetail);
 
+    osfResource(this, 'developer-app', { path: 'applications', except: ['create'] });
+    this.post('/applications', createDeveloperApp);
+    this.post('/applications/:id/reset', resetClientSecret);
+
     this.get('/files/:id');
 
     this.get('/guids/:id', guidDetail);
 
     this.get('/institutions');
 
-    osfResource(this, 'nodes');
-    osfNestedResource(this, 'nodes', 'contributors');
-    osfNestedResource(this, 'nodes', 'linkedNodes', { only: ['index'] });
-    osfNestedResource(this, 'nodes', 'registrations', { only: ['index'] });
-    osfNestedResource(this, 'nodes', 'draftRegistrations', { only: ['index'] });
+    osfResource(this, 'node', { except: ['create'] });
+    this.post('/nodes/', createNode);
+    osfNestedResource(this, 'node', 'contributors');
+    osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
+    osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
+    osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
 
-    osfResource(this, 'registrationSchemas', { path: '/schemas/registrations' });
+    osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
-    osfResource(this, 'scopes', { only: ['index', 'show'] });
+    osfResource(this, 'scope', { only: ['index', 'show'] });
+    osfResource(this, 'region', { only: ['index', 'show'] });
 
     this.get('/status', () => {
         return { meta: { version: '2.8' }, maintenance: null };
     });
 
-    osfResource(this, 'tokens', { except: ['create'] });
+    osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
 
-    osfResource(this, 'users', { except: ['create', 'delete'] });
-    osfNestedResource(this, 'users', 'institutions', { only: ['index'] });
-    osfNestedResource(this, 'users', 'emails', { path: '/users/:parentID/settings/emails' });
+    osfResource(this, 'user', { except: ['create', 'delete'] });
+    osfNestedResource(this, 'user', 'institutions', { only: ['index'] });
 
     this.get('/users/:id/nodes', userNodeList);
-    osfNestedResource(this, 'users', 'quickfiles', { only: ['index', 'show'] });
+    osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
+
+    // Waterbutler namespace
+    this.namespace = '/wb';
+    this.post('/files/:id/move', moveFile);
 
     // Private namespace
     this.namespace = '/_';

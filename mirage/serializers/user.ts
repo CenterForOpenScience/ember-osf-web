@@ -32,12 +32,24 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                     },
                 },
             },
+            default_region: {
+                data: {
+                    type: 'regions',
+                    id: 'us',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/regions/us/`,
+                        meta: {},
+                    },
+                },
+            },
         };
     }
 
     buildNormalLinks(model: ModelInstance<User>) {
         return {
-            self: `${apiUrl}/v2/users/${model.id}/`,
+            ...super.buildNormalLinks(model),
             profile_image: `https://www.gravatar.com/avatar/${faker.random.uuid().replace(/-/g, '')}?d=identicon`,
         };
     }

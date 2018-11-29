@@ -1,0 +1,75 @@
+<div>
+    {{#link-to data-test-back-to-developer-apps
+        'settings.developer-apps'
+        click=(action 'click' 'link' 'Settings - Developer apps - Edit - Back to list' target=this.analytics)
+    }}
+        {{fa-icon 'arrow-left'}}
+        {{t 'settings.developer-apps.backToList'}}
+    {{/link-to}}
+</div>
+
+<h4>{{t 'settings.developer-apps.appDetail' appName=this.developerApp.name}}</h4>
+
+{{#if model.taskInstance.isError}}
+    {{model.taskInstance.error}}
+{{else}}
+    <dl local-class='DeveloperApp__client'>
+        <dt>{{t 'settings.developer-apps.clientID'}}</dt>
+        <dd>
+            <p>{{t 'settings.developer-apps.clientIDDescription'}}</p>
+            {{copyable-text
+                data-test-client-id
+                text=this.developerApp.clientId
+                analyticsLabel='Settings - Developer apps - Copy client ID'
+            }}
+        </dd>
+        <dt>{{t 'settings.developer-apps.clientSecret'}}</dt>
+        <dd>
+            {{settings/developer-apps/-components/client-secret developerApp=this.developerApp}}
+        </dd>
+    </dl>
+
+    <h4>{{t 'settings.developer-apps.editApp'}}</h4>
+    {{#validated-model-form
+        model=this.developerApp
+        disabled=this.model.taskInstance.isRunning
+        onSave=(action this.appSaved)
+        analyticsScope='Settings - Developer apps - Create'
+        as |form|
+    }}
+        {{form.text data-test-developer-app-name
+            valuePath='name'
+            label=(t 'settings.developer-apps.appName')
+        }}
+        {{form.text data-test-developer-app-homepage
+            valuePath='homeUrl'
+            label=(t 'settings.developer-apps.appHomepage')
+        }}
+        {{form.textarea data-test-developer-app-description
+            valuePath='description'
+            label=(t 'settings.developer-apps.appDescription')
+        }}
+        {{form.text data-test-developer-app-callback-url
+            valuePath='callbackUrl'
+            label=(t 'settings.developer-apps.appCallbackUrl')
+        }}
+
+        <div>
+            {{delete-button
+                delete=(action this.deleteApp)
+                disabled=form.disabled
+                analyticsScope='Settings - Developer apps - Edit'
+                modalTitle=(t 'settings.developer-apps.confirmDelete.title' appName=this.developerApp.name)
+                modalBody=(t 'settings.developer-apps.confirmDelete.body')
+            }}
+
+            {{#bs-button data-test-save-developer-app-button
+                type='primary'
+                buttonType='submit'
+                disabled=form.disabled
+            }}
+                {{t 'general.save'}}
+            {{/bs-button}}
+        </div>
+    {{/validated-model-form}}
+{{/if}}

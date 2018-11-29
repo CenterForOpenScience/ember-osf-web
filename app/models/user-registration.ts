@@ -2,8 +2,11 @@ import { attr } from '@ember-decorators/data';
 import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
+import config from 'ember-get-config';
 
 const { Model } = DS;
+
+const { support: { supportEmail } } = config;
 
 const Validations = buildValidations({
     email1: [
@@ -12,7 +15,14 @@ const Validations = buildValidations({
         validator('exclusion', {
             messageKey: 'validationErrors.email_registered',
             in: computed(function(): string[] {
-                return [...this.get('model').get('existingEmails')];
+                return [...this.model.existingEmails];
+            }).volatile(),
+        }),
+        validator('exclusion', {
+            messageKey: 'validationErrors.email_invalid',
+            supportEmail,
+            in: computed(function(): string[] {
+                return [...this.model.invalidEmails];
             }).volatile(),
         }),
         validator('length', {
@@ -71,9 +81,14 @@ export default class UserRegistration extends Model.extend(Validations) {
     @attr('boolean') acceptedTermsOfService!: boolean;
 
     existingEmails: Set<string> = new Set();
+    invalidEmails: Set<string> = new Set();
 
-    addExistingEmail(this: UserRegistration, email?: string) {
-        this.get('existingEmails').add(email || this.get('email1'));
+    addExistingEmail(email?: string) {
+        this.existingEmails.add(email || this.email1);
+    }
+
+    addInvalidEmail(email?: string) {
+        this.invalidEmails.add(email || this.email1);
     }
 }
 
