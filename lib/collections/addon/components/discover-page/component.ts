@@ -244,7 +244,7 @@ export default class DiscoverPage extends Component.extend({
     aggregations: any;
     whiteListedProviders: string[] = defaultTo(this.whiteListedProviders, []);
     queryError: boolean = false;
-    shareDown: boolean = false;
+    serverError: boolean = false;
 
     // ************************************************************
     // COMPUTED PROPERTIES and OBSERVERS
@@ -304,9 +304,8 @@ export default class DiscoverPage extends Component.extend({
                 numberOfResults: 0,
                 results: emptyResults(),
             });
-
             // If issue with search query, for example, invalid lucene search syntax
-            this.set(errorResponse.status === 400 ? 'queryError' : 'shareDown', true);
+            this.set(errorResponse instanceof DS.ServerError ? 'serverError' : 'queryError', true);
 
             // re-throw for error monitoring
             throw errorResponse;
