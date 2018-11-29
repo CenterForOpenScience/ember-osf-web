@@ -11,13 +11,13 @@ module('Acceptance | settings | profile | menu', hooks => {
         server.create('user', 'loggedIn');
         await visit('/settings/');
 
-        assert.equal(currentURL(), '/settings/profile/name', 'Went to the settings.profile.name route.');
+        assert.equal(currentURL(), '/settings/profile/name', 'Went to the Applications route.');
     });
 
     test('visit settings profile page', async assert => {
         server.create('user', 'loggedIn');
         await visit('/settings/profile');
 
-        assert.equal(currentURL(), '/settings/profile/name', 'Went to the settings.profile.name route.');
+        assert.equal(currentURL(), '/settings/profile/name', 'Went to the Applications route.');
     });
 });

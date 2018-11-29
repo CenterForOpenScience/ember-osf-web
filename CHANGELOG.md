@@ -28,10 +28,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Acceptance:
         - `settings.profile.name`
         - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
+        - Add percy everywhere in the main app
     - Helpers:
         - `require-auth` - Mocks currentUser service to verify that routes that require auth redirect if unauthenticated    
 - Types:
     - `ember-power-select/test-support` - types for useful functions
+- Travis
+    - Remove Firefox Testing
 
 ### Changed
 - Addons:

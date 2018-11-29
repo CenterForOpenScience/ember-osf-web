@@ -1,5 +1,6 @@
 import { click, currentRouteName } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -29,6 +30,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.registrations', 'We are at guid-node.registrations');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-new-registration-button]').doesNotExist();
 
@@ -170,6 +172,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-node-card]').exists({ count: 10 });
 
         assert.dom('[data-test-node-card]').includesText(node.title);
+        await percySnapshot(assert);
 
         await click('[data-test-next-page-button]');
 
@@ -278,6 +281,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         await click('[data-test-next-page-button]');
 
         assert.dom('[data-test-draft-registration-card]').exists({ count: 2 });
+        await percySnapshot(assert);
     });
 
     test('logged in admin, new registration', async assert => {
@@ -296,6 +300,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.equal(currentURL(), url, `We are on ${url}`);
 
         await click('[data-test-new-registration-button]');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-new-registration-modal-body]').isVisible();
 
@@ -335,6 +340,7 @@ module('Acceptance | guid-node/registrations', hooks => {
             await click('[data-test-new-registration-modal-create-draft-button]');
             assert.dom('[data-test-prereg-challenge-modal-body]').isVisible();
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isDisabled();
+            await percySnapshot(assert);
             await click('[data-test-prereg-challenge-modal-consent-checkbox]');
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isNotDisabled();
             await click('[data-test-prereg-challenge-modal-cancel-button]');
