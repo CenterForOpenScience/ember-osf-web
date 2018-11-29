@@ -1,11 +1,12 @@
 import { click, currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
-import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+
 module('Acceptance | logged-out home page', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('visiting /', async assert => {
@@ -36,6 +37,5 @@ module('Acceptance | logged-out home page', hooks => {
 
         // Alt text for integration logos
         assert.dom('[class*="_integrations"] img[alt*="Dropbox logo"]').exists();
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
     });
 });

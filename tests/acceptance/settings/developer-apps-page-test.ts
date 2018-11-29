@@ -1,11 +1,12 @@
 import { click, currentURL, fillIn, settled, visit, waitFor } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
-import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+
 module('Acceptance | settings | developer apps', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('visit page', async assert => {

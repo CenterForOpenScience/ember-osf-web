@@ -1,12 +1,11 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
-import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-import config from 'ember-get-config';
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 const {
     dashboard: {
@@ -16,7 +15,7 @@ const {
 } = config;
 
 module('Acceptance | dashboard', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('visiting /dashboard', async assert => {
@@ -45,7 +44,6 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown .nav-profile-name')
             .hasText(currentUser.fullName, 'User\'s name is in navbar');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
         await percySnapshot(assert);
     });
@@ -55,7 +53,6 @@ module('Acceptance | dashboard', hooks => {
         const institutions = server.createList('institution', 20);
 
         await visit('/dashboard');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom(`[data-test-institution-carousel] img[name*="${institutions[0].name}"]`).exists();
         assert.dom('[data-test-institution-carousel-item="1"]').exists();
         assert.dom('[data-test-institution-carousel-item="6"]').isNotVisible();
@@ -83,7 +80,6 @@ module('Acceptance | dashboard', hooks => {
             title: 'Popular',
         });
         await visit('/dashboard');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         let i = 0;
         for (const node of nodes) {
             const { id, title, description } = node.attrs;
@@ -104,7 +100,6 @@ module('Acceptance | dashboard', hooks => {
     test('user has no projects', async assert => {
         server.create('user', 'loggedIn');
         await visit('/dashboard');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom('div[class*="quick-project"]')
             .includesText('You have no projects yet. Create a project with the button on the top right.');
         await percySnapshot(assert);
@@ -115,7 +110,6 @@ module('Acceptance | dashboard', hooks => {
         const node = server.create('node', {}, 'withContributors');
         server.create('contributor', { node, users: currentUser, index: 11 });
         await visit('/dashboard');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom('div[class*="quick-project"]')
             .doesNotIncludeText('You have no projects yet. Create a project with the button on the top right.');
         assert.dom('div[class*="quick-project"]').includesText(node.attrs.title);
@@ -140,7 +134,6 @@ module('Acceptance | dashboard', hooks => {
         assert.ok(this.element === undefined, 'Should not have element before visit');
         await visit('/dashboard');
         assert.ok(this.element !== undefined, 'Should have element after visit');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
         assert.dom('[data-test-load-more]').exists('The control to load more projects exists');
         let projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
@@ -185,7 +178,6 @@ module('Acceptance | dashboard', hooks => {
             { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
         );
         await visit('/dashboard');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
         // Default sort
         let projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
@@ -254,7 +246,6 @@ module('Acceptance | dashboard', hooks => {
             { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
         );
         await visit('/dashboard');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
 
         // No filtering
         let projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
@@ -366,7 +357,6 @@ module('Acceptance | dashboard', hooks => {
         );
         server.loadFixtures('regions');
         await visit('/dashboard');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
 
         await click('[data-test-create-project-modal-button]');

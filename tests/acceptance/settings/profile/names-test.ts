@@ -1,13 +1,13 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
-import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 module('Acceptance | settings | profile | name', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('cannot use unauthenticated', async function(assert) {
@@ -23,7 +23,6 @@ module('Acceptance | settings | profile | name', hooks => {
         await visit('/settings/profile/name');
 
         assert.equal(currentURL(), '/settings/profile/name', 'Stayed on the proper url.');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom('[data-test-full-name-field] input[type=text]').hasValue(currentUser.fullName);
         assert.dom('[data-test-given-name-field] input[type=text]').hasValue(currentUser.givenName);
         assert.dom('[data-test-middle-names-field] input[type=text]').hasValue(currentUser.middleNames);
