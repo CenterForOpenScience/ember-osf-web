@@ -6,7 +6,7 @@ import config from 'ember-get-config';
 import Analytics from 'ember-osf-web/services/analytics';
 import param from 'ember-osf-web/utils/param';
 
-const { OSF: { casUrl, orcidClientId, url: baseUrl } } = config;
+const { OSF: { casUrl, url: baseUrl } } = config;
 
 export default class Register extends Controller {
     queryParams = ['next'];
@@ -14,12 +14,13 @@ export default class Register extends Controller {
 
     @service analytics!: Analytics;
 
-    orcidUrl = `https://www.orcid.org/oauth/authorize?${param({
-        client_id: orcidClientId || '',
-        scope: '/authenticate',
-        response_type: 'code',
-        redirect_uri: `${casUrl}/login?client_name=OrcidClient#show_login`,
-    })}`;
+    @computed('next')
+    get orcidUrl() {
+        return `${casUrl}/login?${param({
+            redirectOrcid: 'true',
+            service: `${baseUrl}/login/?next=${encodeURIComponent(this.next || baseUrl)}`,
+        })}`;
+    }
 
     @computed('next')
     get institutionUrl() {

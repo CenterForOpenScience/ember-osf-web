@@ -1,5 +1,6 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -51,6 +52,7 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.dom('[data-test-citation-container]').exists();
         assert.dom('[data-test-apa-citation]').containsText(apa);
         assert.dom('[data-test-mla-citation]').containsText(mla);
+        await percySnapshot(assert);
         await fillIn('[data-test-given-name-field] input', '');
         assert.dom('[data-test-citation-container]').doesNotExist();
         await fillIn('[data-test-given-name-field] input', 'Peggy');
@@ -120,6 +122,7 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.dom('[data-test-middle-names-field]').containsText('This field is too long');
         assert.dom('[data-test-family-name-field]').containsText('This field is too long');
         assert.dom('[data-test-suffix-field]').containsText('This field is too long');
+        await percySnapshot(assert);
         assert.equal(user.givenName, givenName, 'No change from invalid save.');
         assert.equal(user.middleNames, middleNames, 'No change from invalid save.');
         assert.equal(user.familyName, familyName, 'No change from invalid save.');
