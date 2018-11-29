@@ -8,6 +8,7 @@ pull_request_rules:
       - "#approved-reviews-by>0"                            # at least one approval from someone with write permission
       - "#changes-requested-reviews-by=0"                   # no changes requested
       - label!=no merge                                     # use this label to prevent automatic merge
+      - -title~=\b[Ww][Ii][Pp]\b
     actions:
       merge:
         method: merge                                       # merge with a merge commit
