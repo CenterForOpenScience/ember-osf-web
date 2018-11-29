@@ -1,19 +1,33 @@
-const { describe, it } = require('mocha');
+'use strict';
+
+const fs = require('fs-extra');
+
+const { beforeEach, describe, it } = require('mocha');
+const {
+    emberGenerateDestroy,
+    emberNew,
+    setupTestHooks,
+} = require('ember-cli-blueprint-test-helpers/helpers');
 const { expect } = require('ember-cli-blueprint-test-helpers/chai');
-const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
+const linkBlueprints = require('./helpers/link-blueprints');
 
-const { emberGenerateDestroy, emberNew, setupTestHooks } = blueprintHelpers;
-
-describe('Acceptance: ember generate and destroy acceptance-test', function() {
+describe('Acceptance: ember-osf-web generate and destroy acceptance-test', function() {
     setupTestHooks(this);
 
+    beforeEach(function() {
+        return emberNew().then(linkBlueprints).then(() => {
+            fs.writeFileSync(
+                '.ember-cli',
+                `{
+                "disableAnalytics": false,
+                "usePods": true
+                }`,
+            );
+        });
+    });
     it('acceptance-test foo', function() {
-        const args = ['acceptance-test', 'foo'];
-
-        // pass any additional command line options in the arguments array
-        return emberNew()
-            .then(() => emberGenerateDestroy(args, file => {
-                expect(file('tests/acceptance/foo.ts')).to.contain('setupOSFApplicationTest');
-            }));
+        return emberGenerateDestroy(['acceptance-test', 'foo'], _file => {
+            expect(_file('tests/acceptance/foo-test.ts')).to.contain('setupOSFApplicationTest');
+        });
     });
 });
