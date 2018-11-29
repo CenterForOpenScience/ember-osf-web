@@ -1,4 +1,5 @@
 import { attr, belongsTo } from '@ember-decorators/data';
+import { ID } from 'ember-cli-mirage';
 import DS from 'ember-data';
 import Comment from 'ember-osf-web/models/comment';
 import OsfModel from './osf-model';
@@ -14,8 +15,11 @@ import OsfModel from './osf-model';
  * @class CommentReport
  */
 export default class CommentReport extends OsfModel {
+    @attr('fixstring') reporter!: ID;
     @attr('fixstring') category!: string;
-    @belongsTo('comment') text!: DS.PromiseObject<Comment> & Comment;
+    @attr('fixstring') message!: string;
+
+    @belongsTo('comment') comment!: DS.PromiseObject<Comment> & Comment;
 }
 
 declare module 'ember-data' {

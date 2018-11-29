@@ -10,12 +10,10 @@ export default class Comment extends OsfSerializer.extend({
         const targetType: string = snapshot.record.get('targetType');
 
         if (targetID && targetType) {
-            serialized.data.relationships = {
-                target: {
-                    data: {
-                        id: targetID,
-                        type: targetType,
-                    },
+            serialized.data.relationships.target = {
+                data: {
+                    id: targetID,
+                    type: targetType,
                 },
             };
         }

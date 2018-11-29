@@ -19,6 +19,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
 
     // Optional arguments
     usePlaceholders: boolean = defaultTo(this.usePlaceholders, true);
+    allowCreate: boolean = defaultTo(this.allowCreate, false);
 
     // Private properties
     layout = layout;

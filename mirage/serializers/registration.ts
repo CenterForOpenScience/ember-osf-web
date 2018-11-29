@@ -33,6 +33,14 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            comments: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/comments/?filter[targetID]=${model.id}`,
+                        meta: this.buildRelatedLinkMeta(model, 'comments'),
+                    },
+                },
+            },
             forks: {
                 links: {
                     related: {

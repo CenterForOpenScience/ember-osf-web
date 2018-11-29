@@ -1,3 +1,9 @@
+{{#if @allowCreate}}
+    {{yield (hash
+        input=(component 'paginated-list/x-render')
+        doReload=(action @doReload)
+    )}}
+{{/if}}
 {{#if this.loading}}
     {{#if this.placeholderCount}}
         <ul class="list-group m-md">

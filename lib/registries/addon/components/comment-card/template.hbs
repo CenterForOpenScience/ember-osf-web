@@ -1,0 +1,131 @@
+{{#if this.isAbuseOrDeleted}}
+    <div local-class='Comment__restore'>
+        <i>{{t this.reportInfo.text}}</i>
+        {{#if (and this.reportInfo.actionText this.reportInfo.action)}}
+            <a role="button" onclick={{perform this.reportInfo.action}}>
+                {{t this.reportInfo.actionText}}
+            </a>
+        {{/if}}
+    </div>
+{{/if}}
+<div local-class="Comment" hidden={{this.isAbuseOrDeleted}}>
+    {{#if (not (or this.createMode this.replyMode))}}
+        <div local-class="Comment__header">
+            <div>
+                {{#if this.user.profileImage}}
+                    <img data-test-gravatar alt="{{t 'auth_dropdown.user_gravatar'}}" src={{concat this.user.profileImage "&s=30"}}>
+                {{/if}}
+                <a role="link" href={{this.user.profileURL}} local-class="Comment__user--name">
+                    {{this.user.fullName}}
+                </a>
+            </div>
+            <div class="pull-right" local-class="Comment__date--created">
+                {{#if this.comment.modified}}
+                    <span local-class="dateModified">
+                        {{#bs-tooltip local-class="Tooltip" placement="left" viewportSelector=(concat "#" this.elementId)}}
+                            {{t 'registries.overview.comments.modified'}}{{this.dateModified}}
+                        {{/bs-tooltip}}
+                        <sup>{{fa-icon 'asterisk'}}</sup>
+                    </span>
+                {{/if}}
+                {{this.dateCreated}}
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if this.loadingReplies}}
+        <LoadingIndicator @dark={{true}} />
+    {{else}}
+        <div local-class="Comment__content">
+            <form {{action (perform submit.submitTask) on="submit"}} local-class="Content__input">
+                <div>
+                    {{#if (or this.editMode this.createMode this.replyMode)}}
+                        <textarea
+                            value={{content}}
+                            oninput={{action (mut content) value="target.value"}}
+                            class="form-control"
+                            placeholder={{t 'registries.overview.comments.placeholder'}}
+                        ></textarea>
+                    {{else}}
+                        <div local-class="Comment__content--text">
+                            {{this.content}}
+                        </div>
+                        {{#if this.reportMode}}
+                            <div local-class="CommentReport">
+                                <select onchange={{action (mut abuseCategory) value="target.value"}}>
+                                    {{#each this.abuseCategories as |category|}}
+                                        <option value={{category}} selected={{eq abuseCategory category}}>
+                                            {{t (concat 'registries.overview.comments.abuse_' category)}}
+                                        </option>
+                                    {{/each}}
+                                </select>
+                                <textarea
+                                    value={{abuseDescription}}
+                                    oninput={{action (mut abuseDescription) value="target.value"}}
+                                    class="form-control"
+                                    placeholder={{t 'registries.overview.comments.report_placeholder'}}
+                                ></textarea>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                </div>
+                {{#if this.showFormButtons}}
+                    <div local-class="Container">
+                        <button type="cancel" local-class="Content__input--cancel" class="btn btn-default btn-sm" {{action submit.cancelAction}}>
+                            {{t 'registries.overview.comments.cancel'}}
+                        </button>
+                        <button type="submit" local-class={{concat "Content__input--" this.submit.class}} class="btn btn-default btn-sm" disabled={{this.saving}}>
+                            {{t this.submit.text}}
+                        </button>
+                    </div>
+                {{/if}}
+            </form>
+        </div>
+        {{#if (not (or this.createMode this.editMode this.deleteMode this.replyMode this.reportMode))}}
+            <div local-class="Comment__controls">
+                <div local-class="controls">
+                    <button type="button" local-class={{if (not this.isAuthor) 'hidden'}} class="btn btn-link" onClick={{action 'edit'}}>
+                        {{t 'registries.overview.comments.edit'}}
+                    </button>
+                    <button type="button" local-class={{if (not this.currentUserCanComment) 'hidden'}} class="btn btn-link" onClick={{action (mut showCreateReply) (not this.showCreateReply)}}>
+                        {{t 'registries.overview.comments.reply'}}
+                    </button>
+                    <button type="button" local-class={{if (not this.isAuthor) 'hidden'}} class="btn btn-link" onClick={{action 'delete'}}>
+                        {{t 'registries.overview.comments.delete'}}
+                    </button>
+                    <button type="button"local-class={{if this.isAuthor 'hidden'}}  class="btn btn-link" onClick={{action 'report'}}>
+                        {{t 'registries.overview.comments.report'}}
+                    </button>
+                </div>
+                <div local-class="repliesCount" hidden={{this.hideRepliesCount}}>
+                    <button type="button" class="btn btn-link" onClick={{action (mut showReplies) (not this.showReplies)}}>
+                        {{this.repliesCountText}}
+                        {{fa-icon (if this.showReplies 'caret-up' 'caret-down')}}
+                    </button>
+                </div>
+            </div>
+        {{/if}}
+    {{/if}}
+
+    {{#if (or this.showCreateReply this.showReplies)}}
+        {{#if this.loadReplies.isRunning}}
+            <LoadingIndicator @dark={{true}} />
+        {{else}}
+            {{#if this.showCreateReply}}
+                <CommentCard @replyMode={{true}} @node={{@node}} @comment={{this.comment}} @onReply={{@reload}} />
+            {{/if}}
+            {{#if this.showReplies}}
+                <div local-class="RepliesList">
+                    {{#each this.replies as |reply|}}
+                        <CommentCard @comment={{reply}} @node={{@node}} @reload={{@reload}} />
+                    {{/each}}
+                    {{#if this.hasMoreReplies}}
+                        <button type="button" class="btn btn-default"  onClick={{action 'more'}}>
+                            {{t 'registries.overview.comments.load_more'}}
+                        </button>
+                    {{/if}}
+                </div>
+            {{/if}}
+        {{/if}}
+    {{/if}}
+</div>

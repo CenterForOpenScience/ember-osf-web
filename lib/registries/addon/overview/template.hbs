@@ -55,7 +55,12 @@
             </gutters.left-gutter>
 
             <gutters.body local-class="Body">
-                <p>{{t 'ipsum.paragraph'}}</p>
+                <CommentsList
+                    @node={{this.registration}}
+                    @modelTaskInstance={{this.model.taskInstance}}
+                    @relationshipName='comments'
+                    @analyticsScope='Registration Comments'
+                />
             </gutters.body>
 
             <gutters.right-gutter as |ctx|>

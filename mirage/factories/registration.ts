@@ -7,6 +7,7 @@ import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
 export interface RegistrationTraits {
     withRegisteredMeta: Trait;
+    withComments: Trait;
 }
 
 export default NodeFactory.extend<Registration & RegistrationTraits>({
@@ -50,6 +51,14 @@ export default NodeFactory.extend<Registration & RegistrationTraits>({
             registration.update({
                 registeredMeta: createRegistrationMetadata(registration.registrationSchema.schemaNoConflict, true),
             });
+        },
+    }),
+    withComments: trait({
+        afterCreate(registration: any, server: any) {
+            server.createList('comment', 5,
+                { node: registration, targetID: registration.id, targetType: 'registrations' },
+                'withReplies',
+                'asAbuse');
         },
     }),
 });

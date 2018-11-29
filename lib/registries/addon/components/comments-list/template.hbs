@@ -1,0 +1,24 @@
+<div local-class="CommentList">
+    <div local-class="Title">
+        {{this.node.title}} | {{t 'registries.overview.comments.discussion'}}
+    </div>
+
+    {{#paginated-list/has-many
+        modelTaskInstance=@modelTaskInstance
+        relationshipName=@relationshipName
+        query=this.queryParams
+        allowCreate=true
+        bindReload=(action (mut this.reloadComments))
+        analyticsScope=@analyticsScope
+        as |list|
+    }}
+        {{#list.input}}
+            <CommentCard @createMode={{true}} @node={{this.node}} @onCreate={{action list.doReload 1}} />
+        {{/list.input}}
+
+        {{#list.item as |comment|}}
+            <CommentCard @comment={{comment}} @node={{this.node}} @reload={{action list.doReload 1}}/>
+        {{/list.item}}
+
+    {{/paginated-list/has-many}}
+</div>

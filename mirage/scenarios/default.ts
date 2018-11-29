@@ -46,9 +46,10 @@ export default function(server: Server) {
         currentUserPermissions: Object.values(Permission),
     }, 'withRegisteredMeta');
     draftRegisterNodeMultiple(server, nodes[0], 12, {}, 'withRegistrationMetadata');
-    server.create('registration', {
-        id: 'decaf',
-    });
+    server.create('registration',
+        { id: 'decaf' },
+        'withComments',
+    );
 
     // For the handbook
 

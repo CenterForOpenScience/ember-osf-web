@@ -1,12 +1,14 @@
 import { action, computed } from '@ember-decorators/object';
-import { not } from '@ember-decorators/object/computed';
+import { alias, not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import Registration from 'ember-osf-web/models/registration';
 import Media from 'ember-responsive';
 
 export default class Overview extends Controller {
     @service media!: Media;
     @not('media.isDesktop') showMobileNav!: boolean;
+    @alias('model.taskInstance.value') registration!: Registration;
 
     sidenavGutterClosed = true;
     metadataGutterClosed = true;

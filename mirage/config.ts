@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import { commentCreate, commentDetail, reportCreate, reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { guidDetail } from './views/guid';
 import { createNode } from './views/node';
@@ -25,6 +26,8 @@ export default function(this: Server) {
     this.post('/applications/:id/reset', resetClientSecret);
 
     this.get('/files/:id');
+    this.patch('/comments/:id', commentDetail);
+    this.del('/comments/:id/comment_reports/:user_id', reportDelete);
 
     this.get('/guids/:id', guidDetail);
 
@@ -38,6 +41,11 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
 
     osfResource(this, 'registration');
+    osfNestedResource(this, 'registration', 'comments', { except: ['create'] });
+    this.post('/comments', commentCreate);
+    osfNestedResource(this, 'comment', 'reports', { except: ['create'] });
+    this.post('/comment_reports', reportCreate);
+
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });

@@ -1,0 +1,198 @@
+.Comment {
+    color: $midnight-blue;
+}
+
+.CommentReport {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+
+    select {
+        margin: 12px 0;
+        background-color: $porcelain;
+        color: $midnight-blue;
+    }
+}
+
+.Comment__restore {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+
+    i {
+        color: $slate-gray;
+    }
+
+    a {
+        color: $primary-blue;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+        }
+    }
+}
+
+.Comment__header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.Comment__content {
+    padding-top: 8px;
+}
+
+.Content__input {
+    textarea {
+        resize: vertical;
+        background-color: $porcelain;
+        min-height: 100px;
+        max-width: 420px;
+        margin: 0 auto;
+    }
+}
+
+.Comment__date--created {
+    color: $slate-gray;
+}
+
+.Comment__user--name {
+    padding-left: 5px;
+    color: $primary-blue;
+
+    &:hover,
+    &:focus {
+        color: $secondary-blue;
+        text-decoration: none;
+    }
+}
+
+.Content__input--delete:global(.btn.btn-default) {
+    border-radius: 2px;
+    font-size: 14px;
+    margin-left: 8px;
+    color: $white;
+    text-align: center;
+    text-decoration: none solid $white;
+    font-weight: 600;
+    outline: 0;
+    border: 0;
+    background-color: $primary-red;
+
+    &:hover,
+    &:active,
+    &:focus {
+        background-color: $secondary-red;
+        color: $white;
+        outline: 0;
+    }
+}
+
+.Content__input--cancel:global(.btn.btn-default) {
+    border-radius: 2px;
+    font-size: 14px;
+    color: $primary-blue;
+    text-align: center;
+    text-decoration: none solid $midnight-blue;
+    font-weight: 600;
+    outline: 0;
+    border: 0;
+    background-color: $porcelain;
+
+    &:hover,
+    &:active,
+    &:focus {
+        background-color: $porcelain;
+        color: $secondary-blue;
+        outline: 0;
+    }
+}
+
+.Container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.Content__input--save:global(.btn.btn-default) {
+    border-radius: 2px;
+    font-size: 14px;
+    color: $white;
+    text-align: center;
+    text-decoration: none solid $white;
+    font-weight: 600;
+    outline: 0;
+    border: 0;
+    background-color: $primary-green;
+    margin-left: 8px;
+
+    &:hover,
+    &:active,
+    &:focus {
+        background-color: $secondary-green;
+        color: $white;
+        outline: 0;
+    }
+
+}
+
+.Comment__controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .controls {
+        button:not(:last-child)::after {
+            content: '\B7';
+        }
+    }
+
+    :global(.btn.btn-link) {
+        color: $primary-blue;
+        outline: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+        }
+    }
+
+    .repliesCount {
+        font-size: 13px;
+        text-transform: lowercase;
+    }
+
+    :global(.fa-trash-o) {
+        &:hover,
+        &:focus,
+        &:active {
+            color: $secondary-red;
+        }
+    }
+}
+
+.RepliesList {
+    margin-top: 8px;
+    margin-left: 15px;
+}
+
+.dateModified {
+    :global(.fa) {
+        font-size: 8px;
+        color: $primary-blue;
+    }
+}
+
+.hidden {
+    display: none;
+}
