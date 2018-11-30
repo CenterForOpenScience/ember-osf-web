@@ -382,7 +382,7 @@ module('Acceptance | dashboard', hooks => {
         await selectSearch('[data-test-select-template]', templatedFrom);
         await percySnapshot(assert);
         await selectChoose('[data-test-select-template]', templatedFrom);
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | dashboard | create project modal more toggle | select template');
         assert.dom('[data-test-select-template] span[class~="ember-power-select-selected-item"]')
             .hasText(templatedFrom);
 

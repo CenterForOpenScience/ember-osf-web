@@ -33,7 +33,7 @@ module('Acceptance | logged-out home page', hooks => {
         await click('[data-test-sign-up-form] [data-test-sign-up-button]');
         assert.dom('[data-test-sign-up-form] .has-error').exists('Sign up form: validation errors present');
         assert.dom('[data-test-sign-up-form] .help-block').exists('Sign up form: validation messages shown');
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | logged-out home page | visiting / | sign up form validation');
 
         // Alt text for integration logos
         assert.dom('[class*="_integrations"] img[alt*="Dropbox logo"]').exists();

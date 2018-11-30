@@ -56,7 +56,7 @@ module('Acceptance | settings | developer apps', hooks => {
         await fillIn('[data-test-developer-app-callback-url] input', 'http://osf.io/');
         await percySnapshot(assert);
         await click('[data-test-create-developer-app-button]');
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | settings | developer apps | create app | create');
 
         assert.dom('[data-test-client-secret]').exists();
 
