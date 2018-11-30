@@ -39,18 +39,22 @@ export default class CollectedMetadatum extends OsfAdapter.extend({
 
     query(_: DS.Store, type: any, query: any): Promise<any> {
         const url = this.buildURL(type.modelName, null, null, 'query', query);
-        const { page, ...restQuery } = query;
+        const { page, sort, ...restQuery } = query;
 
         let queryParams = '';
 
         if (page) {
-            queryParams += `?${$.param({ page })}`;
+            queryParams += `?${$.param({ page })}&`;
+        }
+
+        if (sort) {
+            queryParams += `${$.param({ sort })}`;
         }
 
         return this.ajax(`${url}${queryParams}`, 'POST', {
             data: {
                 data: {
-                    attributes: this.sortQueryParams ? this.sortQueryParams(restQuery) : restQuery,
+                    attributes: restQuery,
                 },
                 type: 'search',
             },
