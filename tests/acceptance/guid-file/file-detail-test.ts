@@ -14,9 +14,6 @@ module('Acceptance | guid file', hooks => {
         const file = server.create('file', { user: currentUser });
         await visit(`--file/${file.id}`);
         await percySnapshot('Acceptance | Guid file');
-        await click('[data-test-share-button]');
-        await percySnapshot('Acceptance | Guid file | share button');
-        await click('[data-test-share-button]');
         await click('[data-test-revisions-tab]');
         await percySnapshot('Acceptance | Guid file | revisions tab');
         await click('[data-test-delete-button]');
