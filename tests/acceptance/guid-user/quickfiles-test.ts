@@ -251,9 +251,6 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         await click(files[0]);
-        await click('[data-test-share-dialog-button]');
-        await percySnapshot('Acceptance | Guid User Quickfiles | share button');
-        await click('[data-test-share-dialog-button]');
         await click('[data-test-rename-button]');
         await percySnapshot('Acceptance | Guid User Quickfiles | rename button');
         await click('[data-test-close-rename]');
