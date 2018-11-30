@@ -90,6 +90,12 @@ Router.map(function() {
     this.route('quickfiles');
     this.route('register');
     this.route('settings', function() {
+        this.route('profile', function() {
+            this.route('education');
+            this.route('employment');
+            this.route('name');
+            this.route('social');
+        });
         this.route('developer-apps', { path: '/applications' }, function() {
             this.route('edit', { path: '/:developer_app_id' });
             this.route('create');

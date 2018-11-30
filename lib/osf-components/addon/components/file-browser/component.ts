@@ -31,6 +31,7 @@ enum modals {
     DeleteMultiple = 'deleteMultiple',
     RenameConflict = 'renameConflict',
     Move = 'move',
+    MoveToNew = 'moveToNew',
     SuccessMove = 'successMove',
 }
 
@@ -88,6 +89,7 @@ export default class FileBrowser extends Component {
     shiftAnchor: File | null = null;
     isNewProject?: boolean;
     isChildNode?: boolean;
+    isProjectSelectorValid: boolean = false;
 
     dropzoneOptions = {
         createImageThumbnails: false,
@@ -121,6 +123,7 @@ export default class FileBrowser extends Component {
                 isNewProject,
                 isChildNode,
                 projectSelectState: ProjectSelectState.main,
+                isProjectSelectorValid: false,
             };
         }
 
@@ -431,6 +434,28 @@ export default class FileBrowser extends Component {
         this.setProperties({
             projectSelectState: ProjectSelectState.main,
             currentModal: modals.None,
+            isProjectSelectorValid: false,
         });
+    }
+
+    @action
+    projectSelected(this: FileBrowser, node: Node) {
+        this.set('node', node);
+    }
+
+    @action
+    moveToNewProject(this: FileBrowser) {
+        this.set('currentModal', modals.MoveToNew);
+    }
+
+    @action
+    afterStay(this: FileBrowser) {
+        this.set('currentModal', modals.None);
+    }
+
+    @action
+    projectCreated(this: FileBrowser, node: Node) {
+        this.set('node', node);
+        this.get('moveToProject').perform();
     }
 }

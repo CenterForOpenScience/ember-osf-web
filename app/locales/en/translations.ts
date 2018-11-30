@@ -56,6 +56,7 @@ export default {
         hosted_on_the_osf: 'Hosted on OSF',
         please_confirm: 'Please confirm',
         required: 'Required',
+        options: 'Options',
         optional: 'Optional',
         services: {
             collections: 'Collections',
@@ -214,7 +215,7 @@ export default {
         },
     },
     move_to_project: {
-        create_new_project: 'Create new project',
+        create_new_project: 'Create new public project',
         connect_to_existing: 'Connect file to existing OSF project',
         enter_project_title: 'Enter project title',
         new_project_message: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.',
@@ -453,6 +454,7 @@ export default {
         url: '{{description}} must be a valid url.',
         // custom
         email_registered: 'This email address has already been registered.',
+        email_invalid: 'Invalid email address. If this should not have occurred, please report this to {{supportEmail}}',
         email_match: 'Email addresses must match.',
         password_email: 'Your password cannot be the same as your email address.',
         password_old: 'Your new password cannot be the same as your old password.',
@@ -462,6 +464,9 @@ export default {
         min_subjects: 'You must select at least {{minLength}} subject(s).',
         node_license_invalid: 'Invalid required fields for the license',
         node_license_missing_fields: 'The following required fields are missing: {{missingFields}}',
+    },
+    validated_input_form: {
+        discard_changes: 'Discard changes',
     },
     node_navbar: {
         toggle: 'Toggle navigation',
@@ -1143,6 +1148,28 @@ export default {
         toggleNav: 'Toggle navigation',
         profile: {
             title: 'Profile information',
+            name: {
+                title: 'Name',
+                fullName: 'Display name (e.g. Rosalind Elsie Franklin)',
+                givenName: 'Given name (e.g. Rosalind)',
+                middleNames: 'Middle names (e.g. Elsie)',
+                familyName: 'Family name (e.g. Franklin)',
+                suffix: 'Suffix',
+                citationName: 'Citation name',
+                instructions: 'Your full name, above, will be displayed in your profile. To control the way your name will appear in citations, edit the fields below.',
+                apa: 'APA',
+                mla: 'MLA',
+                citationPreview: 'Citation preview',
+            },
+            social: {
+                title: 'Social',
+            },
+            education: {
+                title: 'Education',
+            },
+            employment: {
+                title: 'Employment',
+            },
         },
         account: {
             title: 'Account settings',

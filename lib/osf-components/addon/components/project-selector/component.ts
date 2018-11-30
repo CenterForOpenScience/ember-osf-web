@@ -9,6 +9,7 @@ import I18N from 'ember-i18n/services/i18n';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
+import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
@@ -22,6 +23,7 @@ import template from './template';
 export enum ProjectSelectState {
     main = 'main',
     newProject = 'newProject',
+    newProjectSelected = 'newProjectSelected',
     existingProject = 'existingProject',
 }
 
@@ -68,11 +70,13 @@ export default class ProjectSelector extends Component.extend({
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
     @service store!: DS.Store;
+    @service analytics!: Analytics;
 
     // Required arguments
     newProject!: Node;
     @requiredAction projectSelected!: (value: Node) => void;
     @requiredAction validationChanged!: (isValid: boolean) => void;
+    @requiredAction moveToNewProject!: () => unknown;
 
     // Optional arguments
     nodeTitle: string | null = defaultTo(this.nodeTitle, null);
@@ -91,6 +95,8 @@ export default class ProjectSelector extends Component.extend({
     get isValid(): boolean {
         switch (this.projectSelectState) {
         case ProjectSelectState.newProject:
+            return this.newProject.validations.isValid;
+        case ProjectSelectState.newProjectSelected:
             return this.newProject.validations.isValid;
         case ProjectSelectState.existingProject:
             return !!this.selected;
@@ -120,8 +126,7 @@ export default class ProjectSelector extends Component.extend({
 
     @action
     changeState(this: ProjectSelector, projectSelectState: ProjectSelectState): void {
-        const selected = projectSelectState === ProjectSelectState.newProject ? this.newProject : null;
-
+        const selected = projectSelectState === ProjectSelectState.newProjectSelected ? this.newProject : null;
         this.setProperties({
             projectSelectState,
             selected,
@@ -135,7 +140,11 @@ export default class ProjectSelector extends Component.extend({
     @action
     prevent(event: Event) {
         event.preventDefault();
-
         return false;
+    }
+
+    @action
+    moveToNew(this: ProjectSelector) {
+        this.moveToNewProject();
     }
 }

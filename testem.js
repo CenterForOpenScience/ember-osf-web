@@ -9,11 +9,9 @@ module.exports = {
     reporter: new DotReporter(),
     launch_in_ci: [
         'Chrome',
-        'Firefox',
     ],
     launch_in_dev: [
         'Chrome',
-        'Firefox',
     ],
     browser_args: {
         Chrome: [

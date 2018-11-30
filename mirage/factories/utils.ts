@@ -1,34 +1,18 @@
 import { faker, ModelInstance, Server } from 'ember-cli-mirage';
+import SeedRandom from 'seedrandom';
 
+import { GUID_ALPHABET } from 'ember-osf-web/const/guid-alphabet';
 import { RegistrationMetadata, Schema } from 'ember-osf-web/models/registration-schema';
-
-const GUID_CHARS = '23456789abcdefghjkmnpqrstuvwxyz'.split('');
-
-// Implementation of Java's String.hashCode -- https://stackoverflow.com/a/7616484/
-function hashString(str: string): number {
-    /* eslint-disable no-bitwise */
-    /* tslint:disable no-bitwise */
-    return Array.prototype.reduce.call(
-        str,
-        (hash: number, char: string) => (((hash << 5) - hash) + char.charCodeAt(0)) | 0,
-        0,
-    );
-    /* tslint:enable no-bitwise */
-    /* eslint-enable no-bitwise */
-}
 
 export function guid(referentType: string) {
     return (id: number) => {
-        // Seed faker to guarantee consistent guids across page reloads
-        faker.seed(hashString(`${referentType}-${id}`));
+        // Generate a pseudo-random guid
+        const prng = new SeedRandom(`${referentType}-${id}`);
 
         const newGuid = Array.from(
             { length: 5 },
-            () => faker.random.arrayElement(GUID_CHARS),
+            () => GUID_ALPHABET[Math.floor(prng() * GUID_ALPHABET.length)],
         ).join('');
-
-        // Reseed so all other data is appropriately random
-        faker.seed(new Date().getTime() % 1000000000);
 
         return newGuid;
     };

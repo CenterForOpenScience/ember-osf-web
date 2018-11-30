@@ -7,6 +7,8 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
+
+import { GUID_REGEX } from 'ember-osf-web/const/guid-alphabet';
 import param from 'ember-osf-web/utils/param';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
@@ -19,8 +21,6 @@ interface PrivateRouter {
     _engineInfoByRoute?: Record<string, any>;
     location: Ember.EmberLocation;
 }
-
-const GUID_REGEX = /^[23456789abcdefghjkmnpqrstuvwxyz]{5}$/;
 
 const { featureFlagNames: { routes } } = config;
 
