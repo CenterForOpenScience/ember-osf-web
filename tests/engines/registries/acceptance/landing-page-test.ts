@@ -1,4 +1,5 @@
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { freezeDateAt, unfreezeDate } from 'ember-mockdate-shim';
 import { percySnapshot } from 'ember-percy';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -14,6 +15,11 @@ module('Registries | Acceptance | landing page', hooks => {
 
     hooks.beforeEach(function(this: TestContext) {
         stubRegistriesShareSearch(this);
+        freezeDateAt('1982-06-23');
+    });
+
+    hooks.afterEach(function(this: TestContext) {
+        unfreezeDate();
     });
 
     test('visiting /registries/', async function(this: TestContext, assert: Assert) {
