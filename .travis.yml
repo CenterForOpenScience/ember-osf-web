@@ -16,6 +16,10 @@ cache:
 jobs:
   include:
     - stage: "test"
+      if: |
+        branch ~= /^develop$|^master$|^\d+\.\d+\.\d+$|^release\/.+$/ OR \
+        type = pull_request OR \
+        fork = true
       addons:
         chrome: stable
       before_install:
