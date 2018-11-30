@@ -1,11 +1,12 @@
 import { click, currentURL, fillIn, settled, visit, waitFor } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
-import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+
 module('Acceptance | settings | developer apps', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('visit page', async assert => {
@@ -55,7 +56,7 @@ module('Acceptance | settings | developer apps', hooks => {
         await fillIn('[data-test-developer-app-callback-url] input', 'http://osf.io/');
         await percySnapshot(assert);
         await click('[data-test-create-developer-app-button]');
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | settings | developer apps | create app | create');
 
         assert.dom('[data-test-client-secret]').exists();
 
