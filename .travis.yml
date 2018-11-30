@@ -19,7 +19,7 @@ jobs:
       if: |
         branch ~= /^develop$|^master$|^\d+\.\d+\.\d+$|^release\/.+$/ OR \
         type = pull_request OR \
-        fork IS true
+        env(RESTRICT_PUSH_BUILDS) != true
       addons:
         chrome: stable
       before_install:
@@ -40,7 +40,7 @@ jobs:
       if: |
         branch = develop AND \
         type != pull_request AND \
-        fork IS false
+        repo = CenterForOpenScience/ember-osf-web
       before_install:
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH=$HOME/.yarn/bin:$PATH
