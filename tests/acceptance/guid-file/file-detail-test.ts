@@ -15,9 +15,7 @@ module('Acceptance | guid file', hooks => {
         await visit(`--file/${file.id}`);
         await percySnapshot('Acceptance | Guid file');
         await click('[data-test-share-button]');
-        await percySnapshot('Acceptance | Guid file | share button | share tab');
-        await click('[data-test-embed-tab]');
-        await percySnapshot('Acceptance | Guid file | share button | embed tab');
+        await percySnapshot('Acceptance | Guid file | share button');
         await click('[data-test-share-button]');
         await click('[data-test-revisions-tab]');
         await percySnapshot('Acceptance | Guid file | revisions tab');
