@@ -1,13 +1,13 @@
-<button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
+<button data-test-share-button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
     {{t "general.share"}}
     {{#bs-popover placement='bottom' local-class='Popover' title=(t 'general.share') visible=showPopup}}
         {{#click-outside action=(action 'hidePopup') }}
             {{#bs-tab customTabs=true as |tab| }}
                 {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
-                    {{#nav.item active=(bs-eq tab.activeId sharePaneId)}}
+                    {{#nav.item data-test-share-tab active=(bs-eq tab.activeId sharePaneId)}}
                         <a role='button' {{action tab.select sharePaneId}} local-class='SharePane__tab'>{{t "general.share"}}</a>
                     {{/nav.item}}
-                    {{#nav.item active=(bs-eq tab.activeId embedPaneId)}}
+                    {{#nav.item data-test-embed-tab active=(bs-eq tab.activeId embedPaneId)}}
                         <a role='button' {{action tab.select embedPaneId}} local-class='SharePane__tab'>
                             {{t "general.embed"}}
                             <span class='badge'>{{badge}}</span>

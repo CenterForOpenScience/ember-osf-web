@@ -245,4 +245,23 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('[data-test-move-to-project-modal-perform-button]')
             .isDisabled('Should be disabled after leaving and re-entering');
     });
+
+    test('misc screenshots for Percy', async function() {
+        const currentUser = server.create('user', 'loggedIn');
+        await visit(`--user/${currentUser.id}/quickfiles`);
+        const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
+        await click(files[0]);
+        await click('[data-test-share-dialog-button]');
+        await percySnapshot('Acceptance | Guid User Quickfiles | share button');
+        await click('[data-test-share-dialog-button]');
+        await click('[data-test-rename-button]');
+        await percySnapshot('Acceptance | Guid User Quickfiles | rename button');
+        await click('[data-test-close-rename]');
+        await click('[data-test-filter-button]');
+        await percySnapshot('Acceptance | Guid User Quickfiles | filter button');
+        await click('[data-test-close-filter]');
+        await click('[data-test-info-button]');
+        await percySnapshot('Acceptance | Guid User Quickfiles | help button');
+        await click('[data-test-close-current-modal]');
+    });
 });

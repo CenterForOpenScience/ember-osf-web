@@ -15,13 +15,13 @@
                 <div class='btn-toolbar m-t-md'>
                     {{#if canDelete}}
                         <div class='btn-group m-l-xs m-t-xs'>
-                            <button class='btn btn-sm btn-default' onclick={{action 'openDeleteModal'}}>
+                            <button data-test-delete-button class='btn btn-sm btn-default' onclick={{action 'openDeleteModal'}}>
                                 {{t "general.delete"}}
                             </button>
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm btn-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'download' model.file.currentVersion}}>
+                        <button data-test-download-button class='btn btn-sm btn-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'download' model.file.currentVersion}}>
                             {{t "general.download"}}
                         </button>
                     </div>
@@ -46,7 +46,7 @@
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm {{if (eq show "revision") "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'revision'}}>
+                        <button data-test-revisions-tab class='btn btn-sm {{if (eq show "revision") "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'revision'}}>
                             {{t "general.revisions"}}
                         </button>
                     </div>
