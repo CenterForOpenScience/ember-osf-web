@@ -8,7 +8,8 @@ import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
-import template from './template';
+import defaultTo from 'ember-osf-web/utils/default-to';
+import layout from './template';
 
 export interface Contrib {
     title: string;
@@ -20,7 +21,7 @@ export interface Contrib {
 export default class ContributorList extends Component {
     @service i18n!: I18N;
     max = 3;
-    truncated = true;
+    truncated: boolean = defaultTo(this.truncated, true);
     nodeId?: string;
     useLink?: boolean;
     contributors!: DS.PromiseManyArray<Contributor> & { meta: { total: number } };
