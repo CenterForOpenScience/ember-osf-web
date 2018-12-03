@@ -9,7 +9,7 @@
             }}
         </div>
         <div class="col-xs-3">
-            <button {{action 'closeFilter'}} class="btn pull-right" local-class="action-button" aria-label={{t 'general.close'}}>
+            <button data-test-close-filter {{action 'closeFilter'}} class="btn pull-right" local-class="action-button" aria-label={{t 'general.close'}}>
                 {{fa-icon "times"}}
             </button>
         </div>
@@ -23,10 +23,10 @@
             }}
         </div>
         <div class="col-xs-3">
-            <button {{action 'closeRename'}} class="btn pull-right" local-class="action-button">
+            <button data-test-close-rename {{action 'closeRename'}} class="btn pull-right" local-class="action-button">
                 {{fa-icon "times"}}
             </button>
-            <button {{action 'rename'}} class="btn pull-right" local-class="action-button">
+            <button data-test-save-rename {{action 'rename'}} class="btn pull-right" local-class="action-button">
                 {{fa-icon "pencil"}}
             </button>
         </div>
@@ -153,7 +153,7 @@
         <p>{{t 'file_browser.info.download'}}</p>
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button onClick=(action (mut currentModal) '') type="default"}}
+        {{#bs-button data-test-close-current-modal onClick=(action (mut currentModal) '') type="default"}}
             {{t 'general.close'}}
         {{/bs-button}}
     {{/modal.footer}}

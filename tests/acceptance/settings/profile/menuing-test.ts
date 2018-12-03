@@ -1,10 +1,11 @@
 import { currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+
 module('Acceptance | settings | profile | menu', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('visit settings page', async assert => {

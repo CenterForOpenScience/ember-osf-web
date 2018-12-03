@@ -3,11 +3,12 @@ import { click, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose } from 'ember-power-select/test-support';
-import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+
 module('Acceptance | Guid User Quickfiles', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('visiting another\'s guid-user/quickfiles unauthenticated', async function(assert) {
@@ -19,7 +20,6 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('nav.navbar').exists();
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown').doesNotExist('Should not have user menu if not logged in');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('a[class*="filename"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
     });
@@ -33,7 +33,6 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown .nav-profile-name')
             .hasText(currentUser.fullName, 'User\'s name is in navbar');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('a[class*="filename"]');
         assert.equal(files.length, 10, `Check for proper number of files in list. Found ${files.length}`);
         await percySnapshot(assert);
@@ -44,7 +43,6 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const user = server.create('user', 'withFiles');
         server.createList('file', 5, { user });
         await visit(`--user/${currentUser.id}/quickfiles`);
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('a[class*="filename"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
     });
@@ -54,7 +52,6 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const title = 'Giraffical Interchange Format';
         server.loadFixtures('regions');
         await visit(`--user/${currentUser.id}/quickfiles`);
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
         await click(files[0]);
@@ -127,7 +124,6 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
         );
         await visit(`--user/${currentUser.id}/quickfiles`);
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
         await click(files[0]);
@@ -248,5 +244,21 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             .doesNotExist();
         assert.dom('[data-test-move-to-project-modal-perform-button]')
             .isDisabled('Should be disabled after leaving and re-entering');
+    });
+
+    test('misc screenshots for Percy', async function() {
+        const currentUser = server.create('user', 'loggedIn');
+        await visit(`--user/${currentUser.id}/quickfiles`);
+        const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
+        await click(files[0]);
+        await click('[data-test-rename-button]');
+        await percySnapshot('Acceptance | Guid User Quickfiles | rename button');
+        await click('[data-test-close-rename]');
+        await click('[data-test-filter-button]');
+        await percySnapshot('Acceptance | Guid User Quickfiles | filter button');
+        await click('[data-test-close-filter]');
+        await click('[data-test-info-button]');
+        await percySnapshot('Acceptance | Guid User Quickfiles | help button');
+        await click('[data-test-close-current-modal]');
     });
 });

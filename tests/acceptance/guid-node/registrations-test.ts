@@ -1,7 +1,6 @@
 import { click, currentRouteName } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
-import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import {
@@ -10,14 +9,14 @@ import {
     registerNode,
     registerNodeMultiple,
 } from 'ember-osf-web/mirage/helpers';
-import { currentURL, visit } from 'ember-osf-web/tests/helpers';
+import { currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 module('Acceptance | guid-node/registrations', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('logged out, no registrations', async assert => {
@@ -340,7 +339,7 @@ module('Acceptance | guid-node/registrations', hooks => {
             await click('[data-test-new-registration-modal-create-draft-button]');
             assert.dom('[data-test-prereg-challenge-modal-body]').isVisible();
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isDisabled();
-            await percySnapshot(assert);
+            await percySnapshot(`Acceptance | guid-node/registrations | logged in admin, prereg challenge modal ${i}`);
             await click('[data-test-prereg-challenge-modal-consent-checkbox]');
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isNotDisabled();
             await click('[data-test-prereg-challenge-modal-cancel-button]');
