@@ -2,12 +2,12 @@ import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 
-import layout from './template';
+import { layout } from 'ember-osf-web/decorators/component';
+import template from './template';
 
+@layout(template)
 @tagName('')
 export default class ValidatedInputCheckboxesXCheckbox<T> extends Component {
-    layout = layout;
-
     // Required arguments
     relationArray!: T[];
     option!: T;

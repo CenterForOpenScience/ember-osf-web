@@ -8,7 +8,7 @@ import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import Region from 'ember-osf-web/models/region';
@@ -16,7 +16,7 @@ import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const {
     featureFlagNames: {
@@ -24,6 +24,7 @@ const {
     },
 } = config;
 
+@layout(template, styles)
 export default class NewProjectModal extends Component.extend({
     initTask: task(function *(this: NewProjectModal) {
         if (this.storageI18nEnabled) {
@@ -81,9 +82,6 @@ export default class NewProjectModal extends Component.extend({
     }).drop(),
 
 }) {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;

@@ -1,11 +1,11 @@
+import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import BaseValidatedComponent from '../base-component';
-import layout from './template';
+import template from './template';
 
+@layout(template)
 export default class ValidatedText extends BaseValidatedComponent {
-    layout = layout;
-
     // Additional arguments
     password: boolean = defaultTo(this.password, false);
     onKeyUp?: () => void; // Action

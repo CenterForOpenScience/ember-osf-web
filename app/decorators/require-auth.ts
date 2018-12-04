@@ -27,7 +27,7 @@ import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 export default function requireAuthFactory(
     redirectRoute?: string,
 ) {
-    function requireAuthDecorator<T extends Newable<Route>>(RouteSubclass: T) {
+    function requireAuthDecorator<T extends ConcreteSubclass<Route>>(RouteSubclass: T) {
         class RequireAuthRoute extends RouteSubclass {
             @service session!: SessionService;
             @service currentUser!: CurrentUser;

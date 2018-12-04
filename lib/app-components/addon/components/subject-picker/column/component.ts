@@ -1,16 +1,16 @@
 import { classNames } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Taxonomy from 'ember-osf-web/models/taxonomy';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 @classNames('col-md-4')
 export default class Column extends Component {
-    layout = layout;
-    styles = styles;
-
     filterText: string = defaultTo(this.filterText, '');
     selection: Taxonomy[] = this.selection;
     subjects: Taxonomy[] = this.subjects;

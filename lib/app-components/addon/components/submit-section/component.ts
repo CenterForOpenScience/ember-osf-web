@@ -1,17 +1,17 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { localClassNames } from 'ember-css-modules';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 @tagName('section')
 @localClassNames('Component')
 export default class SubmitSection extends Component {
-    layout = layout;
-    styles = styles;
-
     tooltip: string = this.tooltip;
     title: string = this.title;
     description?: string = this.description;

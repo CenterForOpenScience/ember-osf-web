@@ -7,15 +7,17 @@ import { Registry as Services } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
+import Session from 'ember-simple-auth/services/session';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import param from 'ember-osf-web/utils/param';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import Session from 'ember-simple-auth/services/session';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const { OSF: { url: baseUrl }, featureFlagNames } = config;
 
@@ -98,8 +100,7 @@ export class AuthBase extends Component {
  *
  * @class osf-navbar/auth-dropdown
  */
+@layout(template, styles)
 @tagName('')
 export default class NavbarAuthDropdown extends AuthBase {
-    layout = layout;
-    styles = styles;
 }

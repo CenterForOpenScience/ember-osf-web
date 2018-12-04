@@ -34,7 +34,7 @@ export function requiredAction(
  * Same as ember-decorator's `@layout`, but with an additional optional `styles` param
  */
 export function layout(template: unknown, styles?: unknown) {
-    return <T extends Newable<Component>>(ComponentSubclass: T) => {
+    return <T extends Subclass<Component>>(ComponentSubclass: T) => {
         /* eslint-disable no-param-reassign */
         ComponentSubclass.prototype.layout = template;
         ComponentSubclass.prototype.styles = styles;
