@@ -9,7 +9,7 @@ import I18N from 'ember-i18n/services/i18n';
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import layout from './template';
+import template from './template';
 
 export interface Contrib {
     title: string;
