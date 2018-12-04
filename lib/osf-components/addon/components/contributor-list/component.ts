@@ -53,4 +53,9 @@ export default class ContributorList extends Component {
     get rest(this: ContributorList): number {
         return this.contributors.meta.total - this.max;
     }
+
+    @computed('truncated')
+    get truncate(this: ContributorList): number | undefined {
+        return this.truncated ? 3 : undefined;
+    }
 }

@@ -1,19 +1,11 @@
-{{#if truncated}}
-    {{#inline-list items=contributorList truncate=3 as |l|}}
-        {{#if l.item}}
-            {{~contributor-list/contributor useLink=useLink contributor=l.item~}}
-        {{else if l.truncate}}
-            {{#if useLink}}
-                <a href='/{{nodeId}}'>{{t 'contributor_list.and_x_more' x=rest}}</a>
-            {{else}}
-                {{~t 'contributor_list.and_x_more' x=rest}}
-            {{/if}}
+{{#inline-list items=contributorList truncate=this.truncate as |l|}}
+    {{#if l.item}}
+        {{~contributor-list/contributor useLink=useLink contributor=l.item~}}
+    {{else if l.truncate}}
+        {{#if useLink}}
+            <a href='/{{nodeId}}'>{{t 'contributor_list.and_x_more' x=rest}}</a>
+        {{else}}
+            {{~t 'contributor_list.and_x_more' x=rest}}
         {{/if}}
-    {{/inline-list}}
-{{else}}
-    {{#inline-list items=contributorList as |l|}}
-        {{#if l.item}}
-            {{~contributor-list/contributor useLink=useLink contributor=l.item~}}
-        {{/if}}
-    {{/inline-list}}
-{{/if}}
+    {{/if}}
+{{/inline-list}}
