@@ -9,9 +9,8 @@ $width-collapsed: 80px;
     width: $width-expanded;
     align-items: flex-start;
     height: 100%;
-    background: $white;
 
-    &.Collapased {
+    &.Collapsed {
         align-items: center;
         width: $width-collapsed;
     }
@@ -19,8 +18,7 @@ $width-collapsed: 80px;
 
 .Links {
     border-bottom: $alto 1px solid;
-    min-height: 500px;
-    padding: 15px;
+    padding: 15px 0;
     width: 100%;
 }
 

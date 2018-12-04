@@ -1,13 +1,35 @@
 <div local-class="Metadata {{if this.isPage 'Page'}}">
     <div local-class="Header">
-        <h3 local-class="Title">{{t 'registries.overview.metadata'}}</h3>
+        <h3 local-class="Title">{{t 'registries.overview.metadata.title'}}</h3>
     </div>
 
-    <p>{{t 'ipsum.paragraph'}}</p>
-    <p>{{t 'ipsum.paragraph'}}</p>
-    <p>{{t 'ipsum.paragraph'}}</p>
-    <p>{{t 'ipsum.paragraph'}}</p>
-    <p>{{t 'ipsum.paragraph'}}</p>
-    <p>{{t 'ipsum.paragraph'}}</p>
-    <p>{{t 'ipsum.paragraph'}}</p>
+    <h4>
+        <Link
+            @route='registries.overview.contributors'
+            @models={{array this.registration.id}}
+            @onclick={{this.onLinkClicked}}
+        >
+            {{t 'general.contributors'}}
+        </Link>
+    </h4>
+    <div>
+        <InlineList
+            @items={{this.registration.contributors}}
+            @truncate=5
+            as |l|
+        >
+            {{~#if l.truncate~}}
+                <Link
+                    @route='registries.overview.contributors'
+                    @models={{array this.registration.id}}
+                    @onclick={{this.onLinkClicked}}
+                >
+                    {{! TODO remaining count }}
+                    {{t 'registries.overview.metadata.x_more'}}
+                </Link>
+            {{~else~}}
+                <a href='https://osf.io/{{l.item.users.id}}'>{{l.item.users.fullName}}</a>
+            {{~/if~}}
+        </InlineList>
+    </div>
 </div>

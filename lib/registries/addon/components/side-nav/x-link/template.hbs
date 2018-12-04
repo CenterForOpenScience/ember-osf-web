@@ -1,52 +1,19 @@
-{{!-- NOTE: The duplication here is due to a bug/limitation of glimmer --}}
-{{!-- splattributes (...attributes) does not appear to work when rendering curried components --}}
-{{#if (or hasBlock @onclick)}}
-    <XDummy
-        @click={{action this.toggle}}
-        @tagName="a"
-        class={{local-class this.wrapperClasses}}
-        data-test-collapsed="{{this.collapsed}}"
-        role="button"
-        ...attributes
-    >
-        <span local-class="Preview">
-            {{fa-icon @icon fixedWidth=true class=(local-class 'Icon')}}
-            <h4>{{@label}}</h4>
+<Link
+    @models={{@models}}
+    @route={{@route}}
+    @onclick={{@onLinkClicked}}
+    class={{local-class this.wrapperClasses}}
+    data-test-collapsed="{{this.isCollapsed}}"
+    ...attributes
+>
+    <span local-class="Label">
+        {{fa-icon @icon fixedWidth=true class=(local-class 'Icon')}}
+        <h4>{{@label}}</h4>
+    </span>
 
-            {{#if (and hasBlock (not @collapsed))}}
-                {{fa-icon (if this.listCollapsed 'caret-down' 'caret-up') fixedWidth=true}}
-            {{/if}}
-        </span>
-
-        <span local-class="Count">
-            {{#if this.hasCount}}
-                {{@count}}
-            {{/if}}
-        </span>
-    </XDummy>
-{{else}}
-    <Link
-        @models={{@models}}
-        @route={{@route}}
-        class={{local-class this.wrapperClasses}}
-        data-test-collapsed="{{this.collapsed}}"
-        ...attributes
-    >
-        <span local-class="Preview">
-            {{fa-icon @icon fixedWidth=true class=(local-class 'Icon')}}
-            <h4>{{@label}}</h4>
-        </span>
-
-        <span local-class="Count">
-            {{#if this.hasCount}}
-                {{@count}}
-            {{/if}}
-        </span>
-    </Link>
-{{/if}}
-
-{{#if (and (not this.listCollapsed) (not @collapsed))}}
-    <ul local-class="List">
-        {{yield}}
-    </ul>
-{{/if}}
+    <span local-class="Count">
+        {{#if this.hasCount}}
+            {{@count}}
+        {{/if}}
+    </span>
+</Link>

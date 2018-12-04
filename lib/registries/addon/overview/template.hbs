@@ -18,7 +18,7 @@
                 </nav.buttons.default>
 
                 <nav.buttons.default>
-                    <h4>{{t 'registries.overview.overview'}}</h4>
+                    <h4>{{t 'registries.overview.title'}}</h4>
                 </nav.buttons.default>
 
             </nav.bordered-section>
@@ -50,78 +50,67 @@
              @rightClosed={{this.metadataGutterClosed}}
              as |gutters|
          >
-            <Container local-class="Container">
-                <gutters.left-gutter>
-                    <SideNav as |nav|>
-                        <nav.link-to data-test-link="overview" @icon="home" @label="Overview" @route="registries.overview.index" @models={{array this.registration}} />
-                        <nav.link-to data-test-link="files" @icon="file-text" @label="Files" href="/{{this.registration.id}}/files/" @count={{50}} />
-                        <nav.link-to data-test-link="wiki" @icon="window-maximize" @label="Wiki" href="/{{this.registration.id}}/wiki/" @count={{4}} />
-                        <nav.link-to data-test-link="components" @icon="puzzle-piece" @label="Components" @count={{this.registration.relatedCounts.children}}>
-                            <IncrementalLoad @generator={{this.childGenerator}} as |ctx|>
-                                {{#if ctx.isEmpty}}
-                                    <li>
-                                        <p class="small">
-                                            {{t 'registries.overview.no_children'}}
-                                        </p>
-                                    </li>
-                                {{else}}
-                                    {{#each ctx.items as |child|}}
-                                        <li>
-                                            {{#link-to 'overview' child.id data-test-id=child.id}}
-                                                {{child.title}}
-                                            {{/link-to}}
-                                        </li>
-                                    {{/each}}
-                                {{/if}}
+            <gutters.left-gutter>
+                <SideNav @onLinkClicked={{action (mut this.sidenavGutterClosed) true}} as |nav|>
+                    <nav.link-to data-test-link="overview"
+                        @icon="home"
+                        @label={{t 'registries.overview.title'}}
+                        @route="registries.overview.index"
+                        @models={{array this.registration.id}}
+                    />
+                    <nav.link-to data-test-link="files"
+                        @icon="file-text"
+                        @label={{t 'registries.overview.external_links.files'}}
+                        href="/{{this.registration.id}}/files/"
+                        @count={{50}}
+                    />
+                    <nav.link-to data-test-link="wiki"
+                        @icon="window-maximize"
+                        @label={{t 'registries.overview.external_links.wiki'}}
+                        href="/{{this.registration.id}}/wiki/"
+                        @count={{4}}
+                    />
+                    <nav.link-to data-test-link="components"
+                        @icon="puzzle-piece"
+                        @label={{t 'registries.overview.components.title'}}
+                        @count={{this.registration.relatedCounts.children}}
+                        @route="registries.overview.children"
+                        @models={{array this.registration.id}}
+                    />
+                    <nav.link-to data-test-link="links"
+                        @icon="link"
+                        @label={{t 'registries.overview.links.title'}}
+                        @count={{this.linksCount}}
+                        @route="registries.overview.links"
+                        @models={{array this.registration.id}}
+                    />
+                    <nav.link-to data-test-link="analytics"
+                        @icon="bar-chart"
+                        @label={{t 'registries.overview.external_links.analytics'}}
+                        @route="registries.overview.analytics"
+                        @models={{array this.registration.id}}
+                    />
+                    <nav.link-to data-test-link="comments"
+                        @icon="comments"
+                        @label={{t 'registries.overview.comments.title'}}
+                        @route="registries.overview.comments"
+                        @models={{array this.registration.id}}
+                        @count={{28}}
+                    />
+                </SideNav>
+            </gutters.left-gutter>
 
-                                {{#if ctx.isLoading}}
-                                    <LoadingIndicator @dark={{true}} />
-                                {{else if ctx.hasMore}}
-                                    <a role="button" onclick={{perform ctx.loadMore}} data-test-show-more="children">
-                                        <p class="small">{{t 'registries.overview.see_more'}}</p>
-                                    </a>
-                                {{/if}}
-                            </IncrementalLoad>
-                        </nav.link-to>
-                        <nav.link-to data-test-link="links" @icon="link" @label="Links" @count={{this.linksCount}}>
-                            <IncrementalLoad @generator={{this.linkGenerator}} as |ctx|>
-                                {{#if ctx.isEmpty}}
-                                    <li>
-                                        <p class="small">
-                                            {{t 'registries.overview.no_links'}}
-                                        </p>
-                                    </li>
-                                {{else}}
-                                    {{#each ctx.items as |linked|}}
-                                        <li>
-                                            {{#global-link-to (if linked.isRegistration 'registries.overview' 'guid-node') linked.id data-test-id=linked.id}}
-                                                {{linked.title}}
-                                            {{/global-link-to}}
-                                        </li>
-                                    {{/each}}
-                                {{/if}}
-                                {{#if ctx.isLoading}}
-                                    <LoadingIndicator @dark={{true}} />
-                                {{else if ctx.hasMore}}
-                                    <a role="button" onclick={{perform ctx.loadMore}} data-test-show-more="links">
-                                        <p class="small">{{t 'registries.overview.see_more'}}</p>
-                                    </a>
-                                {{/if}}
-                            </IncrementalLoad>
-                        </nav.link-to>
-                        <nav.link-to data-test-link="analytics" @icon="bar-chart" @label="Analytics" @route="registries.overview.analytics" @models={{array this.registration}} />
-                        <nav.link-to data-test-link="comments" @icon="comments" @label="Comments" @route="registries.overview.comments" @models={{array this.registration}} @count={{28}} />
-                    </SideNav>
-                </gutters.left-gutter>
+            <gutters.body local-class="OverviewBody">
+                {{outlet}}
+            </gutters.body>
 
-                <gutters.body local-class="Body">
-                    {{outlet}}
-                </gutters.body>
-
-                <gutters.right-gutter>
-                    <RegistriesMetadata @gutterMode={{ctx.mode}} />
-                </gutters.right-gutter>
-            </Container>
+            <gutters.right-gutter>
+                <RegistriesMetadata
+                    @onLinkClicked={{action (mut this.metadataGutterClosed) true}}
+                    @registration={{this.registration}}
+                    @gutterMode={{this.metadataGutterMode}}
+                />
+            </gutters.right-gutter>
         </Gutters>
     </div>
 {{/if}}

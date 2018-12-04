@@ -1,24 +1,28 @@
 <nav
     data-test-side-nav="1"
-    data-test-collapsed="{{this.collapsed}}"
-    local-class="SideNav {{if this.collapsed 'Collapased'}}"
+    data-test-collapsed="{{this.isCollapsed}}"
+    local-class="SideNav {{if this.isCollapsed 'Collapsed'}}"
     ...attributes
 >
     <div local-class="Links">
         {{yield (hash
-            link-to=(component 'side-nav/x-link' collapsed=(mut this.collapsed))
+            link-to=(component 'side-nav/x-link'
+                onLinkClicked=@onLinkClicked
+                isCollapsed=this.isCollapsed
+            )
         )}}
     </div>
 
-    {{#let (component 'side-nav/x-link') as |Link|}}
-        <Link 
-             data-test-toggle="1"
-             class={{local-class 'Toggle'}}
-             @collapsed={{this.collapsed}}
-             @expandParent={{false}}
-             @icon={{if this.collapsed 'chevron-right' 'chevron-left'}}
-             @label={{t (if this.collapsed 'registries.overview.expand' 'registries.overview.collapse')}}
-             @onclick={{action 'toggle'}}
-        />
-    {{/let}}
+    {{#if this.isCollapseAllowed}}
+        {{#let (component 'side-nav/x-link') as |XLink|}}
+            <XLink
+                 data-test-toggle="1"
+                 class={{local-class 'Toggle'}}
+                 onclick={{action this.toggle}}
+                 @isCollapsed={{this.isCollapsed}}
+                 @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}
+                 @label={{t (if this.isCollapsed 'registries.overview.expand' 'registries.overview.collapse')}}
+            />
+        {{/let}}
+    {{/if}}
 </nav>

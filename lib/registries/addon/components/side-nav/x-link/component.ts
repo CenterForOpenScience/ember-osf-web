@@ -1,24 +1,22 @@
-import { layout, tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
+import { tagName } from '@ember-decorators/component';
+import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
 
 @tagName('')
-@layout(template)
+@layout(template, styles)
 export default class XLink extends Component {
-    styles = styles;
-
     icon!: string;
     label!: string;
     route?: string;
     model?: any;
     count?: number;
-    collapsed: boolean = defaultTo(this.collapsed, false);
-    expandParent: boolean = defaultTo(this.collapsed, true);
-    listCollapsed: boolean = defaultTo(this.listCollapsed, true);
+    isCollapsed: boolean = defaultTo(this.isCollapsed, false);
 
     onclick?: () => void;
 
@@ -32,27 +30,13 @@ export default class XLink extends Component {
         return (typeof this.count) === 'number';
     }
 
-    @computed('collapsed')
+    @computed('isCollapsed')
     get wrapperClasses() {
-        return `Link ${this.collapsed ? 'Collapsed' : ''}`;
+        return `Link ${this.isCollapsed ? 'Collapsed' : ''}`;
     }
 
     didReceiveAttrs() {
         assert('@icon is required for this component to render', Boolean(this.icon));
         assert('@label is required for this component to render', Boolean(this.label));
-    }
-
-    @action
-    toggle() {
-        if (this.collapsed && this.expandParent) {
-            this.set('collapsed', false);
-            this.set('listCollapsed', false);
-        } else {
-            this.toggleProperty('listCollapsed');
-        }
-
-        if (this.onclick) {
-            this.onclick();
-        }
     }
 }
