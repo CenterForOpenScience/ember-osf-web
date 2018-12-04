@@ -25,6 +25,8 @@ export default class Link extends Component {
     rel: AnchorRel = defaultTo(this.rel, 'noreferrer');
     target: AnchorTarget = defaultTo(this.target, '_self');
 
+    onclick?: () => void;
+
     @computed('route', 'models')
     get href() {
         if (!this.route) {
@@ -51,7 +53,11 @@ export default class Link extends Component {
     }
 
     @action
-    onclick(e: MouseEvent) {
+    _onclick(e: MouseEvent) {
+        if (this.onclick) {
+            this.onclick();
+        }
+
         if (!this.route) {
             return true;
         }

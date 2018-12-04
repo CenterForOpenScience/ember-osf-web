@@ -41,6 +41,7 @@ export default function(this: Server) {
 
     osfResource(this, 'registration');
     osfNestedResource(this, 'registration', 'children');
+    osfNestedResource(this, 'registration', 'contributors');
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
 

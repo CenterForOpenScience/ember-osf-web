@@ -1048,6 +1048,10 @@ export default {
                 wiki: 'Wiki',
                 analytics: 'Analytics',
             },
+
+            form_view: {
+                no_files: 'No files uploaded',
+            },
         },
     },
     analytics: {

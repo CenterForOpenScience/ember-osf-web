@@ -23,13 +23,12 @@ export class Answerable {
     };
 
     static parse(question: RegSubquestion, answers: RegistrationMetadata): Answerable {
+        const answer = answers[question.id];
         return new Answerable(
             question.type,
             question.format,
-            answers[question.id].value as string,
-            (answers[question.id].extra && answers[question.id].extra!.length > 0)
-                ? answers[question.id].extra![0]
-                : {},
+            answer.value as string,
+            (answer.extra && answer.extra.length) ? answer.extra[0] : {},
         );
     }
 
@@ -80,7 +79,10 @@ export class Question {
 
 export class Section {
     static parse(page: Page, answers: RegistrationMetadata): Section {
-        return new Section(page.title, page.questions.map(question => Question.parse(question, answers)));
+        return new Section(
+            page.title,
+            page.questions.map(question => Question.parse(question, answers)),
+        );
     }
 
     public readonly title: string;
@@ -94,7 +96,10 @@ export class Section {
 
 export class RegistrationForm {
     static parse(schema: Schema, answers: RegistrationMetadata): RegistrationForm {
-        return new RegistrationForm(schema.title, schema.pages.map(page => Section.parse(page, answers)));
+        return new RegistrationForm(
+            schema.title,
+            schema.pages.map(page => Section.parse(page, answers)),
+        );
     }
 
     public readonly title: string;

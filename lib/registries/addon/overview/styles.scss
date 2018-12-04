@@ -12,12 +12,12 @@ h1.Title { /* stylelint-disable-line selector-no-qualifying-type*/
 }
 
 .ContentBackground {
-    background-image: url('img/bg-light.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
     display: flex;
     flex-grow: 1;
     justify-content: center;
+    background-image: url('img/bg-light.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .Loading {
@@ -27,24 +27,15 @@ h1.Title { /* stylelint-disable-line selector-no-qualifying-type*/
     align-items: center;
 }
 
-.Body {
-    background: $white;
+.OverviewBody {
+    min-height: 500px;
     flex-grow: 1;
     padding: 0 30px;
-    min-height: 500px;
 }
 
 .SideNav {
-    background: $white;
     height: 100%;
     overflow-y: auto;
     padding: 20px;
     width: 300px;
-}
-
-.Container {
-    &:global(.media-mobile),
-    &:global(.media-tablet) {
-        padding: 0;
-    }
 }

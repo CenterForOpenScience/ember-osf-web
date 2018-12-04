@@ -230,6 +230,10 @@ module.exports = function(environment) {
                 register: 'ember_auth_register',
                 'registries.overview': 'ember_registries_detail_page',
                 'registries.overview.index': 'ember_registries_detail_page',
+                'registries.overview.comments': 'ember_registries_detail_page',
+                'registries.overview.contributors': 'ember_registries_detail_page',
+                'registries.overview.children': 'ember_registries_detail_page',
+                'registries.overview.links': 'ember_registries_detail_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',

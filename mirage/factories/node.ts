@@ -1,3 +1,4 @@
+import { capitalize } from '@ember/string';
 import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Node from 'ember-osf-web/models/node';
@@ -38,7 +39,12 @@ export default Factory.extend<Node & NodeTraits>({
         return faker.date.past(2, new Date(2018, 0, 0));
     },
     title() {
-        return faker.lorem.sentence().replace('.', '');
+        return capitalize(faker.random.arrayElement([
+            faker.company.bs,
+            faker.company.catchPhrase,
+            faker.hacker.noun,
+            faker.lorem.word,
+        ])());
     },
     collection: false,
     subjects: [],
@@ -53,7 +59,7 @@ export default Factory.extend<Node & NodeTraits>({
 
     withContributors: trait({
         afterCreate(node: any, server: any) {
-            const contributorCount = faker.random.number({ min: 1, max: 5 });
+            const contributorCount = faker.random.number({ min: 7, max: 16 });
             if (contributorCount === 1) {
                 server.create('contributor', { node, index: 0, permission: 'admin', bibliographic: true });
             } else if (contributorCount === 2) {

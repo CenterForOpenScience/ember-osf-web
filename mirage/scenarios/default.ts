@@ -54,8 +54,16 @@ export default function(server: Server) {
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 21),
         linkedRegistrations: server.createList('registration', 19),
-    }, 'withRegisteredMeta');
+    }, 'withRegisteredMeta', 'withContributors');
     server.createList('registration', 15, { parent: reg });
+
+    const reg2 = server.create('registration', {
+        id: 'recaf',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        linkedNodes: server.createList('node', 2),
+        linkedRegistrations: server.createList('registration', 3),
+    }, 'withRegisteredMeta', 'withContributors');
+    server.createList('registration', 2, { parent: reg2 });
 
     // For the handbook
 

@@ -3,9 +3,9 @@ import { not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { TaskInstance } from 'ember-concurrency';
-import Registration from 'ember-osf-web/models/registration';
-import { chainPages, hasManyIterator, memoize } from 'ember-osf-web/utils/async-iterator';
 import Media from 'ember-responsive';
+
+import Registration from 'ember-osf-web/models/registration';
 
 export default class Overview extends Controller {
     @service media!: Media;
@@ -55,19 +55,6 @@ export default class Overview extends Controller {
     get linksCount() {
         return (this.registration.relatedCounts.linkedNodes || 0)
         + (this.registration.relatedCounts.linkedRegistrations || 0);
-    }
-
-    @computed('registration')
-    get childGenerator() {
-        return memoize(hasManyIterator(this.registration, 'children'));
-    }
-
-    @computed('registration')
-    get linkGenerator() {
-        return memoize(chainPages(
-            hasManyIterator(this.registration, 'linkedNodes'),
-            hasManyIterator(this.registration, 'linkedRegistrations'),
-        ));
     }
 
     @action
