@@ -11,11 +11,21 @@ const {
         noteworthyNode,
         popularNode,
     },
+    'ember-cli-mirage': {
+        defaultLoggedOut,
+    },
 } = config;
 
 export default function(server: Server) {
-    server.create('root', 'withNewRegistriesStyle');
-    const currentUser = server.create('user', 'loggedIn');
+    let currentUser = null;
+
+    if (defaultLoggedOut) {
+        currentUser = server.create('user');
+        server.create('root', { currentUser: null });
+    } else {
+        currentUser = server.create('user', 'loggedIn');
+    }
+
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList<Node>('node', 10, {

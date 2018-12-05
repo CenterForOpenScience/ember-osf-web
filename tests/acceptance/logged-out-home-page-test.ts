@@ -38,4 +38,19 @@ module('Acceptance | logged-out home page', hooks => {
         // Alt text for integration logos
         assert.dom('[class*="_integrations"] img[alt*="Dropbox logo"]').exists();
     });
+
+    test('visiting /?goodbye=true', async assert => {
+        server.create('root', { currentUser: null });
+
+        await visit('/?goodbye=true');
+        assert.equal(currentURL(), '/?goodbye=true', "Still at '/?goodbye=true'.");
+
+        assert.dom('[data-test-goodbye-banner').exists();
+        await percySnapshot(assert);
+        await click('a[href="/support"]');
+        assert.equal(currentURL(), '/support', "Made it to '/support'.");
+        await click('a[href="/"]');
+        assert.equal(currentURL(), '/', 'No more query parameter');
+        assert.dom('[data-test-goodbye-banner').doesNotExist('No goodbye banner when returning to the page');
+    });
 });

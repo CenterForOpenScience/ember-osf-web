@@ -159,8 +159,9 @@ declare const config: {
             turnAuditOff: boolean,
         },
     };
-    'ember-cli-mirage'?: {
+    'ember-cli-mirage': {
         enabled: boolean;
+        defaultLoggedOut: boolean;
     };
     engines: {
         collections: {
