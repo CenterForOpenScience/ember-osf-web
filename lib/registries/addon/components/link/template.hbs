@@ -2,9 +2,10 @@
     onclick={{action this._onclick}}
     href={{this.href}}
     target={{this.target}}
-    data-active={{this.isActive}}
     class={{if this.isActive 'active'}}
     ...attributes
 >
-    {{yield}}
+    {{yield (hash
+        active=this.isActive
+    )}}
 </a>

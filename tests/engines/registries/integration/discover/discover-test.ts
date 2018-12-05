@@ -1,21 +1,22 @@
 import EngineInstance from '@ember/engine/instance';
 import { click, fillIn, getRootElement } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import Analytics from 'ember-osf-web/services/analytics';
-import { visit } from 'ember-osf-web/tests/helpers';
-import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
-import param from 'ember-osf-web/utils/param';
-import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { OrderedSet, ValueObject } from 'immutable';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import Analytics from 'ember-osf-web/services/analytics';
+import { setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
+import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
+import param from 'ember-osf-web/utils/param';
+
 import { SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
 import ShareSearch, {
     ShareRegistration,
     ShareTermsAggregation,
     ShareTermsFilter,
 } from 'registries/services/share-search';
-import sinon from 'sinon';
 
 const equals = (expected: ValueObject) => {
     return sinon.match((x: any) => expected.equals(x));
@@ -351,7 +352,7 @@ const AnalyticsTestCases: Array<{
     }];
 
 module('Registries | Integration | discover', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     hooks.beforeEach(async function(this: TestContext) {

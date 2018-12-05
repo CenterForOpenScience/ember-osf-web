@@ -16,11 +16,9 @@ type AnchorTarget = '_self' | '_blank' | '_parent' | '_top';
 export default class Link extends Component {
     @service router!: RouterService;
 
-    route!: string;
+    route?: string;
     models?: any[];
     queryParams?: Record<string, any>;
-
-    tag: string = defaultTo(this.tag, 'a');
 
     rel: AnchorRel = defaultTo(this.rel, 'noreferrer');
     target: AnchorTarget = defaultTo(this.target, '_self');
@@ -40,9 +38,9 @@ export default class Link extends Component {
 
     @computed('router.currentURL')
     get isActive() {
-        return Boolean(this.route) && this.router.isActive(this.route, ...(this.models || []), {
+        return Boolean(this.route && this.router.isActive(this.route, ...(this.models || []), {
             queryParams: this.queryParams || {},
-        });
+        }));
     }
 
     didReceiveAttrs() {

@@ -1,36 +1,23 @@
 import { action, computed } from '@ember-decorators/object';
-import { not } from '@ember-decorators/object/computed';
+import { alias, not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
-import { TaskInstance } from 'ember-concurrency';
 import Media from 'ember-responsive';
 
 import Registration from 'ember-osf-web/models/registration';
+import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 
 export default class Overview extends Controller {
     @service media!: Media;
     @not('media.isDesktop') showMobileNav!: boolean;
 
-    // Model could be a Registration from a transition or wrapped in a task
-    // from the route
-    model!: Registration | { taskInstance: TaskInstance<Registration> };
+    model!: GuidRouteModel<Registration>;
 
     sidenavGutterClosed = true;
     metadataGutterClosed = true;
 
-    @computed('model', 'model.taskInstance.value')
-    get registration(): Registration {
-        if (this.model instanceof Registration) {
-            return this.model;
-        }
-
-        return this.model.taskInstance.value!;
-    }
-
-    @computed('registration')
-    get loading(): boolean {
-        return !this.registration;
-    }
+    @alias('model.taskInstance.value') registration?: Registration;
+    @not('registration') loading!: boolean;
 
     @computed('media.{isMobile,isTablet,isDesktop}')
     get metadataGutterMode() {
@@ -53,6 +40,9 @@ export default class Overview extends Controller {
 
     @computed('registration.relatedCounts.{linkedNodes,linkedRegistrations}')
     get linksCount() {
+        if (!this.registration) {
+            return 0;
+        }
         return (this.registration.relatedCounts.linkedNodes || 0)
         + (this.registration.relatedCounts.linkedRegistrations || 0);
     }

@@ -7,21 +7,21 @@
 }}
     {{#list.item as |contributor|}}
         {{#if contributor}}
-            <div style='display: flex'>
+            <div local-class="Contributor">
                 {{! TODO: user card? }}
                 <img data-test-gravatar
-                     alt={{t 'registries.overview.contributors.gravatar_alt' name=contributor.users.fullName}}
-                     style='height: 30px; width: 30px'
+                     local-class="Gravatar"
                      src="{{contributor.users.profileImage}}&s=30"
+                     alt={{t 'registries.overview.contributors.gravatar_alt' name=contributor.users.fullName}}
                 >
-                <a style='padding-left: 1em' href='https://osf.io/{{contributor.users.id}}'>
+                <a local-class="Name" href='https://osf.io/{{contributor.users.id}}'>
                     {{contributor.users.fullName}}
                 </a>
             </div>
         {{else}}
-            <ContentPlaceholders style='display: flex;' as |cp|>
-                <cp.icon style='height: 30px; width: 30px;' />
-                <cp.heading @subtitle={{false}} style='flex-grow: 1; margin: 0; padding-left: 1em;'/>
+            <ContentPlaceholders local-class="Placeholder" as |cp|>
+                <cp.icon local-class="Gravatar" />
+                <cp.heading @subtitle={{false}} local-class="Name"/>
             </ContentPlaceholders>
         {{/if}}
     {{/list.item}}

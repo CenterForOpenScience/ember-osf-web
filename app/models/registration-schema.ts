@@ -47,8 +47,8 @@ export interface Schema {
 
 export interface Answer<T> {
     value?: T;
-    comments: any[]; // String?
-    extra: object[];
+    comments?: any[]; // String?
+    extra?: object[];
 }
 
 export interface RegistrationMetadata {

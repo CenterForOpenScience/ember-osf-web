@@ -1,11 +1,13 @@
 import EngineInstance from '@ember/engine/instance';
 import { getContext } from '@ember/test-helpers/setup-context';
 import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
+import { setupRenderingTest, setupTest } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
+
 import breakpoints from 'ember-osf-web/breakpoints';
 import enConfig from 'ember-osf-web/locales/en/config';
 import enTranslations from 'ember-osf-web/locales/en/translations';
-import { setupApplicationTest, setupRenderingTest, setupTest } from 'ember-qunit';
-import { TestContext } from 'ember-test-helpers';
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 function setupEngineFixtures(hooks: any) {
     hooks.beforeEach(function(this: TestContext) {
@@ -56,7 +58,7 @@ export async function loadEngine(engine: string, mountPoint: string): Promise<En
 }
 
 export function setupEngineApplicationTest(hooks: any, engine: string, mountPoint?: string) {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupEngineFixtures(hooks);
 
     hooks.beforeEach(async function(this: TestContext) {
