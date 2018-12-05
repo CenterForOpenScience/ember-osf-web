@@ -813,7 +813,7 @@ export default {
     },
     collections: {
         general: {
-            brand: '{{name}} Collections',
+            brand: '{{name}} Collection',
         },
         navbar: {
             add: 'Add to Collection',
@@ -840,7 +840,7 @@ export default {
         discover: {
             title: 'Discover',
             search_heading: 'Collections Search',
-            search_placeholder: 'Search collections',
+            search_placeholder: 'Search collection',
             other_repositories: 'Other collections',
             facet_titles: {
                 collection_provider: 'Providers',

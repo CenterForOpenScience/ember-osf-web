@@ -1,61 +1,63 @@
-{{#bs-navbar
-    fluid=false
-    local-class='navbar'
-    as |navbar|
-}}
-    <div class="navbar-header">
-        {{navbar.toggle local-class="toggle"}}
-        {{#link-to brandRoute provider=theme.provider class="navbar-brand"}}
-            <span class="navbar-image" local-class="navbar-image"></span>
-            <span class="navbar-title">{{brandTitle}}</span>
-        {{/link-to}}
-    </div>
-    {{#navbar.content local-class="navbar-content"}}
-        {{#navbar.nav
-            class='navbar-right'
-            as |nav|
-        }}
-            {{#nav.item}}
+<div local-class="branded-nav-wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" local-class="branded-nav" id="navbarScope" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                {{#link-to brandRoute provider=theme.provider class="navbar-brand"}}
+                    <span class="navbar-image" local-class="navbar-image"></span>
+                    <span class="navbar-title">{{brandTitle}}</span>
+                {{/link-to}}
+
+                {{! Navigation toggle - XS screen }}
                 <a
-                    href={{myProjectsUrl}}
-                    onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=analytics}}
+                    role="button"
+                    class="navbar-toggle collapsed"
+                    onclick={{action 'toggleSecondaryNavigation'}}
+                    aria-label={{t 'navbar.toggle_secondary'}}
                 >
-                    {{t 'app_components.branded_navbar.my_osf_projects'}}
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </a>
-            {{/nav.item}}
-            {{#nav.item}}
-                {{#link-to
-                    'provider.submit'
-                    click=(action 'click' 'link' (concat 'Navbar - Add ' objectType) target=analytics)
-                }}
-                    <span role="button" {{action navbar.collapse}}>
-                        {{t addLinkKey}}
-                    </span>
-                {{/link-to}}
-            {{/nav.item}}
-            {{#nav.item}}
-                {{#link-to
-                    'provider.discover'
-                    click=(action 'click' 'link' 'Navbar - Search' target=analytics)
-                }}
-                    <span role="button" {{action navbar.collapse}}>
-                        {{t 'navbar.search'}}
-                    </span>
-                {{/link-to}}
-            {{/nav.item}}
-            {{#nav.item}}
-                <a href="https://cos.io/donate" onclick={{action 'click' 'link' 'Navbar - Donate' target=analytics}}>
-                    {{t 'navbar.donate'}}
-                </a>
-            {{/nav.item}}
-            {{osf-navbar/auth-dropdown
-                signupUrl=signupUrl
-                loginAction=loginAction
-                redirectUrl=redirectUrl
-                onLinkClicked=(action (mut showNavLinks) false)
-                headline=(t 'app_components.branded_navbar.on_the_osf')
-                externalLink=true
+            </div>
+            
+            {{! Secondary nav links }}
+            {{#bs-collapse
+                classNames='navbar-collapse navbar-right'
+                local-class='secondary-navigation'
+                collapsed=(not showNavLinks)
             }}
-        {{/navbar.nav}}
-    {{/navbar.content}}
-{{/bs-navbar}}
+                <ul class="nav navbar-nav" local-class="links">
+                    <li>
+                        <a href={{myProjectsUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=analytics}}>
+                            {{t 'app_components.branded_navbar.my_osf_projects'}}
+                        </a>
+                    </li>
+                    <li>
+                        {{#link-to 'provider.submit' click=(action 'click' 'link' (concat 'Navbar - Add ' objectType) target=analytics)}}
+                            <span role="button"> {{t addLinkKey}} </span>
+                        {{/link-to}}
+                    </li>
+                    <li>
+                        {{#link-to 'provider.discover' click=(action 'click' 'link' 'Navbar - Search' target=analytics)}}
+                            <span role="button"> {{t 'navbar.search'}} </span>
+                        {{/link-to}}
+                    </li>
+                    <li>
+                        <a href="https://cos.io/donate" onclick={{action 'click' 'link' 'Navbar - Donate' target=analytics}}>
+                            {{t 'navbar.donate'}}
+                        </a>
+                    </li>
+                    {{osf-navbar/auth-dropdown
+                        signupUrl=signupUrl
+                        loginAction=loginAction
+                        redirectUrl=redirectUrl
+                        onLinkClicked=(action (mut showNavLinks) false)
+                        headline=(t 'app_components.branded_navbar.on_the_osf')
+                        externalLink=true
+                    }}
+                </ul>
+            {{/bs-collapse}}
+        </div>
+    </nav>
+</div>
+<div local-class='NavBarBuffer'></div>
