@@ -62,7 +62,12 @@ export default Factory.extend<User & UserTraits>({
 
     loggedIn: trait({
         afterCreate(currentUser, server) {
-            server.create('root', { currentUser });
+            const root = server.schema.roots.first();
+            if (root) {
+                root.update({ currentUser });
+            } else {
+                server.create('root', { currentUser });
+            }
             server.createList('file', 5, { user: currentUser });
         },
     }),

@@ -52,18 +52,23 @@ export default class DraftRegistrationCard extends Component {
             page.questions.forEach(question => {
                 if (question.type === 'object' && question.properties) {
                     question.properties.forEach(property => {
-                        if (property.required) {
-                            requiredQuestions++;
-                            if (question.qid in metadata) {
-                                const answers = metadata[question.qid] as RegistrationMetadata;
-                                if ('value' in answers) {
-                                    const value = answers.value as RegistrationMetadata;
-                                    if (value && property.id in value) {
-                                        const propertyValue = value[property.id].value;
-                                        if (Array.isArray(propertyValue) ? propertyValue.length : propertyValue) {
-                                            answeredRequiredQuestions++;
-                                        }
-                                    }
+                        if (!property.required) {
+                            return;
+                        }
+
+                        requiredQuestions++;
+
+                        if (!(question.qid in metadata)) {
+                            return;
+                        }
+
+                        const answers = metadata[question.qid];
+                        if ('value' in answers) {
+                            const value = answers.value as RegistrationMetadata;
+                            if (value && property.id in value) {
+                                const propertyValue = value[property.id].value;
+                                if (Array.isArray(propertyValue) ? propertyValue.length : propertyValue) {
+                                    answeredRequiredQuestions++;
                                 }
                             }
                         }

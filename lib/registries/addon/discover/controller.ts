@@ -7,6 +7,7 @@ import { task, timeout } from 'ember-concurrency';
 import I18N from 'ember-i18n/services/i18n';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import scrollTo from 'ember-osf-web/utils/scroll-to';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
@@ -296,12 +297,11 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         // Get the application owner by using
         // passed down services as rootElement
         // isn't defined on engines' owners
-        const owner = getOwner(this.i18n);
-        const rootElement = document.querySelector(owner.rootElement)! as HTMLElement;
-        const discoverBody = document.querySelector(`.${discoverStyles.Discover__Body}`)! as HTMLElement;
-
-        // Scroll to the top of results on pagination
-        rootElement.parentElement!.scrollTop = discoverBody.offsetTop;
+        const element = document.querySelector(`.${discoverStyles.Discover__Body}`) as HTMLElement;
+        if (!element) {
+            return;
+        }
+        scrollTo(getOwner(this.i18n), element);
     }
 
     @action

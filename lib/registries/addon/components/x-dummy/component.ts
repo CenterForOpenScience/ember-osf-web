@@ -3,6 +3,7 @@ import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
+
 import template from './template';
 
 @layout(template)

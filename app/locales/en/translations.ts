@@ -1014,8 +1014,44 @@ export default {
         },
 
         overview: {
-            overview: 'Overview',
-            metadata: 'Metadata',
+            title: 'Overview',
+            collapse: 'Collapse',
+            expand: 'Expand',
+            see_more: 'See more',
+
+            metadata: {
+                title: 'Metadata',
+                x_more: '{{x}} more',
+            },
+
+            comments: {
+                title: 'Comments',
+            },
+
+            links: {
+                title: 'Links',
+                no_links: 'This registration has no links.',
+            },
+
+            contributors: {
+                title: 'Contributors',
+                gravatar_alt: 'Gravatar for {{name}}',
+            },
+
+            components: {
+                title: 'Components',
+                no_components: 'This registration has no components.',
+            },
+
+            external_links: {
+                files: 'Files',
+                wiki: 'Wiki',
+                analytics: 'Analytics',
+            },
+
+            form_view: {
+                no_files: 'No files uploaded',
+            },
         },
     },
     analytics: {

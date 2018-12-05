@@ -6,20 +6,20 @@ import OsfModel from './osf-model';
  * @submodule models
  */
 
-interface Q {
+export interface AbstractQuestion {
     type: 'string' | 'multiselect' | 'osf-author-import' | 'osf-upload' | 'choose' | 'object';
+    format: string;
     required?: boolean;
     description?: string;
     properties?: Subquestion[];
 }
 
-export interface Subquestion extends Q {
+export interface Subquestion extends AbstractQuestion {
     id: string;
 }
 
-export interface Question extends Q {
+export interface Question extends AbstractQuestion {
     qid: string;
-    format: string;
     title: string;
     nav: string;
     help?: string;

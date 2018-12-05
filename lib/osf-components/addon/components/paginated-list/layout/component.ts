@@ -32,7 +32,7 @@ export default class PaginatedList extends Component {
     @computed('maxPage', 'page', 'pageSize', 'totalCount')
     get placeholderCount() {
         if (typeof this.maxPage === 'undefined' || typeof this.totalCount === 'undefined') {
-            return undefined;
+            return this.pageSize / 2;
         }
         if (this.page < this.maxPage || !(this.totalCount % this.pageSize)) {
             return this.pageSize;

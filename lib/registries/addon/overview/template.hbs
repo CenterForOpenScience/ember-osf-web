@@ -1,66 +1,116 @@
-<div local-class="TitleBackground">
-    <Container>
-        <h1 local-class="Title">{{t 'ipsum.title'}}</h1>
-    </Container>
-</div>
+{{#if this.loading }}
+    <div local-class="ContentBackground Loading">
+        <LoadingIndicator @dark={{true}} />
+    </div>
+{{else}}
+    <div local-class="TitleBackground">
+        <Container>
+            <h1 local-class="Title">{{this.registration.title}}</h1>
+        </Container>
+    </div>
 
-{{#if this.showMobileNav}}
-    <Navbar as |nav|>
-        <nav.bordered-section>
+    {{#if this.showMobileNav}}
+        <Navbar as |nav|>
+            <nav.bordered-section>
 
-            <nav.buttons.default @onclick={{action 'toggleSidenav'}}>
-                {{nav.icon (if this.sidenavGutterClosed 'bars' 'times')}}
-            </nav.buttons.default>
+                <nav.buttons.default @onclick={{action 'toggleSidenav'}}>
+                    {{nav.icon (if this.sidenavGutterClosed 'bars' 'times')}}
+                </nav.buttons.default>
 
-            <nav.buttons.default>
-                <h4>{{t 'registries.overview.overview'}}</h4>
-            </nav.buttons.default>
+                <nav.buttons.default>
+                    <h4>{{t 'registries.overview.title'}}</h4>
+                </nav.buttons.default>
 
-        </nav.bordered-section>
+            </nav.bordered-section>
 
-        <nav.bordered-section>
+            <nav.bordered-section>
 
-            <nav.buttons.default>
-                {{nav.icon 'eye'}}
-                {{nav.icon 'caret-down'}}
-            </nav.buttons.default>
+                <nav.buttons.default>
+                    {{nav.icon 'eye'}}
+                    {{nav.icon 'caret-down'}}
+                </nav.buttons.default>
 
-            <nav.buttons.default @onclick={{action 'toggleMetadata'}}>
-                {{nav.icon 'info-circle'}}
-            </nav.buttons.default>
+                <nav.buttons.default @onclick={{action 'toggleMetadata'}}>
+                    {{nav.icon 'info-circle'}}
+                </nav.buttons.default>
 
-            <nav.buttons.default>
-                {{nav.icon 'ellipsis-v'}}
-            </nav.buttons.default>
+                <nav.buttons.default>
+                    {{nav.icon 'ellipsis-v'}}
+                </nav.buttons.default>
 
-        </nav.bordered-section>
-    </Navbar>
-{{/if}}
+            </nav.bordered-section>
+        </Navbar>
+    {{/if}}
 
-<div local-class="ContentBackground">
-    <Gutters
-         @leftMode={{this.sidenavGutterMode}}
-         @leftClosed={{this.sidenavGutterClosed}}
-         @rightMode={{this.metadataGutterMode}}
-         @rightClosed={{this.metadataGutterClosed}}
-         as |gutters|
-     >
-        <Container local-class="Container">
+    <div local-class="ContentBackground">
+        <Gutters
+             @leftMode={{this.sidenavGutterMode}}
+             @leftClosed={{this.sidenavGutterClosed}}
+             @rightMode={{this.metadataGutterMode}}
+             @rightClosed={{this.metadataGutterClosed}}
+             as |gutters|
+         >
             <gutters.left-gutter>
-                <div local-class="SideNav">
-                    <p>{{t 'ipsum.paragraph'}}</p>
-                    <p>{{t 'ipsum.paragraph'}}</p>
-                    <p>{{t 'ipsum.paragraph'}}</p>
-                </div>
+                <SideNav @onLinkClicked={{action (mut this.sidenavGutterClosed) true}} as |nav|>
+                    <nav.link-to data-test-link="overview"
+                        @icon="home"
+                        @label={{t 'registries.overview.title'}}
+                        @route="registries.overview.index"
+                        @models={{array this.registration.id}}
+                    />
+                    <nav.link-to data-test-link="files"
+                        @icon="file-text"
+                        @label={{t 'registries.overview.external_links.files'}}
+                        href="/{{this.registration.id}}/files/"
+                        @count={{50}}
+                    />
+                    <nav.link-to data-test-link="wiki"
+                        @icon="window-maximize"
+                        @label={{t 'registries.overview.external_links.wiki'}}
+                        href="/{{this.registration.id}}/wiki/"
+                        @count={{4}}
+                    />
+                    <nav.link-to data-test-link="components"
+                        @icon="puzzle-piece"
+                        @label={{t 'registries.overview.components.title'}}
+                        @count={{this.registration.relatedCounts.children}}
+                        @route="registries.overview.children"
+                        @models={{array this.registration.id}}
+                    />
+                    <nav.link-to data-test-link="links"
+                        @icon="link"
+                        @label={{t 'registries.overview.links.title'}}
+                        @count={{this.linksCount}}
+                        @route="registries.overview.links"
+                        @models={{array this.registration.id}}
+                    />
+                    <nav.link-to data-test-link="analytics"
+                        @icon="bar-chart"
+                        @label={{t 'registries.overview.external_links.analytics'}}
+                        @route="registries.overview.analytics"
+                        @models={{array this.registration.id}}
+                    />
+                    <nav.link-to data-test-link="comments"
+                        @icon="comments"
+                        @label={{t 'registries.overview.comments.title'}}
+                        @route="registries.overview.comments"
+                        @models={{array this.registration.id}}
+                        @count={{28}}
+                    />
+                </SideNav>
             </gutters.left-gutter>
 
-            <gutters.body local-class="Body">
-                <p>{{t 'ipsum.paragraph'}}</p>
+            <gutters.body local-class="OverviewBody">
+                {{outlet}}
             </gutters.body>
 
-            <gutters.right-gutter as |ctx|>
-                <RegistriesMetadata @gutterMode={{ctx.mode}} />
+            <gutters.right-gutter>
+                <RegistriesMetadata
+                    @onLinkClicked={{action (mut this.metadataGutterClosed) true}}
+                    @registration={{this.registration}}
+                    @gutterMode={{this.metadataGutterMode}}
+                />
             </gutters.right-gutter>
-        </Container>
-    </Gutters>
-</div>
+        </Gutters>
+    </div>
+{{/if}}
