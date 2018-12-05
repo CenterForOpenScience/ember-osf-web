@@ -1,11 +1,13 @@
 import { click, fillIn, visit } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setupApplicationTest } from 'ember-qunit';
+import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+
 module('Acceptance | settings | account information page', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     // primary email exists
@@ -13,6 +15,7 @@ module('Acceptance | settings | account information page', hooks => {
         server.create('user', 'loggedIn');
 
         await visit('/settings/account');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-primary-email]').exists();
     });
@@ -22,15 +25,17 @@ module('Acceptance | settings | account information page', hooks => {
         server.create('user', 'loggedIn');
 
         await visit('/settings/account');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-alternate-email]').doesNotExist();
         assert.dom('[data-test-unconfirmed-email]').doesNotExist();
     });
 
     test('email lists have emails', async assert => {
-        server.create('user', 'loggedIn', 'withAlternateEmails', 'withUnconfirmedEmails');
+        server.create('user', 'loggedIn', 'withAlternateEmail', 'withUnconfirmedEmail');
 
         await visit('/settings/account');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-alternate-email]').exists();
         assert.dom('[data-test-unconfirmed-email]').exists();
@@ -47,19 +52,21 @@ module('Acceptance | settings | account information page', hooks => {
 
         await fillIn('[data-test-add-email] input', emailAddress);
         await click('[data-test-add-email-button]');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-unconfirmed-email]').exists();
     });
 
     // remove alternate email
     test('delete alternate email', async assert => {
-        server.create('user', 'loggedIn', 'withAlternateEmails');
+        server.create('user', 'loggedIn', 'withAlternateEmail');
 
         await visit('/settings/account');
 
         assert.dom('[data-test-alternate-email]').exists();
 
         await click('[data-test-delete-button]');
+        await percySnapshot(assert);
 
         await click('[data-test-confirm-delete]');
 
@@ -68,13 +75,14 @@ module('Acceptance | settings | account information page', hooks => {
 
     // make primary
     test('make email primary', async assert => {
-        server.create('user', 'loggedIn', 'withAlternateEmails');
+        server.create('user', 'loggedIn', 'withAlternateEmail');
 
         await visit('/settings/account');
 
         const emailAddress = $('[data-test-alternate-email]').val();
 
         await click('[data-test-make-primary]');
+        await percySnapshot(assert);
 
         const primaryEmail = $('[data-test-primary-email]').val();
         assert.equal(primaryEmail, emailAddress);
