@@ -1,10 +1,11 @@
 import Service from '@ember/service';
 import { currentRouteName, currentURL, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
-import { currentURL as currentLocationURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
+import { currentURL as currentLocationURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
 
 const KeenStub = Service.extend({
@@ -24,7 +25,7 @@ function routingAssertions(assert: Assert, segment: string, url: string, route: 
 }
 
 module('Acceptance | resolve-guid', hooks => {
-    setupOSFApplicationTest(hooks);
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
     test('User | Index', async assert => {

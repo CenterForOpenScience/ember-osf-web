@@ -125,7 +125,8 @@ module('Registries | Integration | index', hooks => {
                 },
             ];
 
-        assert.expect(testCases.length * 3);
+        // 1 extra assertion from setupOSFApplicationTest
+        assert.expect((testCases.length * 3) + 1);
         const engine = this.owner.lookup('-engine-instance:registries-registries') as EngineInstance;
         const stub = engine.lookup('service:analytics').click;
 

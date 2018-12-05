@@ -369,7 +369,7 @@ module('Registries | Integration | discover', hooks => {
     });
 
     test('query parameters', async function(this: TestContext, assert: Assert) {
-        assert.expect(2 + (QueryParamTestCases.length * 6));
+        assert.expect(3 + (QueryParamTestCases.length * 6));
         const stub = sinon.stub(this.owner.lookup('service:share-search'), 'registrations').returns(emptyResults);
 
         // Initial load so we don't have to deal with the aggregations loading
@@ -398,7 +398,7 @@ module('Registries | Integration | discover', hooks => {
     });
 
     test('analytics', async function(this: TestContext, assert: Assert) {
-        assert.expect(AnalyticsTestCases.length * 3);
+        assert.expect(1 + (AnalyticsTestCases.length * 3));
         const engine = this.owner.lookup('-engine-instance:registries-registries') as EngineInstance;
 
         sinon.stub(engine.lookup('service:share-search'), 'registrations').returns({
