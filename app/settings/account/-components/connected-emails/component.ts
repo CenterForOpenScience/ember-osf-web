@@ -13,22 +13,23 @@ export default class ConnectedEmails extends Component.extend({
     loadPrimaryEmail: task(function *(this: ConnectedEmails) {
         const { user } = this.currentUser;
 
-        let emails: QueryHasManyResult<UserEmail>;
-
         if (!user) {
             return undefined;
         }
         try {
-            emails = yield user.queryHasMany('emails', { 'filter[primary]': true });
+            const emails: QueryHasManyResult<UserEmail> = yield user.queryHasMany(
+                'emails',
+                { 'filter[primary]': true },
+            );
             return emails.length ? emails[0] : undefined;
         } catch (e) {
-            return this.i18n.t('settings.account.connectedEmails.loadFail');
+            return this.i18n.t('settings.account.connected_emails.load_fail');
         }
     }).restartable(),
 
     deleteEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
-        const errorMessage: string = this.i18n.t('settings.account.connectedEmails.deleteFail');
-        const successMessage: string = this.i18n.t('settings.account.connectedEmails.deleteSuccess');
+        const errorMessage: string = this.i18n.t('settings.account.connected_emails.delete_fail');
+        const successMessage: string = this.i18n.t('settings.account.connected_emails.delete_success');
 
         if (!email) {
             return undefined;
@@ -47,9 +48,9 @@ export default class ConnectedEmails extends Component.extend({
         return this.toast.success(successMessage);
     }),
 
-    updateEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
-        const errorMessage: string = this.i18n.t('settings.account.connectedEmails.updateFail');
-        const successMessage: string = this.i18n.t('settings.account.connectedEmails.updateSuccess');
+    updatePrimaryEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
+        const errorMessage: string = this.i18n.t('settings.account.connected_emails.update_fail');
+        const successMessage: string = this.i18n.t('settings.account.connected_emails.update_success');
 
         if (!email) {
             return undefined;
@@ -70,57 +71,56 @@ export default class ConnectedEmails extends Component.extend({
         return this.toast.success(successMessage);
     }),
 }) {
-    didValidate = false;
+    // Required arguments
+    reloadAlternateList!: (page?: number) => void; // bound by paginated-list
+    reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
 
+    // Private properties
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
     @service i18n!: I18N;
     @service toast!: Toast;
-
     userEmail!: UserEmail;
+    showAddModal: boolean = false;
+    showMergeModal: boolean = false;
+    didValidate = false;
     lastUserEmail = '';
     modelProperties = { user: this.currentUser.user };
-
-    modalShown: boolean = false;
-    reloadAlternateList!: (page?: number) => void; // bound by paginated-list
-    reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
-
     alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
     unconfirmedQueryParams = { 'filter[primary]': false, 'filter[confirmed]': false };
 
-    init(this: ConnectedEmails) {
+    init() {
         super.init();
-        this.get('loadPrimaryEmail').perform();
+        this.loadPrimaryEmail.perform();
     }
 
     @action
-    submit(this: ConnectedEmails, email: any) {
-        const successMessage: string = this.i18n.t('settings.account.connectedEmails.saveSuccess');
+    onSave(this: ConnectedEmails, email: UserEmail) {
         if (email.emailAddress) {
             this.set('lastUserEmail', email.emailAddress);
-            this.toggleModal();
+            this.set('showAddModal', true);
             this.reloadUnconfirmedList();
-            return this.toast.success(successMessage);
+            return this.toast.success(this.i18n.t('settings.account.connected_emails.save_success'));
         }
     }
     @action
-    error(this: ConnectedEmails, userEmail: UserEmail, e: any) {
+    onError<E extends Error>(this: ConnectedEmails, userEmail: UserEmail, e: E) {
         if (e instanceof DS.ConflictError) {
             userEmail.addExistingEmail();
             userEmail.validate();
         } else {
-            return this.toast.error(e);
+            return this.toast.error(e.message);
         }
     }
 
     @action
     makePrimary(this: ConnectedEmails, email: UserEmail) {
-        this.get('updateEmail').perform(email);
+        this.updatePrimaryEmail.perform(email);
     }
 
     @action
     resendConfirmation(this: ConnectedEmails) {
-        return true;
+        this.toggleProperty('showMergeModal');
     }
 
     @action
@@ -129,7 +129,12 @@ export default class ConnectedEmails extends Component.extend({
     }
 
     @action
-    toggleModal(this: ConnectedEmails) {
-        this.toggleProperty('modalShown');
+    toggleAddModal() {
+        this.toggleProperty('showAddModal');
+    }
+
+    @action
+    toggleMergeModal() {
+        this.toggleProperty('showMergeModal');
     }
 }

@@ -51,7 +51,7 @@ interface ModelInstanceShared<T> {
 
 export type ModelInstance<T = AnyAttrs> = ModelInstanceShared<T> & Model<T>;
 
-export interface Collection<T> {
+interface Collection<T> {
     models: Array<ModelInstance<T>>;
     modelName: string;
     update<K extends keyof T>(key: K, val: T[K]): void;

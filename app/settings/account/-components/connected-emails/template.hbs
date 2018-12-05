@@ -1,9 +1,9 @@
 <Panel as |panel|>
-    <panel.heading @title={{t 'settings.account.connectedEmails.title'}} />
+    <panel.heading @title={{t 'settings.account.connected_emails.title'}} />
     <panel.body>
         <div local-class="section-container">
             <h5 local-class="section-header">
-                {{t 'settings.account.connectedEmails.primaryEmail'}}
+                {{t 'settings.account.connected_emails.primary_email'}}
             </h5>
             <div local-class="primary-email">
                 {{#if loadPrimaryEmail.isRunning}}
@@ -17,7 +17,7 @@
         </div>
         <div local-class="section-container">
             <h5 local-class="section-header">
-                {{t 'settings.account.connectedEmails.alternateEmails'}}
+                {{t 'settings.account.connected_emails.alternate_emails'}}
             </h5>
             <span local-class="email-section">
                 {{#paginated-list/has-many
@@ -33,24 +33,24 @@
                     <list.item as |email|>
                         <div local-class="email-object" class="clearfix">
                             {{#if (not email)}}
-                                {{#content-placeholders as |placeholder|}}
+                                <ContentPlaceholders as |placeholder|>
                                     {{placeholder.heading subtitle=false}}
-                                {{/content-placeholders}}
+                                </ContentPlaceholders>
                             {{else}}
                                 <span data-test-alternate-email={{email.emailAddress}}>
                                     {{email.emailAddress}}
                                 </span>
                                 <div local-class="options">
-                                    {{#bs-button data-test-make-primary onClick=(action this.makePrimary email) type='link'}}
-                                        {{t 'settings.account.connectedEmails.makePrimary'}}
-                                    {{/bs-button}}
-                                    {{delete-button
-                                        small=true
-                                        delete=(action this.removeEmail email)
-                                        analyticsScope='Settings - Alternate Emails'
-                                        modalTitle=(t 'settings.account.connectedEmails.confirmDelete.title')
-                                        modalBody=(t 'settings.account.connectedEmails.confirmDelete.body' emailAddress=email.emailAddress)
-                                    }}
+                                    <BsButton data-test-make-primary @onClick={{action this.makePrimary email}} @type="link">
+                                        {{t 'settings.account.connected_emails.make_primary'}}
+                                    </BsButton>
+                                    <DeleteButton 
+                                        @small=true
+                                        @delete={{action this.removeEmail email}}
+                                        @analyticsScope="Settings - Alternate Emails"
+                                        @modalTitle={{t "settings.account.connected_emails.confirm_delete.title"}}
+                                        @modalBody={{t "settings.account.connected_emails.confirm_delete.body" emailAddress=email.emailAddress}}
+                                    />
                                 </div>
                             {{/if}}
                         </div>
@@ -60,7 +60,7 @@
         </div>
         <div local-class="section-container">
             <h5 local-class="section-header">
-                {{t 'settings.account.connectedEmails.unconfirmedEmails'}}
+                {{t 'settings.account.connected_emails.unconfirmed_emails'}}
             </h5>
             <span local-class="email-section">
                 {{#paginated-list/has-many
@@ -76,22 +76,52 @@
                     <list.item as |email|>
                         <div local-class="email-object" class="clearfix" data-test-unconfirmed-email>
                             {{#if (not email)}}
-                                {{#content-placeholders as |placeholder|}}
+                                <ContentPlaceholders as |placeholder|>
                                     {{placeholder.heading subtitle=false}}
-                                {{/content-placeholders}}
+                                </ContentPlaceholders>
                             {{else}}
                                 {{email.emailAddress}}
                                 <div local-class="options">
-                                    {{#bs-button onClick=(action this.resendConfirmation) type='link'}}
-                                        {{t 'settings.account.connectedEmails.resendConfirmation'}}
-                                    {{/bs-button}}
-                                    {{delete-button
-                                        small=true
-                                        delete=(action this.removeEmail email)
-                                        analyticsScope='Settings - Unconfirmed Emails'
-                                        modalTitle=(t 'settings.account.connectedEmails.confirmDelete.title')
-                                        modalBody=(t 'settings.account.connectedEmails.confirmDelete.body' emailAddress=email.emailAddress)
-                                    }}
+                                    <BsButton @onClick={{action this.toggleMergeModal}} @type="link">
+                                        {{t 'settings.account.connected_emails.resend_confirmation'}}
+                                    </BsButton>
+                                    <BsModal
+                                        @open={{this.showMergeModal}}
+                                        @tagName="span"
+                                        @onHide={{action this.toggleMergeModal}}
+                                        as |modal|
+                                    >
+                                        <modal.header>
+                                            <h3 class='modal-title'>
+                                                {{t 'settings.account.connected_emails.resend_confirmation_modal.title'}}
+                                            </h3>
+                                        </modal.header>
+
+                                        <modal.body>
+                                            <p>{{t 'settings.account.connected_emails.resend_confirmation_modal.body' emailAddress=email.emailAddress}}</p>
+                                        </modal.body>
+
+                                        <modal.footer>
+                                            <BsButton
+                                                data-test-close-modal
+                                                @onClick={{action this.toggleMergeModal}}
+                                                @defaultText={{t 'general.cancel'}}
+                                            />
+                                            <BsButton
+                                                data-test-resend-confirmation
+                                                @type="primary"
+                                                @onClick={{action this.resendConfirmation email.emailAddress}}
+                                                @defaultText={{t 'settings.account.connected_emails.resend_confirmation_modal.resend_button'}}
+                                            />
+                                        </modal.footer>
+                                    </BsModal>
+                                    <DeleteButton
+                                        @small=true
+                                        @delete={{action this.removeEmail email}}
+                                        @analyticsScope="Settings - Unconfirmed Emails"
+                                        @modalTitle={{t "settings.account.connected_emails.confirm_delete.title"}}
+                                        @modalBody={{t "settings.account.connected_emails.confirm_delete.body" emailAddress=email.emailAddress}}
+                                    />
                                 </div>
                             {{/if}}
                         </div>
@@ -99,50 +129,61 @@
                 {{/paginated-list/has-many}}
             </span>
             <p local-class="merge-explanation">
-                {{t 'settings.account.connectedEmails.mergeExplanation'}}
+                {{t 'settings.account.connected_emails.merge_explanation'}}
+                <span>
+                    {{fa-icon 'info-circle'}}
+                    <BsTooltip @autoPlacement=false @placement="bottom">
+                        {{t 'settings.account.connected_emails.merge_tooltip'}}
+                    </BsTooltip>
+                </span>
             </p>
-            {{#validated-model-form
-                onSave=(action this.submit)
-                onError=(action this.error)
-                modelName='userEmail'
-                modelProperties=this.modelProperties
-                recreateModel=true
+            <ValidatedModelForm
+                @onSave={{action this.onSave}}
+                @onError={{action this.onError}}
+                @modelName="userEmail"
+                @modelProperties={{this.modelProperties}}
+                @recreateModel=true
                 as |form|
-            }}
-                {{form.text
+            >
+                <form.text
                     data-test-add-email
-                    local-class='input-form'
-                    valuePath='emailAddress'
-                    placeholder=(t 'settings.account.connectedEmails.placeholderText')
-                    ariaLabel=(t 'settings.account.connectedEmails.placeholderText')
-                }}
-                {{#bs-button data-test-add-email-button buttonType="submit" local-class="add-email-button" type="default"}}
-                    {{t 'settings.account.connectedEmails.addEmail'}}
-                {{/bs-button}}
-            {{/validated-model-form}}
-            {{#if modalShown}}
-                {{#bs-modal
-                    tagName='span'
-                    onHide=(action this.toggleModal)
-                    as |modal|
-                }}
-                    {{#modal.header}}
-                        <h3 class='modal-title'>{{t 'settings.account.connectedEmails.addEmailModal.title'}}</h3>
-                    {{/modal.header}}
+                    @local-class="input-form"
+                    @valuePath="emailAddress"
+                    @placeholder={{t "settings.account.connected_emails.placeholder_text"}}
+                    @ariaLabel={{t "settings.account.connected_emails.placeholder_text"}}
+                />
+                <BsButton data-test-add-email-button
+                    @buttonType="submit"
+                    @local-class="add-email-button"
+                    @type="default"
+                >
+                    {{t 'settings.account.connected_emails.add_email'}}
+                </BsButton>
+            </ValidatedModelForm>
+            <BsModal
+                @open={{this.showAddModal}}
+                @tagName="span"
+                @onHide={{action this.toggleAddModal}}
+                as |modal|
+            >
+                <modal.header>
+                    <h3 class='modal-title'>
+                        {{t 'settings.account.connected_emails.add_email_modal.title'}}
+                    </h3>
+                </modal.header>
 
-                    {{#modal.body}}
-                        <p>{{t 'settings.account.connectedEmails.addEmailModal.body' emailAddress=this.lastUserEmail}}</p>
-                    {{/modal.body}}
+                <modal.body>
+                    <p>{{t 'settings.account.connected_emails.add_email_modal.body' emailAddress=this.lastUserEmail}}</p>
+                </modal.body>
 
-                    {{#modal.footer}}
-                        {{bs-button
-                            data-test-close-modal
-                            onClick=modal.close
-                            defaultText=(t 'osf-components.delete-button.cancelButtonText')
-                        }}
-                    {{/modal.footer}}
-                {{/bs-modal}}
-            {{/if}}
+                <modal.footer>
+                    <BsButton
+                        data-test-close-modal
+                        @onClick={{action this.toggleAddModal}}
+                        @defaultText={{t 'general.close'}}
+                    />
+                </modal.footer>
+            </BsModal>
         </div>
     </panel.body>
 </Panel>
