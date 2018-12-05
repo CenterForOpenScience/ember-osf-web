@@ -339,7 +339,6 @@ module('Acceptance | guid-node/registrations', hooks => {
             await click('[data-test-new-registration-modal-create-draft-button]');
             assert.dom('[data-test-prereg-challenge-modal-body]').isVisible();
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isDisabled();
-            await percySnapshot(`Acceptance | guid-node/registrations | logged in admin, prereg challenge modal ${i}`);
             await click('[data-test-prereg-challenge-modal-consent-checkbox]');
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isNotDisabled();
             await click('[data-test-prereg-challenge-modal-cancel-button]');
