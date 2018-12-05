@@ -1,2 +1,6 @@
-<p>{{t 'ipsum.sentence'}}</p>
-<p>{{t 'ipsum.paragraph'}}</p>
+<CommentsList
+    @node={{this.registration}}
+    @modelTaskInstance={{this.model.taskInstance}}
+    @relationshipName='comments'
+    @analyticsScope='Registration Comments'
+/>
