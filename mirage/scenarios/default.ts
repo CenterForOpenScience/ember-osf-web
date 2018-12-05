@@ -14,6 +14,7 @@ const {
 } = config;
 
 export default function(server: Server) {
+    server.create('root', 'withNewRegistriesStyle');
     const currentUser = server.create('user', 'loggedIn');
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });

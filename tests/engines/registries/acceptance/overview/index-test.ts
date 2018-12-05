@@ -29,7 +29,7 @@ module('Registries | Acceptance | overview.index', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: OverviewTestContext) {
-        server.create('root', { currentUser: null });
+        server.create('root', { currentUser: null }, 'withNewRegistriesStyle');
         server.loadFixtures('registration-schemas');
         this.set('registration', server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
