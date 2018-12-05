@@ -6,6 +6,8 @@ import Session from 'ember-simple-auth/services/session';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
+import Controller from './controller';
+
 export default class Home extends Route {
     @service analytics!: Analytics;
     @service session!: Session;
@@ -21,5 +23,11 @@ export default class Home extends Route {
     @action
     didTransition(this: Home) {
         this.get('analytics').trackPage();
+    }
+
+    resetController(controller: Controller, isExiting: boolean, _: Ember.Transition) {
+        if (isExiting) {
+            controller.set('goodbye', null);
+        }
     }
 }
