@@ -2,13 +2,13 @@ import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { TaskInstance } from 'ember-concurrency';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import OsfModel from 'ember-osf-web/models/osf-model';
 
-import layout from './template';
+import template from './template';
 
+@layout(template)
 export default class NodeList extends Component {
-    layout = layout;
-
     // Required parameters
     modelTaskInstance!: TaskInstance<OsfModel>;
     relationshipName!: string;

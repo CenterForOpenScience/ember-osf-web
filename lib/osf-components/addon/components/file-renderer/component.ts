@@ -2,9 +2,11 @@ import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { next } from '@ember/runloop';
 import config from 'ember-get-config';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import $ from 'jquery';
-import layout from './template';
+
+import { layout } from 'ember-osf-web/decorators/component';
+import defaultTo from 'ember-osf-web/utils/default-to';
+import template from './template';
 
 const { OSF: { renderUrl } } = config;
 
@@ -30,9 +32,8 @@ interface Params {
  * ```
  * @class FileRenderer
  */
+@layout(template)
 export default class FileRenderer extends Component {
-    layout = layout;
-
     params: Params = {
         direct: '',
         mode: 'render',

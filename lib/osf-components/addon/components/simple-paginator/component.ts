@@ -3,15 +3,14 @@ import { action, computed } from '@ember-decorators/object';
 import { gt } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 @tagName('span')
 @classNames('sort-group')
 export default class SimplePaginator extends Component {
-    layout = layout;
-    styles = styles;
-
     // Optional arguments (omitting will display a placeholder)
     curPage?: number;
     maxPage?: number;

@@ -2,15 +2,16 @@ import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import layout from './template';
+import template from './template';
 
+@layout(template)
 @tagName('') // Don't wrap this component in a div
 export default class HyperLink extends Component {
     static positionalParams = ['positionalRoute', 'positionalModel'];
-
-    layout = layout;
 
     @service analytics!: Analytics;
 

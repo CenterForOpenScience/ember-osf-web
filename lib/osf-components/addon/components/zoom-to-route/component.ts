@@ -5,7 +5,8 @@ import Component from '@ember/component';
 import { task, waitForQueue } from 'ember-concurrency';
 import $ from 'jquery';
 
-import layout from './template';
+import { layout } from 'ember-osf-web/decorators/component';
+import template from './template';
 
 /**
  * Component to allow easily transitioning to any route without leaving the
@@ -15,10 +16,9 @@ import layout from './template';
  * Displays an icon link/button that pops up a modal form.
  * @class zoom-to-route
  */
+@layout(template)
 @tagName('span')
 export default class ZoomToRoute extends Component {
-    layout = layout;
-
     @service router!: any;
 
     showModal: boolean = false;

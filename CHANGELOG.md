@@ -28,10 +28,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Acceptance:
         - `settings.profile.name`
         - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
+        - Add percy everywhere in the main app
     - Helpers:
         - `require-auth` - Mocks currentUser service to verify that routes that require auth redirect if unauthenticated    
 - Types:
     - `ember-power-select/test-support` - types for useful functions
+- Travis
+    - Remove Firefox Testing
 
 ### Changed
 - Addons:
@@ -57,6 +60,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
 - Routes:
     - Add email verification modal to application template
+- Misc:
+    - Upgraded to `osf-style` 1.8.0
+
+## [18.2.0] - 2018-11-29
+### Changed
+- Components:
+    - `sign-up-form` - Distinguish between alrteady registered and invalid (e.g. blacklisted) emails
+- Models:
+    - `user-registration` - added invalid email validation and `addInvalidEmail` method
+- Routes:
+    - `register` - let CAS redirect to ORCID
 
 ## [18.1.2] - 2018-11-05
 - Engines:

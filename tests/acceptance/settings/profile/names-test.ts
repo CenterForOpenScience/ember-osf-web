@@ -1,12 +1,13 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setupApplicationTest } from 'ember-qunit';
+import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 module('Acceptance | settings | profile | name', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('cannot use unauthenticated', async function(assert) {
@@ -22,7 +23,6 @@ module('Acceptance | settings | profile | name', hooks => {
         await visit('/settings/profile/name');
 
         assert.equal(currentURL(), '/settings/profile/name', 'Stayed on the proper url.');
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom('[data-test-full-name-field] input[type=text]').hasValue(currentUser.fullName);
         assert.dom('[data-test-given-name-field] input[type=text]').hasValue(currentUser.givenName);
         assert.dom('[data-test-middle-names-field] input[type=text]').hasValue(currentUser.middleNames);
@@ -51,6 +51,7 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.dom('[data-test-citation-container]').exists();
         assert.dom('[data-test-apa-citation]').containsText(apa);
         assert.dom('[data-test-mla-citation]').containsText(mla);
+        await percySnapshot(assert);
         await fillIn('[data-test-given-name-field] input', '');
         assert.dom('[data-test-citation-container]').doesNotExist();
         await fillIn('[data-test-given-name-field] input', 'Peggy');
@@ -120,6 +121,7 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.dom('[data-test-middle-names-field]').containsText('This field is too long');
         assert.dom('[data-test-family-name-field]').containsText('This field is too long');
         assert.dom('[data-test-suffix-field]').containsText('This field is too long');
+        await percySnapshot(assert);
         assert.equal(user.givenName, givenName, 'No change from invalid save.');
         assert.equal(user.middleNames, middleNames, 'No change from invalid save.');
         assert.equal(user.familyName, familyName, 'No change from invalid save.');

@@ -6,14 +6,15 @@ import { task } from 'ember-concurrency';
 import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 @tagName('span')
 export default class DeleteButton extends Component.extend({
     _deleteTask: task(function *(this: DeleteButton) {
@@ -67,8 +68,6 @@ export default class DeleteButton extends Component.extend({
     );
 
     // Private properties
-    layout = layout;
-    styles = styles;
     modalShown: boolean = false;
     scientistName: string = '';
     scientistInput: string = '';
