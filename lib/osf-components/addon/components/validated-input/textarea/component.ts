@@ -1,6 +1,7 @@
+import { layout } from 'ember-osf-web/decorators/component';
 import BaseValidatedComponent from '../base-component';
-import layout from './template';
+import template from './template';
 
+@layout(template)
 export default class ValidatedTextArea extends BaseValidatedComponent {
-    layout = layout;
 }

@@ -49,4 +49,13 @@ export default function(server: Server) {
     server.create('registration', {
         id: 'decaf',
     });
+
+    // For the handbook
+
+    // ValidatedModelForm
+    server.create('node', {
+        id: 'extng',
+        title: 'Existing node!',
+        description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
+    });
 }

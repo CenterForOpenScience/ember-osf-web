@@ -2,11 +2,12 @@ import { click, visit } from '@ember/test-helpers';
 
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setupApplicationTest } from 'ember-qunit';
+import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import User from 'ember-osf-web/models/user';
 import UserEmail from 'ember-osf-web/models/user-email';
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 function unverifiedEmails(user: ModelInstance<User>) {
     return (user.emails.models as Array<ModelInstance<UserEmail>>)
@@ -15,7 +16,7 @@ function unverifiedEmails(user: ModelInstance<User>) {
 }
 
 module('Acceptance | verify email', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('no unverified emails', async assert => {
@@ -33,6 +34,7 @@ module('Acceptance | verify email', hooks => {
         await visit('/dashboard');
 
         assert.dom('[data-test-verify-email-prompt]').exists();
+        await percySnapshot(assert);
 
         await click('[data-test-verify-email]');
 

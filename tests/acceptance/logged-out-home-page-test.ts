@@ -1,10 +1,12 @@
 import { click, currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setupApplicationTest } from 'ember-qunit';
+import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
+import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+
 module('Acceptance | logged-out home page', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('visiting /', async assert => {
@@ -23,6 +25,7 @@ module('Acceptance | logged-out home page', hooks => {
 
         // Check footer.
         assert.dom('footer').exists();
+        await percySnapshot(assert);
 
         // Check sign-up form.
         assert.dom('[data-test-sign-up-form] .has-error').doesNotExist('Sign up form: no premature validation');
@@ -30,9 +33,9 @@ module('Acceptance | logged-out home page', hooks => {
         await click('[data-test-sign-up-form] [data-test-sign-up-button]');
         assert.dom('[data-test-sign-up-form] .has-error').exists('Sign up form: validation errors present');
         assert.dom('[data-test-sign-up-form] .help-block').exists('Sign up form: validation messages shown');
+        await percySnapshot('Acceptance | logged-out home page | visiting / | sign up form validation');
 
         // Alt text for integration logos
         assert.dom('[class*="_integrations"] img[alt*="Dropbox logo"]').exists();
-        assert.dom('img[alt*="Missing translation"]').doesNotExist();
     });
 });

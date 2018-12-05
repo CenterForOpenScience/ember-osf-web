@@ -9,7 +9,7 @@
             }}
         </div>
         <div class="col-xs-3">
-            <button {{action 'closeFilter'}} class="btn pull-right" local-class="action-button" aria-label={{t 'general.close'}}>
+            <button data-test-close-filter {{action 'closeFilter'}} class="btn pull-right" local-class="action-button" aria-label={{t 'general.close'}}>
                 {{fa-icon "times"}}
             </button>
         </div>
@@ -23,10 +23,10 @@
             }}
         </div>
         <div class="col-xs-3">
-            <button {{action 'closeRename'}} class="btn pull-right" local-class="action-button">
+            <button data-test-close-rename {{action 'closeRename'}} class="btn pull-right" local-class="action-button">
                 {{fa-icon "times"}}
             </button>
-            <button {{action 'rename'}} class="btn pull-right" local-class="action-button">
+            <button data-test-save-rename {{action 'rename'}} class="btn pull-right" local-class="action-button">
                 {{fa-icon "pencil"}}
             </button>
         </div>
@@ -41,7 +41,13 @@
             {{#if selectedItems}}
                 {{! TODO: show available actions for selected files }}
                 {{#if (eq selectedItems.length 1)}}
-                    <button id="shareButton" class="btn btn-light popover-toggler" local-class="action-button" {{action 'copyLink'}}>
+                    <button 
+                        data-test-share-dialog-button 
+                        id="shareButton" 
+                        class="btn btn-light popover-toggler" 
+                        local-class="action-button" 
+                        {{action 'copyLink'}}
+                    >
                         {{fa-icon 'share-alt'}}
                         {{t 'general.share'}}
                         {{#bs-popover placement="bottom" title=(t 'general.share') visible=popupOpen}}
@@ -56,48 +62,59 @@
                             {{/if}}
                         {{/bs-popover}}
                     </button>
-                    <button onclick={{unless canEdit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'downloadItem'}} class="btn btn-light" local-class="action-button">
+                    <button 
+                        data-test-download-button
+                        onclick={{unless canEdit (action 'click' 'button' 'Quick Files - Download' target=analytics)}}
+                        {{action 'downloadItem'}}
+                        class="btn btn-light" local-class="action-button"
+                    >
                         {{fa-icon "download"}}
                         {{t 'general.download'}}
                     </button>
-                    <button {{action 'viewItem'}} class="btn btn-light" local-class="action-button">
+                    <button data-test-view-button {{action 'viewItem'}} class="btn btn-light" local-class="action-button">
                         {{fa-icon "file-o"}}
                         {{t 'general.view'}}
                     </button>
                     {{#if canEdit}}
-                        <button {{action (mut currentModal) 'move'}} class="btn btn-light" local-class="action-button">
+                        <button data-test-move-button {{action (mut currentModal) 'move'}} class="btn btn-light" local-class="action-button">
                             {{fa-icon "level-up"}}
                             {{t 'general.move'}}
                         </button>
-                        <button {{action (mut currentModal) 'delete'}} class="btn btn-light" local-class="action-button">
+                        <button data-test-delete-button {{action (mut currentModal) 'delete'}} class="btn btn-light" local-class="action-button">
                             {{fa-icon "trash"}}
                             {{t 'general.delete'}}
                         </button>
-                        <button {{action (mut showRename) true}} class="btn btn-light" local-class="action-button">
+                        <button data-test-rename-button {{action (mut showRename) true}} class="btn btn-light" local-class="action-button">
                             {{fa-icon "pencil"}}
                             {{t 'general.rename'}}
                         </button>
                     {{/if}}
                 {{else}}
                     {{#if canEdit}}
-                        <button {{action (mut currentModal) 'deleteMultiple'}} class="btn btn-light" local-class="action-button">
+                        <button data-test-delete-multiple-button {{action (mut currentModal) 'deleteMultiple'}} class="btn btn-light" local-class="action-button">
                             {{fa-icon "trash"}}
                             {{t 'file_browser.delete_multiple'}}
                         </button>
                     {{/if}}
                 {{/if}}
             {{else if hasItems}}
-                <button class="btn btn-light" local-class="action-button" onclick={{unless canEdit (action 'click' 'button' 'Quick Files - Download zip' target=analytics preventDefault=false)}} {{action 'downloadZip'}}>
+                <button 
+                    data-test-download-zip-button
+                    class="btn btn-light" 
+                    local-class="action-button" 
+                    onclick={{unless canEdit (action 'click' 'button' 'Quick Files - Download zip' target=analytics preventDefault=false)}} 
+                    {{action 'downloadZip'}}
+                >
                     {{fa-icon "download"}} {{t 'file_browser.download_zip'}}
                 </button>
             {{/if}}
             {{#if hasItems}}
-                <button {{action (mut showFilterClicked) true}} class="btn btn-light" local-class="action-button">
+                <button data-test-filter-button {{action (mut showFilterClicked) true}} class="btn btn-light" local-class="action-button">
                     {{fa-icon "search"}}
                     {{t 'general.filter'}}
                 </button>
             {{/if}}
-            <button {{action (mut currentModal) 'info'}} class="btn btn-light" local-class="action-button">
+            <button data-test-info-button {{action (mut currentModal) 'info'}} class="btn btn-light" local-class="action-button">
                 {{fa-icon "info"}}
                 {{t 'general.help'}}
             </button>
@@ -136,7 +153,7 @@
         <p>{{t 'file_browser.info.download'}}</p>
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button onClick=(action (mut currentModal) '') type="default"}}
+        {{#bs-button data-test-close-current-modal onClick=(action (mut currentModal) '') type="default"}}
             {{t 'general.close'}}
         {{/bs-button}}
     {{/modal.footer}}
@@ -209,46 +226,41 @@
     {{#modal.body}}
         {{project-selector
             user=user
-            newProject=newProject
-            file=selectedItems.firstObject
             projectSelectState=projectSelectState
             validationChanged=(action (mut isProjectSelectorValid))
-            projectSelected=(action (mut node))
+            projectSelected=(action projectSelected)
+            moveToNewProject=(action moveToNewProject)
         }}
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button disabled=isMoving onClick=(action 'closeMoveToProjectModal') type="default"}}
+        {{#bs-button data-test-move-to-project-modal-close-button disabled=isMoving onClick=(action 'closeMoveToProjectModal') type="default"}}
             {{t 'general.cancel'}}
         {{/bs-button}}
         {{#if (not-eq projectSelectState 'main')}}
-            {{#bs-button disabled=isMoving onClick=(action (mut projectSelectState) 'main') type="default"}}
+            {{#bs-button data-test-move-to-project-modal-back-button disabled=isMoving onClick=(action (mut projectSelectState) 'main') type="default"}}
                 {{t 'general.back'}}
             {{/bs-button}}
-            {{#bs-button disabled=(or (not isProjectSelectorValid) isMoving) onClick=(action (perform moveToProject)) type="primary"}}
+            {{#bs-button data-test-move-to-project-modal-perform-button disabled=(or (not isProjectSelectorValid) isMoving) onClick=(action (perform moveToProject)) type="primary"}}
                 {{t 'file_browser.move_modal.move_button'}}
             {{/bs-button}}
         {{/if}}
     {{/modal.footer}}
 {{/bs-modal}}
-{{#bs-modal onHide=(action (mut currentModal) '') open=(eq currentModal 'successMove') class='successMoveQuickfileModal' as |modal|}}
-    {{#modal.body}}
-        <h4 class="add-project-success text-success">{{t "move_to_project.file_successfully_moved"}}</h4>
-    {{/modal.body}}
-    {{#modal.footer}}
-        {{#bs-button type='default' onClick=(action (mut currentModal) '')}}
-            {{t "move_to_project.keep_working_here"}}
-        {{/bs-button}}
-        <a class="btn btn-success" href="{{nodeLink}}">
-            {{#if isNewProject}}
-                {{t "move_to_project.go_to_new_project"}}
-            {{else if isChildNode}}
-                {{t "move_to_project.go_to_component"}}
-            {{else}}
-                {{t "move_to_project.go_to_project"}}
-            {{/if}}
-        </a>
-    {{/modal.footer}}
-{{/bs-modal}}
+{{#if (eq currentModal 'moveToNew')}}
+    <NewProjectModal
+        @afterProjectCreated={{action projectCreated}}
+        @closeModal={{action (mut currentModal) ''}}
+        @page="Quick Files"
+        @isPublic={{true}}
+    />
+{{else if (eq currentModal 'successMove')}}
+    <NewProjectNavigationModal
+        @node={{node}}
+        @closeModal={{action (mut currentModal) ''}}
+        @title={{t "move_to_project.file_successfully_moved"}}
+        @afterStay={{action afterStay}}
+    />
+{{/if}}
 {{#dropzone-widget
     buildUrl=(action 'buildUrl')
     options=dropzoneOptions

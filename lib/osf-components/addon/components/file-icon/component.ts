@@ -1,11 +1,13 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { localClassNames } from 'ember-css-modules';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const iconForType = {
     code: [
@@ -115,12 +117,10 @@ function iconFromName(name: string): string {
  * @class file-icon
  */
 
+@layout(template, styles)
 @tagName('span')
 @localClassNames('FileIcon')
 export default class FileIcon extends Component {
-    layout = layout;
-    styles = styles;
-
     item: File = this.item;
 
     @computed('item', 'item.expanded')

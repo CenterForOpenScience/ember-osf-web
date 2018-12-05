@@ -1,5 +1,8 @@
-import { currentURL as _currentURL, settled, visit as _visit } from '@ember/test-helpers';
+import { settled, visit as _visit } from '@ember/test-helpers';
 import { getContext } from '@ember/test-helpers/setup-context';
+import { faker } from 'ember-cli-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
 
 // With the current implementation of visit, if the transition is
 // aborted for any reason (e.g. Redirects via guid routing) an
@@ -32,4 +35,15 @@ export function currentURL() {
     const { owner } = (getContext() as any);
     const router = owner.lookup('router:main');
     return router.get('location').getURL();
+}
+
+export function setupOSFApplicationTest(hooks: any) {
+    setupApplicationTest(hooks);
+    hooks.beforeEach(async function(this: TestContext) {
+        faker.seed(17);
+    });
+
+    hooks.afterEach(async function(this: TestContext, assert: any) {
+        assert.dom('img[alt*="Missing translation"]').doesNotExist();
+    });
 }

@@ -1,13 +1,13 @@
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import I18N from 'ember-i18n/services/i18n';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 // Adapted from Ember-SHARE
+@layout(template, styles)
 export default class QuerySyntax extends Component {
-    layout = layout;
-    styles = styles;
-
     @service i18n!: I18N;
 }

@@ -5,10 +5,11 @@ import I18n from 'ember-i18n/services/i18n';
 import KeenDataviz from 'keen-dataviz';
 import moment, { Moment } from 'moment';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 
 import KeenService from 'analytics-page/services/keen';
-import layout from './template';
+import template from './template';
 
 export interface ChartSpec {
     titleKey: string;
@@ -23,10 +24,10 @@ function excludeNonIntegers(d: any) {
     return parseInt(d, 10) === d ? d : null;
 }
 
+@layout(template)
 export default class AnalyticsChart extends Component {
     @service keen!: KeenService;
     @service i18n!: I18n;
-    layout = layout;
 
     // Required arguments
     nodeTaskInstance!: TaskInstance<Node>;

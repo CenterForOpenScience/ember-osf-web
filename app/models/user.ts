@@ -22,6 +22,33 @@ const Validations = buildValidations({
             messageKey: 'affirm_terms',
         }),
     ],
+    fullName: [
+        validator('presence', true),
+        validator('length', {
+            max: 186,
+            min: 3,
+        }),
+    ],
+    givenName: [
+        validator('length', {
+            max: 255,
+        }),
+    ],
+    familyName: [
+        validator('length', {
+            max: 255,
+        }),
+    ],
+    middleNames: [
+        validator('length', {
+            max: 255,
+        }),
+    ],
+    suffix: [
+        validator('length', {
+            max: 255,
+        }),
+    ],
 });
 
 /**

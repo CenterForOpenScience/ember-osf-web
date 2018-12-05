@@ -4,6 +4,7 @@ import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
 import { set } from '@ember/object';
 import { dasherize, underscore } from '@ember/string';
+import { Validations } from 'ember-cp-validations';
 import DS, { ModelRegistry, RelationshipsFor } from 'ember-data';
 import { singularize } from 'ember-inflector';
 
@@ -37,6 +38,10 @@ export interface PaginatedQueryOptions {
     'page[size]': number;
     page: number;
 }
+
+export type ValidatedModelName = {
+    [K in keyof ModelRegistry]: ModelRegistry[K] extends (Validations & DS.Model) ? K : never
+}[keyof ModelRegistry];
 
 /**
  * Common properties and behaviors shared by all OSF APIv2 models

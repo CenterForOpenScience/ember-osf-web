@@ -1,8 +1,10 @@
 import { className, tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import layout from './template';
+import template from './template';
 
 const iconMap: { [index: string]: string } = {
     hypothesis: 'lightbulb-o',
@@ -24,10 +26,9 @@ const iconMap: { [index: string]: string } = {
     preprint: 'file-text',
 };
 
+@layout(template)
 @tagName('span')
 export default class NodeCardNodeIcon extends Component {
-    layout = layout;
-
     category: string = defaultTo(this.category, '');
 
     @computed('category')

@@ -1,12 +1,12 @@
 import Component from '@ember/component';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 export default class OsfLogo extends Component {
-    layout = layout;
-    styles = styles;
-
     double: boolean = defaultTo(this.double, false);
     animate: boolean = defaultTo(this.animate, false);
 }

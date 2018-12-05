@@ -30,7 +30,6 @@ const {
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
     OAUTH_SCOPES: scope,
-    ORCID_CLIENT_ID: orcidClientId,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
@@ -171,7 +170,6 @@ module.exports = function(environment) {
                 authSession: 'embosf-auth-session',
                 joinBannerDismissed: 'slide', // TODO: update legacy UI to use a more unique key
             },
-            orcidClientId,
             casUrl,
         },
         social: {
@@ -215,6 +213,12 @@ module.exports = function(environment) {
         featureFlagNames: {
             routes: {
                 'guid-node.registrations': 'ember_project_registrations_page',
+                settings: 'ember_user_settings_profile_page',
+                'settings.profile': 'ember_user_settings_profile_page',
+                'settings.profile.education': 'ember_user_settings_profile_page',
+                'settings.profile.employment': 'ember_user_settings_profile_page',
+                'settings.profile.name': 'ember_user_settings_profile_page',
+                'settings.profile.social': 'ember_user_settings_profile_page',
                 'settings.tokens': 'ember_user_settings_tokens_page',
                 'settings.tokens.index': 'ember_user_settings_tokens_page',
                 'settings.tokens.create': 'ember_user_settings_tokens_page',

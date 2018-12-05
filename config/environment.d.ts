@@ -97,7 +97,6 @@ declare const config: {
             authSession: string;
             joinBannerDismissed: string;
         };
-        orcidClientId?: string;
         casUrl: string;
     };
     social: {
