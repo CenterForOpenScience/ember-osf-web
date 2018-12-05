@@ -2,13 +2,14 @@ import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
-import layout from './template';
 
+import { layout } from 'ember-osf-web/decorators/component';
+import defaultTo from 'ember-osf-web/utils/default-to';
+import template from './template';
+
+@layout(template)
 @tagName('')
 export default class InlineList extends Component {
-    layout = layout;
-
     items: any[] = defaultTo(this.items, []);
     truncate?: number;
 

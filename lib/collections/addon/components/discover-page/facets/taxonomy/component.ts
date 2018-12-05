@@ -1,13 +1,15 @@
 import { service } from '@ember-decorators/service';
 import { setProperties } from '@ember/object';
 import { task } from 'ember-concurrency';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Provider from 'ember-osf-web/models/provider';
 import Taxonomy from 'ember-osf-web/models/taxonomy';
 import Theme from 'ember-osf-web/services/theme';
 import Base from '../base/component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const pageSize = 150;
 
@@ -48,6 +50,7 @@ export const getTaxonomies = task(function *(item: TaxonomyItem, provider: Provi
     });
 });
 
+@layout(template, styles)
 export default class SearchFacetTaxonomy extends Base.extend({
     getTaxonomies,
 
@@ -106,9 +109,6 @@ export default class SearchFacetTaxonomy extends Base.extend({
         this.get('getTaxonomies').perform(this.item, this.theme.provider!);
     },
 }) {
-    layout = layout;
-    styles = styles;
-
     @service theme!: Theme;
 
     item: TaxonomyItem = this.item;

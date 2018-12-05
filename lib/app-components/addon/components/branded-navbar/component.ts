@@ -3,21 +3,20 @@ import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import I18N from 'ember-i18n/services/i18n';
+import Session from 'ember-simple-auth/services/session';
+
 import { serviceLinks } from 'ember-osf-web/const/service-links';
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
-import Session from 'ember-simple-auth/services/session';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 type ObjectType = 'collection' | 'preprint' | 'registration';
 
+@layout(template, styles)
 @tagName('')
 export default class BrandedNavbar extends Component {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service i18n!: I18N;
     @service session!: Session;

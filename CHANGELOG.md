@@ -6,23 +6,71 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Addons:
+    - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
+- Components:
+    - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+- Handbook:
+    - `new-project-modal` component
+    - `new-project-navigation-modal` component
 - Models:
     - `user-email`
+- Routes:
+    - `settings.profile` - redirects to `settings.profile.name`
+    - `settings.profile.education`
+    - `settings.profile.employment`
+    - `settings.profile.name` - Adds ability to change your name and name parts (with citation preview)
+    - `settings.profile.social`
+- Tests:
+    - Integration:
+        - `settings.profile.name.-components.citation-preview`
+        - `new-project-navigation-modal` - component integration test
+    - Acceptance:
+        - `settings.profile.name`
+        - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
+        - Add percy everywhere in the main app
+    - Helpers:
+        - `require-auth` - Mocks currentUser service to verify that routes that require auth redirect if unauthenticated    
+- Types:
+    - `ember-power-select/test-support` - types for useful functions
+- Travis
+    - Remove Firefox Testing
+
 ### Changed
+- Addons:
+    - `ember-code-snippet@2.3.1`
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
+    - `validated-model-form` - Add an optional hook for onWillDestroy
+- Handbook:
+    - `validated-model-form` - Show how onWillDestroy works and use ember-onbeforeunload
 - Models:
     - `node`
         - added `wikiEnabled` boolean attribute
         - added `userHasReadPermission` computed property
         - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+    - `user`
+        - added validations for name fields
+- Routes:
+    - `settings` - redirects to `settings.profile.name`
 - Tests:
     - improved integration tests for `node-navbar` component
 - Adapters:
     - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
 - Routes:
     - Add email verification modal to application template
+- Misc:
+    - Upgraded to `osf-style` 1.8.0
+
+## [18.2.0] - 2018-11-29
+### Changed
+- Components:
+    - `sign-up-form` - Distinguish between alrteady registered and invalid (e.g. blacklisted) emails
+- Models:
+    - `user-registration` - added invalid email validation and `addInvalidEmail` method
+- Routes:
+    - `register` - let CAS redirect to ORCID
 
 ## [18.1.2] - 2018-11-05
 - Engines:
@@ -34,6 +82,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Engines:
     - `registries` - page resetting and scrolling fixes
 
+### Changed
+- Components:
+    - `file-browser` - replaced project navigation modal with `new-project-navigation-modal` component
+    - `new-project-modal` - Made it smarter and more reusable
+    - `project-selector` - replaced project creation modal with `new-project-modal` component
+- Pages:
+    - `dashboard` - replaced project creation modal with `new-project-modal` component
+- Tests:
+    - `dashboard` - acceptance tests related to project creation workflow
+ 
 ## [18.1.0] - 2018-10-30
 ### Added
 - Components:

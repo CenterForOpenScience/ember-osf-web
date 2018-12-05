@@ -1,9 +1,11 @@
-import { attribute, layout } from '@ember-decorators/component';
+import { attribute } from '@ember-decorators/component';
 import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
-import hbs from 'htmlbars-inline-precompile';
 
-@layout(hbs`{{yield this.yieldValue}}`)
+import { layout } from 'ember-osf-web/decorators/component';
+import template from './template';
+
+@layout(template)
 export default class Dummy extends Component {
     // Note: this regex is crafted to avoid clashing
     // with ember-test-selectors

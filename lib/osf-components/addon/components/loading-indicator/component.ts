@@ -1,11 +1,13 @@
 import Component from '@ember/component';
+import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 /**
  * Display a loading indicator.
  */
+@layout(template, styles)
 export default class LoadingIndicator extends Component {
     /**
      * Whether to use a dark color for use on lighter backgrounds.
@@ -18,14 +20,4 @@ export default class LoadingIndicator extends Component {
      * Default: false
      */
     inline: boolean = defaultTo(this.inline, false);
-
-    /**
-     * @ignore
-     */
-    layout = layout;
-
-    /**
-     * @ignore
-     */
-    styles = styles;
 }

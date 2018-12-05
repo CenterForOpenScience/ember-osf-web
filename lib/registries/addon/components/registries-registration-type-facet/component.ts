@@ -5,16 +5,18 @@ import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
+import Toast from 'ember-toastr/services/toast';
+
 import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import Toast from 'ember-toastr/services/toast';
 import config from 'registries/config/environment';
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
-import layout from './template';
+import template from './template';
 
+@layout(template)
 export default class RegistriesRegistrationTypeFacet extends Component.extend({
     fetchRegistrationTypes: task(function *(this: RegistriesRegistrationTypeFacet): any {
         try {
@@ -33,8 +35,6 @@ export default class RegistriesRegistrationTypeFacet extends Component.extend({
         }
     }).on('init'),
 }) {
-    layout = layout;
-
     @service i18n!: I18N;
     @service toast!: Toast;
     @service store!: DS.Store;

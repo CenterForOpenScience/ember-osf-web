@@ -1,14 +1,14 @@
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 export default class NoteworthyAndPopularProject extends Component {
-    layout = layout;
-    styles = styles;
-
     project?: Node;
 
     @computed('project.description')
