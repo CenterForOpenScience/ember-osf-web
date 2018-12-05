@@ -73,3 +73,7 @@ export function draftRegisterNodeMultiple(
     }
     return draftRegistrations;
 }
+
+export function isTruthy(val: any) {
+    return ['true', '1'].includes(val.toString().toLowerCase());
+}
