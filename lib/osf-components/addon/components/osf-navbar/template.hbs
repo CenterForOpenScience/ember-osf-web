@@ -2,7 +2,12 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                {{#global-link-to 'home' (html-attributes aria-label=(t 'navbar.go_home')) class='navbar-brand'}}
+                {{#global-link-to 
+                    'home' 
+                    data-test-nav-home-link 
+                    (html-attributes aria-label=(t 'navbar.go_home')) 
+                    class='navbar-brand'
+                }}
                     <span class="osf-navbar-logo"></span>
                 {{/global-link-to}}
 

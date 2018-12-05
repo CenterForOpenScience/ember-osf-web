@@ -14,7 +14,13 @@ const {
 } = config;
 
 export default function(server: Server) {
-    const currentUser = server.create('user', 'loggedIn');
+    // const currentUser = server.create('user', 'loggedIn');
+
+    // Use the following instead of the above to run the app logged out
+
+    const currentUser = server.create('user');
+    server.create('root', { currentUser: null });
+
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList<Node>('node', 10, {
