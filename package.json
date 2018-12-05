@@ -41,6 +41,7 @@
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.8.0",
+    "@ember-intl/cp-validations": "^4.0.1",
     "@ember/jquery": "^0.5.2",
     "@ember/optional-features": "^0.6.3",
     "@ember/test-helpers": "^0.7.21",
@@ -123,9 +124,7 @@
     "ember-font-awesome": "^3.1.0",
     "ember-g-recaptcha": "^0.10.0",
     "ember-get-config": "^0.2.4",
-    "ember-i18n": "^5.0.2",
-    "ember-i18n-cp-validations": "^3.1.0",
-    "ember-i18n-inject": "^1.0.0",
+    "ember-intl": "^3.5.0",
     "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-metrics": "https://github.com/cos-forks/ember-metrics#v0.12.1+cos0",

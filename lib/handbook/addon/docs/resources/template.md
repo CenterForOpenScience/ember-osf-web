@@ -22,7 +22,7 @@
 - [ember-decorators](https://github.com/ember-decorators/ember-decorators) - Save a lot of trouble coding… with decorators!
 - [ember-engines](https://github.com/ember-engines/ember-engines) - How we separate code now
 - [ember-feature-flags](https://github.com/kategengler/ember-feature-flags)
-- [ember-i18n](https://github.com/jamesarosen/ember-i18n) - Localization utilities
+- [ember-intl](https://github.com/ember-intl/ember-intl/) - Localization utilities
 - [ember-metrics](https://github.com/poteto/ember-metrics) - "Send data to multiple analytics services without re-implementing new API"
 - [ember-test-selectors](https://github.com/simplabs/ember-test-selectors) - The best way to define what you need to select from the DOM in tests
 - [qunit-dom](https://github.com/simplabs/qunit-dom) - How we assert the DOM in tests

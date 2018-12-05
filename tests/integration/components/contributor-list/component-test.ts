@@ -1,14 +1,14 @@
+import Intl from '@ember-intl/services/intl';
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
-import I18N from 'ember-i18n/services/i18n';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-const i18nStub = Service.extend({
+const intlStub = Service.extend({
     translations: EmberObject.create({
         list: {
             two_item: {
@@ -32,15 +32,15 @@ const i18nStub = Service.extend({
 });
 
 interface ThisTestContext extends TestContext {
-    i18n: I18N;
+    intl: Intl;
 }
 
 module('Integration | Component | contributor-list', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
-        this.owner.register('service:i18n', i18nStub);
-        this.i18n = this.owner.lookup('service:i18n');
+        this.owner.register('service:intl', intlStub);
+        this.intl = this.owner.lookup('service:intl');
     });
 
     function nameToUsersFamilyNames(familyName: string): EmberObject {

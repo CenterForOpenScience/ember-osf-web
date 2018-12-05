@@ -1,10 +1,10 @@
 import { action } from '@ember-decorators/object';
 import { bool } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Collection from 'ember-osf-web/models/collection';
@@ -106,7 +106,7 @@ export default class CollectionItemPicker extends Component.extend({
     }).restartable(),
 }) {
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
 
     @requiredAction projectSelected!: (value: Node) => void;

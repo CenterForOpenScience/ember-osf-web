@@ -1,10 +1,10 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import { getOwner } from '@ember/application';
 import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
-import I18N from 'ember-i18n/services/i18n';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import QueryParams from 'ember-parachute';
@@ -176,7 +176,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         this.set('filterableSources', filterableSources);
     }).on('init'),
 }) {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service analytics!: Analytics;
     @service shareSearch!: ShareSearch;
 
@@ -296,7 +296,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         // Get the application owner by using
         // passed down services as rootElement
         // isn't defined on engines' owners
-        const owner = getOwner(this.i18n);
+        const owner = getOwner(this.intl);
         const rootElement = document.querySelector(owner.rootElement)! as HTMLElement;
         const discoverBody = document.querySelector(`.${discoverStyles.Discover__Body}`)! as HTMLElement;
 
@@ -315,7 +315,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
     @action
     setOrder(this: Discover, value: SearchOrder) {
-        this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.i18n.t(value.display)}`);
+        this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.intl.t(value.display)}`);
         // Set page to 1 here to ensure page is always reset when changing the order/sorting of a search
         this.setProperties({ page: 1, sort: value });
     }

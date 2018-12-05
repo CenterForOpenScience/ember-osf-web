@@ -2,9 +2,9 @@
 import { classNames } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import Component from '@ember/component';
 import config from 'collections/config/environment';
-import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
@@ -24,7 +24,7 @@ export default class SearchResultNode extends Component.extend({
     },
 }) {
     @service analytics!: Analytics;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service theme!: Theme;
 
     hostAppName = config.hostAppName;

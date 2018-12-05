@@ -1,10 +1,10 @@
 import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { all, task, timeout } from 'ember-concurrency';
-import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import File from 'ember-osf-web/models/file';
@@ -16,7 +16,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 export default class UserQuickfiles extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     pageName = 'QuickFiles';
@@ -39,7 +39,7 @@ export default class UserQuickfiles extends Controller {
         try {
             return yield node.save();
         } catch (ex) {
-            this.get('toast').error(this.get('i18n').t('move_to_project.could_not_create_project'));
+            this.get('toast').error(this.get('intl').t('move_to_project.could_not_create_project'));
         }
     });
 
@@ -66,18 +66,18 @@ export default class UserQuickfiles extends Controller {
             return;
         }
 
-        const i18n = this.get('i18n');
-        this.get('toast').success(i18n.t('file_browser.file_added_toast'));
-        this.get('flash').perform(file, i18n.t('file_browser.file_added'));
+        const intl = this.get('intl');
+        this.get('toast').success(intl.t('file_browser.file_added_toast'));
+        this.get('flash').perform(file, intl.t('file_browser.file_added'));
     });
 
     deleteFile = task(function *(this: UserQuickfiles, file: File) {
         try {
             yield file.destroyRecord();
-            yield this.get('flash').perform(file, this.get('i18n').t('file_browser.file_deleted'), 'danger');
+            yield this.get('flash').perform(file, this.get('intl').t('file_browser.file_deleted'), 'danger');
             this.get('allFiles').removeObject(file);
         } catch (e) {
-            yield this.get('flash').perform(file, this.get('i18n').t('file_browser.delete_failed'), 'danger');
+            yield this.get('flash').perform(file, this.get('intl').t('file_browser.delete_failed'), 'danger');
         }
     });
 
@@ -101,11 +101,11 @@ export default class UserQuickfiles extends Controller {
             }
 
             yield file.move(node);
-            yield this.get('flash').perform(file, this.get('i18n').t('file_browser.successfully_moved'));
+            yield this.get('flash').perform(file, this.get('intl').t('file_browser.successfully_moved'));
             this.get('allFiles').removeObject(file);
             return true;
         } catch (ex) {
-            this.get('toast').error(this.get('i18n').t('move_to_project.could_not_move_file'));
+            this.get('toast').error(this.get('intl').t('move_to_project.could_not_move_file'));
         }
 
         return false;
@@ -127,7 +127,7 @@ export default class UserQuickfiles extends Controller {
             flash.perform(file, 'Successfully renamed');
 
             if (conflictingFile) {
-                yield flash.perform(conflictingFile, this.get('i18n').t('file_browser.file_replaced'), 'danger');
+                yield flash.perform(conflictingFile, this.get('intl').t('file_browser.file_replaced'), 'danger');
                 this.get('allFiles').removeObject(conflictingFile);
             }
         } catch (ex) {

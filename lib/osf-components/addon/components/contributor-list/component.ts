@@ -2,9 +2,9 @@ import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import Component from '@ember/component';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
@@ -18,7 +18,7 @@ export interface Contrib {
 @layout(template)
 @tagName('span')
 export default class ContributorList extends Component {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     max = 3;
     nodeId?: string;
     useLink?: boolean;

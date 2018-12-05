@@ -1,6 +1,7 @@
 import { action, computed } from '@ember-decorators/object';
 import { alias, oneWay } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
@@ -86,6 +87,7 @@ export default class NewProjectModal extends Component.extend({
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
     @service features!: Features;
+    @service intl!: Intl;
 
     // Required arguments
     analyticsContext!: string;

@@ -1,9 +1,9 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
-import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -31,7 +31,7 @@ export default class DeleteButton extends Component.extend({
     }).drop(),
 }) {
     @service analytics!: Analytics;
-    @service i18n!: I18n;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     // Required arguments
@@ -44,27 +44,27 @@ export default class DeleteButton extends Component.extend({
     analyticsScope?: string;
     buttonLabel: string = defaultTo(
         this.buttonLabel,
-        this.i18n.t('osf-components.delete-button.buttonLabel'),
+        this.intl.t('osf-components.delete-button.buttonLabel'),
     );
     modalTitle: string = defaultTo(
         this.modalTitle,
-        this.i18n.t('osf-components.delete-button.modalTitle'),
+        this.intl.t('osf-components.delete-button.modalTitle'),
     );
     modalBody: string = defaultTo(
         this.modalBody,
-        this.i18n.t('osf-components.delete-button.modalBody'),
+        this.intl.t('osf-components.delete-button.modalBody'),
     );
     confirmButtonText: string = defaultTo(
         this.confirmButtonText,
-        this.i18n.t('osf-components.delete-button.confirmButtonText'),
+        this.intl.t('osf-components.delete-button.confirmButtonText'),
     );
     cancelButtonText: string = defaultTo(
         this.cancelButtonText,
-        this.i18n.t('osf-components.delete-button.cancelButtonText'),
+        this.intl.t('osf-components.delete-button.cancelButtonText'),
     );
     errorMessage: string = defaultTo(
         this.errorMessage,
-        this.i18n.t('osf-components.delete-button.error'),
+        this.intl.t('osf-components.delete-button.error'),
     );
 
     // Private properties

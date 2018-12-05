@@ -1,9 +1,9 @@
 import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import Component from '@ember/component';
 import { allSettled, task } from 'ember-concurrency';
-import I18N from 'ember-i18n/services/i18n';
 import moment from 'moment';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -46,13 +46,13 @@ export default class DashboardItem extends Component.extend({
         if (titles.length > 1) {
             const parent = results[1].value;
             if (parent && parent.belongsTo('parent').id() !== rootId) {
-                titles.insertAt(1, this.i18n.t('general.ellipsis'));
+                titles.insertAt(1, this.intl.t('general.ellipsis'));
             }
         }
         return titles;
     }).restartable(),
 }) {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service analytics!: Analytics;
 
     node?: Node;

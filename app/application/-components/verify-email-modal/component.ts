@@ -1,10 +1,10 @@
 import { action, computed } from '@ember-decorators/object';
 import { alias, or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
-import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import UserEmail from 'ember-osf-web/models/user-email';
@@ -89,7 +89,7 @@ export default class VerifyEmailModal extends Component.extend({
     }).drop(),
 }) {
     @service currentUser!: CurrentUser;
-    @service i18n!: I18n;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service toast!: Toast;
 
@@ -140,7 +140,7 @@ export default class VerifyEmailModal extends Component.extend({
         userEmail: UserEmail,
     ) {
         this.toast[level](
-            this.i18n.t(
+            this.intl.t(
                 this.translationKeys[key],
                 { email: userEmail.emailAddress },
             ),

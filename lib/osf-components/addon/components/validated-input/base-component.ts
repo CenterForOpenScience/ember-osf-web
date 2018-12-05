@@ -2,13 +2,13 @@
 // See https://github.com/offirgolan/ember-cp-validations for more information
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import Component from '@ember/component';
 import { defineProperty } from '@ember/object';
 import { alias as aliasMacro, oneWay as oneWayMacro } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
 import { ResultCollection } from 'ember-cp-validations';
 import DS from 'ember-data';
-import I18n from 'ember-i18n/services/i18n';
 
 import defaultTo from 'ember-osf-web/utils/default-to';
 
@@ -32,7 +32,7 @@ export default abstract class BaseValidatedInput extends Component {
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 
     // Private properties
-    @service i18n!: I18n;
+    @service intl!: Intl;
 
     validation?: ResultCollection; // defined in constructor
     value: any; // defined in constructor
@@ -48,7 +48,7 @@ export default abstract class BaseValidatedInput extends Component {
 
     @computed('placeholder', 'isRequired')
     get _placeholder(): string {
-        return this.placeholder || this.i18n.t(this.isRequired ? 'general.required' : 'general.optional');
+        return this.placeholder || this.intl.t(this.isRequired ? 'general.required' : 'general.optional');
     }
 
     @computed(

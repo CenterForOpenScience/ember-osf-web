@@ -1,10 +1,10 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import EmberArray, { A } from '@ember/array';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
@@ -31,11 +31,11 @@ export default class RegistriesRegistrationTypeFacet extends Component.extend({
                 ]).sort(),
             ));
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.facets.registration_type.registration_schema_error'));
+            this.toast.error(this.intl.t('registries.facets.registration_type.registration_schema_error'));
         }
     }).on('init'),
 }) {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
     @service store!: DS.Store;
     @service analytics!: Analytics;
@@ -46,7 +46,7 @@ export default class RegistriesRegistrationTypeFacet extends Component.extend({
     registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));
 
     get title() {
-        return this.i18n.t('registries.facets.registration_type.title');
+        return this.intl.t('registries.facets.registration_type.title');
     }
 
     @computed('searchOptions')

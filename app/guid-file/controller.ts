@@ -1,11 +1,11 @@
 import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { task, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
 import mimeTypes from 'ember-osf-web/const/mime-types';
 import File from 'ember-osf-web/models/file';
 import User from 'ember-osf-web/models/user';
@@ -42,7 +42,7 @@ const lookupTable: { [k: string]: { [s: string]: string} } = {
 export default class GuidFile extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     queryParams = ['show'];
@@ -137,10 +137,10 @@ export default class GuidFile extends Controller {
         try {
             await this.file.destroyRecord();
             this.transitionToRoute('guid-user.quickfiles', this.user.id);
-            const message: string = this.i18n.t('file_detail.delete_success');
+            const message: string = this.intl.t('file_detail.delete_success');
             return this.toast.success(message);
         } catch (e) {
-            const message: string = this.i18n.t('file_detail.delete_fail');
+            const message: string = this.intl.t('file_detail.delete_fail');
             return this.toast.error(message);
         }
     }
@@ -173,9 +173,9 @@ export default class GuidFile extends Controller {
 
         try {
             await this.file.updateContents(text);
-            return this.toast.success(this.i18n.t('file_detail.save_success'));
+            return this.toast.success(this.intl.t('file_detail.save_success'));
         } catch (e) {
-            return this.toast.error(this.i18n.t('file_detail.save_fail'));
+            return this.toast.error(this.intl.t('file_detail.save_fail'));
         }
     }
 

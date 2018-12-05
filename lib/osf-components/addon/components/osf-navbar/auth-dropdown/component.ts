@@ -2,11 +2,11 @@ import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import Component from '@ember/component';
 import { Registry as Services } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
 import Session from 'ember-simple-auth/services/session';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -24,7 +24,7 @@ const { OSF: { url: baseUrl }, featureFlagNames } = config;
 export class AuthBase extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service session!: Session;
     @service features!: Features;
     @service router!: Services['router'];

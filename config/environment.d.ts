@@ -37,7 +37,7 @@ declare const config: {
         };
     };
     APP: {};
-    i18n: {
+    intl: {
         defaultLocale: string;
         enabledLocales: string[];
     };

@@ -1,9 +1,9 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import { DS } from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -17,7 +17,7 @@ import template from './template';
 @layout(template, styles)
 export default class UnregisteredContributor extends Component {
     @service analytics!: Analytics;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service toast!: Toast;
 
@@ -40,11 +40,11 @@ export default class UnregisteredContributor extends Component {
         try {
             yield this.model!.save();
             this.toast.success(
-                this.i18n.t('app_components.project_contributors.search.unregistered_contributor.add_success'),
+                this.intl.t('app_components.project_contributors.search.unregistered_contributor.add_success'),
             );
         } catch (e) {
             this.toast.error(
-                this.i18n.t('app_components.project_contributors.search.unregistered_contributor.add_error'),
+                this.intl.t('app_components.project_contributors.search.unregistered_contributor.add_error'),
             );
         }
 

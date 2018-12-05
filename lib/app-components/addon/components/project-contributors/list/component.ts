@@ -1,10 +1,10 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -20,7 +20,7 @@ import template from './template';
 @layout(template, styles)
 export default class List extends Component {
     @service analytics!: Analytics;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service toast!: Toast;
 
@@ -90,9 +90,9 @@ export default class List extends Component {
 
         try {
             yield contributor.destroyRecord();
-            this.toast.success(this.i18n.t('app_components.project_contributors.list.remove_contributor_success'));
+            this.toast.success(this.intl.t('app_components.project_contributors.list.remove_contributor_success'));
         } catch (e) {
-            this.toast.error(this.i18n.t('app_components.project_contributors.list.remove_contributor_error'));
+            this.toast.error(this.intl.t('app_components.project_contributors.list.remove_contributor_error'));
         }
 
         // It's necessary to unload the record from the store after destroying it, in case the user is added back as a

@@ -1,5 +1,6 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Intl from '@ember-intl/services/intl';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -8,7 +9,6 @@ import { camelize } from '@ember/string';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -96,7 +96,7 @@ export default class DiscoverPage extends Component.extend({
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
     @service theme!: Theme;
-    @service i18n!: I18N;
+    @service intl!: Intl;
 
     query!: (params: any) => Promise<any>;
     searchResultComponent: string = this.searchResultComponent;
@@ -221,7 +221,7 @@ export default class DiscoverPage extends Component.extend({
      * Sort dropdown options - Array of dictionaries.  Each dictionary should have display and sortBy keys.
      * @property {Array} sortOptions
      */
-    // TODO: i18n-ize
+    // TODO: intl-ize
     sortOptions: SortOption[] = defaultTo(this.sortOptions, [
         ['Relevance', ''],
         ['Date Updated (Desc)', '-date_updated'],
