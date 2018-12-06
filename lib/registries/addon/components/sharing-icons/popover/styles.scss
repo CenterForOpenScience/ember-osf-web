@@ -1,6 +1,11 @@
 .Popover {
     :global(.popover-content) {
         padding: 4px 2px 2px 8px;
+
+        i {
+            font-size: 1.6em;
+            padding-right: 5px;
+        }
     }
 }
 

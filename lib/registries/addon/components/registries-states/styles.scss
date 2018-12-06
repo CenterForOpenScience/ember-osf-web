@@ -1,0 +1,73 @@
+// stylelint-disable max-nesting-depth
+%State {
+    border-radius: 2px;
+    font-size: 14px;
+    color: $white;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none solid $white;
+    font-weight: 700;
+    outline: 0;
+    border: 0;
+}
+
+.States {
+    padding: 20px;
+    border: 1px solid $alto;
+    border-radius: 2px;
+    background-color: $white;
+    background-size: cover;
+    box-shadow: 0 1px 2px $primary-box-shadow;
+}
+
+.State--embargoed {
+    :global(.btn.btn-default) {
+        @extend %State;
+        background-color: #458446;
+
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: #35b30f;
+        }
+    }
+}
+
+.State--pending {
+    :global(.btn.btn-default) {
+        &[role='Reject'] {
+            @extend %State;
+            background-color: $primary-red;
+
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: $secondary-red;
+            }
+        }
+
+        &[role='Approve'] {
+            @extend %State;
+            background-color: #458446;
+            margin-right: 6px;
+
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: #35b30f;
+            }
+        }
+    }
+
+}
+
+.disabled {
+    &[role='button'] {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    :global(.btn.btn-default) {
+        color: $midnight-blue;
+    }
+}

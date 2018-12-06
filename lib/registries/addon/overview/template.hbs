@@ -5,12 +5,21 @@
 {{else}}
     <div local-class='TitleBackground'>
         <Container>
-            <h1
-                data-test-registration-title
-                local-class='Title'
-            >
-                {{this.registration.title}}
-            </h1>
+            <div local-class="TitleContainer">
+                <div local-class="Title">{{this.registration.title}}</div>
+                {{#if (not this.showMobileView)}}
+                    <div local-class="Toolbar">
+                        <RegistriesOverviewMenu
+                            @isAdmin={{this.isAdmin}}
+                            @currentState={{this.currentState}}
+                            @registrationURL={{this.registrationURL}}
+                            @forksCount={{this.forksCount}}
+                            @registrationId={{this.registration.id}}
+                            @node={{this.registration}}
+                        />
+                    </div>
+                {{/if}}
+            </div>
         </Container>
     </div>
 
@@ -64,21 +73,27 @@
                     </nav.buttons.default>
 
                 </nav.bordered-section>
-
                 <nav.bordered-section>
-
-                    <nav.buttons.default>
-                        {{nav.icon 'eye'}}
-                        {{nav.icon 'caret-down'}}
-                    </nav.buttons.default>
+                    <RegistriesStates @currentState={{this.currentState}} @isAdmin={{this.isAdmin}} />
 
                     <nav.buttons.default @onclick={{action 'toggleMetadata'}}>
                         {{nav.icon 'info-circle'}}
                     </nav.buttons.default>
 
-                    <nav.buttons.default>
-                        {{nav.icon 'ellipsis-v'}}
-                    </nav.buttons.default>
+                    {{#sharing-icons/dropdown
+                        title=this.registration.title
+                        description=this.registration.description
+                        hyperlink=this.registrationURL
+                        showText=true
+                        showBookmark=true
+                        node=this.registration
+                        as |dd|}}
+                        {{#dd.trigger}}
+                            <nav.buttons.default>
+                                {{nav.icon (if dd.isOpen 'times' 'ellipsis-v') }}
+                            </nav.buttons.default>
+                        {{/dd.trigger}}
+                    {{/sharing-icons/dropdown}}
 
                 </nav.bordered-section>
             </Navbar>

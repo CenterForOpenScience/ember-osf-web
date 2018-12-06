@@ -1,11 +1,13 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import { updateBookmarks } from './views/collection';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { guidDetail } from './views/guid';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
+import { forkRegistration } from './views/registration';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
@@ -47,6 +49,9 @@ export default function(this: Server) {
 
     osfResource(this, 'registration');
     osfNestedResource(this, 'registration', 'children');
+    osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
+    this.post('/registrations/:id/forks', forkRegistration);
+
     osfNestedResource(this, 'registration', 'contributors');
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
@@ -60,6 +65,10 @@ export default function(this: Server) {
     this.del('/comments/:id/reports/:reporter_id', reportDelete);
 
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
+
+    this.get('/collections');
+    osfNestedResource(this, 'collection', 'linkedRegistrations', { except: ['update'] });
+    this.patch('/collections/:id', updateBookmarks);
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
     osfResource(this, 'region', { only: ['index', 'show'] });

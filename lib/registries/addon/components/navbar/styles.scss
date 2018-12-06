@@ -36,12 +36,14 @@
     &:active,
     &:focus,
     &:hover {
+        outline: 0;
         text-decoration: none;
     }
 }
 
 .Default {
     padding: 16px;
+    outline: 0;
 }
 
 .Primary {

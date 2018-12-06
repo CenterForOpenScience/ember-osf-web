@@ -1,0 +1,17 @@
+{{#if (eq @currentState 'public')}}
+    <ResponsiveDropdown @disabled={{this.isDisabled}} as |dd|>
+        {{#dd.trigger local-class=(if this.isDisabled 'disabled' '')}}
+            {{registries-states/actions-trigger
+                  currentState=@currentState
+                  isAdmin=@isAdmin
+                  isOpen=dd.isOpen
+                  isDisabled=this.isDisabled
+            }}
+        {{/dd.trigger}}
+        {{#dd.content local-class='States'}}
+            {{registries-states/is-public node=@node closeDropdown=dd.close}}
+        {{/dd.content}}
+    </ResponsiveDropdown>
+{{else}}
+    {{registries-states/actions-trigger currentState=@currentState isAdmin=@isAdmin isDisabled=this.isDisabled}}
+{{/if}}

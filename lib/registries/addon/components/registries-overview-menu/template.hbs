@@ -1,0 +1,30 @@
+<div class="btn-group pull-right" role="group" aria-label={{t 'registries.overview.aria_labels.main'}}>
+    <div data-test-state-dropdown
+        class="btn-group" role="group"
+        aria-label={{t 'registries.overview.aria_labels.withdrawal_justification'}}
+    >
+        <RegistriesStates @currentState={{this.currentState}} @isAdmin={{this.isAdmin}} @node={{this.node}} />
+    </div>
+    {{#if (not this.isWithdrawn)}}
+        <button type="button" class="btn btn-default" local-class='Menu__button' onclick={{action (perform this.forkRegistration)}} data-test-forks-button>
+            {{fa-icon 'code-fork' local-class='Icon'}}
+            <span local-class='ForksCount__text'>{{@forksCount}}</span>
+        </button>
+        <div data-test-social-sharing-button class="btn-group" role="group" aria-label={{t 'general.share'}}>
+            {{#sharing-icons/dropdown
+                title=@registration.title
+                description=@registration.description
+                hyperlink=@registrationURL
+                showBookmark=true
+                showText=true
+                node=this.node
+                as |dd|}}
+                {{#dd.trigger}}
+                    <button class="btn btn-default" local-class="Menu__button">
+                        {{fa-icon 'ellipsis-v'}}
+                    </button>
+                {{/dd.trigger}}
+            {{/sharing-icons/dropdown}}
+        </div>
+    {{/if}}
+</div>

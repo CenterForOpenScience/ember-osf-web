@@ -39,7 +39,7 @@
 
         // Display a box shadow to either side when opened
         &[data-gutter-closed='false'] {
-            box-shadow: ($modifier * -5px) 0 5px -4px rgba(0, 0, 0, 0.2);
+            box-shadow: ($modifier * -5px) 0 5px -4px $primary-box-shadow;
         }
 
         // Slide off the page when closed

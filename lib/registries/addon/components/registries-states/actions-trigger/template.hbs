@@ -1,0 +1,16 @@
+{{#let (and this.isPublic (not @isAdmin)) as |nonAdminPublic|}}
+    <button data-test-registration-state="{{this.currentState}}"
+        data-test-state-actions-disabled="{{this.isDisabled}}"
+        class="btn btn-default"
+        local-class="{{this.buttonClass}}"
+    >
+        {{#if this.showMobileView}}
+            {{fa-icon this.registrationState.icon local-class=(if nonAdminPublic 'Red')}}
+            {{fa-icon (if this.isDisabled '' (if @isOpen 'caret-up' 'caret-down'))}}
+        {{else}}
+            {{t this.registrationState.text}}
+            {{fa-icon (if this.isDisabled this.registrationState.icon (if @isOpen 'caret-up' 'caret-down'))
+                local-class=(if nonAdminPublic 'Red')}}
+        {{/if}}
+    </button>
+{{/let}}

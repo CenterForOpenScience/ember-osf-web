@@ -55,6 +55,7 @@ export default {
         create: 'Create',
         and: 'and',
         or: 'or',
+        bookmark: 'Bookmark',
         more: 'more',
         upload: 'Upload',
         rename: 'Rename',
@@ -65,6 +66,7 @@ export default {
         downloads: 'Downloads',
         close: 'Close',
         back: 'Back',
+        public: 'Public',
         filter: 'Filter',
         revert: 'Revert',
         save: 'Save',
@@ -1145,12 +1147,52 @@ export default {
                 date_withdrawn: 'Date withdrawn',
                 justification: 'Justification for withdrawal',
                 no_justification: 'None given',
+                warning: 'Withdrawing a registration will remove its content from the OSF, but leave basic metadata behind. The title of a withdrawn registration and its contributor list will remain, as will justification or explanation of the withdrawal, should you wish to provide it. Withdrawn registrations will be marked with a "withdrawn" tag. This action is irreversible.',
+                withdraw: 'Withdraw registration',
+                withdrawal_justification_label: 'Please provide your justification for withdrawing this registration.',
+                random_scientist_x: 'Type <strong>{{x}}</strong> below and click Withdraw Registration if you are sure you want to continue.',
+                success: 'Withdrawal request submitted successfully',
+                error: 'Unable to withdraw this registration',
+                state: 'Withdrawn',
             },
 
             archiving: {
                 currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.',
                 email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{{supportEmail}}">{{supportEmail}}</a> for assistance.',
             },
+            aria_labels: {
+                main: 'Toolbar: withdraw, fork, share registration',
+                withdrawal_justification: 'Registration withdrawal justification',
+                scientist_name_input: 'Random scientist name',
+            },
+            embargoed: {
+                state: 'Embargoed',
+                action: 'End Embargo Early',
+            },
+            pending: {
+                state: 'Pending',
+                action: {
+                    approve: 'Approve',
+                    reject: 'Reject',
+                },
+            },
+            public: {
+                state: 'Public',
+            },
+            update_bookmarks: {
+                add: {
+                    text: 'Bookmark',
+                    success: 'Registration successfully added to your bookmarks',
+                    error: 'Unable to bookmark this registration',
+                },
+                remove: {
+                    text: 'Remove from bookmarks',
+                    success: 'Registration successfully removed from your bookmarks',
+                    error: 'Unable to remove this registration from bookmarks',
+                },
+            },
+            unable_to_fork: 'Unable to fork registration',
+            successfully_forked: 'Registration successfully forked',
         },
     },
     analytics: {

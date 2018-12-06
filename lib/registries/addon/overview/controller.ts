@@ -7,6 +7,8 @@ import Media from 'ember-responsive';
 
 import Registration from 'ember-osf-web/models/registration';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import pathJoin from 'ember-osf-web/utils/path-join';
 
 const {
     support: {
@@ -14,8 +16,17 @@ const {
     },
 } = config;
 
+enum RegistrationState {
+    PENDING = 'pending',
+    EMBARGOED = 'embargoed',
+    PUBLIC = 'public',
+    WITHDRAWN = 'withdrawn',
+}
+
+const { OSF: { url: baseURL } } = config;
 export default class Overview extends Controller {
     @service media!: Media;
+    @service currentUser!: CurrentUser;
 
     model!: GuidRouteModel<Registration>;
 
@@ -25,7 +36,33 @@ export default class Overview extends Controller {
     supportEmail = supportEmail;
 
     @alias('model.taskInstance.value') registration?: Registration;
+    @not('media.isDesktop') showMobileView!: boolean;
     @not('registration') loading!: boolean;
+    @alias('registration.userHasAdminPermission') isAdmin!: boolean;
+    @computed('registration.relatedCounts.forks')
+    get forksCount(): number {
+        return (this.registration && this.registration.relatedCounts &&
+            this.registration.relatedCounts.forks) || 0;
+    }
+
+    @computed('registration.id')
+    get registrationURL() {
+        return this.registration && pathJoin(baseURL, `${this.registration.id}`);
+    }
+
+    @computed('registration.{withdrawn,embargoed,public}')
+    get currentState() {
+        if (!this.registration) {
+            return;
+        }
+
+        return (
+            (this.registration.withdrawn && RegistrationState.WITHDRAWN) ||
+            (this.registration.embargoed && RegistrationState.EMBARGOED) ||
+            (this.registration.public && RegistrationState.PUBLIC) ||
+            RegistrationState.PENDING
+        );
+    }
 
     @computed('media.isDesktop', 'registration.withdrawn')
     get showMobileNav() {
