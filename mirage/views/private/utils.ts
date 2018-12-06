@@ -2,7 +2,7 @@ import { camelize } from '@ember/string';
 import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
 import { Resource, ResourceCollectionDocument } from 'osf-api';
 
-import { isTruthy } from 'ember-osf-web/mirage/helpers';
+import { queryParamIsTruthy } from '../utils';
 
 export enum ComparisonOperators {
     Eq = 'eq',
@@ -229,7 +229,7 @@ export function compare(actualValue: any, comparisonValue: any, operator: Compar
     if (typeof actualValue === 'string') {
         return compareStrings(actualValue, comparisonValue, operator);
     } else if (typeof actualValue === 'boolean') {
-        return compareBooleans(actualValue, isTruthy(comparisonValue), operator);
+        return compareBooleans(actualValue, queryParamIsTruthy(comparisonValue), operator);
     } else {
         throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
     }
