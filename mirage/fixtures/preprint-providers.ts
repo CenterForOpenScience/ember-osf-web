@@ -4,7 +4,7 @@ import { randomGravatar } from '../utils';
 
 function randomAssets() {
     return {
-        square_color_no_transparent: randomGravatar(),
+        square_color_no_transparent: randomGravatar(100),
     };
 }
 
