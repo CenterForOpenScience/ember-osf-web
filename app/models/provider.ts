@@ -32,7 +32,7 @@ export default abstract class Provider extends OsfModel {
     @attr('string') facebookAppId!: string;
     @attr('boolean') allowSubmissions!: boolean;
     @attr('boolean') allowCommenting!: boolean;
-    @attr() assets!: Assets; // TODO: camelize in transform
+    @attr() assets!: Partial<Assets>; // TODO: camelize in transform
 
     @hasMany('taxonomy') taxonomies!: DS.PromiseManyArray<Taxonomy>;
     @hasMany('taxonomy') highlightedTaxonomies!: DS.PromiseManyArray<Taxonomy>;

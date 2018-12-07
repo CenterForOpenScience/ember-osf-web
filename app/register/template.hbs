@@ -6,7 +6,7 @@
                 <h2 local-class="provider">
                     <div local-class="provider-logo">
                         {{#if provider}}
-                            <img
+                            <img data-test-register-provider-logo={{provider.id}}
                                 src={{provider.assets.square_color_no_transparent}}
                                 alt={{this.headerText}}
                                 local-class="provider-logo"
@@ -15,18 +15,20 @@
                     </div>
                     <div>
                         {{#if provider}}
-                            {{this.headerText}}
+                            <span data-test-register-provider-name>
+                                {{this.headerText}}
+                            </span>
                         {{/if}}
                     </div>
                 </h2>
             {{else if isOsfPreprints}}
-                <img
+                <img data-test-register-osf-preprints-logo
                     src="/assets/images/register/osf-preprints-login.png"
                     alt="{{t 'general.OSF'}} {{t 'documentType.preprint.pluralCapitalized'}}"
                     local-class="osf-service-logo"
                 >
             {{else if isOsfRegistries}}
-                <img
+                <img data-test-register-osf-registries-logo
                     src="/assets/images/register/osf-registries-black.png"
                     alt="{{t 'general.OSF'}} {{t 'general.services.registries'}}"
                     local-class="osf-service-logo"

@@ -50,6 +50,8 @@ export default function(server: Server) {
         id: 'decaf',
     });
 
+    server.loadFixtures('preprint-providers');
+
     // For the handbook
 
     // ValidatedModelForm
