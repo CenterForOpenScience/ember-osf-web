@@ -20,3 +20,7 @@
 .NewProject__placeholder {
     color: $color-text-gray-dark;
 }
+
+.NewProject__modal {
+    overflow-y: auto !important;
+}
