@@ -1,59 +1,90 @@
 <div local-class="DraftRegistrationCard" data-test-draft-registration-card>
     <h4 local-class="DraftRegistratrionCard__title" data-test-draft-registration-card-title>
-        {{#if draftRegistration}}
-            {{draftRegistration.registrationSchema.name}}
+        {{#if this.draftRegistration}}
+            {{this.draftRegistration.registrationSchema.name}}
         {{else}}
-            {{#content-placeholders as |placeholder|}}
-                {{placeholder.text lines=1}}
-            {{/content-placeholders}}
+            <ContentPlaceholders as |placeholder|>
+                <placeholder.text @lines={{1}} />
+            </ContentPlaceholders>
         {{/if}}
     </h4>
     <h4 local-class="DraftRegistratrionCard__body" data-test-draft-registration-card-body>
         <small>
-            {{#if draftRegistration}}
-                {{#if showProgress}}
+            {{#if this.draftRegistration}}
+                {{#if this.showProgress}}
                     <div class="progress progress-bar-md" data-test-draft-registration-card-progress-bar>
-                        <div class="progress-bar" style={{progressStyle}}></div>
+                        <div class="progress-bar" style={{this.progressStyle}}></div>
                     </div>
                 {{/if}}
-                <p>{{t 'osf-components.draft-registration-card.initiated_by'}} {{draftRegistration.initiator.fullName}}</p>
-                <p>{{t 'osf-components.draft-registration-card.started'}} {{moment draftRegistration.datetimeInitiated}}</p>
-                <p>{{t 'osf-components.draft-registration-card.last_updated'}} {{moment draftRegistration.datetimeUpdated}}</p>
+                <p>
+                    {{t 'osf-components.draft-registration-card.initiated_by'}}
+                    {{this.draftRegistration.initiator.fullName}}
+                </p>
+                <p>
+                    {{t 'osf-components.draft-registration-card.started'}}
+                    {{moment this.draftRegistration.datetimeInitiated}}
+                </p>
+                <p>
+                    {{t 'osf-components.draft-registration-card.last_updated'}}
+                    {{moment this.draftRegistration.datetimeUpdated}}
+                </p>
             {{else}}
-                {{#content-placeholders as |placeholder|}}
-                    {{placeholder.text lines=3}}
-                {{/content-placeholders}}
+                <ContentPlaceholders as |placeholder|>
+                    <placeholder.text @lines={{3}} />
+                </ContentPlaceholders>
             {{/if}}
         </small>
         <div class="row">
             <div class="col-md-10">
-                {{#bs-button type='default' onClick=(action edit) disabled=(not draftRegistration)}}
+                <BsButton 
+                    @type='default' 
+                    @onClick={{action this.edit}}
+                    @disabled={{not this.draftRegistration}}
+                >
                     {{fa-icon 'pencil'}} {{t 'general.edit'}}
-                {{/bs-button}}
-                {{#bs-button type='default' onClick=(action delete) disabled=(not draftRegistration)}}
+                </BsButton><BsButton {{! template-lint-disable }}
+                    @type='default' 
+                    @onClick={{action this.delete}}
+                    disabled={{not this.draftRegistration}}
+                >
                     {{fa-icon 'times'}} {{t 'general.delete'}}
-                {{/bs-button}}
-                {{#bs-modal open=deleteModalOpen onHidden=(action cancelDelete) class='delete_draft_registration' as |modal|}}
-                    {{#modal.header}}
+                </BsButton>
+                <BsModal
+                    @open={{this.deleteModalOpen}}
+                    @onHidden={{action this.cancelDelete}}
+                    class='delete_draft_registration' 
+                    as |modal|
+                >
+                    <modal.header>
                         <h4>{{t 'general.please_confirm'}}</h4>
-                    {{/modal.header}}
-                    {{#modal.body}}
+                    </modal.header>
+                    <modal.body>
                         {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
-                    {{/modal.body}}
-                    {{#modal.footer}}
-                        {{#bs-button onClick=(action modal.close) type='default'}}
+                    </modal.body>
+                    <modal.footer>
+                        <BsButton
+                            @onClick={{action modal.close}}
+                            @type='default'
+                        >
                             {{t 'general.cancel'}}
-                        {{/bs-button}}
-                        {{#bs-button onClick=(action 'confirmDelete') type='danger'}}
+                        </BsButton>
+                        <BsButton
+                            @onClick={{action 'confirmDelete'}}
+                            @type='danger'
+                        >
                             {{t 'general.delete'}}
-                        {{/bs-button}}
-                    {{/modal.footer}}
-                {{/bs-modal}}
+                        </BsButton>
+                    </modal.footer>
+                </BsModal>
             </div>
             <div class="col-md-1">
-                {{#bs-button type='default' onClick=(action register) disabled=(not enableRegister)}}
+                <BsButton
+                    @type='default'
+                    @onClick={{action this.register}}
+                    @disabled={{not this.enableRegister}}
+                >
                     {{t 'osf-components.draft-registration-card.register'}}
-                {{/bs-button}}
+                </BsButton>
             </div>
         </div>
     </h4>
