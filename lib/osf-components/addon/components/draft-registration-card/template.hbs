@@ -42,8 +42,7 @@
                     @disabled={{not this.draftRegistration}}
                 >
                     {{fa-icon 'pencil'}} {{t 'general.edit'}}
-                </BsButton>
-                <BsButton 
+                </BsButton><BsButton {{! template-lint-disable }}
                     @type='default' 
                     @onClick={{action this.delete}}
                     disabled={{not this.draftRegistration}}
