@@ -5,14 +5,14 @@ import { module, test } from 'qunit';
 
 import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
-module('<%= friendlyTestName %>', hooks => {
+module('Acceptance | institutions', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visiting /<%= dasherizedModuleName %>', async assert => {
-        await visit('/<%= dasherizedModuleName %>');
+    test('visiting /institutions', async assert => {
+        await visit('/institutions');
 
-        assert.equal(currentURL(), '/<%= dasherizedModuleName %>');
+        assert.equal(currentURL(), '/institutions');
 
         await percySnapshot(assert);
     });

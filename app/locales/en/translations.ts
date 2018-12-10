@@ -1,6 +1,38 @@
 /* tslint:disable:object-literal-sort-keys max-line-length */
 
 export default {
+    documentType: {
+        default: {
+            plural: 'documents',
+            pluralCapitalized: 'Documents',
+            singular: 'document',
+            singularCapitalized: 'Document',
+        },
+        work: {
+            plural: 'works',
+            pluralCapitalized: 'Works',
+            singular: 'work',
+            singularCapitalized: 'Work',
+        },
+        paper: {
+            plural: 'papers',
+            pluralCapitalized: 'Papers',
+            singular: 'paper',
+            singularCapitalized: 'Paper',
+        },
+        preprint: {
+            plural: 'preprints',
+            pluralCapitalized: 'Preprints',
+            singular: 'preprint',
+            singularCapitalized: 'Preprint',
+        },
+        thesis: {
+            plural: 'theses',
+            pluralCapitalized: 'Theses',
+            singular: 'thesis',
+            singularCapitalized: 'Thesis',
+        },
+    },
     general: {
         OSF: 'OSF',
         share: 'Share',

@@ -1,6 +1,10 @@
-import { faker, ModelInstance } from 'ember-cli-mirage';
+import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+
 import User from 'ember-osf-web/models/user';
+
+import { randomGravatar } from '../utils';
+
 import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
@@ -57,7 +61,7 @@ export default class UserSerializer extends ApplicationSerializer<User> {
     buildNormalLinks(model: ModelInstance<User>) {
         return {
             ...super.buildNormalLinks(model),
-            profile_image: `https://www.gravatar.com/avatar/${faker.random.uuid().replace(/-/g, '')}?d=identicon`,
+            profile_image: randomGravatar(),
         };
     }
 }

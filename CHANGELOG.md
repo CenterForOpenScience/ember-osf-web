@@ -52,10 +52,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
     - `user`
         - added validations for name fields
+    - `provider` - made partial assets acceptable
+    - `preprint-provider` - added `documentType` computed property for preprint word lookup
 - Routes:
     - `settings` - redirects to `settings.profile.name`
+    - `register` - add branding for registries and preprint providers
 - Tests:
     - improved integration tests for `node-navbar` component
+    - Acceptance:
+        - `register` - acceptance tests for the sign up page
 - Adapters:
     - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
 - Routes:

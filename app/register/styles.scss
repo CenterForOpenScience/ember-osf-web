@@ -4,6 +4,24 @@
     text-align: center;
 }
 
+.provider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .provider-logo {
+        height: 100px;
+        width: 100px;
+        margin-right: 20px;
+    }
+}
+
+.osf-service-logo {
+    max-width: 100%;
+    width: 300px;
+    margin-top: 10px;
+}
+
 .sign-up-buttons {
     display: flex;
     justify-content: center;
