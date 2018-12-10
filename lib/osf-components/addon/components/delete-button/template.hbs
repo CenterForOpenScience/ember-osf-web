@@ -2,9 +2,9 @@
     <BsButton 
         data-test-delete-button
         aria-label={{this.buttonLabel}}
-        @type='link'
-        @size='sm'
-        local-class='SmallDelete'
+        @type="link"
+        @size="sm"
+        local-class="SmallDelete"
         @onClick={{action this._show}}
         @disabled={{this.disabled}}
     >
@@ -13,7 +13,7 @@
 {{else}}
     <BsButton 
         data-test-delete-button
-        @type='default'
+        @type="default"
         @onClick={{action this._show}}
         @disabled={{this.disabled}}
     >
@@ -23,24 +23,24 @@
 
 {{#if this.modalShown}}
     <BsModal
-        @tagName='span'
+        @tagName="span"
         @onHide={{action this._cancel}}
         as |modal|
     >
         <modal.header>
-            <h3 class='modal-title'>{{this.modalTitle}}</h3>
+            <h3 class="modal-title">{{this.modalTitle}}</h3>
         </modal.header>
 
         <modal.body>
-            {{#if @hasBlock}}
+            {{#if (has-block)}}
                 {{yield}}
             {{else}}
                 <p>{{this.modalBody}}</p>
             {{/if}}
 
             {{#if this.hardConfirm}}
-                <label local-class='Modal__confirmBlock' data-test-confirm-scientist-name>
-                    <p local-class='Modal__confirmPrompt'>
+                <label local-class="Modal__confirmBlock" data-test-confirm-scientist-name>
+                    <p local-class="Modal__confirmPrompt">
                         {{t 'osf-components.delete-button.hardConfirm' text=this.scientistName}}
                     </p>
                     {{input
@@ -61,7 +61,7 @@
             />
             <BsButton 
                 data-test-confirm-delete
-                @type='danger'
+                @type="danger"
                 @disabled={{this.confirmDisabled}}
                 @onClick={{perform this._deleteTask}}
                 @defaultText={{this.confirmButtonText}}

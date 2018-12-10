@@ -2,28 +2,28 @@
     @open={{@openModal}}
     @onSubmit={{action @delete}}
     @onHidden={{action @closeModal}}
-    as |m|
+    as |modal|
 >
-    <m.header>
+    <modal.header>
         <h3>{{t 'delete_modal.title' nodeType=(t this.nodeTypeKey)}}</h3>
-    </m.header>
-    <m.body class=componentCssClassName>
+    </modal.header>
+    <modal.body class=componentCssClassName>
         <p>{{t 'delete_modal.body' nodeType=(t this.nodeTypeKey)}}</p>
-        <label local-class='DeleteModal__label-wrap'>
-            <p local-class='DeleteModal__input-label'>{{t 'delete_modal.type_this'}} <strong>{{this.scientistName}}</strong></p>
+        <label local-class="DeleteModal__label-wrap">
+            <p local-class="DeleteModal__input-label">{{t 'delete_modal.type_this'}} <strong>{{this.scientistName}}</strong></p>
             {{input class="form-control" local-class="DeleteModal__input" value=this.scientistInput}}
         </label>
-    </m.body>
-    <m.footer>
-        <BsButton @onClick={{action m.close}}>
+    </modal.body>
+    <modal.footer>
+        <BsButton @onClick={{action modal.close}}>
             {{t 'general.cancel'}}
         </BsButton>
         <BsButton 
             @disabled={{not (eq this.scientistInput this.scientistName)}} 
-            @onClick={{action m.submit}} 
-            @type='danger'
+            @onClick={{action modal.submit}} 
+            @type="danger"
         >
             {{t 'general.delete'}}
         </BsButton>
-    </m.footer>
+    </modal.footer>
 </BsModal>
