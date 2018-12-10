@@ -17,15 +17,15 @@
                     </div>
                 {{/if}}
                 <p>
-                    {{t 'osf-components.draft-registration-card.initiated_by'}} 
+                    {{t 'osf-components.draft-registration-card.initiated_by'}}
                     {{this.draftRegistration.initiator.fullName}}
                 </p>
                 <p>
-                    {{t 'osf-components.draft-registration-card.started'}} 
+                    {{t 'osf-components.draft-registration-card.started'}}
                     {{moment this.draftRegistration.datetimeInitiated}}
                 </p>
                 <p>
-                    {{t 'osf-components.draft-registration-card.last_updated'}} 
+                    {{t 'osf-components.draft-registration-card.last_updated'}}
                     {{moment this.draftRegistration.datetimeUpdated}}
                 </p>
             {{else}}

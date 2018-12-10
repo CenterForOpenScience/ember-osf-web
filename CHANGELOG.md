@@ -54,6 +54,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added validations for name fields
 - Routes:
     - `settings` - redirects to `settings.profile.name`
+- Templates:
+    - `no-implicit-this` template rule activated
 - Tests:
     - improved integration tests for `node-navbar` component
 - Adapters:

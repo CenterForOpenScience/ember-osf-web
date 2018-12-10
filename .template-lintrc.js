@@ -8,7 +8,8 @@ module.exports = {
     rules: {
         'block-indentation': 4,
         'no-bare-strings': true,
-        'no-nested-interactive': false,
+        'no-implicit-this': { allow: ['data-test-'] },
+        'no-nested-interactive': true,
     },
 
     ignore: [
