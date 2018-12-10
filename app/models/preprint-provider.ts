@@ -1,22 +1,22 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
-import { getOwner } from '@ember/application';
-import { get } from '@ember/object';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+
+import translations from 'ember-osf-web/locales/en/translations';
 
 import Preprint from './preprint';
 import Provider from './provider';
 
-export default class PreprintProvider extends Provider {
-    @service i18n!: I18N;
+export type DocumentTypes = keyof typeof translations.documentType;
 
+export type PreprintDocumentType = typeof translations.documentType[DocumentTypes];
+
+export default class PreprintProvider extends Provider {
     @attr('array') subjectsAcceptable!: string[];
     @attr('array') additionalProviders!: string[];
     @attr('string') shareSource!: string;
-    @attr('string') preprintWord!: string;
+    @attr('string') preprintWord!: DocumentTypes;
 
     // Reviews settings
     @attr('array') permissions!: string[];
@@ -33,10 +33,10 @@ export default class PreprintProvider extends Provider {
     @alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects')
     hasHighlightedSubjects!: boolean;
 
-    @computed('i18n.locale', 'preprintWord')
-    get documentType() {
-        const locale = getOwner(this).factoryFor(`locale:${this.i18n.locale}/translations`).class;
-        return get(locale, `documentType.${this.preprintWord}`);
+    @computed('preprintWord')
+    get documentType(): PreprintDocumentType {
+        // TODO: make this actually i18n once we swicth to ember-intl
+        return translations.documentType[this.preprintWord];
     }
 }
 
