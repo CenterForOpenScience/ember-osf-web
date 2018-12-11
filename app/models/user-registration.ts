@@ -79,6 +79,7 @@ export default class UserRegistration extends Model.extend(Validations) {
     @attr('string') recaptchaResponse!: string;
     @attr('string') password!: string;
     @attr('boolean') acceptedTermsOfService!: boolean;
+    @attr('string') campaign!: string;
 
     existingEmails: Set<string> = new Set();
     invalidEmails: Set<string> = new Set();

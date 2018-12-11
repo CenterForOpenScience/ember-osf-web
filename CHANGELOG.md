@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
     - `validated-model-form` - Add an optional hook for onWillDestroy
+    - `sign-up-form` - accept `campaign` as an optional argument and set on user-registration model
 - Handbook:
     - `validated-model-form` - Show how onWillDestroy works and use ember-onbeforeunload
 - Models:
@@ -54,6 +55,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added validations for name fields
     - `provider` - made partial assets acceptable
     - `preprint-provider` - added `documentType` computed property for preprint word lookup
+    - `user-registration` - added `campaign` property
 - Routes:
     - `settings` - redirects to `settings.profile.name`
     - `register` - add branding for registries and preprint providers
