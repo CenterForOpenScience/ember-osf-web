@@ -55,7 +55,7 @@ export default class ContributorList extends Component {
     }
 
     @computed('truncated')
-    get truncate(this: ContributorList): number | undefined {
+    get truncate(this: ContributorList) {
         return this.truncated ? 3 : undefined;
     }
 }

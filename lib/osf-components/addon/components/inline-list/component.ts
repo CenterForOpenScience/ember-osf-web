@@ -23,4 +23,9 @@ export default class InlineList extends Component {
         }
         return this.items.slice(1, -1);
     }
+
+    @computed('items', 'truncate')
+    get shouldTruncate() {
+        return (this.truncate && (this.items.length > this.truncate));
+    }
 }
