@@ -305,7 +305,13 @@ export default class DiscoverPage extends Component.extend({
                 results: emptyResults(),
             });
             // If issue with search query, for example, invalid lucene search syntax
-            this.set(errorResponse instanceof DS.ServerError ? 'serverError' : 'queryError', true);
+            if (errorResponse instanceof DS.ServerError ||
+                errorResponse instanceof DS.AbortError ||
+                errorResponse instanceof DS.TimeoutError) {
+                this.set('serverError', true);
+            } else {
+                this.set('queryError', true);
+            }
 
             // re-throw for error monitoring
             throw errorResponse;
