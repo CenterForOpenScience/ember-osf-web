@@ -35,6 +35,8 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
 }) {
     @service analytics!: Analytics;
 
+    signUpCampaign?: string;
+
     hasProvider: boolean = false;
     provider?: PreprintProvider;
 
@@ -73,6 +75,7 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
         if (queryParams.campaign) {
             const matches = queryParams.campaign.match(/^(.*)-(.*)$/);
             if (matches && matches.length > 2) {
+                this.set('signUpCampaign', queryParams.campaign);
                 const [, provider, type] = matches;
                 if (provider === 'osf') {
                     switch (type) {
