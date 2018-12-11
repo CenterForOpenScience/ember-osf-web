@@ -118,10 +118,10 @@ export default class Submit extends Component {
     transition!: () => void;
 
     /**
-     * Set the showCancelDialog property on the controller
+     * Called when user advances to the next section
      */
     @requiredAction
-    setShowCancelDialog!: () => void;
+    onNextSection!: () => void;
 
     @action
     projectSelected(this: Submit, collectionItem: Node) {
@@ -169,6 +169,6 @@ export default class Submit extends Component {
     nextSection() {
         this.savedSections.pushObject(this.activeSection);
         this.incrementProperty('activeSection');
-        this.setShowCancelDialog();
+        this.onNextSection();
     }
 }

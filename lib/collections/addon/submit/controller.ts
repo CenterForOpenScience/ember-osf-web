@@ -15,10 +15,10 @@ export default class Submit extends Controller {
         this.transitionToRoute('provider.discover', this.provider.id);
     }
 
-    showCancelDialog: boolean = false;
+    isPageDirty: boolean = false;
 
     @action
-    setShowCancelDialog() {
-        this.set('showCancelDialog', true);
+    setPageDirty() {
+        this.set('isPageDirty', true);
     }
 }

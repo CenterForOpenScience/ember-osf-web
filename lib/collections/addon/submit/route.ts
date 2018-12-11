@@ -27,7 +27,7 @@ export default class Submit extends Route.extend(ConfirmationMixin, {}) {
     @service i18n!: I18N;
 
     // This tells ember-onbeforeunload what to use as the body for the warning before leaving the page.
-    confirmationMessage: string = this.get('i18n').t('collections.collections_submission.warning_body');
+    confirmationMessage = this.i18n.t('collections.collections_submission.warning_body');
 
     loadModel = task(function *(this: Submit): IterableIterator<any> {
         const provider = this.theme.provider as CollectionProvider;
@@ -52,10 +52,9 @@ export default class Submit extends Route.extend(ConfirmationMixin, {}) {
     }
 
     // This tells ember-onbeforeunload's ConfirmationMixin whether or not to stop transitions
-    @computed('controller.showCancelDialog')
+    @computed('controller.isPageDirty')
     get isPageDirty() {
         const controller = this.controller as SubmissionController;
-        const value = controller.get('showCancelDialog');
-        return () => value;
+        return () => controller.isPageDirty;
     }
 }

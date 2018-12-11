@@ -19,10 +19,10 @@ export default class GuidEdit extends Controller {
         window.location.href = `${config.OSF.url}${this.collectionItem.id}`;
     }
 
-    showCancelDialog: boolean = false;
+    isPageDirty: boolean = false;
 
     @action
-    setShowCancelDialog() {
-        this.set('showCancelDialog', true);
+    setPageDirty() {
+        this.set('isPageDirty', true);
     }
 }

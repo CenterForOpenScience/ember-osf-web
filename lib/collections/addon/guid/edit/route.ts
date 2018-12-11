@@ -11,17 +11,16 @@ export default class GuidEdit extends Route.extend(ConfirmationMixin, {}) {
     @service i18n!: I18N;
 
     // This tells ember-onbeforeunload what to use as the body for the warning before leaving the page.
-    confirmationMessage: string = this.get('i18n').t('collections.collections_submission.warning_body');
+    confirmationMessage: string = this.i18n.t('collections.collections_submission.warning_body');
 
     model(this: GuidEdit) {
         return this.modelFor(this.routeName.replace(/\.\w*$/, ''));
     }
 
     // This tells ember-onbeforeunload's ConfirmationMixin whether or not to stop transitions
-    @computed('controller.showCancelDialog')
+    @computed('controller.isPageDirty')
     get isPageDirty() {
         const controller = this.controller as EditController;
-        const value = controller.get('showCancelDialog');
-        return () => value;
+        return () => controller.isPageDirty;
     }
 }
