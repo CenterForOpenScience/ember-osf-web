@@ -31,10 +31,6 @@ export default class SubjectPicker extends Component.extend({
     didInsertElement(this: SubjectPicker, ...args: any[]) {
         this._super(...args);
 
-        if (this.currentSubjects) {
-            this.set('initialSubjects', [...this.currentSubjects]);
-        }
-
         this.setProperties({
             hasChanged: false,
             columns: new Array(3)
@@ -74,8 +70,8 @@ export default class SubjectPicker extends Component.extend({
 
     columns!: Column[];
     editMode: boolean = defaultTo(this.editMode, false);
-    initialSubjects: any[] = [];
-    currentSubjects: any[] = this.currentSubjects;
+    currentSubjects: any[] = defaultTo(this.currentSubjects, []);
+    initialSubjects: any[] = defaultTo(this.currentSubjects, []);
     hasChanged: boolean = false;
 
     resetColumnSelections() {
@@ -104,10 +100,6 @@ export default class SubjectPicker extends Component.extend({
     @action
     select(this: SubjectPicker, tier: number, selected: Taxonomy) {
         this.analytics.track('button', 'click', `Collections - ${this.editMode ? 'Edit' : 'Submit'} - Discipline Add`);
-
-        if (!this.currentSubjects) {
-            this.set('currentSubjects', []);
-        }
 
         this.set('hasChanged', true);
         const column = this.columns[tier];
