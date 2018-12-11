@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added validations for name fields
     - `provider` - made partial assets acceptable
     - `preprint-provider` - added `documentType` computed property for preprint word lookup
+    - `user-registration` - added `campaign` property
 - Routes:
     - `settings` - redirects to `settings.profile.name`
     - `register` - add branding for registries and preprint providers
