@@ -11,10 +11,21 @@ const {
         noteworthyNode,
         popularNode,
     },
+    'ember-cli-mirage': {
+        defaultLoggedOut,
+    },
 } = config;
 
 export default function(server: Server) {
-    const currentUser = server.create('user', 'loggedIn');
+    let currentUser = null;
+
+    if (defaultLoggedOut) {
+        currentUser = server.create('user');
+        server.create('root', { currentUser: null });
+    } else {
+        currentUser = server.create('user', 'loggedIn');
+    }
+
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList<Node>('node', 10, {
@@ -46,9 +57,24 @@ export default function(server: Server) {
         currentUserPermissions: Object.values(Permission),
     }, 'withRegisteredMeta');
     draftRegisterNodeMultiple(server, nodes[0], 12, {}, 'withRegistrationMetadata');
-    server.create('registration', {
+
+    server.create('registration', { id: 'beefs' });
+
+    const reg = server.create('registration', {
         id: 'decaf',
-    });
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        linkedNodes: server.createList('node', 21),
+        linkedRegistrations: server.createList('registration', 19),
+    }, 'withRegisteredMeta', 'withContributors');
+    server.createList('registration', 15, { parent: reg });
+
+    const reg2 = server.create('registration', {
+        id: 'recaf',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        linkedNodes: server.createList('node', 2),
+        linkedRegistrations: server.createList('registration', 3),
+    }, 'withRegisteredMeta', 'withContributors');
+    server.createList('registration', 2, { parent: reg2 });
 
     // For the handbook
 

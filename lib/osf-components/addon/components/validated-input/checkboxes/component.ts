@@ -1,12 +1,13 @@
 import { assert } from '@ember/debug';
+
+import { layout } from 'ember-osf-web/decorators/component';
+
 import BaseValidatedComponent from '../base-component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 export default class ValidatedCheckboxes extends BaseValidatedComponent {
-    layout = layout;
-    styles = styles;
-
     // Additional required arguments
     options!: any[]; // Model instances that could be added to the hasMany
 

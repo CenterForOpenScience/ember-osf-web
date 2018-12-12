@@ -16,11 +16,23 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             linkedNodes: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${model.id}/linked_nodes/`,
+                        href: `${apiUrl}/v2/registrations/${model.id}/linked_nodes/`,
                         meta: this.buildRelatedLinkMeta(model, 'linkedNodes'),
                     },
                     self: {
-                        href: `${apiUrl}/v2/nodes/${model.id}/relationships/linked_nodes/`,
+                        href: `${apiUrl}/v2/registrations/${model.id}/relationships/linked_nodes/`,
+                        meta: {},
+                    },
+                },
+            },
+            linkedRegistrations: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/linked_registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'linkedRegistrations'),
+                    },
+                    self: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/relationships/linked_registrations/`,
                         meta: {},
                     },
                 },
@@ -28,15 +40,23 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             contributors: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${model.id}/contributors/`,
+                        href: `${apiUrl}/v2/registrations/${model.id}/contributors/`,
                         meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                    },
+                },
+            },
+            children: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/children/`,
+                        meta: this.buildRelatedLinkMeta(model, 'children'),
                     },
                 },
             },
             forks: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${model.id}/forks/`,
+                        href: `${apiUrl}/v2/registrations/${model.id}/forks/`,
                         meta: this.buildRelatedLinkMeta(model, 'forks'),
                     },
                 },
@@ -59,7 +79,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${parentId}`,
+                        href: `${apiUrl}/v2/registrations/${parentId}`,
                         meta: {},
                     },
                 },
@@ -74,7 +94,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${rootId}`,
+                        href: `${apiUrl}/v2/registrations/${rootId}`,
                         meta: {},
                     },
                 },

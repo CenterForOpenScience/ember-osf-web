@@ -47,6 +47,9 @@ export default class Registration extends Node.extend() {
     @hasMany('comment', { inverse: 'node' }) comments!: DS.PromiseManyArray<Comment>;
     @belongsTo('registration-schema', { inverse: null })
     registrationSchema!: DS.PromiseObject<RegistrationSchema> & RegistrationSchema;
+
+    @belongsTo('registration', { inverse: 'children' }) parent!: DS.PromiseObject<Registration> & Registration;
+    @hasMany('registration', { inverse: 'parent' }) children!: DS.PromiseManyArray<Registration>;
 }
 
 declare module 'ember-data' {

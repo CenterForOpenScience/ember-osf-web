@@ -1,0 +1,19 @@
+<Link
+    @models={{@models}}
+    @route={{@route}}
+    @onclick={{@onLinkClicked}}
+    class={{local-class this.wrapperClasses}}
+    data-test-collapsed="{{this.isCollapsed}}"
+    ...attributes
+>
+    <span local-class="Label">
+        {{fa-icon @icon fixedWidth=true class=(local-class 'Icon')}}
+        <h4>{{@label}}</h4>
+    </span>
+
+    <span local-class="Count">
+        {{#if this.hasCount}}
+            {{@count}}
+        {{/if}}
+    </span>
+</Link>

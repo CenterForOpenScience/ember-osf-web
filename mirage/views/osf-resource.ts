@@ -52,7 +52,12 @@ export function osfResource(
     }
 
     if (actions.includes('show')) {
-        server.get(detailPath, mirageModelName);
+        server.get(detailPath, function(schema, request) {
+            const model = this.serialize(schema[mirageModelName].find(request.params.id)).data;
+            const data = process(schema, request, this, [model], { defaultSortKey: opts.defaultSortKey }).data[0];
+
+            return { data };
+        });
     }
 
     if (actions.includes('create')) {

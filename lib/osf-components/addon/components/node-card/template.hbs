@@ -23,12 +23,11 @@
                     <span class="label label-primary">{{t 'node_card.registration.statuses.archiving'}}</span> |
                 {{/if}}
                 {{node-card/node-icon category=@node.category}}
-                <a
-                    href='/{{@node.id}}/'
-                    onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Title') target=this.analytics}}
-                >
+                {{#global-link-to 'resolve-guid' @node.id
+                    click=(action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Title') target=this.analytics)
+                }}
                     {{@node.title}}
-                </a>
+                {{/global-link-to}}
             {{else}}
                 {{#content-placeholders as |placeholder|}}
                     {{placeholder.heading subtitle=false}}
@@ -105,7 +104,7 @@
             {{/if}}
         {{else}}
             {{#content-placeholders as |placeholder|}}
-                {{placeholder.text lines=3}}
+                {{placeholder.text lines=2}}
             {{/content-placeholders}}
         {{/if}}
     </div>

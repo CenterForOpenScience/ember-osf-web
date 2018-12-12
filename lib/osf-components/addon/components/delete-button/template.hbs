@@ -1,44 +1,46 @@
-{{#if small}}
-    {{#bs-button data-test-delete-button
-        (html-attributes aria-label=this.buttonLabel)
-        type='link'
-        size='sm'
-        local-class='SmallDelete'
-        onClick=(action this._show)
-        disabled=this.disabled
-    }}
+{{#if this.small}}
+    <BsButton 
+        data-test-delete-button
+        aria-label={{this.buttonLabel}}
+        @type="link"
+        @size="sm"
+        local-class="SmallDelete"
+        @onClick={{action this._show}}
+        @disabled={{this.disabled}}
+    >
         {{fa-icon 'times' size='lg'}}
-    {{/bs-button}}
+    </BsButton>
 {{else}}
-    {{#bs-button data-test-delete-button
-        type='default'
-        onClick=(action this._show)
-        disabled=this.disabled
-    }}
+    <BsButton 
+        data-test-delete-button
+        @type="default"
+        @onClick={{action this._show}}
+        @disabled={{this.disabled}}
+    >
         {{this.buttonLabel}}
-    {{/bs-button}}
+    </BsButton>
 {{/if}}
 
 {{#if this.modalShown}}
-    {{#bs-modal
-        tagName='span'
-        onHide=(action this._cancel)
+    <BsModal
+        @tagName="span"
+        @onHide={{action this._cancel}}
         as |modal|
-    }}
-        {{#modal.header}}
-            <h3 class='modal-title'>{{this.modalTitle}}</h3>
-        {{/modal.header}}
+    >
+        <modal.header>
+            <h3 class="modal-title">{{this.modalTitle}}</h3>
+        </modal.header>
 
-        {{#modal.body}}
-            {{#if hasBlock}}
+        <modal.body>
+            {{#if (has-block)}}
                 {{yield}}
             {{else}}
                 <p>{{this.modalBody}}</p>
             {{/if}}
 
             {{#if this.hardConfirm}}
-                <label local-class='Modal__confirmBlock' data-test-confirm-scientist-name>
-                    <p local-class='Modal__confirmPrompt'>
+                <label local-class="Modal__confirmBlock" data-test-confirm-scientist-name>
+                    <p local-class="Modal__confirmPrompt">
                         {{t 'osf-components.delete-button.hardConfirm' text=this.scientistName}}
                     </p>
                     {{input
@@ -48,20 +50,22 @@
                     }}
                 </label>
             {{/if}}
-        {{/modal.body}}
+        </modal.body>
 
-        {{#modal.footer}}
-            {{bs-button data-test-cancel-delete
-                disabled=this._deleteTask.isRunning
-                onClick=modal.close
-                defaultText=this.cancelButtonText
-            }}
-            {{bs-button data-test-confirm-delete
-                type='danger'
-                disabled=this.confirmDisabled
-                onClick=(perform this._deleteTask)
-                defaultText=this.confirmButtonText
-            }}
-        {{/modal.footer}}
-    {{/bs-modal}}
+        <modal.footer>
+            <BsButton
+                data-test-cancel-delete
+                @disabled={{this._deleteTask.isRunning}}
+                @onClick={{modal.close}}
+                @defaultText={{this.cancelButtonText}}
+            />
+            <BsButton 
+                data-test-confirm-delete
+                @type="danger"
+                @disabled={{this.confirmDisabled}}
+                @onClick={{perform this._deleteTask}}
+                @defaultText={{this.confirmButtonText}}
+            />
+        </modal.footer>
+    </BsModal>
 {{/if}}

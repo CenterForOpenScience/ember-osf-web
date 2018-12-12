@@ -121,6 +121,7 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
     @hasMany('file-provider', { inverse: 'node' }) files!: DS.PromiseManyArray<FileProvider>;
 
     @hasMany('node', { inverse: null }) linkedNodes!: DS.PromiseManyArray<Node>;
+    @hasMany('registration', { inverse: null }) linkedRegistrations!: DS.PromiseManyArray<Registration>;
     @hasMany('registration', { inverse: 'registeredFrom' }) registrations!: DS.PromiseManyArray<Registration>;
 
     @hasMany('draft-registration', { inverse: 'branchedFrom' })

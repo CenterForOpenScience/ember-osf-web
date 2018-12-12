@@ -9,13 +9,15 @@ import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { encodeParams, getSplitParams, getUniqueList } from '../../utils/elastic-query';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const filterQueryParams = [
     'taxonomy',
@@ -83,15 +85,13 @@ function emptyResults(): SearchQuery {
     return ArrayProxy.create({ content: [], meta: { total: 0 } });
 }
 
+@layout(template, styles)
 export default class DiscoverPage extends Component.extend({
     didInsertElement(this: DiscoverPage, ...args: any[]) {
         this._super(...args);
         this.set('firstLoad', true);
     },
 }) {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
