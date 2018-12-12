@@ -174,10 +174,9 @@
                     {{else if queryError}}
                         {{!PROBLEM WITH SEARCH QUERY}}
                         {{query-syntax message=queryError}}
-                    {{else if shareDown}}
+                    {{else if serverError}}
                         <div class="text-muted text-center">
-                            <p class="lead">{{t 'collections.discover_page.shareUnavailable'}}</p>
-                            <p>{{t 'collections.discover_page.shareUnavailableDescription'}}</p>
+                            <p class="lead">{{t 'collections.discover_page.searchUnavailable'}}</p>
                         </div>
                     {{else}}
                         {{!NO RESULTS FOUND}}
