@@ -1,11 +1,11 @@
 import Component from '@ember/component';
+import { layout } from 'ember-osf-web/decorators/component';
+
 import { FacetContexts } from '../component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 export default class ActiveFilters extends Component {
-    layout = layout;
-    styles = styles;
-
     facetContexts: FacetContexts = this.facetContexts;
 }

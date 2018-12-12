@@ -29,8 +29,8 @@ const {
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
+    MIRAGE_DEFAULT_LOGGED_OUT = false,
     OAUTH_SCOPES: scope,
-    ORCID_CLIENT_ID: orcidClientId,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
@@ -171,7 +171,6 @@ module.exports = function(environment) {
                 authSession: 'embosf-auth-session',
                 joinBannerDismissed: 'slide', // TODO: update legacy UI to use a more unique key
             },
-            orcidClientId,
             casUrl,
         },
         social: {
@@ -215,6 +214,12 @@ module.exports = function(environment) {
         featureFlagNames: {
             routes: {
                 'guid-node.registrations': 'ember_project_registrations_page',
+                settings: 'ember_user_settings_profile_page',
+                'settings.profile': 'ember_user_settings_profile_page',
+                'settings.profile.education': 'ember_user_settings_profile_page',
+                'settings.profile.employment': 'ember_user_settings_profile_page',
+                'settings.profile.name': 'ember_user_settings_profile_page',
+                'settings.profile.social': 'ember_user_settings_profile_page',
                 'settings.tokens': 'ember_user_settings_tokens_page',
                 'settings.tokens.index': 'ember_user_settings_tokens_page',
                 'settings.tokens.create': 'ember_user_settings_tokens_page',
@@ -226,6 +231,10 @@ module.exports = function(environment) {
                 register: 'ember_auth_register',
                 'registries.overview': 'ember_registries_detail_page',
                 'registries.overview.index': 'ember_registries_detail_page',
+                'registries.overview.comments': 'ember_registries_detail_page',
+                'registries.overview.contributors': 'ember_registries_detail_page',
+                'registries.overview.children': 'ember_registries_detail_page',
+                'registries.overview.links': 'ember_registries_detail_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
@@ -259,6 +268,7 @@ module.exports = function(environment) {
         },
         'ember-cli-mirage': {
             enabled: Boolean(MIRAGE_ENABLED),
+            defaultLoggedOut: Boolean(MIRAGE_DEFAULT_LOGGED_OUT),
         },
 
         defaultProvider: 'osf',
@@ -291,6 +301,7 @@ module.exports = function(environment) {
             // Always enable mirage for tests.
             'ember-cli-mirage': {
                 enabled: true,
+                defaultLoggedOut: false,
             },
             APP: {
                 ...ENV.APP,

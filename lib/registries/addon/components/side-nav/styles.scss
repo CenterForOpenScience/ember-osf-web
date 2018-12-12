@@ -1,0 +1,44 @@
+$width-expanded: 205px;
+$width-collapsed: 80px;
+
+.SideNav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: $width-expanded;
+    align-items: flex-start;
+    height: 100%;
+
+    &.Collapsed {
+        align-items: center;
+        width: $width-collapsed;
+    }
+}
+
+.Links {
+    border-bottom: $alto 1px solid;
+    padding: 15px 0;
+    width: 100%;
+}
+
+.Toggle {
+    margin: -1px 15px;
+
+    // Hides Expand/Collapse when not being hovered over
+    &:not(:hover) h4 {
+        color: $white;
+    }
+
+    &:hover h4::before {
+        // Adjusts the white border to not cover the top gray line
+        top: 0 !important;
+        height: calc(1px + 100%) !important;
+    }
+
+    & > span {
+        align-items: center;
+        display: inline-flex;
+        justify-content: space-between;
+    }
+}

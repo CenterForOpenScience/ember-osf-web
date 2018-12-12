@@ -20,11 +20,41 @@
                 <div class='panel panel-default'>
                     {{#bs-nav type='pills' stacked=true as |nav|}}
                         {{#nav.item}}
-                            <a href='/settings'
-                               onclick={{action 'click' 'link' 'Settings - Profile information' target=analytics}}
-                            >
+                            {{#nav.link-to 'settings.profile'
+                                click=(action 'click' 'link' 'Settings' target=analytics)
+                            }}
                                 {{t 'settings.profile.title'}}
-                            </a>
+                            {{/nav.link-to}}
+                            {{#bs-nav type='pills' local-class='ProfileNav' stacked=true as |profileNav|}}
+                                {{#profileNav.item}}
+                                    {{#profileNav.link-to 'settings.profile.name'
+                                        click=(action 'click' 'link' 'Settings - Profile - Name' target=analytics)
+                                    }}
+                                        {{t 'settings.profile.name.title'}}
+                                    {{/profileNav.link-to}}
+                                {{/profileNav.item}}
+                                {{#profileNav.item}}
+                                    {{#profileNav.link-to 'settings.profile.social'
+                                        click=(action 'click' 'link' 'Settings - Profile - Social' target=analytics)
+                                    }}
+                                        {{t 'settings.profile.social.title'}}
+                                    {{/profileNav.link-to}}
+                                {{/profileNav.item}}
+                                {{#profileNav.item}}
+                                    {{#profileNav.link-to 'settings.profile.education'
+                                        click=(action 'click' 'link' 'Settings - Profile - Education' target=analytics)
+                                    }}
+                                        {{t 'settings.profile.education.title'}}
+                                    {{/profileNav.link-to}}
+                                {{/profileNav.item}}
+                                {{#profileNav.item}}
+                                    {{#profileNav.link-to 'settings.profile.employment'
+                                        click=(action 'click' 'link' 'Settings - Profile - Employment' target=analytics)
+                                    }}
+                                        {{t 'settings.profile.employment.title'}}
+                                    {{/profileNav.link-to}}
+                                {{/profileNav.item}}
+                            {{/bs-nav}}
                         {{/nav.item}}
                         {{#nav.item}}
                             <a href='/settings/account'

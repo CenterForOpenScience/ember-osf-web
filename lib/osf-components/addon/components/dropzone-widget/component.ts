@@ -6,11 +6,11 @@ import I18N from 'ember-i18n/services/i18n';
 import Session from 'ember-simple-auth/services/session';
 import $ from 'jquery';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import layout from './template';
+import template from './template';
 
 /**
  * @module ember-osf-web
@@ -34,6 +34,7 @@ import layout from './template';
  *
  * @class dropzone-widget
  */
+@layout(template)
 export default class DropzoneWidget extends Component.extend({
     didReceiveAttrs: diffAttrs(
         'enable',
@@ -65,8 +66,6 @@ export default class DropzoneWidget extends Component.extend({
         },
     ),
 }) {
-    layout = layout;
-
     @service session!: Session;
     @service i18n!: I18N;
     @service currentUser!: CurrentUser;

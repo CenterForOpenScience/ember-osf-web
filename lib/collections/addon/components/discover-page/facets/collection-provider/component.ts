@@ -4,10 +4,13 @@ import { setProperties } from '@ember/object';
 import config from 'collections/config/environment';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Provider from 'ember-osf-web/models/provider';
+
 import Base from '../base/component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const {
     OSF: {
@@ -21,6 +24,7 @@ interface ProviderHit {
     doc_count: number; // eslint-disable-line camelcase
 }
 
+@layout(template, styles)
 export default class SearchFacetProvider extends Base.extend({
     didReceiveAttrs(this: SearchFacetProvider, ...args: any[]) {
         this._super(...args);
@@ -89,9 +93,6 @@ export default class SearchFacetProvider extends Base.extend({
         this.filterChanged();
     }),
 }) {
-    layout = layout;
-    styles = styles;
-
     @service store!: DS.Store;
 
     allProviders!: ProviderHit[];

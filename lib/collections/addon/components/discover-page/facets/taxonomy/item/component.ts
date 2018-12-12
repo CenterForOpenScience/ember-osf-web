@@ -4,13 +4,16 @@ import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { observer } from '@ember/object';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { localClassNames } from 'ember-css-modules';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import { getTaxonomies, TaxonomyItem } from '../component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 @tagName('li')
 @localClassNames('taxonomy-item')
 export default class TaxonomyListItem extends Component.extend({
@@ -26,9 +29,6 @@ export default class TaxonomyListItem extends Component.extend({
         this.fetchChildren();
     },
 }) {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service theme!: Theme;
 

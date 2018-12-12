@@ -1,11 +1,19 @@
 {{title (t 'dashboard.page_title')}}
 {{#if modalOpen}}
-    {{new-project-modal
-        newNode=newNode
-        closeModal=(action 'closeModal')
-        searchNodes=(perform searchNodes)
-        createProject=(perform createNode)
-    }}
+    {{#if this.showNewNodeNavigation}} 
+        <NewProjectNavigationModal
+            @node={{this.newNode}}
+            @closeModal={{action this.closeModal}}
+            @title={{t 'new_project.success_message'}}
+            @afterStayHere={{action this.afterStay}}
+        />
+    {{else}}
+        <NewProjectModal
+            @afterProjectCreated={{action this.projectCreated}}
+            @analyticsContext="Dashboard"
+            @closeModal={{action this.closeModal}}
+        />
+    {{/if}}
 {{/if}}
 {{scheduled-banner}}
 <div local-class="quickSearch">
@@ -17,7 +25,12 @@
                         <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
                         <div class='m-b-lg col-xs-3'>
                             <div class='pull-right'>
-                                <button onclick={{action 'toggleModal'}} class="btn btn-success btn-success-high-contrast m-t-md f-w-xl" {{action 'click' 'button' 'Dashboard - create_new_project' target=analytics}}>
+                                <button 
+                                    data-test-create-project-modal-button
+                                    onclick={{action 'openModal'}} 
+                                    class="btn btn-success m-t-md f-w-xl" 
+                                    {{action 'click' 'button' 'Dashboard - create_new_project' target=analytics}}
+                                >
                                     {{t 'dashboard.create_new_project_button'}}
                                 </button>
                             </div>
@@ -93,7 +106,7 @@
                                                 {{loading-indicator}}
                                             {{else}}
                                                 <div class="text-center">
-                                                    <button aria-label='More' class="col-sm-12 text-muted" onclick={{action 'more'}} {{action 'click' 'button' 'Dashboard - load_nodes' target=analytics}} data-test-load-more>
+                                                    <button aria-label={{t 'new_project.more'}} class="col-sm-12 text-muted" onclick={{action 'more'}} {{action 'click' 'button' 'Dashboard - load_nodes' target=analytics}} data-test-load-more>
                                                         {{fa-icon 'caret-down' class=(concat (local-class 'load-nodes') ' m-b-xl')}}
                                                     </button>
                                                 </div>

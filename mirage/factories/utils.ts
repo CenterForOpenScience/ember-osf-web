@@ -1,34 +1,18 @@
 import { faker, ModelInstance, Server } from 'ember-cli-mirage';
+import SeedRandom from 'seedrandom';
 
-import { RegistrationMetadata, Schema } from 'ember-osf-web/models/registration-schema';
-
-const GUID_CHARS = '23456789abcdefghjkmnpqrstuvwxyz'.split('');
-
-// Implementation of Java's String.hashCode -- https://stackoverflow.com/a/7616484/
-function hashString(str: string): number {
-    /* eslint-disable no-bitwise */
-    /* tslint:disable no-bitwise */
-    return Array.prototype.reduce.call(
-        str,
-        (hash: number, char: string) => (((hash << 5) - hash) + char.charCodeAt(0)) | 0,
-        0,
-    );
-    /* tslint:enable no-bitwise */
-    /* eslint-enable no-bitwise */
-}
+import { GUID_ALPHABET } from 'ember-osf-web/const/guid-alphabet';
+import { AbstractQuestion, Answer, RegistrationMetadata, Schema } from 'ember-osf-web/models/registration-schema';
 
 export function guid(referentType: string) {
     return (id: number) => {
-        // Seed faker to guarantee consistent guids across page reloads
-        faker.seed(hashString(`${referentType}-${id}`));
+        // Generate a pseudo-random guid
+        const prng = new SeedRandom(`${referentType}-${id}`);
 
         const newGuid = Array.from(
             { length: 5 },
-            () => faker.random.arrayElement(GUID_CHARS),
+            () => GUID_ALPHABET[Math.floor(prng() * GUID_ALPHABET.length)],
         ).join('');
-
-        // Reseed so all other data is appropriately random
-        faker.seed(new Date().getTime() % 1000000000);
 
         return newGuid;
     };
@@ -39,6 +23,30 @@ export function guidAfterCreate(newObj: ModelInstance, server: Server) {
         id: newObj.id,
         referentType: newObj.modelName,
     });
+}
+
+function fakeAnswer(question: AbstractQuestion, answerIfRequired: boolean): Answer<any> {
+    const answer: Answer<any> = {
+        comments: [],
+        extra: [],
+        value: '',
+    };
+    if ((answerIfRequired && question.required) || faker.random.boolean()) {
+        if (question.type === 'osf-upload') {
+            const numFiles = faker.random.number({ min: 1, max: 5 });
+            answer.extra = Array.from({ length: numFiles }).map(() => ({
+                selectedFileName: faker.system.commonFileName(
+                    faker.system.commonFileExt(),
+                    faker.system.commonFileType(),
+                ),
+                viewUrl: '/',
+            }));
+            answer.value = (answer.extra[0] as any).selectedFileName;
+        } else {
+            answer.value = faker.lorem.sentences(faker.random.number({ min: 1, max: 10 }));
+        }
+    }
+    return answer;
 }
 
 /**
@@ -53,19 +61,17 @@ export function createRegistrationMetadata(schema: Schema, answerAllRequired = f
     schema.pages.forEach(page =>
         page.questions.forEach(question => {
             if (question.type === 'object' && question.properties) {
-                const value: { [k: string]: { value: string } } = {};
+                const value: RegistrationMetadata = { };
                 question.properties.forEach(property => {
-                    const answerQuestion = answerAllRequired && property.required ? true : faker.random.boolean();
-                    value[property.id] = {
-                        value: answerQuestion ? faker.lorem.sentence().replace('.', '') : '',
-                    };
+                    value[property.id] = fakeAnswer(property, answerAllRequired);
                 });
-                registrationMetadata[question.qid] = value;
-            } else {
-                const answerQuestion = answerAllRequired && question.required ? true : faker.random.boolean();
                 registrationMetadata[question.qid] = {
-                    value: answerQuestion ? faker.lorem.sentence().replace('.', '') : '',
+                    comments: [],
+                    extra: [],
+                    value,
                 };
+            } else {
+                registrationMetadata[question.qid] = fakeAnswer(question, answerAllRequired);
             }
         }));
     return registrationMetadata;

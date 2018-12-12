@@ -28,6 +28,6 @@ export default class Gutter extends Component {
 
     @computed('rightAnimationClass', 'leftAnimationClass')
     get bodyClasses() {
-        return `${this.rightAnimationClass} ${this.leftAnimationClass} Body`;
+        return `${this.rightAnimationClass} ${this.leftAnimationClass} GutterBody`;
     }
 }

@@ -1,4 +1,3 @@
-
 import { action } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
@@ -6,13 +5,15 @@ import Component from '@ember/component';
 import EmberObject, { setProperties } from '@ember/object';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Provider from 'ember-osf-web/models/provider';
 import Taxonomy from 'ember-osf-web/models/taxonomy';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 function arrayEquals<T>(arr1: T[], arr2: T[]) {
     return arr1.length === arr2.length && arr1.reduce((acc, val, i) => acc && val === arr2[i], true);
@@ -27,6 +28,7 @@ interface Column extends EmberObject {
     selection: Taxonomy | null;
 }
 
+@layout(template, styles)
 export default class SubjectPicker extends Component.extend({
     didInsertElement(this: SubjectPicker, ...args: any[]) {
         this._super(...args);
@@ -59,9 +61,6 @@ export default class SubjectPicker extends Component.extend({
         column.set('subjects', taxonomies ? taxonomies.toArray() : []);
     }),
 }) {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service store!: DS.Store;
     @service theme!: Theme;

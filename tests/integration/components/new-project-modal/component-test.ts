@@ -28,7 +28,6 @@ module('Integration | Component | new-project-modal', hooks => {
 
     test('it renders', async assert => {
         await render(hbs`{{new-project-modal
-            newNode=newNode
             searchNodes=search
             createProject=create
             closeModal=closeModal

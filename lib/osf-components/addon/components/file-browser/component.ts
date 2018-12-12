@@ -6,13 +6,13 @@ import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
 import { next } from '@ember/runloop';
 import { task } from 'ember-concurrency';
+import { localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -22,7 +22,7 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { ProjectSelectState } from 'osf-components/components/project-selector/component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 enum modals {
     None = '',
@@ -31,6 +31,7 @@ enum modals {
     DeleteMultiple = 'deleteMultiple',
     RenameConflict = 'renameConflict',
     Move = 'move',
+    MoveToNew = 'moveToNew',
     SuccessMove = 'successMove',
 }
 
@@ -45,11 +46,9 @@ enum modals {
  * ```
  * @class file-browser
  */
+@layout(template, styles)
 @localClassNames('file-browser')
 export default class FileBrowser extends Component {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
@@ -90,6 +89,7 @@ export default class FileBrowser extends Component {
     shiftAnchor: File | null = null;
     isNewProject?: boolean;
     isChildNode?: boolean;
+    isProjectSelectorValid: boolean = false;
 
     dropzoneOptions = {
         createImageThumbnails: false,
@@ -123,6 +123,7 @@ export default class FileBrowser extends Component {
                 isNewProject,
                 isChildNode,
                 projectSelectState: ProjectSelectState.main,
+                isProjectSelectorValid: false,
             };
         }
 
@@ -433,6 +434,28 @@ export default class FileBrowser extends Component {
         this.setProperties({
             projectSelectState: ProjectSelectState.main,
             currentModal: modals.None,
+            isProjectSelectorValid: false,
         });
+    }
+
+    @action
+    projectSelected(this: FileBrowser, node: Node) {
+        this.set('node', node);
+    }
+
+    @action
+    moveToNewProject(this: FileBrowser) {
+        this.set('currentModal', modals.MoveToNew);
+    }
+
+    @action
+    afterStay(this: FileBrowser) {
+        this.set('currentModal', modals.None);
+    }
+
+    @action
+    projectCreated(this: FileBrowser, node: Node) {
+        this.set('node', node);
+        this.get('moveToProject').perform();
     }
 }

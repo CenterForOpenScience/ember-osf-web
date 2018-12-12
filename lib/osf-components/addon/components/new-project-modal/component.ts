@@ -1,21 +1,22 @@
 import { action, computed } from '@ember-decorators/object';
-import { oneWay } from '@ember-decorators/object/computed';
+import { alias, oneWay } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import Region from 'ember-osf-web/models/region';
+import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const {
     featureFlagNames: {
@@ -23,6 +24,7 @@ const {
     },
 } = config;
 
+@layout(template, styles)
 export default class NewProjectModal extends Component.extend({
     initTask: task(function *(this: NewProjectModal) {
         if (this.storageI18nEnabled) {
@@ -40,20 +42,57 @@ export default class NewProjectModal extends Component.extend({
             selectedRegion: this.currentUser.user!.defaultRegion,
         });
     }),
-}) {
-    layout = layout;
-    styles = styles;
+    searchUserNodesTask: task(function *(this: NewProjectModal, title: string) {
+        yield timeout(500);
+        const user: User = yield this.user;
+        return yield user.queryHasMany('nodes', { filter: { title } });
+    }).restartable(),
 
+    createNodeTask: task(function *(
+        this: NewProjectModal,
+        title: string,
+        description: string,
+        institutions: Institution[],
+        templateFrom?: Node,
+        storageRegion?: Region,
+        isPublic?: boolean,
+    ) {
+        if (!title) {
+            return;
+        }
+        const node = this.store.createRecord('node', {
+            category: 'project',
+            description,
+            public: isPublic !== undefined ? isPublic : false,
+            title,
+        });
+
+        if (templateFrom) {
+            node.set('templateFrom', templateFrom.id);
+        }
+        if (institutions.length) {
+            node.set('affiliatedInstitutions', institutions.slice());
+        }
+        if (storageRegion) {
+            node.set('region', storageRegion);
+        }
+        yield node.save();
+
+        this.afterProjectCreated(node);
+    }).drop(),
+
+}) {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
     @service features!: Features;
 
     // Required arguments
-    newNode!: Node | null;
-    @requiredAction searchNodes!: (title: string) => PromiseLike<Node[]>;
-    @requiredAction createProject!: (...args: any[]) => void;
-    @requiredAction closeModal!: (reload?: boolean) => void;
+    analyticsContext!: string;
+    @requiredAction afterProjectCreated!: (newNode: Node) => void;
+
+    // Optional arguments
+    isPublic?: boolean;
 
     // Private fields
     nodeTitle?: string;
@@ -64,6 +103,8 @@ export default class NewProjectModal extends Component.extend({
     selectedRegion?: Region;
     institutions: Institution[] = [];
     regions: Region[] = [];
+
+    @alias('currentUser.user') user!: User;
 
     @oneWay('institutions') selectedInstitutions!: Institution[];
 
@@ -81,54 +122,54 @@ export default class NewProjectModal extends Component.extend({
         } else {
             selected.pushObject(institution);
         }
-        this.analytics.click('button', 'Dashboard - New Project - select_institution');
+        this.analytics.click('button', `${this.analyticsContext} - New Project - select_institution`);
     }
 
     @action
     selectAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', this.institutions.slice());
-        this.analytics.click('button', 'Dashboard - New Project - select_all');
+        this.analytics.click('button', `${this.analyticsContext} - New Project - select_all`);
     }
 
     @action
     removeAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', A([]));
-        this.analytics.click('button', 'Dashboard - New Project - remove_all');
+        this.analytics.click('button', `${this.analyticsContext} - New Project - remove_all`);
     }
 
     @action
     selectTemplateFrom(this: NewProjectModal, templateFrom: Node) {
         this.set('templateFrom', templateFrom);
-        this.analytics.click('button', 'Dashboard - New Project - Select template from');
+        this.analytics.click('button', `${this.analyticsContext} - New Project - Select template from`);
     }
 
     @action
     selectRegion(this: NewProjectModal, region: Region) {
         this.set('selectedRegion', region);
-        this.analytics.click('button', 'Dashboard - New Project - Select storage region');
+        this.analytics.click('button', `${this.analyticsContext} - New Project - Select storage region`);
     }
 
     @action
     toggleMore() {
         this.toggleProperty('more');
-        this.analytics.click('button', 'Dashboard - New Project - Toggle more');
+        this.analytics.click('button', `${this.analyticsContext} - New Project - Toggle more`);
     }
 
     @action
-    create() {
-        this.createProject(
+    create(this: NewProjectModal) {
+        this.get('createNodeTask').perform(
             this.nodeTitle,
             this.description,
             this.selectedInstitutions,
             this.templateFrom,
             this.selectedRegion,
+            this.isPublic,
         );
-        this.analytics.click('button', 'Dashboard - New Project - create');
+        this.analytics.click('button', `${this.analyticsContext} - New Project - create`);
     }
 
     @action
-    stayOnDashboard() {
-        this.closeModal(true);
-        this.analytics.click('button', 'Dashboard - New Project - stay_on_dashboard');
+    searchNodes(this: NewProjectModal, searchTerm: string) {
+        return this.get('searchUserNodesTask').perform(searchTerm);
     }
 }

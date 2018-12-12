@@ -1,15 +1,23 @@
 import { action, computed } from '@ember-decorators/object';
-import { not } from '@ember-decorators/object/computed';
+import { alias, not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import Media from 'ember-responsive';
+
+import Registration from 'ember-osf-web/models/registration';
+import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 
 export default class Overview extends Controller {
     @service media!: Media;
     @not('media.isDesktop') showMobileNav!: boolean;
 
+    model!: GuidRouteModel<Registration>;
+
     sidenavGutterClosed = true;
     metadataGutterClosed = true;
+
+    @alias('model.taskInstance.value') registration?: Registration;
+    @not('registration') loading!: boolean;
 
     @computed('media.{isMobile,isTablet,isDesktop}')
     get metadataGutterMode() {
@@ -28,6 +36,15 @@ export default class Overview extends Controller {
             return 'column';
         }
         return 'drawer';
+    }
+
+    @computed('registration.relatedCounts.{linkedNodes,linkedRegistrations}')
+    get linksCount() {
+        if (!this.registration) {
+            return 0;
+        }
+        return (this.registration.relatedCounts.linkedNodes || 0)
+        + (this.registration.relatedCounts.linkedRegistrations || 0);
     }
 
     @action

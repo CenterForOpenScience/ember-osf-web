@@ -1,6 +1,6 @@
 import { click, currentRouteName } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setupApplicationTest } from 'ember-qunit';
+import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import {
@@ -9,14 +9,14 @@ import {
     registerNode,
     registerNodeMultiple,
 } from 'ember-osf-web/mirage/helpers';
-import { currentURL, visit } from 'ember-osf-web/tests/helpers';
+import { currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 module('Acceptance | guid-node/registrations', hooks => {
-    setupApplicationTest(hooks);
+    setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('logged out, no registrations', async assert => {
@@ -29,6 +29,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.registrations', 'We are at guid-node.registrations');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-new-registration-button]').doesNotExist();
 
@@ -170,6 +171,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-node-card]').exists({ count: 10 });
 
         assert.dom('[data-test-node-card]').includesText(node.title);
+        await percySnapshot(assert);
 
         await click('[data-test-next-page-button]');
 
@@ -278,6 +280,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         await click('[data-test-next-page-button]');
 
         assert.dom('[data-test-draft-registration-card]').exists({ count: 2 });
+        await percySnapshot(assert);
     });
 
     test('logged in admin, new registration', async assert => {
@@ -296,6 +299,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.equal(currentURL(), url, `We are on ${url}`);
 
         await click('[data-test-new-registration-button]');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-new-registration-modal-body]').isVisible();
 
