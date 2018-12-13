@@ -4,7 +4,7 @@
     </div>
 {{else}}
     <div class="col-lg-7 col-md-9 col-sm-9 col-xs-12" local-class="file-row-col">
-        <FileIcon @item=this.item/>
+        {{file-icon item=this.item}}
         <a
             local-class="filename-link"
             {{action 'open' preventDefault='true'}}
