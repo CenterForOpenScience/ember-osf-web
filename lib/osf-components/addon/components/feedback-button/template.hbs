@@ -1,32 +1,45 @@
-{{#bs-modal local-class='Modal' open=isOpen onSubmit=(action "submit") onHidden=(action 'hideDialog') as |modal|}}
-    {{#modal.body}}
-        {{#if isActive}}
+<BsModal 
+    data-test-feedback-modal
+    @local-class='Modal'
+    @open={{this.isOpen}}
+    @onSubmit={{action this.submit}}
+    @onHidden={{action this.hideDialog}}
+    as |modal|
+>
+    <modal.body>
+        {{#if this.isActive}}
             <div class="text-center">
                 <h2 local-class="Modal__title">{{ t 'feedback.title' }}</h2>
-                <h4 local-class="Modal__text">{{text}}</h4>
+                <h4 local-class="Modal__text">{{@text}}</h4>
             </div>
             <div class="form-group">
-                {{textarea class="form-control" rows=dialogRows autofocus="true" placeholder=(t 'feedback.placeholder') value=body}}
+                {{textarea
+                    class="form-control"
+                    rows=this.dialogRows
+                    autofocus="true"
+                    placeholder=(t 'feedback.placeholder')
+                    value=this.body
+                }}
             </div>
-            {{#if currentUser.currentUserId}}
+            {{#if this.currentUser.currentUserId}}
                 <div class="checkbox">
                     <label>
-                        {{input type="checkbox" checked=followup}}
+                        {{input type="checkbox" checked=this.followup}}
                         {{t 'feedback.follow_up_label'}}
                     </label>
                 </div>
             {{/if}}
         {{/if}}
-        {{#if isSuccessful}}
-            {{success-icon}}
+        {{#if this.isSuccessful}}
+            <SuccessIcon/>
             <div class="text-center">
                 <h2>{{t 'feedback.thank_you'}}</h2>
                 <h3>{{t 'feedback.success'}}</h3>
             </div>
         {{/if}}
-    {{/modal.body}}
-    {{#modal.footer}}
-        {{#if isActive}}
+    </modal.body>
+    <modal.footer>
+        {{#if this.isActive}}
             {{#bs-button onClick=(action modal.close)}}
                 {{t 'general.cancel'}}
             {{/bs-button}}
@@ -34,14 +47,21 @@
                 {{t 'feedback.confirm_button_text'}}
             {{/bs-button}}
         {{/if}}
-        {{#if isSuccessful}}
+        {{#if this.isSuccessful}}
             {{#bs-button type="primary" onClick=(action modal.close)}}
                 {{t 'feedback.dismiss'}}
             {{/bs-button}}
         {{/if}}
-    {{/modal.footer}}
-{{/bs-modal}}
+    </modal.footer>
+</BsModal>
 
-<button local-class="FeedbackButton {{if isOpen 'FeedbackButton--open'}}" onclick={{action 'showDialog'}} aria-label={{t 'feedback.title'}} hidden={{not enabled}} {{action 'click' 'button' 'Feedback - open' target=analytics}}>
+<button 
+    local-class="FeedbackButton
+    {{if this.isOpen 'FeedbackButton--open'}}"
+    onclick={{action 'showDialog'}}
+    aria-label={{t 'feedback.title'}}
+    hidden={{not this.enabled}}
+    {{action 'click' 'button' 'Feedback - open' target=this.analytics}}
+>
     {{t 'feedback.button_text'}}
 </button>

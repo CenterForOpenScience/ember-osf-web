@@ -1,28 +1,28 @@
-{{title (t 'quickfiles.title' user-name=user.fullName)}}
+{{title (t 'quickfiles.title' user-name=this.user.fullName)}}
 <div class='container'>
-    {{quickfile-nav user=user onQuickfiles=true}}
+    <QuickfileNav @user={{this.user}} @onQuickfiles={{true}}></QuickfileNav>
     <div class='row container' local-class="Content">
-        {{#if canEdit}}
+        {{#if this.canEdit}}
             <h5><i>{{t 'quickfiles.description'}}</i></h5>
         {{else}}
             <div style='height: 14px;'></div>
         {{/if}}
-        {{file-browser
-            user=user
-            items=files
-            filter=filter
-            sort=sort
-            canEdit=canEdit
-            newProject=newProject
-            openFile=(action 'openFile')
-            updateFilter=(perform updateFilter)
-            dropZoneId='quickfiles-dropzone'
-            deleteFiles=(perform deleteFiles)
-            moveFile=(perform moveFile)
-            renameFile=(perform renameFile)
-            addFile=(perform addFile)
-        }}
+        <FileBrowser
+            @user={{this.user}}
+            @items={{this.files}}
+            @filter={{this.filter}}
+            @sort={{this.sort}}
+            @canEdit={{this.canEdit}}
+            @newProject={{this.newProject}}
+            @openFile={{action this.openFile}}
+            @updateFilter={{perform this.updateFilter}}
+            @dropZoneId="quickfiles-dropzone"
+            @deleteFiles={{perform this.deleteFiles}}
+            @moveFile={{perform this.moveFile}}
+            @renameFile={{perform this.renameFile}}
+            @addFile={{perform this.addFile}}
+        />
     </div>
 </div>
 
-{{feedback-button text=(t 'quickfiles.feedback_dialog_text') pageName=pageName}}
+<FeedbackButton @text={{t 'quickfiles.feedback_dialog_text'}} @pageName={{this.pageName}}></FeedbackButton>
