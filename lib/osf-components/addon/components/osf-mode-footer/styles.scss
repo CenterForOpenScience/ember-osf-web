@@ -4,10 +4,19 @@
     left: 0;
     border-top-right-radius: 8px;
     background-color: $color-bg-red;
-    color: $color-text-white;
     padding: 0.5em;
 
     strong {
         text-transform: uppercase;
+    }
+
+    a {
+        color: $color-text-white;
+    }
+}
+
+.Tabs {
+    :global(.tab-content) {
+        padding: 10px;
     }
 }

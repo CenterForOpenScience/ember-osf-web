@@ -1,47 +1,31 @@
-<OsfButton
-    aria-label={{t 'zoom_to_route.title'}}
-    local-class='ZoomRocket'
-    @type='link'
-    @onClick={{action (mut this.showModal) true}}
+<BsForm
+    @model={{this.routeArgs}}
+    @onSubmit={{action 'zoom'}}
+    as |form|
 >
-    {{fa-icon 'rocket'}}
-</OsfButton>
-{{#if this.showModal}}
-    <BsModalSimple
-        @onHide={{action (mut this.showModal) false}}
-        @onShown={{action this.modalShown}}
-        @title={{t 'zoom_to_route.title'}}
-        @closeTitle={{t 'general.cancel'}}
-        @submitTitle={{t 'zoom_to_route.zoom'}}
+    <PowerSelect
+        @options={{this.routeNames}}
+        @selected={{this.targetRoute}}
+        @onchange={{action 'selectRoute'}}
+        @renderInPlace=true
+        @placeholder={{t 'dev_tools.zoom_to_route.placeholder'}}
+        as |name|
     >
-        <div id={{this.modalBodyId}}>
-            <PowerSelect
-                @options={{this.routeNames}}
-                @selected={{this.targetRoute}}
-                @onchange={{action this.selectRoute}}
-                @renderInPlace={{true}}
-                @placeholder={{t 'zoom_to_route.placeholder'}}
-                as |name|
-            >
-                {{name}}
-            </PowerSelect>
-            {{#if this.targetRoute}}
-                <hr>
-                <BsForm
-                    @model={{this.routeArgs}}
-                    @onSubmit={{action this.zoom}}
-                    as |form|
-                >
-                    {{#each this.routeParams as |param|}}
-                        <form.element
-                            @controlType='text'
-                            @label={{param}}
-                            @placeholder={{param}}
-                            @property={{param}}
-                        />
-                    {{/each}}
-                </BsForm>
-            {{/if}}
-        </div>
-    </BsModalSimple>
-{{/if}}
+        {{name}}
+    </PowerSelect>
+    {{#if this.targetRoute}}
+        <hr>
+        {{#each this.routeParams as |param|}}
+            <form.element
+                @controlType='text'
+                @label={{param}}
+                @placeholder={{param}}
+                @property={{param}}
+            />
+        {{/each}}
+        <hr>
+        <OsfButton @buttonType='submit'>
+            {{t 'dev_tools.zoom_to_route.zoom'}}
+        </OsfButton>
+    {{/if}}
+</BsForm>

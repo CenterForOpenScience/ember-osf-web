@@ -34,9 +34,10 @@ function logEvent(analytics: Analytics, title: string, data: any) {
     if (analytics.shouldToastOnEvent) {
         analytics.toast.info(
             Object.entries(data)
-                .map(([k, v]) => `<div>${k}: ${v}</div>`)
+                .map(([k, v]) => `<div>${k}: <strong>${v}</strong></div>`)
                 .join(''),
             title,
+            { preventDuplicates: false },
         );
     }
 }
@@ -44,7 +45,7 @@ function logEvent(analytics: Analytics, title: string, data: any) {
 class EventInfo {
     scopes: string[] = [];
     name?: string;
-    category?: string; // TODO: enum?
+    category?: string;
     action?: string;
     extra?: string;
     ev: Event;
