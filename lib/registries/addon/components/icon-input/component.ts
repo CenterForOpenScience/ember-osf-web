@@ -7,10 +7,7 @@ import template from './template';
 @tagName('')
 @layout(template)
 export default class Content extends Component {
-    static positionalParams = ['icon'];
-
     icon!: string;
-    class: string = defaultTo(this.class, '');
     dark: boolean = defaultTo(this.dark, false);
 
     value: string = '';

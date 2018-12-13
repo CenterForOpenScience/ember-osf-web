@@ -1,10 +1,10 @@
 <nav
-    data-test-side-nav="1"
-    data-test-collapsed="{{this.isCollapsed}}"
-    local-class="SideNav {{if this.isCollapsed 'Collapsed'}}"
+    data-test-side-nav='1'
+    data-test-collapsed='{{this.isCollapsed}}'
+    local-class='SideNav {{if this.isCollapsed 'Collapsed'}}'
     ...attributes
 >
-    <div local-class="Links">
+    <div local-class='Links'>
         {{yield (hash
             link-to=(component 'side-nav/x-link'
                 onLinkClicked=@onLinkClicked
@@ -14,9 +14,10 @@
     </div>
 
     {{#if this.isCollapseAllowed}}
-        {{#let (component 'side-nav/x-link') as |XLink|}}
-            <XLink
-                 data-test-toggle="1"
+        {{#let (component 'side-nav/x-link') as |SideNavLink|}}
+            <SideNavLink
+                data-analytics-name={{if this.isCollapsed 'Expand' 'Collapse'}}
+                 data-test-toggle='1'
                  class={{local-class 'Toggle'}}
                  @href='#'
                  @onclick={{action this.toggle}}

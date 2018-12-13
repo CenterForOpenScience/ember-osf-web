@@ -1,11 +1,11 @@
-{{#if this.loading }}
-    <div local-class="ContentBackground Loading">
+{{#if this.loading}}
+    <div local-class='ContentBackground Loading'>
         <LoadingIndicator @dark={{true}} />
     </div>
 {{else}}
-    <div local-class="TitleBackground">
+    <div local-class='TitleBackground'>
         <Container>
-            <h1 local-class="Title">{{this.registration.title}}</h1>
+            <h1 local-class='Title'>{{this.registration.title}}</h1>
         </Container>
     </div>
 
@@ -42,69 +42,79 @@
         </Navbar>
     {{/if}}
 
-    <div local-class="ContentBackground">
+    <div local-class='ContentBackground'>
         <Gutters
-             @leftMode={{this.sidenavGutterMode}}
-             @leftClosed={{this.sidenavGutterClosed}}
-             @rightMode={{this.metadataGutterMode}}
-             @rightClosed={{this.metadataGutterClosed}}
-             as |gutters|
-         >
-            <gutters.left-gutter>
-                <SideNav @onLinkClicked={{action (mut this.sidenavGutterClosed) true}} as |nav|>
-                    <nav.link-to data-test-link="overview"
-                        @icon="home"
-                        @label={{t 'registries.overview.title'}}
-                        @route="registries.overview.index"
+            @leftMode={{this.sidenavGutterMode}}
+            @leftClosed={{this.sidenavGutterClosed}}
+            @rightMode={{this.metadataGutterMode}}
+            @rightClosed={{this.metadataGutterClosed}}
+            as |gutters|
+        >
+            <gutters.left-gutter data-analytics-scope='Left sidenav'>
+                <SideNav
+                    @onLinkClicked={{action (mut this.sidenavGutterClosed) true}}
+                    as |nav|
+                >
+                    <nav.link-to
+                        data-analytics-name='Overview'
+                        @route='registries.overview.index'
                         @models={{array this.registration.id}}
+                        @icon='home'
+                        @label={{t 'registries.overview.title'}}
                     />
-                    <nav.link-to data-test-link="files"
-                        @icon="file-text"
+                    <nav.link-to
+                        data-analytics-name='Files'
+                        @href='/{{this.registration.id}}/files/'
+                        @icon='file-text'
                         @label={{t 'registries.overview.external_links.files'}}
-                        @href="/{{this.registration.id}}/files/"
                         @count={{50}}
                     />
-                    <nav.link-to data-test-link="wiki"
-                        @icon="window-maximize"
+                    <nav.link-to
+                        data-analytics-name='Wiki'
+                        @href='/{{this.registration.id}}/wiki/'
+                        @icon='window-maximize'
                         @label={{t 'registries.overview.external_links.wiki'}}
-                        @href="/{{this.registration.id}}/wiki/"
                         @count={{4}}
                     />
-                    <nav.link-to data-test-link="components"
-                        @icon="puzzle-piece"
+                    <nav.link-to
+                        data-analytics-name='Components'
+                        @route='registries.overview.children'
+                        @models={{array this.registration.id}}
+                        @icon='puzzle-piece'
                         @label={{t 'registries.overview.components.title'}}
                         @count={{this.registration.relatedCounts.children}}
-                        @route="registries.overview.children"
-                        @models={{array this.registration.id}}
                     />
-                    <nav.link-to data-test-link="links"
-                        @icon="link"
+                    <nav.link-to
+                        data-analytics-name='Links'
+                        @route='registries.overview.links'
+                        @models={{array this.registration.id}}
+                        @icon='link'
                         @label={{t 'registries.overview.links.title'}}
                         @count={{this.linksCount}}
-                        @route="registries.overview.links"
-                        @models={{array this.registration.id}}
                     />
-                    <nav.link-to data-test-link="analytics"
-                        @icon="bar-chart"
+                    <nav.link-to
+                        data-analytics-name='Analytics'
+                        @route='registries.overview.analytics'
+                        @models={{array this.registration.id}}
+                        @icon='bar-chart'
                         @label={{t 'registries.overview.external_links.analytics'}}
-                        @route="registries.overview.analytics"
-                        @models={{array this.registration.id}}
                     />
-                    <nav.link-to data-test-link="comments"
-                        @icon="comments"
-                        @label={{t 'registries.overview.comments.title'}}
-                        @route="registries.overview.comments"
+                    <nav.link-to
+                        data-analytics-name='Comments'
+                        @route='registries.overview.comments'
                         @models={{array this.registration.id}}
+                        @icon='comments'
+                        @label={{t 'registries.overview.comments.title'}}
                         @count={{28}}
                     />
                 </SideNav>
             </gutters.left-gutter>
 
-            <gutters.body local-class="OverviewBody">
+            <gutters.body local-class='OverviewBody'>
                 {{outlet}}
             </gutters.body>
 
-            <gutters.right-gutter>
+            <gutters.right-gutter data-analytics-scope='Right panel'>
                 <RegistriesMetadata
                     @onLinkClicked={{action (mut this.metadataGutterClosed) true}}
                     @registration={{this.registration}}

@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { click, currentRouteName } from '@ember/test-helpers';
+import { currentRouteName } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
@@ -7,7 +7,7 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import Registration from 'ember-osf-web/models/registration';
-import { currentURL, visit } from 'ember-osf-web/tests/helpers';
+import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine, setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
 interface OverviewTestContext extends TestContext {
@@ -50,19 +50,19 @@ module('Registries | Acceptance | overview.index', hooks => {
         analyticsEngine.register('service:keen', KeenStub);
 
         const testCases = [{
-            name: 'comments',
+            name: 'Comments',
             route: 'registries.overview.comments',
             url: `/--registries/${this.registration.id}/comments`,
         }, {
-            name: 'analytics',
+            name: 'Analytics',
             route: 'guid-registration.analytics.index',
             url: `/--registration/${this.registration.id}/analytics`,
         }, {
-            name: 'components',
+            name: 'Components',
             route: 'registries.overview.children',
             url: `/--registries/${this.registration.id}/components`,
         }, {
-            name: 'links',
+            name: 'Links',
             route: 'registries.overview.links',
             url: `/--registries/${this.registration.id}/links`,
         }];
@@ -70,7 +70,7 @@ module('Registries | Acceptance | overview.index', hooks => {
         for (const testCase of testCases) {
             await visit(`/${this.registration.id}/`);
 
-            await click(`[data-test-link="${testCase.name}"]`);
+            await click(`[data-analytics-name="${testCase.name}"]`);
             await percySnapshot(`Registries sidenav - ${testCase.name}`);
 
             assert.equal(currentURL(), testCase.url, 'At the correct URL');
@@ -80,10 +80,10 @@ module('Registries | Acceptance | overview.index', hooks => {
 
     test('sidenav hrefs', async function(this: OverviewTestContext, assert: Assert) {
         const testCases = [{
-            selector: '[data-test-link="files"]',
+            selector: '[data-analytics-name="Files"]',
             href: `/${this.registration.id}/files/`,
         }, {
-            selector: '[data-test-link="wiki"]',
+            selector: '[data-analytics-name="Wiki"]',
             href: `/${this.registration.id}/wiki/`,
         }];
 
