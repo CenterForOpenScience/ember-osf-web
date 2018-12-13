@@ -2,7 +2,7 @@
     {{t "general.share"}}
     <BsPopover
         @placement="bottom"
-        @local-class="Popover"
+        local-class="Popover"
         @title={{t "general.share"}}
         @visible={{this.showPopup}}
     >
@@ -30,7 +30,7 @@
                     <tab.pane 
                         @elementId={{this.sharePaneId}}
                         @title={{t "general.share"}}
-                        @local-class="SharePane"
+                        local-class="SharePane"
                     >
                         <br>
                         <CopyableText
@@ -91,7 +91,7 @@
                     <tab.pane
                         @elementId={{this.embedPaneId}}
                         @title="Embed" 
-                        @local-class="EmbedPane"
+                        local-class="EmbedPane"
                     >
                         <br>
                         <p>{{t "file_detail.embed.dynamic"}}</p>
