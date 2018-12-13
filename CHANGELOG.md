@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
     - `validated-model-form` - Add an optional hook for onWillDestroy
+    - `contributor-list` - takes an optional parameter `truncated`
 - Handbook:
     - `validated-model-form` - Show how onWillDestroy works and use ember-onbeforeunload
 - Models:

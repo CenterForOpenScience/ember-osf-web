@@ -1,4 +1,4 @@
-{{#if (gt items.length truncate)}}
+{{#if shouldTruncate}}
     {{yield (hash item=first)~}}
     {{~t 'list.many_item.first_delimiter'~}}
     {{#each rest as | i index |}}
