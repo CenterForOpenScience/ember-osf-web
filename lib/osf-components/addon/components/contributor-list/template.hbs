@@ -1,4 +1,8 @@
-{{#inline-list items=this.contributorList truncate=this.truncate as |l|}}
+<InlineList
+    @items={{this.contributorList}}
+    @truncate={{this.truncate}}
+    as |l|
+>
     {{#if l.item}}
         {{~contributor-list/contributor useLink=this.useLink contributor=l.item~}}
     {{else if l.truncate}}
@@ -8,4 +12,4 @@
             {{~t 'contributor_list.and_x_more' x=this.rest}}
         {{/if}}
     {{/if}}
-{{/inline-list}}
+</InlineList>
