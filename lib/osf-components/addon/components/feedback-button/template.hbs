@@ -40,17 +40,25 @@
     </modal.body>
     <modal.footer>
         {{#if this.isActive}}
-            {{#bs-button onClick=(action modal.close)}}
+            <BsButton
+                @onClick={{action modal.close}}
+            >
                 {{t 'general.cancel'}}
-            {{/bs-button}}
-            {{#bs-button type="success" onClick=(action modal.submit)}}
+            </BsButton>
+            <BsButton
+                @type="success"
+                @onClick={{action modal.submit}}
+            >
                 {{t 'feedback.confirm_button_text'}}
-            {{/bs-button}}
+            </BsButton>
         {{/if}}
         {{#if this.isSuccessful}}
-            {{#bs-button type="primary" onClick=(action modal.close)}}
+            <BsButton
+                @type="primary"
+                @onClick={{action modal.close}}
+            >
                 {{t 'feedback.dismiss'}}
-            {{/bs-button}}
+            </BsButton>
         {{/if}}
     </modal.footer>
 </BsModal>

@@ -46,6 +46,9 @@ module('Acceptance | dashboard', hooks => {
             .hasText(currentUser.fullName, 'User\'s name is in navbar');
 
         await percySnapshot(assert);
+
+        await click('[data-test-auth-dropdown');
+        await percySnapshot('Acceptance | dashboard | visiting /dashboard | auth dropdown');
     });
 
     test('institutions carousel', async assert => {

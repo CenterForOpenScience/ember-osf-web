@@ -16,7 +16,8 @@
         </div>
     </li>
 {{else}}
-    <BsDropdown 
+    <BsDropdown
+        data-test-auth-dropdown
         @tagName="li"
         @classNames="dropdown secondary-nav-dropdown"
         as |dd| 
@@ -31,7 +32,7 @@
 
         <dd.menu
             @classNames="auth-dropdown"
-            @local-class="AuthDropdown"
+            local-class="AuthDropdown"
             as |ddm|
         >
             {{#if @headline}}

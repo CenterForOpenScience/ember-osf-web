@@ -213,9 +213,12 @@
                                         {{t "general.sha2"}}
                                         <span>
                                             {{fa-icon "question-circle"}}
-                                            {{#bs-popover triggerEvents='hover' placement='top'}}
+                                            <BsPopover 
+                                                @triggerEvents="hover"
+                                                @placement="top"
+                                            >
                                                 {{t 'file_detail.sha2_description'}}
-                                            {{/bs-popover}}
+                                            </BsPopover>
                                         </span>
                                     </th>
                                 </tr>

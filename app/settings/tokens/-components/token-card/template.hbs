@@ -8,17 +8,20 @@
             {{@token.name}}
         {{/link-to}}
     {{else}}
-        {{#content-placeholders local-class='TokenCard__placeholder' as |placeholder|}}
+        <ContentPlaceholders
+            local-class="TokenCard__placeholder"
+            as |placeholder|
+        >
             {{placeholder.heading subtitle=false}}
-        {{/content-placeholders}}
+        </ContentPlaceholders>
     {{/if}}
 
-    {{delete-button
-        small=true
-        delete=(action this.delete)
-        disabled=(not @token)
-        analyticsScope='Settings - Tokens'
-        modalTitle=(t 'settings.tokens.confirmDelete.title' tokenName=this.token.name)
-        modalBody=(t 'settings.tokens.confirmDelete.body')
-    }}
+    <DeleteButton
+        @small={{true}}
+        @delete={{action this.delete}}
+        @disabled={{not @token}}
+        @analyticsScope="Settings - Tokens"
+        @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
+        @modalBody={{t 'settings.tokens.confirmDelete.body'}}
+    />
 </div>
