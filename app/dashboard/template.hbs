@@ -62,7 +62,7 @@
                                                         <span>{{t 'general.title'}}</span>
                                                         <SortButton
                                                             @sortAction={{action this.sortProjects}}
-                                                            @sort=this.sort
+                                                            @sort={{this.sort}}
                                                             @sortBy="title"
                                                             @class="sort_button"
                                                         />
@@ -78,7 +78,7 @@
                                                         <span>{{t 'general.modified'}}</span>
                                                         <SortButton
                                                             @sortAction={{action this.sortProjects}}
-                                                            @sort=this.sort
+                                                            @sort={{this.sort}}
                                                             @sortBy="last_logged"
                                                             @class="sort_button"
                                                         />

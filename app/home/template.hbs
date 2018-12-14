@@ -186,11 +186,11 @@
                 <h2>{{t 'home.global_title'}}</h2>
                 <p>
                     {{t 'home.global_paragraph'}}
-                    <a 
+                    <a
                         href="/explore/activity/"
                         onclick={{action 'click' 'link' 'Home - explore_activity' target=this.analytics}}
                     >
-                        {{t 'home.global_link'}}
+                        {{t 'home.global_link'~}}
                     </a>
                     <span class="label label-warning" local-class="label-home">{{t 'home.global_label'}}</span>
                 </p>
@@ -200,11 +200,11 @@
                 <h2>{{t 'home.non_profit_title'}}</h2>
                 <p>
                     {{t 'home.non_profit_paragraph1'}}
-                    <a 
+                    <a
                         href="https://cos.io/"
                         onclick={{action 'click' 'link' 'Home - cos_webpage' target=this.analytics}}
                     >
-                        {{t 'home.non_profit_link'}}
+                        {{t 'home.non_profit_link'~}}
                     </a>
                     {{t 'home.non_profit_paragraph2'}}
                     <span class="label label-success" local-class="label-home">{{t 'home.non_profit_label'}}</span>
