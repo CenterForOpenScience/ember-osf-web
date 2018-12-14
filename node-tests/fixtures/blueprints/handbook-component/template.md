@@ -3,4 +3,4 @@
 describe your component here!
 
 ## demo
-{{docs/components/foo-bar/demo}}
+{{docs/components/foo-bar/-components/demo}}
