@@ -1,29 +1,29 @@
-{{#if slides}}
-    {{#bs-carousel
-        interval=0
-        tabindex=0
-        showIndicators=false
-        prevControlLabel=(t 'general.previous')
-        nextControlLabel=(t 'general.next')
-        prevControlIcon='fa fa-angle-left'
-        nextControlIcon='fa fa-angle-right'
-        prevControlClassName=(local-class 'InstitutionCarousel__control left')
-        nextControlClassName=(local-class 'InstitutionCarousel__control right')
-        showControls=showControls
+{{#if this.slides}}
+    <BsCarousel
+        @interval={{0}}
+        @tabindex={{0}}
+        @showIndicators={{false}}
+        @prevControlLabel={{t 'general.previous'}}
+        @nextControlLabel={{t 'general.next'}}
+        @prevControlIcon="fa fa-angle-left"
+        @nextControlIcon="fa fa-angle-right"
+        @prevControlClassName={{local-class 'InstitutionCarousel__control left'}}
+        @nextControlClassName={{local-class 'InstitutionCarousel__control right'}}
+        @showControls=this.showControls
         as |carousel|
-    }}
-        {{#each slides as |slide|}}
-            {{#carousel.slide}}
+    >
+        {{#each this.slides as |slide|}}
+            <carousel.slide>
                 {{#each slide as |institution index|}}
                     <div
-                        class="{{if (not index) (concat "col-sm-2 col-sm-offset-" columnOffset) "col-sm-2"}}"
+                        class="{{if (not index) (concat "col-sm-2 col-sm-offset-" this.columnOffset) "col-sm-2"}}"
                         local-class="InstitutionCarousel__item"
                         role="option"
                         data-test-institution-carousel-item="{{institution.id}}"
                     >
                         <a
                             href="/institutions/{{institution.id}}"
-                            onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - visit_institution' target=analytics}}
+                            onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - visit_institution' target=this.analytics}}
                         >
                             <img
                                 class="img-circle img-responsive"
@@ -36,7 +36,7 @@
                         </a>
                     </div>
                 {{/each}}
-            {{/carousel.slide}}
+            </carousel.slide>
         {{/each}}
-    {{/bs-carousel}}
+    </BsCarousel>
 {{/if}}
