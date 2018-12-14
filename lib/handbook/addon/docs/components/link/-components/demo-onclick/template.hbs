@@ -1,0 +1,10 @@
+{{#docs-demo as |demo|}}
+    {{#demo.example name='link.demo-onclick.hbs'}}
+        <Link @onclick={{action this.doTheThing}}>
+            Do the thing.
+        </Link>
+    {{/demo.example}}
+
+    {{demo.snippet 'link.demo-onclick.hbs'}}
+    {{demo.snippet 'link.demo-onclick.ts' label='component.ts'}}
+{{/docs-demo}}

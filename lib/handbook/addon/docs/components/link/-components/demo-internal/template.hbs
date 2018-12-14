@@ -1,0 +1,14 @@
+{{#docs-demo as |demo|}}
+    {{#demo.example name='link.demo-internal.hbs'}}
+        <Link
+            data-analytics-name='This link'
+            @route='guid-node.analytics'
+            @models={{array 'decaf'}}
+            @queryParams={{hash query='param'}}
+        >
+            Link within the app
+        </Link>
+    {{/demo.example}}
+
+    {{demo.snippet 'link.demo-internal.hbs'}}
+{{/docs-demo}}
