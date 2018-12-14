@@ -155,9 +155,7 @@ export default class Submit extends Component {
      */
     @action
     cancel(this: Submit) {
-        if (this.activeSection === Section.project) {
-            this.transition();
-        }
+        this.transition();
     }
 
     @action

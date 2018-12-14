@@ -13,13 +13,13 @@ export default class GuidEdit extends Controller {
     @alias('model.taskInstance.value.collectedMetadatum') collectedMetadatum!: CollectedMetadatum;
     @alias('model.taskInstance.value.collectionItem') collectionItem!: Node;
 
+    isPageDirty: boolean = false;
+
     @action
     returnToProjectOverviewPage() {
         // change to using `transitionToRoute()` once the project overview page is in Ember
         window.location.href = `${config.OSF.url}${this.collectionItem.id}`;
     }
-
-    isPageDirty: boolean = false;
 
     @action
     setPageDirty() {

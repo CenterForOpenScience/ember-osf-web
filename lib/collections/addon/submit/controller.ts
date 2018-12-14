@@ -10,12 +10,12 @@ export default class Submit extends Controller {
     @alias('model.taskInstance.value.collection') collection!: Collection;
     @alias('model.taskInstance.value.collectedMetadatum') collectedMetadatum!: CollectedMetadatum;
 
+    isPageDirty: boolean = false;
+
     @action
     returnToDiscoverPage() {
         this.transitionToRoute('provider.discover', this.provider.id);
     }
-
-    isPageDirty: boolean = false;
 
     @action
     setPageDirty() {
