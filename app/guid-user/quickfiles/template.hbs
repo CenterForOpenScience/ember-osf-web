@@ -1,6 +1,6 @@
 {{title (t 'quickfiles.title' user-name=this.user.fullName)}}
 <div class='container'>
-    <QuickfileNav @user={{this.user}} @onQuickfiles={{true}}></QuickfileNav>
+    <QuickfileNav @user={{this.user}} @onQuickfiles={{true}} />
     <div class='row container' local-class="Content">
         {{#if this.canEdit}}
             <h5><i>{{t 'quickfiles.description'}}</i></h5>
@@ -25,4 +25,4 @@
     </div>
 </div>
 
-<FeedbackButton @text={{t 'quickfiles.feedback_dialog_text'}} @pageName={{this.pageName}}></FeedbackButton>
+<FeedbackButton @text={{t 'quickfiles.feedback_dialog_text'}} @pageName={{this.pageName}} />

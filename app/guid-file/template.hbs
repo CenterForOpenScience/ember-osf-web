@@ -1,6 +1,6 @@
 {{title this.model.file.name}}
 <div class='container'>
-    <QuickfileNav @user={{this.model.user}} @onQuickfiles={{false}}></QuickfileNav>
+    <QuickfileNav @user={{this.model.user}} @onQuickfiles={{false}} />
     <div local-class='TitleBar'>
         <div local-class='TitleBar__title'>
             <h2>
@@ -35,7 +35,7 @@
                         </button>
                     </div>
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <FileShareButton @file={{this.model.file}}></FileShareButton>
+                        <FileShareButton @file={{this.model.file}} />
                     </div>
                     {{#if this.isEditableFile}}
                         <div class='btn-group btn-group-sm m-t-xs'>
