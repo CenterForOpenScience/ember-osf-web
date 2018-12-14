@@ -1,3 +1,5 @@
+{{!-- This can be enabled if we move the link component from Registries to the main app and use it --}}
+{{! template-lint-disable no-implicit-this }}
 <div>
     {{#link-to data-test-back-to-tokens
         'settings.tokens'
@@ -7,14 +9,15 @@
         {{t 'settings.tokens.backToList'}}
     {{/link-to}}
 </div>
-
+{{! template-lint-enable no-implicit-this }}
 {{#if this.token.tokenValue}}
     <h4>{{t 'settings.tokens.createSuccess.message' tokenName=this.token.name}}</h4>
     <p>
-        {{copyable-text data-test-new-token-value
-            text=this.token.tokenValue
-            analyticsLabel='Settings - Tokens - Copy token'
-        }}
+        <CopyableText 
+            data-test-new-token-value
+            @text={{this.token.tokenValue}}
+            @analyticsLabel="Settings - Tokens - Copy token"
+        />
     </p>
     <p local-class='NewTokenWarning' class='bg-danger'>
         <strong>
@@ -32,8 +35,8 @@
 {{else}}
     <h4>{{t 'settings.tokens.editToken'}}</h4>
 
-    {{#if model.taskInstance.isError}}
-        {{model.taskInstance.error}}
+    {{#if this.model.taskInstance.isError}}
+        {{this.model.taskInstance.error}}
     {{else}}
         {{#settings/tokens/-components/token-form
             onSave=(action this.tokenSaved)
@@ -42,21 +45,22 @@
             analyticsScope='Settings - Tokens - Edit'
             as |form|
         }}
-            {{delete-button
-                delete=(action this.deleteToken)
-                disabled=form.disabled
-                analyticsScope='Settings - Tokens - Edit'
-                modalTitle=(t 'settings.tokens.confirmDelete.title' tokenName=this.token.name)
-                modalBody=(t 'settings.tokens.confirmDelete.body')
-            }}
+            <DeleteButton
+                @delete={{action this.deleteToken}}
+                @disabled={{form.disabled}}
+                @analyticsScope="Settings - Tokens - Edit"
+                @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
+                @modalBody={{t 'settings.tokens.confirmDelete.body'}}
+            />
 
-            {{#bs-button data-test-save-token-button
-                type='primary'
-                buttonType='submit'
-                disabled=form.disabled
-            }}
+            <BsButton
+                data-test-save-token-button
+                @type="primary"
+                @buttonType="submit"
+                @disabled={{form.disabled}}
+            >
                 {{t 'general.save'}}
-            {{/bs-button}}
+            </BsButton>
         {{/settings/tokens/-components/token-form}}
     {{/if}}
 {{/if}}
