@@ -2,7 +2,7 @@
     <p local-class='Top__explanation'>
         {{t 'settings.tokens.explanation'}}
     </p>
-
+    {{! template-lint-disable no-implicit-this }}
     {{#link-to
         data-test-create-token-link
         'settings.tokens.create'
@@ -10,6 +10,7 @@
     }}
         {{t 'settings.tokens.createToken'}}
     {{/link-to}}
+    {{! template-lint-enable no-implicit-this }}
 </div>
 
 {{#paginated-list/all

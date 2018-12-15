@@ -2,6 +2,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
         <div class="container">
             <div class="navbar-header">
+                {{! template-lint-disable no-implicit-this }}
                 {{#global-link-to 
                     'home' 
                     data-test-nav-home-link 
@@ -10,37 +11,37 @@
                 }}
                     <span class="osf-navbar-logo"></span>
                 {{/global-link-to}}
-
+                {{! template-lint-enable no-implicit-this }}
                 {{! Current app }}
                 <div class="service-name">
-                    {{#hyper-link _activeService.route}}
+                    {{#hyper-link this._activeService.route}}
                         <span class="hidden-xs"> {{t 'general.OSF'}} </span>
-                        <span class="current-service"><strong>{{_activeService.name}}</strong></span>
+                        <span class="current-service"><strong>{{this._activeService.name}}</strong></span>
                     {{/hyper-link}}
                 </div>
 
                 {{! App list dropdown }}
-                {{#bs-dropdown
-                    classNames='dropdown primary-nav'
-                    onShow=(action 'onClickPrimaryDropdown')
+                <BsDropdown
+                    @classNames="dropdown primary-nav"
+                    @onShow={{action this.onClickPrimaryDropdown}}
                     as |dd|
-                }}
-                    {{#dd.toggle
-                        (html-attributes aria-label=(t 'navbar.other_views'))
-                        class=(concat 'btn-link ' (local-class 'PrimaryNav__toggle'))
-                    }}
+                >
+                    <dd.toggle
+                        aria-label={{t 'navbar.other_views'}}
+                        @class={{concat 'btn-link ' (local-class 'PrimaryNav__toggle')}}
+                    >
                         {{fa-icon 'caret-down' size='2'}}
-                    {{/dd.toggle}}
-                    {{#dd.menu classNames='dropdown-menu service-dropdown' as |ddm|}}
-                        {{#each services as |service|}}
-                            {{#ddm.item (html-attributes role='menuitem')}}
+                    </dd.toggle>
+                    <dd.menu @classNames='dropdown-menu service-dropdown' as |ddm| >
+                        {{#each this.services as |service|}}
+                            <ddm.item role="menuitem">
                                 {{#hyper-link service.route}}
                                     {{t 'general.OSF'}}<b>{{service.name}}</b>
                                 {{/hyper-link}}
-                            {{/ddm.item}}
+                            </ddm.item>
                         {{/each}}
-                    {{/dd.menu}}
-                {{/bs-dropdown}}
+                    </dd.menu>
+                </BsDropdown>
 
                 {{! Navigation toggle - XS screen }}
                 <a
@@ -56,18 +57,18 @@
             </div>
 
             {{! Secondary nav links }}
-            {{#bs-collapse
-                classNames='navbar-collapse navbar-right'
-                local-class='secondary-navigation'
-                collapsed=(not showNavLinks)
-            }}
+            <BsCollapse
+                @classNames="navbar-collapse navbar-right"
+                local-class="secondary-navigation"
+                @collapsed={{not this.showNavLinks}}
+            >
                 <ul class="nav navbar-nav" local-class="links">
                     {{#let (hash
                         links=(component 'osf-navbar/x-links'
                             onLinkClicked=(action 'onLinkClicked')
                         )
                     ) as |ctx|}}
-                        {{#if hasBlock}}
+                        {{#if (has-block)}}
                             {{yield ctx}}
                         {{else}}
                             {{ctx.links}}
@@ -76,7 +77,7 @@
 
                     {{osf-navbar/auth-dropdown onLinkClicked=(action 'onLinkClicked') campaign=@campaign}}
                 </ul>
-            {{/bs-collapse}}
+            </BsCollapse>
         </div>
     </nav>
 </div>

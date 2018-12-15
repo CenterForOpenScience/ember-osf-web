@@ -1,4 +1,6 @@
-{{#bs-form onSubmit=(perform this.saveModelTask)}}
+<BsForm
+    @onSubmit={{perform this.saveModelTask}}
+>
     {{yield (hash
         model=this.model
         disabled=this.inputsDisabled
@@ -11,4 +13,4 @@
         text=(component 'validated-input/text' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
         textarea=(component 'validated-input/textarea' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
     )}}
-{{/bs-form}}
+</BsForm>

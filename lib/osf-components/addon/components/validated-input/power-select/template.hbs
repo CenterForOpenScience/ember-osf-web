@@ -3,17 +3,17 @@
     valuePath=this.valuePath
     validationStatus=this.validationStatus
 }}
-    {{#power-select
-        id=valuePath
-        name=valuePath
-        options=options
-        selected=(or (get model valuePath) null)
-        onchange=(action 'powerSelectChanged')
-        search=search
-        noMatchesMessage=noMatchesMessage
-        disabled=this.disabled
+    <PowerSelect
+        @id={{this.valuePath}}
+        @name={{this.valuePath}}
+        @options={{this.options}}
+        @selected={{or (get this.model this.valuePath) null}}
+        @onchange={{action this.powerSelectChanged}}
+        @search={{this.search}}
+        @noMatchesMessage={{this.noMatchesMessage}}
+        @disabled={{this.disabled}}
         as |option|
-    }}
+    >
         {{yield option}}
-    {{/power-select}}
+    </PowerSelect>
 {{/validated-input/x-input-wrapper}}

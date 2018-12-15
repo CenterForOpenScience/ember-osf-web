@@ -1,50 +1,61 @@
 {{title (t 'home.title')}}
-{{#if goodbye}}
-    {{#bs-alert
+{{#if this.goodbye}}
+    <BsAlert
         data-test-goodbye-banner
-        type='success'
-        classNames='text-center'
-        local-class='goodbye'
-        onDismiss=(action 'click' 'button' 'Home - dismiss_alert' target=analytics)
-    }}
+        @type="success"
+        @classNames="text-center"
+        local-class="goodbye"
+        @onDismiss={{action 'click' 'button' 'Home - dismiss_alert' target=this.analytics}}
+    >
         <p>{{t 'home.alert_logged_out'}}</p>
-    {{/bs-alert}}
+    </BsAlert>
 {{/if}}
-{{#bs-modal
-    open=modalOpen
-    backdrop=true
-    onHidden=(action (mut modalOpen) false)
+<BsModal
+    @open={{this.modalOpen}}
+    @backdrop={{true}}
+    @onHidden={{action (mut this.modalOpen) false}}
     as | modal |
-}}
-    {{#modal.header}}
+>
+    <modal.header>
         <h4>{{t 'home.youtube_modal_title'}}</h4>
-    {{/modal.header}}
-    {{#modal.body}}
-        {{ember-youtube
-            ytid=youtubeId
-            playerVars=playerVars
-        }}
-    {{/modal.body}}
-{{/bs-modal}}
+    </modal.header>
+    <modal.body>
+        <EmberYoutube
+            @ytid={{this.youtubeId}}
+            @playerVars={{this.playerVars}}
+        />
+    </modal.body>
+</BsModal>
 <div id="home-hero">
     <div class="container text-center">
         <div local-class="network-bg"></div>
         <h1 local-class="hero-brand">{{t 'home.brand'}}</h1>
         <h3 local-class="hero-tagline">{{t 'home.tagline'}}</h3>
-        {{osf-logo animate=true}}
+        <OsfLogo @animate={{true}} />
         <div id="signUp" class="anchor"></div>
         <div id="hero-signup" class="container">
             <div class="row">
                 <div class="col-sm-6 hidden-xs">
-                    <a class="youtube" href="//www.youtube.com/watch?v={{youtubeId}}" aria-label="{{t 'home.youtube_label'}}" {{action (mut modalOpen) true}} {{action 'click' 'link' 'Home - youtube_video' target=analytics}}>
+                    <a
+                        class="youtube"
+                        href="//www.youtube.com/watch?v={{this.youtubeId}}"
+                        aria-label="{{t 'home.youtube_label'}}"
+                        {{action (mut this.modalOpen) true}}
+                        {{action 'click' 'link' 'Home - youtube_video' target=this.analytics}}
+                    >
                         <i local-class="icon icon-play"></i>
                     </a>
-                    <img src="/assets/images/home/screenshot.png" class="img-responsive" id="screenshot" alt="{{t 'home.osf_screenshot_alt'}}">
+                    <img
+                        src="/assets/images/home/screenshot.png"
+                        class="img-responsive"
+                        id="screenshot"
+                        alt="{{t 'home.osf_screenshot_alt'}}"
+                    >
                 </div>
                 <div class="col-sm-6" local-class="sign-up-div">
                     <h2>{{t 'home.signup_title'}}</h2>
                     <div id="signUpScope">
-                        {{sign-up-form data-test-sign-up-form}}
+                        <SignUpForm data-test-sign-up-form />
                     </div>
                 </div>
             </div>
@@ -156,7 +167,7 @@
             </div>
         </div>
         <div class="row space-bottom">
-            {{#each features as | featuresColumn i |}}
+            {{#each this.features as | featuresColumn i |}}
                 <div class="col-sm-6 text-{{if i 'left' 'right'}}">
                     {{#each featuresColumn as | feature |}}
                         <h3>{{t (concat 'home.features_' feature '_title')}}</h3>
@@ -175,7 +186,12 @@
                 <h2>{{t 'home.global_title'}}</h2>
                 <p>
                     {{t 'home.global_paragraph'}}
-                    <a href="/explore/activity/" onclick={{action 'click' 'link' 'Home - explore_activity' target=analytics}}>{{t 'home.global_link'}}</a>
+                    <a
+                        href="/explore/activity/"
+                        onclick={{action 'click' 'link' 'Home - explore_activity' target=this.analytics}}
+                    >
+                        {{t 'home.global_link'~}}
+                    </a>
                     <span class="label label-warning" local-class="label-home">{{t 'home.global_label'}}</span>
                 </p>
             </div>
@@ -184,7 +200,12 @@
                 <h2>{{t 'home.non_profit_title'}}</h2>
                 <p>
                     {{t 'home.non_profit_paragraph1'}}
-                    <a href="https://cos.io/" onclick={{action 'click' 'link' 'Home - cos_webpage' target=analytics}}>{{t 'home.non_profit_link'}}</a>
+                    <a
+                        href="https://cos.io/"
+                        onclick={{action 'click' 'link' 'Home - cos_webpage' target=this.analytics}}
+                    >
+                        {{t 'home.non_profit_link'~}}
+                    </a>
                     {{t 'home.non_profit_paragraph2'}}
                     <span class="label label-success" local-class="label-home">{{t 'home.non_profit_label'}}</span>
                 </p>
@@ -254,10 +275,16 @@
                     <strong>{{t 'home.free_title1'}}</strong>
                 </h2>
                 <h4>{{t 'home.free_title2'}}</h4>
-                <a href="#signUp" class="btn btn-info btn-lg" onclick={{action 'click' 'link' 'Home - goto_signup' target=analytics}}>{{t 'home.free_link'}}</a>
+                <a
+                    href="#signUp"
+                    class="btn btn-info btn-lg"
+                    onclick={{action 'click' 'link' 'Home - goto_signup' target=this.analytics}}
+                >
+                    {{t 'home.free_link'}}
+                </a>
             </div>
             <div class="col-md-4 hidden-xs hidden-sm">
-                {{osf-logo double=true}}
+                <OsfLogo @double={{true}} />
             </div>
         </div>
     </div>

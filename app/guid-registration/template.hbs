@@ -1,10 +1,10 @@
-{{#unless model.taskInstance.isRunning}}
-    {{node-navbar node=model.taskInstance.value}}
+{{#unless this.model.taskInstance.isRunning}}
+    <NodeNavbar @node={{this.model.taskInstance.value}} />
 {{/unless}}
 
 <div local-class='Registrations__watermarked'>
     <div class="container alert alert-info">
-        {{t 'registration.project_alert' projectId=projectId}}
+        {{t 'registration.project_alert' projectId=this.projectId}}
     </div>
     {{outlet}}
 </div>

@@ -5,7 +5,7 @@
                 {{#unless @node.public}}
                     <span>
                         {{fa-icon 'lock'}}
-                        {{#bs-tooltip}}{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}{{/bs-tooltip}}
+                        <BsTooltip>{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}</BsTooltip>
                     </span> |
                 {{/unless}}
                 {{#if @node.pendingRegistrationApproval}}
@@ -29,19 +29,19 @@
                     {{@node.title}}
                 {{/global-link-to}}
             {{else}}
-                {{#content-placeholders as |placeholder|}}
-                    {{placeholder.heading subtitle=false}}
-                {{/content-placeholders}}
+                <ContentPlaceholders as |placeholder|>
+                    <placeholder.heading @subtitle={{false}} />
+                </ContentPlaceholders>
             {{/if}}
         </span>
         {{#if @node}}
             {{#if this.showDropdown}}
                 <div class="pull-right generic-dropdown" local-class="NodeCard__dropdown">
-                    {{#bs-dropdown as |dd|}}
-                        {{#dd.button local-class='NodeCard__dropdown-button'}}
+                    <BsDropdown as |dd|>
+                        <dd.button local-class="NodeCard__dropdown-button">
                             <span aria-label={{t 'node_card.options'}} class="glyphicon glyphicon-option-horizontal"></span>
-                        {{/dd.button}}
-                        {{#dd.menu class='dropdown-menu-right' local-class='NodeCard__dropdown-list'}}
+                        </dd.button>
+                        <dd.menu @class="dropdown-menu-right" local-class="NodeCard__dropdown-list">
                             <li role='menuitem'>
                                 <a
                                     href="/{{@node.id}}/contributors/"
@@ -54,7 +54,7 @@
                             <li role='menuitem'>
                                 <a
                                     href="/{{@node.id}}/settings/"
-                                    onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Settings') target=analytics}}
+                                    onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Settings') target=this.analytics}}
                                     local-class='NodeCard__dropdown-link'
                                 >
                                     {{t 'general.settings'}}
@@ -69,13 +69,13 @@
                                     {{t 'general.delete'}}
                                 </a>
                             </li>
-                        {{/dd.menu}}
-                    {{/bs-dropdown}}
+                        </dd.menu>
+                    </BsDropdown>
                 </div>
             {{/if}}
         {{/if}}
     </h4>
-    <div local-class="NodeCard__body" data-test-node-card-body>
+    <div data-test-node-card-body local-class="NodeCard__body">
         {{#if @node}}
             <div local-class="NodeCard__timestamp">
                 {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}} {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
@@ -91,7 +91,11 @@
                 </div>
             {{/if}}
             <div local-class="NodeCard__authors">
-                {{contributor-list contributors=@node.contributors useLink=true nodeId=@node.id}}
+                <ContributorList
+                    @contributors={{@node.contributors}}
+                    @useLink={{true}}
+                    @nodeId={{@node.id}}
+                />
             </div>
             <div local-class="NodeCard__description">
                 {{@node.description}}
@@ -99,13 +103,18 @@
             {{#if (and this.showTags @node.tags)}}
                 <div local-class="NodeCard__tags">
                     <strong>{{t 'node_card.tags'}}</strong>
-                    {{tags-widget tags=@node.tags inline=true readOnly=true analyticsScope=(concat this.analyticsScopePrefix 'Node Card')}}
+                    <TagsWidget
+                        @tags={{@node.tags}}
+                        @inline={{true}}
+                        @readOnly={{true}}
+                        @analyticsScope={{concat this.analyticsScopePrefix 'Node Card'}}
+                    />
                 </div>
             {{/if}}
         {{else}}
-            {{#content-placeholders as |placeholder|}}
-                {{placeholder.text lines=2}}
-            {{/content-placeholders}}
+            <ContentPlaceholders as |placeholder|>
+                <placeholder.text @lines={{2}} />
+            </ContentPlaceholders>
         {{/if}}
     </div>
 </div>
