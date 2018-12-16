@@ -1,15 +1,86 @@
 // How basic font sizing should work throughout the app at various media sizes and scaling ratios.
 
+/*
+ * Typography Classes
+ */
+
+h1,
+h2,
+h3,
+h4,
+h1 small {
+    font-weight: 300;
+}
+
+/* Font Weights */
+@for $i from 1 to 6 {
+    .f-w-#{nth($sizes, $i)} {
+        font-weight: nth($weights, $i);
+    }
+}
+
+.link-solid,
+.link-solid:hover {
+    border-bottom: 1px solid $color-select;
+    text-decoration: none;
+}
+
+.link-dashed,
+.link-dashed:hover {
+    border-bottom: 1px dashed $color-select;
+    text-decoration: none;
+}
+
+.text-smaller {
+    font-size: 0.9em;
+}
+
+.text-bigger {
+    font-size: 1.1em;
+}
+
+.osf-editable {
+    border-bottom: 1px dotted $color-grey;
+}
+
+.osf-editable:hover {
+    cursor: pointer;
+    background-color: #f8f8f8;
+}
+
+.break-word {
+    word-break: break-word;
+    /* Only WebKit/Blink browsers Support */
+    word-wrap: break-word;
+}
+
+p,
+a,
+span,
+em,
+td {
+    word-break: break-word;
+    /* Only WebKit/Blink browsers Support */
+    word-wrap: break-word;
+}
+
+/* Correct an issue where input elements under the above word break elements break their content too */
+input {
+    word-break: normal !important;
+}
+
 @media (max-width: 480px) {
     :root {
         --ratio: 1.2;
     }
 }
+
 @media (min-width: 480px) and (max-width: 768px) {
     :root {
         --ratio: 1.414;
     }
 }
+
 @media (min-width: 768px) {
     :root {
         --ratio: 1.5;
