@@ -31,7 +31,7 @@
     animation: spin 3s infinite linear, opacity 3s infinite linear;
     display: inline-block;
     vertical-align: middle;
-    background: url('../img/logo_spin.png');
+    background: url('/assets/images/global/logo_spin.png');
     background-size: 100%;
 }
 
@@ -428,7 +428,6 @@
 }
 
 .navbar-default {
-    background-image: linear-gradient(top, #fff 0%, #f8f8f8 100%);
     background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff', endColorstr='#fff8f8f8', GradientType=0);
@@ -440,7 +439,6 @@
 
 .navbar-default .navbar-nav>.open>a,
 .navbar-default .navbar-nav>.active>a {
-    background-image: linear-gradient(top, #dbdbdb 0%, #e2e2e2 100%);
     background-image: linear-gradient(to bottom, #dbdbdb 0%, #e2e2e2 100%);
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdbdbdb', endColorstr='#ffe2e2e2', GradientType=0);
@@ -454,7 +452,6 @@
 }
 
 .navbar-inverse {
-    background-image: linear-gradient(top, rgba(60, 60, 60, 0.5) 0%, rgba(34, 34, 34, 0.5) 100%);
     background-image: linear-gradient(to bottom, rgba(60, 60, 60, 0.5) 0%, rgba(34, 34, 34, 0.5) 100%);
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#803c3c3c', endColorstr='#80222222', GradientType=0);
@@ -465,7 +462,6 @@
 
 .navbar-inverse .navbar-nav>.open>a,
 .navbar-inverse .navbar-nav>.active>a {
-    background-image: linear-gradient(top, rgba(8, 8, 8, 0.5) 0%, rgba(15, 15, 15, 0.5) 100%);
     background-image: linear-gradient(to bottom, rgba(8, 8, 8, 0.5) 0%, rgba(15, 15, 15, 0.5) 100%);
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80080808', endColorstr='#800f0f0f', GradientType=0);
@@ -498,7 +494,7 @@
 .osf-navbar-logo {
     float: left;
     margin-right: 8px;
-    background: url('../img/cos-white2.png');
+    background: url('/assets/images/global/cos-white2.png');
     background-size: 100%;
     width: 27px;
     height: 27px;
@@ -648,7 +644,6 @@
 
 .dropdown-menu>li>a:hover,
 .dropdown-menu>li>a:focus {
-    background-image: linear-gradient(top, #222 0%, #151515 100%);
     background-image: linear-gradient(to bottom, #222 0%, #151515 100%);
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff151515', GradientType=0);
@@ -658,7 +653,6 @@
 .dropdown-menu>.active>a,
 .dropdown-menu>.active>a:hover,
 .dropdown-menu>.active>a:focus {
-    background-image: linear-gradient(top, #337ab7 0%, #2e6da4 100%);
     background-image: linear-gradient(to bottom, #337ab7 0%, #2e6da4 100%);
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff2e6da4', GradientType=0);
@@ -895,22 +889,4 @@ button.nav-user-dropdown {
 
 .logoutLink {
     cursor: pointer;
-}
-
-/* Button color overrides */
-
-.btn-success {
-    @include a11y-button-variant($brand-success);
-}
-
-.btn-info {
-    @include a11y-button-variant($brand-info);
-}
-
-.btn-warning {
-    @include a11y-button-variant($brand-warning, #333);
-}
-
-.btn-danger {
-    @include a11y-button-variant($brand-danger);
 }

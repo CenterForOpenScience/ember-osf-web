@@ -32,9 +32,9 @@ $brand-danger: #d9534f !default;
 
 /* overrides with darkened colors for a11y contrast */
 $brand-success: darken($brand-success, 10%);
-// $brand-info: darken($brand-info, 30%);
+$brand-info: darken($brand-info, 30%);
 // no override needed for brand-warning (will use dark text instead)
-// $brand-danger: darken($brand-danger, 15%);
+$brand-danger: darken($brand-danger, 7.5%);
 
 
 // Internal variables
@@ -83,9 +83,6 @@ $color-shadow-gray-dark: #898787;
 
 $color-text-placeholder-grey-dark: #666;
 
-// $brand-success: #5cb85c;
-// $brand-info: #5bc0de;
-// $brand-danger: #d9534f;
 $btn-success-high-contrast-color: #fff;
 $btn-info-high-contrast-color: #fff;
 $btn-danger-high-contrast-color: #fff;

@@ -14,7 +14,7 @@
     }
     
     :global(.label-info) {
-        background-color: darken($brand-info, 20%);
+        background-color: $brand-info, 20%;
     }
 }
 

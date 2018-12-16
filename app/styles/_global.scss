@@ -21,3 +21,7 @@ body > :global(.ember-view) {
     }
 }
 
+.modal-open,
+.modal {
+    overflow-y: auto !important;
+}
