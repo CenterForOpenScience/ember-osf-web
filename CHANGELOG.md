@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Addons:
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
+    - `loaders-css` - For animated loading indicators
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
 - Handbook:
@@ -21,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings.profile.employment`
     - `settings.profile.name` - Adds ability to change your name and name parts (with citation preview)
     - `settings.profile.social`
+- Styles:
+    - All styles from `osf-style`
 - Tests:
     - Integration:
         - `settings.profile.name.-components.citation-preview`
@@ -65,6 +68,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Add email verification modal to application template
 - Misc:
     - Upgraded to `osf-style` 1.8.0
+
+### Removed
+- Addons:
+    - `osf-style`
 
 ## [18.2.0] - 2018-11-29
 ### Changed
