@@ -9,6 +9,10 @@
         }
     }
 
+    :global(.label-danger) {
+        background-color: $brand-danger;
+    }
+
     & > span {
         line-height: 1.5;
     }
