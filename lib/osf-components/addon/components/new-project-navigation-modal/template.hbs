@@ -1,21 +1,21 @@
-{{#bs-modal onHidden=closeModal as |modal|}}
-    {{#modal.body}}
+<BsModal @onHidden={{this.closeModal}} as |modal|>
+    <modal.body>
         <button
             data-test-close-with-x
             aria-label={{t 'general.close'}}
             class="close"
-            onclick={{action closeModal reload=true}}
+            onclick={{action this.closeModal reload=true}}
         >
             {{fa-icon 'times' size='sm'}}
         </button>
         <h4 class="add-project-success text-success">
             {{this.title}}
         </h4>
-    {{/modal.body}}
-    {{#modal.footer}}
+    </modal.body>
+    <modal.footer>
         <button
             data-test-stay-here
-            onclick={{action stayHere reload=true}}
+            onclick={{action this.stayHere reload=true}}
             class="btn btn-default"
         >
             {{t 'new_project.stay_here'}}
@@ -23,11 +23,11 @@
         <a
             data-test-go-to-new
             role='button'
-            href="{{node.links.html}}"
+            href="{{@node.links.html}}"
             class="btn btn-success"
-            onclick={{action 'click' 'link' (concat page ' - New Project - go_to_new_project') target=analytics}}
+            onclick={{action 'click' 'link' (concat @page ' - New Project - go_to_new_project') target=this.analytics}}
         >
             {{t 'new_project.go_to_new'}}
         </a>
-    {{/modal.footer}}
-{{/bs-modal}}
+    </modal.footer>
+</BsModal>
