@@ -60,7 +60,7 @@ module('Acceptance | dashboard', hooks => {
         // Click next to make item six visible
         await click('.carousel-control.right');
 
-        assert.dom(`[data-test-institution-carousel-item] a[href="/institutions/${institutions[6].id}"]`)
+        assert.dom(`[data-test-institution-carousel-item] a[href="/institutions/${institutions[6].id}/"]`)
             .exists('Institutions are linked properly');
 
         assert.dom('[data-test-institution-carousel-item="6"]').isVisible();

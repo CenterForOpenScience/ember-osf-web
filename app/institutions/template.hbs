@@ -46,12 +46,12 @@
                                 {{#each this.institutions as |institution|}}
                                     <a
                                         class="m-v-sm row"
-                                        local-class='Institutions__table__item'
-                                        href='{{institution.id}}'
+                                        local-class="Institutions__table__item"
+                                        href="{{institution.links.html}}"
                                         onclick={{action 'click' 'link' 'Institutions - Visit institution' target=this.analytics}}
                                     >
                                         <div class='col-xs-3'>
-                                            <img local-class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoPath}}'>
+                                            <img local-class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoUrl}}'>
                                         </div>
                                         <div class='col-xs-9' local-class='Institutions__table__title'><span>{{institution.name}}</span></div>
                                     </a>
