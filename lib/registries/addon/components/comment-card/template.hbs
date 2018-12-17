@@ -1,105 +1,114 @@
-{{#if this.isAbuse}}
-    <div local-class="CommentRestore">
-        <i>{{t "registries.overview.comments.comment_abuse"}}</i>
-        {{#if this.currentUserHasReported}}
-            <a role="button" onclick={{perform submitRetractReport}}>
-                {{t "registries.overview.comments.comment_abuse_action"}}
-            </a>
-        {{/if}}
-    </div>
-{{/if}}
-<div local-class="Comment" hidden={{this.isAbuse}}>
-    <div local-class="CommentHeader">
-        <div>
-            {{#if this.user.profileImage}}
-                <img data-test-gravatar alt="{{t 'auth_dropdown.user_gravatar'}}" src={{concat this.user.profileImage "&s=30"}}>
+{{#if this.loading}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    {{#if this.isAbuse}}
+        <div local-class="CommentRestore">
+            <span>{{t "registries.overview.comments.comment_abuse"}}</span>
+            {{#if this.currentUserHasReported}}
+                <a role="button" onclick={{perform this.submitRetractReport}}>
+                    {{t "registries.overview.comments.comment_abuse_action"}}
+                </a>
             {{/if}}
-            <a role="link" href={{this.user.profileURL}} local-class="CommentUser">
-                {{this.user.fullName}}
-            </a>
         </div>
-        <div>
-            {{#if this.comment.modified}}
-                <span local-class="dateModified">
-                    {{#bs-tooltip local-class="Tooltip" placement="left" viewportSelector=(concat "#" this.elementId)}}
-                        {{t 'registries.overview.comments.modified'}}{{this.dateModified}}
-                    {{/bs-tooltip}}
-                    <sup>{{fa-icon 'asterisk'}}</sup>
-                </span>
-            {{/if}}
-            <span local-class="dateCreated">
-                {{this.dateCreated}}
-            </span>
-        </div>
-    </div>
-
-    {{#if this.loadingReplies}}
-        <LoadingIndicator @dark={{true}} />
     {{else}}
-        <div local-class="CommentContent">
-            <form {{action (perform submitReport) on="submit"}} local-class="CommentReport__input">
-                <MarkdownToHtml @markdown={{this.content}} />
-                {{#if this.reportMode}}
-                    <div local-class="CommentReport">
-                        <div class="form-group">
-                            <select onchange={{action (mut abuseCategory) value="target.value"}}>
-                                {{#each this.abuseCategories as |category|}}
-                                    <option value={{category}} selected={{eq abuseCategory category}}>
-                                        {{t (concat 'registries.overview.comments.abuse_' category)}}
-                                    </option>
-                                {{/each}}
-                            </select>
+        <div local-class="Comment">
+            <div local-class="CommentHeader">
+                <div>
+                    {{#if this.comment.user.profileImage}}
+                        <img data-test-gravatar alt="{{t 'auth_dropdown.user_gravatar'}}" src={{concat this.comment.user.profileImage "&s=30"}}>
+                    {{/if}}
+                    <a role="link" href={{this.comment.user.profileURL}} local-class="CommentUser">
+                        {{this.comment.user.fullName}}
+                    </a>
+                </div>
+                <div>
+                    {{#if this.comment.modified}}
+                        <span local-class="dateModified">
+                            {{#bs-tooltip local-class="Tooltip" placement="left" viewportSelector=(concat "#" this.elementId)}}
+                                {{t 'registries.overview.comments.modified'}}{{this.dateModified}}
+                            {{/bs-tooltip}}
+                            <sup>{{fa-icon 'asterisk'}}</sup>
+                        </span>
+                    {{/if}}
+                    <span local-class="dateCreated">
+                        {{this.dateCreated}}
+                    </span>
+                </div>
+            </div>
+            <div local-class="CommentContent">
+                <form {{action (perform this.submitReport) on="submit"}} local-class="CommentReport__input">
+                    <MarkdownToHtml @markdown={{this.comment.content}} />
+                    {{#if this.reportMode}}
+                        <div local-class="CommentReport">
+                            <div class="form-group">
+                                <select onchange={{action (mut this.abuseCategory) value="target.value"}}>
+                                    {{#each this.abuseCategories as |category|}}
+                                        <option value={{category}} selected={{eq this.abuseCategory category}}>
+                                            {{t (concat 'registries.overview.comments.abuse_' category)}}
+                                        </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea
+                                    value={{this.abuseDescription}}
+                                    oninput={{action (mut this.abuseDescription) value="target.value"}}
+                                    class="form-control"
+                                    placeholder={{t 'registries.overview.comments.report_placeholder'}}
+                                ></textarea>
+                            </div>
+                            <div local-class="formButtons">
+                                <button type="cancel" local-class="CommentReport__cancel" class="btn btn-default btn-sm" {{action this.cancelReport}}>
+                                    {{t 'registries.overview.comments.cancel'}}
+                                </button>
+                                <button type="submit" local-class="CommentReport__save" class="btn btn-default btn-sm" disabled={{not this.reportIsValid}}>
+                                    {{t 'registries.overview.comments.report'}}
+                                </button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <textarea
-                                value={{abuseDescription}}
-                                oninput={{action (mut abuseDescription) value="target.value"}}
-                                class="form-control"
-                                placeholder={{t 'registries.overview.comments.report_placeholder'}}
-                            ></textarea>
-                        </div>
-                        <div local-class="formButtons">
-                            <button type="cancel" local-class="CommentReport__cancel" class="btn btn-default btn-sm" {{action cancelReport}}>
-                                {{t 'registries.overview.comments.cancel'}}
-                            </button>
-                            <button type="submit" local-class="CommentReport__save" class="btn btn-default btn-sm" disabled={{not this.reportIsValid}}>
+                    {{/if}}
+                </form>
+            </div>
+            {{#if (not this.reportMode)}}
+                <div local-class="CommentControls">
+                    {{#if this.canReport}}
+                        <div>
+                            <button type="button" class="btn btn-link" onClick={{action 'report'}}>
                                 {{t 'registries.overview.comments.report'}}
                             </button>
                         </div>
-                    </div>
-                {{/if}}
-            </form>
-        </div>
-        {{#if (not this.reportMode)}}
-            <div local-class="CommentControls">
-                <div>
-                    <button type="button" local-class={{if (not this.canReport) 'hidden'}}  class="btn btn-link" onClick={{action 'report'}}>
-                        {{t 'registries.overview.comments.report'}}
-                    </button>
+                    {{/if}}
+                    {{#if this.hasReplies}}
+                        <div local-class="repliesCount">
+                            <button type="button" class="btn btn-link"
+                                {{action (perform this.loadReplies)}}
+                                {{action (mut this.showReplies) (not this.showReplies)}}
+                            >
+                                {{t (concat 'registries.overview.comments' (if this.showReplies '.hide_replies' '.see_replies'))}}
+                                {{fa-icon (if this.showReplies 'caret-up' 'caret-down')}}
+                            </button>
+                        </div>
+                    {{/if}}
                 </div>
-                <div local-class="repliesCount" hidden={{this.hideRepliesCount}}>
-                    <button type="button" class="btn btn-link" onClick={{action (mut showReplies) (not this.showReplies)}}>
-                        {{this.repliesCountText}}
-                        {{fa-icon (if this.showReplies 'caret-up' 'caret-down')}}
-                    </button>
-                </div>
-            </div>
-        {{/if}}
-    {{/if}}
-    {{#if this.showReplies}}
-        {{#if this.loadReplies.isRunning}}
-            <LoadingIndicator @dark={{true}} />
-        {{else}}
-            {{#each this.replies as |reply|}}
-                <div local-class="CommentReply">
-                    <CommentCard @comment={{reply}} @node={{@node}} @reload={{@reload}} />
-                </div>
-            {{/each}}
-            {{#if this.hasMoreReplies}}
-                <button type="button" class="btn btn-default"  onClick={{action 'more'}}>
-                    {{t 'registries.overview.comments.load_more'}}
-                </button>
             {{/if}}
-        {{/if}}
+            {{#if this.showReplies}}
+                {{#if this.loadingReplies}}
+                    <LoadingIndicator @dark={{true}} />
+                {{else}}
+                    {{#each this.replies as |reply|}}
+                        <div local-class="CommentReply">
+                            <CommentCard @comment={{reply}} @node={{@node}} @reload={{@reload}} />
+                        </div>
+                    {{/each}}
+                    {{#if this.hasMoreReplies}}
+                        <div local-class="MoreReplies">
+                            <button type="button" class="btn btn-link" onClick={{action 'more'}}>
+                                {{t 'registries.overview.comments.load_more'}}
+                            </button>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        </div>
     {{/if}}
-</div>
+{{/if}}

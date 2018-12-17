@@ -7,13 +7,11 @@
         modelTaskInstance=@modelTaskInstance
         relationshipName=@relationshipName
         query=this.queryParams
-        bindReload=(action (mut this.reloadComments))
-        analyticsScope=@analyticsScope
         as |list|
     }}
 
         {{#list.item as |comment|}}
-            <CommentCard @comment={{comment}} @node={{modelTaskInstance.value}} @reload={{action list.doReload 1}}/>
+            <CommentCard @comment={{comment}} @node={{@modelTaskInstance.value}} @reload={{action list.doReload 1}}/>
         {{/list.item}}
 
     {{/paginated-list/has-many}}

@@ -1,15 +1,13 @@
 import Component from '@ember/component';
-import { w } from '@ember/string';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import moment from 'moment';
 
 import I18n from 'ember-i18n/services/i18n';
-import { pluralize } from 'ember-inflector';
 import Toast from 'ember-toastr/services/toast';
 
 import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { alias, not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -17,30 +15,31 @@ import Comment from 'ember-osf-web/models/comment';
 import CommentReport from 'ember-osf-web/models/comment-report';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
-import User from 'ember-osf-web/models/user';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import styles from './styles';
 import template from './template';
 
+enum AbuseCategories {
+    Spam = 'spam',
+    Hate = 'hate',
+    Violence = 'violence',
+}
+
+export function relativeDate(datetime: any) {
+    const now = moment.utc();
+    let then = moment.utc(datetime);
+    then = then > now ? now : then;
+    return then.fromNow();
+}
+
 @layout(template, styles)
 export default class CommentCard extends Component.extend({
-    didReceiveAttrs(this: CommentCard, ...args: any[]) {
-        this._super(...args);
-
-        if (!this.comment) {
-            return;
-        }
-
-        this.set('content', this.comment.content);
-        this.set('user', this.comment.user);
-        this.loadReplies.perform();
-    },
     submitRetractReport: task(function *(this: CommentCard) {
         const reports = yield this.comment.reports;
-        const userReport: CommentReport = reports.filter(
+        const userReport: CommentReport = reports.find(
             (report: CommentReport) => report.reporter === this.currentUser.currentUserId,
-        ).firstObject;
+        );
 
         if (!userReport) {
             this.toast.error(this.i18n.t('registries.overview.comments.cannot_retract_report'));
@@ -48,10 +47,8 @@ export default class CommentCard extends Component.extend({
         }
 
         try {
-            userReport.deleteRecord();
             this.comment.set('isAbuse', false);
-            yield userReport.save();
-            yield this.comment.save();
+            yield userReport.destroyRecord();
         } catch (e) {
             this.toast.error(this.i18n.t('registries.overview.comments.unable_to_retract_report'));
             if (this.reload) {
@@ -64,7 +61,6 @@ export default class CommentCard extends Component.extend({
             return;
         }
 
-        const blocker = this.ready.getBlocker();
         const newReport = this.store.createRecord('comment-report', {
             reporter: this.currentUser.currentUserId,
             comment: this.comment,
@@ -73,7 +69,6 @@ export default class CommentCard extends Component.extend({
         });
 
         try {
-            this.comment.reports.pushObject(newReport);
             this.comment.set('isAbuse', true);
             yield newReport.save();
         } catch (e) {
@@ -83,12 +78,9 @@ export default class CommentCard extends Component.extend({
             }
         } finally {
             this.set('reportMode', false);
-            blocker.done();
         }
     }),
-    loadReplies: task(function *(this: CommentCard, more?: boolean) {
-        const blocker = this.ready.getBlocker();
-
+    loadReplies: task(function *(this: CommentCard, more = false) {
         let replies = yield this.comment.replies;
 
         if (!more && replies) {
@@ -105,8 +97,6 @@ export default class CommentCard extends Component.extend({
         } else {
             this.set('replies', replies);
         }
-
-        blocker.done();
     }).restartable(),
 }) {
     @service store!: DS.Store;
@@ -117,27 +107,26 @@ export default class CommentCard extends Component.extend({
 
     // required arguments
     comment!: Comment;
-
-    // optional arguments
     node!: Registration;
-    user!: User;
+    reload?: () => void;
+
+    // private arguments
     replies!: QueryHasManyResult<Comment>;
 
-    abuseCategories: string[] = w('spam hate violence');
-    abuseCategory?: string = 'spam';
+    abuseCategories: AbuseCategories[] = Object.values(AbuseCategories);
+    abuseCategory?: AbuseCategories = AbuseCategories.Spam;
     abuseDescription: string | undefined;
 
     page: number = 1;
-    content?: string;
     reportMode?: boolean = false;
     showReplies?: boolean = false;
-
-    reload?: () => void;
 
     @alias('loadReplies.isRunning') loadingReplies!: boolean;
     @alias('comment.deleted') isDeleted!: boolean;
     @alias('comment.isAbuse') isAbuse!: boolean;
     @alias('comment.hasReport') currentUserHasReported!: boolean;
+    @alias('comment.hasChildren') hasReplies!: boolean;
+    @not('comment') loading!: boolean;
 
     @computed('node')
     get currentUserCanComment() {
@@ -154,44 +143,24 @@ export default class CommentCard extends Component.extend({
 
     @computed('comment.dateCreated')
     get dateCreated() {
-        return this.comment && this.relativeDate(this.comment.dateCreated);
+        return this.comment && relativeDate(this.comment.dateCreated);
     }
 
     @computed('comment.dateModified')
     get dateModified() {
-        return this.comment && this.relativeDate(this.comment.dateModified);
-    }
-
-    @computed('replies')
-    get repliesCount() {
-        if (this.replies) {
-            return this.replies.length;
-        }
-        return 0;
-    }
-
-    @computed('repliesCount')
-    get repliesCountText() {
-        return pluralize(
-            this.repliesCount,
-            (this.i18n.t('registries.overview.comments.reply')).toString(),
-        );
-    }
-
-    @computed('repliesCount')
-    get hideRepliesCount() {
-        return this.repliesCount === 0;
+        return this.comment && relativeDate(this.comment.dateModified);
     }
 
     @computed('abuseDescription')
     get reportIsValid() {
         const description = this.abuseDescription && this.abuseDescription.trim();
-        return !!description;
+        return Boolean(description);
     }
 
-    @computed('replies', 'replies.meta.total')
+    @computed('replies.length', 'replies.meta.{total,per_page}')
     get hasMoreReplies(): boolean | undefined {
-        return this.replies && (this.replies.meta.total - this.replies.length) > 0;
+        return this.replies && (this.replies.meta.total > this.replies.meta.per_page)
+            && (this.replies.length < this.replies.meta.total);
     }
 
     @computed('currentUser', 'comment')
@@ -209,21 +178,15 @@ export default class CommentCard extends Component.extend({
 
     @action
     cancelReport() {
-        this.set('reportMode', false);
-        this.set('abuseDescription', '');
-        this.set('abuseCategory', undefined);
+        this.setProperties({
+            reportMode: false,
+            abuseDescription: '',
+            abuseCategory: undefined,
+        });
     }
 
     @action
     more(this: CommentCard) {
-        this.set('showReplies', true);
         this.loadReplies.perform(true);
-    }
-
-    relativeDate(datetime: any) {
-        const now = moment.utc();
-        let then = moment.utc(datetime);
-        then = then > now ? now : then;
-        return then.fromNow();
     }
 }

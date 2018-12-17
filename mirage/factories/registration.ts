@@ -55,21 +55,15 @@ export default NodeFactory.extend<Registration & RegistrationTraits>({
     }),
     withComments: trait({
         afterCreate(registration: any, server: any) {
-            const user = server.schema.roots.first().currentUser;
             server.createList(
-                'comment', 3,
+                'comment', 6,
                 'withReplies',
                 'asAbuse',
-                { user, node: registration, targetID: registration.id, targetType: 'registrations' },
-            );
-            server.createList(
-                'comment', 3,
-                'withReplies',
                 { node: registration, targetID: registration.id, targetType: 'registrations' },
             );
             server.createList(
                 'comment', 3,
-                'asAbuse',
+                'withReplies',
                 { node: registration, targetID: registration.id, targetType: 'registrations' },
             );
         },

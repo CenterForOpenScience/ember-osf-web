@@ -39,6 +39,7 @@ export default Factory.extend<Comment & CommentTraits>({
     isHam: false,
     targetID: '',
     targetType: '',
+    hasChildren: false,
 
     withReplies: trait({
         afterCreate(comment: any, server: any) {
@@ -51,6 +52,12 @@ export default Factory.extend<Comment & CommentTraits>({
                 { node: comment.node, targetID: comment.id, targetType: 'comments' },
                 'withReplies',
             );
+
+            if (count) {
+                comment.update({
+                    hasChildren: true,
+                });
+            }
         },
     }),
 

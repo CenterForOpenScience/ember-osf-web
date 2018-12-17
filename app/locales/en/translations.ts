@@ -1052,7 +1052,8 @@ export default {
 
             comments: {
                 title: 'Comments',
-                reply: 'reply',
+                see_replies: 'See replies',
+                hide_replies: 'Hide replies',
                 report: 'Report',
                 cancel: 'Cancel',
                 discussion: 'Discussion',
@@ -1062,7 +1063,7 @@ export default {
                 modified: 'Modified ',
                 report_placeholder: 'Describe abuse',
                 comment_abuse: 'Comment reported.',
-                comment_abuse_action: 'Not Abuse',
+                comment_abuse_action: 'Not abuse',
                 abuse_spam: 'Spam or advertising',
                 abuse_hate: 'Hate speech',
                 abuse_violence: 'Violence or harmful behavior',

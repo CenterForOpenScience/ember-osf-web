@@ -6,17 +6,17 @@ import { guid } from './utils';
 export default Factory.extend<CommentReport>({
     id: guid('comment-report'),
     afterCreate(commentReport: ModelInstance<CommentReport>, server: any) {
-        const reporter = commentReport.comment.user.id;
+        const { currentUser } = server.schema.roots.first();
+        const reporter = faker.random.boolean() ? server.create('user').id : currentUser.id;
         commentReport.update({
             reporter,
         });
 
         const comment = server.schema.comments.find(commentReport.comment.id);
-        const { currentUserId } = server.schema.roots.first();
         if (comment) {
             comment.update({
                 isAbuse: true,
-                hasReport: currentUserId === reporter,
+                hasReport: currentUser.id === reporter,
             });
         }
     },

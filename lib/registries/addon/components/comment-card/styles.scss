@@ -35,7 +35,8 @@
     justify-content: space-around;
     height: 100%;
 
-    i {
+    span {
+        font-style: italic;
         color: $slate-gray;
     }
 
@@ -160,6 +161,24 @@
     }
 }
 
+.MoreReplies {
+    :global(.btn.btn-link) {
+        color: $primary-blue;
+        outline: 0;
+        display: block;
+        margin: 0 auto;
+        padding: 0;
+        font-size: 13px;
+
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+        }
+    }
+}
+
 .dateCreated {
     color: $slate-gray;
 }
@@ -169,8 +188,4 @@
         font-size: 8px;
         color: $primary-blue;
     }
-}
-
-.hidden {
-    display: none;
 }
