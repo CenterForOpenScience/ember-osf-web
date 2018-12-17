@@ -26,8 +26,13 @@ export default function(server: Server) {
         currentUser = server.create('user', 'loggedIn');
     }
 
-    const registrationNode = server.create('node', { id: 'regis' });
-    server.create('contributor', { node: registrationNode, users: currentUser, index: 0 });
+    const registrationNode = server.create('node', { id: 'regis', currentUserPermissions: Object.values(Permission) });
+    server.create('contributor', {
+        node: registrationNode,
+        users: currentUser,
+        permission: 'admin',
+        index: 0,
+    });
 
     const nodes = server.createList<Node>('node', 10, {
         currentUserPermissions: Object.values(Permission),
