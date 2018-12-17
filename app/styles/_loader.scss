@@ -7,7 +7,7 @@
 @import 'loaders/animations/ball-scale';
 
 .ball-dark > div {
-    background-color: $color-select;
+    background-color: $color-select !important;
 }
 /**
  *  END of loaders
