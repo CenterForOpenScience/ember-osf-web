@@ -1,5 +1,5 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='link.demo-internal.hbs'}}
+<DocsDemo as |demo|>
+    <demo.example @name='link.demo-internal.hbs'>
         <Link
             data-analytics-name='This link'
             @route='guid-node.analytics'
@@ -8,7 +8,7 @@
         >
             Link within the app
         </Link>
-    {{/demo.example}}
+    </demo.example>
 
-    {{demo.snippet 'link.demo-internal.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='link.demo-internal.hbs' />
+</DocsDemo>

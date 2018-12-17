@@ -26,10 +26,13 @@ module.exports = function(defaults) {
             includeHighlightJS: false,
             includeFileExtensionInSnippetNames: false,
             snippetSearchPaths: ['lib/handbook/addon'],
-            snippetRegexes: {
+            snippetRegexes: [{
                 begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
                 end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,
-            },
+            }, {
+                begin: /<(?:DocsSnippet|demo.example|demo.live-example)\s@name=(?:"|')(\S+)(?:"|')/,
+                end: /<\/(?:DocsSnippet|demo.example|demo.live-example)>/,
+            }],
         };
     }
 
