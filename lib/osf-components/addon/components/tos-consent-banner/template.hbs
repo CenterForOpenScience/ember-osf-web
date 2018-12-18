@@ -1,22 +1,22 @@
 <div class="container">
-    {{#bs-alert
-        type='default'
-        dismissible=true
-        visible=currentUser.showTosConsentBanner
-        onDismiss=(action 'dismiss')
-    }}
+    <BsAlert
+        @type="default"
+        @dismissible={{true}}
+        @visible={{this.currentUser.showTosConsentBanner}}
+        @onDismiss={{action this.dismiss}}
+    >
         <div class="jumbotron">
             <p></p>
             <div>
                 <h4>
                     {{t 'tos_consent.paragraph'
-                        link1=termsLink
-                        link2=privacyPolicyLink
+                        link1=this.termsLink
+                        link2=this.privacyPolicyLink
                     }}
                 </h4>
                 <h5>
                     {{#validated-input/checkbox
-                        model=currentUser.user
+                        model=this.currentUser.user
                         valuePath='acceptedTermsOfService'
                         shouldShowMessages=this.didValidate
                     }}
@@ -24,10 +24,15 @@
                     {{/validated-input/checkbox}}
                 </h5>
             </div>
-            <button type="submit" class="btn btn-primary" {{action (perform saveUser)}} {{action 'click' 'button' 'ToS Consent Banner - continue' target=analytics}}>
+            <button
+                type="submit"
+                class="btn btn-primary"
+                {{action (perform this.saveUser)}}
+                {{action 'click' 'button' 'ToS Consent Banner - continue' target=this.analytics}}
+            >
                 {{t 'tos_consent.continue'}}
             </button>
             <p></p>
         </div>
-    {{/bs-alert}}
+    </BsAlert>
 </div>

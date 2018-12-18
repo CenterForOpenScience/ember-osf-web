@@ -1,54 +1,74 @@
-{{#if (not session.isAuthenticated) }}
+{{#if (not this.session.isAuthenticated) }}
     <li class='sign-in'>
         <div>
             {{#hyper-link this.signUpRoute queryParams=this.signUpQueryParams class='btn btn-success btn-top-signup m-l-sm m-r-xs' analyticsLabel='Navbar - SignUp' testSelectorVal='sign-up-button'}}
                 {{t 'auth_dropdown.sign_up'}}
             {{/hyper-link}}
-            <a {{action 'login'}} data-test-sign-in-button onclick={{action 'click' 'button' 'Navbar - SignIn' target=analytics}} class="btn btn-info btn-top-login m-r-xs" role="button">
+            <a 
+                {{action this.login}}
+                data-test-sign-in-button
+                onclick={{action 'click' 'button' 'Navbar - SignIn' target=this.analytics}}
+                class="btn btn-info btn-top-login m-r-xs"
+                role="button"
+            >
                 {{t 'auth_dropdown.sign_in'}}
             </a>
         </div>
     </li>
 {{else}}
-    {{#bs-dropdown tagName='li' classNames='dropdown secondary-nav-dropdown' as |dd|}}
-        {{#dd.toggle classNames='btn-link'}}
+    <BsDropdown
+        data-test-auth-dropdown
+        @tagName="li"
+        @classNames="dropdown secondary-nav-dropdown"
+        as |dd| 
+    >
+        <dd.toggle @classNames="btn-link">
             <div class="osf-profile-image">
-                <img src="{{user.profileImage}}&s=25" alt="{{t 'auth_dropdown.user_gravatar'}}">
+                <img src="{{this.user.profileImage}}&s=25" alt="{{t 'auth_dropdown.user_gravatar'}}">
             </div>
-            <div class='nav-profile-name'>{{user.fullName}}</div>
+            <div class='nav-profile-name'>{{this.user.fullName}}</div>
             <span class="caret"></span>
-        {{/dd.toggle}}
+        </dd.toggle>
 
-        {{#dd.menu classNames='auth-dropdown' local-class='AuthDropdown' as |ddm|}}
-            {{#if headline}}
-                {{#ddm.item (html-attributes role='none') local-class='Headline'}}
-                    {{headline}}
-                {{/ddm.item}}
+        <dd.menu
+            @classNames="auth-dropdown"
+            local-class="AuthDropdown"
+            as |ddm|
+        >
+            {{#if @headline}}
+                <ddm.item role="none" local-class="Headline">
+                    {{@headline}}
+                </ddm.item>
             {{/if}}
-            {{#ddm.item (html-attributes role='menuitem')}}
-                <a href="{{profileURL}}" onclick={{action '_onLinkClicked' 'Navbar - MyProfile'}}>
+            <ddm.item role='menuitem'>
+                <a href="{{this.profileURL}}" onclick={{action this._onLinkClicked 'Navbar - MyProfile'}}>
                     <i class="fa fa-user fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.my_profile'}}
                 </a>
-            {{/ddm.item}}
-            {{#ddm.item (html-attributes role='menuitem')}}
-                {{#global-link-to 'support' click=(action '_onLinkClicked' 'Navbar - Support')}}
+            </ddm.item>
+            <ddm.item role="menuitem">
+                {{#global-link-to 'support' click=(action this._onLinkClicked 'Navbar - Support')}}
                     <i class="fa fa-life-ring fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.osf_support'}}
                 {{/global-link-to}}
-            {{/ddm.item}}
-            {{#ddm.item (html-attributes role='menuitem')}}
-                <a href="{{settingsURL}}" onclick={{action '_onLinkClicked' 'Navbar - Settings'}}>
+            </ddm.item>
+            <ddm.item role="menuitem">
+                <a href="{{this.settingsURL}}" onclick={{action this._onLinkClicked 'Navbar - Settings'}}>
                     <i class="fa fa-cog fa-lg p-r-xs"></i>
                     {{t 'general.settings'}}
                 </a>
-            {{/ddm.item}}
-            {{#ddm.item (html-attributes role='menuitem')}}
-                <a class="logoutLink" role="button" {{action 'logout'}} {{action '_onLinkClicked' 'Navbar - Logout'}}>
+            </ddm.item>
+            <ddm.item role="menuitem">
+                <a
+                    class="logoutLink"
+                    role="button"
+                    {{action 'logout'}}
+                    {{action this._onLinkClicked 'Navbar - Logout'}}
+                >
                     <i class="fa fa-sign-out fa-lg p-r-xs"></i>
                     {{t 'auth_dropdown.log_out'}}
                 </a>
-            {{/ddm.item}}
-        {{/dd.menu}}
-    {{/bs-dropdown}}
+            </ddm.item>
+        </dd.menu>
+    </BsDropdown>
 {{/if}}

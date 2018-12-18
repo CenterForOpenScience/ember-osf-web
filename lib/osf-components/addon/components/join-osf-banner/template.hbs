@@ -18,7 +18,7 @@
                                 {{t 'join_osf.pitch'}}
                                 <a
                                     href="/register/"
-                                    onclick={{action 'click' 'button' 'Join OSF Banner - sign_up' target=analytics}}
+                                    onclick={{action 'click' 'button' 'Join OSF Banner - sign_up' target=this.analytics}}
                                 >
                                     {{t 'join_osf.create_account'}}
                                 </a>
@@ -27,7 +27,7 @@
                                     href="http://help.osf.io"
                                     target="_blank"
                                     rel="noreferrer"
-                                    onclick={{action 'click' 'button' 'Join OSF Banner - learn_more' target=analytics}}
+                                    onclick={{action 'click' 'button' 'Join OSF Banner - learn_more' target=this.analytics}}
                                 >
                                     {{t 'join_osf.learn_more'}}
                                 </a>
@@ -39,8 +39,8 @@
                                 type="button"
                                 class="close"
                                 aria-label={{t 'general.close'}}
-                                {{action 'click' 'button' 'Join OSF Banner - dismiss' target=analytics}}
-                                {{action dismiss}}
+                                {{action 'click' 'button' 'Join OSF Banner - dismiss' target=this.analytics}}
+                                {{action this.dismiss}}
                             >
                                 {{fa-icon 'times'}}
                             </button>

@@ -27,7 +27,8 @@ const EXISTING_FILES = {
 
 const GENERATED_FILES = {
     'lib/handbook/addon/docs/components/foo-bar/template.md': 'blueprints/handbook-component/template.md',
-    'lib/handbook/addon/docs/components/foo-bar/demo/template.hbs': 'blueprints/handbook-component/demo-template.hbs',
+    'lib/handbook/addon/docs/components/foo-bar/-components/demo/template.hbs':
+        'blueprints/handbook-component/demo-template.hbs',
 };
 
 function setupExistingFiles() {

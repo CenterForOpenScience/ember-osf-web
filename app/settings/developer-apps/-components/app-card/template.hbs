@@ -8,17 +8,20 @@
             {{@developerApp.name}}
         {{/link-to}}
     {{else}}
-        {{#content-placeholders local-class='DeveloperAppCard__placeholder' as |placeholder|}}
+        <ContentPlaceholders
+            local-class="DeveloperAppCard__placeholder"
+            as |placeholder|
+        >
             {{placeholder.heading subtitle=false}}
-        {{/content-placeholders}}
+        </ContentPlaceholders>
     {{/if}}
 
-    {{delete-button
-        small=true
-        delete=(action this.delete)
-        disabled=(not @developerApp)
-        analyticsScope='Settings - Developer apps'
-        modalTitle=(t 'settings.developer-apps.confirmDelete.title' appName=@developerApp.name)
-        modalBody=(t 'settings.developer-apps.confirmDelete.body')
-    }}
+    <DeleteButton
+        @small={{true}}
+        @delete={{action this.delete}}
+        @disabled={{not @developerApp}}
+        @analyticsScope="Settings - Developer apps"
+        @modalTitle={{t 'settings.developer-apps.confirmDelete.title' appName=@developerApp.name}}
+        @modalBody={{t 'settings.developer-apps.confirmDelete.body'}}
+    />
 </div>

@@ -1,5 +1,7 @@
-{{#unless model.taskInstance.isRunning}}
-    {{node-navbar node=model.taskInstance.value}}
+{{#unless this.model.taskInstance.isRunning}}
+    <NodeNavbar
+        @node={{this.model.taskInstance.value}}
+    />
 {{/unless}}
 {{outlet}}
-{{join-osf-banner}}
+<JoinOsfBanner />
