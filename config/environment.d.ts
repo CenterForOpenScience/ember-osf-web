@@ -145,6 +145,7 @@ declare const config: {
             institutions: string;
         };
         storageI18n: string;
+        enableInactiveSchemas: string;
     };
     gReCaptcha: {
         siteKey: string;
