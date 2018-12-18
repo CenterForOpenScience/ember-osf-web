@@ -235,6 +235,7 @@ module.exports = function(environment) {
                 institutions: 'institutions_nav_bar',
             },
             storageI18n: 'storage_i18n',
+            enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
         },
         gReCaptcha: {

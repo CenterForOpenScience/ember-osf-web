@@ -70,7 +70,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Misc:
     - Upgraded to `osf-style` 1.8.0
 
-## [18.2.1] - 2018-12-06
+## [18.2.2] - 2018-12-18
+### Added:
+- Flags:
+    - `enable_inactive_schemas`
+
+### Changed:
+- Components:
+    - regisitries:
+        - `registries-registration-type-facet` - only add ERPC schema when `enable_inactive_schemas` flag is off
+
+## [18.2.1] - 2018-12-18
 ### Added
 - Mirage:
     - `queryParamIsTruthy` util
