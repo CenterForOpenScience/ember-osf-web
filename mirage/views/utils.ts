@@ -37,3 +37,9 @@ export function filter(model: any, request: any) {
             }
         });
 }
+
+export function queryParamIsTruthy(value?: string) {
+    return Boolean(
+        value && ['true', '1'].includes(value.toString().toLowerCase()),
+    );
+}
