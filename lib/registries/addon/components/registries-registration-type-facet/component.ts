@@ -4,6 +4,8 @@ import EmberArray, { A } from '@ember/array';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
+import Features from 'ember-feature-flags/services/features';
+import appConfig from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
@@ -11,10 +13,21 @@ import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import config from 'registries/config/environment';
+
+import engineConfig from 'registries/config/environment';
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
 import template from './template';
+
+const {
+    sourcesWhitelist,
+} = engineConfig;
+
+const {
+    featureFlagNames: {
+        enableInactiveSchemas,
+    },
+} = appConfig;
 
 @layout(template)
 export default class RegistriesRegistrationTypeFacet extends Component.extend({
@@ -22,16 +35,19 @@ export default class RegistriesRegistrationTypeFacet extends Component.extend({
         try {
             const metaschemas: RegistrationSchema[] = yield this.store.findAll('registration-schema');
 
-            this.set('registrationTypes', A(
-                metaschemas.mapBy('name').concat([
+            const metaschemaNames = metaschemas.mapBy('name');
+            if (!this.features.isEnabled(enableInactiveSchemas)) {
+                metaschemaNames.push(
                     // Manually add 'Election Research Preacceptance Competition' to the list of possible
                     // facets. Metaschema was removed from the API as a possible registration type
                     // but should still be searchable
                     'Election Research Preacceptance Competition',
-                ]).sort(),
-            ));
+                );
+            }
+            this.set('registrationTypes', A(metaschemaNames.sort()));
         } catch (e) {
             this.toast.error(this.i18n.t('registries.facets.registration_type.registration_schema_error'));
+            throw e;
         }
     }).on('init'),
 }) {
@@ -39,6 +55,7 @@ export default class RegistriesRegistrationTypeFacet extends Component.extend({
     @service toast!: Toast;
     @service store!: DS.Store;
     @service analytics!: Analytics;
+    @service features!: Features;
 
     searchOptions!: SearchOptions;
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
@@ -53,7 +70,7 @@ export default class RegistriesRegistrationTypeFacet extends Component.extend({
     get onlyOSF() {
         return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1
         && this.searchOptions.filters.contains(
-            new ShareTermsFilter('sources', 'OSF', config.sourcesWhitelist.find(x => x.name === 'OSF')!.display!),
+            new ShareTermsFilter('sources', 'OSF', sourcesWhitelist.find(x => x.name === 'OSF')!.display!),
         );
     }
 
