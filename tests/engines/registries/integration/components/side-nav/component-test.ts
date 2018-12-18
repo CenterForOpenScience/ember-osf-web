@@ -1,11 +1,32 @@
+import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
-import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
+import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+
+import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
+
+class RouterStub extends Service {
+    urlFor() {
+        return 'http://example.com';
+    }
+
+    isActive() {
+        return false;
+    }
+
+    transitionTo() {
+        // empty
+    }
+}
 
 /* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | side-nav', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
+
+    hooks.beforeEach(function(this: TestContext) {
+        this.owner.register('service:router', RouterStub);
+    });
 
     test('it renders', async function(assert) {
         await render(hbs`<SideNav />`);
@@ -22,7 +43,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
     test('it yielded component render splattributes', async function(assert) {
         await render(hbs`
             <SideNav as |nav|>
-                <nav.link-to data-for-a-test="bar" @icon="home" @label="test" />
+                <nav.link-to data-for-a-test="bar" @route="home" @icon="home" @label="test" />
             </SideNav>
         `);
 
