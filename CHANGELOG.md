@@ -66,6 +66,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Misc:
     - Upgraded to `osf-style` 1.8.0
 
+## [18.2.1] - 2018-12-06
+### Added
+- Mirage:
+    - `queryParamIsTruthy` util
+
+### Changed
+- Routes:
+    - `guid-node.registrations` - add `?filter[active]=true` when fetching registration schemas
+- Mirage:
+    - use `queryParamIsTruthy` helper for boolean comparison
+
 ## [18.2.0] - 2018-11-29
 ### Changed
 - Components:
