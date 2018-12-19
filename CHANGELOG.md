@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Models:
     - `user-email`
 - Routes:
+    - `settings.account`
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
     - `settings.profile.employment`

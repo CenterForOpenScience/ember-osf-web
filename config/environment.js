@@ -220,6 +220,7 @@ module.exports = function(environment) {
                 'settings.profile.employment': 'ember_user_settings_profile_page',
                 'settings.profile.name': 'ember_user_settings_profile_page',
                 'settings.profile.social': 'ember_user_settings_profile_page',
+                'settings.account': 'ember_user_settings_account_page',
                 'settings.tokens': 'ember_user_settings_tokens_page',
                 'settings.tokens.index': 'ember_user_settings_tokens_page',
                 'settings.tokens.create': 'ember_user_settings_tokens_page',
