@@ -808,6 +808,7 @@ export default {
         submit_section: {
             discard: 'Discard changes',
             save: 'Save and continue',
+            continue: 'Continue',
             click_to_edit: 'Click to edit',
         },
     },
