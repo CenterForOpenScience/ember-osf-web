@@ -9,12 +9,16 @@
         }
     }
 
+    :global(.label-danger) {
+        background-color: $brand-danger;
+    }
+
     & > span {
         line-height: 1.5;
     }
     
     :global(.label-info) {
-        background-color: darken($brand-info, 20%);
+        background-color: darken($brand-info, 15%);
     }
 }
 

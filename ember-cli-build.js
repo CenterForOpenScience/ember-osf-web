@@ -1,7 +1,6 @@
 /* eslint-env node */
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const Funnel = require('broccoli-funnel');
 
 const { EMBER_ENV } = process.env;
 const useCdn = EMBER_ENV === 'production';
@@ -69,7 +68,7 @@ module.exports = function(defaults) {
         },
         sassOptions: {
             includePaths: [
-                'node_modules/@centerforopenscience/osf-style/sass',
+                'app/styles/',
             ],
         },
         cssModules: {
@@ -152,13 +151,5 @@ module.exports = function(defaults) {
             using: [{ transformation: 'amd', as: 'highlight.js' }],
         });
     }
-
-    const assets = [
-        new Funnel('node_modules/@centerforopenscience/osf-style/img', {
-            srcDir: '/',
-            destDir: 'img',
-        }),
-    ];
-
-    return app.toTree(assets);
+    return app.toTree();
 };
