@@ -61,13 +61,13 @@
                     <nav.link-to data-test-link="files"
                         @icon="file-text"
                         @label={{t 'registries.overview.external_links.files'}}
-                        href="/{{this.registration.id}}/files/"
+                        @href="/{{this.registration.id}}/files/"
                         @count={{50}}
                     />
                     <nav.link-to data-test-link="wiki"
                         @icon="window-maximize"
                         @label={{t 'registries.overview.external_links.wiki'}}
-                        href="/{{this.registration.id}}/wiki/"
+                        @href="/{{this.registration.id}}/wiki/"
                         @count={{4}}
                     />
                     <nav.link-to data-test-link="components"
