@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Models:
     - `user-email`
 - Routes:
+    - `settings.account`
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
     - `settings.profile.employment`
@@ -72,6 +73,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Addons:
     - `osf-style`
+
+## [18.2.2] - 2018-12-18
+### Added:
+- Flags:
+    - `enable_inactive_schemas`
+
+### Changed:
+- Components:
+    - regisitries:
+        - `registries-registration-type-facet` - only add ERPC schema when `enable_inactive_schemas` flag is off
+
+## [18.2.1] - 2018-12-18
+### Added
+- Mirage:
+    - `queryParamIsTruthy` util
+
+### Changed
+- Routes:
+    - `guid-node.registrations` - add `?filter[active]=true` when fetching registration schemas
+- Mirage:
+    - use `queryParamIsTruthy` helper for boolean comparison
 
 ## [18.2.0] - 2018-11-29
 ### Changed
