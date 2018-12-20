@@ -29,7 +29,7 @@ export default function(this: Server) {
 
     this.get('/guids/:id', guidDetail);
 
-    this.get('/institutions');
+    osfResource(this, 'institution', { only: ['index'], defaultPageSize: 1000 });
 
     osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);

@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
-    "@centerforopenscience/osf-style": "1.8.0",
     "@ember/jquery": "^0.5.2",
     "@ember/optional-features": "^0.6.3",
     "@ember/test-helpers": "^0.7.21",
@@ -166,6 +165,7 @@
     "lint-staged": "^7.1.0",
     "liquid-fire": "^0.29.3",
     "loader.js": "^4.7.0",
+    "loaders.css": "^0.1.2",
     "mime-types": "~2.1.17",
     "mocha": "^5.1.1",
     "qunit-dom": "^0.7.1",

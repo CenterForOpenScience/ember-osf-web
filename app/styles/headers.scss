@@ -6,11 +6,40 @@
 @import 'ember-power-select';
 @import 'ember-content-placeholders';
 
-// 2nd parties
-@import 'osf-style';
-
 // 1st parties
-@import 'global';
 @import 'mixins';
+@import 'global';
 @import 'typography';
 @import 'accessibility';
+
+// OSF-style
+@import 'layout';
+@import 'bootstrap_xl';
+@import 'components';
+
+.theme-dropdown .dropdown-menu {
+    position: static;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.theme-showcase>p>.btn {
+    margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+    width: auto;
+    color: $color-blue;
+}
+
+.osf-selected {
+    background-color: $color-select;
+    color: #fff;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+@import 'loader'; // Custom sass loader for loaders.css library

@@ -900,11 +900,6 @@
     eslint-plugin-eslint-comments "^1.0.0"
     eslint-plugin-import "^2.7.0"
 
-"@centerforopenscience/osf-style@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@centerforopenscience/osf-style/-/osf-style-1.8.0.tgz#adde9771ec09d930b408a39a121ff10b925f2fd5"
-  integrity sha512-s6rwcQN44CVUuRpRihZHEMaDiQ7SBj6rXxisKORCGCq8BEd0GlogGYGHnTIUnNF/aJxufaVwjmLXRcI63FavJA==
-
 "@ember-decorators/argument@^0.8.13":
   version "0.8.13"
   resolved "https://registry.yarnpkg.com/@ember-decorators/argument/-/argument-0.8.13.tgz#217804178c4278a8c264a2878b66c0cb55b77e3d"
@@ -11626,6 +11621,11 @@ loader.js@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/loader.js/-/loader.js-4.7.0.tgz#a1a52902001c83631efde9688b8ab3799325ef1f"
   integrity sha512-9M2KvGT6duzGMgkOcTkWb+PR/Q2Oe54df/tLgHGVmFpAmtqJ553xJh6N63iFYI2yjo2PeJXbS5skHi/QpJq4vA==
+
+loaders.css@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/loaders.css/-/loaders.css-0.1.2.tgz#3a9fb43726c73334a38142af9d0629019b658743"
+  integrity sha1-Op+0NybHMzSjgUKvnQYpAZtlh0M=
 
 locate-character@^2.0.5:
   version "2.0.5"
