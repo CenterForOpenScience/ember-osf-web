@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `new-project-navigation-modal` component
 - Models:
     - `user-email`
+    - `user-settings`
 - Routes:
     - `settings.account`
     - `settings.profile` - redirects to `settings.profile.name`

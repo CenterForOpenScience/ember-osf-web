@@ -65,6 +65,7 @@ interface Collection<T> {
 interface ModelClass<T = AnyAttrs> {
     new(attrs: T): ModelInstance<T>;
     create(attrs: T): ModelInstance<T>;
+    update(attrs: T): ModelInstance<T>;
     all(): Collection<T>;
     find<S extends ID | ID[]>(ids: S): S extends ID ? ModelInstance<T> : Collection<T>;
     findBy(query: T): ModelInstance<T>;

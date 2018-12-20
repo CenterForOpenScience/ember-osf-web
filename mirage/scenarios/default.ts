@@ -25,7 +25,7 @@ export default function(server: Server) {
     } else {
         currentUser = server.create('user', 'loggedIn');
     }
-
+    server.create('user-settings', { user: currentUser });
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList<Node>('node', 10, {
