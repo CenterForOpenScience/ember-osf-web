@@ -49,7 +49,7 @@
             {{#section.complete}}
                 <p>
                     <em>{{t (concat this.i18nKeyPrefix 'project_select_project_label')}}</em>
-                    <span>{{collectionItem.title}}</span>
+                    <span>{{this.collectionItem.title}}</span>
                 </p>
             {{/section.complete}}
         {{/sections.section}}
@@ -134,15 +134,7 @@
                 }}
             {{/section.active}}
             {{#section.complete}}
-                <div>
-                    {{#each this.collectedMetadatum.subjects as |subject|}}
-                        <div local-class="subject">
-                            {{#each subject as |segment|}}
-                                <span>{{segment.text}}</span>
-                            {{/each}}
-                        </div>
-                    {{/each}}
-                </div>
+                {{collection-subjects-list subjects=this.collectedMetadatum.displaySubjects onClickSubject=(action this.noop)}}
             {{/section.complete}}
         {{/sections.section}}
 
