@@ -13,7 +13,7 @@ export default class CommentsList extends Component {
 
     // Optional parameters
     queryParams?: object = {
-        embed: 'users',
+        embed: 'user',
         'filter[deleted]': 'false',
     };
 }

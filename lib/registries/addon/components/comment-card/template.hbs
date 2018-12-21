@@ -36,43 +36,43 @@
                 </div>
             </div>
             <div local-class="CommentContent">
-                <form {{action (perform this.submitReport) on="submit"}} local-class="CommentReport__input">
-                    <MarkdownToHtml @markdown={{this.comment.content}} />
-                    {{#if this.reportMode}}
-                        <div local-class="CommentReport">
-                            <div class="form-group">
-                                <select onchange={{action (mut this.abuseCategory) value="target.value"}}>
-                                    {{#each this.abuseCategories as |category|}}
-                                        <option value={{category}} selected={{eq this.abuseCategory category}}>
-                                            {{t (concat 'registries.overview.comments.abuse_' category)}}
-                                        </option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <textarea
-                                    value={{this.abuseDescription}}
-                                    oninput={{action (mut this.abuseDescription) value="target.value"}}
-                                    class="form-control"
-                                    placeholder={{t 'registries.overview.comments.report_placeholder'}}
-                                ></textarea>
-                            </div>
-                            <div local-class="formButtons">
-                                <button type="cancel" local-class="CommentReport__cancel" class="btn btn-default btn-sm" {{action this.cancelReport}}>
-                                    {{t 'registries.overview.comments.cancel'}}
-                                </button>
-                                <button type="submit" local-class="CommentReport__save" class="btn btn-default btn-sm" disabled={{not this.reportIsValid}}>
-                                    {{t 'registries.overview.comments.report'}}
-                                </button>
-                            </div>
+                <MarkdownToHtml @markdown={{this.comment.content}} />
+                {{#if this.reporting}}
+                    <ValidatedModelForm
+                        @modelName="comment-report"
+                        @modelProperties={{hash comment=this.comment}}
+                        @onSave={{action this.onSave}}
+                        @onError={{action this.onError}}
+                        as |form|
+                    >
+                        <form.select
+                            @valuePath="category"
+                            @options={{this.abuseCategories}}
+                            @searchEnabled={{false}}
+                            @placeholder={{t 'registries.overview.comments.category_placeholder'}}
+                            as |category|
+                        >
+                            {{t (concat 'registries.overview.comments.abuse_' category)}}
+                        </form.select>
+                        <form.textarea
+                            @valuePath="message"
+                            @label={{t 'registries.overview.comments.report_placeholder'}}
+                        />
+                        <div local-class="formButtons">
+                            <button type="cancel" local-class="CommentReport__cancel" class="btn btn-default btn-sm" {{action this.cancelReport}}>
+                                {{t 'registries.overview.comments.cancel'}}
+                            </button>
+                            <button type="submit" local-class="CommentReport__save" class="btn btn-default btn-sm" disabled={{form.disabled}}>
+                                {{t 'registries.overview.comments.report'}}
+                            </button>
                         </div>
-                    {{/if}}
-                </form>
+                    </ValidatedModelForm>
+                {{/if}}
             </div>
-            {{#if (not this.reportMode)}}
-                <div local-class="CommentControls">
+            {{#if (not this.reporting)}}
+                <div local-class={{concat "CommentControls " (or (if this.hasReplies '' 'noReplies') (if this.canReport '' 'cantReport'))}}>
                     {{#if this.canReport}}
-                        <div>
+                        <div local-class="CommentControls__report">
                             <button type="button" class="btn btn-link" onClick={{action 'report'}}>
                                 {{t 'registries.overview.comments.report'}}
                             </button>

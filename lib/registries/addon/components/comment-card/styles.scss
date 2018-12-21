@@ -88,6 +88,14 @@
     justify-content: space-between;
     width: 100%;
 
+    &.noReplies {
+        justify-content: flex-start;
+    }
+
+    &.cantReport {
+        justify-content: flex-end;
+    }
+
     :global(.btn.btn-link) {
         color: $primary-blue;
         outline: 0;

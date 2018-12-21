@@ -77,12 +77,21 @@ export interface RelationshipLinks extends JSONAPI.Links {
     related: RelatedLink;
 }
 
-export type RelatedLink = string | { href: string; meta?: RelatedLinkMeta };
+export type RelatedLink = string | { href: string; meta?: RelatedLinkMeta & RelatedLinkMetaComments};
 
 export interface RelatedLinkMeta {
     id?: string;
     count?: number;
     type?: string;
+}
+
+/*
+*  Comments related counts are  per page type 'wiki'|'node'|'file'.
+*  ${total.node} is the total number of top_level, undeleted, node-type page.
+*/
+export interface RelatedLinkMetaComments {
+    total?: { node: number };
+    unread?: { node: number };
 }
 
 export interface NormalLinks extends JSONAPI.Links {

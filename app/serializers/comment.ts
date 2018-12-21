@@ -9,7 +9,7 @@ export default class CommentSerializer extends OsfSerializer {
 
         const { targetID, targetType } = snapshot.record;
 
-        if (targetID && targetType) {
+        if (targetID && targetType && serialized.data.relationships) {
             serialized.data.relationships.target = {
                 data: {
                     id: targetID,

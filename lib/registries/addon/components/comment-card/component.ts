@@ -36,9 +36,10 @@ export function relativeDate(datetime: any) {
 @layout(template, styles)
 export default class CommentCard extends Component.extend({
     submitRetractReport: task(function *(this: CommentCard) {
-        const reports = yield this.comment.reports;
-        const userReport: CommentReport = reports.find(
-            (report: CommentReport) => report.reporter === this.currentUser.currentUserId,
+        const userReports: CommentReport[] = yield this.comment.reports;
+
+        const userReport: CommentReport | undefined = userReports.find(
+            (report: CommentReport) => (!report.isDeleted && (report.id !== null)),
         );
 
         if (!userReport) {
@@ -50,35 +51,13 @@ export default class CommentCard extends Component.extend({
             this.comment.set('isAbuse', false);
             yield userReport.destroyRecord();
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.overview.comments.unable_to_retract_report'));
-            if (this.reload) {
-                this.reload();
-            }
-        }
-    }),
-    submitReport: task(function *(this: CommentCard) {
-        if (!this.abuseCategory || !this.abuseDescription) {
-            return;
+            this.toast.error(this.i18n.t('registries.overview.comments.retract_report.error'));
+            this.comment.rollbackAttributes();
+            userReport.rollbackAttributes();
+            throw e;
         }
 
-        const newReport = this.store.createRecord('comment-report', {
-            reporter: this.currentUser.currentUserId,
-            comment: this.comment,
-            category: this.abuseCategory,
-            message: this.abuseDescription,
-        });
-
-        try {
-            this.comment.set('isAbuse', true);
-            yield newReport.save();
-        } catch (e) {
-            this.toast.error(this.i18n.t('registries.overview.comments.unable_to_report'));
-            if (this.reload) {
-                this.reload();
-            }
-        } finally {
-            this.set('reportMode', false);
-        }
+        this.toast.success(this.i18n.t('registries.overview.comments.retract_report.success'));
     }),
     loadReplies: task(function *(this: CommentCard, more = false) {
         let replies = yield this.comment.replies;
@@ -112,13 +91,10 @@ export default class CommentCard extends Component.extend({
 
     // private arguments
     replies!: QueryHasManyResult<Comment>;
-
     abuseCategories: AbuseCategories[] = Object.values(AbuseCategories);
-    abuseCategory?: AbuseCategories = AbuseCategories.Spam;
-    abuseDescription: string | undefined;
 
     page: number = 1;
-    reportMode?: boolean = false;
+    reporting?: boolean = false;
     showReplies?: boolean = false;
 
     @alias('loadReplies.isRunning') loadingReplies!: boolean;
@@ -151,12 +127,6 @@ export default class CommentCard extends Component.extend({
         return this.comment && relativeDate(this.comment.dateModified);
     }
 
-    @computed('abuseDescription')
-    get reportIsValid() {
-        const description = this.abuseDescription && this.abuseDescription.trim();
-        return Boolean(description);
-    }
-
     @computed('replies.length', 'replies.meta.{total,per_page}')
     get hasMoreReplies(): boolean | undefined {
         return this.replies && (this.replies.meta.total > this.replies.meta.per_page)
@@ -168,21 +138,33 @@ export default class CommentCard extends Component.extend({
         if (!this.comment) {
             return;
         }
-        return this.comment.canEdit && (this.comment.user === this.currentUser.user);
+        return this.comment.canEdit &&
+            (this.comment.user.get('id') === this.currentUser.currentUserId);
     }
 
     @action
     report() {
-        this.set('reportMode', true);
+        this.set('reporting', true);
     }
 
     @action
     cancelReport() {
-        this.setProperties({
-            reportMode: false,
-            abuseDescription: '',
-            abuseCategory: undefined,
+        this.set('reporting', false);
+    }
+
+    @action
+    onSave() {
+        this.toast.success(this.i18n.t('registries.overview.comments.create_report.success'));
+        this.comment.setProperties({
+            isAbuse: true,
+            hasReport: true,
         });
+    }
+
+    @action
+    onError() {
+        this.comment.rollbackAttributes();
+        this.toast.error(this.i18n.t('registries.overview.comments.create_report.error'));
     }
 
     @action

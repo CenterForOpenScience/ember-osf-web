@@ -1058,8 +1058,15 @@ export default {
                 cancel: 'Cancel',
                 discussion: 'Discussion',
                 load_more: 'Load more replies',
-                unable_to_report: 'Unable to report comment',
-                unable_to_retract_report: 'Unable to retract abuse report',
+                create_report: {
+                    success: 'Comment successfully reported',
+                    error: 'Unable to report comment',
+                },
+                category_placeholder: 'Select a category that best describes abuse',
+                retract_report: {
+                    success: 'Report successfully retracted',
+                    error: 'Unable to retract abuse report',
+                },
                 modified: 'Modified ',
                 report_placeholder: 'Describe abuse',
                 comment_abuse: 'Comment reported.',

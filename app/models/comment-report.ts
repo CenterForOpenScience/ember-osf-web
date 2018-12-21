@@ -1,12 +1,6 @@
 import { attr, belongsTo } from '@ember-decorators/data';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
-<<<<<<< HEAD
-=======
-
-import Comment from 'ember-osf-web/models/comment';
-import OsfModel from './osf-model';
->>>>>>> Respond to code review
 
 import CommentModel from './comment';
 import OsfModel from './osf-model';
@@ -16,23 +10,18 @@ import OsfModel from './osf-model';
  *
  * @class CommentReport
  */
-<<<<<<< HEAD
-export default class CommentReportModel extends OsfModel {
-    @attr('fixstring') reporter!: ID;
-=======
 const Validations = buildValidations({
     message: [
         validator('presence', true),
-        validator('length', { min: 1 }),
+        validator('length', { min: 1, max: 1000 }),
     ],
     category: [
         validator('presence', true),
     ],
 });
 
-export default class CommentReport extends OsfModel.extend(Validations) {
+export default class CommentReportModel extends OsfModel.extend(Validations) {
     @attr('fixstring') reporter!: string;
->>>>>>> Respond to code review
     @attr('fixstring') category!: string;
     @attr('fixstring') message!: string;
 

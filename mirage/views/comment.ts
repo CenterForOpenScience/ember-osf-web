@@ -4,6 +4,11 @@ export function reportDelete(this: HandlerContext, schema: Schema, request: Requ
     const { id, reporter_id: reporterId } = request.params;
     const comment = schema.comments.find(id);
     const report: ModelInstance = comment.reports.filter((r: ModelInstance) => r.reporter === reporterId).firstObject;
+
+    comment.update({
+        isAbuse: false,
+    });
+
     if (report) {
         report.destroy();
     }

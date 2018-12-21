@@ -170,9 +170,14 @@ export default class OsfModel extends Model {
                 const relationship = response.data.relationships[apiRelationshipName];
                 if ('links' in relationship) {
                     if (typeof relationship.links.related === 'object') {
-                        if (relationship.links.related.meta) {
-                            if (typeof relationship.links.related.meta.count === 'number') {
-                                set(this.relatedCounts, relationshipName, relationship.links.related.meta.count);
+                        const { meta } = relationship.links.related;
+                        if (meta) {
+                            if (typeof meta.count === 'number') {
+                                set(this.relatedCounts, relationshipName, meta.count);
+                            } else if (apiRelationshipName === 'comments') {
+                                if (meta.total) {
+                                    set(this.relatedCounts, relationshipName, meta.total.node);
+                                }
                             } else {
                                 throw new Error(`Count not found in related link meta ${errorContext}`);
                             }
