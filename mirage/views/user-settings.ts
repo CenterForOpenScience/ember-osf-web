@@ -18,3 +18,8 @@ export function updateUserSettings(this: HandlerContext, schema: Schema, request
     });
     return userSettings;
 }
+
+export function getUserSettings(this: HandlerContext, schema: Schema, request: Request) {
+    const response = this.serialize(schema.userSettings.findBy({ userId: request.params.id }));
+    return response;
+}
