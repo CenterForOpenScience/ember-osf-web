@@ -8,7 +8,7 @@ import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { userNodeList } from './views/user';
-import { getUserSettings, updateUserSettings } from './views/user-settings';
+import { getUserSetting, updateUserSetting } from './views/user-setting';
 import { moveFile } from './views/wb';
 
 const { OSF: { apiUrl } } = config;
@@ -60,8 +60,8 @@ export default function(this: Server) {
 
     osfResource(this, 'user', { except: ['create', 'delete'] });
     osfNestedResource(this, 'user', 'institutions', { only: ['index'] });
-    this.get('/users/:id/settings', getUserSettings);
-    this.patch('/users/:parentID/settings', updateUserSettings);
+    this.get('/users/:id/settings', getUserSetting);
+    this.patch('/users/:parentID/settings', updateUserSetting);
     osfNestedResource(this, 'user', 'emails', {
         path: '/users/:parentID/settings/emails',
         relatedModelName: 'user-email',

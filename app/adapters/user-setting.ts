@@ -1,11 +1,11 @@
 import OsfAdapter from './osf-adapter';
 
-export default class UserSettingsAdapter extends OsfAdapter {
+export default class UserSettingAdapter extends OsfAdapter {
     parentRelationship = 'user';
 }
 
 declare module 'ember-data' {
     interface AdapterRegistry {
-        'user-settings': UserSettingsAdapter;
+        'user-setting': UserSettingAdapter;
     }
 }

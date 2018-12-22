@@ -1,8 +1,8 @@
 import { association, Factory } from 'ember-cli-mirage';
 
-import UserSettings from 'ember-osf-web/models/user-settings';
+import UserSetting from 'ember-osf-web/models/user-setting';
 
-export default Factory.extend<UserSettings>({
+export default Factory.extend<UserSetting>({
     twoFactorEnabled: false,
     twoFactorConfirmed: false,
     subscribeOsfHelpEmail: true,
