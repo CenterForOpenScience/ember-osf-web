@@ -37,7 +37,7 @@ export type Model<T> = {
 interface ModelInstanceShared<T> {
     id: ID;
     attrs: T;
-    schema: Schema;
+    _schema: Schema;
 
     save(): void;
     update<K extends keyof T>(key: K, val: T[K]): void;
