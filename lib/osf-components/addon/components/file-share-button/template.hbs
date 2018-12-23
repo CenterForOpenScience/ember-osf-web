@@ -1,48 +1,63 @@
 <button data-test-share-button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
     {{t "general.share"}}
-    {{#bs-popover placement='bottom' local-class='Popover' title=(t 'general.share') visible=showPopup}}
-        {{#click-outside action=(action 'hidePopup') }}
-            {{#bs-tab customTabs=true as |tab| }}
-                {{#bs-nav class='nav-justified' type='tabs' as |nav|}}
-                    {{#nav.item data-test-share-tab active=(bs-eq tab.activeId sharePaneId)}}
-                        <a role='button' {{action tab.select sharePaneId}} local-class='SharePane__tab'>{{t "general.share"}}</a>
-                    {{/nav.item}}
-                    {{#nav.item data-test-embed-tab active=(bs-eq tab.activeId embedPaneId)}}
-                        <a role='button' {{action tab.select embedPaneId}} local-class='SharePane__tab'>
-                            {{t "general.embed"}}
-                            <span class='badge'>{{badge}}</span>
+    <BsPopover
+        @placement="bottom"
+        local-class="Popover"
+        @title={{t "general.share"}}
+        @visible={{this.showPopup}}
+    >
+        <ClickOutside @action={{action "hidePopup"}}>
+            <BsTab @customTabs={{true}} as |tab|>
+                <BsNav @class="nav-justified" @type="tabs" as |nav|>
+                    <nav.item data-test-share-tab @active={{bs-eq tab.activeId this.sharePaneId}}>
+                        <a 
+                            role='button'
+                            {{action tab.select this.sharePaneId}}
+                            local-class='SharePane__tab'
+                        >
+                            {{t "general.share"}}
                         </a>
-                    {{/nav.item}}
-                {{/bs-nav}}
+                    </nav.item>
+                    <nav.item data-test-embed-tab @active={{bs-eq tab.activeId this.embedPaneId}}>
+                        <a role='button' {{action tab.select this.embedPaneId}} local-class='SharePane__tab'>
+                            {{t "general.embed"}}
+                            <span class='badge'>{{@badge}}</span>
+                        </a>
+                    </nav.item>
+                </BsNav>
 
                 <div class='tab-content'>
-                    {{#tab.pane elementId=sharePaneId title=(t 'general.share') local-class='SharePane'}}
+                    <tab.pane 
+                        @elementId={{this.sharePaneId}}
+                        @title={{t "general.share"}}
+                        local-class="SharePane"
+                    >
                         <br>
-                        {{copyable-text
-                            text=this.mfrUrl
-                            analyticsLabel='Quick Files - Share file'
-                        }}
+                        <CopyableText
+                            @text={{this.mfrUrl}}
+                            @analyticsLabel="Quick Files - Share file"
+                        />
                         <div local-class="SharePane__button-group">
                             <a
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.twitter'}}
-                                href='{{twitterUrl}}'
+                                href='{{this.twitterUrl}}'
                                 target='_blank'
                                 rel='noopener'
                                 onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter'
                                                  preventDefault=false
-                                                 target=analytics}}
+                                                 target=this.analytics}}
                             >
                                 <i aria-hidden='true' class='fa fa-twitter'></i>
                             </a>
                             <a
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.facebook'}}
-                                href='{{facebookUrl}}'
+                                href='{{this.facebookUrl}}'
                                 target='_blank'
                                 rel='noopener'
                                 onclick={{action 'click' 'link' 'Quick Files - Share file on Facebook'
-                                                 target=analytics
+                                                 target=this.analytics
                                                  preventDefault=false}}
                             >
                                 <i aria-hidden='true' class='fa fa-facebook'></i>
@@ -50,39 +65,56 @@
                             <a
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.linkedin'}}
-                                href='{{linkedInUrl}}'
+                                href='{{this.linkedInUrl}}'
                                 target='_blank'
                                 rel='noopener'
                                 onclick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn'
                                                  preventDefault=false
-                                                 target=analytics}}
+                                                 target=this.analytics}}
                             >
                                 <i aria-hidden='true' class='fa fa-linkedin'></i>
                             </a>
                             <a
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'quickfiles.share_by_email'}}
-                                href='{{emailUrl}}'
+                                href='{{this.emailUrl}}'
                                 target='_blank'
                                 rel='noopener'
                                 onclick={{action 'click' 'link' 'Quick Files - Share file in email'
                                                  preventDefault=false
-                                                 target=analytics}}
+                                                 target=this.analytics}}
                             >
                                 <i aria-hidden='true' class='fa fa-envelope'></i>
                             </a>
                         </div>
-                    {{/tab.pane}}
-                    {{#tab.pane elementId=embedPaneId title='Embed' local-class='EmbedPane'}}
+                    </tab.pane>
+                    <tab.pane
+                        @elementId={{this.embedPaneId}}
+                        @title="Embed" 
+                        local-class="EmbedPane"
+                    >
                         <br>
                         <p>{{t "file_detail.embed.dynamic"}}</p>
-                        <textarea aria-label={{t 'file_detail.embed_js_label'}} readonly='true' type='text' class='form-control'>{{shareiFrameDynamic}}</textarea>
+                        <textarea
+                            aria-label={{t 'file_detail.embed_js_label'}}
+                            readonly='true'
+                            type='text'
+                            class='form-control'
+                        >
+                            {{this.shareiFrameDynamic}}
+                        </textarea>
                         <br>
                         <p>{{t "file_detail.embed.direct"}}</p>
-                        <textarea aria-label={{t 'file_detail.embed_iframe_label'}} readonly='true' class='form-control'>{{shareiFrameDirect}}</textarea>
-                    {{/tab.pane}}
+                        <textarea
+                            aria-label={{t 'file_detail.embed_iframe_label'}}
+                            readonly='true'
+                            class='form-control'
+                        >
+                            {{this.shareiFrameDirect}}
+                        </textarea>
+                    </tab.pane>
                 </div>
-            {{/bs-tab}}
-        {{/click-outside}}
-    {{/bs-popover}}
+            </BsTab>
+        </ClickOutside>
+    </BsPopover>
 </button>

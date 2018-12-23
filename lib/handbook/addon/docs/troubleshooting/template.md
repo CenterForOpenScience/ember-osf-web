@@ -34,3 +34,12 @@ expectations. If not, restart your `api` container.
 
 If you're being served a legacy OSF page when you've enabled the flag for
 the embosf'd page, or vice versa, restart your `web` container.
+
+## Multiple application divs
+If you encounter a situation where, when you scroll the screen, you see another copy of
+your app, and you inspect to discover you have more than one application div, verify:
+* You are using the correct name/casing for all of your components (PascalCase for 
+angle-bracket invocation)
+
+If you have this problem but it's not for one of the reasons listed above, please add it
+to this list.

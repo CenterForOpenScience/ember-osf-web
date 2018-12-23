@@ -1,26 +1,27 @@
-{{#validated-model-form
-    model=this.token
-    modelName=(if this.token undefined 'token')
-    disabled=this.disabled
-    onSave=(action this.onSave)
-    analyticsScope=this.analyticsScope
+<ValidatedModelForm
+    @model={{this.token}}
+    @modelName={{if this.token undefined 'token'}}
+    @disabled={{this.disabled}}
+    @onSave={{action this.onSave}}
+    @analyticsScope={{this.analyticsScope}}
     as |form|
-}}
-    {{form.text data-test-token-name
-        valuePath='name'
-        label=(t 'settings.tokens.tokenName')
-    }}
+>
+    <form.text 
+        data-test-token-name
+        @valuePath="name"
+        @label={{t 'settings.tokens.tokenName'}}
+    />
 
     <div>
         <label>{{t 'settings.tokens.scopes'}}</label>
         <p>{{t 'settings.tokens.scopesDescription'}}</p>
 
-        {{#form.checkboxes
-            valuePath='scopes'
-            options=this.allScopes
-            ariaLabel=(t 'settings.tokens.scopes')
+        <form.checkboxes
+            @valuePath="scopes"
+            @options={{this.allScopes}}
+            @ariaLabel={{t 'settings.tokens.scopes'}}
             as |cb|
-        }}
+        >
             <div local-class='Scope' data-test-scope=cb.option.id>
                 {{cb.checkbox}}
                 <label for={{cb.checkboxId}}>
@@ -30,10 +31,10 @@
                     </div>
                 </label>
             </div>
-        {{/form.checkboxes}}
+        </form.checkboxes>
     </div>
 
     {{yield (hash
         disabled=this.inputsDisabled
     )}}
-{{/validated-model-form}}
+</ValidatedModelForm>

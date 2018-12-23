@@ -4,9 +4,9 @@
             {{t 'cookieBanner.cookieWarning'}}
         </div>
         <div local-class="Accept">
-            {{#bs-button onClick=(action 'accept')}}
+            <BsButton @onClick={{action this.accept}}>
                 {{t 'cookieBanner.accept'}}
-            {{/bs-button}}
+            </BsButton>
         </div>
     </div>
 {{/if}}

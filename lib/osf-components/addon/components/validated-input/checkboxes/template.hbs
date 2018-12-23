@@ -4,7 +4,7 @@
     validationStatus=this.validationStatus
 }}
     <div local-class='Checkboxes'>
-        {{#each options as |option|}}
+        {{#each this.options as |option|}}
             {{yield (hash
                 option=option
                 checkboxId=(concat this.elementId '__' option.id)
