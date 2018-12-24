@@ -1,5 +1,6 @@
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
@@ -106,6 +107,7 @@ module('Acceptance | settings/account | security', hooks => {
         );
         await visit('/settings/account');
         assertionsNotEnabledNotConfirmed(assert, 'InitialState');
+        await percySnapshot(assert);
     });
 
     test('two factor enabled unconfirmed shows and disables properly', async assert => {
@@ -121,12 +123,14 @@ module('Acceptance | settings/account | security', hooks => {
         );
         await visit('/settings/account');
         assertionsEnabledNotConfirmed(assert, 'Initital state');
+        await percySnapshot(assert);
         await click('[data-test-two-factor-disable-button]');
         assert.dom('[data-test-confirm-disable-modal]').exists('First disable attempt');
         assert.dom('[data-test-confirm-disable-heading]').exists('First disable attempt');
         assert.dom('[data-test-confirm-disable-warning]').exists('First disable attempt');
         assert.dom('[data-test-confirm-disable-warning]')
             .includesText('Are you sure you want to disable', 'First disable attempt');
+        await percySnapshot('Acceptance | settings/account | security | Disable warning dialog');
         await click('[data-test-disable-warning-cancel]');
         assert.dom('[data-test-confirm-disable-heading]').doesNotExist('Cancelled disable, heading is gone');
         assert.dom('[data-test-confirm-disable-warning]').doesNotExist('Cancelled disable, warning is gone');
@@ -174,6 +178,7 @@ module('Acceptance | settings/account | security', hooks => {
         await fillIn('[data-test-verification-code-field] input', '123456');
         await click('[data-test-verify-button]');
         assertionsEnabledConfirmed(assert, 'After successful verification');
+        await percySnapshot(assert);
     });
 
     test('two factor disabled->confirmed round trip works', async assert => {
@@ -192,6 +197,7 @@ module('Acceptance | settings/account | security', hooks => {
         assert.equal(currentURL(), '/settings/account');
         assertionsNotEnabledNotConfirmed(assert, 'Initial state');
         await click('[data-test-two-factor-enable-button]');
+        await percySnapshot('Acceptance | settings/account | security | Enable warning dialog');
         await click('[data-test-enable-warning-confirm]');
         assertionsEnabledNotConfirmed(assert, 'After enabling before verifying');
         await fillIn('[data-test-verification-code-field] input', '123456');
