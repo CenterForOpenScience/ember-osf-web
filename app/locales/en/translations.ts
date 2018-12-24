@@ -1222,6 +1222,7 @@ export default {
                 enterVerification: 'Enter your verification code:',
                 verificationFailed: 'Verification failed. Please enter your verification code again.',
                 disableWarning: 'Are you sure you want to disable two-factor authentication?',
+                disableButton: 'Disable',
                 saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
                 submitVerification: 'Submit',
             },

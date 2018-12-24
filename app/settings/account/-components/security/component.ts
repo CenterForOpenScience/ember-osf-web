@@ -36,6 +36,8 @@ export default class SecurityPane extends Component.extend({
             const { supportEmail } = config.support;
             const saveErrorMessage: string = this.i18n.t('settings.account.security.saveError', { supportEmail });
             return this.toast.error(saveErrorMessage);
+        } finally {
+            this.hideDialogs();
         }
     }),
 }) {
@@ -45,15 +47,29 @@ export default class SecurityPane extends Component.extend({
     @alias('currentUser.user') user!: User;
     settings?: UserSettingModel;
     showError: boolean = false;
+    showEnableWarning: boolean = false;
+    showDisableWarning: boolean = false;
 
     init() {
         super.init();
         this.loadSettings.perform();
     }
 
+    hideDialogs() {
+        this.setProperties({
+            showEnableWarning: false,
+            showDisableWarning: false,
+        });
+    }
+
     @action
     enableTwoFactor() {
         this.set('showError', false);
+        this.set('showEnableWarning', true);
+    }
+
+    @action
+    confirmEnableTwoFactor() {
         if (this.settings !== undefined) {
             this.settings.set('twoFactorEnabled', true);
             this.saveSettings.perform();
@@ -62,6 +78,11 @@ export default class SecurityPane extends Component.extend({
 
     @action
     disableTwoFactor() {
+        this.set('showDisableWarning', true);
+    }
+
+    @action
+    confirmDisableTwoFactor() {
         this.set('showError', false);
         if (this.settings !== undefined) {
             this.settings.set('twoFactorEnabled', false);
@@ -90,6 +111,13 @@ export default class SecurityPane extends Component.extend({
             const { supportEmail } = config.support;
             const saveErrorMessage: string = this.i18n.t('settings.account.security.saveError', { supportEmail });
             return this.toast.error(saveErrorMessage);
+        }
+    }
+
+    @action
+    destroyForm() {
+        if (this.settings !== undefined) {
+            this.settings.rollbackAttributes();
         }
     }
 }

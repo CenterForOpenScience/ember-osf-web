@@ -26,7 +26,7 @@ export function updateUserSetting(this: HandlerContext, schema: Schema, request:
             });
         }
     }
-    if (attrs.twoFactorEnabled && !twoFactorEnabled && !confirmTwoFactor) {
+    if ((attrs.twoFactorEnabled || twoFactorEnabled) && !confirmTwoFactor) {
         secret = 'S3CR3TSHH';
     }
 
@@ -41,6 +41,10 @@ export function updateUserSetting(this: HandlerContext, schema: Schema, request:
 
 export function getUserSetting(this: HandlerContext, schema: Schema, request: Request) {
     const userSetting = schema.userSettings.findBy({ userId: request.params.id });
+    const { twoFactorEnabled, twoFactorConfirmed } = userSetting;
+    if (twoFactorEnabled && !twoFactorConfirmed) {
+        userSetting.secret = 'S3CR3TSHH';
+    }
     const response = this.serialize(userSetting, 'user-setting');
     return response;
 }
