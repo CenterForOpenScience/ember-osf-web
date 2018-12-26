@@ -8,6 +8,7 @@ import { filter, process } from './utils';
 interface ResourceOptions {
     only?: resourceAction[];
     except?: resourceAction[];
+    defaultPageSize?: number;
     path: string;
     defaultSortKey: string;
 }
@@ -47,14 +48,14 @@ export function osfResource(
                 .models
                 .map((m: any) => this.serialize(m).data);
 
-            return process(schema, request, this, models, { defaultSortKey: opts.defaultSortKey });
+            return process(schema, request, this, models, options);
         });
     }
 
     if (actions.includes('show')) {
         server.get(detailPath, function(schema, request) {
             const model = this.serialize(schema[mirageModelName].find(request.params.id)).data;
-            const data = process(schema, request, this, [model], { defaultSortKey: opts.defaultSortKey }).data[0];
+            const data = process(schema, request, this, [model], options).data[0];
 
             return { data };
         });

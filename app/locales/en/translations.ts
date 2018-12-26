@@ -878,8 +878,7 @@ export default {
             update_save_success: '{{title}} has been updated in the collection.',
             add_save_error: 'Error adding {{title}} to the collection:\n{{error}}',
             update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
-            modal_header: 'Alert',
-            modal_body: 'Are you sure you want to discard changes to the collection? Changes saved to the project will persist, if saved.',
+            warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.',
         },
         collection_item_picker: {
             after_options: {

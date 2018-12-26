@@ -18,7 +18,8 @@
             <XLink
                  data-test-toggle="1"
                  class={{local-class 'Toggle'}}
-                 onclick={{action this.toggle}}
+                 @href='#'
+                 @onclick={{action this.toggle}}
                  @isCollapsed={{this.isCollapsed}}
                  @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}
                  @label={{t (if this.isCollapsed 'registries.overview.expand' 'registries.overview.collapse')}}
