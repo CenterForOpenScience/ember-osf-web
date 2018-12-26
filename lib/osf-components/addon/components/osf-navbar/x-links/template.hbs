@@ -50,13 +50,13 @@
         onClicked=this.onLinkClicked
     )
 ) as |links|}}
-    {{#if hasBlock}}
+    {{#if (has-block)}}
         {{yield links}}
     {{else}}
-        {{links.quickfiles data-test-nav-quickfiles-link}}
-        {{links.myprojects data-test-nav-my-projects-link}}
-        {{links.search data-test-nav-search-link}}
-        {{links.support data-test-nav-support-link}}
-        {{links.donate data-test-nav-donate-link}}
+        <links.quickfiles data-test-nav-quickfiles-link />
+        <links.myprojects data-test-nav-my-projects-link />
+        <links.search data-test-nav-search-link />
+        <links.support data-test-nav-support-link />
+        <links.donate data-test-nav-donate-link />
     {{/if}}
 {{/let}}

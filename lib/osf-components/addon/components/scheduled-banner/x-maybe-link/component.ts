@@ -8,7 +8,4 @@ import template from './template';
 @layout(template)
 export default class BannerMaybeLink extends Component {
     @service analytics!: Analytics;
-
-    // Required argument
-    href!: string;
 }

@@ -1,5 +1,8 @@
-<div class='{{if inline "ball-pulse" "ball-scale"}} {{if dark "ball-dark" "ball-light"}}' local-class="LoadingIndicator">
-    {{#if inline}}
+<div 
+    class='{{if this.inline "ball-pulse" "ball-scale"}} {{if this.dark "ball-dark" "ball-light"}}'
+    local-class="LoadingIndicator"
+>
+    {{#if this.inline}}
         <div></div>
         <div></div>
     {{/if}}

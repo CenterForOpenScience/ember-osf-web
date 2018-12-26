@@ -1,4 +1,5 @@
 <form local-class="SignUpForm" {{action 'submit' on='submit'}}>
+    {{! template-lint-disable no-implicit-this }}
     {{validated-input/text
         data-test-sign-up-full-name
         model=this.userRegistration
@@ -33,20 +34,22 @@
         valuePath='password'
         shouldShowMessages=this.didValidate
         disabled=this.hasSubmitted
-        onKeyUp=(perform strength this.userRegistration.password)
+        onKeyUp=(perform this.strength this.userRegistration.password)
         placeholder=(t 'osf-components.sign-up-form.password')
         ariaLabel=(t 'osf-components.sign-up-form.password')
     }}
-    <div class="row" hidden={{not progress}}>
+    {{! template-lint-enable no-implicit-this }}
+    <div class="row" hidden={{not this.progress}}>
         <div class="col-xs-12">
             <div class="progress" local-class="CreatePassword">
                 <div
-                    class="progress-bar progress-bar-sm progress-bar-{{progress}} progress-bar-{{progressStyle}}"
+                    class="progress-bar progress-bar-sm progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}"
                     role="progressbar">
                 </div>
             </div>
         </div>
     </div>
+    {{! template-lint-disable no-implicit-this }}
     {{#validated-input/checkbox
         data-test-sign-up-tos
         model=this.userRegistration
@@ -55,14 +58,16 @@
         disabled=this.hasSubmitted
         local-class='tos-checkbox'
     }}
-        {{sign-up-policy}}
+        <SignUpPolicy />
     {{/validated-input/checkbox}}
+    {{! template-lint-enable no-implicit-this }}
     {{#if this.hasSubmitted}}
         <div class="osf-box-lt" local-class="help-block">
             <p class="ext-success p-xs">{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
         </div>
     {{else}}
         <div class="col-md-12" local-class="RecaptchaParent">
+            {{! template-lint-disable no-implicit-this }}
             {{validated-input/recaptcha
                 data-test-recaptcha
                 model=this.userRegistration
@@ -70,13 +75,14 @@
                 shouldShowMessages=this.didValidate
                 bindReset=(action (mut this.resetRecaptcha))
             }}
+            {{! template-lint-enable no-implicit-this }}
         </div>
         <div>
             <button data-test-sign-up-button
                 type="submit"
                 class="btn btn-success"
-                {{action submit}}
-                {{action 'click' 'button' 'Home - sign_up' target=analytics}}
+                {{action this.submit}}
+                {{action 'click' 'button' 'Home - sign_up' target=this.analytics}}
             >
                 {{t 'osf-components.sign-up-form.sign_up_button_label'}}
             </button>

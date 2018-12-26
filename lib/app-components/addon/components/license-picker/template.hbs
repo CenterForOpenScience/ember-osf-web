@@ -1,50 +1,50 @@
 <label>
     {{yield}}
-    {{#validated-input/power-select
-        model=node
+</label>
+{{#validated-input/power-select
+        model=this.node
         valuePath='license'
-        search=(perform queryLicenses)
-        options=licensesAcceptable
+        search=(perform this.queryLicenses)
+        options=this.licensesAcceptable
         onchange=(action 'changeLicense')
         noMatchesMessage=(t 'new_project.no_matches')
         as |license|
-    }}
-        {{license.name}}
-    {{/validated-input/power-select}}
-</label>
+}}
+    {{license.name}}
+{{/validated-input/power-select}}
 <small>
     <a
         target="_blank"
         rel="noopener"
-        href={{helpLink}}
+        href={{this.helpLink}}
     >
         {{t 'app_components.license_picker.faq'}}
     </a>
 </small>
-{{#if selected}}
-    {{#if requiredFields.length}}
+{{#if this.selected}}
+    {{#if this.requiredFields.length}}
         <br>
     {{/if}}
     {{#validated-input/custom
-        model=node
+        model=this.node
         valuePath='nodeLicense'
     }}
-        {{#each requiredFields as |key|}}
+        {{#each this.requiredFields as |key|}}
             <br>
             <label for="nodeLicense-{{key}}">{{t (concat 'app_components.license_picker.fields.' key)}}</label>
             <br>
             {{input
                 class='form-control'
                 id=(concat 'nodeLicense-' key)
-                value=(mut (get node.nodeLicense key))
+                value=(mut (get this.node.nodeLicense key))
                 input=(action 'notify')
             }}
         {{/each}}
     {{/validated-input/custom}}
-    <a role="button" onclick={{action (mut showText) (not showText)}}>
-        {{t (concat 'app_components.license_picker.' (if showText 'hide' 'show'))}}
+    <a role="button" onclick={{action (mut this.showText) (not this.showText)}}>
+        {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
     </a>
-    {{#if showText}}
-        <pre>{{licenseText}}</pre>
+    {{#if this.showText}}
+        <pre>{{this.licenseText}}</pre>
     {{/if}}
 {{/if}}

@@ -1,17 +1,17 @@
 <p>{{t 'settings.developer-apps.clientSecretDescription'}}</p>
 <p>
-    {{copyable-text
+    <CopyableText
         data-test-client-secret
-        text=(if this.shouldShowSecret this.developerApp.clientSecret '*********************')
-        disabled=(not this.shouldShowSecret)
-        analyticsLabel='Settings - Developer apps - Copy client secret'
-    }}
+        @text={{if this.shouldShowSecret this.developerApp.clientSecret '*********************'}}
+        @disabled={{not this.shouldShowSecret}}
+        @analyticsLabel="Settings - Developer apps - Copy client secret"
+    />
 </p>
 
-{{#bs-button
+<BsButton
     data-test-toggle-client-secret
-    onClick=(action this.toggleShowSecret)
-}}
+    @onClick={{action this.toggleShowSecret}}
+>
     {{#if this.shouldShowSecret}}
         {{fa-icon 'eye-slash'}}
         {{t 'settings.developer-apps.hideSecret'}}
@@ -19,17 +19,17 @@
         {{fa-icon 'eye'}}
         {{t 'settings.developer-apps.showSecret'}}
     {{/if}}
-{{/bs-button}}
+</BsButton>
 
-{{#delete-button
+<DeleteButton
     data-test-reset-client-secret
-    delete=(action this.resetSecret)
-    analyticsScope='Settings - Developer apps - Reset client secret'
-    buttonLabel=(t 'settings.developer-apps.resetSecret.label')
-    confirmButtonText=(t 'settings.developer-apps.resetSecret.label')
-    modalTitle=(t 'settings.developer-apps.resetSecret.modalTitle')
-    errorMessage=(t 'settings.developer-apps.resetSecret.error')
-}}
+    @delete={{action this.resetSecret}}
+    @analyticsScope="Settings - Developer apps - Reset client secret"
+    @buttonLabel={{t 'settings.developer-apps.resetSecret.label'}}
+    @confirmButtonText={{t 'settings.developer-apps.resetSecret.label'}}
+    @modalTitle={{t 'settings.developer-apps.resetSecret.modalTitle'}}
+    @errorMessage={{t 'settings.developer-apps.resetSecret.error'}}
+>
     <p>{{t 'settings.developer-apps.resetSecret.description'}}</p>
     <p>{{t 'settings.developer-apps.resetSecret.confirm'}}</p>
-{{/delete-button}}
+</DeleteButton>
