@@ -1,7 +1,7 @@
 import { assert } from '@ember/debug';
 import DS from 'ember-data';
 import OsfAdapter from 'ember-osf-web/adapters/osf-adapter';
-import $ from 'jquery';
+import param from 'ember-osf-web/utils/param';
 
 export default class CollectedMetadatum extends OsfAdapter.extend({
     /**
@@ -37,20 +37,24 @@ export default class CollectedMetadatum extends OsfAdapter.extend({
         return `${this.urlPrefix()}/search/collections/`;
     },
 
-    query(_: DS.Store, type: any, query: any): Promise<any> {
+    query(_: DS.Store, type: any, query: Record<string, string>): Promise<any> {
         const url = this.buildURL(type.modelName, null, null, 'query', query);
-        const { page, ...restQuery } = query;
+        const { page, sort, ...restQuery } = query;
 
-        let queryParams = '';
+        const queryParams: Record<string, string> = {};
 
         if (page) {
-            queryParams += `?${$.param({ page })}`;
+            queryParams.page = page;
         }
 
-        return this.ajax(`${url}${queryParams}`, 'POST', {
+        if (sort) {
+            queryParams.sort = sort;
+        }
+
+        return this.ajax([url, param(queryParams)].join('?'), 'POST', {
             data: {
                 data: {
-                    attributes: this.sortQueryParams ? this.sortQueryParams(restQuery) : restQuery,
+                    attributes: restQuery,
                 },
                 type: 'search',
             },

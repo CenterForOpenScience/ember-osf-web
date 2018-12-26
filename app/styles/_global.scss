@@ -20,3 +20,8 @@ body > :global(.ember-view) {
         transform-origin: top left !important;
     }
 }
+
+.modal-open,
+.modal {
+    overflow-y: auto !important;
+}

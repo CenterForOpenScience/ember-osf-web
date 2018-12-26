@@ -135,11 +135,11 @@ export default class Discover extends Controller {
             },
             {
                 display: 'sort_oldest_newest',
-                sortBy: 'date_updated',
+                sortBy: 'modified',
             },
             {
                 display: 'sort_newest_oldest',
-                sortBy: '-date_updated',
+                sortBy: '-modified',
             },
         ].map(({ display, sortBy }) => ({
             display: this.i18n.t(`discover.${display}`),
