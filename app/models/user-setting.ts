@@ -1,6 +1,5 @@
 import { attr, belongsTo } from '@ember-decorators/data';
 import { buildValidations, validator } from 'ember-cp-validations';
-import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 import User from './user';
@@ -24,7 +23,7 @@ export default class UserSettingModel extends OsfModel.extend(Validations) {
     @attr('string') secret!: string;
     @attr('number') verification?: number;
 
-    @belongsTo('user', { inverse: 'settings', async: false }) user!: DS.PromiseObject<User> & User;
+    @belongsTo('user', { inverse: 'settings', async: false }) user!: User;
 }
 
 declare module 'ember-data' {

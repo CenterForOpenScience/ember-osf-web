@@ -166,6 +166,9 @@ module('Acceptance | settings/account | security', hooks => {
 
         /* I don't think I can test this properly right now. Ember qunit has a problem with waiting
         so long for catching the assertion.
+        https://github.com/emberjs/ember-qunit/issues/256
+        https://discuss.emberjs.com/t/how-to-catch-errors-in-component-rendering-test/14854/3
+        https://github.com/emberjs/ember-test-helpers/issues/310
 
             await fillIn('[data-test-verification-code-field] input', '111');
             assert.dom('[data-test-verification-code-field] .help-block')

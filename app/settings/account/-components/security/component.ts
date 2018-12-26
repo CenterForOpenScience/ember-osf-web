@@ -4,6 +4,7 @@ import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
+import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -11,7 +12,6 @@ import Toast from 'ember-toastr/services/toast';
 import User from 'ember-osf-web/models/user';
 import UserSettingModel from 'ember-osf-web/models/user-setting';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import { ErrorDocument } from 'osf-api';
 
 @tagName('')
 export default class SecurityPane extends Component.extend({
@@ -21,8 +21,7 @@ export default class SecurityPane extends Component.extend({
         if (!user) {
             return undefined;
         }
-        const settings = yield user.get('settings');
-        this.set('settings', settings);
+        this.settings = yield user.belongsTo('settings').reload();
     }),
 
     saveSettings: task(function *(this: SecurityPane) {
@@ -33,8 +32,11 @@ export default class SecurityPane extends Component.extend({
                 throw Error('No settings to save.');
             }
         } catch (e) {
+            if (this.settings !== undefined) {
+                this.settings.rollbackAttributes();
+            }
             const { supportEmail } = config.support;
-            const saveErrorMessage: string = this.i18n.t('settings.account.security.saveError', { supportEmail });
+            const saveErrorMessage = this.i18n.t('settings.account.security.saveError', { supportEmail });
             return this.toast.error(saveErrorMessage);
         } finally {
             this.hideDialogs();
@@ -46,9 +48,9 @@ export default class SecurityPane extends Component.extend({
     @service toast!: Toast;
     @alias('currentUser.user') user!: User;
     settings?: UserSettingModel;
-    showError: boolean = false;
-    showEnableWarning: boolean = false;
-    showDisableWarning: boolean = false;
+    showError = false;
+    showEnableWarning = false;
+    showDisableWarning = false;
 
     init() {
         super.init();
@@ -99,13 +101,8 @@ export default class SecurityPane extends Component.extend({
     }
 
     @action
-    verificationError(errors: ErrorDocument) {
-        if (
-            errors &&
-            errors.errors.length > 0 &&
-            errors.errors[0].status &&
-            String(errors.errors[0].status) === '403'
-        ) {
+    verificationError(error: DS.AdapterError) {
+        if (error instanceof DS.ForbiddenError) {
             this.set('showError', true);
         } else {
             const { supportEmail } = config.support;

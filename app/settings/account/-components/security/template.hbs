@@ -5,85 +5,89 @@
 >
     <panel.heading @title={{t 'settings.account.security.title'}} />
     <panel.body>
-        <h4>
-            <span local-class='HeadingText'>
-                {{t 'settings.account.security.twoFactorAuth'}}
-            </span>
-            {{#if this.settings.twoFactorEnabled}}
-                <BsButton
-                    data-test-two-factor-disable-button
-                    @type='danger'
-                    @size='xs'
-                    @onClick={{action this.disableTwoFactor}}
-                >
-                    {{t 'settings.account.security.disableTwoFactor'}}
-                </BsButton>
-            {{else}}
-                <BsButton
-                    data-test-two-factor-enable-button
-                    @onClick={{action this.enableTwoFactor}}
-                    local-class='EnableButton'
-                    @size='xs'
-                >
-                    {{t 'settings.account.security.enableTwoFactor'}}
-                </BsButton>
-            {{/if}}
-        </h4>
-        <p data-test-why-two-factor>
-            {{t 'settings.account.security.why'}}
-        </p>
-        {{#if (and this.settings.twoFactorEnabled (not this.settings.twoFactorConfirmed))}}
-            <p data-test-2f-important-warning class="bg-danger">
-                {{t 'settings.account.security.importantWarning'}}
-            </p>
-            <p data-test-2f-how-to>
-                {{t 'settings.account.security.howTo'}}
-            </p>
-            <p data-test-2f-once-verified>
-                {{t 'settings.account.security.onceVerified'}}
-            </p>
-            <p data-test-2f-scan-image>
-                {{t 'settings.account.security.scanImage' secretKey=this.settings.secret}}
-            </p>
-            <QrCode
-                data-test-2f-qr-code
-                @text={{this.settings.secret}}
-                @width=260
-                @height=260
-                @correctLevel="L"
-            />
-            <ValidatedModelForm
-                @model={{this.settings}}
-                @onSave={{action this.verifySecret}}
-                @onError={{action this.verificationError}}
-                @analyticsScope={{this.analyticsScope}}
-                @onWillDestroy={{action this.destroyForm}}
-                as |form|
-            >
-                <div>
-                    <form.text
-                        data-test-verification-code-field
-                        @valuePath='verification'
-                        @label={{t 'settings.account.security.enterVerification'}}
-                    />
-                    {{#if this.showError}}
-                        <p
-                            data-test-verification-error
-                            local-class='VerificationError'
-                        >
-                            {{t 'settings.account.security.verificationFailed'}}
-                        </p>
-                    {{/if}}
+        {{#if (or this.loadSettings.isRunning this.saveSettings.isRunning)}}
+            <LoadingIndicator @dark={{true}} />
+        {{else}}
+            <h4>
+                <span local-class='HeadingText'>
+                    {{t 'settings.account.security.twoFactorAuth'}}
+                </span>
+                {{#if this.settings.twoFactorEnabled}}
                     <BsButton
-                        data-test-verify-button
-                        @type='primary'
-                        @buttonType='submit'
-                        @disabled={{form.submitting}}
+                        data-test-two-factor-disable-button
+                        @type='danger'
+                        @size='xs'
+                        @onClick={{action this.disableTwoFactor}}
                     >
-                        {{t 'settings.account.security.submitVerification'}}
+                        {{t 'settings.account.security.disableTwoFactor'}}
                     </BsButton>
-                </div>
-            </ValidatedModelForm>
+                {{else}}
+                    <BsButton
+                        data-test-two-factor-enable-button
+                        @onClick={{action this.enableTwoFactor}}
+                        local-class='EnableButton'
+                        @size='xs'
+                    >
+                        {{t 'settings.account.security.enableTwoFactor'}}
+                    </BsButton>
+                {{/if}}
+            </h4>
+            <p data-test-why-two-factor>
+                {{t 'settings.account.security.why'}}
+            </p>
+            {{#if (and this.settings.twoFactorEnabled (not this.settings.twoFactorConfirmed))}}
+                <p data-test-2f-important-warning class="bg-danger">
+                    {{t 'settings.account.security.importantWarning'}}
+                </p>
+                <p data-test-2f-how-to>
+                    {{t 'settings.account.security.howTo'}}
+                </p>
+                <p data-test-2f-once-verified>
+                    {{t 'settings.account.security.onceVerified'}}
+                </p>
+                <p data-test-2f-scan-image>
+                    {{t 'settings.account.security.scanImage' secretKey=this.settings.secret}}
+                </p>
+                <QrCode
+                    data-test-2f-qr-code
+                    @text={{this.settings.secret}}
+                    @width=260
+                    @height=260
+                    @correctLevel="L"
+                />
+                <ValidatedModelForm
+                    @model={{this.settings}}
+                    @onSave={{action this.verifySecret}}
+                    @onError={{action this.verificationError}}
+                    @analyticsScope={{this.analyticsScope}}
+                    @onWillDestroy={{action this.destroyForm}}
+                    as |form|
+                >
+                    <div>
+                        <form.text
+                            data-test-verification-code-field
+                            @valuePath='verification'
+                            @label={{t 'settings.account.security.enterVerification'}}
+                        />
+                        {{#if this.showError}}
+                            <p
+                                data-test-verification-error
+                                local-class='VerificationError'
+                            >
+                                {{t 'settings.account.security.verificationFailed'}}
+                            </p>
+                        {{/if}}
+                        <BsButton
+                            data-test-verify-button
+                            @type='primary'
+                            @buttonType='submit'
+                            @disabled={{form.submitting}}
+                        >
+                            {{t 'settings.account.security.submitVerification'}}
+                        </BsButton>
+                    </div>
+                </ValidatedModelForm>
+            {{/if}}
         {{/if}}
     </panel.body>
 </Panel>
