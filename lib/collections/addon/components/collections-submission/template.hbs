@@ -1,27 +1,3 @@
-{{#bs-modal
-    onSubmit=(action 'reset')
-    onHide=(action (mut this.showCancelDialog) false)
-    open=this.showCancelDialog
-    as |modal|
-}}
-    {{#modal.header}}
-        <h4 class="modal-title">
-            <i class="glyphicon glyphicon-alert"></i>
-            {{t (concat this.i18nKeyPrefix 'modal_header')}}
-        </h4>
-    {{/modal.header}}
-    {{#modal.body}}
-        {{t (concat this.i18nKeyPrefix 'modal_body')}}
-    {{/modal.body}}
-    {{#modal.footer}}
-        {{#bs-button onClick=(action modal.close) type='default'}}
-            {{t 'general.cancel'}}
-        {{/bs-button}}
-        {{#bs-button onClick=(action modal.submit) type='danger'}}
-            {{t 'general.ok'}}
-        {{/bs-button}}
-    {{/modal.footer}}
-{{/bs-modal}}
 <div class="submit-header" local-class="header">
     <h1>{{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
 </div>
