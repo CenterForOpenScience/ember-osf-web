@@ -1,11 +1,12 @@
-{{#docs-viewer as |viewer|}}
-    {{#viewer.nav project=model as |nav|}}
+<DocsViewer as |viewer|>
+    <viewer.nav project=model as |nav|>
         {{nav.section 'Introduction'}}
         {{nav.item 'What is this handbook?' 'docs.index'}}
         {{nav.item 'Contributing to the handbook' 'docs.contributing'}}
 
         {{nav.section 'Development'}}
         {{nav.item 'Quickstart' 'docs.quickstart'}}
+        {{nav.item 'How to…' 'docs.how-to'}}
         {{nav.item 'Troubleshooting' 'docs.troubleshooting'}}
         {{nav.item 'Developer Environment' 'docs.dev-env'}}
         {{nav.item 'Testing' 'docs.testing'}}
@@ -26,13 +27,13 @@
         {{nav.item 'panel' 'docs.components.panel'}}
         {{nav.item 'tags-widget' 'docs.components.tags-widget'}}
         {{nav.item 'validated-model-form' 'docs.components.validated-model-form'}}
-    {{/viewer.nav}}
+    </viewer.nav>
 
-    {{#viewer.main}}
+    <viewer.main>
         <div class="docs-container">
             <div local-class="DocsPage" class="docs-section">
                 {{outlet}}
             </div>
         </div>
-    {{/viewer.main}}
-{{/docs-viewer}}
+    </viewer.main>
+</DocsViewer>
