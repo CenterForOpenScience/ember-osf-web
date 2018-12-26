@@ -1,5 +1,5 @@
 {{title (t 'institutions.title')}}
-{{scheduled-banner}}
+<ScheduledBanner />
 <div local-class='Institutions__page'>
     <div local-class="Institutions__block Institutions__header">
         <div class="container">
@@ -11,7 +11,7 @@
                         <a
                             local-class='Institutions__block__link'
                             href='https://cos.io/our-products/osf-institutions/'
-                            onclick={{action 'click' 'link' 'Institutions - Header - Read more' target=analytics}}
+                            onclick={{action 'click' 'link' 'Institutions - Header - Read more' target=this.analytics}}
                         >
                             {{t 'institutions.read_more'}}
                         </a>
@@ -30,33 +30,33 @@
                                 <div class='row'>
                                     <div class='col-xs-3' local-class='Institutions__sorting'>
                                         {{t 'institutions.title'}}
-                                        {{sort-button sortAction=(action 'sort') sort=sortOrder sortBy='title'}}
+                                        <SortButton @sortAction={{action this.sort}} @sort=this.sortOrder @sortBy="title" />
                                     </div>
                                     <div class="col-xs-9 filter-input">
                                         {{input
                                             (html-attributes aria-label=(t 'institutions.search_placeholder'))
-                                            value=textValue
+                                            value=this.textValue
                                             type='text'
                                             class='form-control'
                                             placeholder=(t 'institutions.search_placeholder')
-                                            keyPress=(perform trackFilter)
+                                            keyPress=(perform this.trackFilter)
                                         }}
                                     </div>
                                 </div>
-                                {{#each institutions as |institution|}}
+                                {{#each this.institutions as |institution|}}
                                     <a
                                         class="m-v-sm row"
-                                        local-class='Institutions__table__item'
-                                        href='{{institution.id}}'
-                                        onclick={{action 'click' 'link' 'Institutions - Visit institution' target=analytics}}
+                                        local-class="Institutions__table__item"
+                                        href="{{institution.links.html}}"
+                                        onclick={{action 'click' 'link' 'Institutions - Visit institution' target=this.analytics}}
                                     >
                                         <div class='col-xs-3'>
-                                            <img local-class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoPath}}'>
+                                            <img local-class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoUrl}}'>
                                         </div>
                                         <div class='col-xs-9' local-class='Institutions__table__title'><span>{{institution.name}}</span></div>
                                     </a>
                                 {{/each}}
-                                {{#if hasMore}}
+                                {{#if this.hasMore}}
                                     <div role="button" onclick={{action 'next'}} local-class='Institutions__more'>
                                         {{fa-icon 'chevron-down' class='Institutions__pagination'}}
                                     </div>
@@ -76,7 +76,7 @@
                         {{t 'institutions.footer'}}
                         <a
                             href='https://cos.io/contact'
-                            onclick={{action 'click' 'link' 'Institutions - Footer - Contact us' target=analytics}}
+                            onclick={{action 'click' 'link' 'Institutions - Footer - Contact us' target=this.analytics}}
                         >
                             {{t 'institutions.contact_us'}}
                         </a>

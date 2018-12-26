@@ -166,22 +166,11 @@ export default class DiscoverPage extends Component.extend({
             .reduce((acc, { currentQueryFilters }) => ({ ...acc, ...currentQueryFilters }), {});
     }
 
-    @computed('sort')
-    get sortQuery() {
-        return this.sort ?
-            {
-                sort: {
-                    [this.sort.replace(/^-/, '')]: this.sort[0] === '-' ? 'desc' : 'asc',
-                },
-            } :
-            {};
-    }
-
-    @computed('q', 'page', 'filters', 'sortQuery')
+    @computed('q', 'page', 'sort', 'filters')
     get queryAttributes() {
         return {
             page: this.page,
-            // ...this.sortQuery,
+            sort: this.sort,
             q: this.q || undefined,
             ...this.filters,
         };

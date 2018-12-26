@@ -15,8 +15,13 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
 
-function arrayEquals<T>(arr1: T[], arr2: T[]) {
-    return arr1.length === arr2.length && arr1.reduce((acc, val, i) => acc && val === arr2[i], true);
+interface ObjectWithId {
+    [i: string]: any;
+    id: string;
+}
+
+function arrayEquals(arr1: ObjectWithId[], arr2: ObjectWithId[]) {
+    return arr1.length === arr2.length && arr1.every((val, i) => val.id === arr2[i].id);
 }
 
 function arrayStartsWith(arr: Taxonomy[], prefix: Taxonomy[]) {
@@ -93,12 +98,20 @@ export default class SubjectPicker extends Component.extend({
         this.set('hasChanged', true);
         this.resetColumnSelections();
 
-        this.currentSubjects.removeAt(index);
+        const tempSubjects: Taxonomy[][] = this.currentSubjects.slice();
+        tempSubjects.removeAt(index);
+        this.set('currentSubjects', tempSubjects);
     }
 
     @action
     select(this: SubjectPicker, tier: number, selected: Taxonomy) {
         this.analytics.track('button', 'click', `Collections - ${this.editMode ? 'Edit' : 'Submit'} - Discipline Add`);
+
+        // Sets `tempSubjects` to `this.currentSubjects`.
+        // All new selected subjects are first added to `tempSubjects` before saving back to `this.currentSubjects`.
+        // This is because Ember does not recognize an array model attribute as dirty
+        // if we directly push objects to the array.
+        const tempSubjects: Taxonomy[][] = this.currentSubjects.slice();
 
         this.set('hasChanged', true);
         const column = this.columns[tier];
@@ -119,12 +132,12 @@ export default class SubjectPicker extends Component.extend({
 
         // An existing tag has this prefix, and this is the lowest level of the taxonomy, so no need to fetch child
         // results
-        if (nextTier === totalColumns || !this.currentSubjects.some(item => arrayStartsWith(item, currentSelection))) {
+        if (nextTier === totalColumns || !tempSubjects.some(item => arrayStartsWith(item, currentSelection))) {
             let existingParent;
 
             for (let i = 1; i <= currentSelection.length; i++) {
                 const sub = currentSelection.slice(0, i);
-                existingParent = this.currentSubjects.find(item => arrayEquals(item, sub));
+                existingParent = tempSubjects.find(item => arrayEquals(item, sub));
 
                 // The parent exists, append the subject to it
                 if (existingParent) {
@@ -134,8 +147,9 @@ export default class SubjectPicker extends Component.extend({
             }
 
             if (!existingParent) {
-                this.currentSubjects.pushObject(currentSelection);
+                tempSubjects.pushObject(currentSelection);
             }
+            this.set('currentSubjects', tempSubjects);
         }
 
         // Bail out if we're at the last column.

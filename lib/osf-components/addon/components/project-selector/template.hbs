@@ -1,19 +1,24 @@
-{{#if (eq projectSelectState 'main')}}
+{{#if (eq this.projectSelectState 'main')}}
     <div class="row">
         <div class="col-xs-6">
-            <button data-test-ps-new-project-button class="btn btn-block" local-class="btn-big" {{action 'moveToNew'}}>
+            <button data-test-ps-new-project-button class="btn btn-block" local-class="btn-big" {{action this.moveToNew}}>
                 {{t 'move_to_project.create_new_project'}}
             </button>
         </div>
         <div class="col-xs-6">
-            <button data-test-ps-existing-project-button class="btn btn-block" local-class="btn-big" {{action 'changeState' 'existingProject'}}>
+            <button
+                data-test-ps-existing-project-button
+                class="btn btn-block"
+                local-class="btn-big"
+                {{action this.changeState "existingProject"}}
+            >
                 {{t 'move_to_project.connect_to_existing'}}
             </button>
         </div>
     </div>
 {{/if}}
-{{#if (eq projectSelectState 'existingProject')}}
-    {{#if initialLoad.isRunning}}
+{{#if (eq this.projectSelectState 'existingProject')}}
+    {{#if this.initialLoad.isRunning}}
         <div class="ball-pulse ball-dark text-center">
             <div></div>
             <div></div>
@@ -21,22 +26,22 @@
         </div>
     {{else}}
         <h5>{{t 'move_to_project.choose_project'}}</h5>
-        {{#if projectList.length}}
+        {{#if this.projectList.length}}
             <form>
                 <div data-test-ps-select-project class="form-group">
                     <div class="m-t-sm">
-                        {{#power-select
-                            renderInPlace=true
-                            placeholder=(t 'move_to_project.select_placeholder')
-                            options=projectList
-                            search=(perform findNodes)
-                            selected=selected
-                            searchField='title'
-                            onchange=(action 'valueChanged')
+                        <PowerSelect
+                            @renderInPlace={{true}}
+                            @placeholder={{t 'move_to_project.select_placeholder'}}
+                            @options={{this.projectList}}
+                            @search={{perform this.findNodes}}
+                            @selected={{this.selected}}
+                            @searchField="title"
+                            @onchange={{action this.valueChanged}}
                             as |project|
-                        }}
+                        >
                             {{get-ancestor-descriptor project}} <strong>{{project.title}}</strong>
-                        {{/power-select}}
+                        </PowerSelect>
                     </div>
                 </div>
             </form>
@@ -49,18 +54,18 @@
             {{t 'move_to_project.project_select_message'}}
         </p>
     {{/if}}
-    {{#if selected}}
+    {{#if this.selected}}
         <p class="m-t-lg">
             {{t (concat
                 'move_to_project.convert_or_copy_message.'
-                (if isChildNode 'component' 'project')
+                (if this.isChildNode 'component' 'project')
             )}}
         </p>
-        {{#unless isPublicProject}}
+        {{#unless this.isPublicProject}}
             <p data-test-no-longer-public class="text-danger m-t-sm">
                 {{t (concat
                     'move_to_project.no_longer_public_warning.'
-                    (if isChildNode 'component' 'project')
+                    (if this.isChildNode 'component' 'project')
                 )}}
             </p>
         {{/unless}}

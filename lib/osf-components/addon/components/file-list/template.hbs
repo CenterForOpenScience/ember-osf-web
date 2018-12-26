@@ -1,20 +1,20 @@
 <div local-class="actions-header">
-    {{#if (or showFilterClicked showFilterInput)}}
+    {{#if (or this.showFilterClicked this.showFilterInput)}}
         <div class="col-xs-9 filter-input">
             {{input
                 placeholder=(t 'file_browser.filtering')
                 class="form-control"
-                keyUp=(action updateFilter value='target.value')
+                keyUp=(action @updateFilter value='target.value')
             }}
         </div>
         <div class="col-xs-3">
-            <button onclick={{action 'closeFilter'}} class="btn pull-right" local-class="action-button">
+            <button onclick={{action this.closeFilter}} class="btn pull-right" local-class="action-button">
                 {{fa-icon "times"}}
             </button>
         </div>
     {{else}}
         <div class="pull-right">
-            <button onclick={{action (mut showFilterClicked) true}} class="btn btn-light" local-class="action-button">
+            <button onclick={{action (mut this.showFilterClicked) true}} class="btn btn-light" local-class="action-button">
                 {{fa-icon "search"}}
                 {{t 'general.filter'}}
             </button>
@@ -22,10 +22,10 @@
     {{/if}}
 </div>
 <div local-class="items" role="listbox">
-    {{#each items as |item|}}
-        {{file-list-item
-            item=item
-            openItem=(action 'openItem')
-        }}
+    {{#each this.items as |item|}}
+        <FileListItem
+            @item={{item}}
+            @openItem={{action this.openItem}}
+        />
     {{/each}}
 </div>

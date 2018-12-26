@@ -18,25 +18,32 @@ export default class Link extends Component {
 
     route?: string;
     models?: any[];
-    queryParams?: Record<string, any>;
+    href?: string;
+    queryParams?: Record<string, unknown>;
+    fragment?: string;
 
-    rel: AnchorRel = defaultTo(this.rel, 'noreferrer');
+    rel: AnchorRel = defaultTo(this.rel, 'noopener');
     target: AnchorTarget = defaultTo(this.target, '_self');
 
     onclick?: () => void;
 
-    @computed('route', 'models')
-    get href() {
-        if (!this.route) {
-            return undefined;
+    @computed('href', 'route', 'models.[]', 'queryParams', 'fragment')
+    get _href() {
+        let url: string | undefined = this.href;
+
+        if (!url && this.route) {
+            url = this.router.urlFor(this.route, ...(this.models || []), {
+                queryParams: this.queryParams || {},
+            });
+            if (this.fragment) {
+                url = `${url}#${this.fragment}`;
+            }
         }
 
-        return this.router.urlFor(this.route, ...(this.models || []), {
-            queryParams: this.queryParams || {},
-        });
+        return url;
     }
 
-    @computed('router.currentURL')
+    @computed('route', 'models.[]', 'queryParams', 'router.currentURL')
     get isActive() {
         return Boolean(this.route && this.router.isActive(this.route, ...(this.models || []), {
             queryParams: this.queryParams || {},
@@ -45,8 +52,16 @@ export default class Link extends Component {
 
     didReceiveAttrs() {
         assert(
-            '@models must be undefined or an array. Consider using the `array` helper',
+            '`@models` must be undefined or an array. Consider using the `array` helper.',
             !this.models || isArray(this.models),
+        );
+        assert(
+            'Must pass `@href` xor `@route`. Did you pass `href` instead of `@href`?',
+            Boolean(this.route) !== Boolean(this.href),
+        );
+        assert(
+            '`@models` makes sense only with `@route`',
+            Boolean(!this.models || this.route),
         );
     }
 
@@ -62,6 +77,7 @@ export default class Link extends Component {
 
         e.preventDefault();
 
+        // TODO: add fragment
         this.router.transitionTo(this.route, ...(this.models || []), {
             queryParams: this.queryParams || {},
         });

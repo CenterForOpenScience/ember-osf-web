@@ -7,6 +7,35 @@
 // $gray-light:             #777777
 // $gray-lighter:           #eeeeee
 
+// OSF-Style variables
+
+/* Sizes */
+$sizes: ('xs', 'sm', 'md', 'lg', 'xl');
+$margins: (5, 10, 15, 25, 50);
+$spinner-size: (10, 20, 30, 50, 75);
+$weights: (200, 300, 400, 500, 600);
+
+/* Defaults */
+$radius: 2px;
+$bg-light: #f8f8f8;
+$border-light: 1px solid #eee;
+
+$osf-teal-navbar: #2e6a74;
+$osf-highlight-navbar: #5a8288;
+$osf-dark-blue-navbar: #263947;
+
+/* default bootstrap colors so osf-style can compile without bootstrap */
+$brand-success: #5cb85c !default;
+$brand-info: #5bc0de !default;
+$brand-warning: #f0ad4e !default;
+$brand-danger: #d9534f;
+
+/* overrides with darkened colors for a11y contrast */
+$brand-success: darken($brand-success, 10%);
+$brand-info: darken($brand-info, 15%);
+// no override needed for brand-warning (will use dark text instead)
+$brand-danger: darken($brand-danger, 15%);
+
 
 // Internal variables
 // Color variations ordered darkest to lightest within each section.
@@ -54,19 +83,51 @@ $color-shadow-gray-dark: #898787;
 
 $color-text-placeholder-grey-dark: #666;
 
-$brand-success: #5cb85c;
-$brand-info: #5bc0de;
-$brand-danger: #d9534f;
 $btn-success-high-contrast-color: #fff;
 $btn-info-high-contrast-color: #fff;
 $btn-danger-high-contrast-color: #fff;
 
 $ember-power-select-placeholder-color: #555;
 
-$progress-bar-bg-bright: (
-    primary: #428bca,
-    info: #5bc0de,
-    success: #5cb85c,
-    warning: #f0ad4e,
-    danger: #d9534f,
+$progress-bar-bg-bright: (primary: #428bca,
+info: #5bc0de,
+success: #5cb85c,
+warning: #f0ad4e,
+danger: #d9534f,
 );
+
+/*
+ * OSF Color Palette
+ */
+
+$color-blue: #204762;
+$color-pure-blue: #00f;
+$color-hover: #e0ebf3;
+$color-light: #eee;
+$color-alt: #c7ffc7;
+$color-select: #337ab7;
+$color-grey: #333;
+
+.bg-color-blue {
+    background-color: $color-blue;
+}
+
+.bg-color-hover {
+    background-color: $color-hover;
+}
+
+.bg-color-light {
+    background-color: $color-light;
+}
+
+.bg-color-alt {
+    background-color: $color-alt;
+}
+
+.bg-color-select {
+    background-color: $color-select;
+}
+
+.bg-color-grey {
+    background-color: $color-grey;
+}

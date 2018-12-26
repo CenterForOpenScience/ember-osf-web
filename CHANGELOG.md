@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Addons:
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
+    - `loaders-css` - For animated loading indicators
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
 - Handbook:
@@ -16,11 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Models:
     - `user-email`
 - Routes:
+    - `settings.account`
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
     - `settings.profile.employment`
     - `settings.profile.name` - Adds ability to change your name and name parts (with citation preview)
     - `settings.profile.social`
+- Styles:
+    - All styles from `osf-style`
 - Tests:
     - Integration:
         - `settings.profile.name.-components.citation-preview`
@@ -65,6 +69,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Add email verification modal to application template
 - Misc:
     - Upgraded to `osf-style` 1.8.0
+
+### Removed
+- Addons:
+    - `osf-style`
+
+## [18.2.2] - 2018-12-18
+### Added:
+- Flags:
+    - `enable_inactive_schemas`
+
+### Changed:
+- Components:
+    - regisitries:
+        - `registries-registration-type-facet` - only add ERPC schema when `enable_inactive_schemas` flag is off
+
+## [18.2.1] - 2018-12-18
+### Added
+- Mirage:
+    - `queryParamIsTruthy` util
+
+### Changed
+- Routes:
+    - `guid-node.registrations` - add `?filter[active]=true` when fetching registration schemas
+- Mirage:
+    - use `queryParamIsTruthy` helper for boolean comparison
 
 ## [18.2.0] - 2018-11-29
 ### Changed
