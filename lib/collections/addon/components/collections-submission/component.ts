@@ -117,6 +117,12 @@ export default class Submit extends Component {
     @requiredAction
     transition!: () => void;
 
+    /**
+     * Called when user advances to the next section
+     */
+    @requiredAction
+    onNextSection!: () => void;
+
     @action
     projectSelected(this: Submit, collectionItem: Node) {
         collectionItem.set('collectable', true);
@@ -138,7 +144,6 @@ export default class Submit extends Component {
         this.setProperties({
             activeSection: Section.project,
             savedSections: [],
-            showCancelDialog: false,
         });
 
         this.transition();
@@ -150,12 +155,7 @@ export default class Submit extends Component {
      */
     @action
     cancel(this: Submit) {
-        if (this.activeSection === Section.project) {
-            this.transition();
-            return;
-        }
-
-        this.set('showCancelDialog', true);
+        this.transition();
     }
 
     @action
@@ -167,5 +167,6 @@ export default class Submit extends Component {
     nextSection() {
         this.savedSections.pushObject(this.activeSection);
         this.incrementProperty('activeSection');
+        this.onNextSection();
     }
 }
