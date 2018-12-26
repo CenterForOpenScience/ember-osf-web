@@ -2,7 +2,6 @@ import { attribute, classNames, tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import User from 'ember-osf-web/models/user';
 import styles from './styles';
 import template from './template';
 
@@ -11,6 +10,4 @@ import template from './template';
 @tagName('nav')
 export default class QuickfileNav extends Component {
     @attribute role = 'navigation';
-
-    user?: User;
 }

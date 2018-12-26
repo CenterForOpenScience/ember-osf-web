@@ -1,6 +1,6 @@
-{{#if isDevMode}}
+{{#if this.isDevMode}}
     <div local-class="DevBanner">
         <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
-        {{zoom-to-route}}
+        <ZoomToRoute />
     </div>
 {{/if}}

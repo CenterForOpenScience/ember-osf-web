@@ -1,4 +1,4 @@
-import { Server } from 'ember-cli-mirage';
+import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import Node from 'ember-osf-web/models/node';
@@ -26,8 +26,14 @@ export default function(server: Server) {
         currentUser = server.create('user', 'loggedIn');
     }
 
-    const firstNode = server.create('node', {});
-    server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
+    const registrationNode = server.create('node', { id: 'regis', currentUserPermissions: Object.values(Permission) });
+    server.create('contributor', {
+        node: registrationNode,
+        users: currentUser,
+        permission: 'admin',
+        index: 0,
+    });
+
     const nodes = server.createList<Node>('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');
@@ -53,10 +59,10 @@ export default function(server: Server) {
     server.loadFixtures('registration-schemas');
     server.loadFixtures('regions');
 
-    registerNodeMultiple(server, nodes[0], 12, {
+    registerNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {
         currentUserPermissions: Object.values(Permission),
     }, 'withRegisteredMeta');
-    draftRegisterNodeMultiple(server, nodes[0], 12, {}, 'withRegistrationMetadata');
+    draftRegisterNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {}, 'withRegistrationMetadata');
 
     server.create('registration', { id: 'beefs' });
 

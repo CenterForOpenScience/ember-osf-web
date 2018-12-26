@@ -64,7 +64,8 @@ export default class FileBrowser extends Component {
 
     clickHandler?: JQuery.EventHandlerBase<HTMLElement, JQuery.Event>;
     dismissPop?: () => void;
-    canEdit?: boolean;
+    canEdit: boolean = defaultTo(this.canEdit, false);
+    dropping: boolean = false;
     showRename: boolean = false;
     renameValue: string = '';
     multiple = true;
@@ -90,6 +91,7 @@ export default class FileBrowser extends Component {
     isNewProject?: boolean;
     isChildNode?: boolean;
     isProjectSelectorValid: boolean = false;
+    sort: string = '';
 
     dropzoneOptions = {
         createImageThumbnails: false,

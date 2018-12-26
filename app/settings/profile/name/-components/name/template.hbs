@@ -1,60 +1,60 @@
-{{#validated-model-form
-    onSave=(action this.onSave)
-    onWillDestroy=(action this.onWillDestroy)
-    model=this.user
+<ValidatedModelForm
+    @onSave={{action this.onSave}}
+    @onWillDestroy={{action this.onWillDestroy}}
+    @model={{this.user}}
     as |form|
-}}
-    {{form.text
+>
+    <form.text
         data-test-full-name-field
-        valuePath='fullName' 
-        label=(t 'settings.profile.name.fullName')
-    }}
+        @valuePath="fullName"
+        @label={{t 'settings.profile.name.fullName'}}
+    />
     {{t 'settings.profile.name.instructions'}}
     
     <h3>{{t 'settings.profile.name.citationName'}}</h3>
     <span local-class='NameParts'>
-        {{form.text 
+        <form.text
             data-test-given-name-field
             local-class='LargeField'
-            valuePath='givenName'
-            label=(t 'settings.profile.name.givenName')
-        }}
-        {{form.text 
+            @valuePath='givenName'
+            @label={{t 'settings.profile.name.givenName'}}
+        />
+        <form.text
             data-test-middle-names-field
             local-class='LargeField'
-            valuePath='middleNames'
-            label=(t 'settings.profile.name.middleNames')
-        }}
-        {{form.text 
+            @valuePath='middleNames'
+            @label={{t 'settings.profile.name.middleNames'}}
+        />
+        <form.text 
             data-test-family-name-field
             local-class='LargeField'
-            valuePath='familyName'
-            label=(t 'settings.profile.name.familyName')
-        }}
-        {{form.text
+            @valuePath='familyName'
+            @label={{t 'settings.profile.name.familyName'}}
+        />
+        <form.text
             data-test-suffix-field
             local-class='SmallField'
-            valuePath='suffix'
-            label=(t 'settings.profile.name.suffix')
-        }}
+            @valuePath='suffix'
+            @label={{t 'settings.profile.name.suffix'}}
+        />
     </span>
     {{settings/profile/name/-components/citation-preview user=this.user}}
     <div local-class='FormButtons'>
-        {{#bs-button 
+        <BsButton
             data-test-discard-changes
-            buttonType='button' 
-            disabled=(not this.isPageDirty)
-            onClick=(action this.onWillDestroy this.user)
-        }}
+            @buttonType="button"
+            @disabled={{not this.isPageDirty}}
+            @onClick={{action this.onWillDestroy this.user}}
+        >
             {{t "validated_input_form.discard_changes"}}
-        {{/bs-button}}
-        {{#bs-button 
+        </BsButton>
+        <BsButton
             data-test-save
-            buttonType='submit' 
-            disabled=(and (not this.isPageDirty) form.disabled)
-            type='primary'
-        }}
+            @buttonType="submit"
+            @disabled={{and (not this.isPageDirty) form.disabled}}
+            @type="primary"
+        >
             {{t 'general.save'}}
-        {{/bs-button}}
+        </BsButton>
     </div>
-{{/validated-model-form}}
+</ValidatedModelForm>

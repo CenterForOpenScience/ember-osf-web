@@ -1,4 +1,4 @@
-{{#unless hidden}}
+{{#unless this.hidden}}
     {{#let (hash
         link=(if this.isEmber
             (component 'global-link-to' params=this._params)
@@ -6,10 +6,10 @@
         )
     ) as |ctx|}}
         {{#ctx.link data-test-hyper-link=@testSelectorVal class=@class click=(action this.onclick)}}
-            {{#if hasBlock}}
+            {{#if (has-block)}}
                 {{yield}}
             {{else}}
-                {{text}}
+                {{this.text}}
             {{/if}}
         {{/ctx.link}}
     {{/let}}
