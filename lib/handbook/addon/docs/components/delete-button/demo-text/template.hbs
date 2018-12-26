@@ -1,16 +1,16 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='delete-button.demo-text.hbs'}}
-        {{delete-button
-            delete=(action delete 'custom-text')
-            buttonLabel='Custom delete!'
-            modalTitle='Such a title'
-            modalBody='Sure you want to?'
-            cancelButtonText='No.'
-            confirmButtonText='Yes?'
-            errorMessage='It did not work.'
-        }}
-    {{/demo.example}}
+<DocsDemo as |demo|>
+    <demo.example @name='delete-button.demo-text.hbs'>
+        <DeleteButton
+            @delete={{action @delete 'custom-text'}}
+            @buttonLabel='Custom delete!'
+            @modalTitle='Such a title'
+            @modalBody='Sure you want to?'
+            @cancelButtonText='No.'
+            @confirmButtonText='Yes?'
+            @errorMessage='It did not work.'
+        />
+    </demo.example>
 
     {{demo.snippet 'delete-button.demo-text.hbs'}}
     {{demo.snippet 'delete-button.delete-action.ts' label='component.ts'}}
-{{/docs-demo}}
+</DocsDemo>

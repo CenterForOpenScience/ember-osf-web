@@ -1,13 +1,13 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='bs-alert.danger-hidden.hbs'}}
-            {{#bs-alert type='danger' dismissible=false hidden=hideAlert}}
+<DocsDemo as |demo|>
+    <demo.example @name='bs-alert.danger-hidden.hbs'>
+            <BsAlert @type='danger' @dismissible={{false}} @hidden={{this.hideAlert}}>
                     <strong>Danger, Will Robinson!</strong>
-            {{/bs-alert}}
-        {{/demo.example}}
+            </BsAlert>
+        </demo.example>
 
-        {{#bs-button class='center-block m-b-lg' onClick=(action (mut hideAlert) (not hideAlert))}}
-            set: hideAlert = {{not hideAlert}}
-        {{/bs-button}}
+        <BsButton @class='center-block m-b-lg' @onClick={{action (mut this.hideAlert) (not this.hideAlert)}}>
+            set: hideAlert = {{not this.hideAlert}}
+        </BsButton>
 
-    {{demo.snippet 'bs-alert.danger-hidden.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='bs-alert.danger-hidden.hbs' />
+</DocsDemo>
