@@ -26,7 +26,7 @@ export default function(server: Server) {
         currentUser = server.create('user', 'loggedIn');
     }
 
-    server.create('user-setting', { user: currentUser });
+    server.create('user-setting', { user: currentUser, id: currentUser.id });
     const registrationNode = server.create('node', { id: 'regis', currentUserPermissions: Object.values(Permission) });
     server.create('contributor', {
         node: registrationNode,

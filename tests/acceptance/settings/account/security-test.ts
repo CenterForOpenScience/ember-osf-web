@@ -101,6 +101,7 @@ module('Acceptance | settings/account | security', hooks => {
             'user-setting',
             {
                 user: currentUser,
+                id: currentUser.id,
                 twoFactorEnabled: false,
                 twoFactorConfirmed: false,
             },
@@ -117,6 +118,7 @@ module('Acceptance | settings/account | security', hooks => {
             'user-setting',
             {
                 user: currentUser,
+                id: currentUser.id,
                 twoFactorEnabled: true,
                 twoFactorConfirmed: false,
             },
@@ -151,6 +153,7 @@ module('Acceptance | settings/account | security', hooks => {
             'user-setting',
             {
                 user: currentUser,
+                id: currentUser.id,
                 twoFactorEnabled: true,
                 twoFactorConfirmed: false,
             },
@@ -191,6 +194,7 @@ module('Acceptance | settings/account | security', hooks => {
             'user-setting',
             {
                 user: currentUser,
+                id: currentUser.id,
                 twoFactorEnabled: false,
                 twoFactorConfirmed: false,
             },
