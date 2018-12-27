@@ -7,8 +7,10 @@ Because engines, components shared across the site should be in an in-repo addon
 `ember g component -ir osf-components component-name`
 
 ### Test blueprints
-These tests are run by mocha rather than qunit, so ensure that mocha is installed globally then:
+To test all blueprints, use:
 
-`npx mocha ./node-tests/blueprints/*-test.js`
+`yarn test:blueprints`
 
-Or you can just choose the js file for the specific blueprint you want to test.
+Or, if you just want to run a specific test:
+
+`npx mocha ./node-tests/blueprints/handbook-component-test.js`

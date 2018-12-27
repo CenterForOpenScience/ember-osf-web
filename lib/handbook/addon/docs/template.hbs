@@ -1,5 +1,5 @@
 <DocsViewer as |viewer|>
-    <viewer.nav project=model as |nav|>
+    <viewer.nav @project={{this.model}} as |nav|>
         {{nav.section 'Introduction'}}
         {{nav.item 'What is this handbook?' 'docs.index'}}
         {{nav.item 'Contributing to the handbook' 'docs.contributing'}}
