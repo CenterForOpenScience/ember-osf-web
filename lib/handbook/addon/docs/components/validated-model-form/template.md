@@ -10,7 +10,7 @@ creating (if necessary), validating, and saving the model.
 
 ### Params
 * `onSave(model)` (required): Action called after the model is successfully validated and saved.
-* `onError(model, error)` (optional): Action called if saving the model fails.
+* `onError(error, model)` (optional): Action called if saving the model fails.
 * `onWillDestroy()` (optional): Action called if you transition. Default behavior is to unload the object.
 * `model` (optional): Model instance to edit.
 * `modelName` (optional): Name of the model to create.
