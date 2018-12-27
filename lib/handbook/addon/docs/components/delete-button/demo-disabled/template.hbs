@@ -1,16 +1,19 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='delete-button.demo-disabled.hbs'}}
-        {{delete-button
-            disabled=true
-            delete=(action delete 'disabled')
-        }}
-        {{delete-button
-            small=true
-            disabled=true
-            delete=(action delete 'disabled')
-        }}
-    {{/demo.example}}
+<DocsDemo as |demo|>
+    <demo.example @name='delete-button.demo-disabled.hbs'>
+        <DeleteButton
+            @disabled={{true}}
+            @delete={{action @delete 'disabled'}}
+        />
+        <DeleteButton
+            @small={{true}}
+            @disabled={{true}}
+            @delete={{action @delete 'disabled'}}
+        />
+    </demo.example>
 
-    {{demo.snippet 'delete-button.demo-disabled.hbs'}}
-    {{demo.snippet 'delete-button.delete-action.ts' label='component.ts'}}
-{{/docs-demo}}
+    <demo.snippet @name='delete-button.demo-disabled.hbs' />
+    <demo.snippet
+        @name='delete-button.delete-action.ts'
+        @label='component.ts'
+    />
+</DocsDemo>

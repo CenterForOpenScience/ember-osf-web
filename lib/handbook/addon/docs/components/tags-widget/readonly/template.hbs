@@ -1,12 +1,11 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='tags-widget.readonly.hbs'}}
+<DocsDemo as |demo|>
+    <demo.example @name='tags-widget.readonly.hbs'>
         <TagsWidget
             @tags={{@tags}}
-            @readOnly=true
-            @analyticsScope="Handbook Tags"
+            @readOnly={{true}}
+            @analyticsScope='Handbook Tags'
         />
+    </demo.example>
 
-    {{/demo.example}}
-
-    {{demo.snippet 'tags-widget.readonly.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='tags-widget.readonly.hbs' />
+</DocsDemo>

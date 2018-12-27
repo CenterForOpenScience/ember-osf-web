@@ -1,14 +1,14 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='copyable-text.hbs'}}
-        {{copyable-text
-            text='bunchoftextblahblahblah'
-        }}
-        {{! Optional arguments:
-            success=(action 'onCopySuccess')
-            error=(action 'onCopyError')
-            analyticsLabel='This Page - Clicked copy button'
+<DocsDemo as |demo|>
+    <demo.example @name='copyable-text.hbs'>
+        <CopyableText
+            @text='bunchoftextblahblahblah'
+        />
+        {{!-- Optional arguments:
+            @success={{action @onCopySuccess}}
+            @error={{action this.onCopyError}}
+            @analyticsLabel='This Page - Clicked copy button'
         --}}
-    {{/demo.example}}
+    </demo.example>
 
-    {{demo.snippet 'copyable-text.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='copyable-text.hbs' />
+</DocsDemo>

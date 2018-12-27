@@ -1,12 +1,15 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='delete-button.demo-block.hbs'}}
-        {{#delete-button
-            delete=(action delete 'block')
-        }}
+<DocsDemo as |demo|>
+    <demo.example @name='delete-button.demo-block.hbs'>
+        <DeleteButton
+            @delete={{action @delete 'block'}}
+        >
             <strong>Really</strong> really sure?
-        {{/delete-button}}
-    {{/demo.example}}
+        </DeleteButton>
+    </demo.example>
 
-    {{demo.snippet 'delete-button.demo-block.hbs'}}
-    {{demo.snippet 'delete-button.delete-action.ts' label='component.ts'}}
-{{/docs-demo}}
+    <demo.snippet @name='delete-button.demo-block.hbs' />
+    <demo.snippet
+        @name='delete-button.delete-action.ts'
+        @label='component.ts'
+    />
+</DocsDemo>

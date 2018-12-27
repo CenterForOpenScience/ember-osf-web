@@ -1,14 +1,14 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='panel.demo-mix.hbs'}}
+<DocsDemo as |demo|>
+    <demo.example @name='panel.demo-mix.hbs'>
         <Panel as |panel|>
-            <panel.heading @title="I'm a panel">
-                <span class="pull-right">Here's some other stuff in the heading</span>
+            <panel.heading @title='I am a panel'>
+                <span class='pull-right'>Here's some other stuff in the heading</span>
             </panel.heading>
-            <panel.body @text="This is my body">
-                <button class="btn btn-default">This is something additional</button>
+            <panel.body @text='This is my body'>
+                <button class='btn btn-default'>This is something additional</button>
             </panel.body>
         </Panel>
-    {{/demo.example}}
+    </demo.example>
 
-    {{demo.snippet 'panel.demo-mix.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='panel.demo-mix.hbs' />
+</DocsDemo>
