@@ -103,18 +103,18 @@
             <p>{{t 'file_detail.delete_file.confirm' file-name=this.model.file.name}}</p>
         </modal.body>
         <modal.footer>
-            <BsButton
+            <OsfButton
                 @onClick={{action modal.close}}
                 @type='default'
             >
                 {{t 'general.cancel'}}
-            </BsButton>
-            <BsButton
+            </OsfButton>
+            <OsfButton
                 @onClick={{action modal.submit}} 
                 @type='danger'
             >
                 {{t 'general.delete'}}
-            </BsButton>
+            </OsfButton>
         </modal.footer>
     </BsModal>
     <hr>

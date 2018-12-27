@@ -15,15 +15,15 @@
         </label>
     </modal.body>
     <modal.footer>
-        <BsButton @onClick={{action modal.close}}>
+        <OsfButton @onClick={{action modal.close}}>
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton 
+        </OsfButton>
+        <OsfButton 
             @disabled={{not (eq this.scientistInput this.scientistName)}} 
             @onClick={{action modal.submit}} 
             @type="danger"
         >
             {{t 'general.delete'}}
-        </BsButton>
+        </OsfButton>
     </modal.footer>
 </BsModal>

@@ -40,21 +40,21 @@
     </span>
     {{settings/profile/name/-components/citation-preview user=this.user}}
     <div local-class='FormButtons'>
-        <BsButton
+        <OsfButton
             data-test-discard-changes
             @buttonType="button"
             @disabled={{not this.isPageDirty}}
             @onClick={{action this.onWillDestroy this.user}}
         >
             {{t "validated_input_form.discard_changes"}}
-        </BsButton>
-        <BsButton
+        </OsfButton>
+        <OsfButton
             data-test-save
             @buttonType="submit"
             @disabled={{and (not this.isPageDirty) form.disabled}}
             @type="primary"
         >
             {{t 'general.save'}}
-        </BsButton>
+        </OsfButton>
     </div>
 </ValidatedModelForm>

@@ -166,13 +166,13 @@
         <p>{{t 'file_browser.info.download'}}</p>
     </modal.body>
     <modal.footer>
-        <BsButton
+        <OsfButton
             data-test-close-current-modal
             @onClick={{action (mut this.currentModal) ''}}
             @type="default"
         >
             {{t 'general.close'}}
-        </BsButton>
+        </OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
@@ -190,18 +190,18 @@
         <p>{{t 'file_browser.delete_modal.body'}}</p>
     </modal.body>
     <modal.footer>
-        <BsButton
+        <OsfButton
             @onClick={{action (mut this.currentModal) ''}}
             @type="default"
         >
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton 
+        </OsfButton>
+        <OsfButton 
             @onClick={{action this.deleteItems}}
             @type="danger"
         >
             {{t 'general.delete'}}
-        </BsButton>
+        </OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
@@ -223,8 +223,8 @@
         {{/each}}
     </modal.body>
     <modal.footer>
-        <BsButton @onClick={{action (mut this.currentModal) ""}} @type="default">{{t 'general.cancel'}}</BsButton>
-        <BsButton @onClick={{action 'deleteItems' true}} @type="danger">{{t 'general.delete'}}</BsButton>
+        <OsfButton @onClick={{action (mut this.currentModal) ""}} @type="default">{{t 'general.cancel'}}</OsfButton>
+        <OsfButton @onClick={{action this.deleteItems true}} @type="danger">{{t 'general.delete'}}</OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
@@ -241,15 +241,15 @@
         <p>{{t 'file_browser.conflict_modal.replace_info'}}</p>
     </modal.body>
     <modal.footer>
-        <BsButton @onClick={{action (mut this.currentModal) ""}} @type="default">
+        <OsfButton @onClick={{action (mut this.currentModal) ""}} @type="default">
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton @onClick={{action this.renameConflict 'keep'}} @type="primary">
+        </OsfButton>
+        <OsfButton @onClick={{action this.renameConflict 'keep'}} @type="primary">
             {{t 'file_browser.conflict_modal.keep_button'}}
-        </BsButton>
-        <BsButton @onClick={{action this.renameConflict 'replace'}} type="primary">
+        </OsfButton>
+        <OsfButton @onClick={{action this.renameConflict 'replace'}} type="primary">
             {{t 'file_browser.conflict_modal.replace_button'}}
-        </BsButton>
+        </OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
@@ -272,31 +272,31 @@
         />
     </modal.body>
     <modal.footer>
-        <BsButton
+        <OsfButton
             data-test-move-to-project-modal-close-button
             @disabled={{this.isMoving}}
-            @onClick={{action 'closeMoveToProjectModal'}}
+            @onClick={{action this.closeMoveToProjectModal}}
             @type="default"
         >
             {{t 'general.cancel'}}
-        </BsButton>
+        </OsfButton>
         {{#if (not-eq this.projectSelectState 'main')}}
-            <BsButton
+            <OsfButton
                 data-test-move-to-project-modal-back-button
                 @disabled={{this.isMoving}}
                 @onClick={{action (mut this.projectSelectState) "main"}}
                 @type="default"
             >
                 {{t 'general.back'}}
-            </BsButton>
-            <BsButton
+            </OsfButton>
+            <OsfButton
                 data-test-move-to-project-modal-perform-button
                 @disabled={{or (not this.isProjectSelectorValid) this.isMoving}}
                 @onClick={{action (perform this.moveToProject)}}
                 @type="primary"
             >
                 {{t 'file_browser.move_modal.move_button'}}
-            </BsButton>
+            </OsfButton>
         {{/if}}
     </modal.footer>
 </BsModal>

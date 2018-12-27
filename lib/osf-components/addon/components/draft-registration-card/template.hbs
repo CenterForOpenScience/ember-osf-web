@@ -36,19 +36,19 @@
         </small>
         <div class="row">
             <div class="col-md-10">
-                <BsButton 
+                <OsfButton 
                     @type='default' 
                     @onClick={{action this.edit}}
                     @disabled={{not this.draftRegistration}}
                 >
                     {{fa-icon 'pencil'}} {{t 'general.edit'}}
-                </BsButton><BsButton {{! template-lint-disable }}
+                </OsfButton><OsfButton {{! template-lint-disable }}
                     @type='default' 
                     @onClick={{action this.delete}}
                     disabled={{not this.draftRegistration}}
                 >
                     {{fa-icon 'times'}} {{t 'general.delete'}}
-                </BsButton>
+                </OsfButton>
                 <BsModal
                     @open={{this.deleteModalOpen}}
                     @onHidden={{action this.cancelDelete}}
@@ -62,29 +62,29 @@
                         {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
                     </modal.body>
                     <modal.footer>
-                        <BsButton
+                        <OsfButton
                             @onClick={{action modal.close}}
                             @type='default'
                         >
                             {{t 'general.cancel'}}
-                        </BsButton>
-                        <BsButton
+                        </OsfButton>
+                        <OsfButton
                             @onClick={{action 'confirmDelete'}}
                             @type='danger'
                         >
                             {{t 'general.delete'}}
-                        </BsButton>
+                        </OsfButton>
                     </modal.footer>
                 </BsModal>
             </div>
             <div class="col-md-1">
-                <BsButton
+                <OsfButton
                     @type='default'
                     @onClick={{action this.register}}
                     @disabled={{not this.enableRegister}}
                 >
                     {{t 'osf-components.draft-registration-card.register'}}
-                </BsButton>
+                </OsfButton>
             </div>
         </div>
     </h4>

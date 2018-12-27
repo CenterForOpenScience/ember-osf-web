@@ -5,9 +5,12 @@
             </BsAlert>
         </demo.example>
 
-        <BsButton @class='center-block m-b-lg' @onClick={{action (mut this.hideAlert) (not this.hideAlert)}}>
+        <OsfButton
+            @class='center-block m-b-lg'
+            @onClick={{action (mut this.hideAlert) (not this.hideAlert)}}
+        >
             set: hideAlert = {{not this.hideAlert}}
-        </BsButton>
+        </OsfButton>
 
     <demo.snippet @name='bs-alert.danger-hidden.hbs' />
 </DocsDemo>

@@ -40,25 +40,25 @@
     </modal.body>
     <modal.footer>
         {{#if this.isActive}}
-            <BsButton
+            <OsfButton
                 @onClick={{action modal.close}}
             >
                 {{t 'general.cancel'}}
-            </BsButton>
-            <BsButton
+            </OsfButton>
+            <OsfButton
                 @type="success"
                 @onClick={{action modal.submit}}
             >
                 {{t 'feedback.confirm_button_text'}}
-            </BsButton>
+            </OsfButton>
         {{/if}}
         {{#if this.isSuccessful}}
-            <BsButton
+            <OsfButton
                 @type="primary"
                 @onClick={{action modal.close}}
             >
                 {{t 'feedback.dismiss'}}
-            </BsButton>
+            </OsfButton>
         {{/if}}
     </modal.footer>
 </BsModal>
