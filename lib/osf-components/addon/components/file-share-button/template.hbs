@@ -1,26 +1,26 @@
 <button data-test-share-button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
-    {{t "general.share"}}
+    {{t 'general.share'}}
     <BsPopover
-        @placement="bottom"
-        local-class="Popover"
-        @title={{t "general.share"}}
+        @placement='bottom'
+        local-class='Popover'
+        @title={{t 'general.share'}}
         @visible={{this.showPopup}}
     >
-        <ClickOutside @action={{action "hidePopup"}}>
+        <ClickOutside @action={{action 'hidePopup'}}>
             <BsTab @customTabs={{true}} as |tab|>
-                <BsNav @class="nav-justified" @type="tabs" as |nav|>
+                <BsNav @class='nav-justified' @type='tabs' as |nav|>
                     <nav.item data-test-share-tab @active={{bs-eq tab.activeId this.sharePaneId}}>
                         <a 
                             role='button'
                             {{action tab.select this.sharePaneId}}
                             local-class='SharePane__tab'
                         >
-                            {{t "general.share"}}
+                            {{t 'general.share'}}
                         </a>
                     </nav.item>
                     <nav.item data-test-embed-tab @active={{bs-eq tab.activeId this.embedPaneId}}>
                         <a role='button' {{action tab.select this.embedPaneId}} local-class='SharePane__tab'>
-                            {{t "general.embed"}}
+                            {{t 'general.embed'}}
                             <span class='badge'>{{@badge}}</span>
                         </a>
                     </nav.item>
@@ -29,15 +29,15 @@
                 <div class='tab-content'>
                     <tab.pane 
                         @elementId={{this.sharePaneId}}
-                        @title={{t "general.share"}}
-                        local-class="SharePane"
+                        @title={{t 'general.share'}}
+                        local-class='SharePane'
                     >
                         <br>
                         <CopyableText
                             @text={{this.mfrUrl}}
-                            @analyticsLabel="Quick Files - Share file"
+                            @analyticsLabel='Quick Files - Share file'
                         />
-                        <div local-class="SharePane__button-group">
+                        <div local-class='SharePane__button-group'>
                             <a
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.twitter'}}
@@ -90,11 +90,11 @@
                     </tab.pane>
                     <tab.pane
                         @elementId={{this.embedPaneId}}
-                        @title="Embed" 
-                        local-class="EmbedPane"
+                        @title='Embed' 
+                        local-class='EmbedPane'
                     >
                         <br>
-                        <p>{{t "file_detail.embed.dynamic"}}</p>
+                        <p>{{t 'file_detail.embed.dynamic'}}</p>
                         <textarea
                             aria-label={{t 'file_detail.embed_js_label'}}
                             readonly='true'
@@ -104,7 +104,7 @@
                             {{this.shareiFrameDynamic}}
                         </textarea>
                         <br>
-                        <p>{{t "file_detail.embed.direct"}}</p>
+                        <p>{{t 'file_detail.embed.direct'}}</p>
                         <textarea
                             aria-label={{t 'file_detail.embed_iframe_label'}}
                             readonly='true'

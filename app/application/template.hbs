@@ -1,6 +1,6 @@
 <HeadLayout />
 {{title (t 'general.OSF')}}
-<div local-class="Application">
+<div local-class='Application'>
     {{#unless this.disableHeader}}
         {{#if this.theme.isProvider}}
             <style>
@@ -8,7 +8,7 @@
                 @import url('{{this.theme.stylesheet}}');
                 {{! template-lint-enable bare-strings }}
             </style>
-            <div id="branded-navbar"></div>
+            <div id='branded-navbar'></div>
         {{else}}
             <OsfHeader />
         {{/if}}
@@ -22,7 +22,7 @@
     NOTE: the global Application__page class is used in registries
     to fix weird styling issues that break other embosf pages (quickfiles).
     --}}
-    <div class="Application__page" local-class="Application__page">
+    <div class='Application__page' local-class='Application__page'>
         {{outlet}}
     </div>
     <OsfFooter />

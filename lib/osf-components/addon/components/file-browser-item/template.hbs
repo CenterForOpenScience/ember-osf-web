@@ -1,29 +1,29 @@
 {{#if this.item.flash.message}}
-    <div class="col-md-12 flash-message-alert alert-{{this.item.flash.type}}" local-class="flash-message-alert">
-        <div class="flash-message">{{this.item.flash.message}}</div>
+    <div class='col-md-12 flash-message-alert alert-{{this.item.flash.type}}' local-class='flash-message-alert'>
+        <div class='flash-message'>{{this.item.flash.message}}</div>
     </div>
 {{else}}
-    <div class="col-lg-7 col-md-9 col-sm-9 col-xs-12" local-class="file-row-col">
+    <div class='col-lg-7 col-md-9 col-sm-9 col-xs-12' local-class='file-row-col'>
         {{file-icon item=this.item}}
         <a
-            local-class="filename-link"
+            local-class='filename-link'
             {{action 'open' preventDefault='true'}}
             {{action 'click' 'link' 'File Browser - open_file' target=this.analytics}}
-            role="link"
+            role='link'
         >
             {{this.item.itemName}}
         </a>
     </div>
-    <div class="col-sm-1 col-md-1 hidden-sm hidden-xs" local-class="file-row-col">
+    <div class='col-sm-1 col-md-1 hidden-sm hidden-xs' local-class='file-row-col'>
         {{this.size}}
     </div>
-    <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-row-col">
-        <a local-class="version-link" {{action 'openVersion'}} role="link">{{this.item.currentVersion}}</a>
+    <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-row-col'>
+        <a local-class='version-link' {{action 'openVersion'}} role='link'>{{this.item.currentVersion}}</a>
     </div>
-    <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-row-col">
+    <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-row-col'>
         {{this.item.extra.downloads}}
     </div>
-    <time class="col-sm-3 col-md-2 col-lg-2 hidden-xs" local-class="file-row-col">
+    <time class='col-sm-3 col-md-2 col-lg-2 hidden-xs' local-class='file-row-col'>
         {{this.date}}
     </time>
 {{/if}}

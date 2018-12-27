@@ -1,27 +1,27 @@
-<div local-class="actions-header">
+<div local-class='actions-header'>
     {{#if (or this.showFilterClicked this.showFilterInput)}}
-        <div class="col-xs-9 filter-input">
+        <div class='col-xs-9 filter-input'>
             {{input
                 placeholder=(t 'file_browser.filtering')
-                class="form-control"
+                class='form-control'
                 keyUp=(action @updateFilter value='target.value')
             }}
         </div>
-        <div class="col-xs-3">
-            <button onclick={{action this.closeFilter}} class="btn pull-right" local-class="action-button">
-                {{fa-icon "times"}}
+        <div class='col-xs-3'>
+            <button onclick={{action this.closeFilter}} class='btn pull-right' local-class='action-button'>
+                {{fa-icon 'times'}}
             </button>
         </div>
     {{else}}
-        <div class="pull-right">
-            <button onclick={{action (mut this.showFilterClicked) true}} class="btn btn-light" local-class="action-button">
-                {{fa-icon "search"}}
+        <div class='pull-right'>
+            <button onclick={{action (mut this.showFilterClicked) true}} class='btn btn-light' local-class='action-button'>
+                {{fa-icon 'search'}}
                 {{t 'general.filter'}}
             </button>
         </div>
     {{/if}}
 </div>
-<div local-class="items" role="listbox">
+<div local-class='items' role='listbox'>
     {{#each this.items as |item|}}
         <FileListItem
             @item={{item}}

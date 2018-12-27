@@ -1,11 +1,11 @@
 <BsModal @onHidden={{@closeModal}} as |modal|>
     <modal.header>
-        <h3 data-test-create-project-header class="modal-title">{{t 'new_project.header'}}</h3>
+        <h3 data-test-create-project-header class='modal-title'>{{t 'new_project.header'}}</h3>
     </modal.header>
     <modal.body>
-        <div class="text-left">
-            <div class="form-group m-v-sm">
-                <label class="f-w-lg text-bigger" local-class="NewProject__label">
+        <div class='text-left'>
+            <div class='form-group m-v-sm'>
+                <label class='f-w-lg text-bigger' local-class='NewProject__label'>
                     {{t 'general.title'}}
                     {{! template-lint-disable no-implicit-this }}
                     {{input
@@ -23,16 +23,16 @@
             </div>
 
             {{#if this.institutions.length}}
-                <div class="form-group m-v-sm" local-class="NewProject__institution-selector">
-                    <label class="f-w-lg text-bigger">{{t 'new_project.affiliation'}}</label>
+                <div class='form-group m-v-sm' local-class='NewProject__institution-selector'>
+                    <label class='f-w-lg text-bigger'>{{t 'new_project.affiliation'}}</label>
                     <a
-                        role="button"
+                        role='button'
                         onclick={{action 'removeAllInstitutions'}}
                     >
                         {{t 'new_project.remove_all'}}
                     </a>
                     <a
-                        role="button"
+                        role='button'
                         onclick={{action 'selectAllInstitutions'}}
                     >
                         {{t 'new_project.select_all'}}
@@ -45,16 +45,16 @@
                                         role='button'
                                         onclick={{action 'selectInstitution' institution}}
                                     >
-                                        <div width="45px" height="45px" local-class="NewProject__institution-item">
+                                        <div width='45px' height='45px' local-class='NewProject__institution-item'>
                                             <img
-                                                name="{{institution.name}}"
-                                                width="45px"
-                                                height="45px"
-                                                class="img-circle pointer"
-                                                local-class="NewProject__institution-img-{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}"
-                                                src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png"
-                                                alt="{{institution.name}}"
-                                                title="{{institution.name}}">
+                                                name='{{institution.name}}'
+                                                width='45px'
+                                                height='45px'
+                                                class='img-circle pointer'
+                                                local-class='NewProject__institution-img-{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
+                                                src='/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png'
+                                                alt='{{institution.name}}'
+                                                title='{{institution.name}}'>
                                         </div>
                                     </a>
                                 </td>
@@ -64,14 +64,14 @@
                 </div>
             {{/if}}
             {{#if this.storageI18nEnabled}}
-                <div data-test-select-storage-location class="form-group m-v-md">
-                    <label class="f-w-lg text-bigger" local-class="NewProject__label">
+                <div data-test-select-storage-location class='form-group m-v-md'>
+                    <label class='f-w-lg text-bigger' local-class='NewProject__label'>
                         {{t 'new_project.storage_region'}}
                         <PowerSelect
                             @options={{this.regions}}
                             @renderInPlace={{true}}
                             @selected={{this.selectedRegion}}
-                            @searchField="name"
+                            @searchField='name'
                             @onchange={{action this.selectRegion}}
                             @noMatchesMessage={{t 'new_project.no_matches'}}
                             as |region|
@@ -81,12 +81,12 @@
                     </label>
                 </div>
             {{/if}}
-            <div data-test-more-toggle class="text" role="button" onclick={{action 'toggleMore'}}>
+            <div data-test-more-toggle class='text' role='button' onclick={{action 'toggleMore'}}>
                 {{fa-icon (concat 'caret-' (if this.more 'down' 'right'))}} {{t 'new_project.more'}}
             </div>
             {{#if this.more}}
-                <div class="form-group m-v-sm">
-                    <label for="projectDesc" class="f-w-lg text-bigger" local-class="NewProject__label">
+                <div class='form-group m-v-sm'>
+                    <label for='projectDesc' class='f-w-lg text-bigger' local-class='NewProject__label'>
                         {{t 'general.description'}}
                         {{! template-lint-disable no-implicit-this }}
                         {{input
@@ -99,10 +99,10 @@
                         {{! template-lint-enable no-implicit-this }}
                     </label>
                 </div>
-                <div data-test-select-template class="form-group m-v-md">
-                    <label class="f-w-lg text-bigger" local-class="NewProject__label">
+                <div data-test-select-template class='form-group m-v-md'>
+                    <label class='f-w-lg text-bigger' local-class='NewProject__label'>
                         {{t 'new_project.template_title'}}
-                        <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
+                        <p class='f-w-xs help-text'>{{t 'new_project.template_search_help'}}</p>
                         <PowerSelect
                             @search={{action this.searchNodes}}
                             @selected={{this.templateFrom}}
@@ -124,7 +124,7 @@
         <button
             data-test-create-project-cancel
             onclick={{action modal.close}}
-            class="btn btn-default"
+            class='btn btn-default'
             {{action 'click' 'button' (concat this.analyticsContext ' - New Project - cancel') target=this.analytics}}
         >
             {{t 'general.cancel'}}
@@ -132,7 +132,7 @@
         <button
             data-test-create-project-submit
             onclick={{action this.create}}
-            class="btn btn-success {{unless this.nodeTitle.length 'disabled'}}"
+            class='btn btn-success {{unless this.nodeTitle.length 'disabled'}}'
         >
             {{t 'general.create'}}
         </button>

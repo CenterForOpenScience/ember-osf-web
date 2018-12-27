@@ -3,12 +3,12 @@
         <button
             data-test-close-with-x
             aria-label={{t 'general.close'}}
-            class="close"
+            class='close'
             onclick={{action this.closeModal reload=true}}
         >
             {{fa-icon 'times' size='sm'}}
         </button>
-        <h4 class="add-project-success text-success">
+        <h4 class='add-project-success text-success'>
             {{this.title}}
         </h4>
     </modal.body>
@@ -16,15 +16,15 @@
         <button
             data-test-stay-here
             onclick={{action this.stayHere reload=true}}
-            class="btn btn-default"
+            class='btn btn-default'
         >
             {{t 'new_project.stay_here'}}
         </button>
         <a
             data-test-go-to-new
             role='button'
-            href="{{@node.links.html}}"
-            class="btn btn-success"
+            href='{{@node.links.html}}'
+            class='btn btn-success'
             onclick={{action 'click' 'link' (concat @page ' - New Project - go_to_new_project') target=this.analytics}}
         >
             {{t 'new_project.go_to_new'}}

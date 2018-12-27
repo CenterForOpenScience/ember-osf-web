@@ -1,7 +1,7 @@
 {{title (t 'quickfiles.title' user-name=this.user.fullName)}}
 <div class='container'>
     <QuickfileNav @user={{this.user}} @onQuickfiles={{true}} />
-    <div class='row container' local-class="Content">
+    <div class='row container' local-class='Content'>
         {{#if this.canEdit}}
             <h5><i>{{t 'quickfiles.description'}}</i></h5>
         {{else}}
@@ -16,7 +16,7 @@
             @newProject={{this.newProject}}
             @openFile={{action this.openFile}}
             @updateFilter={{perform this.updateFilter}}
-            @dropZoneId="quickfiles-dropzone"
+            @dropZoneId='quickfiles-dropzone'
             @deleteFiles={{perform this.deleteFiles}}
             @moveFile={{perform this.moveFile}}
             @renameFile={{perform this.renameFile}}
