@@ -1,18 +1,20 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='tags-widget.default.hbs'}}
+<DocsDemo as |demo|>
+    <demo.example @name='tags-widget.default.hbs'>
         <TagsWidget
             @tags={{@tags}}
             @addTag={{action @addTag}}
             @removeTag={{action @removeTag}}
             @showAdd={{this.showAdd}}
-            @analyticsScope="Handbook Tags"
+            @analyticsScope='Handbook Tags'
         />
+    </demo.example>
 
-    {{/demo.example}}
-
-    {{#bs-button class='center-block m-b-lg' onClick=(action (mut this.showAdd) (not this.showAdd))}}
+    <BsButton
+        @class='center-block m-b-lg'
+        @onClick={{action (mut this.showAdd) (not this.showAdd)}}
+    >
         set: showAdd = {{not this.showAdd}}
-    {{/bs-button}}
+    </BsButton>
 
-    {{demo.snippet 'tags-widget.default.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='tags-widget.default.hbs' />
+</DocsDemo>

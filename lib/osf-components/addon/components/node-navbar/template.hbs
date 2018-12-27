@@ -3,60 +3,60 @@
         @to={{this.secondaryNavbarId}}
         @renderInPlace={{this.renderInPlace}}
     >
-        <nav class="navbar osf-project-navbar" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
+        <nav class='navbar osf-project-navbar' role='navigation'>
+            <div class='container'>
+                <div class='navbar-header'>
 
                     <button
-                        type="button"
-                        class="navbar-toggle collapsed"
-                        local-class="NodeNavbar__navbar-toggle"
-                        onclick={{action "toggleNav"}}
+                        type='button'
+                        class='navbar-toggle collapsed'
+                        local-class='NodeNavbar__navbar-toggle'
+                        onclick={{action 'toggleNav'}}
                     >
-                        <span class="sr-only">{{t "node_navbar.toggle"}}</span>
-                        <span class="fa fa-bars fa-lg"></span>
+                        <span class='sr-only'>{{t 'node_navbar.toggle'}}</span>
+                        <span class='fa fa-bars fa-lg'></span>
                     </button>
 
-                    <span class="navbar-brand visible-xs visible-sm">
-                        {{t "node_navbar.project_nav"}}
+                    <span class='navbar-brand visible-xs visible-sm'>
+                        {{t 'node_navbar.project_nav'}}
                     </span>
                 </div>
                 <BsCollapse
                     @collapsed={{this.collapsedNav}}
-                    @class="navbar-collapse"
+                    @class='navbar-collapse'
                 >
-                    <ul data-test-node-navbar-links class="nav navbar-nav">
+                    <ul data-test-node-navbar-links class='nav navbar-nav'>
                         {{#if this.fakeParent}}
                             {{#node-navbar/link node=this.fakeParent useLinkTo=false}}
-                                {{fa-icon "level-down" rotate=180}}
+                                {{fa-icon 'level-down' rotate=180}}
                             {{/node-navbar/link}}
                         {{/if}}
-                        {{#node-navbar/link node=@node useLinkTo=false setActive=false extraClasses="project-title"}}
+                        {{#node-navbar/link node=@node useLinkTo=false setActive=false extraClasses='project-title'}}
                             {{@node.title}}
                         {{/node-navbar/link}}
-                        {{node-navbar/link node=@node useLinkTo=false destination="files"}}
+                        {{node-navbar/link node=@node useLinkTo=false destination='files'}}
                         {{#if @node.wikiEnabled}}
-                            {{node-navbar/link node=@node useLinkTo=false destination="wiki"}}
+                            {{node-navbar/link node=@node useLinkTo=false destination='wiki'}}
                         {{/if}}
                         {{#if (or @node.public @node.currentUserIsContributor)}}
-                            {{node-navbar/link node=@node useLinkTo=true destination="analytics"}}
+                            {{node-navbar/link node=@node useLinkTo=true destination='analytics'}}
                         {{/if}}
                         {{#unless @node.isRegistration}}
-                            {{node-navbar/link node=@node useLinkTo=true destination="registrations"}}
+                            {{node-navbar/link node=@node useLinkTo=true destination='registrations'}}
                         {{/unless}}
                         {{#if @node.currentUserIsContributor}}
-                            {{node-navbar/link node=@node useLinkTo=false destination="contributors"}}
+                            {{node-navbar/link node=@node useLinkTo=false destination='contributors'}}
                         {{/if}}
                         {{#if (and @node.userHasWritePermission (not @node.isRegistration))}}
-                            {{node-navbar/link node=@node useLinkTo=false destination="addons"}}
+                            {{node-navbar/link node=@node useLinkTo=false destination='addons'}}
                         {{/if}}
                         {{#if (if @node.isRegistration @node.userHasWritePermission @node.userHasReadPermission)}}
-                            {{node-navbar/link node=@node useLinkTo=false destination="settings"}}
+                            {{node-navbar/link node=@node useLinkTo=false destination='settings'}}
                         {{/if}}
                     </ul>
                 </BsCollapse>
             </div>
         </nav>
-        <div local-class="NodeNavbar__navbar-buffer"></div>
+        <div local-class='NodeNavbar__navbar-buffer'></div>
     </EmberWormhole>
 {{/if}}

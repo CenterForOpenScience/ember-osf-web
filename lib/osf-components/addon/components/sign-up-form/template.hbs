@@ -1,4 +1,4 @@
-<form local-class="SignUpForm" {{action 'submit' on='submit'}}>
+<form local-class='SignUpForm' {{action 'submit' on='submit'}}>
     {{! template-lint-disable no-implicit-this }}
     {{validated-input/text
         data-test-sign-up-full-name
@@ -39,12 +39,12 @@
         ariaLabel=(t 'osf-components.sign-up-form.password')
     }}
     {{! template-lint-enable no-implicit-this }}
-    <div class="row" hidden={{not this.progress}}>
-        <div class="col-xs-12">
-            <div class="progress" local-class="CreatePassword">
+    <div class='row' hidden={{not this.progress}}>
+        <div class='col-xs-12'>
+            <div class='progress' local-class='CreatePassword'>
                 <div
-                    class="progress-bar progress-bar-sm progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}"
-                    role="progressbar">
+                    class='progress-bar progress-bar-sm progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}'
+                    role='progressbar'>
                 </div>
             </div>
         </div>
@@ -62,11 +62,11 @@
     {{/validated-input/checkbox}}
     {{! template-lint-enable no-implicit-this }}
     {{#if this.hasSubmitted}}
-        <div class="osf-box-lt" local-class="help-block">
-            <p class="ext-success p-xs">{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
+        <div class='osf-box-lt' local-class='help-block'>
+            <p class='ext-success p-xs'>{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
         </div>
     {{else}}
-        <div class="col-md-12" local-class="RecaptchaParent">
+        <div class='col-md-12' local-class='RecaptchaParent'>
             {{! template-lint-disable no-implicit-this }}
             {{validated-input/recaptcha
                 data-test-recaptcha
@@ -79,8 +79,8 @@
         </div>
         <div>
             <button data-test-sign-up-button
-                type="submit"
-                class="btn btn-success"
+                type='submit'
+                class='btn btn-success'
                 {{action this.submit}}
                 {{action 'click' 'button' 'Home - sign_up' target=this.analytics}}
             >

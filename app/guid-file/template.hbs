@@ -5,7 +5,7 @@
         <div local-class='TitleBar__title'>
             <h2>
                 {{this.model.file.name}}
-                <a local-class='TitleBar__version-link' role="button" onclick={{action 'changeView' 'revision'}}>
+                <a local-class='TitleBar__version-link' role='button' onclick={{action 'changeView' 'revision'}}>
                     {{t 'file_detail.version.title' version-number=this.mfrVersion}}
                 </a>
             </h2>
@@ -17,21 +17,21 @@
                         <div class='btn-group m-l-xs m-t-xs'>
                             <button 
                                 data-test-delete-button
-                                class="btn btn-sm btn-default"
+                                class='btn btn-sm btn-default'
                                 onclick={{action this.openDeleteModal}}
                             >
-                                {{t "general.delete"}}
+                                {{t 'general.delete'}}
                             </button>
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
                         <button 
                             data-test-download-button
-                            class="btn btn-sm btn-primary"
+                            class='btn btn-sm btn-primary'
                             onclick={{unless this.edit (action 'click' 'button' 'Quick Files - Download' target=this.analytics)}}
                             {{action this.download this.model.file.currentVersion}}
                         >
-                            {{t "general.download"}}
+                            {{t 'general.download'}}
                         </button>
                     </div>
                     <div class='btn-group m-l-xs m-t-xs'>
@@ -42,48 +42,48 @@
                             {{#if this.canEdit}}
                                 <div
                                     class='btn btn-default disabled'
-                                    local-class="TitleBar__button-label"
+                                    local-class='TitleBar__button-label'
                                 >
-                                    {{t "file_detail.toggle"}}
+                                    {{t 'file_detail.toggle'}}
                                 </div>
                                 <button
-                                    class='btn {{if (or (eq this.show "view") (eq this.show "view_edit")) "btn-primary" "btn-default"}}'
-                                    onclick={{action this.changeView "view"}}
+                                    class='btn {{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'btn-primary' 'btn-default'}}'
+                                    onclick={{action this.changeView 'view'}}
                                 >
-                                    {{t "general.view"}}
+                                    {{t 'general.view'}}
                                 </button>
                                 <button
-                                    class='btn {{if (or (eq this.show "edit") (eq this.show "view_edit")) "btn-primary" "btn-default"}}'
-                                    onclick={{action this.changeView "edit"}}
+                                    class='btn {{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'btn-primary' 'btn-default'}}'
+                                    onclick={{action this.changeView 'edit'}}
                                 >
-                                    {{t "general.edit"}}
+                                    {{t 'general.edit'}}
                                 </button>
                             {{else}}
                                 <button
-                                    class='btn {{if (or (eq this.show "view") (eq this.show "view_edit")) "btn-primary" "btn-default"}}'
-                                    onclick={{action this.changeView "view"}}
+                                    class='btn {{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'btn-primary' 'btn-default'}}'
+                                    onclick={{action this.changeView 'view'}}
                                 >
-                                    {{t "general.view"}}
+                                    {{t 'general.view'}}
                                 </button>
                             {{/if}}
                         </div>
                     {{else}}
                         <div class='btn-group m-l-xs m-t-xs'>
                             <button
-                                class='btn btn-sm {{if (or (eq this.show "view") (eq this.show "view_edit")) "btn-primary" "btn-default"}}'
-                                onclick={{action this.changeView "view"}}
+                                class='btn btn-sm {{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'btn-primary' 'btn-default'}}'
+                                onclick={{action this.changeView 'view'}}
                             >
-                                {{t "general.view"}}
+                                {{t 'general.view'}}
                             </button>
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
                         <button
                             data-test-revisions-tab
-                            class='btn btn-sm {{if (eq this.show "revision") "btn-primary" "btn-default"}}'
-                            onclick={{action this.changeView "revision"}}
+                            class='btn btn-sm {{if (eq this.show 'revision') 'btn-primary' 'btn-default'}}'
+                            onclick={{action this.changeView 'revision'}}
                         >
-                            {{t "general.revisions"}}
+                            {{t 'general.revisions'}}
                         </button>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
         as |modal|
     >
         <modal.header>
-            <h4 class="modal-title">{{t "file_detail.delete_file.question"}}</h4>
+            <h4 class='modal-title'>{{t 'file_detail.delete_file.question'}}</h4>
         </modal.header>
         <modal.body>
             <p>{{t 'file_detail.delete_file.confirm' file-name=this.model.file.name}}</p>
@@ -118,8 +118,8 @@
         </modal.footer>
     </BsModal>
     <hr>
-    <div class='row' local-class="Main">
-        <div class='col-md-3' local-class="Sidebar">
+    <div class='row' local-class='Main'>
+        <div class='col-md-3' local-class='Sidebar'>
             <FileList
                 @items={{this.files}}
                 @filter={{this.filter}}
@@ -131,9 +131,9 @@
                 @openFile={{action this.openFile}}
             />
             {{#if (or this.canEdit this.file.tags)}}
-                <div class='panel panel-default' local-class="TagsPanel">
-                    <div class='panel-heading clearfix' local-class="TagsPanel__heading">
-                        <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
+                <div class='panel panel-default' local-class='TagsPanel'>
+                    <div class='panel-heading clearfix' local-class='TagsPanel__heading'>
+                        <h3 class='panel-title'>{{t 'file_detail.tags'}}</h3>
                     </div>
                     <div class='panel-body'>
                         <TagsWidget
@@ -144,7 +144,7 @@
                             @showAdd={{this.canEdit}}
                             @analyticsScope='Quick Files'
                         />
-                        <div class="tags_clear"></div>
+                        <div class='tags_clear'></div>
                     </div>
                 </div>
             {{/if}}
@@ -154,12 +154,12 @@
                 (eq this.show 'view')
                 (eq this.show 'view_edit')
             )}}
-                <div id='mfrIframeParent' class='{{if (and (eq this.show "view_edit") this.canEdit) "col-sm-6"}}'>
+                <div id='mfrIframeParent' class='{{if (and (eq this.show 'view_edit') this.canEdit) 'col-sm-6'}}'>
                     <FileRenderer
                         @download={{this.model.file.links.download}}
                         @version={{this.mfrVersion}}
-                        @height="700"
-                        @width="99%"
+                        @height='700'
+                        @width='99%'
                     />
                 </div>
             {{/if}}
@@ -172,8 +172,8 @@
                 )
             )}}
                 <div 
-                    class='panel panel-default {{if (and (eq this.show "view_edit") this.canEdit) "col-sm-6"}}'
-                    local-class="EditPanel"
+                    class='panel panel-default {{if (and (eq this.show 'view_edit') this.canEdit) 'col-sm-6'}}'
+                    local-class='EditPanel'
                 >
                     {{#if (not (eq (await this.fileText) null))}}
                         <FileEditor
@@ -184,23 +184,23 @@
                 </div>
             {{/if}}
             {{#if (eq this.show 'revision')}}
-                <div id='revisionsPanel' class='panel panel-default' local-class="RevisionsPanel">
-                    <div class='clearfix' local-class="TagsPanel__heading">
+                <div id='revisionsPanel' class='panel panel-default' local-class='RevisionsPanel'>
+                    <div class='clearfix' local-class='TagsPanel__heading'>
                         <h3 class='panel-title'>
-                            {{t "general.revisions"}}
+                            {{t 'general.revisions'}}
                         </h3>
                     </div>
                     <div class='panel-body'>
-                        <table class='table table-responsive' local-class="RevisionsPanel__table">
+                        <table class='table table-responsive' local-class='RevisionsPanel__table'>
                             <thead>
                                 <tr>
-                                    <th class='col-md-4'>{{t "file_detail.version.id"}}</th>
-                                    <th class='col-md-6'>{{t "general.date"}}</th>
-                                    <th colspan='2' class='col-xs-2'>{{t "general.download"}}</th>
+                                    <th class='col-md-4'>{{t 'file_detail.version.id'}}</th>
+                                    <th class='col-md-6'>{{t 'general.date'}}</th>
+                                    <th colspan='2' class='col-xs-2'>{{t 'general.download'}}</th>
                                     <th class='hidden-md hidden-sm hidden-xs'>
-                                        {{t "general.md5"}}
+                                        {{t 'general.md5'}}
                                         <span>
-                                            {{fa-icon "question-circle"}}
+                                            {{fa-icon 'question-circle'}}
                                             <BsPopover
                                                 @triggerEvents='hover'
                                                 @placement='top'
@@ -210,12 +210,12 @@
                                         </span>
                                     </th>
                                     <th class='hidden-md hidden-sm hidden-xs'>
-                                        {{t "general.sha2"}}
+                                        {{t 'general.sha2'}}
                                         <span>
-                                            {{fa-icon "question-circle"}}
+                                            {{fa-icon 'question-circle'}}
                                             <BsPopover 
-                                                @triggerEvents="hover"
-                                                @placement="top"
+                                                @triggerEvents='hover'
+                                                @placement='top'
                                             >
                                                 {{t 'file_detail.sha2_description'}}
                                             </BsPopover>

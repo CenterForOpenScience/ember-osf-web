@@ -1,38 +1,39 @@
-{{#docs-viewer as |viewer|}}
-    {{#viewer.nav project=model as |nav|}}
-        {{nav.section 'Introduction'}}
-        {{nav.item 'What is this handbook?' 'docs.index'}}
-        {{nav.item 'Contributing to the handbook' 'docs.contributing'}}
+<DocsViewer as |viewer|>
+    <viewer.nav @project={{this.model}} as |nav|>
+        <nav.section @label='Introduction' />
+        <nav.item @label='What is this handbook?' @route='docs.index' />
+        <nav.item @label='Contributing to the handbook' @route='docs.contributing' />
 
-        {{nav.section 'Development'}}
-        {{nav.item 'Quickstart' 'docs.quickstart'}}
-        {{nav.item 'Troubleshooting' 'docs.troubleshooting'}}
-        {{nav.item 'Developer Environment' 'docs.dev-env'}}
-        {{nav.item 'Testing' 'docs.testing'}}
-        {{nav.item 'Additional resources' 'docs.resources'}}
+        <nav.section @label='Development' />
+        <nav.item @label='Quickstart' @route='docs.quickstart' />
+        <nav.item @label='How to…' @route='docs.how-to' />
+        <nav.item @label='Troubleshooting' @route='docs.troubleshooting' />
+        <nav.item @label='Developer Environment' @route='docs.dev-env' />
+        <nav.item @label='Testing' @route='docs.testing' />
+        <nav.item @label='Additional resources' @route='docs.resources' />
 
-        {{nav.section 'Style guide'}}
-        {{nav.item 'Visual style' 'docs.visual-style'}}
-        {{nav.item 'Written style' 'docs.written-style'}}
+        <nav.section @label='Style guide' />
+        <nav.item @label='Visual style' @route='docs.visual-style' />
+        <nav.item @label='Written style' @route='docs.written-style' />
 
-        {{nav.section 'Component gallery'}}
-        {{nav.item 'bs-alert' 'docs.components.bs-alert'}}
-        {{nav.item 'copyable-text' 'docs.components.copyable-text'}}
-        {{nav.item 'delete-button' 'docs.components.delete-button'}}
-        {{nav.item 'link' 'docs.components.link'}}
-        {{nav.item 'loading-indicator' 'docs.components.loading-indicator'}}
-        {{nav.item 'new-project-modal' 'docs.components.new-project-modal'}}
-        {{nav.item 'new-project-navigation-modal' 'docs.components.new-project-navigation-modal'}}
-        {{nav.item 'panel' 'docs.components.panel'}}
-        {{nav.item 'tags-widget' 'docs.components.tags-widget'}}
-        {{nav.item 'validated-model-form' 'docs.components.validated-model-form'}}
-    {{/viewer.nav}}
+        <nav.section @label='Component gallery' />
+        <nav.item @label='bs-alert' @route='docs.components.bs-alert' />
+        <nav.item @label='copyable-text' @route='docs.components.copyable-text' />
+        <nav.item @label='delete-button' @route='docs.components.delete-button' />
+        <nav.item @label='link' @route='docs.components.link' />
+        <nav.item @label='loading-indicator' @route='docs.components.loading-indicator' />
+        <nav.item @label='new-project-modal' @route='docs.components.new-project-modal' />
+        <nav.item @label='new-project-navigation-modal' @route='docs.components.new-project-navigation-modal' />
+        <nav.item @label='panel' @route='docs.components.panel' />
+        <nav.item @label='tags-widget' @route='docs.components.tags-widget' />
+        <nav.item @label='validated-model-form' @route='docs.components.validated-model-form' />
+    </viewer.nav>
 
-    {{#viewer.main}}
-        <div class="docs-container">
-            <div local-class="DocsPage" class="docs-section">
+    <viewer.main>
+        <div class='docs-container'>
+            <div local-class='DocsPage' class='docs-section'>
                 {{outlet}}
             </div>
         </div>
-    {{/viewer.main}}
-{{/docs-viewer}}
+    </viewer.main>
+</DocsViewer>

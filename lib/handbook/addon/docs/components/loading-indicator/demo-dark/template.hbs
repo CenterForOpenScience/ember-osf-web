@@ -1,7 +1,7 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='loading-indicator.dark.hbs'}}
-        <LoadingIndicator @dark=true />
-    {{/demo.example}}
+<DocsDemo as |demo|>
+    <demo.example @name='loading-indicator.dark.hbs'>
+        <LoadingIndicator @dark={{true}} />
+    </demo.example>
 
-    {{demo.snippet 'loading-indicator.dark.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='loading-indicator.dark.hbs' />
+</DocsDemo>
