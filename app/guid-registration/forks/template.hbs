@@ -1,6 +1,6 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
 {{title (t 'forks.page_title' nodeTitle=this.model.taskInstance.value.unsafeTitle)}}
-<div class="container" local-class="Forks">
+<div class='container' local-class='Forks'>
     <BsModal
         @open={{this.newModal}}
         @onSubmit={{action this.newFork}}
@@ -10,7 +10,7 @@
         <modal.body>
             <button
                 aria-label={{t 'general.close'}}
-                class="close"
+                class='close'
                 onclick={{action (mut this.newModal) false}}
                 {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=this.analytics}}
             >
@@ -26,7 +26,7 @@
             </BsButton>
             <BsButton
                 @onClick={{action modal.submit}}
-                @type="info"
+                @type='info'
             >
                 {{t 'forks.fork'}}
             </BsButton>
@@ -39,10 +39,10 @@
         @closeModal={{action this.closeDeleteModal}}
         @nodeType={{this.nodeType}}
     />
-    <div local-class="Forks__header" class="page-header visible-xs">
-        <h2 class="text-300">{{t 'forks.title'}}</h2>
+    <div local-class='Forks__header' class='page-header visible-xs'>
+        <h2 class='text-300'>{{t 'forks.title'}}</h2>
     </div>
-    <div class="m-md" local-class="Forks__nav">
+    <div class='m-md' local-class='Forks__nav'>
         {{#link-to
             'guid-registration.analytics'
             this.node.id
@@ -50,9 +50,9 @@
         }}
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
         {{/link-to}}
-        <p local-class="Forks__nav__link">{{t 'forks.info'}}</p>
+        <p local-class='Forks__nav__link'>{{t 'forks.info'}}</p>
     </div>
-    <div local-class="Forks__forks">
+    <div local-class='Forks__forks'>
         {{#paginated-list/has-many
             modelTaskInstance=this.model.taskInstance
             relationshipName='forks'
@@ -75,11 +75,11 @@
             </list.empty>
         {{/paginated-list/has-many}}
     </div>
-    <div local-class="Forks__new-fork">
-        <div class="m-md">
+    <div local-class='Forks__new-fork'>
+        <div class='m-md'>
             {{! Analytics being called in the controller action }}
             <BsButton
-                @type="success"
+                @type='success'
                 @disabled={{this.loadingNew}}
                 @onClick={{action (mut this.newModal) true}}
             >

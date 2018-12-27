@@ -1,7 +1,7 @@
-<div class="osf-nav-wrapper">
-    <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
+<div class='osf-nav-wrapper'>
+    <nav class='navbar navbar-inverse navbar-fixed-top' id='navbarScope' role='navigation'>
+        <div class='container'>
+            <div class='navbar-header'>
                 {{! template-lint-disable no-implicit-this }}
                 {{#global-link-to 
                     'home' 
@@ -9,20 +9,20 @@
                     (html-attributes aria-label=(t 'navbar.go_home')) 
                     class='navbar-brand'
                 }}
-                    <span class="osf-navbar-logo"></span>
+                    <span class='osf-navbar-logo'></span>
                 {{/global-link-to}}
                 {{! template-lint-enable no-implicit-this }}
                 {{! Current app }}
-                <div class="service-name">
+                <div class='service-name'>
                     {{#hyper-link this._activeService.route}}
-                        <span class="hidden-xs"> {{t 'general.OSF'}} </span>
-                        <span class="current-service"><strong>{{this._activeService.name}}</strong></span>
+                        <span class='hidden-xs'> {{t 'general.OSF'}} </span>
+                        <span class='current-service'><strong>{{this._activeService.name}}</strong></span>
                     {{/hyper-link}}
                 </div>
 
                 {{! App list dropdown }}
                 <BsDropdown
-                    @classNames="dropdown primary-nav"
+                    @classNames='dropdown primary-nav'
                     @onShow={{action this.onClickPrimaryDropdown}}
                     as |dd|
                 >
@@ -34,7 +34,7 @@
                     </dd.toggle>
                     <dd.menu @classNames='dropdown-menu service-dropdown' as |ddm| >
                         {{#each this.services as |service|}}
-                            <ddm.item role="menuitem">
+                            <ddm.item role='menuitem'>
                                 {{#hyper-link service.route}}
                                     {{t 'general.OSF'}}<b>{{service.name}}</b>
                                 {{/hyper-link}}
@@ -45,24 +45,24 @@
 
                 {{! Navigation toggle - XS screen }}
                 <a
-                    role="button"
-                    class="navbar-toggle collapsed"
+                    role='button'
+                    class='navbar-toggle collapsed'
                     onclick={{action 'toggleSecondaryNavigation'}}
                     aria-label={{t 'navbar.toggle_secondary'}}
                 >
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class='icon-bar'></span>
+                    <span class='icon-bar'></span>
+                    <span class='icon-bar'></span>
                 </a>
             </div>
 
             {{! Secondary nav links }}
             <BsCollapse
-                @classNames="navbar-collapse navbar-right"
-                local-class="secondary-navigation"
+                @classNames='navbar-collapse navbar-right'
+                local-class='secondary-navigation'
                 @collapsed={{not this.showNavLinks}}
             >
-                <ul class="nav navbar-nav" local-class="links">
+                <ul class='nav navbar-nav' local-class='links'>
                     {{#let (hash
                         links=(component 'osf-navbar/x-links'
                             onLinkClicked=(action 'onLinkClicked')

@@ -1,20 +1,20 @@
 {{#if this.shouldCite}}
-    <div data-test-citation-container local-class="CitationContainer">
+    <div data-test-citation-container local-class='CitationContainer'>
         <h3>{{t 'settings.profile.name.citationPreview'}}</h3>
-        <div local-class="CitationPreview">
+        <div local-class='CitationPreview'>
             <span>
-                <span local-class="SmallBlock">
+                <span local-class='SmallBlock'>
                     {{t 'settings.profile.name.apa'}}
                 </span>
-                <span data-test-apa-citation local-class="LargeBlock">
+                <span data-test-apa-citation local-class='LargeBlock'>
                     {{this.citeApa}}
                 </span>
             </span>
             <span>
-                <span local-class="SmallBlock">
+                <span local-class='SmallBlock'>
                     {{t 'settings.profile.name.mla'}}
                 </span>
-                <span data-test-mla-citation local-class="LargeBlock">
+                <span data-test-mla-citation local-class='LargeBlock'>
                     {{this.citeMla}}
                 </span>
             </span>
