@@ -42,10 +42,10 @@ function updateHandbookRoutes(action, componentName) {
 function updateHandbookNav(action, componentName) {
     updateFile({
         action,
-        line: `${' '.repeat(8)}{{nav.item '${componentName}' 'docs.components.${componentName}'}}`,
+        line: `${' '.repeat(8)}<nav.item @label='${componentName}' @route='docs.components.${componentName}' />`,
         filePath: path.join('lib', 'handbook', 'addon', 'docs', 'template.hbs'),
-        startRegex: /^\s+{{nav\.section 'Component gallery'}}/,
-        blockItemRegex: /^\s+{{nav\.item /,
+        startRegex: /^\s+<nav\.section @label='Component gallery' \/>/,
+        blockItemRegex: /^\s+<nav\.item @label=/,
     });
 }
 

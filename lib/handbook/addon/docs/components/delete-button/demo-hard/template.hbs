@@ -1,11 +1,14 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='delete-button.demo-hard-confirm.hbs'}}
-        {{delete-button
-            hardConfirm=true
-            delete=(action delete 'hard-confirm')
-        }}
-    {{/demo.example}}
+<DocsDemo as |demo|>
+    <demo.example @name='delete-button.demo-hard-confirm.hbs'>
+        <DeleteButton
+            @hardConfirm={{true}}
+            @delete={{action @delete 'hard-confirm'}}
+        />
+    </demo.example>
 
-    {{demo.snippet 'delete-button.demo-hard-confirm.hbs'}}
-    {{demo.snippet 'delete-button.delete-action.ts' label='component.ts'}}
-{{/docs-demo}}
+    <demo.snippet @name='delete-button.demo-hard-confirm.hbs' />
+    <demo.snippet 
+        @name='delete-button.delete-action.ts'
+        @label='component.ts'
+    />
+</DocsDemo>

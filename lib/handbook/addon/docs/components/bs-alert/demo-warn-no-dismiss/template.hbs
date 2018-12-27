@@ -1,10 +1,13 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='bs-alert.warn-no-dismiss.hbs'}}
-            {{#bs-alert type='warning' dismissible=false}}
+<DocsDemo as |demo|>
+    <demo.example @name='bs-alert.warn-no-dismiss.hbs'>
+            <BsAlert
+                @type='warning' 
+                @dismissible={{false}}
+            >
                     <strong>Uh oh.</strong>
                     I've got a bad feeling about this.
-            {{/bs-alert}}
-    {{/demo.example}}
+            </BsAlert>
+    </demo.example>
 
-    {{demo.snippet 'bs-alert.warn-no-dismiss.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='bs-alert.warn-no-dismiss.hbs' />
+</DocsDemo>
