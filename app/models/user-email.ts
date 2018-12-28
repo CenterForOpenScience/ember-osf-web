@@ -3,9 +3,12 @@ import { alias } from '@ember-decorators/object/computed';
 import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
+import config from 'ember-get-config';
 
 import OsfModel from './osf-model';
 import User from './user';
+
+const { support: { supportEmail } } = config;
 
 const Validations = buildValidations({
     emailAddress: [
@@ -17,7 +20,14 @@ const Validations = buildValidations({
         validator('exclusion', {
             messageKey: 'validationErrors.email_duplicate',
             in: computed(function(): string[] {
-                return [...this.get('model').get('existingEmails')];
+                return [...this.model.existingEmails];
+            }).volatile(),
+        }),
+        validator('exclusion', {
+            messageKey: 'validationErrors.email_invalid',
+            supportEmail,
+            in: computed(function(): string[] {
+                return [...this.model.invalidEmails];
             }).volatile(),
         }),
     ],
@@ -37,9 +47,14 @@ export default class UserEmailModel extends OsfModel.extend(Validations) {
     @belongsTo('user', { inverse: 'emails' }) user!: DS.PromiseObject<User> & User;
 
     existingEmails: Set<string> = new Set();
+    invalidEmails: Set<string> = new Set();
 
-    addExistingEmail(this: UserEmailModel, email?: string) {
-        this.get('existingEmails').add(email || this.get('emailAddress'));
+    addExistingEmail(email?: string) {
+        this.existingEmails.add(email || this.emailAddress);
+    }
+
+    addInvalidEmail(email?: string) {
+        this.invalidEmails.add(email || this.emailAddress);
     }
 }
 

@@ -108,6 +108,9 @@ export default class ConnectedEmails extends Component.extend({
         if (e instanceof DS.ConflictError) {
             userEmail.addExistingEmail();
             userEmail.validate();
+        } else if (e instanceof DS.AdapterError) {
+            userEmail.addInvalidEmail();
+            userEmail.validate();
         } else {
             return this.toast.error(e.message);
         }
