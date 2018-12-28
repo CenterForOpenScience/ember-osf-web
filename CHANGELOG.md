@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
     - `settings.account.-components.security` - Two-factor authentication panel.
+    - `osf-button` - our new, use-everywhere button component
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
