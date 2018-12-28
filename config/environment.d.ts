@@ -20,6 +20,7 @@ export interface KeenConfig {
 declare const config: {
     environment: any;
     lintOnBuild: boolean;
+    testsEnabled: boolean;
     sourcemapsEnabled: boolean;
     modulePrefix: string;
     locationType: string;
