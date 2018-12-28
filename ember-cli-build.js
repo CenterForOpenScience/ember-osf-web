@@ -3,7 +3,7 @@
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 const { EMBER_ENV } = process.env;
-const useCdn = EMBER_ENV === 'production';
+const IS_PROD = EMBER_ENV === 'production';
 
 function postProcess(content) {
     return content.trim().replace(/^\s{20}/mg, '');
@@ -56,7 +56,7 @@ module.exports = function(defaults) {
             importBootstrapCSS: false,
         },
         'ember-cli-password-strength': {
-            bundleZxcvbn: !useCdn,
+            bundleZxcvbn: !IS_PROD,
         },
         fingerprint: {
             enabled: true,
@@ -92,7 +92,7 @@ module.exports = function(defaults) {
                 content: config.assetsPrefix,
             },
             raven: {
-                enabled: useCdn,
+                enabled: IS_PROD,
                 content: `
                     <script src="https://cdn.ravenjs.com/3.22.1/ember/raven.min.js"></script>
                     <script>
@@ -106,7 +106,7 @@ module.exports = function(defaults) {
                 postProcess,
             },
             zxcvbn: {
-                enabled: useCdn,
+                enabled: IS_PROD,
                 /* eslint-disable max-len */
                 content: `
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"
@@ -121,7 +121,7 @@ module.exports = function(defaults) {
             },
         },
         'ember-cli-babel': {
-            includePolyfill: true,
+            includePolyfill: IS_PROD,
         },
         assetLoader: {
             generateURI(filePath) {
