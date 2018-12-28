@@ -1,37 +1,37 @@
 <Panel as |panel|>
     <panel.heading @title={{t 'settings.account.connected_emails.title'}} />
     <panel.body>
-        <div local-class="section-container">
-            <h5 local-class="section-header">
+        <div local-class='section-container'>
+            <h5 local-class='section-header'>
                 {{t 'settings.account.connected_emails.primary_email'}}
             </h5>
-            <div local-class="primary-email">
-                {{#if loadPrimaryEmail.isRunning}}
-                    <LoadingIndicator local-class="loading-icon" @dark=true @inline=true />
+            <div local-class='primary-email'>
+                {{#if this.loadPrimaryEmail.isRunning}}
+                    <LoadingIndicator local-class='loading-icon' @dark=true @inline=true />
                 {{else}}
-                    <span data-test-primary-email={{loadPrimaryEmail.lastSuccessful.value.emailAddress}}>
-                        {{loadPrimaryEmail.lastSuccessful.value.emailAddress}}
+                    <span data-test-primary-email={{this.loadPrimaryEmail.lastSuccessful.value.emailAddress}}>
+                        {{this.loadPrimaryEmail.lastSuccessful.value.emailAddress}}
                     </span>
                 {{/if}}
             </div>
         </div>
-        <div local-class="section-container">
-            <h5 local-class="section-header">
+        <div local-class='section-container'>
+            <h5 local-class='section-header'>
                 {{t 'settings.account.connected_emails.alternate_emails'}}
             </h5>
-            <span local-class="email-section">
+            <span local-class='email-section'>
                 {{#paginated-list/has-many
-                    local-class="email-list"
+                    local-class='email-list'
                     model=this.currentUser.user
                     relationshipName='emails'
                     bindReload=(action (mut this.reloadAlternateList))
-                    query=alternateQueryParams
+                    query=this.alternateQueryParams
                     usePlaceholders=false
                     analyticsScope='Account Settings - Alternate Emails'
                     as |list|
                 }}
                     <list.item as |email|>
-                        <div local-class="email-object" class="clearfix">
+                        <div local-class='email-object' class='clearfix'>
                             {{#if (not email)}}
                                 <ContentPlaceholders as |placeholder|>
                                     {{placeholder.heading subtitle=false}}
@@ -40,16 +40,16 @@
                                 <span data-test-alternate-email={{email.emailAddress}}>
                                     {{email.emailAddress}}
                                 </span>
-                                <div local-class="options">
-                                    <BsButton data-test-make-primary @onClick={{action this.makePrimary email}} @type="link">
+                                <div local-class='options'>
+                                    <BsButton data-test-make-primary @onClick={{action this.makePrimary email}} @type='link'>
                                         {{t 'settings.account.connected_emails.make_primary'}}
                                     </BsButton>
-                                    <DeleteButton 
+                                    <DeleteButton
                                         @small=true
                                         @delete={{action this.removeEmail email}}
-                                        @analyticsScope="Settings - Alternate Emails"
-                                        @modalTitle={{t "settings.account.connected_emails.confirm_delete.title"}}
-                                        @modalBody={{t "settings.account.connected_emails.confirm_delete.body" emailAddress=email.emailAddress}}
+                                        @analyticsScope='Settings - Alternate Emails'
+                                        @modalTitle={{t 'settings.account.connected_emails.confirm_delete.title'}}
+                                        @modalBody={{t 'settings.account.connected_emails.confirm_delete.body' emailAddress=email.emailAddress}}
                                     />
                                 </div>
                             {{/if}}
@@ -58,36 +58,36 @@
                 {{/paginated-list/has-many}}
             </span>
         </div>
-        <div local-class="section-container">
-            <h5 local-class="section-header">
+        <div local-class='section-container'>
+            <h5 local-class='section-header'>
                 {{t 'settings.account.connected_emails.unconfirmed_emails'}}
             </h5>
-            <span local-class="email-section">
+            <span local-class='email-section'>
                 {{#paginated-list/has-many
-                    local-class="email-list"
+                    local-class='email-list'
                     model=this.currentUser.user
                     relationshipName='emails'
                     bindReload=(action (mut this.reloadUnconfirmedList))
-                    query=unconfirmedQueryParams
+                    query=this.unconfirmedQueryParams
                     usePlaceholders=false
                     analyticsScope='Account Settings - Unconfirmed Emails'
                     as |list|
                 }}
                     <list.item as |email|>
-                        <div local-class="email-object" class="clearfix" data-test-unconfirmed-email>
+                        <div local-class='email-object' class='clearfix' data-test-unconfirmed-email>
                             {{#if (not email)}}
                                 <ContentPlaceholders as |placeholder|>
                                     {{placeholder.heading subtitle=false}}
                                 </ContentPlaceholders>
                             {{else}}
                                 {{email.emailAddress}}
-                                <div local-class="options">
-                                    <BsButton @onClick={{action this.toggleMergeModal}} @type="link">
+                                <div local-class='options'>
+                                    <BsButton @onClick={{action this.toggleMergeModal}} @type='link'>
                                         {{t 'settings.account.connected_emails.resend_confirmation'}}
                                     </BsButton>
                                     <BsModal
                                         @open={{this.showMergeModal}}
-                                        @tagName="span"
+                                        @tagName='span'
                                         @onHide={{action this.toggleMergeModal}}
                                         as |modal|
                                     >
@@ -109,7 +109,7 @@
                                             />
                                             <BsButton
                                                 data-test-resend-confirmation
-                                                @type="primary"
+                                                @type='primary'
                                                 @onClick={{action this.resendConfirmation email.emailAddress}}
                                                 @defaultText={{t 'settings.account.connected_emails.resend_confirmation_modal.resend_button'}}
                                             />
@@ -118,9 +118,9 @@
                                     <DeleteButton
                                         @small=true
                                         @delete={{action this.removeEmail email}}
-                                        @analyticsScope="Settings - Unconfirmed Emails"
-                                        @modalTitle={{t "settings.account.connected_emails.confirm_delete.title"}}
-                                        @modalBody={{t "settings.account.connected_emails.confirm_delete.body" emailAddress=email.emailAddress}}
+                                        @analyticsScope='Settings - Unconfirmed Emails'
+                                        @modalTitle={{t 'settings.account.connected_emails.confirm_delete.title'}}
+                                        @modalBody={{t 'settings.account.connected_emails.confirm_delete.body' emailAddress=email.emailAddress}}
                                     />
                                 </div>
                             {{/if}}
@@ -128,11 +128,11 @@
                     </list.item>
                 {{/paginated-list/has-many}}
             </span>
-            <p local-class="merge-explanation">
+            <p local-class='merge-explanation'>
                 {{t 'settings.account.connected_emails.merge_explanation'}}
                 <span>
                     {{fa-icon 'info-circle'}}
-                    <BsTooltip @autoPlacement=false @placement="bottom">
+                    <BsTooltip @autoPlacement=false @placement='bottom'>
                         {{t 'settings.account.connected_emails.merge_tooltip'}}
                     </BsTooltip>
                 </span>
@@ -140,29 +140,29 @@
             <ValidatedModelForm
                 @onSave={{action this.onSave}}
                 @onError={{action this.onError}}
-                @modelName="userEmail"
+                @modelName='userEmail'
                 @modelProperties={{this.modelProperties}}
                 @recreateModel=true
                 as |form|
             >
                 <form.text
                     data-test-add-email
-                    @local-class="input-form"
-                    @valuePath="emailAddress"
-                    @placeholder={{t "settings.account.connected_emails.placeholder_text"}}
-                    @ariaLabel={{t "settings.account.connected_emails.placeholder_text"}}
+                    @local-class='input-form'
+                    @valuePath='emailAddress'
+                    @placeholder={{t 'settings.account.connected_emails.placeholder_text'}}
+                    @ariaLabel={{t 'settings.account.connected_emails.placeholder_text'}}
                 />
                 <BsButton data-test-add-email-button
-                    @buttonType="submit"
-                    @local-class="add-email-button"
-                    @type="default"
+                    @buttonType='submit'
+                    @local-class='add-email-button'
+                    @type='default'
                 >
                     {{t 'settings.account.connected_emails.add_email'}}
                 </BsButton>
             </ValidatedModelForm>
             <BsModal
                 @open={{this.showAddModal}}
-                @tagName="span"
+                @tagName='span'
                 @onHide={{action this.toggleAddModal}}
                 as |modal|
             >
