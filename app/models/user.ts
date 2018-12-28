@@ -10,6 +10,7 @@ import OsfModel from './osf-model';
 import Region from './region';
 import Registration from './registration';
 import UserEmail from './user-email';
+import UserSetting from './user-setting';
 
 /**
  * @module ember-osf-web
@@ -76,6 +77,7 @@ export default class User extends OsfModel.extend(Validations) {
     @attr('object') social!: {};
 
     @belongsTo('region') defaultRegion!: DS.PromiseObject<Region> & Region;
+    @belongsTo('user-setting', { inverse: 'user', async: false }) settings?: UserSetting | null;
 
     @hasMany('node') nodes!: DS.PromiseManyArray<Node>;
     @hasMany('contributor') contributors!: DS.PromiseManyArray<Contributor>;

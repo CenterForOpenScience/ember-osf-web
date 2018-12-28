@@ -1,6 +1,6 @@
 <div data-test-node-card>
-    <h4 class="list-group-item-heading" local-class="NodeCard__heading" data-test-node-card-heading>
-        <span class="f-w-lg">
+    <h4 class='list-group-item-heading' local-class='NodeCard__heading' data-test-node-card-heading>
+        <span class='f-w-lg'>
             {{#if @node}}
                 {{#unless @node.public}}
                     <span>
@@ -9,18 +9,18 @@
                     </span> |
                 {{/unless}}
                 {{#if @node.pendingRegistrationApproval}}
-                    <span class="label label-info">{{t 'node_card.registration.statuses.pending'}}</span> |
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
                 {{else if @node.withdrawn}}
-                    <span class="label label-danger">{{t 'node_card.registration.statuses.withdrawn'}}</span> |
+                    <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
                 {{else if @node.pendingWithdrawal}}
-                    <span class="label label-info">{{t 'node_card.registration.statuses.pending_withdrawl'}}</span> |
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdrawl'}}</span> |
                 {{else if @node.embargoed}}
-                    <span class="label label-info">{{t 'node_card.registration.statuses.embargoed'}}</span> |
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.embargoed'}}</span> |
                 {{else if @node.pendingEmbargoApproval}}
-                    <span class="label label-info">{{t 'node_card.registration.statuses.pending_embargo'}}</span> |
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo'}}</span> |
                 {{/if}}
                 {{#if @node.archiving}}
-                    <span class="label label-primary">{{t 'node_card.registration.statuses.archiving'}}</span> |
+                    <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
                 {{/if}}
                 {{node-card/node-icon category=@node.category}}
                 {{#global-link-to 'resolve-guid' @node.id
@@ -36,15 +36,15 @@
         </span>
         {{#if @node}}
             {{#if this.showDropdown}}
-                <div class="pull-right generic-dropdown" local-class="NodeCard__dropdown">
+                <div class='pull-right generic-dropdown' local-class='NodeCard__dropdown'>
                     <BsDropdown as |dd|>
-                        <dd.button local-class="NodeCard__dropdown-button">
-                            <span aria-label={{t 'node_card.options'}} class="glyphicon glyphicon-option-horizontal"></span>
+                        <dd.button local-class='NodeCard__dropdown-button'>
+                            <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
                         </dd.button>
-                        <dd.menu @class="dropdown-menu-right" local-class="NodeCard__dropdown-list">
+                        <dd.menu @class='dropdown-menu-right' local-class='NodeCard__dropdown-list'>
                             <li role='menuitem'>
                                 <a
-                                    href="/{{@node.id}}/contributors/"
+                                    href='/{{@node.id}}/contributors/'
                                     onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Manage Contributors') target=this.analytics}}
                                     local-class='NodeCard__dropdown-link'
                                 >
@@ -53,7 +53,7 @@
                             </li>
                             <li role='menuitem'>
                                 <a
-                                    href="/{{@node.id}}/settings/"
+                                    href='/{{@node.id}}/settings/'
                                     onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Settings') target=this.analytics}}
                                     local-class='NodeCard__dropdown-link'
                                 >
@@ -75,33 +75,33 @@
             {{/if}}
         {{/if}}
     </h4>
-    <div data-test-node-card-body local-class="NodeCard__body">
+    <div data-test-node-card-body local-class='NodeCard__body'>
         {{#if @node}}
-            <div local-class="NodeCard__timestamp">
+            <div local-class='NodeCard__timestamp'>
                 {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}} {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
             </div>
             {{#if @node.isRegistration}}
                 {{#if this.registrationTitle}}
-                    <div local-class="NodeCard__registration-title">
+                    <div local-class='NodeCard__registration-title'>
                         {{this.registrationTitle}}
                     </div>
                 {{/if}}
-                <div local-class="NodeCard__schema-name">
+                <div local-class='NodeCard__schema-name'>
                     {{@node.registrationSchema.name}}
                 </div>
             {{/if}}
-            <div local-class="NodeCard__authors">
+            <div local-class='NodeCard__authors'>
                 <ContributorList
                     @contributors={{@node.contributors}}
                     @useLink={{true}}
                     @nodeId={{@node.id}}
                 />
             </div>
-            <div local-class="NodeCard__description">
+            <div local-class='NodeCard__description'>
                 {{@node.description}}
             </div>
             {{#if (and this.showTags @node.tags)}}
-                <div local-class="NodeCard__tags">
+                <div local-class='NodeCard__tags'>
                     <strong>{{t 'node_card.tags'}}</strong>
                     <TagsWidget
                         @tags={{@node.tags}}

@@ -36,8 +36,8 @@
 .btn-danger.disabled,
 .btn-danger.disabled:hover {
     color: $btn-danger-high-contrast-color;
-    background-color: lighten($brand-danger, 20%);
-    border-color: lighten($brand-danger, 15%);
+    background-color: $brand-danger;
+    border-color: lighten($brand-danger, 5%);
     opacity: 1;
 }
 

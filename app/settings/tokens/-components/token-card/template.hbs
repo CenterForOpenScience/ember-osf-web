@@ -9,7 +9,7 @@
         {{/link-to}}
     {{else}}
         <ContentPlaceholders
-            local-class="TokenCard__placeholder"
+            local-class='TokenCard__placeholder'
             as |placeholder|
         >
             {{placeholder.heading subtitle=false}}
@@ -20,7 +20,7 @@
         @small={{true}}
         @delete={{action this.delete}}
         @disabled={{not @token}}
-        @analyticsScope="Settings - Tokens"
+        @analyticsScope='Settings - Tokens'
         @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
         @modalBody={{t 'settings.tokens.confirmDelete.body'}}
     />

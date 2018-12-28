@@ -1,5 +1,5 @@
 <a 
-    role="button"
+    role='button'
     title={{t 'zoom_to_route.title'}}
     {{action (mut this.showModal) true}}
 >
@@ -33,7 +33,7 @@
                 >
                     {{#each this.routeParams as |param|}}
                         <form.element
-                            @controlType="text"
+                            @controlType='text'
                             @label={{param}}
                             @placeholder={{param}}
                             @property={{param}}

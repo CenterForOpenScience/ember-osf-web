@@ -1,7 +1,7 @@
-<a href="{{this.project.links.html}}">
-    <div local-class="NoteworthyProject__item">
+<a href='{{this.project.links.html}}'>
+    <div local-class='NoteworthyProject__item'>
         <h5 data-test-nnwp-project-title>{{this.project.title}}</h5>
-        <span class="prevent-overflow" local-class="Byline">
+        <span class='prevent-overflow' local-class='Byline'>
             <i>
                 {{t 'dashboard.noteworthy.by'}}
                 <ContributorList
@@ -10,7 +10,7 @@
                 />
             </i>
         </span>
-        <p data-test-nnwp-project-description class="prevent-overflow">
+        <p data-test-nnwp-project-description class='prevent-overflow'>
             <BsTooltip @title={{this.compactDescription}} />
             {{this.project.description}}
         </p>

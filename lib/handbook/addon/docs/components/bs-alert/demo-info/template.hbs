@@ -1,10 +1,10 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='bs-alert.info.hbs'}}
-            {{#bs-alert type='info'}}
+<DocsDemo as |demo|>
+    <demo.example @name='bs-alert.info.hbs'>
+            <BsAlert @type='info'>
                     <strong>Hey! You like info?</strong>
                     This is some fine info
-            {{/bs-alert}}
-    {{/demo.example}}
+            </BsAlert>
+    </demo.example>
 
-    {{demo.snippet 'bs-alert.info.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='bs-alert.info.hbs' />
+</DocsDemo>

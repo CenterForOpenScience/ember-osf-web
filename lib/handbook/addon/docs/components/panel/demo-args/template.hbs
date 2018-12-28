@@ -1,11 +1,11 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='panel.demo-args.hbs'}}
+<DocsDemo as |demo|>
+    <demo.example @name='panel.demo-args.hbs'>
         <Panel as |panel|>
-            <panel.heading @title="I'm a panel" />
-            <panel.body @text="This is my body" />
-            <panel.footer @text="This is my footer" />
+            <panel.heading @title='I am a panel' />
+            <panel.body @text='This is my body' />
+            <panel.footer @text='This is my footer' />
         </Panel>
-    {{/demo.example}}
+    </demo.example>
 
-    {{demo.snippet 'panel.demo-args.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='panel.demo-args.hbs' />
+</DocsDemo>

@@ -9,9 +9,9 @@
     </modal.header>
     <modal.body class=componentCssClassName>
         <p>{{t 'delete_modal.body' nodeType=(t this.nodeTypeKey)}}</p>
-        <label local-class="DeleteModal__label-wrap">
-            <p local-class="DeleteModal__input-label">{{t 'delete_modal.type_this'}} <strong>{{this.scientistName}}</strong></p>
-            {{input class="form-control" local-class="DeleteModal__input" value=this.scientistInput}}
+        <label local-class='DeleteModal__label-wrap'>
+            <p local-class='DeleteModal__input-label'>{{t 'delete_modal.type_this'}} <strong>{{this.scientistName}}</strong></p>
+            {{input class='form-control' local-class='DeleteModal__input' value=this.scientistInput}}
         </label>
     </modal.body>
     <modal.footer>
@@ -21,7 +21,7 @@
         <BsButton 
             @disabled={{not (eq this.scientistInput this.scientistName)}} 
             @onClick={{action modal.submit}} 
-            @type="danger"
+            @type='danger'
         >
             {{t 'general.delete'}}
         </BsButton>

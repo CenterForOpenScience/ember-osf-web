@@ -808,6 +808,7 @@ export default {
         submit_section: {
             discard: 'Discard changes',
             save: 'Save and continue',
+            continue: 'Continue',
             click_to_edit: 'Click to edit',
         },
     },
@@ -877,8 +878,7 @@ export default {
             update_save_success: '{{title}} has been updated in the collection.',
             add_save_error: 'Error adding {{title}} to the collection:\n{{error}}',
             update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
-            modal_header: 'Alert',
-            modal_body: 'Are you sure you want to discard changes to the collection? Changes saved to the project will persist, if saved.',
+            warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.',
         },
         collection_item_picker: {
             after_options: {
@@ -1207,6 +1207,25 @@ export default {
             },
         },
         account: {
+            security: {
+                title: 'Security Settings',
+                twoFactorAuth: 'Two-factor Authentication',
+                enableTwoFactor: 'Enable Two-factor Authentication',
+                enableWarning: 'Enabling two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
+                disableTwoFactor: 'Disable Two-factor Authentication',
+                why: 'By using two-factor authentication, you will protect your OSF account with both your password and your mobile phone.',
+                enableButton: 'Enable',
+                importantWarning: 'Important: If you lose access to your mobile device, you will not be able to log in to your OSF account.',
+                howTo: 'To use, you must install an appropriate application on your mobile device. Google Authenticator is a popular choice and is available for both Android and iOS.',
+                onceVerified: 'Once verified, your device will display a six-digit code that must be entered during the login process. This code changes every few seconds, which means that unauthorized users will not be able to log in to you account, even if they know your password.',
+                scanImage: 'Scan the image below, or enter the secret key <code>{{secretKey}}</code> into your authentication device.',
+                enterVerification: 'Enter your verification code:',
+                verificationFailed: 'Verification failed. Please enter your verification code again.',
+                disableWarning: 'Are you sure you want to disable two-factor authentication?',
+                disableButton: 'Disable',
+                saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+                submitVerification: 'Submit',
+            },
             title: 'Account settings',
         },
         addons: {

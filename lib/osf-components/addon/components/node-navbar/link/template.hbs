@@ -14,7 +14,7 @@
 {{else}}
     <a
         data-test-node-navbar-link={{or @destination @node.id}}
-        href="/{{@node.id}}/{{@destination}}"
+        href='/{{@node.id}}/{{@destination}}'
         class={{this.extraClasses}}
     >
         {{#if (has-block)}}

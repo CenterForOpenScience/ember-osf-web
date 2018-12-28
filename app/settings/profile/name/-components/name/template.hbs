@@ -6,7 +6,7 @@
 >
     <form.text
         data-test-full-name-field
-        @valuePath="fullName"
+        @valuePath='fullName'
         @label={{t 'settings.profile.name.fullName'}}
     />
     {{t 'settings.profile.name.instructions'}}
@@ -42,17 +42,17 @@
     <div local-class='FormButtons'>
         <BsButton
             data-test-discard-changes
-            @buttonType="button"
+            @buttonType='button'
             @disabled={{not this.isPageDirty}}
             @onClick={{action this.onWillDestroy this.user}}
         >
-            {{t "validated_input_form.discard_changes"}}
+            {{t 'validated_input_form.discard_changes'}}
         </BsButton>
         <BsButton
             data-test-save
-            @buttonType="submit"
+            @buttonType='submit'
             @disabled={{and (not this.isPageDirty) form.disabled}}
-            @type="primary"
+            @type='primary'
         >
             {{t 'general.save'}}
         </BsButton>

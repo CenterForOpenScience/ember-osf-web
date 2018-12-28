@@ -1,0 +1,14 @@
+/**
+ *  Replaces the loaders.css/src/loaders.scss which imports animations
+ *  The reason is to import only the animations osf-style needs
+ */
+
+@import 'loaders/animations/ball-pulse';
+@import 'loaders/animations/ball-scale';
+
+.ball-dark > div {
+    background-color: $color-select !important;
+}
+/**
+ *  END of loaders
+ */

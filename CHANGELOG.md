@@ -8,19 +8,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Addons:
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
+    - `loaders-css` - For animated loading indicators
+    - `sass` - Dart sass instead of `node-sass`
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+    - `settings.account.-components.security` - Two-factor authentication panel.
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
 - Models:
     - `user-email`
+    - `user-setting`
 - Routes:
+    - `settings.account`
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
     - `settings.profile.employment`
     - `settings.profile.name` - Adds ability to change your name and name parts (with citation preview)
     - `settings.profile.social`
+- Styles:
+    - All styles from `osf-style`
 - Tests:
     - Integration:
         - `settings.profile.name.-components.citation-preview`
@@ -38,7 +45,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Addons:
+    - `ember-cli-mirage@0.4.10`
     - `ember-code-snippet@2.3.1`
+    - `ember-qunit@3.4.4`
+    - `ember-cli-qunit@4.4.0`
+    - `ember-cli-sass@8.0.1`
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
     - `validated-model-form` - Add an optional hook for onWillDestroy
@@ -66,7 +77,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Misc:
     - Upgraded to `osf-style` 1.8.0
 
-## [18.2.1] - 2018-12-06
+### Removed
+- Addons:
+    - `osf-style`
+
+## [18.2.2] - 2018-12-18
+### Added:
+- Flags:
+    - `enable_inactive_schemas`
+
+### Changed:
+- Components:
+    - regisitries:
+        - `registries-registration-type-facet` - only add ERPC schema when `enable_inactive_schemas` flag is off
+
+## [18.2.1] - 2018-12-18
 ### Added
 - Mirage:
     - `queryParamIsTruthy` util

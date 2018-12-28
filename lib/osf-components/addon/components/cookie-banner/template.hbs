@@ -1,9 +1,9 @@
 {{#if this.showBanner}}
-    <div local-class="CookieBanner">
-        <div local-class="Warning">
+    <div local-class='CookieBanner'>
+        <div local-class='Warning'>
             {{t 'cookieBanner.cookieWarning'}}
         </div>
-        <div local-class="Accept">
+        <div local-class='Accept'>
             <BsButton @onClick={{action this.accept}}>
                 {{t 'cookieBanner.accept'}}
             </BsButton>
