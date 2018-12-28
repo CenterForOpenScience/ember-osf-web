@@ -36,7 +36,7 @@
                 {{t 'settings.account.security.why'}}
             </p>
             {{#if (and this.settings.twoFactorEnabled (not this.settings.twoFactorConfirmed))}}
-                <p data-test-2f-important-warning class="bg-danger">
+                <p data-test-2f-important-warning class='bg-danger'>
                     {{t 'settings.account.security.importantWarning'}}
                 </p>
                 <p data-test-2f-how-to>
@@ -53,7 +53,7 @@
                     @text={{this.settings.secret}}
                     @width=260
                     @height=260
-                    @correctLevel="L"
+                    @correctLevel='L'
                 />
                 <ValidatedModelForm
                     @model={{this.settings}}
