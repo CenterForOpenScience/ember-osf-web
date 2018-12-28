@@ -12,10 +12,9 @@ import { SubjectRef } from 'ember-osf-web/models/taxonomy';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import styles from './styles';
 import template from './template';
 
-@layout(template, styles)
+@layout(template)
 @classNames('row')
 export default class SearchResultNode extends Component.extend({
     didRender(...args: any[]) {
