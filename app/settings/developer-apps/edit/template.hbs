@@ -21,7 +21,7 @@
             <CopyableText
                 data-test-client-id
                 @text={{this.developerApp.clientId}}
-                @analyticsLabel="Settings - Developer apps - Copy client ID"
+                @analyticsLabel='Settings - Developer apps - Copy client ID'
             />
         </dd>
         <dt>{{t 'settings.developer-apps.clientSecret'}}</dt>
@@ -35,27 +35,27 @@
         @model={{this.developerApp}}
         @disabled={{this.model.taskInstance.isRunning}}
         @onSave={{action this.appSaved}}
-        @analyticsScope="Settings - Developer apps - Create"
+        @analyticsScope='Settings - Developer apps - Create'
         as |form|
     >
         <form.text
             data-test-developer-app-name
-            @valuePath="name"
+            @valuePath='name'
             @label={{t 'settings.developer-apps.appName'}}
         />
         <form.text
             data-test-developer-app-homepage
-            @valuePath="homeUrl"
+            @valuePath='homeUrl'
             @label={{t 'settings.developer-apps.appHomepage'}}
         />
         <form.textarea
             data-test-developer-app-description
-            @valuePath="description"
+            @valuePath='description'
             @label={{t 'settings.developer-apps.appDescription'}}
         />
         <form.text
             data-test-developer-app-callback-url
-            @valuePath="callbackUrl"
+            @valuePath='callbackUrl'
             @label={{t 'settings.developer-apps.appCallbackUrl'}}
         />
 
@@ -63,15 +63,15 @@
             <DeleteButton
                 @delete={{action this.deleteApp}}
                 @disabled={{form.disabled}}
-                @analyticsScope="Settings - Developer apps - Edit"
+                @analyticsScope='Settings - Developer apps - Edit'
                 @modalTitle={{t 'settings.developer-apps.confirmDelete.title' appName=this.developerApp.name}}
                 @modalBody={{t 'settings.developer-apps.confirmDelete.body'}}
             />
 
             <OsfButton
                 data-test-save-developer-app-button
-                @type="primary"
-                @buttonType="submit"
+                @type='primary'
+                @buttonType='submit'
                 @disabled={{form.disabled}}
             >
                 {{t 'general.save'}}

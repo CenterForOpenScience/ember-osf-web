@@ -16,7 +16,7 @@
         <CopyableText 
             data-test-new-token-value
             @text={{this.token.tokenValue}}
-            @analyticsLabel="Settings - Tokens - Copy token"
+            @analyticsLabel='Settings - Tokens - Copy token'
         />
     </p>
     <p local-class='NewTokenWarning' class='bg-danger'>
@@ -48,15 +48,15 @@
             <DeleteButton
                 @delete={{action this.deleteToken}}
                 @disabled={{form.disabled}}
-                @analyticsScope="Settings - Tokens - Edit"
+                @analyticsScope='Settings - Tokens - Edit'
                 @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
                 @modalBody={{t 'settings.tokens.confirmDelete.body'}}
             />
 
             <OsfButton
                 data-test-save-token-button
-                @type="primary"
-                @buttonType="submit"
+                @type='primary'
+                @buttonType='submit'
                 @disabled={{form.disabled}}
             >
                 {{t 'general.save'}}

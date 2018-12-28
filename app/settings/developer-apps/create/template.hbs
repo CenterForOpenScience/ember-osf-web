@@ -12,37 +12,37 @@
 <h4>{{t 'settings.developer-apps.createApp'}}</h4>
 
 <ValidatedModelForm
-    @modelName="developer-app"
+    @modelName='developer-app'
     @onSave={{action this.onSave}}
-    @analyticsScope="Settings - Developer apps - Create"
+    @analyticsScope='Settings - Developer apps - Create'
     as |form|
 >
     <form.text
         data-test-developer-app-name
-        @valuePath="name"
+        @valuePath='name'
         @label={{t 'settings.developer-apps.appName'}}
     />
     <form.text
         data-test-developer-app-homepage
-        @valuePath="homeUrl"
+        @valuePath='homeUrl'
         @label={{t 'settings.developer-apps.appHomepage'}}
     />
     <form.textarea 
         data-test-developer-app-description
-        @valuePath="description"
+        @valuePath='description'
         @label={{t 'settings.developer-apps.appDescription'}}
     />
     <form.text
         data-test-developer-app-callback-url
-        @valuePath="callbackUrl"
+        @valuePath='callbackUrl'
         @label={{t 'settings.developer-apps.appCallbackUrl'}}
     />
 
     <div>
         <OsfButton
             data-test-create-developer-app-button
-            @type="primary"
-            @buttonType="submit"
+            @type='primary'
+            @buttonType='submit'
             @disabled={{form.submitting}}
         >
             {{t 'settings.developer-apps.createApp'}}

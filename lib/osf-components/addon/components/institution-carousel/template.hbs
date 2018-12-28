@@ -5,8 +5,8 @@
         @showIndicators={{false}}
         @prevControlLabel={{t 'general.previous'}}
         @nextControlLabel={{t 'general.next'}}
-        @prevControlIcon="fa fa-angle-left"
-        @nextControlIcon="fa fa-angle-right"
+        @prevControlIcon='fa fa-angle-left'
+        @nextControlIcon='fa fa-angle-right'
         @prevControlClassName={{local-class 'InstitutionCarousel__control left'}}
         @nextControlClassName={{local-class 'InstitutionCarousel__control right'}}
         @showControls=this.showControls
@@ -16,22 +16,22 @@
             <carousel.slide>
                 {{#each slide as |institution index|}}
                     <div
-                        class="{{if (not index) (concat "col-sm-2 col-sm-offset-" this.columnOffset) "col-sm-2"}}"
-                        local-class="InstitutionCarousel__item"
-                        role="option"
-                        data-test-institution-carousel-item="{{institution.id}}"
+                        class='{{if (not index) (concat 'col-sm-2 col-sm-offset-' this.columnOffset) 'col-sm-2'}}'
+                        local-class='InstitutionCarousel__item'
+                        role='option'
+                        data-test-institution-carousel-item='{{institution.id}}'
                     >
                         <a
-                            href="{{institution.links.html}}"
+                            href='{{institution.links.html}}'
                             onclick={{action 'click' 'link' 'Dashboard - Institution Carousel - visit_institution' target=this.analytics}}
                         >
                             <img
-                                class="img-circle img-responsive"
+                                class='img-circle img-responsive'
                                 name={{institution.name}}
                                 logopath={{institution.logoUrl}}
                                 src={{institution.logoUrl}}
-                                alt="{{institution.name}}"
-                                title="{{institution.name}}"
+                                alt='{{institution.name}}'
+                                title='{{institution.name}}'
                             >
                         </a>
                     </div>

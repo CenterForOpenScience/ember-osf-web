@@ -11,11 +11,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `loaders-css` - For animated loading indicators
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+    - `settings.account.-components.security` - Two-factor authentication panel.
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
 - Models:
     - `user-email`
+    - `user-setting`
 - Routes:
     - `settings.account`
     - `settings.profile` - redirects to `settings.profile.name`
@@ -42,6 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Addons:
+    - `ember-cli-mirage@0.4.10`
     - `ember-code-snippet@2.3.1`
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy

@@ -1,16 +1,16 @@
 {{#if (eq this.projectSelectState 'main')}}
-    <div class="row">
-        <div class="col-xs-6">
-            <button data-test-ps-new-project-button class="btn btn-block" local-class="btn-big" {{action this.moveToNew}}>
+    <div class='row'>
+        <div class='col-xs-6'>
+            <button data-test-ps-new-project-button class='btn btn-block' local-class='btn-big' {{action this.moveToNew}}>
                 {{t 'move_to_project.create_new_project'}}
             </button>
         </div>
-        <div class="col-xs-6">
+        <div class='col-xs-6'>
             <button
                 data-test-ps-existing-project-button
-                class="btn btn-block"
-                local-class="btn-big"
-                {{action this.changeState "existingProject"}}
+                class='btn btn-block'
+                local-class='btn-big'
+                {{action this.changeState 'existingProject'}}
             >
                 {{t 'move_to_project.connect_to_existing'}}
             </button>
@@ -19,7 +19,7 @@
 {{/if}}
 {{#if (eq this.projectSelectState 'existingProject')}}
     {{#if this.initialLoad.isRunning}}
-        <div class="ball-pulse ball-dark text-center">
+        <div class='ball-pulse ball-dark text-center'>
             <div></div>
             <div></div>
             <div></div>
@@ -28,15 +28,15 @@
         <h5>{{t 'move_to_project.choose_project'}}</h5>
         {{#if this.projectList.length}}
             <form>
-                <div data-test-ps-select-project class="form-group">
-                    <div class="m-t-sm">
+                <div data-test-ps-select-project class='form-group'>
+                    <div class='m-t-sm'>
                         <PowerSelect
                             @renderInPlace={{true}}
                             @placeholder={{t 'move_to_project.select_placeholder'}}
                             @options={{this.projectList}}
                             @search={{perform this.findNodes}}
                             @selected={{this.selected}}
-                            @searchField="title"
+                            @searchField='title'
                             @onchange={{action this.valueChanged}}
                             as |project|
                         >
@@ -46,23 +46,23 @@
                 </div>
             </form>
         {{else}}
-            <p class="m-t-md text-danger">
+            <p class='m-t-md text-danger'>
                 {{t 'move_to_project.no_projects_exist_error'}}
             </p>
         {{/if}}
-        <p class="text-smaller m-t-xs">
+        <p class='text-smaller m-t-xs'>
             {{t 'move_to_project.project_select_message'}}
         </p>
     {{/if}}
     {{#if this.selected}}
-        <p class="m-t-lg">
+        <p class='m-t-lg'>
             {{t (concat
                 'move_to_project.convert_or_copy_message.'
                 (if this.isChildNode 'component' 'project')
             )}}
         </p>
         {{#unless this.isPublicProject}}
-            <p data-test-no-longer-public class="text-danger m-t-sm">
+            <p data-test-no-longer-public class='text-danger m-t-sm'>
                 {{t (concat
                     'move_to_project.no_longer_public_warning.'
                     (if this.isChildNode 'component' 'project')

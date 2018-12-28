@@ -1,5 +1,5 @@
-<div local-class="DraftRegistrationCard" data-test-draft-registration-card>
-    <h4 local-class="DraftRegistratrionCard__title" data-test-draft-registration-card-title>
+<div local-class='DraftRegistrationCard' data-test-draft-registration-card>
+    <h4 local-class='DraftRegistratrionCard__title' data-test-draft-registration-card-title>
         {{#if this.draftRegistration}}
             {{this.draftRegistration.registrationSchema.name}}
         {{else}}
@@ -8,12 +8,12 @@
             </ContentPlaceholders>
         {{/if}}
     </h4>
-    <h4 local-class="DraftRegistratrionCard__body" data-test-draft-registration-card-body>
+    <h4 local-class='DraftRegistratrionCard__body' data-test-draft-registration-card-body>
         <small>
             {{#if this.draftRegistration}}
                 {{#if this.showProgress}}
-                    <div class="progress progress-bar-md" data-test-draft-registration-card-progress-bar>
-                        <div class="progress-bar" style={{this.progressStyle}}></div>
+                    <div class='progress progress-bar-md' data-test-draft-registration-card-progress-bar>
+                        <div class='progress-bar' style={{this.progressStyle}}></div>
                     </div>
                 {{/if}}
                 <p>
@@ -34,8 +34,8 @@
                 </ContentPlaceholders>
             {{/if}}
         </small>
-        <div class="row">
-            <div class="col-md-10">
+        <div class='row'>
+            <div class='col-md-10'>
                 <OsfButton 
                     @type='default' 
                     @onClick={{action this.edit}}
@@ -77,7 +77,7 @@
                     </modal.footer>
                 </BsModal>
             </div>
-            <div class="col-md-1">
+            <div class='col-md-1'>
                 <OsfButton
                     @type='default'
                     @onClick={{action this.register}}

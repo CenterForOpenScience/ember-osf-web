@@ -5,7 +5,7 @@
 {{yield this.inputElementId}}
 
 {{#if (or this.hasError this.hasWarning)}}
-    <div class="help-block">
+    <div class='help-block'>
         {{v-get this.model this.valuePath 'message'}}
     </div>
 {{/if}}

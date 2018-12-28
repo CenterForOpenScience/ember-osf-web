@@ -16,16 +16,16 @@
     </div>
     <div class='row'>
         <div class='col-md-3'>
-            <BsCollapse @collapsed={{this.navCollapsed}} local-class="SideNav">
+            <BsCollapse @collapsed={{this.navCollapsed}} local-class='SideNav'>
                 <div class='panel panel-default'>
-                    <BsNav @type="pills" @stacked={{true}} as |nav|>
+                    <BsNav @type='pills' @stacked={{true}} as |nav|>
                         <nav.item>
                             {{#nav.link-to 'settings.profile'
                                 click=(action 'click' 'link' 'Settings' target=this.analytics)
                             }}
                                 {{t 'settings.profile.title'}}
                             {{/nav.link-to}}
-                            <BsNav @type="pills" local-class="ProfileNav" @stacked={{true}} as |profileNav|>
+                            <BsNav @type='pills' local-class='ProfileNav' @stacked={{true}} as |profileNav|>
                                 <profileNav.item>
                                     {{#profileNav.link-to 'settings.profile.name'
                                         click=(action 'click' 'link' 'Settings - Profile - Name' target=this.analytics)

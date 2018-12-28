@@ -8,23 +8,23 @@
 >
     <modal.body>
         {{#if this.isActive}}
-            <div class="text-center">
-                <h2 local-class="Modal__title">{{ t 'feedback.title' }}</h2>
-                <h4 local-class="Modal__text">{{@text}}</h4>
+            <div class='text-center'>
+                <h2 local-class='Modal__title'>{{ t 'feedback.title' }}</h2>
+                <h4 local-class='Modal__text'>{{@text}}</h4>
             </div>
-            <div class="form-group">
+            <div class='form-group'>
                 {{textarea
-                    class="form-control"
+                    class='form-control'
                     rows=this.dialogRows
-                    autofocus="true"
+                    autofocus='true'
                     placeholder=(t 'feedback.placeholder')
                     value=this.body
                 }}
             </div>
             {{#if this.currentUser.currentUserId}}
-                <div class="checkbox">
+                <div class='checkbox'>
                     <label>
-                        {{input type="checkbox" checked=this.followup}}
+                        {{input type='checkbox' checked=this.followup}}
                         {{t 'feedback.follow_up_label'}}
                     </label>
                 </div>
@@ -32,7 +32,7 @@
         {{/if}}
         {{#if this.isSuccessful}}
             <SuccessIcon/>
-            <div class="text-center">
+            <div class='text-center'>
                 <h2>{{t 'feedback.thank_you'}}</h2>
                 <h3>{{t 'feedback.success'}}</h3>
             </div>
@@ -46,7 +46,7 @@
                 {{t 'general.cancel'}}
             </OsfButton>
             <OsfButton
-                @type="success"
+                @type='success'
                 @onClick={{action modal.submit}}
             >
                 {{t 'feedback.confirm_button_text'}}
@@ -54,7 +54,7 @@
         {{/if}}
         {{#if this.isSuccessful}}
             <OsfButton
-                @type="primary"
+                @type='primary'
                 @onClick={{action modal.close}}
             >
                 {{t 'feedback.dismiss'}}
@@ -64,8 +64,8 @@
 </BsModal>
 
 <button 
-    local-class="FeedbackButton
-    {{if this.isOpen 'FeedbackButton--open'}}"
+    local-class='FeedbackButton
+    {{if this.isOpen 'FeedbackButton--open'}}'
     onclick={{action 'showDialog'}}
     aria-label={{t 'feedback.title'}}
     hidden={{not this.enabled}}

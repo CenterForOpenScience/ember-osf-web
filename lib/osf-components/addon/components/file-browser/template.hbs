@@ -1,40 +1,40 @@
-<div class="row" local-class="actions-header">
+<div class='row' local-class='actions-header'>
     {{#if this.showFilter}}
-        <div class="col-xs-9 filter-input">
+        <div class='col-xs-9 filter-input'>
             {{input
                 (html-attributes aria-label=(t 'file_browser.filtering'))
                 placeholder=(t 'file_browser.filtering')
-                class="form-control"
+                class='form-control'
                 keyUp=(action @updateFilter value='target.value')
             }}
         </div>
-        <div class="col-xs-3">
-            <button data-test-close-filter {{action 'closeFilter'}} class="btn pull-right" local-class="action-button" aria-label={{t 'general.close'}}>
-                {{fa-icon "times"}}
+        <div class='col-xs-3'>
+            <button data-test-close-filter {{action 'closeFilter'}} class='btn pull-right' local-class='action-button' aria-label={{t 'general.close'}}>
+                {{fa-icon 'times'}}
             </button>
         </div>
     {{else if this.showRename}}
-        <div class="col-xs-9 filter-input">
+        <div class='col-xs-9 filter-input'>
             {{input
                 placeholder=this.selectedItems.firstObject.itemName
-                class="form-control"
+                class='form-control'
                 value=this.renameValue
                 enter=(action 'rename' value='target.value')
             }}
         </div>
-        <div class="col-xs-3">
-            <button data-test-close-rename {{action 'closeRename'}} class="btn pull-right" local-class="action-button">
-                {{fa-icon "times"}}
+        <div class='col-xs-3'>
+            <button data-test-close-rename {{action 'closeRename'}} class='btn pull-right' local-class='action-button'>
+                {{fa-icon 'times'}}
             </button>
-            <button data-test-save-rename {{action 'rename'}} class="btn pull-right" local-class="action-button">
-                {{fa-icon "pencil"}}
+            <button data-test-save-rename {{action 'rename'}} class='btn pull-right' local-class='action-button'>
+                {{fa-icon 'pencil'}}
             </button>
         </div>
     {{else}}
-        <div class="pull-right">
+        <div class='pull-right'>
             {{#if this.canEdit}}
-                <button class="btn btn-light dz-upload-button" local-class="action-button" disabled={{this.isUploading}}>
-                    {{fa-icon "upload"}}
+                <button class='btn btn-light dz-upload-button' local-class='action-button' disabled={{this.isUploading}}>
+                    {{fa-icon 'upload'}}
                     {{t 'general.upload'}}
                 </button>
             {{/if}}
@@ -43,15 +43,15 @@
                 {{#if (eq this.selectedItems.length 1)}}
                     <button 
                         data-test-share-dialog-button 
-                        id="shareButton" 
-                        class="btn btn-light popover-toggler" 
-                        local-class="action-button" 
+                        id='shareButton' 
+                        class='btn btn-light popover-toggler' 
+                        local-class='action-button' 
                         {{action 'copyLink'}}
                     >
                         {{fa-icon 'share-alt'}}
                         {{t 'general.share'}}
                         <BsPopover
-                            @placement="bottom"
+                            @placement='bottom'
                             @title={{t 'general.share'}}
                             @visible={{this.popupOpen}}
                         >
@@ -70,33 +70,33 @@
                         data-test-download-button
                         onclick={{unless this.canEdit (action 'click' 'button' 'Quick Files - Download' target=this.analytics)}}
                         {{action 'downloadItem'}}
-                        class="btn btn-light" local-class="action-button"
+                        class='btn btn-light' local-class='action-button'
                     >
-                        {{fa-icon "download"}}
+                        {{fa-icon 'download'}}
                         {{t 'general.download'}}
                     </button>
-                    <button data-test-view-button {{action 'viewItem'}} class="btn btn-light" local-class="action-button">
-                        {{fa-icon "file-o"}}
+                    <button data-test-view-button {{action 'viewItem'}} class='btn btn-light' local-class='action-button'>
+                        {{fa-icon 'file-o'}}
                         {{t 'general.view'}}
                     </button>
                     {{#if this.canEdit}}
-                        <button data-test-move-button {{action (mut this.currentModal) 'move'}} class="btn btn-light" local-class="action-button">
-                            {{fa-icon "level-up"}}
+                        <button data-test-move-button {{action (mut this.currentModal) 'move'}} class='btn btn-light' local-class='action-button'>
+                            {{fa-icon 'level-up'}}
                             {{t 'general.move'}}
                         </button>
-                        <button data-test-delete-button {{action (mut this.currentModal) 'delete'}} class="btn btn-light" local-class="action-button">
-                            {{fa-icon "trash"}}
+                        <button data-test-delete-button {{action (mut this.currentModal) 'delete'}} class='btn btn-light' local-class='action-button'>
+                            {{fa-icon 'trash'}}
                             {{t 'general.delete'}}
                         </button>
-                        <button data-test-rename-button {{action (mut this.showRename) true}} class="btn btn-light" local-class="action-button">
-                            {{fa-icon "pencil"}}
+                        <button data-test-rename-button {{action (mut this.showRename) true}} class='btn btn-light' local-class='action-button'>
+                            {{fa-icon 'pencil'}}
                             {{t 'general.rename'}}
                         </button>
                     {{/if}}
                 {{else}}
                     {{#if this.canEdit}}
-                        <button data-test-delete-multiple-button {{action (mut this.currentModal) 'deleteMultiple'}} class="btn btn-light" local-class="action-button">
-                            {{fa-icon "trash"}}
+                        <button data-test-delete-multiple-button {{action (mut this.currentModal) 'deleteMultiple'}} class='btn btn-light' local-class='action-button'>
+                            {{fa-icon 'trash'}}
                             {{t 'file_browser.delete_multiple'}}
                         </button>
                     {{/if}}
@@ -104,58 +104,58 @@
             {{else if this.hasItems}}
                 <button 
                     data-test-download-zip-button
-                    class="btn btn-light" 
-                    local-class="action-button" 
+                    class='btn btn-light' 
+                    local-class='action-button' 
                     onclick={{unless this.canEdit (action 'click' 'button' 'Quick Files - Download zip' target=this.analytics preventDefault=false)}} 
                     {{action 'downloadZip'}}
                 >
-                    {{fa-icon "download"}} {{t 'file_browser.download_zip'}}
+                    {{fa-icon 'download'}} {{t 'file_browser.download_zip'}}
                 </button>
             {{/if}}
             {{#if this.hasItems}}
-                <button data-test-filter-button {{action (mut this.showFilterClicked) true}} class="btn btn-light" local-class="action-button">
-                    {{fa-icon "search"}}
+                <button data-test-filter-button {{action (mut this.showFilterClicked) true}} class='btn btn-light' local-class='action-button'>
+                    {{fa-icon 'search'}}
                     {{t 'general.filter'}}
                 </button>
             {{/if}}
-            <button data-test-info-button {{action (mut this.currentModal) 'info'}} class="btn btn-light" local-class="action-button">
-                {{fa-icon "info"}}
+            <button data-test-info-button {{action (mut this.currentModal) 'info'}} class='btn btn-light' local-class='action-button'>
+                {{fa-icon 'info'}}
                 {{t 'general.help'}}
             </button>
         </div>
     {{/if}}
 </div>
-<div local-class="column-labels column-labels-header">
-    <div class="col-lg-7 col-md-9 col-sm-9 col-xs-12" local-class="file-browser-header header">
-        <span local-class="sortable-column">{{t 'general.name'}}</span>
+<div local-class='column-labels column-labels-header'>
+    <div class='col-lg-7 col-md-9 col-sm-9 col-xs-12' local-class='file-browser-header header'>
+        <span local-class='sortable-column'>{{t 'general.name'}}</span>
         {{sort-button sortAction=(action (mut this.sort)) sort=this.sort sortBy='name'}}
     </div>
-    <div class="col-lg-1 col-md-1 hidden-sm hidden-xs" local-class="file-browser-header header">
-        <span local-class="sortable-column">{{t 'general.size'}}</span>
+    <div class='col-lg-1 col-md-1 hidden-sm hidden-xs' local-class='file-browser-header header'>
+        <span local-class='sortable-column'>{{t 'general.size'}}</span>
     </div>
-    <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-browser-header header">
-        <span local-class="sortable-column">{{t 'general.version'}}</span>
+    <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-browser-header header'>
+        <span local-class='sortable-column'>{{t 'general.version'}}</span>
     </div>
-    <div class="col-lg-1 hidden-md hidden-sm hidden-xs" local-class="file-browser-header header">
-        <span local-class="sortable-column">{{t 'general.downloads'}}</span>
+    <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-browser-header header'>
+        <span local-class='sortable-column'>{{t 'general.downloads'}}</span>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs" local-class="file-browser-header header">
-        <span local-class="sortable-column">{{t 'general.modified'}}</span>
+    <div class='col-lg-2 col-md-2 col-sm-3 hidden-xs' local-class='file-browser-header header'>
+        <span local-class='sortable-column'>{{t 'general.modified'}}</span>
         <SortButton 
             @sortAction={{action (mut this.sort)}}
             @sort=this.sort
-            @sortBy="modified"
+            @sortBy='modified'
         />
     </div>
 </div>
 <BsModal
     data-test-info-modal
-    @onHide={{action (mut this.currentModal) ""}}
-    @open={{eq this.currentModal "info"}}
+    @onHide={{action (mut this.currentModal) ''}}
+    @open={{eq this.currentModal 'info'}}
     as |modal|
 >
-    <modal.header @onClose={{action (mut this.currentModal) ""}}>
-        <h3 class="modal-title">{{t 'file_browser.info.title'}}</h3>
+    <modal.header @onClose={{action (mut this.currentModal) ''}}>
+        <h3 class='modal-title'>{{t 'file_browser.info.title'}}</h3>
     </modal.header>
     <modal.body>
         <p>{{t 'file_browser.info.upload'}}</p>
@@ -169,7 +169,7 @@
         <OsfButton
             data-test-close-current-modal
             @onClick={{action (mut this.currentModal) ''}}
-            @type="default"
+            @type='default'
         >
             {{t 'general.close'}}
         </OsfButton>
@@ -177,12 +177,12 @@
 </BsModal>
 <BsModal
     data-test-delete-modal
-    @onHide={{action (mut this.currentModal) ""}}
-    @open={{eq this.currentModal "delete"}}
+    @onHide={{action (mut this.currentModal) ''}}
+    @open={{eq this.currentModal 'delete'}}
     as |modal|
 >
-    <modal.header @onClose={{action (mut this.currentModal) ""}}>
-        <h3 class="modal-title break-word">
+    <modal.header @onClose={{action (mut this.currentModal) ''}}>
+        <h3 class='modal-title break-word'>
             {{t 'file_browser.delete_modal.title' filename=this.selectedItems.firstObject.itemName}}
         </h3>
     </modal.header>
@@ -192,13 +192,13 @@
     <modal.footer>
         <OsfButton
             @onClick={{action (mut this.currentModal) ''}}
-            @type="default"
+            @type='default'
         >
             {{t 'general.cancel'}}
         </OsfButton>
         <OsfButton 
             @onClick={{action this.deleteItems}}
-            @type="danger"
+            @type='danger'
         >
             {{t 'general.delete'}}
         </OsfButton>
@@ -206,48 +206,48 @@
 </BsModal>
 <BsModal
     data-test-delete-multiple-modal
-    @onHide={{action (mut this.currentModal) ""}}
+    @onHide={{action (mut this.currentModal) ''}}
     @open={{eq this.currentModal 'deleteMultiple'}}
     as |modal|
 >
-    <modal.header @onClose={{action (mut this.currentModal) ""}}>
-        <h3 class="modal-title break-word">{{t 'file_browser.delete_modal.title_multiple'}}</h3>
+    <modal.header @onClose={{action (mut this.currentModal) ''}}>
+        <h3 class='modal-title break-word'>{{t 'file_browser.delete_modal.title_multiple'}}</h3>
     </modal.header>
     <modal.body>
         <p>{{t 'file_browser.delete_modal.body'}}</p>
         {{#each this.selectedItems as | item |}}
             <div class='break-word'>
                 <b>{{item.itemName}}</b>
-                <hr style="margin-top: 5px">
+                <hr style='margin-top: 5px'>
             </div>
         {{/each}}
     </modal.body>
     <modal.footer>
-        <OsfButton @onClick={{action (mut this.currentModal) ""}} @type="default">{{t 'general.cancel'}}</OsfButton>
-        <OsfButton @onClick={{action this.deleteItems true}} @type="danger">{{t 'general.delete'}}</OsfButton>
+        <OsfButton @onClick={{action (mut this.currentModal) ''}} @type='default'>{{t 'general.cancel'}}</OsfButton>
+        <OsfButton @onClick={{action 'deleteItems' true}} @type='danger'>{{t 'general.delete'}}</OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
     data-test-rename-conflict-modal
-    @onHide={{action (mut this.currentModal) ""}}
+    @onHide={{action (mut this.currentModal) ''}}
     @open={{eq this.currentModal 'renameConflict'}}
     as |modal|
 >
-    <modal.header @onClose={{action (mut this.currentModal) ""}}>
-        <h3 class="modal-title break-word">{{t 'file_browser.conflict_modal.title'}}</h3>
+    <modal.header @onClose={{action (mut this.currentModal) ''}}>
+        <h3 class='modal-title break-word'>{{t 'file_browser.conflict_modal.title'}}</h3>
     </modal.header>
     <modal.body>
         <p>{{t 'file_browser.conflict_modal.keep_info'}}</p>
         <p>{{t 'file_browser.conflict_modal.replace_info'}}</p>
     </modal.body>
     <modal.footer>
-        <OsfButton @onClick={{action (mut this.currentModal) ""}} @type="default">
+        <OsfButton @onClick={{action (mut this.currentModal) ''}} @type='default'>
             {{t 'general.cancel'}}
         </OsfButton>
-        <OsfButton @onClick={{action this.renameConflict 'keep'}} @type="primary">
+        <OsfButton @onClick={{action this.renameConflict 'keep'}} @type='primary'>
             {{t 'file_browser.conflict_modal.keep_button'}}
         </OsfButton>
-        <OsfButton @onClick={{action this.renameConflict 'replace'}} type="primary">
+        <OsfButton @onClick={{action this.renameConflict 'replace'}} type='primary'>
             {{t 'file_browser.conflict_modal.replace_button'}}
         </OsfButton>
     </modal.footer>
@@ -256,11 +256,11 @@
     data-test-move-to-project-modal
     @onHide={{action this.closeMoveToProjectModal}}
     @open={{eq this.currentModal 'move'}}
-    @class="moveQuickfileModal"
+    @class='moveQuickfileModal'
     as |modal|
 >
     <modal.header @onClose={{action this.closeMoveToProjectModal}}>
-        <h3 class="modal-title break-word">{{t 'file_browser.move_modal.title'}}</h3>
+        <h3 class='modal-title break-word'>{{t 'file_browser.move_modal.title'}}</h3>
     </modal.header>
     <modal.body>
         <ProjectSelector
@@ -276,7 +276,7 @@
             data-test-move-to-project-modal-close-button
             @disabled={{this.isMoving}}
             @onClick={{action this.closeMoveToProjectModal}}
-            @type="default"
+            @type='default'
         >
             {{t 'general.cancel'}}
         </OsfButton>
@@ -284,8 +284,8 @@
             <OsfButton
                 data-test-move-to-project-modal-back-button
                 @disabled={{this.isMoving}}
-                @onClick={{action (mut this.projectSelectState) "main"}}
-                @type="default"
+                @onClick={{action (mut this.projectSelectState) 'main'}}
+                @type='default'
             >
                 {{t 'general.back'}}
             </OsfButton>
@@ -293,7 +293,7 @@
                 data-test-move-to-project-modal-perform-button
                 @disabled={{or (not this.isProjectSelectorValid) this.isMoving}}
                 @onClick={{action (perform this.moveToProject)}}
-                @type="primary"
+                @type='primary'
             >
                 {{t 'file_browser.move_modal.move_button'}}
             </OsfButton>
@@ -303,15 +303,15 @@
 {{#if (eq this.currentModal 'moveToNew')}}
     <NewProjectModal
         @afterProjectCreated={{action this.projectCreated}}
-        @closeModal={{action (mut this.currentModal) ""}}
-        @page="Quick Files"
+        @closeModal={{action (mut this.currentModal) ''}}
+        @page='Quick Files'
         @isPublic={{true}}
     />
 {{else if (eq this.currentModal 'successMove')}}
     <NewProjectNavigationModal
         @node={{this.node}}
-        @closeModal={{action (mut this.currentModal) ""}}
-        @title={{t "move_to_project.file_successfully_moved"}}
+        @closeModal={{action (mut this.currentModal) ''}}
+        @title={{t 'move_to_project.file_successfully_moved'}}
         @afterStay={{action this.afterStay}}
     />
 {{/if}}
@@ -328,37 +328,37 @@
     @drop={{action (mut this.dropping) false}}
     @dragleave={{action (mut this.dropping) false}}
     @enable={{this.dropzone}}
-    local-class="dropzone-area"
+    local-class='dropzone-area'
     @id={{@dropZoneId}}
     @clickable={{this.clickable}}
 >
-    <div class="file-browser-list" local-class="file-browser-list">
-        <div local-class="shade {{if (not this.dropping) 'transparent'}}">
-            <div local-class="upload-drop">
-                <div local-class="upload-text">{{fa-icon 'upload' size=5}}</div>
-                <div local-class="upload-text">{{t 'file_browser.drop_reminder'}}</div>
+    <div class='file-browser-list' local-class='file-browser-list'>
+        <div local-class='shade {{if (not this.dropping) 'transparent'}}'>
+            <div local-class='upload-drop'>
+                <div local-class='upload-text'>{{fa-icon 'upload' size=5}}</div>
+                <div local-class='upload-text'>{{t 'file_browser.drop_reminder'}}</div>
             </div>
         </div>
         {{#if this.loading}}
             <br>
             <br>
-            <div class="ball-scale ball-dark" style="text-align: center">
+            <div class='ball-scale ball-dark' style='text-align: center'>
                 <div></div>
             </div>
         {{else if this.showItems}}
-            <div local-class="items">
+            <div local-class='items'>
                 {{#each this.uploading as |file|}}
-                    <div class="row" local-class="file-row-item">
-                        <div class="col-xs-5" local-class="file-browser-header file-row-col">
+                    <div class='row' local-class='file-row-item'>
+                        <div class='col-xs-5' local-class='file-browser-header file-row-col'>
                             {{file-icon item=file}}
-                            <span local-class="upload-file-header">{{file.name}}</span>
+                            <span local-class='upload-file-header'>{{file.name}}</span>
                         </div>
-                        <div class="col-xs-5">
-                            <div class="progress">
-                                <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
+                        <div class='col-xs-5'>
+                            <div class='progress'>
+                                <div id='uploading-{{file.size}}' class='progress-bar' role='progressbar'></div>
                             </div>
                         </div>
-                        <div class="col-xs-2" local-class="file-browser-header"></div>
+                        <div class='col-xs-2' local-class='file-browser-header'></div>
                     </div>
                 {{/each}}
                 {{#each this.items as |item|}}
@@ -371,14 +371,14 @@
                 {{/each}}
             </div>
         {{else}}
-            <div local-class="file-placeholder">
+            <div local-class='file-placeholder'>
                 {{#if this.canEdit}}
-                    <div local-class="file-placeholder-content">
+                    <div local-class='file-placeholder-content'>
                         <div>{{fa-icon 'upload' size=5}}</div>
-                        <div local-class="file-placeholder-text">{{t 'file_browser.drop_placeholder'}}</div>
+                        <div local-class='file-placeholder-text'>{{t 'file_browser.drop_placeholder'}}</div>
                     </div>
                 {{else}}
-                    <div local-class="file-placeholder-text file-placeholder-content">{{t 'file_browser.no_files'}}</div>
+                    <div local-class='file-placeholder-text file-placeholder-content'>{{t 'file_browser.no_files'}}</div>
                 {{/if}}
             </div>
         {{/if}}
