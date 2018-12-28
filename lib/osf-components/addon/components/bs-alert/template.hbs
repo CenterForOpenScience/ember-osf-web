@@ -1,8 +1,12 @@
 {{#unless this.hidden}}
     {{#if this.dismissible}}
-        <button class='close' aria-label={{t 'general.close'}} {{action 'dismiss'}}>
+        <OsfButton
+            @class='close'
+            aria-label={{t 'general.close'}}
+            @onClick={{action this.dismiss}}
+        >
             <span aria-hidden='true'>{{fa-icon 'times'}}</span>
-        </button>
+        </OsfButton>
     {{/if}}
     {{yield}}
 {{/unless}}

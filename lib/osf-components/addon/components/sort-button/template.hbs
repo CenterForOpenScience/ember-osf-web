@@ -1,18 +1,18 @@
-<button
-    onclick={{action @sortAction this.sortBy}}
-    title={{t 'general.sort_asc'}}
-    id='{{concat this.sortBy 'AscendingSort'}}'
-    local-class='{{if (eq @sort this.sortBy) 'selected' 'not-selected'}}'
-    {{action 'click' 'button' 'Sort - sort_asc' target=this.analytics}}
+<OsfButton
+    data-test-ascending-sort={{this.sortBy}}
+    local-class={{if (eq @sort this.sortBy) 'selected' 'not-selected'}}
+    @onClick={{action @sortAction this.sortBy}}
+    @title={{t 'general.sort_asc'}}
+    {{!-- {{action 'click' 'button' 'Sort - sort_asc' target=this.analytics}} --}}
 >
     {{fa-icon 'angle-up'}}
-</button>
-<button
-    onclick={{action @sortAction this.sortByDesc}}
-    title={{t 'general.sort_desc'}}
-    id={{concat this.sortBy 'DescendingSort'}}
-    local-class='{{if (eq @sort this.sortByDesc) 'selected' 'not-selected'}}'
-    {{action 'click' 'button' 'Sort - sort_desc' target=this.analytics}}
+</OsfButton>
+<OsfButton
+    data-test-descending-sort={{this.sortBy}}
+    local-class={{if (eq @sort this.sortByDesc) 'selected' 'not-selected'}}
+    @onClick={{action @sortAction this.sortByDesc}}
+    @title={{t 'general.sort_desc'}}
+    {{!-- {{action 'click' 'button' 'Sort - sort_desc' target=this.analytics}} --}}
 >
     {{fa-icon 'angle-down'}}
-</button>
+</OsfButton>

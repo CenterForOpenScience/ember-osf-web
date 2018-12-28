@@ -63,13 +63,12 @@
     </modal.footer>
 </BsModal>
 
-<button 
-    local-class='FeedbackButton
-    {{if this.isOpen 'FeedbackButton--open'}}'
-    onclick={{action 'showDialog'}}
+<OsfButton 
+    local-class='FeedbackButton {{if this.isOpen 'FeedbackButton--open'}}'
     aria-label={{t 'feedback.title'}}
-    hidden={{not this.enabled}}
-    {{action 'click' 'button' 'Feedback - open' target=this.analytics}}
+    @type='success'
+    @onClick={{action this.showDialog}}
+    @hidden={{not this.enabled}}
 >
     {{t 'feedback.button_text'}}
-</button>
+</OsfButton>

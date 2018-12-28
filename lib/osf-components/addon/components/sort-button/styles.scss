@@ -16,9 +16,10 @@
 }
 
 .selected {
-    color: $color-text-black;
+    color: $color-text-blue-light !important;
 }
 
 .not-selected {
-    color: $color-text-blue-dark;
+    color: $color-text-gray-dark !important;
 }
+

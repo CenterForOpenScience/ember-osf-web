@@ -2,10 +2,9 @@
 {{#if this.goodbye}}
     <BsAlert
         data-test-goodbye-banner
+        local-class='goodbye'
         @type='success'
         @classNames='text-center'
-        local-class='goodbye'
-        @onDismiss={{action 'click' 'button' 'Home - dismiss_alert' target=this.analytics}}
     >
         <p>{{t 'home.alert_logged_out'}}</p>
     </BsAlert>

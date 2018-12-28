@@ -121,20 +121,20 @@
         </div>
     </modal.body>
     <modal.footer>
-        <button
+        <OsfButton
             data-test-create-project-cancel
-            onclick={{action modal.close}}
-            class='btn btn-default'
-            {{action 'click' 'button' (concat this.analyticsContext ' - New Project - cancel') target=this.analytics}}
+            @onClick={{action modal.close}}
+            {{!-- {{action 'click' 'button' (concat this.analyticsContext ' - New Project - cancel') target=this.analytics}} --}}
         >
             {{t 'general.cancel'}}
-        </button>
-        <button
+        </OsfButton>
+        <OsfButton
             data-test-create-project-submit
-            onclick={{action this.create}}
-            class='btn btn-success {{unless this.nodeTitle.length 'disabled'}}'
+            @onClick={{action this.create}}
+            @type='success'
+            @disabled={{unless this.nodeTitle.length true}}
         >
             {{t 'general.create'}}
-        </button>
+        </OsfButton>
     </modal.footer>
 </BsModal>

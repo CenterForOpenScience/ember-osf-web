@@ -8,16 +8,24 @@
             }}
         </div>
         <div class='col-xs-3'>
-            <button onclick={{action this.closeFilter}} class='btn pull-right' local-class='action-button'>
+            <OsfButton
+                local-class='action-button'
+                aria-label={{t 'general.close'}}
+                @class='pull-right'
+                @onClick={{action this.closeFilter}}
+            >
                 {{fa-icon 'times'}}
-            </button>
+            </OsfButton>
         </div>
     {{else}}
         <div class='pull-right'>
-            <button onclick={{action (mut this.showFilterClicked) true}} class='btn btn-light' local-class='action-button'>
+            <OsfButton
+                local-class='action-button'
+                @onClick={{action (mut this.showFilterClicked) true}}
+            >
                 {{fa-icon 'search'}}
                 {{t 'general.filter'}}
-            </button>
+            </OsfButton>
         </div>
     {{/if}}
 </div>

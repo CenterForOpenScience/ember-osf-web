@@ -117,6 +117,7 @@ export default class Dashboard extends Controller {
     @action
     more(this: Dashboard) {
         this.get('findNodes').perform(true);
+        this.analytics.click('button', 'Dashboard - load_nodes');
     }
 
     @action
@@ -128,6 +129,7 @@ export default class Dashboard extends Controller {
     @action
     openModal(this: Dashboard) {
         this.set('modalOpen', true);
+        this.analytics.click('button', 'Dashboard - create_new_project');
     }
 
     @action

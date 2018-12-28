@@ -1,4 +1,10 @@
-<button data-test-share-button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
+<OsfButton
+    data-test-share-button
+    @class='popover-toggler'
+    @size='sm'
+    @type='default'
+    @onClick={{action this.togglePopup}}
+>
     {{t 'general.share'}}
     <BsPopover
         @placement='bottom'
@@ -117,4 +123,4 @@
             </BsTab>
         </ClickOutside>
     </BsPopover>
-</button>
+</OsfButton>

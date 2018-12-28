@@ -8,14 +8,13 @@
         as |modal|
     >
         <modal.body>
-            <button
+            <OsfButton
                 aria-label={{t 'general.close'}}
-                class='close'
-                onclick={{action (mut this.newModal) false}}
-                {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=this.analytics}}
+                @class='close'
+                @onClick={{action this.closeNewModal}}
             >
                 {{fa-icon 'times' size='sm'}}
-            </button>
+            </OsfButton>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
         </modal.body>
         <modal.footer>

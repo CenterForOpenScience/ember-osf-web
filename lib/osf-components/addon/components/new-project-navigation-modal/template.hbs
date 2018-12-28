@@ -1,28 +1,26 @@
 <BsModal @onHidden={{this.closeModal}} as |modal|>
     <modal.body>
-        <button
+        <OsfButton
             data-test-close-with-x
             aria-label={{t 'general.close'}}
-            class='close'
-            onclick={{action this.closeModal reload=true}}
+            @class='close'
+            @onClick={{action this.closeModal reload=true}}
         >
             {{fa-icon 'times' size='sm'}}
-        </button>
+        </OsfButton>
         <h4 class='add-project-success text-success'>
             {{this.title}}
         </h4>
     </modal.body>
     <modal.footer>
-        <button
+        <OsfButton
             data-test-stay-here
-            onclick={{action this.stayHere reload=true}}
-            class='btn btn-default'
+            @onClick={{action this.stayHere reload=true}}
         >
             {{t 'new_project.stay_here'}}
-        </button>
+        </OsfButton>
         <a
             data-test-go-to-new
-            role='button'
             href='{{@node.links.html}}'
             class='btn btn-success'
             onclick={{action 'click' 'link' (concat @page ' - New Project - go_to_new_project') target=this.analytics}}

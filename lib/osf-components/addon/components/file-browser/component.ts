@@ -346,11 +346,17 @@ export default class FileBrowser extends Component {
     @action
     downloadItem() {
         window.location.href = (this.selectedItems.get('firstObject') as File).links.download;
+        if (!this.canEdit) {
+            this.analytics.click('button', 'Quick Files - Download');
+        }
     }
 
     @action
     downloadZip() {
         window.location.href = this.downloadUrl;
+        if (!this.canEdit) {
+            this.analytics.click('button', 'Quick Files - Download zip');
+        }
     }
 
     @action

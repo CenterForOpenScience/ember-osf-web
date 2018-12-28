@@ -78,14 +78,14 @@
             {{! template-lint-enable no-implicit-this }}
         </div>
         <div>
-            <button data-test-sign-up-button
-                type='submit'
-                class='btn btn-success'
-                {{action this.submit}}
-                {{action 'click' 'button' 'Home - sign_up' target=this.analytics}}
+            <OsfButton
+                data-test-sign-up-button
+                @buttonType='submit'
+                @type='success'
+                @onClick={{action this.submit}}
             >
                 {{t 'osf-components.sign-up-form.sign_up_button_label'}}
-            </button>
+            </OsfButton>
         </div>
     {{/if}}
 </form>

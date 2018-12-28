@@ -55,6 +55,12 @@ export default class GuidNodeForks extends Controller {
     }
 
     @action
+    closeNewModal() {
+        this.set('newModal', false);
+        this.analytics.click('button', 'Dashboard - New Project - close_modal');
+    }
+
+    @action
     newFork(this: GuidNodeForks) {
         this.analytics.click('button', 'Project Forks - Create Fork');
         this.set('newModal', false);
