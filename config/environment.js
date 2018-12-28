@@ -23,6 +23,7 @@ const {
     REGISTRIES_ENABLED = false,
     HANDBOOK_ENABLED = false,
     HANDBOOK_DOC_GENERATION_ENABLED = false,
+    TESTS_ENABLED = false,
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
@@ -62,6 +63,7 @@ module.exports = function(environment) {
         modulePrefix: 'ember-osf-web',
         environment,
         lintOnBuild,
+        testsEnabled: false, // Disable tests by default.
         sourcemapsEnabled,
         rootURL,
         assetsPrefix,
@@ -291,6 +293,8 @@ module.exports = function(environment) {
                     turnAuditOff: !isTruthy(A11Y_AUDIT),
                 },
             },
+            // Conditionally enable tests in development environment.
+            testsEnabled: isTruthy(TESTS_ENABLED),
         });
     }
 
@@ -300,6 +304,8 @@ module.exports = function(environment) {
             locationType: 'none',
             // Test environment needs to find assets in the "regular" location.
             assetsPrefix: '/',
+            // Always enable tests in test environment.
+            testsEnabled: true,
             // Always enable mirage for tests.
             'ember-cli-mirage': {
                 enabled: true,
