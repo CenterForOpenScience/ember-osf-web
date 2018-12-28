@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Addons:
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
     - `loaders-css` - For animated loading indicators
+    - `sass` - Dart sass instead of `node-sass`
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
     - `settings.account.-components.security` - Two-factor authentication panel.
@@ -46,6 +47,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Addons:
     - `ember-cli-mirage@0.4.10`
     - `ember-code-snippet@2.3.1`
+    - `ember-qunit@3.4.4`
+    - `ember-cli-qunit@4.4.0`
+    - `ember-cli-sass@8.0.1`
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
     - `validated-model-form` - Add an optional hook for onWillDestroy
