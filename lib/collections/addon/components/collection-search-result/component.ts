@@ -57,7 +57,12 @@ export default class CollectionSearchResult extends Component {
     }
 
     @action
-    addFilter(facet: string, item: string): void {
+    addTaxonomyFilter(subject: DisplaySubject) {
+        this.facetContexts.findBy('component', 'taxonomy')!.updateFilters(subject.path);
+    }
+
+    @action
+    addChoiceFilter(facet: string, item: string) {
         this.facetContexts.findBy('component', facet)!.updateFilters(item);
     }
 

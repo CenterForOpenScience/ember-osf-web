@@ -26,6 +26,12 @@ This thing you're reading right now? It's the handbook. If you'd like to be able
 
 [Mirage](http://www.ember-cli-mirage.com) is a client-side API server that we use to mock the OSF API during automated testing. It can also be used for local development. Setting this to true will allow you to run the OSF front-end without having to run the OSF API back-end.
 
+#### TESTS_ENABLED
+* **Type**: _boolean_
+* **Default**: false
+
+This controls whether tests are included in `development` builds. Set this to `true` if you wish to run tests by accessing `/tests` when you `ember serve`.
+
 #### A11Y_AUDIT
 * **Type**: _boolean_
 * **Default**: true (well, in develop mode)
@@ -36,4 +42,4 @@ This thing you're reading right now? It's the handbook. If you'd like to be able
 #### NEW_AND_NOTEWORTHY_LINKS_NODE
 * **Type**: _string_
 
-If you're doing local development with the OSF API running and want to see the New and Noteworthy and Popular sections of the Dashboard page filled out, then set each of these to the guid of a node in your local database that has links to other nodes. If you are not using a local OSF instance but are instead using Mirage, then you don't have to override these at all. 
+If you're doing local development with the OSF API running and want to see the New and Noteworthy and Popular sections of the Dashboard page filled out, then set each of these to the guid of a node in your local database that has links to other nodes. If you are not using a local OSF instance but are instead using Mirage, then you don't have to override these at all.
