@@ -1,15 +1,19 @@
 import DS from 'ember-data';
 
+import { SingleResourceDocument } from 'osf-api';
+
+import BannerModel from 'ember-osf-web/models/banner';
+
 import OsfSerializer from './osf-serializer';
 
 export default class BannerSerializer extends OsfSerializer {
     normalizeSingleResponse(
         store: DS.Store,
-        primaryModelClass: any,
-        payload: any,
+        primaryModelClass: BannerModel,
+        payload: SingleResourceDocument,
         id: string,
         requestType: string,
-    ): any {
+    ) {
         // The banner payload currently has an empty ID
         if (payload.data && payload.data.id === '') {
             payload.data.id = id; // eslint-disable-line no-param-reassign
