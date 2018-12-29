@@ -8,9 +8,12 @@ declare module 'ember-data' {
             buildQuery(snapshot: DS.Snapshot): object;
         }
 
+        interface Adapter {
+            urlPrefix(path?: string, parentURL?: string): string;
+        }
+
         interface Model {
             reload(options?: {}): RSVP.Promise<this>;
         }
     }
-    export default DS;
 }

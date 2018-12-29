@@ -1,9 +1,10 @@
 import OsfAdapter from './osf-adapter';
 
-export default class NodeLink extends OsfAdapter {}
+export default class NodeLinkAdapter extends OsfAdapter {
+}
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'node-link': NodeLink;
+        'node-link': NodeLinkAdapter;
     } // eslint-disable-line semi
 }

@@ -1,16 +1,11 @@
 import { assert } from '@ember/debug';
 import DS from 'ember-data';
+import RSVP from 'rsvp';
+
 import OsfAdapter from 'ember-osf-web/adapters/osf-adapter';
 import param from 'ember-osf-web/utils/param';
 
-export default class CollectedMetadatum extends OsfAdapter.extend({
-    /**
-     * Stub for typing
-     */
-    urlPrefix(...args: any[]): string {
-        return this._super(...args);
-    },
-
+export default class CollectedMetadatumAdapter extends OsfAdapter {
     urlForHybridGuid(id: string): string {
         const splitId = id.split('-');
 
@@ -19,25 +14,25 @@ export default class CollectedMetadatum extends OsfAdapter.extend({
         const [collectionId, collectedMetadatumId] = splitId;
 
         return `${this.urlPrefix()}/collections/${collectionId}/collected_metadata/${collectedMetadatumId}`;
-    },
+    }
 
     urlForCreateRecord(_: 'collected-metadatum', { record }: DS.Snapshot): string {
         return `${this.urlPrefix()}/collections/${record.get('collection.id')}/collected_metadata/`;
-    },
+    }
 
     urlForFindRecord(id: string): string {
         return this.urlForHybridGuid(id);
-    },
+    }
 
     urlForUpdateRecord(id: string): string {
         return this.urlForHybridGuid(id);
-    },
+    }
 
-    urlForQuery(this: CollectedMetadatum): string {
+    urlForQuery(): string {
         return `${this.urlPrefix()}/search/collections/`;
-    },
+    }
 
-    query(_: DS.Store, type: any, query: Record<string, string>): Promise<any> {
+    query(_: DS.Store, type: any, query: Record<string, string>): RSVP.Promise<any> {
         const url = this.buildURL(type.modelName, null, null, 'query', query);
         const { page, sort, ...restQuery } = query;
 
@@ -59,12 +54,11 @@ export default class CollectedMetadatum extends OsfAdapter.extend({
                 type: 'search',
             },
         });
-    },
-}) {
+    }
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'collected-metadatum': CollectedMetadatum;
+        'collected-metadatum': CollectedMetadatumAdapter;
     } // eslint-disable-line semi
 }

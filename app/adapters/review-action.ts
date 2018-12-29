@@ -1,6 +1,6 @@
 import OsfAdapter from './osf-adapter';
 
-export default class ReviewAction extends OsfAdapter {
+export default class ReviewActionAdapter extends OsfAdapter {
     pathForType(_: string): string {
         return 'actions/reviews/';
     }
@@ -8,6 +8,6 @@ export default class ReviewAction extends OsfAdapter {
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'review-action': ReviewAction;
+        'review-action': ReviewActionAdapter;
     } // eslint-disable-line semi
 }

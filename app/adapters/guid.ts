@@ -1,16 +1,18 @@
+import DS from 'ember-data';
+
 import OsfAdapter from './osf-adapter';
 
-export default class Guid extends OsfAdapter.extend({
-    buildQuery(this: Guid, ...args: any[]): object {
+export default class GuidAdapter extends OsfAdapter {
+    buildQuery(snapshot: DS.Snapshot): object {
         return {
-            ...(this._super(...args) || {}),
+            ...(super.buildQuery(snapshot) || {}),
             resolve: false,
         };
-    },
-}) {}
+    }
+}
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        guid: Guid;
+        guid: GuidAdapter;
     } // eslint-disable-line semi
 }

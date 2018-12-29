@@ -1,10 +1,10 @@
 import OsfAdapter from './osf-adapter';
 
-export default class User extends OsfAdapter {
+export default class UserAdapter extends OsfAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        user: User;
+        user: UserAdapter;
     } // eslint-disable-line semi
 }

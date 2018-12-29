@@ -1,6 +1,6 @@
 import OsfAdapter from './osf-adapter';
 
-export default class PreprintProvider extends OsfAdapter {
+export default class PreprintProviderAdapter extends OsfAdapter {
     pathForType(_: string): string {
         return 'providers/preprints';
     }
@@ -8,6 +8,6 @@ export default class PreprintProvider extends OsfAdapter {
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'preprint-provider': PreprintProvider;
+        'preprint-provider': PreprintProviderAdapter;
     } // eslint-disable-line semi
 }

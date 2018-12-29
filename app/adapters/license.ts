@@ -1,9 +1,10 @@
 import OsfAdapter from './osf-adapter';
 
-export default class License extends OsfAdapter {}
+export default class LicenseAdapter extends OsfAdapter {
+}
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        license: License;
+        license: LicenseAdapter;
     } // eslint-disable-line semi
 }

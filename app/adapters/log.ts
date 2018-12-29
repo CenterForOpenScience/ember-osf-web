@@ -1,9 +1,10 @@
 import OsfAdapter from './osf-adapter';
 
-export default class Log extends OsfAdapter {}
+export default class LogAdapter extends OsfAdapter {
+}
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        log: Log;
+        log: LogAdapter;
     } // eslint-disable-line semi
 }

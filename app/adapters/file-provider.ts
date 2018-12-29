@@ -1,6 +1,6 @@
 import OsfAdapter from './osf-adapter';
 
-export default class FileProvider extends OsfAdapter {
+export default class FileProviderAdapter extends OsfAdapter {
     pathForType(_: string): string {
         return 'files';
     }
@@ -8,6 +8,6 @@ export default class FileProvider extends OsfAdapter {
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-      'file-provider': FileProvider;
+      'file-provider': FileProviderAdapter;
     } // eslint-disable-line semi
 }
