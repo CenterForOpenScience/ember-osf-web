@@ -127,8 +127,6 @@ a {
 }
 
 .file-browser-header.header {
-    line-height: 23px;
-    padding: 3px 0 7px 5px;
     font-size: 14px;
     font-weight: 600;
 
@@ -138,10 +136,9 @@ a {
 }
 
 .sortable-column {
-    padding-right: 10px;
     vertical-align: bottom;
-    padding: 2px 0;
     display: table-cell;
+    padding-top: 0.7em;
 }
 
 .file-browser-header.link-column {
