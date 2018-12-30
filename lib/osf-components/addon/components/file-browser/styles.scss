@@ -65,7 +65,7 @@ a {
     font-size: 13px;
     border-radius: 2px;
     margin-top: 4px;
-    border-color: #0000 !important;
+    border-color: #f8f8f8 !important;
 
     &:disabled {
         cursor: not-allowed;
@@ -124,6 +124,7 @@ a {
     text-overflow: ellipsis;
     white-space: nowrap;
     height: 100%;
+    padding-left: 0.5em !important;
 }
 
 .file-browser-header.header {
@@ -136,7 +137,7 @@ a {
 }
 
 .sortable-column {
-    vertical-align: bottom;
+    vertical-align: middle;
     display: table-cell;
     padding-top: 0.7em;
 }
