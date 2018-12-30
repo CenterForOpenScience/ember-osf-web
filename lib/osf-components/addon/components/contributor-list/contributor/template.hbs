@@ -1,5 +1,9 @@
 {{#if (and this.useLink this.contributor.id)~}}
-    <a href='/{{this.contributor.id}}'>{{~this.contributor.title~}}</a>
+    <Link
+        @href='/{{this.contributor.id}}'
+    >
+        {{~this.contributor.title~}}
+    </Link>
 {{~else~}}
     {{~this.contributor.title~}}
 {{/if}}

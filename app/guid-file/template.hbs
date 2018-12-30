@@ -5,7 +5,10 @@
         <div local-class='TitleBar__title'>
             <h2>
                 {{this.model.file.name}}
-                <a local-class='TitleBar__version-link' role='button' onclick={{action 'changeView' 'revision'}}>
+                <a role='button'
+                    local-class='TitleBar__version-link'
+                    {{action 'changeView' 'revision'}}
+                >
                     {{t 'file_detail.version.title' version-number=this.mfrVersion}}
                 </a>
             </h2>

@@ -18,7 +18,12 @@
         {{this.size}}
     </div>
     <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-row-col'>
-        <a local-class='version-link' {{action 'openVersion'}} role='link'>{{this.item.currentVersion}}</a>
+        <Link
+            local-class='version-link'
+            @onclick={{action 'openVersion'}}
+        >
+            {{this.item.currentVersion}}
+        </Link>
     </div>
     <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-row-col'>
         {{this.item.extra.downloads}}

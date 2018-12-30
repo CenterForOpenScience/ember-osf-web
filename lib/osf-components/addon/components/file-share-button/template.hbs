@@ -10,8 +10,7 @@
             <BsTab @customTabs={{true}} as |tab|>
                 <BsNav @class='nav-justified' @type='tabs' as |nav|>
                     <nav.item data-test-share-tab @active={{bs-eq tab.activeId this.sharePaneId}}>
-                        <a 
-                            role='button'
+                        <a role='button'
                             {{action tab.select this.sharePaneId}}
                             local-class='SharePane__tab'
                         >
@@ -19,7 +18,10 @@
                         </a>
                     </nav.item>
                     <nav.item data-test-embed-tab @active={{bs-eq tab.activeId this.embedPaneId}}>
-                        <a role='button' {{action tab.select this.embedPaneId}} local-class='SharePane__tab'>
+                        <a role='button'
+                            local-class='SharePane__tab'
+                            {{action tab.select this.embedPaneId}}
+                        >
                             {{t 'general.embed'}}
                             <span class='badge'>{{@badge}}</span>
                         </a>

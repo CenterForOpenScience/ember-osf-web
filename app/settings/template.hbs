@@ -64,18 +64,20 @@
                             {{/nav.link-to}}
                         </nav.item>
                         <nav.item>
-                            <a href='/settings/addons'
-                               onclick={{action 'click' 'link' 'Settings - Configure add-on accounts' target=this.analytics}}
+                            <Link
+                                @href='/settings/addons'
+                                @onclick={{action 'click' 'link' 'Settings - Configure add-on accounts' target=this.analytics}}
                             >
                                 {{t 'settings.addons.title'}}
-                            </a>
+                            </Link>
                         </nav.item>
                         <nav.item>
-                            <a href='/settings/notifications'
-                               onclick={{action 'click' 'link' 'Settings - Notifications' target=this.analytics}}
+                            <Link 
+                                @href='/settings/notifications'
+                                @onclick={{action 'click' 'link' 'Settings - Notifications' target=this.analytics}}
                             >
                                 {{t 'settings.notifications.title'}}
-                            </a>
+                            </Link>
                         </nav.item>
                         <nav.item>
                             {{#nav.link-to 'settings.developer-apps'

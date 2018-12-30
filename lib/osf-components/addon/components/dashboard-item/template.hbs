@@ -1,5 +1,6 @@
-<a href='{{@node.links.html}}'
-   onclick={{action 'click' 'link' 'Dashboard - visit_node' target=this.analytics}}
+<Link
+    @href='{{@node.links.html}}'
+    @onclick={{action 'click' 'link' 'Dashboard - visit_node' target=this.analytics}}
 >
     <div class='m-v-sm' local-class='DashboardItem'>
         <div class='row'>
@@ -21,4 +22,4 @@
             </div>
         </div>
     </div>
-</a>
+</Link>
