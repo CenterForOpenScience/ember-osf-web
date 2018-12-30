@@ -1,10 +1,11 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
-import Preprint from './preprint';
-import Provider from './provider';
 
-export default class PreprintProvider extends Provider {
+import PreprintModel from './preprint';
+import ProviderModel from './provider';
+
+export default class PreprintProviderModel extends ProviderModel {
     @attr('array') subjectsAcceptable!: string[];
     @attr('array') additionalProviders!: string[];
     @attr('string') shareSource!: string;
@@ -17,7 +18,7 @@ export default class PreprintProvider extends Provider {
     @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous!: boolean | null;
 
     // Relationships
-    @hasMany('preprint', { inverse: 'provider' }) preprints!: DS.PromiseManyArray<Preprint>;
+    @hasMany('preprint', { inverse: 'provider' }) preprints!: DS.PromiseManyArray<PreprintModel>;
 
     @alias('links.relationships.preprints.links.related.meta')
     reviewableStatusCounts!: any;
@@ -28,6 +29,6 @@ export default class PreprintProvider extends Provider {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'preprint-provider': PreprintProvider;
+        'preprint-provider': PreprintProviderModel;
     } // eslint-disable-line semi
 }

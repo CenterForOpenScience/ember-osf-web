@@ -63,8 +63,8 @@ export default class DeveloperAppModel extends OsfModel.extend(Validations) {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'developer-app': DeveloperAppModel;
-    }
+    } // eslint-disable-line semi
 }

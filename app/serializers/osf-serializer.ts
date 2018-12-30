@@ -133,7 +133,7 @@ export default class OsfSerializer extends JSONAPISerializer {
         return underscore(key);
     }
 
-    serialize(snapshot: DS.Snapshot, options: { osf?: OsfSerializerOptions } = {}) {
+    serialize(snapshot: DS.Snapshot, options: { includeId?: boolean, osf?: OsfSerializerOptions } = {}) {
         const serialized = super.serialize(snapshot, options) as SingleResourceDocument;
         serialized.data.type = underscore(serialized.data.type);
 

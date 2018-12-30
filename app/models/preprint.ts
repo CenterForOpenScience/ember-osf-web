@@ -2,6 +2,7 @@ import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
+
 import Contributor from './contributor';
 import File from './file';
 import License from './license';
@@ -11,18 +12,7 @@ import PreprintProvider from './preprint-provider';
 import ReviewAction from './review-action';
 import { SubjectRef } from './taxonomy';
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
-
-/**
- * Model for OSF APIv2 preprints. This model may be used with one of several API endpoints. It may be queried directly,
- *  or accessed via relationship fields.
- *
- * @class Preprint
- */
-export default class Preprint extends OsfModel {
+export default class PreprintModel extends OsfModel {
     @attr('fixstring') title!: string;
     // TODO!: May be a relationship in the future pending APIv2 changes
     @attr('array') subjects!: SubjectRef[][];
@@ -53,20 +43,20 @@ export default class Preprint extends OsfModel {
     @alias('links.preprint_doi') preprintDoiUrl!: string;
 
     @computed('subjects')
-    get uniqueSubjects(this: Preprint): SubjectRef[] {
-        if (!this.get('subjects')) {
+    get uniqueSubjects(): SubjectRef[] {
+        if (!this.subjects) {
             return [];
         }
 
-        return this.get('subjects')
+        return this.subjects
             .reduce((acc, val) => acc.concat(val), [])
             .uniqBy('id');
     }
 
     @computed('license')
-    get licenseText(this: Preprint): string {
+    get licenseText(): string {
         const text: string = this.license.get('text') || '';
-        const { year = '', copyright_holders = [] } = this.get('licenseRecord'); // eslint-disable-line camelcase
+        const { year = '', copyright_holders = [] } = this.licenseRecord; // eslint-disable-line camelcase
 
         return text
             .replace(/({{year}})/g, year)
@@ -76,6 +66,6 @@ export default class Preprint extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        preprint: Preprint;
+        preprint: PreprintModel;
     } // eslint-disable-line semi
 }

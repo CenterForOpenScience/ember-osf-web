@@ -1,4 +1,6 @@
 /* tslint:disable */
+import Ember from 'ember';
+
 declare module 'ember' {
     export namespace Ember {
         interface EngineInstance {
@@ -36,8 +38,6 @@ declare module 'ember' {
 }
 
 declare module '@ember/routing/transition' {
-    import Ember from 'ember';
-
     interface AbstractHandlerInfo {
         isResolved: boolean;
         name: string;

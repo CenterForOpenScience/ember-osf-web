@@ -72,7 +72,7 @@ const Validations = buildValidations({
     debounce: 500,
 });
 
-export default class UserRegistration extends Model.extend(Validations) {
+export default class UserRegistrationModel extends Model.extend(Validations) {
     @attr('string') email1!: string;
     @attr('string') email2!: string;
     @attr('string') fullName!: string;
@@ -94,6 +94,6 @@ export default class UserRegistration extends Model.extend(Validations) {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'user-registration': UserRegistration;
+        'user-registration': UserRegistrationModel;
     } // eslint-disable-line semi
 }

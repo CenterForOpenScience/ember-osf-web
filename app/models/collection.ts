@@ -1,15 +1,16 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import DS from 'ember-data';
-import { choiceFields } from 'ember-osf-web/models/collected-metadatum';
-import CollectionProvider from 'ember-osf-web/models/collection-provider';
-import Node from 'ember-osf-web/models/node';
-import Registration from 'ember-osf-web/models/registration';
+
+import { choiceFields } from './collected-metadatum';
+import CollectionProviderModel from './collection-provider';
+import NodeModel from './node';
 import OsfModel from './osf-model';
+import RegistrationModel from './registration';
 
 export const choicesFields = choiceFields.map(field => `${field}Choices`);
 
-export default class Collection extends OsfModel {
+export default class CollectionModel extends OsfModel {
     @attr('fixstring') title!: string;
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
@@ -23,20 +24,22 @@ export default class Collection extends OsfModel {
     @attr('array') volumeChoices!: string[];
 
     @belongsTo('collection-provider', { inverse: 'collections' })
-    provider!: DS.PromiseObject<CollectionProvider> & CollectionProvider;
+    provider!: DS.PromiseObject<CollectionProviderModel> & CollectionProviderModel;
 
-    @hasMany('node', { inverse: null }) linkedNodes!: DS.PromiseManyArray<Node>;
+    @hasMany('node', { inverse: null })
+    linkedNodes!: DS.PromiseManyArray<NodeModel>;
 
-    @hasMany('registration', { inverse: null }) linkedRegistrations!: DS.PromiseManyArray<Registration>;
+    @hasMany('registration', { inverse: null })
+    linkedRegistrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @computed(`{${choicesFields.join()}}.length`)
-    get displayChoicesFields(): Array<keyof Collection> {
-        return (choicesFields as Array<keyof Collection>).filter(field => !!this[field].length);
+    get displayChoicesFields(): Array<keyof CollectionModel> {
+        return (choicesFields as Array<keyof CollectionModel>).filter(field => !!this[field].length);
     }
 }
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        collection: Collection;
+        collection: CollectionModel;
     } // eslint-disable-line semi
 }

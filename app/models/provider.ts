@@ -1,5 +1,6 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
+
 import License from './license';
 import OsfModel from './osf-model';
 import Taxonomy from './taxonomy';
@@ -20,7 +21,7 @@ export interface Assets {
 
 /* eslint-enable camelcase */
 
-export default abstract class Provider extends OsfModel {
+export default abstract class ProviderModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('fixstring') description!: string;
     @attr('string') advisoryBoard!: string;

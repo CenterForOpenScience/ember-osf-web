@@ -16,11 +16,6 @@ import { Document as ApiResponseDocument, PaginatedMeta, ResourceCollectionDocum
 
 const { Model } = DS;
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
-
 export enum Permission {
     Read = 'read',
     Write = 'write',
@@ -44,12 +39,6 @@ export type ValidatedModelName = {
     [K in keyof ModelRegistry]: ModelRegistry[K] extends (Validations & DS.Model) ? K : never
 }[keyof ModelRegistry];
 
-/**
- * Common properties and behaviors shared by all OSF APIv2 models
- *
- * @class OsfModel
- * @public
- */
 export default class OsfModel extends Model {
     @service store!: DS.Store;
     @service currentUser!: CurrentUser;

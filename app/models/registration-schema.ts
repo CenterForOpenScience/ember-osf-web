@@ -1,10 +1,6 @@
 import { attr } from '@ember-decorators/data';
-import OsfModel from './osf-model';
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
+import OsfModel from './osf-model';
 
 export interface AbstractQuestion {
     type: 'string' | 'multiselect' | 'osf-author-import' | 'osf-upload' | 'choose' | 'object';
@@ -55,13 +51,7 @@ export interface RegistrationMetadata {
     [qid: string]: Answer<string | string[] | boolean | RegistrationMetadata>;
 }
 
-/**
- * Model for OSF APIv2 rgsitration schemas.
- * This model describes registration schemas and can be directly queried.
- *
- * @class RegistrationSchema
- */
-export default class RegistrationSchema extends OsfModel {
+export default class RegistrationSchemaModel extends OsfModel {
     @attr('boolean') active!: boolean;
     @attr('fixstring') name!: string;
     @attr('number') schemaVersion!: number;
@@ -70,6 +60,6 @@ export default class RegistrationSchema extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'registration-schema': RegistrationSchema;
+        'registration-schema': RegistrationSchemaModel;
     } // eslint-disable-line semi
 }

@@ -18,7 +18,8 @@ export default class TokenModel extends OsfModel.extend(Validations) {
     @attr('fixstring') name!: string;
     @attr('fixstring') tokenValue?: string; // Exposed only in response to token creation
 
-    @hasMany('scope') scopes!: string[];
+    @hasMany('scope')
+    scopes!: string[];
 
     // @attr('fixstring') owner!: string; Always the current user
 }
