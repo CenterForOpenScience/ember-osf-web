@@ -1,12 +1,12 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
 
-import Comment from './comment';
-import Contributor from './contributor';
+import CommentModel from './comment';
+import ContributorModel from './contributor';
 import NodeModel from './node';
-import RegistrationSchema, { RegistrationMetadata } from './registration-schema';
-import RegistryProvider from './registry-provider';
-import User from './user';
+import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
+import RegistryProviderModel from './registry-provider';
+import UserModel from './user';
 
 export default class RegistrationModel extends NodeModel.extend() {
     @attr('date') dateRegistered!: Date;
@@ -30,19 +30,19 @@ export default class RegistrationModel extends NodeModel.extend() {
     registeredFrom!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @belongsTo('user', { inverse: null })
-    registeredBy!: DS.PromiseObject<User> & User;
+    registeredBy!: DS.PromiseObject<UserModel> & UserModel;
 
     @belongsTo('registry-provider', { inverse: 'registrations' })
-    provider!: DS.PromiseObject<RegistryProvider> & RegistryProvider;
+    provider!: DS.PromiseObject<RegistryProviderModel> & RegistryProviderModel;
 
     @hasMany('contributor', { inverse: 'node' })
-    contributors!: DS.PromiseManyArray<Contributor>;
+    contributors!: DS.PromiseManyArray<ContributorModel>;
 
     @hasMany('comment', { inverse: 'node' })
-    comments!: DS.PromiseManyArray<Comment>;
+    comments!: DS.PromiseManyArray<CommentModel>;
 
     @belongsTo('registration-schema', { inverse: null })
-    registrationSchema!: DS.PromiseObject<RegistrationSchema> & RegistrationSchema;
+    registrationSchema!: DS.PromiseObject<RegistrationSchemaModel> & RegistrationSchemaModel;
 
     @belongsTo('registration', { inverse: 'children' })
     parent!: DS.PromiseObject<RegistrationModel> & RegistrationModel;

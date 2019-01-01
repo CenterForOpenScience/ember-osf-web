@@ -3,13 +3,13 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
 
-import Contributor from './contributor';
-import File from './file';
-import License from './license';
-import Node from './node';
+import ContributorModel from './contributor';
+import FileModel from './file';
+import LicenseModel from './license';
+import NodeModel from './node';
 import OsfModel from './osf-model';
-import PreprintProvider from './preprint-provider';
-import ReviewAction from './review-action';
+import PreprintProviderModel from './preprint-provider';
+import ReviewActionModel from './review-action';
 import { SubjectRef } from './taxonomy';
 
 export default class PreprintModel extends OsfModel {
@@ -28,16 +28,23 @@ export default class PreprintModel extends OsfModel {
     @attr('date') dateLastTransitioned!: Date;
     @attr('date') preprintDoiCreated!: Date;
 
-    // Relationships
-    @belongsTo('node', { inverse: 'preprints' }) node!: DS.PromiseObject<Node> & Node;
-    @belongsTo('license', { inverse: null }) license!: DS.PromiseObject<License> & License;
-    @belongsTo('file', { inverse: null }) primaryFile!: DS.PromiseObject<File> & File;
+    @belongsTo('node', { inverse: 'preprints' })
+    node!: DS.PromiseObject<NodeModel> & NodeModel;
+
+    @belongsTo('license', { inverse: null })
+    license!: DS.PromiseObject<LicenseModel> & LicenseModel;
+
+    @belongsTo('file', { inverse: null })
+    primaryFile!: DS.PromiseObject<FileModel> & FileModel;
 
     @belongsTo('preprint-provider', { inverse: 'preprints' })
-    provider!: DS.PromiseObject<PreprintProvider> & PreprintProvider;
+    provider!: DS.PromiseObject<PreprintProviderModel> & PreprintProviderModel;
 
-    @hasMany('review-action', { inverse: 'target' }) reviewActions!: DS.PromiseManyArray<ReviewAction>;
-    @hasMany('contributor') contributors!: DS.PromiseManyArray<Contributor>;
+    @hasMany('review-action', { inverse: 'target' })
+    reviewActions!: DS.PromiseManyArray<ReviewActionModel>;
+
+    @hasMany('contributor')
+    contributors!: DS.PromiseManyArray<ContributorModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;
     @alias('links.preprint_doi') preprintDoiUrl!: string;

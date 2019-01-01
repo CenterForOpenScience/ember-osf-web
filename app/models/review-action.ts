@@ -2,9 +2,9 @@ import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-import Preprint from './preprint';
-import PreprintProvider from './preprint-provider';
-import User from './user';
+import PreprintModel from './preprint';
+import PreprintProviderModel from './preprint-provider';
+import UserModel from './user';
 
 export default class ReviewActionModel extends OsfModel {
     @attr('string') actionTrigger!: string;
@@ -15,13 +15,13 @@ export default class ReviewActionModel extends OsfModel {
     @attr('date') dateModified!: Date;
 
     @belongsTo('preprint-provider', { inverse: null })
-    provider!: DS.PromiseObject<PreprintProvider> & PreprintProvider;
+    provider!: DS.PromiseObject<PreprintProviderModel> & PreprintProviderModel;
 
     @belongsTo('preprint', { inverse: 'reviewActions' })
-    target!: DS.PromiseObject<Preprint> & Preprint;
+    target!: DS.PromiseObject<PreprintModel> & PreprintModel;
 
     @belongsTo('user', { inverse: null })
-    creator!: DS.PromiseObject<User> & User;
+    creator!: DS.PromiseObject<UserModel> & UserModel;
 }
 
 declare module 'ember-data/types/registries/model' {

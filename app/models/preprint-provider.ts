@@ -2,6 +2,8 @@ import { attr, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
 
+import { RelatedLinkMeta } from 'osf-api';
+
 import PreprintModel from './preprint';
 import ProviderModel from './provider';
 
@@ -18,10 +20,11 @@ export default class PreprintProviderModel extends ProviderModel {
     @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous!: boolean | null;
 
     // Relationships
-    @hasMany('preprint', { inverse: 'provider' }) preprints!: DS.PromiseManyArray<PreprintModel>;
+    @hasMany('preprint', { inverse: 'provider' })
+    preprints!: DS.PromiseManyArray<PreprintModel>;
 
     @alias('links.relationships.preprints.links.related.meta')
-    reviewableStatusCounts!: any;
+    reviewableStatusCounts!: RelatedLinkMeta;
 
     @alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects')
     hasHighlightedSubjects!: boolean;
