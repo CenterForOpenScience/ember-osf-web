@@ -8,10 +8,6 @@ import RegistrationSchema, { RegistrationMetadata } from './registration-schema'
 import RegistryProvider from './registry-provider';
 import User from './user';
 
-/**
- * Model for OSF APIv2 registrations. This model may be used with one of several
- * API endpoints. It may be queried directly, or accessed via relationship fields.
- */
 export default class RegistrationModel extends NodeModel.extend() {
     @attr('date') dateRegistered!: Date;
     @attr('boolean') pendingRegistrationApproval!: boolean;

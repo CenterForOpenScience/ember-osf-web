@@ -66,10 +66,6 @@ export enum NodeType {
     Registration = 'registration',
 }
 
-/**
- * Model for OSF APIv2 nodes. This model may be used with one of several API
- * endpoints. It may be queried directly, or accessed via relationship fields.
- */
 export default class NodeModel extends BaseFileItem.extend(Validations, CollectableValidations) {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;

@@ -48,12 +48,6 @@ const Validations = buildValidations({
     ],
 });
 
-/**
- * Model for OSF APIv2 users. This model may be used with one of several API endpoints. It may be queried directly,
- *  or accessed via relationship fields.
- *
- * @class User
- */
 export default class UserModel extends OsfModel.extend(Validations) {
     @attr('fixstring') fullName!: string;
     @attr('fixstring') givenName!: string;

@@ -9,11 +9,6 @@ export interface SubjectRef {
     text: string;
 }
 
-/**
- * Model for OSF APIv2 preprints. This model may be used with one of several API
- * endpoints. It may be queried directly. In the future, there will be multiple
- * taxonomy endpoints under the same namespace.
- */
 export default class TaxonomyModel extends OsfModel {
     @attr('fixstring') text!: string;
     @attr('string') shareTitle!: string;

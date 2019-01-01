@@ -5,11 +5,6 @@ import NodeModel from './node';
 import OsfModel from './osf-model';
 import UserModel from './user';
 
-/**
- * Model for OSF APIv2 log entries. This model may be used with one of several
- * API endpoints. It may be queried directly, or accessed via relationship
- * fields.
- */
 export default class LogModel extends OsfModel {
     @attr('date') date!: Date;
     @attr('fixstring') action!: string;
