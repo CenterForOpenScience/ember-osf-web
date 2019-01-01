@@ -13,27 +13,6 @@ declare module 'ember' {
         interface _RegistryProxyMixin {
             register<T>(fullName: string, factory: T, options: { singleton?: boolean, instantiate: false }): any;
         }
-
-        interface EmberLocation {
-            implementation: string;
-
-            getURL(): string;
-            setURL(path: string): void;
-            replaceURL(path: string): void;
-            onUpdateURL(callback: (url: string) => void): void;
-            formatURL(url: string): string;
-            detect(): void;
-        }
-
-        interface AutoLocation extends EmberLocation { }
-        interface NoneLocation extends EmberLocation { }
-        interface HistoryLocation extends EmberLocation {
-            history: any;
-            location: Location;
-            _previousURL: string; // tslint:disable-line:variable-name
-            _popstateHandler?: () => void; // tslint:disable-line:variable-name
-            _removeEventListener: () => void; // tslint:disable-line:variable-name
-        }
     }
 }
 
