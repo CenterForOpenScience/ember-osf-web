@@ -1,7 +1,9 @@
 import DS from 'ember-data';
 
-import Token from 'ember-osf-web/models/token';
 import { Resource } from 'osf-api';
+
+import TokenModel from 'ember-osf-web/models/token';
+
 import OsfSerializer from './osf-serializer';
 
 export default class TokenSerializer extends OsfSerializer {
@@ -16,7 +18,7 @@ export default class TokenSerializer extends OsfSerializer {
         tokenValue: 'token_id',
     };
 
-    normalize(typeClass: Token, hash: Resource) {
+    normalize(typeClass: TokenModel, hash: Resource) {
         // convert `scopes` from a space-delimited string to a relationship
         const { scopes } = hash.attributes!;
         let newHash = hash;
@@ -45,6 +47,7 @@ export default class TokenSerializer extends OsfSerializer {
                 // eslint-disable-next-line no-param-reassign
                 json.attributes = {
                     ...json.attributes,
+                    // @ts-ignore
                     scopes: scopes.mapBy('id').join(' '),
                 };
             }
@@ -54,8 +57,8 @@ export default class TokenSerializer extends OsfSerializer {
     }
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'token': TokenSerializer;
-    }
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        token: TokenSerializer;
+    } // eslint-disable-line semi
 }

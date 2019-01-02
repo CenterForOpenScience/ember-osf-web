@@ -1,9 +1,10 @@
 import OsfAdapter from './osf-adapter';
 
-export default class RegionSerializer extends OsfAdapter {}
+export default class RegionAdapter extends OsfAdapter {
+}
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'region': RegionSerializer;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        region: RegionAdapter;
+    } // eslint-disable-line semi
 }

@@ -1,16 +1,11 @@
-import DS from 'ember-data';
-
 import OsfAdapter from './osf-adapter';
 
-export default class DraftRegistration extends OsfAdapter {
-    urlForCreateRecord(_: string, snapshot: DS.Snapshot) {
-        return snapshot.record.belongsTo('branchedFrom').value()
-            .links.relationships.draft_registrations.links.related.href;
-    }
+export default class DraftRegistrationAdapter extends OsfAdapter {
+    parentRelationship = 'branchedFrom';
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'draft-registration': DraftRegistration;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        'draft-registration': DraftRegistrationAdapter;
+    } // eslint-disable-line semi
 }

@@ -1,9 +1,10 @@
 import DS from 'ember-data';
+
 import OsfSerializer from './osf-serializer';
 
-export default class NodeLink extends OsfSerializer.extend({
-    serialize(snapshot: DS.Snapshot, options: any): any {
-        const serialized: any = this._super(snapshot, options);
+export default class NodeLinkSerializer extends OsfSerializer {
+    serialize(snapshot: DS.Snapshot, options: {}) {
+        const serialized = super.serialize(snapshot, options);
         // APIv2 expects node link information to be nested under relationships.
         serialized.data.relationships = {
             nodes: {
@@ -14,11 +15,11 @@ export default class NodeLink extends OsfSerializer.extend({
             },
         };
         return serialized;
-    },
-}) {}
-
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'node-link': NodeLink;
     }
+}
+
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        'node-link': NodeLinkSerializer;
+    } // eslint-disable-line semi
 }

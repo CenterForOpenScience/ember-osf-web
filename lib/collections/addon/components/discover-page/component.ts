@@ -1,5 +1,6 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import { A } from '@ember/array';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -82,7 +83,7 @@ interface ArrayMeta {
 type SearchQuery = ArrayProxy<any> & ArrayMeta;
 
 function emptyResults(): SearchQuery {
-    return ArrayProxy.create({ content: [], meta: { total: 0 } });
+    return ArrayProxy.create({ content: A([]), meta: { total: 0 } });
 }
 
 @layout(template, styles)
@@ -154,7 +155,7 @@ export default class DiscoverPage extends Component.extend({
                 defaultQueryFilters: {},
                 currentQueryFilters: {},
                 options,
-                updateFilters() {
+                updateFilters: () => {
                     assert('You should set an `updateFilters` function');
                 },
             });

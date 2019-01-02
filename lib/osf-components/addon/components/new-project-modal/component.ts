@@ -1,5 +1,5 @@
 import { action, computed } from '@ember-decorators/object';
-import { alias, oneWay } from '@ember-decorators/object/computed';
+import { alias, overridableReads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
@@ -106,7 +106,7 @@ export default class NewProjectModal extends Component.extend({
 
     @alias('currentUser.user') user!: User;
 
-    @oneWay('institutions') selectedInstitutions!: Institution[];
+    @overridableReads('institutions') selectedInstitutions!: Institution[];
 
     @computed()
     get storageI18nEnabled() {
