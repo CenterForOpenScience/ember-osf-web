@@ -182,7 +182,6 @@
   },
   "resolutions": {
     "ember-cli-clipboard": "0.9.0",
-    "ember-decorators": "2.4.1",
     "tsutils": "2.29.0",
     "typescript": "3.0.1"
   },
