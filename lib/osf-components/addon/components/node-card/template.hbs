@@ -1,32 +1,32 @@
 <div data-test-node-card>
     <h4 class='list-group-item-heading' local-class='NodeCard__heading' data-test-node-card-heading>
         <span class='f-w-lg'>
-            {{#if this.node}}
-                {{#unless this.node.public}}
+            {{#if @node}}
+                {{#unless @node.public}}
                     <span>
                         {{fa-icon 'lock'}}
-                        <BsTooltip>{{t (concat 'node_card.' this.node.nodeType '.private_tooltip')}}</BsTooltip>
+                        <BsTooltip>{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}</BsTooltip>
                     </span> |
                 {{/unless}}
-                {{#if this.node.pendingRegistrationApproval}}
+                {{#if @node.pendingRegistrationApproval}}
                     <span class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
-                {{else if this.node.withdrawn}}
+                {{else if @node.withdrawn}}
                     <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
-                {{else if this.node.pendingWithdrawal}}
+                {{else if @node.pendingWithdrawal}}
                     <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdrawl'}}</span> |
-                {{else if this.node.embargoed}}
+                {{else if @node.embargoed}}
                     <span class='label label-info'>{{t 'node_card.registration.statuses.embargoed'}}</span> |
-                {{else if this.node.pendingEmbargoApproval}}
+                {{else if @node.pendingEmbargoApproval}}
                     <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo'}}</span> |
                 {{/if}}
-                {{#if this.node.archiving}}
+                {{#if @node.archiving}}
                     <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
                 {{/if}}
-                {{node-card/node-icon category=this.node.category}}
-                {{#global-link-to 'resolve-guid' this.node.id
+                {{node-card/node-icon category=@node.category}}
+                {{#global-link-to 'resolve-guid' @node.id
                     click=(action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Title') target=this.analytics)
                 }}
-                    {{this.node.title}}
+                    {{@node.title}}
                 {{/global-link-to}}
             {{else}}
                 <ContentPlaceholders as |placeholder|>
@@ -34,7 +34,7 @@
                 </ContentPlaceholders>
             {{/if}}
         </span>
-        {{#if this.node}}
+        {{#if @node}}
             {{#if this.showDropdown}}
                 <div class='pull-right generic-dropdown' local-class='NodeCard__dropdown'>
                     <BsDropdown as |dd|>
@@ -44,7 +44,7 @@
                         <dd.menu @class='dropdown-menu-right' local-class='NodeCard__dropdown-list'>
                             <li role='menuitem'>
                                 <a
-                                    href='/{{this.node.id}}/contributors/'
+                                    href='/{{@node.id}}/contributors/'
                                     onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Manage Contributors') target=this.analytics}}
                                     local-class='NodeCard__dropdown-link'
                                 >
@@ -53,7 +53,7 @@
                             </li>
                             <li role='menuitem'>
                                 <a
-                                    href='/{{this.node.id}}/settings/'
+                                    href='/{{@node.id}}/settings/'
                                     onclick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Settings') target=this.analytics}}
                                     local-class='NodeCard__dropdown-link'
                                 >
@@ -61,13 +61,13 @@
                                 </a>
                             </li>
                             <li role='menuitem'>
-                                <OsfButton
+                                <a
+                                    onclick={{action @delete @node}}
+                                    role='button'
                                     local-class='NodeCard__dropdown-link'
-                                    @onClick={{action @delete this.node}}
-                                    @type='link'
                                 >
                                     {{t 'general.delete'}}
-                                </OsfButton>
+                                </a>
                             </li>
                         </dd.menu>
                     </BsDropdown>
@@ -76,35 +76,35 @@
         {{/if}}
     </h4>
     <div data-test-node-card-body local-class='NodeCard__body'>
-        {{#if this.node}}
+        {{#if @node}}
             <div local-class='NodeCard__timestamp'>
-                {{t (concat 'node_card.' this.node.nodeType '.timestamp_label')}} {{moment-format this.node.dateCreated 'YYYY-MM-DD h:mm A'}}
+                {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}} {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
             </div>
-            {{#if this.node.isRegistration}}
+            {{#if @node.isRegistration}}
                 {{#if this.registrationTitle}}
                     <div local-class='NodeCard__registration-title'>
                         {{this.registrationTitle}}
                     </div>
                 {{/if}}
                 <div local-class='NodeCard__schema-name'>
-                    {{this.node.registrationSchema.name}}
+                    {{@node.registrationSchema.name}}
                 </div>
             {{/if}}
             <div local-class='NodeCard__authors'>
                 <ContributorList
-                    @contributors={{this.node.contributors}}
+                    @contributors={{@node.contributors}}
                     @useLink={{true}}
-                    @nodeId={{this.node.id}}
+                    @nodeId={{@node.id}}
                 />
             </div>
             <div local-class='NodeCard__description'>
-                {{this.node.description}}
+                {{@node.description}}
             </div>
-            {{#if (and this.showTags this.node.tags)}}
+            {{#if (and this.showTags @node.tags)}}
                 <div local-class='NodeCard__tags'>
                     <strong>{{t 'node_card.tags'}}</strong>
                     <TagsWidget
-                        @tags={{this.node.tags}}
+                        @tags={{@node.tags}}
                         @inline={{true}}
                         @readOnly={{true}}
                         @analyticsScope={{concat this.analyticsScopePrefix 'Node Card'}}
