@@ -1,6 +1,7 @@
 import { camelize, underscore } from '@ember/string';
 import { ModelInstance, resourceAction, Server } from 'ember-cli-mirage';
-import { ModelRegistry, RelationshipsFor } from 'ember-data';
+import { RelationshipsFor } from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
 import { pluralize } from 'ember-inflector';
 
 import { filter, process } from './utils';

@@ -2,20 +2,16 @@ import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
-import Contributor from './contributor';
-import File from './file';
-import Institution from './institution';
-import Node from './node';
-import OsfModel from './osf-model';
-import Region from './region';
-import Registration from './registration';
-import UserEmail from './user-email';
-import UserSetting from './user-setting';
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
+import ContributorModel from './contributor';
+import FileModel from './file';
+import InstitutionModel from './institution';
+import NodeModel from './node';
+import OsfModel from './osf-model';
+import RegionModel from './region';
+import RegistrationModel from './registration';
+import UserEmailModel from './user-email';
+import UserSettingModel from './user-setting';
 
 const Validations = buildValidations({
     acceptedTermsOfService: [
@@ -52,50 +48,51 @@ const Validations = buildValidations({
     ],
 });
 
-/**
- * Model for OSF APIv2 users. This model may be used with one of several API endpoints. It may be queried directly,
- *  or accessed via relationship fields.
- *
- * @class User
- */
-export default class User extends OsfModel.extend(Validations) {
+export default class UserModel extends OsfModel.extend(Validations) {
     @attr('fixstring') fullName!: string;
     @attr('fixstring') givenName!: string;
     @attr('fixstring') middleNames!: string;
     @attr('fixstring') familyName!: string;
     @attr('fixstring') suffix!: string;
-
     @attr('fixstring') locale!: string;
     @attr('fixstring') timezone!: string;
-
     @attr('date') dateRegistered!: Date;
-
     @attr('boolean', { defaultValue: false }) canViewReviews!: boolean;
-
     @attr('boolean') acceptedTermsOfService?: boolean;
     @attr('boolean') active!: boolean;
     @attr('object') social!: {};
 
-    @belongsTo('region') defaultRegion!: DS.PromiseObject<Region> & Region;
-    @belongsTo('user-setting', { inverse: 'user', async: false }) settings?: UserSetting | null;
+    @belongsTo('region')
+    defaultRegion!: DS.PromiseObject<RegionModel> & RegionModel;
 
-    @hasMany('node') nodes!: DS.PromiseManyArray<Node>;
-    @hasMany('contributor') contributors!: DS.PromiseManyArray<Contributor>;
-    @hasMany('registration') registrations!: DS.PromiseManyArray<Registration>;
+    @belongsTo('user-setting', { inverse: 'user', async: false })
+    settings?: UserSettingModel | null;
 
-    @hasMany('file') quickfiles!: DS.PromiseManyArray<File>;
+    @hasMany('node')
+    nodes!: DS.PromiseManyArray<NodeModel>;
 
-    @hasMany('institution', { inverse: 'users' }) institutions!: DS.PromiseManyArray<Institution>;
+    @hasMany('contributor')
+    contributors!: DS.PromiseManyArray<ContributorModel>;
 
-    @hasMany('user-email', { inverse: 'user' }) emails!: DS.PromiseManyArray<UserEmail>;
+    @hasMany('registration')
+    registrations!: DS.PromiseManyArray<RegistrationModel>;
+
+    @hasMany('file')
+    quickfiles!: DS.PromiseManyArray<FileModel>;
+
+    @hasMany('institution', { inverse: 'users' })
+    institutions!: DS.PromiseManyArray<InstitutionModel>;
+
+    @hasMany('user-email', { inverse: 'user' })
+    emails!: DS.PromiseManyArray<UserEmailModel>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;
     @alias('links.profile_image') profileImage!: string;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'user': User;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        user: UserModel;
+    } // eslint-disable-line semi
 }

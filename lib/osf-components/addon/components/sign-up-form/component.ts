@@ -102,6 +102,6 @@ export default class SignUpForm extends Component.extend({
 
     @action
     submit() {
-        this.get('submitTask').perform();
+        this.submitTask.perform();
     }
 }

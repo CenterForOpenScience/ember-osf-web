@@ -1,5 +1,5 @@
 import { computed } from '@ember-decorators/object';
-import { readOnly } from '@ember-decorators/object/computed';
+import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { htmlSafe } from '@ember/string';
@@ -22,7 +22,7 @@ export default class ScheduledBanners extends Component.extend({
     @service store!: DS.Store;
     @service analytics!: Analytics;
 
-    @readOnly('loadBanner.last.value')
+    @reads('loadBanner.last.value')
     banner?: Banner;
 
     @computed('banner.color')

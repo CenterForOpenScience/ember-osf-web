@@ -1,6 +1,7 @@
 import { service } from '@ember-decorators/service';
 import { task } from 'ember-concurrency';
-import DS, { ModelRegistry } from 'ember-data';
+import DS from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
 
 import { layout } from 'ember-osf-web/decorators/component';
 

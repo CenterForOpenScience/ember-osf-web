@@ -1,5 +1,18 @@
 import { camelize, underscore } from '@ember/string';
-import DS, { ModelRegistry } from 'ember-data';
+import DS from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
+import { AttributesObject } from 'jsonapi-typescript';
+
+import {
+    NormalLinks,
+    PaginatedMeta,
+    Relationships,
+    Resource,
+    ResourceCollectionDocument,
+    SingleResourceDocument,
+} from 'osf-api';
+
+import OsfModel from 'ember-osf-web/models/osf-model';
 
 const { JSONAPISerializer } = DS;
 
@@ -7,31 +20,34 @@ const API_TYPE_KEYS: Record<string, keyof ModelRegistry> = {
     applications: 'developer-app',
 };
 
-interface ResourceHash {
-    attributes?: {
-        links?: any,
-    };
-    links?: any;
-    relationships?: any;
-    embeds?: any;
+interface NormalizedPaginatedMeta extends PaginatedMeta {
+    total_pages: number; // eslint-disable-line camelcase
+}
+
+interface NormalizedResourceCollectionDocument extends ResourceCollectionDocument {
+    meta: NormalizedPaginatedMeta;
 }
 
 interface OsfSerializerOptions {
     includeCleanData?: boolean;
 }
 
-export default class OsfSerializer extends JSONAPISerializer.extend({
+export default class OsfSerializer extends JSONAPISerializer {
+    attrs = {
+        links: {
+            serialize: false,
+        },
+        relatedCounts: {
+            serialize: false,
+        },
+    };
+
     /**
      * Get embedded objects from the response and push them into the store.
      * Return a new resource hash that only contains relationships in JSON API format,
      * or the original resource hash, unchanged.
-     *
-     * @method _extractEmbeds
-     * @param {ResourceHash} resourceHash
-     * @return {ResourceHash}
-     * @private
      */
-    _extractEmbeds(this: OsfSerializer, resourceHash: ResourceHash): ResourceHash {
+    _extractEmbeds(resourceHash: Resource): Partial<Resource> {
         if (!resourceHash.embeds || !resourceHash.relationships) {
             return resourceHash;
         }
@@ -51,12 +67,15 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
 
             // Push the embedded data into the store.  Since it will use this serializer again,
             // this is indirectly recursive and will extract nested embeds.
-            this.get('store').pushPayload(embeddedObj);
+            this.store.pushPayload(embeddedObj);
+
+            const relationship = resourceHash.relationships[relName];
+            const relationshipLinks = 'links' in relationship ? relationship.links : [];
 
             // Merge links on the embedded object with links on the relationship, so all returned links are available
             const embeddedLinks = {
                 ...embeddedObj.links,
-                ...resourceHash.relationships[relName].links,
+                ...relationshipLinks,
             };
 
             // Construct a new relationship in JSON API format
@@ -79,59 +98,54 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         }
 
         return { relationships };
-    },
+    }
 
     /**
      * Make all links available in the model's `links` attr.
      * Return a new resource hash that only contains attributes, with `attributes.links` set to
      * the combination of `resourceHash.links` and `resourceHash.relationships`
-     *
-     * @method _mergeLinks
-     * @param {ResourceHash} resourceHash
-     * @return {ResourceHash}
-     * @private
      */
-    _mergeLinks(this: OsfSerializer, resourceHash: ResourceHash): ResourceHash {
-        const links = { ...(resourceHash.links || {}) };
+    _mergeLinks(resourceHash: Resource): Partial<Resource> {
+        const links: NormalLinks & { relationships?: Relationships } = { ...(resourceHash.links || {}) };
         if (resourceHash.relationships) {
             links.relationships = resourceHash.relationships;
         }
         return {
-            attributes: { ...resourceHash.attributes, links },
+            attributes: { ...resourceHash.attributes, links: (links as AttributesObject) },
         };
-    },
+    }
 
-    extractAttributes(this: OsfSerializer, modelClass: any, resourceHash: ResourceHash): any {
+    extractAttributes(modelClass: OsfModel, resourceHash: Resource) {
         const attributeHash = this._mergeLinks(resourceHash);
-        return this._super(modelClass, attributeHash);
-    },
+        return super.extractAttributes(modelClass, attributeHash);
+    }
 
-    extractRelationships(this: OsfSerializer, modelClass: any, resourceHash: ResourceHash): any {
+    extractRelationships(modelClass: OsfModel, resourceHash: Resource) {
         const relationshipHash = this._extractEmbeds(resourceHash);
-        return this._super(modelClass, relationshipHash);
-    },
+        return super.extractRelationships(modelClass, relationshipHash);
+    }
 
-    keyForAttribute(key: string): string {
+    keyForAttribute(key: string) {
         return underscore(key);
-    },
+    }
 
-    keyForRelationship(key: string): string {
+    keyForRelationship(key: string) {
         return underscore(key);
-    },
+    }
 
-    serialize(snapshot: DS.Snapshot, options?: { osf?: OsfSerializerOptions }): any {
-        const serialized = this._super(snapshot, options);
+    serialize(snapshot: DS.Snapshot, options: { includeId?: boolean, osf?: OsfSerializerOptions } = {}) {
+        const serialized = super.serialize(snapshot, options) as SingleResourceDocument;
         serialized.data.type = underscore(serialized.data.type);
 
         const includeCleanData = options && options.osf && options.osf.includeCleanData;
         if (!includeCleanData && !snapshot.record.get('isNew')) {
             // Only send dirty attributes and relationships in request
             const changedAttributes = snapshot.record.changedAttributes();
-            for (const attribute of Object.keys(serialized.data.attributes)) {
+            for (const attribute of Object.keys(serialized.data.attributes!)) {
                 const { attrs }: { attrs: any } = this;
                 const alwaysSerialize = attrs && attrs[attribute] && attrs[attribute].serialize === true;
                 if (!alwaysSerialize && !(camelize(attribute) in changedAttributes)) {
-                    delete serialized.data.attributes[attribute];
+                    delete serialized.data.attributes![attribute];
                 }
             }
             // HACK: There's no public-API way to tell whether a relationship has been changed.
@@ -150,7 +164,7 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         }
 
         return serialized;
-    },
+    }
 
     serializeAttribute(snapshot: DS.Snapshot, json: object, key: string, attribute: object): void {
         // In certain cases, a field may be omitted from the server payload, but have a value (undefined)
@@ -159,23 +173,31 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         const val = snapshot.attr(key);
 
         if (val !== undefined) {
-            this._super(snapshot, json, key, attribute);
+            super.serializeAttribute(snapshot, json, key, attribute);
         }
-    },
+    }
 
     normalizeSingleResponse(
         store: DS.Store,
-        primaryModelClass: any,
-        payload: any,
+        primaryModelClass: OsfModel,
+        payload: SingleResourceDocument,
         id: string,
         requestType: string,
-    ): any {
-        const documentHash = this._super(store, primaryModelClass, payload, id, requestType);
+    ) {
+        const documentHash = super.normalizeSingleResponse(
+            store,
+            primaryModelClass,
+            payload,
+            id,
+            requestType,
+        ) as SingleResourceDocument;
+
         if (documentHash.meta) {
-            documentHash.data.attributes.apiMeta = documentHash.meta;
+            (documentHash.data.attributes!.apiMeta as {}) = documentHash.meta;
         }
+
         if (documentHash.data.relationships) {
-            documentHash.data.attributes.relatedCounts = Object.entries(documentHash.data.relationships).reduce(
+            documentHash.data.attributes!.relatedCounts = Object.entries(documentHash.data.relationships).reduce(
                 (acc: Record<string, number>, [relName, rel]: [string, any]) => {
                     if (rel.links && rel.links.related && rel.links.related.meta) {
                         const { count } = rel.links.related.meta;
@@ -188,11 +210,24 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
                 {},
             );
         }
-        return documentHash;
-    },
 
-    normalizeArrayResponse(...args: any[]): any {
-        const documentHash: any = this._super(...args);
+        return documentHash;
+    }
+
+    normalizeArrayResponse(
+        store: DS.Store,
+        primaryModelClass: OsfModel,
+        payload: ResourceCollectionDocument,
+        id: string,
+        requestType: string,
+    ) {
+        const documentHash = super.normalizeArrayResponse(
+            store,
+            primaryModelClass,
+            payload,
+            id,
+            requestType,
+        ) as NormalizedResourceCollectionDocument;
 
         if (documentHash.meta && documentHash.meta.total && documentHash.meta.per_page) {
             // For any request that returns more than one result, calculate total pages to be loaded.
@@ -200,14 +235,14 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
         }
 
         return documentHash;
-    },
+    }
 
-    modelNameFromPayloadKey(key: string): keyof ModelRegistry {
+    modelNameFromPayloadKey(key: string) {
         if (key in API_TYPE_KEYS) {
             return API_TYPE_KEYS[key];
         }
-        return this._super(key);
-    },
+        return super.modelNameFromPayloadKey(key);
+    }
 
     payloadKeyFromModelName(modelName: keyof ModelRegistry): string {
         for (const [typeKey, model] of Object.entries(API_TYPE_KEYS)) {
@@ -215,21 +250,6 @@ export default class OsfSerializer extends JSONAPISerializer.extend({
                 return typeKey;
             }
         }
-        return this._super(modelName);
-    },
-}) {
-    attrs = {
-        links: {
-            serialize: false,
-        },
-        relatedCounts: {
-            serialize: false,
-        },
-    };
-}
-
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'osf-serializer': OsfSerializer;
+        return super.payloadKeyFromModelName(modelName);
     }
 }

@@ -80,6 +80,7 @@ export interface RelationshipLinks extends JSONAPI.Links {
 export type RelatedLink = string | { href: string; meta?: RelatedLinkMeta };
 
 export interface RelatedLinkMeta {
+    id?: string;
     count?: number;
     type?: string;
 }

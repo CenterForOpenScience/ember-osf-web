@@ -1,24 +1,26 @@
 import { merge } from '@ember/polyfills';
 import DS from 'ember-data';
 
+import OsfModel from 'ember-osf-web/models/osf-model';
+
 const { RESTSerializer } = DS;
 
-export default class UserRegistration extends RESTSerializer.extend({
-    attrs: {
+export default class UserRegistrationSerializer extends RESTSerializer {
+    attrs = {
         recaptchaResponse: 'g-recaptcha-response',
-    },
+    };
 
-    normalize({ modelName }: { modelName: string }) {
+    normalize(typeClass: OsfModel) {
         return {
             data: {
                 id: 1,
-                type: modelName,
+                type: typeClass.modelName,
             },
         };
-    },
-}) {
-    serializeIntoHash(data: any, _: any, record: any, options: any) {
-        merge(data, this.serialize(record, options));
+    }
+
+    serializeIntoHash(data: {}, _: OsfModel, snapshot: DS.Snapshot, options: {}) {
+        merge(data, this.serialize(snapshot, options));
     }
 
     normalizeSaveResponse(
@@ -36,8 +38,8 @@ export default class UserRegistration extends RESTSerializer.extend({
     }
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'user-registration': UserRegistration;
-    }
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        'user-registration': UserRegistrationSerializer;
+    } // eslint-disable-line semi
 }

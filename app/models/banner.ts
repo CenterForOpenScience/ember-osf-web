@@ -13,8 +13,8 @@ export default class BannerModel extends OsfModel {
     @attr('string') color!: string;
 }
 
-declare module 'ember-data' {
-  interface ModelRegistry {
-    'banner': BannerModel;
-  }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        banner: BannerModel;
+    } // eslint-disable-line semi
 }

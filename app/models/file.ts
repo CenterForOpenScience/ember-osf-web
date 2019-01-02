@@ -2,24 +2,12 @@ import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import BaseFileItem from './base-file-item';
-import Comment from './comment';
-import FileVersion from './file-version';
-import Node from './node';
-import User from './user';
+import CommentModel from './comment';
+import FileVersionModel from './file-version';
+import NodeModel from './node';
+import UserModel from './user';
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
-
-/**
- * Model for OSF APIv2 files. This model may be used with one of several API endpoints. It may be queried directly,
- *  or (more commonly) accessed via relationship fields.
- * This model is used for basic file metadata. To interact with file contents directly, see the `file-manager` service.
- *
- * @class File
- */
-export default class File extends BaseFileItem {
+export default class FileModel extends BaseFileItem {
     @attr('fixstring') name!: string;
     @attr('fixstring') guid!: string;
     @attr('string') path!: string;
@@ -34,17 +22,26 @@ export default class File extends BaseFileItem {
     @attr('fixstringarray') tags!: string[];
     @attr('fixstring') checkout!: string;
 
-    @belongsTo('file', { inverse: 'files' }) parentFolder!: DS.PromiseObject<File> & File;
+    @belongsTo('file', { inverse: 'files' })
+    parentFolder!: DS.PromiseObject<FileModel> & FileModel;
 
     // Folder attributes
-    @hasMany('file', { inverse: 'parentFolder' }) files!: DS.PromiseManyArray<File>;
+    @hasMany('file', { inverse: 'parentFolder' })
+    files!: DS.PromiseManyArray<FileModel>;
 
     // File attributes
-    @hasMany('file-version') versions!: DS.PromiseManyArray<FileVersion>;
-    @hasMany('comment', { inverse: null }) comments!: DS.PromiseManyArray<Comment>;
+    @hasMany('file-version')
+    versions!: DS.PromiseManyArray<FileVersionModel>;
+
+    @hasMany('comment', { inverse: null })
+    comments!: DS.PromiseManyArray<CommentModel>;
+
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    @belongsTo('node') node!: DS.PromiseObject<Node> & Node;
-    @belongsTo('user') user!: DS.PromiseObject<User> & User;
+    @belongsTo('node')
+    node!: DS.PromiseObject<NodeModel> & NodeModel;
+
+    @belongsTo('user')
+    user!: DS.PromiseObject<UserModel> & UserModel;
 
     // BaseFileItem override
     isFileModel = true;
@@ -53,7 +50,7 @@ export default class File extends BaseFileItem {
 
     flash: object | null = null;
 
-    getContents(this: File): Promise<object> {
+    getContents(): Promise<object> {
         return this.currentUser.authenticatedAJAX({
             url: this.links.download,
             type: 'GET',
@@ -64,7 +61,7 @@ export default class File extends BaseFileItem {
         });
     }
 
-    async rename(this: File, newName: string, conflict = 'replace'): Promise<void> {
+    async rename(newName: string, conflict = 'replace'): Promise<void> {
         const { data } = await this.currentUser.authenticatedAJAX({
             url: this.links.upload,
             type: 'POST',
@@ -84,9 +81,9 @@ export default class File extends BaseFileItem {
         this.set('name', data.attributes.name);
     }
 
-    getGuid(this: File): Promise<any> {
+    getGuid(): Promise<any> {
         return this.store.findRecord(
-            (this.constructor as typeof File).modelName,
+            (this.constructor as typeof FileModel).modelName,
             this.id,
             {
                 reload: true,
@@ -99,7 +96,7 @@ export default class File extends BaseFileItem {
         );
     }
 
-    updateContents(this: File, data: string): Promise<null> {
+    updateContents(data: string): Promise<null> {
         return this.currentUser.authenticatedAJAX({
             url: this.links.upload,
             type: 'PUT',
@@ -108,7 +105,7 @@ export default class File extends BaseFileItem {
         }).then(() => this.reload());
     }
 
-    move(this: File, node: Node): Promise<null> {
+    move(node: NodeModel): Promise<null> {
         return this.currentUser.authenticatedAJAX({
             url: this.links.move,
             type: 'POST',
@@ -125,8 +122,8 @@ export default class File extends BaseFileItem {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'file': File;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        file: FileModel;
+    } // eslint-disable-line semi
 }
