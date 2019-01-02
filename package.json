@@ -183,7 +183,7 @@
   "resolutions": {
     "ember-cli-clipboard": "0.9.0",
     "tsutils": "2.29.0",
-    "typescript": "3.0.1"
+    "typescript": "3.2.2"
   },
   "engines": {
     "node": ">= 8"
