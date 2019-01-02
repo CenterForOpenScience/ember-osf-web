@@ -49,8 +49,8 @@ export default class Submit extends Component {
     sections = Section;
     activeSection: Section = this.edit ? Section.projectMetadata : Section.project;
     savedSections: Section[] = this.edit ? [Section.project] : [];
-    showCancelDialog: boolean = false;
     i18nKeyPrefix = 'collections.collections_submission.';
+    showSubmitModal: boolean = false;
 
     save = task(function *(this: Submit) {
         if (!this.collectionItem) {
@@ -123,6 +123,9 @@ export default class Submit extends Component {
     @requiredAction
     onNextSection!: () => void;
 
+    @requiredAction
+    resetPageDirty!: () => void;
+
     @action
     projectSelected(this: Submit, collectionItem: Node) {
         collectionItem.set('collectable', true);
@@ -135,27 +138,27 @@ export default class Submit extends Component {
     }
 
     /**
-     * Reset for the cancel modal
-     */
-    @action
-    reset(this: Submit) {
-        this.collectedMetadatum.rollbackAttributes();
-
-        this.setProperties({
-            activeSection: Section.project,
-            savedSections: [],
-        });
-
-        this.transition();
-    }
-
-    /**
      * Cancel action for the entire form (bottom of the page). Navigates away if a project has not been selected.
-     * Otherwise, shows the confirmation dialog
      */
     @action
     cancel(this: Submit) {
         this.transition();
+    }
+
+    /**
+     * Sets showSubmitModal, a property when set will cause the collection-submission-confirmation-modal to be shown
+     */
+    @action
+    setShowSubmitModal() {
+        this.set('showSubmitModal', true);
+    }
+
+    /**
+     * Resets showSubmitModal
+     */
+    @action
+    resetShowSubmitModal() {
+        this.set('showSubmitModal', false);
     }
 
     @action
@@ -163,10 +166,22 @@ export default class Submit extends Component {
         // Nothing to see here
     }
 
+    /**
+     * Advances to the next section of the form
+     */
     @action
     nextSection() {
         this.savedSections.pushObject(this.activeSection);
         this.incrementProperty('activeSection');
         this.onNextSection();
+    }
+
+    /**
+     * Save and reset the isPageDirty on the controller, so that redirection after successful save will not be blocked
+     */
+    @action
+    submit() {
+        this.get('save').perform();
+        this.resetPageDirty();
     }
 }

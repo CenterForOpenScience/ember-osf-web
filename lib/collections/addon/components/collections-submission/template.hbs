@@ -1,7 +1,8 @@
-<div class="submit-header" local-class="header">
+{{collection-submission-confirmation-modal openModal=this.showSubmitModal addToCollection=(action this.submit) cancel=(action this.resetShowSubmitModal) }}
+<div class='submit-header' local-class='header'>
     <h1>{{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
 </div>
-<div local-class="body">
+<div local-class='body'>
     {{#submit-sections
         activeSection=this.activeSection
         savedSections=this.savedSections
@@ -16,7 +17,7 @@
         }}
             {{#section.active}}
                 {{collection-item-picker
-                    class="col-xs-12"
+                    class='col-xs-12'
                     collection=this.collection
                     projectSelected=(action 'projectSelected')
                     validationChanged=(action (mut this.isProjectSelectorValid))
@@ -45,7 +46,7 @@
                         continue=(action 'nextSection')
                     }}
                 {{else}}
-                    <div class="text-center">
+                    <div class='text-center'>
                         {{fa-icon 'spinner' pulse=true size=2}}
                     </div>
                 {{/if}}
@@ -66,7 +67,7 @@
                 <p>
                     <em>{{t (concat this.i18nKeyPrefix 'project_metadata_tags_label')}}</em>
                     {{#each this.collectionItem.tags as |tag|}}
-                        <div local-class="subject">{{tag}}</div>
+                        <div local-class='subject'>{{tag}}</div>
                     {{/each}}
                 </p>
             {{/section.complete}}
@@ -138,14 +139,21 @@
             {{/section.complete}}
         {{/sections.section}}
 
-        <section class="row" local-class="last-buttons">
-            <div class="col-xs-12 text-right">
-                <button class="btn btn-default" {{action 'cancel'}}>
+        <section class='row' local-class='last-buttons'>
+            <div class='col-xs-12 text-right'>
+                <button class='btn btn-default' {{action 'cancel'}}>
                     {{t (concat this.i18nKeyPrefix 'cancel')}}
                 </button>
-                <button class="btn btn-success" {{action (perform this.save)}} disabled={{not (eq this.activeSection this.sections.submit)}}>
-                    {{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_button')}}
-                </button>
+
+                {{#if this.edit}}
+                    <button class='btn btn-success' {{action this.submit}} disabled={{not (eq this.activeSection this.sections.submit)}}>
+                        {{t (concat this.i18nKeyPrefix 'update' '_button')}}
+                    </button>
+                {{else}}
+                    <button class='btn btn-success' {{action this.setShowSubmitModal}} disabled={{not (eq this.activeSection this.sections.submit)}}>
+                        {{t (concat this.i18nKeyPrefix 'add' '_button')}}
+                    </button>
+                {{/if}}
             </div>
         </section>
     {{/submit-sections}}

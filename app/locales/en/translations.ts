@@ -907,6 +907,11 @@ export default {
             update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
             warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.',
         },
+        collection_submission_confirmation_modal: {
+            header: 'Submit project',
+            body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.',
+            add_button: 'Add to collection',
+        },
         collection_item_picker: {
             after_options: {
                 loading: 'Loading\u2026',

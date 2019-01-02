@@ -1,0 +1,26 @@
+<BsModal 
+    @open={{@openModal}}
+    @onSubmit={{action @addToCollection}}
+    @onHidden={{action @cancel}}
+    as |modal|
+>
+    <modal.header>
+        <h3>{{t (concat this.i18nKeyPrefix 'header')}}</h3>
+    </modal.header>
+    <modal.body class=componentCssClassName>
+        <p>
+            {{t (concat this.i18nKeyPrefix 'body')}}
+        </p>
+    </modal.body>
+    <modal.footer>
+        <BsButton @onClick={{action modal.close}}>
+            {{t 'general.cancel'}}
+        </BsButton>
+        <BsButton 
+            @onClick={{action modal.submit}} 
+            @type='success'
+        >
+            {{t (concat this.i18nKeyPrefix 'add_button')}}
+        </BsButton>
+    </modal.footer>
+</BsModal>
