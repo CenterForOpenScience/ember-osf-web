@@ -1,7 +1,8 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import { task, TaskInstance } from 'ember-concurrency';
-import DS, { ModelRegistry } from 'ember-data';
+import DS from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
 
 import Ready from 'ember-osf-web/services/ready';
 

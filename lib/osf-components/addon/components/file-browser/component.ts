@@ -111,11 +111,11 @@ export default class FileBrowser extends Component {
             isMoving: true,
         });
 
-        const selectedItem = this.selectedItems.get('firstObject');
+        const selectedItem = this.selectedItems.firstObject;
         const isNewProject = !!this.node && !!this.node.isNew;
         const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships.parent;
 
-        const moveSuccess: boolean = yield this.moveFile(selectedItem as File, this.node);
+        const moveSuccess: boolean = yield this.moveFile(selectedItem as unknown as File, this.node);
 
         let successPropertyUpdates = {};
 
@@ -150,7 +150,7 @@ export default class FileBrowser extends Component {
 
     @computed('selectedItems.firstObject.guid')
     get link(): string | undefined {
-        const { guid } = this.selectedItems.get('firstObject') as File;
+        const { guid } = this.selectedItems.firstObject as unknown as File;
         return guid ? pathJoin(window.location.origin, guid) : undefined;
     }
 
@@ -183,7 +183,7 @@ export default class FileBrowser extends Component {
 
         const dismissPop = () => !this.isDestroyed && this.setProperties({ popupOpen: false });
 
-        const clickHandler: JQuery.EventHandlerBase<HTMLElement, JQuery.Event> = (e: JQuery.Event): void => {
+        const clickHandler: JQuery.EventHandlerBase<HTMLElement, JQuery.Event> = (e: JQuery.TriggeredEvent): void => {
             const { target } = e;
             const targetClass = $(target as Element).attr('class');
 
@@ -284,7 +284,7 @@ export default class FileBrowser extends Component {
                 return;
             }
 
-            const otherItem = this.selectedItems.get('firstObject') as File;
+            const otherItem = this.selectedItems.firstObject as unknown as File;
             otherItem.set('isSelected', false);
         }
 
@@ -334,7 +334,7 @@ export default class FileBrowser extends Component {
 
     @action
     viewItem() {
-        const item = this.selectedItems.get('firstObject') as File;
+        const item = this.selectedItems.firstObject as unknown as File;
         this.openFile(item, 'view');
     }
 
@@ -345,7 +345,7 @@ export default class FileBrowser extends Component {
 
     @action
     downloadItem() {
-        window.location.href = (this.selectedItems.get('firstObject') as File).links.download;
+        window.location.href = (this.selectedItems.firstObject as unknown as File).links.download;
         if (!this.canEdit) {
             this.analytics.click('button', 'Quick Files - Download');
         }
@@ -369,7 +369,7 @@ export default class FileBrowser extends Component {
     @action
     renameConflict(this: FileBrowser, conflict: string): void {
         const { renameValue, conflictingItem } = this;
-        const selectedItem = this.selectedItems.get('firstObject') as File;
+        const selectedItem = this.selectedItems.firstObject as unknown as File;
 
         this.setProperties({
             currentModal: modals.None,
@@ -393,7 +393,7 @@ export default class FileBrowser extends Component {
         this.analytics.track('file', 'rename', 'Quick Files - Rename file');
 
         const { renameValue } = this;
-        const selectedItem = this.selectedItems.get('firstObject') as File;
+        const selectedItem = this.selectedItems.firstObject as unknown as File;
         const conflictingItem = this.items ? this.items
             .find(item => item.itemName === renameValue) : null;
 
@@ -434,7 +434,7 @@ export default class FileBrowser extends Component {
             return;
         }
 
-        (this.selectedItems.get('firstObject') as File).getGuid();
+        (this.selectedItems.firstObject as unknown as File).getGuid();
     }
 
     @action

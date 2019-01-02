@@ -1,30 +1,18 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
-import Node from './node';
+
+import NodeModel from './node';
 import OsfModel from './osf-model';
-import User from './user';
+import UserModel from './user';
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
-
-/**
- * Model for OSF APIv2 comments. This model may be used with one of several API endpoints. It may be queried directly,
- *  or accessed via relationship fields.
- *
- * @class Comment
- */
-export default class Comment extends OsfModel {
+export default class CommentModel extends OsfModel {
     // TODO validation: maxLength
     @attr('fixstring') content!: string;
     @attr('fixstring') page!: string;
-
     // Placeholder for comment creation: allow specifying attributes that are sent to the server, but not as attributes
     // Both type and ID will be serialized into relationships field
     @attr('fixstring') targetID!: string;
     @attr('fixstring') targetType!: string;
-
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
     @attr('boolean') modified!: boolean;
@@ -34,15 +22,18 @@ export default class Comment extends OsfModel {
     @attr('boolean') canEdit!: boolean;
 
     // TODO dynamic belongsTo
-    @belongsTo('user') user!: DS.PromiseObject<User> & User;
-    @belongsTo('node', { inverse: 'comments', polymorphic: true }) node!: DS.PromiseObject<Node> & Node;
+    @belongsTo('user')
+    user!: DS.PromiseObject<UserModel> & UserModel;
+
+    @belongsTo('node', { inverse: 'comments', polymorphic: true })
+    node!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @hasMany('comment', { inverse: null })
-    replies!: DS.PromiseManyArray<Comment>;
+    replies!: DS.PromiseManyArray<CommentModel>;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'comment': Comment;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        comment: CommentModel;
+    } // eslint-disable-line semi
 }

@@ -192,9 +192,3 @@ export default class OsfAdapter extends JSONAPIAdapter {
         return super.handleResponse(status, headers, payload, requestData);
     }
 }
-
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'osf-adapter': OsfAdapter;
-    }
-}

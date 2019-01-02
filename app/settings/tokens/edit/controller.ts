@@ -1,5 +1,5 @@
 import { action } from '@ember-decorators/object';
-import { readOnly } from '@ember-decorators/object/computed';
+import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import RouterService from '@ember/routing/router-service';
@@ -17,7 +17,7 @@ export default class SettingsTokensEditController extends Controller {
 
     deleteModalShown: boolean = false;
 
-    @readOnly('model.taskInstance.value')
+    @reads('model.taskInstance.value')
     token?: Token;
 
     @action

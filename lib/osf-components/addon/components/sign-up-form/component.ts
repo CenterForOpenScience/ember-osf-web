@@ -103,6 +103,6 @@ export default class SignUpForm extends Component.extend({
     @action
     submit() {
         this.analytics.click('button', 'Home - sign_up');
-        this.get('submitTask').perform();
+        this.submitTask.perform();
     }
 }

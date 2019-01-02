@@ -1,13 +1,13 @@
 import OsfAdapter from './osf-adapter';
 
-export default class RegistrationSchema extends OsfAdapter {
+export default class RegistrationSchemaAdapter extends OsfAdapter {
     pathForType(_: string) {
         return 'schemas/registrations';
     }
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'registration-schema': RegistrationSchema;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        'registration-schema': RegistrationSchemaAdapter;
+    } // eslint-disable-line semi
 }

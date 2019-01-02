@@ -1,10 +1,10 @@
 import OsfAdapter from './osf-adapter';
 
-export default class Comment extends OsfAdapter {
+export default class CommentAdapter extends OsfAdapter {
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'comment': Comment;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        comment: CommentAdapter;
+    } // eslint-disable-line semi
 }

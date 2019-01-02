@@ -1,3 +1,4 @@
+import Route from '@ember/routing/route';
 /**
  * This functionality is only available in ember-engines
  * http://ember-engines.com/guide/linking-and-external-links

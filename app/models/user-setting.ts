@@ -2,7 +2,7 @@ import { attr, belongsTo } from '@ember-decorators/data';
 import { buildValidations, validator } from 'ember-cp-validations';
 
 import OsfModel from './osf-model';
-import User from './user';
+import UserModel from './user';
 
 const Validations = buildValidations({
     verification: [
@@ -23,11 +23,12 @@ export default class UserSettingModel extends OsfModel.extend(Validations) {
     @attr('string') secret!: string;
     @attr('number') verification?: number;
 
-    @belongsTo('user', { inverse: 'settings', async: false }) user!: User;
+    @belongsTo('user', { inverse: 'settings', async: false })
+    user!: UserModel;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
         'user-setting': UserSettingModel;
-    }
+    } // eslint-disable-line semi
 }

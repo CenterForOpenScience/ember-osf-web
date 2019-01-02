@@ -1,8 +1,8 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import { assert } from '@ember/debug';
+import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
-import Transition from '@ember/routing/transition';
 import { task, TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
 
