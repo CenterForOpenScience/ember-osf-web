@@ -66,8 +66,8 @@
 .load-nodes-button:focus,
 .load-nodes-button:active,
 .load-nodes-button:focus:active {
-    background-color: #0000;
-    box-shadow: 0 0 0 0 #0000;
+    background-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
     outline-width: 0;
 }
 

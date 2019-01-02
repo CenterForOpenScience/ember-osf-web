@@ -20,3 +20,17 @@
 .NewProject__placeholder {
     color: $color-text-gray-dark;
 }
+
+.NewProject__more {
+    color: $color-text-black !important;
+
+    &:global(.btn-link) {
+        &:hover,
+        &:focus,
+        &:active,
+        &:focus:active {
+            outline-style: none;
+            text-decoration: none !important;
+        }
+    }
+}

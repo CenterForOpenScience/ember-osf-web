@@ -5,9 +5,13 @@
         <div local-class='TitleBar__title'>
             <h2>
                 {{this.model.file.name}}
-                <a local-class='TitleBar__version-link' role='button' onclick={{action 'changeView' 'revision'}}>
+                <OsfButton
+                    local-class='TitleBar__version-link'
+                    @type='link'
+                    @onClick={{action 'changeView' 'revision'}}
+                >
                     {{t 'file_detail.version.title' version-number=this.mfrVersion}}
-                </a>
+                </OsfButton>
             </h2>
         </div>
         <div local-class='TitleBar__buttons'>
