@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `require-auth` - Mocks currentUser service to verify that routes that require auth redirect if unauthenticated    
 - Types:
     - `ember-power-select/test-support` - types for useful functions
+    - upgrade to ember and ember-data 3.x types
 - Travis
     - Remove Firefox Testing
 
