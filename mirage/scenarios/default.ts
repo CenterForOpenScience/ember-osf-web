@@ -118,6 +118,12 @@ function handbookScenario(server: Server) {
         description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
     });
 
+    // InstitutionsWidget
+    server.create('node', {
+        id: 'lacks',
+        affiliatedInstitutions,
+    });
+
     // ContributorList
     for (const contributorCount of [1, 2, 3, 23]) {
         const node = server.create('node', { id: `clst${contributorCount}` });

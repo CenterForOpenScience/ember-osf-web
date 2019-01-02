@@ -1,44 +1,43 @@
 <div data-test-institutions-widget>
-    <div local-class="InstitutionWidget__title">
-        {{t "osf-components.institutions-widget.affiliated_institutions"}}
+    <div local-class='InstitutionWidget__title'>
+        {{t 'osf-components.institutions-widget.affiliated_institutions'}}
         {{#if (not this.readOnly)}}
-            <button 
-               aria-label={{t "general.add"}} 
-               class="add" 
-               onclick=
-                    {{action (mut this.showModal)}} 
-                    {{action "click" "button" (concat @analyticsScope " - Add Affiliation - open_modal") target=analytics}}
+            <BsButton 
+               aria-label={{t 'general.add'}} 
+               class='add'
+               @onClick={{action this.showModal}}
             >
-                {{fa-icon "plus-circle"}}
-            </button>
+                {{fa-icon 'plus-circle'}}
+            </BsButton>
         {{/if}}
     </div>
     <span>
-        {{institutions-list institutions=@node.affiliatedInstitutions}}
+        <InstitutionsList @node={{@node}} />
     </span>
-    {{#bs-modal open=showModal as |modal|}}
-        {{#modal.header}}
-            <h3 class="modal-title">{{t "osf-components.institutions-widget.add_affiliation"}}</h3>
-        {{/modal.header}}
-        {{#modal.body}}
-            <div class="text-left">
+    <BsModal @open={{this.shouldShowModal}} as |modal|>
+        <modal.header>
+            <h3 class='modal-title'>
+                {{t 'osf-components.institutions-widget.add_affiliation'}}
+            </h3>
+        </modal.header>
+        <modal.body>
+            <div class='text-left'>
 
             </div>
-        {{/modal.body}}
-        {{#modal.footer}}
-            <button
-                onclick={{action modal.close}}
-                class="btn btn-default"
-                {{action "click" "button" (concat @analyticsScope " - Add Affiliation - cancel") target=analytics}}
+        </modal.body>
+        <modal.footer>
+            <BsButton
+                class='btn btn-default'
+                @onClick={{action this.closeModal}}
             >
-                {{t "general.cancel"}}
-            </button>
-            <button
-                onclick={{action "create"}}
-                class="btn btn-success"
+                {{t 'general.cancel'}}
+            </BsButton>
+            <BsButton
+                class='btn btn-success'
+                @onClick={{action 'create'}}
             >
-                {{t "general.save"}}
-            </button>
-        {{/modal.footer}}
-    {{/bs-modal}}
+                {{t 'general.save'}}
+            </BsButton>
+        </modal.footer>
+    </BsModal>
 </div>

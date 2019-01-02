@@ -1350,8 +1350,8 @@ export default {
             no_tags: 'No tags',
         },
         'institutions-widget': {
-            affiliated_institutions: 'Affiliated Institutions',
-            add_affiliation: 'Add Affiliation',
+            affiliated_institutions: 'Affiliated institutions',
+            add_affiliation: 'Add affiliation',
         },
     },
     settings: {
