@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 import { Resource } from 'osf-api';
 
-import OsfModel from 'ember-osf-web/models/osf-model';
+import TokenModel from 'ember-osf-web/models/token';
 
 import OsfSerializer from './osf-serializer';
 
@@ -18,7 +18,7 @@ export default class TokenSerializer extends OsfSerializer {
         tokenValue: 'token_id',
     };
 
-    normalize(typeClass: OsfModel, hash: Resource) {
+    normalize(typeClass: TokenModel, hash: Resource) {
         // convert `scopes` from a space-delimited string to a relationship
         const { scopes } = hash.attributes!;
         let newHash = hash;
