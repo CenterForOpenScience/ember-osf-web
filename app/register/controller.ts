@@ -89,7 +89,7 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
                     }
                 } else {
                     this.set('hasProvider', true);
-                    this.get('getProvider').perform(provider);
+                    this.getProvider.perform(provider);
                 }
             }
         }
