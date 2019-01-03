@@ -70,6 +70,8 @@ export default function(this: Server) {
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 
+    osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
+
     // Waterbutler namespace
     this.namespace = '/wb';
     this.post('/files/:id/move', moveFile);

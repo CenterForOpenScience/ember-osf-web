@@ -7,12 +7,16 @@ import OsfModel from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
 
+export interface Assets {
+    logo: string;
+}
+
 export default class InstitutionModel extends OsfModel {
     @attr('string') name!: string;
     @attr('fixstring') description!: string;
     @attr('string') logoPath!: string;
     @attr('string') authUrl!: string;
-    @attr('object') assets!: any;
+    @attr('object') assets!: Partial<Assets>;
 
     @hasMany('user', { inverse: 'institutions' })
     users!: DS.PromiseManyArray<UserModel>;
@@ -23,16 +27,15 @@ export default class InstitutionModel extends OsfModel {
     @hasMany('registration', { inverse: 'affiliatedInstitutions' })
     registrations!: DS.PromiseManyArray<RegistrationModel>;
 
-    @computed('assets', 'id')
+    @computed('assets', 'assets.logo', 'logoPath', 'id')
     get logoUrl(): string {
-        let assetsUrl = '';
-        if (this.assets) {
-            const { logo } = this.assets;
-            assetsUrl = logo;
+        if (this.assets && this.assets.logo) {
+            return this.assets.logo;
+        } else if (this.logoPath) {
+            return this.logoPath;
         } else {
-            assetsUrl = `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
+            return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
         }
-        return assetsUrl;
     }
 }
 
