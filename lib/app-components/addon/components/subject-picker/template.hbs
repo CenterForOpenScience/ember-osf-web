@@ -1,25 +1,25 @@
-<div local-class="current-subjects">
+<div local-class='current-subjects'>
     {{#each this.currentSubjects as |subject index|}}
-        <span local-class="subject">
+        <span local-class='subject'>
             {{#each subject as |segment|}}
-                <div local-class="subject-container">
-                    <span local-class="subject-container-text">
+                <div local-class='subject-container'>
+                    <span local-class='subject-container-text'>
                         {{segment.text}}
                         <button
-                            class="fa fa-close"
-                            local-class="remove-subject"
-                            aria-label="{{t 'submit.body.remove_subject_aria'}}"
-                            title="{{t 'app_components.subject_picker.remove'}}"
+                            class='fa fa-close'
+                            local-class='remove-subject'
+                            aria-label={{t 'submit.body.remove_subject_aria'}}
+                            title={{t 'app_components.subject_picker.remove'}}
                             {{action 'deselect' index}}
                         ></button>
                     </span>
                 </div>
-                <span local-class="right-arrow"></span>
+                <span local-class='right-arrow'></span>
             {{/each}}
         </span>
     {{/each}}
 </div>
-<div local-class="columns">
+<div local-class='columns'>
     {{#each this.columns as |column tier|}}
         {{subject-picker/column
             selection=column.selection
