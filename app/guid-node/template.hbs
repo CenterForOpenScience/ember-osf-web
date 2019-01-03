@@ -1,3 +1,5 @@
-{{node-navbar node=model.taskInstance.value}}
+{{#unless model.taskInstance.isRunning}}
+    {{node-navbar node=model.taskInstance.value}}
+{{/unless}}
 {{outlet}}
 {{join-osf-banner}}

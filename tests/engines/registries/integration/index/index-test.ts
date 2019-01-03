@@ -1,52 +1,26 @@
 import EngineInstance from '@ember/engine/instance';
-import { click, fillIn, triggerKeyEvent, visit } from '@ember/test-helpers';
+import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import Analytics from 'ember-osf-web/services/analytics';
-import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import Analytics from 'ember-osf-web/services/analytics';
+import { stubRegistriesShareSearch } from 'ember-osf-web/tests/engines/registries/helpers';
+import { visit } from 'ember-osf-web/tests/helpers';
+import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
+
 import HeaderStyles from 'registries/components/registries-header/styles';
 import ServiceListStyles from 'registries/components/registries-services-list/styles';
-import ShareSearch from 'registries/services/share-search';
-import sinon from 'sinon';
 
 module('Registries | Integration | index', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
-        server.create('root', { currentUser: null });
+        stubRegistriesShareSearch(this);
 
         const engine = this.owner.lookup('-engine-instance:registries-registries') as EngineInstance;
-
-        const shareSearch = new ShareSearch();
-        engine.register('service:share-search', shareSearch, { instantiate: false });
-        this.owner.register('service:share-search', shareSearch, { instantiate: false });
-
-        sinon.stub(shareSearch, 'registrations').returns({
-            total: 420,
-            results: [{
-                id: '1',
-                title: 'Can Potatoes Cause Cancer?',
-                description: 'THEY CAN AND THEY WILL',
-                mainLink: 'https://example.com/cancer-potatoes',
-                contributors: [],
-                hyperLinks: [],
-            }, {
-                id: '2',
-                title: 'Can Potatoes Cure Cancer?',
-                description: 'THEY CAN AND THEY WILL',
-                mainLink: 'https://example.com/super-potatoes',
-                contributors: [],
-                hyperLinks: [],
-            }],
-            aggregations: {
-                sources: {
-                    buckets: [],
-                },
-            },
-        });
-
         const analytics = engine.lookup('service:analytics');
         analytics.set('click', sinon.stub(analytics, 'click'));
         analytics.actions.click = analytics.click;
@@ -67,21 +41,21 @@ module('Registries | Integration | index', hooks => {
                 {
                     name: 'Search Button (Clicked, With query)',
                     action: async () => {
-                        await fillIn('input', 'My Query');
-                        await click('button');
+                        await fillIn('[data-test-search-box]', 'My Query');
+                        await click('[data-test-search-button]');
                     },
                     expected: ['link', 'Index - Search', 'My Query'],
                 },
                 {
                     name: 'Search Button (Submitted)',
-                    action: async () => triggerKeyEvent('input', 'keydown', 13),
+                    action: async () => triggerKeyEvent('[data-test-search-box]', 'keydown', 13),
                     expected: ['link', 'Index - Search', ''],
                 },
                 {
                     name: 'Search Button (Submitted, With query)',
                     action: async () => {
-                        await fillIn('input', 'My Query');
-                        await triggerKeyEvent('input', 'keydown', 13);
+                        await fillIn('[data-test-search-box]', 'My Query');
+                        await triggerKeyEvent('[data-test-search-box]', 'keydown', 13);
                     },
                     expected: ['link', 'Index - Search', 'My Query'],
                 },

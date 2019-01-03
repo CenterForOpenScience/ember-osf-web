@@ -1,0 +1,34 @@
+.NameParts {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    /* You can set flex-wrap and
+       flex-direction individually */
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* Or do it all in one line
+      with flex flow */
+    flex-flow: row wrap;
+    /* tweak where items line
+       up on the row
+       valid values are: flex-start,
+       flex-end, space-between,
+       space-around, stretch */
+    align-content: flex-start;
+}
+
+.LargeField {
+    flex: 2 0 0;
+    flex-basis: 15em;
+    margin-right: 1em;
+}
+
+.SmallField {
+    flex: 1 0 0;
+    flex-basis: 5em;
+    margin-right: 1em;
+}
+
+.FormButtons button {
+    margin-right: 0.5em;
+}

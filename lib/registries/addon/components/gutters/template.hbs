@@ -1,0 +1,25 @@
+<div local-class="Container">
+    {{yield (hash
+        body=(component 'x-dummy'
+            class=(local-class this.bodyClasses)
+        )
+        left-gutter=(component 'x-dummy'
+            yieldValue=(hash
+                mode=this.leftMode
+                closed=this.leftClosed
+            )
+            data-gutter-mode=this.leftMode
+            data-gutter-closed=(concat this.leftClosed)
+            class=(local-class 'Left Gutter')
+        )
+        right-gutter=(component 'x-dummy'
+            yieldValue=(hash
+                mode=this.rightMode
+                closed=this.rightClosed
+            )
+            data-gutter-mode=this.rightMode
+            data-gutter-closed=(concat this.rightClosed)
+            class=(local-class 'Right Gutter')
+        )
+    )}}
+</div>

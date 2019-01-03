@@ -2,10 +2,11 @@ import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import I18N from 'ember-i18n/services/i18n';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 interface Item {
     text: string|number;
@@ -13,10 +14,8 @@ interface Item {
     action?: string;
 }
 
+@layout(template, styles)
 export default class SearchPaginator extends Component {
-    layout = layout;
-    styles = styles;
-
     @service i18n!: I18N;
 
     current: number = defaultTo(this.current, 1);

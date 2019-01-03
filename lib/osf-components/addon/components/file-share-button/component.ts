@@ -3,11 +3,13 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { htmlSafe } from '@ember/string';
 import config from 'ember-get-config';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const {
     social: {
@@ -17,10 +19,8 @@ const {
     },
 } = config;
 
+@layout(template, styles)
 export default class FileShareButton extends Component {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
 
     file?: File;

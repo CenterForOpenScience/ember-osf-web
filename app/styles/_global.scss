@@ -11,3 +11,12 @@ body > :global(.ember-view) {
 :global(#toast-container) > div { // stylelint-disable-line selector-max-id
     opacity: 1;
 }
+
+@media only percy {
+    :global(#ember-testing) { // stylelint-disable-line selector-max-id
+        width: 100% !important;
+        height: 100% !important;
+        transform: scale(1) !important;
+        transform-origin: top left !important;
+    }
+}

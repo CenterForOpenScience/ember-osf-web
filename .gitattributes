@@ -1,0 +1,3 @@
+*.svg -diff linguist-generated=true
+*.png -diff linguist-generated=true
+*.jpg -diff linguist-generated=true

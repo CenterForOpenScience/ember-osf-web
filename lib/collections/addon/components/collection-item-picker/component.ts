@@ -5,7 +5,8 @@ import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
 import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';
@@ -14,12 +15,13 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
 import $ from 'jquery';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 function stripAndLower(text: string): string {
     return stripDiacritics(text).toLowerCase();
 }
 
+@layout(template, styles)
 export default class CollectionItemPicker extends Component.extend({
     didReceiveAttrs(this: CollectionItemPicker) {
         if (!this.get('initialLoad').hasStarted && this.collection) {
@@ -103,9 +105,6 @@ export default class CollectionItemPicker extends Component.extend({
         return items;
     }).restartable(),
 }) {
-    layout = layout;
-    styles = styles;
-
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
     @service store!: DS.Store;

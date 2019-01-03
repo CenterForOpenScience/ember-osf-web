@@ -1,15 +1,16 @@
 import { action, computed } from '@ember-decorators/object';
 import Ember from 'ember';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import BaseValidatedComponent from '../base-component';
-import layout from './template';
+import template from './template';
 
 export interface GRecaptcha {
     resetReCaptcha(): void;
 }
 
+@layout(template)
 export default class ValidatedRecaptcha extends BaseValidatedComponent {
-    layout = layout;
-
     // Exposes a reset action the the parent scope.
     // Usage: `bindReset=(action (mut this.resetRecaptcha))`, then call `this.resetRecaptcha()` to trigger a reset
     bindReset?: (action: () => void) => void;

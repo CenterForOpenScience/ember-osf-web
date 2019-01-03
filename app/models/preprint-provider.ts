@@ -1,14 +1,22 @@
 import { attr, hasMany } from '@ember-decorators/data';
+import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
+
+import translations from 'ember-osf-web/locales/en/translations';
+
 import Preprint from './preprint';
 import Provider from './provider';
+
+export type DocumentTypes = keyof typeof translations.documentType;
+
+export type PreprintDocumentType = typeof translations.documentType[DocumentTypes];
 
 export default class PreprintProvider extends Provider {
     @attr('array') subjectsAcceptable!: string[];
     @attr('array') additionalProviders!: string[];
     @attr('string') shareSource!: string;
-    @attr('string') preprintWord!: string;
+    @attr('string') preprintWord!: DocumentTypes;
 
     // Reviews settings
     @attr('array') permissions!: string[];
@@ -24,6 +32,12 @@ export default class PreprintProvider extends Provider {
 
     @alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects')
     hasHighlightedSubjects!: boolean;
+
+    @computed('preprintWord')
+    get documentType(): PreprintDocumentType {
+        // TODO: make this actually i18n once we swicth to ember-intl
+        return translations.documentType[this.preprintWord];
+    }
 }
 
 declare module 'ember-data' {

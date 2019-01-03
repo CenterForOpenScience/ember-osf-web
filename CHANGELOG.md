@@ -4,6 +4,72 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.0.0] - 2019-01-03
+### Added
+- Addons:
+    - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
+- Components:
+    - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+- Handbook:
+    - `new-project-modal` component
+    - `new-project-navigation-modal` component
+- Models:
+    - `user-email`
+- Routes:
+    - `settings.profile` - redirects to `settings.profile.name`
+    - `settings.profile.education`
+    - `settings.profile.employment`
+    - `settings.profile.name` - Adds ability to change your name and name parts (with citation preview)
+    - `settings.profile.social`
+- Tests:
+    - Integration:
+        - `settings.profile.name.-components.citation-preview`
+        - `new-project-navigation-modal` - component integration test
+    - Acceptance:
+        - `settings.profile.name`
+        - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
+        - Add percy everywhere in the main app
+    - Helpers:
+        - `require-auth` - Mocks currentUser service to verify that routes that require auth redirect if unauthenticated    
+- Types:
+    - `ember-power-select/test-support` - types for useful functions
+- Travis
+    - Remove Firefox Testing
+
+### Changed
+- Addons:
+    - `ember-code-snippet@2.3.1`
+- Components:
+    - `node-navbar` - Choose links to display with the same logic as legacy
+    - `validated-model-form` - Add an optional hook for onWillDestroy
+    - `sign-up-form` - accept `campaign` as an optional argument and set on user-registration model
+- Handbook:
+    - `validated-model-form` - Show how onWillDestroy works and use ember-onbeforeunload
+- Models:
+    - `node`
+        - added `wikiEnabled` boolean attribute
+        - added `userHasReadPermission` computed property
+        - renamed `currentUserCanEdit` computed property to `userHasWritePermission`
+        - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
+    - `user`
+        - added validations for name fields
+    - `provider` - made partial assets acceptable
+    - `preprint-provider` - added `documentType` computed property for preprint word lookup
+    - `user-registration` - added `campaign` property
+- Routes:
+    - `settings` - redirects to `settings.profile.name`
+    - `register` - add branding for registries and preprint providers
+- Tests:
+    - improved integration tests for `node-navbar` component
+    - Acceptance:
+        - `register` - acceptance tests for the sign up page
+- Adapters:
+    - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
+- Routes:
+    - Add email verification modal to application template
+- Misc:
+    - Upgraded to `osf-style` 1.8.0
+
 ## [18.2.2] - 2018-12-18
 ### Added:
 - Flags:
@@ -44,6 +110,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Engines:
     - `registries` - page resetting and scrolling fixes
 
+### Changed
+- Components:
+    - `file-browser` - replaced project navigation modal with `new-project-navigation-modal` component
+    - `new-project-modal` - Made it smarter and more reusable
+    - `project-selector` - replaced project creation modal with `new-project-modal` component
+- Pages:
+    - `dashboard` - replaced project creation modal with `new-project-modal` component
+- Tests:
+    - `dashboard` - acceptance tests related to project creation workflow
+ 
 ## [18.1.0] - 2018-10-30
 ### Added
 - Components:
@@ -61,6 +137,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings.applications` - list of developer apps
     - `settings.applications.edit`
     - `settings.applications.create`
+- Decorators:
+    - `@layout(template, styles)` in `ember-osf-web/decorators/component`
 
 ### Changed
 - Components:
@@ -75,6 +153,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `root` factory now adds all feature flags, not just route flags
     - `user` factory has 'withFiles' trait so non-current users can have files easily
     - `user` serializer has default_region relationship (hardcoded to us)
+- Decorators:
+    - `@requiredAction` moved to `ember-osf-web/decorators/component`
+- Blueprints:
+    - `component` - use `@layout`, don't add `styles.scss` or `@localClassNames`
 
 ### Removed
 - Flags:

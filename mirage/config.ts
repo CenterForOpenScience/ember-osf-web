@@ -17,7 +17,6 @@ export default function(this: Server) {
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
-    this.apiBaseUrl = `${this.urlPrefix}${this.namespace}`;
 
     this.get('/', rootDetail);
 
@@ -38,6 +37,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
 
+    osfResource(this, 'registration');
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
@@ -52,9 +52,15 @@ export default function(this: Server) {
 
     osfResource(this, 'user', { except: ['create', 'delete'] });
     osfNestedResource(this, 'user', 'institutions', { only: ['index'] });
+    osfNestedResource(this, 'user', 'emails', {
+        path: '/users/:parentID/settings/emails',
+        relatedModelName: 'user-email',
+    });
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
+
+    osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
 
     // Waterbutler namespace
     this.namespace = '/wb';

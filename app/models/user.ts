@@ -9,6 +9,7 @@ import Node from './node';
 import OsfModel from './osf-model';
 import Region from './region';
 import Registration from './registration';
+import UserEmail from './user-email';
 
 /**
  * @module ember-osf-web
@@ -19,6 +20,33 @@ const Validations = buildValidations({
     acceptedTermsOfService: [
         validator('affirmation', {
             messageKey: 'affirm_terms',
+        }),
+    ],
+    fullName: [
+        validator('presence', true),
+        validator('length', {
+            max: 186,
+            min: 3,
+        }),
+    ],
+    givenName: [
+        validator('length', {
+            max: 255,
+        }),
+    ],
+    familyName: [
+        validator('length', {
+            max: 255,
+        }),
+    ],
+    middleNames: [
+        validator('length', {
+            max: 255,
+        }),
+    ],
+    suffix: [
+        validator('length', {
+            max: 255,
         }),
     ],
 });
@@ -40,8 +68,6 @@ export default class User extends OsfModel.extend(Validations) {
     @attr('fixstring') timezone!: string;
 
     @attr('date') dateRegistered!: Date;
-    // email
-    @attr('fixstring') username!: string;
 
     @attr('boolean', { defaultValue: false }) canViewReviews!: boolean;
 
@@ -58,6 +84,8 @@ export default class User extends OsfModel.extend(Validations) {
     @hasMany('file') quickfiles!: DS.PromiseManyArray<File>;
 
     @hasMany('institution', { inverse: 'users' }) institutions!: DS.PromiseManyArray<Institution>;
+
+    @hasMany('user-email', { inverse: 'user' }) emails!: DS.PromiseManyArray<UserEmail>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;

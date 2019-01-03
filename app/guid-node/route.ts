@@ -1,25 +1,16 @@
-import { TaskInstance } from 'ember-concurrency';
+import GuidRoute from 'ember-osf-web/resolve-guid/guid-route';
 
-import { ReferentModel } from 'ember-osf-web/models/guid';
-import ResolvedGuidRoute from 'ember-osf-web/resolve-guid/resolved-guid-route';
+export default class GuidNode extends GuidRoute {
+    modelName(): 'node' {
+        return 'node';
+    }
 
-export interface GuidNodeModel {
-    taskInstance: TaskInstance<ReferentModel>;
-    nodeId: string;
-}
-
-export default class GuidNode extends ResolvedGuidRoute {
-    model(this: GuidNode, params: { node_guid: string }): GuidNodeModel {
+    adapterOptions() {
         return {
-            taskInstance: this.get('resolveGuid').perform(
-                params.node_guid,
-                'node',
-                {
-                    related_counts: 'forks,registrations,draft_registrations',
-                    include: 'root',
-                },
-            ),
-            nodeId: params.node_guid,
+            query: {
+                related_counts: 'forks,registrations,draft_registrations',
+                include: 'root',
+            },
         };
     }
 }

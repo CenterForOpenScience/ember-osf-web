@@ -4,6 +4,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import config from 'ember-get-config';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import Node, { NodeType } from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import { Question } from 'ember-osf-web/models/registration-schema';
@@ -12,15 +13,13 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const { OSF: { url: baseURL } } = config;
 
+@layout(template, styles)
 @tagName('')
 export default class NodeCard extends Component {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
 
     // Optional parameters
@@ -61,8 +60,8 @@ export default class NodeCard extends Component {
         return this.analyticsScope ? `${this.analyticsScope} - ` : '';
     }
 
-    @computed('readOnly', 'node', 'node.nodeType', 'node.currentUserCanEdit')
+    @computed('readOnly', 'node', 'node.nodeType', 'node.userHasWritePermission')
     get showDropdown() {
-        return !this.readOnly && this.node && this.node.nodeType === NodeType.Fork && this.node.currentUserCanEdit;
+        return !this.readOnly && this.node && this.node.nodeType === NodeType.Fork && this.node.userHasWritePermission;
     }
 }

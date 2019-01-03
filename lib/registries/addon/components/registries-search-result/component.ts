@@ -1,16 +1,18 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { localClassNames } from 'ember-css-modules';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import { ShareRegistration } from 'registries/services/share-search';
-import layout from './template';
+import template from './template';
 
 const OSF_GUID_REGEX = /^https?:\/\/.*osf\.io\/([^/]+)/;
 
+@layout(template)
 @localClassNames('RegistriesSearchResult')
 export default class RegistriesSearchResult extends Component {
-    layout = layout;
     @service analytics!: Analytics;
 
     result!: ShareRegistration;

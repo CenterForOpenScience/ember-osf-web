@@ -1,14 +1,14 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { localClassName, localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 
-import { localClassName, localClassNames } from 'ember-osf-web/decorators/css-modules';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 /**
  * @module ember-osf-web
@@ -28,16 +28,15 @@ import layout from './template';
  * ```
  * @class file-icon
  */
+@layout(template)
 @localClassNames('FileListItem')
 export default class FileListItem extends Component.extend({ styles }) {
-    layout = layout;
-
     @service store!: DS.Store;
 
     item?: File;
     @requiredAction openItem!: (item: File | undefined) => void;
 
-    @localClassName
+    @localClassName()
     @computed('item.isSelected')
     get selected(): boolean {
         return !!this.item && this.item.isSelected;

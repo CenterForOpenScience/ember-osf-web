@@ -1,39 +1,56 @@
-{{#ember-wormhole to=secondaryNavbarId renderInPlace=renderInPlace}}
-    <nav class='navbar osf-project-navbar' role='navigation'>
-        <div class='container'>
-            <div class='navbar-header'>
+{{#if @node}}
+    {{#ember-wormhole to=this.secondaryNavbarId renderInPlace=this.renderInPlace}}
+        <nav class="navbar osf-project-navbar" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
 
-                <button type='button' class='navbar-toggle collapsed' local-class='NodeNavbar__navbar-toggle' onclick={{action 'toggleNav'}}>
-                    <span class='sr-only'>{{t 'node_navbar.toggle'}}</span>
-                    <span class='fa fa-bars fa-lg'></span>
-                </button>
+                    <button
+                        type="button"
+                        class="navbar-toggle collapsed"
+                        local-class="NodeNavbar__navbar-toggle"
+                        onclick={{action "toggleNav"}}
+                    >
+                        <span class="sr-only">{{t "node_navbar.toggle"}}</span>
+                        <span class="fa fa-bars fa-lg"></span>
+                    </button>
 
-                <span class='navbar-brand visible-xs visible-sm'>
-                    {{t 'node_navbar.project_nav'}}
-                </span>
-            </div>
-            {{#bs-collapse collapsed=collapsedNav class='navbar-collapse'}}
-                <ul class='nav navbar-nav'>
-                    {{#node-navbar/link nodeId=node.id useLinkTo=false extraClasses='project-title'}}
-                        {{@node.title}}
-                    {{/node-navbar/link}}
-                    {{node-navbar/link nodeId=@node.id useLinkTo=false destination='files'}}
-                    {{node-navbar/link nodeId=@node.id useLinkTo=false destination='wiki'}}
-                    {{node-navbar/link nodeId=@node.id useLinkTo=true destination='analytics'}}
-                    {{#unless @node.isRegistration}}
-                        {{node-navbar/link nodeId=@node.id useLinkTo=true destination='registrations'}}
-                    {{/unless}}
-
-                    {{#if @node.currentUserIsContributor}}
-                        {{node-navbar/link nodeId=@node.id useLinkTo=false destination='contributors'}}
-                        {{#if @node.currentUserCanEdit}}
-                            {{node-navbar/link nodeId=@node.id useLinkTo=false destination='addons'}}
+                    <span class="navbar-brand visible-xs visible-sm">
+                        {{t "node_navbar.project_nav"}}
+                    </span>
+                </div>
+                {{#bs-collapse collapsed=collapsedNav class="navbar-collapse"}}
+                    <ul data-test-node-navbar-links class="nav navbar-nav">
+                        {{#if this.fakeParent}}
+                            {{#node-navbar/link node=this.fakeParent useLinkTo=false}}
+                                {{fa-icon "level-down" rotate=180}}
+                            {{/node-navbar/link}}
                         {{/if}}
-                        {{node-navbar/link nodeId=@node.id useLinkTo=false destination='settings'}}
-                    {{/if}}
-                </ul>
-            {{/bs-collapse}}
-        </div>
-    </nav>
-    <div local-class='NodeNavbar__navbar-buffer'></div>
-{{/ember-wormhole}}
+                        {{#node-navbar/link node=@node useLinkTo=false setActive=false extraClasses="project-title"}}
+                            {{@node.title}}
+                        {{/node-navbar/link}}
+                        {{node-navbar/link node=@node useLinkTo=false destination="files"}}
+                        {{#if @node.wikiEnabled}}
+                            {{node-navbar/link node=@node useLinkTo=false destination="wiki"}}
+                        {{/if}}
+                        {{#if (or @node.public @node.currentUserIsContributor)}}
+                            {{node-navbar/link node=@node useLinkTo=true destination="analytics"}}
+                        {{/if}}
+                        {{#unless @node.isRegistration}}
+                            {{node-navbar/link node=@node useLinkTo=true destination="registrations"}}
+                        {{/unless}}
+                        {{#if @node.currentUserIsContributor}}
+                            {{node-navbar/link node=@node useLinkTo=false destination="contributors"}}
+                        {{/if}}
+                        {{#if (and @node.userHasWritePermission (not @node.isRegistration))}}
+                            {{node-navbar/link node=@node useLinkTo=false destination="addons"}}
+                        {{/if}}
+                        {{#if (if @node.isRegistration @node.userHasWritePermission @node.userHasReadPermission)}}
+                            {{node-navbar/link node=@node useLinkTo=false destination="settings"}}
+                        {{/if}}
+                    </ul>
+                {{/bs-collapse}}
+            </div>
+        </nav>
+        <div local-class="NodeNavbar__navbar-buffer"></div>
+    {{/ember-wormhole}}
+{{/if}}

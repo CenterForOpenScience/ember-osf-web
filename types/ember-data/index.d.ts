@@ -5,5 +5,9 @@ declare module 'ember-data' {
         interface JSONAPIAdapter {
             buildQuery(snapshot: DS.Snapshot): object;
         }
+
+        interface Model {
+            reload(options?: {}): RSVP.Promise<this>;
+        }
     }
 }

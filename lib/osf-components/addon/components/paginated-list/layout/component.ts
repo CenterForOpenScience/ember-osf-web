@@ -1,10 +1,11 @@
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import layout from './template';
+import template from './template';
 
+@layout(template)
 export default class PaginatedList extends Component {
     // Required arguments
     items?: Array<unknown>;
@@ -20,8 +21,6 @@ export default class PaginatedList extends Component {
     totalCount?: number;
 
     // Private properties
-    layout = layout;
-
     @computed('totalCount', 'pageSize')
     get maxPage() {
         if (typeof this.totalCount === 'undefined') {

@@ -19,7 +19,8 @@
     "space-before-function-paren": [true, { "anonymous": "never" }],
     "object-literal-sort-keys": false,
     "object-literal-key-quotes": [true, "as-needed"],
-    "max-classes-per-file": false
+    "max-classes-per-file": false,
+    "max-line-length": false
   },
   "rulesDirectory": []
 }

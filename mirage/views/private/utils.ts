@@ -225,7 +225,11 @@ export function compareBooleans (
     }
 }
 
-export function compare(actualValue: any, comparisonValue: any, operator: ComparisonOperators): boolean {
+export function compare(
+    actualValue: string | boolean,
+    comparisonValue: string,
+    operator: ComparisonOperators,
+): boolean {
     if (typeof actualValue === 'string') {
         return compareStrings(actualValue, comparisonValue, operator);
     } else if (typeof actualValue === 'boolean') {

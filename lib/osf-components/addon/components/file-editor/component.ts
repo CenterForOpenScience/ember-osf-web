@@ -3,10 +3,10 @@ import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { next } from '@ember/runloop';
 
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 /**
  * @module ember-osf
@@ -25,11 +25,9 @@ import layout from './template';
  * @class file-editor
  */
 
+@layout(template, styles)
 @classNames('FileEditor')
 export default class FileEditor extends Component {
-    layout = layout;
-    styles = styles;
-
     fileText: string = defaultTo(this.fileText, '');
     unsavedText: string = defaultTo(this.unsavedText, '');
     @requiredAction save!: (text: string) => void;

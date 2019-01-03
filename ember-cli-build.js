@@ -13,6 +13,7 @@ function postProcess(content) {
 module.exports = function(defaults) {
     const config = defaults.project.config(EMBER_ENV);
     const handbookEnabled = config.engines.handbook.enabled;
+    const mirageEnabled = config['ember-cli-mirage'].enabled;
 
     /*
      * Options just used by child addons of the handbook engine. Some addons
@@ -135,6 +136,12 @@ module.exports = function(defaults) {
     app.import({
         test: 'vendor/ember/ember-template-compiler.js',
     });
+
+    if (mirageEnabled) {
+        app.import('node_modules/seedrandom/seedrandom.min.js', {
+            using: [{ transformation: 'amd', as: 'seedrandom' }],
+        });
+    }
 
     app.import('node_modules/keen-tracking/dist/keen-tracking.min.js', {
         using: [{ transformation: 'amd', as: 'keen-tracking' }],

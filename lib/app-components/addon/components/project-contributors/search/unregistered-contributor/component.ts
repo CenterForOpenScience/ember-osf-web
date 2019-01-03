@@ -4,19 +4,18 @@ import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import { DS } from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import Toast from 'ember-toastr/services/toast';
+
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
-import Toast from 'ember-toastr/services/toast';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 export default class UnregisteredContributor extends Component {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service i18n!: I18N;
     @service store!: DS.Store;

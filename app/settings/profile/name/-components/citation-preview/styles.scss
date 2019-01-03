@@ -1,0 +1,35 @@
+.CitationContainer {
+    margin-bottom: 1em;
+}
+
+.CitationPreview {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    /* You can set flex-wrap and
+       flex-direction individually */
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* Or do it all in one line
+      with flex flow */
+    flex-flow: row wrap;
+    /* tweak where items line
+       up on the row
+       valid values are: flex-start,
+       flex-end, space-between,
+       space-around, stretch */
+    align-content: flex-end;
+}
+
+.LargeBlock {
+    flex: 4 0 0;
+    flex-basis: 15em;
+    margin-right: 3em;
+}
+
+.SmallBlock {
+    font-weight: bold;
+    flex: 1 0 0;
+    flex-basis: 1em;
+    margin-right: 1em;
+}

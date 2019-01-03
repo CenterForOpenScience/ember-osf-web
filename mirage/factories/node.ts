@@ -35,7 +35,7 @@ export default Factory.extend<Node & NodeTraits>({
     },
     currentUserPermissions: [],
     dateModified() {
-        return faker.date.recent(5);
+        return faker.date.past(2, new Date(2018, 0, 0));
     },
     title() {
         return faker.lorem.sentence().replace('.', '');
@@ -44,7 +44,7 @@ export default Factory.extend<Node & NodeTraits>({
     subjects: [],
     registration: false,
     dateCreated() {
-        return faker.date.past(5);
+        return faker.date.past(1, new Date(2015, 0, 0));
     },
     currentUserCanComment: true,
     nodeLicense: null,

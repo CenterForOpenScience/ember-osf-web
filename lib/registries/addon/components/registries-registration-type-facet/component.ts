@@ -10,14 +10,14 @@ import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import engineConfig from 'registries/config/environment';
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
-import layout from './template';
+import template from './template';
 
 const {
     sourcesWhitelist,
@@ -29,6 +29,7 @@ const {
     },
 } = appConfig;
 
+@layout(template)
 export default class RegistriesRegistrationTypeFacet extends Component.extend({
     fetchRegistrationTypes: task(function *(this: RegistriesRegistrationTypeFacet): any {
         try {
@@ -50,8 +51,6 @@ export default class RegistriesRegistrationTypeFacet extends Component.extend({
         }
     }).on('init'),
 }) {
-    layout = layout;
-
     @service i18n!: I18N;
     @service toast!: Toast;
     @service store!: DS.Store;

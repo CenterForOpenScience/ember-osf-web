@@ -1,11 +1,13 @@
 import EngineInstance from '@ember/engine/instance';
-import { click, fillIn, getRootElement, visit } from '@ember/test-helpers';
+import { click, fillIn, getRootElement } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import Analytics from 'ember-osf-web/services/analytics';
-import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
+import { visit } from 'ember-osf-web/tests/helpers';
+import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
+import param from 'ember-osf-web/utils/param';
+import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { OrderedSet, ValueObject } from 'immutable';
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
 import ShareSearch, {
@@ -157,7 +159,6 @@ const AnalyticsTestCases: Array<{
     extra?: string;
     }
     }> = [{
-
         name: 'SHARE Logo Clicked',
         action: async () => click('[data-test-share-logo]'),
         expected: {
@@ -350,15 +351,15 @@ const AnalyticsTestCases: Array<{
     }];
 
 module('Registries | Integration | discover', hooks => {
-    setupEngineApplicationTest(hooks, 'registries');
+    setupApplicationTest(hooks);
     setupMirage(hooks);
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(async function(this: TestContext) {
         server.create('root', { currentUser: null });
         server.create('registration-schema', { name: 'Open Ended' });
         server.create('registration-schema', { name: 'Close Fronted' });
 
-        const engine = this.owner.lookup('-engine-instance:registries-registries') as EngineInstance;
+        const engine = await loadEngine('registries', 'registries');
 
         const shareSearch = new ShareSearch();
 
@@ -367,7 +368,7 @@ module('Registries | Integration | discover', hooks => {
     });
 
     test('query parameters', async function(this: TestContext, assert: Assert) {
-        assert.expect(2 + (QueryParamTestCases.length * 3));
+        assert.expect(2 + (QueryParamTestCases.length * 6));
         const stub = sinon.stub(this.owner.lookup('service:share-search'), 'registrations').returns(emptyResults);
 
         // Initial load so we don't have to deal with the aggregations loading
@@ -381,15 +382,17 @@ module('Registries | Integration | discover', hooks => {
             ]),
         }));
 
-        for (const testCase of QueryParamTestCases) {
-            stub.reset();
-            stub.returns(emptyResults);
+        for (const url of ['/--registries/registries/discover', '/registries/discover']) {
+            for (const testCase of QueryParamTestCases) {
+                stub.reset();
+                stub.returns(emptyResults);
 
-            await visit(`/registries/discover?${$.param(testCase.params)}`);
+                await visit(`${url}?${param(testCase.params)}`);
 
-            assert.ok(true, testCase.name);
-            sinon.assert.calledOnce(stub);
-            sinon.assert.calledWith(stub, new SearchOptions(testCase.expected));
+                assert.ok(true, testCase.name);
+                sinon.assert.calledOnce(stub);
+                sinon.assert.calledWith(stub, new SearchOptions(testCase.expected));
+            }
         }
     });
 
@@ -448,7 +451,7 @@ module('Registries | Integration | discover', hooks => {
             stub.reset();
             assert.ok(true, testCase.name);
 
-            await visit('/registries/discover');
+            await visit('/--registries/registries/discover');
 
             await testCase.action(stub);
 

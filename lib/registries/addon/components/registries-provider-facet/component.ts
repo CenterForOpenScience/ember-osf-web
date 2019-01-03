@@ -2,16 +2,17 @@ import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
 import Component from '@ember/component';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+import { localClassNames } from 'ember-css-modules';
+
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { SearchFilter, SearchOptions } from 'registries/services/search';
-import layout from './template';
+import template from './template';
 
+@layout(template)
 @localClassNames('SourcesFacet')
 export default class RegistriesSourcesFacet extends Component {
-    layout = layout;
     @service analytics!: Analytics;
 
     searchOptions!: SearchOptions;

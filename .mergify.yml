@@ -1,0 +1,15 @@
+# see: https://doc.mergify.io/configuration.html
+
+pull_request_rules:
+  - name: automatic strict merge on CI success and review
+    conditions:
+      - base~=^develop$|^release/                           # only for PRs targeting develop or release branches
+      - status-success=continuous-integration/travis-ci/pr  # must pass travis
+      - "#approved-reviews-by>0"                            # at least one approval from someone with write permission
+      - "#changes-requested-reviews-by=0"                   # no changes requested
+      - label!=no merge                                     # use this label to prevent automatic merge
+      - -title~=\b[Ww][Ii][Pp]\b
+    actions:
+      merge:
+        method: merge                                       # merge with a merge commit
+        strict: smart                                       # make sure PR is up-to-date before merging (but queue updates)

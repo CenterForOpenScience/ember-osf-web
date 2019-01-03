@@ -46,4 +46,18 @@ export default function(server: Server) {
         currentUserPermissions: Object.values(Permission),
     }, 'withRegisteredMeta');
     draftRegisterNodeMultiple(server, nodes[0], 12, {}, 'withRegistrationMetadata');
+    server.create('registration', {
+        id: 'decaf',
+    });
+
+    server.loadFixtures('preprint-providers');
+
+    // For the handbook
+
+    // ValidatedModelForm
+    server.create('node', {
+        id: 'extng',
+        title: 'Existing node!',
+        description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
+    });
 }

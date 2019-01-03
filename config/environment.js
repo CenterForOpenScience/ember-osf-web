@@ -213,6 +213,12 @@ module.exports = function(environment) {
         featureFlagNames: {
             routes: {
                 'guid-node.registrations': 'ember_project_registrations_page',
+                settings: 'ember_user_settings_profile_page',
+                'settings.profile': 'ember_user_settings_profile_page',
+                'settings.profile.education': 'ember_user_settings_profile_page',
+                'settings.profile.employment': 'ember_user_settings_profile_page',
+                'settings.profile.name': 'ember_user_settings_profile_page',
+                'settings.profile.social': 'ember_user_settings_profile_page',
                 'settings.tokens': 'ember_user_settings_tokens_page',
                 'settings.tokens.index': 'ember_user_settings_tokens_page',
                 'settings.tokens.create': 'ember_user_settings_tokens_page',
@@ -222,12 +228,15 @@ module.exports = function(environment) {
                 'settings.developer-apps.create': 'ember_user_settings_apps_page',
                 'settings.developer-apps.edit': 'ember_user_settings_apps_page',
                 register: 'ember_auth_register',
+                'registries.overview': 'ember_registries_detail_page',
+                'registries.overview.index': 'ember_registries_detail_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
             },
             storageI18n: 'storage_i18n',
             enableInactiveSchemas: 'enable_inactive_schemas',
+            verifyEmailModals: 'ember_verify_email_modals',
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,

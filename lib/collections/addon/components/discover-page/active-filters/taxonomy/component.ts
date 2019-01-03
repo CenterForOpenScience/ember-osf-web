@@ -1,8 +1,9 @@
+import { layout } from 'ember-osf-web/decorators/component';
+
 import Base from '../base/component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 export default class ActiveFilterTaxonomy extends Base {
-    layout = layout;
-    styles = styles;
 }

@@ -3,18 +3,17 @@ import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
-import requiredAction from 'ember-osf-web/decorators/required-action';
+
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
 import User from 'ember-osf-web/models/user';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 @tagName('tr')
 export default class extends Component {
-    layout = layout;
-    styles = styles;
-
     @service currentUser!: CurrentUser;
 
     contributors: ArrayProxy<Contributor> = this.contributors;
