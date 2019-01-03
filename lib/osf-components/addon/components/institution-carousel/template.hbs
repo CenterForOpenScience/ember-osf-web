@@ -9,7 +9,7 @@
         @nextControlIcon='fa fa-angle-right'
         @prevControlClassName={{local-class 'InstitutionCarousel__control left'}}
         @nextControlClassName={{local-class 'InstitutionCarousel__control right'}}
-        @showControls=this.showControls
+        @showControls={{this.showControls}}
         as |carousel|
     >
         {{#each this.slides as |slide|}}
