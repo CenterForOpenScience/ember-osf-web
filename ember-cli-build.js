@@ -1,5 +1,7 @@
 /* eslint-env node */
 
+const nodeSass = require('node-sass');
+
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 const { EMBER_ENV } = process.env;
@@ -71,6 +73,7 @@ module.exports = function(defaults) {
             prepend: config.assetsPrefix,
         },
         sassOptions: {
+            implementation: nodeSass,
             includePaths: [
                 'app/styles/',
             ],
