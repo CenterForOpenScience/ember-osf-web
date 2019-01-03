@@ -169,24 +169,24 @@ export interface Server {
 
     create<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
-        ...traits: string[],
+        ...traits: string[]
     ): ModelInstance<T>;
     create<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         attrs?: Partial<T>,
-        ...traits: string[],
+        ...traits: string[]
     ): ModelInstance<T>;
 
     createList<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         amount: number,
-        ...traits: string[],
+        ...traits: string[]
     ): Array<ModelInstance<T>>;
     createList<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         amount: number,
         attrs?: Partial<T>,
-        ...traits: string[],
+        ...traits: string[]
     ): Array<ModelInstance<T>>;
 
     shutdown(): void;
