@@ -1,5 +1,5 @@
 {{#if this.small}}
-    <BsButton 
+    <BsButton
         data-test-delete-button
         aria-label={{this.buttonLabel}}
         @type='link'
@@ -11,7 +11,7 @@
         {{fa-icon 'times' size='lg'}}
     </BsButton>
 {{else}}
-    <BsButton 
+    <BsButton
         data-test-delete-button
         @type='default'
         @onClick={{action this._show}}
@@ -28,7 +28,7 @@
         as |modal|
     >
         <modal.header>
-            <h3 class='modal-title'>{{this.modalTitle}}</h3>
+            <h3 local-class='Modal__title'>{{this.modalTitle}}</h3>
         </modal.header>
 
         <modal.body>
@@ -59,7 +59,7 @@
                 @onClick={{modal.close}}
                 @defaultText={{this.cancelButtonText}}
             />
-            <BsButton 
+            <BsButton
                 data-test-confirm-delete
                 @type='danger'
                 @disabled={{this.confirmDisabled}}
