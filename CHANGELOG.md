@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Addons:
+    - `loaders-css` - For animated loading indicators
+- Components:
+    - `settings.account.-components.security` - Two-factor authentication panel.
+- Models:
+    - `user-setting`
+- Routes:
+    - `settings.account`
+- Styles:
+    - All styles from `osf-style`
+
+### Changed
+- Addons:
+    - `ember-cli-mirage@0.4.10`
+    - `ember-qunit@3.4.4`
+    - `ember-cli-qunit@4.4.0`
+    - `ember-cli-sass@8.0.1`
+- Components:
+    - `contributor-list` - takes an optional parameter `truncated`
+- Templates:
+    - `no-implicit-this` template rule activated
+- Types:
+    - upgrade to ember and ember-data 3.x types
+
+### Removed
+- Addons:
+    - `osf-style`
+
+## [19.0.1] - 2019-01-04
+### Fixed
+- Routes:
+    - `resolve-guid` - remove guid regex test because we have old guids that violate it
+
+## [19.0.0] - 2019-01-03
+### Added
+- Addons:
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
