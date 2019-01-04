@@ -55,28 +55,28 @@
                     @onLinkClicked={{action (mut this.sidenavGutterClosed) true}}
                     as |nav|
                 >
-                    <nav.link-to
+                    <nav.link
                         data-analytics-name='Overview'
                         @route='registries.overview.index'
                         @models={{array this.registration.id}}
                         @icon='home'
                         @label={{t 'registries.overview.title'}}
                     />
-                    <nav.link-to
+                    <nav.link
                         data-analytics-name='Files'
                         @href='/{{this.registration.id}}/files/'
                         @icon='file-text'
                         @label={{t 'registries.overview.external_links.files'}}
                         @count={{50}}
                     />
-                    <nav.link-to
+                    <nav.link
                         data-analytics-name='Wiki'
                         @href='/{{this.registration.id}}/wiki/'
                         @icon='window-maximize'
                         @label={{t 'registries.overview.external_links.wiki'}}
                         @count={{4}}
                     />
-                    <nav.link-to
+                    <nav.link
                         data-analytics-name='Components'
                         @route='registries.overview.children'
                         @models={{array this.registration.id}}
@@ -84,7 +84,7 @@
                         @label={{t 'registries.overview.components.title'}}
                         @count={{this.registration.relatedCounts.children}}
                     />
-                    <nav.link-to
+                    <nav.link
                         data-analytics-name='Links'
                         @route='registries.overview.links'
                         @models={{array this.registration.id}}
@@ -92,14 +92,14 @@
                         @label={{t 'registries.overview.links.title'}}
                         @count={{this.linksCount}}
                     />
-                    <nav.link-to
+                    <nav.link
                         data-analytics-name='Analytics'
                         @route='registries.overview.analytics'
                         @models={{array this.registration.id}}
                         @icon='bar-chart'
                         @label={{t 'registries.overview.external_links.analytics'}}
                     />
-                    <nav.link-to
+                    <nav.link
                         data-analytics-name='Comments'
                         @route='registries.overview.comments'
                         @models={{array this.registration.id}}

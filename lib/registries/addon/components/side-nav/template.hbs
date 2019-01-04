@@ -6,8 +6,8 @@
 >
     <div local-class='Links'>
         {{yield (hash
-            link-to=(component 'side-nav/x-link'
-                onLinkClicked=@onLinkClicked
+            link=(component 'side-nav/x-link'
+                onClick=@onLinkClicked
                 isCollapsed=this.isCollapsed
             )
         )}}
@@ -17,13 +17,11 @@
         {{#let (component 'side-nav/x-link') as |SideNavLink|}}
             <SideNavLink
                 data-analytics-name={{if this.isCollapsed 'Expand' 'Collapse'}}
-                 data-test-toggle='1'
-                 class={{local-class 'Toggle'}}
-                 @href='#'
-                 @onclick={{action this.toggle}}
-                 @isCollapsed={{this.isCollapsed}}
-                 @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}
-                 @label={{t (if this.isCollapsed 'registries.overview.expand' 'registries.overview.collapse')}}
+                class={{local-class 'Toggle'}}
+                @onClick={{action this.toggle}}
+                @isCollapsed={{this.isCollapsed}}
+                @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}
+                @label={{t (if this.isCollapsed 'registries.overview.expand' 'registries.overview.collapse')}}
             />
         {{/let}}
     {{/if}}

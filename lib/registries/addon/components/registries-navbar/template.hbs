@@ -36,10 +36,15 @@
                     as |ddm|
                 >
                     {{#each this.services as |service|}}
-                        <ddm.item data-analytics-name={{service.name}} role='menuitem'>
-                            {{#hyper-link service.route}}
+                        <ddm.item role='menuitem'>
+                            <Link
+                                data-analytics-name={{service.name}}
+                                {{! each service has one of `route` and `href` }}
+                                @route={{service.route}}
+                                @href={{service.href}}
+                            >
                                 <strong local-class='ServiceDropdownEntry'>{{service.name}}</strong>
-                            {{/hyper-link}}
+                            </Link>
                         </ddm.item>
                     {{/each}}
                 </dd.menu>

@@ -1,13 +1,13 @@
 {{#if this.isDevMode}}
     <div local-class='DevBanner'>
-        <Link
-            role='button'
+        <OsfButton
             title={{t 'dev_tools.title'}}
-            @onclick={{action (mut this.showModal) true}}
+            @type='link'
+            @onClick={{action (mut this.showModal) true}}
         >
             <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
             {{fa-icon 'rocket'}}
-        </Link>
+        </OsfButton>
     </div>
     <BsModal
         @open={{this.showModal}}
