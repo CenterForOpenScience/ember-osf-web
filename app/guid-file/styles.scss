@@ -40,6 +40,11 @@
 .TitleBar__version-link {
     cursor: pointer;
     white-space: nowrap;
+    font-size: 1em;
+    font-weight: 300;
+    line-height: 1em;
+    padding: 0;
+    vertical-align: top;
 }
 
 .TitleBar__button-label {

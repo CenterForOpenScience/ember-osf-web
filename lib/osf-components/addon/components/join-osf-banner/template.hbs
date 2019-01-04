@@ -35,15 +35,12 @@
                             </p>
                         </div>
                         <div class='col-xs-1'>
-                            <button
-                                type='button'
-                                class='close'
+                            <OsfButton
                                 aria-label={{t 'general.close'}}
-                                {{action 'click' 'button' 'Join OSF Banner - dismiss' target=this.analytics}}
-                                {{action this.dismiss}}
+                                @onClick={{action this.dismiss}}
                             >
                                 {{fa-icon 'times'}}
-                            </button>
+                            </OsfButton>
                         </div>
                     </div>
                 </div>

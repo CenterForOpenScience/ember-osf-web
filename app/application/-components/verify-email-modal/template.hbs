@@ -12,21 +12,21 @@
             </p>
         </modal.body>
         <modal.footer>
-            <BsButton
+            <OsfButton
                 data-test-deny-email
                 @disabled={{this.disableButtons}}
                 @onClick={{action this.deny}}
             >
                 {{t this.translationKeys.denyButton}}
-            </BsButton>
-            <BsButton
+            </OsfButton>
+            <OsfButton
                 data-test-verify-email
                 @type='primary'
                 @disabled={{this.disableButtons}}
                 @onClick={{action this.verify}}
             >
                 {{t this.translationKeys.verifyButton}}
-            </BsButton>
+            </OsfButton>
         </modal.footer>
     </BsModal>
 {{/if}}

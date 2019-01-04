@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `loaders-css` - For animated loading indicators
 - Components:
     - `settings.account.-components.security` - Two-factor authentication panel.
+    - `osf-button` - our new, use-everywhere button component
 - Models:
     - `user-setting`
 - Routes:

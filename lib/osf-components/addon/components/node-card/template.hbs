@@ -61,13 +61,12 @@
                                 </a>
                             </li>
                             <li role='menuitem'>
-                                <a
-                                    onclick={{action @delete @node}}
-                                    role='button'
+                                <OsfButton
                                     local-class='NodeCard__dropdown-link'
+                                    @onClick={{action @delete @node}}
                                 >
                                     {{t 'general.delete'}}
-                                </a>
+                                </OsfButton>
                             </li>
                         </dd.menu>
                     </BsDropdown>

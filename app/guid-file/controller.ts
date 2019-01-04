@@ -124,7 +124,10 @@ export default class GuidFile extends Controller {
 
     @action
     download(this: GuidFile, version: number) {
-        // analytics sent in template, since this is used twice
+        // analytics were sent in template, since this is used twice
+        if (!this.canEdit) {
+            this.analytics.click('button', 'Quick Files - Download');
+        }
         const url = `${this.downloadLink}?revision=${version}`;
         window.location.href = url;
     }

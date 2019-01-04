@@ -24,14 +24,13 @@
                     {{/validated-input/checkbox}}
                 </h5>
             </div>
-            <button
-                type='submit'
-                class='btn btn-primary'
-                {{action (perform this.saveUser)}}
-                {{action 'click' 'button' 'ToS Consent Banner - continue' target=this.analytics}}
+            <OsfButton
+                @type='primary'
+                @buttonType='submit'
+                @onClick={{action (perform this.saveUser)}}
             >
                 {{t 'tos_consent.continue'}}
-            </button>
+            </OsfButton>
             <p></p>
         </div>
     </BsAlert>

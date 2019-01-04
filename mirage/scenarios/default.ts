@@ -4,7 +4,7 @@ import config from 'ember-get-config';
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
-import { draftRegisterNodeMultiple, registerNodeMultiple } from '../helpers';
+import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
 
 const {
     dashboard: {
@@ -30,6 +30,13 @@ export default function(server: Server) {
     const registrationNode = server.create('node', { id: 'regis', currentUserPermissions: Object.values(Permission) });
     server.create('contributor', {
         node: registrationNode,
+        users: currentUser,
+        permission: 'admin',
+        index: 0,
+    });
+    const forksNode = server.create('node', { id: 'fork5', currentUserPermissions: Object.values(Permission) });
+    server.create('contributor', {
+        node: forksNode,
         users: currentUser,
         permission: 'admin',
         index: 0,
@@ -60,6 +67,7 @@ export default function(server: Server) {
     server.loadFixtures('registration-schemas');
     server.loadFixtures('regions');
 
+    forkNode(server, forksNode as ModelInstance<Node>, { currentUserPermissions: Object.values(Permission) });
     registerNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {
         currentUserPermissions: Object.values(Permission),
     }, 'withRegisteredMeta');

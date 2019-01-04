@@ -55,6 +55,12 @@ export default class GuidRegistrationForks extends Controller {
     }
 
     @action
+    closeNewModal() {
+        this.set('newModal', false);
+        this.analytics.click('button', 'Dashboard - New Project - close_modal');
+    }
+
+    @action
     newFork(this: GuidRegistrationForks) {
         this.analytics.click('button', 'Registration Forks - Create Fork');
         this.set('newModal', false);

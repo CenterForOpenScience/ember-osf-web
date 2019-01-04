@@ -5,9 +5,13 @@
         <div local-class='TitleBar__title'>
             <h2>
                 {{this.model.file.name}}
-                <a local-class='TitleBar__version-link' role='button' onclick={{action 'changeView' 'revision'}}>
+                <OsfButton
+                    local-class='TitleBar__version-link'
+                    @type='link'
+                    @onClick={{action 'changeView' 'revision'}}
+                >
                     {{t 'file_detail.version.title' version-number=this.mfrVersion}}
-                </a>
+                </OsfButton>
             </h2>
         </div>
         <div local-class='TitleBar__buttons'>
@@ -15,24 +19,25 @@
                 <div class='btn-toolbar m-t-md'>
                     {{#if this.canDelete}}
                         <div class='btn-group m-l-xs m-t-xs'>
-                            <button 
+                            <OsfButton 
                                 data-test-delete-button
-                                class='btn btn-sm btn-default'
-                                onclick={{action this.openDeleteModal}}
+                                @type='default'
+                                @size='sm'
+                                @onClick={{action this.openDeleteModal}}
                             >
                                 {{t 'general.delete'}}
-                            </button>
+                            </OsfButton>
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button 
+                        <OsfButton 
                             data-test-download-button
-                            class='btn btn-sm btn-primary'
-                            onclick={{unless this.edit (action 'click' 'button' 'Quick Files - Download' target=this.analytics)}}
-                            {{action this.download this.model.file.currentVersion}}
+                            @type='primary'
+                            @size='sm'
+                            @onClick={{action this.download this.model.file.currentVersion}}
                         >
                             {{t 'general.download'}}
-                        </button>
+                        </OsfButton>
                     </div>
                     <div class='btn-group m-l-xs m-t-xs'>
                         <FileShareButton @file={{this.model.file}} />
@@ -40,51 +45,53 @@
                     {{#if this.isEditableFile}}
                         <div class='btn-group btn-group-sm m-t-xs'>
                             {{#if this.canEdit}}
-                                <div
-                                    class='btn btn-default disabled'
+                                <OsfButton
                                     local-class='TitleBar__button-label'
+                                    @disabled={{true}}
                                 >
                                     {{t 'file_detail.toggle'}}
-                                </div>
-                                <button
-                                    class='btn {{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'btn-primary' 'btn-default'}}'
-                                    onclick={{action this.changeView 'view'}}
+                                </OsfButton>
+                                <OsfButton
+                                    @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
+                                    @onClick={{action this.changeView 'view'}}
                                 >
                                     {{t 'general.view'}}
-                                </button>
-                                <button
-                                    class='btn {{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'btn-primary' 'btn-default'}}'
-                                    onclick={{action this.changeView 'edit'}}
+                                </OsfButton>
+                                <OsfButton
+                                    @type='{{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'primary' 'default'}}'
+                                    @onClick={{action this.changeView 'edit'}}
                                 >
                                     {{t 'general.edit'}}
-                                </button>
+                                </OsfButton>
                             {{else}}
-                                <button
-                                    class='btn {{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'btn-primary' 'btn-default'}}'
-                                    onclick={{action this.changeView 'view'}}
+                                <OsfButton
+                                    @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
+                                    @onClick={{action this.changeView 'view'}}
                                 >
                                     {{t 'general.view'}}
-                                </button>
+                                </OsfButton>
                             {{/if}}
                         </div>
                     {{else}}
                         <div class='btn-group m-l-xs m-t-xs'>
-                            <button
-                                class='btn btn-sm {{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'btn-primary' 'btn-default'}}'
-                                onclick={{action this.changeView 'view'}}
+                            <OsfButton
+                                @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
+                                @size='sm'
+                                @onClick={{action this.changeView 'view'}}
                             >
                                 {{t 'general.view'}}
-                            </button>
+                            </OsfButton>
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button
+                        <OsfButton
                             data-test-revisions-tab
-                            class='btn btn-sm {{if (eq this.show 'revision') 'btn-primary' 'btn-default'}}'
-                            onclick={{action this.changeView 'revision'}}
+                            @type='{{if (eq this.show 'revision') 'primary' 'default'}}'
+                            @size='sm'
+                            @onClick={{action this.changeView 'revision'}}
                         >
                             {{t 'general.revisions'}}
-                        </button>
+                        </OsfButton>
                     </div>
                 </div>
             </div>
@@ -103,18 +110,18 @@
             <p>{{t 'file_detail.delete_file.confirm' file-name=this.model.file.name}}</p>
         </modal.body>
         <modal.footer>
-            <BsButton
+            <OsfButton
                 @onClick={{action modal.close}}
                 @type='default'
             >
                 {{t 'general.cancel'}}
-            </BsButton>
-            <BsButton
+            </OsfButton>
+            <OsfButton
                 @onClick={{action modal.submit}} 
                 @type='danger'
             >
                 {{t 'general.delete'}}
-            </BsButton>
+            </OsfButton>
         </modal.footer>
     </BsModal>
     <hr>

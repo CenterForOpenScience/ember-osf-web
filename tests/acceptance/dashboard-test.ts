@@ -187,7 +187,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('az', 'Default sort item 2 is in proper position');
 
         // Sort date ascending
-        await click('#last_loggedAscendingSort');
+        await click('[data-test-ascending-sort="last_logged"]');
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in date asc sort');
         assert.dom(projectTitles[0]).hasText('az', 'Date asc sort item 0 is in proper position');
@@ -195,7 +195,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('z', 'Date asc sort item 2 is in proper position');
 
         // Sort date descending (should be same as default)
-        await click('#last_loggedDescendingSort');
+        await click('[data-test-descending-sort="last_logged"]');
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in date desc sort');
         assert.dom(projectTitles[0]).hasText('z', 'Date desc sort item 0 is in proper position');
@@ -203,7 +203,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('az', 'Date desc sort item 2 is in proper position');
 
         // Sort title ascending
-        await click('#titleAscendingSort');
+        await click('[data-test-ascending-sort="title"]');
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in title asc sort');
         assert.dom(projectTitles[0]).hasText('a', 'Title asc sort item 0 is in proper position');
@@ -211,7 +211,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('z', 'Title asc sort item 2 is in proper position');
 
         // Sort title descending
-        await click('#titleDescendingSort');
+        await click('[data-test-descending-sort="title"]');
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in title desc sort');
         assert.dom(projectTitles[0]).hasText('z', 'Title desc sort item 0 is in proper position');

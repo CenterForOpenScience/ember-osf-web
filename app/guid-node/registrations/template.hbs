@@ -71,13 +71,13 @@
         </div>
         {{#if this.node.userHasAdminPermission}}
             <div class='col-xs-3 col-sm-4'>
-                <BsButton
+                <OsfButton
                     data-test-new-registration-button
                     @type='success'
                     @onClick={{action this.openNewModal}}
                 >
                     {{t 'node.registrations.new'}}
-                </BsButton>
+                </OsfButton>
                 <BsModal
                     data-test-new-registration-modal
                     @size='lg'
@@ -122,19 +122,19 @@
                         </div>
                     </modal.body>
                     <modal.footer data-test-new-registration-modal-footer>
-                        <BsButton 
+                        <OsfButton 
                             data-test-new-registration-modal-cancel-button
                             @onClick={{action modal.close}}
                         >
                             {{t 'general.cancel'}}
-                        </BsButton>
-                        <BsButton
+                        </OsfButton>
+                        <OsfButton
                             data-test-new-registration-modal-create-draft-button
                             @onClick={{action modal.submit}}
                             @type='info'
                         >
                             {{t 'node.registrations.new_registration_modal.create'}}
-                        </BsButton>
+                        </OsfButton>
                     </modal.footer>
                 </BsModal>
                 <BsModal
@@ -179,20 +179,20 @@
                     <modal.footer data-test-prereg-challenge-modal-footer>
                         <div class='row'>
                             <div class='col-lg-10 col-lg-offset-1'>
-                                <BsButton
+                                <OsfButton
                                     data-test-prereg-challenge-modal-cancel-button
                                     @onClick={{action modal.close}}
                                 >
                                     {{t 'general.cancel'}}
-                                </BsButton>
-                                <BsButton
+                                </OsfButton>
+                                <OsfButton
                                     data-test-prereg-challenge-modal-continue-button
                                     @onClick={{action modal.submit}}
                                     @type='info'
                                     @disabled={{not this.preregConsented}}
                                 >
                                     {{t 'node.registrations.prereg_modal.continue'}}
-                                </BsButton>
+                                </OsfButton>
                             </div>
                         </div>
                     </modal.footer>

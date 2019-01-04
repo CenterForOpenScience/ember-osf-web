@@ -35,6 +35,7 @@ export default function(this: Server) {
     this.post('/nodes/', createNode);
     osfNestedResource(this, 'node', 'children');
     osfNestedResource(this, 'node', 'contributors');
+    osfNestedResource(this, 'node', 'forks', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });

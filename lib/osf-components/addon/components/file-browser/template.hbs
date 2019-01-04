@@ -9,9 +9,15 @@
             }}
         </div>
         <div class='col-xs-3'>
-            <button data-test-close-filter {{action 'closeFilter'}} class='btn pull-right' local-class='action-button' aria-label={{t 'general.close'}}>
+            <OsfButton
+                data-test-close-filter
+                local-class='action-button'
+                aria-label={{t 'general.close'}}
+                @onClick={{action this.closeFilter}}
+                @class='pull-right'
+            >
                 {{fa-icon 'times'}}
-            </button>
+            </OsfButton>
         </div>
     {{else if this.showRename}}
         <div class='col-xs-9 filter-input'>
@@ -23,30 +29,46 @@
             }}
         </div>
         <div class='col-xs-3'>
-            <button data-test-close-rename {{action 'closeRename'}} class='btn pull-right' local-class='action-button'>
+            <OsfButton
+                data-test-close-rename 
+                local-class='action-button'
+                aria-label={{t 'general.close'}}
+                @onClick={{action this.closeRename}}
+                @class='pull-right'
+            >
                 {{fa-icon 'times'}}
-            </button>
-            <button data-test-save-rename {{action 'rename'}} class='btn pull-right' local-class='action-button'>
+            </OsfButton>
+            <OsfButton
+                data-test-save-rename
+                aria-label={{t 'general.rename'}}
+                local-class='action-button'
+                @onClick={{action this.rename}}
+                @class='pull-right' 
+            >
                 {{fa-icon 'pencil'}}
-            </button>
+            </OsfButton>
         </div>
     {{else}}
         <div class='pull-right'>
             {{#if this.canEdit}}
-                <button class='btn btn-light dz-upload-button' local-class='action-button' disabled={{this.isUploading}}>
+                <OsfButton
+                    local-class='action-button'
+                    @class='dz-upload-button'
+                    @disabled={{this.isUploading}}
+                >
                     {{fa-icon 'upload'}}
                     {{t 'general.upload'}}
-                </button>
+                </OsfButton>
             {{/if}}
             {{#if this.selectedItems}}
                 {{! TODO: show available actions for selected files }}
                 {{#if (eq this.selectedItems.length 1)}}
-                    <button 
+                    <OsfButton 
                         data-test-share-dialog-button 
                         id='shareButton' 
-                        class='btn btn-light popover-toggler' 
                         local-class='action-button' 
-                        {{action 'copyLink'}}
+                        @class='popover-toggler' 
+                        @onClick={{action this.copyLink}}
                     >
                         {{fa-icon 'share-alt'}}
                         {{t 'general.share'}}
@@ -65,70 +87,99 @@
                                 {{t 'file_browser.loading'}}
                             {{/if}}
                         </BsPopover>
-                    </button>
-                    <button 
+                    </OsfButton>
+                    <OsfButton 
                         data-test-download-button
-                        onclick={{unless this.canEdit (action 'click' 'button' 'Quick Files - Download' target=this.analytics)}}
-                        {{action 'downloadItem'}}
-                        class='btn btn-light' local-class='action-button'
+                        local-class='action-button'
+                        @onClick={{action this.downloadItem}}
                     >
                         {{fa-icon 'download'}}
                         {{t 'general.download'}}
-                    </button>
-                    <button data-test-view-button {{action 'viewItem'}} class='btn btn-light' local-class='action-button'>
+                    </OsfButton>
+                    <OsfButton
+                        data-test-view-button
+                        local-class='action-button'
+                        @onClick={{action this.viewItem}}
+                    >
                         {{fa-icon 'file-o'}}
                         {{t 'general.view'}}
-                    </button>
+                    </OsfButton>
                     {{#if this.canEdit}}
-                        <button data-test-move-button {{action (mut this.currentModal) 'move'}} class='btn btn-light' local-class='action-button'>
+                        <OsfButton
+                            data-test-move-button
+                            local-class='action-button'
+                            @onClick={{action (mut this.currentModal) 'move'}}
+                        >
                             {{fa-icon 'level-up'}}
                             {{t 'general.move'}}
-                        </button>
-                        <button data-test-delete-button {{action (mut this.currentModal) 'delete'}} class='btn btn-light' local-class='action-button'>
+                        </OsfButton>
+                        <OsfButton
+                            data-test-delete-button 
+                            local-class='action-button'
+                            @onClick={{action (mut this.currentModal) 'delete'}}
+                        >
                             {{fa-icon 'trash'}}
                             {{t 'general.delete'}}
-                        </button>
-                        <button data-test-rename-button {{action (mut this.showRename) true}} class='btn btn-light' local-class='action-button'>
+                        </OsfButton>
+                        <OsfButton
+                            data-test-rename-button
+                            local-class='action-button'
+                            @onClick={{action (mut this.showRename) true}}
+                        >
                             {{fa-icon 'pencil'}}
                             {{t 'general.rename'}}
-                        </button>
+                        </OsfButton>
                     {{/if}}
                 {{else}}
                     {{#if this.canEdit}}
-                        <button data-test-delete-multiple-button {{action (mut this.currentModal) 'deleteMultiple'}} class='btn btn-light' local-class='action-button'>
+                        <OsfButton
+                            data-test-delete-multiple-button
+                            local-class='action-button'
+                            @onClick={{action (mut this.currentModal) 'deleteMultiple'}}
+                        >
                             {{fa-icon 'trash'}}
                             {{t 'file_browser.delete_multiple'}}
-                        </button>
+                        </OsfButton>
                     {{/if}}
                 {{/if}}
             {{else if this.hasItems}}
-                <button 
+                <OsfButton 
                     data-test-download-zip-button
-                    class='btn btn-light' 
                     local-class='action-button' 
-                    onclick={{unless this.canEdit (action 'click' 'button' 'Quick Files - Download zip' target=this.analytics preventDefault=false)}} 
-                    {{action 'downloadZip'}}
+                    @onClick={{action this.downloadZip}}
                 >
                     {{fa-icon 'download'}} {{t 'file_browser.download_zip'}}
-                </button>
+                </OsfButton>
             {{/if}}
             {{#if this.hasItems}}
-                <button data-test-filter-button {{action (mut this.showFilterClicked) true}} class='btn btn-light' local-class='action-button'>
+                <OsfButton
+                    data-test-filter-button
+                    local-class='action-button'
+                    @onClick={{action (mut this.showFilterClicked) true}}
+                >
                     {{fa-icon 'search'}}
                     {{t 'general.filter'}}
-                </button>
+                </OsfButton>
             {{/if}}
-            <button data-test-info-button {{action (mut this.currentModal) 'info'}} class='btn btn-light' local-class='action-button'>
+            <OsfButton
+                data-test-info-button
+                local-class='action-button'
+                @onClick={{action (mut this.currentModal) 'info'}}
+            >
                 {{fa-icon 'info'}}
                 {{t 'general.help'}}
-            </button>
+            </OsfButton>
         </div>
     {{/if}}
 </div>
 <div local-class='column-labels column-labels-header'>
     <div class='col-lg-7 col-md-9 col-sm-9 col-xs-12' local-class='file-browser-header header'>
         <span local-class='sortable-column'>{{t 'general.name'}}</span>
-        {{sort-button sortAction=(action (mut this.sort)) sort=this.sort sortBy='name'}}
+        <SortButton
+            @sortAction={{action (mut this.sort)}}
+            @sort={{this.sort}}
+            @sortBy='name'
+        />
     </div>
     <div class='col-lg-1 col-md-1 hidden-sm hidden-xs' local-class='file-browser-header header'>
         <span local-class='sortable-column'>{{t 'general.size'}}</span>
@@ -143,7 +194,7 @@
         <span local-class='sortable-column'>{{t 'general.modified'}}</span>
         <SortButton 
             @sortAction={{action (mut this.sort)}}
-            @sort=this.sort
+            @sort={{this.sort}}
             @sortBy='modified'
         />
     </div>
@@ -166,13 +217,13 @@
         <p>{{t 'file_browser.info.download'}}</p>
     </modal.body>
     <modal.footer>
-        <BsButton
+        <OsfButton
             data-test-close-current-modal
             @onClick={{action (mut this.currentModal) ''}}
             @type='default'
         >
             {{t 'general.close'}}
-        </BsButton>
+        </OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
@@ -190,18 +241,18 @@
         <p>{{t 'file_browser.delete_modal.body'}}</p>
     </modal.body>
     <modal.footer>
-        <BsButton
+        <OsfButton
             @onClick={{action (mut this.currentModal) ''}}
             @type='default'
         >
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton 
+        </OsfButton>
+        <OsfButton 
             @onClick={{action this.deleteItems}}
             @type='danger'
         >
             {{t 'general.delete'}}
-        </BsButton>
+        </OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
@@ -223,8 +274,8 @@
         {{/each}}
     </modal.body>
     <modal.footer>
-        <BsButton @onClick={{action (mut this.currentModal) ''}} @type='default'>{{t 'general.cancel'}}</BsButton>
-        <BsButton @onClick={{action 'deleteItems' true}} @type='danger'>{{t 'general.delete'}}</BsButton>
+        <OsfButton @onClick={{action (mut this.currentModal) ''}} @type='default'>{{t 'general.cancel'}}</OsfButton>
+        <OsfButton @onClick={{action this.deleteItems true}} @type='danger'>{{t 'general.delete'}}</OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
@@ -241,15 +292,15 @@
         <p>{{t 'file_browser.conflict_modal.replace_info'}}</p>
     </modal.body>
     <modal.footer>
-        <BsButton @onClick={{action (mut this.currentModal) ''}} @type='default'>
+        <OsfButton @onClick={{action (mut this.currentModal) ''}} @type='default'>
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton @onClick={{action this.renameConflict 'keep'}} @type='primary'>
+        </OsfButton>
+        <OsfButton @onClick={{action this.renameConflict 'keep'}} @type='primary'>
             {{t 'file_browser.conflict_modal.keep_button'}}
-        </BsButton>
-        <BsButton @onClick={{action this.renameConflict 'replace'}} type='primary'>
+        </OsfButton>
+        <OsfButton @onClick={{action this.renameConflict 'replace'}} type='primary'>
             {{t 'file_browser.conflict_modal.replace_button'}}
-        </BsButton>
+        </OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
@@ -272,31 +323,31 @@
         />
     </modal.body>
     <modal.footer>
-        <BsButton
+        <OsfButton
             data-test-move-to-project-modal-close-button
             @disabled={{this.isMoving}}
-            @onClick={{action 'closeMoveToProjectModal'}}
+            @onClick={{action this.closeMoveToProjectModal}}
             @type='default'
         >
             {{t 'general.cancel'}}
-        </BsButton>
+        </OsfButton>
         {{#if (not-eq this.projectSelectState 'main')}}
-            <BsButton
+            <OsfButton
                 data-test-move-to-project-modal-back-button
                 @disabled={{this.isMoving}}
                 @onClick={{action (mut this.projectSelectState) 'main'}}
                 @type='default'
             >
                 {{t 'general.back'}}
-            </BsButton>
-            <BsButton
+            </OsfButton>
+            <OsfButton
                 data-test-move-to-project-modal-perform-button
                 @disabled={{or (not this.isProjectSelectorValid) this.isMoving}}
                 @onClick={{action (perform this.moveToProject)}}
                 @type='primary'
             >
                 {{t 'file_browser.move_modal.move_button'}}
-            </BsButton>
+            </OsfButton>
         {{/if}}
     </modal.footer>
 </BsModal>

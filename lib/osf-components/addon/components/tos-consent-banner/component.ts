@@ -27,6 +27,7 @@ export default class TosConsentBanner extends Component {
         const user = yield this.currentUser.user;
         const { validations } = yield user.validate();
         this.set('didValidate', true);
+        this.analytics.click('button', 'ToS Consent Banner - continue');
 
         if (!validations.isValid) {
             return;
