@@ -34,6 +34,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Addons:
     - `osf-style`
 
+## [19.0.1] - 2019-01-04
+### Fixed
+- Routes:
+    - `resolve-guid` - remove guid regex test because we have old guids that violate it
+
 ## [19.0.0] - 2019-01-03
 ### Added
 - Addons:
