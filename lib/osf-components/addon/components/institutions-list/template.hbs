@@ -9,14 +9,16 @@
         <list.item as |institution|>
             <div local-class='InstitutionList__item'>
                 {{#if institution}}
-                    {{#global-link-to 'institutions'}}
+                    <Link
+                        @href={{institution.links.html}}
+                    >
                         <img
                             data-test-institution-list-institution={{institution.name}}
                             class='img-circle img-responsive'
                             src={{institution.logoUrl}}
                             alt={{institution.name}}
                         >
-                    {{/global-link-to}}
+                    </Link>
                 {{else}}
                     <Placeholder as |placeholder|>
                         <placeholder.circle />

@@ -26,6 +26,7 @@ module('Integration | Component | institutions-widget', hooks => {
         await render(hbs`<InstitutionsWidget @node={{this.node}} />`);
 
         assert.dom('[data-test-institutions-widget]').exists();
+        assert.dom('[data-test-institutions-list-institution]').doesNotExist();
     });
 
     test('read-only', async function(assert) {
@@ -36,5 +37,19 @@ module('Integration | Component | institutions-widget', hooks => {
         await render(hbs`<InstitutionsWidget @node={{this.node}} @readOnly=true />`);
 
         assert.dom('[data-test-institutions-widget]').exists();
+        assert.dom('[data-test-add-institution-button]').doesNotExist();
+    });
+
+    test('it renders with institutions', async function(assert) {
+        const institutions = server.createList('institution', 5);
+        const mirageNode = server.create('node', { affiliatedInstitutions: institutions });
+
+        this.set('node', this.store.findRecord('node', mirageNode.id));
+
+        await render(hbs`<InstitutionsWidget @node={{this.node}} />`);
+
+        assert.dom('[data-test-institutions-widget]').exists();
+        institutions.forEach(institution =>
+            assert.dom(`[data-test-institution-list-institution="${institution.name}"]`).exists());
     });
 });
