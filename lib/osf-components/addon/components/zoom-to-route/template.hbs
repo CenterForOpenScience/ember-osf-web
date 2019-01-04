@@ -1,10 +1,11 @@
-<a 
-    role='button'
-    title={{t 'zoom_to_route.title'}}
-    {{action (mut this.showModal) true}}
+<OsfButton
+    aria-label={{t 'zoom_to_route.title'}}
+    local-class='ZoomRocket'
+    @type='link'
+    @onClick={{action (mut this.showModal) true}}
 >
     {{fa-icon 'rocket'}}
-</a>
+</OsfButton>
 {{#if this.showModal}}
     <BsModalSimple
         @onHide={{action (mut this.showModal) false}}

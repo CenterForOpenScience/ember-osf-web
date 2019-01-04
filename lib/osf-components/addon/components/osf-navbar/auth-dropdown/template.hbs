@@ -4,20 +4,22 @@
             {{#hyper-link this.signUpRoute queryParams=this.signUpQueryParams class='btn btn-success btn-top-signup m-l-sm m-r-xs' analyticsLabel='Navbar - SignUp' testSelectorVal='sign-up-button'}}
                 {{t 'auth_dropdown.sign_up'}}
             {{/hyper-link}}
-            <a 
-                {{action this.login}}
+            <OsfButton 
                 data-test-sign-in-button
-                onclick={{action 'click' 'button' 'Navbar - SignIn' target=this.analytics}}
-                class='btn btn-info btn-top-login m-r-xs'
-                role='button'
+                class='btn-top-login'
+                @onClick={{action this.login}}
+                @size='xs'
+                @type='info'
             >
+                {{!-- {{action 'click' 'button' 'Navbar - SignIn' target=this.analytics}} --}}
                 {{t 'auth_dropdown.sign_in'}}
-            </a>
+            </OsfButton>
         </div>
     </li>
 {{else}}
     <BsDropdown
         data-test-auth-dropdown
+        local-class='DropdownContainer'
         @tagName='li'
         @classNames='dropdown secondary-nav-dropdown'
         as |dd| 
@@ -59,15 +61,15 @@
                 </a>
             </ddm.item>
             <ddm.item role='menuitem'>
-                <a
+                <OsfButton
                     class='logoutLink'
-                    role='button'
-                    {{action 'logout'}}
-                    {{action this._onLinkClicked 'Navbar - Logout'}}
+                    @type='link'
+                    @onClick={{action 'logout'}}
                 >
+                    {{!-- {{action this._onLinkClicked 'Navbar - Logout'}} --}}
                     <i class='fa fa-sign-out fa-lg p-r-xs'></i>
                     {{t 'auth_dropdown.log_out'}}
-                </a>
+                </OsfButton>
             </ddm.item>
         </dd.menu>
     </BsDropdown>

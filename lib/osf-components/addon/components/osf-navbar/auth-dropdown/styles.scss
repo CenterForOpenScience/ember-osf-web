@@ -6,3 +6,7 @@
 .AuthDropdown {
     right: 0 !important;
 }
+
+:global(.dropdown.secondary-nav-dropdown .btn-link.dropdown-toggle) {
+    padding: 11px 15px;
+}

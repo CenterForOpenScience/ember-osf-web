@@ -467,6 +467,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80080808', endColorstr='#800f0f0f', GradientType=0);
     box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.25);
     box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.25);
+    padding: 11px 15px;
 }
 
 .navbar-inverse .navbar-brand,
@@ -736,6 +737,12 @@
         // Specifies color and hover interactions of buttons that look like links (primary dropdown caret, auth dropdown)
         .btn-link {
             color: #fff;
+            border-width: 0;
+            padding-bottom: 5px;
+            padding-left: 22px;
+            padding-right: 15px;
+            padding-top: 5px;
+            font-size: 1.2em;
 
             &:hover,
             &:focus {
@@ -823,6 +830,10 @@
             top: 60px;
             right: -19px;
             width: 160px;
+        }
+
+        .dropdown-toggle {
+            padding: 11px 15px;
         }
     }
 

@@ -39,7 +39,6 @@ export default function(server: Server) {
         node: forksNode,
         users: currentUser,
         permission: 'admin',
-        currentUserPermissions: Object.values(Permission),
         index: 0,
     });
 
@@ -68,7 +67,7 @@ export default function(server: Server) {
     server.loadFixtures('registration-schemas');
     server.loadFixtures('regions');
 
-    forkNode(server, forksNode as ModelInstance<Node>);
+    forkNode(server, forksNode as ModelInstance<Node>, { currentUserPermissions: Object.values(Permission) });
     registerNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {
         currentUserPermissions: Object.values(Permission),
     }, 'withRegisteredMeta');

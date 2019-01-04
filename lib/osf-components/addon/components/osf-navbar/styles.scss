@@ -2,8 +2,12 @@
     height: 50px;
 }
 
+.NavbarToggleXS {
+    background-color: transparent !important;
+}
+
 .PrimaryNav__toggle {
-    padding: 1px 7px 2px;
+    padding: 1px 7px 2px !important;
 }
 
 // The default 340px isn't quite enough for the auth dropdown
