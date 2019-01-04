@@ -5,6 +5,7 @@
         local-class='goodbye'
         @type='success'
         @classNames='text-center'
+        @onDismiss={{action 'click' 'button' 'Home - dismiss_alert' target=this.analytics}}
     >
         <p>{{t 'home.alert_logged_out'}}</p>
     </BsAlert>

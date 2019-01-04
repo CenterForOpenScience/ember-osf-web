@@ -1,4 +1,4 @@
-import { action, computed } from '@ember-decorators/object';
+import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import config from 'ember-get-config';
@@ -39,11 +39,6 @@ export default class Home extends Controller {
     constructor() {
         super();
         Object.assign(this, config.home);
-    }
-
-    @action
-    onDismiss() {
-        this.analytics.click('button', 'Home - dismiss_alert');
     }
 }
 
