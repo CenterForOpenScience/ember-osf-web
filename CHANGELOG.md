@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `loaders-css` - For animated loading indicators
 - Components:
     - `settings.account.-components.security` - Two-factor authentication panel.
+    - `osf-button` - our new, use-everywhere button component
 - Models:
     - `user-setting`
 - Routes:
@@ -45,8 +46,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
-    - `settings.account.-components.security` - Two-factor authentication panel.
-    - `osf-button` - our new, use-everywhere button component
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
