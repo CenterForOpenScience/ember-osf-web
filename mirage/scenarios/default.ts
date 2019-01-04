@@ -39,6 +39,7 @@ export default function(server: Server) {
         node: forksNode,
         users: currentUser,
         permission: 'admin',
+        currentUserPermissions: Object.values(Permission),
         index: 0,
     });
 

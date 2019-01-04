@@ -62,8 +62,8 @@
         }}
             <list.item as |fork|>
                 <NodeCard
-                    @node={{this.fork}}
-                    @delete={{action this.openDeleteModal this.fork}}
+                    @node={{fork}}
+                    @delete={{action this.openDeleteModal fork}}
                 />
             </list.item>
 

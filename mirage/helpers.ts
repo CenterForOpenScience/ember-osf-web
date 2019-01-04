@@ -3,7 +3,6 @@ import { AttributesFor, RelationshipsFor } from 'ember-data';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Node from 'ember-osf-web/models/node';
-import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 
 import { DraftRegistrationTraits } from './factories/draft-registration';
@@ -86,7 +85,6 @@ export function forkNode(
         forkedFrom: node,
         category: node.category,
         fork: true,
-        currentUserPermissions: Object.values(Permission),
         title: `Fork of ${node.title}`,
         description: node.description,
         ...props,
