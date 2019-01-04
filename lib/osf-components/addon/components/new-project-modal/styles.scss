@@ -27,6 +27,7 @@
 
 .NewProject__more {
     color: $color-text-black !important;
+    padding: 0 !important;
 
     &:global(.btn-link) {
         &:hover,
