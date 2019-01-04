@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Addons:
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
-    - `loaders-css` - For animated loading indicators
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
     - `settings.account.-components.security` - Two-factor authentication panel.
@@ -18,16 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `new-project-navigation-modal` component
 - Models:
     - `user-email`
-    - `user-setting`
 - Routes:
-    - `settings.account`
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
     - `settings.profile.employment`
     - `settings.profile.name` - Adds ability to change your name and name parts (with citation preview)
     - `settings.profile.social`
-- Styles:
-    - All styles from `osf-style`
 - Tests:
     - Integration:
         - `settings.profile.name.-components.citation-preview`
@@ -40,21 +35,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `require-auth` - Mocks currentUser service to verify that routes that require auth redirect if unauthenticated    
 - Types:
     - `ember-power-select/test-support` - types for useful functions
-    - upgrade to ember and ember-data 3.x types
 - Travis
     - Remove Firefox Testing
 
 ### Changed
 - Addons:
-    - `ember-cli-mirage@0.4.10`
     - `ember-code-snippet@2.3.1`
-    - `ember-qunit@3.4.4`
-    - `ember-cli-qunit@4.4.0`
-    - `ember-cli-sass@8.0.1`
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
     - `validated-model-form` - Add an optional hook for onWillDestroy
-    - `contributor-list` - takes an optional parameter `truncated`
+    - `sign-up-form` - accept `campaign` as an optional argument and set on user-registration model
 - Handbook:
     - `validated-model-form` - Show how onWillDestroy works and use ember-onbeforeunload
 - Models:
@@ -65,22 +55,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
     - `user`
         - added validations for name fields
+    - `provider` - made partial assets acceptable
+    - `preprint-provider` - added `documentType` computed property for preprint word lookup
+    - `user-registration` - added `campaign` property
 - Routes:
     - `settings` - redirects to `settings.profile.name`
-- Templates:
-    - `no-implicit-this` template rule activated
+    - `register` - add branding for registries and preprint providers
 - Tests:
     - improved integration tests for `node-navbar` component
+    - Acceptance:
+        - `register` - acceptance tests for the sign up page
 - Adapters:
     - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
 - Routes:
     - Add email verification modal to application template
 - Misc:
     - Upgraded to `osf-style` 1.8.0
-
-### Removed
-- Addons:
-    - `osf-style`
 
 ## [18.2.2] - 2018-12-18
 ### Added:

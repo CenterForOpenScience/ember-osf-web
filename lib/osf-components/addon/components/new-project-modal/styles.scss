@@ -21,6 +21,10 @@
     color: $color-text-gray-dark;
 }
 
+.NewProject__modal {
+    overflow-y: auto !important;
+}
+
 .NewProject__more {
     color: $color-text-black !important;
 

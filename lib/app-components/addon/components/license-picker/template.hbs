@@ -14,8 +14,8 @@
 {{/validated-input/power-select}}
 <small>
     <a
-        target="_blank"
-        rel="noopener"
+        target='_blank'
+        rel='noopener'
         href={{this.helpLink}}
     >
         {{t 'app_components.license_picker.faq'}}
@@ -31,7 +31,7 @@
     }}
         {{#each this.requiredFields as |key|}}
             <br>
-            <label for="nodeLicense-{{key}}">{{t (concat 'app_components.license_picker.fields.' key)}}</label>
+            <label for='nodeLicense-{{key}}'>{{t (concat 'app_components.license_picker.fields.' key)}}</label>
             <br>
             {{input
                 class='form-control'
@@ -41,7 +41,7 @@
             }}
         {{/each}}
     {{/validated-input/custom}}
-    <a role="button" onclick={{action (mut this.showText) (not this.showText)}}>
+    <a role='button' onclick={{action (mut this.showText) (not this.showText)}}>
         {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
     </a>
     {{#if this.showText}}

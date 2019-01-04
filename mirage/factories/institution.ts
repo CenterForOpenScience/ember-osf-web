@@ -2,6 +2,8 @@ import { Factory, faker } from 'ember-cli-mirage';
 
 import Institution from 'ember-osf-web/models/institution';
 
+import { randomGravatar } from '../utils';
+
 export default Factory.extend<Institution>({
     name() {
         return faker.company.companyName();
@@ -10,9 +12,8 @@ export default Factory.extend<Institution>({
         return faker.company.catchPhrase();
     },
     assets() {
-        const asset = {
-            logo: `https://www.gravatar.com/avatar/${faker.random.uuid().replace(/-/g, '')}?d=identicon&s=100`,
+        return {
+            logo: randomGravatar(100),
         };
-        return asset;
     },
 });

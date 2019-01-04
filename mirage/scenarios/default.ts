@@ -92,6 +92,8 @@ export default function(server: Server) {
     }, 'withRegisteredMeta', 'withContributors');
     server.createList('registration', 2, { parent: reg2 });
 
+    server.loadFixtures('preprint-providers');
+
     // For the handbook
 
     // ValidatedModelForm
