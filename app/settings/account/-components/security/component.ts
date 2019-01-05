@@ -87,6 +87,7 @@ export default class SecurityPane extends Component.extend({
     confirmDisableTwoFactor() {
         this.set('showError', false);
         if (this.settings !== undefined) {
+            this.settings.rollbackAttributes();
             this.settings.set('twoFactorEnabled', false);
             this.saveSettings.perform();
         }
