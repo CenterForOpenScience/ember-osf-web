@@ -1,5 +1,5 @@
 import { action, computed } from '@ember-decorators/object';
-import { readOnly } from '@ember-decorators/object/computed';
+import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -24,7 +24,7 @@ export default class GuidNodeForks extends Controller {
 
     forksQueryParams = { embed: 'contributors' };
 
-    @readOnly('model.taskInstance.value')
+    @reads('model.taskInstance.value')
     node?: Node;
 
     @computed('node')
@@ -52,6 +52,12 @@ export default class GuidNodeForks extends Controller {
     closeDeleteModal(this: GuidNodeForks) {
         this.set('toDelete', null);
         this.set('deleteModal', false);
+    }
+
+    @action
+    closeNewModal() {
+        this.set('newModal', false);
+        this.analytics.click('button', 'Dashboard - New Project - close_modal');
     }
 
     @action

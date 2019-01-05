@@ -1,30 +1,29 @@
 import DS from 'ember-data';
+
 import OsfAdapter from './osf-adapter';
 
 const requestTypes = ['createRecord', 'updateRecord', 'deleteRecord'];
 
-export default class Collection extends OsfAdapter.extend({
+export default class CollectionAdapter extends OsfAdapter {
     buildURL(
-        this: Collection,
         modelName: 'collection',
         id: string,
         snapshot: DS.Snapshot,
         requestType: string,
-    ): string {
+    ) {
         // Embed linked_nodes
-        const base: string = this._super(modelName, id, snapshot, requestType);
+        const base = super.buildURL(modelName, id, snapshot, requestType);
 
         if (requestTypes.includes(requestType)) {
             return base;
         }
 
         return `${base}?embed=linked_nodes`;
-    },
-}) {
+    }
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'collection': Collection;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        collection: CollectionAdapter;
+    } // eslint-disable-line semi
 }

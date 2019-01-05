@@ -1,0 +1,13 @@
+<DocsDemo as |demo|>
+    <demo.example @name='osf-button.demo.hbs'>
+        <OsfButton
+            @type={{this.buttonType}}
+            @onClick={{action this.youPressedTheButton}}
+        >
+            Do not press the button!
+        </OsfButton>
+    </demo.example>
+
+    <demo.snippet @name='osf-button.demo.hbs' />
+    <demo.snippet @name='osf-button.action' @label='component.ts' />
+</DocsDemo>

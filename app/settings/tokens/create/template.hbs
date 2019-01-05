@@ -17,12 +17,12 @@
     analyticsScope='Settings - Tokens - Create'
     as |form|
 }}
-    <BsButton
+    <OsfButton
         data-test-create-token-button
         @type='primary'
         @buttonType='submit'
         @disabled={{form.disabled}}
     >
         {{t 'settings.tokens.createToken'}}
-    </BsButton>
+    </OsfButton>
 {{/settings/tokens/-components/token-form}}

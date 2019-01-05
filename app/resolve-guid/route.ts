@@ -1,14 +1,13 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Transition from '@ember/routing/-private/transition';
+import { EmberLocation } from '@ember/routing/api';
 import Route from '@ember/routing/route';
-import Transition from '@ember/routing/transition';
 import { camelize } from '@ember/string';
-import Ember from 'ember';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
-import { GUID_REGEX } from 'ember-osf-web/const/guid-alphabet';
 import param from 'ember-osf-web/utils/param';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
@@ -19,7 +18,7 @@ interface RouterMicroLib {
 interface PrivateRouter {
     _routerMicrolib: RouterMicroLib;
     _engineInfoByRoute?: Record<string, any>;
-    location: Ember.EmberLocation;
+    location: EmberLocation;
 }
 
 const { featureFlagNames: { routes } } = config;
@@ -46,10 +45,6 @@ export default class ResolveGuid extends Route {
         return Boolean(this._router._engineInfoByRoute && route in this._router._engineInfoByRoute);
     }
 
-    looksLikeGUID(guid: string): boolean {
-        return GUID_REGEX.test(guid);
-    }
-
     generateURL(route: string, ...args: any[]): string {
         // NOTE: The router's urlFor is skipped over here as it passes the result of generate into the location
         // implementation, which would rip out the "--PATH" which is used for routing here.
@@ -61,10 +56,6 @@ export default class ResolveGuid extends Route {
             { guid: '', path: '' },
             ...Object.values(transition.params),
         );
-
-        if (!this.isEngineRoute(params.guid) && !this.looksLikeGUID(params.guid)) {
-            throw new Error(`Invalid GUID and no matching engine: ${params.guid}`);
-        }
 
         let expanded: string;
 

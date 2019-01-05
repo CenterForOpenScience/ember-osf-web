@@ -40,6 +40,10 @@
 
 .NodeCard__dropdown-link {
     color: $color-link-black !important;
+    border-color: transparent !important;
+    background-color: $color-bg-gray-light !important;
+    min-width: 180px;
+    text-align: left;
 
     &:hover,
     &:focus {

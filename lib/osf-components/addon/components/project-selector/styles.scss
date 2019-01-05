@@ -3,6 +3,7 @@
 .btn-big {
     height: 80px;
     font-size: 16px;
-    background-color: #eef2f3;
+    background-color: #eef2f3 !important;
+    border: 1px solid transparent !important;
     white-space: normal;
 }

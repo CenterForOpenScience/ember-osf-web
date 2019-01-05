@@ -44,16 +44,16 @@
                 </BsDropdown>
 
                 {{! Navigation toggle - XS screen }}
-                <a
-                    role='button'
-                    class='navbar-toggle collapsed'
-                    onclick={{action 'toggleSecondaryNavigation'}}
+                <OsfButton
                     aria-label={{t 'navbar.toggle_secondary'}}
+                    local-class='NavbarToggleXS'
+                    @class='navbar-toggle collapsed'
+                    @onClick={{action 'toggleSecondaryNavigation'}}
                 >
                     <span class='icon-bar'></span>
                     <span class='icon-bar'></span>
                     <span class='icon-bar'></span>
-                </a>
+                </OsfButton>
             </div>
 
             {{! Secondary nav links }}

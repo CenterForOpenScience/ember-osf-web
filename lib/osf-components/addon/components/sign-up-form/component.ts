@@ -43,6 +43,10 @@ export default class SignUpForm extends Component.extend({
         this.set('hasSubmitted', true);
     }).drop(),
 }) {
+    // Optional parameters
+    campaign?: string;
+
+    // Private properties
     userRegistration!: UserRegistration;
 
     hasSubmitted: boolean = false;
@@ -97,11 +101,15 @@ export default class SignUpForm extends Component.extend({
 
     init() {
         this.set('userRegistration', this.store.createRecord('user-registration'));
+        if (this.campaign) {
+            this.userRegistration.set('campaign', this.campaign);
+        }
         return super.init();
     }
 
     @action
     submit() {
-        this.get('submitTask').perform();
+        this.analytics.click('button', 'Home - sign_up');
+        this.submitTask.perform();
     }
 }

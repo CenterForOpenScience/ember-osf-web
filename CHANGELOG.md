@@ -5,29 +5,60 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [19.1.0]
+### Added
+- Addons:
+    - `loaders-css` - For animated loading indicators
+- Components:
+    - `settings.account.-components.security` - Two-factor authentication panel.
+    - `osf-button` - our new, use-everywhere button component
+- Models:
+    - `user-setting`
+- Routes:
+    - `settings.account`
+- Styles:
+    - All styles from `osf-style`
+
+### Changed
+- Addons:
+    - `ember-cli-mirage@0.4.10`
+    - `ember-qunit@3.4.4`
+    - `ember-cli-qunit@4.4.0`
+    - `ember-cli-sass@8.0.1`
+- Components:
+    - `contributor-list` - takes an optional parameter `truncated`
+- Templates:
+    - `no-implicit-this` template rule activated
+- Types:
+    - upgrade to ember and ember-data 3.x types
+
+### Removed
+- Addons:
+    - `osf-style`
+
+## [19.0.1] - 2019-01-04
+### Fixed
+- Routes:
+    - `resolve-guid` - remove guid regex test because we have old guids that violate it
+
+## [19.0.0] - 2019-01-03
 ### Added
 - Addons:
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
-    - `loaders-css` - For animated loading indicators
-    - `sass` - Dart sass instead of `node-sass`
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
-    - `settings.account.-components.security` - Two-factor authentication panel.
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
 - Models:
     - `user-email`
-    - `user-setting`
 - Routes:
-    - `settings.account`
     - `settings.profile` - redirects to `settings.profile.name`
     - `settings.profile.education`
     - `settings.profile.employment`
     - `settings.profile.name` - Adds ability to change your name and name parts (with citation preview)
     - `settings.profile.social`
-- Styles:
-    - All styles from `osf-style`
 - Tests:
     - Integration:
         - `settings.profile.name.-components.citation-preview`
@@ -45,15 +76,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Addons:
-    - `ember-cli-mirage@0.4.10`
     - `ember-code-snippet@2.3.1`
-    - `ember-qunit@3.4.4`
-    - `ember-cli-qunit@4.4.0`
-    - `ember-cli-sass@8.0.1`
 - Components:
     - `node-navbar` - Choose links to display with the same logic as legacy
     - `validated-model-form` - Add an optional hook for onWillDestroy
-    - `contributor-list` - takes an optional parameter `truncated`
+    - `sign-up-form` - accept `campaign` as an optional argument and set on user-registration model
 - Handbook:
     - `validated-model-form` - Show how onWillDestroy works and use ember-onbeforeunload
 - Models:
@@ -64,22 +91,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - renamed `currentUserIsAdmin` computed property to `userHasAdminPermission`
     - `user`
         - added validations for name fields
+    - `provider` - made partial assets acceptable
+    - `preprint-provider` - added `documentType` computed property for preprint word lookup
+    - `user-registration` - added `campaign` property
 - Routes:
     - `settings` - redirects to `settings.profile.name`
-- Templates:
-    - `no-implicit-this` template rule activated
+    - `register` - add branding for registries and preprint providers
 - Tests:
     - improved integration tests for `node-navbar` component
+    - Acceptance:
+        - `register` - acceptance tests for the sign up page
 - Adapters:
     - Added `parentRelationship` property to `osf-adapter`. Allows creating records at nested endpoints.
 - Routes:
     - Add email verification modal to application template
 - Misc:
     - Upgraded to `osf-style` 1.8.0
-
-### Removed
-- Addons:
-    - `osf-style`
 
 ## [18.2.2] - 2018-12-18
 ### Added:

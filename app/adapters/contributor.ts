@@ -1,13 +1,16 @@
 import { service } from '@ember-decorators/service';
 import DS from 'ember-data';
-import $ from 'jquery';
+
+import param from 'ember-osf-web/utils/param';
+
 import OsfAdapter from './osf-adapter';
 
-export default class Contributor extends OsfAdapter.extend({
+export default class ContributorAdapter extends OsfAdapter {
+    @service store!: DS.Store;
+
     buildURL(
-        this: Contributor,
         modelName: 'contributor',
-        id: string | undefined,
+        id: string,
         snapshot: DS.Snapshot,
         requestType: string,
     ) {
@@ -32,17 +35,15 @@ export default class Contributor extends OsfAdapter.extend({
                 send_email: snapshot ? (snapshot.record.get('sendEmail') || false) : true,
             };
 
-            return `${base}?${$.param(params)}`;
+            return `${base}?${param(params)}`;
         }
 
-        return this._super(modelName, id, snapshot, requestType);
-    },
-}) {
-    @service store!: DS.Store;
+        return super.buildURL(modelName, id, snapshot, requestType);
+    }
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        contributor: Contributor;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        contributor: ContributorAdapter;
+    } // eslint-disable-line semi
 }

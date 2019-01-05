@@ -15,13 +15,14 @@
 .action-button {
     padding: 5px 10px;
     display: inline-block;
-    box-shadow: 0 0 2px #BBB;
-    background: #F8F8F8;
+    box-shadow: 0 0 2px #bbb;
+    background: #f8f8f8;
     margin-right: 5px;
     cursor: pointer;
     font-size: 13px;
     border-radius: 2px;
     margin-top: 4px;
+    border-color: #f8f8f8 !important;
 
     &:disabled {
         cursor: not-allowed;

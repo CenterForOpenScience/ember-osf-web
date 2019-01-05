@@ -1,16 +1,17 @@
 import Transform from 'ember-data/transform';
 
-export default Transform.extend({
+export default class LinksTransform extends Transform {
     deserialize(serialized: any) {
         return serialized;
-    },
+    }
+
     serialize(deserialized: any) {
         return deserialized;
-    },
-});
+    }
+}
 
-declare module 'ember-data' {
-  interface TransformRegistry {
-      'links': any;
-  }
+declare module 'ember-data/types/registries/transform' {
+    export default interface TransformRegistry {
+        links: any;
+    } // eslint-disable-line semi
 }

@@ -3,7 +3,7 @@ import config from 'ember-get-config';
 
 const { RESTAdapter } = DS;
 
-export default class UserRegistration extends RESTAdapter {
+export default class UserRegistrationAdapter extends RESTAdapter {
     host: string = config.OSF.url.replace(/\/$/, '');
     namespace = 'api/v1';
 
@@ -12,8 +12,8 @@ export default class UserRegistration extends RESTAdapter {
     }
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'user-registration': UserRegistration;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        'user-registration': UserRegistrationAdapter;
+    } // eslint-disable-line semi
 }

@@ -4,19 +4,22 @@
             {{#hyper-link this.signUpRoute queryParams=this.signUpQueryParams class='btn btn-success btn-top-signup m-l-sm m-r-xs' analyticsLabel='Navbar - SignUp' testSelectorVal='sign-up-button'}}
                 {{t 'auth_dropdown.sign_up'}}
             {{/hyper-link}}
-            <a role='button'
-                {{action this.login}}
+            <OsfButton 
                 data-test-sign-in-button
-                onclick={{action 'click' 'button' 'Navbar - SignIn' target=this.analytics}}
-                class='btn btn-info btn-top-login m-r-xs'
+                class='btn-top-login'
+                @onClick={{action this.login}}
+                @size='xs'
+                @type='info'
             >
+                {{!-- {{action 'click' 'button' 'Navbar - SignIn' target=this.analytics}} --}}
                 {{t 'auth_dropdown.sign_in'}}
-            </a>
+            </OsfButton>
         </div>
     </li>
 {{else}}
     <BsDropdown
         data-test-auth-dropdown
+        local-class='DropdownContainer'
         @tagName='li'
         @classNames='dropdown secondary-nav-dropdown'
         as |dd| 
@@ -40,13 +43,10 @@
                 </ddm.item>
             {{/if}}
             <ddm.item role='menuitem'>
-                <Link
-                    @href='{{this.profileURL}}'
-                    @onclick={{action this._onLinkClicked 'Navbar - MyProfile'}}
-                >
+                <a href='{{this.profileURL}}' onclick={{action this._onLinkClicked 'Navbar - MyProfile'}}>
                     <i class='fa fa-user fa-lg p-r-xs'></i>
                     {{t 'auth_dropdown.my_profile'}}
-                </Link>
+                </a>
             </ddm.item>
             <ddm.item role='menuitem'>
                 {{#global-link-to 'support' click=(action this._onLinkClicked 'Navbar - Support')}}
@@ -55,23 +55,21 @@
                 {{/global-link-to}}
             </ddm.item>
             <ddm.item role='menuitem'>
-                <Link
-                    @href='{{this.settingsURL}}'
-                    @onclick={{action this._onLinkClicked 'Navbar - Settings'}}
-                >
+                <a href='{{this.settingsURL}}' onclick={{action this._onLinkClicked 'Navbar - Settings'}}>
                     <i class='fa fa-cog fa-lg p-r-xs'></i>
                     {{t 'general.settings'}}
-                </Link>
+                </a>
             </ddm.item>
             <ddm.item role='menuitem'>
-                <a role='button'
+                <OsfButton
                     class='logoutLink'
-                    {{action 'logout'}}
-                    {{action this._onLinkClicked 'Navbar - Logout'}}
+                    @type='link'
+                    @onClick={{action 'logout'}}
                 >
+                    {{!-- {{action this._onLinkClicked 'Navbar - Logout'}} --}}
                     <i class='fa fa-sign-out fa-lg p-r-xs'></i>
                     {{t 'auth_dropdown.log_out'}}
-                </a>
+                </OsfButton>
             </ddm.item>
         </dd.menu>
     </BsDropdown>

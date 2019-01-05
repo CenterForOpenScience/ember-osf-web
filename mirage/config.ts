@@ -35,6 +35,7 @@ export default function(this: Server) {
     this.post('/nodes/', createNode);
     osfNestedResource(this, 'node', 'children');
     osfNestedResource(this, 'node', 'contributors');
+    osfNestedResource(this, 'node', 'forks', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
@@ -69,6 +70,8 @@ export default function(this: Server) {
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
+
+    osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
 
     // Waterbutler namespace
     this.namespace = '/wb';

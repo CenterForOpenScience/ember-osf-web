@@ -3,14 +3,15 @@
         <div class='col-xs-12'>
             <h2 class='page-header'>
                 {{t 'general.settings'}}
-                <a role='button'
+                <OsfButton
                    local-class='NavToggle'
-                   class='hidden-md hidden-lg'
                    aria-label={{t 'settings.toggleNav'}}
-                   {{action (mut this.navCollapsed) (not this.navCollapsed)}}
+                   @type='link'
+                   @class='hidden-md hidden-lg'
+                   @onClick={{action (mut this.navCollapsed) (not this.navCollapsed)}}
                 >
                     {{fa-icon 'bars'}}
-                </a>
+                </OsfButton>
             </h2>
         </div>
     </div>

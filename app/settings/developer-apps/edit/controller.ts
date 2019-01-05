@@ -1,5 +1,5 @@
 import { action } from '@ember-decorators/object';
-import { readOnly } from '@ember-decorators/object/computed';
+import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import RouterService from '@ember/routing/router-service';
@@ -15,7 +15,7 @@ export default class SettingsDeveloperAppsEditController extends Controller {
     @service router!: RouterService;
     @service toast!: Toast;
 
-    @readOnly('model.taskInstance.value')
+    @reads('model.taskInstance.value')
     developerApp?: DeveloperApp;
 
     @action

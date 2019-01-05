@@ -72,13 +72,14 @@ const Validations = buildValidations({
     debounce: 500,
 });
 
-export default class UserRegistration extends Model.extend(Validations) {
+export default class UserRegistrationModel extends Model.extend(Validations) {
     @attr('string') email1!: string;
     @attr('string') email2!: string;
     @attr('string') fullName!: string;
     @attr('string') recaptchaResponse!: string;
     @attr('string') password!: string;
     @attr('boolean') acceptedTermsOfService!: boolean;
+    @attr('string') campaign!: string;
 
     existingEmails: Set<string> = new Set();
     invalidEmails: Set<string> = new Set();
@@ -92,8 +93,8 @@ export default class UserRegistration extends Model.extend(Validations) {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'user-registration': UserRegistration;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        'user-registration': UserRegistrationModel;
+    } // eslint-disable-line semi
 }

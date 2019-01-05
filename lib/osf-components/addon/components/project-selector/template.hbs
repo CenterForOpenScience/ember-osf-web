@@ -1,19 +1,24 @@
 {{#if (eq this.projectSelectState 'main')}}
     <div class='row'>
         <div class='col-xs-6'>
-            <button data-test-ps-new-project-button class='btn btn-block' local-class='btn-big' {{action this.moveToNew}}>
+            <OsfButton
+                data-test-ps-new-project-button
+                local-class='btn-big'
+                @class='btn-block'
+                @onClick={{action this.moveToNew}}
+            >
                 {{t 'move_to_project.create_new_project'}}
-            </button>
+            </OsfButton>
         </div>
         <div class='col-xs-6'>
-            <button
+            <OsfButton
                 data-test-ps-existing-project-button
-                class='btn btn-block'
+                @class='btn-block'
                 local-class='btn-big'
-                {{action this.changeState 'existingProject'}}
+                @onClick={{action this.changeState 'existingProject'}}
             >
                 {{t 'move_to_project.connect_to_existing'}}
-            </button>
+            </OsfButton>
         </div>
     </div>
 {{/if}}

@@ -8,8 +8,8 @@
 }}
     {{#each this.choiceFilters as |choiceFilter|}}
         <span
-            role="button"
-            local-class="choiceFilter"
+            role='button'
+            local-class='choiceFilter'
             onclick={{action 'addChoiceFilter' choiceFilter.facet choiceFilter.value}}
         >
             <b>
@@ -21,10 +21,10 @@
 {{/component}}
 
 {{#if @expandable}}
-    <div class="text-center">
+    <div class='text-center'>
         <button
             class='btn btn-link'
-            local-class="toggleShowBody"
+            local-class='toggleShowBody'
             aria-label={{t (concat 'collections.collection_search_result.' (if this.showBody 'collapse' 'expand'))}}
             {{action 'toggleShowBody'}}
         >

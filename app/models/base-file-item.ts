@@ -1,12 +1,8 @@
 import { attr } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { or } from '@ember-decorators/object/computed';
-import OsfModel from './osf-model';
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
+import OsfModel from './osf-model';
 
 enum FileItemKinds {
     File = 'file',
@@ -16,11 +12,7 @@ enum FileItemKinds {
 /**
  * File-like models are `node`, `file-provider`, and `file`/folder.
  * This model provides a polymorphic interface for file-like items.
- *
- * @class BaseFileItem
- * @extends OsfModel
  */
-
 export default class BaseFileItem extends OsfModel {
     @attr('fixstring') kind?: FileItemKinds;
 

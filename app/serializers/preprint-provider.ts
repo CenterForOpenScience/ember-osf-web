@@ -1,9 +1,10 @@
 import OsfSerializer from './osf-serializer';
 
-export default class PreprintProvider extends OsfSerializer {}
+export default class PreprintProviderSerializer extends OsfSerializer {
+}
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'preprint-provider': PreprintProvider;
-    }
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        'preprint-provider': PreprintProviderSerializer;
+    } // eslint-disable-line semi
 }

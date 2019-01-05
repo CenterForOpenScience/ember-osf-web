@@ -25,14 +25,14 @@
                         <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
                         <div class='m-b-lg col-xs-3'>
                             <div class='pull-right'>
-                                <button 
+                                <OsfButton 
                                     data-test-create-project-modal-button
-                                    onclick={{action this.openModal}} 
-                                    class='btn btn-success m-t-md f-w-xl' 
-                                    {{action 'click' 'button' 'Dashboard - create_new_project' target=this.analytics}}
+                                    @onClick={{action this.openModal}}
+                                    @type='success'
+                                    @class='m-t-md f-w-xl' 
                                 >
                                     {{t 'dashboard.create_new_project_button'}}
-                                </button>
+                                </OsfButton>
                             </div>
                         </div>
                     </div>
@@ -125,15 +125,22 @@
                                                 <LoadingIndicator />
                                             {{else}}
                                                 <div class='text-center'>
-                                                    <button 
+                                                    <OsfButton 
                                                         data-test-load-more
                                                         aria-label={{t 'new_project.more'}}
-                                                        class='col-sm-12 text-muted'
-                                                        onclick={{action this.more}}
-                                                        {{action 'click' 'button' 'Dashboard - load_nodes' target=this.analytics}}
+                                                        local-class='load-nodes-button'
+                                                        @class='col-sm-12'
+                                                        @onClick={{action this.more}}
                                                     >
-                                                        {{fa-icon 'caret-down' class=(concat (local-class 'load-nodes') ' m-b-xl')}}
-                                                    </button>
+                                                        {{fa-icon
+                                                            'caret-down'
+                                                            class=(
+                                                                concat
+                                                                (local-class 'load-nodes')
+                                                                ' text-muted m-b-xl'
+                                                            )
+                                                        }}
+                                                    </OsfButton>
                                                 </div>
                                             {{/if}}
                                         {{/if}}

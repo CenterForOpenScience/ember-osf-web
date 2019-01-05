@@ -1,5 +1,5 @@
 import { action } from '@ember-decorators/object';
-import { readOnly } from '@ember-decorators/object/computed';
+import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import DS from 'ember-data';
@@ -11,7 +11,7 @@ export default class ValidatedModelFormController extends Controller {
     @service store!: DS.Store;
     @service toast!: Toast;
 
-    @readOnly('model.taskInstance.value')
+    @reads('model.taskInstance.value')
     existingNode?: Node;
 
     @action

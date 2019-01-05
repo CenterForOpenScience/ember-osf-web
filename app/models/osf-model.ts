@@ -5,7 +5,8 @@ import EmberArray, { A } from '@ember/array';
 import { set } from '@ember/object';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
-import DS, { ModelRegistry, RelationshipsFor } from 'ember-data';
+import DS, { RelationshipsFor } from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
 import { singularize } from 'ember-inflector';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -14,11 +15,6 @@ import { Links, PaginationLinks } from 'jsonapi-typescript';
 import { Document as ApiResponseDocument, PaginatedMeta, ResourceCollectionDocument } from 'osf-api';
 
 const { Model } = DS;
-
-/**
- * @module ember-osf-web
- * @submodule models
- */
 
 export enum Permission {
     Read = 'read',
@@ -43,12 +39,6 @@ export type ValidatedModelName = {
     [K in keyof ModelRegistry]: ModelRegistry[K] extends (Validations & DS.Model) ? K : never
 }[keyof ModelRegistry];
 
-/**
- * Common properties and behaviors shared by all OSF APIv2 models
- *
- * @class OsfModel
- * @public
- */
 export default class OsfModel extends Model {
     @service store!: DS.Store;
     @service currentUser!: CurrentUser;

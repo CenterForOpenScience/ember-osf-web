@@ -1,5 +1,5 @@
 {{#if this.small}}
-    <BsButton 
+    <OsfButton 
         data-test-delete-button
         aria-label={{this.buttonLabel}}
         @type='link'
@@ -9,16 +9,16 @@
         @disabled={{this.disabled}}
     >
         {{fa-icon 'times' size='lg'}}
-    </BsButton>
+    </OsfButton>
 {{else}}
-    <BsButton 
+    <OsfButton 
         data-test-delete-button
         @type='default'
         @onClick={{action this._show}}
         @disabled={{this.disabled}}
     >
         {{this.buttonLabel}}
-    </BsButton>
+    </OsfButton>
 {{/if}}
 
 {{#if this.modalShown}}
@@ -28,7 +28,7 @@
         as |modal|
     >
         <modal.header>
-            <h3 class='modal-title'>{{this.modalTitle}}</h3>
+            <h3 local-class='Modal__title'>{{this.modalTitle}}</h3>
         </modal.header>
 
         <modal.body>
@@ -53,19 +53,21 @@
         </modal.body>
 
         <modal.footer>
-            <BsButton
+            <OsfButton
                 data-test-cancel-delete
                 @disabled={{this._deleteTask.isRunning}}
                 @onClick={{modal.close}}
-                @defaultText={{this.cancelButtonText}}
-            />
-            <BsButton 
+            >
+                {{this.cancelButtonText}}
+            </OsfButton>
+            <OsfButton 
                 data-test-confirm-delete
                 @type='danger'
                 @disabled={{this.confirmDisabled}}
                 @onClick={{perform this._deleteTask}}
-                @defaultText={{this.confirmButtonText}}
-            />
+            >
+                {{this.confirmButtonText}}
+            </OsfButton>
         </modal.footer>
     </BsModal>
 {{/if}}

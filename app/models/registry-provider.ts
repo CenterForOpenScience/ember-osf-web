@@ -1,14 +1,16 @@
 import { hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
-import Provider from './provider';
-import Registration from './registration';
 
-export default class RegistryProvider extends Provider {
-    @hasMany('registration', { inverse: 'provider' }) registrations!: DS.PromiseManyArray<Registration>;
+import ProviderModel from './provider';
+import RegistrationModel from './registration';
+
+export default class RegistryProviderModel extends ProviderModel {
+    @hasMany('registration', { inverse: 'provider' })
+    registrations!: DS.PromiseManyArray<RegistrationModel>;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'registry-provider': RegistryProvider;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        'registry-provider': RegistryProviderModel;
+    } // eslint-disable-line semi
 }
