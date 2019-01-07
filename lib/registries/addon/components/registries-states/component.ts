@@ -5,7 +5,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import styles from './styles';
 import template from './template';
 
-@layout(styles, template)
+@layout(template, styles)
 export default class RegistriesStates extends Component {
     currentState!: string;
     isAdmin!: boolean;

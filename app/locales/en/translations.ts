@@ -1191,8 +1191,13 @@ export default {
                     error: 'Unable to remove this registration from bookmarks',
                 },
             },
-            unable_to_fork: 'Unable to fork registration',
-            successfully_forked: 'Registration successfully forked',
+            fork: {
+                success: 'Your fork is being created. You\'ll receive an email when it is complete',
+                success_title: 'Fork status',
+                error: 'Unable to fork registration',
+            },
+            view_forks: 'View forks',
+            fork_registration: 'Fork this registration',
         },
     },
     analytics: {

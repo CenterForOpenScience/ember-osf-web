@@ -11,7 +11,7 @@ import randomScientist from 'ember-osf-web/utils/random-scientist';
 import styles from './styles';
 import template from './template';
 
-@layout(styles, template)
+@layout(template, styles)
 export default class RegistrationIsPublic extends Component.extend({
     submitWithdrawal: task(function *(this: RegistrationIsPublic) {
         if (!this.node && !this.withdrawalJustification) {
@@ -31,6 +31,7 @@ export default class RegistrationIsPublic extends Component.extend({
         }
 
         this.toast.success(this.i18n.t('registries.overview.withdraw.success'));
+
         if (this.closeDropdown) {
             this.closeDropdown();
         }
@@ -53,7 +54,12 @@ export default class RegistrationIsPublic extends Component.extend({
         });
     }
 
-    @computed('submitWithdrawal.isRunning', 'withdrawalJustification', 'scientistNameInput', 'scientistName')
+    @computed(
+        'submitWithdrawal.isRunning',
+        'withdrawalJustification',
+        'scientistNameInput',
+        'scientistName',
+    )
     get submitDisabled(this: RegistrationIsPublic): boolean {
         return this.submitWithdrawal.isRunning || !this.withdrawalJustification ||
             (this.scientistNameInput !== this.scientistName);

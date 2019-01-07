@@ -27,7 +27,7 @@
         icon='envelope'
         showText=@showText
     )) as |links|}}
-    {{#if this.hasBlock}}
+    {{#if hasBlock}}
         {{yield links}}
     {{else}}
         {{links.twitter}}

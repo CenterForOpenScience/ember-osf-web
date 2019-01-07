@@ -39,11 +39,6 @@ export default class Overview extends Controller {
     @not('media.isDesktop') showMobileView!: boolean;
     @not('registration') loading!: boolean;
     @alias('registration.userHasAdminPermission') isAdmin!: boolean;
-    @computed('registration.relatedCounts.forks')
-    get forksCount(): number {
-        return (this.registration && this.registration.relatedCounts &&
-            this.registration.relatedCounts.forks) || 0;
-    }
 
     @computed('registration.id')
     get registrationURL() {
@@ -86,6 +81,11 @@ export default class Overview extends Controller {
             return 'column';
         }
         return 'drawer';
+    }
+
+    @computed('registration.relatedCounts.forks')
+    get forksCount(): number {
+        return (this.registration && this.registration.relatedCounts!.forks) || 0;
     }
 
     @computed('registration.relatedCounts.comments')

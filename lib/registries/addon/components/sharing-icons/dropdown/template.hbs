@@ -14,7 +14,7 @@
                 <ul local-class="Dropdown__list">
                     {{#if @showBookmark}}
                         <li role='menuitem' local-class='Dropdown__option'>
-                            <button type="button" class="btn btn-link" onclick={{action (perform this.updateBookmarks)}}>
+                            <button type="button" class="btn btn-link" onclick={{action (perform this.bookmark)}}>
                                 {{fa-icon 'bookmark'}}
                                 {{#if this.isBookmarked}}
                                     {{t 'registries.overview.update_bookmarks.remove.text'}}

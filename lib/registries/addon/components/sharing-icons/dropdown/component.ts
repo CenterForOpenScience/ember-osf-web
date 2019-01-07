@@ -15,11 +15,35 @@ import template from './template';
 @tagName('')
 @layout(template, styles)
 export default class SharingIconsDropdown extends Component.extend({
-    didReceiveAttrs(this: SharingIconsDropdown, ...args: any[]) {
-        this._super(...args);
-        this.getBookMarkCollection.perform();
-    },
-    getBookMarkCollection: task(function *(this: SharingIconsDropdown) {
+    bookmark: task(function *(this: SharingIconsDropdown) {
+        if (!this.bookmarksCollection || !this.node) {
+            return;
+        }
+
+        const op = this.isBookmarked ? 'remove' : 'add';
+        let response;
+
+        try {
+            if (op === 'remove') {
+                this.bookmarksCollection.linkedRegistrations.removeObject(this.node);
+                response = yield this.bookmarksCollection.deleteM2MRelationship('linkedRegistrations', this.node.id);
+            } else {
+                this.bookmarksCollection.linkedRegistrations.pushObject(this.node);
+                response = yield this.bookmarksCollection.createM2MRelationship('linkedRegistrations', this.node.id);
+            }
+        } catch (e) {
+            this.toast.error(this.i18n.t(`registries.overview.update_bookmarks.${op}.error`));
+            throw e;
+        }
+
+        this.toast.success(this.i18n.t(`registries.overview.update_bookmarks.${op}.success`));
+
+        if (response && response.data) {
+            const isBookmarked = Boolean(response.data.find((reg: Registration) => reg.id === this.node.id));
+            this.set('isBookmarked', isBookmarked);
+        }
+    }).drop(),
+    getBookmarksCollection: task(function *(this: SharingIconsDropdown) {
         const collections = yield this.store.findAll('collection', {
             adapterOptions: { 'filter[bookmarks]': 'true' },
         });
@@ -29,34 +53,12 @@ export default class SharingIconsDropdown extends Component.extend({
         }
 
         this.set('bookmarksCollection', collections.firstObject);
+
         const bookmarkedRegs = yield this.bookmarksCollection.linkedRegistrations;
-        const isBookmarked = Boolean(bookmarkedRegs.filter((reg: any) => reg.id === this.node.id).length);
+        const isBookmarked = Boolean(bookmarkedRegs.find((reg: Registration) => reg.id === this.node.id));
+
         this.set('isBookmarked', isBookmarked);
-    }),
-    updateBookmarks: task(function *(this: SharingIconsDropdown) {
-        if (!this.bookmarksCollection || !this.node) {
-            return;
-        }
-
-        const updateType = this.isBookmarked ? 'remove' : 'add';
-
-        if (this.isBookmarked) {
-            this.bookmarksCollection.linkedRegistrations.removeObject(this.node);
-        } else {
-            this.bookmarksCollection.linkedRegistrations.pushObject(this.node);
-        }
-
-        try {
-            yield this.bookmarksCollection.save();
-        } catch (e) {
-            this.toast.error(this.i18n.t(`registries.overview.update_bookmarks.${updateType}.error`));
-            throw e;
-        }
-
-        this.toast.success(this.i18n.t(`registries.overview.update_bookmarks.${updateType}.success`));
-        this.toggleProperty('isBookmarked');
-    }).drop(),
-
+    }).on('init'),
 }) {
     @service store!: DS.Store;
     @service toast!: Toast;

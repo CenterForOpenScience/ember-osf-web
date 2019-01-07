@@ -9,16 +9,62 @@
     outline: 0;
 
     &:hover,
-    &:focus,
-    &:active {
+    &:focus {
         color: $secondary-blue;
         background-color: $alto;
         outline: 0;
     }
 
     .ForksCount__text {
-        padding-left: 8px;
+        padding-left: 4px;
         color: $midnight-blue;
+    }
+}
+
+.ForkButton {
+    &:hover,
+    &:focus,
+    &:active {
+        outline: 0;
+    }
+}
+
+.ForksMenu {
+    padding: 15px;
+    border: 1px solid $alto;
+    border-radius: 2px;
+    background-color: $white;
+    background-size: cover;
+    box-shadow: 0 1px 2px $primary-box-shadow;
+}
+
+.ForksMenu__option {
+    a {
+        color: $primary-blue;
+
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            color: $secondary-blue;
+            outline: 0;
+        }
+    }
+
+    :global(.btn.btn-link) {
+        color: $primary-blue;
+        margin: 0;
+        padding: 0;
+    }
+
+    &:first-child {
+        margin-bottom: 10px;
+    }
+
+    :global(.btn.btn-link):hover,
+    :global(.btn.btn-link):focus {
+        color: $secondary-blue;
+        text-decoration: none;
+        outline: 0;
     }
 }
 

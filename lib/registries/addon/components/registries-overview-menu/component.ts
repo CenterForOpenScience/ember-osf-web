@@ -21,11 +21,14 @@ export default class RegistriesOverviewMenu extends Component.extend({
         try {
             yield this.node.makeFork();
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.overview.unable_to_fork'));
+            this.toast.error(this.i18n.t('registries.overview.fork.error'));
             throw e;
         }
 
-        this.toast.success(this.i18n.t('registries.overview.successfully_forked'));
+        this.toast.success(
+            this.i18n.t('registries.overview.fork.success'),
+            this.i18n.t('registries.overview.fork.success_title'),
+        );
     }).drop(),
 }) {
     @service store!: DS.Store;
