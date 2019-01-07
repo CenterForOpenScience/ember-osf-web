@@ -1,11 +1,11 @@
 <div class='row' local-class='file-row-item' onclick={{action this.open}} role='option'>
     <div class='col-lg-12 col-md-9 col-sm-9 col-xs-12' local-class='file-row-col'>
         {{file-icon item=@item}}
-        <Link
+        <OsfLink
             @href={{this.link}}
-            @onclick={{action this.open}}
+            @onClick={{action this.open}}
         >
             {{@item.itemName}}
-        </Link>
+        </OsfLink>
     </div>
 </div>

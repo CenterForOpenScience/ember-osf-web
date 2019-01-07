@@ -65,20 +65,20 @@
                             {{/nav.link-to}}
                         </nav.item>
                         <nav.item>
-                            <Link
+                            <OsfLink
                                 @href='/settings/addons'
-                                @onclick={{action 'click' 'link' 'Settings - Configure add-on accounts' target=this.analytics}}
+                                @onClick={{action 'click' 'link' 'Settings - Configure add-on accounts' target=this.analytics}}
                             >
                                 {{t 'settings.addons.title'}}
-                            </Link>
+                            </OsfLink>
                         </nav.item>
                         <nav.item>
-                            <Link 
+                            <OsfLink 
                                 @href='/settings/notifications'
-                                @onclick={{action 'click' 'link' 'Settings - Notifications' target=this.analytics}}
+                                @onClick={{action 'click' 'link' 'Settings - Notifications' target=this.analytics}}
                             >
                                 {{t 'settings.notifications.title'}}
-                            </Link>
+                            </OsfLink>
                         </nav.item>
                         <nav.item>
                             {{#nav.link-to 'settings.developer-apps'

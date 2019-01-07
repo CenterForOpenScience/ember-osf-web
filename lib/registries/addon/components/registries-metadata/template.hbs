@@ -1,16 +1,18 @@
+{{! template-lint-disable quotes}}
 <div local-class="Metadata {{if this.isPage 'Page'}}">
-    <div local-class="Header">
-        <h3 local-class="Title">{{t 'registries.overview.metadata.title'}}</h3>
+    {{! template-lint-enable quotes}}
+    <div local-class='Header'>
+        <h3 local-class='Title'>{{t 'registries.overview.metadata.title'}}</h3>
     </div>
 
     <h4>
-        <Link
+        <OsfLink
             @route='registries.overview.contributors'
             @models={{array this.registration.id}}
-            @onclick={{this.onLinkClicked}}
+            @onClick={{this.onLinkClicked}}
         >
             {{t 'general.contributors'}}
-        </Link>
+        </OsfLink>
     </h4>
     <div>
         <InlineList
@@ -19,14 +21,14 @@
             as |l|
         >
             {{~#if l.truncate~}}
-                <Link
+                <OsfLink
                     @route='registries.overview.contributors'
                     @models={{array this.registration.id}}
-                    @onclick={{this.onLinkClicked}}
+                    @onClick={{this.onLinkClicked}}
                 >
                     {{! TODO remaining count }}
                     {{t 'registries.overview.metadata.x_more'}}
-                </Link>
+                </OsfLink>
             {{~else~}}
                 <a href='https://osf.io/{{l.item.users.id}}'>{{l.item.users.fullName}}</a>
             {{~/if~}}

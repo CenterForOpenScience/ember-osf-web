@@ -1,9 +1,9 @@
 {{#if (and this.useLink this.contributor.id)~}}
-    <Link
+    <OsfLink
         @href='/{{this.contributor.id}}'
     >
         {{~this.contributor.title~}}
-    </Link>
+    </OsfLink>
 {{~else~}}
     {{~this.contributor.title~}}
 {{/if}}

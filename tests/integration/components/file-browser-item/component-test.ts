@@ -32,7 +32,7 @@ module('Integration | Component | file-browser-item', hooks => {
         assert.dom('div.flash-message').doesNotExist('Flash message not shown.');
         assert.dom(`${base} > div:nth-child(1)`).includesText('An item', 'Name of the item shown.');
         assert.dom(`${base} > div:nth-child(2)`).includesText('kB', 'Size shown.');
-        assert.dom(`${base} > div:nth-child(3) > a[class*="version-link"]`).exists('Version of item shown.');
+        assert.dom(`${base} > div:nth-child(3) > [data-test-version-link-button]`).exists('Version of item shown.');
         assert.dom(`${base} > div:nth-child(4)`).includesText('192830', 'Download count shown.');
         assert.dom(`${base} > time:nth-child(5)`).includesText('2017', 'Modified date shown.');
     });
@@ -50,7 +50,7 @@ module('Integration | Component | file-browser-item', hooks => {
         assert.dom(`${base} > div.alert-danger > div.flash-message`).exists('Danger flash message shown.');
         assert.dom(this.element).doesNotIncludeText('An item', 'Name of the item not shown.');
         assert.dom(this.element).doesNotIncludeText('kB', 'Size not shown.');
-        assert.dom('a[class*="version-link"]').doesNotExist('Version of item not shown.');
+        assert.dom('[data-test-version-link-button]').doesNotExist('Version of item not shown.');
         assert.dom(this.element).doesNotIncludeText('192830', 'Download count not shown.');
         assert.dom(this.element).doesNotIncludeText('2017', 'Modified date not shown.');
     });

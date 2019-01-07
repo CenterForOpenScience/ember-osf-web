@@ -18,12 +18,14 @@
         {{this.size}}
     </div>
     <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-row-col'>
-        <Link
+        <OsfButton
+            data-test-version-link-button
             local-class='version-link'
-            @onclick={{action 'openVersion'}}
+            @type='link'
+            @onClick={{action 'openVersion'}}
         >
             {{this.item.currentVersion}}
-        </Link>
+        </OsfButton>
     </div>
     <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-row-col'>
         {{this.item.extra.downloads}}

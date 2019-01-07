@@ -1,20 +1,20 @@
-<Link
+<OsfLink
     @models={{@models}}
     @route={{@route}}
     @href={{@href}}
-    @onclick={{@onLinkClicked}}
+    @onClick={{@onLinkClicked}}
     class={{local-class this.wrapperClasses}}
-    data-test-collapsed="{{this.isCollapsed}}"
+    data-test-collapsed='{{this.isCollapsed}}'
     ...attributes
 >
-    <span local-class="Label">
+    <span local-class='Label'>
         {{fa-icon @icon fixedWidth=true class=(local-class 'Icon')}}
         <h4>{{@label}}</h4>
     </span>
 
-    <span local-class="Count">
+    <span local-class='Count'>
         {{#if this.hasCount}}
             {{@count}}
         {{/if}}
     </span>
-</Link>
+</OsfLink>

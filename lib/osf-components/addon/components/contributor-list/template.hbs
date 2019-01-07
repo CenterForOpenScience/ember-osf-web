@@ -7,11 +7,11 @@
         {{~contributor-list/contributor useLink=this.useLink contributor=l.item~}}
     {{else if l.truncate}}
         {{#if this.useLink}}
-            <Link
+            <OsfLink
                 @href='/{{this.nodeId}}'
             >
                 {{t 'contributor_list.and_x_more' x=this.rest}}
-            </Link>
+            </OsfLink>
         {{else}}
             {{~t 'contributor_list.and_x_more' x=this.rest}}
         {{/if}}
