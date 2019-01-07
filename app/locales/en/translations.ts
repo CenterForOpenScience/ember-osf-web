@@ -1243,7 +1243,7 @@ export default {
                 title: 'Security settings',
                 twoFactorAuth: 'Two-factor authentication',
                 enableTwoFactor: 'Configure',
-                enableWarning: 'Enabling two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
+                enableWarning: 'Configuring two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
                 disableTwoFactor: 'Disable',
                 why: 'By using two-factor authentication, you will protect your OSF account with both your password and your mobile phone.',
                 enableButton: 'Configure',
