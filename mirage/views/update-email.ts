@@ -5,7 +5,7 @@ export function updateEmails(this: HandlerContext, schema: Schema, request: Requ
     const { parentID } = request.params;
     const { emailID } = request.params;
     const emailList = schema.users.find(parentID).emails;
-    const attrs = this.normalizedRequestAttrs();
+    const attrs = this.normalizedRequestAttrs('userEmail');
     const updatedInfo = schema.userEmails.find(emailID).update(attrs);
 
     /*

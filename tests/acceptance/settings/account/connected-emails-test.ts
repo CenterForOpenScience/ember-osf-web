@@ -12,7 +12,7 @@ module('Acceptance | settings | account information page', hooks => {
 
     // primary email exists
     test('primary email exists', async assert => {
-        server.create('user', 'loggedIn');
+        server.create('user', 'loggedIn', 'withSettings');
 
         await visit('/settings/account');
         await percySnapshot(assert);
@@ -22,7 +22,7 @@ module('Acceptance | settings | account information page', hooks => {
 
     // empty alternate/unconfirmed emails list
     test('empty email lists', async assert => {
-        server.create('user', 'loggedIn');
+        server.create('user', 'loggedIn', 'withSettings');
 
         await visit('/settings/account');
         await percySnapshot(assert);
@@ -32,7 +32,7 @@ module('Acceptance | settings | account information page', hooks => {
     });
 
     test('email lists have emails', async assert => {
-        server.create('user', 'loggedIn', 'withAlternateEmail', 'withUnconfirmedEmail');
+        server.create('user', 'loggedIn', 'withSettings', 'withAlternateEmail', 'withUnconfirmedEmail');
 
         await visit('/settings/account');
         await percySnapshot(assert);
@@ -43,7 +43,7 @@ module('Acceptance | settings | account information page', hooks => {
 
     // add new email
     test('add new email', async assert => {
-        server.create('user', 'loggedIn');
+        server.create('user', 'loggedIn', 'withSettings');
         const emailAddress = 'testAccount@gmail.com';
 
         await visit('/settings/account');
@@ -59,7 +59,7 @@ module('Acceptance | settings | account information page', hooks => {
 
     // remove alternate email
     test('delete alternate email', async assert => {
-        server.create('user', 'loggedIn', 'withAlternateEmail');
+        server.create('user', 'loggedIn', 'withSettings', 'withAlternateEmail');
 
         await visit('/settings/account');
 
@@ -75,7 +75,7 @@ module('Acceptance | settings | account information page', hooks => {
 
     // make primary
     test('make email primary', async assert => {
-        server.create('user', 'loggedIn', 'withAlternateEmail');
+        server.create('user', 'loggedIn', 'withSettings', 'withAlternateEmail');
 
         await visit('/settings/account');
 

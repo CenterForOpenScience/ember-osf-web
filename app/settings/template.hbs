@@ -113,7 +113,9 @@
             </BsCollapse>
         </div>
         <div class='col-md-9'>
-            {{outlet}}
+            {{#if this.currentUser.user}}
+                {{outlet}}
+            {{/if}}
         </div>
     </div>
 </div>

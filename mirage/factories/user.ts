@@ -9,6 +9,7 @@ export interface UserTraits {
     withFiles: Trait;
     loggedIn: Trait;
     withInstitutions: Trait;
+    withSettings: Trait;
     withAlternateEmail: Trait;
     withUnconfirmedEmail: Trait;
     withUnverifiedEmail: Trait;
@@ -79,6 +80,12 @@ export default Factory.extend<User & UserTraits>({
                 server.create('root', { currentUser });
             }
             server.createList('file', 5, { user: currentUser });
+        },
+    }),
+
+    withSettings: trait({
+        afterCreate(user, server) {
+            server.create('user-setting', { user });
         },
     }),
 
