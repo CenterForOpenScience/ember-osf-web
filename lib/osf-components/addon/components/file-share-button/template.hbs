@@ -42,54 +42,54 @@
                             @analyticsLabel='Quick Files - Share file'
                         />
                         <div local-class='SharePane__button-group'>
-                            <a
+                            <OsfLink
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.twitter'}}
-                                href='{{this.twitterUrl}}'
                                 target='_blank'
                                 rel='noopener'
-                                onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter'
+                                @href='{{this.twitterUrl}}'
+                                @onClick={{action 'click' 'link' 'Quick Files - Share file on Twitter'
                                                  preventDefault=false
                                                  target=this.analytics}}
                             >
                                 <i aria-hidden='true' class='fa fa-twitter'></i>
-                            </a>
-                            <a
+                            </OsfLink>
+                            <OsfLink
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.facebook'}}
-                                href='{{this.facebookUrl}}'
                                 target='_blank'
                                 rel='noopener'
-                                onclick={{action 'click' 'link' 'Quick Files - Share file on Facebook'
+                                @href='{{this.facebookUrl}}'
+                                @onClick={{action 'click' 'link' 'Quick Files - Share file on Facebook'
                                                  target=this.analytics
                                                  preventDefault=false}}
                             >
                                 <i aria-hidden='true' class='fa fa-facebook'></i>
-                            </a>
-                            <a
+                            </OsfLink>
+                            <OsfLink
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.linkedin'}}
-                                href='{{this.linkedInUrl}}'
                                 target='_blank'
                                 rel='noopener'
-                                onclick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn'
+                                @href='{{this.linkedInUrl}}'
+                                @onClick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn'
                                                  preventDefault=false
                                                  target=this.analytics}}
                             >
                                 <i aria-hidden='true' class='fa fa-linkedin'></i>
-                            </a>
-                            <a
+                            </OsfLink>
+                            <OsfLink
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'quickfiles.share_by_email'}}
-                                href='{{this.emailUrl}}'
                                 target='_blank'
                                 rel='noopener'
-                                onclick={{action 'click' 'link' 'Quick Files - Share file in email'
+                                @href='{{this.emailUrl}}'
+                                @onClick={{action 'click' 'link' 'Quick Files - Share file in email'
                                                  preventDefault=false
                                                  target=this.analytics}}
                             >
                                 <i aria-hidden='true' class='fa fa-envelope'></i>
-                            </a>
+                            </OsfLink>
                         </div>
                     </tab.pane>
                     <tab.pane

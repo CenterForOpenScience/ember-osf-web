@@ -12,15 +12,15 @@
         {{/if}}
     {{/link-to}}
 {{else}}
-    <a
+    <OsfLink
         data-test-node-navbar-link={{or @destination @node.id}}
-        href='/{{@node.id}}/{{@destination}}'
         class={{this.extraClasses}}
+        @href='/{{@node.id}}/{{@destination}}'
     >
         {{#if (has-block)}}
             {{yield}}
         {{else}}
             {{t this.translatingKey}}
         {{/if}}
-    </a>
+    </OsfLink>
 {{/if}}

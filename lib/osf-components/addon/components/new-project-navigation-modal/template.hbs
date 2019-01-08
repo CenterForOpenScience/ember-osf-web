@@ -19,13 +19,13 @@
         >
             {{t 'new_project.stay_here'}}
         </OsfButton>
-        <a
+        <OsfLink
             data-test-go-to-new
-            href='{{@node.links.html}}'
             class='btn btn-success'
-            onclick={{action 'click' 'link' (concat @page ' - New Project - go_to_new_project') target=this.analytics}}
+            @href='{{@node.links.html}}'
+            @onClick={{action 'click' 'link' (concat @page ' - New Project - go_to_new_project') target=this.analytics}}
         >
             {{t 'move_to_project.go_to_project'}}
-        </a>
+        </OsfLink>
     </modal.footer>
 </BsModal>

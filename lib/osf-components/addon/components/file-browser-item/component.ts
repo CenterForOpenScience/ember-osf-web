@@ -78,6 +78,7 @@ export default class FileBrowserItem extends Component {
 
     @action
     open() {
+        this.analytics.click('link', 'File Browser - open_file');
         this.openItem(this.item, 'view');
     }
 

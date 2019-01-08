@@ -37,11 +37,11 @@
             <h3 class='m-sm'>{{t 'routes.register.create_a_free_account'}}</h3>
             <h4 class='m-md'>{{t 'routes.register.sign_up_using'}}</h4>
             <div local-class='sign-up-buttons' class='m-md'>
-                <a
+                <OsfLink
                     data-test-orcid-button
-                    href='{{this.orcidUrl}}#show_login'
                     local-class='sign-up-button'
-                    onclick={{action 'click' 'button' 'Sign up - ORCID' target=this.analytics}}
+                    @href='{{this.orcidUrl}}#show_login'
+                    @onClick={{action 'click' 'button' 'Sign up - ORCID' target=this.analytics}}
                 >
                     <img
                         src='/assets/images/register/orcid-logo.png'
@@ -49,12 +49,12 @@
                         local-class='sign-up-button__logo'
                     >
                     <div local-class='sign-up-button__label'>{{t 'routes.register.orcid'}}</div>
-                </a>
-                <a
+                </OsfLink>
+                <OsfLink
                     data-test-institution-button
-                    href={{this.institutionUrl}}
                     local-class='sign-up-button'
-                    onclick={{action 'click' 'button' 'Sign up - Institution' target=this.analytics}}
+                    @href={{this.institutionUrl}}
+                    @onClick={{action 'click' 'button' 'Sign up - Institution' target=this.analytics}}
                 >
                     <img
                         src='/assets/images/register/institution-logo.png'
@@ -62,7 +62,7 @@
                         local-class='sign-up-button__logo'
                     >
                     <div local-class='sign-up-button__label'>{{t 'routes.register.institution'}}</div>
-                </a>
+                </OsfLink>
             </div>
 
             <hr local-class='hr-text' data-content='OR'>

@@ -8,13 +8,13 @@
                     <div local-class='Institutions__header-logo'></div>
                     <p class='lead'>
                         {{t 'institutions.description'}}
-                        <a
+                        <OsfLink
                             local-class='Institutions__block__link'
-                            href='https://cos.io/our-products/osf-institutions/'
-                            onclick={{action 'click' 'link' 'Institutions - Header - Read more' target=this.analytics}}
+                            @href='https://cos.io/our-products/osf-institutions/'
+                            @onClick={{action 'click' 'link' 'Institutions - Header - Read more' target=this.analytics}}
                         >
                             {{t 'institutions.read_more'}}
-                        </a>
+                        </OsfLink>
                     </p>
                 </div>
             </div>
@@ -44,17 +44,17 @@
                                     </div>
                                 </div>
                                 {{#each this.institutions as |institution|}}
-                                    <a
+                                    <OsfLink
                                         class='m-v-sm row'
                                         local-class='Institutions__table__item'
-                                        href='{{institution.links.html}}'
-                                        onclick={{action 'click' 'link' 'Institutions - Visit institution' target=this.analytics}}
+                                        @href='{{institution.links.html}}'
+                                        @onClick={{action 'click' 'link' 'Institutions - Visit institution' target=this.analytics}}
                                     >
                                         <div class='col-xs-3'>
                                             <img local-class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoUrl}}'>
                                         </div>
                                         <div class='col-xs-9' local-class='Institutions__table__title'><span>{{institution.name}}</span></div>
-                                    </a>
+                                    </OsfLink>
                                 {{/each}}
                                 {{#if this.hasMore}}
                                     <OsfButton
@@ -78,12 +78,12 @@
                 <div class='text-center col-xs-12'>
                     <p class='lead'>
                         {{t 'institutions.footer'}}
-                        <a
-                            href='https://cos.io/contact'
-                            onclick={{action 'click' 'link' 'Institutions - Footer - Contact us' target=this.analytics}}
+                        <OsfLink
+                            @href='https://cos.io/contact'
+                            @onClick={{action 'click' 'link' 'Institutions - Footer - Contact us' target=this.analytics}}
                         >
                             {{t 'institutions.contact_us'}}
-                        </a>
+                        </OsfLink>
                     </p>
                 </div>
             </div>

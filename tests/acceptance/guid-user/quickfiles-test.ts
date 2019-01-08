@@ -20,7 +20,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('nav.navbar').exists();
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown').doesNotExist('Should not have user menu if not logged in');
-        const files = this.element.querySelectorAll('a[class*="filename"]');
+        const files = this.element.querySelectorAll('[data-test-file-item-link]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
     });
 
@@ -33,7 +33,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown .nav-profile-name')
             .hasText(currentUser.fullName, 'User\'s name is in navbar');
-        const files = this.element.querySelectorAll('a[class*="filename"]');
+        const files = this.element.querySelectorAll('[data-test-file-item-link]');
         assert.equal(files.length, 10, `Check for proper number of files in list. Found ${files.length}`);
         await percySnapshot(assert);
     });
@@ -43,7 +43,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const user = server.create('user', 'withFiles');
         server.createList('file', 5, { user });
         await visit(`--user/${currentUser.id}/quickfiles`);
-        const files = this.element.querySelectorAll('a[class*="filename"]');
+        const files = this.element.querySelectorAll('[data-test-file-item-link]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
     });
 

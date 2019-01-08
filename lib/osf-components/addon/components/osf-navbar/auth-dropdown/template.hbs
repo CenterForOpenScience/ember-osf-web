@@ -43,10 +43,13 @@
                 </ddm.item>
             {{/if}}
             <ddm.item role='menuitem'>
-                <a href='{{this.profileURL}}' onclick={{action this._onLinkClicked 'Navbar - MyProfile'}}>
+                <OsfLink
+                    @href='{{this.profileURL}}'
+                    @onClick={{action this._onLinkClicked 'Navbar - MyProfile'}}
+                >
                     <i class='fa fa-user fa-lg p-r-xs'></i>
                     {{t 'auth_dropdown.my_profile'}}
-                </a>
+                </OsfLink>
             </ddm.item>
             <ddm.item role='menuitem'>
                 {{#global-link-to 'support' click=(action this._onLinkClicked 'Navbar - Support')}}
@@ -55,10 +58,13 @@
                 {{/global-link-to}}
             </ddm.item>
             <ddm.item role='menuitem'>
-                <a href='{{this.settingsURL}}' onclick={{action this._onLinkClicked 'Navbar - Settings'}}>
+                <OsfLink
+                    @href='{{this.settingsURL}}'
+                    @onClick={{action this._onLinkClicked 'Navbar - Settings'}}
+                >
                     <i class='fa fa-cog fa-lg p-r-xs'></i>
                     {{t 'general.settings'}}
-                </a>
+                </OsfLink>
             </ddm.item>
             <ddm.item role='menuitem'>
                 <OsfButton

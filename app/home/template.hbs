@@ -36,15 +36,15 @@
         <div id='hero-signup' class='container'>
             <div class='row'>
                 <div class='col-sm-6 hidden-xs'>
-                    <a
+                    <OsfLink
                         class='youtube'
-                        href='//www.youtube.com/watch?v={{this.youtubeId}}'
                         aria-label='{{t 'home.youtube_label'}}'
-                        {{action (mut this.modalOpen) true}}
-                        {{action 'click' 'link' 'Home - youtube_video' target=this.analytics}}
+                        @href='//www.youtube.com/watch?v={{this.youtubeId}}'
+                        @onClick={{action (mut this.modalOpen) true}}
                     >
+                        {{!-- {{action 'click' 'link' 'Home - youtube_video' target=this.analytics}} --}}
                         <i local-class='icon icon-play'></i>
-                    </a>
+                    </OsfLink>
                     <img
                         src='/assets/images/home/screenshot.png'
                         class='img-responsive'
@@ -186,12 +186,12 @@
                 <h2>{{t 'home.global_title'}}</h2>
                 <p>
                     {{t 'home.global_paragraph'}}
-                    <a
-                        href='/explore/activity/'
-                        onclick={{action 'click' 'link' 'Home - explore_activity' target=this.analytics}}
+                    <OsfLink
+                        @href='/explore/activity/'
+                        @onClick={{action 'click' 'link' 'Home - explore_activity' target=this.analytics}}
                     >
                         {{t 'home.global_link'~}}
-                    </a>
+                    </OsfLink>
                     <span class='label label-warning' local-class='label-home'>{{t 'home.global_label'}}</span>
                 </p>
             </div>
@@ -200,12 +200,12 @@
                 <h2>{{t 'home.non_profit_title'}}</h2>
                 <p>
                     {{t 'home.non_profit_paragraph1'}}
-                    <a
-                        href='https://cos.io/'
-                        onclick={{action 'click' 'link' 'Home - cos_webpage' target=this.analytics}}
+                    <OsfLink
+                        @href='https://cos.io/'
+                        @onClick={{action 'click' 'link' 'Home - cos_webpage' target=this.analytics}}
                     >
                         {{t 'home.non_profit_link'~}}
-                    </a>
+                    </OsfLink>
                     {{t 'home.non_profit_paragraph2'}}
                     <span class='label label-success' local-class='label-home'>{{t 'home.non_profit_label'}}</span>
                 </p>
@@ -275,13 +275,13 @@
                     <strong>{{t 'home.free_title1'}}</strong>
                 </h2>
                 <h4>{{t 'home.free_title2'}}</h4>
-                <a
-                    href='#signUp'
+                <OsfLink
                     class='btn btn-info btn-lg'
-                    onclick={{action 'click' 'link' 'Home - goto_signup' target=this.analytics}}
+                    @href='#signUp'
+                    @onClick={{action 'click' 'link' 'Home - goto_signup' target=this.analytics}}
                 >
                     {{t 'home.free_link'}}
-                </a>
+                </OsfLink>
             </div>
             <div class='col-md-4 hidden-xs hidden-sm'>
                 <OsfLogo @double={{true}} />

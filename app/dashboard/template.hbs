@@ -226,14 +226,13 @@
                     </div>
                     <div class='row'>
                         <div class='text-center col-sm-12'>
-                            <a
-                                role='link'
-                                href='/search/?q=*'
+                            <OsfLink
                                 class='btn btn-default m-v-lg'
-                                onclick={{action 'click' 'link' 'Dashboard - noteworthy_search' target=this.analytics}}
+                                @href='/search/?q=*'
+                                @onClick={{action 'click' 'link' 'Dashboard - noteworthy_search' target=this.analytics}}
                             >
                                 {{t 'dashboard.noteworthy.search_more'}}
-                            </a>
+                            </OsfLink>
                         </div>
                     </div>
                 </div>
@@ -257,15 +256,14 @@
                         </div>
                         <div class='col-md-4 text-center'>
                             <div>
-                                <a
-                                    role='link'
-                                    href='/meetings/'
+                                <OsfLink
                                     class='btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl'
                                     local-class='btn-banner'
-                                    onclick={{action 'click' 'link' 'Dashboard - meetings_button' target=this.analytics}}
+                                    @href='/meetings/'
+                                    @onClick={{action 'click' 'link' 'Dashboard - meetings_button' target=this.analytics}}
                                 >
                                     {{t 'dashboard.meetings.button'}}
-                                </a>
+                                </OsfLink>
                             </div>
                         </div>
                     </div>
@@ -290,15 +288,14 @@
                         </div>
                         <div class='col-md-4 text-center'>
                             <div>
-                                <a
-                                    role='link'
-                                    href='/preprints/'
-                                    class='btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl'
+                                <OsfLink
                                     local-class='btn-banner'
-                                    onclick={{action 'click' 'link' 'Dashboard - preprints_button' target=this.analytics}}
+                                    class='btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl'
+                                    @href='/preprints/'
+                                    @onClick={{action 'click' 'link' 'Dashboard - preprints_button' target=this.analytics}}
                                 >
                                     {{t 'dashboard.preprints.button'}}
-                                </a>
+                                </OsfLink>
                             </div>
                         </div>
                     </div>

@@ -16,21 +16,21 @@
                             </h2>
                             <p>
                                 {{t 'join_osf.pitch'}}
-                                <a
-                                    href='/register/'
-                                    onclick={{action 'click' 'button' 'Join OSF Banner - sign_up' target=this.analytics}}
+                                <OsfLink
+                                    @href='/register/'
+                                    @onClick={{action 'click' 'button' 'Join OSF Banner - sign_up' target=this.analytics}}
                                 >
                                     {{t 'join_osf.create_account'}}
-                                </a>
+                                </OsfLink>
                                 {{t 'general.or'}}
-                                <a
-                                    href='http://help.osf.io'
+                                <OsfLink
                                     target='_blank'
                                     rel='noreferrer'
-                                    onclick={{action 'click' 'button' 'Join OSF Banner - learn_more' target=this.analytics}}
+                                    @href='http://help.osf.io'
+                                    @onClick={{action 'click' 'button' 'Join OSF Banner - learn_more' target=this.analytics}}
                                 >
                                     {{t 'join_osf.learn_more'}}
-                                </a>
+                                </OsfLink>
                                 {{t 'general.period'}}
                             </p>
                         </div>
