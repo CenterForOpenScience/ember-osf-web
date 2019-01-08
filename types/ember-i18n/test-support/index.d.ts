@@ -1,3 +1,7 @@
 declare module 'ember-i18n/test-support' {
-    export function t(translation: string): string;
+    interface SafeString {
+        toString(): string;
+        toHTML(): string;
+    }
+    export function t(translation: string): SafeString;
 }

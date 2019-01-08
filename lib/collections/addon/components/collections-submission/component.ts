@@ -91,7 +91,7 @@ export default class Submit extends Component {
             }));
 
             yield timeout(1000);
-
+            this.resetPageDirty();
             // TODO: external-link-to / waffle for project main page
             window.location.href = this.collectionItem.links.html;
         } catch (e) {
@@ -123,6 +123,9 @@ export default class Submit extends Component {
     @requiredAction
     onNextSection!: () => void;
 
+    /**
+     * Called to reset isPageDirty
+     */
     @requiredAction
     resetPageDirty!: () => void;
 
@@ -141,7 +144,7 @@ export default class Submit extends Component {
      * Cancel action for the entire form (bottom of the page). Navigates away if a project has not been selected.
      */
     @action
-    cancel(this: Submit) {
+    cancel() {
         this.transition();
     }
 
@@ -174,14 +177,5 @@ export default class Submit extends Component {
         this.savedSections.pushObject(this.activeSection);
         this.incrementProperty('activeSection');
         this.onNextSection();
-    }
-
-    /**
-     * Save and reset the isPageDirty on the controller, so that redirection after successful save will not be blocked
-     */
-    @action
-    submit() {
-        this.get('save').perform();
-        this.resetPageDirty();
     }
 }

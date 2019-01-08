@@ -1,4 +1,8 @@
-{{collection-submission-confirmation-modal openModal=this.showSubmitModal addToCollection=(action this.submit) cancel=(action this.resetShowSubmitModal) }}
+<CollectionSubmissionConfirmationModal 
+    @openModal={{this.showSubmitModal}}
+    @addToCollection={{action (perform this.save)}} 
+    @cancel={{action this.resetShowSubmitModal}}
+/>
 <div class='submit-header' local-class='header'>
     <h1>{{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
 </div>
@@ -146,7 +150,7 @@
                 </button>
 
                 {{#if this.edit}}
-                    <button class='btn btn-success' {{action this.submit}} disabled={{not (eq this.activeSection this.sections.submit)}}>
+                    <button class='btn btn-success' {{action (perform this.save)}} disabled={{not (eq this.activeSection this.sections.submit)}}>
                         {{t (concat this.i18nKeyPrefix 'update' '_button')}}
                     </button>
                 {{else}}
