@@ -24,6 +24,6 @@ export default class Register extends Route {
 
     @action
     didTransition(this: Register) {
-        this.get('analytics').trackPage();
+        this.analytics.trackPage();
     }
 }

@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.0.2] - 2019-01-08
+### Changed
+- Routes
+    - `goodbye` - add page tracking
+    - `guid-node.forks` - accurately report resource privacy and type when page tracking
+    - `guid-node.registrations` - accurately report resource privacy and type when page tracking
+    - `guid-registration.forks` - add page tracking
+    - `guid-user.quickfiles` - add resource type to page tracking
+    - `settings.tokens.create` - add page tracking
+    - `settings.tokens.edit` - - add page tracking
+    - `settings.tokens.index` - add page tracking
+- Engines:
+    - `analytics-page` - accurately report resource privacy and type when page tracking
+
 ## [19.0.1] - 2019-01-04
 ### Fixed
 - Routes:
