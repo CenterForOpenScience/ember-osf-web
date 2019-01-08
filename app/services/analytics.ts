@@ -1,5 +1,6 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import { debug } from '@ember/debug';
 import Service from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
 import config from 'ember-get-config';
@@ -21,6 +22,8 @@ export default class Analytics extends Service {
     ) {
         // Wait until everything has settled
         yield waitForQueue('destroy');
+
+        debug(`Track Page: pagePublic: ${pagePublic}, resourceType: ${resourceType}`);
 
         const eventParams = {
             page: this.router.currentURL,

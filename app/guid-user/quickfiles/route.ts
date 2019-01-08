@@ -62,6 +62,6 @@ export default class UserQuickfiles extends Route.extend({
         window.addEventListener('dragover', preventDrop);
         window.addEventListener('drop', preventDrop);
 
-        this.analytics.trackPage(true);
+        this.analytics.trackPage(true, 'users');
     }
 }

@@ -22,7 +22,7 @@ export default class Home extends Route {
 
     @action
     didTransition(this: Home) {
-        this.get('analytics').trackPage();
+        this.analytics.trackPage();
     }
 
     resetController(controller: Controller, isExiting: boolean, _: Transition) {
