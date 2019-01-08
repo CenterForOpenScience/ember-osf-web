@@ -5,8 +5,10 @@ import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { task, TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
+import { pluralize } from 'ember-inflector';
 
 import Node from 'ember-osf-web/models/node';
+import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import AnalyticsService from 'ember-osf-web/services/analytics';
 import Ready, { Blocker } from 'ember-osf-web/services/ready';
 
@@ -62,7 +64,13 @@ export default class AnalyticsPageRoute extends Route {
     }
 
     @action
-    didTransition() {
-        this.analytics.trackPage(true, (this as any).currentModel.modelName);
+    async didTransition() {
+        const { taskInstance } = this.controller.model as GuidRouteModel<Node>;
+        await taskInstance;
+        const model = taskInstance.value;
+        this.analytics.trackPage(
+            model ? model.public : undefined,
+            model ? pluralize(model.modelName) : undefined,
+        );
     }
 }
