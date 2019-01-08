@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const stringUtil = require('ember-cli-string-utils');
 const validComponentName = require('ember-cli-valid-component-name');
 const getPathOption = require('ember-cli-get-component-path-option');
@@ -36,5 +37,16 @@ module.exports = {
             modulePath: [addonName, 'components', fileName, 'component'].join('/'),
             path: getPathOption(options),
         };
+    },
+    files() {
+        const engineName = this.options.inRepoAddon;
+        const isEngine = fs.existsSync(path.join(this.options.project.root, 'lib', engineName, 'addon', 'engine.js'));
+        if (isEngine) {
+            // if the in-repo-addon within which the new component is added uses ember engine
+            // we return an empty array
+            // so that the blueprint would not be picked up and used for generating unnecessary `/app` tree
+            return [];
+        }
+        return this._super();
     },
 };
