@@ -10,11 +10,11 @@ import template from './template';
 
 @layout(template, styles)
 export default class InstitutionWidget extends Component {
-    // optional parameters
+    // optional properties
     readOnly: boolean = defaultTo(this.readOnly, false);
     analyticsScope: string = defaultTo(this.analyticsScope, '');
 
-    // private parameters
+    // private properties
     @service analytics!: Analytics;
     shouldShowModal: boolean = false;
 

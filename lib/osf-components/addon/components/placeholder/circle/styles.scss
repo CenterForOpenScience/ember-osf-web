@@ -13,7 +13,11 @@
     height: 50px;
     border-radius: 50%;
     border: 1px solid $color-border-white;
-    background: linear-gradient(to right, $color-gradient-primary 10%, darken($color-gradient-secondary, 5%) 40%, $color-gradient-primary 80%);
+    background:
+        linear-gradient(to right,
+        $color-gradient-primary 10%,
+        darken($color-gradient-secondary, 5%) 40%,
+        $color-gradient-primary 80%);
     background-size: 300px;
     animation-duration: 1.5s;
     animation-iteration-count: infinite;

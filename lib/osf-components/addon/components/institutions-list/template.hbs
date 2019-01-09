@@ -9,9 +9,7 @@
         <list.item as |institution|>
             <div local-class='InstitutionList__item'>
                 {{#if institution}}
-                    <Link
-                        @href={{institution.links.html}}
-                    >
+                    <Link @href={{institution.links.html}}>
                         <img
                             data-test-institution-list-institution={{institution.name}}
                             class='img-circle img-responsive'

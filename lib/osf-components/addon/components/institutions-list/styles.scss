@@ -2,11 +2,13 @@
     ul {
         display: inline-flex;
         flex-wrap: wrap;
+        margin-right: -9px;
+        margin-left: -9px;
 
         li {
+            padding: 0 9px;
             flex: none;
             border: 0;
-            padding: 0;
         }
     }
 }
@@ -14,7 +16,6 @@
 .InstitutionList__item {
     display: inline-block;
     float: none;
-    margin-right: 18px;
 
     a {
         background: inherit;

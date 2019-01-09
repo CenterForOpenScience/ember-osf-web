@@ -121,8 +121,7 @@ function handbookScenario(server: Server) {
     // InstitutionsWidget
     server.create('node', {
         id: 'lacks',
-        affiliatedInstitutions,
-    });
+    }, 'withAffiliatedInstitutions');
 
     // ContributorList
     for (const contributorCount of [1, 2, 3, 23]) {

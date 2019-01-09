@@ -1,12 +1,9 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='placeholder.circle.hbs'}}
-        <Placeholder
-            placeholder="circle"
-            as |placeholder|
-        >
-            <placeholder.object />
+<DocsDemo as |demo|>
+    <demo.example @name='placeholder.circle.hbs'>
+        <Placeholder as |placeholder|>
+            <placeholder.circle />
         </Placeholder>
-    {{/demo.example}}
+    </demo.example>
 
-    {{demo.snippet 'placeholder.circle.hbs'}}
-{{/docs-demo}}
+    <demo.snippet @name='placeholder.circle.hbs' />
+</DocsDemo>

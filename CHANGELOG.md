@@ -164,8 +164,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
-    - `institutions-widget` - showingå a list of institutions
-    - `placeholder` - shows all placeholders
 - Models:
     - `user-email`
 - Routes:

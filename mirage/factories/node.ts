@@ -18,6 +18,7 @@ export interface NodeTraits {
     withDraftRegistrations: Trait;
     withDoi: Trait;
     withLicense: Trait;
+    withAffiliatedInstitutions: Trait;
 }
 
 export default Factory.extend<MirageNode & NodeTraits>({
@@ -132,6 +133,15 @@ export default Factory.extend<MirageNode & NodeTraits>({
             const license = faker.random.arrayElement(server.schema.licenses.all().models);
             node.license = license; // eslint-disable-line no-param-reassign
             node.save();
+        },
+    }),
+
+    withAffiliatedInstitutions: trait({
+        afterCreate(node: any, server: any) {
+            const affiliatedInstitutionCount = faker.random.number({ min: 5, max: 15 });
+            server.createList('institution', affiliatedInstitutionCount, {
+                nodes: [node],
+            });
         },
     }),
 });

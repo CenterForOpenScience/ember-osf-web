@@ -2,14 +2,13 @@
     <div local-class='InstitutionWidget__title'>
         {{t 'osf-components.institutions-widget.affiliated_institutions'}}
         {{#if (not this.readOnly)}}
-            <BsButton
+            <OsfButton
                data-test-add-institution-button
-               aria-label={{t 'general.add'}} 
-               class='add'
+               aria-label={{t 'general.add'}}
                @onClick={{action this.showModal}}
             >
                 <FaIcon @icon='plus-circle' />
-            </BsButton>
+            </OsfButton>
         {{/if}}
     </div>
     <span>
@@ -27,18 +26,15 @@
             </div>
         </modal.body>
         <modal.footer>
-            <BsButton
-                class='btn btn-default'
-                @onClick={{action this.closeModal}}
-            >
+            <OsfButton @onClick={{action this.closeModal}}>
                 {{t 'general.cancel'}}
-            </BsButton>
-            <BsButton
-                class='btn btn-success'
-                @onClick={{action 'this.create'}}
+            </OsfButton>
+            <OsfButton
+                @type='success'
+                @onClick={{action this.create}}
             >
                 {{t 'general.save'}}
-            </BsButton>
+            </OsfButton>
         </modal.footer>
     </BsModal>
 </div>

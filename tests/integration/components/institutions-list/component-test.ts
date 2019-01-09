@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import DS from 'ember-data';
 import { setupRenderingTest } from 'ember-qunit';
@@ -38,7 +38,22 @@ module('Integration | Component | institutions-list', hooks => {
         await render(hbs`<InstitutionsList @node={{this.node}} />`);
 
         assert.dom('[data-test-institutions-list]').exists();
-        institutions.forEach(institution =>
-            assert.dom(`[data-test-institution-list-institution="${institution.name}"]`).exists());
+        assert.dom('[data-test-institution-list-institution]').exists({ count: 10 });
+    });
+
+    test('paginated institutions', async function(assert) {
+        const institutions = server.createList('institution', 15);
+        const mirageNode = server.create('node', { affiliatedInstitutions: institutions });
+
+        this.set('node', this.store.findRecord('node', mirageNode.id));
+
+        await render(hbs`<InstitutionsList @node={{this.node}} />`);
+
+        assert.dom('[data-test-institutions-list]').exists();
+        assert.dom('[data-test-institution-list-institution]').exists({ count: 10 });
+
+        await click('[data-test-next-page-button]');
+
+        assert.dom('[data-test-institution-list-institution]').exists({ count: 5 });
     });
 });

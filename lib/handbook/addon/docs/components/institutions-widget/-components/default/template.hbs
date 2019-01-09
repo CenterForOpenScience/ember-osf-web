@@ -1,11 +1,10 @@
 <DocsDemo as |demo|>
-    <demo.example @name='institutions-widget.read-only.hbs'>
+    <demo.example @name='institutions-widget.default.hbs'>
         <InstitutionsWidget
             @node={{@node}}
-            @readOnly=true
             @analyticsScope='Handbook'
         />
     </demo.example>
 
-    {{demo.snippet 'institutions-widget.read-only.hbs'}}
+    <demo.snippet @name='institutions-widget.default.hbs' />
 </DocsDemo>
