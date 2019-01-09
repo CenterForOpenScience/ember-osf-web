@@ -26,10 +26,10 @@ export default class SharingIconsDropdown extends Component.extend({
         try {
             if (op === 'remove') {
                 this.bookmarksCollection.linkedRegistrations.removeObject(this.node);
-                response = yield this.bookmarksCollection.deleteM2MRelationship('linkedRegistrations', this.node.id);
+                response = yield this.bookmarksCollection.deleteM2MRelationship('linkedRegistrations', this.node);
             } else {
                 this.bookmarksCollection.linkedRegistrations.pushObject(this.node);
-                response = yield this.bookmarksCollection.createM2MRelationship('linkedRegistrations', this.node.id);
+                response = yield this.bookmarksCollection.createM2MRelationship('linkedRegistrations', this.node);
             }
         } catch (e) {
             this.toast.error(this.i18n.t(`registries.overview.update_bookmarks.${op}.error`));

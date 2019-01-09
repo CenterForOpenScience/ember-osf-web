@@ -229,7 +229,7 @@ export default class OsfModel extends Model {
 
         // Get related count with sparse fieldset.
         const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX({
-            url: getHref(this.links.self),
+            url: getHref(this.links.self!),
             data: {
                 related_counts: apiRelationshipName,
                 [`fields[${apiModelName}]`]: apiRelationshipName,

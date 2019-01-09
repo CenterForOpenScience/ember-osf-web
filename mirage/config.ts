@@ -7,7 +7,7 @@ import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { guidDetail } from './views/guid';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
-import { forkRegistration } from './views/registration';
+import { forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
@@ -47,7 +47,8 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
 
-    osfResource(this, 'registration');
+    osfResource(this, 'registration', { except: ['show'] });
+    this.get('/registrations/:id', registrationDetail);
     osfNestedResource(this, 'registration', 'children');
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
     this.post('/registrations/:id/forks', forkRegistration);
