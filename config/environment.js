@@ -177,7 +177,6 @@ module.exports = function(environment) {
             analyticsAttrs: {
                 name: 'data-analytics-name',
                 scope: 'data-analytics-scope',
-                page: 'data-analytics-page',
                 extra: 'data-analytics-extra',
                 category: 'data-analytics-category',
                 action: 'data-analytics-action',

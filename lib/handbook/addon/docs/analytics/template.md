@@ -56,6 +56,7 @@ You can optionally fill in the `extra` field on the tracked event by setting `da
     Note: It is currently easy to forget to track non-click events.
     Until we figure out a more automatic approach, try not to forget.
 </aside>
+
 For non-click events, or when the "automatic" approach doesn't fit, call `track()` on the `analytics` service:
 
 ```ts

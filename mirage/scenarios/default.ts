@@ -17,7 +17,6 @@ const {
 } = config;
 
 export default function(server: Server) {
-    server.create('root', 'withNewRegistriesStyle');
     const currentUser = defaultLoggedOut ? server.create('user') : server.create('user', 'loggedIn');
 
     server.create('user-setting', { user: currentUser });

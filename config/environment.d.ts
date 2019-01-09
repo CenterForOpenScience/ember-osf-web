@@ -102,7 +102,6 @@ declare const config: {
         analyticsAttrs: {
             name: string;
             scope: string;
-            page: string;
             category: string;
             extra: string;
             action: string;
