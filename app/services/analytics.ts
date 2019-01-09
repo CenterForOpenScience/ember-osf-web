@@ -18,7 +18,7 @@ const {
     },
 } = config;
 
-interface TrackedData {
+export interface TrackedData {
     category?: string;
     action?: string;
     extra?: string;
