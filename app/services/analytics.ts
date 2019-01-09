@@ -108,15 +108,22 @@ class EventInfo {
     _gatherCategory(element: Element) {
         if (element.hasAttribute(analyticsAttrs.category)) {
             this.category = element.getAttribute(analyticsAttrs.category)!;
+        } else if (element.hasAttribute('role')) {
+            this.category = element.getAttribute('role')!;
         } else {
-            const role = (element.getAttribute('role') || '').toLowerCase();
-
-            if (role === 'button' || element.tagName === 'BUTTON') {
+            switch (element.tagName) {
+            case 'BUTTON':
                 this.category = 'button';
-            } else if (role === 'link' || element.tagName === 'A') {
+                break;
+            case 'A':
                 this.category = 'link';
-            } else if (element.tagName === 'INPUT' && element.hasAttribute('type')) {
-                this.category = element.getAttribute('type')!;
+                break;
+            case 'INPUT':
+                if (element.hasAttribute('type')) {
+                    this.category = element.getAttribute('type')!;
+                }
+                break;
+            default:
             }
         }
 
