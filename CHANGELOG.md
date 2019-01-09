@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-cli-sass@8.0.1`
 - Components:
     - `contributor-list` - takes an optional parameter `truncated`
+    - `osf-link` - used to be `link`
+        - `@onClick` parameter used to be `@onclick`
 - Templates:
     - `no-implicit-this` template rule activated
 - Types:
@@ -36,6 +38,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Addons:
     - `osf-style`
+- Components:
+    - `global-link-to`
 
 ## [19.0.2] - 2019-01-08
 ### Changed

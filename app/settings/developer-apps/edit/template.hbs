@@ -1,14 +1,13 @@
-{{! template-lint-disable no-implicit-this }}
 <div>
-    {{#link-to data-test-back-to-developer-apps
-        'settings.developer-apps'
-        click=(action 'click' 'link' 'Settings - Developer apps - Edit - Back to list' target=this.analytics)
-    }}
+    <OsfLink
+        data-test-back-to-developer-apps
+        @route='settings.developer-apps'
+        @onClick={{action 'click' 'link' 'Settings - Developer apps - Edit - Back to list' target=this.analytics}}
+    >
         {{fa-icon 'arrow-left'}}
         {{t 'settings.developer-apps.backToList'}}
-    {{/link-to}}
+    </OsfLink>
 </div>
-{{! template-lint-enable no-implicit-this }}
 <h4>{{t 'settings.developer-apps.appDetail' appName=this.developerApp.name}}</h4>
 
 {{#if this.model.taskInstance.isError}}

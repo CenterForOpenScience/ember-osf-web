@@ -42,13 +42,13 @@
         <h2 class='text-300'>{{t 'forks.title'}}</h2>
     </div>
     <div class='m-md' local-class='Forks__nav'>
-        {{#link-to
-            'guid-node.analytics'
-            this.node.id
-            click=(action 'click' 'link' 'Project Forks - forks.back' target=this.analytics)
-        }}
+        <OsfLink
+            @route='guid-node.analytics'
+            @models={{array this.model.guid}}
+            @onClick={{action 'click' 'link' 'Project Forks - forks.back' target=this.analytics}}
+        >
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
-        {{/link-to}}
+        </OsfLink>
         <p local-class='Forks__nav__link'>{{t 'forks.info'}}</p>
     </div>
     <div local-class='Forks__forks'>

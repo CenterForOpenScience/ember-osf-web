@@ -1,12 +1,12 @@
 <div data-test-token-card={{@token.id}} local-class='TokenCard'>
     {{#if @token}}
-        {{#link-to
-            'settings.tokens.edit'
-            @token.id
-            data-test-token-link=@token.id
-        }}
+        <OsfLink
+            data-test-token-link={{@token.id}}
+            @route='settings.tokens.edit'
+            @models={{array @token.id}}
+        >
             {{@token.name}}
-        {{/link-to}}
+        </OsfLink>
     {{else}}
         <ContentPlaceholders
             local-class='TokenCard__placeholder'

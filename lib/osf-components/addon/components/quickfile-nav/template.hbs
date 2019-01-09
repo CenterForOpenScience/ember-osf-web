@@ -1,9 +1,12 @@
 <div class='container'>
     {{#if @user}}
         <h3>
-            {{#link-to 'guid-user.quickfiles' @user.id}}
+            <OsfLink
+                @route='guid-user.quickfiles'
+                @models={{array @user.id}}
+            >
                 {{t 'quickfiles.title' user-name=@user.fullName}}
-            {{/link-to}}
+            </OsfLink>
         </h3>
     {{/if}}
 </div>

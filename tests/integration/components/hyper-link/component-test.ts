@@ -12,19 +12,19 @@ module('Integration | Component | hyper-link', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders ember routes', async function(this: TestContext, assert) {
-        await render(hbs`{{hyper-link foo}}`);
+        await render(hbs`{{osf-navbar/x-links/hyper-link foo}}`);
 
         assert.dom('a').exists();
     });
 
     test('it renders external hrefs', async function(this: TestContext, assert) {
-        await render(hbs`{{hyper-link 'http://example.com'}}`);
+        await render(hbs`{{osf-navbar/x-links/hyper-link 'http://example.com'}}`);
 
         assert.dom('a[href="http://example.com"]').exists();
     });
 
     test('it renders internal hrefs', async function(this: TestContext, assert) {
-        await render(hbs`{{hyper-link '/'}}`);
+        await render(hbs`{{osf-navbar/x-links/hyper-link '/'}}`);
 
         assert.dom('a[href="/"]').exists();
     });
@@ -32,7 +32,7 @@ module('Integration | Component | hyper-link', hooks => {
     test('it does not render when hidden=true', async function(this: TestContext, assert) {
         this.set('isHidden', true);
 
-        await render(hbs`{{hyper-link hidden=isHidden}}`);
+        await render(hbs`{{osf-navbar/x-links/hyper-link hidden=isHidden}}`);
 
         assert.dom('a').doesNotExist();
 
@@ -44,16 +44,16 @@ module('Integration | Component | hyper-link', hooks => {
     });
 
     test('it renders `text`', async function(this: TestContext, assert) {
-        await render(hbs`{{hyper-link text='This is my text'}}`);
+        await render(hbs`{{osf-navbar/x-links/hyper-link text='This is my text'}}`);
 
         assert.dom('a').hasText('This is my text');
     });
 
     test('it renders yields', async function(this: TestContext, assert) {
         await render(hbs`
-            {{#hyper-link text='This is my text'}}
+            {{#osf-navbar/x-links/hyper-link text='This is my text'}}
                 This is not my text
-            {{/hyper-link}}
+            {{/osf-navbar/x-links/hyper-link}}
         `);
 
         assert.dom('a').hasText('This is not my text');
@@ -63,7 +63,7 @@ module('Integration | Component | hyper-link', hooks => {
         await render(hbs`
             {{#let (
                 hash
-                link=(component 'hyper-link' 'http://example.com/#override-me' text='Override Me')
+                link=(component 'osf-navbar/x-links/hyper-link' 'http://example.com/#override-me' text='Override Me')
             ) as |ctx|}}
                 {{ctx.link route='http://example.com/#overridden' text='Overridden'}}
             {{/let}}
@@ -87,7 +87,7 @@ module('Integration | Component | hyper-link', hooks => {
         });
 
         await render(hbs`
-            {{hyper-link '/bar' analyticsLabel='This is a test'}}
+            {{osf-navbar/x-links/hyper-link '/bar' analyticsLabel='This is a test'}}
         `);
 
         await click('a');
@@ -113,7 +113,7 @@ module('Integration | Component | hyper-link', hooks => {
         });
 
         await render(hbs`
-            {{hyper-link 'foo' analyticsLabel='This is a second test'}}
+            {{osf-navbar/x-links/hyper-link 'foo' analyticsLabel='This is a second test'}}
         `);
 
         await click('a');

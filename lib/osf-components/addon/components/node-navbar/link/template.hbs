@@ -1,16 +1,16 @@
 {{#if this.useLinkTo}}
-    {{#link-to
-        this.routeName
-        @node.id
-        data-test-node-navbar-link=(or @destination @node.id)
-        class=this.extraClasses
-    }}
+    <OsfLink
+        data-test-node-navbar-link={{or @destination @node.id}}
+        class={{this.extraClasses}}
+        @route={{this.routeName}}
+        @models={{array @node.id}}
+    >
         {{#if (has-block)}}
             {{yield}}
         {{else}}
             {{t this.translatingKey}}
         {{/if}}
-    {{/link-to}}
+    </OsfLink>
 {{else}}
     <OsfLink
         data-test-node-navbar-link={{or @destination @node.id}}

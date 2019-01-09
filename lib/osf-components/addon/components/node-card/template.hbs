@@ -23,11 +23,13 @@
                     <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
                 {{/if}}
                 {{node-card/node-icon category=@node.category}}
-                {{#global-link-to 'resolve-guid' @node.id
-                    click=(action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Title') target=this.analytics)
-                }}
+                <OsfLink
+                    @route='resolve-guid'
+                    @models={{array @node.id}}
+                    @onClick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Title') target=this.analytics}}
+                >
                     {{@node.title}}
-                {{/global-link-to}}
+                </OsfLink>
             {{else}}
                 <ContentPlaceholders as |placeholder|>
                     <placeholder.heading @subtitle={{false}} />

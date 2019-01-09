@@ -1,11 +1,16 @@
+{{!-- template-lint-disable --}}
 <Navbar @dark={{true}} as |nav|>
     <nav.container>
         {{!-- Left Side (Band, Service Dropdown) --}}
         <nav.section data-test-left>
 
-            {{#global-link-to data-test-brand 'home' (html-attributes aria-label=(t 'navbar.go_home'))}}
+            <OsfLink
+                data-test-brand
+                aria-label={{t 'navbar.go_home'}}
+                @route='home' 
+            >
                 <div local-class="Logo"></div>
-            {{/global-link-to}}
+            </OsfLink>
 
             {{#bs-dropdown as |dd|}}
                 {{#dd.toggle data-test-service classNames=(local-class 'Service Dropdown')}}
@@ -17,9 +22,12 @@
                 {{#dd.menu data-test-service-list classNames=(local-class 'ServiceDropdownMenu DropdownMenu') as |ddm|}}
                     {{#each services as |service|}}
                         <ddm.item role="menuitem">
-                            {{#hyper-link service.route}}
+                            <OsfLink
+                                @route={{service.route}}
+                                @href={{service.href}}
+                            >
                                 <strong local-class="ServiceDropdownEntry">{{service.name}}</strong>
-                            {{/hyper-link}}
+                            </OsfLink>
                         </ddm.item>
                     {{/each}}
                 {{/dd.menu}}
@@ -70,10 +78,13 @@
                             </a>
                         </ddm.item>
                         <ddm.item role="menuitem">
-                            {{#global-link-to 'support' click=(action 'click' 'link' 'Navbar - Support' target=analytics)}}
+                            <OsfLink
+                                @route='support'
+                                @onClick={{action 'click' 'link' 'Navbar - Support' target=analytics}}
+                            >
                                 {{fa-icon 'life-ring' fixedWidth=true}}
                                 {{t 'auth_dropdown.osf_support'}}
-                            {{/global-link-to}}
+                            </OsfLink>
                         </ddm.item>
                         <ddm.item role="menuitem">
                             <a href="{{settingsURL}}" onclick={{action 'click' 'link' 'Navbar - Settings' target=analytics}}>

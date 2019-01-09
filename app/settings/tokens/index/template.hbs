@@ -2,15 +2,13 @@
     <p local-class='Top__explanation'>
         {{t 'settings.tokens.explanation'}}
     </p>
-    {{! template-lint-disable no-implicit-this }}
-    {{#link-to
+    <OsfLink
         data-test-create-token-link
-        'settings.tokens.create'
         class='btn btn-primary'
-    }}
+        @route='settings.tokens.create'
+    >
         {{t 'settings.tokens.createToken'}}
-    {{/link-to}}
-    {{! template-lint-enable no-implicit-this }}
+    </OsfLink>
 </div>
 
 {{#paginated-list/all

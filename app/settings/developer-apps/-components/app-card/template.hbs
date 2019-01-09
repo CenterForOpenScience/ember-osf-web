@@ -1,12 +1,12 @@
 <div data-test-developer-app-card={{@developerApp.id}} local-class='DeveloperAppCard'>
     {{#if @developerApp}}
-        {{#link-to
-            'settings.developer-apps.edit'
-            @developerApp.id
-            data-test-developer-app-link=@developerApp.id
-        }}
+        <OsfLink
+            data-test-developer-app-link={{@developerApp.id}}
+            @route='settings.developer-apps.edit'
+            @models={{array @developerApp.id}}
+        >
             {{@developerApp.name}}
-        {{/link-to}}
+        </OsfLink>
     {{else}}
         <ContentPlaceholders
             local-class='DeveloperAppCard__placeholder'

@@ -1,9 +1,15 @@
 {{#if (not this.session.isAuthenticated) }}
     <li class='sign-in'>
         <div>
-            {{#hyper-link this.signUpRoute queryParams=this.signUpQueryParams class='btn btn-success btn-top-signup m-l-sm m-r-xs' analyticsLabel='Navbar - SignUp' testSelectorVal='sign-up-button'}}
+            <OsfLink
+                @route={{this.signUpRoute}}
+                @queryParams={{this.signUpQueryParams}}
+                class='btn btn-success btn-top-signup m-l-sm m-r-xs'
+                analyticsLabel='Navbar - SignUp'
+                testSelectorVal='sign-up-button'
+            >
                 {{t 'auth_dropdown.sign_up'}}
-            {{/hyper-link}}
+            </OsfLink>
             <OsfButton 
                 data-test-sign-in-button
                 class='btn-top-login'
@@ -52,10 +58,13 @@
                 </OsfLink>
             </ddm.item>
             <ddm.item role='menuitem'>
-                {{#global-link-to 'support' click=(action this._onLinkClicked 'Navbar - Support')}}
+                <OsfLink
+                    @route='support'
+                    @onClick={{action this._onLinkClicked 'Navbar - Support'}}
+                >
                     <i class='fa fa-life-ring fa-lg p-r-xs'></i>
                     {{t 'auth_dropdown.osf_support'}}
-                {{/global-link-to}}
+                </OsfLink>
             </ddm.item>
             <ddm.item role='menuitem'>
                 <OsfLink
