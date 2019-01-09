@@ -1,15 +1,15 @@
 <span
-    local-class='IconInput {{if this.dark 'Dark'}}'
     data-analytics-category='text'
+    local-class='IconInput {{if this.dark 'Dark'}}'
     ...attributes
 >
     <span>
-        {{fa-icon this.icon fixedWidth=true}}
+        <FaIcon @icon=this.icon @fixedWidth=true />
     </span>
-    {{input
-        type='text'
-        enter=(action '_enter')
-        class=(local-class 'Input')
-        value=(mut this.value)
-    }}
+    <Input
+        @type='text'
+        @enter={{action '_enter'}}
+        @class={{local-class 'Input'}}
+        @value={{mut this.value}}
+    />
 </span>

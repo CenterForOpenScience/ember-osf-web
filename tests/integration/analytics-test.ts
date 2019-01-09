@@ -5,8 +5,6 @@ import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import sinon, { SinonStub } from 'sinon';
 
-// import { initialize } from 'ember-osf-web/instance-initializers/analytics';
-
 interface AnalyticsTestContext extends TestContext {
     trackEventStub: SinonStub;
 }

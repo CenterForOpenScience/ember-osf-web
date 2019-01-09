@@ -3,18 +3,22 @@
 {{#if this.newStyleEnabled}}
     <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' @onSearch={{action 'search'}} />
 {{else}}
-    {{#osf-header as |header|}}
-        {{#header.navbar campaign='osf-registries' activeService=this.activeService as |ctx|}}
-            {{#ctx.links as |links|}}
-                {{!-- {{links.quickfiles}} --}}
-                {{!-- {{links.myprojects}} --}}
-                {{links.myregistrations}}
-                {{links.search route=this.searchRoute}}
-                {{links.support route=this.supportRoute}}
-                {{links.donate}}
-            {{/ctx.links}}
-        {{/header.navbar}}
-    {{/osf-header}}
+    <OsfHeader as |header|>
+        <header.navbar
+            @campaign='osf-registries'
+            @activeService={{this.activeService}}
+            as |ctx|
+        >
+            <ctx.links as |links|>
+                {{! <links.quickfiles /> }}
+                {{! <links.myprojects /> }}
+                <links.myregistrations />
+                <links.search route=this.searchRoute />
+                <links.support route=this.supportRoute />
+                <links.donate />
+            </ctx.links>
+        </header.navbar>
+    </OsfHeader>
 {{/if}}
 
 <div

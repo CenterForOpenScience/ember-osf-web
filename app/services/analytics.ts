@@ -25,7 +25,7 @@ export interface TrackedData {
     label: string;
 }
 
-function logEvent(analytics: Analytics, title: string, data: any) {
+function logEvent(analytics: Analytics, title: string, data: object) {
     const logMessage = Object.entries(data)
         .map(([k, v]) => `${k}: ${v}`)
         .join(', ');

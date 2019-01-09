@@ -7,7 +7,7 @@
         ...attributes
     >
         <span local-class='Label'>
-            {{fa-icon @icon fixedWidth=true class=(local-class 'Icon')}}
+            <FaIcon @icon={{@icon}} @fixedWidth={{true}} @class={{local-class 'Icon'}} />
             <h4>{{@label}}</h4>
         </span>
 
@@ -28,7 +28,7 @@
         ...attributes
     >
         <span local-class='Label'>
-            {{fa-icon @icon fixedWidth=true class=(local-class 'Icon')}}
+            <FaIcon @icon={{@icon}} @fixedWidth={{true}} @class={{local-class 'Icon'}} />
             <h4>{{@label}}</h4>
         </span>
 
