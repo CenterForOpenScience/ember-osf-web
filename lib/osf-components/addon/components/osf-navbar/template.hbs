@@ -3,14 +3,14 @@
         <div class='container'>
             <div class='navbar-header'>
                 {{! template-lint-disable no-implicit-this }}
-                {{#global-link-to
-                    'home'
+                <Link
                     data-test-nav-home-link
-                    (html-attributes aria-label=(t 'navbar.go_home'))
+                    aria-label={{t 'navbar.go_home'}}
                     class='navbar-brand'
-                }}
+                    @route='home'
+                >
                     <span class='osf-navbar-logo'></span>
-                {{/global-link-to}}
+                </Link>
                 {{! template-lint-enable no-implicit-this }}
                 {{! Current app }}
                 <div class='service-name'>

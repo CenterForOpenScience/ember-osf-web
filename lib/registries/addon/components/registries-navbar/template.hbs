@@ -9,8 +9,8 @@
         <nav.section data-test-left>
 
             <Link
-                data-analytics-name='Brand'
                 data-test-brand
+                data-analytics-name='Brand'
                 @route='home'
                 local-class='Logo'
                 aria-label={{t 'navbar.go_home'}}
@@ -21,8 +21,8 @@
                 as |dd|
             >
                 <dd.toggle
-                    data-analytics-name='Toggle'
                     data-test-service
+                    data-analytics-name='Toggle'
                     @classNames={{local-class 'Service Dropdown'}}
                 >
                     <span local-class='HideOnMobile'>{{t 'general.OSF'}}</span>
@@ -55,7 +55,10 @@
         {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
         <nav.section data-test-right>
 
-            <nav.item @classNames={{local-class 'HideOnMobile SearchBar'}} data-test-search-bar='1'>
+            <nav.item
+                data-test-search-bar='1'
+                @classNames={{local-class 'HideOnMobile SearchBar'}}
+            >
                 <IconInput
                     data-analytics-name='Search box'
                     @icon='search'
@@ -65,8 +68,8 @@
             </nav.item>
 
             <nav.links.secondary
-                data-analytics-name='Help'
                 data-test-help='1'
+                data-analytics-name='Help'
                 @href={{this.helpRoute}}
                 @classNames={{local-class 'HideOnMobile'}}
             >
@@ -74,8 +77,8 @@
             </nav.links.secondary>
 
             <nav.links.primary
-                data-analytics-name='Donate'
                 data-test-donate='1'
+                data-analytics-name='Donate'
                 @href={{this.donateRoute}}
                 @classNames={{local-class 'HideOnMobile'}}
             >
@@ -87,16 +90,16 @@
                 <nav.divider @classNames={{local-class 'HideOnMobile'}} />
 
                 <nav.links.secondary
-                    data-analytics-name='Sign up'
                     data-test-join='1'
+                    data-analytics-name='Sign up'
                     @href={{this.signUpRoute}}
                 >
                     <h4>{{t 'navbar.join'}}</h4>
                 </nav.links.secondary>
 
                 <nav.buttons.secondary
-                    data-analytics-name='Sign in'
                     data-test-login='1'
+                    data-analytics-name='Sign in'
                     @onclick={{action 'login'}}
                 >
                     <h4>{{t 'navbar.login'}}</h4>

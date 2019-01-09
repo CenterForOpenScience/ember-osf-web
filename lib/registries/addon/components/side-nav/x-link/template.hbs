@@ -1,7 +1,7 @@
 {{#if this.isButton}}
     <OsfButton
-        class={{local-class this.wrapperClasses}}
         data-test-collapsed='{{this.isCollapsed}}'
+        class={{local-class this.wrapperClasses}}
         @onClick={{@onClick}}
         @type='link'
         ...attributes
@@ -19,12 +19,12 @@
     </OsfButton>
 {{else}}
     <Link
+        data-test-collapsed='{{this.isCollapsed}}'
+        class={{local-class this.wrapperClasses}}
         @models={{@models}}
         @route={{@route}}
         @href={{@href}}
         @onclick={{@onClick}}
-        class={{local-class this.wrapperClasses}}
-        data-test-collapsed='{{this.isCollapsed}}'
         ...attributes
     >
         <span local-class='Label'>
