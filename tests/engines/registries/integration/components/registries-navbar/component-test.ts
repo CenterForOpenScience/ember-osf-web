@@ -51,7 +51,9 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
     hooks.beforeEach(function(this: TestContext) {
-        this.owner.lookup('service:router').set('_router.currentURL', 'FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'urlFor').returns('FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'isActive').returns(false);
+        sinon.stub(this.owner.lookup('service:router'), 'currentURL').get(() => 'FakeURL');
 
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:features', featuresStub);

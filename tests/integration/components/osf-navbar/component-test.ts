@@ -7,6 +7,12 @@ import { module, test } from 'qunit';
 
 const routerStub = Service.extend({
     currentURL: '',
+    urlFor() {
+        return 'FakeURL';
+    },
+    isActive() {
+        return false;
+    },
 });
 
 module('Integration | Component | osf-navbar', hooks => {
