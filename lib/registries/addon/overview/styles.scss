@@ -39,3 +39,9 @@ h1.Title { /* stylelint-disable-line selector-no-qualifying-type*/
     padding: 20px;
     width: 300px;
 }
+
+.EmbargoBanner {
+    :global(.alert) {
+        margin-bottom: 0;
+    }
+}

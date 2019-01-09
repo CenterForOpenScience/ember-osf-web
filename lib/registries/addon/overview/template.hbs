@@ -3,9 +3,20 @@
         <LoadingIndicator @dark={{true}} />
     </div>
 {{else}}
+    {{#if this.registration.embargoed}}
+        <div local-class='EmbargoBanner' data-test-embargoed-banner>
+            <BsAlert @type='info' @dismissible={{false}} @type='danger'>
+                <div class='text-center'>
+                    {{t 'registries.overview.embargo_banner'
+                        endDate=(moment-format this.registration.embargoEndDate 'MMMM D, YYYY')
+                    }}
+                </div>
+            </BsAlert>
+        </div>
+    {{/if}}
     <div local-class='TitleBackground'>
         <Container>
-            <h1 local-class='Title'>{{this.registration.title}}</h1>
+            <h1 local-class='Title' data-test-registration-title>{{this.registration.title}}</h1>
         </Container>
     </div>
 

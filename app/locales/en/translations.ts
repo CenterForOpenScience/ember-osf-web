@@ -1107,6 +1107,7 @@ export default {
             form_view: {
                 no_files: 'No files uploaded',
             },
+            embargo_banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{endDate}}.',
         },
     },
     analytics: {
