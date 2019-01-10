@@ -1,20 +1,41 @@
-<Link
-    @models={{@models}}
-    @route={{@route}}
-    @href={{@href}}
-    @onclick={{@onLinkClicked}}
-    class={{local-class this.wrapperClasses}}
-    data-test-collapsed="{{this.isCollapsed}}"
-    ...attributes
->
-    <span local-class="Label">
-        {{fa-icon @icon fixedWidth=true class=(local-class 'Icon')}}
-        <h4>{{@label}}</h4>
-    </span>
+{{#if this.isButton}}
+    <OsfButton
+        data-test-collapsed='{{this.isCollapsed}}'
+        class={{local-class this.wrapperClasses}}
+        @onClick={{@onClick}}
+        @type='link'
+        ...attributes
+    >
+        <span local-class='Label'>
+            <FaIcon @icon={{@icon}} @fixedWidth={{true}} @class={{local-class 'Icon'}} />
+            <h4>{{@label}}</h4>
+        </span>
 
-    <span local-class="Count">
-        {{#if this.hasCount}}
-            {{@count}}
-        {{/if}}
-    </span>
-</Link>
+        <span local-class='Count'>
+            {{#if this.hasCount}}
+                {{@count}}
+            {{/if}}
+        </span>
+    </OsfButton>
+{{else}}
+    <Link
+        data-test-collapsed='{{this.isCollapsed}}'
+        class={{local-class this.wrapperClasses}}
+        @models={{@models}}
+        @route={{@route}}
+        @href={{@href}}
+        @onclick={{@onClick}}
+        ...attributes
+    >
+        <span local-class='Label'>
+            <FaIcon @icon={{@icon}} @fixedWidth={{true}} @class={{local-class 'Icon'}} />
+            <h4>{{@label}}</h4>
+        </span>
+
+        <span local-class='Count'>
+            {{#if this.hasCount}}
+                {{@count}}
+            {{/if}}
+        </span>
+    </Link>
+{{/if}}

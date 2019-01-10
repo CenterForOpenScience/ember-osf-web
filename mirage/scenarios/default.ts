@@ -17,14 +17,7 @@ const {
 } = config;
 
 export default function(server: Server) {
-    let currentUser = null;
-
-    if (defaultLoggedOut) {
-        currentUser = server.create('user');
-        server.create('root', { currentUser: null });
-    } else {
-        currentUser = server.create('user', 'loggedIn');
-    }
+    const currentUser = defaultLoggedOut ? server.create('user') : server.create('user', 'loggedIn');
 
     server.create('user-setting', { user: currentUser });
     const registrationNode = server.create('node', { id: 'regis', currentUserPermissions: Object.values(Permission) });

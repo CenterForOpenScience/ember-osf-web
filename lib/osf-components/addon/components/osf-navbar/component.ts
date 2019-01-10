@@ -21,11 +21,17 @@ export enum OSFService {
     INSTITUTIONS = 'INSTITUTIONS',
 }
 
-export const OSF_SERVICES = [
+interface ServiceLink {
+    name: string;
+    route?: string;
+    href?: string;
+}
+
+export const OSF_SERVICES: ServiceLink[] = [
     { name: OSFService.HOME, route: 'home' },
-    { name: OSFService.PREPRINTS, route: `${osfURL}preprints/` },
-    { name: OSFService.REGISTRIES, route: config.engines.registries.enabled ? 'registries' : `${osfURL}registries/` },
-    { name: OSFService.MEETINGS, route: `${osfURL}meetings/` },
+    { name: OSFService.PREPRINTS, href: `${osfURL}preprints/` },
+    { name: OSFService.REGISTRIES, route: 'registries' },
+    { name: OSFService.MEETINGS, href: `${osfURL}meetings/` },
     { name: OSFService.INSTITUTIONS, route: 'institutions' },
 ];
 
@@ -39,7 +45,7 @@ export default class OsfNavbar extends Component {
     showNavLinks: boolean = false;
 
     activeService: OSFService = defaultTo(this.activeService, OSFService.HOME);
-    services: Array<{name: OSFService, route: string}> = defaultTo(this.services, OSF_SERVICES);
+    services: ServiceLink[] = defaultTo(this.services, OSF_SERVICES);
 
     @computed('activeService', 'router.currentRouteName')
     get _activeService() {

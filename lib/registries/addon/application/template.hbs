@@ -1,23 +1,30 @@
 {{title (t 'registries.application.page_title') replace=true}}
 
-<div class="{{if this.newStyleEnabled 'RegistriesStyle' 'OldRegistriesStyle'}}">
+{{#if this.newStyleEnabled}}
+    <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' @onSearch={{action 'search'}} />
+{{else}}
+    <OsfHeader as |header|>
+        <header.navbar
+            @campaign='osf-registries'
+            @activeService={{this.activeService}}
+            as |ctx|
+        >
+            <ctx.links as |links|>
+                {{! <links.quickfiles /> }}
+                {{! <links.myprojects /> }}
+                <links.myregistrations />
+                <links.search route=this.searchRoute />
+                <links.support route=this.supportRoute />
+                <links.donate />
+            </ctx.links>
+        </header.navbar>
+    </OsfHeader>
+{{/if}}
 
-    {{#if this.newStyleEnabled}}
-        <RegistriesNavbar @campaign='osf-registries' @onSearch={{action 'search'}} />
-    {{else}}
-        {{#osf-header as |header|}}
-            {{#header.navbar campaign='osf-registries' activeService=activeService as |ctx|}}
-                {{#ctx.links as |links|}}
-                    {{!-- {{links.quickfiles}} --}}
-                    {{!-- {{links.myprojects}} --}}
-                    {{links.myregistrations}}
-                    {{links.search route=searchRoute}}
-                    {{links.support route=supportRoute}}
-                    {{links.donate}}
-                {{/ctx.links}}
-            {{/header.navbar}}
-        {{/osf-header}}
-    {{/if}}
-
+<div
+    data-analytics-scope='Registries'
+    local-class='RegistriesLayout'
+    class={{if this.newStyleEnabled 'RegistriesStyle'}}
+>
     {{outlet}}
 </div>

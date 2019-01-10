@@ -3,21 +3,24 @@
         <div class='container'>
             <div class='navbar-header'>
                 {{! template-lint-disable no-implicit-this }}
-                {{#global-link-to 
-                    'home' 
-                    data-test-nav-home-link 
-                    (html-attributes aria-label=(t 'navbar.go_home')) 
+                <Link
+                    data-test-nav-home-link
+                    aria-label={{t 'navbar.go_home'}}
                     class='navbar-brand'
-                }}
+                    @route='home'
+                >
                     <span class='osf-navbar-logo'></span>
-                {{/global-link-to}}
+                </Link>
                 {{! template-lint-enable no-implicit-this }}
                 {{! Current app }}
                 <div class='service-name'>
-                    {{#hyper-link this._activeService.route}}
+                    <Link
+                        @route={{this._activeService.route}}
+                        @href={{this._activeService.href}}
+                    >
                         <span class='hidden-xs'> {{t 'general.OSF'}} </span>
                         <span class='current-service'><strong>{{this._activeService.name}}</strong></span>
-                    {{/hyper-link}}
+                    </Link>
                 </div>
 
                 {{! App list dropdown }}
@@ -35,9 +38,12 @@
                     <dd.menu @classNames='dropdown-menu service-dropdown' as |ddm| >
                         {{#each this.services as |service|}}
                             <ddm.item role='menuitem'>
-                                {{#hyper-link service.route}}
+                                <Link
+                                    @route={{service.route}}
+                                    @href={{service.href}}
+                                >
                                     {{t 'general.OSF'}}<b>{{service.name}}</b>
-                                {{/hyper-link}}
+                                </Link>
                             </ddm.item>
                         {{/each}}
                     </dd.menu>

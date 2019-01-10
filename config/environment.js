@@ -174,6 +174,13 @@ module.exports = function(environment) {
                 joinBannerDismissed: 'slide', // TODO: update legacy UI to use a more unique key
             },
             casUrl,
+            analyticsAttrs: {
+                name: 'data-analytics-name',
+                scope: 'data-analytics-scope',
+                extra: 'data-analytics-extra',
+                category: 'data-analytics-category',
+                action: 'data-analytics-action',
+            },
         },
         social: {
             twitter: {

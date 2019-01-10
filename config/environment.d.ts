@@ -99,6 +99,13 @@ declare const config: {
             joinBannerDismissed: string;
         };
         casUrl: string;
+        analyticsAttrs: {
+            name: string;
+            scope: string;
+            category: string;
+            extra: string;
+            action: string;
+        };
     };
     social: {
         twitter: {

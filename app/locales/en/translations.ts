@@ -347,11 +347,6 @@ export default {
         title: 'API Unavailable',
         body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
     },
-    zoom_to_route: {
-        title: 'Zoom directly to any route',
-        zoom: 'Zoom!',
-        placeholder: 'Choose a route',
-    },
     osf_mode_footer: {
         dev_mode: 'This site is running in development mode.',
     },
@@ -1349,5 +1344,16 @@ export default {
         title: 'tempor nec feugiat nisl pretium',
         sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id velit ut tortor pretium. Nisi porta lorem mollis aliquam ut porttitor leo a. Cras fermentum odio eu feugiat. Eget mi proin sed libero enim. Quam adipiscing vitae proin sagittis. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. At varius vel pharetra vel turpis nunc eget. Purus ut faucibus pulvinar elementum integer enim neque volutpat. Turpis nunc eget lorem dolor. Mattis pellentesque id nibh tortor id aliquet lectus proin nibh. Arcu felis bibendum ut tristique et egestas quis. Nisl tincidunt eget nullam non nisi est sit amet. Fringilla urna porttitor rhoncus dolor purus non enim.',
+    },
+    dev_tools: {
+        title: 'Dev tools',
+        zoom_to_route: {
+            title: 'Zoom to route',
+            zoom: 'Zoom!',
+            placeholder: 'Choose a route',
+        },
+        options: {
+            toast_events: 'Display toast for tracked events',
+        },
     },
 };

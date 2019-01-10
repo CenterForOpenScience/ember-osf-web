@@ -43,7 +43,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
     test('it yielded component render splattributes', async function(assert) {
         await render(hbs`
             <SideNav as |nav|>
-                <nav.link-to data-for-a-test="bar" @route="home" @icon="home" @label="test" />
+                <nav.link data-for-a-test="bar" @route="home" @icon="home" @label="test" />
             </SideNav>
         `);
 
