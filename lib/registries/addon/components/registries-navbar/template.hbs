@@ -1,116 +1,195 @@
-{{!-- template-lint-disable --}}
-<Navbar @dark={{true}} as |nav|>
+<Navbar
+    data-analytics-scope='Navbar'
+    @dark={{true}}
+    ...attributes
+    as |nav|
+>
     <nav.container>
-        {{!-- Left Side (Band, Service Dropdown) --}}
+        {{! Left Side (Band, Service Dropdown) }}
         <nav.section data-test-left>
 
             <OsfLink
                 data-test-brand
+                data-analytics-name='Brand'
+                @route='home'
+                local-class='Logo'
                 aria-label={{t 'navbar.go_home'}}
-                @route='home' 
-            >
-                <div local-class="Logo"></div>
-            </OsfLink>
+            />
 
-            {{#bs-dropdown as |dd|}}
-                {{#dd.toggle data-test-service classNames=(local-class 'Service Dropdown')}}
-                    <span local-class="HideOnMobile">{{t 'general.OSF'}}</span>
+            <BsDropdown
+                data-analytics-scope='Services dropdown'
+                as |dd|
+            >
+                <dd.toggle
+                    data-test-service
+                    data-analytics-name='Toggle'
+                    @classNames={{local-class 'Service Dropdown'}}
+                >
+                    <span local-class='HideOnMobile'>{{t 'general.OSF'}}</span>
                     <strong>{{t 'general.services.registries'}}</strong>
                     {{nav.icon (if dd.isOpen 'caret-up' 'caret-down')}}
-                {{/dd.toggle}}
+                </dd.toggle>
 
-                {{#dd.menu data-test-service-list classNames=(local-class 'ServiceDropdownMenu DropdownMenu') as |ddm|}}
-                    {{#each services as |service|}}
-                        <ddm.item role="menuitem">
+                <dd.menu
+                    data-test-service-list
+                    @classNames={{local-class 'ServiceDropdownMenu DropdownMenu'}}
+                    as |ddm|
+                >
+                    {{#each this.services as |service|}}
+                        <ddm.item role='menuitem'>
                             <OsfLink
+                                data-analytics-name={{service.name}}
+                                {{! each service has one of `route` and `href` }}
                                 @route={{service.route}}
                                 @href={{service.href}}
                             >
-                                <strong local-class="ServiceDropdownEntry">{{service.name}}</strong>
+                                <strong local-class='ServiceDropdownEntry'>{{service.name}}</strong>
                             </OsfLink>
                         </ddm.item>
                     {{/each}}
-                {{/dd.menu}}
-            {{/bs-dropdown}}
+                </dd.menu>
+            </BsDropdown>
 
         </nav.section>
 
-        {{!-- Right Side (Search, Buttons, Gravatar, Dropdown) --}}
+        {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
         <nav.section data-test-right>
 
-            <nav.item @classNames={{local-class 'HideOnMobile SearchBar'}} data-test-search-bar="1">
-                {{icon-input 'search' dark=true enter=(action '_onSearch')}}
+            <nav.item
+                data-test-search-bar='1'
+                @classNames={{local-class 'HideOnMobile SearchBar'}}
+            >
+                <IconInput
+                    data-analytics-name='Search box'
+                    @icon='search'
+                    @dark={{true}}
+                    @enter={{action '_onSearch'}}
+                />
             </nav.item>
 
-            <nav.links.secondary @classNames={{local-class 'HideOnMobile'}} href={{this.helpRoute}} data-test-help="1">
+            <nav.links.secondary
+                data-test-help='1'
+                data-analytics-name='Help'
+                @href={{this.helpRoute}}
+                @classNames={{local-class 'HideOnMobile'}}
+            >
                 <h4>{{t 'general.help'}}</h4>
             </nav.links.secondary>
 
-            <nav.links.primary @classNames={{local-class 'HideOnMobile'}} href={{this.donateRoute}} data-test-donate="1">
+            <nav.links.primary
+                data-test-donate='1'
+                data-analytics-name='Donate'
+                @href={{this.donateRoute}}
+                @classNames={{local-class 'HideOnMobile'}}
+            >
                 <h4>{{t 'navbar.donate'}}</h4>
             </nav.links.primary>
 
-            {{#if (not session.isAuthenticated)}}
+            {{#if (not this.session.isAuthenticated)}}
 
                 <nav.divider @classNames={{local-class 'HideOnMobile'}} />
 
-                <nav.links.secondary href={{this.signUpRoute}} data-test-join="1">
+                <nav.links.secondary
+                    data-test-join='1'
+                    data-analytics-name='Sign up'
+                    @href={{this.signUpRoute}}
+                >
                     <h4>{{t 'navbar.join'}}</h4>
                 </nav.links.secondary>
 
-                <nav.buttons.secondary @onclick={{action 'login'}} data-test-login="1">
+                <nav.buttons.secondary
+                    data-test-login='1'
+                    data-analytics-name='Sign in'
+                    @onclick={{action 'login'}}
+                >
                     <h4>{{t 'navbar.login'}}</h4>
                 </nav.buttons.secondary>
 
             {{else}}
 
-                {{#bs-dropdown classNames=(local-class 'AuthDropdown') as |dd|}}
-                    {{#dd.toggle classNames=(local-class 'Dropdown')}}
-                        <img data-test-gravatar alt="{{t 'auth_dropdown.user_gravatar'}}" local-class="Gravatar" src="{{currentUser.user.profileImage}}&s=30">
+                <BsDropdown
+                    data-analytics-scope='User dropdown'
+                    local-class='AuthDropdown'
+                    as |dd|
+                >
+                    <dd.toggle
+                        data-analytics-name='Toggle'
+                        local-class='Dropdown'
+                    >
+                        <img
+                            data-test-gravatar
+                            local-class='Gravatar'
+                            src='{{this.currentUser.user.profileImage}}&s=30'
+                            alt={{t 'auth_dropdown.user_gravatar'}}
+                        >
                         {{nav.icon (if dd.isOpen 'caret-up' 'caret-down')}}
-                    {{/dd.toggle}}
+                    </dd.toggle>
 
-                    {{#dd.menu data-test-auth-dropdown classNames=(concat 'dropdown-menu-right ' (local-class 'AuthDropdownMenu DropdownMenu')) as |ddm|}}
-                        <ddm.item role="menuitem">
-                            <a href="{{profileURL}}" onclick={{action 'click' 'link' 'Navbar - MyProfile' target=analytics}}>
+                    <dd.menu
+                        data-test-auth-dropdown
+                        class='dropdown-menu-right'
+                        local-class='AuthDropdownMenu DropdownMenu'
+                        as |ddm|
+                    >
+                        <ddm.item role='menuitem'>
+                            <Link
+                                data-analytics-name='My Profile'
+                                @href={{this.profileURL}}
+                            >
                                 {{fa-icon 'user' fixedWidth=true}}
                                 {{t 'auth_dropdown.my_profile'}}
-                            </a>
+                            </Link>
                         </ddm.item>
-                        <ddm.item role="menuitem">
+                        <ddm.item role='menuitem'>
                             <OsfLink
+                                data-analytics-name='Support'
                                 @route='support'
-                                @onClick={{action 'click' 'link' 'Navbar - Support' target=analytics}}
                             >
                                 {{fa-icon 'life-ring' fixedWidth=true}}
                                 {{t 'auth_dropdown.osf_support'}}
                             </OsfLink>
                         </ddm.item>
-                        <ddm.item role="menuitem">
-                            <a href="{{settingsURL}}" onclick={{action 'click' 'link' 'Navbar - Settings' target=analytics}}>
+                        <ddm.item role='menuitem'>
+                            <Link
+                                data-analytics-name='Settings'
+                                @href={{this.settingsURL}}
+                            >
                                 {{fa-icon 'cog' fixedWidth=true}}
                                 {{t 'general.settings'}}
-                            </a>
+                            </Link>
                         </ddm.item>
-                        <ddm.item role="menuitem">
-                            <a class="logoutLink" {{action 'logout'}} onclick={{action 'click' 'button' 'Navbar - Logout' target=analytics}} role="button">
+                        <ddm.item role='menuitem'>
+                            <Link
+                                data-analytics-name='Logout'
+                                class='logoutLink'
+                                role='button'
+                                @href='#'
+                                @onclick={{action 'logout'}}
+                            >
                                 {{fa-icon 'sign-out' fixedWidth=true}}
                                 {{t 'auth_dropdown.log_out'}}
-                            </a>
+                            </Link>
                         </ddm.item>
-                    {{/dd.menu}}
-                {{/bs-dropdown}}
-
+                    </dd.menu>
+                </BsDropdown>
             {{/if}}
 
         </nav.section>
     </nav.container>
 </Navbar>
 
-<Container data-test-search-bar-mobile="1" local-class="SearchDropdown {{if (media 'isMobile') '' 'Closed'}}">
-    {{icon-input 'search' dark=true enter=(action '_onSearch')}}
+<Container
+    data-test-search-bar-mobile='1'
+    local-class='SearchDropdown {{if (media 'isMobile') '' 'Closed'}}'
+>
+    <IconInput
+        data-analytics-name='Search box'
+        @icon='search'
+        @dark={{true}}
+        @enter={{action '_onSearch'}}
+    />
 </Container>
 
-{{maintenance-banner}}
-{{status-banner}}
-{{tos-consent-banner}}
+<MaintenanceBanner />
+<StatusBanner />
+<TosConsentBanner />

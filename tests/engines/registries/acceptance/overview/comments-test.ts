@@ -10,7 +10,7 @@ module('Registries | Acceptance | overview.comments', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
-        server.create('root', { currentUser: null }, 'withNewRegistriesStyle');
+        server.create('root', { currentUser: null });
     });
 
     test('it renders', async function(this: TestContext, assert: Assert) {

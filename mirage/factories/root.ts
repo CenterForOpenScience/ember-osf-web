@@ -1,4 +1,4 @@
-import { association, Factory, ModelInstance, trait, Trait } from 'ember-cli-mirage';
+import { association, Factory } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import { Links } from 'jsonapi-typescript';
 
@@ -21,11 +21,7 @@ export interface Root {
     currentUser?: User;
 }
 
-interface RootTraits {
-    withNewRegistriesStyle: Trait;
-}
-
-export default Factory.extend<Root & RootTraits>({
+export default Factory.extend<Root>({
     activeFlags: [
         ...Object.values(routes),
         ...Object.values(navigation),
@@ -36,10 +32,4 @@ export default Factory.extend<Root & RootTraits>({
     version: '2.8',
     links: {},
     currentUser: association() as User,
-
-    withNewRegistriesStyle: trait({
-        afterCreate(root: ModelInstance<Root>) {
-            root.activeFlags.push('ember_registries_new_style');
-        },
-    }),
 });

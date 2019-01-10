@@ -14,15 +14,16 @@ export default class XLink extends Component {
     icon!: string;
     label!: string;
     route?: string;
-    model?: any;
+    href?: string;
+    models?: any[];
     count?: number;
     isCollapsed: boolean = defaultTo(this.isCollapsed, false);
 
-    onclick?: () => void;
+    onClick?: () => void;
 
-    @computed('route')
+    @computed('route', 'href')
     get isButton() {
-        return !this.route;
+        return typeof this.route === 'undefined' && typeof this.href === 'undefined';
     }
 
     @computed('count')

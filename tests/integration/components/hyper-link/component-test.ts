@@ -1,5 +1,4 @@
 import { click, render } from '@ember/test-helpers';
-import Analytics from 'ember-osf-web/services/analytics';
 import { setupRenderingTest } from 'ember-qunit';
 import sinonTest from 'ember-sinon-qunit/test-support/test';
 import { TestContext } from 'ember-test-helpers';
@@ -74,8 +73,7 @@ module('Integration | Component | hyper-link', hooks => {
     });
 
     test('it calls analytics on non-ember routes', async function(this: TestContext) {
-        const analytics = sinon.createStubInstance(Analytics);
-        this.owner.register('service:analytics', analytics, { instantiate: false });
+        const analytics = sinon.stub(this.owner.lookup('service:analytics'));
 
         // Prevent Redirects
         analytics.click.callsFake((...args: any[]) => {
@@ -98,13 +96,12 @@ module('Integration | Component | hyper-link', hooks => {
 
     sinonTest('it calls analytics on ember routes', async function() {
         const routing = this.owner.lookup('service:-routing');
-        const analytics = this.sandbox.createStubInstance(Analytics);
+        const analyticsClick = this.stub(this.owner.lookup('service:analytics'), 'click');
 
         this.stub(routing, 'transitionTo');
-        this.owner.register('service:analytics', analytics, { instantiate: false });
 
         // Prevent Redirects
-        analytics.click.callsFake((...args: any[]) => {
+        analyticsClick.callsFake((...args: any[]) => {
             for (const arg of args) {
                 if (arg.preventDefault) {
                     arg.preventDefault();
@@ -118,8 +115,8 @@ module('Integration | Component | hyper-link', hooks => {
 
         await click('a');
 
-        this.sandbox.assert.calledOnce(analytics.click);
+        this.sandbox.assert.calledOnce(analyticsClick);
         this.sandbox.assert.calledOnce(routing.transitionTo);
-        this.sandbox.assert.calledWith(analytics.click, 'link', 'This is a second test');
+        this.sandbox.assert.calledWith(analyticsClick, 'link', 'This is a second test');
     });
 });

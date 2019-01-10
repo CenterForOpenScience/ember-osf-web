@@ -1,9 +1,6 @@
-import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task, waitForQueue } from 'ember-concurrency';
-import $ from 'jquery';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import template from './template';
@@ -17,7 +14,6 @@ import template from './template';
  * @class zoom-to-route
  */
 @layout(template)
-@tagName('span')
 export default class ZoomToRoute extends Component {
     @service router!: any;
 
@@ -25,17 +21,6 @@ export default class ZoomToRoute extends Component {
     targetRoute?: string;
 
     routeArgs: { [k: string]: string } = {};
-
-    setFocus = task(function *(this: ZoomToRoute, selector: string) {
-        yield waitForQueue('afterRender');
-
-        $(`#${this.modalBodyId} ${selector}`).focus();
-    });
-
-    @computed('elementId')
-    get modalBodyId() {
-        return `${this.elementId}-modal-body`;
-    }
 
     @computed()
     get routeNames() {
@@ -51,17 +36,11 @@ export default class ZoomToRoute extends Component {
     }
 
     @action
-    modalShown(this: ZoomToRoute) {
-        this.get('setFocus').perform('div.ember-power-select-trigger');
-    }
-
-    @action
     selectRoute(this: ZoomToRoute, targetRoute: string) {
         this.setProperties({
             targetRoute,
             routeArgs: {},
         });
-        this.get('setFocus').perform('input.form-control');
     }
 
     @action
