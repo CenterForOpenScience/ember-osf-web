@@ -1,4 +1,8 @@
-<BsModal @onHidden={{this.closeModal}} as |modal|>
+<BsModal
+    data-analytics-scope='New Project Navigation'
+    @onHidden={{this.closeModal}}
+    as |modal|
+>
     <modal.body>
         <OsfButton
             data-test-close-with-x
@@ -20,10 +24,9 @@
             {{t 'new_project.stay_here'}}
         </OsfButton>
         <OsfLink
-            data-test-go-to-new
+            data-analytics-name='go_to_new_project'
             class='btn btn-success'
             @href='{{@node.links.html}}'
-            @onClick={{action 'click' 'link' (concat @page ' - New Project - go_to_new_project') target=this.analytics}}
         >
             {{t 'move_to_project.go_to_project'}}
         </OsfLink>

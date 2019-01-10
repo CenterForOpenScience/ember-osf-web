@@ -57,12 +57,11 @@ export default class GuidRegistrationForks extends Controller {
     @action
     closeNewModal() {
         this.set('newModal', false);
-        this.analytics.click('button', 'Dashboard - New Project - close_modal');
     }
 
     @action
     newFork(this: GuidRegistrationForks) {
-        this.analytics.click('button', 'Registration Forks - Create Fork');
+        this.analytics.click('button', 'Create Fork');
         this.set('newModal', false);
         this.set('loadingNew', true);
         this.node!.makeFork().then(() => {
@@ -84,7 +83,6 @@ export default class GuidRegistrationForks extends Controller {
 
     @action
     delete(this: GuidRegistrationForks) {
-        this.analytics.click('button', 'Registration Forks - Delete Fork');
         this.set('deleteModal', false);
         const node = this.toDelete;
         if (!node) {

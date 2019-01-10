@@ -1,6 +1,10 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
 {{title (t 'forks.page_title' nodeTitle=this.model.taskInstance.value.unsafeTitle)}}
-<div class='container' local-class='Forks'>
+<div
+    data-analytics-scope='Registration Forks'
+    class='container'
+    local-class='Forks'
+>
     <BsModal
         @open={{this.newModal}}
         @onSubmit={{action this.newFork}}
@@ -57,7 +61,6 @@
             relationshipName='forks'
             bindReload=(action (mut this.reloadList))
             query=this.forksQueryParams
-            analyticsScope='Registration Forks'
             as |list|
         }}
             <list.item as |fork|>

@@ -1,8 +1,7 @@
 <div>
     <OsfLink
-        data-test-back-to-tokens
+        data-analytics-name='Back to list'
         @route='settings.tokens'
-        @onClick={{action 'click' 'link' 'Settings - Tokens - Edit - Back to list' target=this.analytics}}
     >
         {{fa-icon 'arrow-left'}}
         {{t 'settings.tokens.backToList'}}
@@ -40,19 +39,17 @@
             onSave=(action this.tokenSaved)
             token=this.token
             disabled=this.model.taskInstance.isRunning
-            analyticsScope='Settings - Tokens - Edit'
             as |form|
         }}
             <DeleteButton
                 @delete={{action this.deleteToken}}
                 @disabled={{form.disabled}}
-                @analyticsScope='Settings - Tokens - Edit'
                 @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
                 @modalBody={{t 'settings.tokens.confirmDelete.body'}}
             />
 
             <OsfButton
-                data-test-save-token-button
+                data-analytics-name='Save'
                 @type='primary'
                 @buttonType='submit'
                 @disabled={{form.disabled}}

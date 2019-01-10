@@ -9,9 +9,10 @@
     >
         <modal.body>
             <OsfButton
+                data-analytics-name='close_modal'
                 aria-label={{t 'general.close'}}
                 @class='close'
-                @onClick={{action this.closeNewModal}}
+                @onClick={{action (mut this.newModal false)}}
             >
                 {{fa-icon 'times' size='sm'}}
             </OsfButton>
@@ -53,11 +54,11 @@
     </div>
     <div local-class='Forks__forks'>
         {{#paginated-list/has-many
+            data-analytics-scope='Project Forks'
             modelTaskInstance=this.model.taskInstance
             relationshipName='forks'
             bindReload=(action (mut this.reloadList))
             query=this.forksQueryParams
-            analyticsScope='Project Forks'
             as |list|
         }}
             <list.item as |fork|>

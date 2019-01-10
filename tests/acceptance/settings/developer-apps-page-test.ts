@@ -130,7 +130,7 @@ module('Acceptance | settings | developer apps', hooks => {
         assert.dom('[data-test-client-secret] button').isNotDisabled();
         assert.dom('[data-test-client-secret] input[type=text]').hasValue(oldSecret);
 
-        await click('[data-test-reset-client-secret] [data-test-delete-button]');
+        await click('[data-analytics-scope="Reset client secret"] [data-test-delete-button]');
         await click('[data-test-confirm-delete]');
         await settled();
 

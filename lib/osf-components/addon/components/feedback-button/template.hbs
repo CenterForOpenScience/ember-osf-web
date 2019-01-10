@@ -1,5 +1,6 @@
 <BsModal 
     data-test-feedback-modal
+    data-analytics-scope='Feedback'
     local-class='Modal'
     @open={{this.isOpen}}
     @onSubmit={{action this.submit}}
@@ -41,11 +42,13 @@
     <modal.footer>
         {{#if this.isActive}}
             <OsfButton
+                data-analytics-name='Cancel'
                 @onClick={{action modal.close}}
             >
                 {{t 'general.cancel'}}
             </OsfButton>
             <OsfButton
+                data-analytics-name='Submit'
                 @type='success'
                 @onClick={{action modal.submit}}
             >
@@ -54,6 +57,7 @@
         {{/if}}
         {{#if this.isSuccessful}}
             <OsfButton
+                data-analytics-name='Dismiss'
                 @type='primary'
                 @onClick={{action modal.close}}
             >
@@ -63,7 +67,8 @@
     </modal.footer>
 </BsModal>
 
-<OsfButton 
+<OsfButton
+    data-analytics-name='Open'
     local-class='FeedbackButton {{if this.isOpen 'FeedbackButton--open'}}'
     aria-label={{t 'feedback.title'}}
     @type='success'

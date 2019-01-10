@@ -17,7 +17,7 @@ export default class Institutions extends Controller {
 
     trackFilter = task(function *(this: Institutions) {
         yield timeout(1000);
-        this.analytics.track('list', 'filter', 'Institutions - Search');
+        this.analytics.track('list', 'filter', 'Search');
     }).restartable();
 
     @computed('model', 'textValue')
@@ -48,7 +48,7 @@ export default class Institutions extends Controller {
     @action
     next() {
         this.incrementProperty('page');
-        this.analytics.click('button', 'Institutions - Next page');
+        this.analytics.click('button', 'Next page');
     }
 
     @action

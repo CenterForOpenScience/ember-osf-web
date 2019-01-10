@@ -1,5 +1,6 @@
 {{#if this.slides}}
     <BsCarousel
+        data-analytics-scope='Institution Carousel'
         @interval={{0}}
         @tabindex={{0}}
         @showIndicators={{false}}
@@ -22,8 +23,8 @@
                         data-test-institution-carousel-item='{{institution.id}}'
                     >
                         <OsfLink
+                            data-analytics-name='visit_institution'
                             @href='{{institution.links.html}}'
-                            @onClick={{action 'click' 'link' 'Dashboard - Institution Carousel - visit_institution' target=this.analytics}}
                         >
                             <img
                                 class='img-circle img-responsive'

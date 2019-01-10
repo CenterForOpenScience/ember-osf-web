@@ -277,7 +277,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-draft-registration-card]').exists({ count: 10 });
 
-        await click('[data-test-next-page-button]');
+        await click('[data-analytics-name="Pagination next"]');
 
         assert.dom('[data-test-draft-registration-card]').exists({ count: 2 });
         await percySnapshot(assert);

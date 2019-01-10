@@ -1,5 +1,8 @@
 {{#unless this.hideBanner}}
-    <div local-class='JoinOsfBanner {{if this.dismissed 'JoinOsfBanner--collapsed'}}'>
+    <div
+        data-analytics-scope='Join OSF Banner'
+        local-class='JoinOsfBanner {{if this.dismissed 'JoinOsfBanner--collapsed'}}'
+    >
         <div class='container' local-class='JoinOsfBanner__banner'>
             <div class='row'>
                 <div class='col-sm-2 hidden-xs'>
@@ -17,17 +20,17 @@
                             <p>
                                 {{t 'join_osf.pitch'}}
                                 <OsfLink
+                                    data-analytics-name='sign_up'
                                     @href='/register/'
-                                    @onClick={{action 'click' 'button' 'Join OSF Banner - sign_up' target=this.analytics}}
                                 >
                                     {{t 'join_osf.create_account'}}
                                 </OsfLink>
                                 {{t 'general.or'}}
                                 <OsfLink
+                                    data-analytics-name='learn_more'
                                     target='_blank'
                                     rel='noreferrer'
                                     @href='http://help.osf.io'
-                                    @onClick={{action 'click' 'button' 'Join OSF Banner - learn_more' target=this.analytics}}
                                 >
                                     {{t 'join_osf.learn_more'}}
                                 </OsfLink>
@@ -36,6 +39,7 @@
                         </div>
                         <div class='col-xs-1'>
                             <OsfButton
+                                data-analytics-name='Close'
                                 aria-label={{t 'general.close'}}
                                 @onClick={{action this.dismiss}}
                             >

@@ -97,7 +97,7 @@ export default class GuidFile extends Controller {
     updateFilter = task(function *(this: GuidFile, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
-        this.analytics.track('list', 'filter', 'Quick Files - Filter file browser');
+        this.analytics.track('list', 'filter', 'Filter file browser');
     }).restartable();
 
     @computed('allFiles.[]', 'filter', 'sort')
@@ -126,7 +126,7 @@ export default class GuidFile extends Controller {
     download(this: GuidFile, version: number) {
         // analytics were sent in template, since this is used twice
         if (!this.canEdit) {
-            this.analytics.click('button', 'Quick Files - Download');
+            this.analytics.click('button', 'Download');
         }
         const url = `${this.downloadLink}?revision=${version}`;
         window.location.href = url;
@@ -135,7 +135,6 @@ export default class GuidFile extends Controller {
     @action
     async delete(this: GuidFile) {
         this.set('deleteModalOpen', false);
-        this.analytics.click('button', 'Quick Files - Delete file');
 
         try {
             await this.file.destroyRecord();
@@ -151,13 +150,13 @@ export default class GuidFile extends Controller {
     @action
     openDeleteModal(this: GuidFile) {
         this.set('deleteModalOpen', true);
-        this.analytics.click('button', 'Quick Files - Open delete modal');
+        this.analytics.click('button', 'Open delete modal');
     }
 
     @action
     closeDeleteModal(this: GuidFile) {
         this.set('deleteModalOpen', false);
-        this.analytics.click('button', 'Quick Files - Close delete modal');
+        this.analytics.click('button', 'Close delete modal');
     }
 
     @action
@@ -167,12 +166,12 @@ export default class GuidFile extends Controller {
         if (show) {
             this.set('show', show);
         }
-        this.analytics.click('button', `Quick Files - Change view - ${show}`);
+        this.analytics.click('button', `Change view - ${show}`);
     }
 
     @action
     async save(this: GuidFile, text: string) {
-        this.analytics.click('button', 'Quick Files - Save');
+        this.analytics.click('button', 'Save');
 
         try {
             await this.file.updateContents(text);
@@ -188,7 +187,7 @@ export default class GuidFile extends Controller {
 
         this.set('revision', null);
         this.transitionToRoute('guid-file', guid, { queryParams: { show: 'view' } });
-        this.analytics.click('link', 'Quick Files - Open file');
+        this.analytics.click('link', 'Open file');
     }
 
     @action

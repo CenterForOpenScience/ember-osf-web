@@ -1,13 +1,17 @@
 {{title (t 'support.title')}}
-<div class='container' local-class='Support'>
+<div
+    class='container'
+    local-class='Support'
+    data-analytics-scope='Support'
+>
     <h1 class='m-b-lg'>{{t 'support.title'}}</h1>
     <div class='row m-b-lg'>
         <div class='col-sm-4'>
             <div local-class='SupportCol'>
                 <h4 class='f-w-lg bg-color-select'>
                     <OsfLink
+                        data-analytics-name='faq_title'
                         @href='/faq'
-                        @onClick={{action 'click' 'link' 'Support - faq_title' target=this.analytics}}
                     >
                         {{t 'support.faq_title'}}
                     </OsfLink>
@@ -16,17 +20,17 @@
                     <p>
                         {{t 'support.faq_paragraph'}}
                         <OsfLink
+                            data-analytics-name='faq_link'
                             @href='{{this.faqPageUrl}}'
-                            @onClick={{action 'click' 'link' 'Support - faq_link' target=this.analytics}}
                         >
                             {{~t 'support.faq_link_text'~}}
                         </OsfLink>
                         {{~t 'general.period'}}
                     </p>
                     <OsfLink
+                        data-analytics-name='faq_button'
                         class='btn btn-info m-t-lg pull-right'
                         @href='{{this.faqPageUrl}}'
-                        @onClick={{action 'click' 'link' 'Support - faq_button' target=this.analytics}}
                     >
                         {{t 'support.faq_button'}}
                         <i class='fa fa-angle-right'></i>
@@ -38,10 +42,10 @@
             <div local-class='SupportCol'>
                 <h4 class='f-w-lg bg-color-select'>
                     <OsfLink
+                        data-analytics-name='guides_title'
                         @href='{{this.helpUrl}}'
                         @target='_blank'
                         @rel='noreferrer'
-                        @onClick={{action 'click' 'link' 'Support - guides_title' target=this.analytics}}
                     >
                         {{t 'support.guides_title'}}
                     </OsfLink>
@@ -50,21 +54,21 @@
                     <p>
                         {{t 'support.guides_paragraph_1'}}
                         <OsfLink
+                            data-analytics-name='guides_link'
                             @href='{{this.helpUrl}}'
                             @target='_blank'
                             @rel='noreferrer'
-                            @onClick={{action 'click' 'link' 'Support - guides_link' target=this.analytics}}
                         >
                             {{t 'support.guides_link_text'}}
                         </OsfLink>
                         {{t 'support.guides_paragraph_2'}}
                     </p>
                     <OsfLink
+                        data-analytics-name='guides_button'
                         class='btn btn-info m-t-lg pull-right'
                         @href='{{this.helpUrl}}'
                         @target='_blank'
                         @rel='noreferrer'
-                        @onClick={{action 'click' 'link' 'Support - guides_button' target=this.analytics}}
                     >
                         {{t 'support.guides_button'}}
                         <i class='fa fa-angle-right'></i>
@@ -79,9 +83,9 @@
                     <p>{{t 'support.contact_technical'}}</p>
                     <p>
                         <OsfLink
+                            data-analytics-name='support_email'
                             class='text-bigger'
                             @href='mailto:{{this.supportEmail}}'
-                            @onClick={{action 'click' 'link' 'Support - support_email'target=this.analytics}}
                         >
                             {{this.supportEmail}}
                         </OsfLink>
@@ -89,9 +93,9 @@
                     <p>{{t 'support.contact_questions'}}</p>
                     <p>
                         <OsfLink
+                            data-analytics-name='contact_email'
                             class='text-bigger'
                             @href='mailto:{{this.contactEmail}}'
-                            @onClick={{action 'click' 'link' 'Support - contact_email' target=this.analytics}}
                         >
                             {{this.contactEmail}}
                         </OsfLink>
@@ -107,8 +111,8 @@
             <p>
                 {{t 'support.prereg_paragraph_1'}}
                 <OsfLink
+                    data-analytics-name='prereg_link'
                     @href='{{this.preregUrl}}'
-                    @onClick={{action 'click' 'link' 'Support - prereg_link' target=this.analytics}}
                 >
                     {{t 'support.prereg_link_text'}}
                 </OsfLink>
@@ -120,8 +124,8 @@
             <p>
                 {{t 'support.status_paragraph_1'}}
                 <OsfLink
+                    data-analytics-name='status_page_link'
                     @href='{{this.statusPageUrl}}'
-                    @onClick={{action 'click' 'link' 'Support - status_page_link' target=this.analytics}}
                 >
                     {{t 'support.status_link_text'}}
                 </OsfLink>
@@ -133,8 +137,8 @@
             <p>
                 {{t 'support.consultation_paragraph'}}
                 <OsfLink
+                    data-analytics-name='consultation_link'
                     @href='{{this.consultationUrl}}'
-                    @onClick={{action 'click' 'link' 'Support - consultation_link'target=this.analytics}}
                 >
                     {{t 'support.consultation_link_text'}}
                 </OsfLink>
@@ -147,30 +151,30 @@
         <div class='col-sm-12 text-center' local-class='bold-links'>
             <h4 class='m-t-md f-w-xl'>{{t 'support.social_title'}}</h4>
             <OsfLink
+                data-analytics-name='social_twitter'
                 class='btn btn-link'
                 @href='{{this.twitterUrl}}'
-                @onClick={{action 'click' 'link' 'Support - social_twitter' target=this.analytics}}
             >
                 <i class='fa fa-twitter'></i>{{t 'support.social_twitter'}}
             </OsfLink>
             <OsfLink
+                data-analytics-name='social_email'
                 class='btn btn-link'
                 @href='{{this.mailingUrl}}'
-                @onClick={{action 'click' 'link' 'Support - social_email' target=this.analytics}}
             >
                 <i class='fa fa-users'></i> {{t 'support.social_mailing'}}
             </OsfLink>
             <OsfLink
+                data-analytics-name='social_facebook'
                 class='btn btn-link'
                 @href='{{this.facebookUrl}}'
-                @onClick={{action 'click' 'link' 'Support - social_facebook' target=this.analytics}}
             >
                 <i class='fa fa-facebook'></i> {{t 'support.social_facebook'}}
             </OsfLink>
             <OsfLink
+                data-analytics-name='social_github'
                 class='btn btn-link'
                 @href='{{this.githubUrl}}'
-                @onClick={{action 'click' 'link' 'Support - social_github' target=this.analytics}}
             >
                 <i class='fa fa-github'></i> {{t 'support.social_github'}}
             </OsfLink>

@@ -135,18 +135,18 @@ module('Acceptance | dashboard', hooks => {
         await visit('/dashboard');
         assert.ok(this.element !== undefined, 'Should have element after visit');
 
-        assert.dom('[data-test-load-more]').exists('The control to load more projects exists');
+        assert.dom('[data-analytics-name=“load_nodes”]').exists('The control to load more projects exists');
         let projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
         assert.equal(projects.length, 10, 'Only the first page of projects loaded');
-        await click('[data-test-load-more]');
+        await click('[data-analytics-name=“load_nodes”e]');
         projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
         assert.equal(projects.length, 20, 'Only the first two pages of projects are loaded after clicking `more` once');
-        assert.dom('[data-test-load-more]').exists('The control to load more projects still exists');
-        await click('[data-test-load-more]');
+        assert.dom('[data-analytics-name=“load_nodes”]').exists('The control to load more projects still exists');
+        await click('[data-analytics-name=“load_nodes”]');
         projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
         assert.equal(projects.length, 30, 'All 30 projects are loaded after clicking `more` twice');
 
-        assert.dom('[data-test-load-more]')
+        assert.dom('[data-analytics-name=“load_nodes”]')
             .doesNotExist('The control to load more projects is gone after all projects are loaded');
         await percySnapshot(assert);
     });
@@ -276,7 +276,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
         await percySnapshot(assert);
 
-        await click('[data-test-create-project-modal-button]');
+        await click('[data-analytics-name="create_new_project"]');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom('[data-test-create-project-header]').includesText('Create new project');
         await fillIn('[data-test-new-project-title]', title);
@@ -300,9 +300,9 @@ module('Acceptance | dashboard', hooks => {
         await visit('/dashboard');
         assert.dom('div[class*="quick-project"]')
             .includesText('You have no projects yet. Create a project with the button on the top right.');
-        await click('[data-test-create-project-modal-button]');
+        await click('[data-analytics-name="create_new_project"]');
         await fillIn('[data-test-new-project-title]', title);
-        await click('[data-test-create-project-cancel]');
+        await click('[data-analytics-name="cancel"]');
         assert.dom('[data-test-create-project-header]').doesNotExist();
         assert.dom('[data-test-stay-here]').doesNotExist();
         assert.dom('div[class*="quick-project"]')
@@ -316,7 +316,7 @@ module('Acceptance | dashboard', hooks => {
         await visit('/dashboard');
         assert.dom('div[class*="quick-project"]')
             .includesText('You have no projects yet. Create a project with the button on the top right.');
-        await click('[data-test-create-project-modal-button]');
+        await click('[data-analytics-name="create_new_project"]');
         await fillIn('[data-test-new-project-title]', title);
         await click('button[class*="close"]');
         assert.dom('[data-test-create-project-header]').doesNotExist();
@@ -359,7 +359,7 @@ module('Acceptance | dashboard', hooks => {
         await visit('/dashboard');
         assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
 
-        await click('[data-test-create-project-modal-button]');
+        await click('[data-analytics-name="create_new_project"]');
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         assert.dom('[data-test-create-project-header]').includesText('Create new project');
         this.element.querySelector('[data-test-select-storage-location]');
@@ -374,7 +374,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('[data-test-project-description-input]').doesNotExist();
         assert.dom('[data-test-select-template]').doesNotExist();
 
-        await click('[data-test-more-toggle]');
+        await click('[data-analytics-name="Toggle more"]');
         assert.dom('[data-test-project-description-input]').exists();
         assert.dom('[data-test-select-template]').exists();
         await fillIn('[data-test-project-description-input]', description);

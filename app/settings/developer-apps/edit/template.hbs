@@ -33,7 +33,6 @@
         @model={{this.developerApp}}
         @disabled={{this.model.taskInstance.isRunning}}
         @onSave={{action this.appSaved}}
-        @analyticsScope='Settings - Developer apps - Create'
         as |form|
     >
         <form.text
@@ -61,7 +60,6 @@
             <DeleteButton
                 @delete={{action this.deleteApp}}
                 @disabled={{form.disabled}}
-                @analyticsScope='Settings - Developer apps - Edit'
                 @modalTitle={{t 'settings.developer-apps.confirmDelete.title' appName=this.developerApp.name}}
                 @modalBody={{t 'settings.developer-apps.confirmDelete.body'}}
             />

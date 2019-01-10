@@ -117,6 +117,7 @@
                 {{t 'general.cancel'}}
             </OsfButton>
             <OsfButton
+                data-analytics-name='Delete file'
                 @onClick={{action modal.submit}} 
                 @type='danger'
             >
@@ -144,12 +145,12 @@
                     </div>
                     <div class='panel-body'>
                         <TagsWidget
+                            data-analytics-scope='Quick Files'
                             @tags={{this.file.tags}}
                             @addTag={{action this.addTag}}
                             @removeTag={{action this.removeTag}}
                             @readOnly={{not this.canEdit}}
                             @showAdd={{this.canEdit}}
-                            @analyticsScope='Quick Files'
                         />
                         <div class='tags_clear'></div>
                     </div>

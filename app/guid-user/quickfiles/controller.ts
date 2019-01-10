@@ -32,7 +32,7 @@ export default class UserQuickfiles extends Controller {
     updateFilter = task(function *(this: UserQuickfiles, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
-        this.analytics.track('list', 'filter', 'Quick Files - Filter files');
+        this.analytics.track('list', 'filter', 'Filter files');
     }).restartable();
 
     createProject = task(function *(this: UserQuickfiles, node: Node) {
@@ -174,7 +174,7 @@ export default class UserQuickfiles extends Controller {
     async openFile(this: UserQuickfiles, file: File, show: string) {
         const guid = file.get('guid') || await file.getGuid();
 
-        this.analytics.click('link', 'Quick Files - Open file');
+        this.analytics.click('link', 'Open file');
         this.transitionToRoute('guid-file', guid, { queryParams: { show } });
     }
 }

@@ -1,9 +1,15 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
 {{title (t 'node.registrations.page_title' nodeTitle=this.node.unsafeTitle)}}
-<div class='container' local-class='RegistrationsContainer' data-test-registrations-container>
+<div
+    data-test-registrations-container
+    data-analytics-scope='Project Registrations'
+    class='container'
+    local-class='RegistrationsContainer'
+>
     <div class='row'>
         <div class='col-xs-9 col-sm-8'>
             <BsTab
+                data-analytics-scope='Registrations Tab'
                 @activeId={{this.activeTab}}
                 @onChange={{action this.changeTab}}
                 as |tab|
@@ -17,7 +23,6 @@
                             @modelTaskInstance={{this.model.taskInstance}}
                             @relationshipName='registrations'
                             @showTags={{true}}
-                            @analyticsScope='Project Registrations'
                             as |nl|
                         >
                             <nl.empty>
@@ -43,11 +48,11 @@
                         <div class='row' local-class='RegistrationsPane' data-test-draft-registrations-pane>
                             <ul class='list-group'>
                                 {{#paginated-list/has-many
+                                    data-analytics-scope='Project Draft Registrations'
                                     modelTaskInstance=this.model.taskInstance
                                     relationshipName='draftRegistrations'
                                     bindReload=(action (mut this.reloadDrafts))
                                     query=this.draftsQueryParams
-                                    analyticsScope='Project Draft Registrations'
                                     as |list|
                                 }}
                                     <list.item as |draftRegistration|>

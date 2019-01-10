@@ -17,10 +17,10 @@
     {{/if}}
 
     <DeleteButton
+        data-analytics-scope='Developer apps'
         @small={{true}}
         @delete={{action this.delete}}
         @disabled={{not @developerApp}}
-        @analyticsScope='Settings - Developer apps'
         @modalTitle={{t 'settings.developer-apps.confirmDelete.title' appName=@developerApp.name}}
         @modalBody={{t 'settings.developer-apps.confirmDelete.body'}}
     />

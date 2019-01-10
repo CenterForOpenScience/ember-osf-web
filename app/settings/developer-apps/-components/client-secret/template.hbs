@@ -22,9 +22,8 @@
 </OsfButton>
 
 <DeleteButton
-    data-test-reset-client-secret
+    data-analytics-scope='Reset client secret'
     @delete={{action this.resetSecret}}
-    @analyticsScope='Settings - Developer apps - Reset client secret'
     @buttonLabel={{t 'settings.developer-apps.resetSecret.label'}}
     @confirmButtonText={{t 'settings.developer-apps.resetSecret.label'}}
     @modalTitle={{t 'settings.developer-apps.resetSecret.modalTitle'}}

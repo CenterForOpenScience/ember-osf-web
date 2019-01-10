@@ -1,4 +1,5 @@
-<BsModal 
+<BsModal
+    data-analytics-scope='Delete node modal'
     @open={{@openModal}}
     @onSubmit={{action @delete}}
     @onHidden={{action @closeModal}}
@@ -15,10 +16,14 @@
         </label>
     </modal.body>
     <modal.footer>
-        <OsfButton @onClick={{action modal.close}}>
+        <OsfButton
+            data-analytics-name='Cancel'
+            @onClick={{action modal.close}}
+        >
             {{t 'general.cancel'}}
         </OsfButton>
-        <OsfButton 
+        <OsfButton
+            data-analytics-name='Delete Fork'
             @disabled={{not (eq this.scientistInput this.scientistName)}} 
             @onClick={{action modal.submit}} 
             @type='danger'

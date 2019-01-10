@@ -43,64 +43,70 @@
                                     </profileNav.link-to>
                                 </profileNav.item>
                                 <profileNav.item>
-                                    {{#profileNav.link-to 'settings.profile.social'
-                                        click=(action 'click' 'link' 'Settings - Profile - Social' target=this.analytics)
-                                    }}
+                                    <profileNav.link-to
+                                        data-analytics-name='Social'
+                                        @params={{array 'settings.profile.social'}}
+                                    >
                                         {{t 'settings.profile.social.title'}}
-                                    {{/profileNav.link-to}}
+                                    </profileNav.link-to>
                                 </profileNav.item>
                                 <profileNav.item>
-                                    {{#profileNav.link-to 'settings.profile.education'
-                                        click=(action 'click' 'link' 'Settings - Profile - Education' target=this.analytics)
-                                    }}
+                                    <profileNav.link-to
+                                        data-analytics-name='Education'
+                                        @params={{array 'settings.profile.education'}}
+                                    >
                                         {{t 'settings.profile.education.title'}}
-                                    {{/profileNav.link-to}}
+                                    </profileNav.link-to>
                                 </profileNav.item>
                                 <profileNav.item>
-                                    {{#profileNav.link-to 'settings.profile.employment'
-                                        click=(action 'click' 'link' 'Settings - Profile - Employment' target=this.analytics)
-                                    }}
+                                    <profileNav.link-to
+                                        data-analytics-name='Employment'
+                                        @params={{array 'settings.profile.employment'}}
+                                    >
                                         {{t 'settings.profile.employment.title'}}
-                                    {{/profileNav.link-to}}
+                                    </profileNav.link-to>
                                 </profileNav.item>
                             </BsNav>
                         </nav.item>
                         <nav.item>
-                            {{#nav.link-to 'settings.account'
-                                click=(action 'click' 'link' 'Settings - Account settings' target=this.analytics)
-                            }}
+                            <nav.link-to
+                                data-analytics-name='Account'
+                                @params={{array 'settings.account'}}
+                            >
                                 {{t 'settings.account.title'}}
-                            {{/nav.link-to}}
+                            </nav.link-to>
                         </nav.item>
                         <nav.item>
                             <OsfLink
+                                data-analytics-name='Configure add-on accounts'
                                 @href='/settings/addons'
-                                @onClick={{action 'click' 'link' 'Settings - Configure add-on accounts' target=this.analytics}}
                             >
                                 {{t 'settings.addons.title'}}
                             </OsfLink>
                         </nav.item>
                         <nav.item>
-                            <OsfLink 
+                            <OsfLink
+                                data-analytics-name='Notifications'
                                 @href='/settings/notifications'
-                                @onClick={{action 'click' 'link' 'Settings - Notifications' target=this.analytics}}
                             >
                                 {{t 'settings.notifications.title'}}
                             </OsfLink>
                         </nav.item>
                         <nav.item>
-                            {{#nav.link-to 'settings.developer-apps'
-                                click=(action 'click' 'link' 'Settings - Developer apps' target=this.analytics)
-                            }}
+                            <nav.link-to
+                                data-analytics-name='Developer apps'
+                                @params={{array 'settings.developer-apps'}}
+                            >
                                 {{t 'settings.developer-apps.title'}}
-                            {{/nav.link-to}}
+                            </nav.link-to>
                         </nav.item>
                         <nav.item>
-                            {{#nav.link-to 'settings.tokens'
-                                click=(action 'click' 'link' 'Settings - Personal access tokens' target=this.analytics)
-                            }}
+                            <nav.link-to
+                                data-analytics-name='Personal access tokens'
+                                @params={{array 'settings.tokens'}}
+                            >
                                 {{t 'settings.tokens.title'}}
-                            {{/nav.link-to}}
+                            </nav.link-to>
                         </nav.item>
                     </BsNav>
                 </div>

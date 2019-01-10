@@ -1,7 +1,7 @@
 {{#if this.hasMultiplePages}}
     <span local-class='SimplePaginator__element'>
         <OsfButton
-            data-test-previous-page-button
+            data-analytics-name='Pagination previous'
             @disabled={{not this.hasPrev}}
             @onClick={{action this._previous}}
         >
@@ -17,7 +17,7 @@
     </span>
     <span local-class='SimplePaginator__element'>
         <OsfButton
-            data-test-next-page-button
+            data-analytics-name='Pagination next'
             @disabled={{not this.hasNext}}
             @onClick={{action this._next}}
         >

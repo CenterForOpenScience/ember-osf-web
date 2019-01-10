@@ -26,7 +26,6 @@ export default class NodeCard extends Component {
     node?: Node | Registration;
     delete?: (node: Node) => void;
     showTags: boolean = defaultTo(this.showTags, false);
-    analyticsScope?: string;
     readOnly: boolean = defaultTo(this.readOnly, false);
 
     // Private properties
@@ -53,11 +52,6 @@ export default class NodeCard extends Component {
             }
         }
         return undefined;
-    }
-
-    @computed('analyticsScope')
-    get analyticsScopePrefix() {
-        return this.analyticsScope ? `${this.analyticsScope} - ` : '';
     }
 
     @computed('readOnly', 'node', 'node.nodeType', 'node.userHasWritePermission')

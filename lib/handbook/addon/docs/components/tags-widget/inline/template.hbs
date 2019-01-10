@@ -1,12 +1,12 @@
 <DocsDemo as |demo|>
     <demo.example @name='tags-widget.inline.hbs'>
         <TagsWidget
+            data-analytics-name='Tags widget inline'
             @tags={{@tags}}
             @addTag={{action @addTag}}
             @removeTag={{action @removeTag}}
             @showAdd={{this.showAdd}}
             @inline={{true}}
-            @analyticsScope='Handbook Tags'
         />
     </demo.example>
 

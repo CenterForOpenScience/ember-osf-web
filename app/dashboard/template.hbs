@@ -1,268 +1,237 @@
 {{title (t 'dashboard.page_title')}}
-{{#if this.modalOpen}}
-    {{#if this.showNewNodeNavigation}} 
-        <NewProjectNavigationModal
-            @node={{this.newNode}}
-            @closeModal={{action this.closeModal}}
-            @title={{t 'new_project.success_message'}}
-            @afterStayHere={{action this.afterStay}}
-        />
-    {{else}}
-        <NewProjectModal
-            @afterProjectCreated={{action this.projectCreated}}
-            @analyticsContext='Dashboard'
-            @closeModal={{action this.closeModal}}
-        />
+<div data-analytics-scope='Dashboard'>
+    {{#if this.modalOpen}}
+        {{#if this.showNewNodeNavigation}} 
+            <NewProjectNavigationModal
+                @node={{this.newNode}}
+                @closeModal={{action this.closeModal}}
+                @title={{t 'new_project.success_message'}}
+                @afterStayHere={{action this.afterStay}}
+            />
+        {{else}}
+            <NewProjectModal
+                @afterProjectCreated={{action this.projectCreated}}
+                @closeModal={{action this.closeModal}}
+            />
+        {{/if}}
     {{/if}}
-{{/if}}
-<ScheduledBanner />
-<div local-class='quickSearch'>
-    <div class='container p-t-lg'>
-        <div class='row m-t-lg {{if (or (gt this.nodes.length 9) this.loading) (local-class 'quick-search-contents')}}'>
-            <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                <div class='row'>
-                    <div class='col-xs-12'>
-                        <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
-                        <div class='m-b-lg col-xs-3'>
-                            <div class='pull-right'>
-                                <OsfButton 
-                                    data-test-create-project-modal-button
-                                    @onClick={{action this.openModal}}
-                                    @type='success'
-                                    @class='m-t-md f-w-xl' 
-                                >
-                                    {{t 'dashboard.create_new_project_button'}}
-                                </OsfButton>
+    <ScheduledBanner />
+    <div local-class='quickSearch'>
+        <div class='container p-t-lg'>
+            <div class='row m-t-lg {{if (or (gt this.nodes.length 9) this.loading) (local-class 'quick-search-contents')}}'>
+                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
+                    <div class='row'>
+                        <div class='col-xs-12'>
+                            <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
+                            <div class='m-b-lg col-xs-3'>
+                                <div class='pull-right'>
+                                    <OsfButton
+                                        data-analytics-name='create_new_project'
+                                        @onClick={{action this.openModal}}
+                                        @type='success'
+                                        @class='m-t-md f-w-xl' 
+                                    >
+                                        {{t 'dashboard.create_new_project_button'}}
+                                    </OsfButton>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class='col-xs-12'>
-                        <div class='row' local-class='quick-project'>
-                            {{#if this.initialLoad}}
-                                <LoadingIndicator />
-                            {{else}}
-                                {{#if this.hasNodes}}
-                                    <div class='col-xs-12'>
-                                        <div class='m-b-sm text-center'>
-                                            <div class='m-v-sm' local-class='quick-search-input'>
-                                                <input
-                                                    data-test-quick-search-input
-                                                    class='form-control'
-                                                    placeholder='{{t 'dashboard.quicksearch.search'}}'
-                                                    type='text'
-                                                    oninput={{perform this.filterNodes value='target.value'}}
-                                                >
+                        <div class='col-xs-12'>
+                            <div class='row' local-class='quick-project'>
+                                {{#if this.initialLoad}}
+                                    <LoadingIndicator />
+                                {{else}}
+                                    {{#if this.hasNodes}}
+                                        <div class='col-xs-12'>
+                                            <div class='m-b-sm text-center'>
+                                                <div class='m-v-sm' local-class='quick-search-input'>
+                                                    <input
+                                                        data-test-quick-search-input
+                                                        class='form-control'
+                                                        placeholder='{{t 'dashboard.quicksearch.search'}}'
+                                                        type='text'
+                                                        oninput={{perform this.filterNodes value='target.value'}}
+                                                    >
+                                                </div>
                                             </div>
-                                        </div>
-                                        <p class='text-center f-w-lg'>{{t 'dashboard.quicksearch.other_links'}}</p>
-                                        <div local-class='quick-search-table'>
-                                            <div class='row m-t-md' local-class='node-col-headers'>
-                                                <div class='col-sm-3 col-md-6'>
-                                                    <div local-class='quick-search-col'>
-                                                        <span>{{t 'general.title'}}</span>
-                                                        <SortButton
-                                                            @sortAction={{action this.sortProjects}}
-                                                            @sort={{this.sort}}
-                                                            @sortBy='title'
-                                                            @class='sort_button'
+                                            <p class='text-center f-w-lg'>{{t 'dashboard.quicksearch.other_links'}}</p>
+                                            <div local-class='quick-search-table'>
+                                                <div class='row m-t-md' local-class='node-col-headers'>
+                                                    <div class='col-sm-3 col-md-6'>
+                                                        <div local-class='quick-search-col'>
+                                                            <span>{{t 'general.title'}}</span>
+                                                            <SortButton
+                                                                @sortAction={{action this.sortProjects}}
+                                                                @sort={{this.sort}}
+                                                                @sortBy='title'
+                                                                @class='sort_button'
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-sm-3 col-md-3'>
+                                                        <div local-class='quick-search-col'>
+                                                            <span>{{t 'general.contributors'}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-sm-3 col-md-3'>
+                                                        <div local-class='quick-search-col'>
+                                                            <span>{{t 'general.modified'}}</span>
+                                                            <SortButton
+                                                                @sortAction={{action this.sortProjects}}
+                                                                @sort={{this.sort}}
+                                                                @sortBy='last_logged'
+                                                                @class='sort_button'
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-xs-12 f-w-xl text-right' local-class='node-sort-dropdown'>
+                                                        <select aria-label={{t 'general.sort'}} onchange={{action this.sortProjects value='target.value'}}>
+                                                            <option selected={{if (eq this.sort 'title') 'selected'}} value='title'>
+                                                                {{t 'general.title'}} {{t 'general.asc_paren'}}
+                                                            </option>
+                                                            <option selected={{if (eq this.sort '-title') 'selected'}} value='-title'>
+                                                                {{t 'general.title'}} {{t 'general.desc_paren'}}
+                                                            </option>
+                                                            <option selected={{if (eq this.sort 'last_logged') 'selected'}} value='last_logged'>
+                                                                {{t 'general.modified'}} {{t 'general.asc_paren'}}
+                                                            </option>
+                                                            <option selected={{if (eq this.sort '-last_logged') 'selected'}} value='-last_logged'>
+                                                                {{t 'general.modified'}} {{t 'general.desc_paren'}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                {{#each this.nodes as | node |}}
+                                                    <div class='{{if this.loading (local-class 'loading-dashboard-item')}}'>
+                                                        <DashboardItem
+                                                            data-test-dashboard-item={{node.id}}
+                                                            @node={{node}}
                                                         />
                                                     </div>
-                                                </div>
-                                                <div class='col-sm-3 col-md-3'>
-                                                    <div local-class='quick-search-col'>
-                                                        <span>{{t 'general.contributors'}}</span>
-                                                    </div>
-                                                </div>
-                                                <div class='col-sm-3 col-md-3'>
-                                                    <div local-class='quick-search-col'>
-                                                        <span>{{t 'general.modified'}}</span>
-                                                        <SortButton
-                                                            @sortAction={{action this.sortProjects}}
-                                                            @sort={{this.sort}}
-                                                            @sortBy='last_logged'
-                                                            @class='sort_button'
-                                                        />
-                                                    </div>
-                                                </div>
+                                                {{else}}
+                                                    {{#if this.loading}}
+                                                        <LoadingIndicator />
+                                                    {{else}}
+                                                        <br>
+                                                        <i>{{t 'dashboard.quicksearch.no_results'}}</i>
+                                                        <br>
+                                                    {{/if}}
+                                                {{/each}}
                                             </div>
-                                            <div class='row'>
-                                                <div class='col-xs-12 f-w-xl text-right' local-class='node-sort-dropdown'>
-                                                    <select aria-label={{t 'general.sort'}} onchange={{action this.sortProjects value='target.value'}}>
-                                                        <option selected={{if (eq this.sort 'title') 'selected'}} value='title'>
-                                                            {{t 'general.title'}} {{t 'general.asc_paren'}}
-                                                        </option>
-                                                        <option selected={{if (eq this.sort '-title') 'selected'}} value='-title'>
-                                                            {{t 'general.title'}} {{t 'general.desc_paren'}}
-                                                        </option>
-                                                        <option selected={{if (eq this.sort 'last_logged') 'selected'}} value='last_logged'>
-                                                            {{t 'general.modified'}} {{t 'general.asc_paren'}}
-                                                        </option>
-                                                        <option selected={{if (eq this.sort '-last_logged') 'selected'}} value='-last_logged'>
-                                                            {{t 'general.modified'}} {{t 'general.desc_paren'}}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            {{#each this.nodes as | node |}}
-                                                <div class='{{if this.loading (local-class 'loading-dashboard-item')}}'>
-                                                    <DashboardItem
-                                                        data-test-dashboard-item={{node.id}}
-                                                        @node={{node}}
-                                                    />
-                                                </div>
-                                            {{else}}
-                                                {{#if this.loading}}
+                                            {{#if this.hasMore}}
+                                                {{#if this.loadingMore}}
                                                     <LoadingIndicator />
                                                 {{else}}
-                                                    <br>
-                                                    <i>{{t 'dashboard.quicksearch.no_results'}}</i>
-                                                    <br>
+                                                    <div class='text-center'>
+                                                        <OsfButton
+                                                            data-analytics-name='load_nodes'
+                                                            aria-label={{t 'new_project.more'}}
+                                                            local-class='load-nodes-button'
+                                                            @class='col-sm-12'
+                                                            @onClick={{action this.more}}
+                                                        >
+                                                            {{fa-icon
+                                                                'caret-down'
+                                                                class=(
+                                                                    concat
+                                                                    (local-class 'load-nodes')
+                                                                    ' text-muted m-b-xl'
+                                                                )
+                                                            }}
+                                                        </OsfButton>
+                                                    </div>
                                                 {{/if}}
-                                            {{/each}}
-                                        </div>
-                                        {{#if this.hasMore}}
-                                            {{#if this.loadingMore}}
-                                                <LoadingIndicator />
-                                            {{else}}
-                                                <div class='text-center'>
-                                                    <OsfButton 
-                                                        data-test-load-more
-                                                        aria-label={{t 'new_project.more'}}
-                                                        local-class='load-nodes-button'
-                                                        @class='col-sm-12'
-                                                        @onClick={{action this.more}}
-                                                    >
-                                                        {{fa-icon
-                                                            'caret-down'
-                                                            class=(
-                                                                concat
-                                                                (local-class 'load-nodes')
-                                                                ' text-muted m-b-xl'
-                                                            )
-                                                        }}
-                                                    </OsfButton>
-                                                </div>
                                             {{/if}}
-                                        {{/if}}
-                                    </div>
-                                {{else}}
-                                    <div class='row' local-class='quick-project'>
-                                        <div class='col-sm-12 text-center'>
-                                            <p>{{t 'dashboard.quicksearch.no_projects.line1'}}</p>
-                                            <p>{{t 'dashboard.quicksearch.no_projects.line2'}}</p>
-                                            <img src='/assets/images/dashboard/quicksearch-min.png' alt='{{t 'dashboard.quicksearch.no_projects.preview_alt'}}' class='img-responsive center-block'>
                                         </div>
-                                    </div>
+                                    {{else}}
+                                        <div class='row' local-class='quick-project'>
+                                            <div class='col-sm-12 text-center'>
+                                                <p>{{t 'dashboard.quicksearch.no_projects.line1'}}</p>
+                                                <p>{{t 'dashboard.quicksearch.no_projects.line2'}}</p>
+                                                <img src='/assets/images/dashboard/quicksearch-min.png' alt='{{t 'dashboard.quicksearch.no_projects.preview_alt'}}' class='img-responsive center-block'>
+                                            </div>
+                                        </div>
+                                    {{/if}}
                                 {{/if}}
-                            {{/if}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class='hidden-xs' local-class='bg-web institutions-panel'>
-    <div class='container'>
-        <div class='row'>
-            <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                <InstitutionCarousel 
-                    data-test-institution-carousel
-                    @institutions={{this.institutions}}
-                />
-            </div>
-        </div>
-    </div>
-</div>
-<div local-class='newAndNoteworthy'>
-    <div class='container'>
-        <div class='row'>
-            <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                <h3>{{t 'dashboard.noteworthy.description'}}</h3>
-            </div>
-        </div>
-        <div class='row'>
-            <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                <div>
-                    <div class='row'>
-                        <div class='col-xs-12 col-md-6'>
-                            <div data-test-noteworthy-list local-class='public-projects-box'>
-                                <h4 class='m-b-md'>{{t 'dashboard.noteworthy.new_and_noteworthy'}}</h4>
-                                {{#if this.failedLoading-noteworthy}}
-                                    {{t 'dashboard.noteworthy.failed_noteworthy'}}
-                                {{else}}
-                                    {{#if this.noteworthy.length}}
-                                        {{#each this.noteworthy as | project | }}
-                                            <NoteworthyAndPopularProject 
-                                                data-test-noteworthy-project={{project.id}}
-                                                @project={{project}}
-                                            />
-                                        {{/each}}
-                                    {{else}}
-                                        <LoadingIndicator />
-                                    {{/if}}
-                                {{/if}}
-                            </div>
-                        </div>
-                        <div class='col-xs-12 col-md-6'>
-                            <div data-test-popular-list local-class='public-projects-box'>
-                                <h4 class='m-b-md'>{{t 'dashboard.noteworthy.most_popular'}}</h4>
-                                {{#if this.failedLoading-popular}}
-                                    {{t 'dashboard.noteworthy.failed_popular'}}
-                                {{else}}
-                                    {{#if this.popular.length}}
-                                        {{#each this.popular as | project | }}
-                                            <NoteworthyAndPopularProject
-                                                data-test-popular-project={{project.id}}
-                                                @project={{project}}
-                                            />
-                                        {{/each}}
-                                    {{else}}
-                                        <LoadingIndicator />
-                                    {{/if}}
-                                {{/if}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='text-center col-sm-12'>
-                            <OsfLink
-                                data-analytics-name='noteworthy_search'
-                                class='btn btn-default m-v-lg'
-                                @href='/search/?q=*'
-                            >
-                                {{t 'dashboard.noteworthy.search_more'}}
-                            </OsfLink>
-                        </div>
-                    </div>
+    <div class='hidden-xs' local-class='bg-web institutions-panel'>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
+                    <InstitutionCarousel 
+                        data-test-institution-carousel
+                        @institutions={{this.institutions}}
+                    />
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div local-class='bg-web meetings'>
-    <div class='container'>
-        <div class='row'>
-            <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                <div class='p-v-sm'>
-                    <div class='row'>
-                        <div class='col-md-8'>
-                            <div class='conference-centering'>
-                                <h3>{{t 'dashboard.meetings.title'}}</h3>
+    <div local-class='newAndNoteworthy'>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
+                    <h3>{{t 'dashboard.noteworthy.description'}}</h3>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
+                    <div>
+                        <div class='row'>
+                            <div class='col-xs-12 col-md-6'>
+                                <div data-test-noteworthy-list local-class='public-projects-box'>
+                                    <h4 class='m-b-md'>{{t 'dashboard.noteworthy.new_and_noteworthy'}}</h4>
+                                    {{#if this.failedLoading-noteworthy}}
+                                        {{t 'dashboard.noteworthy.failed_noteworthy'}}
+                                    {{else}}
+                                        {{#if this.noteworthy.length}}
+                                            {{#each this.noteworthy as | project | }}
+                                                <NoteworthyAndPopularProject 
+                                                    data-test-noteworthy-project={{project.id}}
+                                                    @project={{project}}
+                                                />
+                                            {{/each}}
+                                        {{else}}
+                                            <LoadingIndicator />
+                                        {{/if}}
+                                    {{/if}}
+                                </div>
                             </div>
-                            <div class='conference-centering m-t-lg'>
-                                <p class='text-bigger'>{{t 'dashboard.meetings.description'}}</p>
+                            <div class='col-xs-12 col-md-6'>
+                                <div data-test-popular-list local-class='public-projects-box'>
+                                    <h4 class='m-b-md'>{{t 'dashboard.noteworthy.most_popular'}}</h4>
+                                    {{#if this.failedLoading-popular}}
+                                        {{t 'dashboard.noteworthy.failed_popular'}}
+                                    {{else}}
+                                        {{#if this.popular.length}}
+                                            {{#each this.popular as | project | }}
+                                                <NoteworthyAndPopularProject
+                                                    data-test-popular-project={{project.id}}
+                                                    @project={{project}}
+                                                />
+                                            {{/each}}
+                                        {{else}}
+                                            <LoadingIndicator />
+                                        {{/if}}
+                                    {{/if}}
+                                </div>
                             </div>
                         </div>
-                        <div class='col-md-4 text-center'>
-                            <div>
+                        <div class='row'>
+                            <div class='text-center col-sm-12'>
                                 <OsfLink
-                                    data-analytics-name='meetings_button'
-                                    class='btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl'
-                                    local-class='btn-banner'
-                                    @href='/meetings/'
+                                    data-analytics-name='noteworthy_search'
+                                    class='btn btn-default m-v-lg'
+                                    @href='/search/?q=*'
                                 >
-                                    {{t 'dashboard.meetings.button'}}
+                                    {{t 'dashboard.noteworthy.search_more'}}
                                 </OsfLink>
                             </div>
                         </div>
@@ -271,31 +240,63 @@
             </div>
         </div>
     </div>
-</div>
-<div local-class='preprints'>
-    <div class='container'>
-        <div class='row'>
-            <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                <div class='p-v-sm'>
-                    <div class='row'>
-                        <div class='col-md-8'>
-                            <div class='conference-centering'>
-                                <h3>{{t 'dashboard.preprints.title'}}</h3>
+    <div local-class='bg-web meetings'>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
+                    <div class='p-v-sm'>
+                        <div class='row'>
+                            <div class='col-md-8'>
+                                <div class='conference-centering'>
+                                    <h3>{{t 'dashboard.meetings.title'}}</h3>
+                                </div>
+                                <div class='conference-centering m-t-lg'>
+                                    <p class='text-bigger'>{{t 'dashboard.meetings.description'}}</p>
+                                </div>
                             </div>
-                            <div class='conference-centering m-t-lg'>
-                                <p class='text-bigger'>{{t 'dashboard.preprints.description'}}</p>
+                            <div class='col-md-4 text-center'>
+                                <div>
+                                    <OsfLink
+                                        data-analytics-name='meetings_button'
+                                        class='btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl'
+                                        local-class='btn-banner'
+                                        @href='/meetings/'
+                                    >
+                                        {{t 'dashboard.meetings.button'}}
+                                    </OsfLink>
+                                </div>
                             </div>
                         </div>
-                        <div class='col-md-4 text-center'>
-                            <div>
-                                <OsfLink
-                                    data-analytics-name='preprints_button'
-                                    local-class='btn-banner'
-                                    class='btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl'
-                                    @href='/preprints/'
-                                >
-                                    {{t 'dashboard.preprints.button'}}
-                                </OsfLink>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div local-class='preprints'>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
+                    <div class='p-v-sm'>
+                        <div class='row'>
+                            <div class='col-md-8'>
+                                <div class='conference-centering'>
+                                    <h3>{{t 'dashboard.preprints.title'}}</h3>
+                                </div>
+                                <div class='conference-centering m-t-lg'>
+                                    <p class='text-bigger'>{{t 'dashboard.preprints.description'}}</p>
+                                </div>
+                            </div>
+                            <div class='col-md-4 text-center'>
+                                <div>
+                                    <OsfLink
+                                        data-analytics-name='preprints_button'
+                                        local-class='btn-banner'
+                                        class='btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl'
+                                        @href='/preprints/'
+                                    >
+                                        {{t 'dashboard.preprints.button'}}
+                                    </OsfLink>
+                                </div>
                             </div>
                         </div>
                     </div>

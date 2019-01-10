@@ -62,7 +62,7 @@ For non-click events, or when the "automatic" approach doesn't fit, call `track(
 ```ts
 @action
 onKeyUp() {
-    this.analytics.track('search', 'keyUp', 'Search box - Key up');
+    this.analytics.track('search', 'keyUp', 'Key up');
     // ...
 }
 ```

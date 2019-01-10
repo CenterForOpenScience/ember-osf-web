@@ -28,7 +28,8 @@ module('Integration | Component | new-project-navigation-modal', hooks => {
 
         assert.dom(this.element)
             .hasText('New project created successfully! Keep working here Go to project', 'Contents were correct');
-        assert.dom('[data-test-go-to-new][href="/linkValue/"]').exists('Navigation link was correct');
+        assert.dom('[data-analytics-name="go_to_new_project"][href="/linkValue/"]')
+            .exists('Navigation link was correct');
         await click('[data-test-stay-here]');
     });
 });

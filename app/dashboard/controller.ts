@@ -64,7 +64,7 @@ export default class Dashboard extends Controller {
     filterNodes = task(function *(this: Dashboard, filter: string) {
         yield timeout(500);
         this.setProperties({ filter });
-        this.analytics.track('list', 'filter', 'Dashboard - Search projects');
+        this.analytics.track('list', 'filter', 'Search projects');
         yield this.get('findNodes').perform();
     }).restartable();
 
@@ -117,7 +117,6 @@ export default class Dashboard extends Controller {
     @action
     more(this: Dashboard) {
         this.get('findNodes').perform(true);
-        this.analytics.click('button', 'Dashboard - load_nodes');
     }
 
     @action
@@ -129,7 +128,6 @@ export default class Dashboard extends Controller {
     @action
     openModal(this: Dashboard) {
         this.set('modalOpen', true);
-        this.analytics.click('button', 'Dashboard - create_new_project');
     }
 
     @action
@@ -150,6 +148,5 @@ export default class Dashboard extends Controller {
     projectCreated(this: Dashboard, newNode: Node) {
         this.set('newNode', newNode);
         this.set('showNewNodeNavigation', true);
-        this.analytics.click('button', 'Dashboard - New Project - dashboard');
     }
 }

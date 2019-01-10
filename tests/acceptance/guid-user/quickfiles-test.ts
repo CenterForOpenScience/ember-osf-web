@@ -82,7 +82,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await click('[data-test-ps-new-project-button]');
         await fillIn('[data-test-new-project-title]', title);
         assert.dom('[data-test-new-project-title]').hasValue(title);
-        await click('[data-test-create-project-cancel]');
+        await click('[data-analytics-name="cancel"]');
         const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(newFiles.length, 5, `Check for proper number of files in list. Found ${newFiles.length}`);
         await click('[data-test-move-button]');
@@ -103,7 +103,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await click('[data-test-ps-new-project-button]');
         await fillIn('[data-test-new-project-title]', title);
         assert.dom('[data-test-new-project-title]').hasValue(title);
-        await click('[data-test-create-project-cancel]');
+        await click('[data-analytics-name="cancel"]');
         await click(files[1]);
         await click('[data-test-move-button]');
         await click('[data-test-ps-new-project-button]');

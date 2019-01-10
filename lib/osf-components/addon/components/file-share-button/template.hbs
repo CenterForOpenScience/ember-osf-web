@@ -38,55 +38,46 @@
                     >
                         <br>
                         <CopyableText
+                            data-analytics-name='Share file'
                             @text={{this.mfrUrl}}
-                            @analyticsLabel='Quick Files - Share file'
                         />
                         <div local-class='SharePane__button-group'>
                             <OsfLink
+                                data-analytics-name='Share file on Twitter'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.twitter'}}
                                 target='_blank'
                                 rel='noopener'
                                 @href='{{this.twitterUrl}}'
-                                @onClick={{action 'click' 'link' 'Quick Files - Share file on Twitter'
-                                                 preventDefault=false
-                                                 target=this.analytics}}
                             >
                                 <i aria-hidden='true' class='fa fa-twitter'></i>
                             </OsfLink>
                             <OsfLink
+                                data-analytics-name='Share file on Facebook'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.facebook'}}
                                 target='_blank'
                                 rel='noopener'
-                                @href='{{this.facebookUrl}}'
-                                @onClick={{action 'click' 'link' 'Quick Files - Share file on Facebook'
-                                                 target=this.analytics
-                                                 preventDefault=false}}
                             >
                                 <i aria-hidden='true' class='fa fa-facebook'></i>
                             </OsfLink>
                             <OsfLink
+                                data-analytics-name='Share file on LinkedIn'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.linkedin'}}
                                 target='_blank'
                                 rel='noopener'
                                 @href='{{this.linkedInUrl}}'
-                                @onClick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn'
-                                                 preventDefault=false
-                                                 target=this.analytics}}
                             >
                                 <i aria-hidden='true' class='fa fa-linkedin'></i>
                             </OsfLink>
                             <OsfLink
+                                data-analytics-name='Share file in email'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'quickfiles.share_by_email'}}
                                 target='_blank'
                                 rel='noopener'
                                 @href='{{this.emailUrl}}'
-                                @onClick={{action 'click' 'link' 'Quick Files - Share file in email'
-                                                 preventDefault=false
-                                                 target=this.analytics}}
                             >
                                 <i aria-hidden='true' class='fa fa-envelope'></i>
                             </OsfLink>

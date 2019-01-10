@@ -1,4 +1,7 @@
-<div data-test-node-card>
+<div
+    data-test-node-card
+    data-analytics-scope='Node Card'
+>
     <h4 class='list-group-item-heading' local-class='NodeCard__heading' data-test-node-card-heading>
         <span class='f-w-lg'>
             {{#if @node}}
@@ -24,9 +27,9 @@
                 {{/if}}
                 {{node-card/node-icon category=@node.category}}
                 <OsfLink
+                    data-analytics-name='Title'
                     @route='resolve-guid'
                     @models={{array @node.id}}
-                    @onClick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Title') target=this.analytics}}
                 >
                     {{@node.title}}
                 </OsfLink>
@@ -46,24 +49,25 @@
                         <dd.menu @class='dropdown-menu-right' local-class='NodeCard__dropdown-list'>
                             <li role='menuitem'>
                                 <OsfLink
+                                    data-analytics-name='Manage Contributors'
                                     local-class='NodeCard__dropdown-link'
                                     @href='/{{@node.id}}/contributors/'
-                                    @onClick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Manage Contributors') target=this.analytics}}
                                 >
                                     {{t 'node_card.fork.manage_contributors'}}
                                 </OsfLink>
                             </li>
                             <li role='menuitem'>
                                 <OsfLink
+                                    data-analytics-name='Settings'
                                     local-class='NodeCard__dropdown-link'
                                     @href='/{{@node.id}}/settings/'
-                                    @onClick={{action 'click' 'link' (concat this.analyticsScopePrefix 'Node Card - Settings') target=this.analytics}}
                                 >
                                     {{t 'general.settings'}}
                                 </OsfLink>
                             </li>
                             <li role='menuitem'>
                                 <OsfButton
+                                    data-analytics-scope='Delete'
                                     local-class='NodeCard__dropdown-link'
                                     @onClick={{action @delete @node}}
                                 >
@@ -108,7 +112,6 @@
                         @tags={{@node.tags}}
                         @inline={{true}}
                         @readOnly={{true}}
-                        @analyticsScope={{concat this.analyticsScopePrefix 'Node Card'}}
                     />
                 </div>
             {{/if}}

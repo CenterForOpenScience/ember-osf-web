@@ -58,7 +58,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         await fillIn('[data-test-token-name] input', tokenName);
         await click('[data-test-scope] input[type=checkbox]');
         await percySnapshot(assert);
-        await click('[data-test-create-token-button]');
+        await click('[data-analytics-name="Submit button"]');
 
         assert.dom('[data-test-new-token-value]').exists();
 
@@ -90,7 +90,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         assert.dom(input).hasValue(oldName);
         await fillIn(input, newName);
         await percySnapshot(assert);
-        await click('[data-test-save-token-button]');
+        await click('[data-analytics-name="Save"]');
 
         assert.equal(currentURL(), '/settings/tokens');
 
