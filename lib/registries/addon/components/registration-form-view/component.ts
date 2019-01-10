@@ -27,8 +27,8 @@ export class Answerable {
         return new Answerable(
             question.type,
             question.format,
-            answer.value as string,
-            (answer.extra && answer.extra.length) ? answer.extra[0] : {},
+            (answer && answer.value) ? answer.value as string : '',
+            (answer && answer.extra && answer.extra.length) ? answer.extra[0] : {},
         );
     }
 

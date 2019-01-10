@@ -1167,7 +1167,11 @@ export default {
             },
             embargoed: {
                 state: 'Embargoed',
-                action: 'End Embargo Early',
+                action: 'End embargo early',
+                action_success: 'Embargo termination request successfully sent',
+                action_error: 'Unable to submit embargo termination request',
+                confirm_text: 'By clicking confirm, an email will be sent to project administrator(s) to approve ending the embargo. If approved, this registration, including any components, will be made public immmediately. This action is irreversible.',
+                confirm_button_text: 'Confirm',
             },
             pending: {
                 state: 'Pending',

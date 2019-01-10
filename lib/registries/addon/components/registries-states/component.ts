@@ -12,6 +12,6 @@ export default class RegistriesStates extends Component {
 
     @computed('isAdmin', 'currentState')
     get isDisabled(this: RegistriesStates): boolean {
-        return (this.currentState !== 'public') || !this.isAdmin;
+        return !['public', 'embargoed'].includes(this.currentState) || !this.isAdmin;
     }
 }

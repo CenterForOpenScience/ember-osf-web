@@ -1,28 +1,28 @@
-<div class="btn-group pull-right" role="group" aria-label={{t 'registries.overview.aria_labels.main'}}>
+<div class='btn-group pull-right' role='group' aria-label={{t 'registries.overview.aria_labels.main'}}>
     <div
-        class="btn-group" role="group"
+        class='btn-group' role='group'
         aria-label={{t 'registries.overview.aria_labels.withdrawal_justification'}}
     >
         <RegistriesStates @currentState={{this.currentState}} @isAdmin={{this.isAdmin}} @node={{this.node}} />
     </div>
     {{#unless this.isWithdrawn}}
-        <div class="btn-group" role="group">
+        <div class='btn-group' role='group'>
             <ResponsiveDropdown as |dd|>
-                {{#dd.trigger local-class='ForkButton'}}
-                    <button class="btn btn-default" local-class='Menu__button' disabled={{this.forkRegistration.isRunning}}>
+                {{#dd.trigger local-class='Menu__button'}}
+                    <button class='btn btn-default' disabled={{this.forkRegistration.isRunning}}>
                         {{fa-icon 'code-fork' local-class='Icon'}}
                         <span local-class='ForksCount__text'>{{@forksCount}}</span>
                     </button>
                 {{/dd.trigger}}
                 {{#dd.content}}
-                    <div local-class="ForksMenu">
-                        <div local-class="ForksMenu__option">
+                    <div local-class='ForksMenu'>
+                        <div local-class='ForksMenu__option'>
                             {{#global-link-to 'guid-registration.forks' this.node.id}}
                                 {{t 'registries.overview.view_forks'}}
                             {{/global-link-to}}
                         </div>
-                        <div local-class="ForksMenu__option">
-                            <button class="btn btn-link"
+                        <div local-class='ForksMenu__option'>
+                            <button class='btn btn-link'
                               onclick={{action (perform this.forkRegistration)}}
                               {{action dd.close}}
                             >
@@ -33,7 +33,7 @@
                 {{/dd.content}}
             </ResponsiveDropdown>
         </div>
-        <div data-test-social-sharing-button class="btn-group" role="group" aria-label={{t 'general.share'}}>
+        <div data-test-social-sharing-button class='btn-group' role='group' aria-label={{t 'general.share'}}>
             {{#sharing-icons/dropdown
                 title=@registration.title
                 description=@registration.description
@@ -42,8 +42,8 @@
                 showText=true
                 node=this.node
                 as |dd|}}
-                {{#dd.trigger}}
-                    <button class="btn btn-default" local-class="Menu__button">
+                {{#dd.trigger local-class='Menu__button'}}
+                    <button class='btn btn-default'>
                         {{fa-icon 'ellipsis-v'}}
                     </button>
                 {{/dd.trigger}}

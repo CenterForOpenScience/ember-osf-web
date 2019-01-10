@@ -1,6 +1,6 @@
-{{#if (eq @currentState 'public')}}
+{{#if (not this.isDisabled)}}
     <ResponsiveDropdown @disabled={{this.isDisabled}} as |dd|>
-        {{#dd.trigger local-class=(if this.isDisabled 'disabled' '')}}
+        {{#dd.trigger local-class=(concat 'Menu__button ' (if this.isDisabled 'disabled' ''))}}
             {{registries-states/actions-trigger
                   currentState=@currentState
                   isAdmin=@isAdmin
@@ -9,7 +9,11 @@
             }}
         {{/dd.trigger}}
         {{#dd.content local-class='States'}}
-            {{registries-states/is-public node=@node closeDropdown=dd.close}}
+            {{#if (eq this.currentState 'public')}}
+                {{registries-states/is-public node=@node closeDropdown=dd.close}}
+            {{else}}
+                {{registries-states/is-embargoed node=@node closeDropdown=dd.close}}
+            {{/if}}
         {{/dd.content}}
     </ResponsiveDropdown>
 {{else}}

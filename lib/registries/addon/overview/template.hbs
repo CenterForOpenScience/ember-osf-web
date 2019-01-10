@@ -5,10 +5,10 @@
 {{else}}
     <div local-class='TitleBackground'>
         <Container>
-            <div local-class="TitleContainer">
-                <div local-class="Title">{{this.registration.title}}</div>
-                {{#if (not this.showMobileView)}}
-                    <div local-class="Toolbar">
+            <div local-class='TitleContainer'>
+                <div local-class='Title'>{{this.registration.title}}</div>
+                {{#unless this.showMobileView}}
+                    <div local-class='Toolbar'>
                         <RegistriesOverviewMenu
                             @isAdmin={{this.isAdmin}}
                             @currentState={{this.currentState}}
@@ -18,7 +18,7 @@
                             @node={{this.registration}}
                         />
                     </div>
-                {{/if}}
+                {{/unless}}
             </div>
         </Container>
     </div>
