@@ -1,11 +1,10 @@
 {{title (t 'home.title')}}
 {{#if this.goodbye}}
     <BsAlert
-        data-test-goodbye-banner
+        data-analytics-name='dismiss_alert'
         local-class='goodbye'
         @type='success'
         @classNames='text-center'
-        @onDismiss={{action 'click' 'button' 'Home - dismiss_alert' target=this.analytics}}
     >
         <p>{{t 'home.alert_logged_out'}}</p>
     </BsAlert>
@@ -37,12 +36,12 @@
             <div class='row'>
                 <div class='col-sm-6 hidden-xs'>
                     <OsfLink
+                        data-analytics-name='youtube_video'
                         class='youtube'
                         aria-label='{{t 'home.youtube_label'}}'
                         @href='//www.youtube.com/watch?v={{this.youtubeId}}'
                         @onClick={{action (mut this.modalOpen) true}}
                     >
-                        {{!-- {{action 'click' 'link' 'Home - youtube_video' target=this.analytics}} --}}
                         <i local-class='icon icon-play'></i>
                     </OsfLink>
                     <img
@@ -187,8 +186,8 @@
                 <p>
                     {{t 'home.global_paragraph'}}
                     <OsfLink
+                        data-analytics-name='explore_activity'
                         @href='/explore/activity/'
-                        @onClick={{action 'click' 'link' 'Home - explore_activity' target=this.analytics}}
                     >
                         {{t 'home.global_link'~}}
                     </OsfLink>
@@ -201,8 +200,8 @@
                 <p>
                     {{t 'home.non_profit_paragraph1'}}
                     <OsfLink
+                        data-analytics-name='cos_webpage'
                         @href='https://cos.io/'
-                        @onClick={{action 'click' 'link' 'Home - cos_webpage' target=this.analytics}}
                     >
                         {{t 'home.non_profit_link'~}}
                     </OsfLink>
@@ -276,9 +275,9 @@
                 </h2>
                 <h4>{{t 'home.free_title2'}}</h4>
                 <OsfLink
+                    data-analytics-name='goto_signup'
                     class='btn btn-info btn-lg'
                     @href='#signUp'
-                    @onClick={{action 'click' 'link' 'Home - goto_signup' target=this.analytics}}
                 >
                     {{t 'home.free_link'}}
                 </OsfLink>

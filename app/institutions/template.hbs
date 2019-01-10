@@ -1,7 +1,10 @@
 {{title (t 'institutions.title')}}
 <ScheduledBanner />
 <div local-class='Institutions__page'>
-    <div local-class='Institutions__block Institutions__header'>
+    <div
+        data-analytics-scope='Header'
+        local-class='Institutions__block Institutions__header'
+    >
         <div class='container'>
             <div class='row'>
                 <div class='text-center m-t-lg col-xs-12'>
@@ -9,9 +12,9 @@
                     <p class='lead'>
                         {{t 'institutions.description'}}
                         <OsfLink
+                            data-analytics-name='Read more'
                             local-class='Institutions__block__link'
                             @href='https://cos.io/our-products/osf-institutions/'
-                            @onClick={{action 'click' 'link' 'Institutions - Header - Read more' target=this.analytics}}
                         >
                             {{t 'institutions.read_more'}}
                         </OsfLink>
@@ -45,10 +48,10 @@
                                 </div>
                                 {{#each this.institutions as |institution|}}
                                     <OsfLink
+                                        data-analytics-name='Visit institution'
                                         class='m-v-sm row'
                                         local-class='Institutions__table__item'
                                         @href='{{institution.links.html}}'
-                                        @onClick={{action 'click' 'link' 'Institutions - Visit institution' target=this.analytics}}
                                     >
                                         <div class='col-xs-3'>
                                             <img local-class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoUrl}}'>
@@ -72,15 +75,18 @@
             </div>
         </div>
     </div>
-    <div local-class='Institutions__block Institutions__footer'>
+    <div
+        data-analytics-scope='Footer'
+        local-class='Institutions__block Institutions__footer'
+    >
         <div class='container'>
             <div class='row'>
                 <div class='text-center col-xs-12'>
                     <p class='lead'>
                         {{t 'institutions.footer'}}
                         <OsfLink
+                            data-analytics-name='Contact us'
                             @href='https://cos.io/contact'
-                            @onClick={{action 'click' 'link' 'Institutions - Footer - Contact us' target=this.analytics}}
                         >
                             {{t 'institutions.contact_us'}}
                         </OsfLink>

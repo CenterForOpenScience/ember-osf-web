@@ -43,9 +43,9 @@
     </div>
     <div class='m-md' local-class='Forks__nav'>
         <OsfLink
+            data-analytics-name='forks.back'
             @route='guid-node.analytics'
             @models={{array this.model.guid}}
-            @onClick={{action 'click' 'link' 'Project Forks - forks.back' target=this.analytics}}
         >
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
         </OsfLink>

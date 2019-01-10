@@ -45,12 +45,13 @@ module('Acceptance | logged-out home page', hooks => {
         await visit('/?goodbye=true');
         assert.equal(currentURL(), '/?goodbye=true', "Still at '/?goodbye=true'.");
 
-        assert.dom('[data-test-goodbye-banner').exists();
+        assert.dom('[data-analytics-name="dismiss_alert"]').exists();
         await percySnapshot(assert);
         await click('a[href="/support"]');
         assert.equal(currentURL(), '/support', "Made it to '/support'.");
         await click('a[href="/"]');
         assert.equal(currentURL(), '/', 'No more query parameter');
-        assert.dom('[data-test-goodbye-banner').doesNotExist('No goodbye banner when returning to the page');
+        assert.dom('[data-analytics-name="dismiss_alert"]')
+            .doesNotExist('No goodbye banner when returning to the page');
     });
 });

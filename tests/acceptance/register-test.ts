@@ -16,8 +16,8 @@ module('Acceptance | register (sign up page)', hooks => {
 
         assert.equal(currentURL(), '/register', "Still at '/register'.");
 
-        assert.dom('[data-test-orcid-button]').exists();
-        assert.dom('[data-test-institution-button]').exists();
+        assert.dom('[data-analyitcs-name="ORCID"]').exists();
+        assert.dom('[data-analytics-name="Institution"]').exists();
         assert.dom('[data-test-sign-up-full-name]').exists();
         await percySnapshot(assert);
     });

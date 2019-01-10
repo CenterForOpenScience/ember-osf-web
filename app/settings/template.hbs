@@ -21,18 +21,26 @@
                 <div class='panel panel-default'>
                     <BsNav @type='pills' @stacked={{true}} as |nav|>
                         <nav.item>
-                            {{#nav.link-to 'settings.profile'
-                                click=(action 'click' 'link' 'Settings' target=this.analytics)
-                            }}
+                            <nav.link-to 
+                                data-analytics-name='Settings'
+                                @params={{array 'settings.profile'}}
+                            >
                                 {{t 'settings.profile.title'}}
-                            {{/nav.link-to}}
-                            <BsNav @type='pills' local-class='ProfileNav' @stacked={{true}} as |profileNav|>
+                            </nav.link-to>
+                            <BsNav
+                                data-analytics-scope='Profile'
+                                local-class='ProfileNav'
+                                @stacked={{true}}
+                                @type='pills'
+                                as |profileNav|
+                            >
                                 <profileNav.item>
-                                    {{#profileNav.link-to 'settings.profile.name'
-                                        click=(action 'click' 'link' 'Settings - Profile - Name' target=this.analytics)
-                                    }}
+                                    <profileNav.link-to
+                                        data-analytics-name='Name'
+                                        @params={{array 'settings.profile.name'}}
+                                    >
                                         {{t 'settings.profile.name.title'}}
-                                    {{/profileNav.link-to}}
+                                    </profileNav.link-to>
                                 </profileNav.item>
                                 <profileNav.item>
                                     {{#profileNav.link-to 'settings.profile.social'

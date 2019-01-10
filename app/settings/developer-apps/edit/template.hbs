@@ -1,8 +1,7 @@
-<div>
+<div data-analytics-scope='Edit'>
     <OsfLink
-        data-test-back-to-developer-apps
+        data-analytics-scope='Back to list'
         @route='settings.developer-apps'
-        @onClick={{action 'click' 'link' 'Settings - Developer apps - Edit - Back to list' target=this.analytics}}
     >
         {{fa-icon 'arrow-left'}}
         {{t 'settings.developer-apps.backToList'}}
