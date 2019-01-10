@@ -4,12 +4,12 @@
     ...attributes
 >
     <span>
-        <FaIcon @icon=this.icon @fixedWidth=true />
+        <FaIcon @icon={{this.icon}} @fixedWidth={{true}} />
     </span>
-    <Input
-        @type='text'
-        @enter={{action '_enter'}}
-        @class={{local-class 'Input'}}
-        @value={{mut this.value}}
-    />
+    {{input
+        type='text'
+        enter=(action '_enter')
+        class=(local-class 'Input')
+        value=(mut this.value)
+    }}
 </span>
