@@ -39,7 +39,7 @@ export default class InstitutionModel extends OsfModel {
         }
     }
 
-    @computed('assets', 'assets.logo', 'assets.logoRounded', 'logoPath', 'id')
+    @computed('assets', 'assets.logoRounded', 'logoUrl')
     get logoRoundedUrl(): string {
         if (this.assets && this.assets.logoRounded) {
             return this.assets.logoRounded;
