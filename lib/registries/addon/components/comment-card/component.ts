@@ -60,15 +60,9 @@ export default class CommentCard extends Component.extend({
         this.toast.success(this.i18n.t('registries.overview.comments.retract_report.success'));
     }),
     loadReplies: task(function *(this: CommentCard, more = false) {
-        let replies = yield this.comment.replies;
-
-        if (!more && replies) {
-            this.set('replies', replies);
-            return;
-        }
-
-        replies = yield this.comment.queryHasMany('replies', {
-            page: more ? this.incrementProperty('page') : this.set('page', 1),
+        const replies = yield this.comment.queryHasMany('replies', {
+            page: this.incrementProperty('page'),
+            embed: ['user'],
         });
 
         if (more && this.replies) {
@@ -93,7 +87,7 @@ export default class CommentCard extends Component.extend({
     replies!: QueryHasManyResult<Comment>;
     abuseCategories: AbuseCategories[] = Object.values(AbuseCategories);
 
-    page: number = 1;
+    page: number = 0;
     reporting?: boolean = false;
     showReplies?: boolean = false;
 
@@ -159,6 +153,16 @@ export default class CommentCard extends Component.extend({
             isAbuse: true,
             hasReport: true,
         });
+        this.set('reporting', false);
+    }
+
+    @action
+    toggleReplies() {
+        this.toggleProperty('showReplies');
+
+        if (this.showReplies) {
+            this.loadReplies.perform();
+        }
     }
 
     @action

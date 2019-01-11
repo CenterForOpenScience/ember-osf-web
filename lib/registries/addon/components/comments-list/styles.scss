@@ -1,10 +1,7 @@
-.CommentList {
-    margin: 15px 0;
-}
+.CommentsList {
+    margin-bottom: 25px;
 
-.Title {
-    font-size: 16px;
-    color: $midnight-blue;
-    text-align: center;
-    word-wrap: break-word;
+    ul {
+        margin: 0;
+    }
 }

@@ -1,52 +1,62 @@
 {{#if this.loading}}
-    <LoadingIndicator @dark={{true}} />
+    <ContentPlaceholders as |placeholder|>
+        {{placeholder.heading img=true}}
+        {{placeholder.text lines=3}}
+    </ContentPlaceholders>
 {{else}}
-    {{#if this.isAbuse}}
-        <div local-class="CommentRestore">
-            <span>{{t "registries.overview.comments.comment_abuse"}}</span>
-            {{#if this.currentUserHasReported}}
-                <a role="button" onclick={{perform this.submitRetractReport}}>
-                    {{t "registries.overview.comments.comment_abuse_action"}}
-                </a>
-            {{/if}}
-        </div>
-    {{else}}
-        <div local-class="Comment">
-            <div local-class="CommentHeader">
+    <div local-class='Comment' data-analytics-scope='Comment'>
+        {{#if this.isAbuse}}
+            <div local-class='CommentRestore'>
+                <span>{{t 'registries.overview.comments.comment_abuse'}}</span>
+                {{#if this.currentUserHasReported}}
+                    <OsfButton
+                        data-analytics-name='Retract report'
+                        @type='link'
+                        @onClick={{perform this.submitRetractReport}}
+                    >
+                        {{t 'registries.overview.comments.comment_abuse_action'}}
+                    </OsfButton>
+                {{/if}}
+            </div>
+        {{else}}
+            <div local-class='CommentHeader'>
                 <div>
                     {{#if this.comment.user.profileImage}}
-                        <img data-test-gravatar alt="{{t 'auth_dropdown.user_gravatar'}}" src={{concat this.comment.user.profileImage "&s=30"}}>
+                        <img data-test-gravatar alt='{{t 'auth_dropdown.user_gravatar'}}' src={{concat this.comment.user.profileImage '&s=30'}}>
                     {{/if}}
-                    <a role="link" href={{this.comment.user.profileURL}} local-class="CommentUser">
+                    <Link
+                        @href={{this.comment.user.profileURL}}
+                        local-class='CommentUser'
+                    >
                         {{this.comment.user.fullName}}
-                    </a>
+                    </Link>
                 </div>
                 <div>
                     {{#if this.comment.modified}}
-                        <span local-class="dateModified">
-                            {{#bs-tooltip local-class="Tooltip" placement="left" viewportSelector=(concat "#" this.elementId)}}
+                        <span local-class='dateModified'>
+                            {{#bs-tooltip local-class='Tooltip' placement='left' viewportSelector=(concat '#' this.elementId)}}
                                 {{t 'registries.overview.comments.modified'}}{{this.dateModified}}
                             {{/bs-tooltip}}
                             <sup>{{fa-icon 'asterisk'}}</sup>
                         </span>
                     {{/if}}
-                    <span local-class="dateCreated">
+                    <span local-class='dateCreated'>
                         {{this.dateCreated}}
                     </span>
                 </div>
             </div>
-            <div local-class="CommentContent">
+            <div local-class='CommentContent'>
                 <MarkdownToHtml @markdown={{this.comment.content}} />
                 {{#if this.reporting}}
                     <ValidatedModelForm
-                        @modelName="comment-report"
+                        @modelName='comment-report'
                         @modelProperties={{hash comment=this.comment}}
                         @onSave={{action this.onSave}}
                         @onError={{action this.onError}}
                         as |form|
                     >
                         <form.select
-                            @valuePath="category"
+                            @valuePath='category'
                             @options={{this.abuseCategories}}
                             @searchEnabled={{false}}
                             @placeholder={{t 'registries.overview.comments.category_placeholder'}}
@@ -55,60 +65,83 @@
                             {{t (concat 'registries.overview.comments.abuse_' category)}}
                         </form.select>
                         <form.textarea
-                            @valuePath="message"
+                            @valuePath='message'
                             @label={{t 'registries.overview.comments.report_placeholder'}}
                         />
-                        <div local-class="formButtons">
-                            <button type="cancel" local-class="CommentReport__cancel" class="btn btn-default btn-sm" {{action this.cancelReport}}>
+                        <div local-class='formButtons'>
+                            <OsfButton
+                                local-class='CommentReport__cancel'
+                                @type='default'
+                                @size='sm'
+                                @onClick={{action this.cancelReport}}
+                            >
                                 {{t 'registries.overview.comments.cancel'}}
-                            </button>
-                            <button type="submit" local-class="CommentReport__save" class="btn btn-default btn-sm" disabled={{form.disabled}}>
+                            </OsfButton>
+                            <OsfButton
+                                data-analytics-name='Report comment'
+                                local-class='CommentReport__save'
+                                type='submit'
+                                @type='default'
+                                @size='sm'
+                                @disabled={{form.disabled}}
+                            >
                                 {{t 'registries.overview.comments.report'}}
-                            </button>
+                            </OsfButton>
                         </div>
                     </ValidatedModelForm>
                 {{/if}}
             </div>
             {{#if (not this.reporting)}}
-                <div local-class={{concat "CommentControls " (or (if this.hasReplies '' 'noReplies') (if this.canReport '' 'cantReport'))}}>
-                    {{#if this.canReport}}
-                        <div local-class="CommentControls__report">
-                            <button type="button" class="btn btn-link" onClick={{action 'report'}}>
+                {{!-- <div local-class={{concat 'CommentControls ' (or (if this.hasReplies '' 'noReplies') (if this.canReport '' 'cantReport'))}}> --}}
+                <div local-class='CommentControls'>
+                    <div local-class='CommentControls__report'>
+                        {{#if this.canReport}}
+                            <OsfButton
+                                @type='link'
+                                @onClick={{action this.report}}
+                            >
                                 {{t 'registries.overview.comments.report'}}
-                            </button>
-                        </div>
-                    {{/if}}
-                    {{#if this.hasReplies}}
-                        <div local-class="repliesCount">
-                            <button type="button" class="btn btn-link"
-                                {{action (perform this.loadReplies)}}
-                                {{action (mut this.showReplies) (not this.showReplies)}}
+                            </OsfButton>
+                        {{/if}}
+                    </div>
+                    <div local-class='repliesCount'>
+                        {{#if this.hasReplies}}
+                            <OsfButton
+                                data-analytics-name='View replies'
+                                @type='link'
+                                @onClick={{action this.toggleReplies}}
                             >
                                 {{t (concat 'registries.overview.comments' (if this.showReplies '.hide_replies' '.see_replies'))}}
                                 {{fa-icon (if this.showReplies 'caret-up' 'caret-down')}}
-                            </button>
-                        </div>
-                    {{/if}}
+                            </OsfButton>
+                        {{/if}}
+                    </div>
                 </div>
             {{/if}}
             {{#if this.showReplies}}
                 {{#if this.loadingReplies}}
-                    <LoadingIndicator @dark={{true}} />
+                    <ContentPlaceholders as |placeholder|>
+                        {{placeholder.heading img=true}}
+                        {{placeholder.text lines=3}}
+                    </ContentPlaceholders>
                 {{else}}
                     {{#each this.replies as |reply|}}
-                        <div local-class="CommentReply">
+                        <div local-class='CommentReply'>
                             <CommentCard @comment={{reply}} @node={{@node}} @reload={{@reload}} />
                         </div>
                     {{/each}}
                     {{#if this.hasMoreReplies}}
-                        <div local-class="MoreReplies">
-                            <button type="button" class="btn btn-link" onClick={{action 'more'}}>
+                        <div local-class='MoreReplies'>
+                            <OsfButton
+                                @type='link'
+                                @onClick={{action this.more}}
+                            >
                                 {{t 'registries.overview.comments.load_more'}}
-                            </button>
+                            </OsfButton>
                         </div>
                     {{/if}}
                 {{/if}}
             {{/if}}
-        </div>
-    {{/if}}
+        {{/if}}
+    </div>
 {{/if}}

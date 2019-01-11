@@ -2,6 +2,12 @@ import DS from 'ember-data';
 import { Resource, ResourceCollectionDocument, SingleResourceDocument } from 'osf-api';
 import OsfSerializer from './osf-serializer';
 
+function normalizeId(resource: Resource): string {
+    const commentId = resource.links!.self.split('/').reverse()[2];
+    const resourceId = resource.id;
+    return `${resourceId}-${commentId}-${Date.now()}`;
+}
+
 export default class CommentReportSerializer extends OsfSerializer {
     // Upon creating a report the api returns report object with id corresponding
     // to currentUser id. Problematic since the currentUser can create
@@ -18,8 +24,7 @@ export default class CommentReportSerializer extends OsfSerializer {
         requestType: string,
     ): any {
         if (payload.data.id) {
-            const commentId = payload.data.links!.self.split('/').reverse()[3];
-            payload.data.id = `${payload.data.id}-${commentId}-${Date.now()}`; // eslint-disable-line no-param-reassign
+            payload.data.id = normalizeId(payload.data); // eslint-disable-line no-param-reassign
         }
         return super.normalizeSingleResponse(store, primaryModelClass, payload, id, requestType);
     }
@@ -32,10 +37,8 @@ export default class CommentReportSerializer extends OsfSerializer {
         requestType: string,
     ): any {
         payload.data.forEach((resource: Resource) => {
-            const commentId = resource.links!.self.split('/').reverse()[3];
-            resource.id = `${resource.id}-${commentId}-${Date.now()}`; // eslint-disable-line no-param-reassign
+            resource.id = normalizeId(resource); // eslint-disable-line no-param-reassign
         });
-
         return super.normalizeArrayResponse(store, primaryModelClass, payload, id, requestType);
     }
 }
