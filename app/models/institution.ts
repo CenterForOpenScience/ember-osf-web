@@ -7,10 +7,12 @@ import OsfModel from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
 
+/* eslint-disable camelcase */
 export interface Assets {
     logo: string;
-    logoRounded: string;
+    logo_rounded: string;
 }
+/* eslint-enable camelcase */
 
 export default class InstitutionModel extends OsfModel {
     @attr('string') name!: string;
@@ -39,10 +41,10 @@ export default class InstitutionModel extends OsfModel {
         }
     }
 
-    @computed('assets', 'assets.logoRounded', 'logoUrl')
+    @computed('assets', 'assets.logo_rounded', 'logoUrl')
     get logoRoundedUrl(): string {
-        if (this.assets && this.assets.logoRounded) {
-            return this.assets.logoRounded;
+        if (this.assets && this.assets.logo_rounded) {
+            return this.assets.logo_rounded;
         } else {
             return this.logoUrl;
         }
