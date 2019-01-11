@@ -97,7 +97,6 @@ export default class NewProjectModal extends Component.extend({
     // Private fields
     nodeTitle?: string;
     description?: string;
-    styleNamespace?: string;
     more: boolean = false;
     templateFrom?: Node;
     selectedRegion?: Region;

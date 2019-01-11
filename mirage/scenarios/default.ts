@@ -23,7 +23,7 @@ export default function(server: Server) {
         currentUser = server.create('user');
         server.create('root', { currentUser: null });
     } else {
-        currentUser = server.create('user', 'loggedIn');
+        currentUser = server.create('user', 'loggedIn', 'withInstitutions');
     }
 
     server.create('user-setting', { user: currentUser });
