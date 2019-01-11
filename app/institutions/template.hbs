@@ -29,7 +29,9 @@
                             <div local-class='Institutions__table'>
                                 <div class='row'>
                                     <div class='col-xs-3' local-class='Institutions__sorting'>
-                                        {{t 'institutions.title'}}
+                                        <span local-class='Institutions__browser_title'>
+                                            {{t 'institutions.title'}}
+                                        </span>
                                         <SortButton @sortAction={{action this.sort}} @sort={{this.sortOrder}} @sortBy='title' />
                                     </div>
                                     <div class='col-xs-9 filter-input'>
