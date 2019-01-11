@@ -4,7 +4,7 @@ import Route from '@ember/routing/route';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class SettingsTokensCreateRoute extends Route {
+export default class RegistriesDiscoverRoute extends Route {
     @service analytics!: Analytics;
 
     @action

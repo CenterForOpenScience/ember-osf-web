@@ -4,6 +4,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 const sessionStub = Service.extend({
     isAuthenticated: false,
@@ -58,17 +59,16 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
 
     test('onLinkClicked called', async function(assert) {
         this.owner.lookup('service:session').set('isAuthenticated', true);
-        this.owner.register('service:analytics', Service.extend({
-            clickCalled: false,
-            click() {
-                this.set('clickCalled', true);
-            },
-        }));
+
+        let clickCalled = false;
+        sinon.stub(this.owner.lookup('service:analytics'), 'click').callsFake(() => {
+            clickCalled = true;
+        });
 
         await render(hbs`{{osf-navbar/auth-dropdown}}`);
 
-        assert.ok(!this.owner.lookup('service:analytics').clickCalled);
+        assert.ok(!clickCalled);
         await click('.fa-life-ring');
-        assert.ok(this.owner.lookup('service:analytics').clickCalled);
+        assert.ok(clickCalled);
     });
 });

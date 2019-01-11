@@ -21,7 +21,10 @@ export default class GuidNodeRegistrations extends Route {
     }
 
     @action
-    didTransition() {
-        this.analytics.trackPage(true);
+    async didTransition() {
+        const { taskInstance } = this.controller.model as GuidRouteModel<Node>;
+        await taskInstance;
+        const node = taskInstance.value;
+        this.analytics.trackPage(node ? node.public : undefined, 'nodes');
     }
 }

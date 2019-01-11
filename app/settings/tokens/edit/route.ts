@@ -4,6 +4,8 @@ import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { task } from 'ember-concurrency';
 
+import Analytics from 'ember-osf-web/services/analytics';
+
 import SettingsTokensEditController from './controller';
 
 export default class SettingsTokensEditRoute extends Route.extend({
@@ -16,6 +18,7 @@ export default class SettingsTokensEditRoute extends Route.extend({
         }
     }),
 }) {
+    @service analytics!: Analytics;
     @service router!: RouterService;
 
     model(this: SettingsTokensEditRoute, params: { token_id: string }) {
@@ -34,5 +37,10 @@ export default class SettingsTokensEditRoute extends Route.extend({
     @action
     refreshRoute() {
         this.refresh();
+    }
+
+    @action
+    didTransition() {
+        this.analytics.trackPage();
     }
 }

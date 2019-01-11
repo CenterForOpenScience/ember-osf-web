@@ -114,7 +114,7 @@ export class RegistrationForm {
 /* eslint-enable no-useless-constructor, no-empty-function */
 @tagName('')
 @layout(template)
-export default class RegistrationSchemaView extends Component {
+export default class RegistrationFormView extends Component {
     schema!: Schema;
     answers!: RegistrationMetadata;
 

@@ -9,6 +9,6 @@ export default class Support extends Route {
 
     @action
     didTransition(this: Support) {
-        this.get('analytics').trackPage();
+        this.analytics.trackPage();
     }
 }

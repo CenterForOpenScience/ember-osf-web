@@ -29,6 +29,6 @@ export default class Dashboard extends Route {
 
     @action
     didTransition(this: Dashboard) {
-        this.get('analytics').trackPage();
+        this.analytics.trackPage();
     }
 }
