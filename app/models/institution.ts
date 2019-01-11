@@ -9,6 +9,7 @@ import UserModel from './user';
 
 export interface Assets {
     logo: string;
+    logoRounded: string;
 }
 
 export default class InstitutionModel extends OsfModel {
@@ -35,6 +36,15 @@ export default class InstitutionModel extends OsfModel {
             return this.logoPath;
         } else {
             return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
+        }
+    }
+
+    @computed('assets', 'assets.logo', 'assets.logoRounded', 'logoPath', 'id')
+    get logoRoundedUrl(): string {
+        if (this.assets && this.assets.logoRounded) {
+            return this.assets.logoRounded;
+        } else {
+            return this.logoUrl;
         }
     }
 }
