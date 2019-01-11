@@ -12,7 +12,7 @@ const Validations = buildValidations({
     homeUrl: [
         validator('presence', true),
         validator('length', { min: 1, max: 200 }),
-        validator('format', { type: 'url' }),
+        validator('httpUrl'),
     ],
     description: [
         validator('length', { min: 0, max: 1000 }),
@@ -20,7 +20,7 @@ const Validations = buildValidations({
     callbackUrl: [
         validator('presence', true),
         validator('length', { min: 1, max: 200 }),
-        validator('format', { type: 'url' }),
+        validator('httpUrl', { requireHttps: true }),
     ],
 });
 

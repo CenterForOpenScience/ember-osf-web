@@ -1,9 +1,7 @@
 {{title (t 'settings.tokens.title')}}
-<div class='panel panel-default'>
-    <div class='panel-heading clearfix'>
-        <h3 class='panel-title'>{{t 'settings.tokens.title'}}</h3>
-    </div>
-    <div class='panel-body'>
+<Panel as |panel|>
+    <panel.heading @title={{t 'settings.tokens.title'}} />
+    <panel.body>
         {{outlet}}
-    </div>
-</div>
+    </panel.body>
+</Panel>
