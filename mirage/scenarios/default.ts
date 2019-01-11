@@ -17,7 +17,8 @@ const {
 } = config;
 
 export default function(server: Server) {
-    const currentUser = defaultLoggedOut ? server.create('user') : server.create('user', 'loggedIn');
+    const userTraits = defaultLoggedOut ? [] : ['loggedIn', 'withInstitutions'];
+    const currentUser = server.create('user', ...userTraits);
 
     server.create('user-setting', { user: currentUser });
     const registrationNode = server.create('node', { id: 'regis', currentUserPermissions: Object.values(Permission) });
