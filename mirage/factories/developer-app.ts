@@ -12,8 +12,12 @@ export default Factory.extend<DeveloperApp>({
     },
 
     description: faker.lorem.sentence,
+
     homeUrl: faker.internet.url,
-    callbackUrl: faker.internet.url,
+
+    callbackUrl() {
+        return `https://${faker.internet.domainName()}`;
+    },
 
     clientId() {
         return faker.internet.ip();
