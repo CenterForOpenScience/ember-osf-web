@@ -7,6 +7,7 @@
                 {{this.model.file.name}}
                 <OsfButton
                     local-class='TitleBar__version-link'
+                    @bubble={{true}}
                     @type='link'
                     @onClick={{action 'changeView' 'revision'}}
                 >
@@ -15,12 +16,13 @@
             </h2>
         </div>
         <div local-class='TitleBar__buttons'>
-            <div id='toggleBar' class='pull-right'>
+            <div class='pull-right'>
                 <div class='btn-toolbar m-t-md'>
                     {{#if this.canDelete}}
                         <div class='btn-group m-l-xs m-t-xs'>
                             <OsfButton 
                                 data-test-delete-button
+                                @bubble={{true}}
                                 @type='default'
                                 @size='sm'
                                 @onClick={{action this.openDeleteModal}}
@@ -32,6 +34,7 @@
                     <div class='btn-group m-l-xs m-t-xs'>
                         <OsfButton 
                             data-test-download-button
+                            @bubble={{true}}
                             @type='primary'
                             @size='sm'
                             @onClick={{action this.download this.model.file.currentVersion}}
@@ -47,17 +50,20 @@
                             {{#if this.canEdit}}
                                 <OsfButton
                                     local-class='TitleBar__button-label'
+                                    @bubble={{true}}
                                     @disabled={{true}}
                                 >
                                     {{t 'file_detail.toggle'}}
                                 </OsfButton>
                                 <OsfButton
+                                    @bubble={{true}}
                                     @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'view'}}
                                 >
                                     {{t 'general.view'}}
                                 </OsfButton>
                                 <OsfButton
+                                    @bubble={{true}}
                                     @type='{{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'edit'}}
                                 >
@@ -65,6 +71,7 @@
                                 </OsfButton>
                             {{else}}
                                 <OsfButton
+                                    @bubble={{true}}
                                     @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'view'}}
                                 >
@@ -75,6 +82,7 @@
                     {{else}}
                         <div class='btn-group m-l-xs m-t-xs'>
                             <OsfButton
+                                @bubble={{true}}
                                 @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                 @size='sm'
                                 @onClick={{action this.changeView 'view'}}
@@ -86,6 +94,7 @@
                     <div class='btn-group m-l-xs m-t-xs'>
                         <OsfButton
                             data-test-revisions-tab
+                            @bubble={{true}}
                             @type='{{if (eq this.show 'revision') 'primary' 'default'}}'
                             @size='sm'
                             @onClick={{action this.changeView 'revision'}}
@@ -191,7 +200,7 @@
                 </div>
             {{/if}}
             {{#if (eq this.show 'revision')}}
-                <div id='revisionsPanel' class='panel panel-default' local-class='RevisionsPanel'>
+                <div class='panel panel-default' local-class='RevisionsPanel'>
                     <div class='clearfix' local-class='TagsPanel__heading'>
                         <h3 class='panel-title'>
                             {{t 'general.revisions'}}
