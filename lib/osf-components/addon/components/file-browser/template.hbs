@@ -68,12 +68,11 @@
                 {{! TODO: show available actions for selected files }}
                 {{#if (eq this.selectedItems.length 1)}}
                     <OsfButton 
-                        data-test-share-dialog-button 
+                        data-test-share-dialog-button
                         data-analytics-name='Share'
-                        id='shareButton' 
                         local-class='action-button' 
                         @class='popover-toggler' 
-                        @onClick={{action this.copyLink}}
+                        @onClick={{action this.openSharePopup}}
                     >
                         {{fa-icon 'share-alt'}}
                         {{t 'general.share'}}

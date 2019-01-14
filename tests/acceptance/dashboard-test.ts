@@ -290,8 +290,32 @@ module('Acceptance | dashboard', hooks => {
         assert.equal(newNode.attrs.regionId, 'us');
     });
 
-    // TODO: When we have fake institutions connected to users, add tests for selecting and deselecting institutions
-    // in the create project modal.
+    test('create project modal institution selection', async assert => {
+        server.loadFixtures('regions');
+        server.create('user', 'loggedIn', 'withInstitutions');
+        await visit('/dashboard');
+        await click('[data-test-create-project-modal-button]');
+        assert.dom('[data-test-institution-selected="selected"]')
+            .exists({ count: 5 }, 'Initial state everything selected');
+        assert.dom('[data-test-institution-selected="not-selected"]')
+            .doesNotExist('Initial state nothing not-selected');
+        await click('[data-test-institution-button-row]:nth-child(1) button');
+        assert.dom('[data-test-institution-selected="selected"]')
+            .exists({ count: 4 }, 'Clicked first item so 4 selected');
+        assert.dom('[data-test-institution-selected="not-selected"]')
+            .exists({ count: 1 }, 'Clicked first item so one notselected');
+        await percySnapshot(assert);
+        await click('[data-analytics-name="Remove all institutions"]');
+        assert.dom('[data-test-institution-selected="selected"]')
+            .doesNotExist('Clicked remove all so none selected');
+        assert.dom('[data-test-institution-selected="not-selected"]')
+            .exists({ count: 5 }, 'Clicked remove all so all not-selected');
+        await click('[data-analytics-name="Select all institutions"]');
+        assert.dom('[data-test-institution-selected="selected"]')
+            .exists({ count: 5 }, 'Clicked select all so all selected');
+        assert.dom('[data-test-institution-selected="not-selected"]')
+            .doesNotExist('Clicked select all so none not-selected');
+    });
 
     test('create project modal cancel does not create project', async assert => {
         server.loadFixtures('regions');
