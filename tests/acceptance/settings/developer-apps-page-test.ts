@@ -1,9 +1,9 @@
-import { click, currentURL, fillIn, settled, visit, waitFor } from '@ember/test-helpers';
+import { currentURL, fillIn, settled, visit, waitFor } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 module('Acceptance | settings | developer apps', hooks => {
     setupOSFApplicationTest(hooks);

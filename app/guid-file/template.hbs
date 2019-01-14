@@ -1,11 +1,12 @@
 {{title this.model.file.name}}
 <div class='container'>
     <QuickfileNav @user={{this.model.user}} @onQuickfiles={{false}} />
-    <div local-class='TitleBar'>
-        <div local-class='TitleBar__title'>
+    <div data-analytics-scope='Title bar' local-class='TitleBar'>
+        <div data-analytics-scope='Title' local-class='TitleBar__title'>
             <h2>
                 {{this.model.file.name}}
                 <OsfButton
+                    data-analytics-name='Version'
                     local-class='TitleBar__version-link'
                     @type='link'
                     @onClick={{action 'changeView' 'revision'}}
@@ -14,12 +15,13 @@
                 </OsfButton>
             </h2>
         </div>
-        <div local-class='TitleBar__buttons'>
+        <div data-analytics-scope='buttons' local-class='TitleBar__buttons'>
             <div id='toggleBar' class='pull-right'>
                 <div class='btn-toolbar m-t-md'>
                     {{#if this.canDelete}}
                         <div class='btn-group m-l-xs m-t-xs'>
-                            <OsfButton 
+                            <OsfButton
+                                data-analytics-name='Delete'
                                 data-test-delete-button
                                 @type='default'
                                 @size='sm'
@@ -30,7 +32,8 @@
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <OsfButton 
+                        <OsfButton
+                            data-analytics-name='Download'
                             data-test-download-button
                             @type='primary'
                             @size='sm'
@@ -46,18 +49,21 @@
                         <div class='btn-group btn-group-sm m-t-xs'>
                             {{#if this.canEdit}}
                                 <OsfButton
+                                    data-analytics-name='Toggle'
                                     local-class='TitleBar__button-label'
                                     @disabled={{true}}
                                 >
                                     {{t 'file_detail.toggle'}}
                                 </OsfButton>
                                 <OsfButton
+                                    data-analytics-name='View'
                                     @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'view'}}
                                 >
                                     {{t 'general.view'}}
                                 </OsfButton>
                                 <OsfButton
+                                    data-analytics-name='Edit'
                                     @type='{{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'edit'}}
                                 >
@@ -65,6 +71,7 @@
                                 </OsfButton>
                             {{else}}
                                 <OsfButton
+                                    data-analytics-name='View'
                                     @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'view'}}
                                 >
@@ -75,6 +82,7 @@
                     {{else}}
                         <div class='btn-group m-l-xs m-t-xs'>
                             <OsfButton
+                                data-analytics-name='View'
                                 @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                 @size='sm'
                                 @onClick={{action this.changeView 'view'}}
@@ -85,6 +93,7 @@
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
                         <OsfButton
+                            data-analytics-name='Revisions tab'
                             data-test-revisions-tab
                             @type='{{if (eq this.show 'revision') 'primary' 'default'}}'
                             @size='sm'
@@ -98,6 +107,7 @@
         </div>
     </div>
     <BsModal
+        data-analytics-scope='Delete file modal'
         @open={{this.deleteModalOpen}}
         @onSubmit={{action this.delete}}
         @onHidden={{action this.closeDeleteModal}}
@@ -111,6 +121,7 @@
         </modal.body>
         <modal.footer>
             <OsfButton
+                data-analytics-name='Close'
                 @onClick={{action modal.close}}
                 @type='default'
             >
@@ -129,6 +140,7 @@
     <div class='row' local-class='Main'>
         <div class='col-md-3' local-class='Sidebar'>
             <FileList
+                data-analytics-scope='File list'
                 @items={{this.files}}
                 @filter={{this.filter}}
                 @selectedFile={{this.model.file}}
@@ -139,7 +151,7 @@
                 @openFile={{action this.openFile}}
             />
             {{#if (or this.canEdit this.file.tags)}}
-                <div class='panel panel-default' local-class='TagsPanel'>
+                <div data-analytics-scope='Tags' class='panel panel-default' local-class='TagsPanel'>
                     <div class='panel-heading clearfix' local-class='TagsPanel__heading'>
                         <h3 class='panel-title'>{{t 'file_detail.tags'}}</h3>
                     </div>
@@ -179,7 +191,8 @@
                     (eq this.show 'view_edit')
                 )
             )}}
-                <div 
+                <div
+                    data-analytics-scope='Edit panel'
                     class='panel panel-default {{if (and (eq this.show 'view_edit') this.canEdit) 'col-sm-6'}}'
                     local-class='EditPanel'
                 >
@@ -192,7 +205,12 @@
                 </div>
             {{/if}}
             {{#if (eq this.show 'revision')}}
-                <div id='revisionsPanel' class='panel panel-default' local-class='RevisionsPanel'>
+                <div
+                    data-analytics-scope='Revisions panel'
+                    id='revisionsPanel'
+                    class='panel panel-default'
+                    local-class='RevisionsPanel'
+                >
                     <div class='clearfix' local-class='TagsPanel__heading'>
                         <h3 class='panel-title'>
                             {{t 'general.revisions'}}

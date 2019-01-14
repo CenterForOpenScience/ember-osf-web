@@ -42,6 +42,7 @@
                 </tab.pane>
                 {{#if this.node.userHasAdminPermission}}
                     <tab.pane
+                        data-analytics-scope='Drafts tab'
                         @id='drafts'
                         @title={{t 'node.registrations.draft_registrations'}}
                     >
@@ -78,6 +79,7 @@
             <div class='col-xs-3 col-sm-4'>
                 <OsfButton
                     data-test-new-registration-button
+                    data-analytics-name='New registration'
                     @type='success'
                     @onClick={{action this.openNewModal}}
                 >
@@ -85,6 +87,7 @@
                 </OsfButton>
                 <BsModal
                     data-test-new-registration-modal
+                    data-analytics-scope='New registration modal'
                     @size='lg'
                     @open={{this.newModalOpen}}
                     @onSubmit={{action this.createDraft}}
@@ -127,14 +130,16 @@
                         </div>
                     </modal.body>
                     <modal.footer data-test-new-registration-modal-footer>
-                        <OsfButton 
+                        <OsfButton
                             data-test-new-registration-modal-cancel-button
+                            data-analytics-name='Close'
                             @onClick={{action modal.close}}
                         >
                             {{t 'general.cancel'}}
                         </OsfButton>
                         <OsfButton
                             data-test-new-registration-modal-create-draft-button
+                            data-analytics-name='Create'
                             @onClick={{action modal.submit}}
                             @type='info'
                         >
@@ -144,6 +149,7 @@
                 </BsModal>
                 <BsModal
                     data-test-prereg-challenge-modal
+                    data-analytics-scope='Prereg Challenge modal'
                     @size='lg'
                     @open={{this.preregModalOpen}}
                     @onSubmit={{action this.createDraft}}
@@ -186,12 +192,14 @@
                             <div class='col-lg-10 col-lg-offset-1'>
                                 <OsfButton
                                     data-test-prereg-challenge-modal-cancel-button
+                                    data-analytics-name='Close'
                                     @onClick={{action modal.close}}
                                 >
                                     {{t 'general.cancel'}}
                                 </OsfButton>
                                 <OsfButton
                                     data-test-prereg-challenge-modal-continue-button
+                                    data-analytics-name='Continue'
                                     @onClick={{action modal.submit}}
                                     @type='info'
                                     @disabled={{not this.preregConsented}}
@@ -209,6 +217,7 @@
         <div class='row'>
             {{t 'node.registrations.register_entire_project' rootNodeTitle=this.node.root.title}}
             <OsfLink
+                data-analytics-name='Go to registation'
                 @route='guid-node.registrations'
                 @models={{array this.node.root.id}}
             >

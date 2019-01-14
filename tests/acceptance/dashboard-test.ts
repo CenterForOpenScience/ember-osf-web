@@ -1,11 +1,11 @@
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { click as untrackedClick, currentURL, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { module, test } from 'qunit';
 
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 const {
     dashboard: {
@@ -58,7 +58,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('[data-test-institution-carousel-item="6"]').isNotVisible();
 
         // Click next to make item six visible
-        await click('.carousel-control.right');
+        await untrackedClick('.carousel-control.right');
 
         assert.dom(`[data-test-institution-carousel-item] a[href="/institutions/${institutions[6].id}/"]`)
             .exists('Institutions are linked properly');
@@ -318,7 +318,7 @@ module('Acceptance | dashboard', hooks => {
             .includesText('You have no projects yet. Create a project with the button on the top right.');
         await click('[data-analytics-name="create_new_project"]');
         await fillIn('[data-test-new-project-title]', title);
-        await click('button[class*="close"]');
+        await untrackedClick('button[class*="close"]');
         assert.dom('[data-test-create-project-header]').doesNotExist();
         assert.dom('[data-test-stay-here]').doesNotExist();
         assert.dom('div[class*="quick-project"]')
@@ -367,7 +367,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('[data-test-select-storage-location] span[class~="ember-power-select-selected-item"]')
             .hasText('United States');
         await fillIn('[data-test-new-project-title]', title);
-        await click('[data-test-select-storage-location] div[class~="ember-power-select-trigger"]');
+        await untrackedClick('[data-test-select-storage-location] div[class~="ember-power-select-trigger"]');
         await selectChoose('[data-test-select-storage-location]', location);
         assert.dom('[data-test-select-storage-location] span[class~="ember-power-select-selected-item"]')
             .hasText(location);
@@ -378,7 +378,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('[data-test-project-description-input]').exists();
         assert.dom('[data-test-select-template]').exists();
         await fillIn('[data-test-project-description-input]', description);
-        await click('[data-test-select-template] div[class~="ember-power-select-trigger"]');
+        await untrackedClick('[data-test-select-template] div[class~="ember-power-select-trigger"]');
         await selectSearch('[data-test-select-template]', templatedFrom);
         await percySnapshot(assert);
         await selectChoose('[data-test-select-template]', templatedFrom);

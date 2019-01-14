@@ -1,4 +1,4 @@
-import { click, currentRouteName } from '@ember/test-helpers';
+import { click as untrackedClick, currentRouteName } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -9,7 +9,7 @@ import {
     registerNode,
     registerNodeMultiple,
 } from 'ember-osf-web/mirage/helpers';
-import { currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
+import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -82,7 +82,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-button]').exists();
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -132,7 +132,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-node-card-body]').includesText(registrationTitle);
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -179,7 +179,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-node-card]').includesText(node.title);
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -219,7 +219,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-button]').exists({ count: 1 });
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
 
@@ -267,7 +267,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-button]').exists({ count: 1 });
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
 
@@ -335,11 +335,11 @@ module('Acceptance | guid-node/registrations', hooks => {
         // Test prereg challenge modal twice to make sure state is reset
         for (let i = 0; i < 2; i++) {
             await click('[data-test-new-registration-button]');
-            await click('[data-test-new-registration-modal-schema="Prereg Challenge"] input');
+            await untrackedClick('[data-test-new-registration-modal-schema="Prereg Challenge"] input');
             await click('[data-test-new-registration-modal-create-draft-button]');
             assert.dom('[data-test-prereg-challenge-modal-body]').isVisible();
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isDisabled();
-            await click('[data-test-prereg-challenge-modal-consent-checkbox]');
+            await untrackedClick('[data-test-prereg-challenge-modal-consent-checkbox]');
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isNotDisabled();
             await click('[data-test-prereg-challenge-modal-cancel-button]');
             assert.dom('[data-test-prereg-challenge-modal-body]').isNotVisible();

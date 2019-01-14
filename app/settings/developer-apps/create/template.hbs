@@ -10,6 +10,7 @@
 <h4>{{t 'settings.developer-apps.createApp'}}</h4>
 
 <ValidatedModelForm
+    data-analytics-scope='Create form'
     @modelName='developer-app'
     @onSave={{action this.onSave}}
     as |form|
@@ -38,6 +39,7 @@
     <div>
         <OsfButton
             data-test-create-developer-app-button
+            data-analytics-name='Create'
             @type='primary'
             @buttonType='submit'
             @disabled={{form.submitting}}

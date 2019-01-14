@@ -1,4 +1,4 @@
-import { click, fillIn, find, render, triggerKeyEvent } from '@ember/test-helpers';
+import { click as untrackedClick, fillIn, find, render, triggerKeyEvent } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -121,6 +121,6 @@ module('Integration | Component | tags-widget', hooks => {
 
         assert.dom('[data-test-tags-widget-tag-input]').exists();
 
-        await click(`[data-test-tags-widget-tag="${removeTag}"] + a`);
+        await untrackedClick(`[data-test-tags-widget-tag="${removeTag}"] + a`);
     });
 });

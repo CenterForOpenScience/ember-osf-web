@@ -1,9 +1,11 @@
 import Service from '@ember/service';
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+
+import { click } from 'ember-osf-web/tests/helpers';
 
 import { OsfLinkRouterStub } from '../../../helpers/osf-link-router-stub';
 

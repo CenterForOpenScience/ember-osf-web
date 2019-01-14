@@ -1,24 +1,27 @@
-<div local-class='Top'>
-    <p local-class='Top__explanation'>
-        {{t 'settings.developer-apps.explanation'}}
-    </p>
-    <OsfLink
-        data-test-create-app-link
-        class='btn btn-primary'
-        @route='settings.developer-apps.create'
-    >
-        {{t 'settings.developer-apps.createApp'}}
-    </OsfLink>
-</div>
+<div data-analytics-context='Developer Apps'>
+    <div local-class='Top'>
+        <p local-class='Top__explanation'>
+            {{t 'settings.developer-apps.explanation'}}
+        </p>
+        <OsfLink
+            data-test-create-app-link
+            data-analytics-name='Create app'
+            class='btn btn-primary'
+            @route='settings.developer-apps.create'
+        >
+            {{t 'settings.developer-apps.createApp'}}
+        </OsfLink>
+    </div>
 
-{{#paginated-list/all
-    modelName='developer-app'
-    as |list|
-}}
-    {{#list.item as |developerApp|}}
-        {{settings/developer-apps/-components/app-card
-            developerApp=developerApp
-            onDelete=(action list.doReload)
-        }}
-    {{/list.item}}
-{{/paginated-list/all}}
+    {{#paginated-list/all
+        modelName='developer-app'
+        as |list|
+    }}
+        {{#list.item as |developerApp|}}
+            {{settings/developer-apps/-components/app-card
+                developerApp=developerApp
+                onDelete=(action list.doReload)
+            }}
+        {{/list.item}}
+    {{/paginated-list/all}}
+</div>

@@ -1,9 +1,10 @@
-<div class='osf-nav-wrapper'>
+<div data-analytics-scope='Nav bar' class='osf-nav-wrapper'>
     <nav class='navbar navbar-inverse navbar-fixed-top' id='navbarScope' role='navigation'>
         <div class='container'>
             <div class='navbar-header'>
                 <OsfLink 
                     data-test-nav-home-link
+                    data-analytics-name='Home'
                     aria-label={{t 'navbar.go_home'}}
                     class='navbar-brand'
                     @route='home'
@@ -13,6 +14,7 @@
                 {{! Current app }}
                 <div class='service-name'>
                     <OsfLink
+                        data-analytics-name={{this._activeService.name}}
                         @route={{this._activeService.route}}
                         @href={{this._activeService.href}}
                     >
@@ -23,6 +25,7 @@
 
                 {{! App list dropdown }}
                 <BsDropdown
+                    data-analytics-scope='Primary dropdown'
                     @classNames='dropdown primary-nav'
                     @onShow={{action this.onClickPrimaryDropdown}}
                     as |dd|
@@ -37,6 +40,7 @@
                         {{#each this.services as |service|}}
                             <ddm.item role='menuitem'>
                                 <OsfLink
+                                    data-analytics-name={{service.name}}
                                     @route={{service.route}}
                                     @href={{service.href}}
                                 >
@@ -49,6 +53,7 @@
 
                 {{! Navigation toggle - XS screen }}
                 <OsfButton
+                    data-analytics-name='Toggle secondary nav xs'
                     aria-label={{t 'navbar.toggle_secondary'}}
                     local-class='NavbarToggleXS'
                     @class='navbar-toggle collapsed'

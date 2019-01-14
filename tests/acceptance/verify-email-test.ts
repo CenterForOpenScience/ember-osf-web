@@ -1,4 +1,4 @@
-import { click, visit } from '@ember/test-helpers';
+import { visit } from '@ember/test-helpers';
 
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -7,7 +7,7 @@ import { module, test } from 'qunit';
 
 import User from 'ember-osf-web/models/user';
 import UserEmail from 'ember-osf-web/models/user-email';
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 function unverifiedEmails(user: ModelInstance<User>) {
     return (user.emails.models as Array<ModelInstance<UserEmail>>)

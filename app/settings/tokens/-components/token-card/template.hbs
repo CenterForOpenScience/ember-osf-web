@@ -1,7 +1,12 @@
-<div data-test-token-card={{@token.id}} local-class='TokenCard'>
+<div
+    data-test-token-card={{@token.id}}
+    data-analytics-scope='Token card'
+    local-class='TokenCard'
+>
     {{#if @token}}
         <OsfLink
             data-test-token-link={{@token.id}}
+            data-analytics-name='Token name'
             @route='settings.tokens.edit'
             @models={{array @token.id}}
         >

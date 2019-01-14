@@ -7,8 +7,9 @@
         {{file-icon item=this.item}}
         <OsfButton
             data-test-file-item-link
+            data-analytics-name='Filename'
             local-class='filename-link'
-            @type=link
+            @type='link'
             @onClick={{action 'open' preventDefault='true'}}
         >
             {{this.item.itemName}}

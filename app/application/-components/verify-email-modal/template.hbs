@@ -1,5 +1,6 @@
 {{#if (and this.shouldShowModal this.userEmail)}}
     <BsModal
+        data-analytics-scope='Verify email modal'
         @backdropClose={{false}}
         as |modal|
     >
@@ -14,6 +15,7 @@
         <modal.footer>
             <OsfButton
                 data-test-deny-email
+                data-analytics-name='Deny'
                 @disabled={{this.disableButtons}}
                 @onClick={{action this.deny}}
             >
@@ -21,6 +23,7 @@
             </OsfButton>
             <OsfButton
                 data-test-verify-email
+                data-analytics-name='Verify'
                 @type='primary'
                 @disabled={{this.disableButtons}}
                 @onClick={{action this.verify}}

@@ -1,5 +1,6 @@
 <Panel
     data-test-security-panel
+    data-analytics-scope='Security Panel'
     local-class='SecurityPanel'
     as |panel|
 >
@@ -15,6 +16,7 @@
                 {{#if this.settings.twoFactorEnabled}}
                     <BsButton
                         data-test-two-factor-disable-button
+                        data-analytics-name='Disable two-factor'
                         @type='danger'
                         @size='xs'
                         @onClick={{action this.disableTwoFactor}}
@@ -24,6 +26,7 @@
                 {{else}}
                     <BsButton
                         data-test-two-factor-enable-button
+                        data-analytics-name='Configure two-factor'
                         @onClick={{action this.enableTwoFactor}}
                         local-class='EnableButton'
                         @size='xs'
@@ -56,6 +59,7 @@
                     @correctLevel='L'
                 />
                 <ValidatedModelForm
+                    data-analytics-scope='Verification form'
                     @model={{this.settings}}
                     @onSave={{action this.verifySecret}}
                     @onError={{action this.verificationError}}
@@ -78,6 +82,7 @@
                         {{/if}}
                         <BsButton
                             data-test-verify-button
+                            data-analytics-name='Submit verification'
                             @type='primary'
                             @buttonType='submit'
                             @disabled={{form.submitting}}
@@ -93,6 +98,7 @@
 
 <BsModal
     data-test-confirm-enable-modal
+    data-analytics-scope='Confirm enable two factor modal'
     @open={{this.showEnableWarning}}
     as |modal|
 >
@@ -107,12 +113,14 @@
     <modal.footer>
         <BsButton
             data-test-enable-warning-cancel
+            data-analytics-name='Cancel'
             @onClick={{action this.hideDialogs}}
         >
             {{t 'general.cancel'}}
         </BsButton>
         <BsButton
             data-test-enable-warning-confirm
+            data-analytics-name='Enable'
             @onClick={{action this.confirmEnableTwoFactor}}
             @type='danger'
         >
@@ -123,6 +131,7 @@
 
 <BsModal
     data-test-confirm-disable-modal
+    data-analytics-scope='Confirm disable two factor modal'
     @open={{this.showDisableWarning}}
     as |modal|
 >
@@ -137,12 +146,14 @@
     <modal.footer>
         <BsButton
             data-test-disable-warning-cancel
+            data-analytics-name='Cancel'
             @onClick={{action this.hideDialogs}}
         >
             {{t 'general.cancel'}}
         </BsButton>
         <BsButton
             data-test-disable-warning-confirm
+            data-analytics-name='Confirm'
             @onClick={{action this.confirmDisableTwoFactor}}
             @type='danger'
         >

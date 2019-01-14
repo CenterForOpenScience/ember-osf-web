@@ -1,9 +1,9 @@
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { currentURL, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 module('Acceptance | settings | profile | name', hooks => {
