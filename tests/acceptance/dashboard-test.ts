@@ -294,22 +294,26 @@ module('Acceptance | dashboard', hooks => {
         server.loadFixtures('regions');
         server.create('user', 'loggedIn', 'withInstitutions');
         await visit('/dashboard');
-        await click('[data-test-create-project-modal-button]');
+        assert.dom('[data-analytics-name="create_new_project"]').exists();
+        await click('[data-analytics-name="create_new_project"]');
         assert.dom('[data-test-institution-selected="selected"]')
             .exists({ count: 5 }, 'Initial state everything selected');
         assert.dom('[data-test-institution-selected="not-selected"]')
             .doesNotExist('Initial state nothing not-selected');
+        assert.dom('[data-test-institution-button-row]:nth-child(1) button').exists();
         await click('[data-test-institution-button-row]:nth-child(1) button');
         assert.dom('[data-test-institution-selected="selected"]')
             .exists({ count: 4 }, 'Clicked first item so 4 selected');
         assert.dom('[data-test-institution-selected="not-selected"]')
             .exists({ count: 1 }, 'Clicked first item so one notselected');
         await percySnapshot(assert);
+        assert.dom('[data-analytics-name="Remove all institutions"]').exists();
         await click('[data-analytics-name="Remove all institutions"]');
         assert.dom('[data-test-institution-selected="selected"]')
             .doesNotExist('Clicked remove all so none selected');
         assert.dom('[data-test-institution-selected="not-selected"]')
             .exists({ count: 5 }, 'Clicked remove all so all not-selected');
+        assert.dom('[data-analytics-name="Select all institutions"]').exists();
         await click('[data-analytics-name="Select all institutions"]');
         assert.dom('[data-test-institution-selected="selected"]')
             .exists({ count: 5 }, 'Clicked select all so all selected');
