@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Components
+    - `osf-link` - used to be `link`
+        - `@onClick` parameter used to be `@onclick`
+- Tests
+    - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
 
 ## [19.1.0]
 ### Added
@@ -28,8 +34,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-cli-sass@8.0.1`
 - Components:
     - `contributor-list` - takes an optional parameter `truncated`
-    - `osf-link` - used to be `link`
-        - `@onClick` parameter used to be `@onclick`
 - Templates:
     - `no-implicit-this` template rule activated
 - Types:
