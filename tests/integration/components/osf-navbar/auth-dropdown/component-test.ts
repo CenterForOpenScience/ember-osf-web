@@ -4,7 +4,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
+
+import { OsfLinkRouterStub } from '../../../helpers/osf-link-router-stub';
 
 const sessionStub = Service.extend({
     isAuthenticated: false,
@@ -14,10 +15,6 @@ const sessionStub = Service.extend({
 const routingStub = Service.extend({
     transitionTo: () => null,
     generateURL: () => 'url!',
-});
-
-const routerStub = Service.extend({
-    currentURL: '',
 });
 
 module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
@@ -30,16 +27,7 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         this.owner.register('service:-routing', routingStub);
 
         // Make sure currentURL is always a string
-        this.owner.register('service:router', routerStub);
-
-        this.setProperties({
-            onLinkClickedCalled: false,
-            actions: {
-                onLinkClicked: () => {
-                    this.set('onLinkClickedCalled', true);
-                },
-            },
-        });
+        this.owner.register('service:router', OsfLinkRouterStub);
     });
 
     test('login called', async function(assert) {
@@ -53,22 +41,7 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         await render(hbs`{{osf-navbar/auth-dropdown}}`);
 
         assert.ok(!this.owner.lookup('service:currentUser').loginCalled, 'login has not been called');
-        await click('[data-test-sign-in-button]');
+        await click('[data-analytics-name="SignIn"]');
         assert.ok(this.owner.lookup('service:currentUser').loginCalled, 'login was called');
-    });
-
-    test('onLinkClicked called', async function(assert) {
-        this.owner.lookup('service:session').set('isAuthenticated', true);
-
-        let clickCalled = false;
-        sinon.stub(this.owner.lookup('service:analytics'), 'click').callsFake(() => {
-            clickCalled = true;
-        });
-
-        await render(hbs`{{osf-navbar/auth-dropdown}}`);
-
-        assert.ok(!clickCalled);
-        await click('.fa-life-ring');
-        assert.ok(clickCalled);
     });
 });

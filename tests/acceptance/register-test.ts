@@ -16,7 +16,7 @@ module('Acceptance | register (sign up page)', hooks => {
 
         assert.equal(currentURL(), '/register', "Still at '/register'.");
 
-        assert.dom('[data-analyitcs-name="ORCID"]').exists();
+        assert.dom('[data-analytics-name="ORCID"]').exists();
         assert.dom('[data-analytics-name="Institution"]').exists();
         assert.dom('[data-test-sign-up-full-name]').exists();
         await percySnapshot(assert);
@@ -27,7 +27,7 @@ module('Acceptance | register (sign up page)', hooks => {
 
         assert.equal(currentURL(), '/register?next=foo', "Still at '/register?next=foo'.");
 
-        assert.dom('[data-test-institution-button][href$="%3Fnext%3Dfoo"]')
+        assert.dom('[data-analytics-name="Institution"][href$="%3Fnext%3Dfoo"]')
             .exists('Institutions button link ends with encoded next.');
     });
 

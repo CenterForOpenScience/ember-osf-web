@@ -5,6 +5,7 @@ export class OsfLinkRouterStub extends Service {
     urlForResponse: string = defaultTo(this.urlForResponse, 'https://localhost:4200/route');
     transitionToResponse: string = defaultTo(this.transitionToResponse, '');
     isActiveResponse: boolean = defaultTo(this.isActiveResponse, false);
+    currentURL: string = defaultTo(this.currentURL, 'https://localhost:4200/current');
 
     urlFor() {
         return this.urlForResponse;

@@ -135,18 +135,18 @@ module('Acceptance | dashboard', hooks => {
         await visit('/dashboard');
         assert.ok(this.element !== undefined, 'Should have element after visit');
 
-        assert.dom('[data-analytics-name=“load_nodes”]').exists('The control to load more projects exists');
+        assert.dom('[data-analytics-name="load_nodes"]').exists('The control to load more projects exists');
         let projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
         assert.equal(projects.length, 10, 'Only the first page of projects loaded');
-        await click('[data-analytics-name=“load_nodes”e]');
+        await click('[data-analytics-name="load_nodes"]');
         projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
         assert.equal(projects.length, 20, 'Only the first two pages of projects are loaded after clicking `more` once');
-        assert.dom('[data-analytics-name=“load_nodes”]').exists('The control to load more projects still exists');
-        await click('[data-analytics-name=“load_nodes”]');
+        assert.dom('[data-analytics-name="load_nodes"]').exists('The control to load more projects still exists');
+        await click('[data-analytics-name="load_nodes"]');
         projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
         assert.equal(projects.length, 30, 'All 30 projects are loaded after clicking `more` twice');
 
-        assert.dom('[data-analytics-name=“load_nodes”]')
+        assert.dom('[data-analytics-name="load_nodes"]')
             .doesNotExist('The control to load more projects is gone after all projects are loaded');
         await percySnapshot(assert);
     });
