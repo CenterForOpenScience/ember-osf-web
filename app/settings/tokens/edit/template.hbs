@@ -1,61 +1,63 @@
-<div>
-    <OsfLink
-        data-analytics-name='Back to list'
-        @route='settings.tokens'
-    >
-        {{fa-icon 'arrow-left'}}
-        {{t 'settings.tokens.backToList'}}
-    </OsfLink>
-</div>
-{{#if this.token.tokenValue}}
-    <h4>{{t 'settings.tokens.createSuccess.message' tokenName=this.token.name}}</h4>
-    <p>
-        <CopyableText 
-            data-test-new-token-value
-            @text={{this.token.tokenValue}}
-            @analyticsLabel='Settings - Tokens - Copy token'
-        />
-    </p>
-    <p local-class='NewTokenWarning' class='bg-danger'>
-        <strong>
-            {{t 'settings.tokens.createSuccess.warning'}}
-        </strong>
-    </p>
-    <p>
-        {{t 'settings.tokens.createSuccess.instructions'}}
-    </p>
-    <OsfButton
-        @onClick={{action this.refresh}}
-    >
-        {{t 'settings.tokens.createSuccess.editScopes'}}
-    </OsfButton>
-{{else}}
-    <h4>{{t 'settings.tokens.editToken'}}</h4>
-
-    {{#if this.model.taskInstance.isError}}
-        {{this.model.taskInstance.error}}
-    {{else}}
-        {{#settings/tokens/-components/token-form
-            onSave=(action this.tokenSaved)
-            token=this.token
-            disabled=this.model.taskInstance.isRunning
-            as |form|
-        }}
-            <DeleteButton
-                @delete={{action this.deleteToken}}
-                @disabled={{form.disabled}}
-                @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
-                @modalBody={{t 'settings.tokens.confirmDelete.body'}}
+<div data-analytics-scope='Edit'>
+    <div>
+        <OsfLink
+            data-analytics-name='Back to list'
+            @route='settings.tokens'
+        >
+            {{fa-icon 'arrow-left'}}
+            {{t 'settings.tokens.backToList'}}
+        </OsfLink>
+    </div>
+    {{#if this.token.tokenValue}}
+        <h4>{{t 'settings.tokens.createSuccess.message' tokenName=this.token.name}}</h4>
+        <p>
+            <CopyableText 
+                data-test-new-token-value
+                @text={{this.token.tokenValue}}
+                @analyticsLabel='Settings - Tokens - Copy token'
             />
+        </p>
+        <p local-class='NewTokenWarning' class='bg-danger'>
+            <strong>
+                {{t 'settings.tokens.createSuccess.warning'}}
+            </strong>
+        </p>
+        <p>
+            {{t 'settings.tokens.createSuccess.instructions'}}
+        </p>
+        <OsfButton
+            @onClick={{action this.refresh}}
+        >
+            {{t 'settings.tokens.createSuccess.editScopes'}}
+        </OsfButton>
+    {{else}}
+        <h4>{{t 'settings.tokens.editToken'}}</h4>
 
-            <OsfButton
-                data-analytics-name='Save'
-                @type='primary'
-                @buttonType='submit'
-                @disabled={{form.disabled}}
-            >
-                {{t 'general.save'}}
-            </OsfButton>
-        {{/settings/tokens/-components/token-form}}
+        {{#if this.model.taskInstance.isError}}
+            {{this.model.taskInstance.error}}
+        {{else}}
+            {{#settings/tokens/-components/token-form
+                onSave=(action this.tokenSaved)
+                token=this.token
+                disabled=this.model.taskInstance.isRunning
+                as |form|
+            }}
+                <DeleteButton
+                    @delete={{action this.deleteToken}}
+                    @disabled={{form.disabled}}
+                    @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
+                    @modalBody={{t 'settings.tokens.confirmDelete.body'}}
+                />
+
+                <OsfButton
+                    data-analytics-name='Save'
+                    @type='primary'
+                    @buttonType='submit'
+                    @disabled={{form.disabled}}
+                >
+                    {{t 'general.save'}}
+                </OsfButton>
+            {{/settings/tokens/-components/token-form}}
+        {{/if}}
     {{/if}}
-{{/if}}
+</div>
