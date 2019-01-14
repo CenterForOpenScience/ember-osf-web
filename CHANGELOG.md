@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Tests
     - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
 
+### Removed
+- Components:
+    - `global-link-to`
+
 ## [19.1.0]
 ### Added
 - Addons:
@@ -42,8 +46,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Addons:
     - `osf-style`
-- Components:
-    - `global-link-to`
 
 ## [19.0.2] - 2019-01-08
 ### Changed
