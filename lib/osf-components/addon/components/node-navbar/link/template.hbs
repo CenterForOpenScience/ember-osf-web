@@ -1,5 +1,5 @@
 {{#if this.useLinkTo}}
-    {{#link-to
+    {{#global-link-to
         this.routeName
         @node.id
         data-test-node-navbar-link=(or @destination @node.id)
@@ -10,7 +10,7 @@
         {{else}}
             {{t this.translatingKey}}
         {{/if}}
-    {{/link-to}}
+    {{/global-link-to}}
 {{else}}
     <a
         data-test-node-navbar-link={{or @destination @node.id}}

@@ -1,9 +1,9 @@
 <div class='container'>
     {{#if @user}}
         <h3>
-            {{#link-to 'guid-user.quickfiles' @user.id}}
+            {{#global-link-to 'guid-user.quickfiles' @user.id}}
                 {{t 'quickfiles.title' user-name=@user.fullName}}
-            {{/link-to}}
+            {{/global-link-to}}
         </h3>
     {{/if}}
 </div>

@@ -203,9 +203,9 @@
     {{#if this.isComponentRootAdmin}}
         <div class='row'>
             {{t 'node.registrations.register_entire_project' rootNodeTitle=this.node.root.title}}
-            {{#link-to 'guid-node.registrations' this.node.root.id}}
+            {{#global-link-to 'guid-node.registrations' this.node.root.id}}
                 {{t 'node.registrations.here'~}}
-            {{/link-to}}
+            {{/global-link-to}}
             {{~t 'general.period'}}
         </div>
     {{/if}}
