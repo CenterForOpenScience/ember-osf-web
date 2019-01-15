@@ -1,26 +1,26 @@
 {{#if this.useLinkTo}}
-    {{#global-link-to
-        this.routeName
-        @node.id
-        data-test-node-navbar-link=(or @destination @node.id)
-        class=this.extraClasses
-    }}
-        {{#if (has-block)}}
-            {{yield}}
-        {{else}}
-            {{t this.translatingKey}}
-        {{/if}}
-    {{/global-link-to}}
-{{else}}
-    <a
+    <Link
         data-test-node-navbar-link={{or @destination @node.id}}
-        href='/{{@node.id}}/{{@destination}}'
         class={{this.extraClasses}}
+        @route={{this.routeName}}
+        @models={{array @node.id}}
     >
         {{#if (has-block)}}
             {{yield}}
         {{else}}
             {{t this.translatingKey}}
         {{/if}}
-    </a>
+    </Link>
+{{else}}
+    <Link
+        data-test-node-navbar-link={{or @destination @node.id}}
+        class={{this.extraClasses}}
+        @href='/{{@node.id}}/{{@destination}}'
+    >
+        {{#if (has-block)}}
+            {{yield}}
+        {{else}}
+            {{t this.translatingKey}}
+        {{/if}}
+    </Link>
 {{/if}}

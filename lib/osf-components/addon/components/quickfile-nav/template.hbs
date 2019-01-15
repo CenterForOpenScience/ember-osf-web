@@ -1,9 +1,12 @@
 <div class='container'>
     {{#if @user}}
         <h3>
-            {{#global-link-to 'guid-user.quickfiles' @user.id}}
+            <Link
+                @route='guid-user.quickfiles'
+                @models={{array @user.id}}
+            >
                 {{t 'quickfiles.title' user-name=@user.fullName}}
-            {{/global-link-to}}
+            </Link>
         </h3>
     {{/if}}
 </div>
