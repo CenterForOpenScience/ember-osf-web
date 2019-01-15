@@ -43,3 +43,13 @@ angle-bracket invocation)
 
 If you have this problem but it's not for one of the reasons listed above, please add it
 to this list.
+
+## Component test: Cannot read property 'generate' of undefined
+This generally means you are trying to render a component with an `OsfLink` that uses the `@route`
+parameter. You just need to
+
+`import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';`
+
+Then, either in `beforeEach` or in the particular problematic test:
+
+`this.owner.register('service:router', OsfLinkRouterStub);`
