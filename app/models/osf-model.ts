@@ -2,6 +2,7 @@ import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
+import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
@@ -155,6 +156,80 @@ export default class OsfModel extends Model {
         }
 
         return currentResults;
+    }
+
+    async createM2MRelationship<
+    T extends OsfModel,
+    >(
+        this: T,
+        relationshipName: RelationshipsFor<T> & string,
+        relatedObjId: string,
+    ) {
+        const apiRelationshipName = underscore(relationshipName);
+        const url = this.relationshipLinks[apiRelationshipName].links!.self.href;
+
+        if (!url) {
+            throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
+        }
+
+        assert('The related object id is required to create a new relationship', Boolean(relatedObjId));
+
+        const options: JQuery.AjaxSettings = {
+            url,
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                data: [{
+                    id: relatedObjId,
+                    type: apiRelationshipName,
+                }],
+            }),
+        };
+
+        try {
+            return await this.currentUser.authenticatedAJAX(options);
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async deleteM2MRelationship<
+    T extends OsfModel,
+    >(
+        this: T,
+        relationshipName: RelationshipsFor<T> & string,
+        relatedObjId: string,
+    ) {
+        const apiRelationshipName = underscore(relationshipName);
+        const url = this.relationshipLinks[apiRelationshipName].links!.self.href;
+
+        if (!url) {
+            throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
+        }
+
+        assert('The related object id is required to delete existing relationship', Boolean(relatedObjId));
+
+        const options: JQuery.AjaxSettings = {
+            url,
+            type: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                data: [{
+                    id: relatedObjId,
+                    type: apiRelationshipName,
+                }],
+            }),
+        };
+
+        try {
+            return await this.currentUser.authenticatedAJAX(options);
+        } catch (e) {
+            throw e;
+        }
     }
 
     /*

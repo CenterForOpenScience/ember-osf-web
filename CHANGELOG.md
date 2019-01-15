@@ -202,7 +202,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `dashboard` - replaced project creation modal with `new-project-modal` component
 - Tests:
     - `dashboard` - acceptance tests related to project creation workflow
- 
+
 ## [18.1.0] - 2018-10-30
 ### Added
 - Components:
