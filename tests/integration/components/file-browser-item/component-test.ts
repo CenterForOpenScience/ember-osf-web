@@ -32,7 +32,7 @@ module('Integration | Component | file-browser-item', hooks => {
     // TEST DISPLAY
     test('it renders with all default columns', async assert => {
         await render(hbs`{{file-browser-item item=item}}`);
-        assert.dom('div.flash-message').doesNotExist('Flash message not shown.');
+        assert.dom('[data-test-item-flash-message]').doesNotExist('Flash message not shown.');
         assert.dom(`${base} > div:nth-child(1)`).includesText('An item', 'Name of the item shown.');
         assert.dom(`${base} > div:nth-child(2)`).includesText('kB', 'Size shown.');
         assert.dom(`${base} > div:nth-child(3) > [data-test-version-link]`).exists('Version of item shown.');
@@ -50,7 +50,7 @@ module('Integration | Component | file-browser-item', hooks => {
         this.set('item', item);
         await render(hbs`{{file-browser-item item=item}}`);
 
-        assert.dom(`${base} > div.alert-danger > div.flash-message`).exists('Danger flash message shown.');
+        assert.dom('[data-test-item-flash-message]').exists('Danger flash message shown.');
         assert.dom(this.element).doesNotIncludeText('An item', 'Name of the item not shown.');
         assert.dom(this.element).doesNotIncludeText('kB', 'Size not shown.');
         assert.dom('[data-test-version-link-button]').doesNotExist('Version of item not shown.');

@@ -1,9 +1,17 @@
-{{#if this.item.flash.message}}
-    <div class='col-md-12 flash-message-alert alert-{{this.item.flash.type}}' local-class='flash-message-alert'>
-        <div class='flash-message'>{{this.item.flash.message}}</div>
-    </div>
-{{else}}
-    <div data-test-file-browser-item>
+<div data-test-file-browser-item>
+    {{#if this.item.flash.message}}
+        <div
+            class='col-md-12 flash-message-alert alert-{{this.item.flash.type}}'
+            local-class='flash-message-alert'
+        >
+            <div
+                data-test-item-flash-message
+                class='flash-message'
+            >
+                {{this.item.flash.message}}
+            </div>
+        </div>
+    {{else}}
         <div class='col-lg-7 col-md-9 col-sm-9 col-xs-12' local-class='file-row-col'>
             {{file-icon item=this.item}}
             <OsfLink
@@ -36,5 +44,5 @@
         <time class='col-sm-3 col-md-2 col-lg-2 hidden-xs' local-class='file-row-col'>
             {{this.date}}
         </time>
-    </div>
-{{/if}}
+    {{/if}}
+</div>
