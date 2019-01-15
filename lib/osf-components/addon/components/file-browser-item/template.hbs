@@ -5,28 +5,29 @@
 {{else}}
     <div class='col-lg-7 col-md-9 col-sm-9 col-xs-12' local-class='file-row-col'>
         {{file-icon item=this.item}}
-        <OsfButton
+        <OsfLink
             data-test-file-item-link
             data-analytics-name='Filename'
             local-class='filename-link'
-            @type='link'
-            @onClick={{action 'open' preventDefault='true'}}
+            @route='guid-file'
+            @models={{array this.item.guid}}
         >
             {{this.item.itemName}}
-        </OsfButton>
+        </OsfLink>
     </div>
     <div class='col-sm-1 col-md-1 hidden-sm hidden-xs' local-class='file-row-col'>
         {{this.size}}
     </div>
     <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-row-col'>
-        <OsfButton
+        <OsfLink
             data-test-version-link-button
             local-class='version-link'
-            @type='link'
-            @onClick={{action 'openVersion'}}
+            @route=guid-file
+            @models={{array this.item.guid}}
+            @queryParams={{hash show='revision'}}
         >
             {{this.item.currentVersion}}
-        </OsfButton>
+        </OsfLink>
     </div>
     <div class='col-lg-1 hidden-md hidden-sm hidden-xs' local-class='file-row-col'>
         {{this.item.extra.downloads}}

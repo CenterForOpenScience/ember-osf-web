@@ -52,7 +52,7 @@
 }
 
 .filename-link {
-    color: $color-text-black !important;
+    color: $color-text-black;
     padding: 0 !important;
     border: 0 !important;
     margin-bottom: 0.2em !important;
@@ -78,7 +78,7 @@
 }
 
 .version-link {
-    color: $color-text-blue-dark !important;
+    color: $color-text-blue-dark;
     font-weight: 600 !important;
     margin-bottom: 0.2em !important;
     padding: 0 !important;

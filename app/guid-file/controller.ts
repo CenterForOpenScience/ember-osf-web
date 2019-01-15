@@ -182,12 +182,11 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    async openFile(this: GuidFile, file: File) {
+    async openFile(file: File) {
         const guid = file.guid || await file.getGuid();
 
         this.set('revision', null);
         this.transitionToRoute('guid-file', guid, { queryParams: { show: 'view' } });
-        this.analytics.click('link', 'Open file');
     }
 
     @action
