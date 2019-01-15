@@ -425,7 +425,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    copyLink(this: FileBrowser) {
+    openSharePopup(this: FileBrowser) {
         this.set('popupOpen', true);
 
         this.analytics.click('button', 'Quick Files - Copy share link');
