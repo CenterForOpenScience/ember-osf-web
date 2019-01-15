@@ -1,6 +1,13 @@
-<button data-test-share-button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
+<OsfButton 
+    data-test-share-button
+    data-analytics-scope='File share button'
+    data-analytics-name='Open share popover'
+    class='btn btn-sm btn-default popover-toggler'
+    @onClick={{action this.togglePopup}}
+>
     {{t 'general.share'}}
     <BsPopover
+        data-analytics-scope='Popover'
         @placement='bottom'
         local-class='Popover'
         @title={{t 'general.share'}}
@@ -11,6 +18,7 @@
                 <BsNav @class='nav-justified' @type='tabs' as |nav|>
                     <nav.item data-test-share-tab @active={{bs-eq tab.activeId this.sharePaneId}}>
                         <a 
+                            data-analytics-name='Share'
                             role='tab'
                             {{action tab.select this.sharePaneId}}
                             local-class='SharePane__tab'
@@ -20,6 +28,7 @@
                     </nav.item>
                     <nav.item data-test-embed-tab @active={{bs-eq tab.activeId this.embedPaneId}}>
                         <a
+                            data-analytics-name='Embed'
                             role='tab'
                             {{action tab.select this.embedPaneId}}
                             local-class='SharePane__tab'
@@ -38,7 +47,7 @@
                     >
                         <br>
                         <CopyableText
-                            data-analytics-name='Share file'
+                            data-analytics-scope='Share file'
                             @text={{this.mfrUrl}}
                         />
                         <div local-class='SharePane__button-group'>
@@ -58,6 +67,7 @@
                                 aria-label={{t 'social.facebook'}}
                                 target='_blank'
                                 rel='noopener'
+                                @href='{{this.facebookUrl}}'
                             >
                                 <i aria-hidden='true' class='fa fa-facebook'></i>
                             </OsfLink>
@@ -112,4 +122,4 @@
             </BsTab>
         </ClickOutside>
     </BsPopover>
-</button>
+</OsfButton>

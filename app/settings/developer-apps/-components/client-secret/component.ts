@@ -25,7 +25,6 @@ export default class DeveloperAppClientSecret extends Component {
     @action
     toggleShowSecret() {
         this.toggleProperty('shouldShowSecret');
-        this.analytics.click('button', 'Toggle client secret');
     }
 
     @action

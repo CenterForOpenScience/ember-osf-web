@@ -75,16 +75,9 @@ export default class GuidNodeRegistrations extends Controller {
     }
 
     @action
-    openNewModal(this: GuidNodeRegistrations) {
-        this.set('newModalOpen', true);
-        this.analytics.click('button', 'Open new registration modal');
-    }
-
-    @action
     closeNewModal(this: GuidNodeRegistrations) {
         this.set('newModalOpen', false);
         this.set('selectedSchema', this.defaultSchema);
-        this.analytics.click('button', 'Close new registration modal');
     }
 
     @action
@@ -99,7 +92,6 @@ export default class GuidNodeRegistrations extends Controller {
     closePreregModal(this: GuidNodeRegistrations) {
         this.set('preregModalOpen', false);
         this.set('selectedSchema', this.defaultSchema);
-        this.analytics.click('button', 'Close Prereg Challenge modal');
     }
 
     @action
@@ -110,7 +102,6 @@ export default class GuidNodeRegistrations extends Controller {
 
     @action
     async createDraft(this: GuidNodeRegistrations) {
-        this.analytics.click('button', 'Registrations Tab - Create draft');
         if (this.selectedSchema.name === 'Prereg Challenge' && this.newModalOpen) {
             this.set('newModalOpen', false);
             this.set('preregConsented', false);

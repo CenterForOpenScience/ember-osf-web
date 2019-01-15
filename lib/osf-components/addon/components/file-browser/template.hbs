@@ -94,7 +94,7 @@
                     </OsfButton>
                     <OsfButton 
                         data-test-download-button
-                        data-analytics-name='Download'
+                        data-analytics-name={{if (not this.canEdit) 'Download'}}
                         local-class='action-button'
                         @onClick={{action this.downloadItem}}
                     >
@@ -155,6 +155,7 @@
             {{else if this.hasItems}}
                 <OsfButton 
                     data-test-download-zip-button
+                    data-analytics-name={{if (not this.canEdit) 'Download Zip'}}
                     local-class='action-button' 
                     @onClick={{action this.downloadZip}}
                 >

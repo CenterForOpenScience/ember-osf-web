@@ -124,10 +124,7 @@ export default class GuidFile extends Controller {
 
     @action
     download(this: GuidFile, version: number) {
-        // analytics were sent in template, since this is used twice
-        if (!this.canEdit) {
-            this.analytics.click('button', 'Download');
-        }
+        // To do: make this a link that looks like a button rather than calling this
         const url = `${this.downloadLink}?revision=${version}`;
         window.location.href = url;
     }
@@ -148,25 +145,12 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    openDeleteModal(this: GuidFile) {
-        this.set('deleteModalOpen', true);
-        this.analytics.click('button', 'Open delete modal');
-    }
-
-    @action
-    closeDeleteModal(this: GuidFile) {
-        this.set('deleteModalOpen', false);
-        this.analytics.click('button', 'Close delete modal');
-    }
-
-    @action
     changeView(this: GuidFile, button: string) {
         const show = lookupTable[this.show][button];
 
         if (show) {
             this.set('show', show);
         }
-        this.analytics.click('button', `Change view - ${show}`);
     }
 
     @action

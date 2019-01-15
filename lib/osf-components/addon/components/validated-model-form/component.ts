@@ -44,7 +44,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         if (!this.model) {
             return;
         }
-        this.analytics.click('button', 'Save');
 
         const { validations } = yield this.model.validate();
         this.set('shouldShowMessages', true);

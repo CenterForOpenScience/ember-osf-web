@@ -25,7 +25,7 @@
                                 data-test-delete-button
                                 @type='default'
                                 @size='sm'
-                                @onClick={{action this.openDeleteModal}}
+                                @onClick={{action (mut this.deleteModalOpen) true}}
                             >
                                 {{t 'general.delete'}}
                             </OsfButton>
@@ -33,7 +33,7 @@
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
                         <OsfButton
-                            data-analytics-name='Download'
+                            data-analytics-name={{if (not this.canEdit) 'Download'}}
                             data-test-download-button
                             @type='primary'
                             @size='sm'
@@ -110,7 +110,7 @@
         data-analytics-scope='Delete file modal'
         @open={{this.deleteModalOpen}}
         @onSubmit={{action this.delete}}
-        @onHidden={{action this.closeDeleteModal}}
+        @onHidden={{action (mut this.deleteModalOpen) false}}
         as |modal|
     >
         <modal.header>

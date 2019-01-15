@@ -48,7 +48,6 @@ export default class Institutions extends Controller {
     @action
     next() {
         this.incrementProperty('page');
-        this.analytics.click('button', 'Next page');
     }
 
     @action

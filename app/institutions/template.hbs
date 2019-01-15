@@ -66,6 +66,7 @@
                                 {{/each}}
                                 {{#if this.hasMore}}
                                     <OsfButton
+                                        data-analytics-name='Next page'
                                         local-class='Institutions__more'
                                         @type='link'
                                         @onClick={{action 'next'}}

@@ -135,19 +135,18 @@ export default class NewProjectModal extends Component.extend({
     @action
     selectTemplateFrom(this: NewProjectModal, templateFrom: Node) {
         this.set('templateFrom', templateFrom);
-        this.analytics.click('button', 'Select template from');
+        this.analytics.click('button', 'New project - Select template from');
     }
 
     @action
     selectRegion(this: NewProjectModal, region: Region) {
         this.set('selectedRegion', region);
-        this.analytics.click('button', 'Select storage region');
+        this.analytics.click('button', 'New project - Select storage region');
     }
 
     @action
     toggleMore() {
         this.toggleProperty('more');
-        this.analytics.click('button', 'Toggle more');
     }
 
     @action

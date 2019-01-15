@@ -218,7 +218,6 @@ export default class FileBrowser extends Component {
             renameValue: '',
             showRename: false,
         });
-        this.analytics.click('button', 'Quick Files - Cancel file rename');
     }
 
     @action
@@ -227,7 +226,6 @@ export default class FileBrowser extends Component {
             showFilterClicked: false,
             filter: '',
         });
-        this.analytics.click('button', 'Quick Files - Close filter');
     }
 
     // dropzone listeners
@@ -345,18 +343,13 @@ export default class FileBrowser extends Component {
 
     @action
     downloadItem() {
+        // Todo: Make this a link that looks like a button
         window.location.href = (this.selectedItems.firstObject as unknown as File).links.download;
-        if (!this.canEdit) {
-            this.analytics.click('button', 'Quick Files - Download');
-        }
     }
 
     @action
     downloadZip() {
         window.location.href = this.downloadUrl;
-        if (!this.canEdit) {
-            this.analytics.click('button', 'Quick Files - Download zip');
-        }
     }
 
     @action
@@ -385,7 +378,6 @@ export default class FileBrowser extends Component {
             renameValue: '',
             showRename: false,
         });
-        this.analytics.click('button', `Quick Files - Resolve rename conflict - ${conflict}`);
     }
 
     @action
@@ -427,8 +419,6 @@ export default class FileBrowser extends Component {
     @action
     openSharePopup(this: FileBrowser) {
         this.set('popupOpen', true);
-
-        this.analytics.click('button', 'Quick Files - Copy share link');
 
         if (this.link) {
             return;

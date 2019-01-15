@@ -6,6 +6,7 @@
     local-class='Forks'
 >
     <BsModal
+        data-analytics-scope='New forks modal'
         @open={{this.newModal}}
         @onSubmit={{action this.newFork}}
         @onHide={{action (mut this.newModal) false}}
@@ -23,11 +24,13 @@
         </modal.body>
         <modal.footer>
             <OsfButton
+                data-analytics-name='Close'
                 @onClick={{action (mut this.newModal) false}}
             >
                 {{t 'general.cancel'}}
             </OsfButton>
             <OsfButton
+                data-analytics-name='Create fork'
                 @onClick={{action modal.submit}}
                 @type='info'
             >
@@ -37,6 +40,7 @@
     </BsModal>
     {{! Analytics being called in the controller action }}
     <DeleteNodeModal
+        data-analytics-scope='Delete node modal'
         @delete={{action this.delete}}
         @openModal={{this.deleteModal}}
         @closeModal={{action this.closeDeleteModal}}

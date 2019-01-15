@@ -50,7 +50,7 @@ export default class TagsWidget extends Component.extend({ styles }) {
     @action
     _addTag(tag: string) {
         if (this.addTag) {
-            this.analytics.click('button', 'Add tag');
+            this.analytics.click('button', 'Tags widget - Add tag');
             this.addTag(tag);
         }
     }
@@ -58,14 +58,14 @@ export default class TagsWidget extends Component.extend({ styles }) {
     @action
     _removeTag(index: number) {
         if (this.removeTag) {
-            this.analytics.click('button', 'Remove tag');
+            this.analytics.click('button', 'Tags widget - Remove tag');
             this.removeTag(index);
         }
     }
 
     @action
     _clickTag(tag: string): void {
-        this.analytics.click('link', 'Search by tag');
+        this.analytics.click('link', 'Tags widget - Search by tag');
         window.location.assign(`${pathJoin(baseUrl, 'search')}?q=(tags:"${encodeURIComponent(tag)}")`);
     }
 }

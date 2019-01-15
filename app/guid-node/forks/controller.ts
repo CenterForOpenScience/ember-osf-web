@@ -56,7 +56,6 @@ export default class GuidNodeForks extends Controller {
 
     @action
     newFork(this: GuidNodeForks) {
-        this.analytics.click('button', 'Create Fork');
         this.set('newModal', false);
         this.set('loadingNew', true);
         this.node!.makeFork().then(() => {

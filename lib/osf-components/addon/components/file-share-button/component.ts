@@ -28,11 +28,6 @@ export default class FileShareButton extends Component {
     styleNamespace?: string;
     elementId!: string;
 
-    // @computed('styleNamespace')
-    // get popoverClass() {
-    //     return `${this.styleNamespace}__popover`;
-    // }
-
     @computed('elementId')
     get sharePaneId() {
         return `${this.elementId}__share-pane`;

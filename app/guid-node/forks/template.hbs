@@ -20,11 +20,13 @@
         </modal.body>
         <modal.footer>
             <OsfButton
+                data-analytics-name='Cancel'
                 @onClick={{action (mut this.newModal) false}}
             >
                 {{t 'general.cancel'}}
             </OsfButton>
             <OsfButton
+                data-analytics-name='Create fork'
                 @onClick={{action modal.submit}}
                 @type='info'
             >
@@ -77,8 +79,8 @@
     </div>
     <div local-class='Forks__new-fork'>
         <div class='m-md'>
-            {{! Analytics being called in the controller action }}
             <OsfButton
+                data-analytics-name='Create fork modal'
                 @type='success'
                 @disabled={{this.loadingNew}}
                 @onClick={{action (mut this.newModal) true}}
