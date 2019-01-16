@@ -57,12 +57,9 @@ export default class HyperLink extends Component {
     }
 
     @action
-    onclick(...args: any[]) {
+    onclick() {
         if (this.onClicked) {
             this.onClicked();
-        }
-        if (this.analyticsLabel) {
-            this.analytics.click('link', this.analyticsLabel, ...args);
         }
     }
 }

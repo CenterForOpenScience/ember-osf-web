@@ -2,6 +2,7 @@
     {{#if @user}}
         <h3>
             <OsfLink
+                data-analytics-name='Go to quickfiles'
                 @route='guid-user.quickfiles'
                 @models={{array @user.id}}
             >
