@@ -1,9 +1,7 @@
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import sinonTest from 'ember-sinon-qunit/test-support/test';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 import hbs from 'htmlbars-inline-precompile';
 
@@ -70,53 +68,5 @@ module('Integration | Component | hyper-link', hooks => {
 
         assert.dom('a').hasText('Overridden');
         assert.dom('a[href="http://example.com/#overridden"]').exists();
-    });
-
-    test('it calls analytics on non-ember routes', async function(this: TestContext) {
-        const analytics = sinon.stub(this.owner.lookup('service:analytics'));
-
-        // Prevent Redirects
-        analytics.click.callsFake((...args: any[]) => {
-            for (const arg of args) {
-                if (arg.preventDefault) {
-                    arg.preventDefault();
-                }
-            }
-        });
-
-        await render(hbs`
-            {{osf-navbar/x-links/hyper-link '/bar' analyticsLabel='This is a test'}}
-        `);
-
-        await click('a');
-
-        sinon.assert.calledOnce(analytics.click);
-        sinon.assert.calledWith(analytics.click, 'link', 'This is a test');
-    });
-
-    sinonTest('it calls analytics on ember routes', async function() {
-        const routing = this.owner.lookup('service:-routing');
-        const analyticsClick = this.stub(this.owner.lookup('service:analytics'), 'click');
-
-        this.stub(routing, 'transitionTo');
-
-        // Prevent Redirects
-        analyticsClick.callsFake((...args: any[]) => {
-            for (const arg of args) {
-                if (arg.preventDefault) {
-                    arg.preventDefault();
-                }
-            }
-        });
-
-        await render(hbs`
-            {{osf-navbar/x-links/hyper-link 'foo' analyticsLabel='This is a second test'}}
-        `);
-
-        await click('a');
-
-        this.sandbox.assert.calledOnce(analyticsClick);
-        this.sandbox.assert.calledOnce(routing.transitionTo);
-        this.sandbox.assert.calledWith(analyticsClick, 'link', 'This is a second test');
     });
 });
