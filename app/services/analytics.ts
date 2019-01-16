@@ -34,6 +34,7 @@ function logEvent(analytics: Analytics, title: string, data: object) {
     if (analytics.shouldToastOnEvent) {
         analytics.toast.info(
             Object.entries(data)
+                .filter(([_, v]) => v !== undefined)
                 .map(([k, v]) => `<div>${k}: <strong>${v}</strong></div>`)
                 .join(''),
             title,
