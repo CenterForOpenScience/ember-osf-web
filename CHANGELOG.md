@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Utils:
+    - `getHref` - get an href from a `Link`
+    - `getRelatedHref` - get an href from a `Relationship`
+### Changed
+- Models:
+    - `osf-model` - use proper types for `links` and `relationshipLinks` attributes
+    - `file` - extend `links` types to include links specific to files
+    - `user` - extend `links` types to include links specific to users
+    - `developer-app` - extend `links` types to include links specific to developer apps
+    - `collection` - improve types for choices fields
+    - `collected-metadatum` - improve types for choice fields
 
 ## [19.1.0]
 ### Added
