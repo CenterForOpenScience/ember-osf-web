@@ -67,7 +67,7 @@
                     <modal.body>
                         {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
                     </modal.body>
-                    <modal.footer>
+                    <modal.footer data-analytics-scope='Draft registrations delete modal'>
                         <OsfButton
                             data-analytics-name='Cancel delete'
                             @onClick={{action modal.close}}

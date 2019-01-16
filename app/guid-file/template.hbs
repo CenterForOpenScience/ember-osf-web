@@ -107,7 +107,6 @@
         </div>
     </div>
     <BsModal
-        data-analytics-scope='Delete file modal'
         @open={{this.deleteModalOpen}}
         @onSubmit={{action this.delete}}
         @onHidden={{action (mut this.deleteModalOpen) false}}
@@ -119,7 +118,7 @@
         <modal.body>
             <p>{{t 'file_detail.delete_file.confirm' file-name=this.model.file.name}}</p>
         </modal.body>
-        <modal.footer>
+        <modal.footer data-analytics-scope='File detail - Delete file modal'>
             <OsfButton
                 data-analytics-name='Close'
                 @onClick={{action modal.close}}

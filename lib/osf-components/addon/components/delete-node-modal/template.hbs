@@ -1,5 +1,4 @@
 <BsModal
-    data-analytics-scope='Delete node modal'
     @open={{@openModal}}
     @onSubmit={{action @delete}}
     @onHidden={{action @closeModal}}
@@ -15,7 +14,7 @@
             {{input class='form-control' local-class='DeleteModal__input' value=this.scientistInput}}
         </label>
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='Delete node modal'>
         <OsfButton
             data-analytics-name='Cancel'
             @onClick={{action modal.close}}

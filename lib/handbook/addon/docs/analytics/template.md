@@ -28,6 +28,10 @@ For example, a click on the button below will be tracked with the label "Dashboa
 </div>
 ```
 
+**Note**: To scope a `BsModal` you have to add the scope in the `modal.header`, `modal.body`, and/or `modal.footer` blocks,
+as appropriate. If you don't, the events won't track, because the modal is in a wormhole, and the wormhole pulls the dom
+outside of the surrounding page information
+
 ### `data-analytics-category`
 The event category generally refers to the type of thing being acted upon. For normal links (`<a>` or `role='link'`)
 and buttons (`<button>` or `role='button'`) the category will be inferred as `link` and `button`, respectively.

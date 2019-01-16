@@ -1,9 +1,8 @@
 <BsModal
-    data-analytics-scope='New Project Navigation'
     @onHidden={{this.closeModal}}
     as |modal|
 >
-    <modal.body>
+    <modal.body data-analytics-scope='New project navigation modal'>
         <OsfButton
             data-test-close-with-x
             aria-label={{t 'general.close'}}
@@ -16,7 +15,7 @@
             {{this.title}}
         </h4>
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='New project navigation modal footer'>
         <OsfButton
             data-test-stay-here
             data-analytics-name='stay_here'

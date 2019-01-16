@@ -87,7 +87,6 @@
                 </OsfButton>
                 <BsModal
                     data-test-new-registration-modal
-                    data-analytics-scope='New registration modal'
                     @size='lg'
                     @open={{this.newModalOpen}}
                     @onSubmit={{action this.createDraft}}
@@ -97,7 +96,7 @@
                     <modal.header data-test-new-registration-modal-header>
                         <h4 class='NewRegistrationModal__header'>{{t 'node.registrations.new_registration_modal.title'}}</h4>
                     </modal.header>
-                    <modal.body data-test-new-registration-modal-body>
+                    <modal.body data-test-new-registration-modal-body data-analytics-scope='Node - Registrations - New registration modal'>
                         <p class='NewRegistrationModal__info'>{{t 'node.registrations.new_registration_modal.info'}}</p>
                         <div class='NewRegistrationModal__schema-list'>
                             {{#if this.getRegistrationSchemas.isRunning}}
@@ -129,7 +128,10 @@
                             {{/if}}
                         </div>
                     </modal.body>
-                    <modal.footer data-test-new-registration-modal-footer>
+                    <modal.footer
+                        data-test-new-registration-modal-footer
+                        data-analytics-scope='Node - Registrations - New registration modal footer'
+                    >
                         <OsfButton
                             data-test-new-registration-modal-cancel-button
                             data-analytics-name='Close new registration modal'
@@ -149,7 +151,6 @@
                 </BsModal>
                 <BsModal
                     data-test-prereg-challenge-modal
-                    data-analytics-scope='Prereg Challenge modal'
                     @size='lg'
                     @open={{this.preregModalOpen}}
                     @onSubmit={{action this.createDraft}}
@@ -187,7 +188,10 @@
                             </div>
                         </div>
                     </modal.body>
-                    <modal.footer data-test-prereg-challenge-modal-footer>
+                    <modal.footer
+                        data-test-prereg-challenge-modal-footer
+                        data-analytics-scope='Node - Registrations - Prereg Challenge modal footer'
+                    >
                         <div class='row'>
                             <div class='col-lg-10 col-lg-offset-1'>
                                 <OsfButton

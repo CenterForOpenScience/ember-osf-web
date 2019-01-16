@@ -214,7 +214,6 @@
 </div>
 <BsModal
     data-test-info-modal
-    data-analytics-scope='Info modal'
     @onHide={{action (mut this.currentModal) ''}}
     @open={{eq this.currentModal 'info'}}
     as |modal|
@@ -230,7 +229,7 @@
         <p>{{t 'file_browser.info.open2'}}</p>
         <p>{{t 'file_browser.info.download'}}</p>
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='File browser - Info modal'>
         <OsfButton
             data-test-close-current-modal
             data-analytics-name='Close'
@@ -243,7 +242,6 @@
 </BsModal>
 <BsModal
     data-test-delete-modal
-    data-analytics-scope='Delete modal'
     @onHide={{action (mut this.currentModal) ''}}
     @open={{eq this.currentModal 'delete'}}
     as |modal|
@@ -256,7 +254,7 @@
     <modal.body>
         <p>{{t 'file_browser.delete_modal.body'}}</p>
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='File browser - Delete modal'>
         <OsfButton
             data-analytics-name='Cancel'
             @onClick={{action (mut this.currentModal) ''}}
@@ -275,7 +273,6 @@
 </BsModal>
 <BsModal
     data-test-delete-multiple-modal
-    data-analytics-scope='Delete multiple modal'
     @onHide={{action (mut this.currentModal) ''}}
     @open={{eq this.currentModal 'deleteMultiple'}}
     as |modal|
@@ -292,7 +289,7 @@
             </div>
         {{/each}}
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='File browser - Delete multiple modal'>
         <OsfButton
             data-analytics-name='Cancel'
             @onClick={{action (mut this.currentModal) ''}}
@@ -311,7 +308,6 @@
 </BsModal>
 <BsModal
     data-test-rename-conflict-modal
-    data-analytics-scope='Rename conflict modal'
     @onHide={{action (mut this.currentModal) ''}}
     @open={{eq this.currentModal 'renameConflict'}}
     as |modal|
@@ -323,7 +319,7 @@
         <p>{{t 'file_browser.conflict_modal.keep_info'}}</p>
         <p>{{t 'file_browser.conflict_modal.replace_info'}}</p>
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='File browser - Rename conflict modal'>
         <OsfButton
             data-analytics-name='Cancel'
             @onClick={{action (mut this.currentModal) ''}}
@@ -349,7 +345,6 @@
 </BsModal>
 <BsModal
     data-test-move-to-project-modal
-    data-analytics-scope='Move to project Modal'
     @onHide={{action this.closeMoveToProjectModal}}
     @open={{eq this.currentModal 'move'}}
     @class='moveQuickfileModal'
@@ -367,7 +362,7 @@
             @moveToNewProject={{action this.moveToNewProject}}
         />
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='File browser - Move to project Modal'>
         <OsfButton
             data-test-move-to-project-modal-close-button
             data-analytics-name='Close'

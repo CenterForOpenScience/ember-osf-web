@@ -6,14 +6,14 @@
     local-class='Forks'
 >
     <BsModal
-        data-analytics-scope='New forks modal'
         @open={{this.newModal}}
         @onSubmit={{action this.newFork}}
         @onHide={{action (mut this.newModal) false}}
         as |modal|
     >
-        <modal.body>
+        <modal.body data-analytics-scope='Registation Forks - New forks modal'>
             <OsfButton
+                data-analytics-name='Close'
                 aria-label={{t 'general.close'}}
                 @class='close'
                 @onClick={{action this.closeNewModal}}
@@ -22,7 +22,7 @@
             </OsfButton>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
         </modal.body>
-        <modal.footer>
+        <modal.footer data-analytics-scope='Registation Forks - New forks modal footer'>
             <OsfButton
                 data-analytics-name='Close'
                 @onClick={{action (mut this.newModal) false}}
@@ -40,7 +40,6 @@
     </BsModal>
     {{! Analytics being called in the controller action }}
     <DeleteNodeModal
-        data-analytics-scope='Delete node modal'
         @delete={{action this.delete}}
         @openModal={{this.deleteModal}}
         @closeModal={{action this.closeDeleteModal}}

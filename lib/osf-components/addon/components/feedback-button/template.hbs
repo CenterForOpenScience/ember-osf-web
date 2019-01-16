@@ -1,13 +1,12 @@
 <BsModal 
     data-test-feedback-modal
-    data-analytics-scope='Feedback'
     local-class='Modal'
     @open={{this.isOpen}}
     @onSubmit={{action this.submit}}
     @onHidden={{action this.hideDialog}}
     as |modal|
 >
-    <modal.body>
+    <modal.body data-analytics-scope='Feedback modal'>
         {{#if this.isActive}}
             <div class='text-center'>
                 <h2 local-class='Modal__title'>{{ t 'feedback.title' }}</h2>
@@ -39,7 +38,7 @@
             </div>
         {{/if}}
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='Feedback modal footer'>
         {{#if this.isActive}}
             <OsfButton
                 data-analytics-name='Cancel'

@@ -98,7 +98,6 @@
 
 <BsModal
     data-test-confirm-enable-modal
-    data-analytics-scope='Confirm enable two factor modal'
     @open={{this.showEnableWarning}}
     as |modal|
 >
@@ -110,7 +109,7 @@
     <modal.body data-test-confirm-enable-warning>
         {{t 'settings.account.security.enableWarning'}}
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='Confirm enable two factor modal'>
         <BsButton
             data-test-enable-warning-cancel
             data-analytics-name='Cancel'
@@ -131,7 +130,6 @@
 
 <BsModal
     data-test-confirm-disable-modal
-    data-analytics-scope='Confirm disable two factor modal'
     @open={{this.showDisableWarning}}
     as |modal|
 >
@@ -143,7 +141,7 @@
     <modal.body data-test-confirm-disable-warning>
         {{t 'settings.account.security.disableWarning'}}
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='Confirm disable two factor modal'>
         <BsButton
             data-test-disable-warning-cancel
             data-analytics-name='Cancel'

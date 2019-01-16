@@ -1,13 +1,13 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
 {{title (t 'forks.page_title' nodeTitle=this.model.taskInstance.value.unsafeTitle)}}
-<div data-analytics-scope='forks' class='container' local-class='Forks'>
+<div data-analytics-scope='Forks' class='container' local-class='Forks'>
     <BsModal
         @open={{this.newModal}}
         @onSubmit={{action this.newFork}}
         @onHide={{action (mut this.newModal) false}}
         as |modal|
     >
-        <modal.body>
+        <modal.body data-analytics-scope='Forks - forks modal'>
             <OsfButton
                 data-analytics-name='close_modal'
                 aria-label={{t 'general.close'}}
@@ -18,7 +18,7 @@
             </OsfButton>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
         </modal.body>
-        <modal.footer>
+        <modal.footer data-analytics-scope='Forks - forks modal footer'>
             <OsfButton
                 data-analytics-name='Cancel'
                 @onClick={{action (mut this.newModal) false}}
