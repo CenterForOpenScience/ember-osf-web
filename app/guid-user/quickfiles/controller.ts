@@ -32,7 +32,7 @@ export default class UserQuickfiles extends Controller {
     updateFilter = task(function *(this: UserQuickfiles, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
-        this.analytics.track('list', 'filter', 'Filter files');
+        this.analytics.track('list', 'filter', 'Quick Files - Filter files');
     }).restartable();
 
     createProject = task(function *(this: UserQuickfiles, node: Node) {

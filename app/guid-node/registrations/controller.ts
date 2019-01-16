@@ -71,7 +71,7 @@ export default class GuidNodeRegistrations extends Controller {
     @action
     changeTab(this: GuidNodeRegistrations, activeId: string) {
         this.set('tab', activeId === 'registrations' ? undefined : activeId);
-        this.analytics.click('tab', `Change tab to: ${activeId}`);
+        this.analytics.click('tab', `Registrations tab - Change tab to: ${activeId}`);
     }
 
     @action
@@ -84,7 +84,7 @@ export default class GuidNodeRegistrations extends Controller {
     togglePreregConsent() {
         this.toggleProperty('preregConsented');
         if (this.preregConsented) {
-            this.analytics.click('checkbox', 'Consent to Prereg Challenge ');
+            this.analytics.click('checkbox', 'Registrations tab - Consent to Prereg Challenge ');
         }
     }
 
@@ -97,7 +97,7 @@ export default class GuidNodeRegistrations extends Controller {
     @action
     schemaChanged(this: GuidNodeRegistrations, schema: RegistrationSchema) {
         this.set('selectedSchema', schema);
-        this.analytics.click('radio', `Select schema: ${schema.name}`);
+        this.analytics.click('radio', `Registrations tab - Select schema: ${schema.name}`);
     }
 
     @action

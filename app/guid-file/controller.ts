@@ -97,7 +97,7 @@ export default class GuidFile extends Controller {
     updateFilter = task(function *(this: GuidFile, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
-        this.analytics.track('list', 'filter', 'Filter file browser');
+        this.analytics.track('list', 'filter', 'Quick Files - Filter file browser');
     }).restartable();
 
     @computed('allFiles.[]', 'filter', 'sort')
@@ -155,7 +155,7 @@ export default class GuidFile extends Controller {
 
     @action
     async save(this: GuidFile, text: string) {
-        this.analytics.click('button', 'Save');
+        this.analytics.click('button', 'Quick Files - Save');
 
         try {
             await this.file.updateContents(text);

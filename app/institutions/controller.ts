@@ -17,7 +17,7 @@ export default class Institutions extends Controller {
 
     trackFilter = task(function *(this: Institutions) {
         yield timeout(1000);
-        this.analytics.track('list', 'filter', 'Search');
+        this.analytics.track('list', 'filter', 'Institutions - Search');
     }).restartable();
 
     @computed('model', 'textValue')

@@ -64,7 +64,7 @@ export default class Dashboard extends Controller {
     filterNodes = task(function *(this: Dashboard, filter: string) {
         yield timeout(500);
         this.setProperties({ filter });
-        this.analytics.track('list', 'filter', 'Search projects');
+        this.analytics.track('list', 'filter', 'Dashboard - Search projects');
         yield this.get('findNodes').perform();
     }).restartable();
 
