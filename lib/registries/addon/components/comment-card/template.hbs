@@ -22,14 +22,18 @@
             <div local-class='CommentHeader'>
                 <div>
                     {{#if this.comment.user.profileImage}}
-                        <img data-test-gravatar alt='{{t 'auth_dropdown.user_gravatar'}}' src={{concat this.comment.user.profileImage '&s=30'}}>
+                        <img data-test-gravatar alt='{{t 'auth_dropdown.user_gravatar'}}'
+                          src={{concat this.comment.user.profileImage '&s=30'}}
+                        >
                     {{/if}}
-                    <Link
-                        @href={{this.comment.user.profileURL}}
-                        local-class='CommentUser'
-                    >
-                        {{this.comment.user.fullName}}
-                    </Link>
+                    {{#if (and this.comment.user.profileURL this.comment.user.fullName)}}
+                        <Link
+                            @href={{this.comment.user.profileURL}}
+                            local-class='CommentUser'
+                        >
+                            {{this.comment.user.fullName}}
+                        </Link>
+                    {{/if}}
                 </div>
                 <div>
                     {{#if this.comment.modified}}
@@ -92,9 +96,8 @@
                 {{/if}}
             </div>
             {{#if (not this.reporting)}}
-                {{!-- <div local-class={{concat 'CommentControls ' (or (if this.hasReplies '' 'noReplies') (if this.canReport '' 'cantReport'))}}> --}}
                 <div local-class='CommentControls'>
-                    <div local-class='CommentControls__report'>
+                    <div>
                         {{#if this.canReport}}
                             <OsfButton
                                 @type='link'
@@ -131,14 +134,21 @@
                         </div>
                     {{/each}}
                     {{#if this.hasMoreReplies}}
-                        <div local-class='MoreReplies'>
-                            <OsfButton
-                                @type='link'
-                                @onClick={{action this.more}}
-                            >
-                                {{t 'registries.overview.comments.load_more'}}
-                            </OsfButton>
-                        </div>
+                        {{#if this.loadingMoreReplies}}
+                            <ContentPlaceholders as |placeholder|>
+                                {{placeholder.heading img=true}}
+                                {{placeholder.text lines=3}}
+                            </ContentPlaceholders>
+                        {{else}}
+                            <div local-class='MoreReplies'>
+                                <OsfButton
+                                    @type='link'
+                                    @onClick={{action this.more}}
+                                >
+                                    {{t 'registries.overview.comments.load_more'}}
+                                </OsfButton>
+                            </div>
+                        {{/if}}
                     {{/if}}
                 {{/if}}
             {{/if}}

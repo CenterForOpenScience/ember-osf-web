@@ -60,15 +60,19 @@ export default class CommentCard extends Component.extend({
         this.toast.success(this.i18n.t('registries.overview.comments.retract_report.success'));
     }),
     loadReplies: task(function *(this: CommentCard, more = false) {
-        const replies = yield this.comment.queryHasMany('replies', {
-            page: this.incrementProperty('page'),
-            embed: ['user'],
-        });
-
-        if (more && this.replies) {
-            this.replies.pushObjects(replies);
+        if (!more) {
+            const replies = yield this.comment.replies;
+            if (!this.replies) {
+                this.set('replies', replies);
+            }
         } else {
-            this.set('replies', replies);
+            const moreReplies = yield this.comment.queryHasMany('replies', {
+                page: this.incrementProperty('page'),
+                embed: ['user'],
+            });
+
+            this.replies.pushObjects(moreReplies);
+            this.set('loadingMoreReplies', false);
         }
     }).restartable(),
 }) {
@@ -87,11 +91,11 @@ export default class CommentCard extends Component.extend({
     replies!: QueryHasManyResult<Comment>;
     abuseCategories: AbuseCategories[] = Object.values(AbuseCategories);
 
-    page: number = 0;
+    page: number = 1;
     reporting?: boolean = false;
     showReplies?: boolean = false;
+    loadingMoreReplies?: boolean = false;
 
-    @alias('loadReplies.isRunning') loadingReplies!: boolean;
     @alias('comment.deleted') isDeleted!: boolean;
     @alias('comment.isAbuse') isAbuse!: boolean;
     @alias('comment.hasReport') currentUserHasReported!: boolean;
@@ -125,6 +129,11 @@ export default class CommentCard extends Component.extend({
     get hasMoreReplies(): boolean | undefined {
         return this.replies && (this.replies.meta.total > this.replies.meta.per_page)
             && (this.replies.length < this.replies.meta.total);
+    }
+
+    @computed('loadingMoreReplies', 'loadReplies.isRunning')
+    get loadingReplies() {
+        return this.loadReplies.isRunning && !this.loadingMoreReplies;
     }
 
     @computed('currentUser', 'comment')
@@ -173,6 +182,7 @@ export default class CommentCard extends Component.extend({
 
     @action
     more(this: CommentCard) {
+        this.set('loadingMoreReplies', true);
         this.loadReplies.perform(true);
     }
 }
