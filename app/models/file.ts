@@ -1,13 +1,28 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
+import { Link } from 'jsonapi-typescript';
+
+import getHref from 'ember-osf-web/utils/get-href';
 
 import BaseFileItem from './base-file-item';
 import CommentModel from './comment';
 import FileVersionModel from './file-version';
 import NodeModel from './node';
+import { OsfLinks } from './osf-model';
 import UserModel from './user';
 
+export interface FileLinks extends OsfLinks {
+    html: never;
+    info: Link;
+    move: Link;
+    upload: Link;
+    download: Link;
+    delete: Link;
+    new_folder?: Link; // eslint-disable-line camelcase
+}
+
 export default class FileModel extends BaseFileItem {
+    @attr() links!: FileLinks;
     @attr('fixstring') name!: string;
     @attr('fixstring') guid!: string;
     @attr('string') path!: string;
@@ -52,7 +67,7 @@ export default class FileModel extends BaseFileItem {
 
     getContents(): Promise<object> {
         return this.currentUser.authenticatedAJAX({
-            url: this.links.download,
+            url: getHref(this.links.download),
             type: 'GET',
             data: {
                 direct: true,
@@ -63,7 +78,7 @@ export default class FileModel extends BaseFileItem {
 
     async rename(newName: string, conflict = 'replace'): Promise<void> {
         const { data } = await this.currentUser.authenticatedAJAX({
-            url: this.links.upload,
+            url: getHref(this.links.upload),
             type: 'POST',
             xhrFields: {
                 withCredentials: true,
@@ -98,7 +113,7 @@ export default class FileModel extends BaseFileItem {
 
     updateContents(data: string): Promise<null> {
         return this.currentUser.authenticatedAJAX({
-            url: this.links.upload,
+            url: getHref(this.links.upload),
             type: 'PUT',
             xhrFields: { withCredentials: true },
             data,
@@ -107,7 +122,7 @@ export default class FileModel extends BaseFileItem {
 
     move(node: NodeModel): Promise<null> {
         return this.currentUser.authenticatedAJAX({
-            url: this.links.move,
+            url: getHref(this.links.move),
             type: 'POST',
             xhrFields: { withCredentials: true },
             headers: {
