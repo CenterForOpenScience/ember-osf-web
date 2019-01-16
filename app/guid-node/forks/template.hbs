@@ -1,63 +1,93 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
-{{title (t 'forks.page_title' nodeTitle=model.taskInstance.value.unsafeTitle)}}
-<div class="container" local-class="Forks">
-    {{#bs-modal open=newModal onSubmit=(action 'newFork') onHide=(action (mut newModal) false) as |m|}}
-        {{#m.body}}
-            <button aria-label="Close" class="close" onclick={{action (mut newModal) false}} {{action 'click' 'button' 'Dashboard - New Project - close_modal' target=analytics}}>
+{{title (t 'forks.page_title' nodeTitle=this.model.taskInstance.value.unsafeTitle)}}
+<div class='container' local-class='Forks'>
+    <BsModal
+        @open={{this.newModal}}
+        @onSubmit={{action this.newFork}}
+        @onHide={{action (mut this.newModal) false}}
+        as |modal|
+    >
+        <modal.body>
+            <OsfButton
+                aria-label={{t 'general.close'}}
+                @class='close'
+                @onClick={{action this.closeNewModal}}
+            >
                 {{fa-icon 'times' size='sm'}}
-            </button>
+            </OsfButton>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
-        {{/m.body}}
-        {{#m.footer}}
-            {{#bs-button onClick=(action (mut newModal) false)}}{{t 'general.cancel'}}{{/bs-button}}
-            {{#bs-button onClick=(action m.submit) type='info'}}{{t 'forks.fork'}}{{/bs-button}}
-        {{/m.footer}}
-    {{/bs-modal}}
+        </modal.body>
+        <modal.footer>
+            <OsfButton
+                @onClick={{action (mut this.newModal) false}}
+            >
+                {{t 'general.cancel'}}
+            </OsfButton>
+            <OsfButton
+                @onClick={{action modal.submit}}
+                @type='info'
+            >
+                {{t 'forks.fork'}}
+            </OsfButton>
+        </modal.footer>
+    </BsModal>
     {{! Analytics being called in the controller action }}
-    {{delete-node-modal delete=(action 'delete') openModal=deleteModal closeModal=(action 'closeDeleteModal') nodeType=nodeType}}
-    <div local-class="Forks__header" class="page-header visible-xs">
-        <h2 class="text-300">{{t 'forks.title'}}</h2>
+    <DeleteNodeModal
+        @delete={{action this.delete}}
+        @openModal={{this.deleteModal}}
+        @closeModal={{action this.closeDeleteModal}}
+        @nodeType={{this.nodeType}}
+    />
+    <div local-class='Forks__header' class='page-header visible-xs'>
+        <h2 class='text-300'>{{t 'forks.title'}}</h2>
     </div>
-    <div class="m-md" local-class="Forks__nav">
+    <div class='m-md' local-class='Forks__nav'>
         {{#link-to
             'guid-node.analytics'
-            node.id
-            click=(action 'click' 'link' 'Project Forks - forks.back' target=analytics)
+            this.node.id
+            click=(action 'click' 'link' 'Project Forks - forks.back' target=this.analytics)
         }}
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
         {{/link-to}}
-        <p local-class="Forks__nav__link">{{t 'forks.info'}}</p>
+        <p local-class='Forks__nav__link'>{{t 'forks.info'}}</p>
     </div>
-    <div local-class="Forks__forks">
+    <div local-class='Forks__forks'>
         {{#paginated-list/has-many
-            modelTaskInstance=model.taskInstance
+            modelTaskInstance=this.model.taskInstance
             relationshipName='forks'
-            bindReload=(action (mut reloadList))
-            query=forksQueryParams
+            bindReload=(action (mut this.reloadList))
+            query=this.forksQueryParams
             analyticsScope='Project Forks'
             as |list|
         }}
-            {{#list.item as |fork|}}
-                {{node-card node=fork delete=(action openDeleteModal fork)}}
-            {{/list.item}}
+            <list.item as |fork|>
+                <NodeCard
+                    @node={{fork}}
+                    @delete={{action this.openDeleteModal fork}}
+                />
+            </list.item>
 
-            {{#list.empty}}
+            <list.empty>
                 <div local-class='Forks__placeholder'>
                     {{t 'forks.no_forks'}}
                 </div>
-            {{/list.empty}}
+            </list.empty>
         {{/paginated-list/has-many}}
     </div>
-    <div local-class="Forks__new-fork">
-        <div class="m-md">
+    <div local-class='Forks__new-fork'>
+        <div class='m-md'>
             {{! Analytics being called in the controller action }}
-            {{#bs-button type='success' disabled=loadingNew onClick=(action (mut newModal) true)}}
-                {{#if loadingNew}}
+            <OsfButton
+                @type='success'
+                @disabled={{this.loadingNew}}
+                @onClick={{action (mut this.newModal) true}}
+            >
+                {{#if this.loadingNew}}
                     {{t 'forks.loading_new'}}
                 {{else}}
                     {{t 'forks.new'}}
                 {{/if}}
-            {{/bs-button}}
+            </OsfButton>
         </div>
     </div>
 </div>

@@ -1,10 +1,10 @@
 import OsfAdapter from './osf-adapter';
 
-export default class Wiki extends OsfAdapter {
+export default class WikiAdapter extends OsfAdapter {
 }
 
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'wiki': Wiki;
-    }
+declare module 'ember-data/types/registries/adapter' {
+    export default interface AdapterRegistry {
+        wiki: WikiAdapter;
+    } // eslint-disable-line semi
 }

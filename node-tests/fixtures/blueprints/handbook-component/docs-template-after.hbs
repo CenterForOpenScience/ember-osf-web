@@ -1,32 +1,32 @@
-{{#docs-viewer as |viewer|}}
-    {{#viewer.nav project=model as |nav|}}
-        {{nav.section 'Introduction'}}
-        {{nav.item 'What is this handbook?' 'docs.index'}}
-        {{nav.item 'Contributing to the handbook' 'docs.contributing'}}
+<DocsViewer as |viewer|>
+    <viewer.nav @project={{this.model}} as |nav|>
+        <nav.section @label='Introduction' />
+        <nav.item @label='What is this handbook?' @route='docs.index' />
+        <nav.item @label='Contributing to the handbook' @route='docs.contributing' />
 
-        {{nav.section 'Style guide'}}
-        {{nav.item 'Visual style' 'docs.visual-style'}}
-        {{nav.item 'Written style' 'docs.written-style'}}
+        <nav.section @label='Style guide' />
+        <nav.item @label='Visual style' @route='docs.visual-style' />
+        <nav.item @label='Written style' @route='docs.written-style' />
 
-        {{nav.section 'Component gallery'}}
-        {{nav.item 'bs-alert' 'docs.components.bs-alert'}}
-        {{nav.item 'foo-bar' 'docs.components.foo-bar'}}
-        {{nav.item 'loading-indicator' 'docs.components.loading-indicator'}}
+        <nav.section @label='Component gallery' />
+        <nav.item @label='bs-alert' @route='docs.components.bs-alert' />
+        <nav.item @label='foo-bar' @route='docs.components.foo-bar' />
+        <nav.item @label='loading-indicator' @route='docs.components.loading-indicator' />
 
-        {{nav.section 'Development'}}
-        {{nav.item 'Quickstart' 'docs.quickstart'}}
-        {{nav.item 'Troubleshooting' 'docs.troubleshooting'}}
-        {{nav.item 'Developer Environment' 'docs.dev-env'}}
-        {{nav.item 'Testing' 'docs.testing'}}
-        {{nav.item 'Additional resources' 'docs.resources'}}
+        <nav.section @label='Development' />
+        <nav.item @label='Quickstart' @route='docs.quickstart' />
+        <nav.item @label='Troubleshooting' @route='docs.troubleshooting' />
+        <nav.item @label='Developer Environment' @route='docs.dev-env' />
+        <nav.item @label='Testing' @route='docs.testing' />
+        <nav.item @label='Additional resources' @route='docs.resources' />
 
-    {{/viewer.nav}}
+    </viewer.nav>
 
-    {{#viewer.main}}
-        <div class="docs-container">
-            <div local-class="DocsPage" class="docs-section">
+    <viewer.main>
+        <div class='docs-container'>
+            <div local-class='DocsPage' class='docs-section'>
                 {{outlet}}
             </div>
         </div>
-    {{/viewer.main}}
-{{/docs-viewer}}
+    </viewer.main>
+</DocsViewer>

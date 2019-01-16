@@ -1,26 +1,26 @@
-<div local-class="current-subjects">
-    {{#each currentSubjects as |subject index|}}
-        <span local-class="subject">
+<div local-class='current-subjects'>
+    {{#each this.currentSubjects as |subject index|}}
+        <span local-class='subject'>
             {{#each subject as |segment|}}
-                <div local-class="subject-container">
-                    <span local-class="subject-container-text">
+                <div local-class='subject-container'>
+                    <span local-class='subject-container-text'>
                         {{segment.text}}
                         <button
-                            class="fa fa-close"
-                            local-class="remove-subject"
-                            aria-label="{{t 'submit.body.remove_subject_aria'}}"
-                            title="{{t 'app_components.subject_picker.remove'}}"
+                            class='fa fa-close'
+                            local-class='remove-subject'
+                            aria-label={{t 'submit.body.remove_subject_aria'}}
+                            title={{t 'app_components.subject_picker.remove'}}
                             {{action 'deselect' index}}
                         ></button>
                     </span>
                 </div>
-                <span local-class="right-arrow"></span>
+                <span local-class='right-arrow'></span>
             {{/each}}
         </span>
     {{/each}}
 </div>
-<div local-class="columns">
-    {{#each columns as |column tier|}}
+<div local-class='columns'>
+    {{#each this.columns as |column tier|}}
         {{subject-picker/column
             selection=column.selection
             subjects=column.subjects
@@ -29,12 +29,13 @@
     {{/each}}
 </div>
 {{validated-input/custom
-    model=model
-    valuePath=valuePath
-    shouldShowMessages=didValidate
+    model=@model
+    valuePath=@valuePath
+    shouldShowMessages=@didValidate
 }}
 {{submit-section-buttons
     discard=(action 'discard')
-    continue=continue
-    continueDisabled=(v-get model valuePath 'isInvalid')
+    continue=@continue
+    continueDisabled=(v-get @model @valuePath 'isInvalid')
+    continueButtonLabel=(t 'app_components.submit_section.continue')
 }}

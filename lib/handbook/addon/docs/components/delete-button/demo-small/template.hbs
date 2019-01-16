@@ -1,11 +1,14 @@
-{{#docs-demo as |demo|}}
-    {{#demo.example name='delete-button.demo-small.hbs'}}
-        {{delete-button
-            small=true
-            delete=(action delete 'small')
-        }}
-    {{/demo.example}}
+<DocsDemo as |demo|>
+    <demo.example @name='delete-button.demo-small.hbs'>
+        <DeleteButton
+            @small={{true}}
+            @delete={{action @delete 'small'}}
+        />
+    </demo.example>
 
-    {{demo.snippet 'delete-button.demo-small.hbs'}}
-    {{demo.snippet 'delete-button.delete-action.ts' label='component.ts'}}
-{{/docs-demo}}
+    <demo.snippet @name='delete-button.demo-small.hbs' />
+    <demo.snippet
+        @name='delete-button.delete-action.ts'
+        @label='component.ts'
+    />
+</DocsDemo>

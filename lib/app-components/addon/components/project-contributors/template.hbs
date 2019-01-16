@@ -1,11 +1,11 @@
-<div class="col-xs-12 col-md-5" local-class="col-division-right">
+<div class='col-xs-12 col-md-5' local-class='col-division-right'>
     {{project-contributors/search
-        node=node
-        contributors=contributors
+        node=this.node
+        contributors=this.contributors
     }}
 </div>
-<div class="col-xs-12 col-md-7">
-    <h2 local-class="inline">{{t 'app_components.project_contributors.title'}}</h2>
+<div class='col-xs-12 col-md-7'>
+    <h2 local-class='inline'>{{t 'app_components.project_contributors.title'}}</h2>
     {{#fa-icon 'question-circle'}}
         {{#bs-popover
             placement='bottom'
@@ -17,12 +17,13 @@
     {{/fa-icon}}
     <p>{{t 'app_components.project_contributors.instructions'}}</p>
     {{project-contributors/list
-        node=node
-        contributors=contributors
+        node=this.node
+        contributors=this.contributors
     }}
 </div>
 {{submit-section-buttons
     showDiscard=false
-    discard=discard
-    continue=continue
+    discard=this.discard
+    continue=this.continue
+    continueButtonLabel=(t 'app_components.submit_section.continue')
 }}

@@ -1,19 +1,19 @@
 {{#each this.chunkedDisplayFields as |fields|}}
-    <div class="row">
+    <div class='row'>
         {{#each fields as |field|}}
-            <div class="col-md-6">
+            <div class='col-md-6'>
                 <label>
                     {{t (concat 'collections.collection_metadata.' field.labelKey)}}
-                    {{#validated-input/power-select
+                </label>
+                {{#validated-input/power-select
                         model=this.collectedMetadatum
                         valuePath=field.valuePath
                         options=(sort (get this.collection field.optionsKey))
                         shouldShowMessages=this.didValidate
                         as |option|
-                    }}
-                        {{option}}
-                    {{/validated-input/power-select}}
-                </label>
+                }}
+                    {{option}}
+                {{/validated-input/power-select}}
             </div>
         {{/each}}
     </div>
@@ -22,4 +22,5 @@
     discard=(action 'discard')
     continue=this.continue
     continueDisabled=this.isInvalid
+    continueButtonLabel=(t 'app_components.submit_section.continue')
 }}

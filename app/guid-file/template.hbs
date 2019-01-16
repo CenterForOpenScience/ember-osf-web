@@ -1,92 +1,146 @@
-{{title model.file.name}}
+{{title this.model.file.name}}
 <div class='container'>
-    {{quickfile-nav user=model.user onQuickfiles=false}}
+    <QuickfileNav @user={{this.model.user}} @onQuickfiles={{false}} />
     <div local-class='TitleBar'>
         <div local-class='TitleBar__title'>
             <h2>
-                {{model.file.name}}
-                <a local-class='TitleBar__version-link' role="button" onclick={{action 'changeView' 'revision'}}>
-                    {{t 'file_detail.version.title' version-number=mfrVersion}}
-                </a>
+                {{this.model.file.name}}
+                <OsfButton
+                    local-class='TitleBar__version-link'
+                    @type='link'
+                    @onClick={{action 'changeView' 'revision'}}
+                >
+                    {{t 'file_detail.version.title' version-number=this.mfrVersion}}
+                </OsfButton>
             </h2>
         </div>
         <div local-class='TitleBar__buttons'>
             <div id='toggleBar' class='pull-right'>
                 <div class='btn-toolbar m-t-md'>
-                    {{#if canDelete}}
+                    {{#if this.canDelete}}
                         <div class='btn-group m-l-xs m-t-xs'>
-                            <button class='btn btn-sm btn-default' onclick={{action 'openDeleteModal'}}>
-                                {{t "general.delete"}}
-                            </button>
+                            <OsfButton 
+                                data-test-delete-button
+                                @type='default'
+                                @size='sm'
+                                @onClick={{action this.openDeleteModal}}
+                            >
+                                {{t 'general.delete'}}
+                            </OsfButton>
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm btn-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download' target=analytics)}} {{action 'download' model.file.currentVersion}}>
-                            {{t "general.download"}}
-                        </button>
+                        <OsfButton 
+                            data-test-download-button
+                            @type='primary'
+                            @size='sm'
+                            @onClick={{action this.download this.model.file.currentVersion}}
+                        >
+                            {{t 'general.download'}}
+                        </OsfButton>
                     </div>
                     <div class='btn-group m-l-xs m-t-xs'>
-                        {{file-share-button file=model.file}}
+                        <FileShareButton @file={{this.model.file}} />
                     </div>
-                    {{#if isEditableFile}}
+                    {{#if this.isEditableFile}}
                         <div class='btn-group btn-group-sm m-t-xs'>
-                            {{#if canEdit}}
-                                <div class='btn btn-default disabled' local-class="TitleBar__button-label">{{t "file_detail.toggle"}}</div>
-                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>{{t "general.view"}}</button>
-                                <button class='btn {{if (or (eq show "edit") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'edit'}}>{{t "general.edit"}}</button>
+                            {{#if this.canEdit}}
+                                <OsfButton
+                                    local-class='TitleBar__button-label'
+                                    @disabled={{true}}
+                                >
+                                    {{t 'file_detail.toggle'}}
+                                </OsfButton>
+                                <OsfButton
+                                    @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
+                                    @onClick={{action this.changeView 'view'}}
+                                >
+                                    {{t 'general.view'}}
+                                </OsfButton>
+                                <OsfButton
+                                    @type='{{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'primary' 'default'}}'
+                                    @onClick={{action this.changeView 'edit'}}
+                                >
+                                    {{t 'general.edit'}}
+                                </OsfButton>
                             {{else}}
-                                <button class='btn {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>{{t "general.view"}}</button>
+                                <OsfButton
+                                    @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
+                                    @onClick={{action this.changeView 'view'}}
+                                >
+                                    {{t 'general.view'}}
+                                </OsfButton>
                             {{/if}}
                         </div>
                     {{else}}
                         <div class='btn-group m-l-xs m-t-xs'>
-                            <button class='btn btn-sm {{if (or (eq show "view") (eq show "view_edit")) "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'view'}}>
-                                {{t "general.view"}}
-                            </button>
+                            <OsfButton
+                                @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
+                                @size='sm'
+                                @onClick={{action this.changeView 'view'}}
+                            >
+                                {{t 'general.view'}}
+                            </OsfButton>
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <button class='btn btn-sm {{if (eq show "revision") "btn-primary" "btn-default"}}' onclick={{action 'changeView' 'revision'}}>
-                            {{t "general.revisions"}}
-                        </button>
+                        <OsfButton
+                            data-test-revisions-tab
+                            @type='{{if (eq this.show 'revision') 'primary' 'default'}}'
+                            @size='sm'
+                            @onClick={{action this.changeView 'revision'}}
+                        >
+                            {{t 'general.revisions'}}
+                        </OsfButton>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {{#bs-modal open=deleteModalOpen onSubmit=(action 'delete') onHidden=(action 'closeDeleteModal') as |modal|}}
-        {{#modal.header}}
-            <h4 class="modal-title">{{t "file_detail.delete_file.question"}}</h4>
-        {{/modal.header}}
-        {{#modal.body}}
-            <p>{{t 'file_detail.delete_file.confirm' file-name=model.file.name}}</p>
-        {{/modal.body}}
-        {{#modal.footer}}
-            {{#bs-button onClick=(action modal.close) type='default'}}
+    <BsModal
+        @open={{this.deleteModalOpen}}
+        @onSubmit={{action this.delete}}
+        @onHidden={{action this.closeDeleteModal}}
+        as |modal|
+    >
+        <modal.header>
+            <h4 class='modal-title'>{{t 'file_detail.delete_file.question'}}</h4>
+        </modal.header>
+        <modal.body>
+            <p>{{t 'file_detail.delete_file.confirm' file-name=this.model.file.name}}</p>
+        </modal.body>
+        <modal.footer>
+            <OsfButton
+                @onClick={{action modal.close}}
+                @type='default'
+            >
                 {{t 'general.cancel'}}
-            {{/bs-button}}
-            {{#bs-button onClick=(action modal.submit) type='danger'}}
+            </OsfButton>
+            <OsfButton
+                @onClick={{action modal.submit}} 
+                @type='danger'
+            >
                 {{t 'general.delete'}}
-            {{/bs-button}}
-        {{/modal.footer}}
-    {{/bs-modal}}
+            </OsfButton>
+        </modal.footer>
+    </BsModal>
     <hr>
-    <div class='row' local-class="Main">
-        <div class='col-md-3' local-class="Sidebar">
-            {{file-list
-                items=files
-                filter=filter
-                selectedFile=model.file
-                user=model.user
-                unselect=false
-                openOnSelect=true
-                updateFilter=(perform updateFilter)
-                openFile=(action 'openFile')
-            }}
+    <div class='row' local-class='Main'>
+        <div class='col-md-3' local-class='Sidebar'>
+            <FileList
+                @items={{this.files}}
+                @filter={{this.filter}}
+                @selectedFile={{this.model.file}}
+                @user={{this.model.user}}
+                @unselect={{false}}
+                @openOnSelect={{true}}
+                @updateFilter={{perform this.updateFilter}}
+                @openFile={{action this.openFile}}
+            />
             {{#if (or this.canEdit this.file.tags)}}
-                <div class='panel panel-default' local-class="TagsPanel">
-                    <div class='panel-heading clearfix' local-class="TagsPanel__heading">
-                        <h3 class='panel-title'>{{t "file_detail.tags"}}</h3>
+                <div class='panel panel-default' local-class='TagsPanel'>
+                    <div class='panel-heading clearfix' local-class='TagsPanel__heading'>
+                        <h3 class='panel-title'>{{t 'file_detail.tags'}}</h3>
                     </div>
                     <div class='panel-body'>
                         <TagsWidget
@@ -97,85 +151,94 @@
                             @showAdd={{this.canEdit}}
                             @analyticsScope='Quick Files'
                         />
-                        <div class="tags_clear"></div>
+                        <div class='tags_clear'></div>
                     </div>
                 </div>
             {{/if}}
         </div>
         <div class='col-md-9'>
             {{#if (or
-                (eq show 'view')
-                (eq show 'view_edit')
+                (eq this.show 'view')
+                (eq this.show 'view_edit')
             )}}
-                <div id='mfrIframeParent' class='{{if (and (eq show "view_edit") canEdit) "col-sm-6"}}'>
-                    {{file-renderer
-                        download=model.file.links.download
-                        version=mfrVersion
-                        height="700"
-                        width="99%"
-                    }}
+                <div id='mfrIframeParent' class='{{if (and (eq this.show 'view_edit') this.canEdit) 'col-sm-6'}}'>
+                    <FileRenderer
+                        @download={{this.model.file.links.download}}
+                        @version={{this.mfrVersion}}
+                        @height='700'
+                        @width='99%'
+                    />
                 </div>
             {{/if}}
             {{#if (and
-                isEditableFile
-                canEdit
+                this.isEditableFile
+                this.canEdit
                 (or
-                    (eq show 'edit')
-                    (eq show 'view_edit')
+                    (eq this.show 'edit')
+                    (eq this.show 'view_edit')
                 )
             )}}
-                <div class='panel panel-default {{if (and (eq show "view_edit") canEdit) "col-sm-6"}}' local-class="EditPanel">
-                    {{#if (not (eq (await fileText) null))}}
-                        {{#file-editor
-                            fileText=(await fileText)
-                            save=(action 'save')}}
-                        {{/file-editor}}
+                <div 
+                    class='panel panel-default {{if (and (eq this.show 'view_edit') this.canEdit) 'col-sm-6'}}'
+                    local-class='EditPanel'
+                >
+                    {{#if (not (eq (await this.fileText) null))}}
+                        <FileEditor
+                            @fileText={{await this.fileText}}
+                            @save={{action this.save}}
+                        />
                     {{/if}}
                 </div>
             {{/if}}
-            {{#if (eq show 'revision')}}
-                <div id='revisionsPanel' class='panel panel-default' local-class="RevisionsPanel">
-                    <div class='clearfix' local-class="TagsPanel__heading">
+            {{#if (eq this.show 'revision')}}
+                <div id='revisionsPanel' class='panel panel-default' local-class='RevisionsPanel'>
+                    <div class='clearfix' local-class='TagsPanel__heading'>
                         <h3 class='panel-title'>
-                            {{t "general.revisions"}}
+                            {{t 'general.revisions'}}
                         </h3>
                     </div>
                     <div class='panel-body'>
-                        <table class='table table-responsive' local-class="RevisionsPanel__table">
+                        <table class='table table-responsive' local-class='RevisionsPanel__table'>
                             <thead>
                                 <tr>
-                                    <th class='col-md-4'>{{t "file_detail.version.id"}}</th>
-                                    <th class='col-md-6'>{{t "general.date"}}</th>
-                                    <th colspan='2' class='col-xs-2'>{{t "general.download"}}</th>
+                                    <th class='col-md-4'>{{t 'file_detail.version.id'}}</th>
+                                    <th class='col-md-6'>{{t 'general.date'}}</th>
+                                    <th colspan='2' class='col-xs-2'>{{t 'general.download'}}</th>
                                     <th class='hidden-md hidden-sm hidden-xs'>
-                                        {{t "general.md5"}}
+                                        {{t 'general.md5'}}
                                         <span>
-                                            {{fa-icon "question-circle"}}
-                                            {{#bs-popover triggerEvents='hover' placement='top'}}
+                                            {{fa-icon 'question-circle'}}
+                                            <BsPopover
+                                                @triggerEvents='hover'
+                                                @placement='top'
+                                            >
                                                 {{t 'file_detail.md5_description'}}
-                                            {{/bs-popover}}
+                                            </BsPopover>
                                         </span>
                                     </th>
                                     <th class='hidden-md hidden-sm hidden-xs'>
-                                        {{t "general.sha2"}}
+                                        {{t 'general.sha2'}}
                                         <span>
-                                            {{fa-icon "question-circle"}}
-                                            {{#bs-popover triggerEvents='hover' placement='top'}}
+                                            {{fa-icon 'question-circle'}}
+                                            <BsPopover 
+                                                @triggerEvents='hover'
+                                                @placement='top'
+                                            >
                                                 {{t 'file_detail.sha2_description'}}
-                                            {{/bs-popover}}
+                                            </BsPopover>
                                         </span>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{#each (await fileVersions) as |version|}}
-                                    {{file-version
-                                        version=version
-                                        download=(action 'download')
-                                        url=model.file.links.download
-                                        currentVersion=mfrVersion
-                                        versionChange=(action 'versionChange')
-                                    }}
+                                {{#each (await this.fileVersions) as |version|}}
+                                    <FileVersion
+                                        @version={{version}}
+                                        @download={{action this.download}}
+                                        @url={{this.model.file.links.download}}
+                                        @currentVersion={{this.mfrVersion}}
+                                        @versionChange={{action this.versionChange}}
+                                    />
                                 {{/each}}
                             </tbody>
                         </table>

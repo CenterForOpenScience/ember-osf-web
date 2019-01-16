@@ -2,7 +2,7 @@
     <p local-class='Top__explanation'>
         {{t 'settings.developer-apps.explanation'}}
     </p>
-
+    {{! template-lint-disable no-implicit-this }}
     {{#link-to
         data-test-create-app-link
         'settings.developer-apps.create'
@@ -10,6 +10,7 @@
     }}
         {{t 'settings.developer-apps.createApp'}}
     {{/link-to}}
+    {{! template-lint-enable no-implicit-this }}
 </div>
 
 {{#paginated-list/all

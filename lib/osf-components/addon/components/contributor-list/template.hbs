@@ -1,22 +1,27 @@
-{{#inline-list items=this.contributorList truncate=this.displayedContribs as |l|}}
+<InlineList
+    @items={{this.formattedContributors}}
+    @total={{this.totalContributors}}
+    @truncate={{this.truncateCount}}
+    as |l|
+>
     {{#if l.item}}
-        {{~contributor-list/contributor useContributorLink=this.useContributorLink contributor=l.item~}}
-    {{else if l.truncate}}
-        {{#if (and showLoading hasMore loadContributors.isRunning) }}
-            {{loading-indicator inline=true dark=dark}}
+        {{~contributor-list/contributor shouldLinkUser=this.shouldLinkUsers contributor=l.item~}}
+    {{else if l.remainingCount}}
+        {{#if this.loadContributors.isRunning }}
+            <LoadingIndicator @inline={{true}} @dark={{true}} />
+        {{else if this.truncated}}
+            {{~t 'contributor_list.and_x_more' x=l.remainingCount~}}
         {{else}}
-            {{#if useShowMoreLink}}
-                <button class="btn btn-link" local-class="load-contribs" aria-label={{t 'contributor_list.more'}} onclick={{action 'more'}} data-test-load-more-contribs>
-                    {{~t 'contributor_list.and_x_more' x=rest~}}
-                </button>
-            {{else}}
-                {{~t 'contributor_list.and_x_more' x=rest~}}
-            {{/if}}
+            <OsfButton
+                data-test-load-more-contribs
+                data-analytics-name='Load more contributors'
+                aria-label={{t 'contributor_list.more'}}
+                local-class='load-contribs'
+                @type='link'
+                @onClick={{perform this.loadContributors true}}
+            >
+                {{~t 'contributor_list.and_x_more' x=l.remainingCount~}}
+            </OsfButton>
         {{/if}}
     {{/if}}
-{{/inline-list}}
-{{#if showLess}}
-    <button class="btn btn-link" local-class="load-contribs" aria-label={{t 'contributor_list.less.capitalized'}} onclick={{action 'less'}} data-test-show-less-contribs>
-        {{~t 'contributor_list.less.lowercase'~}}
-    </button>
-{{/if}}
+</InlineList>

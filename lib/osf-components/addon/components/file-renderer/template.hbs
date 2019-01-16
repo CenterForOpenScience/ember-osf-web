@@ -1,17 +1,17 @@
-{{#if download}}
-    {{#if isLoading}}
-        {{loading-indicator dark=true}}
+{{#if this.download}}
+    {{#if this.isLoading}}
+        <LoadingIndicator @dark={{true}}/>
     {{/if}}
     <iframe
-        src={{mfrUrl}}
-        width={{width}}
+        src={{this.mfrUrl}}
+        width={{this.width}}
         title={{t 'file_detail.mfr_iframe_title'}}
-        height={{height}}
-        scrolling="yes"
-        marginheight="0"
-        frameborder="0"
-        allowfullscreen={{allowfullscreen}}
-        hidden={{isLoading}}
-        onload={{action 'loaded'}}
+        height={{this.height}}
+        scrolling='yes'
+        marginheight='0'
+        frameborder='0'
+        allowfullscreen={{this.allowfullscreen}}
+        hidden={{this.isLoading}}
+        onload={{action this.loaded}}
     ></iframe>
 {{/if}}

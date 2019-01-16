@@ -1,0 +1,32 @@
+<DocsDemo as |demo|>
+        <BsButton 
+            @class='center-block m-b-lg' 
+            @onClick={{action @openModal}}
+        >
+            Create project
+        </BsButton>
+        {{#if this.newNode}}
+            The new node title is "{{this.newNode.title}}".
+        {{else}}
+            There is no node.
+        {{/if}}
+        {{#if this.shouldReload}}
+            Reload requested.
+        {{else}}
+            No reload requested.
+        {{/if}}
+        <demo.example @name='new-project-modal.demo.hbs'>
+            {{#if this.shouldShowModal}}
+                <NewProjectModal
+                    @afterProjectCreated={{action @projectCreated}}
+                    @analyticsContext='Dashboard'
+                    @closeModal={{action @closeModal reload=false}}
+                />
+            {{/if}}
+        </demo.example>
+    <demo.snippet @name='new-project-modal.demo.hbs' />
+    <demo.snippet
+        @name='new-project-modal.controller.ts'
+        @label='controller.ts'
+    />
+</DocsDemo>

@@ -1,27 +1,3 @@
-{{#bs-modal
-    onSubmit=(action 'reset')
-    onHide=(action (mut this.showCancelDialog) false)
-    open=this.showCancelDialog
-    as |modal|
-}}
-    {{#modal.header}}
-        <h4 class="modal-title">
-            <i class="glyphicon glyphicon-alert"></i>
-            {{t (concat this.i18nKeyPrefix 'modal_header')}}
-        </h4>
-    {{/modal.header}}
-    {{#modal.body}}
-        {{t (concat this.i18nKeyPrefix 'modal_body')}}
-    {{/modal.body}}
-    {{#modal.footer}}
-        {{#bs-button onClick=(action modal.close) type='default'}}
-            {{t 'general.cancel'}}
-        {{/bs-button}}
-        {{#bs-button onClick=(action modal.submit) type='danger'}}
-            {{t 'general.ok'}}
-        {{/bs-button}}
-    {{/modal.footer}}
-{{/bs-modal}}
 <div class="submit-header" local-class="header">
     <h1>{{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
 </div>
@@ -49,7 +25,7 @@
             {{#section.complete}}
                 <p>
                     <em>{{t (concat this.i18nKeyPrefix 'project_select_project_label')}}</em>
-                    <span>{{collectionItem.title}}</span>
+                    <span>{{this.collectionItem.title}}</span>
                 </p>
             {{/section.complete}}
         {{/sections.section}}
@@ -112,7 +88,7 @@
                 }}
             {{/section.active}}
             {{#section.complete}}
-                <p>{{contributor-list contributors=this.collectionItem.contributors}}</p>
+                <p>{{contributor-list contributors=this.collectionItem.contributors truncated=false}}</p>
             {{/section.complete}}
         {{/sections.section}}
 
@@ -134,15 +110,7 @@
                 }}
             {{/section.active}}
             {{#section.complete}}
-                <div>
-                    {{#each this.collectedMetadatum.subjects as |subject|}}
-                        <div local-class="subject">
-                            {{#each subject as |segment|}}
-                                <span>{{segment.text}}</span>
-                            {{/each}}
-                        </div>
-                    {{/each}}
-                </div>
+                {{collection-subjects-list subjects=this.collectedMetadatum.displaySubjects onClickSubject=(action this.noop)}}
             {{/section.complete}}
         {{/sections.section}}
 

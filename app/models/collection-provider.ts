@@ -1,15 +1,19 @@
 import { belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
-import Collection from './collection';
-import Provider from './provider';
 
-export default class CollectionProvider extends Provider {
-    @belongsTo('collection') primaryCollection!: DS.PromiseObject<Collection> & Collection;
-    @hasMany('collection', { inverse: 'provider' }) collections!: DS.PromiseManyArray<Collection>;
+import CollectionModel from './collection';
+import ProviderModel from './provider';
+
+export default class CollectionProviderModel extends ProviderModel {
+    @belongsTo('collection')
+    primaryCollection!: DS.PromiseObject<CollectionModel> & CollectionModel;
+
+    @hasMany('collection', { inverse: 'provider' })
+    collections!: DS.PromiseManyArray<CollectionModel>;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'collection-provider': CollectionProvider;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        'collection-provider': CollectionProviderModel;
+    } // eslint-disable-line semi
 }

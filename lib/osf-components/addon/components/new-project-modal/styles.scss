@@ -2,14 +2,19 @@
     width: 100%;
 }
 
-.NewProject__institution-selector > a {
+.NewProject__institution-selector > button {
     float: right;
     margin-right: 12px;
+    padding: 0;
 }
 
 .NewProject__institution-item {
     position: relative;
     margin: 10px;
+}
+
+.NewProject__institution-button {
+    outline: none !important;
 }
 
 .NewProject__institution-img-not-selected {
@@ -19,4 +24,23 @@
 
 .NewProject__placeholder {
     color: $color-text-gray-dark;
+}
+
+.NewProject__modal {
+    overflow-y: auto !important;
+}
+
+.NewProject__more {
+    color: $color-text-black !important;
+    padding: 0 !important;
+
+    &:global(.btn-link) {
+        &:hover,
+        &:focus,
+        &:active,
+        &:focus:active {
+            outline-style: none;
+            text-decoration: none !important;
+        }
+    }
 }

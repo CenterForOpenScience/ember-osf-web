@@ -2,12 +2,14 @@ import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import config from 'ember-get-config';
-import Analytics from 'ember-osf-web/services/analytics';
-import CurrentUser from 'ember-osf-web/services/current-user';
 import $ from 'jquery';
 import RSVP from 'rsvp';
+
+import { layout } from 'ember-osf-web/decorators/component';
+import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const {
     microfeedback: { enabled, pageParams, url },
@@ -64,10 +66,8 @@ enum DialogState {
     success = 'success',
 }
 
+@layout(template, styles)
 export default class FeedbackButton extends Component {
-    layout = layout;
-    styles = styles;
-
     pageName?: string;
     text?: string;
 
@@ -107,6 +107,7 @@ export default class FeedbackButton extends Component {
     @action
     showDialog(this: FeedbackButton) {
         this.set('state', DialogState.active);
+        this.analytics.click('button', 'Feedback - open');
     }
 
     @action

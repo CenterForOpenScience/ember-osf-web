@@ -68,8 +68,8 @@ export default class NodeLicense extends DS.Transform {
     }
 }
 
-declare module 'ember-data' {
-    interface TransformRegistry {
+declare module 'ember-data/types/registries/transform' {
+    export default interface TransformRegistry {
         'node-license': NodeLicense;
-    }
+    } // eslint-disable-line semi
 }

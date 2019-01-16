@@ -4,16 +4,21 @@ import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
+import config from 'ember-get-config';
+
 import { OSFService } from 'osf-components/components/osf-navbar/component';
-import config from 'registries/config/environment';
 
 const {
-    featureFlagNames: { newStyle },
+    featureFlagNames: {
+        routes: {
+            'registries.overview': newStyleFlag,
+        },
+    },
 } = config;
 
 export default class Application extends Controller {
     @service features!: Features;
-    @alias(`features.${camelize(newStyle)}`) newStyleEnabled!: boolean;
+    @alias(`features.${camelize(newStyleFlag)}`) newStyleEnabled!: boolean;
 
     activeService = OSFService.REGISTRIES;
     searchRoute = 'registries.discover';

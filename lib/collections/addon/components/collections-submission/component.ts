@@ -5,7 +5,9 @@ import { underscore } from '@ember/string';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import Toast from 'ember-toastr/services/toast';
+
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
@@ -15,9 +17,8 @@ import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import Toast from 'ember-toastr/services/toast';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 enum Section {
     project = 0,
@@ -28,10 +29,8 @@ enum Section {
     submit = 5,
 }
 
+@layout(template, styles)
 export default class Submit extends Component {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
@@ -118,6 +117,12 @@ export default class Submit extends Component {
     @requiredAction
     transition!: () => void;
 
+    /**
+     * Called when user advances to the next section
+     */
+    @requiredAction
+    onNextSection!: () => void;
+
     @action
     projectSelected(this: Submit, collectionItem: Node) {
         collectionItem.set('collectable', true);
@@ -139,7 +144,6 @@ export default class Submit extends Component {
         this.setProperties({
             activeSection: Section.project,
             savedSections: [],
-            showCancelDialog: false,
         });
 
         this.transition();
@@ -151,12 +155,7 @@ export default class Submit extends Component {
      */
     @action
     cancel(this: Submit) {
-        if (this.activeSection === Section.project) {
-            this.transition();
-            return;
-        }
-
-        this.set('showCancelDialog', true);
+        this.transition();
     }
 
     @action
@@ -168,5 +167,6 @@ export default class Submit extends Component {
     nextSection() {
         this.savedSections.pushObject(this.activeSection);
         this.incrementProperty('activeSection');
+        this.onNextSection();
     }
 }

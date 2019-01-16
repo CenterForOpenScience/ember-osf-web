@@ -1,10 +1,10 @@
-
 import Component from '@ember/component';
 
-import styles from './styles';
-import layout from './template';
+import { layout } from 'ember-osf-web/decorators/component';
 
+import styles from './styles';
+import template from './template';
+
+@layout(template, styles)
 export default class SuccessIcon extends Component {
-    layout = layout;
-    styles = styles;
 }

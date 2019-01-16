@@ -1,5 +1,5 @@
-declare module 'ember-engines/routes' {
-    import Ember from 'ember';
+import RouterDSL from '@ember/routing/-private/router-dsl';
 
-    export default function buildRoutes(callback: (this: Ember.RouterDSL) => void): void;
+declare module 'ember-engines/routes' {
+    export default function buildRoutes(callback: (this: RouterDSL) => void): void;
 }

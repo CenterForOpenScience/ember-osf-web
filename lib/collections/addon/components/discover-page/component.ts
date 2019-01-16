@@ -1,5 +1,6 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import { A } from '@ember/array';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -9,13 +10,15 @@ import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { encodeParams, getSplitParams, getUniqueList } from '../../utils/elastic-query';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 const filterQueryParams = [
     'taxonomy',
@@ -80,18 +83,16 @@ interface ArrayMeta {
 type SearchQuery = ArrayProxy<any> & ArrayMeta;
 
 function emptyResults(): SearchQuery {
-    return ArrayProxy.create({ content: [], meta: { total: 0 } });
+    return ArrayProxy.create({ content: A([]), meta: { total: 0 } });
 }
 
+@layout(template, styles)
 export default class DiscoverPage extends Component.extend({
     didInsertElement(this: DiscoverPage, ...args: any[]) {
         this._super(...args);
         this.set('firstLoad', true);
     },
 }) {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
@@ -154,7 +155,7 @@ export default class DiscoverPage extends Component.extend({
                 defaultQueryFilters: {},
                 currentQueryFilters: {},
                 options,
-                updateFilters() {
+                updateFilters: () => {
                     assert('You should set an `updateFilters` function');
                 },
             });
@@ -166,22 +167,11 @@ export default class DiscoverPage extends Component.extend({
             .reduce((acc, { currentQueryFilters }) => ({ ...acc, ...currentQueryFilters }), {});
     }
 
-    @computed('sort')
-    get sortQuery() {
-        return this.sort ?
-            {
-                sort: {
-                    [this.sort.replace(/^-/, '')]: this.sort[0] === '-' ? 'desc' : 'asc',
-                },
-            } :
-            {};
-    }
-
-    @computed('q', 'page', 'filters', 'sortQuery')
+    @computed('q', 'page', 'sort', 'filters')
     get queryAttributes() {
         return {
             page: this.page,
-            // ...this.sortQuery,
+            sort: this.sort,
             q: this.q || undefined,
             ...this.filters,
         };
@@ -244,7 +234,7 @@ export default class DiscoverPage extends Component.extend({
     aggregations: any;
     whiteListedProviders: string[] = defaultTo(this.whiteListedProviders, []);
     queryError: boolean = false;
-    shareDown: boolean = false;
+    serverError: boolean = false;
 
     // ************************************************************
     // COMPUTED PROPERTIES and OBSERVERS
@@ -304,9 +294,14 @@ export default class DiscoverPage extends Component.extend({
                 numberOfResults: 0,
                 results: emptyResults(),
             });
-
             // If issue with search query, for example, invalid lucene search syntax
-            this.set(errorResponse.status === 400 ? 'queryError' : 'shareDown', true);
+            if (errorResponse instanceof DS.ServerError ||
+                errorResponse instanceof DS.AbortError ||
+                errorResponse instanceof DS.TimeoutError) {
+                this.set('serverError', true);
+            } else {
+                this.set('queryError', true);
+            }
 
             // re-throw for error monitoring
             throw errorResponse;

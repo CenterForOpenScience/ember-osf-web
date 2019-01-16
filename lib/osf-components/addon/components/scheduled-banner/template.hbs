@@ -1,22 +1,22 @@
-{{#if banner}}
-    {{#scheduled-banner/x-maybe-link href=banner.link}}
-        <div style={{bannerWrapperStyle}}>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2 hidden-xs">
+{{#if this.banner}}
+    {{#scheduled-banner/x-maybe-link href=this.banner.link}}
+        <div style={{this.bannerWrapperStyle}}>
+            <div class='container'>
+                <div class='row'>
+                    <div class='col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2 hidden-xs'>
                         <img
-                            src={{banner.links.default_photo}}
-                            alt={{banner.defaultAltText}}
-                            local-class="Image"
-                            class="img-responsive"
+                            src={{this.banner.links.default_photo}}
+                            alt={{this.banner.defaultAltText}}
+                            local-class='Image'
+                            class='img-responsive'
                         >
                     </div>
-                    <div class="col-xs-12 hidden-sm hidden-md hidden-lg hidden-xl">
+                    <div class='col-xs-12 hidden-sm hidden-md hidden-lg hidden-xl'>
                         <img
-                            src={{banner.links.mobile_photo}}
-                            alt={{banner.mobileAltText}}
-                            local-class="Image"
-                            class="img-responsive"
+                            src={{this.banner.links.mobile_photo}}
+                            alt={{this.banner.mobileAltText}}
+                            local-class='Image'
+                            class='img-responsive'
                         >
                     </div>
                 </div>

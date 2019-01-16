@@ -6,3 +6,20 @@
 .AuthDropdown {
     right: 0 !important;
 }
+
+:global(.dropdown.secondary-nav-dropdown .btn-link.dropdown-toggle) {
+    padding: 11px 15px;
+
+}
+
+.LogOutButton:hover {
+    width: 100%;
+    background-color: #5b8287 !important;
+    text-align: inherit;
+}
+
+@media (max-width: 767px) {
+    .LogOutButton:hover {
+        background-color: #262f36 !important;
+    }
+}

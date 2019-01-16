@@ -1,6 +1,38 @@
 /* tslint:disable:object-literal-sort-keys max-line-length */
 
 export default {
+    documentType: {
+        default: {
+            plural: 'documents',
+            pluralCapitalized: 'Documents',
+            singular: 'document',
+            singularCapitalized: 'Document',
+        },
+        work: {
+            plural: 'works',
+            pluralCapitalized: 'Works',
+            singular: 'work',
+            singularCapitalized: 'Work',
+        },
+        paper: {
+            plural: 'papers',
+            pluralCapitalized: 'Papers',
+            singular: 'paper',
+            singularCapitalized: 'Paper',
+        },
+        preprint: {
+            plural: 'preprints',
+            pluralCapitalized: 'Preprints',
+            singular: 'preprint',
+            singularCapitalized: 'Preprint',
+        },
+        thesis: {
+            plural: 'theses',
+            pluralCapitalized: 'Theses',
+            singular: 'thesis',
+            singularCapitalized: 'Thesis',
+        },
+    },
     general: {
         OSF: 'OSF',
         share: 'Share',
@@ -56,6 +88,7 @@ export default {
         hosted_on_the_osf: 'Hosted on OSF',
         please_confirm: 'Please confirm',
         required: 'Required',
+        options: 'Options',
         optional: 'Optional',
         services: {
             collections: 'Collections',
@@ -214,7 +247,7 @@ export default {
         },
     },
     move_to_project: {
-        create_new_project: 'Create new project',
+        create_new_project: 'Create new public project',
         connect_to_existing: 'Connect file to existing OSF project',
         enter_project_title: 'Enter project title',
         new_project_message: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.',
@@ -313,11 +346,6 @@ export default {
     error_no_api: {
         title: 'API Unavailable',
         body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
-    },
-    zoom_to_route: {
-        title: 'Zoom directly to any route',
-        zoom: 'Zoom!',
-        placeholder: 'Choose a route',
     },
     osf_mode_footer: {
         dev_mode: 'This site is running in development mode.',
@@ -453,6 +481,7 @@ export default {
         url: '{{description}} must be a valid url.',
         // custom
         email_registered: 'This email address has already been registered.',
+        email_invalid: 'Invalid email address. If this should not have occurred, please report this to {{supportEmail}}',
         email_match: 'Email addresses must match.',
         password_email: 'Your password cannot be the same as your email address.',
         password_old: 'Your new password cannot be the same as your old password.',
@@ -462,6 +491,9 @@ export default {
         min_subjects: 'You must select at least {{minLength}} subject(s).',
         node_license_invalid: 'Invalid required fields for the license',
         node_license_missing_fields: 'The following required fields are missing: {{missingFields}}',
+    },
+    validated_input_form: {
+        discard_changes: 'Discard changes',
     },
     node_navbar: {
         toggle: 'Toggle navigation',
@@ -808,12 +840,13 @@ export default {
         submit_section: {
             discard: 'Discard changes',
             save: 'Save and continue',
+            continue: 'Continue',
             click_to_edit: 'Click to edit',
         },
     },
     collections: {
         general: {
-            brand: '{{name}} Collections',
+            brand: '{{name}} Collection',
         },
         navbar: {
             add: 'Add to Collection',
@@ -840,7 +873,7 @@ export default {
         discover: {
             title: 'Discover',
             search_heading: 'Collections Search',
-            search_placeholder: 'Search collections',
+            search_placeholder: 'Search collection',
             other_repositories: 'Other collections',
             facet_titles: {
                 collection_provider: 'Providers',
@@ -877,8 +910,7 @@ export default {
             update_save_success: '{{title}} has been updated in the collection.',
             add_save_error: 'Error adding {{title}} to the collection:\n{{error}}',
             update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
-            modal_header: 'Alert',
-            modal_body: 'Are you sure you want to discard changes to the collection? Changes saved to the project will persist, if saved.',
+            warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.',
         },
         collection_item_picker: {
             after_options: {
@@ -927,8 +959,7 @@ export default {
             searchLoading: 'Search loading',
             searchPlaceholder: 'Search...',
             share: 'SHARE',
-            shareUnavailable: 'Search is Unavailable',
-            shareUnavailableDescription: 'SHARE Search is temporarily unavailable. We have been notified and are working to fix the problem. Please try again later.',
+            searchUnavailable: 'Search is Unavailable',
             sortBy: 'Sort by',
             sortSearchResults: 'Sort search results',
             source: 'Source',
@@ -1014,8 +1045,44 @@ export default {
         },
 
         overview: {
-            overview: 'Overview',
-            metadata: 'Metadata',
+            title: 'Overview',
+            collapse: 'Collapse',
+            expand: 'Expand',
+            see_more: 'See more',
+
+            metadata: {
+                title: 'Metadata',
+                x_more: '{{x}} more',
+            },
+
+            comments: {
+                title: 'Comments',
+            },
+
+            links: {
+                title: 'Links',
+                no_links: 'This registration has no links.',
+            },
+
+            contributors: {
+                title: 'Contributors',
+                gravatar_alt: 'Gravatar for {{name}}',
+            },
+
+            components: {
+                title: 'Components',
+                no_components: 'This registration has no components.',
+            },
+
+            external_links: {
+                files: 'Files',
+                wiki: 'Wiki',
+                analytics: 'Analytics',
+            },
+
+            form_view: {
+                no_files: 'No files uploaded',
+            },
         },
     },
     analytics: {
@@ -1148,8 +1215,49 @@ export default {
         toggleNav: 'Toggle navigation',
         profile: {
             title: 'Profile information',
+            name: {
+                title: 'Name',
+                fullName: 'Display name (e.g. Rosalind Elsie Franklin)',
+                givenName: 'Given name (e.g. Rosalind)',
+                middleNames: 'Middle names (e.g. Elsie)',
+                familyName: 'Family name (e.g. Franklin)',
+                suffix: 'Suffix',
+                citationName: 'Citation name',
+                instructions: 'Your full name, above, will be displayed in your profile. To control the way your name will appear in citations, edit the fields below.',
+                apa: 'APA',
+                mla: 'MLA',
+                citationPreview: 'Citation preview',
+            },
+            social: {
+                title: 'Social',
+            },
+            education: {
+                title: 'Education',
+            },
+            employment: {
+                title: 'Employment',
+            },
         },
         account: {
+            security: {
+                title: 'Security Settings',
+                twoFactorAuth: 'Two-factor Authentication',
+                enableTwoFactor: 'Enable Two-factor Authentication',
+                enableWarning: 'Enabling two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
+                disableTwoFactor: 'Disable Two-factor Authentication',
+                why: 'By using two-factor authentication, you will protect your OSF account with both your password and your mobile phone.',
+                enableButton: 'Enable',
+                importantWarning: 'Important: If you lose access to your mobile device, you will not be able to log in to your OSF account.',
+                howTo: 'To use, you must install an appropriate application on your mobile device. Google Authenticator is a popular choice and is available for both Android and iOS.',
+                onceVerified: 'Once verified, your device will display a six-digit code that must be entered during the login process. This code changes every few seconds, which means that unauthorized users will not be able to log in to you account, even if they know your password.',
+                scanImage: 'Scan the image below, or enter the secret key <code>{{secretKey}}</code> into your authentication device.',
+                enterVerification: 'Enter your verification code:',
+                verificationFailed: 'Verification failed. Please enter your verification code again.',
+                disableWarning: 'Are you sure you want to disable two-factor authentication?',
+                disableButton: 'Disable',
+                saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+                submitVerification: 'Submit',
+            },
             title: 'Account settings',
         },
         addons: {
@@ -1241,5 +1349,16 @@ export default {
         title: 'tempor nec feugiat nisl pretium',
         sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id velit ut tortor pretium. Nisi porta lorem mollis aliquam ut porttitor leo a. Cras fermentum odio eu feugiat. Eget mi proin sed libero enim. Quam adipiscing vitae proin sagittis. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. At varius vel pharetra vel turpis nunc eget. Purus ut faucibus pulvinar elementum integer enim neque volutpat. Turpis nunc eget lorem dolor. Mattis pellentesque id nibh tortor id aliquet lectus proin nibh. Arcu felis bibendum ut tristique et egestas quis. Nisl tincidunt eget nullam non nisi est sit amet. Fringilla urna porttitor rhoncus dolor purus non enim.',
+    },
+    dev_tools: {
+        title: 'Dev tools',
+        zoom_to_route: {
+            title: 'Zoom to route',
+            zoom: 'Zoom!',
+            placeholder: 'Choose a route',
+        },
+        options: {
+            toast_events: 'Display toast for tracked events',
+        },
     },
 };

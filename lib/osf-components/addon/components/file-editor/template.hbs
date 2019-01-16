@@ -7,20 +7,35 @@
 <div>
     <div class='editor-pane panel-body'>
         <div local-class='FileEditor__text-editor'>
-            {{ember-ace
-                lines=35
-                useWrapMode=true
-                showLineNumbers=false
-                value=newText
-                showPrintMargin=false
-                update=(action 'valueUpdated')}}
+            <EmberAce
+                @lines={{35}}
+                @useWrapMode={{true}}
+                @showLineNumbers={{false}}
+                @value={{this.newText}}
+                @showPrintMargin={{false}}
+                @update={{action this.valueUpdated}}
+            />
         </div>
         <div>
             <div class='row'>
                 <div class='col-sm-12'>
                     <div class='pull-right'>
-                        <button class='btn btn-sm btn-danger' id='btnRevertEditor' onclick={{action 'revertText'}}>{{t 'general.revert'}} </button>
-                        <button class='btn btn-sm btn-success' id='btnSaveEditor' onclick={{action 'saveText'}}>{{t 'general.save'}}</button>
+                        <OsfButton
+                            data-test-button-revert
+                            @type='danger'
+                            @size='sm'
+                            @onClick={{action this.revertText}}
+                        >
+                            {{t 'general.revert'}}
+                        </OsfButton>
+                        <OsfButton
+                            data-test-button-save
+                            @type='success'
+                            @size='sm'
+                            @onClick={{action this.saveText}}
+                        >
+                            {{t 'general.save'}}
+                        </OsfButton>
                     </div>
                 </div>
             </div>

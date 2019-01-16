@@ -1,29 +1,31 @@
-{{head-layout}}
+<HeadLayout />
 {{title (t 'general.OSF')}}
-<div local-class="Application">
-    {{#unless disableHeader}}
-        {{#if theme.isProvider}}
+<div local-class='Application'>
+    {{#unless this.disableHeader}}
+        {{#if this.theme.isProvider}}
             <style>
                 {{! template-lint-disable bare-strings }}
-                @import url('{{theme.stylesheet}}');
+                @import url('{{this.theme.stylesheet}}');
                 {{! template-lint-enable bare-strings }}
             </style>
-            <div id="branded-navbar"></div>
+            <div id='branded-navbar'></div>
         {{else}}
-            {{osf-header}}
+            <OsfHeader />
         {{/if}}
     {{/unless}}
     {{#if this.shouldShowVerifyEmailModals}}
+        {{! template-lint-disable no-implicit-this }}
         {{application/-components/verify-email-modal}}
+        {{! template-lint-enable no-implicit-this }}
     {{/if}}
     {{!--
     NOTE: the global Application__page class is used in registries
     to fix weird styling issues that break other embosf pages (quickfiles).
     --}}
-    <div class="Application__page" local-class="Application__page">
+    <div class='Application__page' local-class='Application__page'>
         {{outlet}}
     </div>
-    {{osf-footer}}
-    {{cookie-banner}}
-    {{osf-mode-footer}}
+    <OsfFooter />
+    <CookieBanner />
+    <OsfModeFooter />
 </div>

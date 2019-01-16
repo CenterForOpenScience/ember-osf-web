@@ -30,7 +30,7 @@ module('Integration | Component | file-editor', hooks => {
         editor.getSession().setValue('Just a test');
         assert.equal(editor.getSession().getValue(), 'Just a test');
 
-        await click('#btnRevertEditor');
+        await click('[data-test-button-revert]');
         assert.equal(editor.getSession().getValue(), 'Test text');
     });
 
@@ -46,6 +46,6 @@ module('Integration | Component | file-editor', hooks => {
         editor.getSession().setValue('Test to save this new text!');
 
         assert.expect(1);
-        await click('#btnSaveEditor');
+        await click('[data-test-button-save]');
     });
 });

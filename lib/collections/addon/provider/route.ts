@@ -30,12 +30,7 @@ export default class Provider extends Route {
             });
         } catch (e) {
             this.theme.reset();
-
-            if (slug.length === 5) {
-                this.transitionTo('content', slug);
-            } else {
-                this.replaceWith('page-not-found');
-            }
+            this.replaceWith('page-not-found');
         }
     }
 

@@ -1,16 +1,29 @@
-{{#bs-modal open=openModal onSubmit=(action delete) onHidden=(action closeModal) as |m|}}
-    {{#m.header}}
-        <h3>{{t 'delete_modal.title' nodeType=(t nodeTypeKey)}}</h3>
-    {{/m.header}}
-    {{#m.body class=componentCssClassName}}
-        <p>{{t 'delete_modal.body' nodeType=(t nodeTypeKey)}}</p>
+<BsModal 
+    @open={{@openModal}}
+    @onSubmit={{action @delete}}
+    @onHidden={{action @closeModal}}
+    as |modal|
+>
+    <modal.header>
+        <h3>{{t 'delete_modal.title' nodeType=(t this.nodeTypeKey)}}</h3>
+    </modal.header>
+    <modal.body class=componentCssClassName>
+        <p>{{t 'delete_modal.body' nodeType=(t this.nodeTypeKey)}}</p>
         <label local-class='DeleteModal__label-wrap'>
-            <p local-class='DeleteModal__input-label'>{{t 'delete_modal.type_this'}} <strong>{{scientistName}}</strong></p>
-            {{input class="form-control" local-class="DeleteModal__input" value=scientistInput}}
+            <p local-class='DeleteModal__input-label'>{{t 'delete_modal.type_this'}} <strong>{{this.scientistName}}</strong></p>
+            {{input class='form-control' local-class='DeleteModal__input' value=this.scientistInput}}
         </label>
-    {{/m.body}}
-    {{#m.footer}}
-        {{#bs-button onClick=(action m.close)}}{{t 'general.cancel'}}{{/bs-button}}
-        {{#bs-button disabled=(not (eq scientistInput scientistName)) onClick=(action m.submit) type='danger'}}{{t 'general.delete'}}{{/bs-button}}
-    {{/m.footer}}
-{{/bs-modal}}
+    </modal.body>
+    <modal.footer>
+        <OsfButton @onClick={{action modal.close}}>
+            {{t 'general.cancel'}}
+        </OsfButton>
+        <OsfButton 
+            @disabled={{not (eq this.scientistInput this.scientistName)}} 
+            @onClick={{action modal.submit}} 
+            @type='danger'
+        >
+            {{t 'general.delete'}}
+        </OsfButton>
+    </modal.footer>
+</BsModal>

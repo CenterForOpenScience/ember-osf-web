@@ -1,16 +1,16 @@
 {{#component
-    (concat 'collection-search-result/' type)
-    item=item
-    collectedType=result.collectedType
-    status=result.status
-    subjects=subjects
-    addFilter=(action 'addFilter')
+    (concat 'collection-search-result/' this.type)
+    item=this.item
+    collectedType=this.result.collectedType
+    status=this.result.status
+    subjects=this.subjects
+    addTaxonomyFilter=(action 'addTaxonomyFilter')
 }}
     {{#each this.choiceFilters as |choiceFilter|}}
         <span
-            role="button"
-            local-class="choiceFilter"
-            onclick={{action 'addFilter' choiceFilter.facet choiceFilter.value}}
+            role='button'
+            local-class='choiceFilter'
+            onclick={{action 'addChoiceFilter' choiceFilter.facet choiceFilter.value}}
         >
             <b>
                 {{t choiceFilter.label}}
@@ -20,15 +20,15 @@
     {{/each}}
 {{/component}}
 
-{{#if expandable}}
-    <div class="text-center">
+{{#if @expandable}}
+    <div class='text-center'>
         <button
             class='btn btn-link'
-            local-class="toggleShowBody"
-            aria-label={{t (concat 'collections.collection_search_result.' (if showBody 'collapse' 'expand'))}}
+            local-class='toggleShowBody'
+            aria-label={{t (concat 'collections.collection_search_result.' (if this.showBody 'collapse' 'expand'))}}
             {{action 'toggleShowBody'}}
         >
-            {{fa-icon (concat 'caret-' (if showBody 'up' 'down'))}}
+            {{fa-icon (concat 'caret-' (if this.showBody 'up' 'down'))}}
         </button>
     </div>
 {{/if}}

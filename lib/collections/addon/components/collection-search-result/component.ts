@@ -5,8 +5,10 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { dasherize, underscore } from '@ember/string';
 import config from 'collections/config/environment';
-import { ModelRegistry } from 'ember-data';
-import { localClassNames } from 'ember-osf-web/decorators/css-modules';
+import { localClassNames } from 'ember-css-modules';
+import ModelRegistry from 'ember-data/types/registries/model';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import CollectedMetadatum, { DisplaySubject } from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
@@ -15,19 +17,18 @@ import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import { FacetContext } from '../discover-page/component';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
 type Collectable = Collection | Node | Preprint | Registration;
 type CollectableType = keyof Pick<ModelRegistry, 'collection' | 'node' | 'preprint' | 'registration'>;
 
+@layout(template, styles)
 @classNames('p-sm')
 @localClassNames('search-result')
 export default class CollectionSearchResult extends Component {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service theme!: Theme;
 
@@ -57,7 +58,12 @@ export default class CollectionSearchResult extends Component {
     }
 
     @action
-    addFilter(facet: string, item: string): void {
+    addTaxonomyFilter(subject: DisplaySubject) {
+        this.facetContexts.findBy('component', 'taxonomy')!.updateFilters(subject.path);
+    }
+
+    @action
+    addChoiceFilter(facet: string, item: string) {
         this.facetContexts.findBy('component', facet)!.updateFilters(item);
     }
 

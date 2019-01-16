@@ -1,10 +1,11 @@
 /* eslint-env node */
 
+const nodeSass = require('node-sass');
+
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const Funnel = require('broccoli-funnel');
 
 const { EMBER_ENV } = process.env;
-const useCdn = EMBER_ENV === 'production';
+const IS_PROD = EMBER_ENV === 'production';
 
 function postProcess(content) {
     return content.trim().replace(/^\s{20}/mg, '');
@@ -13,6 +14,7 @@ function postProcess(content) {
 module.exports = function(defaults) {
     const config = defaults.project.config(EMBER_ENV);
     const handbookEnabled = config.engines.handbook.enabled;
+    const mirageEnabled = config['ember-cli-mirage'].enabled;
 
     /*
      * Options just used by child addons of the handbook engine. Some addons
@@ -25,16 +27,20 @@ module.exports = function(defaults) {
             includeHighlightJS: false,
             includeFileExtensionInSnippetNames: false,
             snippetSearchPaths: ['lib/handbook/addon'],
-            snippetRegexes: {
+            snippetRegexes: [{
                 begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
                 end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,
-            },
+            }, {
+                begin: /<(?:DocsSnippet|demo.example|demo.live-example)\s@name=(?:"|')(\S+)(?:"|')/,
+                end: /<\/(?:DocsSnippet|demo.example|demo.live-example)>/,
+            }],
         };
     }
 
     const app = new EmberApp(defaults, {
         ...handbookOptions,
         hinting: config.lintOnBuild,
+        tests: config.testsEnabled,
         ace: {
             modes: ['handlebars'],
         },
@@ -52,7 +58,7 @@ module.exports = function(defaults) {
             importBootstrapCSS: false,
         },
         'ember-cli-password-strength': {
-            bundleZxcvbn: !useCdn,
+            bundleZxcvbn: !IS_PROD,
         },
         fingerprint: {
             enabled: true,
@@ -67,8 +73,9 @@ module.exports = function(defaults) {
             prepend: config.assetsPrefix,
         },
         sassOptions: {
+            implementation: nodeSass,
             includePaths: [
-                'node_modules/@centerforopenscience/osf-style/sass',
+                'app/styles/',
             ],
         },
         cssModules: {
@@ -88,7 +95,7 @@ module.exports = function(defaults) {
                 content: config.assetsPrefix,
             },
             raven: {
-                enabled: useCdn,
+                enabled: IS_PROD,
                 content: `
                     <script src="https://cdn.ravenjs.com/3.22.1/ember/raven.min.js"></script>
                     <script>
@@ -102,7 +109,7 @@ module.exports = function(defaults) {
                 postProcess,
             },
             zxcvbn: {
-                enabled: useCdn,
+                enabled: IS_PROD,
                 /* eslint-disable max-len */
                 content: `
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"
@@ -117,7 +124,7 @@ module.exports = function(defaults) {
             },
         },
         'ember-cli-babel': {
-            includePolyfill: true,
+            includePolyfill: IS_PROD,
         },
         assetLoader: {
             generateURI(filePath) {
@@ -136,6 +143,12 @@ module.exports = function(defaults) {
         test: 'vendor/ember/ember-template-compiler.js',
     });
 
+    if (mirageEnabled) {
+        app.import('node_modules/seedrandom/seedrandom.min.js', {
+            using: [{ transformation: 'amd', as: 'seedrandom' }],
+        });
+    }
+
     app.import('node_modules/keen-tracking/dist/keen-tracking.min.js', {
         using: [{ transformation: 'amd', as: 'keen-tracking' }],
     });
@@ -145,13 +158,5 @@ module.exports = function(defaults) {
             using: [{ transformation: 'amd', as: 'highlight.js' }],
         });
     }
-
-    const assets = [
-        new Funnel('node_modules/@centerforopenscience/osf-style/img', {
-            srcDir: '/',
-            destDir: 'img',
-        }),
-    ];
-
-    return app.toTree(assets);
+    return app.toTree();
 };

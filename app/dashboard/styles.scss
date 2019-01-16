@@ -62,6 +62,15 @@
     color: $color-text-black;
 }
 
+.load-nodes-button:hover,
+.load-nodes-button:focus,
+.load-nodes-button:active,
+.load-nodes-button:focus:active {
+    background-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+    outline-width: 0;
+}
+
 .quick-project img {
     margin-top: 30px;
     border: 3px solid $color-border-white;

@@ -9,8 +9,16 @@
         }
     }
 
+    :global(.label-danger) {
+        background-color: $brand-danger;
+    }
+
     & > span {
         line-height: 1.5;
+    }
+    
+    :global(.label-info) {
+        background-color: darken($brand-info, 15%);
     }
 }
 
@@ -32,6 +40,10 @@
 
 .NodeCard__dropdown-link {
     color: $color-link-black !important;
+    border-color: transparent !important;
+    background-color: $color-bg-gray-light !important;
+    min-width: 180px;
+    text-align: left;
 
     &:hover,
     &:focus {

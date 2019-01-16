@@ -1,30 +1,34 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import { task, TaskInstance } from 'ember-concurrency';
-import DS, { ModelRegistry } from 'ember-data';
+import DS from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
+
 import Ready from 'ember-osf-web/services/ready';
 
 export interface GuidRouteModel<T> {
+    guid: string;
     taskInstance: TaskInstance<T>;
 }
 
 // Note: this class is to provide a small amount of backwards compatibility.
 // Don't use it if you're making something new.
-export default abstract class GuidRoute extends Route.extend({}) {
-    @service ready!: Ready;
-    @service store!: DS.Store;
-
-    getModel = task(function *(this: GuidRoute, guid: string) {
+export default abstract class GuidRoute extends Route.extend({
+    getModel: task(function *(this: GuidRoute, guid: string) {
         const blocker = this.ready.getBlocker();
 
         const model = yield this.store.findRecord(this.modelName(), guid, {
+            include: this.include(),
             adapterOptions: this.adapterOptions(),
         });
 
         blocker.done();
 
         return model;
-    });
+    }),
+}) {
+    @service ready!: Ready;
+    @service store!: DS.Store;
 
     abstract modelName(): keyof ModelRegistry;
 
@@ -32,10 +36,14 @@ export default abstract class GuidRoute extends Route.extend({}) {
         return {};
     }
 
+    include(): string[] {
+        return [];
+    }
+
     model(params: { guid: string }) {
         return {
-            [`${this.modelName()}Id`]: params.guid,
-            taskInstance: this.get('getModel').perform(params.guid),
+            guid: params.guid,
+            taskInstance: this.getModel.perform(params.guid),
         };
     }
 }

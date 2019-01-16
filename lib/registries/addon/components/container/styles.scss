@@ -1,5 +1,6 @@
 .Container {
     display: flex;
+    position: relative;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -9,7 +10,11 @@
         max-width: 1140px;
     }
 
-    &:global(.media-tablet) { } // stylelint-disable-line block-no-empty
+    &:global(.media-tablet) {
+        padding: 0 10px;
+    }
 
-    &:global(.media-mobile) { } // stylelint-disable-line block-no-empty
+    &:global(.media-mobile) {
+        padding: 0 10px;
+    }
 }

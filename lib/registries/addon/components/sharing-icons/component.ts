@@ -1,15 +1,15 @@
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import param from 'ember-osf-web/utils/param';
 import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template, styles)
 export default class SharingIcons extends Component {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
 
     title!: string;

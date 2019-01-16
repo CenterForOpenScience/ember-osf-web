@@ -1,11 +1,12 @@
 import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
-import OsfModel from './osf-model';
-import Preprint from './preprint';
-import PreprintProvider from './preprint-provider';
-import User from './user';
 
-export default class ReviewAction extends OsfModel {
+import OsfModel from './osf-model';
+import PreprintModel from './preprint';
+import PreprintProviderModel from './preprint-provider';
+import UserModel from './user';
+
+export default class ReviewActionModel extends OsfModel {
     @attr('string') actionTrigger!: string;
     @attr('string') comment!: string;
     @attr('string') fromState!: string;
@@ -13,14 +14,18 @@ export default class ReviewAction extends OsfModel {
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
 
-    // Relationships
-    @belongsTo('preprint-provider', { inverse: null }) provider!: DS.PromiseObject<PreprintProvider> & PreprintProvider;
-    @belongsTo('preprint', { inverse: 'reviewActions' }) target!: DS.PromiseObject<Preprint> & Preprint;
-    @belongsTo('user', { inverse: null }) creator!: DS.PromiseObject<User> & User;
+    @belongsTo('preprint-provider', { inverse: null })
+    provider!: DS.PromiseObject<PreprintProviderModel> & PreprintProviderModel;
+
+    @belongsTo('preprint', { inverse: 'reviewActions' })
+    target!: DS.PromiseObject<PreprintModel> & PreprintModel;
+
+    @belongsTo('user', { inverse: null })
+    creator!: DS.PromiseObject<UserModel> & UserModel;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'review-action': ReviewAction;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        'review-action': ReviewActionModel;
+    } // eslint-disable-line semi
 }

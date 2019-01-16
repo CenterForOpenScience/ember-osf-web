@@ -1,30 +1,33 @@
 import DS from 'ember-data';
 import { pluralize } from 'ember-inflector';
+
+import InstitutionModel from 'ember-osf-web/models/institution';
+
 import OsfSerializer from './osf-serializer';
 
-export default class Institution extends OsfSerializer.extend({
+export default class InstitutionSerializer extends OsfSerializer {
     serializeIntoHash(
-        hash: any,
-        typeClass: {modelName: string},
+        hash: {},
+        typeClass: InstitutionModel,
         snapshot: DS.Snapshot,
-        options: {forRelationship?: boolean},
-    ): any {
+        options: { forRelationship?: boolean },
+    ) {
         if (options.forRelationship) {
             return {
                 ...hash,
                 data: [{
-                    id: snapshot.record.get('id'),
+                    id: snapshot.record.id,
                     type: pluralize(typeClass.modelName),
                 }],
             };
         }
 
-        return this._super(hash, typeClass, snapshot, options);
-    },
-}) {}
-
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'institution': Institution;
+        return super.serializeIntoHash(hash, typeClass, snapshot, options);
     }
+}
+
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        institution: InstitutionSerializer;
+    } // eslint-disable-line semi
 }

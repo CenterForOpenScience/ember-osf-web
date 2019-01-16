@@ -1,11 +1,11 @@
-{{#each messages as |stat|}}
-    {{#bs-alert
-        type=stat.class
-        dismissible=stat.dismiss
-        classNames=(if stat.jumbo (local-class 'StatusBanner__jumbo'))
-    }}
-        <div class="{{if stat.jumbo 'jumbotron'}}">
+{{#each this.messages as |stat|}}
+    <BsAlert
+        @type={{stat.class}}
+        @dismissible={{stat.dismiss}}
+        @classNames={{if stat.jumbo (local-class 'StatusBanner__jumbo')}}
+    >
+        <div class='{{if stat.jumbo 'jumbotron'}}'>
             <p>{{t stat.id extra=stat.extra}}</p>
         </div>
-    {{/bs-alert}}
+    </BsAlert>
 {{/each}}

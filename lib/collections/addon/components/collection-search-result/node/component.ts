@@ -5,14 +5,16 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import config from 'collections/config/environment';
 import I18N from 'ember-i18n/services/i18n';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import { SubjectRef } from 'ember-osf-web/models/taxonomy';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import styles from './styles';
-import layout from './template';
+import template from './template';
 
+@layout(template)
 @classNames('row')
 export default class SearchResultNode extends Component.extend({
     didRender(...args: any[]) {
@@ -20,9 +22,6 @@ export default class SearchResultNode extends Component.extend({
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);
     },
 }) {
-    layout = layout;
-    styles = styles;
-
     @service analytics!: Analytics;
     @service i18n!: I18N;
     @service theme!: Theme;

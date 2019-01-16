@@ -1,31 +1,30 @@
-{{#if (gt items.length truncate)}}
-    {{yield (hash item=first)~}}
+{{#if (eq this.totalCount 1)}}
+
+    {{yield (hash item=this.firstItem)}}
+
+{{else if (eq this.totalCount 2)}}
+
+    {{yield (hash item=this.firstItem)~}}
+    {{~t 'list.two_item.delimiter'~}}
+    {{~yield (hash item=this.lastItem)}}
+
+{{else if (gt this.totalCount 2)}}
+
+    {{yield (hash item=this.firstItem)~}}
     {{~t 'list.many_item.first_delimiter'~}}
-    {{#each rest as | i index |}}
+    {{#each this.middleItems as | item index |}}
         {{#if index}}
             {{~t 'list.many_item.each_delimiter'~}}
         {{/if}}
-        {{~yield (hash item=i)~}}
+        {{~yield (hash item=item)~}}
     {{/each}}
-    {{~t 'list.many_item.last_delimiter'~}}
-    {{~yield (hash truncate=last)}}
-{{else}}
-    {{#if (eq items.length 1)}}
-        {{yield (hash item=first)}}
-    {{else if (eq items.length 2)}}
-        {{yield (hash item=first)~}}
-        {{~t 'list.two_item.delimiter'~}}
-        {{~yield (hash item=last)}}
-    {{else if (gt items.length 2)}}
-        {{yield (hash item=first)~}}
-        {{~t 'list.many_item.first_delimiter'~}}
-        {{#each rest as | i index |}}
-            {{#if index}}
-                {{~t 'list.many_item.each_delimiter'~}}
-            {{/if}}
-            {{~yield (hash item=i)~}}
-        {{/each}}
+
+    {{#if this.lastItem}}
         {{~t 'list.many_item.last_delimiter'~}}
-        {{~yield (hash item=last)}}
+        {{~yield (hash item=this.lastItem)}}
+    {{else}}
+        {{~yield (hash
+            remainingCount=this.remainingCount
+        )}}
     {{/if}}
 {{/if}}

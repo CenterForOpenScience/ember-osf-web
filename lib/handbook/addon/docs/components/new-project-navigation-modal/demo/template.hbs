@@ -1,0 +1,19 @@
+<DocsDemo as |demo|>
+    <demo.example @name='new-project-navigation-modal.demo.hbs'>
+        <BsButton
+            @class='center-block m-b-lg'
+            @onClick={{action (mut this.shouldShowModal) true}}
+        >
+            Create project
+        </BsButton>
+        {{#if this.shouldShowModal}}
+            <NewProjectNavigationModal
+                @node={{node}}
+                @closeModal={{action (mut this.shouldShowModal) false}}
+                @title='Project created! Would you like to go there now?'
+            />
+        {{/if}}
+    </demo.example>
+
+    <demo.snippet @name='new-project-navigation-modal.demo.hbs' />
+</DocsDemo>

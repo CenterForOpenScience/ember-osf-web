@@ -1,38 +1,31 @@
-<a role='button' title={{t 'zoom_to_route.title'}} {{action (mut showModal) true}}>
-    {{fa-icon 'rocket'}}
-</a>
-{{#if showModal}}
-    {{#bs-modal-simple
-        onHide=(action (mut showModal) false)
-        onShown=(action 'modalShown')
-        title=(t 'zoom_to_route.title')
-        closeTitle=(t 'general.cancel')
-        submitTitle=(t 'zoom_to_route.zoom')
-    }}
-        <div id={{modalBodyId}}>
-            {{#power-select
-                options=routeNames
-                selected=targetRoute
-                onchange=(action 'selectRoute')
-                renderInPlace=true
-                placeholder=(t 'zoom_to_route.placeholder')
-                as |name|
-            }}
-                {{name}}
-            {{/power-select}}
-            {{#if targetRoute}}
-                <hr>
-                {{#bs-form model=routeArgs onSubmit=(action 'zoom') as |form|}}
-                    {{#each routeParams as |param|}}
-                        {{form.element
-                            controlType='text'
-                            label=param
-                            placeholder=param
-                            property=param
-                        }}
-                    {{/each}}
-                {{/bs-form}}
-            {{/if}}
-        </div>
-    {{/bs-modal-simple}}
-{{/if}}
+<BsForm
+    @model={{this.routeArgs}}
+    @onSubmit={{action 'zoom'}}
+    as |form|
+>
+    <PowerSelect
+        @options={{this.routeNames}}
+        @selected={{this.targetRoute}}
+        @onchange={{action 'selectRoute'}}
+        @renderInPlace=true
+        @placeholder={{t 'dev_tools.zoom_to_route.placeholder'}}
+        as |name|
+    >
+        {{name}}
+    </PowerSelect>
+    {{#if this.targetRoute}}
+        <hr>
+        {{#each this.routeParams as |param|}}
+            <form.element
+                @controlType='text'
+                @label={{param}}
+                @placeholder={{param}}
+                @property={{param}}
+            />
+        {{/each}}
+        <hr>
+        <OsfButton @buttonType='submit'>
+            {{t 'dev_tools.zoom_to_route.zoom'}}
+        </OsfButton>
+    {{/if}}
+</BsForm>

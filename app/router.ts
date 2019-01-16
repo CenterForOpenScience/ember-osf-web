@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
 import { Blocker } from 'ember-osf-web/services/ready';
+import scrollTo from 'ember-osf-web/utils/scroll-to';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
@@ -43,13 +44,7 @@ const Router = EmberRouter.extend({
         this.get('statusMessages').updateMessages();
 
         if (this.shouldScrollTop) {
-            const owner = getOwner(this);
-            // Don't use window.scrollTo here to avoid throwing
-            // QUnit's test interface to the top every time visit is called
-            const rootElement = document.querySelector(
-                owner.application.rootElement,
-            );
-            rootElement.parentElement.scrollTop = 0;
+            scrollTo(getOwner(this), 0);
         }
 
         if (this.readyBlocker && !this.readyBlocker.isDone()) {
@@ -90,10 +85,17 @@ Router.map(function() {
     this.route('quickfiles');
     this.route('register');
     this.route('settings', function() {
+        this.route('profile', function() {
+            this.route('education');
+            this.route('employment');
+            this.route('name');
+            this.route('social');
+        });
         this.route('developer-apps', { path: '/applications' }, function() {
             this.route('edit', { path: '/:developer_app_id' });
             this.route('create');
         });
+        this.route('account');
         this.route('tokens', function() {
             this.route('edit', { path: '/:token_id' });
             this.route('create');

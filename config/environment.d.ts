@@ -20,6 +20,7 @@ export interface KeenConfig {
 declare const config: {
     environment: any;
     lintOnBuild: boolean;
+    testsEnabled: boolean;
     sourcemapsEnabled: boolean;
     modulePrefix: string;
     locationType: string;
@@ -97,8 +98,14 @@ declare const config: {
             authSession: string;
             joinBannerDismissed: string;
         };
-        orcidClientId?: string;
         casUrl: string;
+        analyticsAttrs: {
+            name: string;
+            scope: string;
+            category: string;
+            extra: string;
+            action: string;
+        };
     };
     social: {
         twitter: {
@@ -146,6 +153,7 @@ declare const config: {
             institutions: string;
         };
         storageI18n: string;
+        enableInactiveSchemas: string;
         verifyEmailModals: string;
     };
     gReCaptcha: {
@@ -160,8 +168,9 @@ declare const config: {
             turnAuditOff: boolean,
         },
     };
-    'ember-cli-mirage'?: {
+    'ember-cli-mirage': {
         enabled: boolean;
+        defaultLoggedOut: boolean;
     };
     engines: {
         collections: {

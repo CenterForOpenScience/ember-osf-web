@@ -1,11 +1,9 @@
-import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task, waitForQueue } from 'ember-concurrency';
-import $ from 'jquery';
 
-import layout from './template';
+import { layout } from 'ember-osf-web/decorators/component';
+import template from './template';
 
 /**
  * Component to allow easily transitioning to any route without leaving the
@@ -15,27 +13,14 @@ import layout from './template';
  * Displays an icon link/button that pops up a modal form.
  * @class zoom-to-route
  */
-@tagName('span')
+@layout(template)
 export default class ZoomToRoute extends Component {
-    layout = layout;
-
     @service router!: any;
 
     showModal: boolean = false;
     targetRoute?: string;
 
     routeArgs: { [k: string]: string } = {};
-
-    setFocus = task(function *(this: ZoomToRoute, selector: string) {
-        yield waitForQueue('afterRender');
-
-        $(`#${this.modalBodyId} ${selector}`).focus();
-    });
-
-    @computed('elementId')
-    get modalBodyId() {
-        return `${this.elementId}-modal-body`;
-    }
 
     @computed()
     get routeNames() {
@@ -51,17 +36,11 @@ export default class ZoomToRoute extends Component {
     }
 
     @action
-    modalShown(this: ZoomToRoute) {
-        this.get('setFocus').perform('div.ember-power-select-trigger');
-    }
-
-    @action
     selectRoute(this: ZoomToRoute, targetRoute: string) {
         this.setProperties({
             targetRoute,
             routeArgs: {},
         });
-        this.get('setFocus').perform('input.form-control');
     }
 
     @action

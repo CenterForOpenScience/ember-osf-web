@@ -1,0 +1,903 @@
+/*
+ * Components specific to OSF
+ */
+
+// stylelint-disable selector-no-qualifying-type, selector-max-id, declaration-property-value-blacklist, selector-max-compound-selectors, max-nesting-depth
+
+/* Box shadow */
+.box-shadow-xs {
+    box-shadow: 0 0 3px 0 #eee;
+}
+
+.box-shadow-sm {
+    box-shadow: 0 0 6px 0 #eee;
+}
+
+.box-shadow-md {
+    box-shadow: 0 0 9px -1px #ccc;
+}
+
+.box-shadow-lg {
+    box-shadow: 0 0 15px -2px #aaa;
+}
+
+.box-shadow-xl {
+    box-shadow: 0 0 18px 0 #666;
+}
+
+/* LOADER */
+.logo-spin {
+    animation: spin 3s infinite linear, opacity 3s infinite linear;
+    animation: spin 3s infinite linear, opacity 3s infinite linear;
+    display: inline-block;
+    vertical-align: middle;
+    background: url('/assets/images/global/logo_spin.png');
+    background-size: 100%;
+}
+
+@for $i from 1 to 6 {
+    .logo-spin.logo-#{nth($sizes, $i)} {
+        width: unquote(nth($spinner-size, $i) + 'px');
+        height: unquote(nth($spinner-size, $i) + 'px');
+    }
+}
+
+// Set spin animation for the log
+@mixin spin-animation($startDegree, $endDegree, $animation-name) {
+    @keyframes #{$animation-name} {
+        from {
+            transform: rotate($startDegree);
+        }
+
+        to {
+            transform: rotate($endDegree);
+        }
+    }
+}
+
+@include spin-animation(0deg, 360deg, 'spin');
+
+// opacity change animation, Start, Middle, End
+@mixin opacity-animation($start, $middle, $end, $animation-name) {
+    @keyframes #{$animation-name} {
+        0% {
+            opacity: $start;
+        }
+
+        50% {
+            opacity: $middle;
+        }
+
+        100% {
+            opacity: $end;
+        }
+    }
+}
+
+@include opacity-animation(0.1, 1, 0.1, 'opacity');
+
+/* OSF BOX */
+
+.osf-box {
+    border: 1px solid #eee;
+    border-radius: 0;
+    background-color: #fff;
+}
+
+.box-round {
+    border-radius: 5px;
+}
+
+.osf-box-lt {
+    background-color: $color-hover;
+    color: $color-grey;
+}
+
+.osf-box-dk {
+    background-color: $color-select;
+    color: #fff;
+}
+
+
+/* PROJECT NAVIGATION */
+.osf-project-navbar {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 50px;
+    background-color: #eee;
+    z-index: 99;
+    box-shadow: 0 0 9px -1px #838383;
+    border-radius: 0;
+    border: none;
+    min-height: 40px !important;
+}
+
+.osf-project-navbar li>a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 15px;
+}
+
+.osf-project-navbar .navbar-nav {
+    li>a:hover {
+        background-color: #dadada;
+    }
+
+    li>a:focus {
+        background-color: #eee;
+    }
+
+    .active>a:focus {
+        background-color: #337ab7;
+    }
+}
+
+.osf-project-navbar li.active,
+.osf-project-navbar li.active a:hover,
+.osf-project-navbar li:hover {
+    background-color: #337ab7;
+}
+
+.osf-project-navbar li.active a {
+    color: #f8f8f8;
+}
+
+.osf-project-navbar a.project-title {
+    font-weight: 300;
+    font-size: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.osf-project-navbar li>a {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+@media (max-width: 767px) {
+    .osf-project-navbar li>a {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .osf-project-navbar li>a {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .osf-project-navbar a.project-title {
+        max-width: 190px;
+    }
+}
+
+@media (min-width: 992px) {
+    .osf-project-navbar a.project-title {
+        max-width: 300px;
+    }
+
+    .navbar-nav>li>a {
+        padding-top: 11px;
+        padding-bottom: 11px;
+    }
+
+    #secondary-navigation {
+        /* necessary for the parent flexbox container to shrink smaller than the child element's text */
+        min-width: 0;
+        margin-left: auto;
+    }
+
+    #secondary-navigation .navbar-nav>li>a {
+        line-height: 27px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .osf-project-navbar a.project-title {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 992px) {
+    #navbarScope div.container {
+        width: 100%;
+    }
+
+    .navbar-header {
+        float: none;
+        width: 100%;
+    }
+
+    .navbar-toggle {
+        display: block;
+    }
+
+    .navbar-toggle.collapsed {
+        margin-left: auto;
+    }
+
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        min-width: 0;
+        /* necessary for the parent flexbox container to shrink smaller than the child element's text */
+    }
+
+    .navbar-collapse.collapse {
+        display: none !important;
+    }
+
+    .navbar-nav {
+        margin: 7.5px -15px;
+    }
+
+    .navbar-nav>li {
+        float: none;
+    }
+
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .navbar-text {
+        float: none;
+        margin: 15px 0;
+    }
+
+    /* since 3.1.0 */
+    .navbar-collapse.collapse.in {
+        display: block !important;
+    }
+
+    .collapsing {
+        overflow: hidden !important;
+    }
+}
+
+@media (min-width: 993px) {
+    .nav.navbar-nav {
+        display: flex;
+        float: none;
+    }
+
+    .nav.navbar-nav>li {
+        white-space: nowrap;
+        float: none;
+    }
+
+    .nav.navbar-nav .dropdown.secondary-nav-dropdown {
+        /* necessary for the parent flexbox container to shrink smaller than the child element's text */
+        min-width: 0;
+    }
+
+    .dropdown .btn-link {
+        display: flex;
+        align-items: center;
+    }
+}
+
+/* Form Inputs */
+.noresize {
+    resize: none;
+}
+
+.navbar-donate-button a {
+    color: #9cd59c !important;
+}
+
+.nav-profile-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 28px;
+    float: left;
+    white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+    .nav-profile-name {
+        max-width: 300px;
+    }
+}
+
+.osf-profile-image {
+    float: left;
+}
+
+.osf-profile-image>img {
+    border: 1px solid #cdcdcd;
+    border-radius: 13px;
+    margin-right: 5px;
+}
+
+
+/*
+ * Bootstrap Overrides
+ */
+.btn-default {
+    background-color: $bg-light;
+}
+
+.btn {
+    border-radius: $radius;
+}
+
+.form-control {
+    border-radius: $radius;
+}
+
+/* FLAT PANELS */
+.panel {
+    border-radius: 0;
+}
+
+.panel-heading {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.panel-footer {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.panel-title {
+    display: inline-block;
+    float: left;
+    font-weight: 400;
+}
+
+/* FLAT MODALS */
+.modal-footer {
+    border-top: none;
+}
+
+/* FLAT ALERTS */
+.alert {
+    border-radius: $radius;
+    padding: 10px 15px;
+}
+
+.alert-dismissable,
+.alert-dismissible {
+    padding-right: 35px;
+}
+
+/* FIX BORDER RADIUS ACROSS THE BOARD*/
+.well,
+.progress,
+.modal-content {
+    border-radius: $radius;
+}
+
+/* Normal the heading in modal-header */
+.modal-header>h3 {
+    font-weight: normal;
+}
+
+/* TABS */
+.nav-tabs>li>a {
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 0;
+}
+
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus {
+    background-color: $bg-light;
+    border: none;
+    border-bottom: 2px solid #204762;
+}
+
+.nav-tabs>li>a:hover {
+    border-color: transparent;
+    border-bottom: none;
+}
+
+.nav>li>a:hover,
+.nav>li>a:focus {
+    background-color: $bg-light;
+}
+
+
+#navbarScope {
+    top: 0;
+    transition: top 0.3s ease-in-out;
+}
+
+#navbarScope.off {
+    top: -250px;
+}
+
+#navbarScope a {
+    color: #fff;
+}
+
+#navbarScope a:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#navbarScope .btn-top-login,
+#navbarScope .btn-top-signup {
+    padding: 2px 30px;
+    margin-top: 5px;
+    line-height: 1.7;
+}
+
+.navbar-default {
+    background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff', endColorstr='#fff8f8f8', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 5px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 5px rgba(0, 0, 0, 0.075);
+}
+
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.active>a {
+    background-image: linear-gradient(to bottom, #dbdbdb 0%, #e2e2e2 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdbdbdb', endColorstr='#ffe2e2e2', GradientType=0);
+    box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.075);
+}
+
+.navbar-brand,
+.navbar-nav>li>a {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.navbar-inverse {
+    background-image: linear-gradient(to bottom, rgba(60, 60, 60, 0.5) 0%, rgba(34, 34, 34, 0.5) 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#803c3c3c', endColorstr='#80222222', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    border-color: rgba(8, 8, 8, 0.5);
+
+}
+
+.navbar-inverse .navbar-nav>.open>a,
+.navbar-inverse .navbar-nav>.active>a {
+    background-image: linear-gradient(to bottom, rgba(8, 8, 8, 0.5) 0%, rgba(15, 15, 15, 0.5) 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80080808', endColorstr='#800f0f0f', GradientType=0);
+    box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.25);
+    padding: 11px 15px;
+}
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav>li>a {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.navbar {
+    min-height: 50px;
+    margin-bottom: 25px;
+}
+
+.navbar-brand {
+    float: left;
+    padding: 12.5px 15px;
+    font-size: 18px;
+    line-height: 25px;
+    height: 50px;
+}
+
+.navbar-inverse {
+    background-color: #214762;
+}
+
+.osf-navbar-logo {
+    float: left;
+    margin-right: 8px;
+    background: url('/assets/images/global/cos-white2.png');
+    background-size: 100%;
+    width: 27px;
+    height: 27px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid #ccc;
+    border: 1px solid rgba(100, 100, 100, 0.3);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+}
+
+.dropdown-menu.pull-right {
+    right: 0;
+    left: auto;
+}
+
+.dropdown-menu .divider {
+    height: 1px;
+    margin: 11.5px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.8;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.dropdown-menu>li>a:hover,
+.dropdown-menu>li>a:focus {
+    text-decoration: none;
+    color: #428bca;
+    background-color: #222;
+}
+
+.dropdown-menu>.active>a,
+.dropdown-menu>.active>a:hover,
+.dropdown-menu>.active>a:focus {
+    color: #fff;
+    text-decoration: none;
+    outline: 0;
+    background-color: #337ab7;
+}
+
+.dropdown-menu>.disabled>a,
+.dropdown-menu>.disabled>a:hover,
+.dropdown-menu>.disabled>a:focus {
+    color: #777;
+}
+
+.dropdown-menu>.disabled>a:hover,
+.dropdown-menu>.disabled>a:focus {
+    text-decoration: none;
+    background-color: transparent;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    cursor: not-allowed;
+}
+
+.open>.dropdown-menu {
+    display: block;
+}
+
+.open>a {
+    outline: 0;
+}
+
+.dropdown-menu-right {
+    left: auto;
+    right: 0;
+}
+
+.dropdown-menu-left {
+    left: 0;
+    right: auto;
+}
+
+.dropdown-header {
+    display: block;
+    padding: 3px 20px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #777;
+    white-space: nowrap;
+}
+
+.dropdown-backdrop {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 990;
+}
+
+.pull-right>.dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.dropup .caret,
+.navbar-fixed-bottom .dropdown .caret {
+    border-top: 0;
+    border-bottom: 4px solid;
+    content: '';
+}
+
+.dropup .dropdown-menu,
+.navbar-fixed-bottom .dropdown .dropdown-menu {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 2px;
+}
+
+@media (min-width: 768px) {
+    .navbar-right .dropdown-menu {
+        left: auto;
+        right: 0;
+    }
+
+    .navbar-right .dropdown-menu-left {
+        left: 0;
+        right: auto;
+    }
+}
+
+.dropdown-menu>li>a:hover,
+.dropdown-menu>li>a:focus {
+    background-image: linear-gradient(to bottom, #222 0%, #151515 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff151515', GradientType=0);
+    background-color: #151515;
+}
+
+.dropdown-menu>.active>a,
+.dropdown-menu>.active>a:hover,
+.dropdown-menu>.active>a:focus {
+    background-image: linear-gradient(to bottom, #337ab7 0%, #2e6da4 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff2e6da4', GradientType=0);
+    background-color: #2e6da4;
+}
+
+#menuLogin .form-control {
+    width: 100%;
+}
+
+.navbar-default {
+    background-color: #214762;
+}
+
+.sign-in {
+    padding-top: 5px;
+}
+
+#menuLogin {
+    margin-top: 6px;
+    padding: 20px 20px 0;
+    width: 300px;
+}
+
+.nav-profile {
+    height: 50px;
+}
+
+/* Editable Overrides */
+.editable {
+    cursor: pointer !important;
+}
+
+.editable,
+.editable-click {
+    border-bottom: none !important;
+}
+
+.editable:hover {
+    background-color: $color-hover;
+}
+
+/* Progress Bar Sizes Override */
+/* Build Margins */
+@for $i from 1 to 6 {
+    .progress-bar-#{nth($sizes, $i)} {
+        height: unquote(nth($margins, $i) + 'px');
+    }
+}
+
+/* Rounding corners of nav-pills in panels. */
+.panel .nav-pills>li>a {
+    border-radius: 0;
+}
+
+/* Add flexbox on full screens */
+@media (min-width: 993px) {
+    .navbar>.container {
+        display: flex;
+    }
+
+    .navbar-header {
+        display: flex;
+        white-space: nowrap;
+    }
+}
+
+/* Fix menu login width at narrow screens */
+@media (max-width: 767px) {
+    #menuLogin {
+        width: auto;
+    }
+}
+
+.osf-nav-wrapper {
+
+    /* Overrides the overall navbar color */
+    .navbar-inverse {
+        background-color: $osf-dark-blue-navbar;
+
+        // Specifies color and hover interactions of buttons that look like links (primary dropdown caret, auth dropdown)
+        .btn-link {
+            color: #fff;
+            border-width: 0;
+            padding-bottom: 5px;
+            padding-left: 22px;
+            padding-right: 15px;
+            padding-top: 5px;
+            font-size: 1.2em;
+
+            &:hover,
+            &:focus {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+            }
+
+            // Formats search button (that looks like link) that opens search dropdown for HOME service
+            &.search-toggle {
+                font-size: 16px;
+                margin-top: 10px;
+                margin-left: 7px;
+                margin-right: 7px;
+
+                &:focus,
+                &:active {
+                    outline: none;
+                }
+            }
+        }
+
+        // Specifies font size of links and removes underline on hover
+        a {
+            font-size: 16px;
+
+            &:hover,
+            &:active,
+            &:focus {
+                text-decoration: none;
+            }
+        }
+    }
+
+    .navbar-header {
+
+        /* Enlarges OSF Font */
+        /* Enlarges OSF logo and modifies placement */
+        .osf-navbar-logo {
+            width: 35px;
+            height: 35px;
+            margin-top: -4px;
+            margin-left: -4px;
+        }
+
+        /* Defines position of dropdown toggle (caret) for primary navigation*/
+        .primary-nav {
+            float: left;
+            margin-top: 9px;
+            padding-left: 0;
+        }
+
+        /* Defines location and styling of current service name. OSFPREPRINTS, for example. */
+        .service-name {
+            float: left;
+            margin-top: 8px;
+            margin-left: -13px;
+            text-decoration: none;
+
+            a {
+                font-size: 24px;
+            }
+        }
+
+        /* Decreases distance between "OSF" and current service "PREPRINTS", for example */
+        .current-service {
+            margin-left: -4px;
+        }
+    }
+
+    /* Overrides the color, relative position, and font size of dropdown menus (both service and auth) */
+    .dropdown-menu {
+        background-color: $osf-teal-navbar;
+
+        &.service-dropdown {
+            top: 54px;
+            left: -120px;
+            width: 200px;
+
+            li>a {
+                font-size: 18px;
+            }
+        }
+
+        &.auth-dropdown {
+            top: 60px;
+            right: -19px;
+            width: 160px;
+        }
+
+        .dropdown-toggle {
+            padding: 11px 15px;
+        }
+    }
+
+    /* Overrides color of dropdown list hover (applies to both service and auth dropdowns) */
+    .dropdown-menu>li>a:hover,
+    .dropdown-menu>li>a:focus {
+        background-image: none;
+        background-color: $osf-highlight-navbar;
+    }
+
+    /* Adds css triangle to service dropdown */
+    .dropdown-menu.service-dropdown {
+        ::after {
+            position: absolute;
+            display: inline-block;
+            border-right: 9px solid transparent;
+            border-bottom: 9px solid $osf-teal-navbar;
+            border-left: 9px solid transparent;
+            content: '';
+            top: -8px;
+            left: 126px;
+        }
+    }
+
+    /* Overrides for signup button */
+    #navbarScope .btn-top-signup {
+        padding: 4px 13px;
+        margin-top: 3px;
+        font-size: 15px;
+    }
+
+    /* Overrides for Sign in button */
+    #navbarScope .btn-top-login {
+        padding: 4px 17px;
+        margin-top: 3px;
+        font-size: 15px;
+    }
+
+    /* sm screen formatting */
+    @media screen and (min-width: 768px) {
+
+        /* Adds css triangle to auth dropdown - only on sm screens and greater */
+        .dropdown-menu.auth-dropdown {
+            ::after {
+                position: absolute;
+                display: inline-block;
+                border-right: 6px solid transparent;
+                border-bottom: 6px solid $osf-teal-navbar;
+                border-left: 6px solid transparent;
+                content: '';
+                top: -4px;
+                left: 128px;
+            }
+        }
+    }
+}
+
+/* Overrides font-size and position of user name / gravatar */
+button.nav-user-dropdown {
+    padding-right: 0;
+    font-size: 16px;
+    margin-top: 9px;
+}
+
+.logoutLink {
+    cursor: pointer;
+}

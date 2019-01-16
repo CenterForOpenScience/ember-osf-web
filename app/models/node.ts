@@ -6,22 +6,24 @@ import { not } from '@ember/object/computed';
 import { htmlSafe } from '@ember/string';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
+
 import { Deserialized as NodeLicense } from 'ember-osf-web/transforms/node-license';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import BaseFileItem from './base-file-item';
-import Citation from './citation';
-import Comment from './comment';
-import Contributor from './contributor';
-import DraftRegistration from './draft-registration';
-import FileProvider from './file-provider';
-import Institution from './institution';
-import License from './license';
-import Log from './log';
+import CitationModel from './citation';
+import CommentModel from './comment';
+import ContributorModel from './contributor';
+import DraftRegistrationModel from './draft-registration';
+import FileProviderModel from './file-provider';
+import InstitutionModel from './institution';
+import LicenseModel from './license';
+import LogModel from './log';
 import { Permission } from './osf-model';
-import Preprint from './preprint';
-import Region from './region';
-import Registration from './registration';
-import Wiki from './wiki';
+import PreprintModel from './preprint';
+import RegionModel from './region';
+import RegistrationModel from './registration';
+import WikiModel from './wiki';
 
 const Validations = buildValidations({
     title: [
@@ -64,109 +66,114 @@ export enum NodeType {
     Registration = 'registration',
 }
 
-/**
- * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
- *  or accessed via relationship fields.
- *
- * @class Node
- */
-export default class Node extends BaseFileItem.extend(Validations, CollectableValidations) {
+export default class NodeModel extends BaseFileItem.extend(Validations, CollectableValidations) {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
     @attr('fixstring') category!: string;
-
     @attr('array') currentUserPermissions!: Permission[];
     @attr('boolean') currentUserIsContributor!: boolean;
-
     @attr('boolean') fork!: boolean;
     @alias('fork') isFork!: boolean;
     @attr('boolean') collection!: boolean;
     @attr('boolean') registration!: boolean;
     @attr('boolean') public!: boolean;
-
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
-
     @attr('date') forkedDate!: Date;
-
     @attr('node-license') nodeLicense!: NodeLicense | null;
     @attr('fixstringarray') tags!: string[];
-
     @attr('fixstring') templateFrom!: string;
-
     @attr('string') analyticsKey?: string;
-
     @attr('boolean') preprint!: boolean;
     @attr('array') subjects!: string[];
     @attr('boolean') currentUserCanComment!: boolean;
     @attr('boolean') wikiEnabled!: boolean;
 
     @hasMany('contributor', { inverse: 'node' })
-    contributors!: DS.PromiseManyArray<Contributor>;
+    contributors!: DS.PromiseManyArray<ContributorModel>;
 
     @belongsTo('node', { inverse: 'children' })
-    parent!: DS.PromiseObject<Node> & Node;
+    parent!: DS.PromiseObject<NodeModel> & NodeModel;
 
-    @belongsTo('region') region!: Region;
+    @belongsTo('region')
+    region!: RegionModel;
 
-    @hasMany('node', { inverse: 'parent' }) children!: DS.PromiseManyArray<Node>;
-    @hasMany('preprint', { inverse: 'node' }) preprints!: DS.PromiseManyArray<Preprint>;
+    @hasMany('node', { inverse: 'parent' })
+    children!: DS.PromiseManyArray<NodeModel>;
+
+    @hasMany('preprint', { inverse: 'node' })
+    preprints!: DS.PromiseManyArray<PreprintModel>;
+
     @hasMany('institution', { inverse: 'nodes' })
-    affiliatedInstitutions!: DS.PromiseManyArray<Institution> | Institution[];
-    @hasMany('comment', { inverse: 'node' }) comments!: DS.PromiseManyArray<Comment>;
-    @belongsTo('citation') citation!: DS.PromiseObject<Citation> & Citation;
+    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
 
-    @belongsTo('license', { inverse: null }) license!: DS.PromiseObject<License> & License;
+    @hasMany('comment', { inverse: 'node' })
+    comments!: DS.PromiseManyArray<CommentModel>;
 
-    @hasMany('file-provider', { inverse: 'node' }) files!: DS.PromiseManyArray<FileProvider>;
+    @belongsTo('citation')
+    citation!: DS.PromiseObject<CitationModel> & CitationModel;
 
-    @hasMany('node', { inverse: null }) linkedNodes!: DS.PromiseManyArray<Node>;
-    @hasMany('registration', { inverse: 'registeredFrom' }) registrations!: DS.PromiseManyArray<Registration>;
+    @belongsTo('license', { inverse: null })
+    license!: DS.PromiseObject<LicenseModel> & LicenseModel;
+
+    @hasMany('file-provider', { inverse: 'node' })
+    files!: DS.PromiseManyArray<FileProviderModel>;
+
+    @hasMany('node', { inverse: null })
+    linkedNodes!: DS.PromiseManyArray<NodeModel>;
+
+    @hasMany('registration', { inverse: null })
+    linkedRegistrations!: DS.PromiseManyArray<RegistrationModel>;
+
+    @hasMany('registration', { inverse: 'registeredFrom' })
+    registrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('draft-registration', { inverse: 'branchedFrom' })
-    draftRegistrations!: DS.PromiseManyArray<DraftRegistration>;
+    draftRegistrations!: DS.PromiseManyArray<DraftRegistrationModel>;
 
-    @hasMany('node', { inverse: 'forkedFrom' }) forks!: DS.PromiseManyArray<Node>;
+    @hasMany('node', { inverse: 'forkedFrom' })
+    forks!: DS.PromiseManyArray<NodeModel>;
 
-    @belongsTo('node', { inverse: 'forks' }) forkedFrom!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: 'forks' })
+    forkedFrom!: DS.PromiseObject<NodeModel> & NodeModel;
 
-    @belongsTo('node', { inverse: null }) root!: DS.PromiseObject<Node> & Node;
+    @belongsTo('node', { inverse: null })
+    root!: DS.PromiseObject<NodeModel> & NodeModel;
 
-    @hasMany('node', { inverse: null }) linkedByNodes!: DS.PromiseManyArray<Node>;
+    @hasMany('node', { inverse: null })
+    linkedByNodes!: DS.PromiseManyArray<NodeModel>;
 
-    @hasMany('node', { inverse: null }) linkedByRegistrations!: DS.PromiseManyArray<Node>;
+    @hasMany('node', { inverse: null })
+    linkedByRegistrations!: DS.PromiseManyArray<RegistrationModel>;
 
-    @hasMany('wiki', { inverse: 'node' }) wikis!: DS.PromiseManyArray<Wiki>;
+    @hasMany('wiki', { inverse: 'node' })
+    wikis!: DS.PromiseManyArray<WikiModel>;
 
-    @hasMany('log', { inverse: 'originalNode' }) logs!: DS.PromiseManyArray<Log>;
+    @hasMany('log', { inverse: 'originalNode' })
+    logs!: DS.PromiseManyArray<LogModel>;
 
-    // These are only computeds because maintaining separate flag values on different classes would be a
-    // headache TODO: Improve.
+    // These are only computeds because maintaining separate flag values on
+    // different classes would be a headache TODO: Improve.
+
     /**
-     * Is this a project? Flag can be used to provide template-specific behavior for different resource types.
-     * @property isProject
-     * @type boolean
+     * Is this a project? Flag can be used to provide template-specific behavior
+     * for different resource types.
      */
     @equal('constructor.modelName', 'node') isProject!: boolean;
 
     /**
-     * Is this a registration? Flag can be used to provide template-specific behavior for different resource types.
-     * @property isRegistration
-     * @type boolean
+     * Is this a registration? Flag can be used to provide template-specific
+     * behavior for different resource types.
      */
     @equal('constructor.modelName', 'registration') isRegistration!: boolean;
 
     /**
      * Is this node being viewed through an anonymized, view-only link?
-     * @property isAnonymous
-     * @type boolean
      */
     @bool('meta.anonymous') isAnonymous!: boolean;
 
     /**
      * Does the current user have write permission on this node?
-     * @property userHasWritePermission
-     * @type boolean
      */
     @computed('currentUserPermissions')
     get userHasWritePermission() {
@@ -175,8 +182,6 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
 
     /**
      * Is the current user an admin on this node?
-     * @property userHasAdminPermission
-     * @type boolean
      */
     @computed('currentUserPermissions')
     get userHasAdminPermission() {
@@ -185,8 +190,6 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
 
     /**
      * Does the current user have read permission on this node?
-     * @property userHasReadPermission
-     * @type boolean
      */
     @computed('currentUserPermissions')
     get userHasReadPermission() {
@@ -195,8 +198,6 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
 
     /**
      * The type of this node.
-     * @property nodeType
-     * @type NodeType
      */
     @computed('isFork', 'isRegistration')
     get nodeType(): NodeType {
@@ -219,8 +220,8 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
     isNode = true;
     collectable: boolean = defaultTo(this.collectable, false);
 
-    makeFork(this: Node): Promise<object> {
-        const url = this.get('links').relationships.forks.links.related.href;
+    makeFork(): Promise<object> {
+        const url = this.links.relationships.forks.links.related.href;
         return this.currentUser.authenticatedAJAX({
             url,
             type: 'POST',
@@ -236,7 +237,7 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
     /**
      * Sets the nodeLicense field defaults based on required fields from a License
      */
-    setNodeLicenseDefaults(this: Node, requiredFields: Array<keyof NodeLicense>): void {
+    setNodeLicenseDefaults(requiredFields: Array<keyof NodeLicense>): void {
         if (!requiredFields.length && this.nodeLicense) {
             // If the nodeLicense exists, notify property change so that validation is triggered
             this.notifyPropertyChange('nodeLicense');
@@ -264,8 +265,8 @@ export default class Node extends BaseFileItem.extend(Validations, CollectableVa
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        node: Node;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        node: NodeModel;
+    } // eslint-disable-line semi
 }

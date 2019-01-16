@@ -1,0 +1,120 @@
+$sidenav-link-height: 40px;
+
+.Link {
+    align-items: center;
+    display: inline-flex;
+    height: $sidenav-link-height;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 20px;
+    color: $primary-blue;
+    outline: 0 !important;
+
+    h4 {
+        color: inherit;
+    }
+
+    & > span {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        color: $secondary-blue;
+    }
+
+    &:global(.active) {
+        color: $white;
+        background-color: $primary-blue;
+        border: $white 1px solid;
+        border-left: 0;
+        border-right: 0;
+
+        .Count {
+            color: inherit;
+        }
+    }
+}
+
+.Label {
+    position: relative;
+}
+
+.Icon {
+    font-size: 20px;
+    margin-right: 10px;
+
+    .Collapsed & {
+        margin-right: 0;
+    }
+}
+
+.Count {
+    color: $slate-gray;
+    font-weight: 700;
+}
+
+@mixin hover-poke-through($background-color) {
+    position: absolute;
+    padding: 11px;
+    height: $sidenav-link-height;
+
+    top: -20px;
+    left: 28px;
+
+    // Forces the label to stay on a single line
+    // otherwise it will wrap every letter.
+    white-space: nowrap;
+
+    // Arbitrary number, just needs to be > 1 to avoid
+    // overlapping with text and < 100 so the border gets covered by the ::before
+    z-index: 10;
+
+    background: $background-color;
+    border: $alto 1px solid;
+    border-left: 0;
+
+    // Cover the border around the h4 to give it the "poke out/through" effect
+    &::before {
+        position: absolute;
+        z-index: 100;
+        border: $white 1px solid;
+        border-left: 0;
+        border-right: 0;
+
+        // Needs to be set to render. Adding content messes things up. Don't do that.
+        content: '';
+
+        // Sized and positioned to be 1px larger on all sides
+        // than the h4 to cover the border
+        top: -1px;
+        left: -1px;
+        height: calc(2px + 100%);
+
+        // Matches the width of the parent gutter
+        width: 26px;
+    }
+}
+
+.Collapsed {
+    // Center icons when collapsed
+    justify-content: center;
+
+    // Don't show count or the little expand-y
+    // arrow when collapsed
+    // Or the h4 when not hovered
+    & > .Count,
+    &:not(:hover) h4 {
+        display: none;
+    }
+
+    &:hover:global(.active) h4 {
+        @include hover-poke-through($primary-blue);
+    }
+
+    &:hover:not(:global(.active)) h4 {
+        @include hover-poke-through($white);
+    }
+}

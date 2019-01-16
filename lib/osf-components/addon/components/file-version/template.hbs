@@ -1,24 +1,39 @@
 <td class='col-md-4'>
-    {{#if clickable}}
-        <button class='btn btn-link' local-class="FileVersion__button" onclick={{action 'changeVersion' version.id}}>{{version.id}}</button>
+    {{#if this.clickable}}
+        <OsfButton
+            local-class='FileVersion__button'
+            @class='btn-link'
+            @onClick={{action this.changeVersion this.version.id}}
+        >
+            {{this.version.id}}
+        </OsfButton>
     {{else}}
-        {{version.id}}
+        {{this.version.id}}
     {{/if}}
 </td>
-<td class='col-md-6'>{{moment-format version.attributes.modified_utc}}</td>
-<td class='col-xs-1'><div class='badge'>{{version.attributes.extra.downloads}}</div></td>
-<td class='col-xs-1'><button class='btn btn-primary btn-sm' onclick={{action 'downloadVersion' version.id}}>{{fa-icon 'download'}}</button></td>
-<td class='hidden-md hidden-sm hidden-xs'>
-    {{copyable-text
-        local-class='input-group'
-        text=this.version.attributes.extra.hashes.md5
-        analyticsLabel='File version - Copy md5'
-    }}
+<td class='col-md-6'>{{moment-format this.version.attributes.modified_utc}}</td>
+<td class='col-xs-1'><div class='badge'>{{this.version.attributes.extra.downloads}}</div></td>
+<td class='col-xs-1'>
+    <OsfButton
+        aria-label={{t 'general.download'}}
+        @type='primary'
+        @size='sm'
+        @onClick={{action this.downloadVersion this.version.id}}
+    >
+        {{fa-icon 'download'}}
+    </OsfButton>
 </td>
 <td class='hidden-md hidden-sm hidden-xs'>
-    {{copyable-text
+    <CopyableText
         local-class='input-group'
-        text=this.version.attributes.extra.hashes.sha256
-        analyticsLabel='File version - Copy sha256'
-    }}
+        @text={{this.version.attributes.extra.hashes.md5}}
+        @analyticsLabel='File version - Copy md5'
+    />
+</td>
+<td class='hidden-md hidden-sm hidden-xs'>
+    <CopyableText
+        local-class='input-group'
+        @text={{this.version.attributes.extra.hashes.sha256}}
+        @analyticsLabel='File version - Copy sha256'
+    />
 </td>

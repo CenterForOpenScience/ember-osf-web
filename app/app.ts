@@ -33,6 +33,8 @@ const App = Application.extend({
             dependencies: {
                 services: [
                     'analytics',
+                    'current-user',
+                    'features',
                     'i18n',
                     'ready',
                     'router',

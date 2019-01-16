@@ -1,18 +1,144 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import { assert, debug, runInDebug } from '@ember/debug';
+import RouterService from '@ember/routing/router-service';
 import Service from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
+import Toast from 'ember-toastr/services/toast';
 
 import Ready from 'ember-osf-web/services/ready';
+
+const {
+    metricsAdapters,
+    OSF: {
+        analyticsAttrs,
+    },
+} = config;
+
+export interface TrackedData {
+    category?: string;
+    action?: string;
+    extra?: string;
+    label: string;
+}
+
+function logEvent(analytics: Analytics, title: string, data: object) {
+    const logMessage = Object.entries(data)
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(', ');
+    debug(`${title}: ${logMessage}`);
+
+    if (analytics.shouldToastOnEvent) {
+        analytics.toast.info(
+            Object.entries(data)
+                .map(([k, v]) => `<div>${k}: <strong>${v}</strong></div>`)
+                .join(''),
+            title,
+            { preventDuplicates: false },
+        );
+    }
+}
+
+class EventInfo {
+    scopes: string[] = [];
+    name?: string;
+    category?: string;
+    action?: string;
+    extra?: string;
+    ev: Event;
+
+    constructor(ev: Event, rootElement: Element) {
+        this.ev = ev;
+        if (ev.target && ev.target instanceof Element) {
+            this.gatherMetadata(ev.target, rootElement);
+        }
+    }
+
+    isValid(): boolean {
+        return Boolean(this.name && this.scopes.length);
+    }
+
+    gatherMetadata(targetElement: Element, rootElement: Element) {
+        let element: Element | null = targetElement;
+        while (element && element !== rootElement) {
+            this._gatherMetadataFromElement(element);
+            element = element.parentElement;
+        }
+    }
+
+    trackedData(): TrackedData {
+        return {
+            category: this.category,
+            action: this.action,
+            label: [...this.scopes.reverse(), this.name].join(' - '),
+            extra: this.extra,
+        };
+    }
+
+    _gatherMetadataFromElement(element: Element) {
+        if (element.hasAttribute(analyticsAttrs.name)) {
+            assert('Multiple names found for an event!', !this.name);
+            this.name = element.getAttribute(analyticsAttrs.name)!;
+
+            this._gatherAction(element);
+            this._gatherExtra(element);
+            this._gatherCategory(element);
+        } else if (element.hasAttribute(analyticsAttrs.scope)) {
+            this.scopes.push(element.getAttribute(analyticsAttrs.scope)!);
+        }
+    }
+
+    _gatherAction(element: Element) {
+        if (element.hasAttribute(analyticsAttrs.action)) {
+            this.action = element.getAttribute(analyticsAttrs.action)!;
+        } else {
+            this.action = this.ev.type;
+        }
+    }
+
+    _gatherExtra(element: Element) {
+        if (element.hasAttribute(analyticsAttrs.extra)) {
+            this.extra = element.getAttribute(analyticsAttrs.extra)!;
+        }
+    }
+
+    _gatherCategory(element: Element) {
+        if (element.hasAttribute(analyticsAttrs.category)) {
+            this.category = element.getAttribute(analyticsAttrs.category)!;
+        } else if (element.hasAttribute('role')) {
+            this.category = element.getAttribute('role')!;
+        } else {
+            switch (element.tagName) {
+            case 'BUTTON':
+                this.category = 'button';
+                break;
+            case 'A':
+                this.category = 'link';
+                break;
+            case 'INPUT':
+                if (element.hasAttribute('type')) {
+                    this.category = element.getAttribute('type')!;
+                }
+                break;
+            default:
+            }
+        }
+
+        assert('Event category could not be inferred. It must be set explicitly.', Boolean(this.category));
+    }
+}
 
 export default class Analytics extends Service {
     @service metrics!: Metrics;
     @service session!: Session;
     @service ready!: Ready;
-    @service router!: any;
+    @service router!: RouterService;
+    @service toast!: Toast;
+
+    shouldToastOnEvent: boolean = false;
 
     trackPageTask = task(function *(
         this: Analytics,
@@ -27,7 +153,13 @@ export default class Analytics extends Service {
             title: this.router.currentRouteName,
         };
 
-        const gaConfig = config.metricsAdapters.findBy('name', 'GoogleAnalytics');
+        runInDebug(() => logEvent(this, 'Tracked page', {
+            pagePublic,
+            resourceType,
+            ...eventParams,
+        }));
+
+        const gaConfig = metricsAdapters.findBy('name', 'GoogleAnalytics');
         if (gaConfig) {
             const {
                 authenticated,
@@ -69,29 +201,29 @@ export default class Analytics extends Service {
             // This is to remove the event object when used with onclick
             extra = undefined;
         }
-        this.get('metrics')
-            .trackEvent({
-                category,
-                action: 'click',
-                label,
-                extra,
-            });
+        this._trackEvent({
+            category,
+            action: 'click',
+            label,
+            extra,
+        });
 
         return true;
     }
 
-    track(this: Analytics, category: string, actionName: string, label: string, extraInfo?: string | null) {
+    track(this: Analytics, category: string, actionName: string, label: string, extraInfo?: string) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {
-            extra = null;
+            extra = undefined;
         }
-        this.get('metrics')
-            .trackEvent({
-                category,
-                action: actionName,
-                label,
-                extra,
-            });
+
+        this._trackEvent({
+            category,
+            action: actionName,
+            label,
+            extra,
+        });
+
         return true;
     }
 
@@ -101,6 +233,20 @@ export default class Analytics extends Service {
         resourceType: string = 'n/a',
     ) {
         this.get('trackPageTask').perform(pagePublic, resourceType);
+    }
+
+    handleClick(rootElement: HTMLElement, e: MouseEvent) {
+        const eventInfo = new EventInfo(e, rootElement);
+
+        if (eventInfo.isValid()) {
+            this._trackEvent(eventInfo.trackedData());
+        }
+    }
+
+    _trackEvent(trackedData: TrackedData) {
+        this.metrics.trackEvent(trackedData);
+
+        runInDebug(() => logEvent(this, 'Tracked event', trackedData));
     }
 }
 

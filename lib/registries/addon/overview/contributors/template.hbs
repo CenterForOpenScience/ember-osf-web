@@ -1,0 +1,28 @@
+<h3>{{t 'registries.overview.contributors.title'}}</h3>
+
+{{#paginated-list/has-many
+    model=this.model.taskInstance.value
+    relationshipName='contributors'
+    as |list|
+}}
+    {{#list.item as |contributor|}}
+        {{#if contributor}}
+            <div local-class='Contributor'>
+                {{! TODO: user card? }}
+                <img data-test-gravatar
+                     local-class='Gravatar'
+                     src='{{contributor.users.profileImage}}&s=30'
+                     alt={{t 'registries.overview.contributors.gravatar_alt' name=contributor.users.fullName}}
+                >
+                <a local-class='Name' href='https://osf.io/{{contributor.users.id}}'>
+                    {{contributor.users.fullName}}
+                </a>
+            </div>
+        {{else}}
+            <ContentPlaceholders local-class='Placeholder' as |cp|>
+                <cp.icon local-class='Gravatar' />
+                <cp.heading @subtitle={{false}} local-class='Name'/>
+            </ContentPlaceholders>
+        {{/if}}
+    {{/list.item}}
+{{/paginated-list/has-many}}

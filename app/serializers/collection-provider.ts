@@ -1,9 +1,10 @@
 import OsfSerializer from './osf-serializer';
 
-export default class CollectionProvider extends OsfSerializer {}
+export default class CollectionProviderSerializer extends OsfSerializer {
+}
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
-        'collection-provider': CollectionProvider;
-    }
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
+        'collection-provider': CollectionProviderSerializer;
+    } // eslint-disable-line semi
 }
