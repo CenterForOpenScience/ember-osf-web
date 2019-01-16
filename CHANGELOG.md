@@ -68,6 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
     - `institutions-widget` - has a list of institutions associated with a node. Has a modal to add/remove
     - `institutions-list` - shows a list of institutions
+    - `institution-select-list` - a checkbox list of institutions a user can select
     - `placeholder`
         - `circle` - a placeholder for circlular elements
 - Tests

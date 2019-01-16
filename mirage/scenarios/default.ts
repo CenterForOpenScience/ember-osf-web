@@ -123,6 +123,10 @@ function handbookScenario(server: Server) {
         id: 'lacks',
     }, 'withAffiliatedInstitutions');
 
+    server.create('node', {
+        id: 'manys',
+    }, 'withManyAffiliatedInstitutions');
+
     // ContributorList
     for (const contributorCount of [1, 2, 3, 23]) {
         const node = server.create('node', { id: `clst${contributorCount}` });

@@ -1,0 +1,26 @@
+{{#paginated-list/has-many
+    local-class='institutionList'
+    model=@model
+    relationshipName='institutions'
+    analyticsScope='User Institutions'
+    as |list|
+}}
+    <list.item as |institution|>
+        {{#if institution}}
+            <li>
+                <label local-class='label'>
+                    {{input
+                        type='checkbox'
+                    }}
+                    <Link @href={{institution.links.html}}>
+                        {{institution.name}}
+                    </Link>
+                </label>
+            </li>
+        {{else}}
+            <ContentPlaceholders as |placeholder|>
+                {{placeholder.list items=2}}
+            </ContentPlaceholders>
+        {{/if}}
+    </list.item>
+{{/paginated-list/has-many}}

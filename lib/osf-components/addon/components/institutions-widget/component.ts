@@ -4,6 +4,7 @@ import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
@@ -16,6 +17,7 @@ export default class InstitutionWidget extends Component {
 
     // private properties
     @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
     shouldShowModal: boolean = false;
 
     @action

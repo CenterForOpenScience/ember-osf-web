@@ -1351,7 +1351,7 @@ export default {
         },
         'institutions-widget': {
             affiliated_institutions: 'Affiliated institutions',
-            add_affiliation: 'Add affiliation',
+            affiliate_institutions: 'Affiliate institutions',
         },
     },
     settings: {
