@@ -20,7 +20,7 @@ const {
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
     COLLECTIONS_ENABLED = false,
-    REGISTRIES_ENABLED = false,
+    REGISTRIES_ENABLED = true,
     HANDBOOK_ENABLED = false,
     HANDBOOK_DOC_GENERATION_ENABLED = false,
     TESTS_ENABLED = false,
