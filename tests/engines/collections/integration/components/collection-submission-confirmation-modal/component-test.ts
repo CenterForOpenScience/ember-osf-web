@@ -14,16 +14,16 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
             openModal=true addToCollection=(action this.noop)
             cancel=(action this.noop)
         }}`);
-        assert.dom('.modal-header h3').hasText(
+        assert.dom('[data-test-modal-header]').hasText(
             t('collections.collection_submission_confirmation_modal.header').toString(),
         );
-        assert.dom('.modal-body p').hasText(
+        assert.dom('[data-test-modal-body]').hasText(
             t('collections.collection_submission_confirmation_modal.body').toString(),
         );
-        assert.dom('.modal-footer .btn-default ').hasText(
+        assert.dom('[data-test-button-cancel]').hasText(
             t('general.cancel').toString(),
         );
-        assert.dom('.modal-footer .btn-success ').hasText(
+        assert.dom('[data-test-button-success]').hasText(
             t('collections.collection_submission_confirmation_modal.add_button').toString(),
         );
     });
@@ -40,7 +40,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
             addToCollection=(action this.externalSaveAction)
             cancel=(action this.noop)
         }}`);
-        await click('.btn-success');
+        await click('[data-test-button-success]');
     });
 
     test('Cancel button calls cancel action', async function(assert) {
@@ -55,6 +55,6 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
             addToCollection=(action this.noop)
             cancel=(action this.externalCancelAction)
         }}`);
-        await click('.btn-default');
+        await click('[data-test-button-cancel]');
     });
 });
