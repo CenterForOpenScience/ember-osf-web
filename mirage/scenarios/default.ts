@@ -36,13 +36,9 @@ export default function(server: Server) {
         index: 0,
     });
 
-    const firstNode = server.create('node', {});
-    server.create('contributor', { node: firstNode, users: currentUser, bibliographic: true });
-
-    const nodeManyContribs = server.create('node', { id: 'x2pqs' });
-    server.create('contributor', { node: nodeManyContribs, users: currentUser, bibliographic: true });
-    server.createList('contributor', 2, { node: nodeManyContribs, bibliographic: true });
-    server.createList('contributor', 3, { node: nodeManyContribs, bibliographic: false });
+    const nodeManyContribs = server.create('registration', { id: 'contr' });
+    server.create('contributor', { node: nodeManyContribs, users: currentUser });
+    server.createList('contributor', 67, { node: nodeManyContribs });
 
     const nodes = server.createList<Node>('node', 10, {
         currentUserPermissions: Object.values(Permission),
@@ -72,7 +68,7 @@ export default function(server: Server) {
     forkNode(server, forksNode as ModelInstance<Node>, { currentUserPermissions: Object.values(Permission) });
     registerNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {
         currentUserPermissions: Object.values(Permission),
-    }, 'withRegisteredMeta');
+    });
     draftRegisterNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {}, 'withRegistrationMetadata');
 
     server.create('registration', { id: 'beefs' });
@@ -82,7 +78,7 @@ export default function(server: Server) {
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 21),
         linkedRegistrations: server.createList('registration', 19),
-    }, 'withRegisteredMeta', 'withContributors');
+    }, 'withContributors');
     server.createList('registration', 15, { parent: reg });
 
     const reg2 = server.create('registration', {
@@ -90,7 +86,7 @@ export default function(server: Server) {
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 3),
-    }, 'withRegisteredMeta', 'withContributors');
+    }, 'withContributors');
     server.createList('registration', 2, { parent: reg2 });
 
     server.loadFixtures('preprint-providers');

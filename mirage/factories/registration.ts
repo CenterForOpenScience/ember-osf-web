@@ -1,55 +1,45 @@
-import { association, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, faker } from 'ember-cli-mirage';
 
 import Registration from 'ember-osf-web/models/registration';
 
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
-export interface RegistrationTraits {
-    withRegisteredMeta: Trait;
-}
-
-export default NodeFactory.extend<Registration & RegistrationTraits>({
+export default NodeFactory.extend<Registration>({
     id: guid('registration'),
-    afterCreate: guidAfterCreate,
+    afterCreate(newReg, server) {
+        guidAfterCreate(newReg, server);
+        if (newReg.registrationSchema) {
+            newReg.update({
+                registeredMeta: createRegistrationMetadata(newReg.registrationSchema.schemaNoConflict, true),
+            });
+        }
+    },
 
     registration: true,
     dateRegistered() {
         return faker.date.recent(5);
     },
     pendingRegistrationApproval() {
-        return faker.random.boolean();
+        return false;
     },
     archiving() {
-        return faker.random.boolean();
+        return false;
     },
     embargoed() {
-        return faker.random.boolean();
+        return false;
     },
     embargoEndDate() {
-        return faker.date.future(1);
+        return null;
     },
     pendingEmbargoApproval() {
         return faker.random.boolean();
     },
     withdrawn() {
-        return faker.random.boolean();
-    },
-    withdrawalJustification() {
-        return faker.hacker.phrase();
+        return false;
     },
     pendingWithdrawal() {
-        return faker.random.boolean();
+        return false;
     },
     registrationSchema: association() as Registration['registrationSchema'],
-
-    registeredMeta: {},
-
-    withRegisteredMeta: trait({
-        afterCreate(registration: any) {
-            registration.update({
-                registeredMeta: createRegistrationMetadata(registration.registrationSchema.schemaNoConflict, true),
-            });
-        },
-    }),
 });
