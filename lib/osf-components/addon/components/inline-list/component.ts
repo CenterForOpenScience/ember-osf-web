@@ -14,21 +14,22 @@ export default class InlineList<T> extends Component {
     items!: T[];
 
     // Optional arguments
-    truncateCount?: number;
+    truncate?: number;
     total?: number;
 
     @alias('items.firstObject') firstItem?: T;
 
-    @computed('items.[]', 'shownCount')
+    @computed('items.[]', 'remainingCount', 'shownCount')
     get middleItems(): T[] {
-        return this.items.slice(1, this.shownCount - 1);
+        const lastIndex = this.remainingCount ? this.shownCount : this.shownCount - 1;
+        return this.items.slice(1, lastIndex);
     }
 
-    @computed('items.[]', 'shownCount')
+    @computed('items.[]', 'remainingCount', 'shownCount')
     get lastItem(): T | undefined {
-        return this.shownCount <= this.items.length ?
-            this.items[this.shownCount - 1] :
-            undefined;
+        return this.remainingCount ?
+            undefined :
+            this.items[this.shownCount - 1];
     }
 
     @computed('total', 'items.length')
@@ -38,11 +39,11 @@ export default class InlineList<T> extends Component {
             this.total;
     }
 
-    @computed('truncateCount', 'totalCount')
+    @computed('truncate', 'items.length')
     get shownCount() {
-        return typeof this.truncateCount === 'undefined' ?
-            this.totalCount :
-            Math.min(this.truncateCount, this.totalCount);
+        return typeof this.truncate === 'undefined' ?
+            this.items.length :
+            Math.min(this.truncate, this.items.length);
     }
 
     @computed('totalCount', 'shownCount')
@@ -52,8 +53,16 @@ export default class InlineList<T> extends Component {
 
     didReceiveAttrs() {
         assert(
-            '@truncateCount must be > 2',
-            typeof this.truncateCount === 'undefined' || this.truncateCount > 2,
+            '@items is required',
+            Boolean(this.items),
+        );
+        assert(
+            '@truncate must be > 2',
+            typeof this.truncate === 'undefined' || this.truncate > 2,
+        );
+        assert(
+            '@items cannot be longer than @total',
+            typeof this.total === 'undefined' || this.items.length <= this.total,
         );
     }
 }

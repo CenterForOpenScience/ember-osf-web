@@ -3,7 +3,6 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
@@ -22,51 +21,45 @@ import template from './template';
 @tagName('span')
 export default class ContributorList extends Component.extend({
     didReceiveAttrs(this: ContributorList) {
-        assert('@node is required for <ContributorList>', Boolean(this.node));
-
         this.loadContributors.perform();
     },
 
     loadContributors: task(function *(this: ContributorList, more?: boolean) {
-        const blocker = this.ready.getBlocker();
+        if (!this.node) {
+            return;
+        }
 
-        let { displayedContributors } = this;
-        let totalContributors: number;
+        const blocker = this.ready.getBlocker();
         if (this.shouldLoadAll && !this.shouldTruncate) {
             const allContributors = yield this.node.loadAll('contributors');
-            displayedContributors = allContributors.toArray();
-            totalContributors = allContributors.length;
+            this.setProperties({
+                displayedContributors: allContributors.toArray(),
+                totalContributors: allContributors.length,
+            });
         } else if (more) {
             const nextPage: QueryHasManyResult<Contributor> = yield this.node.queryHasMany('contributors', {
                 page: this.incrementProperty('page'),
             });
-            displayedContributors.pushObjects(nextPage);
-            totalContributors = nextPage.meta.total;
+            this.displayedContributors.pushObjects(nextPage);
+            this.set('totalContributors', nextPage.meta.total);
         } else {
             this.set('page', 1);
             const firstPage = yield this.node.contributors;
-            totalContributors = firstPage.meta.total;
+            this.setProperties({
+                displayedContributors: firstPage.toArray(),
+                totalContributors: firstPage.meta.total,
+            });
         }
-
-        if (!this.shouldShowNonBibliographic) {
-            displayedContributors = displayedContributors.filter(c => c.bibliographic);
-        }
-
-        this.setProperties({
-            displayedContributors,
-            totalContributors,
-        });
 
         blocker.done();
-    }).enqueue(),
+    }).drop(),
 }) {
     // Required arguments
-    node!: Node;
+    node?: Node;
 
     // Optional arguments
     shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
     shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
-    shouldShowNonBibliographic: boolean = defaultTo(this.shouldShowNonBibliographic, false);
 
     // Private properties
     @service i18n!: I18N;

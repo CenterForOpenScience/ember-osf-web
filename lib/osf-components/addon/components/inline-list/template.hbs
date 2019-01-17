@@ -13,14 +13,14 @@
     {{yield (hash item=this.firstItem)~}}
     {{~t 'list.many_item.first_delimiter'~}}
     {{#each this.middleItems as | item index |}}
-        {{#if index}}
+        {{~#if index}}
             {{~t 'list.many_item.each_delimiter'~}}
         {{/if}}
         {{~yield (hash item=item)~}}
     {{/each}}
 
+    {{~t 'list.many_item.last_delimiter'~}}
     {{#if this.lastItem}}
-        {{~t 'list.many_item.last_delimiter'~}}
         {{~yield (hash item=this.lastItem)}}
     {{else}}
         {{~yield (hash

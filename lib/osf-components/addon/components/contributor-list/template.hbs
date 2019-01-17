@@ -1,16 +1,20 @@
 <InlineList
-    @items={{this.formattedContributors}}
+    @items={{this.displayedContributors}}
     @total={{this.totalContributors}}
     @truncate={{this.truncateCount}}
-    as |l|
+    as |list|
 >
-    {{#if l.item}}
-        {{~contributor-list/contributor shouldLinkUser=this.shouldLinkUsers contributor=l.item~}}
-    {{else if l.remainingCount}}
-        {{#if this.loadContributors.isRunning }}
+    {{#if list.item}}
+        {{~contributor-list/contributor
+            contributor=list.item
+            shouldLinkUser=this.shouldLinkUsers
+            shouldShortenName=this.shouldTruncate
+        ~}}
+    {{else if list.remainingCount}}
+        {{#if this.isLoading }}
             <LoadingIndicator @inline={{true}} @dark={{true}} />
-        {{else if this.truncated}}
-            {{~t 'contributor_list.and_x_more' x=l.remainingCount~}}
+        {{else if this.shouldTruncate}}
+            {{t 'contributor_list.x_more' x=list.remainingCount}}
         {{else}}
             <OsfButton
                 data-test-load-more-contribs
@@ -20,7 +24,8 @@
                 @type='link'
                 @onClick={{perform this.loadContributors true}}
             >
-                {{~t 'contributor_list.and_x_more' x=l.remainingCount~}}
+                {{t 'contributor_list.x_more' x=list.remainingCount}}
+                <FaIcon @icon='caret-down' />
             </OsfButton>
         {{/if}}
     {{/if}}

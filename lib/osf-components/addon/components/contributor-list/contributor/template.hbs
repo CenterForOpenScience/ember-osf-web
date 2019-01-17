@@ -1,10 +1,14 @@
 {{#if this.contributorLink~}}
-    <Link
+    {{!--
+        using <a> instead of <Link> so handlebars `~` can eat up whitespace
+        TODO: switch to `{{#osf-link}}` invocation when <Link> is renamed
+    --}}
+    <a
         data-analytics-name='Contributor name'
-        @href={{this.contributorLink}}
+        href={{this.contributorLink}}
     >
         {{~this.contributorName~}}
-    </Link>
+    </a>
 {{~else~}}
     {{~this.contributorName~}}
 {{/if}}

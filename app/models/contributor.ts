@@ -37,7 +37,7 @@ export const permissions = Object.freeze(Object.values(Permission));
 export default class ContributorModel extends OsfModel.extend(Validations) {
     @attr('fixstring') permission!: Permission;
     @attr('boolean') bibliographic!: boolean;
-    @attr('fixstring') unregisteredContributor!: string;
+    @attr('fixstring') unregisteredContributor?: string;
     @attr('number') index!: number;
     @attr('fixstring') fullName!: string;
     @attr('fixstring') email!: string;

@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { task } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
@@ -8,23 +8,33 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import template from './template';
 
 @layout(template)
-@tagName('span')
-export default class ContributorListContributor extends Component {
+@tagName('')
+export default class ContributorListContributor extends Component.extend({
+    loadUser: task(function *(this: ContributorListContributor) {
+        const user = yield this.contributor.users;
+
+        const contributorName = this.shouldShortenName ?
+            user.familyName || user.givenName || user.fullName :
+            user.fullName;
+
+        const contributorLink = this.shouldLinkUser && !this.contributor.unregisteredContributor ?
+            `/${user.id}` :
+            undefined;
+
+        this.setProperties({
+            contributorName,
+            contributorLink,
+        });
+    }).restartable(),
+}) {
     contributor!: Contributor;
     shouldLinkUser: boolean = defaultTo(this.shouldLinkUser, false);
+    shouldShortenName: boolean = defaultTo(this.shouldShortenName, false);
 
-    @computed('contributor')
-    get contributorName() {
-        const user = this.contributor.users;
-        return user.familyName || user.givenName || user.fullName;
-    }
+    contributorName?: string;
+    contributorLink?: string;
 
-    @computed('shouldLinkUser', 'contributor')
-    get contributorLink() {
-        if (!this.shouldLinkUser || this.contributor.unregisteredContributor) {
-            return undefined;
-        } else {
-            return `/${this.contributor.users.id}`;
-        }
+    didReceiveAttrs() {
+        this.loadUser.perform();
     }
 }
