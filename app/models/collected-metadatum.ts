@@ -4,6 +4,8 @@ import { computed as iComputed } from '@ember/object';
 import { alias as iAlias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 
+import tuple from 'ember-osf-web/utils/tuple';
+
 import Collection, { ChoicesFields } from './collection';
 import Guid from './guid';
 import OsfModel from './osf-model';
@@ -15,20 +17,13 @@ export interface DisplaySubject {
     path: string;
 }
 
-export type ChoiceFields =
-    'collectedType' |
-    'issue' |
-    'programArea' |
-    'status' |
-    'volume';
-
-export const choiceFields: ChoiceFields[] = [
+export const choiceFields = tuple(
     'collectedType',
     'issue',
     'programArea',
     'status',
     'volume',
-];
+);
 
 const Validations = buildValidations({
     ...choiceFields.reduce((acc, val) => {
