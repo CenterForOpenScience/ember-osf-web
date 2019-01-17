@@ -8,7 +8,14 @@ import NodeModel from './node';
 import OsfModel from './osf-model';
 import RegistrationModel from './registration';
 
-export const choicesFields = choiceFields.map(field => `${field}Choices`);
+export type ChoicesFields =
+    'collectedTypeChoices' |
+    'issueChoices' |
+    'programAreaChoices' |
+    'statusChoices' |
+    'volumeChoices';
+
+export const choicesFields = choiceFields.map(field => `${field}Choices`) as ChoicesFields[];
 
 export default class CollectionModel extends OsfModel {
     @attr('fixstring') title!: string;
@@ -33,8 +40,8 @@ export default class CollectionModel extends OsfModel {
     linkedRegistrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @computed(`{${choicesFields.join()}}.length`)
-    get displayChoicesFields(): Array<keyof CollectionModel> {
-        return (choicesFields as Array<keyof CollectionModel>).filter(field => !!this[field].length);
+    get displayChoicesFields() {
+        return choicesFields.filter(field => !!this[field].length);
     }
 }
 
