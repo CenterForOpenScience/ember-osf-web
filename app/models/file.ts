@@ -12,12 +12,15 @@ import { OsfLinks } from './osf-model';
 import UserModel from './user';
 
 export interface FileLinks extends OsfLinks {
-    html: never;
     info: Link;
     move: Link;
     upload: Link;
-    download: Link;
     delete: Link;
+
+    // only for files
+    download?: Link;
+
+    // only for folders
     new_folder?: Link; // eslint-disable-line camelcase
 }
 
@@ -66,14 +69,17 @@ export default class FileModel extends BaseFileItem {
     flash: object | null = null;
 
     getContents(): Promise<object> {
-        return this.currentUser.authenticatedAJAX({
-            url: getHref(this.links.download),
-            type: 'GET',
-            data: {
-                direct: true,
-                mode: 'render',
-            },
-        });
+        if (this.isFile) {
+            return this.currentUser.authenticatedAJAX({
+                url: getHref(this.links.download!),
+                type: 'GET',
+                data: {
+                    direct: true,
+                    mode: 'render',
+                },
+            });
+        }
+        return Promise.reject(Error('Can only get the contents of files.'));
     }
 
     async rename(newName: string, conflict = 'replace'): Promise<void> {

@@ -347,7 +347,7 @@ export default class FileBrowser extends Component {
     @action
     downloadItem() {
         const file = this.selectedItems.firstObject as unknown as File;
-        window.location.href = getHref(file.links.download);
+        window.location.href = getHref(file.links.download!);
         if (!this.canEdit) {
             this.analytics.click('button', 'Quick Files - Download');
         }
