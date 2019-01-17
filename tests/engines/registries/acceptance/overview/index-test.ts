@@ -33,7 +33,7 @@ module('Registries | Acceptance | overview.index', hooks => {
         server.loadFixtures('registration-schemas');
         this.set('registration', server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        }, 'withRegisteredMeta', 'withContributors'));
+        }, 'withContributors'));
     });
 
     test('it renders', async function(this: OverviewTestContext, assert: Assert) {
