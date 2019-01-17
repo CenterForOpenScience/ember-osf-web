@@ -9,37 +9,42 @@ export default NodeFactory.extend<Registration>({
     id: guid('registration'),
     afterCreate(newReg, server) {
         guidAfterCreate(newReg, server);
-        if (newReg.registrationSchema) {
+
+        if (newReg.parent) {
             newReg.update({
-                registeredMeta: createRegistrationMetadata(newReg.registrationSchema.schemaNoConflict, true),
+                dateRegistered: newReg.parent.dateRegistered,
+                pendingRegistrationApproval: newReg.parent.pendingRegistrationApproval,
+                archiving: newReg.parent.archiving,
+                embargoed: newReg.parent.embargoed,
+                embargoEndDate: newReg.parent.embargoEndDate,
+                pendingEmbargoApproval: newReg.parent.pendingEmbargoApproval,
+                withdrawn: newReg.parent.withdrawn,
+                pendingWithrawal: newReg.parent.pendingWithrawal,
+                registrationSchema: newReg.parent.registrationSchema,
+                registeredMeta: newReg.parent.registeredMeta,
+            });
+        } else if (!newReg.registeredMeta) {
+            const registrationSchema = newReg.registrationSchema ||
+                faker.random.arrayElement(server.schema.registrationSchemas.all().models) ||
+                server.create('registrationSchema');
+            newReg.update({
+                registrationSchema,
+                registeredMeta: createRegistrationMetadata(registrationSchema.schemaNoConflict, true),
             });
         }
     },
 
-    registration: true,
     dateRegistered() {
         return faker.date.recent(5);
     },
-    pendingRegistrationApproval() {
-        return false;
-    },
-    archiving() {
-        return false;
-    },
-    embargoed() {
-        return false;
-    },
-    embargoEndDate() {
-        return null;
-    },
-    pendingEmbargoApproval() {
-        return faker.random.boolean();
-    },
-    withdrawn() {
-        return false;
-    },
-    pendingWithdrawal() {
-        return false;
-    },
-    registrationSchema: association() as Registration['registrationSchema'],
+    registration: true,
+    pendingRegistrationApproval: false,
+    archiving: false,
+    embargoed: false,
+    embargoEndDate: null,
+    pendingEmbargoApproval: false,
+    withdrawn: false,
+    pendingWithdrawal: false,
+
+    registeredFrom: association(),
 });

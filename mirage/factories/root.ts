@@ -1,4 +1,4 @@
-import { association, Factory } from 'ember-cli-mirage';
+import { association, Factory, ModelInstance, trait, Trait } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import { Links } from 'jsonapi-typescript';
 
@@ -21,15 +21,25 @@ export interface Root {
     currentUser?: User;
 }
 
-export default Factory.extend<Root>({
-    activeFlags: [
+interface RootTraits {
+    oldRegistrationDetail: Trait;
+}
+
+export default Factory.extend<Root & RootTraits>({
+    activeFlags: [...new Set([
         ...Object.values(routes),
         ...Object.values(navigation),
         storageI18n,
         verifyEmailModals,
-    ],
+    ])],
     message: 'Welcome to the OSF API.',
     version: '2.8',
     links: {},
     currentUser: association() as User,
+
+    oldRegistrationDetail: trait({
+        afterCreate(root: ModelInstance<Root>) {
+            root.update('activeFlags', root.activeFlags.filter(f => f !== routes['registries.overview']));
+        },
+    }),
 });

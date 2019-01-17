@@ -20,7 +20,6 @@ module('Acceptance | guid-node/registrations', hooks => {
     setupMirage(hooks);
 
     test('logged out, no registrations', async assert => {
-        server.create('root', { currentUser: null });
         const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [] });
 
         const url = `/${node.id}/registrations`;
@@ -39,7 +38,6 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged out, 1 registration', async assert => {
-        server.create('root', { currentUser: null });
         const node = server.create('node', { id: 'decaf' });
 
         const title = 'Test Title';
@@ -62,9 +60,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, no registrations', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
@@ -93,9 +89,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 1 registration', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        const contributorUser = server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', {
             id: 'decaf',
@@ -143,9 +137,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 12 registrations', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        const contributorUser = server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', {
             id: 'decaf',
@@ -190,9 +182,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 1 draft registration', async assert => {
-        const initiator = server.create<User>('user');
-
-        server.create('root', { currentUser: initiator });
+        const initiator = server.create<User>('user', 'loggedIn');
 
         const node = server.create<Node>('node', {
             id: 'decaf',
@@ -245,9 +235,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 12 draft registrations', async assert => {
-        const initiator = server.create<User>('user');
-
-        server.create('root', { currentUser: initiator });
+        const initiator = server.create<User>('user', 'loggedIn');
 
         const node = server.create<Node>('node', {
             id: 'decaf',
@@ -284,9 +272,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, new registration', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
@@ -318,9 +304,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, prereg challenge modal', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 

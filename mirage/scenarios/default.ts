@@ -36,10 +36,6 @@ export default function(server: Server) {
         index: 0,
     });
 
-    const nodeManyContribs = server.create('registration', { id: 'contr' });
-    server.create('contributor', { node: nodeManyContribs, users: currentUser });
-    server.createList('contributor', 67, { node: nodeManyContribs });
-
     const nodes = server.createList<Node>('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');
@@ -80,14 +76,6 @@ export default function(server: Server) {
         linkedRegistrations: server.createList('registration', 19),
     }, 'withContributors');
     server.createList('registration', 15, { parent: reg });
-
-    const reg2 = server.create('registration', {
-        id: 'recaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 2),
-        linkedRegistrations: server.createList('registration', 3),
-    }, 'withContributors');
-    server.createList('registration', 2, { parent: reg2 });
 
     server.loadFixtures('preprint-providers');
 
