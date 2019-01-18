@@ -1,0 +1,18 @@
+<div local-class='CommentsList'>
+    <h3>
+        {{t 'registries.overview.comments.discussion'}}
+    </h3>
+
+    {{#paginated-list/has-many
+        modelTaskInstance=@modelTaskInstance
+        relationshipName=@relationshipName
+        query=this.queryParams
+        as |list|
+    }}
+
+        {{#list.item as |comment|}}
+            <CommentCard @comment={{comment}} @node={{@modelTaskInstance.value}} @reload={{action list.doReload 1}}/>
+        {{/list.item}}
+
+    {{/paginated-list/has-many}}
+</div>
