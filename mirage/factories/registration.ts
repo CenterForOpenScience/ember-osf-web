@@ -1,11 +1,15 @@
-import { association, faker } from 'ember-cli-mirage';
+import { association, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Registration from 'ember-osf-web/models/registration';
 
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
-export default NodeFactory.extend<Registration>({
+export interface RegistrationTraits {
+    withComments: Trait;
+}
+
+export default NodeFactory.extend<Registration & RegistrationTraits>({
     id: guid('registration'),
     afterCreate(newReg, server) {
         guidAfterCreate(newReg, server);
@@ -47,4 +51,20 @@ export default NodeFactory.extend<Registration>({
     pendingWithdrawal: false,
 
     registeredFrom: association(),
+
+    withComments: trait({
+        afterCreate(registration: any, server: any) {
+            server.createList(
+                'comment', 6,
+                'withReplies',
+                'asAbuse',
+                { node: registration, targetID: registration.id, targetType: 'registrations' },
+            );
+            server.createList(
+                'comment', 3,
+                'withReplies',
+                { node: registration, targetID: registration.id, targetType: 'registrations' },
+            );
+        },
+    }),
 });

@@ -74,7 +74,7 @@ export default function(server: Server) {
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 21),
         linkedRegistrations: server.createList('registration', 19),
-    }, 'withContributors');
+    }, 'withContributors', 'withComments');
     server.createList('registration', 15, { parent: reg });
 
     server.loadFixtures('preprint-providers');

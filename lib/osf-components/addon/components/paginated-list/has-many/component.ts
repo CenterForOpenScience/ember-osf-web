@@ -1,7 +1,7 @@
 import { or } from '@ember-decorators/object/computed';
 import { assert } from '@ember/debug';
 import { defineProperty } from '@ember/object';
-import { alias as aliasMacro } from '@ember/object/computed';
+import { reads as readsMacro } from '@ember/object/computed';
 import { task, TaskInstance } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -80,7 +80,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
         defineProperty(
             this,
             'totalCount',
-            aliasMacro(`modelInstance.relatedCounts.${this.relationshipName}`),
+            readsMacro(`modelInstance.relatedCounts.${this.relationshipName}`),
         );
     }
 }
