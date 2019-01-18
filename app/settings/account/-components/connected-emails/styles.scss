@@ -42,17 +42,13 @@
 
 .email-object {
     border-bottom: 1px solid $color-border-gray;
-    padding: 8px;
+    padding: 20px 8px 13px;
 }
 
 .options {
     margin-right: 0;
     margin-top: -8px;
     float: right;
-}
-
-.remove-email-btn {
-    color: $brand-danger;
 }
 
 .merge-explanation {

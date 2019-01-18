@@ -4,10 +4,11 @@ import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
+import Toast from 'ember-toastr/services/toast';
+
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import Toast from 'ember-toastr/services/toast';
 
 export default class ConnectedEmails extends Component.extend({
     loadPrimaryEmail: task(function *(this: ConnectedEmails) {
@@ -28,8 +29,8 @@ export default class ConnectedEmails extends Component.extend({
     }).restartable(),
 
     deleteEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
-        const errorMessage: string = this.i18n.t('settings.account.connected_emails.delete_fail');
-        const successMessage: string = this.i18n.t('settings.account.connected_emails.delete_success');
+        const errorMessage = this.i18n.t('settings.account.connected_emails.delete_fail');
+        const successMessage = this.i18n.t('settings.account.connected_emails.delete_success');
 
         if (!email) {
             return undefined;
@@ -49,8 +50,8 @@ export default class ConnectedEmails extends Component.extend({
     }),
 
     updatePrimaryEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
-        const errorMessage: string = this.i18n.t('settings.account.connected_emails.update_fail');
-        const successMessage: string = this.i18n.t('settings.account.connected_emails.update_success');
+        const errorMessage = this.i18n.t('settings.account.connected_emails.update_fail');
+        const successMessage = this.i18n.t('settings.account.connected_emails.update_success');
 
         if (!email) {
             return undefined;
@@ -71,10 +72,6 @@ export default class ConnectedEmails extends Component.extend({
         return this.toast.success(successMessage);
     }),
 }) {
-    // Required arguments
-    reloadAlternateList!: (page?: number) => void; // bound by paginated-list
-    reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
-
     // Private properties
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
@@ -86,6 +83,8 @@ export default class ConnectedEmails extends Component.extend({
     didValidate = false;
     lastUserEmail = '';
     modelProperties = { user: this.currentUser.user };
+    reloadAlternateList!: (page?: number) => void; // bound by paginated-list
+    reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
     alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
     unconfirmedQueryParams = { 'filter[primary]': false, 'filter[confirmed]': false };
 
@@ -95,16 +94,17 @@ export default class ConnectedEmails extends Component.extend({
     }
 
     @action
-    onSave(this: ConnectedEmails, email: UserEmail) {
+    onSave(email: UserEmail) {
         if (email.emailAddress) {
             this.set('lastUserEmail', email.emailAddress);
             this.set('showAddModal', true);
             this.reloadUnconfirmedList();
+
             return this.toast.success(this.i18n.t('settings.account.connected_emails.save_success'));
         }
     }
     @action
-    onError<E extends Error>(this: ConnectedEmails, userEmail: UserEmail, e: E) {
+    onError(userEmail: UserEmail, e: DS.AdapterError | Error) {
         if (e instanceof DS.ConflictError) {
             userEmail.addExistingEmail();
             userEmail.validate();
@@ -117,18 +117,18 @@ export default class ConnectedEmails extends Component.extend({
     }
 
     @action
-    makePrimary(this: ConnectedEmails, email: UserEmail) {
+    makePrimary(email: UserEmail) {
         this.updatePrimaryEmail.perform(email);
     }
 
     @action
-    resendConfirmation(this: ConnectedEmails) {
+    resendConfirmation() {
         this.toggleProperty('showMergeModal');
     }
 
     @action
     removeEmail(this: ConnectedEmails, email: UserEmail) {
-        this.get('deleteEmail').perform(email);
+        this.deleteEmail.perform(email);
     }
 
     @action

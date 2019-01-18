@@ -6,7 +6,7 @@ import DS from 'ember-data';
 import config from 'ember-get-config';
 
 import OsfModel from './osf-model';
-import User from './user';
+import UserModel from './user';
 
 const { support: { supportEmail } } = config;
 
@@ -44,7 +44,9 @@ export default class UserEmailModel extends OsfModel.extend(Validations) {
     @alias('primary') isPrimary!: boolean;
     @attr('boolean') isMerge!: boolean;
 
-    @belongsTo('user', { inverse: 'emails' }) user!: DS.PromiseObject<User> & User;
+    @belongsTo('user', {
+        inverse: 'emails',
+    }) user!: DS.PromiseObject<UserModel> & UserModel;
 
     existingEmails: Set<string> = new Set();
     invalidEmails: Set<string> = new Set();
