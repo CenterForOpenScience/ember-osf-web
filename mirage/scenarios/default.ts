@@ -87,4 +87,10 @@ export default function(server: Server) {
         title: 'Existing node!',
         description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
     });
+
+    // ContributorList
+    for (const contributorCount of [1, 2, 3, 23]) {
+        const node = server.create('node', { id: `clst${contributorCount}` });
+        server.createList('contributor', contributorCount, { node });
+    }
 }

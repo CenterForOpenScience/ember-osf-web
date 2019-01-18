@@ -1,45 +1,39 @@
 # contributor-list
 
-
 Displays a configurable list of contributor names.
 
-## **Arguments**  
+Owns the `contributor` relationship of the passed-in `node`.
 
-- **node** | <span style="color:red"> *required* </span>  
-*Node|Registration|Preprint*  
-Node to which contributors belong  
-Note: `showMore` link is disabled in case `node` is not provided.
+## Parameters
 
-- **useShowMoreLink** | <span style="color:red"> *optional* </span>  
-*Boolean*  
-Whether or not to use a link for `N more` or plain text  
-`useShowMoreLink=true` also shows `less` link when all available contributors are displayed.
+- `node` *Node|Registration|Preprint*
+    - (required) Node to which contributors belong
+- `shouldTruncate` *boolean*
+    - If `true` (default), display a short list (only 3 contributors, only family names, no button to load more).
+    - If `false`, display a long list (full page of 10 contributors, full names, button to load additional pages).
+- `shouldLinkUsers` *boolean*
+    - If `true`, each contributor's name is a link to their user profile (except unregistered contributors).
+    - If `false` (default), names are plain text.
 
-- **useContributorLink** | <span style="color:red"> *optional* </span>  
-*Boolean*  
-Whether or not to make contributor name a link (to their detail page).
+## Demos
 
-- **showNonBibliographic** | <span style="color:red"> *optional* </span>  
-*Boolean*  
-Whether or not show `non-bibliographic` contributors
+Number of contributors:
+{{#power-select
+    options=this.contributorCountOptions
+    selected=this.contributorCount
+    onchange=(action (mut this.contributorCount))
+    searchEnabled=false
+    as |count|
+}}
+    {{count}}
+{{/power-select}}
 
-- **pageSize** | <span style="color:red"> *optional* </span>  
-*Number*  
-Page size for `N more` requests
 
-- **showLoading** | <span style="color:red"> *optional* </span>  
-*Boolean*  
-Whether or not to use `loading-indicator`
+### default usage
+{{docs/components/contributor-list/-components/demo-default node=this.node}}
 
-- **dark** | <span style="color:red"> *optional* </span>  
-*Boolean*  
-Whether or not to use the dark ball in the `loading-indicator`
+### links
+{{docs/components/contributor-list/-components/demo-links node=this.node}}
 
-## showNonBibliographic
-{{docs/components/contributor-list/demo-show-non-bibliographic node=this.model}}
-
-## useShowMoreLink
-{{docs/components/contributor-list/demo-show-more-link node=this.model}}
-
-## useContributorLink
-{{docs/components/contributor-list/demo-show-contributor-link node=this.model}}
+### untruncated
+{{docs/components/contributor-list/-components/demo-untruncated node=this.node}}
