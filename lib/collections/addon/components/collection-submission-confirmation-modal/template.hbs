@@ -12,15 +12,17 @@
             {{t 'collections.collection_submission_confirmation_modal.body'}}
         </p>
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='Collection - Submit'>
         <OsfButton 
             data-test-button-cancel
+            data-analytics-name='Cancel submission'
             @onClick={{action modal.close}}
         >
             {{t 'general.cancel'}}
         </OsfButton>
         <OsfButton 
             data-test-button-success
+            data-analytics-name='Confirm submission'
             @onClick={{action modal.submit}}
             @type='success'
         >
