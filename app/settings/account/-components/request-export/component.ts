@@ -29,6 +29,11 @@ export default class ExportPane extends Component.extend({
     @alias('currentUser.user') user!: User;
     settings?: UserSettingModel;
     showRequestDialog = false;
+    toastOptions = {
+        timeOut: 0,
+        extendedTimeOut: 0,
+        closeButton: true,
+    };
 
     init() {
         super.init();
@@ -42,11 +47,20 @@ export default class ExportPane extends Component.extend({
             await this.settings.requestExport();
             return this.toast.success(
                 this.i18n.t('settings.account.export.confirmationToastMessage'),
+                '',
+                this.toastOptions,
             );
         }
         const { supportEmail } = config.support;
         return this.toast.error(
             this.i18n.t('settings.account.security.saveError', { supportEmail }),
+            '',
+            this.toastOptions,
         );
+    }
+
+    @action
+    closeDialog() {
+        this.set('showRequestDialog', false);
     }
 }

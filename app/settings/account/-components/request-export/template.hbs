@@ -37,7 +37,7 @@
         <BsButton
             data-test-export-cancel
             data-analytics-name='Cancel'
-            @onClick={{action (mut this.ShowRequestDialog) false}}
+            @onClick={{action this.closeDialog}}
         >
             {{t 'general.cancel'}}
         </BsButton>

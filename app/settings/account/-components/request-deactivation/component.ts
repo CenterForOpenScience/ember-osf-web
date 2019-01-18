@@ -72,4 +72,10 @@ export default class DeactivationPane extends Component.extend({
             );
         }
     }
+
+    @action
+    closeDialogs() {
+        this.set('showRequestDialog', false);
+        this.set('showUndoDialog', false);
+    }
 }
