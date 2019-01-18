@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components:
+    - `settings.account.-components.request-deactivation`
+    - `settings.account.-components.request-export`
 - Utils:
     - `getHref` - get an href from a `Link`
     - `getRelatedHref` - get an href from a `Relationship`
@@ -18,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `developer-app` - extend `links` types to include links specific to developer apps
     - `collection` - improve types for choices fields
     - `collected-metadatum` - improve types for choice fields
+    - `user-setting` - Added `requestExport()` function, `deactivationRequested` field, and `export` link
 
 ## [19.1.0]
 ### Added

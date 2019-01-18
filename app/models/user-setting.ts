@@ -18,7 +18,6 @@ const Validations = buildValidations({
     ],
 });
 export interface UserSettingsLinks extends OsfLinks {
-    deactivate: Link;
     export: Link;
 }
 
