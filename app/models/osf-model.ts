@@ -10,9 +10,18 @@ import ModelRegistry from 'ember-data/types/registries/model';
 import { singularize } from 'ember-inflector';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
+import getHref from 'ember-osf-web/utils/get-href';
+import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
 import { Links, PaginationLinks } from 'jsonapi-typescript';
-import { Document as ApiResponseDocument, PaginatedMeta, ResourceCollectionDocument } from 'osf-api';
+import {
+    BaseMeta,
+    Document as ApiResponseDocument,
+    NormalLinks,
+    PaginatedMeta,
+    Relationships,
+    ResourceCollectionDocument,
+} from 'osf-api';
 
 const { Model } = DS;
 
@@ -35,6 +44,10 @@ export interface PaginatedQueryOptions {
     page: number;
 }
 
+export interface OsfLinks extends NormalLinks {
+    relationships?: Relationships;
+}
+
 export type ValidatedModelName = {
     [K in keyof ModelRegistry]: ModelRegistry[K] extends (Validations & DS.Model) ? K : never
 }[keyof ModelRegistry];
@@ -43,11 +56,11 @@ export default class OsfModel extends Model {
     @service store!: DS.Store;
     @service currentUser!: CurrentUser;
 
-    @attr() links: any;
+    @attr() links!: OsfLinks;
     @attr('object', { defaultValue: () => ({}) }) relatedCounts!: { [relName: string]: number };
-    @attr() apiMeta: any;
+    @attr() apiMeta!: BaseMeta;
 
-    @alias('links.relationships') relationshipLinks: any;
+    @alias('links.relationships') relationshipLinks!: Relationships;
 
     @alias('constructor.modelName') modelName!: string & keyof ModelRegistry;
 
@@ -74,7 +87,7 @@ export default class OsfModel extends Model {
 
         // HACK: ember-data discards/ignores the link if an object on the belongsTo side
         // came first. In that case, grab the link where we expect it from OSF's API
-        const url: string = reference.link() || this.relationshipLinks[propertyName].links.related.href;
+        const url = reference.link() || getRelatedHref(this.relationshipLinks[propertyName]);
 
         if (!url) {
             throw new Error(`Could not find a link for '${propertyName}' relationship`);
@@ -158,7 +171,7 @@ export default class OsfModel extends Model {
 
         // Get related count with sparse fieldset.
         const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX({
-            url: this.links.self,
+            url: getHref(this.links.self),
             data: {
                 related_counts: apiRelationshipName,
                 [`fields[${apiModelName}]`]: apiRelationshipName,

@@ -10,11 +10,18 @@ export type ReferentModel = ModelRegistry[ReferentModelName];
 export default class GuidModel extends OsfModel {
     @computed('id')
     get referentType() {
-        return singularize(this.links.relationships.referent.data.type) as ReferentModelName;
+        const { relationships } = this.links;
+        if (relationships &&
+            'data' in relationships.referent &&
+            relationships.referent.data &&
+            'type' in relationships.referent.data) {
+            return singularize(relationships.referent.data.type) as ReferentModelName;
+        }
+        return undefined;
     }
 
     resolve() {
-        return this.store.findRecord(this.referentType, this.id);
+        return this.referentType ? this.store.findRecord(this.referentType, this.id) : undefined;
     }
 }
 

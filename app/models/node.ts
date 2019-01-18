@@ -9,6 +9,7 @@ import DS from 'ember-data';
 
 import { Deserialized as NodeLicense } from 'ember-osf-web/transforms/node-license';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
 import BaseFileItem from './base-file-item';
 import CitationModel from './citation';
@@ -221,7 +222,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     collectable: boolean = defaultTo(this.collectable, false);
 
     makeFork(): Promise<object> {
-        const url = this.links.relationships.forks.links.related.href;
+        const url = getRelatedHref(this.links.relationships!.forks);
         return this.currentUser.authenticatedAJAX({
             url,
             type: 'POST',
