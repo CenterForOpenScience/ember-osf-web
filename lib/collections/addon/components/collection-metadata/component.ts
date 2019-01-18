@@ -3,14 +3,15 @@ import { action, computed } from '@ember-decorators/object';
 import { mapBy } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { underscore } from '@ember/string';
+
 import CollectedMetadatum, { choiceFields } from 'ember-osf-web/models/collected-metadatum';
-import Collection from 'ember-osf-web/models/collection';
+import Collection, { ChoicesFields } from 'ember-osf-web/models/collection';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 interface CollectionMetadataField {
     labelKey: string;
     valuePath: keyof CollectedMetadatum;
-    optionsKey: keyof Collection;
+    optionsKey: ChoicesFields;
 }
 
 @tagName('')

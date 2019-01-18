@@ -103,7 +103,7 @@ export default class Submit extends Component {
     }).drop();
 
     @computed('collectedMetadatum.displayChoiceFields')
-    get choiceFields(): Array<{ label: string; value: string; }> {
+    get choiceFields(): Array<{ label: string; value?: string; }> {
         return this.collectedMetadatum.displayChoiceFields
             .map(field => ({
                 label: `collections.collection_metadata.${underscore(field)}_label`,
