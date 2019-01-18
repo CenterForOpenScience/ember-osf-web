@@ -62,12 +62,18 @@ module.exports = {
     },
 
     filesPath(options) {
-        const engineName = options.inRepoAddon;
-        const isEngine = fs.existsSync(path.join(options.project.root, 'lib', engineName, 'addon', 'engine.js'));
-        if (isEngine) {
-            // if the in-repo-addon within which the new component is added uses ember engine
-            // we tell ember-cli to use the dir structure and __test__.ts in 'engine-files'
-            return path.join(this.path, 'engine-files');
+        if (options) {
+            const engineName = options.inRepoAddon;
+            if (engineName) {
+                // if the in-repo-addon within which the new component is added uses ember engine
+                // we tell ember-cli to use the dir structure and __test__.ts in 'engine-files'
+                const isEngine = fs.existsSync(
+                    path.join(options.project.root, 'lib', engineName, 'addon', 'engine.js'),
+                );
+                if (isEngine) {
+                    return path.join(this.path, 'engine-files');
+                }
+            }
         }
         return path.join(this.path, 'files');
     },
