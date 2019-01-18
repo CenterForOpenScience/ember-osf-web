@@ -25,7 +25,7 @@ interface RootTraits {
     oldRegistrationDetail: Trait;
 }
 
-export default Factory.extend<Root & RootTraits>({
+export const defaultRootAttrs = {
     activeFlags: [...new Set([
         ...Object.values(routes),
         ...Object.values(navigation),
@@ -35,6 +35,10 @@ export default Factory.extend<Root & RootTraits>({
     message: 'Welcome to the OSF API.',
     version: '2.8',
     links: {},
+};
+
+export default Factory.extend<Root & RootTraits>({
+    ...defaultRootAttrs,
     currentUser: association() as User,
 
     oldRegistrationDetail: trait({

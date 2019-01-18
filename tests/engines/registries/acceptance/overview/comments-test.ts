@@ -9,10 +9,6 @@ module('Registries | Acceptance | overview.comments', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    hooks.beforeEach(function(this: TestContext) {
-        server.create('root', { currentUser: null });
-    });
-
     test('it renders', async function(this: TestContext, assert: Assert) {
         const registration = server.create('registration');
 
