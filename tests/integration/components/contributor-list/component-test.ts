@@ -50,12 +50,9 @@ module('Integration | Component | contributor-list', hooks => {
         const node = server.create('node');
         const users = server.createList('user', 4);
         for (const user of users) {
-            server.create('contributor', { node, users: user, bibliographic: true });
+            server.create('contributor', { node, users: user, unregisteredContributor: null });
         }
-        const nodeWithContribs = await this.store.findRecord('node', node.id, {
-            include: 'contributors',
-            reload: true,
-        });
+        const nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors' });
         this.set('node', nodeWithContribs);
 
         await render(hbs`<ContributorList @node={{this.node}} @shouldLinkUsers={{true}} />`);
@@ -73,26 +70,26 @@ module('Integration | Component | contributor-list', hooks => {
         await render(hbs`{{contributor-list node=this.node}}`);
         assert.dom(this.element).hasText('');
 
-        server.create('contributor', { node, users: users[0], bibliographic: true });
+        server.create('contributor', { node, users: users[0] });
         nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors', reload: true });
         this.set('node', nodeWithContribs);
         await render(hbs`{{contributor-list node=this.node}}`);
         assert.dom(this.element).hasText(users[0].familyName);
 
-        server.create('contributor', { node, users: users[1], bibliographic: true });
+        server.create('contributor', { node, users: users[1] });
         nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors', reload: true });
         this.set('node', nodeWithContribs);
         await render(hbs`{{contributor-list node=this.node}}`);
         assert.dom(this.element).hasText(`${users[0].familyName} and ${users[1].familyName}`);
 
-        server.create('contributor', { node, users: users[2], bibliographic: true });
+        server.create('contributor', { node, users: users[2] });
         nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors', reload: true });
         this.set('node', nodeWithContribs);
         await render(hbs`{{contributor-list node=this.node}}`);
         assert.dom(this.element).hasText(`\
             ${users[0].familyName}, ${users[1].familyName}, and ${users[2].familyName}`);
 
-        server.create('contributor', { node, users: users[2], bibliographic: true });
+        server.create('contributor', { node, users: users[3] });
         nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors', reload: true });
         this.set('node', nodeWithContribs);
         await render(hbs`{{contributor-list node=this.node}}`);
