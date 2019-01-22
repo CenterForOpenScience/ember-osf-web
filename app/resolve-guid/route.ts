@@ -65,7 +65,7 @@ export default class ResolveGuid extends Route {
         } else {
             const guid = await this.store.findRecord('guid', params.guid);
 
-            if (!(guid.referentType in this.routeMap)) {
+            if (!guid.referentType || !(guid.referentType in this.routeMap)) {
                 throw new Error(`Unknown GUID referentType: ${guid.referentType}`);
             }
 

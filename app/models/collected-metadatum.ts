@@ -4,7 +4,9 @@ import { computed as iComputed } from '@ember/object';
 import { alias as iAlias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 
-import Collection from './collection';
+import tuple from 'ember-osf-web/utils/tuple';
+
+import Collection, { ChoicesFields } from './collection';
 import Guid from './guid';
 import OsfModel from './osf-model';
 import { SubjectRef } from './taxonomy';
@@ -15,13 +17,13 @@ export interface DisplaySubject {
     path: string;
 }
 
-export const choiceFields: Array<keyof CollectedMetadatumModel> = [
+export const choiceFields = tuple(
     'collectedType',
     'issue',
     'programArea',
     'status',
     'volume',
-];
+);
 
 const Validations = buildValidations({
     ...choiceFields.reduce((acc, val) => {
@@ -88,11 +90,11 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
     }
 
     @computed('collection.displayChoicesFields.[]')
-    get displayChoiceFields(): Array<keyof CollectedMetadatumModel> {
+    get displayChoiceFields() {
         return choiceFields
             .filter(field => this.collection
                 .get('displayChoicesFields')
-                .includes(`${field}Choices` as keyof Collection));
+                .includes(`${field}Choices` as ChoicesFields));
     }
 }
 

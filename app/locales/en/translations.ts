@@ -907,6 +907,11 @@ export default {
             update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
             warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.',
         },
+        collection_submission_confirmation_modal: {
+            header: 'Submit project',
+            body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.',
+            add_button: 'Add to collection',
+        },
         collection_item_picker: {
             after_options: {
                 loading: 'Loading\u2026',
@@ -1052,6 +1057,29 @@ export default {
 
             comments: {
                 title: 'Comments',
+                see_replies: 'See replies',
+                hide_replies: 'Hide replies',
+                report: 'Report',
+                cancel: 'Cancel',
+                discussion: 'Discussion',
+                load_more: 'Load more replies',
+                create_report: {
+                    success: 'Comment successfully reported',
+                    error: 'Unable to report comment',
+                },
+                category_placeholder: 'Select a category that best describes abuse',
+                retract_report: {
+                    success: 'Report successfully retracted',
+                    error: 'Unable to retract abuse report',
+                },
+                modified: 'Modified ',
+                report_placeholder: 'Describe abuse',
+                comment_abuse: 'Comment reported.',
+                comment_abuse_action: 'Not abuse',
+                abuse_spam: 'Spam or advertising',
+                abuse_hate: 'Hate speech',
+                abuse_violence: 'Violence or harmful behavior',
+                cannot_retract_report: 'Only the reporter can retract report',
             },
 
             links: {

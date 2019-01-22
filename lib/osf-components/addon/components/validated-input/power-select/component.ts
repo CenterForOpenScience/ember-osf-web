@@ -12,6 +12,8 @@ export default class ValidatedPowerSelect extends BaseValidatedComponent {
     search: () => any = this.search;
     noMatchesMessage?: string = this.noMatchesMessage;
     options: any[] = this.options;
+    searchEnabled?: boolean = this.searchEnabled;
+    placeholder?: string = this.placeholder;
 
     @action
     powerSelectChanged(this: ValidatedPowerSelect, value: string) {

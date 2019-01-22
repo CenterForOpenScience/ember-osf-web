@@ -19,6 +19,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import getHref from 'ember-osf-web/utils/get-href';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { ProjectSelectState } from 'osf-components/components/project-selector/component';
 import styles from './styles';
@@ -113,7 +114,7 @@ export default class FileBrowser extends Component {
 
         const selectedItem = this.selectedItems.firstObject;
         const isNewProject = !!this.node && !!this.node.isNew;
-        const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships.parent;
+        const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships!.parent;
 
         const moveSuccess: boolean = yield this.moveFile(selectedItem as unknown as File, this.node);
 
@@ -345,7 +346,8 @@ export default class FileBrowser extends Component {
 
     @action
     downloadItem() {
-        window.location.href = (this.selectedItems.firstObject as unknown as File).links.download;
+        const file = this.selectedItems.firstObject as unknown as File;
+        window.location.href = getHref(file.links.download!);
         if (!this.canEdit) {
             this.analytics.click('button', 'Quick Files - Download');
         }
