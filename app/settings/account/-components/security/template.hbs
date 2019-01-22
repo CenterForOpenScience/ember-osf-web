@@ -70,6 +70,7 @@
                         </BsButton>
                         <BsButton
                             data-test-two-factor-verify-cancel-button
+                            data-analytics-name='Cancel verification'
                             @onClick={{action this.confirmDisableTwoFactor}}
                         >
                             {{t 'general.cancel'}}
@@ -90,8 +91,8 @@
                 <BsButton
                     data-test-two-factor-enable-button
                     data-analytics-name='Configure two-factor'
-                    @onClick={{action this.enableTwoFactor}}
                     local-class='EnableButton'
+                    @onClick={{action this.enableTwoFactor}}
                 >
                     {{t 'settings.account.security.enableTwoFactor'}}
                 </BsButton>
