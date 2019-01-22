@@ -21,4 +21,9 @@ export default class Submit extends Controller {
     setPageDirty() {
         this.set('isPageDirty', true);
     }
+
+    @action
+    resetPageDirty() {
+        this.set('isPageDirty', false);
+    }
 }

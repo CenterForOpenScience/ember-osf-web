@@ -9,4 +9,8 @@
     .VerificationError {
         color: #a94442;
     }
+
+    :global(.form-group) {
+        padding-top: 1em;
+    }
 }

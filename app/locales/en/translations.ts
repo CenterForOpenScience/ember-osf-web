@@ -907,6 +907,11 @@ export default {
             update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
             warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.',
         },
+        collection_submission_confirmation_modal: {
+            header: 'Submit project',
+            body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.',
+            add_button: 'Add to collection',
+        },
         collection_item_picker: {
             after_options: {
                 loading: 'Loading\u2026',
@@ -1258,13 +1263,13 @@ export default {
         },
         account: {
             security: {
-                title: 'Security Settings',
-                twoFactorAuth: 'Two-factor Authentication',
-                enableTwoFactor: 'Enable Two-factor Authentication',
-                enableWarning: 'Enabling two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
-                disableTwoFactor: 'Disable Two-factor Authentication',
+                title: 'Security settings',
+                twoFactorAuth: 'Two-factor authentication',
+                enableTwoFactor: 'Configure',
+                enableWarning: 'Configuring two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
+                disableTwoFactor: 'Disable',
                 why: 'By using two-factor authentication, you will protect your OSF account with both your password and your mobile phone.',
-                enableButton: 'Enable',
+                enableButton: 'Configure',
                 importantWarning: 'Important: If you lose access to your mobile device, you will not be able to log in to your OSF account.',
                 howTo: 'To use, you must install an appropriate application on your mobile device. Google Authenticator is a popular choice and is available for both Android and iOS.',
                 onceVerified: 'Once verified, your device will display a six-digit code that must be entered during the login process. This code changes every few seconds, which means that unauthorized users will not be able to log in to you account, even if they know your password.',
@@ -1274,7 +1279,7 @@ export default {
                 disableWarning: 'Are you sure you want to disable two-factor authentication?',
                 disableButton: 'Disable',
                 saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
-                submitVerification: 'Submit',
+                submitVerification: 'Enable',
             },
             title: 'Account settings',
         },

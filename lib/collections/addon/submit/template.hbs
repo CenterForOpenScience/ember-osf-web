@@ -1,7 +1,8 @@
-{{collections-submission
-    provider=this.provider
-    collection=this.collection
-    collectedMetadatum=this.collectedMetadatum
-    transition=(action this.returnToDiscoverPage)
-    onNextSection=(action this.setPageDirty)
-}}
+<CollectionsSubmission
+    @provider={{this.provider}}
+    @collection={{this.collection}}
+    @collectedMetadatum={{this.collectedMetadatum}}
+    @transition={{action this.returnToDiscoverPage}}
+    @onNextSection={{action this.setPageDirty}}
+    @resetPageDirty={{action this.resetPageDirty}}
+/>
