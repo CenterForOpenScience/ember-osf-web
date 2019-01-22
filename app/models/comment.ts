@@ -1,6 +1,6 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
-
+import CommentReportModel from './comment-report';
 import NodeModel from './node';
 import OsfModel from './osf-model';
 import UserModel from './user';
@@ -18,6 +18,8 @@ export default class CommentModel extends OsfModel {
     @attr('boolean') modified!: boolean;
     @attr('boolean') deleted!: boolean;
     @attr('boolean') isAbuse!: boolean;
+    @attr('boolean') isHam!: boolean;
+    @attr('boolean') hasReport!: boolean;
     @attr('boolean') hasChildren!: boolean;
     @attr('boolean') canEdit!: boolean;
 
@@ -30,6 +32,9 @@ export default class CommentModel extends OsfModel {
 
     @hasMany('comment', { inverse: null })
     replies!: DS.PromiseManyArray<CommentModel>;
+
+    @hasMany('comment-report', { inverse: 'comment' })
+    reports!: DS.PromiseManyArray<CommentReportModel>;
 }
 
 declare module 'ember-data/types/registries/model' {

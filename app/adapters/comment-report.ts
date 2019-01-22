@@ -1,6 +1,7 @@
 import OsfAdapter from './osf-adapter';
 
 export default class CommentReportAdapter extends OsfAdapter {
+    parentRelationship = 'comment';
 }
 
 declare module 'ember-data/types/registries/adapter' {

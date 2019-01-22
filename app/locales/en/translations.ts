@@ -1057,6 +1057,29 @@ export default {
 
             comments: {
                 title: 'Comments',
+                see_replies: 'See replies',
+                hide_replies: 'Hide replies',
+                report: 'Report',
+                cancel: 'Cancel',
+                discussion: 'Discussion',
+                load_more: 'Load more replies',
+                create_report: {
+                    success: 'Comment successfully reported',
+                    error: 'Unable to report comment',
+                },
+                category_placeholder: 'Select a category that best describes abuse',
+                retract_report: {
+                    success: 'Report successfully retracted',
+                    error: 'Unable to retract abuse report',
+                },
+                modified: 'Modified ',
+                report_placeholder: 'Describe abuse',
+                comment_abuse: 'Comment reported.',
+                comment_abuse_action: 'Not abuse',
+                abuse_spam: 'Spam or advertising',
+                abuse_hate: 'Hate speech',
+                abuse_violence: 'Violence or harmful behavior',
+                cannot_retract_report: 'Only the reporter can retract report',
             },
 
             links: {
