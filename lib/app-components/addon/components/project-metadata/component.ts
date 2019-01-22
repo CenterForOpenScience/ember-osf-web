@@ -56,4 +56,9 @@ export default class ProjectMetadata extends Component {
         this.analytics.click('button', 'Collections - Submit - Remove tag');
         this.node.set('tags', this.node.tags.slice().removeAt(index));
     }
+
+    @action
+    onSave() {
+        //Nothing to see here
+    }
 }
