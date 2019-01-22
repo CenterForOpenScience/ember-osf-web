@@ -24,7 +24,7 @@ function fetchIdFromRelationshipLink(node: Node, relationship: keyof Node) {
     return undefined;
 }
 
-function fetchTitle(node: Node, relationship: keyof Node) {
+function fetchTitle(node: Node, relationship: 'parent' | 'root') {
     // Fetches parent or root title.  If null, marks 'Private'.
     const title = node.get(relationship).get('title');
 

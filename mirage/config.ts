@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { guidDetail } from './views/guid';
 import { createNode } from './views/node';
@@ -46,6 +47,13 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'contributors');
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
+    osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
+    osfNestedResource(this, 'comment', 'reports', {
+        except: ['delete'],
+        path: '/comments/:parentID/reports',
+        relatedModelName: 'comment-report',
+    });
+    this.del('/comments/:id/reports/:reporter_id', reportDelete);
 
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 

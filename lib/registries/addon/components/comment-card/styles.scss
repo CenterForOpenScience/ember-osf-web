@@ -1,0 +1,213 @@
+.Comment {
+    color: $midnight-blue;
+}
+
+.CommentReply {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border-left: 1px solid $alto;
+    border-radius: 2px;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+}
+
+.CommentReport {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    width: 82%;
+
+    select {
+        color: $midnight-blue;
+        background: transparent;
+        outline: none;
+        border: 0;
+        background-color: $porcelain;
+        text-align-last: center;
+        margin-top: 10px;
+    }
+}
+
+.CommentRestore {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 100%;
+
+    span {
+        font-style: italic;
+        color: $slate-gray;
+    }
+
+    :global(.btn.btn-link) {
+        color: $primary-blue;
+        padding: 0;
+        margin: 0;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+            outline: 0;
+        }
+    }
+}
+
+.CommentHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.CommentContent {
+    padding-top: 8px;
+}
+
+.CommentReport__input {
+    textarea {
+        resize: none;
+        background-color: $porcelain;
+        min-height: 100px;
+        max-width: 420px;
+        border: 0;
+    }
+}
+
+.CommentUser {
+    padding-left: 5px;
+    color: $primary-blue;
+
+    &:hover,
+    &:focus {
+        color: $secondary-blue;
+        text-decoration: none;
+    }
+}
+
+.CommentControls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    :global(.btn.btn-link) {
+        color: $primary-blue;
+        outline: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+        }
+    }
+
+    .repliesCount {
+        font-size: 13px;
+        text-transform: lowercase;
+    }
+}
+
+.formButtons {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+.CommentReport__save:global(.btn) {
+    border-radius: 2px;
+    font-size: 14px;
+    color: $white;
+    text-align: center;
+    text-decoration: none solid $white;
+    font-weight: 600;
+    outline: 0;
+    border: 0;
+    background-color: $primary-green;
+    margin-left: 8px;
+
+    &:hover,
+    &:active,
+    &:focus {
+        background-color: $secondary-green;
+        color: $white;
+        outline: 0;
+    }
+
+    &[disabled]:hover {
+        background-color: $primary-green;
+    }
+
+}
+
+.CommentReport__cancel:global(.btn) {
+    border-radius: 2px;
+    font-size: 14px;
+    color: $primary-blue;
+    text-align: center;
+    text-decoration: none solid $midnight-blue;
+    font-weight: 600;
+    outline: 0;
+    border: 0;
+    background-color: $porcelain;
+
+    &:hover,
+    &:active,
+    &:focus {
+        background-color: $porcelain;
+        color: $secondary-blue;
+        outline: 0;
+    }
+}
+
+.MoreReplies {
+    :global(.btn.btn-link) {
+        color: $primary-blue;
+        outline: 0;
+        display: block;
+        margin: 0 auto;
+        padding: 0;
+        font-size: 13px;
+
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+        }
+    }
+}
+
+.dateCreated {
+    color: $slate-gray;
+}
+
+.dateModified {
+    :global(.fa) {
+        font-size: 8px;
+        color: $primary-blue;
+    }
+}
+
+:global(.ember-content-placeholders-text__line) {
+    margin-bottom: 5px;
+}
+
+:global(.ember-content-placeholders-text) {
+    margin-top: 10px !important;
+}
+
+:global(.ember-content-placeholders-heading__subtitle) {
+    display: none;
+}
+
+:global(.ember-content-placeholders-heading__img) {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+}

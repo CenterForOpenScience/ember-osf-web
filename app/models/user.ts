@@ -2,12 +2,13 @@ import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
+import { Link } from 'jsonapi-typescript';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
 import InstitutionModel from './institution';
 import NodeModel from './node';
-import OsfModel from './osf-model';
+import OsfModel, { OsfLinks } from './osf-model';
 import RegionModel from './region';
 import RegistrationModel from './registration';
 import UserEmailModel from './user-email';
@@ -48,7 +49,12 @@ const Validations = buildValidations({
     ],
 });
 
+export interface UserLinks extends OsfLinks {
+    profile_image: Link; // eslint-disable-line camelcase
+}
+
 export default class UserModel extends OsfModel.extend(Validations) {
+    @attr() links!: UserLinks;
     @attr('fixstring') fullName!: string;
     @attr('fixstring') givenName!: string;
     @attr('fixstring') middleNames!: string;

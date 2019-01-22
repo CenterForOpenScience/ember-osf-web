@@ -9,7 +9,7 @@ import Node from 'ember-osf-web/models/node';
 import { Deserialized } from 'ember-osf-web/transforms/node-license';
 
 interface Options extends EmberObject {
-    on: keyof Node;
+    on: 'license';
 }
 
 export default class NodeLicense extends BaseValidator {

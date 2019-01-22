@@ -12,6 +12,7 @@
     "ember-cli-moment-shim": "*",
     "ember-cli-sanitize-html": "*",
     "ember-cli-sass": "*",
+    "ember-cli-showdown": "*",
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
     "ember-component-attributes": "*",

@@ -25,4 +25,9 @@ export default class GuidEdit extends Controller {
     setPageDirty() {
         this.set('isPageDirty', true);
     }
+
+    @action
+    resetPageDirty() {
+        this.set('isPageDirty', false);
+    }
 }
