@@ -5,12 +5,12 @@ import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export interface Attrs {
+export interface NodeAttrs {
     parentId: ID | null;
     rootId: ID | null;
 }
 
-type MirageNode = Node & { attrs: Attrs };
+type MirageNode = Node & { attrs: NodeAttrs };
 
 export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
     buildRelationships(model: ModelInstance<MirageNode>) {

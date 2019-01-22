@@ -4,7 +4,7 @@ import config from 'ember-get-config';
 import Registration from 'ember-osf-web/models/registration';
 
 import ApplicationSerializer, { SerializedRelationships } from './application';
-import { Attrs as NodeAttrs } from './node';
+import { NodeAttrs } from './node';
 
 const { OSF: { apiUrl } } = config;
 
@@ -121,7 +121,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             relationships.registeredFrom = {
                 data: {
                     id: registeredFromId,
-                    type: this.typeKeyForModel(model),
+                    type: 'nodes',
                 },
                 links: {
                     related: {

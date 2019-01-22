@@ -1,0 +1,62 @@
+<Container
+    data-analytics-scope='Tombstone page'
+    local-class='TombstoneContainer'
+    ...attributes
+>
+    <div local-class='Tombstone'>
+        <div local-class='TitleBlock'>
+            <div local-class='Title'>
+                <FaIcon
+                    local-class='Icon'
+                    @icon={{@icon}}
+                    @size=5
+                />
+                <h2 data-test-tombstone-title>
+                    {{@titleText}}
+                </h2>
+            </div>
+            <div local-class='SubtitleBlock'>
+                {{yield}}
+            </div>
+        </div>
+        <div local-class='Metadata'>
+            <dl local-class='MetadataBlock'>
+                <dt>{{t 'registries.overview.metadata.contributors'}}</dt>
+                <dd>
+                    <ContributorList
+                        @node={{this.registration}}
+                        @shouldTruncate={{false}}
+                        @shouldLinkUsers={{true}}
+                    />
+                </dd>
+
+                <dt>{{t 'registries.overview.metadata.description'}}</dt>
+                <dd>{{this.registration.description}}</dd>
+
+                <dt>{{t 'registries.overview.metadata.registration_type'}}</dt>
+                <dd>{{this.registration.registrationSchema.name}}</dd>
+            </dl>
+            <dl local-class='MetadataBlock'>
+                <dt>{{t 'registries.overview.metadata.date_registered'}}</dt>
+                <dd>{{moment-format this.registration.dateRegistered 'MMMM D, YYYY'}}</dd>
+
+                <dt>{{t 'registries.overview.metadata.date_created'}}</dt>
+                <dd>{{moment-format this.registration.dateCreated 'MMMM D, YYYY'}}</dd>
+
+                <dt>{{t 'registries.overview.metadata.registered_from'}}</dt>
+                <dd>
+                    <Link
+                        data-analytics-name='Registered from'
+                        @route='guid-node'
+                        @models={{array this.registeredFromId}}
+                    >
+                        {{this.registeredFromDisplayUrl}}
+                    </Link>
+                </dd>
+
+                <dt>{{t 'registries.overview.metadata.category'}}</dt>
+                <dd>{{t (concat 'node_categories.' this.registration.category)}}</dd>
+            </dl>
+        </div>
+    </div>
+</Container>
