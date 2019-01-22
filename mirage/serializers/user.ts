@@ -53,11 +53,11 @@ export default class UserSerializer extends ApplicationSerializer<User> {
             default_region: {
                 data: {
                     type: 'regions',
-                    id: 'us',
+                    id: `${model.defaultRegion.id}`,
                 },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/regions/us/`,
+                        href: `${apiUrl}/v2/regions/${model.defaultRegion.id}/`,
                         meta: {},
                     },
                 },

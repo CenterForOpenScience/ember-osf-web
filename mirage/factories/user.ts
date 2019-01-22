@@ -18,6 +18,8 @@ export default Factory.extend<User & UserTraits>({
     afterCreate(user: ModelInstance<User>, server: Server) {
         guidAfterCreate(user, server);
         server.create('user-email', { user, primary: true });
+        const defaultRegion = server.schema.regions.find('us');
+        user.update({ defaultRegion });
     },
 
     fullName() {

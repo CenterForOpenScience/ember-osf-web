@@ -1262,6 +1262,13 @@ export default {
             },
         },
         account: {
+            defaultRegion: {
+                title: 'Default storage location',
+                why: 'This location will be applied to new projects and components. It will not affect existing projects and components.',
+                updateButton: 'Update location',
+                successToast: 'You have successfully changed your default storage location to <strong>{{region}}</strong>',
+                saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+            },
             security: {
                 title: 'Security settings',
                 twoFactorAuth: 'Two-factor authentication',

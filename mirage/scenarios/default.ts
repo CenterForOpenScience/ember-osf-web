@@ -17,6 +17,11 @@ const {
 } = config;
 
 export default function(server: Server) {
+    // Load fixtures first because they don't need dynamic info and other things rely on them existing
+    server.loadFixtures('regions');
+    server.loadFixtures('registration-schemas');
+    server.loadFixtures('preprint-providers');
+
     const userTraits = defaultLoggedOut ? [] : ['loggedIn', 'withInstitutions'];
     const currentUser = server.create('user', ...userTraits);
 
@@ -58,8 +63,6 @@ export default function(server: Server) {
     server.createList('token', 23);
     server.createList('scope', 5);
     server.createList('developer-app', 12);
-    server.loadFixtures('registration-schemas');
-    server.loadFixtures('regions');
 
     forkNode(server, forksNode as ModelInstance<Node>, { currentUserPermissions: Object.values(Permission) });
     registerNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {
@@ -84,8 +87,6 @@ export default function(server: Server) {
         linkedRegistrations: server.createList('registration', 3),
     }, 'withRegisteredMeta', 'withContributors');
     server.createList('registration', 2, { parent: reg2 });
-
-    server.loadFixtures('preprint-providers');
 
     // For the handbook
 
