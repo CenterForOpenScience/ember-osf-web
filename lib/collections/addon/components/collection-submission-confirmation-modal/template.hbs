@@ -1,0 +1,32 @@
+<BsModal 
+    @open={{@openModal}}
+    @onSubmit={{action @addToCollection}}
+    @onHidden={{action @cancel}}
+    as |modal|
+>
+    <modal.header>
+        <h3 data-test-modal-header>{{t 'collections.collection_submission_confirmation_modal.header'}}</h3>
+    </modal.header>
+    <modal.body>
+        <p data-test-modal-body>
+            {{t 'collections.collection_submission_confirmation_modal.body'}}
+        </p>
+    </modal.body>
+    <modal.footer data-analytics-scope='Collection - Submit'>
+        <OsfButton 
+            data-test-button-cancel
+            data-analytics-name='Cancel submission'
+            @onClick={{action modal.close}}
+        >
+            {{t 'general.cancel'}}
+        </OsfButton>
+        <OsfButton 
+            data-test-button-success
+            data-analytics-name='Confirm submission'
+            @onClick={{action modal.submit}}
+            @type='success'
+        >
+            {{t 'collections.collection_submission_confirmation_modal.add_button'}}
+        </OsfButton>
+    </modal.footer>
+</BsModal>
