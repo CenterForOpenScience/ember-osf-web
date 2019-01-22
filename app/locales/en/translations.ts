@@ -641,7 +641,7 @@ export default {
         },
     },
     contributor_list: {
-        and_x_more: '{{x}} more',
+        x_more: '{{x}} more',
     },
     app_components: {
         branded_navbar: {
