@@ -109,8 +109,9 @@ export default class Theme extends Service {
 
     @computed('provider.assets.style', 'assetsDir')
     get stylesheet(): string {
-        return this.provider!.assets.style
-            || `${this.assetsDir}/style.css`;
+        const { assets } = this.provider!;
+
+        return assets && assets.style ? assets.style : `${this.assetsDir}/style.css`;
     }
 
     reset(this: Theme) {
