@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `shouldTruncate` (default true)
         - `shouldLinkUsers` (default false)
 
-## [19.1.0]
+## [19.1.0] - 2019-01-23
 ### Added
 - Addons:
     - `loaders-css` - For animated loading indicators
@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `settings.account`
 - Styles:
     - All styles from `osf-style`
+- Validators:
+    - `httpUrl` - validates that a string looks like an http url
 
 ### Changed
 - Addons:
@@ -46,6 +48,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-cli-sass@8.0.1`
 - Components:
     - `contributor-list` - takes an optional parameter `truncated`
+- Models:
+    - `developer-app` - use custom `httpUrl` validator for urls
 - Templates:
     - `no-implicit-this` template rule activated
 - Types:
