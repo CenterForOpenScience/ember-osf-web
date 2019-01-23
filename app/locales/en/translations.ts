@@ -480,6 +480,7 @@ export default {
         phone: '{{description}} must be a valid phone number.',
         url: '{{description}} must be a valid url.',
         // custom
+        https_url: '{{description}} must be a valid https url.',
         email_registered: 'This email address has already been registered.',
         email_invalid: 'Invalid email address. If this should not have occurred, please report this to {{supportEmail}}',
         email_match: 'Email addresses must match.',
