@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components:
+    - `settings/account/default-region` - Panel for setting a user's default region
 - Utils:
     - `getHref` - get an href from a `Link`
     - `getRelatedHref` - get an href from a `Relationship`
