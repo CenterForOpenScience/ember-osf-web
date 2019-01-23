@@ -156,12 +156,26 @@
                     {{outlet}}
                 </gutters.body>
 
-                <gutters.right-gutter data-analytics-scope='Right panel'>
-                    <RegistriesMetadata
-                        @onLinkClicked={{action (mut this.metadataGutterClosed) true}}
-                        @registration={{this.registration}}
-                        @gutterMode={{this.metadataGutterMode}}
-                    />
+                <gutters.right-gutter
+                    data-analytics-scope='Right panel'
+                    local-class='SideMetadata'
+                    as |rightGutter|
+                >
+                    {{#if (not-eq rightGutter.mode 'column')}}
+                        <h3 local-class='MetadataTitle'>
+                            {{t 'registries.overview.metadata'}}
+                            <OsfButton
+                                data-analytics-name='Close metadata sidebar'
+                                aria-label={{t 'general.close'}}
+                                @type='link'
+                                @onClick={{action (mut this.metadataGutterClosed) true}}
+                            >
+                                <FaIcon @icon='times' />
+                            </OsfButton>
+                        </h3>
+                    {{/if}}
+
+                    <RegistriesMetadata @registration={{this.registration}} />
                 </gutters.right-gutter>
             </Gutters>
         </div>

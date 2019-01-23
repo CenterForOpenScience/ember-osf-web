@@ -1,25 +1,73 @@
-<div local-class='Metadata {{if this.isPage 'Page'}}'>
-    <div local-class='Header'>
-        <h3 local-class='Title'>{{t 'registries.overview.metadata.title'}}</h3>
+<div ...attributes>
+    <div local-class='Field'>
+        <h4>
+            <OsfLink
+                data-analytics-name='Contributors'
+                @href={{concat '/' this.registration.id '/contributors'}}
+            >
+                {{t 'registries.registration_metadata.contributors'}}
+            </OsfLink>
+        </h4>
+        <ContributorList
+            @node={{this.registration}}
+            @shouldTruncate={{false}}
+            @shouldLinkUsers={{true}}
+        />
     </div>
 
-    <dl>
-        <dt>
-            <h4>
-                <OsfLink
-                    @href={{concat '/' this.registration.id '/contributors'}}
-                    @onClick={{this.onLinkClicked}}
-                >
-                    {{t 'general.contributors'}}
-                </OsfLink>
-            </h4>
-        </dt>
-        <dd>
-            <ContributorList
-                @node={{this.registration}}
-                @shouldTruncate={{false}}
-                @shouldLinkUsers={{true}}
-            />
-        </dd>
-    </dl>
+    <div local-class='Field'>
+        <h4>{{t 'registries.registration_metadata.description'}}</h4>
+        <div data-test-registries-metadata='description'>
+            {{or this.registration.description (t 'registries.registration_metadata.no_description')}}
+        </div>
+    </div>
+
+    <div local-class='Field'>
+        <h4>{{t 'registries.registration_metadata.registration_type'}}</h4>
+        <div data-test-registries-metadata='registration type'>
+            {{this.registration.registrationSchema.name}}
+        </div>
+    </div>
+
+    <div local-class='Field'>
+        <h4>{{t 'registries.registration_metadata.date_registered'}}</h4>
+        <div data-test-registries-metadata='date registered'>
+            {{moment-format this.registration.dateRegistered 'MMMM D, YYYY'}}
+        </div>
+    </div>
+
+    <div local-class='Field'>
+        <h4>{{t 'registries.registration_metadata.date_created'}}</h4>
+        <div data-test-registries-metadata='date created'>
+            {{moment-format this.registration.dateCreated 'MMMM D, YYYY'}}
+        </div>
+    </div>
+
+    <div local-class='Field'>
+        <h4>{{t 'registries.registration_metadata.registered_from'}}</h4>
+        <div>
+            <Link
+                data-analytics-name='Registered from'
+                @route='guid-node'
+                @models={{array this.registeredFromId}}
+            >
+                {{this.registeredFromDisplayUrl}}
+            </Link>
+        </div>
+    </div>
+
+    <div local-class='Field'>
+        <h4>{{t 'registries.registration_metadata.category'}}</h4>
+        <div>
+            {{t (concat 'node_categories.' this.registration.category)}}
+        </div>
+    </div>
+
+    {{#if @extendedFields}}
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.citation'}}</h4>
+            <div>
+            </div>
+        </div>
+    {{/if}}
 </div>

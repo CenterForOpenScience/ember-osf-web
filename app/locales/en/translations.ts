@@ -1062,23 +1062,23 @@ export default {
             },
         },
 
+        registration_metadata: {
+            contributors: 'Contributors',
+            description: 'Description',
+            no_description: 'No description given.',
+            registration_type: 'Registration type',
+            date_registered: 'Date registered',
+            date_created: 'Date created',
+            registered_from: 'Registered from',
+            category: 'Category',
+        },
+
         overview: {
             title: 'Overview',
             collapse: 'Collapse',
             expand: 'Expand',
             see_more: 'See more',
-
-            metadata: {
-                title: 'Metadata',
-                x_more: '{{x}} more',
-                contributors: 'Contributors',
-                description: 'Description',
-                registration_type: 'Registration type',
-                date_registered: 'Date registered',
-                date_created: 'Date created',
-                registered_from: 'Registered from',
-                category: 'Category',
-            },
+            metadata: 'Metadata',
 
             comments: {
                 title: 'Comments',

@@ -43,15 +43,21 @@ function registrationScenario(server: Server, currentUser: ModelInstance) {
     );
     draftRegisterNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {}, 'withRegistrationMetadata');
 
-    server.create('registration', { id: 'beefs' });
-
     const reg = server.create('registration', {
         id: 'decaf',
+        archiving: true,
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 21),
         linkedRegistrations: server.createList('registration', 19),
     }, 'withContributors', 'withComments');
-    server.createList('registration', 15, { parent: reg });
+    server.createList('registration', 3, { parent: reg });
+
+    server.create('registration', {
+        id: 'recaf',
+        registrationSchema: server.schema.registrationSchemas.find('open_ended_registration'),
+        linkedNodes: server.createList('node', 21),
+        linkedRegistrations: server.createList('registration', 19),
+    }, 'withContributors', 'withComments');
 }
 
 function dashboardScenario(server: Server, currentUser: ModelInstance) {

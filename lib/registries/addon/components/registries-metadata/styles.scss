@@ -1,41 +1,7 @@
-.Metadata {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 0;
-    flex-shrink: 0;
-    width: 300px;
-
-    &:not(.Page) {
-        height: 100%;
-        overflow-y: auto;
-    }
-
-    &.Page {
-        width: 100%;
-    }
+.Field h4 {
+    margin: 21px 0 7px;
 }
 
-.Header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    height: 20px;
-
-    :global(.Column) & {
-        display: none;
-    }
-}
-
-.Title {
-    margin: 0;
-}
-
-.Close {
-    display: inline-flex;
-
-    :global(.Page) & {
-        display: none;
-    }
+.Field:first-child h4 {
+    margin-top: 0;
 }

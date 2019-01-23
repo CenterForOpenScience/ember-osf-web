@@ -44,17 +44,17 @@
     }
 }
 
-.Metadata {
-    min-width: 50%;
-    display: flex;
-    padding: 25px 25px 30px;
-}
-
 .MetadataBlock {
     min-width: 50%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: row dense;
+    grid-column-gap: 15px;
+    padding: 25px 25px 30px;
 
-    &:not(:first-child) {
-        padding-left: 10px;
+    > :first-child,
+    > :nth-child(2) {
+        grid-column: span 2;
     }
 }
 
@@ -78,7 +78,7 @@
 }
 
 @media(max-width: 480px) {
-    .Metadata {
-        flex-direction: column;
+    .MetadataBlock {
+        grid-template-columns: 1fr;
     }
 }
