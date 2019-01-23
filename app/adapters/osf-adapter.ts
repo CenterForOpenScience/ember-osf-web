@@ -126,7 +126,7 @@ export default class OsfAdapter extends JSONAPIAdapter {
         }
 
         const parentObj = snapshot.record.belongsTo(parentRelationship).value();
-        const inverseRelation: string = snapshot.record.inverseFor(parentRelationship).name;
+        const inverseRelation = underscore(snapshot.record.inverseFor(parentRelationship).name);
 
         assert('To create a nested object, the parent must already be loaded.', parentObj);
 
@@ -190,11 +190,5 @@ export default class OsfAdapter extends JSONAPIAdapter {
             this.session.invalidate();
         }
         return super.handleResponse(status, headers, payload, requestData);
-    }
-}
-
-declare module 'ember-data' {
-    interface AdapterRegistry {
-        'osf-adapter': OsfAdapter;
     }
 }

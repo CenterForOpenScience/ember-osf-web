@@ -1,136 +1,149 @@
-{{#bs-modal local-class="NewProject__modal" onHidden=closeModal as |modal|}}
-    {{#modal.header}}
-        <h3 data-test-create-project-header class="modal-title">{{t 'new_project.header'}}</h3>
-    {{/modal.header}}
-    {{#modal.body}}
-        <div class="text-left">
-            <div class="form-group m-v-sm">
-                <label class="f-w-lg text-bigger" local-class="NewProject__label">
+<BsModal local-class='NewProject__modal' @onHidden={{@closeModal}} as |modal|>
+    <modal.header>
+        <h3 data-test-create-project-header class='modal-title'>{{t 'new_project.header'}}</h3>
+    </modal.header>
+    <modal.body>
+        <div class='text-left'>
+            <div class='form-group m-v-sm'>
+                <label class='f-w-lg text-bigger' local-class='NewProject__label'>
                     {{t 'general.title'}}
+                    {{! template-lint-disable no-implicit-this }}
                     {{input
                         data-test-new-project-title
                         placeholder=(t 'new_project.title_placeholder')
                         autofocus='autofocus'
                         class='form-control project-name'
                         required=true
-                        value=nodeTitle
+                        value=this.nodeTitle
                         type='text'
-                        enter=(action 'create')
+                        enter=(action this.create)
                     }}
+                    {{! template-lint-enable no-implicit-this }}
                 </label>
             </div>
 
-            {{#if institutions.length}}
-                <div class="form-group m-v-sm" local-class="NewProject__institution-selector">
-                    <label class="f-w-lg text-bigger">{{t 'new_project.affiliation'}}</label>
-                    <a
-                        role="button"
-                        onclick={{action 'removeAllInstitutions'}}
+            {{#if this.institutions.length}}
+                <div class='form-group m-v-sm' local-class='NewProject__institution-selector'>
+                    <label class='f-w-lg text-bigger'>{{t 'new_project.affiliation'}}</label>
+                    <OsfButton
+                        data-analytics-name='Remove all institutions'
+                        @type='link'
+                        @onClick={{action this.removeAllInstitutions}}
                     >
                         {{t 'new_project.remove_all'}}
-                    </a>
-                    <a
-                        role="button"
-                        onclick={{action 'selectAllInstitutions'}}
+                    </OsfButton>
+                    <OsfButton
+                        data-analytics-name='Select all institutions'
+                        @type='link'
+                        @onClick={{action this.selectAllInstitutions}}
                     >
                         {{t 'new_project.select_all'}}
-                    </a>
+                    </OsfButton>
                     <table>
-                        <tr>
-                            {{#each institutions as | institution |}}
+                        <tr data-test-institution-button-row >
+                            {{#each this.institutions as | institution |}}
                                 <td>
-                                    <a
-                                        role='button'
-                                        onclick={{action 'selectInstitution' institution}}
+                                    <OsfButton
+                                        data-test-institution-selected='{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
+                                        local-class='NewProject__institution-button'
+                                        @type='link'
+                                        @onClick={{action this.selectInstitution institution}}
                                     >
-                                        <div width="45px" height="45px" local-class="NewProject__institution-item">
+                                        <div width='45px' height='45px' local-class='NewProject__institution-item'>
                                             <img
-                                                name="{{institution.name}}"
-                                                width="45px"
-                                                height="45px"
-                                                class="img-circle pointer"
-                                                local-class="NewProject__institution-img-{{if (if-filter institution selectedInstitutions) 'selected' 'not-selected'}}"
-                                                src="/static/img/institutions/shields-rounded-corners/{{institution.id}}-shield-rounded-corners.png"
-                                                alt="{{institution.name}}"
-                                                title="{{institution.name}}">
+                                                name='{{institution.name}}'
+                                                width='45px'
+                                                height='45px'
+                                                class='img-circle pointer'
+                                                local-class='NewProject__institution-img-{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
+                                                src='{{institution.logoRoundedUrl}}'
+                                                alt='{{institution.name}}'
+                                                title='{{institution.name}}'>
                                         </div>
-                                    </a>
+                                    </OsfButton>
                                 </td>
                             {{/each}}
                         </tr>
                     </table>
                 </div>
             {{/if}}
-            {{#if storageI18nEnabled}}
-                <div data-test-select-storage-location class="form-group m-v-md">
-                    <label class="f-w-lg text-bigger" local-class="NewProject__label">
+            {{#if this.storageI18nEnabled}}
+                <div data-test-select-storage-location class='form-group m-v-md'>
+                    <label class='f-w-lg text-bigger' local-class='NewProject__label'>
                         {{t 'new_project.storage_region'}}
-                        {{#power-select
-                            options=regions
-                            renderInPlace=true
-                            selected=selectedRegion
-                            searchField='name'
-                            onchange=(action 'selectRegion')
-                            noMatchesMessage=(t 'new_project.no_matches')
+                        <PowerSelect
+                            @options={{this.regions}}
+                            @renderInPlace={{true}}
+                            @selected={{this.selectedRegion}}
+                            @searchField='name'
+                            @onchange={{action this.selectRegion}}
+                            @noMatchesMessage={{t 'new_project.no_matches'}}
                             as |region|
-                        }}
+                        >
                             {{region.name}}
-                        {{/power-select}}
+                        </PowerSelect>
                     </label>
                 </div>
             {{/if}}
-            <div data-test-more-toggle class="text" role="button" onclick={{action 'toggleMore'}}>
-                {{fa-icon (concat 'caret-' (if more 'down' 'right'))}} {{t 'new_project.more'}}
-            </div>
-            {{#if more}}
-                <div class="form-group m-v-sm">
-                    <label for="projectDesc" class="f-w-lg text-bigger" local-class="NewProject__label">
+            <OsfButton
+                data-test-more-toggle
+                local-class='NewProject__more'
+                @type='link'
+                @onClick={{action 'toggleMore'}}
+            >
+                {{fa-icon (concat 'caret-' (if this.more 'down' 'right'))}} {{t 'new_project.more'}}
+            </OsfButton>
+            {{#if this.more}}
+                <div class='form-group m-v-sm'>
+                    <label for='projectDesc' class='f-w-lg text-bigger' local-class='NewProject__label'>
                         {{t 'general.description'}}
+                        {{! template-lint-disable no-implicit-this }}
                         {{input
                             data-test-project-description-input
                             placeholder=(t 'new_project.description_placeholder')
                             class='form-control noresize project-desc'
-                            value=description
+                            value=this.description
                             type='text'
                         }}
+                        {{! template-lint-enable no-implicit-this }}
                     </label>
                 </div>
-                <div data-test-select-template class="form-group m-v-md">
-                    <label class="f-w-lg text-bigger" local-class="NewProject__label">
+                <div data-test-select-template class='form-group m-v-md'>
+                    <label class='f-w-lg text-bigger' local-class='NewProject__label'>
                         {{t 'new_project.template_title'}}
-                        <p class="f-w-xs help-text">{{t 'new_project.template_search_help'}}</p>
-                        {{#power-select
-                            search=(action searchNodes)
-                            selected=templateFrom
-                            onchange=(action 'selectTemplateFrom')
-                            renderInPlace=true
-                            noMatchesMessage=(t 'new_project.no_matches')
-                            searchMessage=(t 'new_project.template_placeholder')
-                            placeholder=(t 'new_project.template_placeholder')
+                        <p class='f-w-xs help-text'>{{t 'new_project.template_search_help'}}</p>
+                        <PowerSelect
+                            @search={{action this.searchNodes}}
+                            @selected={{this.templateFrom}}
+                            @onchange={{action this.selectTemplateFrom}}
+                            @renderInPlace={{true}}
+                            @noMatchesMessage={{t 'new_project.no_matches'}}
+                            @searchMessage={{t 'new_project.template_placeholder'}}
+                            @placeholder={{t 'new_project.template_placeholder'}}
                             as |node|
-                        }}
+                        >
                             {{node.title}}
-                        {{/power-select}}
+                        </PowerSelect>
                     </label>
                 </div>
             {{/if}}
         </div>
-    {{/modal.body}}
-    {{#modal.footer}}
-        <button
+    </modal.body>
+    <modal.footer>
+        <OsfButton
             data-test-create-project-cancel
-            onclick={{action modal.close}}
-            class="btn btn-default"
-            {{action 'click' 'button' (concat this.analyticsContext ' - New Project - cancel') target=analytics}}
+            @onClick={{action modal.close}}
+            {{!-- {{action 'click' 'button' (concat this.analyticsContext ' - New Project - cancel') target=this.analytics}} --}}
         >
             {{t 'general.cancel'}}
-        </button>
-        <button
+        </OsfButton>
+        <OsfButton
             data-test-create-project-submit
-            onclick={{action 'create'}}
-            class="btn btn-success {{unless nodeTitle.length 'disabled'}}"
+            @onClick={{action this.create}}
+            @type='success'
+            @disabled={{unless this.nodeTitle.length true}}
         >
             {{t 'general.create'}}
-        </button>
-    {{/modal.footer}}
-{{/bs-modal}}
+        </OsfButton>
+    </modal.footer>
+</BsModal>

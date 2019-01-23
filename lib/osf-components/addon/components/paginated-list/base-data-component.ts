@@ -1,6 +1,7 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import ComputedProperty from '@ember/object/computed';
 import { task, Task } from 'ember-concurrency';
 
 import Analytics from 'ember-osf-web/services/analytics';
@@ -53,7 +54,7 @@ export default abstract class BaseDataComponent extends Component.extend({
     errorShown: boolean = false;
 
     // Will be performed with an options hash of type LoadItemsOptions
-    abstract loadItemsTask: Task<void>;
+    abstract loadItemsTask: ComputedProperty<Task<void>>;
 
     constructor(...args: any[]) {
         super(...args);

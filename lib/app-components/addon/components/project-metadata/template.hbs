@@ -1,37 +1,37 @@
-<div class="col-md-6">
+<div class='col-md-6'>
     <label>
         {{t 'app_components.project_metadata.field_title_label'}}
-        {{validated-input/text
-            model=node
-            valuePath='title'
-            aria-label=(t 'move_to_project.enter_project_title')
-            shouldShowMessages=didValidate
-        }}
     </label>
+    {{validated-input/text
+        model=this.node
+        valuePath='title'
+        aria-label=(t 'move_to_project.enter_project_title')
+        shouldShowMessages=@didValidate
+    }}
     <br>
     <label>
         {{t 'app_components.project_metadata.field_description_label'}}
-        {{validated-input/textarea
-            model=node
-            valuePath='description'
-            shouldShowMessages=didValidate
-        }}
     </label>
+    {{validated-input/textarea
+        model=this.node
+        valuePath='description'
+        shouldShowMessages=@didValidate
+    }}
 </div>
-<div class="col-md-6">
-    {{#license-picker node=node}}
+<div class='col-md-6'>
+    {{#license-picker node=this.node}}
         {{t 'app_components.project_metadata.field_license_label'}}
     {{/license-picker}}
     <br>
     <label>
         {{t 'app_components.project_metadata.field_tags_label'}}
         {{#validated-input/custom
-            model=node
+            model=this.node
             valuePath='tags'
-            shouldShowMessages=didValidate
+            shouldShowMessages=@didValidate
         }}
             {{#tag-input
-                tags=node.tags
+                tags=this.node.tags
                 addTag=(action 'addTag')
                 removeTagAtIndex=(action 'removeTagAtIndex')
                 allowSpacesInTags=true
@@ -42,8 +42,8 @@
                 as |tag|
             }}
                 <a
-                    href='{{searchUrl}}?q=(tags:"{{tag}}")'
-                    onclick={{action 'click' 'link' 'Collections - Submit - Search by tag' target=analytics}}
+                    href='{{@searchUrl}}?q=(tags:"{{tag}}")'
+                    onclick={{action 'click' 'link' 'Collections - Submit - Search by tag' target=this.analytics}}
                 >
                     {{tag}}
                 </a>
@@ -52,7 +52,7 @@
     </label>
 </div>
 {{submit-section-buttons
-    discard=(action (perform reset))
-    continue=(action (perform save))
-    continueDisabled=(v-get node 'isInvalid')
+    discard=(action (perform this.reset))
+    continue=(action (perform this.save))
+    continueDisabled=(v-get this.node 'isInvalid')
 }}

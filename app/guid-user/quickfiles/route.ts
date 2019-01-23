@@ -13,8 +13,8 @@ function preventDrop(e: DragEvent) {
     }
 
     e.preventDefault();
-    e.dataTransfer.effectAllowed = 'none';
-    e.dataTransfer.dropEffect = 'none';
+    e.dataTransfer!.effectAllowed = 'none';
+    e.dataTransfer!.dropEffect = 'none';
 }
 
 export default class UserQuickfiles extends Route.extend({

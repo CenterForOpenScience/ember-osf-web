@@ -2,7 +2,7 @@ import EngineInstance from '@ember/engine/instance';
 import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { TestContext } from 'ember-test-helpers';
-import { module, test } from 'qunit';
+import { module, skip } from 'qunit';
 import sinon from 'sinon';
 
 import Analytics from 'ember-osf-web/services/analytics';
@@ -26,7 +26,7 @@ module('Registries | Integration | index', hooks => {
         analytics.actions.click = analytics.click;
     });
 
-    test('analytics', async function(this: TestContext, assert: Assert) {
+    skip('analytics', async function(this: TestContext, assert: Assert) {
         const testCases: Array<{
             name: string;
             action: () => Promise<void>,
@@ -125,7 +125,8 @@ module('Registries | Integration | index', hooks => {
                 },
             ];
 
-        assert.expect(testCases.length * 3);
+        // 1 extra assertion from setupOSFApplicationTest
+        assert.expect((testCases.length * 3) + 1);
         const engine = this.owner.lookup('-engine-instance:registries-registries') as EngineInstance;
         const stub = engine.lookup('service:analytics').click;
 

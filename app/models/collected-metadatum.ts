@@ -3,6 +3,7 @@ import { computed } from '@ember-decorators/object';
 import { computed as iComputed } from '@ember/object';
 import { alias as iAlias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
+
 import Collection from './collection';
 import Guid from './guid';
 import OsfModel from './osf-model';
@@ -14,7 +15,7 @@ export interface DisplaySubject {
     path: string;
 }
 
-export const choiceFields: Array<keyof CollectedMetadatum> = [
+export const choiceFields: Array<keyof CollectedMetadatumModel> = [
     'collectedType',
     'issue',
     'programArea',
@@ -55,7 +56,7 @@ const Validations = buildValidations({
     ],
 });
 
-export default class CollectedMetadatum extends OsfModel.extend(Validations) {
+export default class CollectedMetadatumModel extends OsfModel.extend(Validations) {
     @attr('string') collectedType?: string;
     @attr('string') issue?: string;
     @attr('string') programArea?: string;
@@ -69,18 +70,25 @@ export default class CollectedMetadatum extends OsfModel.extend(Validations) {
 
     @computed('subjects')
     get displaySubjects(): DisplaySubject[] {
-        return this.subjects.map(subject => {
-            const names = subject.mapBy('text');
-
-            return {
-                text: names.get('lastObject'),
-                path: ['', ...names].join('|'),
-            };
+        // returns a list of unique subjects and its path for display and filtering
+        const displaySubjects: DisplaySubject[] = [];
+        this.subjects.forEach(subjectPathArray => {
+            let index = 0;
+            const includedTester = (element: DisplaySubject) => element.text === subjectPathArray[index].text;
+            for (index = 0; index < subjectPathArray.length; index++) {
+                // Only append the subjects if they are not already included in the list
+                if (!displaySubjects.some(includedTester)) {
+                    const { text } = subjectPathArray[index];
+                    const path = ['', ...subjectPathArray.slice(0, index + 1).map(item => item.text)].join('|');
+                    displaySubjects.push({ text, path });
+                }
+            }
         });
+        return displaySubjects;
     }
 
     @computed('collection.displayChoicesFields.[]')
-    get displayChoiceFields(): Array<keyof CollectedMetadatum> {
+    get displayChoiceFields(): Array<keyof CollectedMetadatumModel> {
         return choiceFields
             .filter(field => this.collection
                 .get('displayChoicesFields')
@@ -88,8 +96,8 @@ export default class CollectedMetadatum extends OsfModel.extend(Validations) {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'collected-metadatum': CollectedMetadatum;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        'collected-metadatum': CollectedMetadatumModel;
+    } // eslint-disable-line semi
 }

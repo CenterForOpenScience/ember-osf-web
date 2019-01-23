@@ -1,26 +1,26 @@
-{{#if useLinkTo}}
-    {{#link-to
-        routeName
-        node.id
-        class=extraClasses
-        data-test-node-navbar-link=(or @destination @node.id)
-    }}
-        {{#if (has-block)}}
-            {{yield}}
-        {{else}}
-            {{t translatingKey}}
-        {{/if}}
-    {{/link-to}}
-{{else}}
-    <a
-        href="/{{node.id}}/{{destination}}"
-        class={{extraClasses}}
+{{#if this.useLinkTo}}
+    <Link
         data-test-node-navbar-link={{or @destination @node.id}}
+        class={{this.extraClasses}}
+        @route={{this.routeName}}
+        @models={{array @node.id}}
     >
         {{#if (has-block)}}
             {{yield}}
         {{else}}
-            {{t translatingKey}}
+            {{t this.translatingKey}}
         {{/if}}
-    </a>
+    </Link>
+{{else}}
+    <Link
+        data-test-node-navbar-link={{or @destination @node.id}}
+        class={{this.extraClasses}}
+        @href='/{{@node.id}}/{{@destination}}'
+    >
+        {{#if (has-block)}}
+            {{yield}}
+        {{else}}
+            {{t this.translatingKey}}
+        {{/if}}
+    </Link>
 {{/if}}

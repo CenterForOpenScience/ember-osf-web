@@ -1,0 +1,29 @@
+<nav
+    data-test-side-nav="1"
+    data-test-collapsed="{{this.isCollapsed}}"
+    local-class="SideNav {{if this.isCollapsed 'Collapsed'}}"
+    ...attributes
+>
+    <div local-class="Links">
+        {{yield (hash
+            link-to=(component 'side-nav/x-link'
+                onLinkClicked=@onLinkClicked
+                isCollapsed=this.isCollapsed
+            )
+        )}}
+    </div>
+
+    {{#if this.isCollapseAllowed}}
+        {{#let (component 'side-nav/x-link') as |XLink|}}
+            <XLink
+                 data-test-toggle="1"
+                 class={{local-class 'Toggle'}}
+                 @href='#'
+                 @onclick={{action this.toggle}}
+                 @isCollapsed={{this.isCollapsed}}
+                 @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}
+                 @label={{t (if this.isCollapsed 'registries.overview.expand' 'registries.overview.collapse')}}
+            />
+        {{/let}}
+    {{/if}}
+</nav>

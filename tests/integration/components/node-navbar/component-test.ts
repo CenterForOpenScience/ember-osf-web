@@ -1,9 +1,10 @@
-import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import faker from 'faker';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+
+import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
 enum NavCondition {
     HasParent,
@@ -42,6 +43,9 @@ export class FakeNode {
     userHasWritePermission: boolean = false;
     userHasReadPermission: boolean = false;
     parentId: string | null = null;
+    links = {
+        html: 'http://localhost:4200/fak3d',
+    };
 
     constructor(conditions: NavCondition[] = []) {
         for (const condition of conditions) {
@@ -63,10 +67,7 @@ module('Integration | Component | node-navbar', () => {
         setupRenderingTest(hooks);
 
         test('it renders', async function(assert) {
-            const routerStub = Service.extend({
-                isActive: () => false,
-            });
-            this.owner.register('service:router', routerStub);
+            this.owner.register('service:router', OsfLinkRouterStub);
 
             this.set('node', new FakeNode());
             await render(hbs`{{node-navbar node=this.node renderInPlace=true}}`);
@@ -75,7 +76,7 @@ module('Integration | Component | node-navbar', () => {
         });
 
         test('it renders active tab when in proper route', async function(assert) {
-            const routerStub = Service.extend({
+            const routerStub = OsfLinkRouterStub.extend({
                 isActive(routeName: string) {
                     return routeName.includes('guid-node.wiki');
                 },
@@ -92,7 +93,7 @@ module('Integration | Component | node-navbar', () => {
         });
 
         test('it renders no active tabs', async function(assert) {
-            const routerStub = Service.extend({
+            const routerStub = OsfLinkRouterStub.extend({
                 isActive(routeName: string) {
                     return routeName.includes('guid-node.forks');
                 },
@@ -272,11 +273,7 @@ module('Integration | Component | node-navbar', () => {
 
         testCases.forEach((testCase, i) => {
             test(`it renders the correct links (${i})`, async function(assert) {
-                const routerStub = Service.extend({
-                    isActive: () => false,
-                });
-
-                this.owner.register('service:router', routerStub);
+                this.owner.register('service:router', OsfLinkRouterStub);
 
                 const node = new FakeNode(testCase.conditions);
                 this.set('node', node);

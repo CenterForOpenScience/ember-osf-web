@@ -1,73 +1,73 @@
-{{title (t "routes.register.sign_up")}}
-<div class="container">
-    <div class="row m-t-xl m-b-xl">
-        <div local-class="sign-up-container" class="p-md bg-color-light">
-            {{#if hasProvider}}
-                <h2 local-class="provider">
-                    <div local-class="provider-logo">
-                        {{#if provider}}
-                            <img data-test-register-provider-logo={{provider.id}}
-                                src={{provider.assets.square_color_no_transparent}}
+{{title (t 'routes.register.sign_up')}}
+<div class='container'>
+    <div class='row m-t-xl m-b-xl'>
+        <div local-class='sign-up-container' class='p-md bg-color-light'>
+            {{#if this.hasProvider}}
+                <h2 local-class='provider'>
+                    <div local-class='provider-logo'>
+                        {{#if this.provider}}
+                            <img data-test-register-provider-logo={{this.provider.id}}
+                                src={{this.provider.assets.square_color_no_transparent}}
                                 alt={{this.headerText}}
-                                local-class="provider-logo"
+                                local-class='provider-logo'
                             >
                         {{/if}}
                     </div>
                     <div>
-                        {{#if provider}}
+                        {{#if this.provider}}
                             <span data-test-register-provider-name>
                                 {{this.headerText}}
                             </span>
                         {{/if}}
                     </div>
                 </h2>
-            {{else if isOsfPreprints}}
+            {{else if this.isOsfPreprints}}
                 <img data-test-register-osf-preprints-logo
-                    src="/assets/images/register/osf-preprints-login.png"
-                    alt="{{t 'general.OSF'}} {{t 'documentType.preprint.pluralCapitalized'}}"
-                    local-class="osf-service-logo"
+                    src='/assets/images/register/osf-preprints-login.png'
+                    alt='{{t 'general.OSF'}} {{t 'documentType.preprint.pluralCapitalized'}}'
+                    local-class='osf-service-logo'
                 >
-            {{else if isOsfRegistries}}
+            {{else if this.isOsfRegistries}}
                 <img data-test-register-osf-registries-logo
-                    src="/assets/images/register/osf-registries-black.png"
-                    alt="{{t 'general.OSF'}} {{t 'general.services.registries'}}"
-                    local-class="osf-service-logo"
+                    src='/assets/images/register/osf-registries-black.png'
+                    alt='{{t 'general.OSF'}} {{t 'general.services.registries'}}'
+                    local-class='osf-service-logo'
                 >
             {{/if}}
-            <h3 class="m-sm">{{t "routes.register.create_a_free_account"}}</h3>
-            <h4 class="m-md">{{t "routes.register.sign_up_using"}}</h4>
-            <div local-class="sign-up-buttons" class="m-md">
+            <h3 class='m-sm'>{{t 'routes.register.create_a_free_account'}}</h3>
+            <h4 class='m-md'>{{t 'routes.register.sign_up_using'}}</h4>
+            <div local-class='sign-up-buttons' class='m-md'>
                 <a
                     data-test-orcid-button
-                    href="{{orcidUrl}}#show_login"
-                    local-class="sign-up-button"
-                    onclick={{action "click" "button" "Sign up - ORCID" target=analytics}}
+                    href='{{this.orcidUrl}}#show_login'
+                    local-class='sign-up-button'
+                    onclick={{action 'click' 'button' 'Sign up - ORCID' target=this.analytics}}
                 >
                     <img
-                        src="/assets/images/register/orcid-logo.png"
-                        alt={{t "routes.register.orcid"}}
-                        local-class="sign-up-button__logo"
+                        src='/assets/images/register/orcid-logo.png'
+                        alt={{t 'routes.register.orcid'}}
+                        local-class='sign-up-button__logo'
                     >
-                    <div local-class="sign-up-button__label">{{t "routes.register.orcid"}}</div>
+                    <div local-class='sign-up-button__label'>{{t 'routes.register.orcid'}}</div>
                 </a>
                 <a
                     data-test-institution-button
-                    href={{institutionUrl}}
-                    local-class="sign-up-button"
-                    onclick={{action "click" "button" "Sign up - Institution" target=analytics}}
+                    href={{this.institutionUrl}}
+                    local-class='sign-up-button'
+                    onclick={{action 'click' 'button' 'Sign up - Institution' target=this.analytics}}
                 >
                     <img
-                        src="/assets/images/register/institution-logo.png"
-                        alt={{t "routes.register.institution"}}
-                        local-class="sign-up-button__logo"
+                        src='/assets/images/register/institution-logo.png'
+                        alt={{t 'routes.register.institution'}}
+                        local-class='sign-up-button__logo'
                     >
-                    <div local-class="sign-up-button__label">{{t "routes.register.institution"}}</div>
+                    <div local-class='sign-up-button__label'>{{t 'routes.register.institution'}}</div>
                 </a>
             </div>
 
-            <hr local-class="hr-text" data-content="OR">
+            <hr local-class='hr-text' data-content='OR'>
 
-            <div local-class="sign-up-form" class="m-sm">
+            <div local-class='sign-up-form' class='m-sm'>
                 <SignUpForm @campaign={{this.signUpCampaign}} />
             </div>
         </div>

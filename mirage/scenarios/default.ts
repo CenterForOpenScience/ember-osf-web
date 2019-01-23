@@ -1,22 +1,47 @@
-import { Server } from 'ember-cli-mirage';
+import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
-import { draftRegisterNodeMultiple, registerNodeMultiple } from '../helpers';
+import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
 
 const {
     dashboard: {
         noteworthyNode,
         popularNode,
     },
+    'ember-cli-mirage': {
+        defaultLoggedOut,
+    },
 } = config;
 
 export default function(server: Server) {
-    const currentUser = server.create('user', 'loggedIn');
-    const firstNode = server.create('node', {});
-    server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
+    let currentUser = null;
+
+    if (defaultLoggedOut) {
+        currentUser = server.create('user');
+        server.create('root', { currentUser: null });
+    } else {
+        currentUser = server.create('user', 'loggedIn', 'withInstitutions');
+    }
+
+    server.create('user-setting', { user: currentUser });
+    const registrationNode = server.create('node', { id: 'regis', currentUserPermissions: Object.values(Permission) });
+    server.create('contributor', {
+        node: registrationNode,
+        users: currentUser,
+        permission: 'admin',
+        index: 0,
+    });
+    const forksNode = server.create('node', { id: 'fork5', currentUserPermissions: Object.values(Permission) });
+    server.create('contributor', {
+        node: forksNode,
+        users: currentUser,
+        permission: 'admin',
+        index: 0,
+    });
+
     const nodes = server.createList<Node>('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');
@@ -42,13 +67,29 @@ export default function(server: Server) {
     server.loadFixtures('registration-schemas');
     server.loadFixtures('regions');
 
-    registerNodeMultiple(server, nodes[0], 12, {
+    forkNode(server, forksNode as ModelInstance<Node>, { currentUserPermissions: Object.values(Permission) });
+    registerNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {
         currentUserPermissions: Object.values(Permission),
     }, 'withRegisteredMeta');
-    draftRegisterNodeMultiple(server, nodes[0], 12, {}, 'withRegistrationMetadata');
-    server.create('registration', {
+    draftRegisterNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {}, 'withRegistrationMetadata');
+
+    server.create('registration', { id: 'beefs' });
+
+    const reg = server.create('registration', {
         id: 'decaf',
-    });
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        linkedNodes: server.createList('node', 21),
+        linkedRegistrations: server.createList('registration', 19),
+    }, 'withRegisteredMeta', 'withContributors');
+    server.createList('registration', 15, { parent: reg });
+
+    const reg2 = server.create('registration', {
+        id: 'recaf',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        linkedNodes: server.createList('node', 2),
+        linkedRegistrations: server.createList('registration', 3),
+    }, 'withRegisteredMeta', 'withContributors');
+    server.createList('registration', 2, { parent: reg2 });
 
     server.loadFixtures('preprint-providers');
 

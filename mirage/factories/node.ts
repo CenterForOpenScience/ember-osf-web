@@ -1,3 +1,4 @@
+import { capitalize } from '@ember/string';
 import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Node from 'ember-osf-web/models/node';
@@ -38,7 +39,12 @@ export default Factory.extend<Node & NodeTraits>({
         return faker.date.past(2, new Date(2018, 0, 0));
     },
     title() {
-        return faker.lorem.sentence().replace('.', '');
+        return capitalize(faker.random.arrayElement([
+            faker.company.bs,
+            faker.company.catchPhrase,
+            faker.hacker.noun,
+            faker.lorem.word,
+        ])());
     },
     collection: false,
     subjects: [],

@@ -1,9 +1,9 @@
-{{#if href}}
+{{#if @href}}
     <a
-        href={{href}}
-        onclick={{action 'click' 'link' (concat 'Banner - ' banner.name) target=analytics}}
-        target="_blank"
-        rel="noopener"
+        href={{@href}}
+        onclick={{action 'click' 'link' (concat 'Banner - ' @banner.name) target=this.analytics}}
+        target='_blank'
+        rel='noopener'
     >
         {{yield}}
     </a>

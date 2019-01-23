@@ -6,7 +6,7 @@ import Component from '@ember/component';
 import { dasherize, underscore } from '@ember/string';
 import config from 'collections/config/environment';
 import { localClassNames } from 'ember-css-modules';
-import { ModelRegistry } from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CollectedMetadatum, { DisplaySubject } from 'ember-osf-web/models/collected-metadatum';
@@ -17,6 +17,7 @@ import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import { FacetContext } from '../discover-page/component';
 import styles from './styles';
 import template from './template';
@@ -57,7 +58,12 @@ export default class CollectionSearchResult extends Component {
     }
 
     @action
-    addFilter(facet: string, item: string): void {
+    addTaxonomyFilter(subject: DisplaySubject) {
+        this.facetContexts.findBy('component', 'taxonomy')!.updateFilters(subject.path);
+    }
+
+    @action
+    addChoiceFilter(facet: string, item: string) {
         this.facetContexts.findBy('component', facet)!.updateFilters(item);
     }
 

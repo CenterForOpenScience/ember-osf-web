@@ -8,6 +8,7 @@ import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { userNodeList } from './views/user';
+import { getUserSetting, updateUserSetting } from './views/user-setting';
 import { moveFile } from './views/wb';
 
 const { OSF: { apiUrl } } = config;
@@ -28,16 +29,24 @@ export default function(this: Server) {
 
     this.get('/guids/:id', guidDetail);
 
-    this.get('/institutions');
+    osfResource(this, 'institution', { only: ['index'], defaultPageSize: 1000 });
 
     osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);
+    osfNestedResource(this, 'node', 'children');
     osfNestedResource(this, 'node', 'contributors');
+    osfNestedResource(this, 'node', 'forks', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
+    osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
 
     osfResource(this, 'registration');
+    osfNestedResource(this, 'registration', 'children');
+    osfNestedResource(this, 'registration', 'contributors');
+    osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
+    osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
+
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
@@ -52,6 +61,8 @@ export default function(this: Server) {
 
     osfResource(this, 'user', { except: ['create', 'delete'] });
     osfNestedResource(this, 'user', 'institutions', { only: ['index'] });
+    this.get('/users/:id/settings', getUserSetting);
+    this.patch('/users/:parentID/settings', updateUserSetting);
     osfNestedResource(this, 'user', 'emails', {
         path: '/users/:parentID/settings/emails',
         relatedModelName: 'user-email',

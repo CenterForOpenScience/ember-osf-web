@@ -8,6 +8,7 @@ export interface UserTraits {
     withNodes: Trait;
     withFiles: Trait;
     loggedIn: Trait;
+    withInstitutions: Trait;
     withUnverifiedEmail: Trait;
     withUnverifiedEmails: Trait;
 }
@@ -60,9 +61,20 @@ export default Factory.extend<User & UserTraits>({
         },
     }),
 
+    withInstitutions: trait({
+        afterCreate(user, server) {
+            server.createList('institution', 5, { users: [user] });
+        },
+    }),
+
     loggedIn: trait({
         afterCreate(currentUser, server) {
-            server.create('root', { currentUser });
+            const root = server.schema.roots.first();
+            if (root) {
+                root.update({ currentUser });
+            } else {
+                server.create('root', { currentUser });
+            }
             server.createList('file', 5, { user: currentUser });
         },
     }),

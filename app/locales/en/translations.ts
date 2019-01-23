@@ -485,6 +485,7 @@ export default {
         phone: '{{description}} must be a valid phone number.',
         url: '{{description}} must be a valid url.',
         // custom
+        https_url: '{{description}} must be a valid https url.',
         email_registered: 'This email address has already been registered.',
         email_invalid: 'Invalid email address. If this should not have occurred, please report this to {{supportEmail}}',
         email_match: 'Email addresses must match.',
@@ -840,12 +841,13 @@ export default {
         submit_section: {
             discard: 'Discard changes',
             save: 'Save and continue',
+            continue: 'Continue',
             click_to_edit: 'Click to edit',
         },
     },
     collections: {
         general: {
-            brand: '{{name}} Collections',
+            brand: '{{name}} Collection',
         },
         navbar: {
             add: 'Add to Collection',
@@ -872,7 +874,7 @@ export default {
         discover: {
             title: 'Discover',
             search_heading: 'Collections Search',
-            search_placeholder: 'Search collections',
+            search_placeholder: 'Search collection',
             other_repositories: 'Other collections',
             facet_titles: {
                 collection_provider: 'Providers',
@@ -909,8 +911,7 @@ export default {
             update_save_success: '{{title}} has been updated in the collection.',
             add_save_error: 'Error adding {{title}} to the collection:\n{{error}}',
             update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
-            modal_header: 'Alert',
-            modal_body: 'Are you sure you want to discard changes to the collection? Changes saved to the project will persist, if saved.',
+            warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.',
         },
         collection_item_picker: {
             after_options: {
@@ -959,8 +960,7 @@ export default {
             searchLoading: 'Search loading',
             searchPlaceholder: 'Search...',
             share: 'SHARE',
-            shareUnavailable: 'Search is Unavailable',
-            shareUnavailableDescription: 'SHARE Search is temporarily unavailable. We have been notified and are working to fix the problem. Please try again later.',
+            searchUnavailable: 'Search is Unavailable',
             sortBy: 'Sort by',
             sortSearchResults: 'Sort search results',
             source: 'Source',
@@ -1046,8 +1046,44 @@ export default {
         },
 
         overview: {
-            overview: 'Overview',
-            metadata: 'Metadata',
+            title: 'Overview',
+            collapse: 'Collapse',
+            expand: 'Expand',
+            see_more: 'See more',
+
+            metadata: {
+                title: 'Metadata',
+                x_more: '{{x}} more',
+            },
+
+            comments: {
+                title: 'Comments',
+            },
+
+            links: {
+                title: 'Links',
+                no_links: 'This registration has no links.',
+            },
+
+            contributors: {
+                title: 'Contributors',
+                gravatar_alt: 'Gravatar for {{name}}',
+            },
+
+            components: {
+                title: 'Components',
+                no_components: 'This registration has no components.',
+            },
+
+            external_links: {
+                files: 'Files',
+                wiki: 'Wiki',
+                analytics: 'Analytics',
+            },
+
+            form_view: {
+                no_files: 'No files uploaded',
+            },
         },
     },
     analytics: {
@@ -1204,6 +1240,25 @@ export default {
             },
         },
         account: {
+            security: {
+                title: 'Security Settings',
+                twoFactorAuth: 'Two-factor Authentication',
+                enableTwoFactor: 'Enable Two-factor Authentication',
+                enableWarning: 'Enabling two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
+                disableTwoFactor: 'Disable Two-factor Authentication',
+                why: 'By using two-factor authentication, you will protect your OSF account with both your password and your mobile phone.',
+                enableButton: 'Enable',
+                importantWarning: 'Important: If you lose access to your mobile device, you will not be able to log in to your OSF account.',
+                howTo: 'To use, you must install an appropriate application on your mobile device. Google Authenticator is a popular choice and is available for both Android and iOS.',
+                onceVerified: 'Once verified, your device will display a six-digit code that must be entered during the login process. This code changes every few seconds, which means that unauthorized users will not be able to log in to you account, even if they know your password.',
+                scanImage: 'Scan the image below, or enter the secret key <code>{{secretKey}}</code> into your authentication device.',
+                enterVerification: 'Enter your verification code:',
+                verificationFailed: 'Verification failed. Please enter your verification code again.',
+                disableWarning: 'Are you sure you want to disable two-factor authentication?',
+                disableButton: 'Disable',
+                saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+                submitVerification: 'Submit',
+            },
             title: 'Account settings',
         },
         addons: {

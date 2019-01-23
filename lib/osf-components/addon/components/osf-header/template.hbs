@@ -1,12 +1,12 @@
 {{#let (hash navbar=(component 'osf-navbar')) as |ctx|}}
-    {{#if hasBlock}}
+    {{#if (has-block)}}
         {{yield ctx}}
     {{else}}
         {{ctx.navbar}}
     {{/if}}
 {{/let}}
 
-<div id="{{secondaryNavbarId}}"></div>
-{{maintenance-banner}}
-{{status-banner}}
-{{tos-consent-banner}}
+<div id='{{this.secondaryNavbarId}}'></div>
+<MaintenanceBanner />
+<StatusBanner />
+<TosConsentBanner />

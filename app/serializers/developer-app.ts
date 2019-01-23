@@ -14,8 +14,8 @@ export default class DeveloperAppSerializer extends OsfSerializer {
     };
 }
 
-declare module 'ember-data' {
-    interface SerializerRegistry {
+declare module 'ember-data/types/registries/serializer' {
+    export default interface SerializerRegistry {
         'developer-app': DeveloperAppSerializer;
-    }
+    } // eslint-disable-line semi
 }

@@ -1,0 +1,13 @@
+{{#if this.fileList.length}}
+    <ul>
+        {{#each this.fileList as |file|}}
+            <li>
+                <a href={{file.viewUrl}}>
+                    {{file.selectedFileName}}
+                </a>
+            </li>
+        {{/each}}
+    </ul>
+{{else}}
+    {{t 'registries.overview.form_view.no_files'}}
+{{/if}}

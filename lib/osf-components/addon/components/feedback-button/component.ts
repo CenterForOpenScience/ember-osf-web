@@ -107,6 +107,7 @@ export default class FeedbackButton extends Component {
     @action
     showDialog(this: FeedbackButton) {
         this.set('state', DialogState.active);
+        this.analytics.click('button', 'Feedback - open');
     }
 
     @action

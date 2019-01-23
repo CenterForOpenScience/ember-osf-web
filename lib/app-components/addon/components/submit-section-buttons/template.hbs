@@ -1,8 +1,16 @@
-{{#if showDiscard}}
-    <button class="btn btn-default" {{action discard}}>
-        {{t (concat 'app_components.submit_section.discard')}}
+{{#if this.showDiscard}}
+    <button class='btn btn-default' {{action this.discard}}>
+        {{#if @discardButtonLabel}}
+            {{@discardButtonLabel}}
+        {{else}}
+            {{t (concat 'app_components.submit_section.discard')}}
+        {{/if}}
     </button>
 {{/if}}
-<button class="btn btn-primary" {{action continue}} disabled={{continueDisabled}}>
-    {{t (concat 'app_components.submit_section.save')}}
+<button class='btn btn-primary' {{action this.continue}} disabled={{this.continueDisabled}}>
+    {{#if @continueButtonLabel}}
+        {{@continueButtonLabel}}
+    {{else}}
+        {{t (concat 'app_components.submit_section.save')}}
+    {{/if}}
 </button>

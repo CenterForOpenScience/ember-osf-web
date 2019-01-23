@@ -1,17 +1,17 @@
 {{title (t 'institutions.title')}}
-{{scheduled-banner}}
+<ScheduledBanner />
 <div local-class='Institutions__page'>
-    <div local-class="Institutions__block Institutions__header">
-        <div class="container">
-            <div class="row">
-                <div class="text-center m-t-lg col-xs-12">
-                    <div local-class="Institutions__header-logo"></div>
-                    <p class="lead">
+    <div local-class='Institutions__block Institutions__header'>
+        <div class='container'>
+            <div class='row'>
+                <div class='text-center m-t-lg col-xs-12'>
+                    <div local-class='Institutions__header-logo'></div>
+                    <p class='lead'>
                         {{t 'institutions.description'}}
                         <a
                             local-class='Institutions__block__link'
                             href='https://cos.io/our-products/osf-institutions/'
-                            onclick={{action 'click' 'link' 'Institutions - Header - Read more' target=analytics}}
+                            onclick={{action 'click' 'link' 'Institutions - Header - Read more' target=this.analytics}}
                         >
                             {{t 'institutions.read_more'}}
                         </a>
@@ -20,35 +20,37 @@
             </div>
         </div>
     </div>
-    <div local-class="Institutions__browser">
-        <div class="container p-t-lg">
-            <div class="row m-t-lg">
-                <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div local-class="Institutions__table">
+    <div local-class='Institutions__browser'>
+        <div class='container p-t-lg'>
+            <div class='row m-t-lg'>
+                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
+                    <div class='row'>
+                        <div class='col-xs-12'>
+                            <div local-class='Institutions__table'>
                                 <div class='row'>
                                     <div class='col-xs-3' local-class='Institutions__sorting'>
-                                        {{t 'institutions.title'}}
-                                        {{sort-button sortAction=(action 'sort') sort=sortOrder sortBy='title'}}
+                                        <span local-class='Institutions__browser_title'>
+                                            {{t 'institutions.title'}}
+                                        </span>
+                                        <SortButton @sortAction={{action this.sort}} @sort={{this.sortOrder}} @sortBy='title' />
                                     </div>
-                                    <div class="col-xs-9 filter-input">
+                                    <div class='col-xs-9 filter-input'>
                                         {{input
                                             (html-attributes aria-label=(t 'institutions.search_placeholder'))
-                                            value=textValue
+                                            value=this.textValue
                                             type='text'
                                             class='form-control'
                                             placeholder=(t 'institutions.search_placeholder')
-                                            keyPress=(perform trackFilter)
+                                            keyPress=(perform this.trackFilter)
                                         }}
                                     </div>
                                 </div>
-                                {{#each institutions as |institution|}}
+                                {{#each this.institutions as |institution|}}
                                     <a
-                                        class="m-v-sm row"
+                                        class='m-v-sm row'
                                         local-class='Institutions__table__item'
-                                        href='{{institution.id}}'
-                                        onclick={{action 'click' 'link' 'Institutions - Visit institution' target=analytics}}
+                                        href='{{institution.links.html}}'
+                                        onclick={{action 'click' 'link' 'Institutions - Visit institution' target=this.analytics}}
                                     >
                                         <div class='col-xs-3'>
                                             <img local-class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoUrl}}'>
@@ -56,10 +58,14 @@
                                         <div class='col-xs-9' local-class='Institutions__table__title'><span>{{institution.name}}</span></div>
                                     </a>
                                 {{/each}}
-                                {{#if hasMore}}
-                                    <div role="button" onclick={{action 'next'}} local-class='Institutions__more'>
+                                {{#if this.hasMore}}
+                                    <OsfButton
+                                        local-class='Institutions__more'
+                                        @type='link'
+                                        @onClick={{action 'next'}}
+                                    >
                                         {{fa-icon 'chevron-down' class='Institutions__pagination'}}
-                                    </div>
+                                    </OsfButton>
                                 {{/if}}
                             </div>
                         </div>
@@ -68,15 +74,15 @@
             </div>
         </div>
     </div>
-    <div local-class="Institutions__block Institutions__footer">
-        <div class="container">
-            <div class="row">
-                <div class="text-center col-xs-12">
-                    <p class="lead">
+    <div local-class='Institutions__block Institutions__footer'>
+        <div class='container'>
+            <div class='row'>
+                <div class='text-center col-xs-12'>
+                    <p class='lead'>
                         {{t 'institutions.footer'}}
                         <a
                             href='https://cos.io/contact'
-                            onclick={{action 'click' 'link' 'Institutions - Footer - Contact us' target=analytics}}
+                            onclick={{action 'click' 'link' 'Institutions - Footer - Contact us' target=this.analytics}}
                         >
                             {{t 'institutions.contact_us'}}
                         </a>

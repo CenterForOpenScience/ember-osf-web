@@ -1,4 +1,4 @@
-import Transition from '@ember/routing/transition';
+import Transition from '@ember/routing/-private/transition';
 
 /**
  * Get the URL (path and query string) that the given transition will resolve to,

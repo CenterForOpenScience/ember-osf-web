@@ -37,7 +37,7 @@ export type Model<T> = {
 interface ModelInstanceShared<T> {
     id: ID;
     attrs: T;
-    schema: Schema;
+    _schema: Schema;
 
     save(): void;
     update<K extends keyof T>(key: K, val: T[K]): void;
@@ -65,6 +65,7 @@ interface Collection<T> {
 interface ModelClass<T = AnyAttrs> {
     new(attrs: T): ModelInstance<T>;
     create(attrs: T): ModelInstance<T>;
+    update(attrs: T): ModelInstance<T>;
     all(): Collection<T>;
     find<S extends ID | ID[]>(ids: S): S extends ID ? ModelInstance<T> : Collection<T>;
     findBy(query: T): ModelInstance<T>;
@@ -95,7 +96,7 @@ export interface Request {
 export interface HandlerContext {
     request: Request;
     serialize(modelOrCollection: ModelInstance | ModelInstance[] | ModelClass, serializerName?: string): any;
-    normalizedRequestAttrs(): any;
+    normalizedRequestAttrs(model?: string): any;
 }
 interface HandlerObject {
     [k: string]: any;
@@ -168,24 +169,24 @@ export interface Server {
 
     create<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
-        ...traits: string[],
+        ...traits: string[]
     ): ModelInstance<T>;
     create<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         attrs?: Partial<T>,
-        ...traits: string[],
+        ...traits: string[]
     ): ModelInstance<T>;
 
     createList<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         amount: number,
-        ...traits: string[],
+        ...traits: string[]
     ): Array<ModelInstance<T>>;
     createList<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         amount: number,
         attrs?: Partial<T>,
-        ...traits: string[],
+        ...traits: string[]
     ): Array<ModelInstance<T>>;
 
     shutdown(): void;

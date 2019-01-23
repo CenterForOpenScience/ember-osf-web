@@ -1,22 +1,22 @@
-<a href="{{node.links.html}}"
-   onclick={{action 'click' 'link' 'Dashboard - visit_node' target=analytics}}
+<a href='{{@node.links.html}}'
+   onclick={{action 'click' 'link' 'Dashboard - visit_node' target=this.analytics}}
 >
-    <div class="m-v-sm" local-class="DashboardItem">
-        <div class="row">
+    <div class='m-v-sm' local-class='DashboardItem'>
+        <div class='row'>
             <div>
-                <div class="col-sm-3 col-md-6 p-v-xs">
-                    <div local-class="DashboardItem__col" class="di-title">
-                        {{#each ancestry as |ancestorTitle|}}
+                <div class='col-sm-3 col-md-6 p-v-xs'>
+                    <div local-class='DashboardItem__col' class='di-title'>
+                        {{#each this.ancestry as |ancestorTitle|}}
                             {{ancestorTitle}} /
                         {{/each}}
-                        <strong data-test-dashboard-item-title>{{node.title}}</strong>
+                        <strong data-test-dashboard-item-title>{{@node.title}}</strong>
                     </div>
                 </div>
-                <div class="col-sm-3 col-md-3 p-v-xs">
-                    <div local-class="DashboardItem__col" class="di-contributors">{{contributor-list contributors=contributors}}</div>
+                <div class='col-sm-3 col-md-3 p-v-xs'>
+                    <div local-class='DashboardItem__col' class='di-contributors'>{{contributor-list contributors=this.contributors}}</div>
                 </div>
-                <div class="col-sm-3 col-md-3 p-v-xs">
-                    <div local-class="DashboardItem__col" class="di-date">{{date}}</div>
+                <div class='col-sm-3 col-md-3 p-v-xs'>
+                    <div local-class='DashboardItem__col' class='di-date'>{{this.date}}</div>
                 </div>
             </div>
         </div>

@@ -17,7 +17,7 @@ jobs:
   include:
     - stage: "test"
       if: |
-        branch ~= /^develop$|^master$|^\d+\.\d+\.\d+$|^release\/.+$/ OR \
+        branch ~= /^develop$|^master$|^release\/.+$/ OR \
         type = pull_request OR \
         env(RESTRICT_PUSH_BUILDS) != true
       addons:

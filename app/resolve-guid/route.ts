@@ -1,9 +1,9 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import Transition from '@ember/routing/-private/transition';
+import { EmberLocation } from '@ember/routing/api';
 import Route from '@ember/routing/route';
-import Transition from '@ember/routing/transition';
 import { camelize } from '@ember/string';
-import Ember from 'ember';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
@@ -18,7 +18,7 @@ interface RouterMicroLib {
 interface PrivateRouter {
     _routerMicrolib: RouterMicroLib;
     _engineInfoByRoute?: Record<string, any>;
-    location: Ember.EmberLocation;
+    location: EmberLocation;
 }
 
 const { featureFlagNames: { routes } } = config;

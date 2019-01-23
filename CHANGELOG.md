@@ -4,6 +4,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.1.0] - 2019-01-23
+### Added
+- Addons:
+    - `loaders-css` - For animated loading indicators
+- Components:
+    - `settings.account.-components.security` - Two-factor authentication panel.
+    - `osf-button` - our new, use-everywhere button component
+- Models:
+    - `user-setting`
+- Routes:
+    - `settings.account`
+- Styles:
+    - All styles from `osf-style`
+- Validators:
+    - `httpUrl` - validates that a string looks like an http url
+
+### Changed
+- Addons:
+    - `ember-cli-mirage@0.4.10`
+    - `ember-qunit@3.4.4`
+    - `ember-cli-qunit@4.4.0`
+    - `ember-cli-sass@8.0.1`
+- Components:
+    - `contributor-list` - takes an optional parameter `truncated`
+- Models:
+    - `developer-app` - use custom `httpUrl` validator for urls
+- Templates:
+    - `no-implicit-this` template rule activated
+- Types:
+    - upgrade to ember and ember-data 3.x types
+
+### Removed
+- Addons:
+    - `osf-style`
+
 ## [19.0.2] - 2019-01-08
 ### Changed
 - Routes

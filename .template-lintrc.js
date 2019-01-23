@@ -8,7 +8,9 @@ module.exports = {
     rules: {
         'block-indentation': 4,
         'no-bare-strings': true,
+        'no-implicit-this': true,
         'no-nested-interactive': false,
+        quotes: 'single',
     },
 
     ignore: [

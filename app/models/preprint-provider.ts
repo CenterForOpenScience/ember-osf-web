@@ -5,14 +5,16 @@ import DS from 'ember-data';
 
 import translations from 'ember-osf-web/locales/en/translations';
 
-import Preprint from './preprint';
-import Provider from './provider';
+import { RelatedLinkMeta } from 'osf-api';
+
+import PreprintModel from './preprint';
+import ProviderModel from './provider';
 
 export type DocumentTypes = keyof typeof translations.documentType;
 
 export type PreprintDocumentType = typeof translations.documentType[DocumentTypes];
 
-export default class PreprintProvider extends Provider {
+export default class PreprintProviderModel extends ProviderModel {
     @attr('array') subjectsAcceptable!: string[];
     @attr('array') additionalProviders!: string[];
     @attr('string') shareSource!: string;
@@ -25,10 +27,11 @@ export default class PreprintProvider extends Provider {
     @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous!: boolean | null;
 
     // Relationships
-    @hasMany('preprint', { inverse: 'provider' }) preprints!: DS.PromiseManyArray<Preprint>;
+    @hasMany('preprint', { inverse: 'provider' })
+    preprints!: DS.PromiseManyArray<PreprintModel>;
 
     @alias('links.relationships.preprints.links.related.meta')
-    reviewableStatusCounts!: any;
+    reviewableStatusCounts!: RelatedLinkMeta;
 
     @alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects')
     hasHighlightedSubjects!: boolean;
@@ -40,8 +43,8 @@ export default class PreprintProvider extends Provider {
     }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'preprint-provider': PreprintProvider;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        'preprint-provider': PreprintProviderModel;
+    } // eslint-disable-line semi
 }

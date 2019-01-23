@@ -5,20 +5,26 @@
     padding-left: 10px;
     display: table-cell;
 
-    button {
+    button,
+    button:active,
+    button:focus,
+    button:focus:active,
+    button:hover {
         appearance: none;
         outline: none;
         border: 0;
         background: transparent;
-        font-size: large;
-        height: 24px;
+        height: 29px;
+        padding: 0.4em 0 0 0.2em;
+        box-shadow: 0 0 0 #000f;
     }
 }
 
 .selected {
-    color: $color-text-black;
+    color: $color-text-blue-dark !important;
 }
 
 .not-selected {
-    color: $color-text-blue-dark;
+    color: $color-text-gray-dark !important;
 }
+

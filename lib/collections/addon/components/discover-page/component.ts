@@ -1,5 +1,6 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import { A } from '@ember/array';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -82,7 +83,7 @@ interface ArrayMeta {
 type SearchQuery = ArrayProxy<any> & ArrayMeta;
 
 function emptyResults(): SearchQuery {
-    return ArrayProxy.create({ content: [], meta: { total: 0 } });
+    return ArrayProxy.create({ content: A([]), meta: { total: 0 } });
 }
 
 @layout(template, styles)
@@ -154,7 +155,7 @@ export default class DiscoverPage extends Component.extend({
                 defaultQueryFilters: {},
                 currentQueryFilters: {},
                 options,
-                updateFilters() {
+                updateFilters: () => {
                     assert('You should set an `updateFilters` function');
                 },
             });
@@ -166,22 +167,11 @@ export default class DiscoverPage extends Component.extend({
             .reduce((acc, { currentQueryFilters }) => ({ ...acc, ...currentQueryFilters }), {});
     }
 
-    @computed('sort')
-    get sortQuery() {
-        return this.sort ?
-            {
-                sort: {
-                    [this.sort.replace(/^-/, '')]: this.sort[0] === '-' ? 'desc' : 'asc',
-                },
-            } :
-            {};
-    }
-
-    @computed('q', 'page', 'filters', 'sortQuery')
+    @computed('q', 'page', 'sort', 'filters')
     get queryAttributes() {
         return {
             page: this.page,
-            // ...this.sortQuery,
+            sort: this.sort,
             q: this.q || undefined,
             ...this.filters,
         };
@@ -244,7 +234,7 @@ export default class DiscoverPage extends Component.extend({
     aggregations: any;
     whiteListedProviders: string[] = defaultTo(this.whiteListedProviders, []);
     queryError: boolean = false;
-    shareDown: boolean = false;
+    serverError: boolean = false;
 
     // ************************************************************
     // COMPUTED PROPERTIES and OBSERVERS
@@ -304,9 +294,14 @@ export default class DiscoverPage extends Component.extend({
                 numberOfResults: 0,
                 results: emptyResults(),
             });
-
             // If issue with search query, for example, invalid lucene search syntax
-            this.set(errorResponse.status === 400 ? 'queryError' : 'shareDown', true);
+            if (errorResponse instanceof DS.ServerError ||
+                errorResponse instanceof DS.AbortError ||
+                errorResponse instanceof DS.TimeoutError) {
+                this.set('serverError', true);
+            } else {
+                this.set('queryError', true);
+            }
 
             // re-throw for error monitoring
             throw errorResponse;

@@ -1,33 +1,31 @@
-{{#bs-modal onHidden=closeModal as |modal|}}
-    {{#modal.body}}
-        <button
+<BsModal @onHidden={{this.closeModal}} as |modal|>
+    <modal.body>
+        <OsfButton
             data-test-close-with-x
             aria-label={{t 'general.close'}}
-            class="close"
-            onclick={{action closeModal reload=true}}
+            @class='close'
+            @onClick={{action this.closeModal reload=true}}
         >
             {{fa-icon 'times' size='sm'}}
-        </button>
-        <h4 class="add-project-success text-success">
+        </OsfButton>
+        <h4 class='add-project-success text-success'>
             {{this.title}}
         </h4>
-    {{/modal.body}}
-    {{#modal.footer}}
-        <button
+    </modal.body>
+    <modal.footer>
+        <OsfButton
             data-test-stay-here
-            onclick={{action stayHere reload=true}}
-            class="btn btn-default"
+            @onClick={{action this.stayHere reload=true}}
         >
             {{t 'new_project.stay_here'}}
-        </button>
+        </OsfButton>
         <a
             data-test-go-to-new
-            role='button'
-            href="{{node.links.html}}"
-            class="btn btn-success"
-            onclick={{action 'click' 'link' (concat page ' - New Project - go_to_new_project') target=analytics}}
+            href='{{@node.links.html}}'
+            class='btn btn-success'
+            onclick={{action 'click' 'link' (concat @page ' - New Project - go_to_new_project') target=this.analytics}}
         >
             {{t 'move_to_project.go_to_project'}}
         </a>
-    {{/modal.footer}}
-{{/bs-modal}}
+    </modal.footer>
+</BsModal>

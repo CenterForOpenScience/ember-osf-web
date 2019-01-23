@@ -1,35 +1,34 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import DS from 'ember-data';
-import Node from './node';
+
+import NodeModel from './node';
 import OsfModel from './osf-model';
-import Registration from './registration';
-import User from './user';
+import RegistrationModel from './registration';
+import UserModel from './user';
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
-
+/* eslint-disable camelcase */
 export interface Assets {
     logo: string;
+    logo_rounded: string;
 }
+/* eslint-enable camelcase */
 
-/**
- * Model for OSF APIv2 institutions. This model may be used with one of several API endpoints. It may be queried
- * directly, or accessed via relationship fields.
- *
- * @class Institution
- */
-export default class Institution extends OsfModel {
+export default class InstitutionModel extends OsfModel {
     @attr('string') name!: string;
     @attr('fixstring') description!: string;
     @attr('string') logoPath!: string;
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
-    @hasMany('user', { inverse: 'institutions' }) users!: DS.PromiseManyArray<User>;
-    @hasMany('node', { inverse: 'affiliatedInstitutions' }) nodes!: DS.PromiseManyArray<Node>;
-    @hasMany('registration', { inverse: 'affiliatedInstitutions' }) registrations!: DS.PromiseManyArray<Registration>;
+
+    @hasMany('user', { inverse: 'institutions' })
+    users!: DS.PromiseManyArray<UserModel>;
+
+    @hasMany('node', { inverse: 'affiliatedInstitutions' })
+    nodes!: DS.PromiseManyArray<NodeModel>;
+
+    @hasMany('registration', { inverse: 'affiliatedInstitutions' })
+    registrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @computed('assets', 'assets.logo', 'logoPath', 'id')
     get logoUrl(): string {
@@ -41,10 +40,19 @@ export default class Institution extends OsfModel {
             return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
         }
     }
+
+    @computed('assets', 'assets.logo_rounded', 'logoUrl')
+    get logoRoundedUrl(): string {
+        if (this.assets && this.assets.logo_rounded) {
+            return this.assets.logo_rounded;
+        } else {
+            return this.logoUrl;
+        }
+    }
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'institution': Institution;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        institution: InstitutionModel;
+    } // eslint-disable-line semi
 }

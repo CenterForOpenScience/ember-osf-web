@@ -1,4 +1,4 @@
-<ul class="list-group">
+<ul class='list-group'>
     {{#paginated-list/has-many
         modelTaskInstance=@modelTaskInstance
         relationshipName=@relationshipName
@@ -7,9 +7,9 @@
         analyticsScope=@analyticsScope
         as |pr|
     }}
-        {{#pr.item as |node|}}
+        <pr.item as |node|>
             {{node-card node=node showTags=@showTags analyticsScope=@analyticsScope}}
-        {{/pr.item}}
+        </pr.item>
 
         {{yield (hash empty=pr.empty)}}
     {{/paginated-list/has-many}}

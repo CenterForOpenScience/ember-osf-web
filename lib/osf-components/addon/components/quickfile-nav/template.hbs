@@ -1,9 +1,12 @@
-<div class="container">
-    {{#if user}}
+<div class='container'>
+    {{#if @user}}
         <h3>
-            {{#link-to 'guid-user.quickfiles' user.id}}
-                {{t 'quickfiles.title' user-name=user.fullName}}
-            {{/link-to}}
+            <Link
+                @route='guid-user.quickfiles'
+                @models={{array @user.id}}
+            >
+                {{t 'quickfiles.title' user-name=@user.fullName}}
+            </Link>
         </h3>
     {{/if}}
 </div>

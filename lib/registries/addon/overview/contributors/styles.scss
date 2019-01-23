@@ -1,0 +1,18 @@
+.Contributor {
+    display: flex;
+
+    .Gravatar {
+        height: 30px;
+        width: 30px;
+    }
+
+    .Name {
+        flex-grow: 1;
+        margin: 0;
+        padding-left: 1em;
+    }
+
+    .Placeholder {
+        display: flex;
+    }
+}

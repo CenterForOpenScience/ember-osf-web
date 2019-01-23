@@ -1,25 +1,18 @@
 import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
-import Comment from 'ember-osf-web/models/comment';
+
+import CommentModel from './comment';
 import OsfModel from './osf-model';
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
-
-/**
- * Model for OSF APIv2 comment reports. Primarily accessed via relationship fields.
- *
- * @class CommentReport
- */
-export default class CommentReport extends OsfModel {
+export default class CommentReportModel extends OsfModel {
     @attr('fixstring') category!: string;
-    @belongsTo('comment') text!: DS.PromiseObject<Comment> & Comment;
+
+    @belongsTo('comment')
+    text!: DS.PromiseObject<CommentModel> & CommentModel;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'comment-report': CommentReport;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        'comment-report': CommentReportModel;
+    } // eslint-disable-line semi
 }

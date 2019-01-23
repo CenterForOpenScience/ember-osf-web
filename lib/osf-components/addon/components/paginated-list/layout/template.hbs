@@ -1,6 +1,6 @@
 {{#if this.loading}}
     {{#if this.placeholderCount}}
-        <ul class="list-group m-md">
+        <ul class='list-group m-md'>
             {{#each (range 1 this.placeholderCount)}}
                 {{yield (hash
                     item=(component 'paginated-list/x-item')
@@ -14,7 +14,7 @@
 {{else if this.errorShown}}
     <p>{{t 'osf-components.paginated-list.error'}}</p>
 {{else if @items.length}}
-    <ul class="list-group m-md">
+    <ul class='list-group m-md'>
         {{#each @items as |item index|}}
             {{#unless item.isDeleted}}
                 {{yield (hash
@@ -32,7 +32,7 @@
 {{/if}}
 
 {{#if this.paginatorShown}}
-    <div class="text-center">
+    <div class='text-center'>
         {{simple-paginator
             maxPage=this.maxPage
             nextPage=(action @next)

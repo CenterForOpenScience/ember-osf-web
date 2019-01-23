@@ -1,0 +1,153 @@
+<Panel
+    data-test-security-panel
+    local-class='SecurityPanel'
+    as |panel|
+>
+    <panel.heading @title={{t 'settings.account.security.title'}} />
+    <panel.body>
+        {{#if (or this.loadSettings.isRunning this.saveSettings.isRunning)}}
+            <LoadingIndicator @dark={{true}} />
+        {{else}}
+            <h4>
+                <span local-class='HeadingText'>
+                    {{t 'settings.account.security.twoFactorAuth'}}
+                </span>
+                {{#if this.settings.twoFactorEnabled}}
+                    <BsButton
+                        data-test-two-factor-disable-button
+                        @type='danger'
+                        @size='xs'
+                        @onClick={{action this.disableTwoFactor}}
+                    >
+                        {{t 'settings.account.security.disableTwoFactor'}}
+                    </BsButton>
+                {{else}}
+                    <BsButton
+                        data-test-two-factor-enable-button
+                        @onClick={{action this.enableTwoFactor}}
+                        local-class='EnableButton'
+                        @size='xs'
+                    >
+                        {{t 'settings.account.security.enableTwoFactor'}}
+                    </BsButton>
+                {{/if}}
+            </h4>
+            <p data-test-why-two-factor>
+                {{t 'settings.account.security.why'}}
+            </p>
+            {{#if (and this.settings.twoFactorEnabled (not this.settings.twoFactorConfirmed))}}
+                <p data-test-2f-important-warning class='bg-danger'>
+                    {{t 'settings.account.security.importantWarning'}}
+                </p>
+                <p data-test-2f-how-to>
+                    {{t 'settings.account.security.howTo'}}
+                </p>
+                <p data-test-2f-once-verified>
+                    {{t 'settings.account.security.onceVerified'}}
+                </p>
+                <p data-test-2f-scan-image>
+                    {{t 'settings.account.security.scanImage' secretKey=this.settings.secret}}
+                </p>
+                <QrCode
+                    data-test-2f-qr-code
+                    @text={{this.settings.secret}}
+                    @width={{260}}
+                    @height={{260}}
+                    @correctLevel='L'
+                />
+                <ValidatedModelForm
+                    @model={{this.settings}}
+                    @onSave={{action this.verifySecret}}
+                    @onError={{action this.verificationError}}
+                    @analyticsScope={{this.analyticsScope}}
+                    @onWillDestroy={{action this.destroyForm}}
+                    as |form|
+                >
+                    <div>
+                        <form.text
+                            data-test-verification-code-field
+                            @valuePath='verification'
+                            @label={{t 'settings.account.security.enterVerification'}}
+                        />
+                        {{#if this.showError}}
+                            <p
+                                data-test-verification-error
+                                local-class='VerificationError'
+                            >
+                                {{t 'settings.account.security.verificationFailed'}}
+                            </p>
+                        {{/if}}
+                        <BsButton
+                            data-test-verify-button
+                            @type='primary'
+                            @buttonType='submit'
+                            @disabled={{form.submitting}}
+                        >
+                            {{t 'settings.account.security.submitVerification'}}
+                        </BsButton>
+                    </div>
+                </ValidatedModelForm>
+            {{/if}}
+        {{/if}}
+    </panel.body>
+</Panel>
+
+<BsModal
+    data-test-confirm-enable-modal
+    @open={{this.showEnableWarning}}
+    as |modal|
+>
+    <modal.header>
+        <h4 data-test-confirm-enable-heading>
+            {{t 'settings.account.security.enableTwoFactor'}}
+        </h4>
+    </modal.header>
+    <modal.body data-test-confirm-enable-warning>
+        {{t 'settings.account.security.enableWarning'}}
+    </modal.body>
+    <modal.footer>
+        <BsButton
+            data-test-enable-warning-cancel
+            @onClick={{action this.hideDialogs}}
+        >
+            {{t 'general.cancel'}}
+        </BsButton>
+        <BsButton
+            data-test-enable-warning-confirm
+            @onClick={{action this.confirmEnableTwoFactor}}
+            @type='danger'
+        >
+            {{t 'settings.account.security.enableButton'}}
+        </BsButton>
+    </modal.footer>
+</BsModal>
+
+<BsModal
+    data-test-confirm-disable-modal
+    @open={{this.showDisableWarning}}
+    as |modal|
+>
+    <modal.header>
+        <h4 data-test-confirm-disable-heading>
+            {{t 'settings.account.security.disableTwoFactor'}}
+        </h4>
+    </modal.header>
+    <modal.body data-test-confirm-disable-warning>
+        {{t 'settings.account.security.disableWarning'}}
+    </modal.body>
+    <modal.footer>
+        <BsButton
+            data-test-disable-warning-cancel
+            @onClick={{action this.hideDialogs}}
+        >
+            {{t 'general.cancel'}}
+        </BsButton>
+        <BsButton
+            data-test-disable-warning-confirm
+            @onClick={{action this.confirmDisableTwoFactor}}
+            @type='danger'
+        >
+            {{t 'settings.account.security.disableButton'}}
+        </BsButton>
+    </modal.footer>
+</BsModal>

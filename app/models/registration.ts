@@ -1,24 +1,14 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
-import Comment from './comment';
-import Contributor from './contributor';
-import Node from './node';
-import RegistrationSchema, { RegistrationMetadata } from './registration-schema';
-import RegistryProvider from './registry-provider';
-import User from './user';
 
-/**
- * @module ember-osf-web
- * @submodule models
- */
+import CommentModel from './comment';
+import ContributorModel from './contributor';
+import NodeModel from './node';
+import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
+import RegistryProviderModel from './registry-provider';
+import UserModel from './user';
 
-/**
- * Model for OSF APIv2 registrations. This model may be used with one of several API endpoints. It may be queried
- * directly, or accessed via relationship fields.
- *
- * @class Registration
- */
-export default class Registration extends Node.extend() {
+export default class RegistrationModel extends NodeModel.extend() {
     @attr('date') dateRegistered!: Date;
     @attr('boolean') pendingRegistrationApproval!: boolean;
     @attr('boolean') archiving!: boolean;
@@ -28,7 +18,6 @@ export default class Registration extends Node.extend() {
     @attr('boolean') withdrawn!: boolean;
     @attr('fixstring') withdrawalJustification?: string;
     @attr('boolean') pendingWithdrawal!: boolean;
-
     @attr('fixstring') registrationSupplement?: string;
     @attr('object') registeredMeta!: RegistrationMetadata;
 
@@ -37,20 +26,33 @@ export default class Registration extends Node.extend() {
     @attr('fixstring') registrationChoice?: 'immediate' | 'embargo';
     @attr('date') liftEmbargo?: Date;
 
-    @belongsTo('node', { inverse: 'registrations' }) registeredFrom!: DS.PromiseObject<Node> & Node;
-    @belongsTo('user', { inverse: null }) registeredBy!: DS.PromiseObject<User> & User;
+    @belongsTo('node', { inverse: 'registrations' })
+    registeredFrom!: DS.PromiseObject<NodeModel> & NodeModel;
+
+    @belongsTo('user', { inverse: null })
+    registeredBy!: DS.PromiseObject<UserModel> & UserModel;
 
     @belongsTo('registry-provider', { inverse: 'registrations' })
-    provider!: DS.PromiseObject<RegistryProvider> & RegistryProvider;
+    provider!: DS.PromiseObject<RegistryProviderModel> & RegistryProviderModel;
 
-    @hasMany('contributor', { inverse: 'node' }) contributors!: DS.PromiseManyArray<Contributor>;
-    @hasMany('comment', { inverse: 'node' }) comments!: DS.PromiseManyArray<Comment>;
+    @hasMany('contributor', { inverse: 'node' })
+    contributors!: DS.PromiseManyArray<ContributorModel>;
+
+    @hasMany('comment', { inverse: 'node' })
+    comments!: DS.PromiseManyArray<CommentModel>;
+
     @belongsTo('registration-schema', { inverse: null })
-    registrationSchema!: DS.PromiseObject<RegistrationSchema> & RegistrationSchema;
+    registrationSchema!: DS.PromiseObject<RegistrationSchemaModel> & RegistrationSchemaModel;
+
+    @belongsTo('registration', { inverse: 'children' })
+    parent!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
+
+    @hasMany('registration', { inverse: 'parent' })
+    children!: DS.PromiseManyArray<RegistrationModel>;
 }
 
-declare module 'ember-data' {
-    interface ModelRegistry {
-        'registration': Registration;
-    }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        registration: RegistrationModel;
+    } // eslint-disable-line semi
 }

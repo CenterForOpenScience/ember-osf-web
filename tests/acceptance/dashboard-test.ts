@@ -60,7 +60,7 @@ module('Acceptance | dashboard', hooks => {
         // Click next to make item six visible
         await click('.carousel-control.right');
 
-        assert.dom(`[data-test-institution-carousel-item] a[href="/institutions/${institutions[6].id}"]`)
+        assert.dom(`[data-test-institution-carousel-item] a[href="/institutions/${institutions[6].id}/"]`)
             .exists('Institutions are linked properly');
 
         assert.dom('[data-test-institution-carousel-item="6"]').isVisible();
@@ -187,7 +187,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('az', 'Default sort item 2 is in proper position');
 
         // Sort date ascending
-        await click('#last_loggedAscendingSort');
+        await click('[data-test-ascending-sort="last_logged"]');
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in date asc sort');
         assert.dom(projectTitles[0]).hasText('az', 'Date asc sort item 0 is in proper position');
@@ -195,7 +195,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('z', 'Date asc sort item 2 is in proper position');
 
         // Sort date descending (should be same as default)
-        await click('#last_loggedDescendingSort');
+        await click('[data-test-descending-sort="last_logged"]');
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in date desc sort');
         assert.dom(projectTitles[0]).hasText('z', 'Date desc sort item 0 is in proper position');
@@ -203,7 +203,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('az', 'Date desc sort item 2 is in proper position');
 
         // Sort title ascending
-        await click('#titleAscendingSort');
+        await click('[data-test-ascending-sort="title"]');
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in title asc sort');
         assert.dom(projectTitles[0]).hasText('a', 'Title asc sort item 0 is in proper position');
@@ -211,7 +211,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('z', 'Title asc sort item 2 is in proper position');
 
         // Sort title descending
-        await click('#titleDescendingSort');
+        await click('[data-test-descending-sort="title"]');
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in title desc sort');
         assert.dom(projectTitles[0]).hasText('z', 'Title desc sort item 0 is in proper position');
@@ -290,8 +290,32 @@ module('Acceptance | dashboard', hooks => {
         assert.equal(newNode.attrs.regionId, 'us');
     });
 
-    // TODO: When we have fake institutions connected to users, add tests for selecting and deselecting institutions
-    // in the create project modal.
+    test('create project modal institution selection', async assert => {
+        server.loadFixtures('regions');
+        server.create('user', 'loggedIn', 'withInstitutions');
+        await visit('/dashboard');
+        await click('[data-test-create-project-modal-button]');
+        assert.dom('[data-test-institution-selected="selected"]')
+            .exists({ count: 5 }, 'Initial state everything selected');
+        assert.dom('[data-test-institution-selected="not-selected"]')
+            .doesNotExist('Initial state nothing not-selected');
+        await click('[data-test-institution-button-row]:nth-child(1) button');
+        assert.dom('[data-test-institution-selected="selected"]')
+            .exists({ count: 4 }, 'Clicked first item so 4 selected');
+        assert.dom('[data-test-institution-selected="not-selected"]')
+            .exists({ count: 1 }, 'Clicked first item so one notselected');
+        await percySnapshot(assert);
+        await click('[data-analytics-name="Remove all institutions"]');
+        assert.dom('[data-test-institution-selected="selected"]')
+            .doesNotExist('Clicked remove all so none selected');
+        assert.dom('[data-test-institution-selected="not-selected"]')
+            .exists({ count: 5 }, 'Clicked remove all so all not-selected');
+        await click('[data-analytics-name="Select all institutions"]');
+        assert.dom('[data-test-institution-selected="selected"]')
+            .exists({ count: 5 }, 'Clicked select all so all selected');
+        assert.dom('[data-test-institution-selected="not-selected"]')
+            .doesNotExist('Clicked select all so none not-selected');
+    });
 
     test('create project modal cancel does not create project', async assert => {
         server.loadFixtures('regions');
