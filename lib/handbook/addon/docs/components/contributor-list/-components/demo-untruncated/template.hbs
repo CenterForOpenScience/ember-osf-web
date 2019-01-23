@@ -1,0 +1,11 @@
+{{#docs-demo as |demo|}}
+    {{#demo.example name='contributor-list.demo-untruncated.hbs'}}
+        <ContributorList
+            @node={{@node}}
+            @shouldLinkUsers={{true}}
+            @shouldTruncate={{false}}
+        />
+    {{/demo.example}}
+
+    {{demo.snippet 'contributor-list.demo-untruncated.hbs'}}
+{{/docs-demo}}

@@ -14,7 +14,7 @@
 </div> --}}
 
 <div class='col-xs-12'>
-    {{contributor-list contributors=this.item.contributors}}
+    {{contributor-list node=this.item}}
 
     {{#if this.subjects}}
         {{collection-subjects-list subjects=this.subjects onClickSubject=(action @addTaxonomyFilter)}}

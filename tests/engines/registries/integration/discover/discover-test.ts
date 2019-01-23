@@ -356,7 +356,6 @@ module('Registries | Integration | discover', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(async function(this: TestContext) {
-        server.create('root', { currentUser: null });
         server.create('registration-schema', { name: 'Open Ended' });
         server.create('registration-schema', { name: 'Close Fronted' });
 

@@ -8,7 +8,6 @@ export default buildRoutes(function() {
         this.route('analytics');
         this.route('children', { path: '/components' });
         this.route('comments');
-        this.route('contributors');
         this.route('forks');
         this.route('links');
     });

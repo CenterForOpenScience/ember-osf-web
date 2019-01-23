@@ -1,14 +1,21 @@
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
-import { compare, embed, paginate, ProcessOptions, sort, toOperator } from './private/utils';
+import { compare, embed, paginate, ProcessOptions, sort, toOperator } from './-private';
+
+export interface ViewContext {
+    handlerContext: HandlerContext;
+    request: Request;
+    schema: Schema;
+}
 
 export function process(
     schema: Schema,
     request: Request,
     handlerContext: HandlerContext,
-    data: any[],
+    data: Array<unknown>,
     options?: ProcessOptions,
 ) {
-    return embed(schema, request, paginate(request, sort(request, data, options), options), handlerContext);
+    const context = { schema, request, handlerContext };
+    return embed(paginate(request, sort(request, data, options), options), context);
 }
 
 export function filter(model: ModelInstance, request: Request) {

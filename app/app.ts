@@ -36,6 +36,7 @@ const App = Application.extend({
                     'current-user',
                     'features',
                     'i18n',
+                    'ready',
                     'router',
                     'store',
                     'toast',
