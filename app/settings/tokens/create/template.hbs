@@ -1,6 +1,7 @@
 <div data-analytics-scope='Create'>
     <div>
         <OsfLink
+            data-test-back-to-tokens
             data-analytics-name='Back to list'
             @route='settings.tokens'
         >
@@ -15,6 +16,7 @@
         as |form|
     }}
         <OsfButton
+            data-test-create-token-button
             data-analytics-name='Submit button'
             @type='primary'
             @buttonType='submit'
