@@ -1,21 +1,11 @@
 <DocsDemo as |demo|>
     <demo.example @name='tags-widget.inline.hbs'>
         <TagsWidget
-            data-analytics-name='Tags widget inline'
-            @tags={{@tags}}
-            @addTag={{action @addTag}}
-            @removeTag={{action @removeTag}}
-            @showAdd={{this.showAdd}}
+            data-analytics-name='Tags inline'
+            @taggable={{@node}}
             @inline={{true}}
         />
     </demo.example>
-
-    <BsButton
-        @class='center-block m-b-lg'
-        @onClick={{action (mut this.showAdd) (not this.showAdd)}}
-    >
-        set: showAdd = {{not this.showAdd}}
-    </BsButton>
 
     <demo.snippet @name='tags-widget.inline.hbs' />
 </DocsDemo>
