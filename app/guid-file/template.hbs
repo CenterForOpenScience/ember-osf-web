@@ -8,6 +8,7 @@
                 <OsfButton
                     data-analytics-name='Version'
                     local-class='TitleBar__version-link'
+                    @bubble={{true}}
                     @type='link'
                     @onClick={{action 'changeView' 'revision'}}
                 >
@@ -16,13 +17,14 @@
             </h2>
         </div>
         <div data-analytics-scope='buttons' local-class='TitleBar__buttons'>
-            <div id='toggleBar' class='pull-right'>
+            <div class='pull-right'>
                 <div class='btn-toolbar m-t-md'>
                     {{#if this.canDelete}}
                         <div class='btn-group m-l-xs m-t-xs'>
                             <OsfButton
                                 data-analytics-name='Delete'
                                 data-test-delete-button
+                                @bubble={{true}}
                                 @type='default'
                                 @size='sm'
                                 @onClick={{action (mut this.deleteModalOpen) true}}
@@ -35,6 +37,7 @@
                         <OsfButton
                             data-analytics-name={{if (not this.canEdit) 'Download'}}
                             data-test-download-button
+                            @bubble={{true}}
                             @type='primary'
                             @size='sm'
                             @onClick={{action this.download this.model.file.currentVersion}}
@@ -51,12 +54,14 @@
                                 <OsfButton
                                     data-analytics-name='Toggle'
                                     local-class='TitleBar__button-label'
+                                    @bubble={{true}}
                                     @disabled={{true}}
                                 >
                                     {{t 'file_detail.toggle'}}
                                 </OsfButton>
                                 <OsfButton
                                     data-analytics-name='View'
+                                    @bubble={{true}}
                                     @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'view'}}
                                 >
@@ -64,6 +69,7 @@
                                 </OsfButton>
                                 <OsfButton
                                     data-analytics-name='Edit'
+                                    @bubble={{true}}
                                     @type='{{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'edit'}}
                                 >
@@ -72,6 +78,7 @@
                             {{else}}
                                 <OsfButton
                                     data-analytics-name='View'
+                                    @bubble={{true}}
                                     @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'view'}}
                                 >
@@ -83,6 +90,7 @@
                         <div class='btn-group m-l-xs m-t-xs'>
                             <OsfButton
                                 data-analytics-name='View'
+                                @bubble={{true}}
                                 @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                 @size='sm'
                                 @onClick={{action this.changeView 'view'}}
@@ -95,6 +103,7 @@
                         <OsfButton
                             data-analytics-name='Revisions tab'
                             data-test-revisions-tab
+                            @bubble={{true}}
                             @type='{{if (eq this.show 'revision') 'primary' 'default'}}'
                             @size='sm'
                             @onClick={{action this.changeView 'revision'}}

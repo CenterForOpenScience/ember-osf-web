@@ -1,12 +1,10 @@
 {{title (t 'settings.developer-apps.title')}}
-<div
+<Panel
     data-analytics-scope='Developer apps'
-    class='panel panel-default'
+    as |panel|
 >
-    <div class='panel-heading clearfix'>
-        <h3 class='panel-title'>{{t 'settings.developer-apps.title'}}</h3>
-    </div>
-    <div class='panel-body'>
+    <panel.heading @title={{t 'settings.developer-apps.title'}} />
+    <panel.body>
         {{outlet}}
-    </div>
-</div>
+    </panel.body>
+</Panel>

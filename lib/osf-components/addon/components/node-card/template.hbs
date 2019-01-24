@@ -97,9 +97,8 @@
             {{/if}}
             <div local-class='NodeCard__authors'>
                 <ContributorList
-                    @contributors={{@node.contributors}}
-                    @useLink={{true}}
-                    @nodeId={{@node.id}}
+                    @node={{@node}}
+                    @shouldLinkUsers={{true}}
                 />
             </div>
             <div local-class='NodeCard__description'>

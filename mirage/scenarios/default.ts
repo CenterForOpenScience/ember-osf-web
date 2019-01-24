@@ -21,7 +21,13 @@ export default function(server: Server) {
     const currentUser = server.create('user', ...userTraits);
 
     server.create('user-setting', { user: currentUser });
-    const registrationNode = server.create('node', { id: 'regis', currentUserPermissions: Object.values(Permission) });
+    const registrationNode = server.create(
+        'node',
+        {
+            id: 'regis', currentUserPermissions: Object.values(Permission),
+        },
+        'withContributors',
+    );
     server.create('contributor', {
         node: registrationNode,
         users: currentUser,
@@ -73,7 +79,7 @@ export default function(server: Server) {
     forkNode(server, forksNode as ModelInstance<Node>, { currentUserPermissions: Object.values(Permission) });
     registerNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {
         currentUserPermissions: Object.values(Permission),
-    }, 'withRegisteredMeta');
+    });
     draftRegisterNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {}, 'withRegistrationMetadata');
 
     server.create('registration', { id: 'beefs' });
@@ -83,16 +89,8 @@ export default function(server: Server) {
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 21),
         linkedRegistrations: server.createList('registration', 19),
-    }, 'withRegisteredMeta', 'withContributors', 'withComments');
+    }, 'withContributors', 'withComments');
     server.createList('registration', 15, { parent: reg });
-
-    const reg2 = server.create('registration', {
-        id: 'recaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 2),
-        linkedRegistrations: server.createList('registration', 3),
-    }, 'withRegisteredMeta', 'withContributors');
-    server.createList('registration', 2, { parent: reg2 });
 
     server.loadFixtures('preprint-providers');
 
@@ -104,4 +102,10 @@ export default function(server: Server) {
         title: 'Existing node!',
         description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
     });
+
+    // ContributorList
+    for (const contributorCount of [1, 2, 3, 23]) {
+        const node = server.create('node', { id: `clst${contributorCount}` });
+        server.createList('contributor', contributorCount, { node });
+    }
 }

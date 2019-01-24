@@ -12,7 +12,6 @@ module('Acceptance | Guid User Quickfiles', hooks => {
     setupMirage(hooks);
 
     test('visiting another\'s guid-user/quickfiles unauthenticated', async function(assert) {
-        server.create('root', { currentUser: null });
         const user = server.create('user', 'withFiles');
         assert.ok(this.element === undefined, 'Should not have element before visit');
         await visit(`--user/${user.id}/quickfiles`);

@@ -1,22 +1,22 @@
 import { render } from '@ember/test-helpers';
-import { manualSetup } from 'ember-data-factory-guy';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-import FakeNode from '../../helpers/fake-node';
-
 module('Integration | Component | noteworthy-and-popular-project', hooks => {
     setupRenderingTest(hooks);
+    setupMirage(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
-        manualSetup(this);
+        this.store = this.owner.lookup('service:store');
     });
 
     test('it renders', async function(assert) {
-        const node = new FakeNode();
-        this.set('project', node);
+        const node = server.create('node', {}, 'withContributors');
+        const project = await this.store.findRecord('node', node.id, { include: 'contributors' });
+        this.set('project', project);
         await render(hbs`{{noteworthy-and-popular-project project=project}}`);
         assert.dom('[class*="NoteworthyProject"]').exists();
     });

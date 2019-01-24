@@ -1,37 +1,25 @@
-{{! template-lint-disable quotes}}
-<div local-class="Metadata {{if this.isPage 'Page'}}">
-    {{! template-lint-enable quotes}}
+<div local-class='Metadata {{if this.isPage 'Page'}}'>
     <div local-class='Header'>
         <h3 local-class='Title'>{{t 'registries.overview.metadata.title'}}</h3>
     </div>
 
-    <h4>
-        <OsfLink
-            @route='registries.overview.contributors'
-            @models={{array this.registration.id}}
-            @onClick={{this.onLinkClicked}}
-        >
-            {{t 'general.contributors'}}
-        </OsfLink>
-    </h4>
-    <div>
-        <InlineList
-            @items={{this.registration.contributors}}
-            @truncate=5
-            as |l|
-        >
-            {{~#if l.truncate~}}
+    <dl>
+        <dt>
+            <h4>
                 <OsfLink
-                    @route='registries.overview.contributors'
-                    @models={{array this.registration.id}}
+                    @href={{concat '/' this.registration.id '/contributors'}}
                     @onClick={{this.onLinkClicked}}
                 >
-                    {{! TODO remaining count }}
-                    {{t 'registries.overview.metadata.x_more'}}
+                    {{t 'general.contributors'}}
                 </OsfLink>
-            {{~else~}}
-                <a href='https://osf.io/{{l.item.users.id}}'>{{l.item.users.fullName}}</a>
-            {{~/if~}}
-        </InlineList>
-    </div>
+            </h4>
+        </dt>
+        <dd>
+            <ContributorList
+                @node={{this.registration}}
+                @shouldTruncate={{false}}
+                @shouldLinkUsers={{true}}
+            />
+        </dd>
+    </dl>
 </div>

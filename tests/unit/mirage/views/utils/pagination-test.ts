@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 import {
     buildQueryParams,
     paginate,
-} from 'ember-osf-web/mirage/views/private/utils';
+} from 'ember-osf-web/mirage/views/utils/-private';
 
 function fakeRequest(url: string, { page, pageSize }: { page?: number, pageSize?: number } = {}): Request {
     const queryParams: { [key: string]: string } = {};

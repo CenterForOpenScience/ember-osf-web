@@ -1,11 +1,9 @@
-{{!-- template-lint-disable quotes --}}
 <nav
     data-test-nav
     role='navigation'
-    local-class="Nav {{if this.dark 'Dark' 'Light'}} {{if this.mobile 'Mobile'}}"
+    local-class='Nav {{if this.dark 'Dark' 'Light'}} {{if this.mobile 'Mobile'}}'
     ...attributes
 >
-    {{!-- template-lint-enable quotes --}}
     {{yield (hash
         container=(component 'container' class=(local-class 'NavbarContainer'))
         divider=(component 'x-dummy' class=(local-class 'Divider'))

@@ -93,7 +93,7 @@
                 }}
             {{/section.active}}
             {{#section.complete}}
-                <p>{{contributor-list contributors=this.collectionItem.contributors truncated=false}}</p>
+                <p>{{contributor-list node=this.collectionItem shouldTruncate=false}}</p>
             {{/section.complete}}
         {{/sections.section}}
 

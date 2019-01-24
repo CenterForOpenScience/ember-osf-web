@@ -9,8 +9,6 @@ module('Acceptance | register (sign up page)', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    hooks.beforeEach(() => server.create('root', { currentUser: null }));
-
     test('visiting /register', async assert => {
         await visit('/register');
 

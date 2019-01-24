@@ -1,9 +1,11 @@
-{{#if (and this.useLink this.contributor.id)~}}
-    <OsfLink
-        @href='/{{this.contributor.id}}'
-    >
-        {{~this.contributor.title~}}
-    </OsfLink>
-{{~else~}}
-    {{~this.contributor.title~}}
-{{/if}}
+<span data-analytics-name='Contributor name'>
+    {{#if this.contributorLink}}
+        {{#osf-link
+            href=this.contributorLink
+        }}
+            {{~this.contributorName~}}
+        {{/osf-link}}
+    {{~else~}}
+        {{~this.contributorName~}}
+    {{/if}}
+</span>

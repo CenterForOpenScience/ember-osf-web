@@ -10,7 +10,6 @@ module('Acceptance | logged-out home page', hooks => {
     setupMirage(hooks);
 
     test('visiting /', async assert => {
-        server.create('root', { currentUser: null });
         await visit('/');
 
         assert.equal(currentURL(), '/', "Still at '/'.");
@@ -40,8 +39,6 @@ module('Acceptance | logged-out home page', hooks => {
     });
 
     test('visiting /?goodbye=true', async assert => {
-        server.create('root', { currentUser: null });
-
         await visit('/?goodbye=true');
         assert.equal(currentURL(), '/?goodbye=true', "Still at '/?goodbye=true'.");
 

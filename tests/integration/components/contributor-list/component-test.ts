@@ -1,8 +1,9 @@
-import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import I18N from 'ember-i18n/services/i18n';
+
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -23,7 +24,7 @@ const i18nStub = Service.extend({
     }),
 
     t(key: string, options: any): string {
-        if (key === 'contributor_list.and_x_more') {
+        if (key === 'contributor_list.x_more') {
             return `${options.get('x')} more`;
         }
         // @ts-ignore
@@ -37,60 +38,62 @@ interface ThisTestContext extends TestContext {
 
 module('Integration | Component | contributor-list', hooks => {
     setupRenderingTest(hooks);
+    setupMirage(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.owner.register('service:i18n', i18nStub);
         this.i18n = this.owner.lookup('service:i18n');
+        this.store = this.owner.lookup('service:store');
     });
 
-    function nameToUsersFamilyNames(familyName: string): EmberObject {
-        return EmberObject.create({
-            users: EmberObject.create({
-                familyName,
-            }),
-        });
-    }
+    test('shouldLinkUsers links contributor names', async function(assert) {
+        const node = server.create('node');
+        const users = server.createList('user', 4);
+        for (const user of users) {
+            server.create('contributor', { node, users: user, unregisteredContributor: null });
+        }
+        const nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors' });
+        this.set('node', nodeWithContribs);
+
+        await render(hbs`<ContributorList @node={{this.node}} @shouldLinkUsers={{true}} />`);
+
+        assert.dom('[data-analytics-name="Contributor name"] > a').exists({ count: 3 });
+        assert.dom('[data-analytics-name="Contributor name"] > a').hasAttribute('href', `/${users[0].id}`);
+    });
 
     test('it renders', async function(assert) {
-        const testCases: Array<[string[], string]> = [
-            [
-                [],
-                '',
-            ],
-            [
-                ['Doe'],
-                'Doe',
-            ],
-            [
-                ['Doe', 'Smith'],
-                'Doe and Smith',
-            ],
-            [
-                ['Doe', 'Smith', 'Johnson'],
-                'Doe, Smith, and Johnson',
-            ],
-            [
-                ['Doe', 'Smith', 'Johnson', 'Green'],
-                'Doe, Smith, Johnson, and 1 more',
-            ],
-            [
-                ['Doe', 'Smith', 'Johnson', 'Green', 'Thompson'],
-                'Doe, Smith, Johnson, and 2 more',
-            ],
-        ];
+        const node = server.create('node');
+        const users = server.createList('user', 4);
 
-        assert.expect(testCases.length);
+        let nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors' });
+        this.set('node', nodeWithContribs);
+        await render(hbs`{{contributor-list node=this.node}}`);
+        assert.dom(this.element).hasText('');
 
-        for (const [input, expected] of testCases) {
-            const contributors = {
-                toArray: () => A(input.map(nameToUsersFamilyNames)),
-                meta: {
-                    total: input.length,
-                },
-            };
-            this.set('contributors', contributors);
-            await render(hbs`{{contributor-list contributors=contributors}}`);
-            assert.dom(this.element).hasText(expected);
-        }
+        server.create('contributor', { node, users: users[0] });
+        nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors', reload: true });
+        this.set('node', nodeWithContribs);
+        await render(hbs`{{contributor-list node=this.node}}`);
+        assert.dom(this.element).hasText(users[0].familyName);
+
+        server.create('contributor', { node, users: users[1] });
+        nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors', reload: true });
+        this.set('node', nodeWithContribs);
+        await render(hbs`{{contributor-list node=this.node}}`);
+        assert.dom(this.element).hasText(`${users[0].familyName} and ${users[1].familyName}`);
+
+        server.create('contributor', { node, users: users[2] });
+        nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors', reload: true });
+        this.set('node', nodeWithContribs);
+        await render(hbs`{{contributor-list node=this.node}}`);
+        assert.dom(this.element).hasText(`\
+            ${users[0].familyName}, ${users[1].familyName}, and ${users[2].familyName}`);
+
+        server.create('contributor', { node, users: users[3] });
+        nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors', reload: true });
+        this.set('node', nodeWithContribs);
+        await render(hbs`{{contributor-list node=this.node}}`);
+        assert.dom(this.element).hasText(`\
+            ${users[0].familyName}, ${users[1].familyName}, ${users[2].familyName}, and 1 more`);
     });
 });

@@ -53,7 +53,7 @@ module('Acceptance | settings | developer apps', hooks => {
 
         await fillIn('[data-test-developer-app-name] input', appName);
         await fillIn('[data-test-developer-app-homepage] input', 'http://osf.io/');
-        await fillIn('[data-test-developer-app-callback-url] input', 'http://osf.io/');
+        await fillIn('[data-test-developer-app-callback-url] input', 'https://osf.io/');
         await percySnapshot(assert);
         await click('[data-test-create-developer-app-button]');
         await percySnapshot('Acceptance | settings | developer apps | create app | create');

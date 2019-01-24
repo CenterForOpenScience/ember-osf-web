@@ -1,8 +1,8 @@
 import { camelize } from '@ember/string';
-import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
-import { Resource, ResourceCollectionDocument } from 'osf-api';
+import { ModelInstance, Request } from 'ember-cli-mirage';
+import { DataDocument, Resource, ResourceCollectionDocument } from 'osf-api';
 
-import { queryParamIsTruthy } from '../utils';
+import { queryParamIsTruthy, ViewContext } from './index';
 
 export enum ComparisonOperators {
     Eq = 'eq',
@@ -25,7 +25,7 @@ interface QueryParameters {
 // Fields marked always_embed in the osf api code should be added to this constant
 // The key is the model and the list contains the relationships to embed.
 const alwaysEmbed: { [key: string]: string[] } = {
-    contributor: ['users'],
+    contributors: ['users'],
 };
 
 // https://stackoverflow.com/a/4760279
@@ -49,7 +49,7 @@ export function dynamicSort(property: string) {
     };
 }
 
-export function sort(request: Request, data: any[], options: ProcessOptions = {}): any[] {
+export function sort(request: Request, data: Array<unknown>, options: ProcessOptions = {}): Array<unknown> {
     const { queryParams } = request;
     const { defaultSortKey = 'date_modified' } = options;
     let sortKey: string = defaultSortKey;
@@ -131,67 +131,57 @@ export function paginate(
     return paginatedJson;
 }
 
-function autoEmbed(embedItem: any, serializedData: {}, handlerContext: HandlerContext) {
-    const data = Object.assign(serializedData);
-    data.embeds = {};
-    if (embedItem.modelName in alwaysEmbed) { // If this kind of thing has auto-embeds
-        // Go through each of the alwaysEmbed strings for this kind of object
-        for (const aeRelationship of alwaysEmbed[embedItem.modelName]) {
-            if (embedItem.fks.includes(`${aeRelationship}Id`)) { // is it in fks?
-                // If so, embed it
-                const aEmbeddable = handlerContext.serialize(embedItem[aeRelationship]);
-                data.embeds[aeRelationship] = {
-                    data: aEmbeddable.data,
-                };
-            }
+function serializeWithAutoEmbeds(model: ModelInstance, context: ViewContext): Resource {
+    const serialized = context.handlerContext.serialize(model).data;
+    // eslint-disable-next-line no-use-before-define
+    return withEmbeds(serialized, alwaysEmbed[serialized.type], context);
+}
+
+function withEmbeds(serializedDatum: Resource, embedRequests: string[] | undefined, context: ViewContext): Resource {
+    if (!embedRequests || !embedRequests.length) {
+        return serializedDatum;
+    }
+
+    const datum = context.schema[camelize(serializedDatum.type)].find(serializedDatum.id);
+    const embeds = embedRequests.reduce((acc, embedRequest) => {
+        const embeddable = datum[camelize(embedRequest)];
+        if (!embeddable) {
+            return acc;
         }
-    }
-    if (!Object.keys(data.embeds).length) {
-        delete data.embeds;
-    }
-    return data;
+        let embeddedDocument: DataDocument;
+        if ('models' in embeddable) {
+            embeddedDocument = paginate(
+                context.request,
+                embeddable.models.map((model: ModelInstance) => serializeWithAutoEmbeds(model, context)),
+            );
+        } else {
+            embeddedDocument = {
+                data: serializeWithAutoEmbeds(embeddable, context),
+                meta: {
+                    version: '',
+                },
+            };
+        }
+        return { ...acc, [embedRequest]: embeddedDocument };
+    }, {});
+
+    return { ...serializedDatum, embeds };
 }
 
 export function embed(
-    schema: Schema,
-    request: Request,
     json: ResourceCollectionDocument,
-    handlerContext: HandlerContext,
+    context: ViewContext,
 ) {
     return {
         ...json,
-        data: json.data.map(datum => {
-            const embeds = ([] as string[])
-                .concat(request.queryParams.embed)
-                .filter(Boolean)
-                .reduce((acc, embedRequest) => {
-                    const embeddable = schema[camelize(datum.type)].find(datum.id)[camelize(embedRequest)] as any;
-
-                    if (embeddable !== null && embeddable !== undefined) {
-                        if ('models' in embeddable) {
-                            let paginatedEmbeddables: ResourceCollectionDocument = {
-                                data: [],
-                                links: {},
-                                meta: { version: '', total: 0, per_page: 10 },
-                            };
-                            if (Array.isArray(embeddable.models)) {
-                                paginatedEmbeddables = paginate(request, embeddable.models, {});
-                                paginatedEmbeddables.data = paginatedEmbeddables.data.map((embedItem: any) =>
-                                    autoEmbed(embedItem, handlerContext.serialize(embedItem).data, handlerContext));
-                            }
-                            return { ...acc, [embedRequest]: paginatedEmbeddables };
-                        }
-                        return {
-                            ...acc,
-                            [embedRequest]: {
-                                data: autoEmbed(embeddable, handlerContext.serialize(embeddable).data, handlerContext),
-                            },
-                        };
-                    }
-                    return acc;
-                }, {});
-            return Object.keys(embeds).length ? { ...datum, embeds } : datum;
-        }),
+        data: json.data.map(datum => withEmbeds(
+            datum,
+            ([] as string[]).concat(
+                alwaysEmbed[datum.type],
+                context.request.queryParams.embed,
+            ).filter(Boolean),
+            context,
+        )),
     };
 }
 
