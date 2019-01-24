@@ -1071,6 +1071,14 @@ export default {
             date_created: 'Date created',
             registered_from: 'Registered from',
             category: 'Category',
+            registration_doi: 'Registration DOI',
+            publication_doi: 'Publication DOI',
+            affiliated_institutions: 'Affiliated institutions',
+            license: 'License',
+            no_license: 'No license',
+            disciplines: 'Disciplines',
+            tags: 'Tags',
+            citation: 'Citation',
         },
 
         overview: {

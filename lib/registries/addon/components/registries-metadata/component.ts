@@ -18,6 +18,7 @@ const {
 @layout(template, styles)
 export default class RegistriesMetadata extends Component {
     registration?: Registration;
+    extendedFields?: boolean;
 
     @computed('registration')
     get registeredFromId() {

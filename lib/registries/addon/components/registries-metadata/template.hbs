@@ -46,28 +46,97 @@
     <div local-class='Field'>
         <h4>{{t 'registries.registration_metadata.registered_from'}}</h4>
         <div>
-            <Link
+            <OsfLink
                 data-analytics-name='Registered from'
                 @route='guid-node'
                 @models={{array this.registeredFromId}}
             >
                 {{this.registeredFromDisplayUrl}}
-            </Link>
+            </OsfLink>
         </div>
     </div>
 
     <div local-class='Field'>
         <h4>{{t 'registries.registration_metadata.category'}}</h4>
-        <div>
+        <div data-test-registries-metadata='category'>
             {{t (concat 'node_categories.' this.registration.category)}}
         </div>
     </div>
 
     {{#if @extendedFields}}
+        {{!--
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.citation'}}</h4>
+            <h4>{{t 'registries.registration_metadata.registration_doi'}}</h4>
             <div>
             </div>
+        </div>
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.publication_doi'}}</h4>
+            <div>
+            </div>
+        </div>
+        --}}
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.affiliated_institutions'}}</h4>
+            <div>
+            </div>
+        </div>
+        <div local-class='Field'>
+            <h4>
+                {{t 'registries.registration_metadata.license'}}
+                {{#if this.registration.userHasAdminPermission}}
+                    <OsfButton
+                        data-analytics-name='Edit license'
+                        @onClick={{action (mut this.shouldShowLicensePicker) true}}
+                    >
+                        <FaIcon @icon='pencil-alt' />
+                    </OsfButton>
+                    {{#if this.shouldShowLicensePicker}}
+                        <BsModal
+                            @onHide={{action (mut this.shouldShowLicensePicker) false}}
+                        >
+                            <LicensePicker @node={{this.registration}} />
+                        </BsModal>
+                    {{/if}}
+                {{/if}}
+            </h4>
+            {{#if this.registration.license}}
+                <OsfButton
+                    data-analytics-name='View license'
+                    @onClick={{action (mut this.shouldShowLicense) true}}
+                >
+                    {{this.registration.license.name}}
+                </OsfButton>
+                {{#if this.shouldShowLicense}}
+                    <BsModal
+                        @onHide={{action (mut this.shouldShowLicense) false}}
+                    >
+                        <modal.header>
+                            {{t 'registries.registration_metadata.license'}}
+                        </modal.header>
+                        <modal.body>
+                            <LicenseText @node={{this.registration}} />
+                        </modal.body>
+                    </BsModal>
+                {{/if}}
+            {{else}}
+                {{t 'registries.registration_metadata.no_license'}}
+            {{/if}}
+        </div>
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.disciplines'}}</h4>
+            {{! TODO EMB-563 }}
+        </div>
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.tags'}}</h4>
+            <TagsWidget
+                @taggable={{this.registration}}
+                @readOnly={{not this.registration.userHasAdminPermission}}
+            />
+        </div>
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.citation'}}</h4>
+            {{! TODO EMB-448 }}
         </div>
     {{/if}}
 </div>

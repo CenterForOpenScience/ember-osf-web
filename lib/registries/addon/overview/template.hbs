@@ -175,7 +175,10 @@
                         </h3>
                     {{/if}}
 
-                    <RegistriesMetadata @registration={{this.registration}} />
+                    <RegistriesMetadata
+                        @registration={{this.registration}}
+                        @extendedFields={{true}}
+                    />
                 </gutters.right-gutter>
             </Gutters>
         </div>
