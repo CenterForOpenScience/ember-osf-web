@@ -6,50 +6,65 @@ import NodeFactory from './node';
 import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
 export interface RegistrationTraits {
-    withRegisteredMeta: Trait;
+    withComments: Trait;
 }
 
 export default NodeFactory.extend<Registration & RegistrationTraits>({
     id: guid('registration'),
-    afterCreate: guidAfterCreate,
+    afterCreate(newReg, server) {
+        guidAfterCreate(newReg, server);
 
-    registration: true,
+        if (newReg.parent) {
+            newReg.update({
+                dateRegistered: newReg.parent.dateRegistered,
+                pendingRegistrationApproval: newReg.parent.pendingRegistrationApproval,
+                archiving: newReg.parent.archiving,
+                embargoed: newReg.parent.embargoed,
+                embargoEndDate: newReg.parent.embargoEndDate,
+                pendingEmbargoApproval: newReg.parent.pendingEmbargoApproval,
+                withdrawn: newReg.parent.withdrawn,
+                pendingWithrawal: newReg.parent.pendingWithrawal,
+                registrationSchema: newReg.parent.registrationSchema,
+                registeredMeta: newReg.parent.registeredMeta,
+            });
+        } else if (!newReg.registeredMeta) {
+            const registrationSchema = newReg.registrationSchema ||
+                faker.random.arrayElement(server.schema.registrationSchemas.all().models) ||
+                server.create('registrationSchema');
+            newReg.update({
+                registrationSchema,
+                registeredMeta: createRegistrationMetadata(registrationSchema.schemaNoConflict, true),
+            });
+        }
+    },
+
     dateRegistered() {
         return faker.date.recent(5);
     },
-    pendingRegistrationApproval() {
-        return faker.random.boolean();
-    },
-    archiving() {
-        return faker.random.boolean();
-    },
-    embargoed() {
-        return faker.random.boolean();
-    },
-    embargoEndDate() {
-        return faker.date.future(1);
-    },
-    pendingEmbargoApproval() {
-        return faker.random.boolean();
-    },
-    withdrawn() {
-        return faker.random.boolean();
-    },
-    withdrawalJustification() {
-        return faker.hacker.phrase();
-    },
-    pendingWithdrawal() {
-        return faker.random.boolean();
-    },
-    registrationSchema: association() as Registration['registrationSchema'],
+    registration: true,
+    pendingRegistrationApproval: false,
+    archiving: false,
+    embargoed: false,
+    embargoEndDate: null,
+    pendingEmbargoApproval: false,
+    withdrawn: false,
+    pendingWithdrawal: false,
 
-    registeredMeta: {},
+    registeredFrom: association(),
 
-    withRegisteredMeta: trait({
-        afterCreate(registration: any) {
-            registration.update({
-                registeredMeta: createRegistrationMetadata(registration.registrationSchema.schemaNoConflict, true),
-            });
+    withComments: trait({
+        afterCreate(registration: any, server: any) {
+            server.createList(
+                'comment', 6,
+                'withReplies',
+                'asAbuse',
+                { node: registration, targetID: registration.id, targetType: 'registrations' },
+            );
+            server.createList(
+                'comment', 3,
+                'withReplies',
+                { node: registration, targetID: registration.id, targetType: 'registrations' },
+            );
         },
     }),
 });

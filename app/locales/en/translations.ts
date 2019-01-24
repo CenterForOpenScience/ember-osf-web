@@ -480,6 +480,7 @@ export default {
         phone: '{{description}} must be a valid phone number.',
         url: '{{description}} must be a valid url.',
         // custom
+        https_url: '{{description}} must be a valid https url.',
         email_registered: 'This email address has already been registered.',
         email_invalid: 'Invalid email address. If this should not have occurred, please report this to {{supportEmail}}',
         email_match: 'Email addresses must match.',
@@ -641,7 +642,7 @@ export default {
         },
     },
     contributor_list: {
-        and_x_more: '{{x}} more',
+        x_more: '{{x}} more',
     },
     app_components: {
         branded_navbar: {
@@ -907,6 +908,11 @@ export default {
             update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
             warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.',
         },
+        collection_submission_confirmation_modal: {
+            header: 'Submit project',
+            body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.',
+            add_button: 'Add to collection',
+        },
         collection_item_picker: {
             after_options: {
                 loading: 'Loading\u2026',
@@ -1052,6 +1058,29 @@ export default {
 
             comments: {
                 title: 'Comments',
+                see_replies: 'See replies',
+                hide_replies: 'Hide replies',
+                report: 'Report',
+                cancel: 'Cancel',
+                discussion: 'Discussion',
+                load_more: 'Load more replies',
+                create_report: {
+                    success: 'Comment successfully reported',
+                    error: 'Unable to report comment',
+                },
+                category_placeholder: 'Select a category that best describes abuse',
+                retract_report: {
+                    success: 'Report successfully retracted',
+                    error: 'Unable to retract abuse report',
+                },
+                modified: 'Modified ',
+                report_placeholder: 'Describe abuse',
+                comment_abuse: 'Comment reported.',
+                comment_abuse_action: 'Not abuse',
+                abuse_spam: 'Spam or advertising',
+                abuse_hate: 'Hate speech',
+                abuse_violence: 'Violence or harmful behavior',
+                cannot_retract_report: 'Only the reporter can retract report',
             },
 
             links: {
@@ -1262,13 +1291,13 @@ export default {
                 saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
             },
             security: {
-                title: 'Security Settings',
-                twoFactorAuth: 'Two-factor Authentication',
-                enableTwoFactor: 'Enable Two-factor Authentication',
-                enableWarning: 'Enabling two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
-                disableTwoFactor: 'Disable Two-factor Authentication',
+                title: 'Security settings',
+                twoFactorAuth: 'Two-factor authentication',
+                enableTwoFactor: 'Configure',
+                enableWarning: 'Configuring two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
+                disableTwoFactor: 'Disable',
                 why: 'By using two-factor authentication, you will protect your OSF account with both your password and your mobile phone.',
-                enableButton: 'Enable',
+                enableButton: 'Configure',
                 importantWarning: 'Important: If you lose access to your mobile device, you will not be able to log in to your OSF account.',
                 howTo: 'To use, you must install an appropriate application on your mobile device. Google Authenticator is a popular choice and is available for both Android and iOS.',
                 onceVerified: 'Once verified, your device will display a six-digit code that must be entered during the login process. This code changes every few seconds, which means that unauthorized users will not be able to log in to you account, even if they know your password.',
@@ -1278,7 +1307,7 @@ export default {
                 disableWarning: 'Are you sure you want to disable two-factor authentication?',
                 disableButton: 'Disable',
                 saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
-                submitVerification: 'Submit',
+                submitVerification: 'Enable',
             },
             title: 'Account settings',
         },

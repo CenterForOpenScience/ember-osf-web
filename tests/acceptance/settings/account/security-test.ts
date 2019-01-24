@@ -7,13 +7,15 @@ import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 function assertionsNotEnabledNotConfirmed(assert: Assert, testState: string) {
-    // 11 assertions
+    // 12 assertions
     assert.dom('[data-test-security-panel]')
         .exists(`${testState} - Security panel exists`);
     assert.dom('[data-test-two-factor-enable-button]')
         .exists(`${testState} - Enable button exists`);
     assert.dom('[data-test-two-factor-disable-button]')
         .doesNotExist(`${testState} - Disable button does not exist`);
+    assert.dom('[data-test-two-factor-verify-cancel-button]')
+        .doesNotExist(`${testState} - No cancel button from verification step`);
     assert.dom('[data-test-why-two-factor]')
         .includesText('By using two-factor authentication', `${testState} - Two factor text correct`);
     assert.dom('[data-test-2f-important-warning]')
@@ -38,7 +40,7 @@ function assertionsEnabledNotConfirmed(assert: Assert, testState: string) {
         .exists(`${testState} - Security panel exists`);
     assert.dom('[data-test-two-factor-enable-button]')
         .doesNotExist(`${testState} - Two factor enable button not shown`);
-    assert.dom('[data-test-two-factor-disable-button]')
+    assert.dom('[data-test-two-factor-verify-cancel-button]')
         .exists(`${testState} - Two factor disable button shown`);
     assert.dom('[data-test-why-two-factor]')
         .includesText('By using two-factor authentication', `${testState} - Why two factor text exists`);
@@ -57,7 +59,7 @@ function assertionsEnabledNotConfirmed(assert: Assert, testState: string) {
 }
 
 function assertionsEnabledConfirmed(assert: Assert, testState: string) {
-    // 11 assertions
+    // 10 assertions
     assert.dom('[data-test-two-factor-enable-button]')
         .doesNotExist(`${testState} - `);
     assert.dom('[data-test-two-factor-disable-button]')
@@ -76,8 +78,6 @@ function assertionsEnabledConfirmed(assert: Assert, testState: string) {
         .doesNotExist(`${testState} - `);
     assert.dom('[data-test-verify-button]')
         .doesNotExist(`${testState} - `);
-    assert.dom('[data-test-two-factor-disable-button]')
-        .exists(`${testState} - `);
     assert.dom('[data-test-2f-important-warning]')
         .doesNotExist(`${testState} - `);
 }
@@ -88,14 +88,13 @@ module('Acceptance | settings/account | security', hooks => {
 
     test('cannot use unauthenticated', async function(assert) {
         this.owner.register('service:current-user', CurrentUserStub);
-        server.create('root', { currentUser: null });
         const currentUser = this.owner.lookup('service:current-user');
         await visit('settings/account/');
         assert.equal(currentUser.urlCalled, '/settings/account');
     });
 
     test('two factor disabled shows properly', async assert => {
-        assert.expect(12);
+        assert.expect(13);
         const currentUser = server.create('user', 'loggedIn');
         server.create(
             'user-setting',
@@ -111,7 +110,7 @@ module('Acceptance | settings/account | security', hooks => {
     });
 
     test('two factor enabled unconfirmed shows and disables properly', async assert => {
-        assert.expect(42);
+        assert.expect(23);
         const currentUser = server.create('user', 'loggedIn');
         server.create(
             'user-setting',
@@ -124,24 +123,7 @@ module('Acceptance | settings/account | security', hooks => {
         await visit('/settings/account');
         assertionsEnabledNotConfirmed(assert, 'Initital state');
         await percySnapshot(assert);
-        await click('[data-test-two-factor-disable-button]');
-        assert.dom('[data-test-confirm-disable-modal]').exists('First disable attempt');
-        assert.dom('[data-test-confirm-disable-heading]').exists('First disable attempt');
-        assert.dom('[data-test-confirm-disable-warning]').exists('First disable attempt');
-        assert.dom('[data-test-confirm-disable-warning]')
-            .includesText('Are you sure you want to disable', 'First disable attempt');
-        await percySnapshot('Acceptance | settings/account | security | Disable warning dialog');
-        await click('[data-test-disable-warning-cancel]');
-        assert.dom('[data-test-confirm-disable-heading]').doesNotExist('Cancelled disable, heading is gone');
-        assert.dom('[data-test-confirm-disable-warning]').doesNotExist('Cancelled disable, warning is gone');
-        assertionsEnabledNotConfirmed(assert, 'Cancelled disable');
-        await click('[data-test-two-factor-disable-button]');
-        assert.dom('[data-test-confirm-disable-modal]').exists('Second disable attempt');
-        assert.dom('[data-test-confirm-disable-heading]').exists('Second disable attempt');
-        assert.dom('[data-test-confirm-disable-warning]').exists('Second disable attempt');
-        assert.dom('[data-test-confirm-disable-warning]')
-            .includesText('Are you sure you want to disable', 'Second disable attempt');
-        await click('[data-test-disable-warning-confirm]');
+        await click('[data-test-two-factor-verify-cancel-button]');
         assertionsNotEnabledNotConfirmed(assert, 'After disabling two-factor');
     });
 
@@ -185,7 +167,7 @@ module('Acceptance | settings/account | security', hooks => {
     });
 
     test('two factor disabled->confirmed round trip works', async assert => {
-        assert.expect(45);
+        assert.expect(46);
         const currentUser = server.create('user', 'loggedIn');
         server.create(
             'user-setting',
@@ -207,6 +189,7 @@ module('Acceptance | settings/account | security', hooks => {
         await click('[data-test-verify-button]');
         assertionsEnabledConfirmed(assert, 'After successfully verifying');
         await click('[data-test-two-factor-disable-button]');
+        await percySnapshot('Acceptance | settings/account | security | Disable warning dialog');
         await click('[data-test-disable-warning-confirm]');
         assertionsNotEnabledNotConfirmed(assert, 'After disabling');
     });

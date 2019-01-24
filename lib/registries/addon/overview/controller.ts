@@ -38,6 +38,11 @@ export default class Overview extends Controller {
         return 'drawer';
     }
 
+    @computed('registration.relatedCounts.comments')
+    get commentsCount() {
+        return (this.registration && this.registration.relatedCounts!.comments) || 0;
+    }
+
     @computed('registration.relatedCounts.{linkedNodes,linkedRegistrations}')
     get linksCount() {
         if (!this.registration) {

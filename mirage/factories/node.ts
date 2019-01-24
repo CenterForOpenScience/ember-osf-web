@@ -59,7 +59,7 @@ export default Factory.extend<Node & NodeTraits>({
 
     withContributors: trait({
         afterCreate(node: any, server: any) {
-            const contributorCount = faker.random.number({ min: 1, max: 5 });
+            const contributorCount = faker.random.number({ min: 1, max: 25 });
             if (contributorCount === 1) {
                 server.create('contributor', { node, index: 0, permission: 'admin', bibliographic: true });
             } else if (contributorCount === 2) {

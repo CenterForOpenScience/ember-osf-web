@@ -12,25 +12,6 @@
                 <span local-class='HeadingText'>
                     {{t 'settings.account.security.twoFactorAuth'}}
                 </span>
-                {{#if this.settings.twoFactorEnabled}}
-                    <BsButton
-                        data-test-two-factor-disable-button
-                        @type='danger'
-                        @size='xs'
-                        @onClick={{action this.disableTwoFactor}}
-                    >
-                        {{t 'settings.account.security.disableTwoFactor'}}
-                    </BsButton>
-                {{else}}
-                    <BsButton
-                        data-test-two-factor-enable-button
-                        @onClick={{action this.enableTwoFactor}}
-                        local-class='EnableButton'
-                        @size='xs'
-                    >
-                        {{t 'settings.account.security.enableTwoFactor'}}
-                    </BsButton>
-                {{/if}}
             </h4>
             <p data-test-why-two-factor>
                 {{t 'settings.account.security.why'}}
@@ -85,8 +66,31 @@
                         >
                             {{t 'settings.account.security.submitVerification'}}
                         </BsButton>
+                        <BsButton
+                            data-test-two-factor-verify-cancel-button
+                            @onClick={{action this.confirmDisableTwoFactor}}
+                        >
+                            {{t 'general.cancel'}}
+                        </BsButton>
                     </div>
                 </ValidatedModelForm>
+            {{/if}}
+            {{#if (and this.settings.twoFactorEnabled this.settings.twoFactorConfirmed)}}
+                <BsButton
+                    data-test-two-factor-disable-button
+                    @type='danger'
+                    @onClick={{action this.disableTwoFactor}}
+                >
+                    {{t 'settings.account.security.disableTwoFactor'}}
+                </BsButton>
+            {{else if (not this.settings.twoFactorEnabled)}}
+                <BsButton
+                    data-test-two-factor-enable-button
+                    @onClick={{action this.enableTwoFactor}}
+                    local-class='EnableButton'
+                >
+                    {{t 'settings.account.security.enableTwoFactor'}}
+                </BsButton>
             {{/if}}
         {{/if}}
     </panel.body>
@@ -115,7 +119,7 @@
         <BsButton
             data-test-enable-warning-confirm
             @onClick={{action this.confirmEnableTwoFactor}}
-            @type='danger'
+            @type='primary'
         >
             {{t 'settings.account.security.enableButton'}}
         </BsButton>
