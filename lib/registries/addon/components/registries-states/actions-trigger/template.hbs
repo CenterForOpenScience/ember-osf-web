@@ -1,5 +1,7 @@
 {{#let (and this.isPublic (not @isAdmin)) as |nonAdminPublic|}}
     <OsfButton
+        data-analytics-name='Expand admin action'
+        data-analyltics-extra={{concat 'Current state: ' @currentState}}
         @type='default'
         @class={{local-class this.buttonClass}}
     >

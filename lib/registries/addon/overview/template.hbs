@@ -9,7 +9,7 @@
             <div local-class='TitleContainer'>
                 <div local-class='Title'>{{this.registration.title}}</div>
                 {{#unless this.showMobileView}}
-                    <div local-class='Toolbar'>
+                    <div local-class='Toolbar' data-analytics-scope='Registries Overview Toolbar'>
                         <RegistriesOverviewMenu
                             @isAdmin={{this.isAdmin}}
                             @currentState={{this.currentState}}

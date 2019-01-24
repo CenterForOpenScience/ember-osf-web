@@ -1,6 +1,10 @@
-<button type='button' local-class='ModalTrigger' class='btn btn-link' onclick={{action (mut this.showModal) true}}>
+<OsfButton
+    @type='link'
+    @class={{local-class 'ModalTrigger'}}
+    @onClick={{action (mut this.showModal) true}}
+>
     {{t 'registries.overview.embargoed.action'}}
-</button>
+</OsfButton>
 
 {{#if this.showModal}}
     <BsModal
@@ -28,6 +32,7 @@
                 {{t 'general.cancel'}}
             </OsfButton>
             <OsfButton
+                data-analytics-name='Terminate embargo early'
                 @type='danger'
                 @class={{local-class 'ConfirmButton'}}
                 @onClick={{action modal.submit}}

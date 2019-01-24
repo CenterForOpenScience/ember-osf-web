@@ -1163,7 +1163,6 @@ export default {
             },
             aria_labels: {
                 main: 'Toolbar: withdraw, fork, share registration',
-                withdrawal_justification: 'Registration withdrawal justification',
                 scientist_name_input: 'Random scientist name',
             },
             embargoed: {
