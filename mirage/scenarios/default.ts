@@ -85,7 +85,7 @@ export default function(server: Server) {
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 3),
-    }, 'withRegisteredMeta', 'withContributors');
+    }, 'withContributors');
     server.createList('registration', 2, { parent: reg2 });
 
     // For the handbook
