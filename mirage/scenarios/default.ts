@@ -22,7 +22,7 @@ export default function(server: Server) {
     server.loadFixtures('registration-schemas');
     server.loadFixtures('preprint-providers');
 
-    const userTraits = defaultLoggedOut ? [] : ['loggedIn', 'withInstitutions'];
+    const userTraits = defaultLoggedOut ? [] : ['loggedIn', 'withInstitutions', 'withUsRegion'];
     const currentUser = server.create('user', ...userTraits);
 
     server.create('user-setting', { user: currentUser });
