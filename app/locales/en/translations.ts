@@ -1265,7 +1265,7 @@ export default {
         account: {
             deactivation: {
                 title: 'Deactivate account',
-                body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible.',
+                body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="http://help.osf.io/m/settings/l/697108-merge-your-accounts">merging your accounts</a>.',
                 warning: 'Warning:',
                 warningText: 'Once your deactivation has been approved the effects are irreversible.',
                 pending: 'Your account is currently pending deactivation.',
