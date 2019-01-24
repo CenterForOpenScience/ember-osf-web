@@ -1,9 +1,11 @@
-<span data-analytics-name='Contributor name'>
-    {{#if this.contributorLink}}
-        {{~#osf-link href=this.contributorLink~}}
-            {{~this.contributorName~}}
-        {{~/osf-link~}}
-    {{else}}
+{{#if this.contributorLink~}}
+    {{!--
+        using <a> instead of <Link> so handlebars `~` can eat up whitespace
+        TODO: switch to `{{#osf-link}}` invocation when <Link> is renamed
+    --}}
+    <a data-test-contributor-name data-analytics-name='Contributor name' href={{this.contributorLink}}>
         {{~this.contributorName~}}
-    {{/if}}
-</span>
+    </a>
+{{~else~}}
+    {{~this.contributorName~}}
+{{/if}}
