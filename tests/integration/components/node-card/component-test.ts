@@ -20,6 +20,7 @@ module('Integration | Component | node-card', hooks => {
         this.set('contributors', []);
         const node = server.create('node', {}, 'withContributors');
         const project = await this.store.findRecord('node', node.id, { include: 'contributors' });
+
         this.set('node', project);
         this.set('contributors', project.contributors);
         this.set('delete', () => []);

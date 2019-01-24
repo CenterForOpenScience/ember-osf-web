@@ -17,7 +17,8 @@ module('Integration | Component | noteworthy-and-popular-project', hooks => {
         const node = server.create('node', {}, 'withContributors');
         const project = await this.store.findRecord('node', node.id, { include: 'contributors' });
         this.set('project', project);
-        await render(hbs`{{noteworthy-and-popular-project project=project}}`);
+
+        await render(hbs`{{noteworthy-and-popular-project project=this.node}}`);
         assert.dom('[class*="NoteworthyProject"]').exists();
     });
 });
