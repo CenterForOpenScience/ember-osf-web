@@ -570,6 +570,7 @@ export default {
                 pending_withdrawl: 'Pending withdrawal',
                 embargoed: 'Embargoed',
                 pending_embargo: 'Pending embargo',
+                pending_embargo_termination: 'Pending embargo termination',
                 archiving: 'Archiving',
             },
         },
@@ -1172,6 +1173,7 @@ export default {
                 action_error: 'Unable to submit embargo termination request',
                 confirm_text: 'By clicking confirm, an email will be sent to project administrator(s) to approve ending the embargo. If approved, this registration, including any components, will be made public immmediately. This action is irreversible.',
                 confirm_button_text: 'Confirm',
+                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}.',
             },
             pending: {
                 state: 'Pending',
@@ -1182,6 +1184,18 @@ export default {
             },
             public: {
                 state: 'Public',
+            },
+            pendingRegistrationApproval: {
+                banner: 'This is a pending registration of this <a href={{projectUrl}}><u>project</u></a>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.',
+            },
+            pendingWithdrawal: {
+                banner: 'This project is currently pending withdrawal',
+            },
+            pendingEmbargoApproval: {
+                banner: 'This project is currently pending registration, awaiting approval from project administrators. This registration will be final and enter the embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.',
+            },
+            pendingEmbargoTerminationApproval: {
+                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}. A request to lift the embargo and make this registration public is pending.',
             },
             update_bookmarks: {
                 add: {

@@ -1,11 +1,12 @@
-{{#if (not this.isDisabled)}}
-    <ResponsiveDropdown @disabled={{this.isDisabled}} as |dd|>
-        {{#dd.trigger local-class=(concat 'Menu__button ' (if this.isDisabled 'disabled' ''))}}
+{{#if this.isDisabled}}
+    {{registries-states/actions-trigger currentState=@currentState isAdmin=@isAdmin isDisabled=true}}
+{{else}}
+    <ResponsiveDropdown as |dd|>
+        {{#dd.trigger local-class='Menu__button'}}
             {{registries-states/actions-trigger
                   currentState=@currentState
                   isAdmin=@isAdmin
                   isOpen=dd.isOpen
-                  isDisabled=this.isDisabled
             }}
         {{/dd.trigger}}
         {{#dd.content local-class='States'}}
@@ -16,6 +17,4 @@
             {{/if}}
         {{/dd.content}}
     </ResponsiveDropdown>
-{{else}}
-    {{registries-states/actions-trigger currentState=@currentState isAdmin=@isAdmin isDisabled=this.isDisabled}}
 {{/if}}

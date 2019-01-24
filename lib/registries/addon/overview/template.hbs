@@ -3,6 +3,7 @@
         <LoadingIndicator @dark={{true}} />
     </div>
 {{else}}
+    <RegistriesBanner @currentState={{this.currentState}} @registration={{this.registration}} />
     <div local-class='TitleBackground'>
         <Container>
             <div local-class='TitleContainer'>
@@ -16,6 +17,7 @@
                             @registrationId={{this.registration.id}}
                             @forksCount={{this.forksCount}}
                             @node={{this.registration}}
+                            @isRoot={{this.isRoot}}
                         />
                     </div>
                 {{/unless}}
@@ -74,7 +76,7 @@
 
                 </nav.bordered-section>
                 <nav.bordered-section>
-                    <RegistriesStates @currentState={{this.currentState}} @isAdmin={{this.isAdmin}} />
+                    <RegistriesStates @currentState={{this.currentState}} @isAdmin={{this.isAdmin}} @isRoot={{this.isRoot}} />
 
                     <nav.buttons.default @onclick={{action 'toggleMetadata'}}>
                         {{nav.icon 'info-circle'}}

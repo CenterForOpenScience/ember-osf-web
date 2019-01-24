@@ -22,7 +22,6 @@ export default class RegistrationIsEmbargoed extends Component.extend({
             yield this.node.save();
         } catch (e) {
             this.toast.error(this.i18n.t('registries.overview.embargoed.action_error'));
-            throw e;
         }
 
         this.toast.success(this.i18n.t('registries.overview.embargoed.action_success'));

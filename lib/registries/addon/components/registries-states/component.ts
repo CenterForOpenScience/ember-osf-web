@@ -9,9 +9,10 @@ import template from './template';
 export default class RegistriesStates extends Component {
     currentState!: string;
     isAdmin!: boolean;
+    isRoot!: boolean;
 
-    @computed('isAdmin', 'currentState')
+    @computed('isAdmin', 'currentState', 'isRoot')
     get isDisabled(this: RegistriesStates): boolean {
-        return !['public', 'embargoed'].includes(this.currentState) || !this.isAdmin;
+        return !this.isRoot || !['public', 'embargoed'].includes(this.currentState) || !this.isAdmin;
     }
 }

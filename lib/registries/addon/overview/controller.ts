@@ -3,6 +3,7 @@ import { alias, not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import config from 'ember-get-config';
+import I18N from 'ember-i18n/services/i18n';
 import Media from 'ember-responsive';
 
 import Registration from 'ember-osf-web/models/registration';
@@ -17,16 +18,21 @@ const {
 } = config;
 
 enum RegistrationState {
-    PENDING = 'pending',
     EMBARGOED = 'embargoed',
     PUBLIC = 'public',
     WITHDRAWN = 'withdrawn',
+    PENDING_REGISTRATION = 'pendingRegistrationApproval',
+    PENDING_WITHDRAWAL = 'pendingWithdrawal',
+    PENDING_EMBARGO = 'pendingEmbargoApproval',
+    PENDING_EMBARGO_TERMINATION = 'pendingEmbargoTerminationApproval',
 }
 
 const { OSF: { url: baseURL } } = config;
+
 export default class Overview extends Controller {
     @service media!: Media;
     @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
 
     model!: GuidRouteModel<Registration>;
 
@@ -45,19 +51,24 @@ export default class Overview extends Controller {
         return this.registration && pathJoin(baseURL, `${this.registration.id}`);
     }
 
-    @computed('registration.{withdrawn,embargoed,public}')
+    /* eslint-disable max-len */
+    @computed('registration.{withdrawn,embargoed,public,pendingRegistrationApproval,pendingEmbargoApproval,pendingEmbargoTerminationApproval,pendingWithdrawal}')
     get currentState() {
         if (!this.registration) {
             return;
         }
 
         return (
+            (this.registration.pendingRegistrationApproval && RegistrationState.PENDING_REGISTRATION) ||
+            (this.registration.pendingEmbargoApproval && RegistrationState.PENDING_EMBARGO) ||
+            (this.registration.pendingEmbargoTerminationApproval && RegistrationState.PENDING_EMBARGO_TERMINATION) ||
+            (this.registration.pendingWithdrawal && RegistrationState.PENDING_WITHDRAWAL) ||
             (this.registration.withdrawn && RegistrationState.WITHDRAWN) ||
             (this.registration.embargoed && RegistrationState.EMBARGOED) ||
-            (this.registration.public && RegistrationState.PUBLIC) ||
-            RegistrationState.PENDING
+            RegistrationState.PUBLIC
         );
     }
+    /* eslint-enable max-len */
 
     @computed('media.isDesktop', 'registration.withdrawn')
     get showMobileNav() {
@@ -81,6 +92,14 @@ export default class Overview extends Controller {
             return 'column';
         }
         return 'drawer';
+    }
+
+    @computed('registration')
+    get isRoot() {
+        if (!this.registration) {
+            return;
+        }
+        return this.registration.id === this.registration.root.get('id');
     }
 
     @computed('registration.relatedCounts.forks')

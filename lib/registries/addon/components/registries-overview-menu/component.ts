@@ -13,9 +13,13 @@ import template from './template';
 
 @layout(template, styles)
 export default class RegistriesOverviewMenu extends Component.extend({
-    forkRegistration: task(function *(this: RegistriesOverviewMenu) {
+    forkRegistration: task(function *(this: RegistriesOverviewMenu, closeDropdown: () => void) {
         if (!this.node) {
             return;
+        }
+
+        if (closeDropdown) {
+            closeDropdown();
         }
 
         try {

@@ -5,8 +5,8 @@
 {{#if this.showModal}}
     <BsModal
         @tagName='span'
-        @onHide={{action this.cancel}}
         @onSubmit={{action (perform this.endEmbargo)}}
+        @onHide={{action this.close}}
         @renderInPlace={{true}}
         as |modal|
     >

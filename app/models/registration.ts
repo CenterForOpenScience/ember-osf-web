@@ -15,6 +15,7 @@ export default class RegistrationModel extends NodeModel.extend() {
     @attr('boolean') embargoed!: boolean;
     @attr('date') embargoEndDate!: Date | null;
     @attr('boolean') pendingEmbargoApproval!: boolean;
+    @attr('boolean') pendingEmbargoTerminationApproval!: boolean;
     @attr('boolean') withdrawn!: boolean;
     @attr('fixstring') withdrawalJustification?: string;
     @attr('boolean') pendingWithdrawal!: boolean;

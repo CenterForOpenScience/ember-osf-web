@@ -42,6 +42,9 @@ export default class ActionsTrigger extends Component {
 
       @computed('currentState')
       get registrationState(this: ActionsTrigger): object {
+          if (this.currentState.includes('pending')) {
+              return StateToIconMap.pending;
+          }
           return StateToIconMap[this.currentState];
       }
 

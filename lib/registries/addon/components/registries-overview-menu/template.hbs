@@ -3,16 +3,19 @@
         class='btn-group' role='group'
         aria-label={{t 'registries.overview.aria_labels.withdrawal_justification'}}
     >
-        <RegistriesStates @currentState={{this.currentState}} @isAdmin={{this.isAdmin}} @node={{this.node}} />
+        <RegistriesStates @currentState={{this.currentState}} @isAdmin={{this.isAdmin}} @node={{this.node}} @isRoot={{@isRoot}}/>
     </div>
     {{#unless this.isWithdrawn}}
         <div class='btn-group' role='group'>
             <ResponsiveDropdown as |dd|>
                 {{#dd.trigger local-class='Menu__button'}}
-                    <button class='btn btn-default' disabled={{this.forkRegistration.isRunning}}>
+                    <OsfButton
+                        @type='default'
+                        @disabled={{this.forkRegistration.isRunning}}
+                    >
                         {{fa-icon 'code-fork' local-class='Icon'}}
                         <span local-class='ForksCount__text'>{{@forksCount}}</span>
-                    </button>
+                    </OsfButton>
                 {{/dd.trigger}}
                 {{#dd.content}}
                     <div local-class='ForksMenu'>
@@ -22,12 +25,12 @@
                             {{/global-link-to}}
                         </div>
                         <div local-class='ForksMenu__option'>
-                            <button class='btn btn-link'
-                              onclick={{action (perform this.forkRegistration)}}
-                              {{action dd.close}}
+                            <OsfButton
+                                @type='link'
+                                @onClick={{action (perform this.forkRegistration (action dd.close))}}
                             >
                                 {{t 'registries.overview.fork_registration'}}
-                            </button>
+                            </OsfButton>
                         </div>
                     </div>
                 {{/dd.content}}
@@ -43,9 +46,7 @@
                 node=this.node
                 as |dd|}}
                 {{#dd.trigger local-class='Menu__button'}}
-                    <button class='btn btn-default'>
-                        {{fa-icon 'ellipsis-v'}}
-                    </button>
+                    <OsfButton @type='default'>{{fa-icon 'ellipsis-v'}}</OsfButton>
                 {{/dd.trigger}}
             {{/sharing-icons/dropdown}}
         </div>
