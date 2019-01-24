@@ -24,6 +24,7 @@
     </OsfButton>
 
     <DeleteButton
+        data-test-reset-client-secret
         @delete={{action this.resetSecret}}
         @buttonLabel={{t 'settings.developer-apps.resetSecret.label'}}
         @confirmButtonText={{t 'settings.developer-apps.resetSecret.label'}}
