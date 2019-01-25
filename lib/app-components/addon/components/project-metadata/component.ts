@@ -10,7 +10,6 @@ import Toast from 'ember-toastr/services/toast';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
 
@@ -23,26 +22,13 @@ export default class ProjectMetadata extends Component {
     @service toast!: Toast;
 
     node: Node = this.node;
-    makePublicOnSave: boolean = defaultTo(this.makePublicOnSave, false);
+    didValidate: boolean = this.didValidate;
+
     @requiredAction continue!: () => void;
 
     reset = task(function *(this: ProjectMetadata) {
         this.node.rollbackAttributes();
         yield this.node.reload();
-    });
-
-    save = task(function *(this: ProjectMetadata) {
-        try {
-            if (this.makePublicOnSave) {
-                this.node.set('public', true);
-            }
-
-            yield this.node.save();
-            this.toast.success(this.i18n.t('app_components.project_metadata.save_success'));
-            this.continue();
-        } catch (e) {
-            this.toast.error(this.i18n.t('app_components.project_metadata.save_error'));
-        }
     });
 
     @action
@@ -59,6 +45,12 @@ export default class ProjectMetadata extends Component {
 
     @action
     onSave() {
-        //Nothing to see here
+        this.toast.success(this.i18n.t('app_components.project_metadata.save_success'));
+        this.continue();
+    }
+
+    @action
+    onError() {
+        this.toast.error(this.i18n.t('app_components.project_metadata.save_error'));
     }
 }

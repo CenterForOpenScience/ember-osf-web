@@ -1,5 +1,6 @@
 <ValidatedModelForm 
     @onSave={{action this.onSave}}
+    @onError={{action this.onError}}
     @model={{this.node}}
     as |form|
 >
@@ -7,30 +8,28 @@
         <form.text 
             @label={{t 'app_components.project_metadata.field_title_label'}}
             @valuePath='title'
-            @shouldShowMessages={{@didValidate}}
         />
         <br>
         <form.textarea 
             @label={{t 'app_components.project_metadata.field_description_label'}}
             @valuePath='description'
-            @shouldShowMessages={{@didValidate}}
         />
     </div>
     
     <div class='col-md-6'>
         <LicensePicker
             @node={{this.node}}
+            @form={{form}}
         >
             {{t 'app_components.project_metadata.field_license_label'}}
         </LicensePicker>
         <br>
         <label>
             {{t 'app_components.project_metadata.field_tags_label'}}
-            {{#validated-input/custom
-                model=this.node
-                valuePath='tags'
-                shouldShowMessages=@didValidate
-            }}
+            <form.custom
+                @model={{this.node}}
+                @valuePath='tags'
+            >
                 {{#tag-input
                     tags=this.node.tags
                     addTag=(action 'addTag')
@@ -49,12 +48,23 @@
                         {{tag}}
                     </a>
                 {{/tag-input}}
-            {{/validated-input/custom}}
+            </form.custom>
         </label>
     </div>
-    {{submit-section-buttons
-        discard=(action (perform this.reset))
-        continue=(action (perform this.save))
-        continueDisabled=(v-get this.node 'isInvalid')
-    }}
+    <div class='col-xs-12 text-right'>
+        <OsfButton
+            @type='default'
+            @disabled={{form.submitting}}
+            @onClick={{perform this.reset}}
+        >
+            {{t 'app_components.submit_section.discard'}}
+        </OsfButton>
+        <OsfButton
+            @type='primary'
+            @buttonType='submit'
+            @disabled={{form.submitting}}
+        >
+            {{t 'app_components.submit_section.save'}}
+        </OsfButton>
+    </div>
 </ValidatedModelForm>
