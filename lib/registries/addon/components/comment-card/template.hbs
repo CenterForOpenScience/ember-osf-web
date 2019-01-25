@@ -27,12 +27,12 @@
                         >
                     {{/if}}
                     {{#if (and this.comment.user.profileURL this.comment.user.fullName)}}
-                        <Link
-                            @href={{this.comment.user.profileURL}}
+                        <OsfLink
                             local-class='CommentUser'
+                            @href={{this.comment.user.profileURL}}
                         >
                             {{this.comment.user.fullName}}
-                        </Link>
+                        </OsfLink>
                     {{/if}}
                 </div>
                 <div>

@@ -19,7 +19,6 @@ const { OSF: { url: baseUrl } } = config;
 export default class TagsWidget extends Component.extend({ styles }) {
     // required arguments
     tags?: string[];
-    analyticsScope?: string;
 
     // optional arguments
     readOnly: boolean = defaultTo(this.readOnly, false);
@@ -34,7 +33,6 @@ export default class TagsWidget extends Component.extend({ styles }) {
     constructor(properties: object) {
         super(properties);
         assert('tags-widget: You must pass in a tags array', Array.isArray(this.tags));
-        assert('tags-widget: You must pass in an analytics scope', typeof this.analyticsScope === 'string');
         if (this.readOnly) {
             assert('tags-widget: showAdd=true has no effect when readOnly=true', !this.showAdd);
         } else {
@@ -52,7 +50,7 @@ export default class TagsWidget extends Component.extend({ styles }) {
     @action
     _addTag(tag: string) {
         if (this.addTag) {
-            this.analytics.click('button', `${this.analyticsScope} - Add tag`);
+            this.analytics.click('button', 'Tags widget - Add tag');
             this.addTag(tag);
         }
     }
@@ -60,14 +58,14 @@ export default class TagsWidget extends Component.extend({ styles }) {
     @action
     _removeTag(index: number) {
         if (this.removeTag) {
-            this.analytics.click('button', `${this.analyticsScope} - Remove tag`);
+            this.analytics.click('button', 'Tags widget - Remove tag');
             this.removeTag(index);
         }
     }
 
     @action
     _clickTag(tag: string): void {
-        this.analytics.click('link', `${this.analyticsScope} - Search by tag`);
+        this.analytics.click('link', 'Tags widget - Search by tag');
         window.location.assign(`${pathJoin(baseUrl, 'search')}?q=(tags:"${encodeURIComponent(tag)}")`);
     }
 }

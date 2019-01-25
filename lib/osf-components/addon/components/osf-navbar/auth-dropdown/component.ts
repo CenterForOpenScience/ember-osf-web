@@ -85,14 +85,6 @@ export class AuthBase extends Component {
         const query = this.redirectUrl ? `?${param({ next_url: this.redirectUrl })}` : '';
         window.location.href = `${config.OSF.url}logout/${query}`;
     }
-
-    @action
-    _onLinkClicked(analyticsLabel: string) {
-        this.analytics.click('link', analyticsLabel);
-        if (this.onLinkClicked) {
-            this.onLinkClicked();
-        }
-    }
 }
 
 /**

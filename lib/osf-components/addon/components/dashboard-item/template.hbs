@@ -1,5 +1,6 @@
-<a href='{{@node.links.html}}'
-   onclick={{action 'click' 'link' 'Dashboard - visit_node' target=this.analytics}}
+<OsfLink
+    data-analytics-name='visit_node'
+    @href={{@node.links.html}}
 >
     <div class='m-v-sm' local-class='DashboardItem'>
         <div class='row'>
@@ -23,4 +24,4 @@
             </div>
         </div>
     </div>
-</a>
+</OsfLink>

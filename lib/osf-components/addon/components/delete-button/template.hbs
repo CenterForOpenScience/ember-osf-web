@@ -1,5 +1,6 @@
 {{#if this.small}}
-    <OsfButton 
+    <OsfButton
+        data-analytics-name='Delete button'
         data-test-delete-button
         aria-label={{this.buttonLabel}}
         @type='link'
@@ -11,7 +12,8 @@
         {{fa-icon 'times' size='lg'}}
     </OsfButton>
 {{else}}
-    <OsfButton 
+    <OsfButton
+        data-analytics-name='Delete button'
         data-test-delete-button
         @type='default'
         @onClick={{action this._show}}
@@ -31,7 +33,7 @@
             <h3 local-class='Modal__title'>{{this.modalTitle}}</h3>
         </modal.header>
 
-        <modal.body>
+        <modal.body data-analytics-scope='Delete button modal'>
             {{#if (has-block)}}
                 {{yield}}
             {{else}}
@@ -52,15 +54,17 @@
             {{/if}}
         </modal.body>
 
-        <modal.footer>
+        <modal.footer data-analytics-scope='Delete button modal footer'>
             <OsfButton
+                data-analytics-name='Hard confirm cancel'
                 data-test-cancel-delete
                 @disabled={{this._deleteTask.isRunning}}
                 @onClick={{modal.close}}
             >
                 {{this.cancelButtonText}}
             </OsfButton>
-            <OsfButton 
+            <OsfButton
+                data-analytics-name='Hard confirm submit'
                 data-test-confirm-delete
                 @type='danger'
                 @disabled={{this.confirmDisabled}}

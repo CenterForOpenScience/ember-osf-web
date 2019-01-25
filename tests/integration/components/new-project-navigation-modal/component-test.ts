@@ -1,9 +1,11 @@
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+
+import { click } from 'ember-osf-web/tests/helpers';
 
 module('Integration | Component | new-project-navigation-modal', hooks => {
     setupRenderingTest(hooks);
@@ -28,7 +30,8 @@ module('Integration | Component | new-project-navigation-modal', hooks => {
 
         assert.dom(this.element)
             .hasText('New project created successfully! Keep working here Go to project', 'Contents were correct');
-        assert.dom('[data-test-go-to-new][href="/linkValue/"]').exists('Navigation link was correct');
+        assert.dom('[data-analytics-name="go_to_new_project"][href="/linkValue/"]')
+            .exists('Navigation link was correct');
         await click('[data-test-stay-here]');
     });
 });

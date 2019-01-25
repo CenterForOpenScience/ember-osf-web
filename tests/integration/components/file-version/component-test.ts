@@ -23,13 +23,13 @@ module('Integration | Component | file-version', hooks => {
 
         await render(hbs`{{file-version version=version}}`);
 
-        assert.dom('.file-version > :nth-child(1)')
+        assert.dom('[data-analytics-scope="File version"] > :nth-child(1)')
             .hasText('1', 'The first list element displays the id.');
 
-        assert.dom('.file-version > :nth-child(2)')
+        assert.dom('[data-analytics-scope="File version"] > :nth-child(2)')
             .includesText('2017-10-06', 'The second list element displays the file date.');
 
-        assert.dom('.file-version > :nth-child(3)')
+        assert.dom('[data-analytics-scope="File version"] > :nth-child(3)')
             .hasText('10', 'The third list element displays the download count.');
     });
 });

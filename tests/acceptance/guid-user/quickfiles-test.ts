@@ -1,11 +1,11 @@
-import { click, fillIn, visit } from '@ember/test-helpers';
+import { click as untrackedClick, fillIn, visit } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose } from 'ember-power-select/test-support';
 import { module, test } from 'qunit';
 
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 module('Acceptance | Guid User Quickfiles', hooks => {
     setupOSFApplicationTest(hooks);
@@ -19,7 +19,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('nav.navbar').exists();
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown').doesNotExist('Should not have user menu if not logged in');
-        const files = this.element.querySelectorAll('a[class*="filename"]');
+        const files = this.element.querySelectorAll('[data-test-file-item-link]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
     });
 
@@ -32,7 +32,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown .nav-profile-name')
             .hasText(currentUser.fullName, 'User\'s name is in navbar');
-        const files = this.element.querySelectorAll('a[class*="filename"]');
+        const files = this.element.querySelectorAll('[data-test-file-item-link]');
         assert.equal(files.length, 10, `Check for proper number of files in list. Found ${files.length}`);
         await percySnapshot(assert);
     });
@@ -42,7 +42,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const user = server.create('user', 'withFiles');
         server.createList('file', 5, { user });
         await visit(`--user/${currentUser.id}/quickfiles`);
-        const files = this.element.querySelectorAll('a[class*="filename"]');
+        const files = this.element.querySelectorAll('[data-test-file-item-link]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
     });
 
@@ -53,7 +53,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
-        await click(files[0]);
+        await untrackedClick(files[0]);
         await click('[data-test-move-button]');
         await percySnapshot('Acceptance | Guid User Quickfiles | move file to a new project | Move');
         await click('[data-test-ps-new-project-button]');
@@ -76,12 +76,12 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
-        await click(files[0]);
+        await untrackedClick(files[0]);
         await click('[data-test-move-button]');
         await click('[data-test-ps-new-project-button]');
         await fillIn('[data-test-new-project-title]', title);
         assert.dom('[data-test-new-project-title]').hasValue(title);
-        await click('[data-test-create-project-cancel]');
+        await click('[data-analytics-name="cancel"]');
         const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(newFiles.length, 5, `Check for proper number of files in list. Found ${newFiles.length}`);
         await click('[data-test-move-button]');
@@ -97,13 +97,13 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
-        await click(files[0]);
+        await untrackedClick(files[0]);
         await click('[data-test-move-button]');
         await click('[data-test-ps-new-project-button]');
         await fillIn('[data-test-new-project-title]', title);
         assert.dom('[data-test-new-project-title]').hasValue(title);
-        await click('[data-test-create-project-cancel]');
-        await click(files[1]);
+        await click('[data-analytics-name="cancel"]');
+        await untrackedClick(files[1]);
         await click('[data-test-move-button]');
         await click('[data-test-ps-new-project-button]');
         assert.dom('[data-test-new-project-title]')
@@ -125,10 +125,10 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
-        await click(files[0]);
+        await untrackedClick(files[0]);
         await click('[data-test-move-button]');
         await click('[data-test-ps-existing-project-button]');
-        await click('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
+        await untrackedClick('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
         await selectChoose('[data-test-ps-select-project]', title);
         assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
             .containsText(title);
@@ -157,10 +157,10 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
-        await click(files[0]);
+        await untrackedClick(files[0]);
         await click('[data-test-move-button]');
         await click('[data-test-ps-existing-project-button]');
-        await click('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
+        await untrackedClick('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
         await selectChoose('[data-test-ps-select-project]', title);
         assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
             .containsText(title);
@@ -190,13 +190,13 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
-        await click(files[0]);
+        await untrackedClick(files[0]);
         await click('[data-test-move-button]');
         await click('[data-test-ps-existing-project-button');
         assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
             .doesNotExist();
         assert.dom('[data-test-ps-select-project]').exists();
-        await click('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
+        await untrackedClick('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
         await selectChoose('[data-test-ps-select-project]', title);
         assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
             .containsText(title);
@@ -222,7 +222,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
         assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
-        await click(files[0]);
+        await untrackedClick(files[0]);
         await click('[data-test-move-button]');
         await click('[data-test-ps-existing-project-button');
         assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
@@ -230,7 +230,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         assert.dom('[data-test-move-to-project-modal-perform-button]')
             .isDisabled('Should be disabled before selecting a project');
         assert.dom('[data-test-ps-select-project]').exists();
-        await click('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
+        await untrackedClick('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
         await selectChoose('[data-test-ps-select-project]', title);
         assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
             .containsText(title);
@@ -249,7 +249,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const currentUser = server.create('user', 'loggedIn');
         await visit(`--user/${currentUser.id}/quickfiles`);
         const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
-        await click(files[0]);
+        await untrackedClick(files[0]);
         await click('[data-test-rename-button]');
         await percySnapshot('Acceptance | Guid User Quickfiles | rename button');
         await click('[data-test-close-rename]');

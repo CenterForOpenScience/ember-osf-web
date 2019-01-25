@@ -1,5 +1,8 @@
 {{#unless this.hideBanner}}
-    <div local-class='JoinOsfBanner {{if this.dismissed 'JoinOsfBanner--collapsed'}}'>
+    <div
+        data-analytics-scope='Join OSF Banner'
+        local-class='JoinOsfBanner {{if this.dismissed 'JoinOsfBanner--collapsed'}}'
+    >
         <div class='container' local-class='JoinOsfBanner__banner'>
             <div class='row'>
                 <div class='col-sm-2 hidden-xs'>
@@ -16,26 +19,27 @@
                             </h2>
                             <p>
                                 {{t 'join_osf.pitch'}}
-                                <a
-                                    href='/register/'
-                                    onclick={{action 'click' 'button' 'Join OSF Banner - sign_up' target=this.analytics}}
+                                <OsfLink
+                                    data-analytics-name='sign_up'
+                                    @href='/register/'
                                 >
                                     {{t 'join_osf.create_account'}}
-                                </a>
+                                </OsfLink>
                                 {{t 'general.or'}}
-                                <a
-                                    href='http://help.osf.io'
+                                <OsfLink
+                                    data-analytics-name='learn_more'
                                     target='_blank'
                                     rel='noreferrer'
-                                    onclick={{action 'click' 'button' 'Join OSF Banner - learn_more' target=this.analytics}}
+                                    @href='http://help.osf.io'
                                 >
                                     {{t 'join_osf.learn_more'}}
-                                </a>
+                                </OsfLink>
                                 {{t 'general.period'}}
                             </p>
                         </div>
                         <div class='col-xs-1'>
                             <OsfButton
+                                data-analytics-name='Dismiss'
                                 aria-label={{t 'general.close'}}
                                 @onClick={{action this.dismiss}}
                             >

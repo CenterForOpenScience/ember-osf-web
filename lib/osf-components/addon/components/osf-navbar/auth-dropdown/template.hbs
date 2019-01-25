@@ -1,17 +1,22 @@
 {{#if (not this.session.isAuthenticated) }}
     <li class='sign-in'>
         <div>
-            {{#hyper-link this.signUpRoute queryParams=this.signUpQueryParams class='btn btn-success btn-top-signup m-l-sm m-r-xs' analyticsLabel='Navbar - SignUp' testSelectorVal='sign-up-button'}}
+            <OsfLink
+                data-analytics-name='SignUp'
+                class='btn btn-success btn-top-signup m-l-sm m-r-xs'
+                @href={{this.signUpRoute}}
+                @queryParams={{this.signUpQueryParams}}
+            >
                 {{t 'auth_dropdown.sign_up'}}
-            {{/hyper-link}}
-            <OsfButton 
+            </OsfLink>
+            <OsfButton
                 data-test-sign-in-button
+                data-analytics-name='SignIn'
                 class='btn-top-login'
                 @onClick={{action this.login}}
                 @size='xs'
                 @type='info'
             >
-                {{!-- {{action 'click' 'button' 'Navbar - SignIn' target=this.analytics}} --}}
                 {{t 'auth_dropdown.sign_in'}}
             </OsfButton>
         </div>
@@ -43,31 +48,39 @@
                 </ddm.item>
             {{/if}}
             <ddm.item role='menuitem'>
-                <a href='{{this.profileURL}}' onclick={{action this._onLinkClicked 'Navbar - MyProfile'}}>
+                <OsfLink
+                    data-analytics-name='MyProfile'
+                    @href={{this.profileURL}}
+                >
                     <i class='fa fa-user fa-lg p-r-xs'></i>
                     {{t 'auth_dropdown.my_profile'}}
-                </a>
+                </OsfLink>
             </ddm.item>
             <ddm.item role='menuitem'>
-                {{#global-link-to 'support' click=(action this._onLinkClicked 'Navbar - Support')}}
+                <OsfLink
+                    data-analytics-name='Support'
+                    @route='support'
+                >
                     <i class='fa fa-life-ring fa-lg p-r-xs'></i>
                     {{t 'auth_dropdown.osf_support'}}
-                {{/global-link-to}}
+                </OsfLink>
             </ddm.item>
             <ddm.item role='menuitem'>
-                <a href='{{this.settingsURL}}' onclick={{action this._onLinkClicked 'Navbar - Settings'}}>
+                <OsfLink
+                    data-analytics-name='Settings'
+                    @href={{this.settingsURL}}
+                >
                     <i class='fa fa-cog fa-lg p-r-xs'></i>
                     {{t 'general.settings'}}
-                </a>
+                </OsfLink>
             </ddm.item>
             <ddm.item role='menuitem'>
                 <OsfButton
-                    local-class='LogOutButton'
+                    data-analytics-name='Logout'
                     class='logoutLink'
                     @type='link'
                     @onClick={{action 'logout'}}
                 >
-                    {{!-- {{action this._onLinkClicked 'Navbar - Logout'}} --}}
                     <i class='fa fa-sign-out fa-lg p-r-xs'></i>
                     {{t 'auth_dropdown.log_out'}}
                 </OsfButton>

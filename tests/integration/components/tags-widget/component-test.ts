@@ -1,4 +1,4 @@
-import { click, fillIn, find, render, triggerKeyEvent } from '@ember/test-helpers';
+import { click as untrackedClick, fillIn, find, render, triggerKeyEvent } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -14,8 +14,8 @@ module('Integration | Component | tags-widget', hooks => {
         this.set('showAdd', false);
 
         await render(hbs`{{tags-widget
+            data-analytics-scope='test'
             tags=this.tags
-            analyticsScope='test'
             addTag=(action this.addTag)
             removeTag=(action this.removeTag)
             showAdd=this.showAdd
@@ -35,7 +35,7 @@ module('Integration | Component | tags-widget', hooks => {
         const tags = ['foo', 'bar', 'baz'];
         this.set('tags', tags);
 
-        await render(hbs`{{tags-widget tags=this.tags analyticsScope='test' readOnly=true}}`);
+        await render(hbs`{{tags-widget tags=this.tags data-analytics-scope='test' readOnly=true}}`);
 
         assert.dom('[data-test-tags-widget-tag-input]').exists();
 
@@ -49,8 +49,8 @@ module('Integration | Component | tags-widget', hooks => {
         this.set('tags', tags);
 
         await render(hbs`{{tags-widget
+            data-analytics-scope='test'
             tags=this.tags
-            analyticsScope='test'
             readOnly=true
             inline=true
         }}`);
@@ -84,8 +84,8 @@ module('Integration | Component | tags-widget', hooks => {
         this.set('removeTag', (_: number) => undefined);
 
         await render(hbs`{{tags-widget
+            data-analytics-scope='test'
             tags=this.tags
-            analyticsScope='test'
             addTag=(action this.addTag)
             removeTag=(action this.removeTag)
             showAdd=true
@@ -112,8 +112,8 @@ module('Integration | Component | tags-widget', hooks => {
         });
 
         await render(hbs`{{tags-widget
+            data-analytics-scope='test'
             tags=this.tags
-            analyticsScope='test'
             addTag=(action this.addTag)
             removeTag=(action this.removeTag)
             showAdd=true
@@ -121,6 +121,6 @@ module('Integration | Component | tags-widget', hooks => {
 
         assert.dom('[data-test-tags-widget-tag-input]').exists();
 
-        await click(`[data-test-tags-widget-tag="${removeTag}"] + a`);
+        await untrackedClick(`[data-test-tags-widget-tag="${removeTag}"] + a`);
     });
 });

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `getHref` - get an href from a `Link`
     - `getRelatedHref` - get an href from a `Relationship`
     - `tuple` - create a strictly-typed [tuple](https://www.typescriptlang.org/docs/handbook/basic-types.html#tuple)
+
 ### Changed
 - Models:
     - `osf-model` - use proper types for `links` and `relationshipLinks` attributes
@@ -18,7 +19,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `developer-app` - extend `links` types to include links specific to developer apps
     - `collection` - improve types for choices fields
     - `collected-metadatum` - improve types for choice fields
+- Components
+    - `osf-link` - used to be `link`
+        - `@onClick` parameter used to be `@onclick`
+- Tests
+    - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
+
+### Removed
 - Components:
+    - `global-link-to`
     - `<ContributorList>` - modified to take in different parameters
         - `node` (required)
         - `shouldTruncate` (default true)

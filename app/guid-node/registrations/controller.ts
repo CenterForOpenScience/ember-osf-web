@@ -71,27 +71,20 @@ export default class GuidNodeRegistrations extends Controller {
     @action
     changeTab(this: GuidNodeRegistrations, activeId: string) {
         this.set('tab', activeId === 'registrations' ? undefined : activeId);
-        this.analytics.click('tab', `Registrations Tab - Change tab to: ${activeId}`);
-    }
-
-    @action
-    openNewModal(this: GuidNodeRegistrations) {
-        this.set('newModalOpen', true);
-        this.analytics.click('button', 'Registrations Tab - Open new registration modal');
+        this.analytics.click('tab', `Registrations tab - Change tab to: ${activeId}`);
     }
 
     @action
     closeNewModal(this: GuidNodeRegistrations) {
         this.set('newModalOpen', false);
         this.set('selectedSchema', this.defaultSchema);
-        this.analytics.click('button', 'Registrations Tab - Close new registration modal');
     }
 
     @action
     togglePreregConsent() {
         this.toggleProperty('preregConsented');
         if (this.preregConsented) {
-            this.analytics.click('checkbox', 'Registrations Tab - Consent to Prereg Challenge ');
+            this.analytics.click('checkbox', 'Registrations tab - Consent to Prereg Challenge ');
         }
     }
 
@@ -99,18 +92,16 @@ export default class GuidNodeRegistrations extends Controller {
     closePreregModal(this: GuidNodeRegistrations) {
         this.set('preregModalOpen', false);
         this.set('selectedSchema', this.defaultSchema);
-        this.analytics.click('button', 'Registrations Tab - Close Prereg Challenge modal');
     }
 
     @action
     schemaChanged(this: GuidNodeRegistrations, schema: RegistrationSchema) {
         this.set('selectedSchema', schema);
-        this.analytics.click('radio', `Registrations Tab - Select schema: ${schema.name}`);
+        this.analytics.click('radio', `Registrations tab - Select schema: ${schema.name}`);
     }
 
     @action
     async createDraft(this: GuidNodeRegistrations) {
-        this.analytics.click('button', 'Registrations Tab - Create draft');
         if (this.selectedSchema.name === 'Prereg Challenge' && this.newModalOpen) {
             this.set('newModalOpen', false);
             this.set('preregConsented', false);
