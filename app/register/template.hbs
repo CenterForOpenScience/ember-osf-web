@@ -40,7 +40,7 @@
                 <OsfLink
                     data-analytics-name='ORCID'
                     local-class='sign-up-button'
-                    @href='{{this.orcidUrl}}#show_login'
+                    @href={{ concat this.orcidUrl '#show_login' }}
                 >
                     <img
                         src='/assets/images/register/orcid-logo.png'

@@ -9,7 +9,8 @@
             >
                 {{t 'auth_dropdown.sign_up'}}
             </OsfLink>
-            <OsfButton 
+            <OsfButton
+                data-test-sign-in-button
                 data-analytics-name='SignIn'
                 class='btn-top-login'
                 @onClick={{action this.login}}
@@ -49,7 +50,7 @@
             <ddm.item role='menuitem'>
                 <OsfLink
                     data-analytics-name='MyProfile'
-                    @href='{{this.profileURL}}'
+                    @href={{this.profileURL}}
                 >
                     <i class='fa fa-user fa-lg p-r-xs'></i>
                     {{t 'auth_dropdown.my_profile'}}
@@ -67,7 +68,7 @@
             <ddm.item role='menuitem'>
                 <OsfLink
                     data-analytics-name='Settings'
-                    @href='{{this.settingsURL}}'
+                    @href={{this.settingsURL}}
                 >
                     <i class='fa fa-cog fa-lg p-r-xs'></i>
                     {{t 'general.settings'}}

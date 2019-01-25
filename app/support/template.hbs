@@ -21,7 +21,7 @@
                         {{t 'support.faq_paragraph'}}
                         <OsfLink
                             data-analytics-name='faq_link'
-                            @href='{{this.faqPageUrl}}'
+                            @href={{this.faqPageUrl}}
                         >
                             {{~t 'support.faq_link_text'~}}
                         </OsfLink>
@@ -30,7 +30,7 @@
                     <OsfLink
                         data-analytics-name='faq_button'
                         class='btn btn-info m-t-lg pull-right'
-                        @href='{{this.faqPageUrl}}'
+                        @href={{this.faqPageUrl}}
                     >
                         {{t 'support.faq_button'}}
                         <i class='fa fa-angle-right'></i>
@@ -43,7 +43,7 @@
                 <h4 class='f-w-lg bg-color-select'>
                     <OsfLink
                         data-analytics-name='guides_title'
-                        @href='{{this.helpUrl}}'
+                        @href={{this.helpUrl}}
                         @target='_blank'
                         @rel='noreferrer'
                     >
@@ -55,7 +55,7 @@
                         {{t 'support.guides_paragraph_1'}}
                         <OsfLink
                             data-analytics-name='guides_link'
-                            @href='{{this.helpUrl}}'
+                            @href={{this.helpUrl}}
                             @target='_blank'
                             @rel='noreferrer'
                         >
@@ -66,7 +66,7 @@
                     <OsfLink
                         data-analytics-name='guides_button'
                         class='btn btn-info m-t-lg pull-right'
-                        @href='{{this.helpUrl}}'
+                        @href={{this.helpUrl}}
                         @target='_blank'
                         @rel='noreferrer'
                     >
@@ -112,7 +112,7 @@
                 {{t 'support.prereg_paragraph_1'}}
                 <OsfLink
                     data-analytics-name='prereg_link'
-                    @href='{{this.preregUrl}}'
+                    @href={{this.preregUrl}}
                 >
                     {{t 'support.prereg_link_text'}}
                 </OsfLink>
@@ -125,7 +125,7 @@
                 {{t 'support.status_paragraph_1'}}
                 <OsfLink
                     data-analytics-name='status_page_link'
-                    @href='{{this.statusPageUrl}}'
+                    @href={{this.statusPageUrl}}
                 >
                     {{t 'support.status_link_text'}}
                 </OsfLink>
@@ -138,7 +138,7 @@
                 {{t 'support.consultation_paragraph'}}
                 <OsfLink
                     data-analytics-name='consultation_link'
-                    @href='{{this.consultationUrl}}'
+                    @href={{this.consultationUrl}}
                 >
                     {{t 'support.consultation_link_text'}}
                 </OsfLink>
@@ -153,28 +153,28 @@
             <OsfLink
                 data-analytics-name='social_twitter'
                 class='btn btn-link'
-                @href='{{this.twitterUrl}}'
+                @href={{this.twitterUrl}}
             >
                 <i class='fa fa-twitter'></i>{{t 'support.social_twitter'}}
             </OsfLink>
             <OsfLink
                 data-analytics-name='social_email'
                 class='btn btn-link'
-                @href='{{this.mailingUrl}}'
+                @href={{this.mailingUrl}}
             >
                 <i class='fa fa-users'></i> {{t 'support.social_mailing'}}
             </OsfLink>
             <OsfLink
                 data-analytics-name='social_facebook'
                 class='btn btn-link'
-                @href='{{this.facebookUrl}}'
+                @href={{this.facebookUrl}}
             >
                 <i class='fa fa-facebook'></i> {{t 'support.social_facebook'}}
             </OsfLink>
             <OsfLink
                 data-analytics-name='social_github'
                 class='btn btn-link'
-                @href='{{this.githubUrl}}'
+                @href={{this.githubUrl}}
             >
                 <i class='fa fa-github'></i> {{t 'support.social_github'}}
             </OsfLink>

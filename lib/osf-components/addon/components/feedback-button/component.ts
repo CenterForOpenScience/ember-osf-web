@@ -82,7 +82,6 @@ export default class FeedbackButton extends Component {
 
     state: DialogState = DialogState.empty;
     dialogRows = 5;
-    styleNamespace?: string;
 
     @computed('state')
     get isOpen(): boolean {
