@@ -9,13 +9,13 @@ import { Validations } from 'ember-cp-validations';
 import DS, { RelationshipsFor } from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { pluralize, singularize } from 'ember-inflector';
+import { Links, PaginationLinks } from 'jsonapi-typescript';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 import getHref from 'ember-osf-web/utils/get-href';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 import getSelfHref from 'ember-osf-web/utils/get-self-href';
 
-import { Links, PaginationLinks } from 'jsonapi-typescript';
 import {
     BaseMeta,
     Document as ApiResponseDocument,
@@ -225,7 +225,7 @@ export default class OsfModel extends Model {
 
         // Get related count with sparse fieldset.
         const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX({
-            url: getHref(this.links.self),
+            url: getHref(this.links.self!),
             data: {
                 related_counts: apiRelationshipName,
                 [`fields[${apiModelName}]`]: apiRelationshipName,
