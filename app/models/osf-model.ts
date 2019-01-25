@@ -8,11 +8,12 @@ import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
 import DS, { RelationshipsFor } from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
-import { singularize } from 'ember-inflector';
+import { pluralize, singularize } from 'ember-inflector';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 import getHref from 'ember-osf-web/utils/get-href';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
+import getSelfHref from 'ember-osf-web/utils/get-self-href';
 
 import { Links, PaginationLinks } from 'jsonapi-typescript';
 import {
@@ -64,6 +65,10 @@ export default class OsfModel extends Model {
     @alias('links.relationships') relationshipLinks!: Relationships;
 
     @alias('constructor.modelName') modelName!: string & keyof ModelRegistry;
+
+    get apiType() {
+        return pluralize(underscore(this.modelName));
+    }
 
     /*
      * Query a hasMany relationship with query params
@@ -158,78 +163,52 @@ export default class OsfModel extends Model {
         return currentResults;
     }
 
-    async createM2MRelationship<
-    T extends OsfModel,
-    >(
+    async createM2MRelationship<T extends OsfModel>(
         this: T,
         relationshipName: RelationshipsFor<T> & string,
-        relatedObjId: string,
+        relatedModel: OsfModel,
     ) {
-        const apiRelationshipName = underscore(relationshipName);
-        const url = this.relationshipLinks[apiRelationshipName].links!.self.href;
-
-        if (!url) {
-            throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
-        }
-
-        assert('The related object id is required to create a new relationship', Boolean(relatedObjId));
-
-        const options: JQuery.AjaxSettings = {
-            url,
-            type: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data: JSON.stringify({
-                data: [{
-                    id: relatedObjId,
-                    type: apiRelationshipName,
-                }],
-            }),
-        };
-
-        try {
-            return await this.currentUser.authenticatedAJAX(options);
-        } catch (e) {
-            throw e;
-        }
+        return this.modifyM2MRelationship('create', relationshipName, relatedModel);
     }
 
-    async deleteM2MRelationship<
-    T extends OsfModel,
-    >(
+    async deleteM2MRelationship<T extends OsfModel>(
         this: T,
         relationshipName: RelationshipsFor<T> & string,
-        relatedObjId: string,
+        relatedModel: OsfModel,
+    ) {
+        return this.modifyM2MRelationship('delete', relationshipName, relatedModel);
+    }
+
+    async modifyM2MRelationship<T extends OsfModel>(
+        this: T,
+        action: 'create' | 'delete',
+        relationshipName: RelationshipsFor<T> & string,
+        relatedModel: OsfModel,
     ) {
         const apiRelationshipName = underscore(relationshipName);
-        const url = this.relationshipLinks[apiRelationshipName].links!.self.href;
+        const url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
 
         if (!url) {
             throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
         }
 
-        assert('The related object id is required to delete existing relationship', Boolean(relatedObjId));
+        assert(`The related object is required to ${action} a relationship`, Boolean(relatedModel));
 
         const options: JQuery.AjaxSettings = {
             url,
-            type: 'DELETE',
+            type: action.toUpperCase(),
             headers: {
                 'Content-Type': 'application/json',
             },
             data: JSON.stringify({
                 data: [{
-                    id: relatedObjId,
-                    type: apiRelationshipName,
+                    id: relatedModel.id,
+                    type: relatedModel.apiType,
                 }],
             }),
         };
 
-        try {
-            return await this.currentUser.authenticatedAJAX(options);
-        } catch (e) {
-            throw e;
-        }
+        return this.currentUser.authenticatedAJAX(options);
     }
 
     /*
