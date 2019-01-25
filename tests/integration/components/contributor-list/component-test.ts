@@ -57,8 +57,8 @@ module('Integration | Component | contributor-list', hooks => {
 
         await render(hbs`<ContributorList @node={{this.node}} @shouldLinkUsers={{true}} />`);
 
-        assert.dom('[data-analytics-name="Contributor name"] > a').exists({ count: 3 });
-        assert.dom('[data-analytics-name="Contributor name"] > a').hasAttribute('href', `/${users[0].id}`);
+        assert.dom('[data-test-contributor-name]').exists({ count: 3 });
+        assert.dom('[data-test-contributor-name]').hasAttribute('href', `/${users[0].id}`);
     });
 
     test('it renders', async function(assert) {
