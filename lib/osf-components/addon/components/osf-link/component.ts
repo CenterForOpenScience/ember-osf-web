@@ -13,7 +13,7 @@ type AnchorTarget = '_self' | '_blank' | '_parent' | '_top';
 
 @tagName('')
 @layout(template)
-export default class Link extends Component {
+export default class OsfLink extends Component {
     @service router!: RouterService;
 
     route?: string;
@@ -25,13 +25,13 @@ export default class Link extends Component {
     rel: AnchorRel = defaultTo(this.rel, 'noopener');
     target: AnchorTarget = defaultTo(this.target, '_self');
 
-    onclick?: () => void;
+    onClick?: () => void;
 
     @computed('href', 'route', 'models.[]', 'queryParams', 'fragment')
     get _href() {
         let url: string | undefined = this.href;
 
-        if (!url && this.route) {
+        if (url === undefined && this.route) {
             url = this.router.urlFor(this.route, ...(this.models || []), {
                 queryParams: this.queryParams || {},
             });
@@ -57,6 +57,10 @@ export default class Link extends Component {
         );
         assert(
             'Must pass `@href` xor `@route`. Did you pass `href` instead of `@href`?',
+            !(this.route === undefined && this.href === undefined),
+        );
+        assert(
+            'Both `@href` and `@route` were improperly set (probably to empty strings)',
             Boolean(this.route) !== Boolean(this.href),
         );
         assert(
@@ -66,9 +70,9 @@ export default class Link extends Component {
     }
 
     @action
-    _onclick(e: MouseEvent) {
-        if (this.onclick) {
-            this.onclick();
+    _onClick(e: MouseEvent) {
+        if (this.onClick) {
+            this.onClick();
         }
 
         if (!this.route) {

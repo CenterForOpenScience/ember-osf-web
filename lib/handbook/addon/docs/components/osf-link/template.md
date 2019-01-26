@@ -1,7 +1,7 @@
-# link
+# osf-link
 
 This is a component for links! Whether you're linking to an external URL, a
-route elsewhere in the app, or an anchor on this page, `<Link>` is
+route elsewhere in the app, or an anchor on this page, `<OsfLink>` is
 good for all your linking needs.
 
 For transitions within the app, pass `@route` (and optionally `@models` and `@queryParams`).
@@ -26,19 +26,20 @@ For external links, pass `@href`.
 * `@fragment` (optional)
     * String to use as the URL fragment (the part after `#`)
     * Used only with `@route`
-* `@onclick` (optional)
+* `@onClick` (optional)
     * Action called on click
-    * Be careful not to pass `onclick` (no `@`) or the default click handler will be clobbered
+    * Be careful not to pass `onClick` (no `@`) or the default click handler will be clobbered
+    * Also be careful not to call `@onclick` (all lower case) as that's not a parameter
 
 ### Yielded hash
 In block form, yields a hash with the following properties:
 * `active`: `true` if the current page is the target route or one of its children
 
 ## Internal link
-{{docs/components/link/-components/demo-internal}}
+{{docs/components/osf-link/-components/demo-internal}}
 
 ## External link
-{{docs/components/link/-components/demo-external}}
+{{docs/components/osf-link/-components/demo-external}}
 
 ## Click handler
-{{docs/components/link/-components/demo-onclick}}
+{{docs/components/osf-link/-components/demo-onclick}}

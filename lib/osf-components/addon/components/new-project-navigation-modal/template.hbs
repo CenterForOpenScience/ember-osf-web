@@ -1,5 +1,8 @@
-<BsModal @onHidden={{this.closeModal}} as |modal|>
-    <modal.body>
+<BsModal
+    @onHidden={{this.closeModal}}
+    as |modal|
+>
+    <modal.body data-analytics-scope='New project navigation modal'>
         <OsfButton
             data-test-close-with-x
             aria-label={{t 'general.close'}}
@@ -12,20 +15,21 @@
             {{this.title}}
         </h4>
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='New project navigation modal footer'>
         <OsfButton
             data-test-stay-here
+            data-analytics-name='stay_here'
             @onClick={{action this.stayHere reload=true}}
         >
             {{t 'new_project.stay_here'}}
         </OsfButton>
-        <a
+        <OsfLink
             data-test-go-to-new
-            href='{{@node.links.html}}'
+            data-analytics-name='go_to_new_project'
             class='btn btn-success'
-            onclick={{action 'click' 'link' (concat @page ' - New Project - go_to_new_project') target=this.analytics}}
+            @href={{@node.links.html}}
         >
             {{t 'move_to_project.go_to_project'}}
-        </a>
+        </OsfLink>
     </modal.footer>
 </BsModal>

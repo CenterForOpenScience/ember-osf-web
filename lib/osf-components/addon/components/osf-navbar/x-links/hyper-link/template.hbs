@@ -1,0 +1,21 @@
+{{#unless this.hidden}}
+    {{#let (hash
+        link=(if this.isEmber
+            (component 'osf-navbar/x-links/global-link-to' params=this._params)
+            (component 'osf-navbar/x-links/hyper-link/x-anchor' this.resolvedRoute)
+        )
+    ) as |ctx|}}
+        <ctx.link
+            data-analytics-name='{{@analyticsLabel}}'
+            data-test-hyper-link=@testSelectorVal
+            class=@class
+            @click={{action this.onclick}}
+        >
+            {{#if (has-block)}}
+                {{yield}}
+            {{else}}
+                {{this.text}}
+            {{/if}}
+        </ctx.link>
+    {{/let}}
+{{/unless}}

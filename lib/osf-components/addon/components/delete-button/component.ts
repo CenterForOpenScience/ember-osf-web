@@ -19,9 +19,6 @@ import template from './template';
 export default class DeleteButton extends Component.extend({
     _deleteTask: task(function *(this: DeleteButton) {
         try {
-            if (this.analyticsScope) {
-                this.analytics.click('button', `${this.analyticsScope} - Confirm delete`);
-            }
             yield this.delete();
             this.set('modalShown', false);
         } catch (e) {
@@ -41,7 +38,6 @@ export default class DeleteButton extends Component.extend({
     small: boolean = defaultTo(this.small, false);
     hardConfirm: boolean = defaultTo(this.hardConfirm, false);
     disabled: boolean = defaultTo(this.disabled, false);
-    analyticsScope?: string;
     buttonLabel: string = defaultTo(
         this.buttonLabel,
         this.i18n.t('osf-components.delete-button.buttonLabel'),
@@ -81,10 +77,6 @@ export default class DeleteButton extends Component.extend({
 
     @action
     _show(this: DeleteButton) {
-        if (this.analyticsScope) {
-            this.analytics.click('button', `${this.analyticsScope} - Open delete confirmation`);
-        }
-
         this.set('modalShown', true);
         if (this.hardConfirm) {
             this.setProperties({
@@ -96,9 +88,6 @@ export default class DeleteButton extends Component.extend({
 
     @action
     _cancel(this: DeleteButton) {
-        if (this.analyticsScope) {
-            this.analytics.click('button', `${this.analyticsScope} - Cancel delete`);
-        }
         this.set('modalShown', false);
     }
 }

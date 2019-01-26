@@ -1,20 +1,26 @@
 {{title (t 'institutions.title')}}
 <ScheduledBanner />
-<div local-class='Institutions__page'>
-    <div local-class='Institutions__block Institutions__header'>
+<div
+    data-analytics-scope='Institutions'
+    local-class='Institutions__page'
+>
+    <div
+        data-analytics-scope='Header'
+        local-class='Institutions__block Institutions__header'
+    >
         <div class='container'>
             <div class='row'>
                 <div class='text-center m-t-lg col-xs-12'>
                     <div local-class='Institutions__header-logo'></div>
                     <p class='lead'>
                         {{t 'institutions.description'}}
-                        <a
+                        <OsfLink
+                            data-analytics-name='Read more'
                             local-class='Institutions__block__link'
-                            href='https://cos.io/our-products/osf-institutions/'
-                            onclick={{action 'click' 'link' 'Institutions - Header - Read more' target=this.analytics}}
+                            @href='https://cos.io/our-products/osf-institutions/'
                         >
                             {{t 'institutions.read_more'}}
-                        </a>
+                        </OsfLink>
                     </p>
                 </div>
             </div>
@@ -46,20 +52,21 @@
                                     </div>
                                 </div>
                                 {{#each this.institutions as |institution|}}
-                                    <a
+                                    <OsfLink
+                                        data-analytics-name='Visit institution'
                                         class='m-v-sm row'
                                         local-class='Institutions__table__item'
-                                        href='{{institution.links.html}}'
-                                        onclick={{action 'click' 'link' 'Institutions - Visit institution' target=this.analytics}}
+                                        @href={{institution.links.html}}
                                     >
                                         <div class='col-xs-3'>
                                             <img local-class='Institutions__logo' alt='{{institution.name}}' src='{{institution.logoUrl}}'>
                                         </div>
                                         <div class='col-xs-9' local-class='Institutions__table__title'><span>{{institution.name}}</span></div>
-                                    </a>
+                                    </OsfLink>
                                 {{/each}}
                                 {{#if this.hasMore}}
                                     <OsfButton
+                                        data-analytics-name='Next page'
                                         local-class='Institutions__more'
                                         @type='link'
                                         @onClick={{action 'next'}}
@@ -74,18 +81,21 @@
             </div>
         </div>
     </div>
-    <div local-class='Institutions__block Institutions__footer'>
+    <div
+        data-analytics-scope='Footer'
+        local-class='Institutions__block Institutions__footer'
+    >
         <div class='container'>
             <div class='row'>
                 <div class='text-center col-xs-12'>
                     <p class='lead'>
                         {{t 'institutions.footer'}}
-                        <a
-                            href='https://cos.io/contact'
-                            onclick={{action 'click' 'link' 'Institutions - Footer - Contact us' target=this.analytics}}
+                        <OsfLink
+                            data-analytics-name='Contact us'
+                            @href='https://cos.io/contact'
                         >
                             {{t 'institutions.contact_us'}}
-                        </a>
+                        </OsfLink>
                     </p>
                 </div>
             </div>

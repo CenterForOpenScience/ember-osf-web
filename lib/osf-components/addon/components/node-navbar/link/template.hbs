@@ -1,5 +1,5 @@
 {{#if this.useLinkTo}}
-    <Link
+    <OsfLink
         data-test-node-navbar-link={{or @destination @node.id}}
         class={{this.extraClasses}}
         @route={{this.routeName}}
@@ -10,9 +10,9 @@
         {{else}}
             {{t this.translatingKey}}
         {{/if}}
-    </Link>
+    </OsfLink>
 {{else}}
-    <Link
+    <OsfLink
         data-test-node-navbar-link={{or @destination @node.id}}
         class={{this.extraClasses}}
         @href='/{{@node.id}}/{{@destination}}'
@@ -22,5 +22,5 @@
         {{else}}
             {{t this.translatingKey}}
         {{/if}}
-    </Link>
+    </OsfLink>
 {{/if}}

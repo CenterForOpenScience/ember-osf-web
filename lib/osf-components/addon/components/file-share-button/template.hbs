@@ -1,6 +1,14 @@
-<button data-test-share-button class='btn btn-sm btn-default popover-toggler' {{action 'togglePopup'}}>
+<OsfButton 
+    data-test-share-button
+    data-analytics-scope='File share button'
+    data-analytics-name='Open share popover'
+    class='popover-toggler'
+    @size='sm'
+    @onClick={{action this.togglePopup}}
+>
     {{t 'general.share'}}
     <BsPopover
+        data-analytics-scope='Popover'
         @placement='bottom'
         local-class='Popover'
         @title={{t 'general.share'}}
@@ -11,6 +19,7 @@
                 <BsNav @class='nav-justified' @type='tabs' as |nav|>
                     <nav.item data-test-share-tab @active={{bs-eq tab.activeId this.sharePaneId}}>
                         <a 
+                            data-analytics-name='Share'
                             role='tab'
                             {{action tab.select this.sharePaneId}}
                             local-class='SharePane__tab'
@@ -20,6 +29,7 @@
                     </nav.item>
                     <nav.item data-test-embed-tab @active={{bs-eq tab.activeId this.embedPaneId}}>
                         <a
+                            data-analytics-name='Embed'
                             role='tab'
                             {{action tab.select this.embedPaneId}}
                             local-class='SharePane__tab'
@@ -38,58 +48,50 @@
                     >
                         <br>
                         <CopyableText
+                            data-analytics-scope='Share file'
                             @text={{this.mfrUrl}}
-                            @analyticsLabel='Quick Files - Share file'
                         />
                         <div local-class='SharePane__button-group'>
-                            <a
+                            <OsfLink
+                                data-analytics-name='Share file on Twitter'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.twitter'}}
-                                href='{{this.twitterUrl}}'
                                 target='_blank'
                                 rel='noopener'
-                                onclick={{action 'click' 'link' 'Quick Files - Share file on Twitter'
-                                                 preventDefault=false
-                                                 target=this.analytics}}
+                                @href={{this.twitterUrl}}
                             >
                                 <i aria-hidden='true' class='fa fa-twitter'></i>
-                            </a>
-                            <a
+                            </OsfLink>
+                            <OsfLink
+                                data-analytics-name='Share file on Facebook'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.facebook'}}
-                                href='{{this.facebookUrl}}'
                                 target='_blank'
                                 rel='noopener'
-                                onclick={{action 'click' 'link' 'Quick Files - Share file on Facebook'
-                                                 target=this.analytics
-                                                 preventDefault=false}}
+                                @href={{this.facebookUrl}}
                             >
                                 <i aria-hidden='true' class='fa fa-facebook'></i>
-                            </a>
-                            <a
+                            </OsfLink>
+                            <OsfLink
+                                data-analytics-name='Share file on LinkedIn'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.linkedin'}}
-                                href='{{this.linkedInUrl}}'
                                 target='_blank'
                                 rel='noopener'
-                                onclick={{action 'click' 'link' 'Quick Files - Share file on LinkedIn'
-                                                 preventDefault=false
-                                                 target=this.analytics}}
+                                @href={{this.linkedInUrl}}
                             >
                                 <i aria-hidden='true' class='fa fa-linkedin'></i>
-                            </a>
-                            <a
+                            </OsfLink>
+                            <OsfLink
+                                data-analytics-name='Share file in email'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'quickfiles.share_by_email'}}
-                                href='{{this.emailUrl}}'
                                 target='_blank'
                                 rel='noopener'
-                                onclick={{action 'click' 'link' 'Quick Files - Share file in email'
-                                                 preventDefault=false
-                                                 target=this.analytics}}
+                                @href={{this.emailUrl}}
                             >
                                 <i aria-hidden='true' class='fa fa-envelope'></i>
-                            </a>
+                            </OsfLink>
                         </div>
                     </tab.pane>
                     <tab.pane
@@ -121,4 +123,4 @@
             </BsTab>
         </ClickOutside>
     </BsPopover>
-</button>
+</OsfButton>

@@ -11,9 +11,10 @@
                 {{t this.translationKeys.body email=this.userEmail.emailAddress}}
             </p>
         </modal.body>
-        <modal.footer>
+        <modal.footer data-analytics-scope='Verify email modal'>
             <OsfButton
                 data-test-deny-email
+                data-analytics-name='Deny'
                 @disabled={{this.disableButtons}}
                 @onClick={{action this.deny}}
             >
@@ -21,6 +22,7 @@
             </OsfButton>
             <OsfButton
                 data-test-verify-email
+                data-analytics-name='Verify'
                 @type='primary'
                 @disabled={{this.disableButtons}}
                 @onClick={{action this.verify}}

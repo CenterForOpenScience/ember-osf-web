@@ -8,7 +8,7 @@ export function userNodeList(this: HandlerContext, schema: Schema, request: Requ
     const { contributorIds } = user;
     for (const contributorId of contributorIds as string[]) {
         const { node } = schema.contributors.find(contributorId);
-        if (filter(node, request)) {
+        if (filter(node, request) && node.modelName === 'node') {
             nodes.push(this.serialize(node).data);
         }
     }

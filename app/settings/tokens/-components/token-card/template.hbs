@@ -1,12 +1,17 @@
-<div data-test-token-card={{@token.id}} local-class='TokenCard'>
+<div
+    data-test-token-card={{@token.id}}
+    data-analytics-scope='card'
+    local-class='TokenCard'
+>
     {{#if @token}}
-        {{#link-to
-            'settings.tokens.edit'
-            @token.id
-            data-test-token-link=@token.id
-        }}
+        <OsfLink
+            data-test-token-link={{@token.id}}
+            data-analytics-name='Token name'
+            @route='settings.tokens.edit'
+            @models={{array @token.id}}
+        >
             {{@token.name}}
-        {{/link-to}}
+        </OsfLink>
     {{else}}
         <ContentPlaceholders
             local-class='TokenCard__placeholder'
@@ -20,7 +25,6 @@
         @small={{true}}
         @delete={{action this.delete}}
         @disabled={{not @token}}
-        @analyticsScope='Settings - Tokens'
         @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
         @modalBody={{t 'settings.tokens.confirmDelete.body'}}
     />

@@ -1,4 +1,5 @@
 <ValidatedModelForm
+    data-analytics-scope='Name form'
     @onSave={{action this.onSave}}
     @onWillDestroy={{action this.onWillDestroy}}
     @model={{this.user}}
@@ -42,6 +43,7 @@
     <div local-class='FormButtons'>
         <OsfButton
             data-test-discard-changes
+            data-analytics-name='Discard changes'
             @buttonType='button'
             @disabled={{not this.isPageDirty}}
             @onClick={{action this.onWillDestroy this.user}}
@@ -50,6 +52,7 @@
         </OsfButton>
         <OsfButton
             data-test-save
+            data-analytics-name='Save'
             @buttonType='submit'
             @disabled={{and (not this.isPageDirty) form.disabled}}
             @type='primary'
