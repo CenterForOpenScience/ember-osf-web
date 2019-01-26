@@ -1,5 +1,6 @@
 <TagInput 
     data-test-tags-widget-tag-input
+    data-analytics-scope='Tags widget'
     aria-label={{t 'osf-components.tags-widget.tags'}}
     local-class='TagsWidget'
     @tags={{@tags}}
@@ -10,5 +11,12 @@
     @readOnly={{@readOnly}}
     as |tag|
 >
-    <span data-test-tags-widget-tag='{{tag}}' role='link' {{action this._clickTag tag}}>{{tag}}</span>
+    <span
+        data-test-tags-widget-tag='{{tag}}'
+        data-analytics-name='Click'
+        role='link'
+        {{action this._clickTag tag}}
+    >
+        {{tag}}
+    </span>
 </TagInput>

@@ -31,8 +31,6 @@
     padding-bottom: 10px;
 }
 
-// Because the modal uses ember-wormhole, it isn't within the styleNamespace block
-// We work around this by applying `.{styleNameSpace}Modal` to it.
 .Modal {
     &__text {
         margin: 1.5em 0 1em;

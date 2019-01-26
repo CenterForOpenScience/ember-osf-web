@@ -1,14 +1,19 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
 {{title (t 'forks.page_title' nodeTitle=this.model.taskInstance.value.unsafeTitle)}}
-<div class='container' local-class='Forks'>
+<div
+    data-analytics-scope='Registration Forks'
+    class='container'
+    local-class='Forks'
+>
     <BsModal
         @open={{this.newModal}}
         @onSubmit={{action this.newFork}}
         @onHide={{action (mut this.newModal) false}}
         as |modal|
     >
-        <modal.body>
+        <modal.body data-analytics-scope='Registation Forks - New forks modal'>
             <OsfButton
+                data-analytics-name='Close'
                 aria-label={{t 'general.close'}}
                 @class='close'
                 @onClick={{action this.closeNewModal}}
@@ -17,13 +22,15 @@
             </OsfButton>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
         </modal.body>
-        <modal.footer>
+        <modal.footer data-analytics-scope='Registation Forks - New forks modal footer'>
             <OsfButton
+                data-analytics-name='Close'
                 @onClick={{action (mut this.newModal) false}}
             >
                 {{t 'general.cancel'}}
             </OsfButton>
             <OsfButton
+                data-analytics-name='Create fork'
                 @onClick={{action modal.submit}}
                 @type='info'
             >
@@ -42,13 +49,13 @@
         <h2 class='text-300'>{{t 'forks.title'}}</h2>
     </div>
     <div class='m-md' local-class='Forks__nav'>
-        {{#link-to
-            'guid-registration.analytics'
-            this.node.id
-            click=(action 'click' 'link' 'Registration Forks - forks.back' target=this.analytics)
-        }}
+        <OsfLink
+            data-analytics-name='forks.back'
+            @route='guid-registration.analytics'
+            @models={{array this.model.guid}}
+        >
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
-        {{/link-to}}
+        </OsfLink>
         <p local-class='Forks__nav__link'>{{t 'forks.info'}}</p>
     </div>
     <div local-class='Forks__forks'>
@@ -57,7 +64,6 @@
             relationshipName='forks'
             bindReload=(action (mut this.reloadList))
             query=this.forksQueryParams
-            analyticsScope='Registration Forks'
             as |list|
         }}
             <list.item as |fork|>

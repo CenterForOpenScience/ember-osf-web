@@ -6,7 +6,7 @@ If you see anything you'd like to add or correct, just make a pull request!
 ## Editing a handbook page
 Click "Edit this page" at the bottom of any handbook page to edit and submit a PR on GitHub.
 
-Try it out on the {{#link-to 'docs.troubleshooting'}}troubleshooting page{{/link-to}} next
+Try it out on the <OsfLink @route='docs.troubleshooting'>troubleshooting page</OsfLink> next
 time you work through a problem.
 
 ## Running the handbook locally

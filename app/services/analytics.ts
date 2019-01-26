@@ -34,6 +34,7 @@ function logEvent(analytics: Analytics, title: string, data: object) {
     if (analytics.shouldToastOnEvent) {
         analytics.toast.info(
             Object.entries(data)
+                .filter(([_, v]) => v !== undefined)
                 .map(([k, v]) => `<div>${k}: <strong>${v}</strong></div>`)
                 .join(''),
             title,
@@ -80,7 +81,10 @@ class EventInfo {
 
     _gatherMetadataFromElement(element: Element) {
         if (element.hasAttribute(analyticsAttrs.name)) {
-            assert('Multiple names found for an event!', !this.name);
+            assert(
+                `Multiple names found for an event! ${this.name} and ${element.getAttribute(analyticsAttrs.name)}`,
+                !this.name,
+            );
             this.name = element.getAttribute(analyticsAttrs.name)!;
 
             this._gatherAction(element);

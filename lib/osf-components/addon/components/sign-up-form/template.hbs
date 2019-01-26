@@ -1,4 +1,8 @@
-<form local-class='SignUpForm' {{action 'submit' on='submit'}}>
+<form
+    data-analytics-scope='Sign up form'
+    local-class='SignUpForm'
+    {{action 'submit' on='submit'}}
+>
     {{! template-lint-disable no-implicit-this }}
     {{validated-input/text
         data-test-sign-up-full-name
@@ -80,6 +84,7 @@
         <div>
             <OsfButton
                 data-test-sign-up-button
+                data-analytics-name='Submit sign up'
                 @buttonType='submit'
                 @type='success'
                 @onClick={{action this.submit}}

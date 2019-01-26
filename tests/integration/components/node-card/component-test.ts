@@ -5,6 +5,8 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
+import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
+
 module('Integration | Component | node-card', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
@@ -14,6 +16,8 @@ module('Integration | Component | node-card', hooks => {
     });
 
     test('it renders', async function(assert) {
+        this.owner.register('service:router', OsfLinkRouterStub);
+        this.set('contributors', []);
         const node = server.create('node', {}, 'withContributors');
         const project = await this.store.findRecord('node', node.id, { include: 'contributors' });
 

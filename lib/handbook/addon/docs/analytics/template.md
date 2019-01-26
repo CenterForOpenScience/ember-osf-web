@@ -9,10 +9,12 @@ Tracking clicks is as easy as adding a few `data-` attributes.
 ### `data-analytics-name`
 If an element is named with a `data-analytics-name` attribute, click events on that element will be tracked:
 ```hbs
-<button
+<OsfButton
     data-analytics-name='Create new project'
-    onclick={{action ... }}
-></button>
+    onClick={{action ... }}
+>
+    Create new project
+</OsfButton>
 ```
 
 ### `data-analytics-scope`
@@ -26,6 +28,10 @@ For example, a click on the button below will be tracked with the label "Dashboa
 </div>
 ```
 
+**Note**: To scope a `BsModal` you have to add the scope in the `modal.header`, `modal.body`, and/or `modal.footer` blocks,
+as appropriate. If you don't, the events won't track, because the modal is in a wormhole, and the wormhole pulls the dom
+outside of the surrounding page information
+
 ### `data-analytics-category`
 The event category generally refers to the type of thing being acted upon. For normal links (`<a>` or `role='link'`)
 and buttons (`<button>` or `role='button'`) the category will be inferred as `link` and `button`, respectively.
@@ -33,22 +39,26 @@ and buttons (`<button>` or `role='button'`) the category will be inferred as `li
 If you want to categorize events another way (e.g. `file` for all events that act on file objects), you can add
 `data-analytics-category='mycategory'` to the same element with `data-analytics-name`:
 ```hbs
-<button
+<OsfButton
     data-analytics-name='Delete file'
     data-analytics-category='file'
-    onclick={{action this.deleteFile file}}
->Delete file</button>
+    @onClick={{action this.deleteFile file}}
+>
+    Delete file
+</OsfButton>
 ```
 
 ### `data-analytics-extra`
 You can optionally fill in the `extra` field on the tracked event by setting `data-analytics-extra='extra data'`:
 ```hbs
-<button
+<OsfButton
     data-analytics-name='Delete file'
     data-analytics-category='file'
     data-analytics-extra={{concat 'File name: ' file.name}}
-    onclick={{action this.deleteFile file}}
->Delete file</button>
+    @onClick={{action this.deleteFile file}}
+>
+    Delete file
+</OsfButton>
 ```
 
 ## Tracking events by hand

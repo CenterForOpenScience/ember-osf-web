@@ -26,7 +26,13 @@ export default function(server: Server) {
     const currentUser = server.create('user', ...userTraits);
 
     server.create('user-setting', { user: currentUser });
-    const registrationNode = server.create('node', { id: 'regis', currentUserPermissions: Object.values(Permission) });
+    const registrationNode = server.create(
+        'node',
+        {
+            id: 'regis', currentUserPermissions: Object.values(Permission),
+        },
+        'withContributors',
+    );
     server.create('contributor', {
         node: registrationNode,
         users: currentUser,
@@ -44,6 +50,15 @@ export default function(server: Server) {
     const nodes = server.createList<Node>('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');
+    for (const node of nodes) {
+        server.create('contributor', {
+            node,
+            users: currentUser,
+            permission: 'admin',
+            index: 0,
+        });
+    }
+
     server.create('node', {
         id: noteworthyNode,
         linkedNodes: nodes.slice(0, 5),

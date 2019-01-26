@@ -88,7 +88,6 @@ export default class NewProjectModal extends Component.extend({
     @service features!: Features;
 
     // Required arguments
-    analyticsContext!: string;
     @requiredAction afterProjectCreated!: (newNode: Node) => void;
 
     // Optional arguments
@@ -121,37 +120,33 @@ export default class NewProjectModal extends Component.extend({
         } else {
             selected.pushObject(institution);
         }
-        this.analytics.click('button', `${this.analyticsContext} - New Project - select_institution`);
     }
 
     @action
     selectAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', this.institutions.slice());
-        this.analytics.click('button', `${this.analyticsContext} - New Project - select_all`);
     }
 
     @action
     removeAllInstitutions(this: NewProjectModal) {
         this.set('selectedInstitutions', A([]));
-        this.analytics.click('button', `${this.analyticsContext} - New Project - remove_all`);
     }
 
     @action
     selectTemplateFrom(this: NewProjectModal, templateFrom: Node) {
         this.set('templateFrom', templateFrom);
-        this.analytics.click('button', `${this.analyticsContext} - New Project - Select template from`);
+        this.analytics.click('button', 'New project - Select template from');
     }
 
     @action
     selectRegion(this: NewProjectModal, region: Region) {
         this.set('selectedRegion', region);
-        this.analytics.click('button', `${this.analyticsContext} - New Project - Select storage region`);
+        this.analytics.click('button', 'New project - Select storage region');
     }
 
     @action
     toggleMore() {
         this.toggleProperty('more');
-        this.analytics.click('button', `${this.analyticsContext} - New Project - Toggle more`);
     }
 
     @action
@@ -164,7 +159,6 @@ export default class NewProjectModal extends Component.extend({
             this.selectedRegion,
             this.isPublic,
         );
-        this.analytics.click('button', `${this.analyticsContext} - New Project - create`);
     }
 
     @action

@@ -1,8 +1,10 @@
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import ace from 'ember-ace';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+
+import { click } from 'ember-osf-web/tests/helpers';
 
 module('Integration | Component | file-editor', hooks => {
     setupRenderingTest(hooks);

@@ -18,7 +18,7 @@
         </span>
     </OsfButton>
 {{else}}
-    <Link
+    <OsfLink
         data-test-collapsed='{{this.isCollapsed}}'
         class={{local-class this.wrapperClasses}}
         @models={{@models}}
@@ -37,5 +37,5 @@
                 {{@count}}
             {{/if}}
         </span>
-    </Link>
+    </OsfLink>
 {{/if}}

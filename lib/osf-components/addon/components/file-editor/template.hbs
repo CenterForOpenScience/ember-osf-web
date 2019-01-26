@@ -1,11 +1,11 @@
-<div local-class='FileEditor__panel-heading'>
-    <h3 local-class='FileEditor__panel-title'>
-        <i class='fa fa-pencil-square-o'></i>
-        {{t 'general.edit'}}
-    </h3>
-</div>
-<div>
-    <div class='editor-pane panel-body'>
+<div data-analytics-scope='File editor'>
+    <div local-class='FileEditor__panel-heading'>
+        <h3 local-class='FileEditor__panel-title'>
+            <i class='fa fa-pencil-square-o'></i>
+            {{t 'general.edit'}}
+        </h3>
+    </div>
+    <div data-analytics-scope='Panel body' class='editor-pane panel-body'>
         <div local-class='FileEditor__text-editor'>
             <EmberAce
                 @lines={{35}}
@@ -22,6 +22,7 @@
                     <div class='pull-right'>
                         <OsfButton
                             data-test-button-revert
+                            data-analytics-name='Revert text'
                             @type='danger'
                             @size='sm'
                             @onClick={{action this.revertText}}
@@ -30,6 +31,7 @@
                         </OsfButton>
                         <OsfButton
                             data-test-button-save
+                            data-analytics-name='Save text'
                             @type='success'
                             @size='sm'
                             @onClick={{action this.saveText}}

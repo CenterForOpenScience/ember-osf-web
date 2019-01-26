@@ -8,7 +8,7 @@
         {{! Left Side (Band, Service Dropdown) }}
         <nav.section data-test-left>
 
-            <Link
+            <OsfLink
                 data-test-brand
                 data-analytics-name='Brand'
                 @route='home'
@@ -37,14 +37,14 @@
                 >
                     {{#each this.services as |service|}}
                         <ddm.item role='menuitem'>
-                            <Link
+                            <OsfLink
                                 data-analytics-name={{service.name}}
                                 {{! each service has one of `route` and `href` }}
                                 @route={{service.route}}
                                 @href={{service.href}}
                             >
                                 <strong local-class='ServiceDropdownEntry'>{{service.name}}</strong>
-                            </Link>
+                            </OsfLink>
                         </ddm.item>
                     {{/each}}
                 </dd.menu>
@@ -132,34 +132,34 @@
                         as |ddm|
                     >
                         <ddm.item role='menuitem'>
-                            <Link
+                            <OsfLink
                                 data-analytics-name='My Profile'
                                 @href={{this.profileURL}}
                             >
                                 {{fa-icon 'user' fixedWidth=true}}
                                 {{t 'auth_dropdown.my_profile'}}
-                            </Link>
+                            </OsfLink>
                         </ddm.item>
                         <ddm.item role='menuitem'>
-                            <Link
+                            <OsfLink
                                 data-analytics-name='Support'
                                 @route='support'
                             >
                                 {{fa-icon 'life-ring' fixedWidth=true}}
                                 {{t 'auth_dropdown.osf_support'}}
-                            </Link>
+                            </OsfLink>
                         </ddm.item>
                         <ddm.item role='menuitem'>
-                            <Link
+                            <OsfLink
                                 data-analytics-name='Settings'
                                 @href={{this.settingsURL}}
                             >
                                 {{fa-icon 'cog' fixedWidth=true}}
                                 {{t 'general.settings'}}
-                            </Link>
+                            </OsfLink>
                         </ddm.item>
                         <ddm.item role='menuitem'>
-                            <Link
+                            <OsfLink
                                 data-analytics-name='Logout'
                                 class='logoutLink'
                                 role='button'
@@ -168,7 +168,7 @@
                             >
                                 {{fa-icon 'sign-out' fixedWidth=true}}
                                 {{t 'auth_dropdown.log_out'}}
-                            </Link>
+                            </OsfLink>
                         </ddm.item>
                     </dd.menu>
                 </BsDropdown>
