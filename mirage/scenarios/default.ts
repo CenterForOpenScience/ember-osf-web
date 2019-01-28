@@ -22,7 +22,7 @@ export default function(server: Server) {
             'loggedIn',
             'withInstitutions',
             'withSettings',
-            'withAlternateEmail',
+            'withAlternateEmails',
             'withUnconfirmedEmail',
         ];
     const currentUser = server.create('user', ...userTraits);

@@ -24,3 +24,18 @@ export function updateEmails(this: HandlerContext, schema: Schema, request: Requ
 
     return updatedInfo;
 }
+
+export function createEmails(this: HandlerContext, schema: Schema, request: Request) {
+    const { parentID } = request.params;
+    const attrs = this.normalizedRequestAttrs('userEmail');
+    const user = schema.users.find(parentID);
+    /*
+    // If the user is adding an email, check if primary.
+    // If has primary value use that. Otherwise it's false.
+    */
+    const primary = attrs.primary || false;
+
+    const email = schema.userEmails.create({ ...attrs, user, confirmed: false, primary });
+
+    return email;
+}
