@@ -22,7 +22,6 @@ export default class ProjectMetadata extends Component {
     @service toast!: Toast;
 
     node: Node = this.node;
-    didValidate: boolean = this.didValidate;
 
     @requiredAction continue!: () => void;
 
