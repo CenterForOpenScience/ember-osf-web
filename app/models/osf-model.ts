@@ -223,9 +223,13 @@ export default class OsfModel extends Model {
         const apiRelationshipName = underscore(relationshipName);
         const errorContext = `while loading related counts for ${this.modelName}.${relationshipName}`;
 
+        if (!this.links.self) {
+            throw new Error(`Unable to find self link on ${this.modelName} ${this.id} ${errorContext}`);
+        }
+
         // Get related count with sparse fieldset.
         const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX({
-            url: getHref(this.links.self!),
+            url: getHref(this.links.self),
             data: {
                 related_counts: apiRelationshipName,
                 [`fields[${apiModelName}]`]: apiRelationshipName,
