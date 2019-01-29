@@ -17,8 +17,6 @@ module('Acceptance | settings/account | default region', hooks => {
             'user-setting',
             {
                 user: currentUser,
-                twoFactorEnabled: false,
-                twoFactorConfirmed: false,
             },
         );
 

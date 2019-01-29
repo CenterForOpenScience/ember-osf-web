@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
+import { action } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -27,8 +27,7 @@ export default class DefaultRegionPane extends Component.extend({
             return undefined;
         }
 
-        const defaultRegion = yield user.belongsTo('defaultRegion').reload();
-        this.set('defaultRegion', defaultRegion);
+        yield user.belongsTo('defaultRegion').reload();
     }),
 }) {
     @service currentUser!: CurrentUser;
@@ -36,7 +35,6 @@ export default class DefaultRegionPane extends Component.extend({
     @service toast!: Toast;
     @service store!: DS.Store;
     @alias('currentUser.user') user!: User;
-    defaultRegion?: RegionModel;
     regions?: RegionModel[];
     @alias('loadDefaultRegionTask.isRunning') loadDefaultRunning!: boolean;
     @alias('loadRegionsTask.isRunning') loadRegionsRunning!: boolean;
@@ -47,25 +45,16 @@ export default class DefaultRegionPane extends Component.extend({
         this.loadDefaultRegionTask.perform();
     }
 
-    @computed('defaultRegion.name')
-    get regionName(): string {
-        if (this.defaultRegion !== undefined) {
-            return this.defaultRegion.get('name');
-        }
-        return '';
-    }
-
     @action
     updateRegion() {
-        if (this.defaultRegion !== undefined) {
-            this.set('defaultRegion', this.user.defaultRegion);
-            const region = this.regionName;
-            this.toast.success(this.i18n.t('settings.account.defaultRegion.successToast', {
-                region,
-            }));
-        } else {
-            this.updateError();
-        }
+        this.toast.success(
+            this.i18n.t(
+                'settings.account.defaultRegion.successToast',
+                {
+                    region: this.user.defaultRegion.name,
+                },
+            ),
+        );
     }
 
     @action

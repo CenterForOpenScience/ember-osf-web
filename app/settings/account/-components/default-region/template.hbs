@@ -19,12 +19,12 @@
                 <form.select
                     data-test-region-selector
                     @renderInPlace={{true}}
-                    @selected={{this.regionName}}
+                    @selected={{this.user.defaultRegion.name}}
                     @model={{this.user}}
                     @valuePath='defaultRegion'
                     @options={{this.regions}}
                     @searchEnabled={{false}}
-                    @placeholder={{this.regionName}}
+                    @placeholder={{this.user.defaultRegion.name}}
                     as |regionOption|
                 >
                     {{regionOption.name}}
