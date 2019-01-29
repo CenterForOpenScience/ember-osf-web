@@ -5,9 +5,15 @@
             @type='link'
             @onClick={{action (mut this.showModal) true}}
         >
-            <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
-            {{fa-icon 'rocket'}}
+            {{#if this.showUrlInput}}
+                {{fa-icon 'rocket'}}
+            {{else}}
+                <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
+            {{/if}}
         </OsfButton>
+        {{#if this.showUrlInput}}
+            {{input type='text' value=this.url enter=(action this.transitionToUrl)}}
+        {{/if}}
     </div>
     <BsModal
         @open={{this.showModal}}
@@ -21,6 +27,10 @@
                     <label>
                         {{input type='checkbox' checked=this.analytics.shouldToastOnEvent}}
                         {{t 'dev_tools.options.toast_events'}}
+                    </label>
+                    <label>
+                        {{input type='checkbox' checked=this.showUrlInput}}
+                        {{t 'dev_tools.options.show_url_bar'}}
                     </label>
                 </tab.pane>
                 <tab.pane @title='Zoom to route'>
