@@ -3,9 +3,9 @@
     <div class='panel-heading clearfix'>
         <h3 class='panel-title'>{{t 'settings.profile.name.title'}}</h3>
     </div>
-    {{settings/profile/name/-components/name 
+    {{settings/profile/name/-components/name
         user=this.user
+        onWillDestroy=(action this.onWillDestroy)
         onSave=(action this.onSave)
     }}
-
 </div>

@@ -21,7 +21,7 @@
                 <div class='panel panel-default'>
                     <BsNav @type='pills' @stacked={{true}} as |nav|>
                         <nav.item>
-                            <nav.link-to 
+                            <nav.link-to
                                 data-analytics-name='Settings'
                                 @params={{array 'settings.profile'}}
                             >
@@ -77,12 +77,12 @@
                             </nav.link-to>
                         </nav.item>
                         <nav.item>
-                            <OsfLink
+                            <nav.link-to
                                 data-analytics-name='Configure add-on accounts'
-                                @href='/settings/addons'
+                                @params={{array 'settings.addons'}}
                             >
                                 {{t 'settings.addons.title'}}
-                            </OsfLink>
+                            </nav.link-to>
                         </nav.item>
                         <nav.item>
                             <OsfLink
