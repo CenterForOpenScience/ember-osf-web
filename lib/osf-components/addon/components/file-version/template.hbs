@@ -1,43 +1,41 @@
-<div data-analytics-scope='File version'>
-    <td class='col-md-4'>
-        {{#if this.clickable}}
-            <OsfButton
-                data-analytics-name='Change version'
-                local-class='FileVersion__button'
-                @class='btn-link'
-                @onClick={{action this.changeVersion this.version.id}}
-            >
-                {{this.version.id}}
-            </OsfButton>
-        {{else}}
-            {{this.version.id}}
-        {{/if}}
-    </td>
-    <td class='col-md-6'>{{moment-format this.version.attributes.modified_utc}}</td>
-    <td class='col-xs-1'><div class='badge'>{{this.version.attributes.extra.downloads}}</div></td>
-    <td class='col-xs-1'>
+<td class='col-md-4'>
+    {{#if this.clickable}}
         <OsfButton
-            data-analytics-name='Download version'
-            aria-label={{t 'general.download'}}
-            @type='primary'
-            @size='sm'
-            @onClick={{action this.downloadVersion this.version.id}}
+            data-analytics-name='Change version'
+            local-class='FileVersion__button'
+            @class='btn-link'
+            @onClick={{action this.changeVersion this.version.id}}
         >
-            {{fa-icon 'download'}}
+            {{this.version.id}}
         </OsfButton>
-    </td>
-    <td class='hidden-md hidden-sm hidden-xs'>
-        <CopyableText
-            local-class='input-group'
-            @text={{this.version.attributes.extra.hashes.md5}}
-            @analyticsLabel='File version - Copy md5'
-        />
-    </td>
-    <td class='hidden-md hidden-sm hidden-xs'>
-        <CopyableText
-            local-class='input-group'
-            @text={{this.version.attributes.extra.hashes.sha256}}
-            @analyticsLabel='File version - Copy sha256'
-        />
-    </td>
-</div>
+    {{else}}
+        {{this.version.id}}
+    {{/if}}
+</td>
+<td class='col-md-6'>{{moment-format this.version.attributes.modified_utc}}</td>
+<td class='col-xs-1'><div class='badge'>{{this.version.attributes.extra.downloads}}</div></td>
+<td class='col-xs-1'>
+    <OsfButton
+        data-analytics-name='Download version'
+        aria-label={{t 'general.download'}}
+        @type='primary'
+        @size='sm'
+        @onClick={{action this.downloadVersion this.version.id}}
+    >
+        {{fa-icon 'download'}}
+    </OsfButton>
+</td>
+<td class='hidden-md hidden-sm hidden-xs'>
+    <CopyableText
+        local-class='input-group'
+        @text={{this.version.attributes.extra.hashes.md5}}
+        @analyticsLabel='File version - Copy md5'
+    />
+</td>
+<td class='hidden-md hidden-sm hidden-xs'>
+    <CopyableText
+        local-class='input-group'
+        @text={{this.version.attributes.extra.hashes.sha256}}
+        @analyticsLabel='File version - Copy sha256'
+    />
+</td>

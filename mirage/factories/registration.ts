@@ -1,15 +1,62 @@
-import { association, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, faker, ModelInstance, trait, Trait } from 'ember-cli-mirage';
 
 import Registration from 'ember-osf-web/models/registration';
 
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
-export interface RegistrationTraits {
+export interface RegistrationExtra {
     withComments: Trait;
+    isPendingApproval: Trait;
+    isArchiving: Trait;
+    isEmbargoed: Trait;
+    isPendingEmbargoApproval: Trait;
+    isPendingWithdrawal: Trait;
+    isWithdrawn: Trait;
+    withArbitraryState: Trait;
+    index: number;
 }
 
-export default NodeFactory.extend<Registration & RegistrationTraits>({
+const stateAttrs = {
+    pendingApproval: {
+        pendingRegistrationApproval: true,
+        archiving: false,
+    },
+    archiving: {
+        archiving: true,
+        pendingRegistrationApproval: false,
+    },
+    embargoed: {
+        pendingEmbargoApproval: false,
+        embargoed: true,
+        embargoEndDate: faker.date.future(),
+    },
+    pendingEmbargoApproval: {
+        pendingEmbargoApproval: true,
+        embargoed: false,
+        embargoEndDate: null,
+    },
+    pendingWithdrawal: {
+        withdrawn: false,
+        pendingWithdrawal: true,
+    },
+    withdrawn: {
+        withdrawn: true,
+        pendingWithdrawal: false,
+        dateWithdrawn: faker.date.recent(),
+    },
+    normal: {
+        pendingRegistrationApproval: false,
+        archiving: false,
+        embargoed: false,
+        embargoEndDate: null,
+        pendingEmbargoApproval: false,
+        withdrawn: false,
+        pendingWithdrawal: false,
+    },
+};
+
+export default NodeFactory.extend<Registration & RegistrationExtra>({
     id: guid('registration'),
     afterCreate(newReg, server) {
         guidAfterCreate(newReg, server);
@@ -52,6 +99,9 @@ export default NodeFactory.extend<Registration & RegistrationTraits>({
 
     registeredFrom: association(),
 
+    index(i) {
+        return i;
+    },
     withComments: trait({
         afterCreate(registration: any, server: any) {
             server.createList(
@@ -65,6 +115,32 @@ export default NodeFactory.extend<Registration & RegistrationTraits>({
                 'withReplies',
                 { node: registration, targetID: registration.id, targetType: 'registrations' },
             );
+        },
+    }),
+    isPendingApproval: trait({
+        ...stateAttrs.pendingApproval,
+    }),
+    isArchiving: trait({
+        ...stateAttrs.archiving,
+    }),
+    isEmbargoed: trait({
+        ...stateAttrs.embargoed,
+    }),
+    isPendingEmbargoApproval: trait({
+        ...stateAttrs.pendingEmbargoApproval,
+    }),
+    isPendingWithdrawal: trait({
+        ...stateAttrs.pendingWithdrawal,
+    }),
+    isWithdrawn: trait({
+        ...stateAttrs.withdrawn,
+    }),
+    withArbitraryState: trait({
+        afterCreate(registration: ModelInstance<Registration> & RegistrationExtra) {
+            const arbitraryState =
+                faker.list.cycle(...Object.keys(stateAttrs))(registration.index);
+            const attrsToUse = stateAttrs[arbitraryState as keyof typeof stateAttrs];
+            registration.update(attrsToUse);
         },
     }),
 });
