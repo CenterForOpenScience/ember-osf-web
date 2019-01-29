@@ -4,8 +4,9 @@ import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import config from 'ember-get-config';
+import { Link } from 'jsonapi-typescript';
 
-import OsfModel from './osf-model';
+import OsfModel, { OsfLinks } from './osf-model';
 import UserModel from './user';
 
 const { support: { supportEmail } } = config;
@@ -35,7 +36,12 @@ const Validations = buildValidations({
     debounce: 500,
 });
 
+export interface UserEmailLinks extends OsfLinks {
+    resendConfirmation: Link;
+}
+
 export default class UserEmailModel extends OsfModel.extend(Validations) {
+    @attr() links!: UserEmailLinks;
     @attr() emailAddress!: string;
     @attr('boolean') confirmed!: boolean;
     @alias('confirmed') isConfirmed!: boolean;

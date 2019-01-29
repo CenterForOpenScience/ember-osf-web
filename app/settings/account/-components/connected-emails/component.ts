@@ -71,6 +71,25 @@ export default class ConnectedEmails extends Component.extend({
 
         return this.toast.success(successMessage);
     }),
+
+    resendEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
+        const errorMessage = this.i18n.t('settings.account.connected_emails.resend_fail');
+        const successMessage = this.i18n.t('settings.account.connected_emails.resend_success');
+
+        if (!email) {
+            return this.toast.error(errorMessage);
+        }
+
+        const url: any = email.links.resendConfirmation;
+
+        try {
+            yield $.ajax(url, { type: 'GET' });
+        } catch (e) {
+            return this.toast.error(errorMessage);
+        }
+
+        return this.toast.success(successMessage);
+    }),
 }) {
     // Private properties
     @service currentUser!: CurrentUser;
@@ -122,8 +141,9 @@ export default class ConnectedEmails extends Component.extend({
     }
 
     @action
-    resendConfirmation() {
+    resendConfirmation(email: UserEmail) {
         this.toggleProperty('showMergeModal');
+        this.resendEmail.perform(email);
     }
 
     @action

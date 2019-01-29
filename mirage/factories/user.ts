@@ -10,7 +10,7 @@ export interface UserTraits {
     loggedIn: Trait;
     withInstitutions: Trait;
     withSettings: Trait;
-    withAlternateEmails: Trait;
+    withAlternateEmail: Trait;
     withUnconfirmedEmail: Trait;
     withUnverifiedEmail: Trait;
     withUnverifiedEmails: Trait;
@@ -89,10 +89,8 @@ export default Factory.extend<User & UserTraits>({
         },
     }),
 
-    withAlternateEmails: trait({
+    withAlternateEmail: trait({
         afterCreate(user, server) {
-            server.create('user-email', { user });
-            server.create('user-email', { user });
             server.create('user-email', { user });
         },
     }),

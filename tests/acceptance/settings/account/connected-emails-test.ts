@@ -58,7 +58,7 @@ module('Acceptance | settings | account information page', hooks => {
     });
 
     // remove alternate email
-    test('delete alternate email 999', async assert => {
+    test('delete alternate email', async assert => {
         const user = server.create('user', 'loggedIn', 'withSettings', 'withAlternateEmail');
 
         const { emailAddress } = user.emails.models[1];
