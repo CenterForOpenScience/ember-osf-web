@@ -4,19 +4,21 @@
 >
     <panel.heading @title={{t 'settings.account.deactivation.title'}} />
     <panel.body data-analytics-scope='Deactivation panel'>
+        <BsAlert
+            @type='warning'
+            @dismissible={{false}}
+        >
+            <strong>{{t 'settings.account.deactivation.warning'}}</strong>
+            {{t 'settings.account.deactivation.warningText'}}
+        </BsAlert>
+        <p>
+            {{t 'settings.account.deactivation.body'}}
+        </p>
         {{#if (or this.loadSettings.isRunning this.saveSettings.isRunning)}}
-            <LoadingIndicator @dark={{true}} />
+            <OsfButton @disabled={{true}}>
+                {{t 'general.loading'}}
+            </OsfButton>
         {{else}}
-            <BsAlert
-                @type='warning'
-                @dismissible={{false}}
-            >
-                <strong>{{t 'settings.account.deactivation.warning'}}</strong>
-                {{t 'settings.account.deactivation.warningText'}}
-            </BsAlert>
-            <p>
-                {{t 'settings.account.deactivation.body'}}
-            </p>
             {{#if this.user.settings.deactivationRequested}}
                 <p>
                     <strong>{{t 'settings.account.deactivation.pending'}}</strong>

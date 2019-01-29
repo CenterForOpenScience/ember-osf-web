@@ -4,12 +4,14 @@
 >
     <panel.heading @title={{t 'settings.account.export.title'}} />
     <panel.body data-analytics-scope='Export panel'>
+        <p>
+            {{t 'settings.account.export.body'}}
+        </p>
         {{#if (or this.loadSettings.isRunning this.saveSettings.isRunning)}}
-            <LoadingIndicator @dark={{true}} />
+            <OsfButton @disabled={{true}}>
+                {{t 'general.loading'}}
+            </OsfButton>
         {{else}}
-            <p>
-                {{t 'settings.account.export.body'}}
-            </p>
             <OsfButton
                 data-analytics-name='Export request'
                 @onClick={{action (mut this.showRequestDialog) true}}

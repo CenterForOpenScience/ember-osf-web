@@ -75,6 +75,7 @@ export default {
         sort: 'Sort',
         asc_paren: '(asc)',
         desc_paren: '(desc)',
+        loading: 'Loading...',
         next: 'next',
         previous: 'previous',
         help: 'Help',

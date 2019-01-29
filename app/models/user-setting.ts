@@ -38,12 +38,6 @@ export default class UserSettingModel extends OsfModel.extend(Validations) {
         await this.currentUser.authenticatedAJAX({
             url: getHref(this.links.export),
             type: 'POST',
-            xhrFields: {
-                withCredentials: true,
-            },
-            headers: {
-                'Content-Type': 'application/vnd.api+json',
-            },
             data: JSON.stringify({
                 type: 'user-account-export-form',
                 attributes: {},
