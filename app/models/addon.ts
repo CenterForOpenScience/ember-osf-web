@@ -2,7 +2,10 @@ import { attr } from '@ember-decorators/data';
 import OsfModel from './osf-model';
 
 export default class AddonModel extends OsfModel {
+    @attr('fixstring') url!: string;
     @attr('fixstring') name!: string;
+    @attr('array') categories!: string[];
+    @attr('fixstring') description!: string;
 }
 
 declare module 'ember-data/types/registries/model' {
