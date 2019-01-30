@@ -1,9 +1,11 @@
 import DS from 'ember-data';
+import getHref from 'ember-osf-web/utils/get-href';
 import { Resource, ResourceCollectionDocument, SingleResourceDocument } from 'osf-api';
 import OsfSerializer from './osf-serializer';
 
 function normalizeId(resource: Resource): string {
-    const commentId = resource.links!.self.split('/').reverse()[2];
+    const resourceLink = getHref(resource.links!.self!);
+    const commentId = resourceLink.split('/').reverse()[2];
     const resourceId = resource.id;
     return `${resourceId}-${commentId}-${Date.now()}`;
 }
