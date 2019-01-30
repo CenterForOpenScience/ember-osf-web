@@ -552,6 +552,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
 
             await click('[data-test-filter-button]');
             assert.dom('[data-test-filter-input]').exists('after clicking filter');
+            percySnapshot(assert);
 
             fillIn('[data-test-filter-input]', 'a');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
@@ -628,16 +629,11 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         });
     });
 
-    test('misc screenshots for Percy', async function() {
+    test('Help button works', async assert => {
         const currentUser = server.create('user', 'loggedIn', 'withFiles');
         await visit(`--user/${currentUser.id}/quickfiles`);
-        const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
-        await untrackedClick(files[0]);
-        await click('[data-test-filter-button]');
-        await percySnapshot('Acceptance | Guid User Quickfiles | filter button');
-        await click('[data-test-close-filter]');
         await click('[data-test-info-button]');
-        await percySnapshot('Acceptance | Guid User Quickfiles | help button');
+        await percySnapshot(assert);
         await click('[data-test-close-current-modal]');
     });
 });
