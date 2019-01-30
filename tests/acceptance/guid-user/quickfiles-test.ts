@@ -323,7 +323,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             assert.dom('[data-test-download-count]')
                 .containsText('42');
             assert.dom('[data-test-date-modified]')
-                .containsText(date);
+                .hasText(date);
         });
 
         test('can delete a file', async assert => {
