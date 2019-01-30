@@ -16,6 +16,7 @@ import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
+import { getAddons } from './views/addon';
 
 const { OSF: { apiUrl } } = config;
 
@@ -102,6 +103,9 @@ export default function(this: Server) {
         return { meta: { version: '2.8' }, maintenance: null };
     });
 
+    osfResource(this, 'addon', { except: ['create', 'delete'] });
+    this.get('/addons', getAddons);
+
     osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
 
@@ -117,6 +121,7 @@ export default function(this: Server) {
     this.patch('/users/:parentID/settings/emails/:emailID/', updateEmails);
     this.post('/users/:parentID/settings/emails/', createEmails);
     this.post('/users/:id/settings/export', userSettings.requestExport);
+
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });

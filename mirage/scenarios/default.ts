@@ -142,6 +142,7 @@ function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('token', 23);
     server.createList('scope', 5);
     server.createList('developer-app', 12);
+    server.loadFixtures('addons');
 }
 
 export default function(server: Server) {
