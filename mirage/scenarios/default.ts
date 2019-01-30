@@ -17,7 +17,7 @@ const {
 } = config;
 
 export default function(server: Server) {
-    const userTraits = defaultLoggedOut ? [] : ['loggedIn', 'withInstitutions'];
+    const userTraits = defaultLoggedOut ? [] : ['loggedIn', 'withInstitutions', 'withFiles'];
     const currentUser = server.create('user', ...userTraits);
 
     server.create('user-setting', { user: currentUser });

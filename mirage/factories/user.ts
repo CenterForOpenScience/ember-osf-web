@@ -76,7 +76,6 @@ export default Factory.extend<User & UserTraits>({
             } else {
                 server.create('root', { currentUser });
             }
-            server.createList('file', 5, { user: currentUser });
         },
     }),
 
