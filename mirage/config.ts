@@ -10,7 +10,7 @@ import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { userNodeList } from './views/user';
 import { getUserSetting, updateUserSetting } from './views/user-setting';
-import { moveFile } from './views/wb';
+import * as wb from './views/wb';
 
 const { OSF: { apiUrl } } = config;
 
@@ -83,7 +83,10 @@ export default function(this: Server) {
 
     // Waterbutler namespace
     this.namespace = '/wb';
-    this.post('/files/:id/move', moveFile);
+    this.post('/files/:id/move', wb.moveFile);
+    this.post('/files/:id/upload', wb.renameFile);
+    this.del('/files/:id/delete', wb.deleteFile);
+    this.get('/files/:id/download', wb.fileVersions);
 
     // Private namespace
     this.namespace = '/_';
