@@ -94,14 +94,6 @@ export default class Overview extends Controller {
         return 'drawer';
     }
 
-    @computed('registration')
-    get isRoot() {
-        if (!this.registration) {
-            return;
-        }
-        return this.registration.id === this.registration.root.get('id');
-    }
-
     @computed('registration.relatedCounts.forks')
     get forksCount(): number {
         return (this.registration && this.registration.relatedCounts!.forks) || 0;

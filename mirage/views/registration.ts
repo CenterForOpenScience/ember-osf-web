@@ -21,7 +21,7 @@ export function registrationDetail(this: HandlerContext, schema: Schema, request
     const { id } = request.params;
     const registration = schema.registrations.find(id);
 
-    if (registration.embargoed && (!registration.currentUserPermissions.length)) {
+    if (registration.embargoed && !registration.currentUserPermissions.length) {
         return new Response(404, {}, {
             meta: { version: '2.9' },
             errors: [{ detail: 'Not found.' }],

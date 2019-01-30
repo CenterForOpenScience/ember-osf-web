@@ -7,7 +7,7 @@ import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import Registration from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationState } from 'ember-osf-web/models/registration';
 import styles from './styles';
 import template from './template';
 
@@ -18,9 +18,7 @@ export default class RegistriesOverviewMenu extends Component.extend({
             return;
         }
 
-        if (closeDropdown) {
-            closeDropdown();
-        }
+        closeDropdown();
 
         try {
             yield this.node.makeFork();
@@ -39,14 +37,12 @@ export default class RegistriesOverviewMenu extends Component.extend({
     @service toast!: Toast;
     @service i18n!: I18N;
 
-    currentState!: string;
-    isAdmin!: boolean;
     registrationURL!: string;
 
-    node!: Registration;
+    node!: RegistrationModel;
 
-    @computed('currentState')
+    @computed('node.state')
     get isWithdrawn(this: RegistriesOverviewMenu): boolean {
-        return this.currentState === 'withdrawn';
+        return this.node.state === RegistrationState.Withdrawn;
     }
 }

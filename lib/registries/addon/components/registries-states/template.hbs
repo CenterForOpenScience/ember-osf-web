@@ -1,16 +1,12 @@
 {{#if this.isDisabled}}
-    {{registries-states/actions-trigger currentState=@currentState isAdmin=@isAdmin isDisabled=true}}
+    {{registries-states/actions-trigger node=@node isDisabled=true}}
 {{else}}
     <ResponsiveDropdown as |dd|>
         {{#dd.trigger local-class='Menu__button'}}
-            {{registries-states/actions-trigger
-                  currentState=@currentState
-                  isAdmin=@isAdmin
-                  isOpen=dd.isOpen
-            }}
+            {{registries-states/actions-trigger isOpen=dd.isOpen node=@node}}
         {{/dd.trigger}}
         {{#dd.content local-class='States'}}
-            {{#if (eq this.currentState 'public')}}
+            {{#if (eq this.node.state 'public')}}
                 {{registries-states/is-public node=@node closeDropdown=dd.close}}
             {{else}}
                 {{registries-states/is-embargoed node=@node closeDropdown=dd.close}}

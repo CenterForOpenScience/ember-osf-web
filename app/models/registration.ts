@@ -1,4 +1,5 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import { computed } from '@ember-decorators/object';
 import DS from 'ember-data';
 
 import CommentModel from './comment';
@@ -7,6 +8,16 @@ import NodeModel from './node';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import RegistryProviderModel from './registry-provider';
 import UserModel from './user';
+
+export enum RegistrationState {
+    Embargoed = 'embargoed',
+    Public = 'public',
+    Withdrawn = 'withdrawn',
+    PendingRegistration = 'pendingRegistrationApproval',
+    PendingWithdrawal = 'pendingWithdrawal',
+    PendingEmbargo = 'pendingEmbargoApproval',
+    PendingEmbargoTermination = 'pendingEmbargoTerminationApproval',
+}
 
 export default class RegistrationModel extends NodeModel.extend() {
     @attr('date') dateRegistered!: Date;
@@ -26,6 +37,22 @@ export default class RegistrationModel extends NodeModel.extend() {
     @attr('fixstring') draftRegistration?: string;
     @attr('fixstring') registrationChoice?: 'immediate' | 'embargo';
     @attr('date') liftEmbargo?: Date;
+
+    @computed(
+        'withdrawn', 'embargoed', 'public', 'pendingRegistrationApproval',
+        'pendingEmbargoApproval', 'pendingEmbargoTerminationApproval',
+        'pendingWithdrawal')
+    get state(): RegistrationState {
+        return (
+            (this.pendingRegistrationApproval && RegistrationState.PendingRegistration) ||
+            (this.pendingEmbargoApproval && RegistrationState.PendingEmbargo) ||
+            (this.pendingEmbargoTerminationApproval && RegistrationState.PendingEmbargoTermination) ||
+            (this.pendingWithdrawal && RegistrationState.PendingWithdrawal) ||
+            (this.withdrawn && RegistrationState.Withdrawn) ||
+            (this.embargoed && RegistrationState.Embargoed) ||
+            RegistrationState.Public
+        );
+    }
 
     @belongsTo('node', { inverse: 'registrations' })
     registeredFrom!: DS.PromiseObject<NodeModel> & NodeModel;
@@ -47,6 +74,9 @@ export default class RegistrationModel extends NodeModel.extend() {
 
     @belongsTo('registration', { inverse: 'children' })
     parent!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
+
+    @belongsTo('registration', { inverse: null })
+    root!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @hasMany('registration', { inverse: 'parent' })
     children!: DS.PromiseManyArray<RegistrationModel>;

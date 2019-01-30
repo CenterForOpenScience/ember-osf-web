@@ -6,13 +6,13 @@ import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import RegistrationModel from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationState } from 'ember-osf-web/models/registration';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
 import template from './template';
 
-const stateToBannerMap: { [index: string]: {text: string, type: string} } = {
+const stateToBannerMap: Record<RegistrationState, {text: string, type: string}> = {
     pendingRegistrationApproval: {
         text: 'registries.overview.pendingRegistrationApproval.banner',
         type: 'info',
@@ -37,6 +37,10 @@ const stateToBannerMap: { [index: string]: {text: string, type: string} } = {
         text: 'registries.overview.withdrawn.banner',
         type: 'danger',
     },
+    public: {
+        text: '',
+        type: '',
+    },
 };
 
 const { OSF: { url: baseURL } } = config;
@@ -48,27 +52,23 @@ export default class RegistriesBanner extends Component {
     @alias('registration.embargoEndDate') endEmbargoDate!: string;
 
     // Required
-    currentState?: string;
-    registration!: RegistrationModel;
+    node!: RegistrationModel;
 
     // Optional
     dismissible?: boolean = defaultTo(this.dismissible, false);
     type?: string = defaultTo(this.type, 'info');
 
-    @computed('currentState')
+    @computed('registration.state')
     get stateBanner(this: RegistriesBanner) {
-        if (!this.currentState) {
-            return;
-        }
-        return stateToBannerMap[this.currentState];
+        return stateToBannerMap[this.node.state];
     }
 
     @computed('registration.registeredFrom.id')
     get projectUrl(this: RegistriesBanner) {
-        if (!this.registration) {
+        if (!this.node) {
             return;
         }
-        const registeredFromId = this.registration.registeredFrom.get('id');
+        const registeredFromId = this.node.registeredFrom.get('id');
         return registeredFromId && pathJoin(baseURL, registeredFromId);
     }
 }

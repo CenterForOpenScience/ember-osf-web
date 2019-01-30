@@ -17,6 +17,10 @@ export default class CollectionSerializer extends ApplicationSerializer<Collecti
             },
             linkedRegistrations: {
                 links: {
+                    self: {
+                        href: `${apiUrl}/v2/collections/${model.id}/relationships/linked_registrations/`,
+                        meta: {},
+                    },
                     related: {
                         href: `${apiUrl}/v2/collections/${model.id}/linked_registrations/`,
                     },

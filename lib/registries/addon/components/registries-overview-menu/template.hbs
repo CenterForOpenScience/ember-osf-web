@@ -1,11 +1,6 @@
 <div class='btn-group pull-right' role='group' aria-label={{t 'registries.overview.aria_labels.main'}}>
     <div class='btn-group' role='group'>
-        <RegistriesStates
-            @currentState={{this.currentState}}
-            @isAdmin={{this.isAdmin}}
-            @node={{this.node}}
-            @isRoot={{@isRoot}}
-        />
+        <RegistriesStates @node={{this.node}} />
     </div>
     {{#unless this.isWithdrawn}}
         <div class='btn-group' role='group'>
@@ -23,9 +18,13 @@
                 {{#dd.content}}
                     <div local-class='ForksMenu'>
                         <div local-class='ForksMenu__option'>
-                            {{#global-link-to 'guid-registration.forks' this.node.id data-analytics-name='Go to forks page'}}
+                            <OsfLink
+                                data-analytics-name='Go to forks page'
+                                @route='guid-registration.forks'
+                                @models={{array this.node.id}}
+                            >
                                 {{t 'registries.overview.view_forks'}}
-                            {{/global-link-to}}
+                            </OsfLink>
                         </div>
                         <div local-class='ForksMenu__option'>
                             <OsfButton

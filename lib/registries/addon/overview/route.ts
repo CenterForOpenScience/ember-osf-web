@@ -15,7 +15,7 @@ export default class Overview extends GuidRoute {
     }
 
     include() {
-        return ['registration_schema', 'contributors', 'identifiers'];
+        return ['registration_schema', 'contributors', 'identifiers', 'root'];
     }
 
     adapterOptions() {

@@ -5,30 +5,29 @@ import Component from '@ember/component';
 import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import RegistrationModel from 'ember-osf-web/models/registration';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
 
-const StateToIconMap: {
-    [index: string]: { text: string, icon: string },
-    } = {
-        public: {
-            text: 'registries.overview.public.state',
-            icon: 'eye',
-        },
-        pending: {
-            text: 'registries.overview.pending.state',
-            icon: 'hourglass-o',
-        },
-        embargoed: {
-            text: 'registries.overview.embargoed.state',
-            icon: 'lock',
-        },
-        withdrawn: {
-            text: 'registries.overview.withdrawn.state',
-            icon: 'ban',
-        },
-    };
+const StateToIconMap: Record<string, { text: string, icon: string }> = {
+    public: {
+        text: 'registries.overview.public.state',
+        icon: 'eye',
+    },
+    pending: {
+        text: 'registries.overview.pending.state',
+        icon: 'hourglass-o',
+    },
+    embargoed: {
+        text: 'registries.overview.embargoed.state',
+        icon: 'lock',
+    },
+    withdrawn: {
+        text: 'registries.overview.withdrawn.state',
+        icon: 'ban',
+    },
+};
 
 @layout(template, styles)
 export default class ActionsTrigger extends Component {
@@ -36,21 +35,15 @@ export default class ActionsTrigger extends Component {
 
       @not('media.isDesktop') showMobileView!: boolean;
 
-      isAdmin!: boolean;
       isDisabled?: boolean = defaultTo(this.isDisabled, false);
-      currentState!: string;
+      node!: RegistrationModel;
 
-      @computed('currentState')
+      @computed('node.state')
       get registrationState(this: ActionsTrigger): object {
-          if (this.currentState.includes('pending')) {
+          if (this.node.state.includes('pending')) {
               return StateToIconMap.pending;
           }
-          return StateToIconMap[this.currentState];
-      }
-
-      @computed('currentState')
-      get isPublic(this: ActionsTrigger): boolean {
-          return this.currentState === 'public';
+          return StateToIconMap[this.node.state];
       }
 
       @computed('isDisabled', 'showMobileView')

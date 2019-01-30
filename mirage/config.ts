@@ -1,7 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
-import { updateBookmarks } from './views/collection';
+// import { updateBookmarks } from './views/collection';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { guidDetail } from './views/guid';
@@ -67,9 +67,8 @@ export default function(this: Server) {
 
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
-    this.get('/collections');
-    osfNestedResource(this, 'collection', 'linkedRegistrations', { except: ['update'] });
-    this.patch('/collections/:id', updateBookmarks);
+    osfResource(this, 'collection');
+    osfNestedResource(this, 'collection', 'linkedRegistrations', { only: ['index'] });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
     osfResource(this, 'region', { only: ['index', 'show'] });
