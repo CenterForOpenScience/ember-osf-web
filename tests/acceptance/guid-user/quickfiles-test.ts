@@ -626,6 +626,14 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             click('[data-test-ascending-sort="name"]');
             await settled();
             assert.dom('[data-test-file-item-link]').hasText('aa.gif', 'click ascending by name');
+
+            click('[data-test-ascending-sort="dateModified"]');
+            await settled();
+            assert.dom('[data-test-file-item-link]').hasText('za.gif', 'click ascending by modified');
+
+            click('[data-test-descending-sort="dateModified"]');
+            await settled();
+            assert.dom('[data-test-file-item-link]').hasText('az.gif', 'click descending by modified');
         });
     });
 

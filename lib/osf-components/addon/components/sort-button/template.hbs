@@ -4,7 +4,6 @@
     local-class={{if (eq @sort this.sortBy) 'selected' 'not-selected'}}
     @onClick={{action @sortAction this.sortBy}}
     @title={{t 'general.sort_asc'}}
-    {{!-- {{action 'click' 'button' 'Sort - sort_asc' target=this.analytics}} --}}
 >
     {{fa-icon 'chevron-up'}}
 </OsfButton>
@@ -14,7 +13,6 @@
     local-class={{if (eq @sort this.sortByDesc) 'selected' 'not-selected'}}
     @onClick={{action @sortAction this.sortByDesc}}
     @title={{t 'general.sort_desc'}}
-    {{!-- {{action 'click' 'button' 'Sort - sort_desc' target=this.analytics}} --}}
 >
     {{fa-icon 'chevron-down'}}
 </OsfButton>
