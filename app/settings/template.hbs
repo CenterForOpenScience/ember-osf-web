@@ -77,12 +77,12 @@
                             </nav.link-to>
                         </nav.item>
                         <nav.item>
-                            <OsfLink
-                                data-analytics-name='Configure add-on accounts'
-                                @route='settings.addons'
+                            <nav.link-to
+                                data-analytics-name='User addons'
+                                @params={{array 'settings.addons'}}
                             >
                                 {{t 'settings.addons.title'}}
-                            </OsfLink>
+                            </nav.link-to>
                         </nav.item>
                         <nav.item>
                             <OsfLink
