@@ -37,7 +37,7 @@ const Validations = buildValidations({
 });
 
 export interface UserEmailLinks extends OsfLinks {
-    resendConfirmation: Link;
+    resend_confirmation: Link; // eslint-disable-line camelcase
 }
 
 export default class UserEmailModel extends OsfModel.extend(Validations) {

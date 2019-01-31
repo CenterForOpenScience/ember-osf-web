@@ -10,6 +10,8 @@ import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
+import getHref from 'ember-osf-web/utils/get-href';
+
 export default class ConnectedEmails extends Component.extend({
     loadPrimaryEmail: task(function *(this: ConnectedEmails) {
         const { user } = this.currentUser;
@@ -80,10 +82,13 @@ export default class ConnectedEmails extends Component.extend({
             return this.toast.error(errorMessage);
         }
 
-        const url: any = email.links.resendConfirmation;
+        const url = getHref(email.links.resend_confirmation);
 
         try {
-            yield $.ajax(url, { type: 'GET' });
+            yield this.currentUser.authenticatedAJAX({
+                url,
+                type: 'GET',
+            });
         } catch (e) {
             return this.toast.error(errorMessage);
         }
@@ -97,8 +102,8 @@ export default class ConnectedEmails extends Component.extend({
     @service i18n!: I18N;
     @service toast!: Toast;
     userEmail!: UserEmail;
-    showAddModal: boolean = false;
-    showMergeModal: boolean = false;
+    showAddModal = false;
+    showMergeModal = false;
     didValidate = false;
     lastUserEmail = '';
     modelProperties = { user: this.currentUser.user };

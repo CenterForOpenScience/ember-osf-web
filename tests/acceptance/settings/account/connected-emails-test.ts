@@ -93,4 +93,29 @@ module('Acceptance | settings | account information page', hooks => {
 
         assert.equal(primaryEmail, emailAddress);
     });
+
+    // test resend_confirmation url
+    test('resend confirmation', async assert => {
+        assert.expect(2);
+
+        const done = assert.async();
+
+        const user = server.create('user', 'loggedIn', 'withSettings', 'withUnconfirmedEmail');
+
+        const { emailAddress } = user.emails.models[1];
+
+        server.namespace = '/v2';
+        server.get('/users/:parentID/settings/emails/:emailID/', (_, request) => {
+            assert.equal(request.queryParams.resend_confirmation, 'true');
+            done();
+        });
+
+        await visit('/settings/account');
+
+        await click(`[data-test-unconfirmed-email-item='${emailAddress}']
+        [data-test-resend-confirmation-button]`);
+
+        await percySnapshot(assert);
+        await click('[data-test-resend-confirmation]');
+    });
 });
