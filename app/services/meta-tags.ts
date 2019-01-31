@@ -30,6 +30,8 @@ export interface MetaTagsData {
     fbAppId?: DataContent;
     twitterSite?: DataContent;
     twitterCreator?: DataContent;
+    author?: DataContent;
+    keywords?: DataContent;
 }
 
 export interface MetaTagsDefs {
@@ -95,6 +97,7 @@ export default class MetaTags extends Service {
             citation_doi: metaTagsData.doi,
             citation_publisher: metaTagsData.siteName,
             citation_author_institution: metaTagsData.institution,
+            citation_author: metaTagsData.author,
             citation_description: metaTagsData.description,
             citation_public_url: metaTagsData.url,
             citation_publication_date: metaTagsData.publishedDate,
@@ -108,6 +111,8 @@ export default class MetaTags extends Service {
             'dc.datesubmitted': metaTagsData.publishedDate,
             'dc.publisher': metaTagsData.siteName,
             'dc.language': metaTagsData.language,
+            'dc.creator': metaTagsData.author,
+            'dc.keywords': metaTagsData.keywords,
             // Open Graph/Facebook
             'fb:app_id': metaTagsData.fbAppId,
             'og:ttl': 345600, // 4 days = min value.
