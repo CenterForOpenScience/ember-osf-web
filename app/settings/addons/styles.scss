@@ -1,0 +1,9 @@
+.PanelBodyTest {
+    .PanelSection {
+        border-bottom: 1px solid #eee;
+    }
+
+    .PanelSection:last-child {
+        border: none;
+    }
+}

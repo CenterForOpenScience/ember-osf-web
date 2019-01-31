@@ -1,10 +1,12 @@
-<Panel
-    as |panel|
->
-    <panel.heading @title={{t 'settings.addons.title'}} />
-    <panel.body>
-        <div>
-            {{!--  <p>Hello Addons!</p>  --}}
-        </div>
-    </panel.body>
-</Panel>
+{{#let (component "settings/addons/addon-section") as |AddonSection|}}
+    <Panel as |panel|>
+        <panel.heading @title={{t 'settings.addons.title'}} />
+        <panel.body>
+            <div local-class="PanelBodyTest">
+                 {{#each model as |addon|}}
+                     <AddonSection local-class="PanelSection" @addon={{addon}} />
+                 {{/each}}
+            </div>
+        </panel.body>
+    </Panel>
+{{/let}}
