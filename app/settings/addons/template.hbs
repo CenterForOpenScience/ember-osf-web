@@ -1,11 +1,11 @@
-{{#let (component "settings/addons/addon-section") as |AddonSection|}}
+{{#let (component 'settings/addons/addon-section') as |AddonSection|}}
     <Panel as |panel|>
         <panel.heading @title={{t 'settings.addons.title'}} />
         <panel.body>
-            <div local-class="PanelBodyTest">
-                 {{#each model as |addon|}}
-                     <AddonSection local-class="PanelSection" @addon={{addon}} />
-                 {{/each}}
+            <div local-class='PanelBody'>
+                {{#each this.model as |addon|}}
+                    <AddonSection local-class='PanelSection' @addon={{addon}} />
+                {{/each}}
             </div>
         </panel.body>
     </Panel>
