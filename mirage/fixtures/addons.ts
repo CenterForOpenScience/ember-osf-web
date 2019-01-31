@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 export default [
     {
         links: {},
@@ -100,3 +101,4 @@ export default [
         id: 'googledrive',
     },
 ];
+/* eslint-enable */
