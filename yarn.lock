@@ -6835,7 +6835,7 @@ ember-css-modules-reporter@^1.2.0:
     chalk "^1.1.3"
     postcss "^6.0.1"
 
-ember-css-modules-sass@^1.0.0:
+ember-css-modules-sass@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ember-css-modules-sass/-/ember-css-modules-sass-1.0.1.tgz#2c988a373ea473af35487c21efd6a889cb70bf54"
   integrity sha512-+OW+ngYcTJ+8biAq4YAQI5PgNUuPt7DgdUhllE8S6lWi6MCaVbRNIHoEHu0PACvfrGMif9f5C3OvKBYwrVUDEA==
