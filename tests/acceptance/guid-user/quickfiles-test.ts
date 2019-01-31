@@ -308,7 +308,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 },
                 user: currentUser,
             });
-            const date = moment('2016-08-07T16:43:18.319Z').format('YYYY-MM-DD hh:mm A');
+            const date = moment('2016-08-07T16:43:18.319Z').format('YYYY-MM-DD h:mm A');
 
             await visit(`--user/${currentUser.id}/quickfiles`);
             assert.dom('[data-test-file-item-link]').exists({ count: 1 });
