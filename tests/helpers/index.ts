@@ -40,6 +40,9 @@ export async function visit(url: string) {
  */
 export async function click(target: Target) {
     const element: Element = (target instanceof Element) ? target : document.querySelector(target)!;
+    if (element === null) {
+        throw Error(`Tried to test click, but query selector for ${target} is not on the page`);
+    }
     if (!element.hasAttribute(analyticsAttrs.name)) {
         throw Error(`Untracked click! Add a "${analyticsAttrs.name}" attribute to ${target}`);
     }
