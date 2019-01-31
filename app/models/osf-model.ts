@@ -2,18 +2,20 @@ import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
+import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
 import DS, { RelationshipsFor } from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
-import { singularize } from 'ember-inflector';
+import { pluralize, singularize } from 'ember-inflector';
+import { Links, PaginationLinks } from 'jsonapi-typescript';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 import getHref from 'ember-osf-web/utils/get-href';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
+import getSelfHref from 'ember-osf-web/utils/get-self-href';
 
-import { Links, PaginationLinks } from 'jsonapi-typescript';
 import {
     BaseMeta,
     Document as ApiResponseDocument,
@@ -63,6 +65,10 @@ export default class OsfModel extends Model {
     @alias('links.relationships') relationshipLinks!: Relationships;
 
     @alias('constructor.modelName') modelName!: string & keyof ModelRegistry;
+
+    get apiType() {
+        return pluralize(underscore(this.modelName));
+    }
 
     /*
      * Query a hasMany relationship with query params
@@ -157,6 +163,54 @@ export default class OsfModel extends Model {
         return currentResults;
     }
 
+    async createM2MRelationship<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T> & string,
+        relatedModel: OsfModel,
+    ) {
+        return this.modifyM2MRelationship('create', relationshipName, relatedModel);
+    }
+
+    async deleteM2MRelationship<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T> & string,
+        relatedModel: OsfModel,
+    ) {
+        return this.modifyM2MRelationship('delete', relationshipName, relatedModel);
+    }
+
+    async modifyM2MRelationship<T extends OsfModel>(
+        this: T,
+        action: 'create' | 'delete',
+        relationshipName: RelationshipsFor<T> & string,
+        relatedModel: OsfModel,
+    ) {
+        const apiRelationshipName = underscore(relationshipName);
+        const url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
+
+        if (!url) {
+            throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
+        }
+
+        assert(`The related object is required to ${action} a relationship`, Boolean(relatedModel));
+
+        const options: JQuery.AjaxSettings = {
+            url,
+            type: action.toUpperCase(),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                data: [{
+                    id: relatedModel.id,
+                    type: relatedModel.apiType,
+                }],
+            }),
+        };
+
+        return this.currentUser.authenticatedAJAX(options);
+    }
+
     /*
      * Load related count for a given relationship using sparse fieldsets.
      *
@@ -168,6 +222,10 @@ export default class OsfModel extends Model {
         const apiModelName = this.store.adapterFor(this.modelName).pathForType(this.modelName);
         const apiRelationshipName = underscore(relationshipName);
         const errorContext = `while loading related counts for ${this.modelName}.${relationshipName}`;
+
+        if (!this.links.self) {
+            throw new Error(`Unable to find self link on ${this.modelName} ${this.id} ${errorContext}`);
+        }
 
         // Get related count with sparse fieldset.
         const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX({

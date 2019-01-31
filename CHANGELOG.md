@@ -23,6 +23,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `collection` - improve types for choices fields
     - `collected-metadatum` - improve types for choice fields
     - `user-setting` - Added `requestExport()` function, `deactivationRequested` field, and `export` link
+    - `osf-model`
+        - use proper types for `links` and `relationshipLinks` attributes
+        - added helper methods for creating and deleting M2M relationships:
+            - `createM2MRelationship`
+            - `deleteM2MRelationship`
 - Components
     - `osf-link` - used to be `link`
         - `@onClick` parameter used to be `@onclick`
@@ -206,7 +211,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `dashboard` - replaced project creation modal with `new-project-modal` component
 - Tests:
     - `dashboard` - acceptance tests related to project creation workflow
- 
+
 ## [18.1.0] - 2018-10-30
 ### Added
 - Components:

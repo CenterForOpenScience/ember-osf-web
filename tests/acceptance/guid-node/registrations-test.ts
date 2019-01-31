@@ -150,7 +150,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         server.loadFixtures('registration-schemas');
         const registrationSchema = server.schema.registrationSchemas.all().models[0];
         // @ts-ignore until we kill async relationships
-        registerNodeMultiple(server, node, 12, { registrationSchema });
+        registerNodeMultiple(server, node, 12, { registrationSchema }, 'withArbitraryState');
 
         const url = `/${node.id}/registrations`;
 
