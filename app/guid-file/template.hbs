@@ -256,7 +256,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody data-analytics-scope='File version'>
                                 {{#each (await this.fileVersions) as |version|}}
                                     <FileVersion
                                         @version={{version}}

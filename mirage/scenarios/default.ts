@@ -80,9 +80,13 @@ export default function(server: Server) {
     server.createList('developer-app', 12);
 
     forkNode(server, forksNode as ModelInstance<Node>, { currentUserPermissions: Object.values(Permission) });
-    registerNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {
-        currentUserPermissions: Object.values(Permission),
-    });
+    registerNodeMultiple(
+        server,
+        registrationNode as ModelInstance<Node>,
+        12,
+        { currentUserPermissions: Object.values(Permission) },
+        'withArbitraryState',
+    );
     draftRegisterNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {}, 'withRegistrationMetadata');
 
     server.create('registration', { id: 'beefs' });
