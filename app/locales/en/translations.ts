@@ -1478,6 +1478,7 @@ export default {
         },
         addons: {
             title: 'Configure add-on accounts',
+            link: 'Connect or reauthorize account',
         },
         notifications: {
             title: 'Notifications',

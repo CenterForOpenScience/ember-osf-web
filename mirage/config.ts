@@ -2,6 +2,7 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { updateBookmarks } from './views/collection';
+import { getAddons } from './views/addon';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
@@ -16,7 +17,6 @@ import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
-import { getAddons } from './views/addon';
 
 const { OSF: { apiUrl } } = config;
 
@@ -121,7 +121,6 @@ export default function(this: Server) {
     this.patch('/users/:parentID/settings/emails/:emailID/', updateEmails);
     this.post('/users/:parentID/settings/emails/', createEmails);
     this.post('/users/:id/settings/export', userSettings.requestExport);
-
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
