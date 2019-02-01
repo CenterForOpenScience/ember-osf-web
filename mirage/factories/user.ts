@@ -9,6 +9,9 @@ export interface UserTraits {
     withFiles: Trait;
     loggedIn: Trait;
     withInstitutions: Trait;
+    withSettings: Trait;
+    withAlternateEmail: Trait;
+    withUnconfirmedEmail: Trait;
     withUnverifiedEmail: Trait;
     withUnverifiedEmails: Trait;
 }
@@ -77,6 +80,24 @@ export default Factory.extend<User & UserTraits>({
                 server.create('root', { currentUser });
             }
             server.createList('file', 5, { user: currentUser });
+        },
+    }),
+
+    withSettings: trait({
+        afterCreate(user, server) {
+            server.create('user-setting', { user });
+        },
+    }),
+
+    withAlternateEmail: trait({
+        afterCreate(user, server) {
+            server.create('user-email', { user });
+        },
+    }),
+
+    withUnconfirmedEmail: trait({
+        afterCreate(user, server) {
+            server.create('user-email', { user, confirmed: false });
         },
     }),
 
