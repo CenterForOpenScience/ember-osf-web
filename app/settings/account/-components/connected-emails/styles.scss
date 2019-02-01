@@ -1,0 +1,71 @@
+.loading-icon :global(.ball-pulse) {
+    text-align: left;
+
+    & > div {
+        height: 0.5em;
+        width: 0.5em;
+    }
+}
+
+.section-container {
+    margin-bottom: 20px;
+}
+
+.section-header {
+    font-weight: 600;
+    padding: 8px;
+    border-bottom: 1px solid $color-border-gray;
+    border-bottom-width: 2px;
+    margin-bottom: 0;
+}
+
+.primary-email {
+    padding-left: 8px;
+    margin-top: 8px;
+}
+
+.email-section {
+    :global(.list-group-item):last-of-type > .email-object {
+        border-bottom: 0;
+    }
+}
+
+.email-list ul {
+    margin: 0;
+
+    & > li {
+        border: 0;
+        padding: 0;
+        margin-bottom: 0;
+    }
+}
+
+.email-object {
+    border-bottom: 1px solid $color-border-gray;
+    padding: 20px 8px 13px;
+}
+
+.no-object-message {
+    padding: 20px 8px 13px;
+}
+
+.options {
+    margin-right: 0;
+    margin-top: -8px;
+    float: right;
+}
+
+.merge-explanation {
+    padding-top: 8px;
+    padding-left: 8px;
+}
+
+.input-form {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    margin-left: 8px;
+}
+
+.add-email-button {
+    margin-left: 8px;
+}

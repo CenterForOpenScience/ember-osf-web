@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `settings.account.-components.security` - Two-factor authentication panel.
     - `osf-button` - our new, use-everywhere button component
+    - `connected-emails` - a list of all emails connected to an account
 - Models:
     - `user-setting`
 - Routes:
@@ -98,6 +99,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+    - `connected-emails` - a list of all emails connected to an account
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
@@ -115,6 +117,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `new-project-navigation-modal` - component integration test
     - Acceptance:
         - `settings.profile.name`
+        - `settings.account`
         - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
         - Add percy everywhere in the main app
     - Helpers:

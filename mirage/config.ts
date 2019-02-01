@@ -8,6 +8,7 @@ import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
+import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
 import { getUserSetting, updateUserSetting } from './views/user-setting';
 import * as wb from './views/wb';
@@ -72,9 +73,12 @@ export default function(this: Server) {
     this.get('/users/:id/settings', getUserSetting);
     this.patch('/users/:parentID/settings', updateUserSetting);
     osfNestedResource(this, 'user', 'emails', {
+        except: ['update', 'create'],
         path: '/users/:parentID/settings/emails',
         relatedModelName: 'user-email',
     });
+    this.patch('/users/:parentID/settings/emails/:emailID/', updateEmails);
+    this.post('/users/:parentID/settings/emails/', createEmails);
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
