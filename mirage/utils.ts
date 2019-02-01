@@ -9,9 +9,7 @@ const images = [
 ];
 
 export function randomStaticGravatar() {
-    const min = 0;
-    const max = 4;
-    const selection = Math.floor((Math.random() * (max - (min + 1))) + min);
+    const selection = Math.floor(Math.random() * Math.floor(5));
     return images[selection];
 }
 
