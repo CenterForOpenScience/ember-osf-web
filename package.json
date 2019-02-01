@@ -84,7 +84,7 @@
     "ember-cli-inject-live-reload": "^1.8.2",
     "ember-cli-inline-content": "0.4.1",
     "ember-cli-meta-tags": "^5.0.0",
-    "ember-cli-mirage": "^0.4.10",
+    "ember-cli-mirage": "^0.4.14",
     "ember-cli-moment-shim": "^3.5.0",
     "ember-cli-password-strength": "^2.0.0",
     "ember-cli-qunit": "^4.4.0",
