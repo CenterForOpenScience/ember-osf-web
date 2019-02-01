@@ -6,6 +6,8 @@ import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import moment from 'moment';
 
+import Contributor from 'ember-osf-web/models/contributor';
+import Institution from 'ember-osf-web/models/institution';
 import Registration from 'ember-osf-web/models/registration';
 import GuidRoute, { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -40,14 +42,14 @@ export default class Overview extends GuidRoute {
             keywords: registration.tags,
             siteName: 'OSF',
             license: license && license.name,
-            author: contributors.mapBy('users.fullName'),
-            institution: institutions.mapBy('name'),
+            author: contributors.map((contrib: Contributor) => contrib.users.get('fullName')),
+            institution: institutions.map((ins: Institution) => ins.get('name')),
         };
 
         this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
         this.headTagsService.collectHeadTags();
 
-        // Tell Zotero head tags are ready
+        // Tell Zotero head meta tags are ready
         const ev = new Event('ZoteroItemUpdated', {
             bubbles: true,
             cancelable: true,
