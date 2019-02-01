@@ -23,6 +23,6 @@ import template from './template';
 export default class OsfModeFooter extends Component {
     @service analytics!: Analytics;
 
-    isDevMode: boolean = config.OSF.devMode;
-    showModal: boolean = false;
+    showDevBanner = config.showDevBanner;
+    showModal = false;
 }
