@@ -12,9 +12,12 @@ const {
         popularNode,
     },
     mirageScenarios,
+    engines: {
+        handbook: {
+            enabled: handbookEnabled,
+        },
+    },
 } = config;
-
-const handbookEnabled = config.engines.handbook.enabled;
 
 function registrationScenario(server: Server, currentUser: ModelInstance) {
     const registrationNode = server.create(
