@@ -18,7 +18,6 @@ const {
 
 export default function(server: Server) {
     // Load fixtures first because they don't need dynamic info and other things rely on them existing
-    const userTraits = defaultLoggedOut ? [] :
     server.loadFixtures('regions');
     server.loadFixtures('registration-schemas');
     server.loadFixtures('preprint-providers');
