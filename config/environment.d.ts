@@ -170,8 +170,10 @@ declare const config: {
     };
     'ember-cli-mirage': {
         enabled: boolean;
-        defaultLoggedOut: boolean;
     };
+
+    mirageScenarios: string[];
+
     engines: {
         collections: {
             enabled: boolean;

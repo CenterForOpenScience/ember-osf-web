@@ -11,27 +11,15 @@ const {
         noteworthyNode,
         popularNode,
     },
-    'ember-cli-mirage': {
-        defaultLoggedOut,
+    mirageScenarios,
+    engines: {
+        handbook: {
+            enabled: handbookEnabled,
+        },
     },
 } = config;
 
-export default function(server: Server) {
-    // Load fixtures first because they don't need dynamic info and other things rely on them existing
-    server.loadFixtures('regions');
-    server.loadFixtures('registration-schemas');
-    server.loadFixtures('preprint-providers');
-    const userTraits = defaultLoggedOut ? [] :
-        [
-            'loggedIn',
-            'withInstitutions',
-            'withSettings',
-            'withAlternateEmail',
-            'withUnconfirmedEmail',
-        ];
-    const currentUser = server.create('user', ...userTraits);
-
-    server.create('user-setting', { user: currentUser });
+function registrationScenario(server: Server, currentUser: ModelInstance) {
     const registrationNode = server.create(
         'node',
         {
@@ -45,14 +33,28 @@ export default function(server: Server) {
         permission: 'admin',
         index: 0,
     });
-    const forksNode = server.create('node', { id: 'fork5', currentUserPermissions: Object.values(Permission) });
-    server.create('contributor', {
-        node: forksNode,
-        users: currentUser,
-        permission: 'admin',
-        index: 0,
-    });
 
+    registerNodeMultiple(
+        server,
+        registrationNode as ModelInstance<Node>,
+        12,
+        { currentUserPermissions: Object.values(Permission) },
+        'withArbitraryState',
+    );
+    draftRegisterNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {}, 'withRegistrationMetadata');
+
+    server.create('registration', { id: 'beefs' });
+
+    const reg = server.create('registration', {
+        id: 'decaf',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        linkedNodes: server.createList('node', 21),
+        linkedRegistrations: server.createList('registration', 19),
+    }, 'withContributors', 'withComments');
+    server.createList('registration', 15, { parent: reg });
+}
+
+function dashboardScenario(server: Server, currentUser: ModelInstance) {
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList<Node>('node', 10, {
@@ -83,40 +85,20 @@ export default function(server: Server) {
         server.create('contributor', { node, users: currentUser, index: 11 });
     }
     server.createList('institution', 20);
-    server.createList('token', 23);
-    server.createList('scope', 5);
-    server.createList('developer-app', 12);
+}
 
+function forksScenario(server: Server, currentUser: ModelInstance) {
+    const forksNode = server.create('node', { id: 'fork5', currentUserPermissions: Object.values(Permission) });
+    server.create('contributor', {
+        node: forksNode,
+        users: currentUser,
+        permission: 'admin',
+        index: 0,
+    });
     forkNode(server, forksNode as ModelInstance<Node>, { currentUserPermissions: Object.values(Permission) });
-    registerNodeMultiple(
-        server,
-        registrationNode as ModelInstance<Node>,
-        12,
-        { currentUserPermissions: Object.values(Permission) },
-        'withArbitraryState',
-    );
-    draftRegisterNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {}, 'withRegistrationMetadata');
+}
 
-    server.create('registration', { id: 'beefs' });
-
-    const reg = server.create('registration', {
-        id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 21),
-        linkedRegistrations: server.createList('registration', 19),
-    }, 'withContributors', 'withComments');
-    server.createList('registration', 15, { parent: reg });
-
-    const reg2 = server.create('registration', {
-        id: 'recaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 2),
-        linkedRegistrations: server.createList('registration', 3),
-    }, 'withContributors');
-    server.createList('registration', 2, { parent: reg2 });
-
-    // For the handbook
-
+function handbookScenario(server: Server) {
     // ValidatedModelForm
     server.create('node', {
         id: 'extng',
@@ -128,5 +110,44 @@ export default function(server: Server) {
     for (const contributorCount of [1, 2, 3, 23]) {
         const node = server.create('node', { id: `clst${contributorCount}` });
         server.createList('contributor', contributorCount, { node });
+    }
+}
+
+function settingsScenario(server: Server, currentUser: ModelInstance) {
+    server.create('user-setting', { user: currentUser });
+    server.createList('token', 23);
+    server.createList('scope', 5);
+    server.createList('developer-app', 12);
+}
+
+export default function(server: Server) {
+    server.loadFixtures('registration-schemas');
+    server.loadFixtures('regions');
+    server.loadFixtures('preprint-providers');
+    const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
+        [
+            'loggedIn',
+            'withInstitutions',
+            'withSettings',
+            'withAlternateEmail',
+            'withUnconfirmedEmail',
+        ];
+    const currentUser = server.create('user', ...userTraits);
+
+    // Optional Scenarios
+    if (mirageScenarios.includes('dashboard')) {
+        dashboardScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('registration')) {
+        registrationScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('forks')) {
+        forksScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('settings')) {
+        settingsScenario(server, currentUser);
+    }
+    if (handbookEnabled) {
+        handbookScenario(server);
     }
 }

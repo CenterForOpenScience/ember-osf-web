@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added helper methods for creating and deleting M2M relationships:
             - `createM2MRelationship`
             - `deleteM2MRelationship`
+- Mirage:
+    - Slim down default scenario
+    - Allow different set of scenarios to run based on local settings with `MIRAGE_SCENARIOS`
 - Components
     - `osf-link` - used to be `link`
         - `@onClick` parameter used to be `@onclick`
@@ -39,6 +42,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `node` (required)
         - `shouldTruncate` (default true)
         - `shouldLinkUsers` (default false)
+- Mirage:
+    - `DEFAULT_LOGGED_OUT` setting is now redundant
 
 ## [19.1.0] - 2019-01-23
 ### Added
