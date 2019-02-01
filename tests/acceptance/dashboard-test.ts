@@ -268,7 +268,7 @@ module('Acceptance | dashboard', hooks => {
 
     test('create project modal creates project - basic', async assert => {
         server.loadFixtures('regions');
-        server.create('user', 'loggedIn');
+        server.create('user', 'loggedIn', 'withUsRegion');
         const title = 'Giraffical Interchange Format';
         await visit('/dashboard');
         assert.dom('div[class*="quick-project"]')
@@ -354,7 +354,8 @@ module('Acceptance | dashboard', hooks => {
     });
 
     test('create project modal more toggle', async function(assert) {
-        const currentUser = server.create('user', 'loggedIn');
+        server.loadFixtures('regions');
+        const currentUser = server.create('user', 'loggedIn', 'withUsRegion');
         const title = 'Giraffical Interchange Format';
         const description = 'GIF';
         const location = 'Germany - Frankfurt';
@@ -383,7 +384,6 @@ module('Acceptance | dashboard', hooks => {
             'contributor',
             { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
         );
-        server.loadFixtures('regions');
         await visit('/dashboard');
         assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
 

@@ -1282,6 +1282,13 @@ export default {
                 undoRequestConfirmationButton: 'Undo deactivation request',
                 undoRequestToastMessage: 'Your deactivation request has been undone.',
             },
+            defaultRegion: {
+                title: 'Default storage location',
+                why: 'This location will be applied to new projects and components. It will not affect existing projects and components.',
+                updateButton: 'Update location',
+                successToast: 'You have successfully changed your default storage location to <strong>{{region}}</strong>',
+                saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+            },
             export: {
                 title: 'Export account data',
                 body: 'Exporting your account data allows you to keep a permanent copy of the current state of your account. Keeping a copy of your account data can provide peace of mind or assist in transferring your information to another provider.',

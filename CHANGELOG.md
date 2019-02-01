@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Components:
+    - `settings/account/default-region` - Panel for setting a user's default region
     - `settings.account.-components.request-deactivation`
     - `settings.account.-components.request-export`
 - Utils:

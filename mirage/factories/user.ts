@@ -1,4 +1,12 @@
-import { Factory, faker, ModelInstance, Server, trait, Trait } from 'ember-cli-mirage';
+import {
+    association,
+    Factory,
+    faker,
+    ModelInstance,
+    Server,
+    trait,
+    Trait,
+} from 'ember-cli-mirage';
 
 import User from 'ember-osf-web/models/user';
 
@@ -14,6 +22,7 @@ export interface UserTraits {
     withUnconfirmedEmail: Trait;
     withUnverifiedEmail: Trait;
     withUnverifiedEmails: Trait;
+    withUsRegion: Trait;
 }
 
 export default Factory.extend<User & UserTraits>({
@@ -21,7 +30,6 @@ export default Factory.extend<User & UserTraits>({
     afterCreate(user: ModelInstance<User>, server: Server) {
         guidAfterCreate(user, server);
         server.create('user-email', { user, primary: true });
-
         if (!user.fullName && (user.givenName || user.familyName)) {
             user.update('fullName', [user.givenName, user.familyName].filter(Boolean).join(' '));
         }
@@ -49,6 +57,7 @@ export default Factory.extend<User & UserTraits>({
     acceptedTermsOfService: true,
     canViewReviews: false,
     social: {},
+    defaultRegion: association(),
     dateRegistered() {
         return faker.date.past(2, new Date(2018, 0, 0));
     },
@@ -111,6 +120,12 @@ export default Factory.extend<User & UserTraits>({
         afterCreate(user, server) {
             server.create('user-email', { user, verified: false, isMerge: true });
             server.create('user-email', { user, verified: false, isMerge: false });
+        },
+    }),
+    withUsRegion: trait({
+        afterCreate(user, server) {
+            const defaultRegion = server.schema.regions.find('us');
+            user.update({ defaultRegion });
         },
     }),
 });
