@@ -26,10 +26,12 @@ export interface TrackedData {
 }
 
 function logEvent(analytics: Analytics, title: string, data: object) {
-    const logMessage = Object.entries(data)
-        .map(([k, v]) => `${k}: ${v}`)
-        .join(', ');
-    debug(`${title}: ${logMessage}`);
+    runInDebug(() => {
+        const logMessage = Object.entries(data)
+            .map(([k, v]) => `${k}: ${v}`)
+            .join(', ');
+        debug(`${title}: ${logMessage}`);
+    });
 
     if (analytics.shouldToastOnEvent) {
         analytics.toast.info(
@@ -157,11 +159,11 @@ export default class Analytics extends Service {
             title: this.router.currentRouteName,
         };
 
-        runInDebug(() => logEvent(this, 'Tracked page', {
+        logEvent(this, 'Tracked page', {
             pagePublic,
             resourceType,
             ...eventParams,
-        }));
+        });
 
         const gaConfig = metricsAdapters.findBy('name', 'GoogleAnalytics');
         if (gaConfig) {
@@ -250,7 +252,7 @@ export default class Analytics extends Service {
     _trackEvent(trackedData: TrackedData) {
         this.metrics.trackEvent(trackedData);
 
-        runInDebug(() => logEvent(this, 'Tracked event', trackedData));
+        logEvent(this, 'Tracked event', trackedData);
     }
 }
 
