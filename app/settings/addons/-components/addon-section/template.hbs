@@ -1,0 +1,15 @@
+<div local-class='section'>
+    {{#if @addon}}
+        <h4>{{@addon.name}}</h4>
+        <OsfLink @href={{@addon.url}}>
+            {{t 'settings.addons.link'}}
+        </OsfLink>
+    {{else}}
+        <ContentPlaceholders
+            local-class='placeholder'
+            as |placeholder|
+        >
+            {{placeholder.heading subtitle=false}}
+        </ContentPlaceholders>
+    {{/if}}
+</div>

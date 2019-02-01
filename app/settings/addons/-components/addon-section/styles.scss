@@ -1,0 +1,14 @@
+.section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.placeholder {
+    width: 100%;
+
+    :global(.ember-content-placeholders-heading__title) {
+        margin: 12px 0;
+    }
+}

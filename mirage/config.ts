@@ -2,7 +2,6 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { updateBookmarks } from './views/collection';
-import { getAddons } from './views/addon';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
@@ -104,8 +103,6 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'addon', { except: ['create', 'delete'] });
-    this.get('/addons', getAddons);
-
     osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
 
