@@ -30,7 +30,12 @@ const {
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
-    MIRAGE_DEFAULT_LOGGED_OUT = false,
+    MIRAGE_SCENARIOS = [
+        'loggedIn',
+        'dashboard',
+        'settings',
+        'handbook',
+    ],
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
@@ -278,8 +283,8 @@ module.exports = function(environment) {
         },
         'ember-cli-mirage': {
             enabled: Boolean(MIRAGE_ENABLED),
-            defaultLoggedOut: Boolean(MIRAGE_DEFAULT_LOGGED_OUT),
         },
+        mirageScenarios: MIRAGE_SCENARIOS,
 
         defaultProvider: 'osf',
     };
@@ -315,7 +320,6 @@ module.exports = function(environment) {
             // Always enable mirage for tests.
             'ember-cli-mirage': {
                 enabled: true,
-                defaultLoggedOut: false,
             },
             APP: {
                 ...ENV.APP,
