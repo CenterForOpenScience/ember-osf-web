@@ -31,6 +31,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mirage:
     - Slim down default scenario
     - Allow different set of scenarios to run based on local settings with `MIRAGE_SCENARIOS`
+- Services
+    - `analytics` - allow toast-on-click to be used in production builds (when enabled in dev banner)
 - Components
     - `osf-link` - used to be `link`
         - `@onClick` parameter used to be `@onclick`
@@ -38,8 +40,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `node` (required)
         - `shouldTruncate` (default true)
         - `shouldLinkUsers` (default false)
+    - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
 - Tests
     - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
+- Travis
+    - Use a production build for handbook
 
 ### Removed
 - Components:

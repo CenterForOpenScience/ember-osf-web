@@ -22,6 +22,7 @@ declare const config: {
     lintOnBuild: boolean;
     testsEnabled: boolean;
     sourcemapsEnabled: boolean;
+    showDevBanner: boolean;
     modulePrefix: string;
     locationType: string;
     rootURL: string;

@@ -58,6 +58,7 @@ const {
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
     SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
     SOURCEMAPS_ENABLED: sourcemapsEnabled = true,
+    SHOW_DEV_BANNER = false,
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
@@ -69,6 +70,7 @@ module.exports = function(environment) {
         lintOnBuild,
         testsEnabled: false, // Disable tests by default.
         sourcemapsEnabled,
+        showDevBanner: isTruthy(SHOW_DEV_BANNER),
         rootURL,
         assetsPrefix,
         locationType: 'auto',
@@ -305,6 +307,7 @@ module.exports = function(environment) {
             },
             // Conditionally enable tests in development environment.
             testsEnabled: isTruthy(TESTS_ENABLED),
+            showDevBanner: true,
         });
     }
 
