@@ -20,6 +20,7 @@ export default Factory.extend<MirageUserSetting>({
     twoFactorConfirmed: false,
     subscribeOsfHelpEmail: true,
     subscribeOsfGeneralEmail: true,
+    deactivationRequested: false,
     secret: '',
 
     user: association(),

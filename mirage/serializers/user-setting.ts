@@ -10,6 +10,7 @@ export default class UserSettingSerializer extends ApplicationSerializer<UserSet
         return {
             self: `${apiUrl}/v2/users/${model.user.id}/settings/`,
             html: '/settings/',
+            export: `${apiUrl}/v2/users/${model.user.id}/settings/export/`,
         };
     }
 }
