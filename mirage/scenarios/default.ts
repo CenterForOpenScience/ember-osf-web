@@ -14,6 +14,8 @@ const {
     mirageScenarios,
 } = config;
 
+const handbookEnabled = config.engines.handbook.enabled;
+
 function registrationScenario(server: Server, currentUser: ModelInstance) {
     const registrationNode = server.create(
         'node',
@@ -142,7 +144,7 @@ export default function(server: Server) {
     if (mirageScenarios.includes('settings')) {
         settingsScenario(server, currentUser);
     }
-    if (mirageScenarios.includes('handbook')) {
+    if (handbookEnabled) {
         handbookScenario(server);
     }
 }
