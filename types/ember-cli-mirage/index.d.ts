@@ -205,6 +205,7 @@ export function trait<O extends TraitOptions>(options: O): Trait<O>;
 
 // TODO when https://github.com/Microsoft/TypeScript/issues/1360
 // function association(...traits: string[], overrides?: { [key: string]: any }): any;
+
 export function association(...args: any[]): any;
 
 export type FactoryAttrs<T> = {

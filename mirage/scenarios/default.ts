@@ -18,11 +18,18 @@ const {
 
 export default function(server: Server) {
     // Load fixtures first because they don't need dynamic info and other things rely on them existing
+    const userTraits = defaultLoggedOut ? [] :
     server.loadFixtures('regions');
     server.loadFixtures('registration-schemas');
     server.loadFixtures('preprint-providers');
-
-    const userTraits = defaultLoggedOut ? [] : ['loggedIn', 'withInstitutions', 'withUsRegion'];
+    const userTraits = defaultLoggedOut ? [] :
+        [
+            'loggedIn',
+            'withInstitutions',
+            'withSettings',
+            'withAlternateEmail',
+            'withUnconfirmedEmail',
+        ];
     const currentUser = server.create('user', ...userTraits);
 
     server.create('user-setting', { user: currentUser });
@@ -47,6 +54,8 @@ export default function(server: Server) {
         index: 0,
     });
 
+    const firstNode = server.create('node', {});
+    server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList<Node>('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');
