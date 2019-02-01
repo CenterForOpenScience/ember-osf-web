@@ -1,8 +1,11 @@
+import { randomStaticGravatar } from '../utils';
+
 /* eslint-disable max-len */
 export default [
     {
         links: {},
         url: 'http://www.box.com',
+        image: randomStaticGravatar(),
         name: 'Box',
         categories: ['storage'],
         description:
@@ -13,6 +16,7 @@ export default [
     {
         links: {},
         url: 'https://dataverse.harvard.edu/',
+        image: randomStaticGravatar(),
         name: 'Dataverse',
         categories: ['storage'],
         description:
@@ -23,6 +27,7 @@ export default [
     {
         links: {},
         url: 'http://www.dropbox.com',
+        image: randomStaticGravatar(),
         name: 'Dropbox',
         categories: ['storage'],
         description:
@@ -33,6 +38,7 @@ export default [
     {
         links: {},
         url: 'http://www.figshare.com',
+        image: randomStaticGravatar(),
         name: 'figshare',
         categories: ['storage'],
         description:
@@ -43,6 +49,7 @@ export default [
     {
         links: {},
         url: 'http://www.github.com',
+        image: randomStaticGravatar(),
         name: 'GitHub',
         categories: ['storage'],
         description:
@@ -53,6 +60,7 @@ export default [
     {
         links: {},
         url: 'http://www.mendeley.com',
+        image: randomStaticGravatar(),
         name: 'Mendeley',
         categories: ['citations'],
         description:
@@ -63,6 +71,7 @@ export default [
     {
         links: {},
         url: 'http://www.zotero.org',
+        image: randomStaticGravatar(),
         name: 'Zotero',
         categories: ['citations'],
         description:
@@ -73,6 +82,7 @@ export default [
     {
         links: {},
         url: 'https://owncloud.org/',
+        image: randomStaticGravatar(),
         name: 'ownCloud',
         categories: ['storage'],
         description:
@@ -83,6 +93,7 @@ export default [
     {
         links: {},
         url: 'https://aws.amazon.com/s3/',
+        image: randomStaticGravatar(),
         name: 'Amazon S3',
         categories: ['storage'],
         description:
@@ -93,6 +104,7 @@ export default [
     {
         links: {},
         url: 'https://drive.google.com',
+        image: randomStaticGravatar(),
         name: 'Google Drive',
         categories: ['storage'],
         description:

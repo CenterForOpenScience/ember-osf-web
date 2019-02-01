@@ -1,7 +1,17 @@
 <div local-class='section'>
     {{#if @addon}}
-        <h4>{{@addon.name}}</h4>
-        <OsfLink @href={{@addon.url}}>
+        <div local-class='title'>
+            <img
+                local-class='image'
+                src={{@addon.image}}
+                alt={{concat @addon.name ' storage image'}}
+            >
+            <h4>{{@addon.name}}</h4>
+        </div>
+        <OsfLink
+            data-analytics-name={{concat @addon.name ' addon'}}
+            @href={{@addon.url}}
+        >
             {{t 'settings.addons.link'}}
         </OsfLink>
     {{else}}

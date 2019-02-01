@@ -12,3 +12,15 @@
         margin: 12px 0;
     }
 }
+
+.title {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    .image {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+}

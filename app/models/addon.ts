@@ -4,6 +4,7 @@ import OsfModel from './osf-model';
 export default class AddonModel extends OsfModel {
     @attr('fixstring') url!: string;
     @attr('fixstring') name!: string;
+    @attr('fixstring') image!: string;
     @attr('array') categories!: string[];
     @attr('fixstring') description!: string;
 }
