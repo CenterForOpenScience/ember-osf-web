@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components:
+    - `settings.account.-components.request-deactivation`
+    - `settings.account.-components.request-export`
 - Utils:
     - `getHref` - get an href from a `Link`
     - `getRelatedHref` - get an href from a `Relationship`
@@ -19,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `developer-app` - extend `links` types to include links specific to developer apps
     - `collection` - improve types for choices fields
     - `collected-metadatum` - improve types for choice fields
+    - `user-setting` - Added `requestExport()` function, `deactivationRequested` field, and `export` link
     - `osf-model`
         - use proper types for `links` and `relationshipLinks` attributes
         - added helper methods for creating and deleting M2M relationships:
@@ -32,6 +36,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components
     - `osf-link` - used to be `link`
         - `@onClick` parameter used to be `@onclick`
+    - `<ContributorList>` - modified to take in different parameters
+        - `node` (required)
+        - `shouldTruncate` (default true)
+        - `shouldLinkUsers` (default false)
     - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
 - Tests
     - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage

@@ -48,3 +48,7 @@ export function getUserSetting(this: HandlerContext, schema: Schema, request: Re
     const response = this.serialize(userSetting, 'user-setting');
     return response;
 }
+
+export function requestExport() {
+    return new Response(204, { 'Content-Type': 'application/vnd.api+json' }, {});
+}
