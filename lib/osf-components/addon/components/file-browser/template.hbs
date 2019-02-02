@@ -2,7 +2,10 @@
     {{#if this.showFilter}}
         <div class='col-xs-9 filter-input'>
             {{input
-                (html-attributes aria-label=(t 'file_browser.filtering'))
+                (html-attributes 
+                    data-test-filter-input='filter'
+                    aria-label=(t 'file_browser.filtering')
+                )
                 placeholder=(t 'file_browser.filtering')
                 class='form-control'
                 keyUp=(action @updateFilter value='target.value')
@@ -23,6 +26,7 @@
     {{else if this.showRename}}
         <div class='col-xs-9 filter-input'>
             {{input
+                (html-attributes data-test-rename-field='rename')
                 placeholder=this.selectedItems.firstObject.itemName
                 class='form-control'
                 value=this.renameValue
@@ -84,6 +88,7 @@
                         >
                             {{#if this.link}}
                                 <CopyableText
+                                    data-test-file-share-copyable-text
                                     @text={{this.link}}
                                     @success={{action (mut this.popupOpen) false}}
                                     @analyticsLabel='Quick Files - Share - Copy link'
@@ -125,7 +130,7 @@
                             {{t 'general.move'}}
                         </OsfButton>
                         <OsfButton
-                            data-test-delete-button
+                            data-test-delete-file-button
                             data-analytics-name='Delete'
                             local-class='action-button'
                             @bubble={{true}}
@@ -135,7 +140,7 @@
                             {{t 'general.delete'}}
                         </OsfButton>
                         <OsfButton
-                            data-test-rename-button
+                            data-test-rename-file-button
                             data-analytics-name='Rename'
                             local-class='action-button'
                             @bubble={{true}}
@@ -219,7 +224,7 @@
         <SortButton 
             @sortAction={{action (mut this.sort)}}
             @sort={{this.sort}}
-            @sortBy='modified'
+            @sortBy='dateModified'
         />
     </div>
 </div>
@@ -267,13 +272,15 @@
     </modal.body>
     <modal.footer data-analytics-scope='File browser - Delete modal'>
         <OsfButton
+            data-test-delete-file-cancel-button
             data-analytics-name='Cancel'
             @onClick={{action (mut this.currentModal) ''}}
             @type='default'
         >
             {{t 'general.cancel'}}
         </OsfButton>
-        <OsfButton 
+        <OsfButton
+            data-test-delete-file-confirm-button
             data-analytics-name='Delete'
             @onClick={{action this.deleteItems}}
             @type='danger'
@@ -332,23 +339,16 @@
     </modal.body>
     <modal.footer data-analytics-scope='File browser - Rename conflict modal'>
         <OsfButton
-            data-analytics-name='Cancel'
-            @onClick={{action (mut this.currentModal) ''}}
-            @type='default'
-        >
-            {{t 'general.cancel'}}
-        </OsfButton>
-        <OsfButton
+            data-test-conflict-keep-both-button
             data-analytics-name='Keep'
             @onClick={{action this.renameConflict 'keep'}}
-            @type='primary'
         >
             {{t 'file_browser.conflict_modal.keep_button'}}
         </OsfButton>
         <OsfButton
+            data-test-conflict-replace-file-button
             data-analytics-name='Replace'
             @onClick={{action this.renameConflict 'replace'}}
-            @type='primary'
         >
             {{t 'file_browser.conflict_modal.replace_button'}}
         </OsfButton>
