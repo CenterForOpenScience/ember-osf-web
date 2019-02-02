@@ -332,11 +332,12 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             await visit(`--user/${currentUser.id}/quickfiles`);
             assert.dom('[data-test-file-item-link]').exists({ count: 5 }, 'initial state');
 
-            await untrackedClick('[data-test-download-count]');
+            await untrackedClick('[data-test-file-icon-and-name]');
             assert.dom('[data-test-delete-file-button]').exists('after select file');
 
             await click('[data-test-delete-file-button]');
             assert.dom('[data-test-delete-modal]').exists('after click delete');
+            percySnapshot(assert);
 
             await click('[data-test-delete-file-cancel-button]');
             assert.dom('[data-test-delete-file-cancel-button]').doesNotExist('after cancel button');
@@ -363,7 +364,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 .exists({ count: 1 }, 'initial state');
             assert.dom('[data-test-file-item-link]')
                 .containsText(file.name, 'before rename');
-            await untrackedClick('[data-test-download-count]');
+            await untrackedClick('[data-test-file-icon-and-name]');
             assert.dom('[data-test-rename-file-button]').exists('after select file');
 
             await click('[data-test-rename-file-button]');
@@ -415,7 +416,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 .containsText(fileTwo.name, 'initial state');
             assert.dom('[data-test-conflict-keep-both-button]')
                 .doesNotExist('initial state');
-            await untrackedClick('[data-test-download-count]');
+            await untrackedClick(`[data-test-file-icon-and-name="${fileTwo.name}"]`);
 
             await click('[data-test-rename-file-button]');
             assert.dom('[data-test-rename-field]').exists('after clicking rename');
@@ -462,7 +463,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             await visit(`--user/${currentUser.id}/quickfiles`);
             assert.dom('[data-test-file-item-link]').exists({ count: 1 });
 
-            await untrackedClick('[data-test-download-count]');
+            await untrackedClick(`[data-test-file-icon-and-name="${file.name}"]`);
             await click('[data-test-share-dialog-button]');
             assert.dom('[data-test-share-dialog-button]')
                 .exists('after clicking share');
@@ -496,7 +497,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
 
         test('can view a file', async assert => {
             const currentUser = server.create('user', 'loggedIn');
-            server.create(
+            const file = server.create(
                 'file',
                 {
                     guid: 'xyzzy',
@@ -507,7 +508,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             await visit(`--user/${currentUser.id}/quickfiles`);
             assert.dom('[data-test-file-item-link]').exists({ count: 1 });
 
-            await untrackedClick('[data-test-download-count]');
+            await untrackedClick(`[data-test-file-icon-and-name="${file.name}"]`);
             assert.dom('[data-test-view-button]').exists();
             await click('[data-test-view-button]');
             assert.equal(currentURL(), '/xyzzy');
