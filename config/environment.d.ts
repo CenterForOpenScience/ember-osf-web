@@ -107,6 +107,7 @@ declare const config: {
             extra: string;
             action: string;
         };
+        doiUrlPrefix: string;
     };
     social: {
         twitter: {

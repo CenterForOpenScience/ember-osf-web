@@ -64,42 +64,28 @@
     </div>
 
     {{#if @extendedFields}}
-        {{!--
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.registration_doi'}}</h4>
-            <div>
-            </div>
+            {{#if this.registrationDoi}}
+                <OsfLink
+                    data-analytics-name='Registration DOI'
+                    @href={{this.registrationDoiUrl}}
+                >
+                    {{this.registrationDoi}}
+                </OsfLink>
+            {{/if}}
+            {{! TODO: mint DOIs }}
         </div>
+        {{!--
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.publication_doi'}}</h4>
-            <div>
-            </div>
         </div>
         --}}
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.affiliated_institutions'}}</h4>
-            <div>
-            </div>
         </div>
         <div local-class='Field'>
-            <h4>
-                {{t 'registries.registration_metadata.license'}}
-                {{#if this.registration.userHasAdminPermission}}
-                    <OsfButton
-                        data-analytics-name='Edit license'
-                        @onClick={{action (mut this.shouldShowLicensePicker) true}}
-                    >
-                        <FaIcon @icon='pencil-alt' />
-                    </OsfButton>
-                    {{#if this.shouldShowLicensePicker}}
-                        <BsModal
-                            @onHide={{action (mut this.shouldShowLicensePicker) false}}
-                        >
-                            <LicensePicker @node={{this.registration}} />
-                        </BsModal>
-                    {{/if}}
-                {{/if}}
-            </h4>
+            <h4>{{t 'registries.registration_metadata.license'}}</h4>
             {{#if this.registration.license}}
                 <OsfButton
                     data-analytics-name='View license'
@@ -124,14 +110,10 @@
             {{/if}}
         </div>
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.disciplines'}}</h4>
-            {{! TODO EMB-563 }}
-        </div>
-        <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.tags'}}</h4>
             <TagsWidget
                 @taggable={{this.registration}}
-                @readOnly={{not this.registration.userHasAdminPermission}}
+                @readOnly={{true}}
             />
         </div>
         <div local-class='Field'>

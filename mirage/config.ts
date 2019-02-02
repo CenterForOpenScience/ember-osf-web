@@ -42,12 +42,14 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
+    osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
 
     osfResource(this, 'registration');
     osfNestedResource(this, 'registration', 'children');
     osfNestedResource(this, 'registration', 'contributors');
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
+    osfNestedResource(this, 'registration', 'identifiers', { only: ['index'] });
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
     osfNestedResource(this, 'comment', 'reports', {
         except: ['delete'],

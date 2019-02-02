@@ -50,7 +50,7 @@ function registrationScenario(server: Server, currentUser: ModelInstance) {
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
-    }, 'withContributors', 'withComments');
+    }, 'withContributors', 'withComments', 'withDoi');
 
     const reg = server.create('registration', {
         id: 'recaf',

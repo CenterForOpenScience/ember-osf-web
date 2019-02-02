@@ -85,6 +85,14 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            identifiers: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/identifiers/`,
+                        meta: this.buildRelatedLinkMeta(model, 'identifiers'),
+                    },
+                },
+            },
         };
         if (model.attrs.parentId !== null) {
             const { parentId } = model.attrs;

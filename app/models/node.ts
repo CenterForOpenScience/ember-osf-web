@@ -17,6 +17,7 @@ import CommentModel from './comment';
 import ContributorModel from './contributor';
 import DraftRegistrationModel from './draft-registration';
 import FileProviderModel from './file-provider';
+import IdentifierModel from './identifier';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import LogModel from './log';
@@ -152,6 +153,9 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
 
     @hasMany('log', { inverse: 'originalNode' })
     logs!: DS.PromiseManyArray<LogModel>;
+
+    @hasMany('identifier', { inverse: null })
+    identifiers!: DS.PromiseManyArray<IdentifierModel>;
 
     // These are only computeds because maintaining separate flag values on
     // different classes would be a headache TODO: Improve.

@@ -79,6 +79,14 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
                     },
                 },
             },
+            identifiers: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/identifiers/`,
+                        meta: this.buildRelatedLinkMeta(model, 'identifiers'),
+                    },
+                },
+            },
         };
         if (model.attrs.parentId !== null) {
             const { parentId } = model.attrs;
