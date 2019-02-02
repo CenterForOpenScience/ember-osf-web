@@ -53,7 +53,7 @@ module('Acceptance | institutions', hooks => {
         assert.dom('[data-test-visit-institution]').exists({ count: 3 });
     });
 
-    test('can filter by name', async assert => {
+    test('can sort by name', async assert => {
         server.create('institution', { name: 'aa' });
         server.create('institution', { name: 'az' });
         server.create('institution', { name: 'za' });
