@@ -8,6 +8,7 @@ const { OSF: { apiUrl } } = config;
 export interface NodeAttrs {
     parentId: ID | null;
     rootId: ID | null;
+    licenseId: ID | null;
 }
 
 type MirageNode = Node & { attrs: NodeAttrs };
@@ -113,6 +114,21 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/nodes/${rootId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+        if (model.attrs.licenseId !== null) {
+            const { licenseId } = model.attrs;
+            relationships.license = {
+                data: {
+                    id: licenseId,
+                    type: 'licenses',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/licenses/${licenseId}`,
                         meta: {},
                     },
                 },

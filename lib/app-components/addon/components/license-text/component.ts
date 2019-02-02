@@ -6,6 +6,7 @@ import Component from '@ember/component';
 import { layout } from 'ember-osf-web/decorators/component';
 import License from 'ember-osf-web/models/license';
 import Node from 'ember-osf-web/models/node';
+
 import template from './template';
 
 @layout(template)

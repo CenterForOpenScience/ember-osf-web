@@ -139,6 +139,21 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 },
             };
         }
+        if (model.attrs.licenseId !== null) {
+            const { licenseId } = model.attrs;
+            relationships.license = {
+                data: {
+                    id: licenseId,
+                    type: 'licenses',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/licenses/${licenseId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
         return relationships;
     }
 }

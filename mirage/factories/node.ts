@@ -10,6 +10,7 @@ export interface NodeTraits {
     withRegistrations: Trait;
     withDraftRegistrations: Trait;
     withDoi: Trait;
+    withLicense: Trait;
 }
 
 export default Factory.extend<Node & NodeTraits>({
@@ -106,6 +107,15 @@ export default Factory.extend<Node & NodeTraits>({
             const identifier = server.create('identifier');
             // @ts-ignore until we figure out mirage types that don't pull in ember-data stuff
             node.identifiers = [identifier]; // eslint-disable-line no-param-reassign
+            node.save();
+        },
+    }),
+
+    withLicense: trait({
+        afterCreate(node: ModelInstance<Node>, server: Server) {
+            const license = faker.random.arrayElement(server.schema.licenses.all().models);
+            // @ts-ignore until we figure out mirage types that don't pull in ember-data stuff
+            node.license = license; // eslint-disable-line no-param-reassign
             node.save();
         },
     }),

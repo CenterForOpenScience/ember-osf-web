@@ -50,14 +50,7 @@ function registrationScenario(server: Server, currentUser: ModelInstance) {
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
-    }, 'withContributors', 'withComments', 'withDoi');
-
-    const reg = server.create('registration', {
-        id: 'recaf',
-        registrationSchema: server.schema.registrationSchemas.find('open_ended_registration'),
-        current_user_permissions: ['admin', 'read', 'write'],
-    });
-    server.create('contributor', { node: reg, users: currentUser, permission: 'admin', index: 0 });
+    }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
 }
 
 function dashboardScenario(server: Server, currentUser: ModelInstance) {
@@ -130,6 +123,8 @@ export default function(server: Server) {
     server.loadFixtures('registration-schemas');
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
+    server.loadFixtures('licenses');
+
     const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
         [
             'loggedIn',

@@ -89,6 +89,8 @@
             {{#if this.registration.license}}
                 <OsfButton
                     data-analytics-name='View license'
+                    local-class='LinkButton'
+                    @type='link'
                     @onClick={{action (mut this.shouldShowLicense) true}}
                 >
                     {{this.registration.license.name}}
@@ -96,11 +98,24 @@
                 {{#if this.shouldShowLicense}}
                     <BsModal
                         @onHide={{action (mut this.shouldShowLicense) false}}
+                        as |modal|
                     >
                         <modal.header>
-                            {{t 'registries.registration_metadata.license'}}
+                            <h4 class='modal-title'>
+                                {{t 'registries.registration_metadata.license'}}
+                            </h4>
                         </modal.header>
                         <modal.body>
+                            {{#if this.registration.license.url}}
+                                <p>
+                                    <OsfLink
+                                        data-analytics-name='License URL'
+                                        @href={{this.registration.license.url}}
+                                    >
+                                        {{this.registration.license.name}}
+                                    </OsfLink>
+                                </p>
+                            {{/if}}
                             <LicenseText @node={{this.registration}} />
                         </modal.body>
                     </BsModal>
