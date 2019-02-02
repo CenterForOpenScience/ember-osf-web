@@ -42,6 +42,14 @@ export default class NewProjectModal extends Component.extend({
             selectedRegion: this.currentUser.user!.defaultRegion,
         });
     }),
+    loadDefaultRegionTask: task(function *(this: NewProjectModal) {
+        const { user } = this.currentUser;
+        if (!user) {
+            return undefined;
+        }
+
+        yield user.belongsTo('defaultRegion').reload();
+    }),
     searchUserNodesTask: task(function *(this: NewProjectModal, title: string) {
         yield timeout(500);
         const user: User = yield this.user;

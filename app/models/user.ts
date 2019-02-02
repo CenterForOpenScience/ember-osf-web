@@ -68,7 +68,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @attr('boolean') active!: boolean;
     @attr('object') social!: {};
 
-    @belongsTo('region')
+    @belongsTo('region', { async: false })
     defaultRegion!: DS.PromiseObject<RegionModel> & RegionModel;
 
     @belongsTo('user-setting', { inverse: 'user', async: false })

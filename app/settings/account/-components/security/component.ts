@@ -96,9 +96,6 @@ export default class SecurityPane extends Component.extend({
     @action
     verifySecret() {
         this.set('showError', false);
-        if (this.settings !== undefined) {
-            this.saveSettings.perform(true);
-        }
     }
 
     @action
