@@ -53,6 +53,7 @@ jobs:
         - ROOT_URL=/ember-osf-web/
         - ASSETS_PREFIX=/ember-osf-web/
         - A11Y_AUDIT=0
+        - NODE_OPTIONS=--max-old-space-size=4096
       script:
         - ember build --environment=production && cp dist/index.html dist/404.html
       deploy:
