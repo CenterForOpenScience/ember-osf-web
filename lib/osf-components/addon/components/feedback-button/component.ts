@@ -82,7 +82,6 @@ export default class FeedbackButton extends Component {
 
     state: DialogState = DialogState.empty;
     dialogRows = 5;
-    styleNamespace?: string;
 
     @computed('state')
     get isOpen(): boolean {
@@ -107,7 +106,6 @@ export default class FeedbackButton extends Component {
     @action
     showDialog(this: FeedbackButton) {
         this.set('state', DialogState.active);
-        this.analytics.click('button', 'Feedback - open');
     }
 
     @action

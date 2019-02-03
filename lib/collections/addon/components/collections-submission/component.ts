@@ -17,6 +17,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import getHref from 'ember-osf-web/utils/get-href';
 import styles from './styles';
 import template from './template';
 
@@ -94,7 +95,7 @@ export default class Submit extends Component {
             yield timeout(1000);
             this.resetPageDirty();
             // TODO: external-link-to / waffle for project main page
-            window.location.href = this.collectionItem.links.html;
+            window.location.href = getHref(this.collectionItem.links.html!);
         } catch (e) {
             this.toast.error(this.i18n.t(`${this.i18nKeyPrefix}${operation}_save_error`, {
                 title: this.collectionItem.title,

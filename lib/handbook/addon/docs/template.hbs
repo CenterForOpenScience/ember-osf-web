@@ -19,9 +19,10 @@
 
         <nav.section @label='Component gallery' />
         <nav.item @label='bs-alert' @route='docs.components.bs-alert' />
+        <nav.item @label='contributor-list' @route='docs.components.contributor-list' />
         <nav.item @label='copyable-text' @route='docs.components.copyable-text' />
         <nav.item @label='delete-button' @route='docs.components.delete-button' />
-        <nav.item @label='link' @route='docs.components.link' />
+        <nav.item @label='osf-link' @route='docs.components.osf-link' />
         <nav.item @label='loading-indicator' @route='docs.components.loading-indicator' />
         <nav.item @label='new-project-modal' @route='docs.components.new-project-modal' />
         <nav.item @label='new-project-navigation-modal' @route='docs.components.new-project-navigation-modal' />
@@ -33,7 +34,11 @@
 
     <viewer.main>
         <div class='docs-container'>
-            <div local-class='DocsPage' class='docs-section'>
+            <div
+                data-analytics-scope='Handbook docs'
+                local-class='DocsPage'
+                class='docs-section'
+            >
                 {{outlet}}
             </div>
         </div>

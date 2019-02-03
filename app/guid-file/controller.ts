@@ -124,10 +124,7 @@ export default class GuidFile extends Controller {
 
     @action
     download(this: GuidFile, version: number) {
-        // analytics were sent in template, since this is used twice
-        if (!this.canEdit) {
-            this.analytics.click('button', 'Quick Files - Download');
-        }
+        // To do: make this a link that looks like a button rather than calling this
         const url = `${this.downloadLink}?revision=${version}`;
         window.location.href = url;
     }
@@ -135,7 +132,6 @@ export default class GuidFile extends Controller {
     @action
     async delete(this: GuidFile) {
         this.set('deleteModalOpen', false);
-        this.analytics.click('button', 'Quick Files - Delete file');
 
         try {
             await this.file.destroyRecord();
@@ -149,25 +145,12 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    openDeleteModal(this: GuidFile) {
-        this.set('deleteModalOpen', true);
-        this.analytics.click('button', 'Quick Files - Open delete modal');
-    }
-
-    @action
-    closeDeleteModal(this: GuidFile) {
-        this.set('deleteModalOpen', false);
-        this.analytics.click('button', 'Quick Files - Close delete modal');
-    }
-
-    @action
     changeView(this: GuidFile, button: string) {
         const show = lookupTable[this.show][button];
 
         if (show) {
             this.set('show', show);
         }
-        this.analytics.click('button', `Quick Files - Change view - ${show}`);
     }
 
     @action
@@ -183,12 +166,11 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    async openFile(this: GuidFile, file: File) {
+    async openFile(file: File) {
         const guid = file.guid || await file.getGuid();
 
         this.set('revision', null);
         this.transitionToRoute('guid-file', guid, { queryParams: { show: 'view' } });
-        this.analytics.click('link', 'Quick Files - Open file');
     }
 
     @action

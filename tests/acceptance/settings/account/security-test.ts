@@ -1,9 +1,9 @@
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { currentURL, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 function assertionsNotEnabledNotConfirmed(assert: Assert, testState: string) {
@@ -88,7 +88,6 @@ module('Acceptance | settings/account | security', hooks => {
 
     test('cannot use unauthenticated', async function(assert) {
         this.owner.register('service:current-user', CurrentUserStub);
-        server.create('root', { currentUser: null });
         const currentUser = this.owner.lookup('service:current-user');
         await visit('settings/account/');
         assert.equal(currentUser.urlCalled, '/settings/account');

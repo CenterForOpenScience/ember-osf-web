@@ -1,28 +1,28 @@
-{{!-- This can be enabled if we move the link component from Registries to the main app and use it --}}
-{{! template-lint-disable no-implicit-this }}
-<div>
-    {{#link-to data-test-back-to-tokens
-        'settings.tokens'
-        click=(action 'click' 'link' 'Settings - Tokens - Create - Back to list' target=this.analytics)
-    }}
-        {{fa-icon 'arrow-left'}}
-        {{t 'settings.tokens.backToList'}}
-    {{/link-to}}
-</div>
-{{! template-lint-enable no-implicit-this }}
-<h4>{{t 'settings.tokens.createToken'}}</h4>
+<div data-analytics-scope='Create'>
+    <div>
+        <OsfLink
+            data-test-back-to-tokens
+            data-analytics-name='Back to list'
+            @route='settings.tokens'
+        >
+            {{fa-icon 'arrow-left'}}
+            {{t 'settings.tokens.backToList'}}
+        </OsfLink>
+    </div>
+    <h4>{{t 'settings.tokens.createToken'}}</h4>
 
-{{#settings/tokens/-components/token-form
-    onSave=(action 'onSave')
-    analyticsScope='Settings - Tokens - Create'
-    as |form|
-}}
-    <OsfButton
-        data-test-create-token-button
-        @type='primary'
-        @buttonType='submit'
-        @disabled={{form.disabled}}
-    >
-        {{t 'settings.tokens.createToken'}}
-    </OsfButton>
-{{/settings/tokens/-components/token-form}}
+    {{#settings/tokens/-components/token-form
+        onSave=(action 'onSave')
+        as |form|
+    }}
+        <OsfButton
+            data-test-create-token-button
+            data-analytics-name='Submit button'
+            @type='primary'
+            @buttonType='submit'
+            @disabled={{form.disabled}}
+        >
+            {{t 'settings.tokens.createToken'}}
+        </OsfButton>
+    {{/settings/tokens/-components/token-form}}
+</div>

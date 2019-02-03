@@ -1,30 +1,31 @@
-<div class='osf-nav-wrapper'>
+<div data-analytics-scope='Nav bar' class='osf-nav-wrapper'>
     <nav class='navbar navbar-inverse navbar-fixed-top' id='navbarScope' role='navigation'>
         <div class='container'>
             <div class='navbar-header'>
-                {{! template-lint-disable no-implicit-this }}
-                <Link
+                <OsfLink 
                     data-test-nav-home-link
+                    data-analytics-name='Home'
                     aria-label={{t 'navbar.go_home'}}
                     class='navbar-brand'
                     @route='home'
                 >
                     <span class='osf-navbar-logo'></span>
-                </Link>
-                {{! template-lint-enable no-implicit-this }}
+                </OsfLink>
                 {{! Current app }}
                 <div class='service-name'>
-                    <Link
+                    <OsfLink
+                        data-analytics-name={{this._activeService.name}}
                         @route={{this._activeService.route}}
                         @href={{this._activeService.href}}
                     >
                         <span class='hidden-xs'> {{t 'general.OSF'}} </span>
                         <span class='current-service'><strong>{{this._activeService.name}}</strong></span>
-                    </Link>
+                    </OsfLink>
                 </div>
 
                 {{! App list dropdown }}
                 <BsDropdown
+                    data-analytics-scope='Primary dropdown'
                     @classNames='dropdown primary-nav'
                     @onShow={{action this.onClickPrimaryDropdown}}
                     as |dd|
@@ -38,12 +39,13 @@
                     <dd.menu @classNames='dropdown-menu service-dropdown' as |ddm| >
                         {{#each this.services as |service|}}
                             <ddm.item role='menuitem'>
-                                <Link
+                                <OsfLink
+                                    data-analytics-name={{service.name}}
                                     @route={{service.route}}
                                     @href={{service.href}}
                                 >
                                     {{t 'general.OSF'}}<b>{{service.name}}</b>
-                                </Link>
+                                </OsfLink>
                             </ddm.item>
                         {{/each}}
                     </dd.menu>
@@ -51,6 +53,7 @@
 
                 {{! Navigation toggle - XS screen }}
                 <OsfButton
+                    data-analytics-name='Toggle secondary nav xs'
                     aria-label={{t 'navbar.toggle_secondary'}}
                     local-class='NavbarToggleXS'
                     @class='navbar-toggle collapsed'

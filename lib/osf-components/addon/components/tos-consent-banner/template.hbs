@@ -1,4 +1,4 @@
-<div class='container'>
+<div data-analytics-scope='ToS consent banner' class='container'>
     <BsAlert
         @type='default'
         @dismissible={{true}}
@@ -25,6 +25,7 @@
                 </h5>
             </div>
             <OsfButton
+                data-analytics-name='Continue'
                 @type='primary'
                 @buttonType='submit'
                 @onClick={{action (perform this.saveUser)}}

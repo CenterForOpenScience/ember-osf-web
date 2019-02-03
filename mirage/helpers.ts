@@ -7,7 +7,6 @@ import Registration from 'ember-osf-web/models/registration';
 
 import { DraftRegistrationTraits } from './factories/draft-registration';
 import { NodeTraits } from './factories/node';
-import { RegistrationTraits } from './factories/registration';
 
 // eslint-disable-next-line space-infix-ops
 type Props<T> = {
@@ -18,7 +17,7 @@ export function registerNode(
     server: Server,
     node: ModelInstance<Node>,
     props: Props<Registration> = {},
-    ...traits: Array<keyof RegistrationTraits> // tslint:disable-line trailing-comma
+    ...traits: string[] // tslint:disable-line trailing-comma
 ) {
     const registration = server.create('registration', {
         registeredFrom: node,
@@ -38,7 +37,7 @@ export function registerNodeMultiple(
     node: ModelInstance<Node>,
     count: number,
     props: Props<Registration> = {},
-    ...traits: Array<keyof RegistrationTraits> // tslint:disable-line trailing-comma
+    ...traits: string[] // tslint:disable-line trailing-comma
 ) {
     const registrations = [];
     for (let i = 0; i < count; i++) {

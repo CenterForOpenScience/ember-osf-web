@@ -57,12 +57,10 @@ export default class FileVersion extends Component {
     @action
     downloadVersion(version: Version): void {
         this.download(version);
-        this.analytics.click('button', 'File version - Download');
     }
 
     @action
     changeVersion(version: Version): void {
         this.versionChange(version);
-        this.analytics.click('button', 'File version - Change version');
     }
 }

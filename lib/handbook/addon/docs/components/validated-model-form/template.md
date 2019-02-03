@@ -17,7 +17,6 @@ creating (if necessary), validating, and saving the model.
 * `modelProperties` (optional): Properties to be passed through to the model on creation.
 * `recreateModel` (optional): Will create a new model instance upon saving.
 * `disabled` (default `false`)
-* `analyticsScope` (optional)
 
 ### Yielded hash
 When invoked in block form, `validated-model-form` yields a hash with the following keys:

@@ -30,7 +30,11 @@ const {
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
-    MIRAGE_DEFAULT_LOGGED_OUT = false,
+    MIRAGE_SCENARIOS = [
+        'loggedIn',
+        'dashboard',
+        'settings',
+    ],
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
@@ -54,6 +58,7 @@ const {
     SHARE_API_URL: shareApiUrl = 'https://staging-share.osf.io/api/v2',
     SHARE_SEARCH_URL: shareSearchUrl = 'https://staging-share.osf.io/api/v2/search/creativeworks/_search',
     SOURCEMAPS_ENABLED: sourcemapsEnabled = true,
+    SHOW_DEV_BANNER = false,
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
@@ -65,6 +70,7 @@ module.exports = function(environment) {
         lintOnBuild,
         testsEnabled: false, // Disable tests by default.
         sourcemapsEnabled,
+        showDevBanner: isTruthy(SHOW_DEV_BANNER),
         rootURL,
         assetsPrefix,
         locationType: 'auto',
@@ -222,7 +228,6 @@ module.exports = function(environment) {
         },
         featureFlagNames: {
             routes: {
-                'guid-node.registrations': 'ember_project_registrations_page',
                 settings: 'ember_user_settings_profile_page',
                 'settings.profile': 'ember_user_settings_profile_page',
                 'settings.profile.education': 'ember_user_settings_profile_page',
@@ -279,8 +284,8 @@ module.exports = function(environment) {
         },
         'ember-cli-mirage': {
             enabled: Boolean(MIRAGE_ENABLED),
-            defaultLoggedOut: Boolean(MIRAGE_DEFAULT_LOGGED_OUT),
         },
+        mirageScenarios: MIRAGE_SCENARIOS,
 
         defaultProvider: 'osf',
     };
@@ -302,6 +307,7 @@ module.exports = function(environment) {
             },
             // Conditionally enable tests in development environment.
             testsEnabled: isTruthy(TESTS_ENABLED),
+            showDevBanner: true,
         });
     }
 
@@ -316,7 +322,6 @@ module.exports = function(environment) {
             // Always enable mirage for tests.
             'ember-cli-mirage': {
                 enabled: true,
-                defaultLoggedOut: false,
             },
             APP: {
                 ...ENV.APP,

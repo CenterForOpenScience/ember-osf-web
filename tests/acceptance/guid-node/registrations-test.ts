@@ -1,4 +1,4 @@
-import { click, currentRouteName } from '@ember/test-helpers';
+import { click as untrackedClick, currentRouteName } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -9,7 +9,7 @@ import {
     registerNode,
     registerNodeMultiple,
 } from 'ember-osf-web/mirage/helpers';
-import { currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
+import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -20,7 +20,6 @@ module('Acceptance | guid-node/registrations', hooks => {
     setupMirage(hooks);
 
     test('logged out, no registrations', async assert => {
-        server.create('root', { currentUser: null });
         const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [] });
 
         const url = `/${node.id}/registrations`;
@@ -39,7 +38,6 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged out, 1 registration', async assert => {
-        server.create('root', { currentUser: null });
         const node = server.create('node', { id: 'decaf' });
 
         const title = 'Test Title';
@@ -62,9 +60,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, no registrations', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
@@ -82,7 +78,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-button]').exists();
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -93,9 +89,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 1 registration', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        const contributorUser = server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', {
             id: 'decaf',
@@ -132,7 +126,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-node-card-body]').includesText(registrationTitle);
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -143,9 +137,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 12 registrations', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        const contributorUser = server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', {
             id: 'decaf',
@@ -158,7 +150,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         server.loadFixtures('registration-schemas');
         const registrationSchema = server.schema.registrationSchemas.all().models[0];
         // @ts-ignore until we kill async relationships
-        registerNodeMultiple(server, node, 12, { registrationSchema });
+        registerNodeMultiple(server, node, 12, { registrationSchema }, 'withArbitraryState');
 
         const url = `/${node.id}/registrations`;
 
@@ -173,13 +165,13 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-node-card]').includesText(node.title);
         await percySnapshot(assert);
 
-        await click('[data-test-next-page-button]');
+        await click('[data-analytics-name="Pagination next"]');
 
         assert.dom('[data-test-node-card]').exists({ count: 2 });
 
         assert.dom('[data-test-node-card]').includesText(node.title);
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -190,9 +182,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 1 draft registration', async assert => {
-        const initiator = server.create<User>('user');
-
-        server.create('root', { currentUser: initiator });
+        const initiator = server.create<User>('user', 'loggedIn');
 
         const node = server.create<Node>('node', {
             id: 'decaf',
@@ -219,7 +209,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-button]').exists({ count: 1 });
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
 
@@ -245,9 +235,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 12 draft registrations', async assert => {
-        const initiator = server.create<User>('user');
-
-        server.create('root', { currentUser: initiator });
+        const initiator = server.create<User>('user', 'loggedIn');
 
         const node = server.create<Node>('node', {
             id: 'decaf',
@@ -267,7 +255,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-button]').exists({ count: 1 });
 
-        await click('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
 
@@ -277,16 +265,14 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-draft-registration-card]').exists({ count: 10 });
 
-        await click('[data-test-next-page-button]');
+        await click('[data-analytics-name="Pagination next"]');
 
         assert.dom('[data-test-draft-registration-card]').exists({ count: 2 });
         await percySnapshot(assert);
     });
 
     test('logged in admin, new registration', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
@@ -318,9 +304,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, prereg challenge modal', async assert => {
-        const contributorUser = server.create('user');
-
-        server.create('root', { currentUser: contributorUser });
+        server.create('user', 'loggedIn');
 
         const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
@@ -335,11 +319,11 @@ module('Acceptance | guid-node/registrations', hooks => {
         // Test prereg challenge modal twice to make sure state is reset
         for (let i = 0; i < 2; i++) {
             await click('[data-test-new-registration-button]');
-            await click('[data-test-new-registration-modal-schema="Prereg Challenge"] input');
+            await untrackedClick('[data-test-new-registration-modal-schema="Prereg Challenge"] input');
             await click('[data-test-new-registration-modal-create-draft-button]');
             assert.dom('[data-test-prereg-challenge-modal-body]').isVisible();
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isDisabled();
-            await click('[data-test-prereg-challenge-modal-consent-checkbox]');
+            await untrackedClick('[data-test-prereg-challenge-modal-consent-checkbox]');
             assert.dom('[data-test-prereg-challenge-modal-continue-button]').isNotDisabled();
             await click('[data-test-prereg-challenge-modal-cancel-button]');
             assert.dom('[data-test-prereg-challenge-modal-body]').isNotVisible();

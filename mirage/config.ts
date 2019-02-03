@@ -8,9 +8,10 @@ import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
+import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
-import { getUserSetting, updateUserSetting } from './views/user-setting';
-import { moveFile } from './views/wb';
+import * as userSettings from './views/user-setting';
+import * as wb from './views/wb';
 
 const { OSF: { apiUrl } } = config;
 
@@ -69,12 +70,16 @@ export default function(this: Server) {
 
     osfResource(this, 'user', { except: ['create', 'delete'] });
     osfNestedResource(this, 'user', 'institutions', { only: ['index'] });
-    this.get('/users/:id/settings', getUserSetting);
-    this.patch('/users/:parentID/settings', updateUserSetting);
+    this.get('/users/:id/settings', userSettings.getUserSetting);
+    this.patch('/users/:parentID/settings', userSettings.updateUserSetting);
     osfNestedResource(this, 'user', 'emails', {
+        except: ['update', 'create'],
         path: '/users/:parentID/settings/emails',
         relatedModelName: 'user-email',
     });
+    this.patch('/users/:parentID/settings/emails/:emailID/', updateEmails);
+    this.post('/users/:parentID/settings/emails/', createEmails);
+    this.post('/users/:id/settings/export', userSettings.requestExport);
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
@@ -83,7 +88,10 @@ export default function(this: Server) {
 
     // Waterbutler namespace
     this.namespace = '/wb';
-    this.post('/files/:id/move', moveFile);
+    this.post('/files/:id/move', wb.moveFile);
+    this.post('/files/:id/upload', wb.renameFile);
+    this.del('/files/:id/delete', wb.deleteFile);
+    this.get('/files/:id/download', wb.fileVersions);
 
     // Private namespace
     this.namespace = '/_';

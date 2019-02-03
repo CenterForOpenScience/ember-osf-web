@@ -1,9 +1,15 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
 {{title (t 'node.registrations.page_title' nodeTitle=this.node.unsafeTitle)}}
-<div class='container' local-class='RegistrationsContainer' data-test-registrations-container>
+<div
+    data-test-registrations-container
+    data-analytics-scope='Registrations'
+    class='container'
+    local-class='RegistrationsContainer'
+>
     <div class='row'>
         <div class='col-xs-9 col-sm-8'>
             <BsTab
+                data-analytics-scope='Registrations Tab'
                 @activeId={{this.activeTab}}
                 @onChange={{action this.changeTab}}
                 as |tab|
@@ -17,7 +23,6 @@
                             @modelTaskInstance={{this.model.taskInstance}}
                             @relationshipName='registrations'
                             @showTags={{true}}
-                            @analyticsScope='Project Registrations'
                             as |nl|
                         >
                             <nl.empty>
@@ -37,17 +42,18 @@
                 </tab.pane>
                 {{#if this.node.userHasAdminPermission}}
                     <tab.pane
+                        data-analytics-scope='Drafts tab'
                         @id='drafts'
                         @title={{t 'node.registrations.draft_registrations'}}
                     >
                         <div class='row' local-class='RegistrationsPane' data-test-draft-registrations-pane>
                             <ul class='list-group'>
                                 {{#paginated-list/has-many
+                                    data-analytics-scope='Project Draft Registrations'
                                     modelTaskInstance=this.model.taskInstance
                                     relationshipName='draftRegistrations'
                                     bindReload=(action (mut this.reloadDrafts))
                                     query=this.draftsQueryParams
-                                    analyticsScope='Project Draft Registrations'
                                     as |list|
                                 }}
                                     <list.item as |draftRegistration|>
@@ -73,8 +79,9 @@
             <div class='col-xs-3 col-sm-4'>
                 <OsfButton
                     data-test-new-registration-button
+                    data-analytics-name='Open new registration modal'
                     @type='success'
-                    @onClick={{action this.openNewModal}}
+                    @onClick={{action (mut this.newModalOpen) true}}
                 >
                     {{t 'node.registrations.new'}}
                 </OsfButton>
@@ -89,7 +96,7 @@
                     <modal.header data-test-new-registration-modal-header>
                         <h4 class='NewRegistrationModal__header'>{{t 'node.registrations.new_registration_modal.title'}}</h4>
                     </modal.header>
-                    <modal.body data-test-new-registration-modal-body>
+                    <modal.body data-test-new-registration-modal-body data-analytics-scope='Node - Registrations - New registration modal'>
                         <p class='NewRegistrationModal__info'>{{t 'node.registrations.new_registration_modal.info'}}</p>
                         <div class='NewRegistrationModal__schema-list'>
                             {{#if this.getRegistrationSchemas.isRunning}}
@@ -121,15 +128,20 @@
                             {{/if}}
                         </div>
                     </modal.body>
-                    <modal.footer data-test-new-registration-modal-footer>
-                        <OsfButton 
+                    <modal.footer
+                        data-test-new-registration-modal-footer
+                        data-analytics-scope='Node - Registrations - New registration modal footer'
+                    >
+                        <OsfButton
                             data-test-new-registration-modal-cancel-button
+                            data-analytics-name='Close new registration modal'
                             @onClick={{action modal.close}}
                         >
                             {{t 'general.cancel'}}
                         </OsfButton>
                         <OsfButton
                             data-test-new-registration-modal-create-draft-button
+                            data-analytics-name='Create draft'
                             @onClick={{action modal.submit}}
                             @type='info'
                         >
@@ -176,17 +188,22 @@
                             </div>
                         </div>
                     </modal.body>
-                    <modal.footer data-test-prereg-challenge-modal-footer>
+                    <modal.footer
+                        data-test-prereg-challenge-modal-footer
+                        data-analytics-scope='Node - Registrations - Prereg Challenge modal footer'
+                    >
                         <div class='row'>
                             <div class='col-lg-10 col-lg-offset-1'>
                                 <OsfButton
                                     data-test-prereg-challenge-modal-cancel-button
+                                    data-analytics-name='Close Prereg Challenge modal'
                                     @onClick={{action modal.close}}
                                 >
                                     {{t 'general.cancel'}}
                                 </OsfButton>
                                 <OsfButton
                                     data-test-prereg-challenge-modal-continue-button
+                                    data-analytics-name='Continue'
                                     @onClick={{action modal.submit}}
                                     @type='info'
                                     @disabled={{not this.preregConsented}}
@@ -203,9 +220,13 @@
     {{#if this.isComponentRootAdmin}}
         <div class='row'>
             {{t 'node.registrations.register_entire_project' rootNodeTitle=this.node.root.title}}
-            {{#link-to 'guid-node.registrations' this.node.root.id}}
+            <OsfLink
+                data-analytics-name='Go to registation'
+                @route='guid-node.registrations'
+                @models={{array this.node.root.id}}
+            >
                 {{t 'node.registrations.here'~}}
-            {{/link-to}}
+            </OsfLink>
             {{~t 'general.period'}}
         </div>
     {{/if}}

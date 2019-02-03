@@ -22,6 +22,7 @@ declare const config: {
     lintOnBuild: boolean;
     testsEnabled: boolean;
     sourcemapsEnabled: boolean;
+    showDevBanner: boolean;
     modulePrefix: string;
     locationType: string;
     rootURL: string;
@@ -170,8 +171,10 @@ declare const config: {
     };
     'ember-cli-mirage': {
         enabled: boolean;
-        defaultLoggedOut: boolean;
     };
+
+    mirageScenarios: string[];
+
     engines: {
         collections: {
             enabled: boolean;

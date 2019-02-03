@@ -1,17 +1,17 @@
 {{#each this.form.sections as |form-section|}}
     <section local-class='Section {{if (eq form-section this.form.sections.lastObject) 'Last'}}'>
-        <Link @href='#{{slugify form-section.title}}'>
+        <OsfLink @href='#{{slugify form-section.title}}'>
             <h2 id='{{slugify form-section.title}}' local-class='SectionTitle'>
                 {{form-section.title}}
             </h2>
-        </Link>
+        </OsfLink>
 
         {{#each form-section.questions as |question|}}
-            <Link @href='#{{slugify form-section.title}}.{{slugify question.title}}'>
+            <OsfLink @href='#{{slugify form-section.title}}.{{slugify question.title}}'>
                 <h3 id='{{slugify form-section.title}}.{{slugify question.title}}' local-class='QuestionTitle'>
                     {{question.title}}
                 </h3>
-            </Link>
+            </OsfLink>
 
             <p class='small'>{{question.description}}</p>
 

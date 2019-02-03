@@ -1,16 +1,15 @@
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 module('Acceptance | logged-out home page', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('visiting /', async assert => {
-        server.create('root', { currentUser: null });
         await visit('/');
 
         assert.equal(currentURL(), '/', "Still at '/'.");
@@ -40,17 +39,18 @@ module('Acceptance | logged-out home page', hooks => {
     });
 
     test('visiting /?goodbye=true', async assert => {
-        server.create('root', { currentUser: null });
-
         await visit('/?goodbye=true');
         assert.equal(currentURL(), '/?goodbye=true', "Still at '/?goodbye=true'.");
 
-        assert.dom('[data-test-goodbye-banner').exists();
+        assert.dom('[data-test-goodbye-banner]').exists('Goodbye banner exists');
         await percySnapshot(assert);
+        assert.dom('a[href="/support"]').exists('Support link exists');
         await click('a[href="/support"]');
         assert.equal(currentURL(), '/support', "Made it to '/support'.");
+        assert.dom('a[href="/"]').exists('Home link exists');
         await click('a[href="/"]');
         assert.equal(currentURL(), '/', 'No more query parameter');
-        assert.dom('[data-test-goodbye-banner').doesNotExist('No goodbye banner when returning to the page');
+        assert.dom('[data-test-goodbye-banner]')
+            .doesNotExist('No goodbye banner when returning to the page');
     });
 });

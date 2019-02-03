@@ -53,11 +53,35 @@
 
 .filename-link {
     color: $color-text-black;
+    padding: 0 !important;
+    border: 0 !important;
+    margin-bottom: 0.2em !important;
+
+    &:hover {
+        color: $color-text-black;
+    
+        a {
+            color: inherit;
+        }
+    }
+
+    &.selected,
+    &.selected:hover {
+        background-color: $color-text-blue-dark;
+        color: $color-text-white;
+
+        a {
+            color: $color-text-white;
+        }
+    }
 }
 
 .version-link {
     color: $color-text-blue-dark;
-    font-weight: 600;
+    font-weight: 600 !important;
+    margin-bottom: 0.2em !important;
+    padding: 0 !important;
+    border: 0 !important;
 }
 
 .flash-message-alert {

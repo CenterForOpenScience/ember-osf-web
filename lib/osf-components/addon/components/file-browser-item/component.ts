@@ -1,5 +1,5 @@
 import { classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
+import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { localClassName, localClassNames } from 'ember-css-modules';
@@ -69,16 +69,6 @@ export default class FileBrowserItem extends Component {
     @computed('item.guid')
     get link(): string {
         return this.item && this.item.guid ? pathJoin(window.location.origin, this.item.guid) : '';
-    }
-
-    @action
-    openVersion() {
-        this.openItem(this.item, 'revision');
-    }
-
-    @action
-    open() {
-        this.openItem(this.item, 'view');
     }
 
     click(event: MouseEvent) {

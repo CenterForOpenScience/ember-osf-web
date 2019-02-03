@@ -1,4 +1,8 @@
-<div local-class='DraftRegistrationCard' data-test-draft-registration-card>
+<div
+    data-analytics-scope='Draft registrations'
+    data-test-draft-registration-card
+    local-class='DraftRegistrationCard'
+>
     <h4 local-class='DraftRegistratrionCard__title' data-test-draft-registration-card-title>
         {{#if this.draftRegistration}}
             {{this.draftRegistration.registrationSchema.name}}
@@ -36,13 +40,15 @@
         </small>
         <div class='row'>
             <div class='col-md-10'>
-                <OsfButton 
+                <OsfButton
+                    data-analytics-name='Edit'
                     @type='default' 
                     @onClick={{action this.edit}}
                     @disabled={{not this.draftRegistration}}
                 >
                     {{fa-icon 'pencil'}} {{t 'general.edit'}}
                 </OsfButton><OsfButton {{! template-lint-disable }}
+                    data-analytics-name='Delete'
                     @type='default' 
                     @onClick={{action this.delete}}
                     disabled={{not this.draftRegistration}}
@@ -61,14 +67,16 @@
                     <modal.body>
                         {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
                     </modal.body>
-                    <modal.footer>
+                    <modal.footer data-analytics-scope='Draft registrations delete modal'>
                         <OsfButton
+                            data-analytics-name='Cancel delete'
                             @onClick={{action modal.close}}
                             @type='default'
                         >
                             {{t 'general.cancel'}}
                         </OsfButton>
                         <OsfButton
+                            data-analytics-name='Confirm delete'
                             @onClick={{action this.confirmDelete}}
                             @type='danger'
                         >
@@ -79,6 +87,7 @@
             </div>
             <div class='col-md-1'>
                 <OsfButton
+                    data-analytics-name='Register'
                     @type='default'
                     @onClick={{action this.register}}
                     @disabled={{not this.enableRegister}}

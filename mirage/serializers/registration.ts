@@ -1,14 +1,18 @@
-import { ModelInstance } from 'ember-cli-mirage';
+import { ID, ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
 
 import ApplicationSerializer, { SerializedRelationships } from './application';
-import { Attrs } from './node';
+import { Attrs as NodeAttrs } from './node';
 
 const { OSF: { apiUrl } } = config;
 
-type MirageRegistration = Registration & { attrs: Attrs };
+interface RegistrationAttrs extends NodeAttrs {
+    registeredFromId: ID | null;
+}
+
+type MirageRegistration = Registration & { attrs: RegistrationAttrs };
 
 export default class RegistrationSerializer extends ApplicationSerializer<MirageRegistration> {
     buildRelationships(model: ModelInstance<MirageRegistration>) {
@@ -70,6 +74,10 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 },
             },
             registrationSchema: {
+                data: {
+                    id: model.registrationSchema.id,
+                    type: 'registration_schemas',
+                },
                 links: {
                     related: {
                         href: `${apiUrl}/v2/schemas/registrations/${model.registrationSchema.id}`,
@@ -103,6 +111,21 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 links: {
                     related: {
                         href: `${apiUrl}/v2/registrations/${rootId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+        if (model.attrs.registeredFromId !== null) {
+            const { registeredFromId } = model.attrs;
+            relationships.registeredFrom = {
+                data: {
+                    id: registeredFromId,
+                    type: this.typeKeyForModel(model),
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${registeredFromId}`,
                         meta: {},
                     },
                 },

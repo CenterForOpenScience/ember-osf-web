@@ -35,6 +35,7 @@
     },
     "ignore": [
       "blueprints/*/files/**",
+      "blueprints/*/engine-files/**",
       "vendor/*"
     ]
   },
@@ -84,7 +85,7 @@
     "ember-cli-inject-live-reload": "^1.8.2",
     "ember-cli-inline-content": "0.4.1",
     "ember-cli-meta-tags": "^5.0.0",
-    "ember-cli-mirage": "^0.4.10",
+    "ember-cli-mirage": "^0.4.14",
     "ember-cli-moment-shim": "^3.5.0",
     "ember-cli-password-strength": "^2.0.0",
     "ember-cli-qunit": "^4.4.0",
@@ -109,7 +110,7 @@
     "ember-cp-validations": "^3.5.3",
     "ember-css-modules": "^1.0.3",
     "ember-css-modules-reporter": "^1.2.0",
-    "ember-css-modules-sass": "^1.0.0",
+    "ember-css-modules-sass": "^1.0.1",
     "ember-css-modules-stylelint": "^1.2.0",
     "ember-data": "~3.4.0",
     "ember-data-factory-guy": "~3.1.0",

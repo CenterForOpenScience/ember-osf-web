@@ -3,5 +3,7 @@
         @node={{this.model.taskInstance.value}}
     />
 {{/unless}}
-{{outlet}}
+<div data-analytics-scope='Node'>
+    {{outlet}}
+</div>
 <JoinOsfBanner />

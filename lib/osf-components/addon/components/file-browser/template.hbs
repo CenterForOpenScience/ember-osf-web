@@ -1,8 +1,11 @@
-<div class='row' local-class='actions-header'>
+<div data-analytics-scope='Action buttons' class='row' local-class='actions-header'>
     {{#if this.showFilter}}
         <div class='col-xs-9 filter-input'>
             {{input
-                (html-attributes aria-label=(t 'file_browser.filtering'))
+                (html-attributes 
+                    data-test-filter-input='filter'
+                    aria-label=(t 'file_browser.filtering')
+                )
                 placeholder=(t 'file_browser.filtering')
                 class='form-control'
                 keyUp=(action @updateFilter value='target.value')
@@ -11,6 +14,7 @@
         <div class='col-xs-3'>
             <OsfButton
                 data-test-close-filter
+                data-analytics-name='Close filter'
                 local-class='action-button'
                 aria-label={{t 'general.close'}}
                 @onClick={{action this.closeFilter}}
@@ -22,6 +26,7 @@
     {{else if this.showRename}}
         <div class='col-xs-9 filter-input'>
             {{input
+                (html-attributes data-test-rename-field='rename')
                 placeholder=this.selectedItems.firstObject.itemName
                 class='form-control'
                 value=this.renameValue
@@ -30,7 +35,8 @@
         </div>
         <div class='col-xs-3'>
             <OsfButton
-                data-test-close-rename 
+                data-test-close-rename
+                data-analytics-name='Close rename'
                 local-class='action-button'
                 aria-label={{t 'general.close'}}
                 @onClick={{action this.closeRename}}
@@ -40,6 +46,7 @@
             </OsfButton>
             <OsfButton
                 data-test-save-rename
+                data-analytics-name='Save rename'
                 aria-label={{t 'general.rename'}}
                 local-class='action-button'
                 @onClick={{action this.rename}}
@@ -52,7 +59,9 @@
         <div class='pull-right'>
             {{#if this.canEdit}}
                 <OsfButton
+                    data-analytics-name='Upload'
                     local-class='action-button'
+                    @bubble={{true}}
                     @class='dz-upload-button'
                     @disabled={{this.isUploading}}
                 >
@@ -65,6 +74,7 @@
                 {{#if (eq this.selectedItems.length 1)}}
                     <OsfButton 
                         data-test-share-dialog-button
+                        data-analytics-name='Share'
                         local-class='action-button' 
                         @class='popover-toggler' 
                         @onClick={{action this.openSharePopup}}
@@ -78,6 +88,7 @@
                         >
                             {{#if this.link}}
                                 <CopyableText
+                                    data-test-file-share-copyable-text
                                     @text={{this.link}}
                                     @success={{action (mut this.popupOpen) false}}
                                     @analyticsLabel='Quick Files - Share - Copy link'
@@ -89,7 +100,9 @@
                     </OsfButton>
                     <OsfButton 
                         data-test-download-button
+                        data-analytics-name={{if (not this.canEdit) 'Download'}}
                         local-class='action-button'
+                        @bubble={{true}}
                         @onClick={{action this.downloadItem}}
                     >
                         {{fa-icon 'download'}}
@@ -97,7 +110,9 @@
                     </OsfButton>
                     <OsfButton
                         data-test-view-button
+                        data-analytics-name='View'
                         local-class='action-button'
+                        @bubble={{true}}
                         @onClick={{action this.viewItem}}
                     >
                         {{fa-icon 'file-o'}}
@@ -106,23 +121,29 @@
                     {{#if this.canEdit}}
                         <OsfButton
                             data-test-move-button
+                            data-analytics-name='Move'
                             local-class='action-button'
+                            @bubble={{true}}
                             @onClick={{action (mut this.currentModal) 'move'}}
                         >
                             {{fa-icon 'level-up'}}
                             {{t 'general.move'}}
                         </OsfButton>
                         <OsfButton
-                            data-test-delete-button 
+                            data-test-delete-file-button
+                            data-analytics-name='Delete'
                             local-class='action-button'
+                            @bubble={{true}}
                             @onClick={{action (mut this.currentModal) 'delete'}}
                         >
                             {{fa-icon 'trash'}}
                             {{t 'general.delete'}}
                         </OsfButton>
                         <OsfButton
-                            data-test-rename-button
+                            data-test-rename-file-button
+                            data-analytics-name='Rename'
                             local-class='action-button'
+                            @bubble={{true}}
                             @onClick={{action (mut this.showRename) true}}
                         >
                             {{fa-icon 'pencil'}}
@@ -133,7 +154,9 @@
                     {{#if this.canEdit}}
                         <OsfButton
                             data-test-delete-multiple-button
+                            data-analytics-name='Delete multiple'
                             local-class='action-button'
+                            @bubble={{true}}
                             @onClick={{action (mut this.currentModal) 'deleteMultiple'}}
                         >
                             {{fa-icon 'trash'}}
@@ -144,7 +167,10 @@
             {{else if this.hasItems}}
                 <OsfButton 
                     data-test-download-zip-button
+                    data-analytics-name={{if (not this.canEdit) 'Download Zip'}}
                     local-class='action-button' 
+                    local-class='action-button'
+                    @bubble={{true}}
                     @onClick={{action this.downloadZip}}
                 >
                     {{fa-icon 'download'}} {{t 'file_browser.download_zip'}}
@@ -153,7 +179,9 @@
             {{#if this.hasItems}}
                 <OsfButton
                     data-test-filter-button
+                    data-analytics-name='Filter'
                     local-class='action-button'
+                    @bubble={{true}}
                     @onClick={{action (mut this.showFilterClicked) true}}
                 >
                     {{fa-icon 'search'}}
@@ -162,7 +190,9 @@
             {{/if}}
             <OsfButton
                 data-test-info-button
+                data-analytics-name='Info'
                 local-class='action-button'
+                @bubble={{true}}
                 @onClick={{action (mut this.currentModal) 'info'}}
             >
                 {{fa-icon 'info'}}
@@ -171,7 +201,7 @@
         </div>
     {{/if}}
 </div>
-<div local-class='column-labels column-labels-header'>
+<div data-analytics-scope='Header' local-class='column-labels column-labels-header'>
     <div class='col-lg-7 col-md-9 col-sm-9 col-xs-12' local-class='file-browser-header header'>
         <span local-class='sortable-column'>{{t 'general.name'}}</span>
         <SortButton
@@ -194,7 +224,7 @@
         <SortButton 
             @sortAction={{action (mut this.sort)}}
             @sort={{this.sort}}
-            @sortBy='modified'
+            @sortBy='dateModified'
         />
     </div>
 </div>
@@ -215,9 +245,10 @@
         <p>{{t 'file_browser.info.open2'}}</p>
         <p>{{t 'file_browser.info.download'}}</p>
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='File browser - Info modal'>
         <OsfButton
             data-test-close-current-modal
+            data-analytics-name='Close'
             @onClick={{action (mut this.currentModal) ''}}
             @type='default'
         >
@@ -239,14 +270,18 @@
     <modal.body>
         <p>{{t 'file_browser.delete_modal.body'}}</p>
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='File browser - Delete modal'>
         <OsfButton
+            data-test-delete-file-cancel-button
+            data-analytics-name='Cancel'
             @onClick={{action (mut this.currentModal) ''}}
             @type='default'
         >
             {{t 'general.cancel'}}
         </OsfButton>
-        <OsfButton 
+        <OsfButton
+            data-test-delete-file-confirm-button
+            data-analytics-name='Delete'
             @onClick={{action this.deleteItems}}
             @type='danger'
         >
@@ -272,9 +307,21 @@
             </div>
         {{/each}}
     </modal.body>
-    <modal.footer>
-        <OsfButton @onClick={{action (mut this.currentModal) ''}} @type='default'>{{t 'general.cancel'}}</OsfButton>
-        <OsfButton @onClick={{action this.deleteItems true}} @type='danger'>{{t 'general.delete'}}</OsfButton>
+    <modal.footer data-analytics-scope='File browser - Delete multiple modal'>
+        <OsfButton
+            data-analytics-name='Cancel'
+            @onClick={{action (mut this.currentModal) ''}}
+            @type='default'
+        >
+            {{t 'general.cancel'}}
+        </OsfButton>
+        <OsfButton
+            data-analytics-name='Delete'
+            @onClick={{action this.deleteItems true}}
+            @type='danger'
+        >
+            {{t 'general.delete'}}
+        </OsfButton>
     </modal.footer>
 </BsModal>
 <BsModal
@@ -290,14 +337,19 @@
         <p>{{t 'file_browser.conflict_modal.keep_info'}}</p>
         <p>{{t 'file_browser.conflict_modal.replace_info'}}</p>
     </modal.body>
-    <modal.footer>
-        <OsfButton @onClick={{action (mut this.currentModal) ''}} @type='default'>
-            {{t 'general.cancel'}}
-        </OsfButton>
-        <OsfButton @onClick={{action this.renameConflict 'keep'}} @type='primary'>
+    <modal.footer data-analytics-scope='File browser - Rename conflict modal'>
+        <OsfButton
+            data-test-conflict-keep-both-button
+            data-analytics-name='Keep'
+            @onClick={{action this.renameConflict 'keep'}}
+        >
             {{t 'file_browser.conflict_modal.keep_button'}}
         </OsfButton>
-        <OsfButton @onClick={{action this.renameConflict 'replace'}} type='primary'>
+        <OsfButton
+            data-test-conflict-replace-file-button
+            data-analytics-name='Replace'
+            @onClick={{action this.renameConflict 'replace'}}
+        >
             {{t 'file_browser.conflict_modal.replace_button'}}
         </OsfButton>
     </modal.footer>
@@ -321,9 +373,10 @@
             @moveToNewProject={{action this.moveToNewProject}}
         />
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='File browser - Move to project Modal'>
         <OsfButton
             data-test-move-to-project-modal-close-button
+            data-analytics-name='Close'
             @disabled={{this.isMoving}}
             @onClick={{action this.closeMoveToProjectModal}}
             @type='default'
@@ -333,6 +386,7 @@
         {{#if (not-eq this.projectSelectState 'main')}}
             <OsfButton
                 data-test-move-to-project-modal-back-button
+                data-analytics-name='Back'
                 @disabled={{this.isMoving}}
                 @onClick={{action (mut this.projectSelectState) 'main'}}
                 @type='default'
@@ -341,6 +395,7 @@
             </OsfButton>
             <OsfButton
                 data-test-move-to-project-modal-perform-button
+                data-analytics-name='Move'
                 @disabled={{or (not this.isProjectSelectorValid) this.isMoving}}
                 @onClick={{action (perform this.moveToProject)}}
                 @type='primary'

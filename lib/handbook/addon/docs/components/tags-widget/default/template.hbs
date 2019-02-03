@@ -1,11 +1,11 @@
 <DocsDemo as |demo|>
     <demo.example @name='tags-widget.default.hbs'>
         <TagsWidget
+            data-analytics-scope='Tags widget default'
             @tags={{@tags}}
             @addTag={{action @addTag}}
             @removeTag={{action @removeTag}}
             @showAdd={{this.showAdd}}
-            @analyticsScope='Handbook Tags'
         />
     </demo.example>
 

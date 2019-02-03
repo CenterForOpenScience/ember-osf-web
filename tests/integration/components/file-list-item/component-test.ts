@@ -12,8 +12,9 @@ module('Integration | Component | file-list-item', hooks => {
         // Handle any actions with this.set('myAction', function(val) { ... });
 
         const itemName = 'file.txt';
+        const guid = 'fak34';
 
-        this.set('item', EmberObject.create({ itemName }));
+        this.set('item', EmberObject.create({ itemName, guid }));
 
         await render(hbs`{{file-list-item item=item}}`);
 

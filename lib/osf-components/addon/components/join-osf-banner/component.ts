@@ -35,6 +35,5 @@ export default class JoinOsfBanner extends Component {
     dismiss() {
         this.set('dismissed', true);
         this.storage.setItem(dismissedKey, '0');
-        this.analytics.click('button', 'Join OSF Banner - dismiss');
     }
 }

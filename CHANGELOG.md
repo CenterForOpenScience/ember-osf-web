@@ -6,10 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components:
+    - `settings/account/default-region` - Panel for setting a user's default region
+    - `settings.account.-components.request-deactivation`
+    - `settings.account.-components.request-export`
 - Utils:
     - `getHref` - get an href from a `Link`
     - `getRelatedHref` - get an href from a `Relationship`
     - `tuple` - create a strictly-typed [tuple](https://www.typescriptlang.org/docs/handbook/basic-types.html#tuple)
+
 ### Changed
 - Models:
     - `osf-model` - use proper types for `links` and `relationshipLinks` attributes
@@ -18,20 +23,56 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `developer-app` - extend `links` types to include links specific to developer apps
     - `collection` - improve types for choices fields
     - `collected-metadatum` - improve types for choice fields
+    - `user-setting` - Added `requestExport()` function, `deactivationRequested` field, and `export` link
+    - `osf-model`
+        - use proper types for `links` and `relationshipLinks` attributes
+        - added helper methods for creating and deleting M2M relationships:
+            - `createM2MRelationship`
+            - `deleteM2MRelationship`
+- Mirage:
+    - Slim down default scenario
+    - Allow different set of scenarios to run based on local settings with `MIRAGE_SCENARIOS`
+- Services
+    - `analytics` - allow toast-on-click to be used in production builds (when enabled in dev banner)
+- Components
+    - `osf-link` - used to be `link`
+        - `@onClick` parameter used to be `@onclick`
+    - `<ContributorList>` - modified to take in different parameters
+        - `node` (required)
+        - `shouldTruncate` (default true)
+        - `shouldLinkUsers` (default false)
+    - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
+- Tests
+    - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
+- Travis
+    - Use a production build for handbook
 
-## [19.1.0]
+### Removed
+- Components:
+    - `global-link-to`
+    - `<ContributorList>` - modified to take in different parameters
+        - `node` (required)
+        - `shouldTruncate` (default true)
+        - `shouldLinkUsers` (default false)
+- Mirage:
+    - `DEFAULT_LOGGED_OUT` setting is now redundant
+
+## [19.1.0] - 2019-01-23
 ### Added
 - Addons:
     - `loaders-css` - For animated loading indicators
 - Components:
     - `settings.account.-components.security` - Two-factor authentication panel.
     - `osf-button` - our new, use-everywhere button component
+    - `connected-emails` - a list of all emails connected to an account
 - Models:
     - `user-setting`
 - Routes:
     - `settings.account`
 - Styles:
     - All styles from `osf-style`
+- Validators:
+    - `httpUrl` - validates that a string looks like an http url
 
 ### Changed
 - Addons:
@@ -41,6 +82,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-cli-sass@8.0.1`
 - Components:
     - `contributor-list` - takes an optional parameter `truncated`
+- Models:
+    - `developer-app` - use custom `httpUrl` validator for urls
 - Templates:
     - `no-implicit-this` template rule activated
 - Types:
@@ -75,6 +118,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
+    - `connected-emails` - a list of all emails connected to an account
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
@@ -92,6 +136,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `new-project-navigation-modal` - component integration test
     - Acceptance:
         - `settings.profile.name`
+        - `settings.account`
         - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
         - Add percy everywhere in the main app
     - Helpers:
@@ -184,7 +229,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `dashboard` - replaced project creation modal with `new-project-modal` component
 - Tests:
     - `dashboard` - acceptance tests related to project creation workflow
- 
+
 ## [18.1.0] - 2018-10-30
 ### Added
 - Components:
