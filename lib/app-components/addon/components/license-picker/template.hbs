@@ -1,17 +1,18 @@
 <label>
     {{yield}}
 </label>
-{{#validated-input/power-select
-        model=this.node
-        valuePath='license'
-        search=(perform this.queryLicenses)
-        options=this.licensesAcceptable
-        onchange=(action 'changeLicense')
-        noMatchesMessage=(t 'new_project.no_matches')
-        as |license|
-}}
+<this.form.select
+    @model={{this.node}}
+    @valuePath='license'
+    @search={{perform this.queryLicenses}}
+    @options={{this.licensesAcceptable}}
+    @onchange={{action this.changeLicense}}
+    @noMatchesMessage={{t 'new_project.no_matches'}}
+    @placeholder='Required'
+    as |license|
+>
     {{license.name}}
-{{/validated-input/power-select}}
+</this.form.select>
 <small>
     <a
         target='_blank'
@@ -25,10 +26,10 @@
     {{#if this.requiredFields.length}}
         <br>
     {{/if}}
-    {{#validated-input/custom
-        model=this.node
-        valuePath='nodeLicense'
-    }}
+    <this.form.custom
+        @model={{this.node}}
+        @valuePath='nodeLicense'
+    >
         {{#each this.requiredFields as |key|}}
             <br>
             <label for='nodeLicense-{{key}}'>{{t (concat 'app_components.license_picker.fields.' key)}}</label>
@@ -38,9 +39,10 @@
                 id=(concat 'nodeLicense-' key)
                 value=(mut (get this.node.nodeLicense key))
                 input=(action 'notify')
+                placeholder='Required'
             }}
         {{/each}}
-    {{/validated-input/custom}}
+    </this.form.custom>
     <a role='button' onclick={{action (mut this.showText) (not this.showText)}}>
         {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
     </a>

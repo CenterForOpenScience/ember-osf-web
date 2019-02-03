@@ -107,12 +107,11 @@ export default class SubjectPicker extends Component.extend({
     select(this: SubjectPicker, tier: number, selected: Taxonomy) {
         this.analytics.track('button', 'click', `Collections - ${this.editMode ? 'Edit' : 'Submit'} - Discipline Add`);
 
-        // Sets `tempSubjects` to `this.currentSubjects`.
+        // Deep-copy the nested `currentSubjects` to `tempSubjects`.
         // All new selected subjects are first added to `tempSubjects` before saving back to `this.currentSubjects`.
         // This is because Ember does not recognize an array model attribute as dirty
         // if we directly push objects to the array.
-        const tempSubjects: Taxonomy[][] = this.currentSubjects.slice();
-
+        const tempSubjects: Taxonomy[][] = JSON.parse(JSON.stringify(this.currentSubjects));
         this.set('hasChanged', true);
         const column = this.columns[tier];
 
