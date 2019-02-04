@@ -46,7 +46,6 @@ export default class Submit extends Component {
 
     collectionItem: Node | null = defaultTo(this.collectionItem, null);
     isProjectSelectorValid: boolean = false;
-    didValidate: boolean = false;
     sections = Section;
     activeSection: Section = this.edit ? Section.projectMetadata : Section.project;
     savedSections: Section[] = this.edit ? [Section.project] : [];
@@ -62,8 +61,6 @@ export default class Submit extends Component {
             this.get('collectionItem')!.validate(),
             this.get('collectedMetadatum').validate(),
         ]);
-
-        this.set('didValidate', true);
 
         const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);
 
@@ -83,6 +80,10 @@ export default class Submit extends Component {
         const operation = this.edit ? 'update' : 'add';
 
         try {
+            if (!this.collectionItem.public) {
+                this.collectionItem.set('public', true);
+                yield this.collectionItem.save();
+            }
             yield this.collectedMetadatum.save();
 
             this.collectionItem.set('collectable', false);

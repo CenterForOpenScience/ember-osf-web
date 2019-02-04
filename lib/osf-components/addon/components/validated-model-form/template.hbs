@@ -5,6 +5,7 @@
         model=this.model
         disabled=this.inputsDisabled
         submit=(perform this.saveModelTask)
+        shouldShowMessages=this.shouldShowMessages
 
         checkbox=(component 'validated-input/checkbox' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
         checkboxes=(component 'validated-input/checkboxes' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
@@ -13,5 +14,6 @@
         text=(component 'validated-input/text' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
         textarea=(component 'validated-input/textarea' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
         select=(component 'validated-input/power-select' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputsDisabled)
+        custom=(component 'validated-input/custom' model=this.model shouldShowMessages=this.shouldShowMessages disabled=this.inputDisabled)
     )}}
 </BsForm>
