@@ -11,6 +11,7 @@ import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
+import moment from 'moment';
 import { module, test } from 'qunit';
 
 import File from 'ember-osf-web/models/file';
@@ -345,6 +346,7 @@ module('Acceptance | guid file', hooks => {
 
         test('shows a list of versions', async assert => {
             const currentUser = server.create('user', 'loggedIn');
+            const date = moment('2019-01-03T17:37:18.319Z').format('YYYY-MM-DD h:mm A');
             const file = server.create(
                 'file',
                 {
@@ -358,7 +360,7 @@ module('Acceptance | guid file', hooks => {
             assert.dom('[data-test-version-cell="1"]').hasText('1', 'initial state');
             assert.dom('[data-test-select-version="1"]').exists('initial state');
             assert.dom('[data-test-modified-date-cell="2"]')
-                .hasText('2019-01-03 12:37 PM', 'initial state');
+                .hasText(date, 'initial state');
             assert.dom('[data-test-download-count-cell="2"]')
                 .hasText('3', 'initial state');
             assert.dom('[data-test-download-version-cell="2"] button')
