@@ -19,7 +19,7 @@
                 <BsNav @class='nav-justified' @type='tabs' as |nav|>
                     <nav.item data-test-share-tab @active={{bs-eq tab.activeId this.sharePaneId}}>
                         <a 
-                            data-analytics-name='Share'
+                            data-test-share-pane-tab
                             role='tab'
                             {{action tab.select this.sharePaneId}}
                             local-class='SharePane__tab'
@@ -29,7 +29,7 @@
                     </nav.item>
                     <nav.item data-test-embed-tab @active={{bs-eq tab.activeId this.embedPaneId}}>
                         <a
-                            data-analytics-name='Embed'
+                            data-test-embed-pane-tab
                             role='tab'
                             {{action tab.select this.embedPaneId}}
                             local-class='SharePane__tab'
@@ -47,12 +47,15 @@
                         local-class='SharePane'
                     >
                         <br>
-                        <CopyableText
-                            data-analytics-scope='Share file'
-                            @text={{this.mfrUrl}}
-                        />
+                        <span data-test-copyable-link>
+                            <CopyableText
+                                data-analytics-scope='Share file'
+                                @text={{this.mfrUrl}}
+                            />
+                        </span>
                         <div local-class='SharePane__button-group'>
                             <OsfLink
+                                data-test-twitter-link
                                 data-analytics-name='Share file on Twitter'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.twitter'}}
@@ -63,6 +66,7 @@
                                 <i aria-hidden='true' class='fa fa-twitter'></i>
                             </OsfLink>
                             <OsfLink
+                                data-test-facebook-link
                                 data-analytics-name='Share file on Facebook'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.facebook'}}
@@ -73,6 +77,7 @@
                                 <i aria-hidden='true' class='fa fa-facebook'></i>
                             </OsfLink>
                             <OsfLink
+                                data-test-linkedin-link
                                 data-analytics-name='Share file on LinkedIn'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'social.linkedin'}}
@@ -83,6 +88,7 @@
                                 <i aria-hidden='true' class='fa fa-linkedin'></i>
                             </OsfLink>
                             <OsfLink
+                                data-test-email-link
                                 data-analytics-name='Share file in email'
                                 local-class='SharePane__share-link'
                                 aria-label={{t 'quickfiles.share_by_email'}}
@@ -102,6 +108,7 @@
                         <br>
                         <p>{{t 'file_detail.embed.dynamic'}}</p>
                         <textarea
+                            data-test-share-js
                             aria-label={{t 'file_detail.embed_js_label'}}
                             readonly='true'
                             type='text'
@@ -112,6 +119,7 @@
                         <br>
                         <p>{{t 'file_detail.embed.direct'}}</p>
                         <textarea
+                            data-test-share-iframe
                             aria-label={{t 'file_detail.embed_iframe_label'}}
                             readonly='true'
                             class='form-control'

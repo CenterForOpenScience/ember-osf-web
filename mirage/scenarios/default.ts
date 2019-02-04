@@ -54,6 +54,10 @@ function registrationScenario(server: Server, currentUser: ModelInstance) {
     server.createList('registration', 15, { parent: reg });
 }
 
+function quickfilesScenario(server: Server, currentUser: ModelInstance) {
+    server.createList('files', 5, { user: currentUser });
+}
+
 function dashboardScenario(server: Server, currentUser: ModelInstance) {
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
@@ -146,6 +150,9 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('settings')) {
         settingsScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('quickfiles')) {
+        quickfilesScenario(server, currentUser);
     }
     if (handbookEnabled) {
         handbookScenario(server);
