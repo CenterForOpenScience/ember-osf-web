@@ -1,7 +1,6 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import RouterService from '@ember/routing/router-service';
-import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import moment from 'moment';
@@ -15,46 +14,48 @@ import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
+const { assetsPrefix } = config;
+
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
     @service router!: RouterService;
-    @service('head-tags') headTagsService!: HeadTagsService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
 
     headTags?: HeadTagDef[];
 
     setHeadTags = task(function *(this: Overview, model: any) {
-        yield model.taskInstance;
+        const blocker = this.ready.getBlocker();
 
-        const registration = model.taskInstance.value as Registration;
-        const contributors = yield registration.loadAll('contributors');
-        const institutions = yield registration.loadAll('affiliatedInstitutions');
-        const license = yield registration.license;
+        const registration = yield model.taskInstance as Registration;
 
-        const metaTagsData = {
-            title: registration.title,
-            description: registration.description,
-            publishedDate: moment(registration.dateRegistered).format('YYYY-MM-DD'),
-            modifiedDate: moment(registration.dateModified).format('YYYY-MM-DD'),
-            identifier: registration.id,
-            url: pathJoin(config.OSF.url, registration.id),
-            keywords: registration.tags,
-            siteName: 'OSF',
-            license: license && license.name,
-            author: contributors.map((contrib: Contributor) => contrib.users.get('fullName')),
-            institution: institutions.map((ins: Institution) => ins.get('name')),
-        };
+        if (registration) {
+            const contributors = yield registration.loadAll('contributors');
+            const institutions = yield registration.loadAll('affiliatedInstitutions');
+            const license = yield registration.license;
 
-        this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
-        this.headTagsService.collectHeadTags();
+            const image = `${assetsPrefix}engines-dist/registries/assets/img/osf-sharing.png`;
 
-        // Tell Zotero head meta tags are ready
-        const ev = new Event('ZoteroItemUpdated', {
-            bubbles: true,
-            cancelable: true,
-        });
-        document.dispatchEvent(ev);
+            const metaTagsData = {
+                title: registration.title,
+                description: registration.description,
+                publishedDate: moment(registration.dateRegistered).format('YYYY-MM-DD'),
+                modifiedDate: moment(registration.dateModified).format('YYYY-MM-DD'),
+                identifier: registration.id,
+                url: pathJoin(config.OSF.url, registration.id),
+                image,
+                keywords: registration.tags,
+                siteName: 'OSF',
+                license: license && license.name,
+                author: contributors.map((contrib: Contributor) => contrib.users.get('fullName')),
+                institution: institutions.map((ins: Institution) => ins.get('name')),
+            };
+
+            this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
+            this.metaTags.updateHeadTags();
+        }
+
+        blocker.done();
     });
 
     modelName(): 'registration' {
@@ -73,7 +74,9 @@ export default class Overview extends GuidRoute {
         };
     }
 
-    afterModel(this: Overview, model: any) {
+    afterModel(this: Overview, model: GuidRouteModel<Registration>) {
+        // Do not return model.taskInstance
+        // as it would block rendering until model.taskInstance resolves and `setHeadTags` task terminates.
         this.get('setHeadTags').perform(model);
     }
 

@@ -54,7 +54,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
     this.post('/registrations/:id/forks', forkRegistration);
 
-    osfNestedResource(this, 'registration', 'contributors');
+    osfNestedResource(this, 'registration', 'contributors', { defaultSortKey: 'index' });
     osfNestedResource(this, 'registration', 'forks', { only: ['index'] });
     this.post('/registrations/:id/forks', createRegistrationFork);
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
