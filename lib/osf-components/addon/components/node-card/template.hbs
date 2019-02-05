@@ -41,7 +41,11 @@
         </span>
         {{#if @node}}
             {{#if this.showDropdown}}
-                <div class='pull-right generic-dropdown' local-class='NodeCard__dropdown'>
+                <div
+                    data-test-node-menu
+                    class='pull-right generic-dropdown'
+                    local-class='NodeCard__dropdown'
+                >
                     <BsDropdown as |dd|>
                         <dd.button local-class='NodeCard__dropdown-button'>
                             <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
