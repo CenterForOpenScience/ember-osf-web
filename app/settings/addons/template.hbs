@@ -1,14 +1,23 @@
 {{#let
-    (component 'settings/addons/-components/addon-section')
+    (component 'settings/addons/-components/addon')
     (component 'paginated-list/all')
-    as |AddonSection List|
+    (component 'settings/addons/-components/token-addon')
+    as |Addon List TokenAddon|
 }}
     <Panel as |panel|>
         <panel.heading @title={{t 'settings.addons.title'}} />
         <panel.body>
             <List @modelName='addon' as |list|>
                 <list.item as |addon|>
-                    <AddonSection @addon={{addon}} />
+                    {{#if (eq addon.auth.type 'token_auth')}}
+                        <TokenAddon @addon={{addon}} />
+                    {{else if (eq addon.auth.type 'user_auth')}}
+                        <Addon @addon={{addon}} />
+                    {{else if (eq addon.auth.type 'key_auth')}}
+                        <Addon @addon={{addon}} />
+                    {{else}}
+                        <Addon @addon={{addon}} />
+                    {{/if}}
                 </list.item>
             </List>
         </panel.body>

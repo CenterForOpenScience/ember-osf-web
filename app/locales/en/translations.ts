@@ -1479,6 +1479,12 @@ export default {
         addons: {
             title: 'Configure add-on accounts',
             link: 'Connect or reauthorize account',
+            account: 'Connect to',
+            apiToken: 'API token',
+            repo: 'repository',
+            only: 'Only',
+            repoSupport: 'repositories v4.0 or higher are supported',
+            https: 'https://',
         },
         notifications: {
             title: 'Notifications',

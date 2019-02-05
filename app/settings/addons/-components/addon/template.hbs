@@ -8,12 +8,7 @@
             >
             <h4>{{@addon.name}}</h4>
         </div>
-        <OsfLink
-            data-analytics-name={{concat @addon.name ' addon'}}
-            @href={{@addon.url}}
-        >
-            {{t 'settings.addons.link'}}
-        </OsfLink>
+        {{yield}}
     {{else}}
         <ContentPlaceholders
             local-class='placeholder'
