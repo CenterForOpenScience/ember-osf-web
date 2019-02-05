@@ -103,6 +103,7 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'addon', { except: ['create', 'delete'] });
+    osfResource(this, 'userAddon');
     osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
 
