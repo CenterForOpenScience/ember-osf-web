@@ -9,18 +9,21 @@ import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web
 
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
+// import Registration from 'ember-osf-web/models/registration';
 
-module('Acceptance | guid-node/forks', hooks => {
+module('Acceptance | guid-registration/forks', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('logged out, no forks', async assert => {
-        const node = server.create<Node>('node', { id: 'f0rk5', currentUserPermissions: [] });
-        const url = `/${node.id}/forks`;
+        const title = 'Registered Xyzzy';
+        const node = server.create<Node>('node', { id: 'regis', title, currentUserPermissions: [] });
+        const registration = server.create('registration', { title, registeredFrom: node });
+        const url = `/${registration.id}/forks`;
 
         await visit(url);
         assert.equal(currentURL(), url, `We are on ${url}`);
-        assert.equal(currentRouteName(), 'guid-node.forks', 'We are at guid-node.forks');
+        assert.equal(currentRouteName(), 'guid-registration.forks', 'We are at guid-registration.forks');
         await percySnapshot(assert);
         assert.dom('[data-test-new-fork-button]').doesNotExist();
         assert.dom('[data-test-forks-info]')
@@ -28,12 +31,14 @@ module('Acceptance | guid-node/forks', hooks => {
     });
 
     test('logged out, 1 fork', async assert => {
-        const title = 'Test Title';
-        const node = server.create('node', { id: 'f0rk5', title });
+        const title = 'Registered Xyzzy';
+        const node = server.create<Node>('node', { id: 'regis', title, currentUserPermissions: [] });
+        const registration = server.create('registration', { title, registeredFrom: node });
+        const url = `/${registration.id}/forks`;
 
         const fork = forkNode(
             server,
-            node as ModelInstance<Node>,
+            node,
             {
                 currentUserPermissions: Object.values(Permission),
             },
@@ -41,7 +46,6 @@ module('Acceptance | guid-node/forks', hooks => {
         const contributorUser = server.create('user');
         server.create('contributor', { node: fork, users: contributorUser });
 
-        const url = `/${node.id}/forks`;
         await visit(url);
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.dom('[data-test-new-fork-button]').doesNotExist();

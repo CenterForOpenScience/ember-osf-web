@@ -138,7 +138,7 @@ export default function(server: Server) {
     if (mirageScenarios.includes('dashboard')) {
         dashboardScenario(server, currentUser);
     }
-    if (mirageScenarios.includes('registration')) {
+    if (mirageScenarios.includes('registrations')) {
         registrationScenario(server, currentUser);
     }
     if (mirageScenarios.includes('forks')) {
