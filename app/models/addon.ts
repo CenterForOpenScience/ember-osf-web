@@ -6,6 +6,7 @@ export default class AddonModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('fixstring') image!: string;
     @attr('array') categories!: string[];
+    @attr('object') auth!: object;
     @attr('fixstring') description!: string;
 }
 
