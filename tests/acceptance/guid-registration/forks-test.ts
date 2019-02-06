@@ -1,5 +1,4 @@
 import { currentRouteName } from '@ember/test-helpers';
-import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -7,9 +6,11 @@ import { module, test } from 'qunit';
 import { forkRegistration } from 'ember-osf-web/mirage/helpers';
 import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 
+import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
+import User from 'ember-osf-web/models/user';
 
 module('Acceptance | guid-registration/forks', hooks => {
     setupOSFApplicationTest(hooks);
@@ -17,7 +18,7 @@ module('Acceptance | guid-registration/forks', hooks => {
 
     test('logged out, no forks', async assert => {
         const node = server.create<Node>('node', { id: 'regis', currentUserPermissions: [] });
-        const registration = server.create('registration', { registeredFrom: node });
+        const registration = server.create<Registration>('registration', { registeredFrom: node });
         const url = `/${registration.id}/forks`;
 
         await visit(url);
@@ -32,7 +33,7 @@ module('Acceptance | guid-registration/forks', hooks => {
     test('logged out, 1 fork', async assert => {
         const node = server.create<Node>('node', { id: 'regis', currentUserPermissions: [] });
         const registration =
-            server.create('registration', { registeredFrom: node }) as unknown as ModelInstance<Registration>;
+            server.create<Registration>('registration', { registeredFrom: node });
         const url = `/${registration.id}/forks`;
 
         const fork = forkRegistration(
@@ -42,8 +43,8 @@ module('Acceptance | guid-registration/forks', hooks => {
                 currentUserPermissions: Object.values(Permission),
             },
         );
-        const contributorUser = server.create('user');
-        server.create('contributor', { node: fork, users: contributorUser });
+        const contributorUser = server.create<User>('user');
+        server.create<Contributor>('contributor', { node: fork, users: contributorUser });
 
         await visit(url);
         assert.equal(currentURL(), url, `We are on ${url}`);
@@ -54,9 +55,9 @@ module('Acceptance | guid-registration/forks', hooks => {
     });
 
     test('logged in admin, no forks', async assert => {
-        server.create('user', 'loggedIn');
+        server.create<User>('user', 'loggedIn');
         const node = server.create<Node>('node', { id: 'f0rk5', currentUserPermissions: [Permission.Admin] });
-        const registration = server.create('registration', { registeredFrom: node });
+        const registration = server.create<Registration>('registration', { registeredFrom: node });
         const url = `/${registration.id}/forks`;
 
         await visit(url);
@@ -67,16 +68,16 @@ module('Acceptance | guid-registration/forks', hooks => {
     });
 
     test('logged in admin, 1 fork', async assert => {
-        const contributorUser = server.create('user', 'loggedIn');
+        const contributorUser = server.create<User>('user', 'loggedIn');
         const node = server.create<Node>('node', {
             id: 'decaf',
             currentUserPermissions: [Permission.Admin],
         });
-        server.create('contributor', { node, users: contributorUser });
-        const registration = server.create('registration', { registeredFrom: node });
+        server.create<Contributor>('contributor', { node, users: contributorUser });
+        const registration = server.create<Registration>('registration', { registeredFrom: node });
         const fork = forkRegistration(
             server,
-            registration as unknown as ModelInstance<Registration>,
+            registration,
             {
                 currentUserPermissions: Object.values(Permission),
             },
@@ -92,14 +93,14 @@ module('Acceptance | guid-registration/forks', hooks => {
     });
 
     test('logged in admin, 12 forks', async assert => {
-        const contributorUser = server.create('user', 'loggedIn');
+        const contributorUser = server.create<User>('user', 'loggedIn');
         const node = server.create<Node>('node', {
             id: 'f0rk5',
             currentUserPermissions: [Permission.Admin],
         });
-        server.create('contributor', { node, users: contributorUser });
+        server.create<Contributor>('contributor', { node, users: contributorUser });
         const registration =
-            server.create('registration', { registeredFrom: node }) as unknown as ModelInstance<Registration>;
+            server.create<Registration>('registration', { registeredFrom: node });
         for (let i = 0; i < 12; i++) {
             forkRegistration(
                 server,
@@ -125,7 +126,7 @@ module('Acceptance | guid-registration/forks', hooks => {
 
     test('logged in admin, new fork', async assert => {
         assert.expect(7);
-        server.create('user', 'loggedIn');
+        server.create<User>('user', 'loggedIn');
         const node = server.create<Node>(
             'node',
             {
@@ -133,7 +134,7 @@ module('Acceptance | guid-registration/forks', hooks => {
                 currentUserPermissions: [Permission.Admin],
             },
         );
-        const registration = server.create('registration', { registeredFrom: node });
+        const registration = server.create<Registration>('registration', { registeredFrom: node });
         const url = `/${registration.id}/forks`;
         const done = assert.async();
         server.namespace = '/v2';

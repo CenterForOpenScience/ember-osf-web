@@ -97,10 +97,10 @@ export function forkNode(
 export function forkRegistration(
     server: Server,
     registration: ModelInstance<Registration>,
-    props: Props<Node> = {},
+    props: Partial<ModelAttrs<Node>> = {},
     ...traits: Array<keyof RegistrationExtra> // tslint:disable-line trailing-comma
 ) {
-    const nodeFork = server.create('node', {
+    const nodeFork = server.create<Node>('node', {
         forkedFrom: registration,
         category: registration.category,
         fork: true,
@@ -109,6 +109,6 @@ export function forkRegistration(
         ...props,
     }, ...traits);
     registration.contributors.models.forEach((contributor: any) =>
-        server.create('contributor', { node: nodeFork, users: contributor.users }));
+        server.create<Contributor>('contributor', { node: nodeFork, users: contributor.users }));
     return nodeFork;
 }
