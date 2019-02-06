@@ -7,6 +7,7 @@ import Registration from 'ember-osf-web/models/registration';
 
 import { DraftRegistrationTraits } from './factories/draft-registration';
 import { NodeTraits } from './factories/node';
+import { RegistrationExtra } from './factories/registration';
 
 // eslint-disable-next-line space-infix-ops
 type Props<T> = {
@@ -89,6 +90,25 @@ export function forkNode(
         ...props,
     }, ...traits);
     node.contributors.models.forEach((contributor: any) =>
+        server.create('contributor', { node: nodeFork, users: contributor.users }));
+    return nodeFork;
+}
+
+export function forkRegistration(
+    server: Server,
+    registration: ModelInstance<Registration>,
+    props: Props<Node> = {},
+    ...traits: Array<keyof RegistrationExtra> // tslint:disable-line trailing-comma
+) {
+    const nodeFork = server.create('node', {
+        forkedFrom: registration,
+        category: registration.category,
+        fork: true,
+        title: `Fork of ${registration.title}`,
+        description: registration.description,
+        ...props,
+    }, ...traits);
+    registration.contributors.models.forEach((contributor: any) =>
         server.create('contributor', { node: nodeFork, users: contributor.users }));
     return nodeFork;
 }
