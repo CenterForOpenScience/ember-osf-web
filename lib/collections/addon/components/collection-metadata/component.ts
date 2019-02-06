@@ -19,6 +19,9 @@ export default class CollectionMetadata extends Component {
     collection: Collection = this.collection;
     collectedMetadatum: CollectedMetadatum = this.collectedMetadatum;
     didValidate: boolean = this.didValidate;
+    initialCollectedMetadatumProperties = this.collectedMetadatum.getProperties(
+        'programArea', 'issue', 'status', 'volume', 'collectedType',
+    );
 
     @computed('collection')
     get displayFields(): CollectionMetadataField[] {
@@ -52,8 +55,6 @@ export default class CollectionMetadata extends Component {
 
     @action
     discard() {
-        this.collectedMetadatum.setProperties({
-            ...this.filteredFields.reduce((acc, val) => ({ ...acc, [val]: '' }), {}),
-        });
+        this.collectedMetadatum.setProperties(this.initialCollectedMetadatumProperties);
     }
 }

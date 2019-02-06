@@ -1,3 +1,4 @@
+import DS from 'ember-data';
 import { Document } from 'osf-api';
 
 export { default as faker } from 'faker';
@@ -140,6 +141,11 @@ function handlerDefinition(
 
 export type resourceAction = 'index' | 'show' | 'create' | 'update' | 'delete';
 
+export type ModelAttrs<T> = {
+    [P in keyof T]: T[P] extends DS.Model & DS.PromiseObject<infer M> ? ModelInstance<M> :
+        T[P] extends DS.Model ? ModelInstance<T[P]> : T[P];
+};
+
 export interface Server {
     schema: Schema;
     db: Database;
@@ -173,7 +179,7 @@ export interface Server {
     ): ModelInstance<T>;
     create<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
-        attrs?: Partial<T>,
+        attrs?: Partial<ModelAttrs<T>>,
         ...traits: string[]
     ): ModelInstance<T>;
 
@@ -185,7 +191,7 @@ export interface Server {
     createList<T extends AnyAttrs = AnyAttrs>(
         modelName: string,
         amount: number,
-        attrs?: Partial<T>,
+        attrs?: Partial<ModelAttrs<T>>,
         ...traits: string[]
     ): Array<ModelInstance<T>>;
 

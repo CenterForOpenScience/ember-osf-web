@@ -48,7 +48,14 @@ export default class Submit extends Component {
     isProjectSelectorValid: boolean = false;
     sections = Section;
     activeSection: Section = this.edit ? Section.projectMetadata : Section.project;
-    savedSections: Section[] = this.edit ? [Section.project] : [];
+    savedSections: Section[] = this.edit ? [
+        Section.project,
+        Section.projectMetadata,
+        Section.projectContributors,
+        Section.collectionSubjects,
+        Section.collectionMetadata,
+    ] : [];
+    showCancelDialog: boolean = false;
     i18nKeyPrefix = 'collections.collections_submission.';
     showSubmitModal: boolean = false;
 
@@ -104,8 +111,8 @@ export default class Submit extends Component {
         }
     }).drop();
 
-    @computed('collectedMetadatum.displayChoiceFields')
-    get choiceFields(): Array<{ label: string; value?: string; }> {
+    @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
+    get choiceFields(): Array<{ label: string; value: string | undefined; }> {
         return this.collectedMetadatum.displayChoiceFields
             .map(field => ({
                 label: `collections.collection_metadata.${underscore(field)}_label`,
