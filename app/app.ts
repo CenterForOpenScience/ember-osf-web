@@ -26,6 +26,7 @@ const App = Application.extend({
                     'theme',
                     'toast',
                     'router',
+                    'ready',
                 ],
             },
         },
