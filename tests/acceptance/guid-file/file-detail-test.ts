@@ -326,7 +326,6 @@ module('Acceptance | guid file', hooks => {
             const file = server.create('file', { user: otherUser });
             await visit(`--file/${file.id}`);
             assert.dom('[data-test-delete-button]').doesNotExist();
-            await percySnapshot(assert);
         });
 
         test('shows current version number in title bar', async assert => {
