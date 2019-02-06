@@ -2,6 +2,7 @@
     <li class='sign-in'>
         <div>
             <OsfLink
+                data-test-ad-sign-up-button
                 data-analytics-name='SignUp'
                 class='btn btn-success btn-top-signup m-l-sm m-r-xs'
                 @href={{this.signUpRoute}}
@@ -49,6 +50,7 @@
             {{/if}}
             <ddm.item role='menuitem'>
                 <OsfLink
+                    data-test-ad-my-profile
                     data-analytics-name='MyProfile'
                     @href={{this.profileURL}}
                 >
@@ -58,6 +60,7 @@
             </ddm.item>
             <ddm.item role='menuitem'>
                 <OsfLink
+                    data-test-ad-support
                     data-analytics-name='Support'
                     @route='support'
                 >
@@ -67,6 +70,7 @@
             </ddm.item>
             <ddm.item role='menuitem'>
                 <OsfLink
+                    data-test-ad-settings
                     data-analytics-name='Settings'
                     @href={{this.settingsURL}}
                 >
@@ -76,6 +80,7 @@
             </ddm.item>
             <ddm.item role='menuitem'>
                 <OsfButton
+                    data-test-ad-logout
                     data-analytics-name='Logout'
                     class='logoutLink'
                     @type='link'
