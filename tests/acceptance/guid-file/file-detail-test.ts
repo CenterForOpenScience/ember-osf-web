@@ -7,7 +7,6 @@ import {
     triggerKeyEvent,
     visit,
 } from '@ember/test-helpers';
-import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
@@ -15,6 +14,7 @@ import moment from 'moment';
 import { module, test } from 'qunit';
 
 import File from 'ember-osf-web/models/file';
+import User from 'ember-osf-web/models/user';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 module('Acceptance | guid file', hooks => {
@@ -23,37 +23,37 @@ module('Acceptance | guid file', hooks => {
 
     module('current user files', () => {
         test('works', async assert => {
-            const currentUser = server.create('user', 'loggedIn');
-            const fileOne = server.create('file', { user: currentUser }) as unknown as ModelInstance<File>;
+            const currentUser = server.create<User>('user', 'loggedIn');
+            const fileOne = server.create<File>('file', { user: currentUser });
             await visit(`--file/${fileOne.id}`);
             assert.equal(currentURL(), `--file/${fileOne.guid}`);
             await percySnapshot(assert);
         });
 
         test('filters files', async assert => {
-            const currentUser = server.create('user', 'loggedIn');
-            const fileOne = server.create(
+            const currentUser = server.create<User>('user', 'loggedIn');
+            const fileOne = server.create<File>(
                 'file',
                 {
                     name: 'aa.gif',
                     user: currentUser,
                 },
             );
-            server.create(
+            server.create<File>(
                 'file',
                 {
                     name: 'az.gif',
                     user: currentUser,
                 },
             );
-            server.create(
+            server.create<File>(
                 'file',
                 {
                     name: 'za.gif',
                     user: currentUser,
                 },
             );
-            server.create(
+            server.create<File>(
                 'file',
                 {
                     name: 'zz.gif',
@@ -100,21 +100,21 @@ module('Acceptance | guid file', hooks => {
         });
 
         test('switches between files', async assert => {
-            const currentUser = server.create('user', 'loggedIn');
-            const fileOne = server.create(
+            const currentUser = server.create<User>('user', 'loggedIn');
+            const fileOne = server.create<File>(
                 'file',
                 {
                     name: 'FooBar.txt',
                     user: currentUser,
                 },
-            ) as unknown as ModelInstance<File>;
-            const fileTwo = server.create(
+            );
+            const fileTwo = server.create<File>(
                 'file',
                 {
                     name: 'XyzzyPlugh.txt',
                     user: currentUser,
                 },
-            ) as unknown as ModelInstance<File>;
+            );
             await visit(`--file/${fileOne.id}`);
             assert.equal(currentURL(), `--file/${fileOne.guid}`);
             assert.dom('[data-test-file-title-header]').containsText(fileOne.name);
@@ -125,8 +125,8 @@ module('Acceptance | guid file', hooks => {
         });
 
         test('deletes files', async assert => {
-            const currentUser = server.create('user', 'loggedIn');
-            const file = server.create('file', { user: currentUser });
+            const currentUser = server.create<User>('user', 'loggedIn');
+            const file = server.create<File>('file', { user: currentUser });
             await visit(`--file/${file.id}`);
             assert.equal(currentURL(), `--file/${file.id}`);
             await click('[data-test-delete-button]');
@@ -141,8 +141,8 @@ module('Acceptance | guid file', hooks => {
         });
 
         test('shows current version number in title bar', async assert => {
-            const currentUser = server.create('user', 'loggedIn');
-            const file = server.create(
+            const currentUser = server.create<User>('user', 'loggedIn');
+            const file = server.create<File>(
                 'file',
                 {
                     user: currentUser,
@@ -163,13 +163,13 @@ module('Acceptance | guid file', hooks => {
             } = config;
             const encodedOsfUrl = encodeURIComponent(osfUrl);
 
-            const currentUser = server.create('user', 'loggedIn');
-            const file = server.create(
+            const currentUser = server.create<User>('user', 'loggedIn');
+            const file = server.create<File>(
                 'file',
                 {
                     user: currentUser,
                 },
-            ) as unknown as ModelInstance<File>;
+            );
             await visit(`--file/${file.id}`);
 
             await click('[data-test-share-button]');
@@ -217,38 +217,38 @@ module('Acceptance | guid file', hooks => {
 
     module('other user files', () => {
         test('works', async assert => {
-            server.create('user', 'loggedIn');
-            const otherUser = server.create('user');
-            const file = server.create('file', { user: otherUser });
+            server.create<User>('user', 'loggedIn');
+            const otherUser = server.create<User>('user');
+            const file = server.create<File>('file', { user: otherUser });
             await visit(`--file/${file.id}`);
             await percySnapshot(assert);
         });
 
         test('filters files', async assert => {
-            server.create('user', 'loggedIn');
-            const otherUser = server.create('user');
-            const fileOne = server.create(
+            server.create<User>('user', 'loggedIn');
+            const otherUser = server.create<User>('user');
+            const fileOne = server.create<File>(
                 'file',
                 {
                     name: 'aa.gif',
                     user: otherUser,
                 },
             );
-            server.create(
+            server.create<File>(
                 'file',
                 {
                     name: 'az.gif',
                     user: otherUser,
                 },
             );
-            server.create(
+            server.create<File>(
                 'file',
                 {
                     name: 'za.gif',
                     user: otherUser,
                 },
             );
-            server.create(
+            server.create<File>(
                 'file',
                 {
                     name: 'zz.gif',
@@ -295,22 +295,22 @@ module('Acceptance | guid file', hooks => {
         });
 
         test('switches between files', async assert => {
-            server.create('user', 'loggedIn');
-            const otherUser = server.create('user');
-            const fileOne = server.create(
+            server.create<User>('user', 'loggedIn');
+            const otherUser = server.create<User>('user');
+            const fileOne = server.create<File>(
                 'file',
                 {
                     name: 'FooBar.txt',
                     user: otherUser,
                 },
-            ) as unknown as ModelInstance<File>;
-            const fileTwo = server.create(
+            );
+            const fileTwo = server.create<File>(
                 'file',
                 {
                     name: 'XyzzyPlugh.txt',
                     user: otherUser,
                 },
-            ) as unknown as ModelInstance<File>;
+            );
             await visit(`--file/${fileOne.id}`);
             assert.equal(currentURL(), `--file/${fileOne.guid}`);
             assert.dom('[data-test-file-title-header]').containsText(fileOne.name);
@@ -321,17 +321,17 @@ module('Acceptance | guid file', hooks => {
         });
 
         test('does not allow delete', async assert => {
-            server.create('user', 'loggedIn');
-            const otherUser = server.create('user');
-            const file = server.create('file', { user: otherUser });
+            server.create<User>('user', 'loggedIn');
+            const otherUser = server.create<User>('user');
+            const file = server.create<File>('file', { user: otherUser });
             await visit(`--file/${file.id}`);
             assert.dom('[data-test-delete-button]').doesNotExist();
         });
 
         test('shows current version number in title bar', async assert => {
-            server.create('user', 'loggedIn');
-            const otherUser = server.create('user');
-            const file = server.create(
+            server.create<User>('user', 'loggedIn');
+            const otherUser = server.create<User>('user');
+            const file = server.create<File>(
                 'file',
                 {
                     user: otherUser,
@@ -344,14 +344,14 @@ module('Acceptance | guid file', hooks => {
         });
 
         test('shows a list of versions', async assert => {
-            const currentUser = server.create('user', 'loggedIn');
+            const currentUser = server.create<User>('user', 'loggedIn');
             const date = moment('2019-01-03T17:37:18.319Z').format('YYYY-MM-DD h:mm A');
-            const file = server.create(
+            const file = server.create<File>(
                 'file',
                 {
                     user: currentUser,
                 },
-            ) as unknown as ModelInstance<File>;
+            );
             await visit(`--file/${file.guid}`);
 
             await click('[data-test-revisions-tab]');
@@ -387,8 +387,8 @@ module('Acceptance | guid file', hooks => {
 
     module('tags', () => {
         test('shows all tags', async assert => {
-            const currentUser = server.create('user', 'loggedIn');
-            const file = server.create(
+            const currentUser = server.create<User>('user', 'loggedIn');
+            const file = server.create<File>(
                 'file',
                 {
                     user: currentUser,
@@ -413,8 +413,8 @@ module('Acceptance | guid file', hooks => {
         });
 
         test('deletes tags', async assert => {
-            const currentUser = server.create('user', 'loggedIn');
-            const file = server.create(
+            const currentUser = server.create<User>('user', 'loggedIn');
+            const file = server.create<File>(
                 'file',
                 {
                     user: currentUser,
@@ -440,8 +440,8 @@ module('Acceptance | guid file', hooks => {
         });
 
         test('adds tags', async assert => {
-            const currentUser = server.create('user', 'loggedIn');
-            const file = server.create(
+            const currentUser = server.create<User>('user', 'loggedIn');
+            const file = server.create<File>(
                 'file',
                 {
                     user: currentUser,
@@ -471,9 +471,9 @@ module('Acceptance | guid file', hooks => {
         });
 
         test('does not show widget when another user\'s file with no tags', async assert => {
-            server.create('user', 'loggedIn');
-            const otherUser = server.create('user');
-            const file = server.create(
+            server.create<User>('user', 'loggedIn');
+            const otherUser = server.create<User>('user');
+            const file = server.create<File>(
                 'file',
                 {
                     user: otherUser,
