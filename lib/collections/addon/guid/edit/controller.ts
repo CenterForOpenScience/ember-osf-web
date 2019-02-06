@@ -1,4 +1,4 @@
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Controller from '@ember/controller';
 import config from 'ember-get-config';
@@ -14,6 +14,11 @@ export default class GuidEdit extends Controller {
     @alias('model.taskInstance.value.collectionItem') collectionItem!: Node;
 
     isPageDirty: boolean = false;
+
+    @computed('this.collectedMetadatum.hasDirtyAttributes')
+    get isCollectedMetadatumDirty() {
+        return this.collectedMetadatum.hasDirtyAttributes;
+    }
 
     @action
     returnToProjectOverviewPage() {
