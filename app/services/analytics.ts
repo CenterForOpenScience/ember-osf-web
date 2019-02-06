@@ -25,6 +25,13 @@ export interface TrackedData {
     label: string;
 }
 
+export interface InitialEventInfo {
+    name?: string;
+    category?: string;
+    action?: string;
+    extra?: string;
+}
+
 function logEvent(analytics: Analytics, title: string, data: object) {
     runInDebug(() => {
         const logMessage = Object.entries(data)
@@ -51,13 +58,12 @@ class EventInfo {
     category?: string;
     action?: string;
     extra?: string;
-    ev: Event;
 
-    constructor(ev: Event, rootElement: Element) {
-        this.ev = ev;
-        if (ev.target && ev.target instanceof Element) {
-            this.gatherMetadata(ev.target, rootElement);
+    constructor(targetElement: Element, rootElement: Element, initialInfo?: InitialEventInfo) {
+        if (initialInfo) {
+            Object.assign(this, initialInfo);
         }
+        this.gatherMetadata(targetElement, rootElement);
     }
 
     isValid(): boolean {
@@ -100,8 +106,6 @@ class EventInfo {
     _gatherAction(element: Element) {
         if (element.hasAttribute(analyticsAttrs.action)) {
             this.action = element.getAttribute(analyticsAttrs.action)!;
-        } else {
-            this.action = this.ev.type;
         }
     }
 
@@ -145,6 +149,8 @@ export default class Analytics extends Service {
     @service toast!: Toast;
 
     shouldToastOnEvent: boolean = false;
+
+    rootElement?: Element;
 
     trackPageTask = task(function *(
         this: Analytics,
@@ -241,11 +247,31 @@ export default class Analytics extends Service {
         this.get('trackPageTask').perform(pagePublic, resourceType);
     }
 
-    handleClick(rootElement: HTMLElement, e: MouseEvent) {
-        const eventInfo = new EventInfo(e, rootElement);
+    trackFromElement(target: Element, initialInfo: InitialEventInfo) {
+        assert(
+            'rootElement not set! Check that instance-initializers/analytics ran',
+            Boolean(this.rootElement),
+        );
+        const eventInfo = new EventInfo(target, this.rootElement!, initialInfo);
 
         if (eventInfo.isValid()) {
             this._trackEvent(eventInfo.trackedData());
+        }
+    }
+
+    handleClick(e: MouseEvent) {
+        assert(
+            'rootElement not set! Check that instance-initializers/analytics ran',
+            Boolean(this.rootElement),
+        );
+        if (e.target) {
+            const eventInfo = new EventInfo(e.target as Element, this.rootElement!, {
+                action: e.type,
+            });
+
+            if (eventInfo.isValid()) {
+                this._trackEvent(eventInfo.trackedData());
+            }
         }
     }
 
