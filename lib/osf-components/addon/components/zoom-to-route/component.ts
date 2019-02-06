@@ -25,7 +25,7 @@ export default class ZoomToRoute extends Component {
     @computed()
     get routeNames() {
         const { recognizer } = this.router._router._routerMicrolib;
-        return Object.keys(recognizer.names).sort();
+        return Object.keys(recognizer.names).sort().filter(name => !/(?:^|[_.])(?:error|loading|index)$/.test(name));
     }
 
     @computed('targetRoute')
