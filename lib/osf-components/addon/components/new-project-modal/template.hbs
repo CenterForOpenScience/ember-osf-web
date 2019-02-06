@@ -136,14 +136,15 @@
     </modal.body>
     <modal.footer data-analytics-scope='New project modal footer'>
         <OsfButton
+            data-test-create-project-cancel
             data-analytics-name='cancel'
             @onClick={{action modal.close}}
         >
             {{t 'general.cancel'}}
         </OsfButton>
         <OsfButton
-            data-analytics-name='New project submit'
             data-test-create-project-submit
+            data-analytics-name='New project submit'
             @onClick={{action this.create}}
             @type='success'
             @disabled={{unless this.nodeTitle.length true}}
