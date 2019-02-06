@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import { click as untrackedClick, fillIn, find, render, triggerKeyEvent } from '@ember/test-helpers';
+import { click as untrackedClick, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -44,30 +44,6 @@ module('Integration | Component | tags-widget', hooks => {
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
 
         assert.dom('[data-test-tags-widget-tag-input] input').isNotVisible();
-    });
-
-    test('it renders passed-in tags (read only, inline)', async function(assert) {
-        const tags = ['foo', 'bar', 'baz'];
-        this.set('node', fakeNode(tags));
-
-        await render(hbs`{{tags-widget
-            taggable=this.node
-            readOnly=true
-            inline=true
-        }}`);
-
-        assert.dom('[data-test-tags-widget-tag-input]').exists();
-
-        tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
-
-        assert.dom('[data-test-tags-widget-tag-input] input').isNotVisible();
-
-        assert.equal(
-            ((find('[data-test-tags-widget-tag-input]') as HTMLElement).parentElement as HTMLElement)
-                .className.split(' ').filter(cssClass => /^_inline_/.test(cssClass)).length,
-            1,
-            'Contains inline class',
-        );
     });
 
     test('it can add tags', async function(assert) {

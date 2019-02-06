@@ -1,6 +1,5 @@
 <TagInput
     data-test-tags-widget-tag-input
-    data-analytics-scope='Tags widget'
     aria-label={{t 'osf-components.tags-widget.tags'}}
     local-class='TagsWidget'
     @tags={{@taggable.tags}}
@@ -9,20 +8,15 @@
     @allowSpacesInTags={{true}}
     @placeholder={{t 'osf-components.tags-widget.add_tag'}}
     @readOnly={{this.readOnly}}
+    @maxlength={{1024}}
     as |tag|
 >
-    {{#if this.shouldSearchOnClick}}
-        <span
-            data-test-tags-widget-tag='{{tag}}'
-            data-analytics-name='Click'
-            role='link'
-            {{action this._clickTag tag}}
-        >
-            {{tag}}
-        </span>
-    {{else}}
-        <span data-test-tags-widget-tag='{{tag}}'>
-            {{tag}}
-        </span>
-    {{/if}}
+    <span
+        data-test-tags-widget-tag='{{tag}}'
+        data-analytics-name='Click tag'
+        role='link'
+        {{action this._clickTag tag}}
+    >
+        {{tag}}
+    </span>
 </TagInput>
