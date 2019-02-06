@@ -1,5 +1,4 @@
 import { currentRouteName } from '@ember/test-helpers';
-import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -29,11 +28,11 @@ module('Acceptance | guid-node/forks', hooks => {
 
     test('logged out, 1 fork', async assert => {
         const title = 'Test Title';
-        const node = server.create('node', { id: 'f0rk5', title });
+        const node = server.create<Node>('node', { id: 'f0rk5', title });
 
         const fork = forkNode(
             server,
-            node as ModelInstance<Node>,
+            node,
             {
                 currentUserPermissions: Object.values(Permission),
             },
@@ -71,7 +70,7 @@ module('Acceptance | guid-node/forks', hooks => {
         server.create('contributor', { node, users: contributorUser });
         const fork = forkNode(
             server,
-            node as ModelInstance<Node>,
+            node,
             {
                 currentUserPermissions: Object.values(Permission),
             },
@@ -97,7 +96,7 @@ module('Acceptance | guid-node/forks', hooks => {
         for (let i = 0; i < 12; i++) {
             forkNode(
                 server,
-                node as ModelInstance<Node>,
+                node,
                 {
                     currentUserPermissions: Object.values(Permission),
                 },
@@ -118,6 +117,7 @@ module('Acceptance | guid-node/forks', hooks => {
     });
 
     test('logged in admin, new fork', async assert => {
+        assert.expect(7);
         server.create('user', 'loggedIn');
         const node = server.create<Node>(
             'node',
@@ -127,6 +127,12 @@ module('Acceptance | guid-node/forks', hooks => {
             },
         );
         const url = `/${node.id}/forks`;
+        const done = assert.async();
+        server.namespace = '/v2';
+        server.post('/nodes/:parentID/forks', () => {
+            assert.ok(true, 'Create forks called');
+            done();
+        });
 
         await visit(url);
         assert.equal(currentURL(), url, `We are on ${url}`);
