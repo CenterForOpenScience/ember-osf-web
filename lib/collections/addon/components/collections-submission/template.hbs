@@ -145,9 +145,8 @@
                 <button class='btn btn-default' {{action 'cancel'}}>
                     {{t (concat this.i18nKeyPrefix 'cancel')}}
                 </button>
-
                 {{#if this.edit}}
-                    <button class='btn btn-success' {{action (perform this.save)}} disabled={{not (eq this.activeSection this.sections.submit)}}>
+                    <button class='btn btn-success' {{action (perform this.save)}}>
                         {{t (concat this.i18nKeyPrefix 'update' '_button')}}
                     </button>
                 {{else}}
