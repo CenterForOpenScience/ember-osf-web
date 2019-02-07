@@ -137,7 +137,7 @@
             </OsfButton>
             <OsfButton
                 data-analytics-name='Delete file'
-                @onClick={{action modal.submit}} 
+                @onClick={{action modal.submit}}
                 @type='danger'
             >
                 {{t 'general.delete'}}
@@ -166,11 +166,9 @@
                     <div class='panel-body'>
                         <TagsWidget
                             data-analytics-scope='Quick Files'
-                            @tags={{this.file.tags}}
-                            @addTag={{action this.addTag}}
-                            @removeTag={{action this.removeTag}}
+                            @taggable={{this.file}}
                             @readOnly={{not this.canEdit}}
-                            @showAdd={{this.canEdit}}
+                            @shouldSearchOnClick={{true}}
                         />
                         <div class='tags_clear'></div>
                     </div>
@@ -246,7 +244,7 @@
                                         {{t 'general.sha2'}}
                                         <span>
                                             {{fa-icon 'question-circle'}}
-                                            <BsPopover 
+                                            <BsPopover
                                                 @triggerEvents='hover'
                                                 @placement='top'
                                             >

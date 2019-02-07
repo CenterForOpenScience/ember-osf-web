@@ -2,22 +2,35 @@ import { action, computed } from '@ember-decorators/object';
 import { alias, not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import config from 'ember-get-config';
 import Media from 'ember-responsive';
 
 import Registration from 'ember-osf-web/models/registration';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 
+const {
+    support: {
+        supportEmail,
+    },
+} = config;
+
 export default class Overview extends Controller {
     @service media!: Media;
-    @not('media.isDesktop') showMobileNav!: boolean;
 
     model!: GuidRouteModel<Registration>;
 
     sidenavGutterClosed = true;
     metadataGutterClosed = true;
 
+    supportEmail = supportEmail;
+
     @alias('model.taskInstance.value') registration?: Registration;
     @not('registration') loading!: boolean;
+
+    @computed('media.isDesktop', 'registration.withdrawn')
+    get showMobileNav() {
+        return !this.media.isDesktop && this.registration && !this.registration.withdrawn;
+    }
 
     @computed('media.{isMobile,isTablet,isDesktop}')
     get metadataGutterMode() {

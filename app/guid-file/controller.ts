@@ -174,18 +174,6 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    addTag(tag: string) {
-        this.file.set('tags', [...this.file.tags, tag].sort());
-        this.file.save();
-    }
-
-    @action
-    removeTag(index: number) {
-        this.file.set('tags', this.file.tags.slice().removeAt(index));
-        this.file.save();
-    }
-
-    @action
     versionChange(this: GuidFile, version: number) {
         this.set('revision', +version);
     }

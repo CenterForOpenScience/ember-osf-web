@@ -45,13 +45,12 @@ function registrationScenario(server: Server, currentUser: ModelInstance) {
 
     server.create('registration', { id: 'beefs' });
 
-    const reg = server.create('registration', {
+    server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 21),
-        linkedRegistrations: server.createList('registration', 19),
-    }, 'withContributors', 'withComments');
-    server.createList('registration', 15, { parent: reg });
+        linkedNodes: server.createList('node', 2),
+        linkedRegistrations: server.createList('registration', 2),
+    }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
 }
 
 function dashboardScenario(server: Server, currentUser: ModelInstance) {
@@ -124,6 +123,8 @@ export default function(server: Server) {
     server.loadFixtures('registration-schemas');
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
+    server.loadFixtures('licenses');
+
     const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
         [
             'loggedIn',

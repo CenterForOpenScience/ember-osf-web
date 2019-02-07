@@ -1,19 +1,19 @@
-<TagInput 
+<TagInput
     data-test-tags-widget-tag-input
-    data-analytics-scope='Tags widget'
     aria-label={{t 'osf-components.tags-widget.tags'}}
     local-class='TagsWidget'
-    @tags={{@tags}}
+    @tags={{@taggable.tags}}
     @addTag={{action this._addTag}}
     @removeTagAtIndex={{action this._removeTag}}
     @allowSpacesInTags={{true}}
     @placeholder={{t 'osf-components.tags-widget.add_tag'}}
-    @readOnly={{@readOnly}}
+    @readOnly={{this.readOnly}}
+    @maxlength={{1024}}
     as |tag|
 >
     <span
         data-test-tags-widget-tag='{{tag}}'
-        data-analytics-name='Click'
+        data-analytics-name='Click tag'
         role='link'
         {{action this._clickTag tag}}
     >
