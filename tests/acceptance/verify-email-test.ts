@@ -47,7 +47,7 @@ module('Acceptance | verify email', hooks => {
     });
 
     test('verify emails', async assert => {
-        const user = server.create<User>('user', 'loggedIn', 'withUnverifiedEmail');
+        const user = server.create('user', 'loggedIn', 'withUnverifiedEmail');
         const beforeCount = user.emails.length;
         await visit('/dashboard');
 
@@ -71,7 +71,7 @@ module('Acceptance | verify email', hooks => {
     });
 
     test('deny email', async assert => {
-        const user = server.create<User>('user', 'loggedIn', 'withUnverifiedEmail');
+        const user = server.create('user', 'loggedIn', 'withUnverifiedEmail');
         // @ts-ignore TODO: upgrade ember types
         const beforeCount: number = user.emails.length;
 
@@ -90,7 +90,7 @@ module('Acceptance | verify email', hooks => {
     });
 
     test('deny emails', async assert => {
-        const user = server.create<User>('user', 'loggedIn', 'withUnverifiedEmails');
+        const user = server.create('user', 'loggedIn', 'withUnverifiedEmails');
         // @ts-ignore TODO: upgrade ember types
         const beforeCount: number = user.emails.length;
 

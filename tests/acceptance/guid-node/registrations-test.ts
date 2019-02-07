@@ -11,16 +11,14 @@ import {
 } from 'ember-osf-web/mirage/helpers';
 import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 
-import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import User from 'ember-osf-web/models/user';
 
 module('Acceptance | guid-node/registrations', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('logged out, no registrations', async assert => {
-        const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [] });
+        const node = server.create('node', { id: 'decaf', currentUserPermissions: [] });
 
         const url = `/${node.id}/registrations`;
 
@@ -62,7 +60,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     test('logged in admin, no registrations', async assert => {
         server.create('user', 'loggedIn');
 
-        const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
+        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
         const url = `/${node.id}/registrations`;
 
@@ -91,7 +89,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     test('logged in admin, 1 registration', async assert => {
         const contributorUser = server.create('user', 'loggedIn');
 
-        const node = server.create<Node>('node', {
+        const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
             currentUserPermissions: [Permission.Admin],
@@ -139,7 +137,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     test('logged in admin, 12 registrations', async assert => {
         const contributorUser = server.create('user', 'loggedIn');
 
-        const node = server.create<Node>('node', {
+        const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
             currentUserPermissions: [Permission.Admin],
@@ -182,9 +180,9 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 1 draft registration', async assert => {
-        const initiator = server.create<User>('user', 'loggedIn');
+        const initiator = server.create('user', 'loggedIn');
 
-        const node = server.create<Node>('node', {
+        const node = server.create('node', {
             id: 'decaf',
             currentUserPermissions: [Permission.Admin],
         });
@@ -235,9 +233,9 @@ module('Acceptance | guid-node/registrations', hooks => {
     });
 
     test('logged in admin, 12 draft registrations', async assert => {
-        const initiator = server.create<User>('user', 'loggedIn');
+        const initiator = server.create('user', 'loggedIn');
 
-        const node = server.create<Node>('node', {
+        const node = server.create('node', {
             id: 'decaf',
             currentUserPermissions: [Permission.Admin],
         });
@@ -274,7 +272,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     test('logged in admin, new registration', async assert => {
         server.create('user', 'loggedIn');
 
-        const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
+        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
         server.loadFixtures('registration-schemas');
 
@@ -306,7 +304,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     test('logged in admin, prereg challenge modal', async assert => {
         server.create('user', 'loggedIn');
 
-        const node = server.create<Node>('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
+        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
         server.loadFixtures('registration-schemas');
 

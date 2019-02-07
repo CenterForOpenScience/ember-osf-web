@@ -12,6 +12,7 @@ import { selectChoose } from 'ember-power-select/test-support';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -146,7 +147,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             );
             server.create(
                 'contributor',
-                { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+                { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
             );
 
             await visit(`--user/${currentUser.id}/quickfiles`);
@@ -189,7 +190,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                     node,
                     users: currentUser,
                     index: 0,
-                    permission: 'admin',
+                    permission: Permission.Admin,
                     bibliographic: true,
                 },
             );
@@ -226,7 +227,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             );
             server.create(
                 'contributor',
-                { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+                { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
             );
             server.loadFixtures('regions');
 
@@ -261,7 +262,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             );
             server.create(
                 'contributor',
-                { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+                { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
             );
             server.loadFixtures('regions');
 

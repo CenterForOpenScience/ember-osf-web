@@ -5,6 +5,7 @@ import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { module, test } from 'qunit';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 const {
@@ -167,15 +168,15 @@ module('Acceptance | dashboard', hooks => {
         );
         server.create(
             'contributor',
-            { node: nodeOne, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeOne, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeTwo, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeTwo, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeThree, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         await visit('/dashboard');
 
@@ -235,15 +236,15 @@ module('Acceptance | dashboard', hooks => {
         );
         server.create(
             'contributor',
-            { node: nodeOne, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeOne, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeTwo, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeTwo, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeThree, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         await visit('/dashboard');
 
@@ -374,15 +375,15 @@ module('Acceptance | dashboard', hooks => {
         );
         server.create(
             'contributor',
-            { node: nodeOne, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeOne, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeTwo, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeTwo, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeThree, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         await visit('/dashboard');
         assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
