@@ -1,3 +1,4 @@
+import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import ApplicationSerializer from './application';
@@ -5,7 +6,7 @@ import ApplicationSerializer from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class DraftRegistrationSerializer extends ApplicationSerializer<DraftRegistration> {
-    buildRelationships(model: DraftRegistration) {
+    buildRelationships(model: ModelInstance<DraftRegistration>) {
         return {
             branchedFrom: {
                 links: {
