@@ -61,7 +61,7 @@ interface ModelInstanceShared<T> {
 
 export type ModelInstance<T = AnyAttrs> = ModelInstanceShared<T> & Model<T>;
 
-interface Collection<T> {
+export interface Collection<T> {
     models: Array<ModelInstance<T>>;
     length: number;
     modelName: string;
@@ -74,14 +74,14 @@ interface Collection<T> {
 }
 
 interface ModelClass<T = AnyAttrs> {
-    new(attrs: T): ModelInstance<T>;
-    create(attrs: T): ModelInstance<T>;
-    update(attrs: T): ModelInstance<T>;
+    new<M = T>(attrs: Partial<ModelAttrs<M>>): ModelInstance<M>;
+    create<M = T>(attrs: Partial<ModelAttrs<M>>): ModelInstance<M>;
+    update<M = T>(attrs: Partial<ModelAttrs<M>>): ModelInstance<M>;
     all<M = T>(): Collection<M>;
-    find<S extends ID | ID[]>(ids: S): S extends ID ? ModelInstance<T> : Collection<T>;
-    findBy(query: T): ModelInstance<T>;
-    first(): ModelInstance<T>;
-    where(query: T | ((r: ModelInstance<T>) => boolean)): Collection<T>;
+    find<M = T, S extends ID | ID[] = ID>(ids: S): S extends ID ? ModelInstance<M> : Collection<M>;
+    findBy<M = T>(query: Partial<ModelAttrs<M>>): ModelInstance<M>;
+    first<M = T>(): ModelInstance<M>;
+    where<M = T>(query: Partial<ModelAttrs<M>> | ((r: ModelInstance<M>) => boolean)): Collection<M>;
 }
 
 export interface Schema {
