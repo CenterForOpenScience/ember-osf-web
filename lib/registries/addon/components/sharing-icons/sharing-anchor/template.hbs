@@ -1,6 +1,6 @@
 {{#if this.href}}
     <a data-analytics-name={{@analyticsName}} href={{this.href}}>
-        {{fa-icon @icon}}
+        <FaIcon @icon={{@icon}} @fixedWidth={{true}} />
         {{#if @showText}}
             {{@medium}}
         {{/if}}

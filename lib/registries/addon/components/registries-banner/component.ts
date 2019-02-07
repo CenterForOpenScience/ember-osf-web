@@ -33,14 +33,8 @@ const stateToBannerMap: Record<RegistrationState, {text: string, type: string}> 
         text: 'registries.overview.embargoed.banner',
         type: 'danger',
     },
-    withdrawn: {
-        text: 'registries.overview.withdrawn.banner',
-        type: 'danger',
-    },
-    public: {
-        text: '',
-        type: '',
-    },
+    public: { text: '', type: '' },
+    withdrawn: { text: '', type: '' },
 };
 
 const { OSF: { url: baseURL } } = config;
@@ -49,7 +43,7 @@ const { OSF: { url: baseURL } } = config;
 export default class RegistriesBanner extends Component {
     @service i18n!: I18N;
 
-    @alias('registration.embargoEndDate') endEmbargoDate!: string;
+    @alias('node.embargoEndDate') endEmbargoDate!: string;
 
     // Required
     node!: RegistrationModel;
@@ -58,12 +52,12 @@ export default class RegistriesBanner extends Component {
     dismissible?: boolean = defaultTo(this.dismissible, false);
     type?: string = defaultTo(this.type, 'info');
 
-    @computed('registration.state')
+    @computed('node.state')
     get stateBanner(this: RegistriesBanner) {
         return stateToBannerMap[this.node.state];
     }
 
-    @computed('registration.registeredFrom.id')
+    @computed('node.registeredFrom.id')
     get projectUrl(this: RegistriesBanner) {
         if (!this.node) {
             return;

@@ -168,7 +168,7 @@ export default class OsfModel extends Model {
         relationshipName: RelationshipsFor<T> & string,
         relatedModel: OsfModel,
     ) {
-        return this.modifyM2MRelationship('create', relationshipName, relatedModel);
+        return this.modifyM2MRelationship('post', relationshipName, relatedModel);
     }
 
     async deleteM2MRelationship<T extends OsfModel>(
@@ -181,7 +181,7 @@ export default class OsfModel extends Model {
 
     async modifyM2MRelationship<T extends OsfModel>(
         this: T,
-        action: 'create' | 'delete',
+        action: 'post' | 'delete',
         relationshipName: RelationshipsFor<T> & string,
         relatedModel: OsfModel,
     ) {

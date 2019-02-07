@@ -1,7 +1,6 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
-// import { updateBookmarks } from './views/collection';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { guidDetail } from './views/guid';
