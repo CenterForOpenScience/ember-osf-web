@@ -41,8 +41,8 @@ export default Factory.extend<Comment & CommentTraits>({
     targetType: '',
     hasChildren: false,
 
-    withReplies: trait({
-        afterCreate(comment: any, server: any) {
+    withReplies: trait<Comment>({
+        afterCreate(comment, server) {
             const siblings = server.schema.comments.where({ targetID: comment.targetID });
             const count = faker.random.number({ min: 0, max: siblings.length - 1 });
 
@@ -61,8 +61,8 @@ export default Factory.extend<Comment & CommentTraits>({
         },
     }),
 
-    asAbuse: trait({
-        afterCreate(comment: any, server: any) {
+    asAbuse: trait<Comment>({
+        afterCreate(comment, server) {
             server.create('comment-report', { comment });
         },
     }),

@@ -2,6 +2,8 @@ import { capitalize } from '@ember/string';
 import { Factory, faker, ModelInstance, Server, trait, Trait } from 'ember-cli-mirage';
 
 import Node from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
+import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 import { guid, guidAfterCreate } from './utils';
 
@@ -59,13 +61,13 @@ export default Factory.extend<Node & NodeTraits>({
     public: true,
     tags: faker.lorem.words(5).split(' '),
 
-    withContributors: trait({
+    withContributors: trait<Node>({
         afterCreate(node: ModelInstance<Node>, server: Server) {
             const contributorCount = faker.random.number({ min: 1, max: 25 });
             if (contributorCount === 1) {
-                server.create('contributor', { node, index: 0, permission: 'admin', bibliographic: true });
+                server.create('contributor', { node, index: 0, permission: Permission.Admin, bibliographic: true });
             } else if (contributorCount === 2) {
-                server.create('contributor', { node, index: 0, permission: 'admin', bibliographic: true });
+                server.create('contributor', { node, index: 0, permission: Permission.Admin, bibliographic: true });
                 server.create('contributor', { node, index: 1 });
             } else {
                 for (let i = 0; i < contributorCount; i++) {
@@ -75,15 +77,17 @@ export default Factory.extend<Node & NodeTraits>({
         },
     }),
 
-    withRegistrations: trait({
-        afterCreate(node: ModelInstance<Node>, server: Server) {
+    withRegistrations: trait<Node>({
+        afterCreate(node, server) {
             const registrationCount = faker.random.number({ min: 5, max: 15 });
             for (let i = 0; i < registrationCount; i++) {
                 const registration = server.create('registration', {
                     registeredFrom: node,
                     category: node.category,
                     title: node.title,
-                    registrationSchema: faker.random.arrayElement(server.schema.registrationSchemas.all().models),
+                    registrationSchema: faker.random.arrayElement(
+                        server.schema.registrationSchemas.all<RegistrationSchema>().models,
+                    ),
                 });
                 node.contributors.models.forEach((contributor: any) =>
                     server.create('contributor', { node: registration, users: contributor.users }));
@@ -91,13 +95,15 @@ export default Factory.extend<Node & NodeTraits>({
         },
     }),
 
-    withDraftRegistrations: trait({
-        afterCreate(node: ModelInstance<Node>, server: Server) {
+    withDraftRegistrations: trait<Node>({
+        afterCreate(node, server) {
             const draftRegistrationCount = faker.random.number({ min: 5, max: 15 });
             server.createList('draft-registration', draftRegistrationCount, {
                 branchedFrom: node,
                 initiator: node.contributors.models[0].users,
-                registrationSchema: faker.random.arrayElement(server.schema.registrationSchemas.all().models),
+                registrationSchema: faker.random.arrayElement(
+                    server.schema.registrationSchemas.all<RegistrationSchema>().models,
+                ),
             });
         },
     }),
@@ -120,3 +126,9 @@ export default Factory.extend<Node & NodeTraits>({
         },
     }),
 });
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        node: { lastLogged: Date | string };
+    } // eslint-disable-line semi
+}

@@ -18,7 +18,7 @@ export interface Root {
     message: string;
     version: string;
     links: Links;
-    currentUser?: User;
+    currentUser?: ModelInstance<User>;
 }
 
 interface RootTraits {
@@ -39,11 +39,17 @@ export const defaultRootAttrs = {
 
 export default Factory.extend<Root & RootTraits>({
     ...defaultRootAttrs,
-    currentUser: association() as User,
+    currentUser: association() as ModelInstance<User>,
 
-    oldRegistrationDetail: trait({
-        afterCreate(root: ModelInstance<Root>) {
+    oldRegistrationDetail: trait<Root>({
+        afterCreate(root) {
             root.update('activeFlags', root.activeFlags.filter(f => f !== routes['registries.overview']));
         },
     }),
 });
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        root: Root;
+    } // eslint-disable-line semi
+}

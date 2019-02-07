@@ -1,4 +1,4 @@
-import { association, faker, ModelInstance, trait, Trait } from 'ember-cli-mirage';
+import { association, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Registration from 'ember-osf-web/models/registration';
 
@@ -78,7 +78,7 @@ export default NodeFactory.extend<Registration & RegistrationExtra>({
         } else if (!newReg.registeredMeta) {
             const registrationSchema = newReg.registrationSchema ||
                 faker.random.arrayElement(server.schema.registrationSchemas.all().models) ||
-                server.create('registrationSchema');
+                server.create('registration-schema');
             newReg.update({
                 registrationSchema,
                 registeredMeta: createRegistrationMetadata(registrationSchema.schemaNoConflict, true),
@@ -104,41 +104,41 @@ export default NodeFactory.extend<Registration & RegistrationExtra>({
     index(i) {
         return i;
     },
-    withComments: trait({
-        afterCreate(registration: any, server: any) {
+    withComments: trait<Registration>({
+        afterCreate(registration, server) {
             server.createList(
                 'comment', 6,
+                { node: registration, targetID: registration.id, targetType: 'registrations' },
                 'withReplies',
                 'asAbuse',
-                { node: registration, targetID: registration.id, targetType: 'registrations' },
             );
             server.createList(
                 'comment', 3,
-                'withReplies',
                 { node: registration, targetID: registration.id, targetType: 'registrations' },
+                'withReplies',
             );
         },
     }),
-    isPendingApproval: trait({
+    isPendingApproval: trait<Registration>({
         ...stateAttrs.pendingApproval,
     }),
-    isArchiving: trait({
+    isArchiving: trait<Registration>({
         ...stateAttrs.archiving,
     }),
-    isEmbargoed: trait({
+    isEmbargoed: trait<Registration>({
         ...stateAttrs.embargoed,
     }),
-    isPendingEmbargoApproval: trait({
+    isPendingEmbargoApproval: trait<Registration>({
         ...stateAttrs.pendingEmbargoApproval,
     }),
-    isPendingWithdrawal: trait({
+    isPendingWithdrawal: trait<Registration>({
         ...stateAttrs.pendingWithdrawal,
     }),
-    isWithdrawn: trait({
+    isWithdrawn: trait<Registration>({
         ...stateAttrs.withdrawn,
     }),
-    withArbitraryState: trait({
-        afterCreate(registration: ModelInstance<Registration> & RegistrationExtra) {
+    withArbitraryState: trait<Registration & RegistrationExtra>({
+        afterCreate(registration) {
             const arbitraryState =
                 faker.list.cycle(...Object.keys(stateAttrs))(registration.index);
             const attrsToUse = stateAttrs[arbitraryState as keyof typeof stateAttrs];

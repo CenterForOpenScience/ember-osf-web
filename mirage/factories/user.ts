@@ -13,7 +13,6 @@ import User from 'ember-osf-web/models/user';
 import { guid, guidAfterCreate } from './utils';
 
 export interface UserTraits {
-    withNodes: Trait;
     withFiles: Trait;
     loggedIn: Trait;
     withInstitutions: Trait;
@@ -62,25 +61,19 @@ export default Factory.extend<User & UserTraits>({
         return faker.date.past(2, new Date(2018, 0, 0));
     },
 
-    withNodes: trait({
-        afterCreate(user, server) {
-            server.createList('node', 5, { user }, 'withContributors');
-        },
-    }),
-
-    withFiles: trait({
+    withFiles: trait<User>({
         afterCreate(user, server) {
             server.createList('file', 5, { user });
         },
     }),
 
-    withInstitutions: trait({
+    withInstitutions: trait<User>({
         afterCreate(user, server) {
             server.createList('institution', 5, { users: [user] });
         },
     }),
 
-    loggedIn: trait({
+    loggedIn: trait<User>({
         afterCreate(currentUser, server) {
             const root = server.schema.roots.first();
             if (root) {
@@ -91,37 +84,37 @@ export default Factory.extend<User & UserTraits>({
         },
     }),
 
-    withSettings: trait({
+    withSettings: trait<User>({
         afterCreate(user, server) {
             server.create('user-setting', { user });
         },
     }),
 
-    withAlternateEmail: trait({
+    withAlternateEmail: trait<User>({
         afterCreate(user, server) {
             server.create('user-email', { user });
         },
     }),
 
-    withUnconfirmedEmail: trait({
+    withUnconfirmedEmail: trait<User>({
         afterCreate(user, server) {
             server.create('user-email', { user, confirmed: false });
         },
     }),
 
-    withUnverifiedEmail: trait({
+    withUnverifiedEmail: trait<User>({
         afterCreate(user, server) {
             server.create('user-email', { user, verified: false });
         },
     }),
 
-    withUnverifiedEmails: trait({
+    withUnverifiedEmails: trait<User>({
         afterCreate(user, server) {
             server.create('user-email', { user, verified: false, isMerge: true });
             server.create('user-email', { user, verified: false, isMerge: false });
         },
     }),
-    withUsRegion: trait({
+    withUsRegion: trait<User>({
         afterCreate(user, server) {
             const defaultRegion = server.schema.regions.find('us');
             user.update({ defaultRegion });
