@@ -37,5 +37,17 @@ h1.Title { /* stylelint-disable-line selector-no-qualifying-type*/
     height: 100%;
     overflow-y: auto;
     padding: 20px;
+}
+
+.SideMetadata {
+    padding: 20px;
+    min-width: 300px;
     width: 300px;
+
+    .MetadataTitle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0;
+    }
 }

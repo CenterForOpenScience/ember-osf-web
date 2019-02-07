@@ -13,7 +13,7 @@ export default class Overview extends GuidRoute {
     }
 
     include() {
-        return ['registration_schema'];
+        return ['registration_schema', 'contributors', 'identifiers'];
     }
 
     adapterOptions() {

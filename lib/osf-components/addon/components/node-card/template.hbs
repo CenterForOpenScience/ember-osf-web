@@ -108,9 +108,8 @@
                 <div local-class='NodeCard__tags'>
                     <strong>{{t 'node_card.tags'}}</strong>
                     <TagsWidget
-                        @tags={{@node.tags}}
+                        @taggable={{@node}}
                         @inline={{true}}
-                        @readOnly={{true}}
                     />
                 </div>
             {{/if}}

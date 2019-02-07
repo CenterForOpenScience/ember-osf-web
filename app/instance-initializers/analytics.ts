@@ -7,7 +7,8 @@ export async function initialize(appInstance: ApplicationInstance) {
 
     // TODO better ApplicationInstance type
     const root = document.querySelector((appInstance as any).application.rootElement)!;
-    root.addEventListener('click', analytics.handleClick.bind(analytics, root));
+    analytics.rootElement = root;
+    root.addEventListener('click', analytics.handleClick.bind(analytics));
 }
 
 export default {

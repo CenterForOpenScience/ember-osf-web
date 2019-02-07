@@ -98,6 +98,21 @@ export default {
             registries: 'Registries',
         },
     },
+    node_categories: {
+        // Keys match the values of node.category from the API. Intended to be used like:
+        // {{t (concat 'node_categories.' node.category)}}
+        analysis: 'Analysis',
+        communication: 'Communication',
+        data: 'Data',
+        hypothesis: 'Hypothesis',
+        instrumentation: 'Instrumentation',
+        'methods and measures': 'Methods and measures',
+        procedure: 'Procedure',
+        project: 'Project',
+        software: 'Software',
+        other: 'Other',
+        uncategorized: 'Uncategorized',
+    },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
         line2: 'Thank you for your patience.',
@@ -1047,16 +1062,31 @@ export default {
             },
         },
 
+        registration_metadata: {
+            contributors: 'Contributors',
+            description: 'Description',
+            no_description: 'No description given.',
+            registration_type: 'Registration type',
+            date_registered: 'Date registered',
+            date_created: 'Date created',
+            registered_from: 'Registered from',
+            category: 'Category',
+            registration_doi: 'Registration DOI',
+            publication_doi: 'Publication DOI',
+            affiliated_institutions: 'Affiliated institutions',
+            license: 'License',
+            no_license: 'No license',
+            disciplines: 'Disciplines',
+            tags: 'Tags',
+            citation: 'Citation',
+        },
+
         overview: {
             title: 'Overview',
             collapse: 'Collapse',
             expand: 'Expand',
             see_more: 'See more',
-
-            metadata: {
-                title: 'Metadata',
-                x_more: '{{x}} more',
-            },
+            metadata: 'Metadata',
 
             comments: {
                 title: 'Comments',
@@ -1108,6 +1138,18 @@ export default {
 
             form_view: {
                 no_files: 'No files uploaded',
+            },
+
+            withdrawn: {
+                has_been_withdrawn: 'This registration has been withdrawn for the reason(s) stated below.',
+                date_withdrawn: 'Date withdrawn',
+                justification: 'Justification for withdrawal',
+                no_justification: 'None given',
+            },
+
+            archiving: {
+                currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.',
+                email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{{supportEmail}}">{{supportEmail}}</a> for assistance.',
             },
         },
     },

@@ -187,6 +187,7 @@ module.exports = function(environment) {
                 category: 'data-analytics-category',
                 action: 'data-analytics-action',
             },
+            doiUrlPrefix: 'https://doi.org/',
         },
         social: {
             twitter: {
