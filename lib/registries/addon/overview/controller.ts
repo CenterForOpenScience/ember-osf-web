@@ -17,16 +17,6 @@ const {
     },
 } = config;
 
-enum RegistrationState {
-    EMBARGOED = 'embargoed',
-    PUBLIC = 'public',
-    WITHDRAWN = 'withdrawn',
-    PENDING_REGISTRATION = 'pendingRegistrationApproval',
-    PENDING_WITHDRAWAL = 'pendingWithdrawal',
-    PENDING_EMBARGO = 'pendingEmbargoApproval',
-    PENDING_EMBARGO_TERMINATION = 'pendingEmbargoTerminationApproval',
-}
-
 const { OSF: { url: baseURL } } = config;
 
 export default class Overview extends Controller {
@@ -42,36 +32,15 @@ export default class Overview extends Controller {
     supportEmail = supportEmail;
 
     @alias('model.taskInstance.value') registration?: Registration;
-    @not('media.isDesktop') showMobileView!: boolean;
     @not('registration') loading!: boolean;
-    @alias('registration.userHasAdminPermission') isAdmin!: boolean;
 
     @computed('registration.id')
     get registrationURL() {
         return this.registration && pathJoin(baseURL, `${this.registration.id}`);
     }
 
-    /* eslint-disable max-len */
-    @computed('registration.{withdrawn,embargoed,public,pendingRegistrationApproval,pendingEmbargoApproval,pendingEmbargoTerminationApproval,pendingWithdrawal}')
-    get currentState() {
-        if (!this.registration) {
-            return;
-        }
-
-        return (
-            (this.registration.pendingRegistrationApproval && RegistrationState.PENDING_REGISTRATION) ||
-            (this.registration.pendingEmbargoApproval && RegistrationState.PENDING_EMBARGO) ||
-            (this.registration.pendingEmbargoTerminationApproval && RegistrationState.PENDING_EMBARGO_TERMINATION) ||
-            (this.registration.pendingWithdrawal && RegistrationState.PENDING_WITHDRAWAL) ||
-            (this.registration.withdrawn && RegistrationState.WITHDRAWN) ||
-            (this.registration.embargoed && RegistrationState.EMBARGOED) ||
-            RegistrationState.PUBLIC
-        );
-    }
-    /* eslint-enable max-len */
-
     @computed('media.isDesktop', 'registration.withdrawn')
-    get showMobileNav() {
+    get showMobileView() {
         return !this.media.isDesktop && this.registration && !this.registration.withdrawn;
     }
 
