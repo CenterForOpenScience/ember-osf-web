@@ -35,9 +35,7 @@ module('Registries | Acceptance | overview.index', hooks => {
         this.set('registration', server.create('registration', {
             archiving: false,
             withdrawn: false,
-            registrationSchema: server.schema.registrationSchemas.find(
-                'prereg_challenge',
-            ) as ModelInstance<RegistrationSchema>,
+            registrationSchema: server.schema.registrationSchemas.find<RegistrationSchema>('prereg_challenge'),
             currentUserPermissions: [Permission.Admin],
         }, 'withContributors'));
     });

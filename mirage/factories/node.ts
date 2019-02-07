@@ -7,6 +7,10 @@ import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 import { guid, guidAfterCreate } from './utils';
 
+export interface MirageNode extends Node {
+    regionId: string | number;
+}
+
 export interface NodeTraits {
     withContributors: Trait;
     withRegistrations: Trait;

@@ -51,7 +51,7 @@ export function draftRegisterNode(
 ) {
     return server.create('draft-registration', {
         branchedFrom: node,
-        initiator: node.contributors.models.length ? node.contributors.models[0].users : null,
+        initiator: node.contributors.models.length ? node.contributors.models[0].users : undefined,
         registrationSchema: faker.random.arrayElement(
             server.schema.registrationSchemas.all<RegistrationSchema>().models,
         ),

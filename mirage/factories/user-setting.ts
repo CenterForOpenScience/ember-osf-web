@@ -2,8 +2,8 @@ import { association, Factory } from 'ember-cli-mirage';
 
 import UserSetting from 'ember-osf-web/models/user-setting';
 
-interface MirageUserSetting extends UserSetting {
-    userId: string;
+export interface MirageUserSetting extends UserSetting {
+    userId: string | number;
 }
 
 export default Factory.extend<MirageUserSetting>({
