@@ -4,6 +4,7 @@ import { percySnapshot } from 'ember-percy';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
@@ -14,7 +15,7 @@ module('Registries | Acceptance | overview.comments', hooks => {
     test('it renders', async function(this: TestContext, assert: Assert) {
         const registration = server.create(
             'registration',
-            { currentUserPermissions: ['admin'] },
+            { currentUserPermissions: [Permission.Admin] },
             'withComments',
         );
 

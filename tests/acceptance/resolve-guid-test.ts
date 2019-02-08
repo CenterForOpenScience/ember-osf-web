@@ -5,6 +5,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { currentURL as currentLocationURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
 
@@ -108,7 +109,7 @@ module('Acceptance | resolve-guid', hooks => {
 
             test('Forks', async assert => {
                 server.create('root', 'oldRegistrationDetail');
-                const reg = server.create('registration', { currentUserPermissions: ['admin'] });
+                const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 await visit(`/${reg.id}/forks`);
 
@@ -118,7 +119,7 @@ module('Acceptance | resolve-guid', hooks => {
 
             test('Analytics', async assert => {
                 server.create('root', 'oldRegistrationDetail');
-                const reg = server.create('registration', { currentUserPermissions: ['admin'] });
+                const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 const url = `/${reg.id}/analytics`;
 
@@ -140,7 +141,7 @@ module('Acceptance | resolve-guid', hooks => {
             });
 
             test('Forks', async assert => {
-                const reg = server.create('registration', { currentUserPermissions: ['admin'] });
+                const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 await visit(`/${reg.id}/forks`);
 
@@ -149,7 +150,7 @@ module('Acceptance | resolve-guid', hooks => {
             });
 
             test('Analytics', async assert => {
-                const reg = server.create('registration', { currentUserPermissions: ['admin'] });
+                const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 const url = `/${reg.id}/analytics`;
 
