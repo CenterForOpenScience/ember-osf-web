@@ -1097,7 +1097,6 @@ export default {
                 hide_replies: 'Hide replies',
                 report: 'Report',
                 cancel: 'Cancel',
-                discussion: 'Discussion',
                 load_more: 'Load more replies',
                 create_report: {
                     success: 'Comment successfully reported',
@@ -1116,6 +1115,7 @@ export default {
                 abuse_hate: 'Hate speech',
                 abuse_violence: 'Violence or harmful behavior',
                 cannot_retract_report: 'Only the reporter can retract report',
+                no_comments: 'No comments.',
             },
 
             links: {
@@ -1344,6 +1344,7 @@ export default {
         'tags-widget': {
             tags: 'Tags',
             add_tag: 'Add a tag to enhance discoverability',
+            no_tags: 'No tags',
         },
     },
     settings: {
