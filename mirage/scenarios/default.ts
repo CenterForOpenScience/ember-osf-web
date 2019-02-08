@@ -58,6 +58,10 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
 }
 
+function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
+    server.createList('file', 5, { user: currentUser });
+}
+
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
@@ -152,6 +156,9 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('settings')) {
         settingsScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('quickfiles')) {
+        quickfilesScenario(server, currentUser);
     }
     if (handbookEnabled) {
         handbookScenario(server);

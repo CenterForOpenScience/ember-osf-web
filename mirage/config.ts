@@ -29,7 +29,7 @@ export default function(this: Server) {
     this.post('/applications', createDeveloperApp);
     this.post('/applications/:id/reset', resetClientSecret);
 
-    this.get('/files/:id');
+    osfResource(this, 'file', { only: ['show', 'update'] });
 
     this.get('/guids/:id', guidDetail);
 

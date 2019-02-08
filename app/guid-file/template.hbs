@@ -3,7 +3,7 @@
     <QuickfileNav @user={{this.model.user}} @onQuickfiles={{false}} />
     <div data-analytics-scope='Title bar' local-class='TitleBar'>
         <div data-analytics-scope='Title' local-class='TitleBar__title'>
-            <h2>
+            <h2 data-test-file-title-header>
                 {{this.model.file.name}}
                 <OsfButton
                     data-analytics-name='Version'
@@ -129,6 +129,7 @@
         </modal.body>
         <modal.footer data-analytics-scope='File detail - Delete file modal'>
             <OsfButton
+                data-test-delete-file-cancel
                 data-analytics-name='Close'
                 @onClick={{action modal.close}}
                 @type='default'
@@ -136,6 +137,7 @@
                 {{t 'general.cancel'}}
             </OsfButton>
             <OsfButton
+                data-test-delete-file-confirm
                 data-analytics-name='Delete file'
                 @onClick={{action modal.submit}}
                 @type='danger'
@@ -159,7 +161,12 @@
                 @openFile={{action this.openFile}}
             />
             {{#if (or this.canEdit this.file.tags)}}
-                <div data-analytics-scope='Tags' class='panel panel-default' local-class='TagsPanel'>
+                <div
+                    data-test-tags-panel
+                    data-analytics-scope='Tags'
+                    class='panel panel-default'
+                    local-class='TagsPanel'
+                >
                     <div class='panel-heading clearfix' local-class='TagsPanel__heading'>
                         <h3 class='panel-title'>{{t 'file_detail.tags'}}</h3>
                     </div>
