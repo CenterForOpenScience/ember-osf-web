@@ -1,19 +1,16 @@
-import {
-    association,
-    Factory,
-    faker,
-    ModelInstance,
-    Server,
-    trait,
-    Trait,
-} from 'ember-cli-mirage';
+import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
+import Region from 'ember-osf-web/models/region';
 import User from 'ember-osf-web/models/user';
 
+import { Root } from './root';
 import { guid, guidAfterCreate } from './utils';
 
+export interface MirageUser extends User {
+    contributorIds: string[];
+}
+
 export interface UserTraits {
-    withNodes: Trait;
     withFiles: Trait;
     loggedIn: Trait;
     withInstitutions: Trait;
@@ -25,9 +22,9 @@ export interface UserTraits {
     withUsRegion: Trait;
 }
 
-export default Factory.extend<User & UserTraits>({
+export default Factory.extend<MirageUser & UserTraits>({
     id: guid('user'),
-    afterCreate(user: ModelInstance<User>, server: Server) {
+    afterCreate(user, server) {
         guidAfterCreate(user, server);
         server.create('user-email', { user, primary: true });
         if (!user.fullName && (user.givenName || user.familyName)) {
@@ -62,27 +59,21 @@ export default Factory.extend<User & UserTraits>({
         return faker.date.past(2, new Date(2018, 0, 0));
     },
 
-    withNodes: trait({
-        afterCreate(user, server) {
-            server.createList('node', 5, { user }, 'withContributors');
-        },
-    }),
-
-    withFiles: trait({
+    withFiles: trait<MirageUser>({
         afterCreate(user, server) {
             server.createList('file', 5, { user });
         },
     }),
 
-    withInstitutions: trait({
+    withInstitutions: trait<MirageUser>({
         afterCreate(user, server) {
             server.createList('institution', 5, { users: [user] });
         },
     }),
 
-    loggedIn: trait({
+    loggedIn: trait<MirageUser>({
         afterCreate(currentUser, server) {
-            const root = server.schema.roots.first();
+            const root = server.schema.roots.first<Root>();
             if (root) {
                 root.update({ currentUser });
             } else {
@@ -91,40 +82,46 @@ export default Factory.extend<User & UserTraits>({
         },
     }),
 
-    withSettings: trait({
+    withSettings: trait<MirageUser>({
         afterCreate(user, server) {
             server.create('user-setting', { user });
         },
     }),
 
-    withAlternateEmail: trait({
+    withAlternateEmail: trait<MirageUser>({
         afterCreate(user, server) {
             server.create('user-email', { user });
         },
     }),
 
-    withUnconfirmedEmail: trait({
+    withUnconfirmedEmail: trait<MirageUser>({
         afterCreate(user, server) {
             server.create('user-email', { user, confirmed: false });
         },
     }),
 
-    withUnverifiedEmail: trait({
+    withUnverifiedEmail: trait<MirageUser>({
         afterCreate(user, server) {
             server.create('user-email', { user, verified: false });
         },
     }),
 
-    withUnverifiedEmails: trait({
+    withUnverifiedEmails: trait<MirageUser>({
         afterCreate(user, server) {
             server.create('user-email', { user, verified: false, isMerge: true });
             server.create('user-email', { user, verified: false, isMerge: false });
         },
     }),
-    withUsRegion: trait({
+    withUsRegion: trait<MirageUser>({
         afterCreate(user, server) {
-            const defaultRegion = server.schema.regions.find('us');
+            const defaultRegion = server.schema.regions.find<Region>('us');
             user.update({ defaultRegion });
         },
     }),
 });
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        user: MirageUser;
+    } // eslint-disable-line semi
+}

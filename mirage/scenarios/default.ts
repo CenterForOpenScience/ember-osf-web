@@ -1,8 +1,9 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
-import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import RegistrationSchema from 'ember-osf-web/models/registration-schema';
+import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
 
@@ -19,7 +20,7 @@ const {
     },
 } = config;
 
-function registrationScenario(server: Server, currentUser: ModelInstance) {
+function registrationScenario(server: Server, currentUser: ModelInstance<User>) {
     const registrationNode = server.create(
         'node',
         {
@@ -30,48 +31,48 @@ function registrationScenario(server: Server, currentUser: ModelInstance) {
     server.create('contributor', {
         node: registrationNode,
         users: currentUser,
-        permission: 'admin',
+        permission: Permission.Admin,
         index: 0,
     });
 
     registerNodeMultiple(
         server,
-        registrationNode as ModelInstance<Node>,
+        registrationNode,
         12,
         { currentUserPermissions: Object.values(Permission) },
         'withArbitraryState',
     );
-    draftRegisterNodeMultiple(server, registrationNode as ModelInstance<Node>, 12, {}, 'withRegistrationMetadata');
+    draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
 
     server.create('registration', { id: 'beefs' });
 
     server.create('registration', {
         id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        registrationSchema: server.schema.registrationSchemas.find<RegistrationSchema>('prereg_challenge'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
-        root: null,
+        root: undefined,
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
 }
 
-function quickfilesScenario(server: Server, currentUser: ModelInstance) {
-    server.createList('files', 5, { user: currentUser });
+function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
+    server.createList('file', 5, { user: currentUser });
 }
 
-function dashboardScenario(server: Server, currentUser: ModelInstance) {
+function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
     const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
-    const nodes = server.createList<Node>('node', 10, {
+    const nodes = server.createList('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');
     for (const node of nodes) {
         server.create('contributor', {
             node,
             users: currentUser,
-            permission: 'admin',
+            permission: Permission.Admin,
             index: 0,
         });
     }
@@ -94,15 +95,15 @@ function dashboardScenario(server: Server, currentUser: ModelInstance) {
     server.createList('institution', 20);
 }
 
-function forksScenario(server: Server, currentUser: ModelInstance) {
+function forksScenario(server: Server, currentUser: ModelInstance<User>) {
     const forksNode = server.create('node', { id: 'fork5', currentUserPermissions: Object.values(Permission) });
     server.create('contributor', {
         node: forksNode,
         users: currentUser,
-        permission: 'admin',
+        permission: Permission.Admin,
         index: 0,
     });
-    forkNode(server, forksNode as ModelInstance<Node>, { currentUserPermissions: Object.values(Permission) });
+    forkNode(server, forksNode, { currentUserPermissions: Object.values(Permission) });
 }
 
 function handbookScenario(server: Server) {
@@ -120,7 +121,7 @@ function handbookScenario(server: Server) {
     }
 }
 
-function settingsScenario(server: Server, currentUser: ModelInstance) {
+function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
     server.create('user-setting', { user: currentUser });
     server.createList('token', 23);
     server.createList('scope', 5);

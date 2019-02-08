@@ -28,6 +28,10 @@ const alwaysEmbed: { [key: string]: string[] } = {
     contributors: ['users'],
 };
 
+interface WithAttributes {
+    attributes: { [index: string]: any };
+}
+
 // https://stackoverflow.com/a/4760279
 export function dynamicSort(property: string) {
     let sortOrder = 1;
@@ -36,7 +40,7 @@ export function dynamicSort(property: string) {
         sortOrder = -1;
         newProp = newProp.substr(1);
     }
-    return (a: any, b: any) => {
+    return (a: WithAttributes, b: WithAttributes) => {
         let aAt = a.attributes;
         let bAt = b.attributes;
         if (newProp === 'id') {

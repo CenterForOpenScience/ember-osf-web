@@ -1,4 +1,4 @@
-import { association, Factory, faker, ModelInstance, trait, Trait } from 'ember-cli-mirage';
+import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Comment from 'ember-osf-web/models/comment';
 import { guid } from './utils';
@@ -13,7 +13,7 @@ export default Factory.extend<Comment & CommentTraits>({
     node: association() as Comment['node'],
     user: association() as Comment['user'],
 
-    afterCreate(comment: ModelInstance<Comment>) {
+    afterCreate(comment) {
         if (!comment.targetID && !comment.targetType) {
             comment.update({
                 targetID: comment.node.id,
@@ -41,8 +41,8 @@ export default Factory.extend<Comment & CommentTraits>({
     targetType: '',
     hasChildren: false,
 
-    withReplies: trait({
-        afterCreate(comment: any, server: any) {
+    withReplies: trait<Comment>({
+        afterCreate(comment, server) {
             const siblings = server.schema.comments.where({ targetID: comment.targetID });
             const count = faker.random.number({ min: 0, max: siblings.length - 1 });
 
@@ -61,8 +61,8 @@ export default Factory.extend<Comment & CommentTraits>({
         },
     }),
 
-    asAbuse: trait({
-        afterCreate(comment: any, server: any) {
+    asAbuse: trait<Comment>({
+        afterCreate(comment, server) {
             server.create('comment-report', { comment });
         },
     }),

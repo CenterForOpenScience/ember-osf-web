@@ -50,7 +50,7 @@ module('Integration | Component | contributor-list', hooks => {
         const node = server.create('node');
         const users = server.createList('user', 4);
         for (const user of users) {
-            server.create('contributor', { node, users: user, unregisteredContributor: null });
+            server.create('contributor', { node, users: user, unregisteredContributor: undefined });
         }
         const nodeWithContribs = await this.store.findRecord('node', node.id, { include: 'contributors' });
         this.set('node', nodeWithContribs);
