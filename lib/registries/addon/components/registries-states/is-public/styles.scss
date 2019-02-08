@@ -1,0 +1,54 @@
+.WithdrawalForm__button:global(.btn.btn-danger) {
+    background-color: $primary-red;
+    font-weight: bold;
+    outline: 0;
+
+    &:hover:not([disabled]),
+    &:focus,
+    &:active {
+        background-color: $secondary-red;
+        border: 1px solid $secondary-red;
+    }
+}
+
+.Container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+@media screen and (max-width: 425px) {
+    .Container {
+        flex-wrap: wrap;
+
+        & > div {
+            flex-basis: 100%;
+        }
+
+        div:last-child {
+            margin-top: 25px;
+        }
+    }
+}
+
+.WithdrawDropdown {
+    background-color: $color-bg-white;
+    max-width: 526px;
+    padding: 5px;
+    color: $midnight-blue;
+    font-size: 14px;
+
+    .header {
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    textarea,
+    input {
+        background-color: $porcelain;
+    }
+
+    textarea {
+        resize: none;
+    }
+}

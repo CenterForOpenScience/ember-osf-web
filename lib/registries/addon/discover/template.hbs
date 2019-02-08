@@ -1,6 +1,6 @@
 {{title (t 'registries.discover.page_title')}}
 
-{{#registries-header showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}} 
+{{#registries-header showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}}
     {{#if (eq header 'lead')}}
         {{t 'registries.discover.powered_by' }}
         <a href="https://share.osf.io/" local-class="ShareLogo" data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action "click" "link" "Discover - SHARE Logo" target=analytics}}></a>

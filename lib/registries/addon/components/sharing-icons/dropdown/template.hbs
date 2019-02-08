@@ -1,0 +1,46 @@
+{{! template-lint-disable no-invalid-interactive }}
+<ResponsiveDropdown as |dd|>
+    {{yield (hash trigger=dd.trigger isOpen=dd.isOpen)}}
+    {{#dd.content}}
+        <div {{action dd.close}}>
+            <SharingIcons
+                @title={{@title}}
+                @description={{@description}}
+                @hyperlink={{@hyperlink}}
+                @resultId={{@resultId}}
+                @parentId={{@parentId}}
+                @showText={{@showText}}
+            as |links|>
+                <ul local-class='Dropdown__list'>
+                    {{#if @showBookmark}}
+                        <li role='menuitem' local-class='Dropdown__option'>
+                            <OsfButton
+                                @type='link'
+                                @onClick={{action (perform this.bookmark)}}
+                            >
+                                {{fa-icon 'bookmark'}}
+                                {{#if this.isBookmarked}}
+                                    {{t 'registries.overview.update_bookmarks.remove.text'}}
+                                {{else}}
+                                    {{t 'registries.overview.update_bookmarks.add.text'}}
+                                {{/if}}
+                            </OsfButton>
+                        </li>
+                    {{/if}}
+                    <li local-class='Dropdown__option'>
+                        {{links.email}}
+                    </li>
+                    <li local-class='Dropdown__option'>
+                        {{links.twitter}}
+                    </li>
+                    <li local-class='Dropdown__option'>
+                        {{links.facebook}}
+                    </li>
+                    <li local-class='Dropdown__option'>
+                        {{links.linkedin}}
+                    </li>
+                </ul>
+            </SharingIcons>
+        </div>
+    {{/dd.content}}
+</ResponsiveDropdown>

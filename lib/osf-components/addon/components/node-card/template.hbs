@@ -17,6 +17,8 @@
                     <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
                 {{else if @node.pendingWithdrawal}}
                     <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdrawl'}}</span> |
+                {{else if @node.pendingEmbargoTerminationApproval}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
                 {{else if @node.embargoed}}
                     <span class='label label-info'>{{t 'node_card.registration.statuses.embargoed'}}</span> |
                 {{else if @node.pendingEmbargoApproval}}

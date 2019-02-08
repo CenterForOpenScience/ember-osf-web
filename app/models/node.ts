@@ -221,6 +221,11 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
         return htmlSafe(this.title);
     }
 
+    @computed('root')
+    get isRoot() {
+        return !this.belongsTo('root').id();
+    }
+
     // BaseFileItem override
     isNode = true;
     collectable: boolean = defaultTo(this.collectable, false);

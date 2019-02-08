@@ -1,0 +1,60 @@
+%Trigger {
+    color: $primary-blue;
+    outline: 0;
+
+    :global(.fa) {
+        padding-left: 5px;
+    }
+
+    :global(.fa.fa-ban) {
+        color: $disabled-gray;
+    }
+}
+
+:global(.btn.btn-default).Trigger--default {
+    @extend %Trigger;
+
+    text-align: center;
+    border: 1px solid $alto;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    background-color: $white;
+    background-size: cover;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $secondary-blue;
+        background-color: $alto;
+    }
+}
+
+:global(.btn.btn-default).Trigger--mobile {
+    @extend %Trigger;
+
+    display: inline-flex;
+    background-color: transparent;
+    border: 0;
+    padding: 16px;
+    border-right-color: $white;
+    border-right-style: solid;
+    border-right-width: 1px;
+
+    &:active,
+    &:focus,
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.Red {
+    color: $primary-red;
+}
+
+.disabled {
+    &:global(.btn.btn-default) {
+        color: $midnight-blue;
+        cursor: default;
+        pointer-events: none;
+    }
+}
