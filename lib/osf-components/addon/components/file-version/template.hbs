@@ -1,9 +1,10 @@
 <td
-    data-test-version-cell
+    data-test-version-cell={{this.version.id}}
     class='col-md-4'
 >
     {{#if this.clickable}}
         <OsfButton
+            data-test-select-version={{this.version.id}}
             data-analytics-name='Change version'
             local-class='FileVersion__button'
             @class='btn-link'
@@ -16,19 +17,19 @@
     {{/if}}
 </td>
 <td
-    data-test-modified-date-cell
+    data-test-modified-date-cell={{this.version.id}}
     class='col-md-6'
 >
     {{moment-format this.version.attributes.modified_utc}}
 </td>
 <td
-    data-test-download-count-cell
+    data-test-download-count-cell={{this.version.id}}
     class='col-xs-1'
 >
     <div class='badge'>{{this.version.attributes.extra.downloads}}</div>
 </td>
 <td
-    data-test-download-version-cell
+    data-test-download-version-cell={{this.version.id}}
     class='col-xs-1'
 >
     <OsfButton
@@ -42,7 +43,7 @@
     </OsfButton>
 </td>
 <td
-    data-test-md5-hash-cell
+    data-test-md5-hash-cell={{this.version.id}}
     class='hidden-md hidden-sm hidden-xs'
 >
     <CopyableText
@@ -52,7 +53,7 @@
     />
 </td>
 <td
-    data-test-sha256-hash-cell
+    data-test-sha2-hash-cell={{this.version.id}}
     class='hidden-md hidden-sm hidden-xs'
 >
     <CopyableText

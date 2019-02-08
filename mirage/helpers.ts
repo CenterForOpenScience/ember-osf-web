@@ -5,7 +5,7 @@ import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 import { DraftRegistrationTraits } from './factories/draft-registration';
 import { MirageNode, NodeTraits } from './factories/node';
-import { MirageRegistration } from './factories/registration';
+import { MirageRegistration, RegistrationTraits } from './factories/registration';
 
 export function registerNode(
     server: Server,
@@ -87,6 +87,29 @@ export function forkNode(
         ...props,
     }, ...traits);
     node.contributors.models.forEach(contributor =>
+        server.create('contributor', { node: nodeFork, users: contributor.users }));
+    return nodeFork;
+}
+
+export function forkRegistration(
+    server: Server,
+    registration: ModelInstance<MirageRegistration>,
+    props: Partial<ModelAttrs<MirageNode>> = {},
+    ...traits: Array<keyof RegistrationTraits> // tslint:disable-line trailing-comma
+) {
+    const nodeFork = server.create(
+        'node',
+        {
+            forkedFrom: registration,
+            category: registration.category,
+            fork: true,
+            title: `Fork of ${registration.title}`,
+            description: registration.description,
+            ...props,
+        },
+        ...traits,
+    );
+    registration.contributors.models.forEach(contributor =>
         server.create('contributor', { node: nodeFork, users: contributor.users }));
     return nodeFork;
 }

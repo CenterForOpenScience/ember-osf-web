@@ -1,7 +1,11 @@
-<div local-class='actions-header'>
+<div
+    data-analytics-scope='File list'
+    local-class='actions-header'
+>
     {{#if (or this.showFilterClicked this.showFilterInput)}}
         <div class='col-xs-9 filter-input'>
             {{input
+                (html-attributes data-test-filter-input='input')
                 placeholder=(t 'file_browser.filtering')
                 class='form-control'
                 keyUp=(action @updateFilter value='target.value')
@@ -9,6 +13,8 @@
         </div>
         <div class='col-xs-3'>
             <OsfButton
+                data-test-close-filter-button
+                data-analytics-name='Hide filter'
                 local-class='action-button'
                 aria-label={{t 'general.close'}}
                 @class='pull-right'
@@ -20,6 +26,8 @@
     {{else}}
         <div class='pull-right'>
             <OsfButton
+                data-test-filter-button
+                data-analytics-name='Show filter'
                 local-class='action-button'
                 @onClick={{action (mut this.showFilterClicked) true}}
             >
