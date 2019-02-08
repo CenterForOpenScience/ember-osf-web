@@ -66,7 +66,7 @@
     {{/validated-input/checkbox}}
     {{! template-lint-enable no-implicit-this }}
     {{#if this.hasSubmitted}}
-        <div class='osf-box-lt' local-class='help-block'>
+        <div local-class='help-block'>
             <p class='ext-success p-xs'>{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
         </div>
     {{else}}

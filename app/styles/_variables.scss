@@ -101,33 +101,15 @@ danger: #d9534f,
  */
 
 $color-blue: #204762;
-$color-pure-blue: #00f;
 $color-hover: #e0ebf3;
 $color-light: #eee;
-$color-alt: #c7ffc7;
 $color-select: #337ab7;
 $color-grey: #333;
-
-.bg-color-blue {
-    background-color: $color-blue;
-}
-
-.bg-color-hover {
-    background-color: $color-hover;
-}
 
 .bg-color-light {
     background-color: $color-light;
 }
 
-.bg-color-alt {
-    background-color: $color-alt;
-}
-
 .bg-color-select {
     background-color: $color-select;
-}
-
-.bg-color-grey {
-    background-color: $color-grey;
 }

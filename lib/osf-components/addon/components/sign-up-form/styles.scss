@@ -5,7 +5,7 @@
         }
 
         :global(.help-block) {
-            background-color: #e0ebf3;
+            background-color: $color-hover;
         }
     }
 
@@ -14,6 +14,8 @@
     .help-block {
         z-index: 9;
         position: relative;
+        background-color: $color-hover;
+        color: $color-grey;
     }
 
     .tos-checkbox {
@@ -46,5 +48,3 @@
         margin: 0 auto;
     }
 }
-
-

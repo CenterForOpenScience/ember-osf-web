@@ -4,101 +4,6 @@
 
 // stylelint-disable selector-no-qualifying-type, selector-max-id, declaration-property-value-blacklist, selector-max-compound-selectors, max-nesting-depth
 
-/* Box shadow */
-.box-shadow-xs {
-    box-shadow: 0 0 3px 0 #eee;
-}
-
-.box-shadow-sm {
-    box-shadow: 0 0 6px 0 #eee;
-}
-
-.box-shadow-md {
-    box-shadow: 0 0 9px -1px #ccc;
-}
-
-.box-shadow-lg {
-    box-shadow: 0 0 15px -2px #aaa;
-}
-
-.box-shadow-xl {
-    box-shadow: 0 0 18px 0 #666;
-}
-
-/* LOADER */
-.logo-spin {
-    animation: spin 3s infinite linear, opacity 3s infinite linear;
-    animation: spin 3s infinite linear, opacity 3s infinite linear;
-    display: inline-block;
-    vertical-align: middle;
-    background: url('/assets/images/global/logo_spin.png');
-    background-size: 100%;
-}
-
-@for $i from 1 to 6 {
-    .logo-spin.logo-#{nth($sizes, $i)} {
-        width: unquote(nth($spinner-size, $i) + 'px');
-        height: unquote(nth($spinner-size, $i) + 'px');
-    }
-}
-
-// Set spin animation for the log
-@mixin spin-animation($startDegree, $endDegree, $animation-name) {
-    @keyframes #{$animation-name} {
-        from {
-            transform: rotate($startDegree);
-        }
-
-        to {
-            transform: rotate($endDegree);
-        }
-    }
-}
-
-@include spin-animation(0deg, 360deg, 'spin');
-
-// opacity change animation, Start, Middle, End
-@mixin opacity-animation($start, $middle, $end, $animation-name) {
-    @keyframes #{$animation-name} {
-        0% {
-            opacity: $start;
-        }
-
-        50% {
-            opacity: $middle;
-        }
-
-        100% {
-            opacity: $end;
-        }
-    }
-}
-
-@include opacity-animation(0.1, 1, 0.1, 'opacity');
-
-/* OSF BOX */
-
-.osf-box {
-    border: 1px solid #eee;
-    border-radius: 0;
-    background-color: #fff;
-}
-
-.box-round {
-    border-radius: 5px;
-}
-
-.osf-box-lt {
-    background-color: $color-hover;
-    color: $color-grey;
-}
-
-.osf-box-dk {
-    background-color: $color-select;
-    color: #fff;
-}
-
-
 /* PROJECT NAVIGATION */
 .osf-project-navbar {
     position: fixed;
@@ -281,10 +186,6 @@
 }
 
 /* Form Inputs */
-.noresize {
-    resize: none;
-}
-
 .navbar-donate-button a {
     color: #9cd59c !important;
 }
