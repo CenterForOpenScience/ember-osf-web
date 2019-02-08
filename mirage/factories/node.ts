@@ -139,7 +139,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
 
     withAffiliatedInstitutions: trait({
         afterCreate(node: any, server: any) {
-            const affiliatedInstitutionCount = faker.random.number({ min: 5, max: 10 });
+            const affiliatedInstitutionCount = faker.random.number({ min: 4, max: 5 });
             server.createList('institution', affiliatedInstitutionCount, {
                 nodes: [node],
             });

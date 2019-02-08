@@ -57,6 +57,9 @@ module.exports = function(defaults) {
             importBootstrapFont: true,
             importBootstrapCSS: false,
         },
+        'ember-composable-helpers': {
+            only: ['contains'],
+        },
         'ember-cli-password-strength': {
             bundleZxcvbn: !IS_PROD,
         },

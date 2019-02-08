@@ -9,12 +9,17 @@
         {{#if institution}}
             <li>
                 <label local-class='label'>
-                    {{input
-                        type='checkbox'
-                    }}
-                    <Link @href={{institution.links.html}}>
+                    <OsfButton
+                        @type='link'
+                        @disabled={{or this.addTask.isRunning this.removeTask.isRunning}}
+                        @onClick={{if (contains institution @affiliatedList) (action @remove institution) (action @add institution)}}
+                    >
+                        <FaIcon
+                            local-class='institutionIcon'
+                            @icon={{if (contains institution @affiliatedList) 'minus' 'plus'}}
+                        />
                         {{institution.name}}
-                    </Link>
+                    </OsfButton>
                 </label>
             </li>
         {{else}}

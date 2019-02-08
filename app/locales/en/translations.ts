@@ -39,6 +39,7 @@ export default {
         embed: 'Embed',
         download: 'Download',
         download_url: 'Download url',
+        done: 'Done',
         delete: 'Delete',
         view: 'View',
         edit: 'Edit',
@@ -1352,6 +1353,8 @@ export default {
         'institutions-widget': {
             affiliated_institutions: 'Affiliated institutions',
             affiliate_institutions: 'Affiliate institutions',
+            add_institution_error: 'Error adding institution',
+            remove_institution_error: 'Error removing institution',
         },
     },
     settings: {

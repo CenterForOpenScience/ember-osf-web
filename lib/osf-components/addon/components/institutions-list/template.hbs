@@ -2,21 +2,21 @@
     {{#paginated-list/has-many
         model=@node
         relationshipName='affiliatedInstitutions'
-        bindReload=(action (mut this.reloadList))
+        bindReload=@reloadList
         analyticsScope='Project Institutions'
         as |list|
     }}
         <list.item as |institution|>
             <div local-class='InstitutionList__item'>
                 {{#if institution}}
-                    <Link @href={{institution.links.html}}>
+                    <OsfLink @href={{institution.links.html}}>
                         <img
                             data-test-institution-list-institution={{institution.name}}
                             class='img-circle img-responsive'
                             src={{institution.logoUrl}}
                             alt={{institution.name}}
                         >
-                    </Link>
+                    </OsfLink>
                 {{else}}
                     <Placeholder as |placeholder|>
                         <placeholder.circle />

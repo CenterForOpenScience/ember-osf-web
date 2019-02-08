@@ -6,6 +6,7 @@ import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
+import { institutionAdd, institutionDelete, institutionUpdate } from './views/institution';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
 import { forkRegistration, registrationDetail } from './views/registration';
@@ -51,6 +52,15 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'affiliatedInstitutions', {
         only: ['index'],
         path: '/nodes/:parentID/institutions',
+    });
+    osfNestedResource(this, 'node', 'affiliatedInstitutions', {
+        only: ['create', 'delete', 'update'],
+        path: '/nodes/:parentID/relationships/institutions',
+        views: {
+            create: institutionAdd,
+            delete: institutionDelete,
+            update: institutionUpdate,
+        },
     });
 
     osfResource(this, 'registration', { except: ['show'] });

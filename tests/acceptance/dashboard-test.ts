@@ -298,13 +298,13 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('[data-analytics-name="create_new_project"]').exists();
         await click('[data-analytics-name="create_new_project"]');
         assert.dom('[data-test-institution-selected="selected"]')
-            .exists({ count: 5 }, 'Initial state everything selected');
+            .exists({ count: 10 }, 'Initial state everything selected');
         assert.dom('[data-test-institution-selected="not-selected"]')
             .doesNotExist('Initial state nothing not-selected');
         assert.dom('[data-test-institution-button-row]:nth-child(1) button').exists();
         await click('[data-test-institution-button-row]:nth-child(1) button');
         assert.dom('[data-test-institution-selected="selected"]')
-            .exists({ count: 4 }, 'Clicked first item so 4 selected');
+            .exists({ count: 9 }, 'Clicked first item so 4 selected');
         assert.dom('[data-test-institution-selected="not-selected"]')
             .exists({ count: 1 }, 'Clicked first item so one notselected');
         await percySnapshot(assert);
@@ -313,11 +313,11 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('[data-test-institution-selected="selected"]')
             .doesNotExist('Clicked remove all so none selected');
         assert.dom('[data-test-institution-selected="not-selected"]')
-            .exists({ count: 5 }, 'Clicked remove all so all not-selected');
+            .exists({ count: 10 }, 'Clicked remove all so all not-selected');
         assert.dom('[data-analytics-name="Select all institutions"]').exists();
         await click('[data-analytics-name="Select all institutions"]');
         assert.dom('[data-test-institution-selected="selected"]')
-            .exists({ count: 5 }, 'Clicked select all so all selected');
+            .exists({ count: 10 }, 'Clicked select all so all selected');
         assert.dom('[data-test-institution-selected="not-selected"]')
             .doesNotExist('Clicked select all so none not-selected');
     });

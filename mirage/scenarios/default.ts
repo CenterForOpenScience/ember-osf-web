@@ -95,8 +95,6 @@ function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('token', 23);
     server.createList('scope', 5);
     server.createList('developer-app', 12);
-    server.loadFixtures('registration-schemas');
-    server.loadFixtures('regions');
 }
 
 function forksScenario(server: Server, currentUser: ModelInstance<User>) {
@@ -110,7 +108,7 @@ function forksScenario(server: Server, currentUser: ModelInstance<User>) {
     forkNode(server, forksNode, { currentUserPermissions: Object.values(Permission) });
 }
 
-function handbookScenario(server: Server) {
+function handbookScenario(server: Server, currentUser: ModelInstance) {
     // ValidatedModelForm
     server.create('node', {
         id: 'extng',
@@ -119,9 +117,11 @@ function handbookScenario(server: Server) {
     });
 
     // InstitutionsWidget
-    server.create('node', {
+    const institutionsNode = server.create('node', {
         id: 'lacks',
     }, 'withAffiliatedInstitutions');
+
+    server.createList('institution', 5, { users: [currentUser], nodes: [institutionsNode] });
 
     server.create('node', {
         id: 'manys',
@@ -180,6 +180,6 @@ export default function(server: Server) {
         quickfilesScenario(server, currentUser);
     }
     if (handbookEnabled) {
-        handbookScenario(server);
+        handbookScenario(server, currentUser);
     }
 }
