@@ -108,7 +108,7 @@ module('Acceptance | resolve-guid', hooks => {
 
             test('Forks', async assert => {
                 server.create('root', 'oldRegistrationDetail');
-                const reg = server.create('registration');
+                const reg = server.create('registration', { currentUserPermissions: ['admin'] });
 
                 await visit(`/${reg.id}/forks`);
 
@@ -118,7 +118,7 @@ module('Acceptance | resolve-guid', hooks => {
 
             test('Analytics', async assert => {
                 server.create('root', 'oldRegistrationDetail');
-                const reg = server.create('registration');
+                const reg = server.create('registration', { currentUserPermissions: ['admin'] });
 
                 const url = `/${reg.id}/analytics`;
 
@@ -140,7 +140,7 @@ module('Acceptance | resolve-guid', hooks => {
             });
 
             test('Forks', async assert => {
-                const reg = server.create('registration');
+                const reg = server.create('registration', { currentUserPermissions: ['admin'] });
 
                 await visit(`/${reg.id}/forks`);
 
@@ -149,7 +149,7 @@ module('Acceptance | resolve-guid', hooks => {
             });
 
             test('Analytics', async assert => {
-                const reg = server.create('registration');
+                const reg = server.create('registration', { currentUserPermissions: ['admin'] });
 
                 const url = `/${reg.id}/analytics`;
 

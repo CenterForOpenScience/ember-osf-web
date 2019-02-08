@@ -47,6 +47,6 @@
         {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
     </a>
     {{#if this.showText}}
-        <pre>{{this.licenseText}}</pre>
+        <LicenseText @node={{this.node}} />
     {{/if}}
 {{/if}}

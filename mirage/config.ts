@@ -6,6 +6,7 @@ import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { guidDetail } from './views/guid';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
+import { forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
@@ -32,6 +33,7 @@ export default function(this: Server) {
     this.get('/guids/:id', guidDetail);
 
     osfResource(this, 'institution', { only: ['index'], defaultPageSize: 1000 });
+    osfResource(this, 'license', { only: ['index', 'show'] });
 
     osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);
@@ -42,12 +44,18 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
+    osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
 
-    osfResource(this, 'registration');
+    osfResource(this, 'registration', { except: ['show'] });
+    this.get('/registrations/:id', registrationDetail);
     osfNestedResource(this, 'registration', 'children');
+    osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
+    this.post('/registrations/:id/forks', forkRegistration);
+
     osfNestedResource(this, 'registration', 'contributors');
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
+    osfNestedResource(this, 'registration', 'identifiers', { only: ['index'] });
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
     osfNestedResource(this, 'comment', 'reports', {
         except: ['delete'],
@@ -57,6 +65,9 @@ export default function(this: Server) {
     this.del('/comments/:id/reports/:reporter_id', reportDelete);
 
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
+
+    osfResource(this, 'collection');
+    osfNestedResource(this, 'collection', 'linkedRegistrations', { only: ['index'] });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
     osfResource(this, 'region', { only: ['index', 'show'] });

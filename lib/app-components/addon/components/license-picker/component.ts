@@ -1,4 +1,4 @@
-import { action, computed } from '@ember-decorators/object';
+import { action } from '@ember-decorators/object';
 import { alias, sort } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -59,26 +59,6 @@ export default class LicensePicker extends Component.extend({
 
     @sort('selected.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
-
-    /**
-     * This replaces the placeholders, e.g. `{{field}}`, in the license text (which acts as a template)
-     * TODO: Dynamic computed properties. `year` and `copyrightHolders` are the only two acceptable fields on
-     * nodeLicense, currently.
-     */
-    @computed('selected.{text,requiredFields.length}', 'node.nodeLicense.{year,copyrightHolders}')
-    get licenseText(): string {
-        const requiredFields = this.selected.get('requiredFields');
-        const result = this.selected.get('text') || '';
-
-        if (!this.node.nodeLicense || !(requiredFields && requiredFields.length)) {
-            return result;
-        }
-
-        return Object.entries(this.node.nodeLicense).reduce(
-            (acc, [key, value]) => acc.replace(new RegExp(`{{${key}}}`), value),
-            result,
-        );
-    }
 
     @action
     changeLicense(this: LicensePicker, selected: License) {
