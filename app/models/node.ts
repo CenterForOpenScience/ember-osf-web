@@ -136,8 +136,9 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @hasMany('node', { inverse: 'forkedFrom' })
     forks!: DS.PromiseManyArray<NodeModel>;
 
-    @belongsTo('node', { inverse: 'forks' })
-    forkedFrom!: DS.PromiseObject<NodeModel> & NodeModel;
+    @belongsTo('node', { inverse: 'forks', polymorphic: true })
+    forkedFrom!: (DS.PromiseObject<NodeModel> & NodeModel) |
+        (DS.PromiseObject<RegistrationModel> & RegistrationModel);
 
     @belongsTo('node', { inverse: null })
     root!: DS.PromiseObject<NodeModel> & NodeModel;

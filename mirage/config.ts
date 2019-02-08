@@ -3,6 +3,7 @@ import config from 'ember-get-config';
 
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
+import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
@@ -40,6 +41,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'children');
     osfNestedResource(this, 'node', 'contributors');
     osfNestedResource(this, 'node', 'forks', { only: ['index'] });
+    this.post('/nodes/:id/forks', createFork);
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
@@ -53,6 +55,8 @@ export default function(this: Server) {
     this.post('/registrations/:id/forks', forkRegistration);
 
     osfNestedResource(this, 'registration', 'contributors');
+    osfNestedResource(this, 'registration', 'forks', { only: ['index'] });
+    this.post('/registrations/:id/forks', createRegistrationFork);
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'registration', 'identifiers', { only: ['index'] });

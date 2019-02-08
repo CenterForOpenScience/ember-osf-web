@@ -9,11 +9,14 @@ import Node from 'ember-osf-web/models/node';
 import StatusMessages from 'ember-osf-web/services/status-messages';
 import Toast from 'ember-toastr/services/toast';
 
+import currentUser from 'ember-osf-web/services/current-user';
+
 export default class GuidNodeForks extends Controller {
     @service toast!: Toast;
     @service i18n!: I18N;
     @service statusMessages!: StatusMessages;
     @service analytics!: Analytics;
+    @service currentUser!: currentUser;
 
     toDelete: Node | null = null;
     deleteModal = false;

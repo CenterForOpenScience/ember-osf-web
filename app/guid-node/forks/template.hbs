@@ -7,8 +7,12 @@
         @onHide={{action (mut this.newModal) false}}
         as |modal|
     >
-        <modal.body data-analytics-scope='Forks - forks modal'>
+        <modal.body
+            data-test-new-fork-modal-body
+            data-analytics-scope='Forks - forks modal'
+        >
             <OsfButton
+                data-test-close-create-forks-modal
                 data-analytics-name='close_modal'
                 aria-label={{t 'general.close'}}
                 @class='close'
@@ -20,12 +24,14 @@
         </modal.body>
         <modal.footer data-analytics-scope='Forks - forks modal footer'>
             <OsfButton
+                data-test-cancel-create-fork
                 data-analytics-name='Cancel'
                 @onClick={{action (mut this.newModal) false}}
             >
                 {{t 'general.cancel'}}
             </OsfButton>
             <OsfButton
+                data-test-confirm-create-fork
                 data-analytics-name='Create fork'
                 @onClick={{action modal.submit}}
                 @type='info'
@@ -34,7 +40,6 @@
             </OsfButton>
         </modal.footer>
     </BsModal>
-    {{! Analytics being called in the controller action }}
     <DeleteNodeModal
         @delete={{action this.delete}}
         @openModal={{this.deleteModal}}
@@ -46,13 +51,19 @@
     </div>
     <div class='m-md' local-class='Forks__nav'>
         <OsfLink
+            data-test-back-to-analytics
             data-analytics-name='forks.back'
             @route='guid-node.analytics'
             @models={{array this.model.guid}}
         >
             {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
         </OsfLink>
-        <p local-class='Forks__nav__link'>{{t 'forks.info'}}</p>
+        <p
+            data-test-forks-info
+            local-class='Forks__nav__link'
+        >
+            {{t 'forks.info'}}
+        </p>
     </div>
     <div local-class='Forks__forks'>
         {{#paginated-list/has-many
@@ -79,18 +90,21 @@
     </div>
     <div local-class='Forks__new-fork'>
         <div class='m-md'>
-            <OsfButton
-                data-analytics-name='Create fork modal'
-                @type='success'
-                @disabled={{this.loadingNew}}
-                @onClick={{action (mut this.newModal) true}}
-            >
-                {{#if this.loadingNew}}
-                    {{t 'forks.loading_new'}}
-                {{else}}
-                    {{t 'forks.new'}}
-                {{/if}}
-            </OsfButton>
+            {{#if this.currentUser.user}}
+                <OsfButton
+                    data-test-new-fork-button
+                    data-analytics-name='Create fork modal'
+                    @type='success'
+                    @disabled={{this.loadingNew}}
+                    @onClick={{action (mut this.newModal) true}}
+                >
+                    {{#if this.loadingNew}}
+                        {{t 'forks.loading_new'}}
+                    {{else}}
+                        {{t 'forks.new'}}
+                    {{/if}}
+                </OsfButton>
+            {{/if}}
         </div>
     </div>
 </div>
