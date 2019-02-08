@@ -1,4 +1,5 @@
 import { getOwner } from '@ember/application';
+import Transition from '@ember/routing/-private/transition';
 import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
@@ -52,9 +53,17 @@ const Router = EmberRouter.extend({
         }
     },
 
-    _doTransition(routeName: string, ...args: any[]) {
-        const transition = this._super(routeName, ...args);
+    _doTransition(...args: any[]) {
+        const transition = this._super(...args);
+        return this._beforeTransition(transition);
+    },
 
+    _doURLTransition(...args: any[]) {
+        const transition = this._super(...args);
+        return this._beforeTransition(transition);
+    },
+
+    _beforeTransition(transition: Transition) {
         // Don't snap the page to the top if it's just a query param change
         // IE registries, preprints, collections, etc
         // There doesn't appear to be a good way to access the transition

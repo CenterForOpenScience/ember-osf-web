@@ -21,11 +21,14 @@ declare module '@ember/routing/-private/transition' {
         handlerInfos: Array<HandlerInfo | UnresolvedHandlerInfo>;
         params: Record<string, Record<string, string>>;
         queryParams?: Record<string, any>;
+        queryParamsOnly: boolean;
         resolvedModels: Record<string, any>;
         state: TransitionState;
         targetName: string;
         router: {
             generate(handlerName: string, ...params: any[]): string;
         };
+
+        abort(): void;
     } // eslint-disable-line semi
 }
