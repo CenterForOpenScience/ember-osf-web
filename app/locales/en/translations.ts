@@ -1564,6 +1564,7 @@ export default {
         },
         options: {
             toast_events: 'Display toast for tracked events',
+            show_url_bar: 'Show URL bar -- navigate by URL without reloading',
         },
     },
 };
