@@ -23,6 +23,7 @@ declare module '@ember/routing/-private/transition' {
         queryParams?: Record<string, any>;
         queryParamsOnly: boolean;
         resolvedModels: Record<string, any>;
+        sequence: number;
         state: TransitionState;
         targetName: string;
         router: {
