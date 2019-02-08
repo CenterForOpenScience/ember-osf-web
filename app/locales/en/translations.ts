@@ -55,6 +55,7 @@ export default {
         create: 'Create',
         and: 'and',
         or: 'or',
+        bookmark: 'Bookmark',
         more: 'more',
         upload: 'Upload',
         rename: 'Rename',
@@ -65,6 +66,7 @@ export default {
         downloads: 'Downloads',
         close: 'Close',
         back: 'Back',
+        public: 'Public',
         filter: 'Filter',
         revert: 'Revert',
         save: 'Save',
@@ -97,6 +99,21 @@ export default {
             preprints: 'Preprints',
             registries: 'Registries',
         },
+    },
+    node_categories: {
+        // Keys match the values of node.category from the API. Intended to be used like:
+        // {{t (concat 'node_categories.' node.category)}}
+        analysis: 'Analysis',
+        communication: 'Communication',
+        data: 'Data',
+        hypothesis: 'Hypothesis',
+        instrumentation: 'Instrumentation',
+        'methods and measures': 'Methods and measures',
+        procedure: 'Procedure',
+        project: 'Project',
+        software: 'Software',
+        other: 'Other',
+        uncategorized: 'Uncategorized',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -553,6 +570,7 @@ export default {
                 pending_withdrawl: 'Pending withdrawal',
                 embargoed: 'Embargoed',
                 pending_embargo: 'Pending embargo',
+                pending_embargo_termination: 'Pending embargo termination',
                 archiving: 'Archiving',
             },
         },
@@ -1047,16 +1065,31 @@ export default {
             },
         },
 
+        registration_metadata: {
+            contributors: 'Contributors',
+            description: 'Description',
+            no_description: 'No description given.',
+            registration_type: 'Registration type',
+            date_registered: 'Date registered',
+            date_created: 'Date created',
+            registered_from: 'Registered from',
+            category: 'Category',
+            registration_doi: 'Registration DOI',
+            publication_doi: 'Publication DOI',
+            affiliated_institutions: 'Affiliated institutions',
+            license: 'License',
+            no_license: 'No license',
+            disciplines: 'Disciplines',
+            tags: 'Tags',
+            citation: 'Citation',
+        },
+
         overview: {
             title: 'Overview',
             collapse: 'Collapse',
             expand: 'Expand',
             see_more: 'See more',
-
-            metadata: {
-                title: 'Metadata',
-                x_more: '{{x}} more',
-            },
+            metadata: 'Metadata',
 
             comments: {
                 title: 'Comments',
@@ -1064,7 +1097,6 @@ export default {
                 hide_replies: 'Hide replies',
                 report: 'Report',
                 cancel: 'Cancel',
-                discussion: 'Discussion',
                 load_more: 'Load more replies',
                 create_report: {
                     success: 'Comment successfully reported',
@@ -1083,6 +1115,7 @@ export default {
                 abuse_hate: 'Hate speech',
                 abuse_violence: 'Violence or harmful behavior',
                 cannot_retract_report: 'Only the reporter can retract report',
+                no_comments: 'No comments.',
             },
 
             links: {
@@ -1109,6 +1142,82 @@ export default {
             form_view: {
                 no_files: 'No files uploaded',
             },
+
+            withdrawn: {
+                has_been_withdrawn: 'This registration has been withdrawn for the reason(s) stated below.',
+                date_withdrawn: 'Date withdrawn',
+                justification: 'Justification for withdrawal',
+                no_justification: 'None given',
+                state: 'Withdrawn',
+            },
+
+            withdraw: {
+                withdraw: 'Withdraw registration',
+                withdrawal_justification_label: 'Please provide your justification for withdrawing this registration.',
+                random_scientist_x: 'Type <strong>{{x}}</strong> below and click Withdraw Registration if you are sure you want to continue.',
+                success: 'Withdrawal request submitted successfully',
+                error: 'Unable to withdraw this registration',
+                warning: 'Withdrawing a registration will remove its content from the OSF, but leave basic metadata behind. The title of a withdrawn registration and its contributor list will remain, as will justification or explanation of the withdrawal, should you wish to provide it. Withdrawn registrations will be marked with a "withdrawn" tag. This action is irreversible.',
+            },
+
+            archiving: {
+                currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.',
+                email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{{supportEmail}}">{{supportEmail}}</a> for assistance.',
+            },
+            aria_labels: {
+                main: 'Toolbar: withdraw, fork, share registration',
+                scientist_name_input: 'Random scientist name',
+            },
+            embargoed: {
+                state: 'Embargoed',
+                action: 'End embargo early',
+                action_success: 'Embargo termination request successfully sent',
+                action_error: 'Unable to submit embargo termination request',
+                confirm_text: 'By clicking confirm, an email will be sent to project administrator(s) to approve ending the embargo. If approved, this registration, including any components, will be made public immmediately. This action is irreversible.',
+                confirm_button_text: 'Confirm',
+                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}.',
+            },
+            pending: {
+                state: 'Pending',
+                action: {
+                    approve: 'Approve',
+                    reject: 'Reject',
+                },
+            },
+            public: {
+                state: 'Public',
+            },
+            pendingRegistrationApproval: {
+                banner: 'This is a pending registration of this <a href={{projectUrl}}><u>project</u></a>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.',
+            },
+            pendingWithdrawal: {
+                banner: 'This project is currently pending withdrawal',
+            },
+            pendingEmbargoApproval: {
+                banner: 'This project is currently pending registration, awaiting approval from project administrators. This registration will be final and enter the embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.',
+            },
+            pendingEmbargoTerminationApproval: {
+                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}. A request to lift the embargo and make this registration public is pending.',
+            },
+            update_bookmarks: {
+                add: {
+                    text: 'Bookmark',
+                    success: 'Registration successfully added to your bookmarks',
+                    error: 'Unable to bookmark this registration',
+                },
+                remove: {
+                    text: 'Remove from bookmarks',
+                    success: 'Registration successfully removed from your bookmarks',
+                    error: 'Unable to remove this registration from bookmarks',
+                },
+            },
+            fork: {
+                success: 'Your fork is being created. You\'ll receive an email when it is complete',
+                success_title: 'Fork status',
+                error: 'Unable to fork registration',
+            },
+            view_forks: 'View forks',
+            fork_registration: 'Fork this registration',
         },
     },
     analytics: {
@@ -1235,6 +1344,7 @@ export default {
         'tags-widget': {
             tags: 'Tags',
             add_tag: 'Add a tag to enhance discoverability',
+            no_tags: 'No tags',
         },
     },
     settings: {

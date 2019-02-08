@@ -17,10 +17,16 @@ export default abstract class GuidRoute extends Route.extend({
     getModel: task(function *(this: GuidRoute, guid: string) {
         const blocker = this.ready.getBlocker();
 
-        const model = yield this.store.findRecord(this.modelName(), guid, {
-            include: this.include(),
-            adapterOptions: this.adapterOptions(),
-        });
+        let model;
+        try {
+            model = yield this.store.findRecord(this.modelName(), guid, {
+                include: this.include(),
+                adapterOptions: this.adapterOptions(),
+            });
+        } catch (e) {
+            // To do custom error handling, add an error() action to the route that subclasses GuidRoute.
+            this.send('error', e);
+        }
 
         blocker.done();
 

@@ -1,0 +1,29 @@
+.ModalTrigger {
+    &:global(.btn.btn-link) {
+        color: $primary-blue;
+        margin: 0;
+        padding: 0;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+            outline: 0;
+        }
+    }
+}
+
+.ConfirmButton {
+    &:global(.btn.btn-danger) {
+        background-color: $primary-red;
+        font-weight: bold;
+        outline: 0;
+
+        &:hover:not([disabled]),
+        &:focus,
+        &:active {
+            background-color: $secondary-red;
+            border: 1px solid $secondary-red;
+        }
+    }
+}

@@ -69,6 +69,7 @@ export default NodeFactory.extend<Registration & RegistrationExtra>({
                 embargoed: newReg.parent.embargoed,
                 embargoEndDate: newReg.parent.embargoEndDate,
                 pendingEmbargoApproval: newReg.parent.pendingEmbargoApproval,
+                pendingEmbargoTerminationApproval: newReg.pendingEmbargoTerminationApproval,
                 withdrawn: newReg.parent.withdrawn,
                 pendingWithrawal: newReg.parent.pendingWithrawal,
                 registrationSchema: newReg.parent.registrationSchema,
@@ -96,6 +97,7 @@ export default NodeFactory.extend<Registration & RegistrationExtra>({
     pendingEmbargoApproval: false,
     withdrawn: false,
     pendingWithdrawal: false,
+    pendingEmbargoTerminationApproval: false,
 
     registeredFrom: association(),
 

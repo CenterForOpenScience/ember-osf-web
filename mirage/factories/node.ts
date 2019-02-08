@@ -1,5 +1,5 @@
 import { capitalize } from '@ember/string';
-import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { Factory, faker, ModelInstance, Server, trait, Trait } from 'ember-cli-mirage';
 
 import Node from 'ember-osf-web/models/node';
 
@@ -9,6 +9,8 @@ export interface NodeTraits {
     withContributors: Trait;
     withRegistrations: Trait;
     withDraftRegistrations: Trait;
+    withDoi: Trait;
+    withLicense: Trait;
 }
 
 export default Factory.extend<Node & NodeTraits>({
@@ -58,7 +60,7 @@ export default Factory.extend<Node & NodeTraits>({
     tags: faker.lorem.words(5).split(' '),
 
     withContributors: trait({
-        afterCreate(node: any, server: any) {
+        afterCreate(node: ModelInstance<Node>, server: Server) {
             const contributorCount = faker.random.number({ min: 1, max: 25 });
             if (contributorCount === 1) {
                 server.create('contributor', { node, index: 0, permission: 'admin', bibliographic: true });
@@ -74,7 +76,7 @@ export default Factory.extend<Node & NodeTraits>({
     }),
 
     withRegistrations: trait({
-        afterCreate(node: any, server: any) {
+        afterCreate(node: ModelInstance<Node>, server: Server) {
             const registrationCount = faker.random.number({ min: 5, max: 15 });
             for (let i = 0; i < registrationCount; i++) {
                 const registration = server.create('registration', {
@@ -90,13 +92,31 @@ export default Factory.extend<Node & NodeTraits>({
     }),
 
     withDraftRegistrations: trait({
-        afterCreate(node: any, server: any) {
+        afterCreate(node: ModelInstance<Node>, server: Server) {
             const draftRegistrationCount = faker.random.number({ min: 5, max: 15 });
             server.createList('draft-registration', draftRegistrationCount, {
                 branchedFrom: node,
                 initiator: node.contributors.models[0].users,
                 registrationSchema: faker.random.arrayElement(server.schema.registrationSchemas.all().models),
             });
+        },
+    }),
+
+    withDoi: trait({
+        afterCreate(node: ModelInstance<Node>, server: Server) {
+            const identifier = server.create('identifier');
+            // @ts-ignore until we figure out mirage types that don't pull in ember-data stuff
+            node.identifiers = [identifier]; // eslint-disable-line no-param-reassign
+            node.save();
+        },
+    }),
+
+    withLicense: trait({
+        afterCreate(node: ModelInstance<Node>, server: Server) {
+            const license = faker.random.arrayElement(server.schema.licenses.all().models);
+            // @ts-ignore until we figure out mirage types that don't pull in ember-data stuff
+            node.license = license; // eslint-disable-line no-param-reassign
+            node.save();
         },
     }),
 });
