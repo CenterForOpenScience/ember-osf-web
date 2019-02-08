@@ -30,7 +30,7 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
     withRegistrationMetadata: trait<DraftRegistration>({
         afterCreate(draftRegistration) {
             draftRegistration.update({
-                registrationMetadata: createRegistrationMetadata(draftRegistration.registrationSchema.schemaNoConflict),
+                registrationMetadata: createRegistrationMetadata(draftRegistration.registrationSchema),
             });
         },
     }),

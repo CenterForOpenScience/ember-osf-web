@@ -25,3 +25,9 @@ export default Factory.extend<MirageUserSetting>({
 
     user: association(),
 });
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        'user-setting': MirageUserSetting;
+    } // eslint-disable-line semi
+}

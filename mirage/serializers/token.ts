@@ -1,9 +1,10 @@
+import { ModelInstance, Request } from 'ember-cli-mirage';
 import { SingleResourceDocument } from 'osf-api';
 
-import Token from 'ember-osf-web/models/token';
+import { MirageToken } from '../factories/token';
 import ApplicationSerializer from './application';
 
-export default class TokenSerializer extends ApplicationSerializer<Token> {
+export default class TokenSerializer extends ApplicationSerializer<MirageToken> {
     normalize(json: SingleResourceDocument) {
         if (json.data.attributes && json.data.attributes.scopes) {
             const { scopes } = json.data.attributes;
@@ -25,7 +26,7 @@ export default class TokenSerializer extends ApplicationSerializer<Token> {
         return super.normalize(json);
     }
 
-    serialize(token: any, request: any) {
+    serialize(token: ModelInstance<MirageToken>, request: Request) {
         const scopeIds = token.attrs.scopeIds || [];
 
         delete token.attrs.scopeIds; // eslint-disable-line no-param-reassign

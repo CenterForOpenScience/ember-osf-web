@@ -5,7 +5,11 @@ import Registration from 'ember-osf-web/models/registration';
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
-export interface RegistrationExtra {
+export interface MirageRegistration extends Registration {
+    index: number;
+}
+
+export interface RegistrationTraits {
     withComments: Trait;
     isPendingApproval: Trait;
     isArchiving: Trait;
@@ -14,7 +18,6 @@ export interface RegistrationExtra {
     isPendingWithdrawal: Trait;
     isWithdrawn: Trait;
     withArbitraryState: Trait;
-    index: number;
 }
 
 const stateAttrs = {
@@ -56,7 +59,7 @@ const stateAttrs = {
     },
 };
 
-export default NodeFactory.extend<Registration & RegistrationExtra>({
+export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     id: guid('registration'),
     afterCreate(newReg, server) {
         guidAfterCreate(newReg, server);
@@ -71,7 +74,7 @@ export default NodeFactory.extend<Registration & RegistrationExtra>({
                 pendingEmbargoApproval: newReg.parent.pendingEmbargoApproval,
                 pendingEmbargoTerminationApproval: newReg.pendingEmbargoTerminationApproval,
                 withdrawn: newReg.parent.withdrawn,
-                pendingWithrawal: newReg.parent.pendingWithrawal,
+                pendingWithrawal: newReg.parent.pendingWithdrawal,
                 registrationSchema: newReg.parent.registrationSchema,
                 registeredMeta: newReg.parent.registeredMeta,
             });
@@ -81,7 +84,7 @@ export default NodeFactory.extend<Registration & RegistrationExtra>({
                 server.create('registration-schema');
             newReg.update({
                 registrationSchema,
-                registeredMeta: createRegistrationMetadata(registrationSchema.schemaNoConflict, true),
+                registeredMeta: createRegistrationMetadata(registrationSchema, true),
             });
         }
     },
@@ -104,7 +107,7 @@ export default NodeFactory.extend<Registration & RegistrationExtra>({
     index(i) {
         return i;
     },
-    withComments: trait<Registration>({
+    withComments: trait<MirageRegistration>({
         afterCreate(registration, server) {
             server.createList(
                 'comment', 6,
@@ -119,25 +122,25 @@ export default NodeFactory.extend<Registration & RegistrationExtra>({
             );
         },
     }),
-    isPendingApproval: trait<Registration>({
+    isPendingApproval: trait<MirageRegistration>({
         ...stateAttrs.pendingApproval,
     }),
-    isArchiving: trait<Registration>({
+    isArchiving: trait<MirageRegistration>({
         ...stateAttrs.archiving,
     }),
-    isEmbargoed: trait<Registration>({
+    isEmbargoed: trait<MirageRegistration>({
         ...stateAttrs.embargoed,
     }),
-    isPendingEmbargoApproval: trait<Registration>({
+    isPendingEmbargoApproval: trait<MirageRegistration>({
         ...stateAttrs.pendingEmbargoApproval,
     }),
-    isPendingWithdrawal: trait<Registration>({
+    isPendingWithdrawal: trait<MirageRegistration>({
         ...stateAttrs.pendingWithdrawal,
     }),
-    isWithdrawn: trait<Registration>({
+    isWithdrawn: trait<MirageRegistration>({
         ...stateAttrs.withdrawn,
     }),
-    withArbitraryState: trait<Registration & RegistrationExtra>({
+    withArbitraryState: trait<MirageRegistration>({
         afterCreate(registration) {
             const arbitraryState =
                 faker.list.cycle(...Object.keys(stateAttrs))(registration.index);
@@ -146,3 +149,9 @@ export default NodeFactory.extend<Registration & RegistrationExtra>({
         },
     }),
 });
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        registration: MirageRegistration;
+    } // eslint-disable-line semi
+}

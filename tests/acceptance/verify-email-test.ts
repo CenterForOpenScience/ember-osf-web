@@ -6,11 +6,10 @@ import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import User from 'ember-osf-web/models/user';
-import UserEmail from 'ember-osf-web/models/user-email';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 function unverifiedEmails(user: ModelInstance<User>) {
-    return (user.emails.models as Array<ModelInstance<UserEmail>>)
+    return user.emails.models
         .filter(email => !email.verified)
         .sort((a, b) => parseInt(b.id, 10) - parseInt(a.id, 10));
 }
@@ -41,9 +40,7 @@ module('Acceptance | verify email', hooks => {
         user.reload();
         assert.dom('[data-test-verify-email-prompt').doesNotExist();
         assert.equal(user.emails.length, beforeCount, 'Correct number of user emails');
-        assert.ok(user.emails.models.every(
-            (email: ModelInstance<UserEmail>) => email.verified,
-        ), 'All user emails verified');
+        assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
 
     test('verify emails', async assert => {
@@ -65,15 +62,12 @@ module('Acceptance | verify email', hooks => {
         user.reload();
         assert.dom('[data-test-verify-email-prompt').doesNotExist();
         assert.equal(user.emails.length, beforeCount, 'Correct number of user emails');
-        assert.ok(user.emails.models.every(
-            (email: ModelInstance<UserEmail>) => email.verified,
-        ), 'All user emails verified');
+        assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
 
     test('deny email', async assert => {
         const user = server.create('user', 'loggedIn', 'withUnverifiedEmail');
-        // @ts-ignore TODO: upgrade ember types
-        const beforeCount: number = user.emails.length;
+        const beforeCount = user.emails.length;
 
         await visit('/dashboard');
 
@@ -84,15 +78,12 @@ module('Acceptance | verify email', hooks => {
         user.reload();
         assert.dom('[data-test-verify-email-prompt').doesNotExist();
         assert.equal(user.emails.length, beforeCount - 1, 'Correct number of user emails');
-        assert.ok(user.emails.models.every(
-            (email: ModelInstance<UserEmail>) => email.verified,
-        ), 'All user emails verified');
+        assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
 
     test('deny emails', async assert => {
         const user = server.create('user', 'loggedIn', 'withUnverifiedEmails');
-        // @ts-ignore TODO: upgrade ember types
-        const beforeCount: number = user.emails.length;
+        const beforeCount = user.emails.length;
 
         await visit('/dashboard');
 
@@ -110,8 +101,6 @@ module('Acceptance | verify email', hooks => {
         user.reload();
         assert.dom('[data-test-verify-email-prompt').doesNotExist();
         assert.equal(user.emails.length, beforeCount - 2, 'Correct number of user emails');
-        assert.ok(user.emails.models.every(
-            (email: ModelInstance<UserEmail>) => email.verified,
-        ), 'All user emails verified');
+        assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
 });

@@ -65,6 +65,7 @@ export interface Collection<T> {
     models: Array<ModelInstance<T>>;
     length: number;
     modelName: string;
+    firstObject: ModelInstance<T>;
     update<K extends keyof T>(key: K, val: T[K]): void;
     save(): void;
     reload(): void;
@@ -237,7 +238,7 @@ export function association(...args: any[]): any;
 export type FactoryAttrs<T> = {
     [P in keyof T]?: T[P] | ((index: number) => T[P]);
 } & {
-    afterCreate?(newObj: any, server: Server): void;
+    afterCreate?(newObj: ModelInstance<T>, server: Server): void;
 };
 
 export class FactoryClass {

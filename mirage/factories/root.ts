@@ -19,6 +19,7 @@ export interface Root {
     version: string;
     links: Links;
     currentUser?: ModelInstance<User>;
+    currentUserId?: string;
 }
 
 interface RootTraits {

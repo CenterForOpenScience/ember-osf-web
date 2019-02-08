@@ -1,6 +1,8 @@
 import { capitalize } from '@ember/string';
-import { Factory, faker, ModelInstance, Server, trait, Trait } from 'ember-cli-mirage';
+import { Collection, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
+import Identifier from 'ember-osf-web/models/identifier';
+import License from 'ember-osf-web/models/license';
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
@@ -9,6 +11,7 @@ import { guid, guidAfterCreate } from './utils';
 
 export interface MirageNode extends Node {
     regionId: string | number;
+    lastLogged: Date | string;
 }
 
 export interface NodeTraits {
@@ -19,7 +22,7 @@ export interface NodeTraits {
     withLicense: Trait;
 }
 
-export default Factory.extend<Node & NodeTraits>({
+export default Factory.extend<MirageNode & NodeTraits>({
     id: guid('node'),
     afterCreate: guidAfterCreate,
 
@@ -65,8 +68,8 @@ export default Factory.extend<Node & NodeTraits>({
     public: true,
     tags: faker.lorem.words(5).split(' '),
 
-    withContributors: trait<Node>({
-        afterCreate(node: ModelInstance<Node>, server: Server) {
+    withContributors: trait<MirageNode>({
+        afterCreate(node, server) {
             const contributorCount = faker.random.number({ min: 1, max: 25 });
             if (contributorCount === 1) {
                 server.create('contributor', { node, index: 0, permission: Permission.Admin, bibliographic: true });
@@ -81,7 +84,7 @@ export default Factory.extend<Node & NodeTraits>({
         },
     }),
 
-    withRegistrations: trait<Node>({
+    withRegistrations: trait<MirageNode>({
         afterCreate(node, server) {
             const registrationCount = faker.random.number({ min: 5, max: 15 });
             for (let i = 0; i < registrationCount; i++) {
@@ -93,13 +96,13 @@ export default Factory.extend<Node & NodeTraits>({
                         server.schema.registrationSchemas.all<RegistrationSchema>().models,
                     ),
                 });
-                node.contributors.models.forEach((contributor: any) =>
+                node.contributors.models.forEach(contributor =>
                     server.create('contributor', { node: registration, users: contributor.users }));
             }
         },
     }),
 
-    withDraftRegistrations: trait<Node>({
+    withDraftRegistrations: trait<MirageNode>({
         afterCreate(node, server) {
             const draftRegistrationCount = faker.random.number({ min: 5, max: 15 });
             server.createList('draft-registration', draftRegistrationCount, {
@@ -112,19 +115,18 @@ export default Factory.extend<Node & NodeTraits>({
         },
     }),
 
-    withDoi: trait({
-        afterCreate(node: ModelInstance<Node>, server: Server) {
+    withDoi: trait<MirageNode>({
+        afterCreate(node, server) {
             const identifier = server.create('identifier');
-            // @ts-ignore until we figure out mirage types that don't pull in ember-data stuff
-            node.identifiers = [identifier]; // eslint-disable-line no-param-reassign
+            // eslint-disable-next-line no-param-reassign
+            node.identifiers = [identifier] as unknown as Collection<Identifier>;
             node.save();
         },
     }),
 
-    withLicense: trait({
-        afterCreate(node: ModelInstance<Node>, server: Server) {
-            const license = faker.random.arrayElement(server.schema.licenses.all().models);
-            // @ts-ignore until we figure out mirage types that don't pull in ember-data stuff
+    withLicense: trait<MirageNode>({
+        afterCreate(node, server) {
+            const license = faker.random.arrayElement(server.schema.licenses.all<License>().models);
             node.license = license; // eslint-disable-line no-param-reassign
             node.save();
         },
@@ -133,6 +135,6 @@ export default Factory.extend<Node & NodeTraits>({
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        node: { lastLogged: Date | string };
+        node: MirageNode;
     } // eslint-disable-line semi
 }

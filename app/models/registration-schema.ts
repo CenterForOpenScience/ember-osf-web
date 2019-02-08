@@ -51,19 +51,12 @@ export interface RegistrationMetadata {
     [qid: string]: Answer<string | string[] | boolean | RegistrationMetadata>;
 }
 
-class RegistrationSchemaModel extends OsfModel {
+export default class RegistrationSchemaModel extends OsfModel {
     @attr('boolean') active!: boolean;
     @attr('fixstring') name!: string;
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: Schema;
 }
-
-interface RegistrationSchemaModel {
-    // this is for mirage types
-    schemaNoConflict: Schema;
-}
-
-export default RegistrationSchemaModel;
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {

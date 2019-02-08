@@ -1,4 +1,4 @@
-import { association, Factory, faker, ModelInstance, trait, Trait } from 'ember-cli-mirage';
+import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Comment from 'ember-osf-web/models/comment';
 import { guid } from './utils';
@@ -13,7 +13,7 @@ export default Factory.extend<Comment & CommentTraits>({
     node: association() as Comment['node'],
     user: association() as Comment['user'],
 
-    afterCreate(comment: ModelInstance<Comment>) {
+    afterCreate(comment) {
         if (!comment.targetID && !comment.targetType) {
             comment.update({
                 targetID: comment.node.id,

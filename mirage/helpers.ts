@@ -1,17 +1,16 @@
-import { faker, ModelAttrs, ModelInstance, ModelRegistry, Server } from 'ember-cli-mirage';
+import { faker, ModelAttrs, ModelInstance, Server } from 'ember-cli-mirage';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import Node from 'ember-osf-web/models/node';
-import Registration from 'ember-osf-web/models/registration';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 import { DraftRegistrationTraits } from './factories/draft-registration';
-import { NodeTraits } from './factories/node';
+import { MirageNode, NodeTraits } from './factories/node';
+import { MirageRegistration } from './factories/registration';
 
 export function registerNode(
     server: Server,
-    node: ModelInstance<Node>,
-    props: Partial<ModelAttrs<Registration>> = {},
+    node: ModelInstance<MirageNode>,
+    props: Partial<ModelAttrs<MirageRegistration>> = {},
     ...traits: string[] // tslint:disable-line trailing-comma
 ) {
     const registration = server.create('registration', {
@@ -24,16 +23,16 @@ export function registerNode(
         ),
         ...props,
     }, ...traits);
-    node.contributors.models.forEach((contributor: any) =>
+    node.contributors.models.forEach(contributor =>
         server.create('contributor', { node: registration, users: contributor.users }));
     return registration;
 }
 
 export function registerNodeMultiple(
     server: Server,
-    node: ModelInstance<Node>,
+    node: ModelInstance<MirageNode>,
     count: number,
-    props: Partial<ModelAttrs<Registration>> = {},
+    props: Partial<ModelAttrs<MirageRegistration>> = {},
     ...traits: string[] // tslint:disable-line trailing-comma
 ) {
     const registrations = [];
@@ -45,7 +44,7 @@ export function registerNodeMultiple(
 
 export function draftRegisterNode(
     server: Server,
-    node: ModelInstance<Node>,
+    node: ModelInstance<MirageNode>,
     props: Partial<ModelAttrs<DraftRegistration>> = {},
     ...traits: Array<keyof DraftRegistrationTraits> // tslint:disable-line trailing-comma
 ) {
@@ -61,7 +60,7 @@ export function draftRegisterNode(
 
 export function draftRegisterNodeMultiple(
     server: Server,
-    node: ModelInstance<Node>,
+    node: ModelInstance<MirageNode>,
     count: number,
     props: Partial<ModelAttrs<DraftRegistration>> = {},
     ...traits: Array<keyof DraftRegistrationTraits> // tslint:disable-line trailing-comma
@@ -75,8 +74,8 @@ export function draftRegisterNodeMultiple(
 
 export function forkNode(
     server: Server,
-    node: ModelInstance<Node>,
-    props: Partial<ModelAttrs<ModelRegistry['node']>> = {},
+    node: ModelInstance<MirageNode>,
+    props: Partial<ModelAttrs<MirageNode>> = {},
     ...traits: Array<keyof NodeTraits> // tslint:disable-line trailing-comma
 ) {
     const nodeFork = server.create('node', {
@@ -87,7 +86,7 @@ export function forkNode(
         description: node.description,
         ...props,
     }, ...traits);
-    node.contributors.models.forEach((contributor: any) =>
+    node.contributors.models.forEach(contributor =>
         server.create('contributor', { node: nodeFork, users: contributor.users }));
     return nodeFork;
 }
