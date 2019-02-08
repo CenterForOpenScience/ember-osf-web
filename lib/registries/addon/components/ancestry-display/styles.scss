@@ -1,0 +1,57 @@
+.Ancestors {
+    color: $white;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+    a {
+        color: $white;
+        font-weight: 600;
+        max-width: 350px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &:hover,
+        &:focus {
+            color: $white;
+            text-decoration: underline;
+            outline: 0;
+        }
+    }
+
+    span {
+        font-weight: 600;
+    }
+
+    @media (max-width: 400px) {
+        a {
+            max-width: 250px;
+        }
+
+    }
+
+}
+
+.TitleContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    min-height: 120px;
+    margin: 10px 0;
+}
+
+.Delimiter {
+    color: $white;
+    padding: 0 5px;
+}
+
+.MainTitle {
+    h1 {
+        color: $white;
+        font-weight: 400;
+        word-break: break-word;
+        margin: 0;
+    }
+}

@@ -80,6 +80,14 @@ export default class RegistrationModel extends NodeModel.extend() {
 
     @hasMany('registration', { inverse: 'parent' })
     children!: DS.PromiseManyArray<RegistrationModel>;
+
+    @belongsTo('registration', { inverse: null })
+    root!: DS.PromiseObject<NodeModel> & NodeModel;
+
+    @computed('root')
+    get isRoot() {
+        return !this.belongsTo('root').id();
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

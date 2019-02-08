@@ -4,10 +4,13 @@ import Component from '@ember/component';
 import { allSettled, task } from 'ember-concurrency';
 import I18N from 'ember-i18n/services/i18n';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import layout from './template';
+import styles from './styles';
+import template from './template';
 
+@layout(template, styles)
 export default class AncestryDisplay extends Component.extend({
     getAncestors: task(function *(this: AncestryDisplay) {
         if (!this.node) {
@@ -50,8 +53,6 @@ export default class AncestryDisplay extends Component.extend({
         return ancestors;
     }).restartable(),
 }) {
-    layout = layout;
-
     @service i18n!: I18N;
 
     // Required arguments
@@ -59,7 +60,6 @@ export default class AncestryDisplay extends Component.extend({
 
     // Optional arguments
     delimiter?: string = defaultTo(this.delimiter, '/');
-    useLinks?: boolean = defaultTo(this.useLinks, false);
 
     @alias('getAncestors.lastComplete.value') ancestry!: string[];
 

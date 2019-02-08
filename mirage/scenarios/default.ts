@@ -4,7 +4,11 @@ import config from 'ember-get-config';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
-import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
+import {
+    draftRegisterNodeMultiple,
+    forkNode,
+    registerNodeMultiple,
+} from '../helpers';
 
 const {
     dashboard: {
@@ -56,11 +60,15 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
     // node ancestry
-    const parent = server.create('node', { id: 'ezcuj' });
-    server.create('contributor', { node: parent, users: currentUser });
-    const child = server.create('node', { parent, id: 'ezcuj1' });
-    const grandChild = server.create('node', { parent: child, root: parent, id: 'ezcuj2' });
-    server.create('node', { parent: grandChild, root: parent, id: 'ezcuj3' });
+    // const parent = server.create('registration', { id: 'ezcuj' });
+    // server.create('contributor', { node: reg, users: currentUser });
+    // const child = server.create('registration', {
+    //     parent: reg,
+    //     id: 'ezcuj1',
+    //     title: 'Exploratory analyses conducted after observing the data. Therefore, creating a research plan in which existing data will be used',
+    // });
+    // const grandChild = server.create('registration', { parent: child, root: reg, id: 'ezcuj2', title: 'Presents unique challenges. Please select the description that best describes your situation. Please do not hesitate to contact us if you have'});
+    // server.create('registration', { parent: grandChild, root: reg, id: 'ezcuj3' });
 }
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {

@@ -1,0 +1,32 @@
+.Titles {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+
+}
+
+.AncestorTitle {
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    a {
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+            outline: 0;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .AncestorTitle {
+        max-width: 280px;
+    }
+}
+
+
+.delimiter {
+    padding: 0 8px;
+}

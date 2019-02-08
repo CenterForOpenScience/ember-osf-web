@@ -1,8 +1,0 @@
-{{#each ancestry as |ancestor index|}}
-    {{#if (and useLinks ancestor.id)}}
-        <a href='/{{ancestor.id}}' data-test-ancestor-title={{index}}>{{ancestor.title}}</a> {{delimiter}}
-    {{else}}
-        {{ancestor.title}} {{delimiter}}
-    {{/if}}
-{{/each}}
-<strong data-test-node-title>{{node.title}}</strong>
