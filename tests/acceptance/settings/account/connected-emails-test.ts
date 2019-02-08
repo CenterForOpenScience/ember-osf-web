@@ -1,10 +1,10 @@
-import { click, fillIn, visit } from '@ember/test-helpers';
+import { fillIn, visit } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 module('Acceptance | settings | account information page', hooks => {
     setupOSFApplicationTest(hooks);
@@ -83,15 +83,11 @@ module('Acceptance | settings | account information page', hooks => {
         const { emailAddress } = user.emails.models[1];
 
         await visit('/settings/account');
-
         assert.dom(`[data-test-alternate-email-item='${emailAddress}']`).exists();
 
         await click('[data-test-make-primary]');
         await percySnapshot(assert);
-
-        const primaryEmail = (document.querySelector('[data-test-primary-email]') as HTMLElement).innerText;
-
-        assert.equal(primaryEmail, emailAddress);
+        assert.dom('[data-test-primary-email]').hasText(emailAddress);
     });
 
     // test resend_confirmation url
