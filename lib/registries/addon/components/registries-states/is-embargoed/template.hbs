@@ -1,0 +1,44 @@
+<OsfButton
+    @type='link'
+    @class={{local-class 'ModalTrigger'}}
+    @onClick={{action (mut this.showModal) true}}
+>
+    {{t 'registries.overview.embargoed.action'}}
+</OsfButton>
+
+{{#if this.showModal}}
+    <BsModal
+        @tagName='span'
+        @onSubmit={{action (perform this.endEmbargo)}}
+        @onHide={{action this.close}}
+        @renderInPlace={{true}}
+        as |modal|
+    >
+        <modal.header>
+            <h3>{{t 'registries.overview.embargoed.action'}}</h3>
+        </modal.header>
+
+        <modal.body>
+            <p>
+                {{t 'registries.overview.embargoed.confirm_text'}}
+            </p>
+        </modal.body>
+
+        <modal.footer>
+            <OsfButton
+                @disabled={{this.endEmbargo.isRunning}}
+                @onClick={{action modal.close}}
+            >
+                {{t 'general.cancel'}}
+            </OsfButton>
+            <OsfButton
+                data-analytics-name='Terminate embargo early'
+                @type='danger'
+                @class={{local-class 'ConfirmButton'}}
+                @onClick={{action modal.submit}}
+            >
+                {{t 'registries.overview.embargoed.confirm_button_text'}}
+            </OsfButton>
+        </modal.footer>
+    </BsModal>
+{{/if}}

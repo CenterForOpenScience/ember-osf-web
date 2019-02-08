@@ -56,12 +56,14 @@
         </div>
     </div>
 
-    <div local-class='Field'>
-        <h4>{{t 'registries.registration_metadata.category'}}</h4>
-        <div data-test-registries-metadata='category'>
-            {{t (concat 'node_categories.' this.registration.category)}}
+    {{#if this.registration.category}}
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.category'}}</h4>
+            <div data-test-registries-metadata='category'>
+                {{t (concat 'node_categories.' this.registration.category)}}
+            </div>
         </div>
-    </div>
+    {{/if}}
 
     {{#if @extendedFields}}
         <div local-class='Field'>
@@ -81,9 +83,11 @@
             <h4>{{t 'registries.registration_metadata.publication_doi'}}</h4>
         </div>
         --}}
+        {{!--
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.affiliated_institutions'}}</h4>
         </div>
+        --}}
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.license'}}</h4>
             {{#if this.registration.license}}
@@ -131,9 +135,11 @@
                 @readOnly={{true}}
             />
         </div>
+        {{!--
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.citation'}}</h4>
             {{! TODO EMB-448 }}
         </div>
+        --}}
     {{/if}}
 </div>

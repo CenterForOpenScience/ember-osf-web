@@ -3,14 +3,21 @@
         <LoadingIndicator @dark={{true}} />
     </div>
 {{else}}
+    <RegistriesBanner @node={{this.registration}} />
     <div local-class='TitleBackground'>
         <Container>
-            <h1
-                data-test-registration-title
-                local-class='Title'
-            >
-                {{this.registration.title}}
-            </h1>
+            <div local-class='TitleContainer'>
+                <div local-class='Title' data-test-registration-title>{{this.registration.title}}</div>
+                {{#unless this.showMobileView}}
+                    <div local-class='Toolbar' data-analytics-scope='Registries Overview Toolbar'>
+                        <RegistriesOverviewMenu
+                            @registrationURL={{this.registrationURL}}
+                            @forksCount={{this.forksCount}}
+                            @node={{this.registration}}
+                        />
+                    </div>
+                {{/unless}}
+            </div>
         </Container>
     </div>
 
@@ -51,7 +58,7 @@
             </div>
         {{/let}}
     {{else}}
-        {{#if this.showMobileNav}}
+        {{#if this.showMobileView}}
             <Navbar as |nav|>
                 <nav.bordered-section>
 
@@ -64,21 +71,27 @@
                     </nav.buttons.default>
 
                 </nav.bordered-section>
-
                 <nav.bordered-section>
-
-                    <nav.buttons.default>
-                        {{nav.icon 'eye'}}
-                        {{nav.icon 'caret-down'}}
-                    </nav.buttons.default>
+                    <RegistriesStates @node={{this.registration}} />
 
                     <nav.buttons.default @onclick={{action 'toggleMetadata'}}>
                         {{nav.icon 'info-circle'}}
                     </nav.buttons.default>
 
-                    <nav.buttons.default>
-                        {{nav.icon 'ellipsis-v'}}
-                    </nav.buttons.default>
+                    {{#sharing-icons/dropdown
+                        title=this.registration.title
+                        description=this.registration.description
+                        hyperlink=this.registrationURL
+                        showText=true
+                        showBookmark=true
+                        node=this.registration
+                        as |dd|}}
+                        {{#dd.trigger}}
+                            <nav.buttons.default>
+                                {{nav.icon (if dd.isOpen 'times' 'ellipsis-v') }}
+                            </nav.buttons.default>
+                        {{/dd.trigger}}
+                    {{/sharing-icons/dropdown}}
 
                 </nav.bordered-section>
             </Navbar>
@@ -109,14 +122,12 @@
                             @href='/{{this.registration.id}}/files/'
                             @icon='file-text'
                             @label={{t 'registries.overview.external_links.files'}}
-                            @count={{50}}
                         />
                         <nav.link
                             data-analytics-name='Wiki'
                             @href='/{{this.registration.id}}/wiki/'
                             @icon='window-maximize'
                             @label={{t 'registries.overview.external_links.wiki'}}
-                            @count={{4}}
                         />
                         <nav.link
                             data-analytics-name='Components'

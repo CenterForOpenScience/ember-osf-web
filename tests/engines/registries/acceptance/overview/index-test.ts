@@ -34,6 +34,7 @@ module('Registries | Acceptance | overview.index', hooks => {
             archiving: false,
             withdrawn: false,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: ['admin'],
         }, 'withContributors'));
     });
 
