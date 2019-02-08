@@ -19,7 +19,7 @@ export function createFork(this: HandlerContext, schema: Schema) {
 
     const userId = schema.roots.first().currentUserId;
     const currentUser = schema.users.find(userId);
-    node.contributors.models.forEach((contributor: any) => {
+    node.contributors.models.forEach(contributor => {
         schema.contributors.create({ node: fork, users: contributor.users });
     });
     schema.contributors.create({ node: fork, users: currentUser, index: 0 });
@@ -43,7 +43,7 @@ export function createRegistrationFork(this: HandlerContext, schema: Schema) {
 
     const userId = schema.roots.first().currentUserId;
     const currentUser = schema.users.find(userId);
-    registration.contributors.models.forEach((contributor: any) => {
+    registration.contributors.models.forEach(contributor => {
         schema.contributors.create({ node: fork, users: contributor.users });
     });
     schema.contributors.create({ node: fork, users: currentUser, index: 0 });

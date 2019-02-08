@@ -109,7 +109,7 @@ export function forkRegistration(
         },
         ...traits,
     );
-    registration.contributors.models.forEach((contributor: any) =>
+    registration.contributors.models.forEach(contributor =>
         server.create('contributor', { node: nodeFork, users: contributor.users }));
     return nodeFork;
 }
