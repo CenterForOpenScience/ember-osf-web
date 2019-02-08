@@ -12,6 +12,8 @@ import { selectChoose } from 'ember-power-select/test-support';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
+import Node from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -79,7 +81,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             await click('[data-test-stay-here]');
             const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(newFiles.length, files.length - 1);
-            const newNode = server.schema.nodes.findBy({ title });
+            const newNode = server.schema.nodes.findBy<Node>({ title });
             assert.equal(newNode.attrs.public, true, 'Projects created from quickfiles should be public.');
         });
 
@@ -146,7 +148,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             );
             server.create(
                 'contributor',
-                { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+                { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
             );
 
             await visit(`--user/${currentUser.id}/quickfiles`);
@@ -189,7 +191,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                     node,
                     users: currentUser,
                     index: 0,
-                    permission: 'admin',
+                    permission: Permission.Admin,
                     bibliographic: true,
                 },
             );
@@ -226,7 +228,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             );
             server.create(
                 'contributor',
-                { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+                { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
             );
             server.loadFixtures('regions');
 
@@ -261,7 +263,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             );
             server.create(
                 'contributor',
-                { node, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+                { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
             );
             server.loadFixtures('regions');
 

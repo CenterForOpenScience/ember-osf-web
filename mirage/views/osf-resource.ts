@@ -47,7 +47,7 @@ export function osfResource(
             const models = schema[mirageModelName]
                 .where(m => filter(m, request))
                 .models
-                .map((m: any) => this.serialize(m).data);
+                .map(m => this.serialize(m).data);
 
             return process(schema, request, this, models, options);
         });
@@ -98,7 +98,7 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
                 .find(request.params.parentID)[relationshipName]
                 .models
                 .filter((m: ModelInstance) => filter(m, request))
-                .map((model: any) => this.serialize(model).data);
+                .map((model: ModelInstance) => this.serialize(model).data);
             return process(schema, request, this, data, { defaultSortKey: opts.defaultSortKey });
         });
     }
