@@ -23,7 +23,7 @@
         height: 100%;
         overflow-y: auto;
         // Must be lower than the drawer's z-index
-        z-index: 15;
+        z-index: 2;
 
         &[data-gutter-closed='true'] {
             transform: translateX($modifier * 100%);
@@ -35,7 +35,7 @@
         #{$side}: 0; // Fix side to the edges of the parent element
         height: 100%;
         overflow-y: auto;
-        z-index: 20;
+        z-index: 3;
 
         // Display a box shadow to either side when opened
         &[data-gutter-closed='false'] {

@@ -71,7 +71,7 @@ export enum NodeType {
 export default class NodeModel extends BaseFileItem.extend(Validations, CollectableValidations) {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
-    @attr('fixstring') category!: string;
+    @attr('node-category') category!: string;
     @attr('array') currentUserPermissions!: Permission[];
     @attr('boolean') currentUserIsContributor!: boolean;
     @attr('boolean') fork!: boolean;
