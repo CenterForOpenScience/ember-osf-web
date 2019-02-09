@@ -18,6 +18,13 @@
         color: $color-grey;
     }
 
+    .help-block {
+        border: 1px solid #eee;
+        border-radius: 0;
+        background-color: $color-hover;
+        color: $color-grey;
+    }
+
     .tos-checkbox {
         margin-top: 20px;
     }
