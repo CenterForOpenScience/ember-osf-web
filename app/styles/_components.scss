@@ -5,106 +5,6 @@
 // stylelint-disable selector-no-qualifying-type, selector-max-id, declaration-property-value-blacklist, selector-max-compound-selectors, max-nesting-depth
 
 /* PROJECT NAVIGATION */
-.osf-project-navbar {
-    position: fixed;
-    width: 100%;
-    left: 0;
-    top: 50px;
-    background-color: #eee;
-    z-index: 99;
-    box-shadow: 0 0 9px -1px #838383;
-    border-radius: 0;
-    border: none;
-    min-height: 40px !important;
-}
-
-.osf-project-navbar li>a {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    font-size: 15px;
-}
-
-.osf-project-navbar .navbar-nav {
-    li>a:hover {
-        background-color: #dadada;
-    }
-
-    li>a:focus {
-        background-color: #eee;
-    }
-
-    .active>a:focus {
-        background-color: #337ab7;
-    }
-}
-
-.osf-project-navbar li.active,
-.osf-project-navbar li.active a:hover,
-.osf-project-navbar li:hover {
-    background-color: #337ab7;
-}
-
-.osf-project-navbar li.active a {
-    color: #f8f8f8;
-}
-
-.osf-project-navbar a.project-title {
-    font-weight: 300;
-    font-size: 20px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.osf-project-navbar li>a {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-@media (max-width: 767px) {
-    .osf-project-navbar li>a {
-        padding-left: 30px;
-        padding-right: 30px;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-    .osf-project-navbar li>a {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-
-    .osf-project-navbar a.project-title {
-        max-width: 190px;
-    }
-}
-
-@media (min-width: 992px) {
-    .osf-project-navbar a.project-title {
-        max-width: 300px;
-    }
-
-    .navbar-nav>li>a {
-        padding-top: 11px;
-        padding-bottom: 11px;
-    }
-
-    #secondary-navigation {
-        /* necessary for the parent flexbox container to shrink smaller than the child element's text */
-        min-width: 0;
-        margin-left: auto;
-    }
-
-    #secondary-navigation .navbar-nav>li>a {
-        line-height: 27px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .osf-project-navbar a.project-title {
-        max-width: 400px;
-    }
-}
 
 @media (max-width: 992px) {
     #navbarScope div.container {
@@ -213,7 +113,6 @@
     border-radius: 13px;
     margin-right: 5px;
 }
-
 
 /*
  * Bootstrap Overrides
