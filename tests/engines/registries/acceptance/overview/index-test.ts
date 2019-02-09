@@ -6,7 +6,9 @@ import { percySnapshot } from 'ember-percy';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
+import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine, setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
@@ -31,7 +33,10 @@ module('Registries | Acceptance | overview.index', hooks => {
     hooks.beforeEach(function(this: OverviewTestContext) {
         server.loadFixtures('registration-schemas');
         this.set('registration', server.create('registration', {
-            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            archiving: false,
+            withdrawn: false,
+            registrationSchema: server.schema.registrationSchemas.find<RegistrationSchema>('prereg_challenge'),
+            currentUserPermissions: [Permission.Admin],
         }, 'withContributors'));
     });
 
@@ -91,5 +96,33 @@ module('Registries | Acceptance | overview.index', hooks => {
 
             assert.dom(testCase.selector).hasAttribute('href', testCase.href, 'Non-ember routes have the correct href');
         }
+    });
+
+    test('withdrawn tombstone', async function(this: OverviewTestContext, assert: Assert) {
+        this.registration.update('withdrawn', true);
+        const url = `/${this.registration.id}`;
+        await visit(url);
+        await percySnapshot(assert);
+
+        assert.equal(currentURL(), url, 'At the correct URL');
+        assert.dom('[data-test-registration-title]').hasText(this.registration.title, 'Correct title');
+        assert.dom('[data-test-tombstone-title]').hasText(
+            'This registration has been withdrawn for the reason(s) stated below.',
+            'Correct tombstone title',
+        );
+    });
+
+    test('archiving tombstone', async function(this: OverviewTestContext, assert: Assert) {
+        this.registration.update('archiving', true);
+        const url = `/${this.registration.id}`;
+        await visit(url);
+        await percySnapshot(assert);
+
+        assert.equal(currentURL(), url, 'At the correct URL');
+        assert.dom('[data-test-registration-title]').hasText(this.registration.title, 'Correct title');
+        assert.dom('[data-test-tombstone-title]').hasText(
+            'This registration is currently archiving, and no changes can be made at this time.',
+            'Correct tombstone title',
+        );
     });
 });

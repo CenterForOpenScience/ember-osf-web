@@ -1,40 +1,38 @@
 import { faker, ModelAttrs, ModelInstance, Server } from 'ember-cli-mirage';
 
-import Contributor from 'ember-osf-web/models/contributor';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import Node from 'ember-osf-web/models/node';
-import Registration from 'ember-osf-web/models/registration';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 import { DraftRegistrationTraits } from './factories/draft-registration';
-import { NodeTraits } from './factories/node';
+import { MirageNode, NodeTraits } from './factories/node';
+import { MirageRegistration, RegistrationTraits } from './factories/registration';
 
 export function registerNode(
     server: Server,
-    node: ModelInstance<Node>,
-    props: Partial<ModelAttrs<Registration>> = {},
+    node: ModelInstance<MirageNode>,
+    props: Partial<ModelAttrs<MirageRegistration>> = {},
     ...traits: string[] // tslint:disable-line trailing-comma
 ) {
-    const registration = server.create<Registration>('registration', {
+    const registration = server.create('registration', {
         registeredFrom: node,
         category: node.category,
         title: node.title,
         description: node.description,
         registrationSchema: faker.random.arrayElement(
-            server.schema.registrationSchemas.all().models as Array<ModelInstance<RegistrationSchema>>,
+            server.schema.registrationSchemas.all<RegistrationSchema>().models,
         ),
         ...props,
     }, ...traits);
-    node.contributors.models.forEach((contributor: any) =>
-        server.create<Contributor>('contributor', { node: registration, users: contributor.users }));
+    node.contributors.models.forEach(contributor =>
+        server.create('contributor', { node: registration, users: contributor.users }));
     return registration;
 }
 
 export function registerNodeMultiple(
     server: Server,
-    node: ModelInstance<Node>,
+    node: ModelInstance<MirageNode>,
     count: number,
-    props: Partial<ModelAttrs<Registration>> = {},
+    props: Partial<ModelAttrs<MirageRegistration>> = {},
     ...traits: string[] // tslint:disable-line trailing-comma
 ) {
     const registrations = [];
@@ -46,15 +44,15 @@ export function registerNodeMultiple(
 
 export function draftRegisterNode(
     server: Server,
-    node: ModelInstance<Node>,
+    node: ModelInstance<MirageNode>,
     props: Partial<ModelAttrs<DraftRegistration>> = {},
     ...traits: Array<keyof DraftRegistrationTraits> // tslint:disable-line trailing-comma
 ) {
-    return server.create<DraftRegistration>('draft-registration', {
+    return server.create('draft-registration', {
         branchedFrom: node,
-        initiator: node.contributors.models.length ? node.contributors.models[0].users : null,
+        initiator: node.contributors.models.length ? node.contributors.models[0].users : undefined,
         registrationSchema: faker.random.arrayElement(
-            server.schema.registrationSchemas.all().models as Array<ModelInstance<RegistrationSchema>>,
+            server.schema.registrationSchemas.all<RegistrationSchema>().models,
         ),
         ...props,
     }, ...traits);
@@ -62,7 +60,7 @@ export function draftRegisterNode(
 
 export function draftRegisterNodeMultiple(
     server: Server,
-    node: ModelInstance<Node>,
+    node: ModelInstance<MirageNode>,
     count: number,
     props: Partial<ModelAttrs<DraftRegistration>> = {},
     ...traits: Array<keyof DraftRegistrationTraits> // tslint:disable-line trailing-comma
@@ -76,11 +74,11 @@ export function draftRegisterNodeMultiple(
 
 export function forkNode(
     server: Server,
-    node: ModelInstance<Node>,
-    props: Partial<ModelAttrs<Node>> = {},
+    node: ModelInstance<MirageNode>,
+    props: Partial<ModelAttrs<MirageNode>> = {},
     ...traits: Array<keyof NodeTraits> // tslint:disable-line trailing-comma
 ) {
-    const nodeFork = server.create<Node>('node', {
+    const nodeFork = server.create('node', {
         forkedFrom: node,
         category: node.category,
         fork: true,
@@ -88,7 +86,30 @@ export function forkNode(
         description: node.description,
         ...props,
     }, ...traits);
-    node.contributors.models.forEach((contributor: any) =>
-        server.create<Contributor>('contributor', { node: nodeFork, users: contributor.users }));
+    node.contributors.models.forEach(contributor =>
+        server.create('contributor', { node: nodeFork, users: contributor.users }));
+    return nodeFork;
+}
+
+export function forkRegistration(
+    server: Server,
+    registration: ModelInstance<MirageRegistration>,
+    props: Partial<ModelAttrs<MirageNode>> = {},
+    ...traits: Array<keyof RegistrationTraits> // tslint:disable-line trailing-comma
+) {
+    const nodeFork = server.create(
+        'node',
+        {
+            forkedFrom: registration,
+            category: registration.category,
+            fork: true,
+            title: `Fork of ${registration.title}`,
+            description: registration.description,
+            ...props,
+        },
+        ...traits,
+    );
+    registration.contributors.models.forEach(contributor =>
+        server.create('contributor', { node: nodeFork, users: contributor.users }));
     return nodeFork;
 }

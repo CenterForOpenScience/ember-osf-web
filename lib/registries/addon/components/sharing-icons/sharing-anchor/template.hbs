@@ -1,0 +1,8 @@
+{{#if this.href}}
+    <a data-analytics-name={{@analyticsName}} href={{this.href}}>
+        <FaIcon @icon={{@icon}} @fixedWidth={{true}} />
+        {{#if @showText}}
+            {{@medium}}
+        {{/if}}
+    </a>
+{{/if}}

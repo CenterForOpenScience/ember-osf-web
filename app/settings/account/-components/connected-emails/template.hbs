@@ -1,5 +1,8 @@
 {{#let (component 'paginated-list/has-many') as |HasManyList|}}
-    <Panel as |panel|>
+    <Panel
+        data-analytics-scope='Connected emails panel'
+        as |panel|
+    >
         <panel.heading @title={{t 'settings.account.connected_emails.title'}} />
         <panel.body>
             <div local-class='section-container'>
@@ -44,6 +47,7 @@
                                             <div local-class='options'>
                                                 <BsButton
                                                     data-test-make-primary
+                                                    data-analytics-name='Make primary'
                                                     @onClick={{action this.makePrimary email}}
                                                 >
                                                     {{t 'settings.account.connected_emails.make_primary'}}
@@ -97,6 +101,7 @@
                                             <div local-class='options'>
                                                 <BsButton
                                                     data-test-resend-confirmation-button
+                                                    data-analytics-name='Resend confirmation'
                                                     @onClick={{action this.toggleMergeModal}}
                                                 >
                                                     {{t 'settings.account.connected_emails.resend_confirmation'}}
@@ -119,14 +124,18 @@
                                                         </p>
                                                     </modal.body>
 
-                                                    <modal.footer>
+                                                    <modal.footer
+                                                        data-analytics-scope='Merge modal'
+                                                    >
                                                         <BsButton
                                                             data-test-close-modal
+                                                            data-analytics-name='Close modal'
                                                             @onClick={{action this.toggleMergeModal}}
                                                             @defaultText={{t 'general.cancel'}}
                                                         />
                                                         <BsButton
                                                             data-test-resend-confirmation
+                                                            data-analytics-name='Resend confirmation'
                                                             @type='primary'
                                                             @onClick={{action this.resendConfirmation email}}
                                                             @defaultText={{t 'settings.account.connected_emails.resend_confirmation_modal.resend_button'}}
@@ -156,6 +165,7 @@
                     {{t 'settings.account.connected_emails.merge_explanation'}}
                 </p>
                 <ValidatedModelForm
+                    data-analytics-scope='Add email form'
                     @onSave={{action this.onSave}}
                     @onError={{action this.onError}}
                     @modelName='userEmail'
@@ -170,7 +180,9 @@
                         @placeholder={{t 'settings.account.connected_emails.placeholder_text'}}
                         @ariaLabel={{t 'settings.account.connected_emails.placeholder_text'}}
                     />
-                    <BsButton data-test-add-email-button
+                    <BsButton 
+                        data-test-add-email-button
+                        data-analytics-name='add email'
                         @buttonType='submit'
                         @local-class='add-email-button'
                     >
@@ -195,9 +207,12 @@
                         </p>
                     </modal.body>
 
-                    <modal.footer>
+                    <modal.footer
+                        data-analytics-scope='Add email modal'
+                    >
                         <BsButton
                             data-test-close-modal
+                            data-analytics-name='Close modal'
                             @onClick={{action this.toggleAddModal}}
                             @defaultText={{t 'general.close'}}
                         />

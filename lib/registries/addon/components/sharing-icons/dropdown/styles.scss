@@ -1,0 +1,44 @@
+
+.Dropdown__list {
+    background-color: $color-bg-white;
+    padding: 10px 20px;
+    border-radius: 0;
+    box-shadow: 0 1px 2px $primary-box-shadow;
+    border: 1px solid $alto;
+    border-color: transparent;
+    background-size: cover;
+    list-style: none;
+    min-width: 160px;
+    margin: 0;
+
+    a {
+        display: block;
+    }
+}
+
+.Dropdown__option {
+    color: $primary-blue;
+    font-size: 14px;
+    line-height: 2.2;
+
+    & {
+        a:hover,
+        a:focus,
+        :global(.btn-link):hover,
+        :global(.btn-link):focus {
+            text-decoration: none;
+            color: $secondary-blue;
+            outline: 0;
+        }
+
+        i {
+            padding-right: 6px;
+            font-size: 16px;
+        }
+
+        :global(.btn-link) {
+            padding: 0;
+            border: 0;
+        }
+    }
+}

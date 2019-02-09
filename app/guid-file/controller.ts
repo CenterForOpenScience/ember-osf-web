@@ -166,23 +166,8 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    async openFile(file: File) {
-        const guid = file.guid || await file.getGuid();
-
+    async openFile() {
         this.set('revision', null);
-        this.transitionToRoute('guid-file', guid, { queryParams: { show: 'view' } });
-    }
-
-    @action
-    addTag(tag: string) {
-        this.file.set('tags', [...this.file.tags, tag].sort());
-        this.file.save();
-    }
-
-    @action
-    removeTag(index: number) {
-        this.file.set('tags', this.file.tags.slice().removeAt(index));
-        this.file.save();
     }
 
     @action

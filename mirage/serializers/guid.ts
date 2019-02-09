@@ -13,7 +13,7 @@ export default class GuidSerializer extends ApplicationSerializer<SerializedGuid
     attrs = [];
 
     buildRelationships(guid: ModelInstance<SerializedGuid>) {
-        const pluralizedType = pluralize(guid.referentType);
+        const pluralizedType = pluralize(guid.referentType!);
         const referent = guid._schema[pluralizedType].find(guid.id);
         const typeKey = this.typeKeyForModel(referent);
         return {

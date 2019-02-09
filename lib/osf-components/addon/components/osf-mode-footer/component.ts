@@ -1,5 +1,7 @@
+import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import RouterService from '@ember/routing/router-service';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -22,7 +24,15 @@ import template from './template';
 @layout(template, styles)
 export default class OsfModeFooter extends Component {
     @service analytics!: Analytics;
+    @service router!: RouterService;
 
     showDevBanner = config.showDevBanner;
     showModal = false;
+    showUrlInput = false;
+    url: string = '/';
+
+    @action
+    transitionToUrl() {
+        this.router.transitionTo(this.url);
+    }
 }

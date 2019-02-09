@@ -17,6 +17,8 @@
                     <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
                 {{else if @node.pendingWithdrawal}}
                     <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdrawl'}}</span> |
+                {{else if @node.pendingEmbargoTerminationApproval}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
                 {{else if @node.embargoed}}
                     <span class='label label-info'>{{t 'node_card.registration.statuses.embargoed'}}</span> |
                 {{else if @node.pendingEmbargoApproval}}
@@ -41,7 +43,11 @@
         </span>
         {{#if @node}}
             {{#if this.showDropdown}}
-                <div class='pull-right generic-dropdown' local-class='NodeCard__dropdown'>
+                <div
+                    data-test-node-menu
+                    class='pull-right generic-dropdown'
+                    local-class='NodeCard__dropdown'
+                >
                     <BsDropdown as |dd|>
                         <dd.button local-class='NodeCard__dropdown-button'>
                             <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
@@ -108,9 +114,8 @@
                 <div local-class='NodeCard__tags'>
                     <strong>{{t 'node_card.tags'}}</strong>
                     <TagsWidget
-                        @tags={{@node.tags}}
+                        @taggable={{@node}}
                         @inline={{true}}
-                        @readOnly={{true}}
                     />
                 </div>
             {{/if}}

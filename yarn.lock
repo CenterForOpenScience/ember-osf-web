@@ -5858,6 +5858,15 @@ ember-basic-dropdown@^1.0.0:
     ember-cli-htmlbars "^2.0.3"
     ember-maybe-in-element "^0.1.3"
 
+ember-basic-dropdown@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ember-basic-dropdown/-/ember-basic-dropdown-1.0.3.tgz#bd785c84ea2b366951e0630f173c84677ed53b6c"
+  integrity sha512-KADH7ODEuAydTZ45+WVoA13iXGYeS1sE7D8tcfM2RMJ6MyW+KqjGD5jDTZEc8UtDDFtVRTh8cmTCQfWikxUfxg==
+  dependencies:
+    ember-cli-babel "^6.12.0"
+    ember-cli-htmlbars "^2.0.3"
+    ember-maybe-in-element "^0.1.3"
+
 ember-bootstrap-datepicker@^2.0.8:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/ember-bootstrap-datepicker/-/ember-bootstrap-datepicker-2.0.8.tgz#db9f009c9a5ee972adb89f8037eb5b5557a6ae20"

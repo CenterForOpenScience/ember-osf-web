@@ -168,7 +168,7 @@ export default class OsfModel extends Model {
         relationshipName: RelationshipsFor<T> & string,
         relatedModel: OsfModel,
     ) {
-        return this.modifyM2MRelationship('create', relationshipName, relatedModel);
+        return this.modifyM2MRelationship('post', relationshipName, relatedModel);
     }
 
     async deleteM2MRelationship<T extends OsfModel>(
@@ -181,7 +181,7 @@ export default class OsfModel extends Model {
 
     async modifyM2MRelationship<T extends OsfModel>(
         this: T,
-        action: 'create' | 'delete',
+        action: 'post' | 'delete',
         relationshipName: RelationshipsFor<T> & string,
         relatedModel: OsfModel,
     ) {
@@ -229,7 +229,7 @@ export default class OsfModel extends Model {
 
         // Get related count with sparse fieldset.
         const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX({
-            url: getHref(this.links.self),
+            url: getHref(this.links.self!),
             data: {
                 related_counts: apiRelationshipName,
                 [`fields[${apiModelName}]`]: apiRelationshipName,

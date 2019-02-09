@@ -17,6 +17,7 @@ import CommentModel from './comment';
 import ContributorModel from './contributor';
 import DraftRegistrationModel from './draft-registration';
 import FileProviderModel from './file-provider';
+import IdentifierModel from './identifier';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import LogModel from './log';
@@ -70,7 +71,7 @@ export enum NodeType {
 export default class NodeModel extends BaseFileItem.extend(Validations, CollectableValidations) {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
-    @attr('fixstring') category!: string;
+    @attr('node-category') category!: string;
     @attr('array') currentUserPermissions!: Permission[];
     @attr('boolean') currentUserIsContributor!: boolean;
     @attr('boolean') fork!: boolean;
@@ -135,8 +136,9 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @hasMany('node', { inverse: 'forkedFrom' })
     forks!: DS.PromiseManyArray<NodeModel>;
 
-    @belongsTo('node', { inverse: 'forks' })
-    forkedFrom!: DS.PromiseObject<NodeModel> & NodeModel;
+    @belongsTo('node', { inverse: 'forks', polymorphic: true })
+    forkedFrom!: (DS.PromiseObject<NodeModel> & NodeModel) |
+        (DS.PromiseObject<RegistrationModel> & RegistrationModel);
 
     @belongsTo('node', { inverse: null })
     root!: DS.PromiseObject<NodeModel> & NodeModel;
@@ -152,6 +154,9 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
 
     @hasMany('log', { inverse: 'originalNode' })
     logs!: DS.PromiseManyArray<LogModel>;
+
+    @hasMany('identifier', { inverse: null })
+    identifiers!: DS.PromiseManyArray<IdentifierModel>;
 
     // These are only computeds because maintaining separate flag values on
     // different classes would be a headache TODO: Improve.
@@ -215,6 +220,11 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @computed('title')
     get unsafeTitle() {
         return htmlSafe(this.title);
+    }
+
+    @computed('root')
+    get isRoot() {
+        return !this.belongsTo('root').id();
     }
 
     // BaseFileItem override

@@ -5,6 +5,8 @@ import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { module, test } from 'qunit';
 
+import { MirageNode } from 'ember-osf-web/mirage/factories/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 const {
@@ -167,15 +169,15 @@ module('Acceptance | dashboard', hooks => {
         );
         server.create(
             'contributor',
-            { node: nodeOne, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeOne, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeTwo, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeTwo, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeThree, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         await visit('/dashboard');
 
@@ -235,15 +237,15 @@ module('Acceptance | dashboard', hooks => {
         );
         server.create(
             'contributor',
-            { node: nodeOne, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeOne, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeTwo, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeTwo, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeThree, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         await visit('/dashboard');
 
@@ -286,7 +288,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('div[class*="quick-project"]')
             .doesNotIncludeText('You have no projects yet. Create a project with the button on the top right.');
         assert.dom('div[class*="quick-project"]').includesText(title);
-        const newNode = server.schema.nodes.findBy({ title });
+        const newNode = server.schema.nodes.findBy<MirageNode>({ title });
         assert.equal(newNode.attrs.regionId, 'us');
     });
 
@@ -374,15 +376,15 @@ module('Acceptance | dashboard', hooks => {
         );
         server.create(
             'contributor',
-            { node: nodeOne, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeOne, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeTwo, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeTwo, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         server.create(
             'contributor',
-            { node: nodeThree, users: currentUser, index: 0, permission: 'admin', bibliographic: true },
+            { node: nodeThree, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         await visit('/dashboard');
         assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
@@ -417,7 +419,7 @@ module('Acceptance | dashboard', hooks => {
         await click('[data-test-create-project-submit]');
         await click('[data-test-stay-here]');
 
-        const newNode = server.schema.nodes.findBy({ title });
+        const newNode = server.schema.nodes.findBy<MirageNode>({ title });
         assert.equal(newNode.attrs.description, description);
         assert.equal(newNode.attrs.regionId, 'de-1');
         assert.equal(newNode.attrs.templateFrom, nodeTwo.id);

@@ -1,11 +1,13 @@
 import { HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
 
+import Guid from 'ember-osf-web/models/guid';
+
 import { queryParamIsTruthy } from './utils';
 
 export function guidDetail(this: HandlerContext, schema: Schema, request: Request) {
     const { id } = request.params;
     const { resolve } = request.queryParams;
-    const guid = schema.guids.find(id);
+    const guid = schema.guids.find<Guid>(id);
 
     if (!guid) {
         return new Response(404, {}, {
@@ -15,7 +17,7 @@ export function guidDetail(this: HandlerContext, schema: Schema, request: Reques
     }
 
     if (queryParamIsTruthy(resolve)) {
-        return schema[guid.referentType].find(id);
+        return schema[guid.referentType!].find(id);
     }
 
     return guid;

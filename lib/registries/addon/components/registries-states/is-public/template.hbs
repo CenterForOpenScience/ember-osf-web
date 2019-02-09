@@ -1,0 +1,37 @@
+<div local-class='WithdrawDropdown' data-test-withdrawal-form>
+    <p local-class='header'>{{t 'registries.overview.withdraw.withdraw'}}</p>
+    <p>{{t 'registries.overview.withdraw.warning'}}</p>
+    <p><strong>{{t 'registries.overview.withdraw.withdrawal_justification_label'}}</strong></p>
+    <div class='form-group'>
+        {{textarea
+            class='form-control'
+            rows='4'
+            required=true
+            value=this.withdrawalJustification
+        }}
+    </div>
+    <p>{{t 'registries.overview.withdraw.random_scientist_x' x=this.scientistName}}</p>
+    <div local-class='Container'>
+        <div>
+            {{input
+                class='form-control'
+                required=true
+                value=this.scientistNameInput
+                type='text'
+            }}
+        </div>
+        <div>
+            <OsfButton
+                data-analytics-name='Withdraw registration'
+                @type='danger'
+                @disabled={{this.submitDisabled}}
+                @class={{local-class 'WithdrawalForm__button'}}
+                @onClick={{action (perform this.submitWithdrawal)}}
+                @buttonType='submit'
+                @block={{true}}
+            >
+                {{t 'registries.overview.withdraw.withdraw'}}
+            </OsfButton>
+        </div>
+    </div>
+</div>
