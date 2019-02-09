@@ -447,9 +447,7 @@
         {{#if this.loading}}
             <br>
             <br>
-            <div class='ball-scale ball-dark' style='text-align: center'>
-                <div></div>
-            </div>
+            <LoadingIndicator @dark={{true}} />
         {{else if this.showItems}}
             <div local-class='items'>
                 {{#each this.uploading as |file|}}
