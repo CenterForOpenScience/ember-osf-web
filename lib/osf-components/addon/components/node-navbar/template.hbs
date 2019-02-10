@@ -3,7 +3,7 @@
         @to={{this.secondaryNavbarId}}
         @renderInPlace={{this.renderInPlace}}
     >
-        <nav class='navbar osf-project-navbar' role='navigation'>
+        <nav class='navbar osf-project-navbar' local-class='osf-project-navbar' role='navigation'>
             <div class='container'>
                 <div class='navbar-header'>
 
@@ -30,7 +30,7 @@
                                 {{fa-icon 'level-down' rotate=180}}
                             {{/node-navbar/link}}
                         {{/if}}
-                        {{#node-navbar/link node=@node useLinkTo=false setActive=false extraClasses='project-title'}}
+                        {{#node-navbar/link node=@node useLinkTo=false setActive=false local-class='project-title'}}
                             {{@node.title}}
                         {{/node-navbar/link}}
                         {{node-navbar/link node=@node useLinkTo=false destination='files'}}

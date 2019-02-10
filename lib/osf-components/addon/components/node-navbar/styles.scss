@@ -7,3 +7,134 @@
 .NodeNavbar__navbar-buffer {
     padding-top: 42px;
 }
+
+.NodeNavbar__navbar-buffer {
+    padding-top: 42px;
+}
+
+// From _components.scss
+
+.osf-project-navbar {
+    position: fixed !important;
+    width: 100%;
+    left: 0;
+    top: 50px;
+    background-color: #eee;
+    z-index: 99;
+    box-shadow: 0 0 9px -1px #838383;
+    border: 0 !important;
+    min-height: 40px !important;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.osf-project-navbar .project-title a {
+    font-weight: 300;
+    font-size: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 300px;
+}
+
+.osf-project-navbar li>a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 15px;
+}
+
+.navbar-nav {
+    margin: 7.5px -15px;
+}
+
+.navbar-nav>li {
+    float: none;
+}
+
+.navbar-nav>li>a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+// stylelint-disable selector-max-compound-selectors
+
+.osf-project-navbar .navbar-nav {
+    li>a:hover {
+        background-color: #dadada;
+    }
+
+    li>a:focus {
+        background-color: #eee;
+    }
+
+    :global(.active)>a:focus {
+        background-color: #337ab7;
+    }
+}
+
+// stylelint-enable selector-max-compound-selectors
+
+.osf-project-navbar li:global(.active),
+.osf-project-navbar li:global(.active) a:hover,
+.osf-project-navbar li:hover {
+    background-color: #337ab7;
+}
+
+.osf-project-navbar li:global(.active) a {
+    color: #f8f8f8;
+}
+
+@media (max-width: 767px) {
+    .osf-project-navbar li>a {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .osf-project-navbar li>a {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    // stylelint-disable selector-no-qualifying-type
+    .osf-project-navbar a.project-title {
+        max-width: 190px;
+    }
+}
+
+@media (min-width: 992px) {
+    .osf-project-navbar a.project-title {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .osf-project-navbar a.project-title {
+        max-width: 400px;
+    }
+    // stylelint-enable selector-no-qualifying-type
+}
+
+
+@media (min-width: 993px) {
+    .nav.navbar-nav {
+        display: flex;
+        float: none;
+    }
+
+    .nav.navbar-nav>li {
+        white-space: nowrap;
+        float: none;
+    }
+
+    .nav.navbar-nav .dropdown.secondary-nav-dropdown {
+        /* necessary for the parent flexbox container to shrink smaller than the child element's text */
+        min-width: 0;
+    }
+
+    .dropdown .btn-link {
+        display: flex;
+        align-items: center;
+    }
+}

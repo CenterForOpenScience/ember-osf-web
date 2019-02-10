@@ -25,3 +25,121 @@ body > :global(.ember-view) {
 .modal {
     overflow-y: auto !important;
 }
+
+/*
+ * Bootstrap Overrides
+ */
+
+// stylelint-disable selector-no-qualifying-type, selector-max-id, declaration-property-value-blacklist, selector-max-compound-selectors, max-nesting-depth
+
+.btn-default {
+    background-color: $bg-light;
+}
+
+.btn {
+    border-radius: $radius;
+}
+
+.form-control {
+    border-radius: $radius;
+}
+
+/* FLAT PANELS */
+.panel {
+    border-radius: 0;
+}
+
+.panel-heading {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.panel-footer {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.panel-title {
+    display: inline-block;
+    float: left;
+    font-weight: 400;
+}
+
+/* FLAT MODALS */
+.modal-footer {
+    border-top: 0;
+}
+
+/* FLAT ALERTS */
+.alert {
+    border-radius: $radius;
+    padding: 10px 15px;
+}
+
+.alert-dismissable,
+.alert-dismissible {
+    padding-right: 35px;
+}
+
+/* FIX BORDER RADIUS ACROSS THE BOARD*/
+.well,
+.progress,
+.modal-content {
+    border-radius: $radius;
+}
+
+/* Normal the heading in modal-header */
+.modal-header>h3 {
+    font-weight: normal;
+}
+
+/* TABS */
+.nav-tabs>li>a {
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 0;
+}
+
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus {
+    background-color: $bg-light;
+    border: none;
+    border-bottom: 2px solid #204762;
+}
+
+.nav-tabs>li>a:hover {
+    border-color: transparent;
+    border-bottom: none;
+}
+
+.nav>li>a:hover,
+.nav>li>a:focus {
+    background-color: $bg-light;
+}
+
+/* Editable Overrides */
+.editable {
+    cursor: pointer !important;
+}
+
+.editable,
+.editable-click {
+    border-bottom: none !important;
+}
+
+.editable:hover {
+    background-color: $color-hover;
+}
+
+/* Progress Bar Sizes Override */
+/* Build Margins */
+@for $i from 1 to 6 {
+    .progress-bar-#{nth($sizes, $i)} {
+        height: unquote(nth($margins, $i) + 'px');
+    }
+}
+
+/* Rounding corners of nav-pills in panels. */
+.panel .nav-pills>li>a {
+    border-radius: 0;
+}

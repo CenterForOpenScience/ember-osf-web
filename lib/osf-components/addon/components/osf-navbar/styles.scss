@@ -2,27 +2,564 @@
     height: 50px;
 }
 
-.NavbarToggleXS {
-    background-color: transparent !important;
-}
-
-.PrimaryNav__toggle {
-    padding: 1px 7px 2px !important;
-}
-
-// The default 340px isn't quite enough for the auth dropdown
-.secondary-navigation {
-    max-height: 400px !important;
-}
-
-@media (min-width: 992px) {
-    .secondary-navigation {
-        /* necessary for the parent flexbox container to shrink smaller than the child element's text */
-        min-width: 0;
-        margin-left: auto !important;
+.OsfNavbar {
+    .NavbarToggleXS {
+        background-color: transparent !important;
     }
 
-    .links > li > a {
-        line-height: 27px !important;
+    .PrimaryNav__toggle {
+        padding: 1px 7px 2px !important;
+    }
+
+    // The default 340px isn't quite enough for the auth dropdown
+    .secondary-navigation {
+        max-height: 400px !important;
+    }
+
+    @media (min-width: 992px) {
+        .secondary-navigation {
+            /* necessary for the parent flexbox container to shrink smaller than the child element's text */
+            min-width: 0;
+            margin-left: auto !important;
+        }
+
+        .links > li {
+            line-height: 27px !important;
+            font-size: 1.2em !important;
+            color: #fff;
+        }
+    }
+
+    /*
+    * Components specific to OSF
+    */
+
+    // stylelint-disable selector-no-qualifying-type, selector-max-id, declaration-property-value-blacklist, selector-max-compound-selectors, max-nesting-depth
+
+    /* PROJECT NAVIGATION */
+
+    @media (max-width: 992px) {
+        #navbarScope div:global(.container) {
+            width: 100%;
+        }
+
+        :global(.navbar-header) {
+            float: none;
+            width: 100%;
+        }
+
+        :global(.navbar-toggle) {
+            display: block;
+        }
+
+        :global(.navbar-toggle.collapsed) {
+            margin-left: auto;
+        }
+
+        :global(.navbar-collapse) {
+            border-top: 1px solid transparent;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            min-width: 0;
+            /* necessary for the parent flexbox container to shrink smaller than the child element's text */
+        }
+
+        :global(.navbar-collapse.collapse) {
+            display: none !important;
+        }
+
+        :global(.navbar-nav) {
+            margin: 7.5px -15px;
+        }
+
+        :global(.navbar-nav)>li {
+            float: none;
+        }
+
+        :global(.navbar-nav)>li>a {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        :global(.navbar-text) {
+            float: none;
+            margin: 15px 0;
+        }
+
+        /* since 3.1.0 */
+        :global(.navbar-collapse.collapse.in) {
+            display: block !important;
+        }
+
+        :global(.collapsing) {
+            overflow: hidden !important;
+        }
+    }
+
+    @media (min-width: 993px) {
+        :global(.nav.navbar-nav) {
+            display: flex;
+            float: none;
+        }
+
+        :global(.nav.navbar-nav)>li {
+            white-space: nowrap;
+            float: none;
+        }
+
+        :global(.nav.navbar-nav .dropdown.secondary-nav-dropdown) {
+            /* necessary for the parent flexbox container to shrink smaller than the child element's text */
+            min-width: 0;
+        }
+
+        :global(.dropdown .btn-link) {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    /* Form Inputs */
+    :global(.navbar-donate-button) a {
+        color: #9cd59c !important;
+    }
+
+    :global(.nav-profile-name) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        float: left;
+        white-space: nowrap;
+    }
+
+    @media (max-width: 1200px) {
+        top: 0;
+        transition: top 0.3s ease-in-out;
+
+        :global(.nav-profile-name) {
+            max-width: 300px;
+        }
+    }
+
+    :global(.osf-profile-image) {
+        float: left;
+    }
+
+    :global(.osf-profile-image)>img {
+        border: 1px solid #cdcdcd;
+        border-radius: 13px;
+        margin-right: 5px;
+    }
+
+    :global(.off) {
+        top: -250px;
+    }
+
+    a {
+        color: #fff;
+    }
+
+    a:hover {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    :global(.btn-top-login),
+    :global(.btn-top-signup) {
+        padding: 2px 30px;
+        margin-top: 5px;
+        line-height: 1.7;
+    }
+
+    // :global(.navbar-brand),
+    // :global(.navbar-nav)>li>a {
+    //     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    // }
+
+    :global(.navbar-inverse) {
+        background-image: linear-gradient(to bottom, rgba(60, 60, 60, 0.5) 0%, rgba(34, 34, 34, 0.5) 100%);
+        background-repeat: repeat-x;
+        border-color: rgba(8, 8, 8, 0.5);
+
+    }
+
+    // :global(.navbar-inverse .navbar-nav>.open)>a,
+    // :global(.navbar-inverse .navbar-nav>.active)>a {
+    //     background-image: linear-gradient(to bottom, rgba(8, 8, 8, 0.5) 0%, rgba(15, 15, 15, 0.5) 100%);
+    //     background-repeat: repeat-x;
+    //     box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.25);
+    //     box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.25);
+    //     padding: 11px 15px;
+    // }
+
+    // :global(.navbar-inverse .navbar-brand),
+    // :global(.navbar-inverse .navbar-nav)>li>a {
+    //     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    // }
+
+    :global(.navbar) {
+        min-height: 50px;
+        margin-bottom: 25px;
+    }
+
+    :global(.navbar-brand) {
+        float: left;
+        padding: 12.5px 15px;
+        font-size: 18px;
+        line-height: 25px;
+        height: 50px;
+    }
+
+    :global(.navbar-inverse) {
+        background-color: #214762;
+    }
+
+
+    :global(.dropdown-menu) {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        list-style: none;
+        font-size: 14px;
+        text-align: left;
+        background-color: rgba(0, 0, 0, 0.9);
+        border: 1px solid #ccc;
+        border: 1px solid rgba(100, 100, 100, 0.3);
+        border-radius: 4px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+    }
+
+    :global(.dropdown-menu.pull-right) {
+        right: 0;
+        left: auto;
+    }
+
+    :global(.dropdown-menu .divider) {
+        height: 1px;
+        margin: 11.5px 0;
+        overflow: hidden;
+        background-color: #e5e5e5;
+    }
+
+    :global(.dropdown-menu)>li>a {
+        display: block;
+        padding: 3px 20px;
+        clear: both;
+        font-weight: normal;
+        line-height: 1.8;
+        color: #fff;
+        white-space: nowrap;
+    }
+
+    :global(.dropdown-menu)>li>a:hover,
+    :global(.dropdown-menu)>li>a:focus {
+        text-decoration: none;
+        color: #428bca;
+        background-color: #222;
+    }
+
+    :global(.dropdown-menu>.active)>a,
+    :global(.dropdown-menu>.active)>a:hover,
+    :global(.dropdown-menu>.active)>a:focus {
+        color: #fff;
+        text-decoration: none;
+        outline: 0;
+        background-color: #337ab7;
+    }
+
+    :global(.dropdown-menu>.disabled)>a,
+    :global(.dropdown-menu>.disabled)>a:hover,
+    :global(.dropdown-menu>.disabled)>a:focus {
+        color: #777;
+    }
+
+    :global(.dropdown-menu>.disabled)>a:hover,
+    :global(.dropdown-menu>.disabled)>a:focus {
+        text-decoration: none;
+        background-color: transparent;
+        background-image: none;
+        cursor: not-allowed;
+    }
+
+    :global(.open>.dropdown-menu) {
+        display: block;
+    }
+
+    :global(.open)>a {
+        outline: 0;
+    }
+
+    :global(.dropdown-menu-right) {
+        left: auto;
+        right: 0;
+    }
+
+    :global(.dropdown-menu-left) {
+        left: 0;
+        right: auto;
+    }
+
+    :global(.dropdown-header) {
+        display: block;
+        padding: 3px 20px;
+        font-size: 12px;
+        line-height: 1.8;
+        color: #777;
+        white-space: nowrap;
+    }
+
+    :global(.dropdown-backdrop) {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 990;
+    }
+
+    :global(.pull-right>.dropdown-menu) {
+        right: 0;
+        left: auto;
+    }
+
+    :global(.dropup .caret),
+    :global(.navbar-fixed-bottom .dropdown .caret) {
+        border-top: 0;
+        border-bottom: 4px solid;
+        content: '';
+    }
+
+    :global(.dropup .dropdown-menu),
+    :global(.navbar-fixed-bottom .dropdown .dropdown-menu) {
+        top: auto;
+        bottom: 100%;
+        margin-bottom: 2px;
+    }
+
+    @media (min-width: 768px) {
+        :global(.navbar-right .dropdown-menu) {
+            left: auto;
+            right: 0;
+        }
+
+        :global(.navbar-right .dropdown-menu-left) {
+            left: 0;
+            right: auto;
+        }
+    }
+
+    :global(.dropdown-menu)>li>a:hover,
+    :global(.dropdown-menu)>li>a:focus {
+        background-image: linear-gradient(to bottom, #222 0%, #151515 100%);
+        background-repeat: repeat-x;
+        background-color: #151515;
+    }
+
+    :global(.dropdown-menu>.active)>a,
+    :global(.dropdown-menu>.active)>a:hover,
+    :global(.dropdown-menu>.active)>a:focus {
+        background-image: linear-gradient(to bottom, #337ab7 0%, #2e6da4 100%);
+        background-repeat: repeat-x;
+        background-color: #2e6da4;
+    }
+
+    #menuLogin :global(.form-control) {
+        width: 100%;
+    }
+
+    :global(.sign-in) {
+        padding-top: 5px;
+    }
+
+    #menuLogin {
+        margin-top: 6px;
+        padding: 20px 20px 0;
+        width: 300px;
+    }
+
+    :global(.nav-profile) {
+        height: 50px;
+    }
+
+    /* Add flexbox on full screens */
+    @media (min-width: 993px) {
+        :global(.navbar>.container) {
+            display: flex;
+        }
+
+        :global(.navbar-header) {
+            display: flex;
+            white-space: nowrap;
+        }
+    }
+
+    /* Fix menu login width at narrow screens */
+    @media (max-width: 767px) {
+        #menuLogin {
+            width: auto;
+        }
+    }
+
+    /* Overrides the overall navbar color */
+    :global(.navbar-inverse) {
+        background-color: $osf-dark-blue-navbar;
+
+        // Specifies color and hover interactions of buttons that look like links (primary dropdown caret, auth dropdown)
+        :global(.btn-link) {
+            color: #fff;
+            border-width: 0;
+            padding-bottom: 5px;
+            padding-left: 22px;
+            padding-right: 15px;
+            padding-top: 5px;
+
+            &:hover,
+            &:focus {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+            }
+        }
+
+        // Specifies font size of links and removes underline on hover
+        a,
+        li>a,
+        button {
+            font-size: 16px;
+            color: #fff;
+
+            &:hover,
+            &:active,
+            &:focus {
+                text-decoration: none;
+            }
+        }
+    }
+
+    :global(.navbar.navbar-inverse) li > a {
+        color: #fff;
+
+        &:focus,
+        &:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+    }
+
+    /* Enlarges OSF Font */
+    /* Enlarges OSF logo and modifies placement */
+    :global(.osf-navbar-logo) {
+        width: 35px !important;
+        height: 35px !important;
+        margin-top: -4px !important;
+        margin-left: -4px !important;
+        margin-right: 8px;
+        float: left;
+        background: url('/assets/images/global/cos-white2.png');
+        background-size: 100%;
+    }
+
+    /* Defines position of dropdown toggle (caret) for primary navigation*/
+    :global(.primary-nav) {
+        float: left !important;
+        margin-top: 9px !important;
+        padding-left: 0 !important;
+    }
+
+    /* Defines location and styling of current service name. OSFPREPRINTS, for example. */
+    :global(.service-name) {
+        float: left !important;
+        margin-top: 8px !important;
+        margin-left: -13px !important;
+        text-decoration: none !important;
+
+        a {
+            font-size: 24px !important;
+        }
+    }
+
+    /* Decreases distance between "OSF" and current service "PREPRINTS", for example */
+    :global(.current-service) {
+        margin-left: -4px !important;
+    }
+
+    /* Overrides the color, relative position, and font size of dropdown menus (both service and auth) */
+    :global(.dropdown-menu) {
+        background-color: $osf-teal-navbar;
+
+        &:global(.service-dropdown) {
+            top: 54px;
+            left: -120px;
+            width: 200px;
+
+            li>a {
+                font-size: 18px;
+            }
+        }
+
+        &:global(.auth-dropdown) {
+            top: 60px;
+            right: -19px;
+            width: 160px;
+        }
+
+        :global(.dropdown-toggle) {
+            padding: 11px 15px;
+        }
+    }
+
+    /* Overrides color of dropdown list hover (applies to both service and auth dropdowns) */
+    :global(.dropdown-menu)>li>a:hover,
+    :global(.dropdown-menu)>li>a:focus {
+        background-image: none;
+        background-color: $osf-highlight-navbar;
+    }
+
+    /* Adds css triangle to service dropdown */
+    :global(.dropdown-menu.service-dropdown) {
+        ::after {
+            position: absolute;
+            display: inline-block;
+            border-right: 9px solid transparent;
+            border-bottom: 9px solid $osf-teal-navbar;
+            border-left: 9px solid transparent;
+            content: '';
+            top: -8px;
+            left: 126px;
+        }
+    }
+
+    /* Overrides for signup button */
+    #navbarScope :global(.btn-top-signup) {
+        padding: 4px 13px;
+        margin-top: 3px;
+        font-size: 15px;
+    }
+
+    /* Overrides for Sign in button */
+    #navbarScope :global(.btn-top-login) {
+        padding: 4px 17px;
+        margin-top: 3px;
+        font-size: 15px;
+    }
+
+    /* sm screen formatting */
+    @media screen and (min-width: 768px) {
+
+        /* Adds css triangle to auth dropdown - only on sm screens and greater */
+        :global(.dropdown-menu.auth-dropdown) {
+            ::after {
+                position: absolute;
+                display: inline-block;
+                border-right: 6px solid transparent;
+                border-bottom: 6px solid $osf-teal-navbar;
+                border-left: 6px solid transparent;
+                content: '';
+                top: -4px;
+                left: 128px;
+            }
+        }
     }
 }
