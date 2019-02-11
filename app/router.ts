@@ -1,6 +1,8 @@
 import { getOwner } from '@ember/application';
+import Transition from '@ember/routing/-private/transition';
 import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
+import Ember from 'ember';
 import config from 'ember-get-config';
 
 import { Blocker } from 'ember-osf-web/services/ready';
@@ -52,23 +54,36 @@ const Router = EmberRouter.extend({
         }
     },
 
-    _doTransition(routeName: string, ...args: any[]) {
-        const transition = this._super(routeName, ...args);
+    _doTransition(...args: any[]) {
+        const transition = this._super(...args);
+        return this._beforeTransition(transition);
+    },
 
+    _doURLTransition(...args: any[]) {
+        const transition = this._super(...args);
+        return this._beforeTransition(transition);
+    },
+
+    _beforeTransition(transition: Transition) {
         // Don't snap the page to the top if it's just a query param change
         // IE registries, preprints, collections, etc
         // There doesn't appear to be a good way to access the transition
         // inside of didTransition, so the state is just plucked here for future reference.
         this.shouldScrollTop = !transition.queryParamsOnly;
 
-        const flag = routeFlags[transition.targetName];
-        if (flag && !this.get('features').isEnabled(flag)) {
-            try {
-                window.location.assign(transitionTargetURL(transition));
-            } catch (e) {
-                window.location.reload();
+        const isInitialTransition = transition.sequence === 0;
+        if (!isInitialTransition) {
+            const flag = routeFlags[transition.targetName];
+            if (flag && !this.get('features').isEnabled(flag)) {
+                if (!Ember.testing) {
+                    try {
+                        window.location.assign(transitionTargetURL(transition));
+                    } catch (e) {
+                        window.location.reload();
+                    }
+                }
+                transition.abort();
             }
-            transition.abort();
         }
         return transition;
     },

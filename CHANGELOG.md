@@ -66,6 +66,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mirage:
     - `DEFAULT_LOGGED_OUT` setting is now redundant
 
+## [19.1.1] - 2019-02-11
+### Fixed
+- Router:
+    - check route flags on URL transitions (except for initial transition)
+
 ## [19.1.0] - 2019-01-23
 ### Added
 - Addons:
