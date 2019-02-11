@@ -1,5 +1,4 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
 import DS from 'ember-data';
 
 import CommentModel from './comment';
@@ -83,11 +82,6 @@ export default class RegistrationModel extends NodeModel.extend() {
 
     @belongsTo('registration', { inverse: null })
     root!: DS.PromiseObject<NodeModel> & NodeModel;
-
-    @computed('root')
-    get isRoot() {
-        return !this.belongsTo('root').id();
-    }
 }
 
 declare module 'ember-data/types/registries/model' {

@@ -1,0 +1,17 @@
+<span local-class='Titles'>
+    {{#each this.ancestry as |ancestor index|}}
+        <span local-class='AncestorTitle'>
+            {{#if (and this.useLinks ancestor.id)}}
+                <OsfLink
+                    data-test-ancestor-title={{index}}
+                    @href='/{{ancestor.id}}'
+                >
+                    {{ancestor.title}}
+                </OsfLink>
+            {{else}}
+                {{ancestor.title}}
+            {{/if}}
+        </span>
+        <span local-class='delimiter'>{{this.delimiter}}</span>
+    {{/each}}
+</span>

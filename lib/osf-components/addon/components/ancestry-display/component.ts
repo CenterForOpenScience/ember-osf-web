@@ -1,3 +1,4 @@
+import { tagName } from '@ember-decorators/component';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -5,11 +6,12 @@ import { allSettled, task } from 'ember-concurrency';
 import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import Node from 'ember-osf-web/models/node';
+import NodeModel from 'ember-osf-web/models/node';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
 
+@tagName('')
 @layout(template, styles)
 export default class AncestryDisplay extends Component.extend({
     getAncestors: task(function *(this: AncestryDisplay) {
@@ -56,10 +58,13 @@ export default class AncestryDisplay extends Component.extend({
     @service i18n!: I18N;
 
     // Required arguments
-    node?: Node;
+    node!: NodeModel;
 
     // Optional arguments
     delimiter?: string = defaultTo(this.delimiter, '/');
+    useLinks?: boolean = defaultTo(this.useLinks, false);
+    // Truncate long titles
+    truncate?: boolean = defaultTo(this.truncate, false);
 
     @alias('getAncestors.lastComplete.value') ancestry!: string[];
 

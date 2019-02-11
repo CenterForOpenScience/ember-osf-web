@@ -7,8 +7,15 @@
     <div local-class='TitleBackground'>
         <Container>
             <div local-class='TitleContainer'>
-                <AncestryDisplay @node={{this.registration}} />
-                <div local-class='Title' data-test-registration-title>{{this.registration.title}}</div>
+                <div local-class='TitleContainer'>
+                    <div local-class='Ancestors'>
+                        <AncestryDisplay @node={{this.registration}} @useLinks={{true}} />
+                    </div>
+                    <div local-class='MainTitle'>
+                        <h1 data-test-node-main-title>{{this.registration.title}}</h1>
+                    </div>
+                </div>
+                {{!-- <div local-class='Title' data-test-registration-title>{{this.registration.title}}</div> --}}
                 {{#unless this.showMobileView}}
                     <div local-class='Toolbar' data-analytics-scope='Registries Overview Toolbar'>
                         <RegistriesOverviewMenu

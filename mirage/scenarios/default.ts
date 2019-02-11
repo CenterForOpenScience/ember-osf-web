@@ -76,10 +76,16 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 }
 
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
-    const firstNode = server.create('node', {});
+    const root = server.create('node', {});
+    const firstNode = server.create('node', { root });
+    // const root = server.create('node', { title: 'Presents unique challenges. Please select the description that best describes your situation' });
+    // const firstNode = server.create('node', { root, title: 'Exploratory analyses conducted after observing the data Therefore, creating a research plan in which existing data will be used' });
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
+    server.create('contributor', { node: root, users: currentUser, index: 0 });
     const nodes = server.createList('node', 10, {
         currentUserPermissions: Object.values(Permission),
+        parent: firstNode,
+        root,
     }, 'withContributors');
     for (const node of nodes) {
         server.create('contributor', {
