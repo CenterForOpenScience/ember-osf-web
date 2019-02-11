@@ -50,6 +50,13 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                     },
                 },
             },
+            addons: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/addons/`,
+                    }
+                }
+            },
             default_region: {
                 data: {
                     type: 'regions',

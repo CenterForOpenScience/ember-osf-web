@@ -13,6 +13,7 @@ import RegionModel from './region';
 import RegistrationModel from './registration';
 import UserEmailModel from './user-email';
 import UserSettingModel from './user-setting';
+import UserAddonModel from './user-addon';
 
 const Validations = buildValidations({
     acceptedTermsOfService: [
@@ -91,6 +92,9 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     @hasMany('user-email', { inverse: 'user' })
     emails!: DS.PromiseManyArray<UserEmailModel>;
+
+    @hasMany('user-addon', { inverse: 'user' })
+    addons!: DS.PromiseManyArray<UserAddonModel>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;

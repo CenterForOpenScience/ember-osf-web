@@ -103,7 +103,11 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'addon', { except: ['create', 'delete'] });
-    osfResource(this, 'userAddon');
+    osfNestedResource(this, 'user', 'addons', {
+        path: '/users/:parentID/addons',
+        relatedModelName: 'user-addon',
+    });
+
     osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
 
