@@ -26,6 +26,7 @@
     min-height: 40px !important;
     padding-top: 0;
     padding-bottom: 0;
+    float: none !important;
 }
 
 .osf-project-navbar .project-title a {
@@ -38,27 +39,27 @@
 }
 
 .osf-project-navbar li>a {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 11px !important;
+    padding-bottom: 11px !important;
     font-size: 15px;
 }
 
-.navbar-nav {
+:global(.navbar-nav) {
     margin: 7.5px -15px;
 }
 
-.navbar-nav>li {
+:global(.navbar-nav>)li {
     float: none;
 }
 
-.navbar-nav>li>a {
+:global(.navbar-nav)>li>a {
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
 // stylelint-disable selector-max-compound-selectors
 
-.osf-project-navbar .navbar-nav {
+.osf-project-navbar :global(.navbar-nav) {
     li>a:hover {
         background-color: #dadada;
     }
@@ -92,13 +93,29 @@
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
+    :global(.navbar-nav>)li {
+        float: none !important;
+    }
+
+    .osf-project-navbar :global(.navbar-header) {
+        float: none !important;
+    }
+
+    .osf-project-navbar :global(.navbar-nav) {
+        display: none;
+    }
+
+    .osf-project-navbar :global(.navbar-toggle) {
+        display: block;
+    }
+
     .osf-project-navbar li>a {
         padding-left: 5px;
         padding-right: 5px;
     }
 
     // stylelint-disable selector-no-qualifying-type
-    .osf-project-navbar a.project-title {
+    .osf-project-navbar .project-title a {
         max-width: 190px;
     }
 }
@@ -110,7 +127,7 @@
 }
 
 @media (min-width: 1200px) {
-    .osf-project-navbar a.project-title {
+    .osf-project-navbar .project-title a {
         max-width: 400px;
     }
     // stylelint-enable selector-no-qualifying-type
@@ -118,22 +135,22 @@
 
 
 @media (min-width: 993px) {
-    .nav.navbar-nav {
+    :global(.nav.navbar-nav) {
         display: flex;
         float: none;
     }
 
-    .nav.navbar-nav>li {
+    :global(.nav.navbar-nav)>li {
         white-space: nowrap;
         float: none;
     }
 
-    .nav.navbar-nav .dropdown.secondary-nav-dropdown {
+    :global(.nav.navbar-nav .dropdown.secondary-nav-dropdown) {
         /* necessary for the parent flexbox container to shrink smaller than the child element's text */
         min-width: 0;
     }
 
-    .dropdown .btn-link {
+    :global(.dropdown .btn-link) {
         display: flex;
         align-items: center;
     }
