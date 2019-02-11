@@ -160,13 +160,6 @@
         color: rgba(255, 255, 255, 0.8);
     }
 
-    :global(.btn-top-login),
-    :global(.btn-top-signup) {
-        padding: 2px 30px;
-        margin-top: 5px;
-        line-height: 1.7;
-    }
-
     // :global(.navbar-brand),
     // :global(.navbar-nav)>li>a {
     //     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
@@ -435,6 +428,13 @@
             &:active,
             &:focus {
                 text-decoration: none;
+            }
+
+            &:global(.btn-top-login),
+            &:global(.btn-top-signup) {
+                padding: 4px 13px;
+                margin-top: 3px;
+                font-size: 15px;
             }
         }
     }
