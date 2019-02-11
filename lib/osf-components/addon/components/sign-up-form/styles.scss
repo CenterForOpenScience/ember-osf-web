@@ -9,19 +9,15 @@
         }
     }
 
-    input,
-    .help-block {
+    input {
         z-index: 9;
         position: relative;
-        background-color: $color-hover;
         color: $color-grey;
     }
 
-    .help-block {
-        border: 1px solid #eee;
-        border-radius: 0;
-        background-color: $color-hover;
-        color: $color-grey;
+    button {
+        z-index: 9;
+        position: relative;
     }
 
     .tos-checkbox {
