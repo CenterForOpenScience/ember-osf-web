@@ -104,8 +104,13 @@
         float: none !important;
     }
 
-    .osf-project-navbar :global(.navbar-nav) {
+    .osf-project-navbar :global(.navbar-collapse .navbar-nav) {
         display: none;
+    }
+
+    .osf-project-navbar :global(.navbar-collapse.collapsing .navbar-nav),
+    .osf-project-navbar :global(.navbar-collapse.in .navbar-nav) {
+        display: block;
     }
 
     .osf-project-navbar :global(.navbar-toggle) {
@@ -119,7 +124,7 @@
 
     // stylelint-disable selector-no-qualifying-type
     .osf-project-navbar .project-title a {
-        max-width: 190px;
+        max-width: 300px;
     }
 }
 
