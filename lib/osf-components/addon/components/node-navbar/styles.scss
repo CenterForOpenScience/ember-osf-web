@@ -73,6 +73,9 @@
     }
 }
 
+:global(.navbar-header) {
+    width: 100%;
+}
 // stylelint-enable selector-max-compound-selectors
 
 .osf-project-navbar li:global(.active),
