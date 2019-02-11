@@ -1,9 +1,12 @@
+import Transition from '@ember/routing/-private/transition';
 import Service from '@ember/service';
 import { currentRouteName, currentURL, settled } from '@ember/test-helpers';
+import { getContext } from '@ember/test-helpers/setup-context';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
+import sinon, { SinonStub } from 'sinon';
 
 import { currentURL as currentLocationURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
@@ -22,11 +25,25 @@ function routingAssertions(assert: Assert, segment: string, url: string, route: 
     assert.equal(currentURL(), `/${segment}${url}`, `The "real" URL contains the hidden "${segment}" segment`);
     assert.equal(currentLocationURL(), url, 'The Location URL is the same');
     assert.equal(currentRouteName(), route, 'The correct route was reached');
+
+    const router = (getContext() as TestContext).owner.lookup('router:main');
+    const flagStub: SinonStub = router._beforeTransition;
+    assert.ok(
+        flagStub.args.any(
+            ([t]: [Transition]) => t.targetName === route,
+        ),
+        `The router checked for a feature flag for "${route}"`,
+    );
 }
 
 module('Acceptance | resolve-guid', hooks => {
     setupApplicationTest(hooks);
     setupMirage(hooks);
+
+    hooks.beforeEach(function(this: TestContext) {
+        const router = this.owner.lookup('router:main');
+        sinon.stub(router, '_beforeTransition').returnsArg(0);
+    });
 
     test('User | Index', async assert => {
         server.create('root', { currentUser: null });
@@ -34,7 +51,6 @@ module('Acceptance | resolve-guid', hooks => {
 
         await visit(`/${user.id}`);
 
-        assert.expect(3);
         routingAssertions(assert, '--user', `/${user.id}`, 'guid-user.index');
     });
 
@@ -44,7 +60,6 @@ module('Acceptance | resolve-guid', hooks => {
 
         await visit(`/${file.id}`);
 
-        assert.expect(3);
         routingAssertions(assert, '--file', `/${file.id}`, 'guid-file');
     });
 
@@ -60,7 +75,6 @@ module('Acceptance | resolve-guid', hooks => {
 
             await visit(`/${node.id}`);
 
-            assert.expect(3);
             routingAssertions(assert, '--node', `/${node.id}`, 'guid-node.index');
         });
 
@@ -70,7 +84,6 @@ module('Acceptance | resolve-guid', hooks => {
 
             await visit(`/${node.id}/forks`);
 
-            assert.expect(3);
             routingAssertions(assert, '--node', `/${node.id}/forks`, 'guid-node.forks');
         });
 
@@ -80,7 +93,6 @@ module('Acceptance | resolve-guid', hooks => {
 
             await visit(`/${node.id}/analytics`);
 
-            assert.expect(3);
             routingAssertions(assert, '--node', `/${node.id}/analytics`, 'guid-node.analytics.index');
         });
 
@@ -90,7 +102,6 @@ module('Acceptance | resolve-guid', hooks => {
 
             await visit(`/${node.id}/registrations`);
 
-            assert.expect(3);
             routingAssertions(assert, '--node', `/${node.id}/registrations`, 'guid-node.registrations');
         });
     });
@@ -108,7 +119,6 @@ module('Acceptance | resolve-guid', hooks => {
 
                 await visit(`/${reg.id}`);
 
-                assert.expect(3);
                 routingAssertions(assert, '--registration', `/${reg.id}`, 'guid-registration.index');
             });
 
@@ -118,7 +128,6 @@ module('Acceptance | resolve-guid', hooks => {
 
                 await visit(`/${reg.id}/forks`);
 
-                assert.expect(3);
                 routingAssertions(assert, '--registration', `/${reg.id}/forks`, 'guid-registration.forks');
             });
 
@@ -130,7 +139,6 @@ module('Acceptance | resolve-guid', hooks => {
 
                 await visit(url);
 
-                assert.expect(3);
                 routingAssertions(assert, '--registration', url, 'guid-registration.analytics.index');
             });
         });
@@ -142,7 +150,6 @@ module('Acceptance | resolve-guid', hooks => {
 
                 await visit(`/${reg.id}`);
 
-                assert.expect(3);
                 routingAssertions(assert, '--registries', `/${reg.id}`, 'registries.overview.index');
             });
 
@@ -152,7 +159,6 @@ module('Acceptance | resolve-guid', hooks => {
 
                 await visit(`/${reg.id}/forks`);
 
-                assert.expect(3);
                 routingAssertions(assert, '--registration', `/${reg.id}/forks`, 'guid-registration.forks');
             });
 
@@ -164,7 +170,6 @@ module('Acceptance | resolve-guid', hooks => {
 
                 await visit(url);
 
-                assert.expect(3);
                 routingAssertions(assert, '--registration', url, 'guid-registration.analytics.index');
             });
         });
@@ -174,9 +179,9 @@ module('Acceptance | resolve-guid', hooks => {
         server.create('root', { currentUser: null });
 
         const testCases = [
-            { url: '/decaf', test: 'Nonexistant GUID' },
-            { url: '/decaf/files', test: 'Nonexistant GUID with existing sub route' },
-            { url: '/decaf/blah/blah/blah', test: 'Nonexistant GUID with non-existing sub route' },
+            { url: '/decaf', test: 'Nonexistent GUID' },
+            { url: '/decaf/files', test: 'Nonexistent GUID with existent sub route' },
+            { url: '/decaf/blah/blah/blah', test: 'Nonexistent GUID with nonexistent sub route' },
             { url: '/decaf?tastes-like=dirt', test: 'GUID with query params' },
             { url: '/decaf/files?cream=1', test: 'GUID and subpath with query params' },
         ];
