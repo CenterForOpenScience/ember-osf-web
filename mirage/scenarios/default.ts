@@ -143,6 +143,7 @@ function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('scope', 5);
     server.createList('developer-app', 12);
     server.create('user-addon', { id: 'github', user: currentUser });
+    server.create('user-addon', { id: 'gitlab', user: currentUser });
     server.loadFixtures('addons');
 }
 

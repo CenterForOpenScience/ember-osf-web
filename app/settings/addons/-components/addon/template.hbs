@@ -6,6 +6,9 @@
             alt={{concat @addon.name ' storage image'}}
         >
         <h4>{{@addon.name}}</h4>
+        {{#if account}}
+            <p>Account Connected</p>
+        {{/if}}
     </div>
     {{yield}}
 </div>

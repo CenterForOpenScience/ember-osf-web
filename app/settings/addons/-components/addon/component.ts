@@ -6,11 +6,21 @@ interface AddonModel {
 
 export default class Addon extends Component {
     addon!:AddonModel;
-    userAddons!:object;
+    userAddons!:Array<object>;
+    account!:object;
+
+    setupAccountRelationship() {
+        if(!this.userAddons) {
+            return;
+        }
+        this.userAddons.map((userAccount:any) => {
+            if(userAccount.id === this.addon.id) {
+                this.set('account', userAccount);
+            }
+        });
+    }
 
     didReceiveAttrs() {
-        console.log(this.addon.id);
-        console.log(this.userAddons);
-        //TODO: Compare user id to userAddons to see if connection exists
+        this.setupAccountRelationship();
     }
 }

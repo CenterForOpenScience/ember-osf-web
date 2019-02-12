@@ -8,21 +8,31 @@
         <panel.heading @title={{t 'settings.addons.title'}} />
         <panel.body>
             <AddonData @models={{models}} as |data|>
-                {{data.userAddons}}
-                {{#each data.addons as |addon|}}
-                    {{#if (eq addon.auth.type 'token_auth')}}
-                        <TokenAddon
-                            @addon={{addon}}
-                            @userAddons={{data.userAddons}}
-                        />
-                    {{else if (eq addon.auth.type 'user_auth')}}
-                        <Addon @addon={{addon}} />
-                    {{else if (eq addon.auth.type 'key_auth')}}
-                        <Addon @addon={{addon}} />
-                    {{else}}
-                        <Addon @addon={{addon}} />
-                    {{/if}}
-                {{/each}}
+                <div local-class="addon-list">
+                    {{#each data.addons as |addon|}}
+                        {{#if (eq addon.auth.type 'token_auth')}}
+                            <TokenAddon
+                                @addon={{addon}}
+                                @userAddons={{data.userAddons}}
+                            />
+                        {{else if (eq addon.auth.type 'user_auth')}}
+                            <Addon
+                                @addon={{addon}}
+                                @userAddons={{data.userAddons}}
+                            />
+                        {{else if (eq addon.auth.type 'key_auth')}}
+                            <Addon
+                                @addon={{addon}}
+                                @userAddons={{data.userAddons}}
+                            />
+                        {{else}}
+                            <Addon
+                                @addon={{addon}}
+                                @userAddons={{data.userAddons}}
+                            />
+                        {{/if}}
+                    {{/each}}
+                </div>
             </AddonData>
         </panel.body>
     </Panel>

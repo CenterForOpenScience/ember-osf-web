@@ -5,7 +5,7 @@ import { hash } from 'rsvp';
 
 export default class AddonData extends Component {
     data!: object;
-    models!: any;
+    models!: object;
     @service store!: DS.Store;
 
     async didInsertElement() {
@@ -17,6 +17,5 @@ export default class AddonData extends Component {
         });
 
         this.set('data', { ...modelData, loaded: true });
-        console.log(this.get('data'));
     }
 }
