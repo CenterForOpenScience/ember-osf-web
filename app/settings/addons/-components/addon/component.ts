@@ -5,16 +5,16 @@ interface AddonModel {
 }
 
 export default class Addon extends Component {
-    addon!:AddonModel;
-    userAddons!:Array<object>;
-    account!:object;
+    addon!: AddonModel;
+    userAddons!: [object];
+    account!: object;
 
     setupAccountRelationship() {
-        if(!this.userAddons) {
+        if (!this.userAddons) {
             return;
         }
-        this.userAddons.map((userAccount:any) => {
-            if(userAccount.id === this.addon.id) {
+        this.userAddons.forEach((userAccount: any) => {
+            if (userAccount.id === this.addon.id) {
                 this.set('account', userAccount);
             }
         });

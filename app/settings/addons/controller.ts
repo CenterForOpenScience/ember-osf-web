@@ -9,7 +9,7 @@ export default class SettingsAddonController extends Controller {
 
     getCurrentUser() {
         const { currentUserId } = this.currentUser;
-        return currentUserId ? this.store.peekRecord('user', currentUserId) : null
+        return currentUserId ? this.store.peekRecord('user', currentUserId) : null;
     }
 
     loadUserAddons() {
