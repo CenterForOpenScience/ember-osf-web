@@ -1,11 +1,11 @@
 {{#let
-    (component 'settings/addons/-components/addon')
     (component 'settings/addons/-components/addon-data')
     (component 'settings/addons/-components/addon-loader')
     (component 'settings/addons/-components/token-addon')
     (component 'settings/addons/-components/credential-addon')
     (component 'settings/addons/-components/key-addon')
-    as |Addon AddonData AddonLoader TokenAddon CredentialAddon KeyAddon|
+    (component 'settings/addons/-components/oauth-addon')
+    as |AddonData AddonLoader TokenAddon CredentialAddon KeyAddon OauthAddon|
 }}
     <Panel as |panel|>
         <panel.heading @title={{t 'settings.addons.title'}} />
@@ -15,33 +15,31 @@
                 @loader={{AddonLoader}}
                 as |data|
             >
-                <div local-class="addon-list">
-                    {{#each data.addons as |addon|}}
-                        <div local-class="addon">
-                            {{#if (eq addon.auth.type 'token_auth')}}
-                                <TokenAddon
-                                    @addon={{addon}}
-                                    @userAddons={{data.userAddons}}
-                                />
-                            {{else if (eq addon.auth.type 'user_auth')}}
-                                <CredentialAddon
-                                    @addon={{addon}}
-                                    @userAddons={{data.userAddons}}
-                                />
-                            {{else if (eq addon.auth.type 'key_auth')}}
-                                <KeyAddon
-                                    @addon={{addon}}
-                                    @userAddons={{data.userAddons}}
-                                />
-                            {{else}}
-                                <Addon
-                                    @addon={{addon}}
-                                    @userAddons={{data.userAddons}}
-                                />
-                            {{/if}}
-                        </div>
-                    {{/each}}
-                </div>
+                {{#each data.addons as |addon|}}
+                    <div local-class="addon">
+                        {{#if (eq addon.auth.type 'token_auth')}}
+                            <TokenAddon
+                                @addon={{addon}}
+                                @userAddons={{data.userAddons}}
+                            />
+                        {{else if (eq addon.auth.type 'user_auth')}}
+                            <CredentialAddon
+                                @addon={{addon}}
+                                @userAddons={{data.userAddons}}
+                            />
+                        {{else if (eq addon.auth.type 'key_auth')}}
+                            <KeyAddon
+                                @addon={{addon}}
+                                @userAddons={{data.userAddons}}
+                            />
+                        {{else}}
+                            <OauthAddon
+                                @addon={{addon}}
+                                @userAddons={{data.userAddons}}
+                            />
+                        {{/if}}
+                    </div>
+                {{/each}}
             </AddonData>
         </panel.body>
     </Panel>
