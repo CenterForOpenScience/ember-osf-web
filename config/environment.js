@@ -215,6 +215,8 @@ module.exports = function(environment) {
         },
         featureFlagNames: {
             routes: {
+                'guid-node.index': 'ember_project_detail_page',
+                'guid-registration.index': 'ember_old_registration_detail_page',
                 settings: 'ember_user_settings_profile_page',
                 'settings.profile': 'ember_user_settings_profile_page',
                 'settings.profile.education': 'ember_user_settings_profile_page',
