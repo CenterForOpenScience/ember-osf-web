@@ -2,6 +2,7 @@ import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
+import Taxonomy from 'ember-osf-web/models/taxonomy';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
@@ -61,6 +62,12 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('file', 5, { user: currentUser });
+}
+
+function collectionScenario(server: Server) {
+    const primaryCollection = server.create('collection');
+    const taxonomies = server.schema.taxonomies.all<Taxonomy>().models;
+    server.create('collection-provider', { id: 'studyswap', primaryCollection, taxonomies});
 }
 
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
@@ -161,6 +168,7 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
+    server.loadFixtures('taxonomies');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
         [
@@ -178,6 +186,9 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('registrations')) {
         registrationScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('collections')) {
+        collectionScenario(server);
     }
     if (mirageScenarios.includes('forks')) {
         forksScenario(server, currentUser);

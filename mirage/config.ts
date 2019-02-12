@@ -133,6 +133,9 @@ export default function(this: Server) {
 
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
 
+    osfResource(this, 'collection-provider', { path: '/providers/collections' });
+    osfNestedResource(this, 'collection-provider', 'taxonomies', { path: '/providers/collections/:parentID/taxonomies' });
+
     // Waterbutler namespace
     this.namespace = '/wb';
     this.post('/files/:id/move', wb.moveFile);

@@ -14,7 +14,7 @@ export default class TaxonomyModel extends OsfModel {
     @attr('string') shareTitle!: string;
     @attr('string') path!: string;
     @attr('number') childCount!: number;
-    @attr('object') parent!: SubjectRef;
+    @attr('object') parent!: SubjectRef | null;
 }
 
 declare module 'ember-data/types/registries/model' {
