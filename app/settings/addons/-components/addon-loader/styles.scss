@@ -1,0 +1,16 @@
+.placeholder {
+    width: 100%;
+    margin: 10px 0;
+
+    :global(.ember-content-placeholders-heading__title) {
+        margin: 12px 0;
+    }
+}
+
+.addon-placeholder {
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+        border: 0;
+    }
+}

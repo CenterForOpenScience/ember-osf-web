@@ -5,3 +5,11 @@
 :global(.input-group-addon) {
     border-radius: 0;
 }
+
+.addon {
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+        border: 0;
+    }
+}

@@ -1,26 +1,29 @@
 .section {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 5px 0;
+    flex-direction: column;
+    margin: 10px 0;
 }
 
-.placeholder {
-    width: 100%;
-
-    :global(.ember-content-placeholders-heading__title) {
-        margin: 12px 0;
-    }
-}
-
-.title {
+.body {
     display: flex;
     align-items: center;
     flex-direction: row;
+    justify-content: space-between;
 
     .image {
         width: 20px;
         height: 20px;
         margin-right: 10px;
     }
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.footer {
+    color: #7d7d7d;
+    margin: 0 25px;
 }

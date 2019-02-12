@@ -1,14 +1,18 @@
 <div local-class='section'>
-    <div local-class='title'>
-        <img
-            local-class='image'
-            src={{@addon.image}}
-            alt={{concat @addon.name ' storage image'}}
-        >
-        <h4>{{@addon.name}}</h4>
-        {{#if account}}
-            <p>Account Connected</p>
-        {{/if}}
+    <div local-class='body'>
+        <div local-class='title'>
+            <img
+                local-class='image'
+                src={{@addon.image}}
+                alt={{concat @addon.name ' storage image'}}
+            >
+            <h4>{{@addon.name}}</h4>
+        </div>
+        {{yield}}
     </div>
-    {{yield}}
+    {{#if account}}
+        <div local-class='footer'>
+            <p>Authorized</p>
+        </div>
+    {{/if}}
 </div>

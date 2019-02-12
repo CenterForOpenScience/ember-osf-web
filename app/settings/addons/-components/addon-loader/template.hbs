@@ -1,0 +1,10 @@
+{{#each loaderSize as |item|}}
+    <div local-class="addon-placeholder">
+        <ContentPlaceholders
+            local-class='placeholder'
+            as |placeholder|
+        >
+            {{placeholder.heading subtitle=false}}
+        </ContentPlaceholders>
+    </div>
+{{/each}}

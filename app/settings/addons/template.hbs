@@ -1,15 +1,20 @@
 {{#let
     (component 'settings/addons/-components/addon')
     (component 'settings/addons/-components/addon-data')
+    (component 'settings/addons/-components/addon-loader')
     (component 'settings/addons/-components/token-addon')
-    as |Addon AddonData TokenAddon|
+    as |Addon AddonData AddonLoader TokenAddon|
 }}
     <Panel as |panel|>
         <panel.heading @title={{t 'settings.addons.title'}} />
         <panel.body>
-            <AddonData @models={{models}} as |data|>
-                <div local-class="addon-list">
-                    {{#each data.addons as |addon|}}
+            <AddonData
+                @models={{models}}
+                @loader={{AddonLoader}}
+                as |data|
+            >
+                {{#each data.addons as |addon|}}
+                    <div local-class="addon">
                         {{#if (eq addon.auth.type 'token_auth')}}
                             <TokenAddon
                                 @addon={{addon}}
@@ -31,8 +36,8 @@
                                 @userAddons={{data.userAddons}}
                             />
                         {{/if}}
-                    {{/each}}
-                </div>
+                    </div>
+                {{/each}}
             </AddonData>
         </panel.body>
     </Panel>

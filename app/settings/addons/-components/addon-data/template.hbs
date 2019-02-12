@@ -2,6 +2,6 @@
     {{#if data.loaded}}
         {{yield data}}
     {{else}}
-        <p>Addons loading</p>
+        {{@loader}}
     {{/if}}
 </div>
