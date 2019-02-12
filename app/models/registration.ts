@@ -1,4 +1,5 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import { computed } from '@ember-decorators/object';
 import DS from 'ember-data';
 
 import CommentModel from './comment';
@@ -79,9 +80,6 @@ export default class RegistrationModel extends NodeModel.extend() {
 
     @hasMany('registration', { inverse: 'parent' })
     children!: DS.PromiseManyArray<RegistrationModel>;
-
-    @belongsTo('registration', { inverse: null })
-    root!: DS.PromiseObject<NodeModel> & NodeModel;
 }
 
 declare module 'ember-data/types/registries/model' {

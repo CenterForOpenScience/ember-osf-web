@@ -1,14 +1,10 @@
-import { ModelInstance, Server } from 'ember-cli-mirage';
+import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
-import {
-    draftRegisterNodeMultiple,
-    forkNode,
-    registerNodeMultiple,
-} from '../helpers';
+import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
 
 const {
     dashboard: {
@@ -59,16 +55,6 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
     }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
-    // node ancestry
-    // const parent = server.create('registration', { id: 'ezcuj' });
-    // server.create('contributor', { node: reg, users: currentUser });
-    // const child = server.create('registration', {
-    //     parent: reg,
-    //     id: 'ezcuj1',
-    //     title: 'Exploratory analyses conducted after observing the data. Therefore, creating a research plan in which existing data will be used',
-    // });
-    // const grandChild = server.create('registration', { parent: child, root: reg, id: 'ezcuj2', title: 'Presents unique challenges. Please select the description that best describes your situation. Please do not hesitate to contact us if you have'});
-    // server.create('registration', { parent: grandChild, root: reg, id: 'ezcuj3' });
 }
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
@@ -76,16 +62,10 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 }
 
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
-    const root = server.create('node', {});
-    const firstNode = server.create('node', { root });
-    // const root = server.create('node', { title: 'Presents unique challenges. Please select the description that best describes your situation' });
-    // const firstNode = server.create('node', { root, title: 'Exploratory analyses conducted after observing the data Therefore, creating a research plan in which existing data will be used' });
+    const firstNode = server.create('node', {});
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
-    server.create('contributor', { node: root, users: currentUser, index: 0 });
     const nodes = server.createList('node', 10, {
         currentUserPermissions: Object.values(Permission),
-        parent: firstNode,
-        root,
     }, 'withContributors');
     for (const node of nodes) {
         server.create('contributor', {
@@ -138,6 +118,12 @@ function handbookScenario(server: Server) {
         const node = server.create('node', { id: `clst${contributorCount}` });
         server.createList('contributor', contributorCount, { node });
     }
+
+    // AncestryDisplay
+    const parent = server.create('node', { id: 'ezcuj', title: faker.lorem.sentences(6) });
+    const child = server.create('node', { parent, id: 'ezcuj1', title: faker.lorem.sentences(5) });
+    const grandChild = server.create('node', { parent: child, root: parent, id: 'ezcuj2' });
+    server.create('node', { parent: grandChild, root: parent, id: 'ezcuj3' });
 }
 
 function settingsScenario(server: Server, currentUser: ModelInstance<User>) {

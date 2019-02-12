@@ -1,28 +1,13 @@
-.Title {
-    color: $white;
-    font-weight: 400;
-    word-break: break-word;
-    font-size: 36px;
-}
-
-.Toolbar {
-    @media screen and (min-width: 769px) {
-        flex: 1 1 auto;
-    }
-}
-
 .TitleBackground {
-    // min-height: 120px;
     background-image: url('img/bg-dark.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.TitleContainer {
+.Container {
     display: flex;
-    justify-content: space-between;
-    flex-flow: row wrap;
     align-items: center;
+    justify-content: space-around;
     width: 100%;
 
     margin: 25px 0;
@@ -72,10 +57,15 @@
 .TitleContainer {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     justify-content: center;
-    min-height: 120px;
-    margin: 10px 0;
+    min-height: 80px;
+}
+
+@media screen and (max-width: 767px) {
+    .TitleContainer {
+        width: 100%;
+    }
 }
 
 .Ancestors {

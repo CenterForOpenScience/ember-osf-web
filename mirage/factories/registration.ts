@@ -78,8 +78,8 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 registrationSchema: newReg.parent.registrationSchema,
                 registeredMeta: newReg.parent.registeredMeta,
             });
-            if (!newReg.rootId) {
-                newReg.rootId = newReg.parent.id;
+            if (!newReg.root) {
+                newReg.update({ root: newReg.parent });
             }
         } else if (!newReg.registeredMeta) {
             const registrationSchema = newReg.registrationSchema ||

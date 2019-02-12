@@ -32,45 +32,43 @@ module('Integration | Component | ancestry-display', hooks => {
     hooks.beforeEach(function(this: ThisTestContext) {
         this.owner.register('service:i18n', i18nStub);
         this.i18n = this.owner.lookup('service:i18n');
-        // this.store = this.owner.lookup('service:store');
+        this.store = this.owner.lookup('service:store');
     });
 
     test('it renders', async function(assert) {
-        await render(hbs`<AncestryDisplay />`);
-        assert.dom(this.element).hasText('');
-
         const node = server.create('node');
-        // const root = await this.store.findRecord('node', node.id);
-        this.set('node', node);
+        const root = await this.store.findRecord('node', node.id);
+        this.set('node', root);
 
         await render(hbs`<AncestryDisplay @node={{this.node}} />`);
-        assert.dom(this.element).hasText(`${node.title}`);
+        assert.dom(this.element).hasText('');
     });
 
     test('useLinks works', async function(assert) {
         const parent = server.create('node');
         const child = server.create('node', { parent });
 
-        // const childNode = await this.store.findRecord('node', child.id);
-        this.set('node', child);
+        const childNode = await this.store.findRecord('node', child.id);
+        this.set('node', childNode);
 
         await render(hbs`<AncestryDisplay @node={{this.node}} />`);
-        assert.dom(this.element).hasText(`${parent.title} / ${child.title}`);
+        assert.dom(this.element).hasText(`${parent.title} /`);
         assert.dom('[data-test-ancestor-title="0"]').doesNotExist();
 
         await render(hbs`<AncestryDisplay @node={{this.node}} @useLinks={{true}} />`);
 
-        assert.dom(this.element).hasText(`${parent.title} / ${child.title}`);
+        assert.dom(this.element).hasText(`${parent.title} /`);
         assert.dom('[data-test-ancestor-title="0"]').hasAttribute('href', `/${parent.id}`);
     });
 
     test('delimiter works', async function(assert) {
         const parent = server.create('node');
         const child = server.create('node', { parent });
+        const expected = `${parent.title} >`;
 
-        const expected = `${parent.title} > ${child.title}`;
+        const childNode = await this.store.findRecord('node', child.id);
 
-        this.set('node', child);
+        this.set('node', childNode);
         this.set('delimiter', '>');
 
         await render(hbs`<AncestryDisplay @node={{this.node}} @delimiter={{this.delimiter}} />`);
@@ -79,27 +77,32 @@ module('Integration | Component | ancestry-display', hooks => {
 
     test('two ancestors', async function(assert) {
         const parent = server.create('node');
-        const child = server.create('node', { parent, title: 'Baker' });
-        const grandChild = server.create('node', { parent: child, root: parent, title: 'Ma Baker' });
-        const expected = `${parent.title} / ${child.title} / ${grandChild.title}`;
+        const child = server.create('node', { parent });
+        const grandChild = server.create('node', { parent: child, root: parent });
+        const expected = `${parent.title} / ${child.title} /`;
 
-        // const grandChildNode = await this.store.findRecord('node', grandChild.id);
-        this.set('node', grandChild);
-        await render(hbs`<AncestryDisplay @node={{this.node}} />`);
+        const grandChildNode = await this.store.findRecord('node', grandChild.id);
+        this.set('node', grandChildNode);
+        await render(hbs`<AncestryDisplay @node={{this.node}} @useLinks={{true}} />`);
         assert.dom(this.element).hasText(expected);
+        assert.dom('[data-test-ancestor-title="0"]').hasAttribute('href', `/${parent.id}`);
+        assert.dom('[data-test-ancestor-title="1"]').hasAttribute('href', `/${child.id}`);
     });
 
     test('three ancestors', async function(assert) {
         const parent = server.create('node');
-        const child = server.create('node', { parent, title: 'Baker' });
-        const grandChild = server.create('node', { parent: child, root: parent, title: 'Ma Baker' });
-        const greatGrandChild = server.create('node', { parent: grandChild, root: parent, title: 'Ma Baker Jr.' });
+        const child = server.create('node', { parent });
+        const grandChild = server.create('node', { parent: child, root: parent });
+        const greatGrandChild = server.create('node', { parent: grandChild, root: parent });
         const expected = `${parent.title} / ${this.get('i18n').t('general.ellipsis')} /\
-            ${grandChild.title} / ${greatGrandChild.title}`;
+            ${grandChild.title} /`;
 
-        // const greatGrandChildNode = await this.store.findRecord('node', greatGrandChild.id);
-        this.set('node', greatGrandChild);
-        await render(hbs`<AncestryDisplay @node={{this.node}} />`);
+        const greatGrandChildNode = await this.store.findRecord('node', greatGrandChild.id);
+        this.set('node', greatGrandChildNode);
+        await render(hbs`<AncestryDisplay @node={{this.node}} @useLinks={{true}} />`);
+        assert.dom('[data-test-ancestor-title="0"]').hasAttribute('href', `/${parent.id}`);
+        assert.dom('[data-test-ancestor-title="1"]').doesNotExist();
+        assert.dom('[data-test-ancestor-title="2"]').hasAttribute('href', `/${grandChild.id}`);
         assert.dom(this.element).hasText(expected);
     });
 });
