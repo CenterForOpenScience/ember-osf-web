@@ -1,21 +1,17 @@
 import Mixin from '@ember/object/mixin';
 
+import cleanURL from 'ember-osf-web/utils/clean-url';
+
 export default Mixin.create({
-    pattern: /(?:^|\/)--[^/]+/g,
-
-    cleanURL(url: string) {
-        return url.replace(this.pattern, '');
-    },
-
     setURL(url: string) {
-        return this._super(this.cleanURL(url));
+        return this._super(cleanURL(url));
     },
 
     replaceURL(url: string) {
-        return this._super(this.cleanURL(url));
+        return this._super(cleanURL(url));
     },
 
     formatURL(url: string): string {
-        return this._super(this.cleanURL(url));
+        return this._super(cleanURL(url));
     },
 });
