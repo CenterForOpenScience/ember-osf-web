@@ -2,7 +2,7 @@
     (component 'settings/addons/-components/addon')
     as |Addon|
 }}
-    <Addon @addon={{@addon}}>
+    <Addon @addon={{@addon}} @userAddons={{@userAddons}}>
         <OsfButton
             data-analytics-name={{concat @addon.name ' addon'}}
             @type='link'

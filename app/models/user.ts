@@ -11,9 +11,9 @@ import NodeModel from './node';
 import OsfModel, { OsfLinks } from './osf-model';
 import RegionModel from './region';
 import RegistrationModel from './registration';
+import UserAddonModel from './user-addon';
 import UserEmailModel from './user-email';
 import UserSettingModel from './user-setting';
-import UserAddonModel from './user-addon';
 
 const Validations = buildValidations({
     acceptedTermsOfService: [

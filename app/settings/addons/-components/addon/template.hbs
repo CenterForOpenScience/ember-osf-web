@@ -1,20 +1,11 @@
 <div local-class='section'>
-    {{#if @addon}}
-        <div local-class='title'>
-            <img
-                local-class='image'
-                src={{@addon.image}}
-                alt={{concat @addon.name ' storage image'}}
-            >
-            <h4>{{@addon.name}}</h4>
-        </div>
-        {{yield}}
-    {{else}}
-        <ContentPlaceholders
-            local-class='placeholder'
-            as |placeholder|
+    <div local-class='title'>
+        <img
+            local-class='image'
+            src={{@addon.image}}
+            alt={{concat @addon.name ' storage image'}}
         >
-            {{placeholder.heading subtitle=false}}
-        </ContentPlaceholders>
-    {{/if}}
+        <h4>{{@addon.name}}</h4>
+    </div>
+    {{yield}}
 </div>

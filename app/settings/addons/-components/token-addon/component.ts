@@ -4,6 +4,10 @@ import Component from '@ember/component';
 export default class TokenAddon extends Component {
     modalOpen = false;
 
+    model() {
+        console.log('loading model');
+    }
+
     @action
     openModal() {
         this.set('modalOpen', true);
