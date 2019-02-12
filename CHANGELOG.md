@@ -66,6 +66,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mirage:
     - `DEFAULT_LOGGED_OUT` setting is now redundant
 
+## [19.1.2] - 2019-02-12
+### Fixed
+- Utils:
+    - `transitionTargetURL` - clean guid routing path components from URLs
+### Added:
+- Route Flags:
+    - `guid-node.index` -> `ember_project_detail_page`
+    - `guid-registration.index` -> `ember_old_registration_detail_page`
+
 ## [19.1.1] - 2019-02-11
 ### Fixed
 - Router:

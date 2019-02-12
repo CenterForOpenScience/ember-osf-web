@@ -35,14 +35,6 @@ module('Unit | Location | none-auto ', hooks => {
         assert.ok(this.owner.lookup('location:none') instanceof GuidNoneLocation);
     });
 
-    test('cleanURL', function(assert) {
-        const location = this.owner.lookup('location:none') as GuidNoneLocation;
-
-        for (const testCase of TEST_CASES) {
-            assert.equal(location.cleanURL(testCase.input), testCase.output);
-        }
-    });
-
     test('setURL does not clean', function(assert) {
         const location = this.owner.lookup('location:none') as GuidNoneLocation;
 
