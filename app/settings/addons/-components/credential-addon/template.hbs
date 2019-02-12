@@ -5,24 +5,31 @@
     <AddonModal @addon={{@addon}} @userAddons={{@userAddons}}>
         <ValidatedModelForm as |form|>
             <div local-class='form-item'>
-                <h4>{{@addon.name}} {{t 'settings.addons.repo'}}</h4>
+                <h4>{{@addon.name}} {{t 'settings.addons.url'}}</h4>
                 <div class='input-group'>
                     <span class='input-group-addon'>{{t 'settings.addons.https'}}</span>
                     <form.text
-                        @valuePath='repoUrl'
+                        @valuePath='url'
                         @placeholder={{t 'general.required'}}
                     />
                 </div>
                 <small local-class='sub-text'>
                     {{t 'settings.addons.only'}}
                     {{@addon.name}}
-                    {{t 'settings.addons.repo_support'}}
+                    {{t 'settings.addons.url_support'}}
                 </small>
             </div>
             <div local-class='form-item'>
-                <h4>{{t 'settings.addons.api_token'}}</h4>
+                <h4>{{t 'settings.addons.username'}}</h4>
                 <form.text
-                    @valuePath='apiToken'
+                    @valuePath='username'
+                    @placeholder={{t 'general.required'}}
+                />
+            </div>
+            <div local-class='form-item'>
+                <h4>{{t 'settings.addons.password'}}</h4>
+                <form.text
+                    @valuePath='password'
                     @placeholder={{t 'general.required'}}
                 />
             </div>

@@ -1,0 +1,33 @@
+{{#let (component 'settings/addons/-components/addon') as |Addon|}}
+    <Addon @addon={{@addon}} @userAddons={{@userAddons}}>
+         <OsfButton
+             data-analytics-name={{concat @addon.name ' addon'}}
+             @type='link'
+             @onClick={{action this.openModal}}
+         >
+             {{t 'settings.addons.link'}}
+         </OsfButton>
+    </Addon>
+    <BsModal
+        @open={{this.modalOpen}}
+        @onHide={{action this.closeModal}}
+        as |modal|
+    >
+        <modal.header>
+            <h3>{{t 'settings.addons.account'}} {{@addon.name}}</h3>
+        </modal.header>
+        <modal.body>
+            {{yield}}
+        </modal.body>
+        <modal.footer>
+            <BsButton
+                @onClick={{action this.closeModal}}
+                @defaultText={{t 'general.cancel'}}
+            />
+            <BsButton
+                @type='primary'
+                @defaultText={{t 'general.save'}}
+            />
+        </modal.footer>
+    </BsModal>
+{{/let}}
