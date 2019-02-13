@@ -17,6 +17,6 @@ export default class SettingsApplicationCreateController extends Controller {
     @action
     onSave(developerApp: DeveloperApp) {
         this.toast.success(this.i18n.t('settings.developer-apps.created'));
-        this.router.transitionTo('settings.developer-apps.edit', developerApp.id);
+        this.router.transitionTo('settings.developer-apps.edit', developerApp.get('id'));
     }
 }

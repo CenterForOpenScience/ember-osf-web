@@ -10,6 +10,7 @@ import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
+import { ChangesetDef } from 'ember-changeset/types';
 import getHref from 'ember-osf-web/utils/get-href';
 
 export default class ConnectedEmails extends Component.extend({
@@ -118,9 +119,9 @@ export default class ConnectedEmails extends Component.extend({
     }
 
     @action
-    onSave(email: UserEmail) {
-        if (email.emailAddress) {
-            this.set('lastUserEmail', email.emailAddress);
+    onSave(changeset: ChangesetDef) {
+        if (changeset.get('emailAddress')) {
+            this.set('lastUserEmail', changeset.get('emailAddress'));
             this.set('showAddModal', true);
             this.reloadUnconfirmedList();
 
@@ -128,13 +129,21 @@ export default class ConnectedEmails extends Component.extend({
         }
     }
     @action
-    onError(userEmail: UserEmail, e: DS.AdapterError | Error) {
+    onError(changeset: ChangesetDef, e: DS.AdapterError | Error) {
         if (e instanceof DS.ConflictError) {
-            userEmail.addExistingEmail();
-            userEmail.validate();
+            const emailSet = changeset.get('userEmailChangeset');
+            const email = changeset.get('email');
+            const emailAddress = changeset.get('emailAddress');
+            emailSet.add(email || emailAddress);
+            changeset.set('userEmailChangeset', emailSet);
+            changeset.validate();
         } else if (e instanceof DS.AdapterError) {
-            userEmail.addInvalidEmail();
-            userEmail.validate();
+            const emailSet = changeset.get('userEmailChangeset');
+            const email = changeset.get('email');
+            const emailAddress = changeset.get('emailAddress');
+            emailSet.add(email || emailAddress);
+            changeset.set('invalidEmails', emailSet);
+            changeset.validate();
         } else {
             return this.toast.error(e.message);
         }
