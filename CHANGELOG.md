@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Addons:
+    - `ember-changesets`
 - Components:
     - `settings/account/default-region` - Panel for setting a user's default region
     - `settings.account.-components.request-deactivation`
@@ -51,6 +53,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `shouldTruncate` (default true)
         - `shouldLinkUsers` (default false)
     - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
+    - `validated-model-form` - use changesets automatically
 - Tests
     - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
 - Travis
