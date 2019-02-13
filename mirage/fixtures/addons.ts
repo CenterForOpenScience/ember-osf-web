@@ -75,7 +75,7 @@ export default [
         auth: {
             type: 'oauth',
             help_info: null,
-            oauth_url: 'https://www.box.com',
+            oauth_url: 'https://www.github.com',
         },
         description:
             'GitHub is a web-based Git repository hosting service. Connect your GitHub repo to your OSF project to share your code alongside other materials in your OSF project.',
@@ -122,7 +122,7 @@ export default [
         auth: {
             type: 'oauth',
             help_info: null,
-            oauth_url: 'https://www.box.com',
+            oauth_url: 'https://www.zotero.com',
         },
         categories: ['citations'],
         description:

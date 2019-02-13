@@ -14,6 +14,7 @@ import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
+import { getAccount } from './views/account';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
@@ -107,6 +108,7 @@ export default function(this: Server) {
         path: '/users/:parentID/addons',
         relatedModelName: 'user-addon',
     });
+    this.get('/users/:parentID/addons/:addonID/accounts', getAccount);
 
     osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);

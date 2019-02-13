@@ -14,7 +14,13 @@ export default class SettingsAddonController extends Controller {
 
     loadUserAddons() {
         const user = this.getCurrentUser();
-        return user ? user.queryHasMany('addons') : {};
+        return user ?
+            user.queryHasMany('addons').then(addons => {
+                addons.map(addon => {
+                    addon.get('accounts');
+                });
+                return addons;
+            }) : {};
     }
 
     init() {
