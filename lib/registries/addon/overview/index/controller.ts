@@ -17,11 +17,6 @@ export default class Overview extends Controller {
             return;
         }
 
-        const root = this.registration.belongsTo('root').value() as Registration;
-
-        return {
-            url: `${root!.id}`,
-            title: root!.title,
-        };
+        return this.registration.belongsTo('root').value() as Registration;
     }
 }

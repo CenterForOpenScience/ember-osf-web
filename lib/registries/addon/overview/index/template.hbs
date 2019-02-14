@@ -1,6 +1,12 @@
 {{#unless this.registration.isRoot}}
     <div data-test-root-link local-class='AboutComponent'>
-        {{t 'registries.overview.component_of' rootTitle=this.root.title rootUrl=this.root.url}}
+        {{t 'registries.overview.component_of'}}
+        <OsfLink
+            @route='resolve-guid'
+            @models={{array this.root.id}}
+        >
+            {{this.root.title}}
+        </OsfLink>
     </div>
 {{/unless}}
 <RegistrationFormView

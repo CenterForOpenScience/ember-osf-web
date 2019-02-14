@@ -15,20 +15,15 @@ import template from './template';
 @layout(template, styles)
 export default class AncestryDisplay extends Component.extend({
     getAncestors: task(function *(this: AncestryDisplay) {
-        if (!this.node) {
+        if (!this.node || this.node.isRoot) {
             return [];
         }
 
         const parentId = this.node.belongsTo('parent').id();
         const rootId = this.node.belongsTo('root').id();
 
-        // No ancestors
-        if (this.node.id === rootId) {
-            return [];
-        }
-
         // One ancestor
-        if (parentId === rootId && rootId !== null) {
+        if (parentId === rootId) {
             const parentNode = yield this.node.parent;
             const { id, title }: {id: string, title: string } = parentNode;
             return [{ id, title }];
@@ -53,7 +48,7 @@ export default class AncestryDisplay extends Component.extend({
             }
         }
         return ancestors;
-    }).restartable(),
+    }).on('didReceiveAttrs').restartable(),
 }) {
     @service i18n!: I18N;
 
@@ -61,14 +56,8 @@ export default class AncestryDisplay extends Component.extend({
     node!: NodeModel;
 
     // Optional arguments
-    delimiter?: string = defaultTo(this.delimiter, '/');
-    useLinks?: boolean = defaultTo(this.useLinks, false);
-    // Truncate long titles
-    truncate?: boolean = defaultTo(this.truncate, false);
+    delimiter: string = defaultTo(this.delimiter, '/');
+    useLinks: boolean = defaultTo(this.useLinks, false);
 
-    @alias('getAncestors.lastComplete.value') ancestry!: string[];
-
-    didReceiveAttrs(this: AncestryDisplay) {
-        this.getAncestors.perform();
-    }
+    @alias('getAncestors.lastComplete.value') ancestry?: string[];
 }

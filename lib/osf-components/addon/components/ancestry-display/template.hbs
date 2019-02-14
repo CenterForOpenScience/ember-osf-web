@@ -1,10 +1,11 @@
-<span local-class='Titles'>
+<span local-class='Titles' ...attributes>
     {{#each this.ancestry as |ancestor index|}}
         <span local-class='AncestorTitle'>
             {{#if (and this.useLinks ancestor.id)}}
                 <OsfLink
                     data-test-ancestor-title={{index}}
-                    @href='/{{ancestor.id}}'
+                    @route='resolve-guid'
+                    @models={{array ancestor.id}}
                 >
                     {{ancestor.title}}
                 </OsfLink>
