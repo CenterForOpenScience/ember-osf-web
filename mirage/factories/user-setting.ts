@@ -31,3 +31,9 @@ declare module 'ember-cli-mirage/types/registries/model' {
         'user-setting': MirageUserSetting;
     } // eslint-disable-line semi
 }
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        userSettings: MirageUserSetting;
+    } // eslint-disable-line semi
+}

@@ -54,3 +54,9 @@ declare module 'ember-cli-mirage/types/registries/model' {
         root: Root;
     } // eslint-disable-line semi
 }
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        roots: Root;
+    } // eslint-disable-line semi
+}

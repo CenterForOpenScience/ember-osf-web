@@ -1,11 +1,9 @@
 import { HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
 
-import { MirageUserSetting } from '../factories/user-setting';
-
 export function updateUserSetting(this: HandlerContext, schema: Schema, request: Request) {
-    const attrs = this.normalizedRequestAttrs('userSetting');
+    const attrs = this.normalizedRequestAttrs('user-setting');
     const userId = request.params.parentID;
-    const userSettings = schema.userSettings.findBy<MirageUserSetting>({ userId });
+    const userSettings = schema.userSettings.findBy({ userId });
     const { twoFactorEnabled, twoFactorConfirmed } = userSettings;
     let { secret } = userSettings;
 
@@ -42,7 +40,7 @@ export function updateUserSetting(this: HandlerContext, schema: Schema, request:
 }
 
 export function getUserSetting(this: HandlerContext, schema: Schema, request: Request) {
-    const userSetting = schema.userSettings.findBy<MirageUserSetting>({ userId: request.params.id });
+    const userSetting = schema.userSettings.findBy({ userId: request.params.id });
     const { twoFactorEnabled, twoFactorConfirmed } = userSetting;
     if (twoFactorEnabled && !twoFactorConfirmed) {
         userSetting.secret = 'S3CR3TSHH';

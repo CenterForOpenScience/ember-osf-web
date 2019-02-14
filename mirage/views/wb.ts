@@ -1,11 +1,9 @@
 import { HandlerContext, Schema } from 'ember-cli-mirage';
 
-import File from 'ember-osf-web/models/file';
-
 export function moveFile(this: HandlerContext, schema: Schema) {
     const fileId = this.request.params.id;
     const nodeId = JSON.parse(this.request.requestBody).resource;
-    const file = schema.files.find<File>(fileId);
+    const file = schema.files.find(fileId);
     file.update({
         userId: null,
         nodeId,
@@ -16,7 +14,7 @@ export function moveFile(this: HandlerContext, schema: Schema) {
 export function renameFile(this: HandlerContext, schema: Schema) {
     const fileId = this.request.params.id;
     const name = JSON.parse(this.request.requestBody).rename;
-    const file = schema.files.find<File>(fileId);
+    const file = schema.files.find(fileId);
     file.update({
         name,
     });
@@ -25,7 +23,7 @@ export function renameFile(this: HandlerContext, schema: Schema) {
 
 export function deleteFile(this: HandlerContext, schema: Schema) {
     const fileId = this.request.params.id;
-    const file = schema.files.find<File>(fileId);
+    const file = schema.files.find(fileId);
     file.destroy();
     return null;
 }

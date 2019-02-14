@@ -2,7 +2,6 @@ import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
-import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
@@ -48,7 +47,7 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
 
     server.create('registration', {
         id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find<RegistrationSchema>('prereg_challenge'),
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         root: undefined,
