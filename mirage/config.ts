@@ -2,6 +2,7 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { getCitation } from './views/citation';
+import { getProviderTaxonomies } from './views/collection-provider-taxonomies';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
@@ -134,7 +135,7 @@ export default function(this: Server) {
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
-    osfNestedResource(this, 'collection-provider', 'taxonomies', { path: '/providers/collections/:parentID/taxonomies' });
+    this.get('/providers/collections/:parentID/taxonomies', getProviderTaxonomies);
 
     // Waterbutler namespace
     this.namespace = '/wb';

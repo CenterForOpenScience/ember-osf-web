@@ -17,6 +17,11 @@ export default Factory.extend<MirageCollection>({
     dateCreated: faker.date.past(2, new Date(2019, 0, 0)),
     dateModified: faker.date.past(2, new Date(2019, 0, 0)),
     bookmarks: faker.random.boolean(),
+    collectedTypeChoices: [faker.lorem.word(), faker.lorem.word()],
+    volumeChoices: [faker.lorem.word(), faker.lorem.word()],
+    issueChoices: [faker.lorem.word(), faker.lorem.word()],
+    statusChoices: [faker.lorem.word(), faker.lorem.word()],
+    programAreaChoices: [faker.lorem.word(), faker.lorem.word()],
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

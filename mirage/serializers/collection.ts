@@ -26,6 +26,13 @@ export default class CollectionSerializer extends ApplicationSerializer<Collecti
                     },
                 },
             },
+            provider: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/collections/${model.provider.id}/`
+                    }
+                }
+            }
         };
     }
 }

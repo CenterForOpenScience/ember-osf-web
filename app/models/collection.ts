@@ -30,7 +30,7 @@ export default class CollectionModel extends OsfModel {
     @attr('array') statusChoices!: string[];
     @attr('array') volumeChoices!: string[];
 
-    @belongsTo('collection-provider', { inverse: 'collections' })
+    @belongsTo('collection-provider')
     provider!: DS.PromiseObject<CollectionProviderModel> & CollectionProviderModel;
 
     @hasMany('node', { inverse: null })
