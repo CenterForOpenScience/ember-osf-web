@@ -1,0 +1,20 @@
+@for $i from 0 through 5 {
+    :global(.progress-bar-#{$i}) {
+        width: #{$i * 20%} !important;
+    }
+}
+
+@each $class, $color in $progress-bar-bg-bright {
+    :global(.progress-bar-#{$class}) {
+        background-color: $color;
+    }
+}
+
+.createPassword:global(.progress) {
+    height: inherit;
+    margin-bottom: 15px;
+}
+
+.warningMessage {
+    margin-bottom: 10px;
+}
