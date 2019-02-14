@@ -35,3 +35,9 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
         },
     }),
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        draftRegistrations: DraftRegistration;
+    } // eslint-disable-line semi
+}

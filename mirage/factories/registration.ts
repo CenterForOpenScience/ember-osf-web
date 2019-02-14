@@ -155,3 +155,9 @@ declare module 'ember-cli-mirage/types/registries/model' {
         registration: MirageRegistration;
     } // eslint-disable-line semi
 }
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        registrations: MirageRegistration;
+    } // eslint-disable-line semi
+}

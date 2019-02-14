@@ -67,3 +67,9 @@ export default Factory.extend<Comment & CommentTraits>({
         },
     }),
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        comments: Comment;
+    } // eslint-disable-line semi
+}

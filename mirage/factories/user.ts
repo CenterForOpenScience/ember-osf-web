@@ -1,9 +1,7 @@
 import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
-import Region from 'ember-osf-web/models/region';
 import User from 'ember-osf-web/models/user';
 
-import { Root } from './root';
 import { guid, guidAfterCreate } from './utils';
 
 export interface MirageUser extends User {
@@ -73,7 +71,7 @@ export default Factory.extend<MirageUser & UserTraits>({
 
     loggedIn: trait<MirageUser>({
         afterCreate(currentUser, server) {
-            const root = server.schema.roots.first<Root>();
+            const root = server.schema.roots.first();
             if (root) {
                 root.update({ currentUser });
             } else {
@@ -114,7 +112,7 @@ export default Factory.extend<MirageUser & UserTraits>({
     }),
     withUsRegion: trait<MirageUser>({
         afterCreate(user, server) {
-            const defaultRegion = server.schema.regions.find<Region>('us');
+            const defaultRegion = server.schema.regions.find('us');
             user.update({ defaultRegion });
         },
     }),
@@ -123,5 +121,11 @@ export default Factory.extend<MirageUser & UserTraits>({
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
         user: MirageUser;
+    } // eslint-disable-line semi
+}
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        users: MirageUser;
     } // eslint-disable-line semi
 }

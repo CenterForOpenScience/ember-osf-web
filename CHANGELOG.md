@@ -41,8 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - traits now take a type argument (the model they are a trait for) which results in proper typing for
           `afterCreate(model, server)` without requiring manual typing of its args.
         - the `afterCreate` method of mirage factories is typed similarly to trait's `afterCreate`
-        - mirage model class methods now take a type argument and their return value will be properly typed.
-          (e.g `server.schema.users.find<User>()` will return `ModelInstance<User>`)
+        - `normalizedRequestAttrs()` now requires the model name to be passed to ensure type safety
 - Services
     - `analytics` - allow toast-on-click to be used in production builds (when enabled in dev banner)
 - Components

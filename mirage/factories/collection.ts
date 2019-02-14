@@ -13,3 +13,9 @@ export default Factory.extend<Collection>({
     dateModified: faker.date.past(2),
     bookmarks: faker.random.boolean(),
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        collections: Collection;
+    } // eslint-disable-line semi
+}

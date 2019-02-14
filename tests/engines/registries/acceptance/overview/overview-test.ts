@@ -4,7 +4,6 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import Registration from 'ember-osf-web/models/registration';
-import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
@@ -20,7 +19,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
     hooks.beforeEach(function(this: OverviewTestContext) {
         server.loadFixtures('registration-schemas');
         const registration = server.create('registration', {
-            registrationSchema: server.schema.registrationSchemas.find<RegistrationSchema>('prereg_challenge'),
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             embargoed: true,
         });
 

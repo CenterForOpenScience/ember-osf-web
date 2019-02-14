@@ -1,21 +1,19 @@
 import { association, Factory, faker } from 'ember-cli-mirage';
 
-import Comment from 'ember-osf-web/models/comment';
 import CommentReport from 'ember-osf-web/models/comment-report';
 
-import { Root } from './root';
 import { guid } from './utils';
 
 export default Factory.extend<CommentReport>({
     id: guid('comment-report'),
     afterCreate(commentReport, server) {
-        const root = server.schema.roots.first<Root>();
+        const root = server.schema.roots.first();
         const reporter = (!root || faker.random.boolean()) ? server.create('user').id : root.currentUser!.id;
         commentReport.update({
             reporter,
         });
 
-        const comment = server.schema.comments.find<Comment>(commentReport.comment.id);
+        const comment = server.schema.comments.find(commentReport.comment.id);
         if (comment) {
             comment.update({
                 isAbuse: true,
@@ -28,3 +26,9 @@ export default Factory.extend<CommentReport>({
 
     comment: association() as CommentReport['comment'],
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        commentReports: CommentReport;
+    } // eslint-disable-line semi
+}

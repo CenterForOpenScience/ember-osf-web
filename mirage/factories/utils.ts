@@ -2,6 +2,7 @@ import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 import SeedRandom from 'seedrandom';
 
 import { GUID_ALPHABET } from 'ember-osf-web/const/guid-alphabet';
+import Guid from 'ember-osf-web/models/guid';
 import { AbstractQuestion, Answer, RegistrationMetadata } from 'ember-osf-web/models/registration-schema';
 
 import { MirageRegistrationSchema } from './registration-schema';
@@ -18,6 +19,12 @@ export function guid(referentType: string) {
 
         return newGuid;
     };
+}
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        guids: Guid;
+    } // eslint-disable-line semi
 }
 
 export function guidAfterCreate(newObj: ModelInstance, server: Server) {

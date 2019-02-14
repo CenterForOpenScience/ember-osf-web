@@ -11,3 +11,9 @@ export default Factory.extend<RegionModel>({
         return faker.address.country();
     },
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        regions: RegionModel;
+    } // eslint-disable-line semi
+}
