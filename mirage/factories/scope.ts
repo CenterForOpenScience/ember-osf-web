@@ -11,3 +11,9 @@ export default Factory.extend<Scope>({
         return faker.lorem.sentence();
     },
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        scopes: Scope;
+    } // eslint-disable-line semi
+}

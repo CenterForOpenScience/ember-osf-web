@@ -12,7 +12,6 @@ import {
 import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
-import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 module('Acceptance | guid-node/registrations', hooks => {
     setupOSFApplicationTest(hooks);
@@ -100,7 +99,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         server.loadFixtures('registration-schemas');
         const registrationSchemaName = 'Prereg Challenge';
-        const registrationSchema = server.schema.registrationSchemas.all<RegistrationSchema>().models.filter(schema =>
+        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
             schema.name === registrationSchemaName)[0];
         const registrationTitle = 'Registration Title';
         const registeredMeta = {
@@ -146,7 +145,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         server.create('contributor', { node, users: contributorUser });
 
         server.loadFixtures('registration-schemas');
-        const registrationSchema = server.schema.registrationSchemas.all<RegistrationSchema>().models[0];
+        const registrationSchema = server.schema.registrationSchemas.all().models[0];
 
         registerNodeMultiple(server, node, 12, { registrationSchema }, 'withArbitraryState');
 
@@ -189,7 +188,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         server.loadFixtures('registration-schemas');
 
-        const registrationSchema = server.schema.registrationSchemas.all<RegistrationSchema>().models.filter(schema =>
+        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
             schema.name === 'Prereg Challenge')[0];
 
         const registrationMetadata = {

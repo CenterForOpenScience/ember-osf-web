@@ -130,3 +130,9 @@ const licenses: Array<Partial<License>> = [
 /* eslint-enable max-len */
 
 export default licenses;
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        licenses: License;
+    } // eslint-disable-line semi
+}

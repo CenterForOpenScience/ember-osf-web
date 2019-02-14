@@ -13,3 +13,9 @@ export default Factory.extend<Contributor>({
     node: association() as Contributor['node'],
     users: association() as Contributor['users'],
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        contributors: Contributor;
+    } // eslint-disable-line semi
+}

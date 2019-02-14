@@ -26,3 +26,9 @@ export default Factory.extend<DeveloperApp>({
         return faker.random.uuid();
     },
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        developerApps: DeveloperApp;
+    } // eslint-disable-line semi
+}
