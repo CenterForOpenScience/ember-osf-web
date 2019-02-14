@@ -8,7 +8,6 @@ import { module, test } from 'qunit';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
-import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine, setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
@@ -35,7 +34,7 @@ module('Registries | Acceptance | overview.index', hooks => {
         this.set('registration', server.create('registration', {
             archiving: false,
             withdrawn: false,
-            registrationSchema: server.schema.registrationSchemas.find<RegistrationSchema>('prereg_challenge'),
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             currentUserPermissions: [Permission.Admin],
         }, 'withContributors'));
     });
