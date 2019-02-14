@@ -26,9 +26,7 @@ export default class ValidatedModelFormController extends Controller {
     // BEGIN-SNIPPET validated-model-form.on-will-destroy.ts
     @action
     onWillDestroy() {
-        if (this.existingNode !== undefined) {
-            this.existingNode.rollbackAttributes();
-        }
+        this.toast.success('The data you entered is gone');
     }
     // END-SNIPPET
 }

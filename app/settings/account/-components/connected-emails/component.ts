@@ -129,7 +129,7 @@ export default class ConnectedEmails extends Component.extend({
         }
     }
     @action
-    onError(changeset: ChangesetDef, e: DS.AdapterError | Error) {
+    onError(e: DS.AdapterError | Error, changeset: ChangesetDef) {
         if (e instanceof DS.ConflictError) {
             const emailSet = changeset.get('userEmailChangeset');
             const email = changeset.get('email');

@@ -89,8 +89,10 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     }
 
     willDestroy() {
-        if (this.changeset) {
-            this.changeset.rollback();
+        if (this.model) {
+            if (this.onWillDestroy !== undefined) {
+                this.onWillDestroy(this.model);
+            }
         }
     }
 
