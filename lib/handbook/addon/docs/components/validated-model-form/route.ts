@@ -18,7 +18,7 @@ export default class ValidatedModelFormRoute extends Route.extend(ConfirmationMi
 
     // BEGIN-SNIPPET validated-model-form.is-page-dirty.ts
     // This tells ember-onbeforeupload's ConfirmationMixin whether or not to stop transitions
-    @computed('controller.existingNode', 'controller.existingNode.hasDirtyAttributes')
+    @computed('controller.{existingNode,existingNode.hasDirtyAttributes}')
     get isPageDirty() {
         const controller = this.controller as ValidatedModelFormController;
         const existingNode = controller.existingNode !== undefined ? controller.existingNode : null;
