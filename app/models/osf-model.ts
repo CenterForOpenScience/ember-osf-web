@@ -33,7 +33,6 @@ export enum Permission {
     Admin = 'admin',
 }
 
-// eslint-disable-next-line space-infix-ops
 type RelationshipType<T, R extends keyof T> = T[R] extends EmberArray<infer U> ? U : never;
 
 export interface QueryHasManyResult<T> extends Array<T> {
