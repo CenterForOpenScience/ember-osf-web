@@ -10,7 +10,7 @@
         </div>
         {{yield}}
     </div>
-    {{#each @user.addons as |userAddon|}}
+    {{#each @userAddons as |userAddon|}}
         {{#if (eq userAddon.id @addon.id)}}
             <div local-class='footer'>
                 <p>

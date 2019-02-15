@@ -2,7 +2,7 @@
     (component 'settings/addons/-components/addon-modal')
     as |AddonModal|
 }}
-    <AddonModal @addon={{@addon}} @user={{@user}}>
+<AddonModal @addon={{@addon}} @userAddons={{@userAddons}}>
         <ValidatedModelForm as |form|>
             <div local-class='form-item'>
                 <h4>{{t 'settings.addons.access_key'}}</h4>
