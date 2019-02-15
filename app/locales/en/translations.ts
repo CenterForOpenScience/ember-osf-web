@@ -1090,7 +1090,7 @@ export default {
             expand: 'Expand',
             see_more: 'See more',
             metadata: 'Metadata',
-
+            component_of: 'This is a component of a registration:',
             comments: {
                 title: 'Comments',
                 see_replies: 'See replies',

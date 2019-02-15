@@ -22,7 +22,12 @@ export interface NodeTraits {
 
 export default Factory.extend<MirageNode & NodeTraits>({
     id: guid('node'),
-    afterCreate: guidAfterCreate,
+    afterCreate(newNode, server) {
+        guidAfterCreate(newNode, server);
+        if (!newNode.root && newNode.parent) {
+            newNode.update({ root: newNode.parent.root || newNode.parent });
+        }
+    },
 
     category: faker.list.cycle(
         'project',

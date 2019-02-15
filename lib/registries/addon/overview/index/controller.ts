@@ -1,3 +1,4 @@
+import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Controller from '@ember/controller';
 
@@ -9,4 +10,13 @@ export default class Overview extends Controller {
 
     @alias('model.taskInstance.value')
     registration?: Registration;
+
+    @computed('registration.{root,isRoot}')
+    get root() {
+        if (!this.registration || this.registration.isRoot) {
+            return;
+        }
+
+        return this.registration.belongsTo('root').value() as Registration;
+    }
 }

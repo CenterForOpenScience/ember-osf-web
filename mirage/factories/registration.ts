@@ -78,6 +78,9 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 registrationSchema: newReg.parent.registrationSchema,
                 registeredMeta: newReg.parent.registeredMeta,
             });
+            if (!newReg.root) {
+                newReg.update({ root: newReg.parent.root || newReg.parent });
+            }
         } else if (!newReg.registeredMeta) {
             const registrationSchema = newReg.registrationSchema ||
                 faker.random.arrayElement(server.schema.registrationSchemas.all().models) ||
