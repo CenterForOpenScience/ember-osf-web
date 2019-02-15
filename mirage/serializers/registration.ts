@@ -49,6 +49,14 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            affiliatedInstitutions: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/institutions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'affiliatedInstitutions'),
+                    },
+                },
+            },
             comments: {
                 links: {
                     related: {

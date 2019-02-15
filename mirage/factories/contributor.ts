@@ -9,7 +9,9 @@ export default Factory.extend<Contributor>({
     unregisteredContributor() {
         return faker.random.number(5) ? undefined : faker.name.firstName();
     },
-    index: 0,
+    index(i: number) {
+        return i;
+    },
     node: association() as Contributor['node'],
     users: association() as Contributor['users'],
 });
