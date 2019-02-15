@@ -26,6 +26,7 @@ const Router = EmberRouter.extend({
     statusMessages: service('status-messages'),
     ready: service('ready'),
 
+    // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
     readyBlocker: null as Blocker | null,
     location: config.locationType,
     rootURL: config.rootURL,
