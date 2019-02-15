@@ -18,7 +18,7 @@ export default class ExportPane extends Component.extend({
         const { user } = this.currentUser;
 
         if (!user) {
-            return undefined;
+            return;
         }
         this.settings = yield user.belongsTo('settings').reload();
     }),

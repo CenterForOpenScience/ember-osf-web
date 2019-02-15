@@ -18,7 +18,7 @@ export default class DeactivationPane extends Component.extend({
         const { user } = this.currentUser;
 
         if (!user) {
-            return undefined;
+            return;
         }
         this.settings = yield user.belongsTo('settings').reload();
     }),
@@ -28,9 +28,8 @@ export default class DeactivationPane extends Component.extend({
             if (this.settings !== undefined) {
                 yield this.settings.save();
                 return this.toast.success(successMessage);
-            } else {
-                throw Error('No settings to save.');
             }
+            throw Error('No settings to save.');
         } catch (e) {
             const { supportEmail } = config.support;
             const saveErrorMessage = this.i18n.t('settings.account.security.saveError', { supportEmail });

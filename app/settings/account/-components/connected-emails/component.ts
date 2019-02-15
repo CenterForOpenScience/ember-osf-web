@@ -124,7 +124,7 @@ export default class ConnectedEmails extends Component.extend({
             this.set('showAddModal', true);
             this.reloadUnconfirmedList();
 
-            return this.toast.success(this.i18n.t('settings.account.connected_emails.save_success'));
+            this.toast.success(this.i18n.t('settings.account.connected_emails.save_success'));
         }
     }
     @action
@@ -136,7 +136,7 @@ export default class ConnectedEmails extends Component.extend({
             userEmail.addInvalidEmail();
             userEmail.validate();
         } else {
-            return this.toast.error(e.message);
+            this.toast.error(e.message);
         }
     }
 

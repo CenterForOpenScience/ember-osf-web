@@ -25,9 +25,8 @@ export default class Institutions extends Controller {
         if (!this.textValue.length) {
             return this.model;
         }
-        return this.model.filter((each: Institution) => {
-            return each.get('name').toLowerCase().indexOf(this.textValue.toLowerCase()) !== -1;
-        });
+        return this.model.filter((institution: Institution) =>
+            institution.name.toLowerCase().indexOf(this.textValue.toLowerCase()) !== -1);
     }
 
     @computed('filtered', 'sortOrder', 'page', 'textValue')

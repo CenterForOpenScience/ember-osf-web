@@ -104,18 +104,7 @@ export default class VerifyEmailModal extends Component.extend({
 
     @computed('userEmail.isMerge')
     get translationKeys(): TranslationKeys {
-        if (!this.userEmail || !this.userEmail.isMerge) {
-            return {
-                header: 'verifyEmail.add.header',
-                body: 'verifyEmail.add.body',
-                verifyButton: 'verifyEmail.add.verifyButton',
-                denyButton: 'verifyEmail.add.denyButton',
-                verifySuccess: 'verifyEmail.add.verifySuccess',
-                denySuccess: 'verifyEmail.add.denySuccess',
-                verifyError: 'verifyEmail.add.verifyError',
-                denyError: 'verifyEmail.add.denyError',
-            };
-        } else {
+        if (this.userEmail && this.userEmail.isMerge) {
             return {
                 header: 'verifyEmail.merge.header',
                 body: 'verifyEmail.merge.body',
@@ -127,6 +116,16 @@ export default class VerifyEmailModal extends Component.extend({
                 denyError: 'verifyEmail.merge.denyError',
             };
         }
+        return {
+            header: 'verifyEmail.add.header',
+            body: 'verifyEmail.add.body',
+            verifyButton: 'verifyEmail.add.verifyButton',
+            denyButton: 'verifyEmail.add.denyButton',
+            verifySuccess: 'verifyEmail.add.verifySuccess',
+            denySuccess: 'verifyEmail.add.denySuccess',
+            verifyError: 'verifyEmail.add.verifyError',
+            denyError: 'verifyEmail.add.denyError',
+        };
     }
 
     constructor(...args: any[]) {

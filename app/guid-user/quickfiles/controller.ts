@@ -40,6 +40,7 @@ export default class UserQuickfiles extends Controller {
             return yield node.save();
         } catch (ex) {
             this.get('toast').error(this.get('i18n').t('move_to_project.could_not_create_project'));
+            return undefined;
         }
     });
 
