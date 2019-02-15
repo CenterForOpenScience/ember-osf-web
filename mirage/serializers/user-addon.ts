@@ -9,7 +9,7 @@ const { OSF: { apiUrl } } = config;
 export default class UserAddonSerializer extends ApplicationSerializer<UserAddon> {
     buildRelationships(model: ModelInstance<UserAddon>) {
         return {
-            accounts: {
+            account: {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/users/${model.user.id}/addons/${model.id}/accounts/`,
@@ -21,7 +21,7 @@ export default class UserAddonSerializer extends ApplicationSerializer<UserAddon
 
     buildNormalLinks(model: ModelInstance<UserAddon>) {
         return {
-            self: `${apiUrl}/v2/users/${model.user.id}/addons/`,
+            self: `${apiUrl}/v2/users/${model.user.id}/addons/${model.id}`,
         };
     }
 }

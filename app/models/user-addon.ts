@@ -11,7 +11,7 @@ export default class UserAddonModel extends OsfModel {
     user!: DS.PromiseObject<UserModel> & UserModel;
 
     @belongsTo('account', { inverse: 'addon' })
-    accounts!: DS.PromiseObject<AccountModel> & AccountModel;
+    account!: DS.PromiseObject<AccountModel> & AccountModel;
 }
 
 declare module 'ember-data/types/registries/model' {

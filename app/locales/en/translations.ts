@@ -1491,6 +1491,10 @@ export default {
             url: 'URL',
             access_key: 'Access Key',
             secret_key: 'Secret Key',
+            authorized: 'Authorized by',
+            disconnect_account: 'Disconnect account',
+            disconnect: 'Disconnect',
+            disconnect_warning: 'Are you sure you want to disconnect the {{provider}} account {{account}}? This will revoke access to {{provider}} for all authorized projects.',
         },
         notifications: {
             title: 'Notifications',

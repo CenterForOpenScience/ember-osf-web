@@ -20,22 +20,22 @@
                         {{#if (eq addon.auth.type 'token_auth')}}
                             <TokenAddon
                                 @addon={{addon}}
-                                @userAddons={{data.userAddons}}
+                                @user={{data.user}}
                             />
                         {{else if (eq addon.auth.type 'user_auth')}}
                             <CredentialAddon
                                 @addon={{addon}}
-                                @userAddons={{data.userAddons}}
+                                @user={{data.user}}
                             />
                         {{else if (eq addon.auth.type 'key_auth')}}
                             <KeyAddon
                                 @addon={{addon}}
-                                @userAddons={{data.userAddons}}
+                                @user={{data.user}}
                             />
                         {{else}}
                             <OauthAddon
                                 @addon={{addon}}
-                                @userAddons={{data.userAddons}}
+                                @user={{data.user}}
                             />
                         {{/if}}
                     </div>

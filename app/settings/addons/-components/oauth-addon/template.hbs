@@ -1,5 +1,5 @@
 {{#let (component 'settings/addons/-components/addon') as |Addon|}}
-    <Addon @addon={{@addon}} @userAddons={{@userAddons}}>
+    <Addon @addon={{@addon}} @user={{@user}}>
          <OsfLink
              data-analytics-name={{concat @addon.name ' addon'}}
              @href={{@addon.auth.oauth_url}}

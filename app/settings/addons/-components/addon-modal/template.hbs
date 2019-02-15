@@ -1,5 +1,5 @@
 {{#let (component 'settings/addons/-components/addon') as |Addon|}}
-    <Addon @addon={{@addon}} @userAddons={{@userAddons}}>
+    <Addon @addon={{@addon}} @user={{@user}}>
          <OsfButton
              data-analytics-name={{concat @addon.name ' addon'}}
              @type='link'
@@ -21,14 +21,14 @@
             {{yield}}
         </modal.body>
         <modal.footer>
-            <BsButton
-                @onClick={{action this.closeModal}}
-                @defaultText={{t 'general.cancel'}}
-            />
-            <BsButton
+            <OsfButton @onClick={{action this.closeModal}}>
+                {{t 'general.cancel'}}
+            </OsfButton>
+            <OsfButton
                 @type='primary'
-                @defaultText={{t 'general.save'}}
-            />
+            >
+                {{t 'general.save'}}
+            </OsfButton>
         </modal.footer>
     </BsModal>
 {{/let}}

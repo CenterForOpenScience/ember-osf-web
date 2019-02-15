@@ -142,9 +142,10 @@ function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('token', 23);
     server.createList('scope', 5);
     server.createList('developer-app', 12);
-    // server.create('user-addon', { id: 'github', user: currentUser });
+    const github = server.create('user-addon', { id: 'github', user: currentUser });
     const gitlab = server.create('user-addon', { id: 'gitlab', user: currentUser });
     server.create('account', { provider: 'gitlab', addon: gitlab });
+    server.create('account', { provider: 'github', addon: github });
     server.loadFixtures('addons');
 }
 

@@ -10,9 +10,51 @@
         </div>
         {{yield}}
     </div>
-    {{#if account}}
-        <div local-class='footer'>
-            <p>Authorized</p>
-        </div>
-    {{/if}}
+    {{#each @user.addons as |userAddon|}}
+        {{#if (eq userAddon.id @addon.id)}}
+            <div local-class='footer'>
+                <p>
+                    {{t 'settings.addons.authorized'}}
+                    {{userAddon.account.displayName}}
+                </p>
+                <OsfButton
+                    local-class='danger'
+                    @type='link'
+                    @onClick={{action this.openDeleteModal}}
+                >
+                    {{t 'settings.addons.disconnect_account'}}
+                </OsfButton>
+            </div>
+            <BsModal
+                @open={{this.modalOpen}}
+                @onHide={{action this.closeDeleteModal}}
+                as |modal|
+            >
+                <modal.header>
+                    <h3>{{t 'settings.addons.disconnect_account'}}</h3>
+                </modal.header>
+                <modal.body>
+                <p>
+                    {{t 'settings.addons.disconnect_warning'
+                        provider=@addon.name
+                        account=userAddon.account.displayName
+                    }}
+                </p>
+                </modal.body>
+                <modal.footer>
+                    <OsfButton
+                        @onClick={{action this.closeDeleteModal}}
+                    >
+                        {{t 'general.cancel'}}
+                    </OsfButton>
+                    <OsfButton
+                        @type='danger'
+                        @onClick={{action this.deleteAccount userAddon.account.id @addon.id}}
+                    >
+                        {{t 'settings.addons.disconnect'}}
+                    </OsfButton>
+                </modal.footer>
+            </BsModal>
+        {{/if}}
+    {{/each}}
 </div>

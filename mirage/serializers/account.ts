@@ -10,7 +10,7 @@ export default class AccountSerializer extends ApplicationSerializer<AccountMode
         const { addon } = model;
 
         return {
-            self: `${apiUrl}/v2/users/${addon.user.id}/addons/${addon.id}/accounts/`,
+            self: `${apiUrl}/v2/users/${addon.user.id}/addons/${addon.id}/accounts/${model.id}`,
         };
     }
 }

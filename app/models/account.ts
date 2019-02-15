@@ -8,7 +8,7 @@ export default class AccountModel extends OsfModel {
     @attr('fixstring') profileUrl!: string;
     @attr('fixstring') provider!: string;
 
-    @belongsTo('user-addon', { inverse: 'accounts' })
+    @belongsTo('user-addon', { inverse: 'account' })
     addon!: DS.PromiseObject<UserAddonModel> & UserAddonModel;
 }
 

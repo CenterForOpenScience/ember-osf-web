@@ -5,16 +5,11 @@ export function getAccount(this: HandlerContext, schema: Schema, request: Reques
     const response = this.serialize(account, 'account');
 
     return response;
+}
 
-    // console.log(response);
+export function deleteAccount(this: HandlerContext, schema: Schema, request: Request) {
+    const { id } = request.params;
+    const account = schema.accounts.findBy({ id });
 
-    // return response;
-
-    // const userSetting = schema.userSettings.findBy({ userId: request.params.id });
-    // const { twoFactorEnabled, twoFactorConfirmed } = userSetting;
-    // if (twoFactorEnabled && !twoFactorConfirmed) {
-    // userSetting.secret = 'S3CR3TSHH';
-    // }
-    // const response = this.serialize(userSetting, 'user-setting');
-    // return response;
+    account.destroy();
 }

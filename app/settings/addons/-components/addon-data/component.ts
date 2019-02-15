@@ -8,14 +8,24 @@ export default class AddonData extends Component {
     models!: object;
     @service store!: DS.Store;
 
-    async didInsertElement() {
+    async loadData() {
         const loaded: any = await hash(this.models);
         let modelData: object = {};
 
         Object.keys(loaded).forEach(key => {
-            modelData = { ...modelData, [key]: loaded[key].toArray() };
+            let data = loaded[key];
+
+            if(typeof data.toArray === "function") {
+                data = loaded[key].toArray();
+            }
+
+            modelData = { ...modelData, [key]: data };
         });
 
         this.set('data', { ...modelData, loaded: true });
+    }
+
+    async didInsertElement() {
+        await this.loadData();
     }
 }

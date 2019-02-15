@@ -24,6 +24,33 @@
 }
 
 .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     color: #7d7d7d;
-    margin: 0 25px;
+    margin: 20px 0 20px 33px;
+
+    p {
+        margin: 0;
+    }
+
+    button {
+        padding: 0;
+    }
+}
+
+.danger {
+    color: #da5956;
+
+    &:focus {
+        color: #a94442;
+    }
+
+    &:hover {
+        color: #a94442;
+    }
+
+    &:active {
+        color: #a94442;
+    }
 }
