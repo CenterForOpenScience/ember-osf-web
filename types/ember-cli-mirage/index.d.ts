@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import MirageModelRegistry from 'ember-cli-mirage/types/registries/model';
 import MirageSchemaRegistry from 'ember-cli-mirage/types/registries/schema';
 import DS from 'ember-data';
@@ -276,4 +275,3 @@ export class JSONAPISerializer {
     serialize(object: ModelInstance, request: Request): SingleResourceDocument;
     normalize(json: any): any;
 }
-/* eslint-enable no-use-before-define */
