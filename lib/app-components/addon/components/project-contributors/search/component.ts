@@ -37,7 +37,7 @@ export default class Search extends Component {
 
     search = task(function *(this: Search, page?: number) {
         if (!this.query) {
-            return;
+            return undefined;
         }
 
         if (page) {

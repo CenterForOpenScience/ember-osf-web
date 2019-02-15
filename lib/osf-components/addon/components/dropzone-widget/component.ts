@@ -98,7 +98,7 @@ export default class DropzoneWidget extends Component.extend({
     }
 
     loadDropzone(this: DropzoneWidget) {
-        function CustomDropzone(this: DropzoneWidget, ...args: any[]) {
+        function CustomDropzone(...args: any[]) {
             // @ts-ignore - Dropzone is a global
             Dropzone.call(this, ...args);
         }
@@ -110,12 +110,12 @@ export default class DropzoneWidget extends Component.extend({
                 if ((e.dataTransfer.items && e.dataTransfer.items.length > 1) || e.dataTransfer.files.length > 1) {
                     this.emit('drop', e);
                     this.emit('error', 'None', i18n.t('dropzone_widget.error_multiple_files'));
-                    return;
+                    return undefined;
                 }
                 if (e.dataTransfer.files.length === 0) {
                     this.emit('drop', e);
                     this.emit('error', 'None', i18n.t('dropzone_widget.error_directories'));
-                    return;
+                    return undefined;
                 }
             }
             // @ts-ignore - Dropzone is a global
@@ -127,7 +127,7 @@ export default class DropzoneWidget extends Component.extend({
                 // @ts-ignore - Dropzone is a global
                 directory.status = Dropzone.ERROR;
                 this.emit('error', directory, i18n.t('dropzone_widget.error_directories'));
-                return;
+                return undefined;
             }
             // @ts-ignore - Dropzone is a global
             return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
