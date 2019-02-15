@@ -191,7 +191,7 @@ module.exports = function(environment) {
         },
         social: {
             twitter: {
-                viaHandle: 'OSFramework',
+                viaHandle: '@OSFramework',
             },
         },
         signUpPolicy: {
