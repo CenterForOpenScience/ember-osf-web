@@ -1,7 +1,5 @@
-<div>
-    {{#if data.loaded}}
-        {{yield data}}
-    {{else}}
-        {{@loader}}
-    {{/if}}
-</div>
+{{#if data.loaded}}
+    {{yield data}}
+{{else}}
+    {{@loader}}
+{{/if}}

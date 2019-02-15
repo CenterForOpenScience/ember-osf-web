@@ -12,30 +12,10 @@ export default class SettingsAddonController extends Controller {
         return currentUserId ? this.store.findRecord('user', currentUserId) : null;
     }
 
-    loadUser() {
-        const { currentUserId } = this.currentUser;
-        // const user = this.getCurrentUser();
-        if(!currentUserId) {
-            return null;
-        }
-
-        return this.store.findRecord(
-            'user',
-            currentUserId,
-            { embed: 'addons addons.accounts' }).then((data) => {
-                return data;
-            });
-
-        // return user ?
-            // user.queryHasMany('addons', { embed: 'accounts' })
-            // : {};
-
-    }
-
     init() {
         const models = {
             addons: this.store.query('addon', {}),
-            user: this.loadUser(),
+            user: this.getCurrentUser(),
         };
 
         this.set('models', models);
