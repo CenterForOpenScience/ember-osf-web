@@ -4,9 +4,7 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
-import { typeOf } from '@ember/utils';
-import Changeset from 'ember-changeset';
-import { ChangesetDef, ValidatorFunc } from 'ember-changeset/types';
+import { ChangesetDef } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
@@ -15,6 +13,7 @@ import Toast from 'ember-toastr/services/toast';
 import { requiredAction } from 'ember-osf-web/decorators/component';
 import { ValidatedModelName } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
@@ -31,6 +30,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     modelName?: M; // If provided, new model instance created in constructor
     disabled: boolean = defaultTo(this.disabled, false);
     changeset?: ChangesetDef;
+    recreateModel: boolean = defaultTo(this.recreateModel, false);
 
     // Private properties
     @service store!: DS.Store;
@@ -61,7 +61,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
                 if (this.modelName) {
                     set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
                     if (this.model !== undefined) {
-                        set(this, 'changeset', this.buildChangeset(this.model));
+                        set(this, 'changeset', buildChangeset(this.model));
                     }
                 }
                 this.set('shouldShowMessages', false);
@@ -84,7 +84,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
             this.model = this.store.createRecord(this.modelName, this.modelProperties);
         }
         if (!this.changeset && this.model) {
-            set(this, 'changeset', this.buildChangeset(this.model));
+            set(this, 'changeset', buildChangeset(this.model));
         }
     }
 
@@ -94,22 +94,5 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
                 this.onWillDestroy(this.model);
             }
         }
-    }
-
-    // Lifted wholesale from https://github.com/offirgolan/ember-changeset-cp-validations/blob/master/addon/index.js
-    buildChangeset(model: ModelRegistry[M]) {
-        assert('Object does not contain any validations', typeOf(model.validations) === 'instance');
-        const validationMap = model.validations.validatableAttributes.reduce((o: any, attr: string) => {
-            o[attr] = true; // eslint-disable-line no-param-reassign
-            return o;
-        }, {});
-
-        const validateFn: ValidatorFunc = async params => {
-            return model.validateAttribute(params.key, params.newValue).then(({ validations }) => {
-                return validations.isValid ? true : validations.message;
-            });
-        };
-
-        return new Changeset(model, validateFn, validationMap) as ChangesetDef;
     }
 }

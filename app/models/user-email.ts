@@ -56,14 +56,6 @@ export default class UserEmailModel extends OsfModel.extend(Validations) {
 
     existingEmails: Set<string> = new Set();
     invalidEmails: Set<string> = new Set();
-
-    addExistingEmail(email?: string) {
-        this.existingEmails.add(email || this.emailAddress);
-    }
-
-    addInvalidEmail(email?: string) {
-        this.invalidEmails.add(email || this.emailAddress);
-    }
 }
 
 declare module 'ember-data/types/registries/model' {

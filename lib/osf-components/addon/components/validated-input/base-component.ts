@@ -6,6 +6,7 @@ import Component from '@ember/component';
 import { defineProperty } from '@ember/object';
 import { alias as aliasMacro, oneWay as oneWayMacro } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
+import { ChangesetDef } from 'ember-changeset/types';
 import { ResultCollection } from 'ember-cp-validations';
 import DS from 'ember-data';
 import I18n from 'ember-i18n/services/i18n';
@@ -21,7 +22,7 @@ export enum ValidationStatus {
 
 export default abstract class BaseValidatedInput extends Component {
     // Required arguments
-    model!: DS.Model;
+    model!: DS.Model | (ChangesetDef & DS.Model);
     valuePath!: keyof DS.Model;
 
     // Optional arguments
@@ -30,6 +31,7 @@ export default abstract class BaseValidatedInput extends Component {
     placeholder?: string;
     disabled: boolean = defaultTo(this.disabled, false);
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+    actualModel: DS.Model = defaultTo(this.actualModel, this.model);
 
     // Private properties
     @service i18n!: I18n;

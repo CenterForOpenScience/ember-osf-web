@@ -1,5 +1,6 @@
 import { assert } from '@ember/debug';
 
+import isChangeset from 'ember-changeset/utils/is-changeset';
 import { layout } from 'ember-osf-web/decorators/component';
 
 import BaseValidatedComponent from '../base-component';
@@ -13,10 +14,16 @@ export default class ValidatedCheckboxes extends BaseValidatedComponent {
 
     constructor(...args: any[]) {
         super(...args);
-
-        assert(
-            'validated-input/checkboxes expects valuePath to lead to a hasMany relation',
-            Boolean(this.model.hasMany(this.valuePath as any)),
-        );
+        if (isChangeset(this.actualModel)) {
+            assert(
+                'validated-input/checkboxes expects a model to be passed in to actualModel',
+                false,
+            );
+        } else {
+            assert(
+                'validated-input/checkboxes expects valuePath to lead to a hasMany relation',
+                Boolean(this.actualModel.hasMany(this.valuePath)),
+            );
+        }
     }
 }

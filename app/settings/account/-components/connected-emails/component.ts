@@ -119,7 +119,7 @@ export default class ConnectedEmails extends Component.extend({
     }
 
     @action
-    onSave(changeset: ChangesetDef) {
+    onSave(changeset: ChangesetDef & UserEmail) {
         if (changeset.get('emailAddress')) {
             this.set('lastUserEmail', changeset.get('emailAddress'));
             this.set('showAddModal', true);
@@ -129,20 +129,14 @@ export default class ConnectedEmails extends Component.extend({
         }
     }
     @action
-    onError(e: DS.AdapterError | Error, changeset: ChangesetDef) {
+    onError(e: DS.AdapterError | Error, changeset: ChangesetDef & UserEmail) {
         if (e instanceof DS.ConflictError) {
-            const emailSet = changeset.get('userEmailChangeset');
-            const email = changeset.get('email');
-            const emailAddress = changeset.get('emailAddress');
-            emailSet.add(email || emailAddress);
-            changeset.set('userEmailChangeset', emailSet);
+            const emailSet = changeset.get('existingEmails');
+            emailSet.add(changeset.get('emailAddress'));
             changeset.validate();
         } else if (e instanceof DS.AdapterError) {
-            const emailSet = changeset.get('userEmailChangeset');
-            const email = changeset.get('email');
-            const emailAddress = changeset.get('emailAddress');
-            emailSet.add(email || emailAddress);
-            changeset.set('invalidEmails', emailSet);
+            const emailSet = changeset.get('invalidEmails');
+            emailSet.add(changeset.get('emailAddress'));
             changeset.validate();
         } else {
             return this.toast.error(e.message);
