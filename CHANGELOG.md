@@ -54,6 +54,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
 - Travis
     - Use a production build for handbook
+- OSF API
+    - Bump version from 2.8 to 2.14
 
 ### Removed
 - Components:
