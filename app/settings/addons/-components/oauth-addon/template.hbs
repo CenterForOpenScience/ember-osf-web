@@ -1,13 +1,12 @@
 {{#let (component 'settings/addons/-components/addon') as |Addon|}}
     <Addon @addon={{@addon}} @userAddons={{@userAddons}}>
-         <OsfButton
+         <OsfLink
              data-analytics-name={{concat @addon.name ' addon'}}
-             @type='link'
              @href={{@addon.auth.oauth_url}}
              @target='_blank'
              @rel='noopener noreferrer'
          >
              {{t 'settings.addons.link'}}
-         </OsfButton>
+         </OsfLink>
     </Addon>
 {{/let}}
