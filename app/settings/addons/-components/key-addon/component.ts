@@ -1,7 +1,7 @@
 import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
 
-export default class AddonModal extends Component {
+export default class KeyAddon extends Component {
     modalOpen = false;
 
     @action

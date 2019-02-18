@@ -1,23 +1,52 @@
 {{#let
-    (component 'settings/addons/-components/addon-modal')
-    as |AddonModal|
+    (component 'settings/addons/-components/addon')
+    as |Addon|
 }}
-<AddonModal @addon={{@addon}} @userAddons={{@userAddons}}>
+    <Addon @addon={{@addon}} @userAddons={{@userAddons}}>
+         <OsfButton
+             data-analytics-name={{concat @addon.name ' addon'}}
+             @type='link'
+             @onClick={{action this.openModal}}
+             local-class='button'
+         >
+             {{t 'settings.addons.link'}}
+         </OsfButton>
+    </Addon>
+    <BsModal
+        @open={{this.modalOpen}}
+        @onHide={{action this.closeModal}}
+        as |modal|
+    >
         <ValidatedModelForm as |form|>
-            <div local-class='form-item'>
-                <h4>{{t 'settings.addons.access_key'}}</h4>
-                <form.text
-                    @valuePath='apiToken'
-                    @placeholder={{t 'general.required'}}
-                />
-            </div>
-            <div local-class='form-item'>
-                <h4>{{t 'settings.addons.secret_key'}}</h4>
-                <form.text
-                    @valuePath='apiToken'
-                    @placeholder={{t 'general.required'}}
-                />
-            </div>
+            <modal.header>
+                <h3>{{t 'settings.addons.account'}} {{@addon.name}}</h3>
+            </modal.header>
+            <modal.body>
+                <div local-class='form-item'>
+                    <h4>{{t 'settings.addons.access_key'}}</h4>
+                    <form.text
+                        @valuePath='apiToken'
+                        @placeholder={{t 'general.required'}}
+                    />
+                </div>
+                <div local-class='form-item'>
+                    <h4>{{t 'settings.addons.secret_key'}}</h4>
+                    <form.text
+                        @valuePath='apiToken'
+                        @placeholder={{t 'general.required'}}
+                    />
+                </div>
+            </modal.body>
+            <modal.footer>
+                <OsfButton @onClick={{action this.closeModal}}>
+                    {{t 'general.cancel'}}
+                </OsfButton>
+                <OsfButton
+                    @type='primary'
+                >
+                    {{t 'general.save'}}
+                </OsfButton>
+            </modal.footer>
         </ValidatedModelForm>
-    </AddonModal>
+    </BsModal>
 {{/let}}
