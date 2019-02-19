@@ -7,9 +7,12 @@
 }}
     <list.item as |institution|>
         {{#if institution}}
-            <li>
+            <li data-test-institution=institution.id>
                 <label local-class='label'>
                     <OsfButton
+                        data-test-institution-button
+                        data-analytics-name='Add/Remove'
+                        local-class='addRemoveButton'
                         @type='link'
                         @disabled={{or this.addTask.isRunning this.removeTask.isRunning}}
                         @onClick={{if (contains institution @affiliatedList) (action @remove institution) (action @add institution)}}
@@ -18,8 +21,8 @@
                             local-class='institutionIcon'
                             @icon={{if (contains institution @affiliatedList) 'minus' 'plus'}}
                         />
-                        {{institution.name}}
                     </OsfButton>
+                    {{institution.name}}
                 </label>
             </li>
         {{else}}

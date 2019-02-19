@@ -121,7 +121,7 @@ function handbookScenario(server: Server, currentUser: ModelInstance) {
         id: 'lacks',
     }, 'withAffiliatedInstitutions');
 
-    server.createList('institution', 5, { users: [currentUser], nodes: [institutionsNode] });
+    server.createList('institution', 2, { users: [currentUser], nodes: [institutionsNode] });
 
     server.create('node', {
         id: 'manys',

@@ -65,6 +65,7 @@ export default class InstitutionWidget extends Component.extend({
     readOnly: boolean = defaultTo(this.readOnly, false);
     analyticsScope: string = defaultTo(this.analyticsScope, '');
     node?: Node;
+    hasAffiliations: boolean = true;
 
     // private properties
     reloadList!: (page?: number) => void; // bound by paginated-list

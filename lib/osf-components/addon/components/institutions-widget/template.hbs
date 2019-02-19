@@ -7,8 +7,18 @@
                aria-label={{t 'general.add'}}
                @type='link'
                @onClick={{action this.showModal}}
+               @disabled={{not @hasAffiliations}}
             >
-                <FaIcon @icon='pencil' />
+                <span>
+                    <FaIcon @icon='pencil' />
+                    {{#if (not @hasAffiliations)}}
+                        <BsTooltip
+                            @autoPlacement={{false}}
+                        >
+                            {{t 'osf-components.institutions-widget.no_affiliations'}}
+                        </BsTooltip>
+                    {{/if}}
+                </span>
             </OsfButton>
         {{/if}}
     </div>

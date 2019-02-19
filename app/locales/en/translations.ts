@@ -1355,6 +1355,7 @@ export default {
             affiliate_institutions: 'Affiliate institutions',
             add_institution_error: 'Error adding institution',
             remove_institution_error: 'Error removing institution',
+            no_affiliations: 'No affiliations to add',
         },
     },
     settings: {
