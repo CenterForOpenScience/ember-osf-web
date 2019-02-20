@@ -29,11 +29,11 @@
             <modal.body>
                 <div local-class='form-item'>
                     <h4>{{@addon.name}} {{t 'settings.addons.repo'}}</h4>
-                    <div class='input-group'>
-                        <span class='input-group-addon'>{{t 'settings.addons.https'}}</span>
-                        <form.text @valuePath='profileUrl' @placeholder={{t 'general.required'}} />
-                        {{!--  <form.element @placeholder={{t 'general.required'}} property='profileUrl' />  --}}
-                    </div>
+                     <form.text
+                         @valuePath='profileUrl'
+                         @placeholder={{t 'general.required'}}
+                         @inputAddon={{t 'settings.addons.https'}}
+                     />
                     <small local-class='sub-text'>
                         {{t 'settings.addons.only'}}
                         {{@addon.name}}
@@ -42,7 +42,10 @@
                 </div>
                 <div local-class='form-item'>
                     <h4>{{t 'settings.addons.api_token'}}</h4>
-                    {{validated-input/text valuePath='apiToken' placeholder=(t 'settings.addons.api_token')}}
+                    <form.text
+                        @valuePath='apiToken'
+                        @placeholder={{t 'settings.addons.api_token'}}
+                    />
                 </div>
                 <OsfButton @onClick={{action this.closeModal}}>
                     {{t 'general.cancel'}}
