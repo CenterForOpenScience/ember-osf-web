@@ -19,6 +19,7 @@ export default class ValidatedXInputWrapper extends Component {
     // Optional arguments
     errors?: string;
     label?: string;
+    inputAddon?: string;
 
     @className
     @equal('validationStatus', ValidationStatus.HasError)

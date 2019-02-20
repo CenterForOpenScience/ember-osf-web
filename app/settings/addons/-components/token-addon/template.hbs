@@ -17,7 +17,12 @@
         @onHide={{action this.closeModal}}
         as |modal|
     >
-        <ValidatedModelForm as |form|>
+    <ValidatedModelForm
+        @onSave={{action this.onSubmit}}
+        {{!--  @model={{this.account}}  --}}
+        @modelName='account'
+        as |form|
+    >
             <modal.header>
                 <h3>{{t 'settings.addons.account'}} {{@addon.name}}</h3>
             </modal.header>
@@ -26,10 +31,8 @@
                     <h4>{{@addon.name}} {{t 'settings.addons.repo'}}</h4>
                     <div class='input-group'>
                         <span class='input-group-addon'>{{t 'settings.addons.https'}}</span>
-                        <form.text
-                            @valuePath='repoUrl'
-                            @placeholder={{t 'general.required'}}
-                        />
+                        <form.text @valuePath='profileUrl' @placeholder={{t 'general.required'}} />
+                        {{!--  <form.element @placeholder={{t 'general.required'}} property='profileUrl' />  --}}
                     </div>
                     <small local-class='sub-text'>
                         {{t 'settings.addons.only'}}
@@ -39,22 +42,18 @@
                 </div>
                 <div local-class='form-item'>
                     <h4>{{t 'settings.addons.api_token'}}</h4>
-                    <form.text
-                        @valuePath='apiToken'
-                        @placeholder={{t 'general.required'}}
-                    />
+                    {{validated-input/text valuePath='apiToken' placeholder=(t 'settings.addons.api_token')}}
                 </div>
-            </modal.body>
-            <modal.footer>
                 <OsfButton @onClick={{action this.closeModal}}>
                     {{t 'general.cancel'}}
                 </OsfButton>
                 <OsfButton
+                    @buttonType='submit'
                     @type='primary'
                 >
                     {{t 'general.save'}}
                 </OsfButton>
-            </modal.footer>
+            </modal.body>
         </ValidatedModelForm>
     </BsModal>
 {{/let}}

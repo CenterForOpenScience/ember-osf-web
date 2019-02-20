@@ -2,7 +2,14 @@
     <label for='{{this.inputElementId}}'>{{this.label}}</label>
 {{/if}}
 
-{{yield this.inputElementId}}
+{{#if this.inputAddon}}
+    <div class="input-group">
+        <span class='input-group-addon'>{{this.inputAddon}}</span>
+        {{yield this.inputElementId}}
+    </div>
+{{else}}
+    {{yield this.inputElementId}}
+{{/if}}
 
 {{#if (or this.hasError this.hasWarning)}}
     {{#if this.changeset}}
