@@ -112,6 +112,28 @@ module('Registries | Acceptance | overview.overview', hooks => {
             }
         });
 
+    test('only admin can edit registration tags', async function(this: OverviewTestContext, assert: Assert) {
+        const tags = ['Suspendisse', 'Mauris', 'ipsum', 'facilisis'];
+        const reg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            tags,
+            currentUserPermissions: Object.values(Permission),
+        }, 'withContributors');
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-registration-tags]').isVisible();
+        assert.dom('[data-test-tags-widget-tag-input] input').isVisible();
+        tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
+
+        reg.update({ currentUserPermissions: [Permission.Read] });
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-registration-tags]').isVisible();
+        assert.dom('[data-test-tags-widget-tag-input] input').isNotVisible();
+        tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
+    });
+
     test('Check head meta tags', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
