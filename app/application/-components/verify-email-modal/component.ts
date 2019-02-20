@@ -104,27 +104,27 @@ export default class VerifyEmailModal extends Component.extend({
 
     @computed('userEmail.isMerge')
     get translationKeys(): TranslationKeys {
-        if (this.userEmail && this.userEmail.isMerge) {
+        if (!this.userEmail || !this.userEmail.isMerge) {
             return {
-                header: 'verifyEmail.merge.header',
-                body: 'verifyEmail.merge.body',
-                verifyButton: 'verifyEmail.merge.verifyButton',
-                denyButton: 'verifyEmail.merge.denyButton',
-                verifySuccess: 'verifyEmail.merge.verifySuccess',
-                denySuccess: 'verifyEmail.merge.denySuccess',
-                verifyError: 'verifyEmail.merge.verifyError',
-                denyError: 'verifyEmail.merge.denyError',
+                header: 'verifyEmail.add.header',
+                body: 'verifyEmail.add.body',
+                verifyButton: 'verifyEmail.add.verifyButton',
+                denyButton: 'verifyEmail.add.denyButton',
+                verifySuccess: 'verifyEmail.add.verifySuccess',
+                denySuccess: 'verifyEmail.add.denySuccess',
+                verifyError: 'verifyEmail.add.verifyError',
+                denyError: 'verifyEmail.add.denyError',
             };
         }
         return {
-            header: 'verifyEmail.add.header',
-            body: 'verifyEmail.add.body',
-            verifyButton: 'verifyEmail.add.verifyButton',
-            denyButton: 'verifyEmail.add.denyButton',
-            verifySuccess: 'verifyEmail.add.verifySuccess',
-            denySuccess: 'verifyEmail.add.denySuccess',
-            verifyError: 'verifyEmail.add.verifyError',
-            denyError: 'verifyEmail.add.denyError',
+            header: 'verifyEmail.merge.header',
+            body: 'verifyEmail.merge.body',
+            verifyButton: 'verifyEmail.merge.verifyButton',
+            denyButton: 'verifyEmail.merge.denyButton',
+            verifySuccess: 'verifyEmail.merge.verifySuccess',
+            denySuccess: 'verifyEmail.merge.denySuccess',
+            verifyError: 'verifyEmail.merge.verifyError',
+            denyError: 'verifyEmail.merge.denyError',
         };
     }
 
