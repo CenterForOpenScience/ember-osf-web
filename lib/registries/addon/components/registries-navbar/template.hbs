@@ -162,17 +162,15 @@
                             </OsfLink>
                         </ddm.item>
                         <ddm.item role='menuitem'>
-                            <OsfLink
+                            <OsfButton
                                 data-test-ad-logout
                                 data-analytics-name='Logout'
-                                class='logoutLink'
-                                role='button'
-                                @href='#'
-                                @onclick={{action 'logout'}}
+                                @type='link'
+                                @onClick={{action 'logout'}}
                             >
                                 {{fa-icon 'sign-out' fixedWidth=true}}
                                 {{t 'auth_dropdown.log_out'}}
-                            </OsfLink>
+                            </OsfButton>
                         </ddm.item>
                     </dd.menu>
                 </BsDropdown>

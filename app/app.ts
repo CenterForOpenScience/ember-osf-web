@@ -52,6 +52,8 @@ const App = Application.extend({
                     'current-user',
                     'features',
                     'head-data',
+                    'meta-tags',
+                    'head-tags',
                     'i18n',
                     'media',
                     'page-title-list',

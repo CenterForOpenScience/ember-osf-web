@@ -7,9 +7,7 @@
             <div>
                 <div class='col-sm-3 col-md-6 p-v-xs'>
                     <div local-class='DashboardItem__col' class='di-title'>
-                        {{#each this.ancestry as |ancestorTitle|}}
-                            {{ancestorTitle}} /
-                        {{/each}}
+                        <AncestryDisplay @node={{@node}} />
                         <strong data-test-dashboard-item-title>{{@node.title}}</strong>
                     </div>
                 </div>

@@ -1090,7 +1090,7 @@ export default {
             expand: 'Expand',
             see_more: 'See more',
             metadata: 'Metadata',
-
+            component_of: 'This is a component of a registration:',
             comments: {
                 title: 'Comments',
                 see_replies: 'See replies',
@@ -1120,7 +1120,10 @@ export default {
 
             links: {
                 title: 'Links',
-                no_links: 'This registration has no links.',
+                linked_nodes: 'Linked projects and components',
+                no_linked_nodes: 'This registration has no linked projects or components.',
+                linked_registrations: 'Linked registrations',
+                no_linked_registrations: 'This registration has no linked registrations.',
             },
 
             contributors: {

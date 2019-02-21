@@ -1,0 +1,14 @@
+.AboutComponent {
+    color: $midnight-blue;
+    padding-top: 10px;
+
+    a {
+        color: $primary-blue;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+        }
+    }
+}
