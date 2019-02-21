@@ -14,15 +14,14 @@ export default class ValidatedCheckboxes extends BaseValidatedComponent {
 
     constructor(...args: any[]) {
         super(...args);
-        if (isChangeset(this.actualModel)) {
+        if (this.model) {
             assert(
                 'validated-input/checkboxes expects a model to be passed in to actualModel',
-                false,
+                !isChangeset(this.model),
             );
-        } else {
             assert(
                 'validated-input/checkboxes expects valuePath to lead to a hasMany relation',
-                Boolean(this.actualModel.hasMany(this.valuePath)),
+                !isChangeset(this.model) && Boolean(this.model.hasMany(this.valuePath)),
             );
         }
     }

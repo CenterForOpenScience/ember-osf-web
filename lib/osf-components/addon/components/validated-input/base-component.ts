@@ -22,7 +22,7 @@ export enum ValidationStatus {
 
 export default abstract class BaseValidatedInput extends Component {
     // Required arguments
-    model!: DS.Model | (ChangesetDef & DS.Model);
+    changeset!: ChangesetDef & DS.Model;
     valuePath!: keyof DS.Model;
 
     // Optional arguments
@@ -31,21 +31,34 @@ export default abstract class BaseValidatedInput extends Component {
     placeholder?: string;
     disabled: boolean = defaultTo(this.disabled, false);
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
-    actualModel: DS.Model = defaultTo(this.actualModel, this.model);
+    model?: DS.Model;
 
     // Private properties
     @service i18n!: I18n;
 
-    validation?: ResultCollection; // defined in constructor
-    value: any; // defined in constructor
+    // defined in constructor
+    errors?: string[];
+    value: any;
+    isInvalid?: boolean;
+    isValidating?: boolean;
+    validation?: ResultCollection;
 
-    @computed('validation.options')
+    @computed('errors', 'validation.options')
     get isRequired(): boolean {
-        if (!this.validation) {
+        if (this.changeset && this.errors) {
+            for (const error of this.errors) {
+                const re = /can't be blank/;
+                if (re.exec(error)) {
+                    return true;
+                }
+            }
+        } else if (!this.validation) {
             return false;
+        } else if (this.validation) {
+            const { options } = this.validation;
+            return options && options.presence && options.presence.presence;
         }
-        const { options } = this.validation;
-        return options && options.presence && options.presence.presence;
+        return false;
     }
 
     @computed('placeholder', 'isRequired')
@@ -53,18 +66,19 @@ export default abstract class BaseValidatedInput extends Component {
         return this.placeholder || this.i18n.t(this.isRequired ? 'general.required' : 'general.optional');
     }
 
-    @computed(
-        'shouldShowMessages',
-        'value',
-        'validation.{isInvalid,isValidating,warnings.[]}',
-    )
+    @computed('shouldShowMessages', 'value', 'isInvalid', 'isValidating')
     get validationStatus(): ValidationStatus {
-        const { shouldShowMessages, validation, value } = this;
-
+        const {
+            shouldShowMessages,
+            value,
+            validation,
+            isValidating,
+            isInvalid,
+        } = this;
         switch (true) {
-        case !validation || !shouldShowMessages || validation.isValidating:
+        case !shouldShowMessages || isValidating:
             return ValidationStatus.Hidden;
-        case validation && validation.isInvalid:
+        case isInvalid:
             return ValidationStatus.HasError;
         case validation && !isEmpty(validation.warnings):
             return ValidationStatus.HasWarning;
@@ -77,8 +91,17 @@ export default abstract class BaseValidatedInput extends Component {
 
     constructor(...args: any[]) {
         super(...args);
-
-        defineProperty(this, 'validation', oneWayMacro(`model.validations.attrs.${this.valuePath}`));
-        defineProperty(this, 'value', aliasMacro(`model.${this.valuePath}`));
+        if (this.changeset) {
+            defineProperty(this, 'errors', oneWayMacro(`changeset.error.${this.valuePath}.validation`));
+            defineProperty(this, 'value', aliasMacro(`changeset.${this.valuePath}`));
+            defineProperty(this, 'isValidating', oneWayMacro('changeset.isValidating'));
+            defineProperty(this, 'isInvalid', oneWayMacro('changeset.isInvalid'));
+        } else if (this.model) {
+            defineProperty(this, 'validation', oneWayMacro(`model.validations.attrs.${this.valuePath}`));
+            defineProperty(this, 'errors', oneWayMacro(`model.validations.attrs.${this.valuePath}.errors`));
+            defineProperty(this, 'value', aliasMacro(`model.${this.valuePath}`));
+            defineProperty(this, 'isValidating', oneWayMacro(`model.validations.attrs.${this.valuePath}.isValidating`));
+            defineProperty(this, 'isInvalid', oneWayMacro(`model.validations.attrs.${this.valuePath}.isInvalid`));
+        }
     }
 }

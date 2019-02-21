@@ -1,4 +1,5 @@
 import { layout } from '@ember-decorators/component';
+import { action } from '@ember-decorators/object';
 import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -50,10 +51,9 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         }
 
         yield this.changeset.validate();
-        const validations = this.changeset.get('validations');
-        this.set('shouldShowMessages', true);
+        // const errors = this.changeset.get('error');
 
-        if (validations.get('isValid')) {
+        if (this.changeset.get('isValid')) {
             try {
                 yield this.changeset.save({});
                 this.set('saved', true);
@@ -73,6 +73,8 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
                 }
                 throw e;
             }
+        } else {
+            this.set('shouldShowMessages', true);
         }
     });
 
@@ -89,10 +91,15 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     }
 
     willDestroy() {
-        if (this.model) {
-            if (this.onWillDestroy !== undefined) {
-                this.onWillDestroy(this.model);
-            }
+        if (this.onWillDestroy !== undefined && this.model) {
+            this.onWillDestroy(this.model);
+        } else if (this.changeset) {
+            this.changeset.rollback();
         }
+    }
+
+    @action
+    rollback() {
+        this.willDestroy();
     }
 }
