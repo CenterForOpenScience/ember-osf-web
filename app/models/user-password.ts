@@ -27,7 +27,7 @@ const Validations = buildValidations({
     confirmPassword: [
         validator('presence', true),
         validator('confirmation', {
-            on: 'newPassword',
+            on: 'password',
             message: 'Passwords must match',
         }),
     ],

@@ -1,4 +1,3 @@
-// import DS from 'ember-data';
 import config from 'ember-get-config';
 
 import OsfAdapter from './osf-adapter';
@@ -15,11 +14,11 @@ export default class UserPasswordAdapter extends OsfAdapter {
     namespace = namespace;
 
     urlForCreateRecord(): string {
-        // modelName = modelName;
-        // snapshot = snapshot;
-        return 'hello';
-        // const userID = snapshot.user.id;
-        // return `${host}/${namespace}/users/${userID}/settings/password/`;
+        let userID = '';
+        if (this.currentUser && this.currentUser.user && this.currentUser.user.id) {
+            userID = this.currentUser.user.id;
+        }
+        return `${host}/${namespace}/users/${userID}/settings/password/`;
     }
 }
 
