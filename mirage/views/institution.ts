@@ -4,7 +4,7 @@ export function institutionAdd(this: HandlerContext, schema: Schema, request: Re
     const { parentID } = request.params;
     const node = schema.nodes.find(parentID);
 
-    const institutionIds = node.affiliatedInstitutionIds;
+    const institutionIds: Array<number|string> = node.affiliatedInstitutionIds;
 
     const institutionId = JSON.parse(this.request.requestBody).data[0].id;
 
@@ -24,7 +24,7 @@ export function institutionDelete(this: HandlerContext, schema: Schema, request:
     const { id, parentID } = request.params;
     const node = schema.nodes.find(parentID);
 
-    const institutionIds = node.affiliatedInstitutionIds;
+    const institutionIds: Array<number|string> = node.affiliatedInstitutionIds;
 
     try {
         institutionIds.splice(institutionIds.indexOf(id), 1);
@@ -39,7 +39,7 @@ export function institutionDelete(this: HandlerContext, schema: Schema, request:
 
 export function institutionUpdate(this: HandlerContext, schema: Schema, request: Request) {
     const { institutionID } = request.params;
-    const attrs = this.normalizedRequestAttrs('affiliatedInstitutions');
+    const attrs = this.normalizedRequestAttrs('institution');
     const updatedInfo = schema.affiliatedInstitutions.find(institutionID).update(attrs);
 
     return updatedInfo;

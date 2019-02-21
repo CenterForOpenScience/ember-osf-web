@@ -41,8 +41,9 @@ module('Integration | Component | institutions-widget', hooks => {
     });
 
     test('it renders with institutions', async function(assert) {
-        const institutions = server.createList('institution', 5);
-        const mirageNode = server.create('node', { affiliatedInstitutions: institutions });
+        const mirageNode = server.create('node');
+
+        const institutions = server.createList('institution', 3, { nodes: [mirageNode] });
 
         this.set('node', this.store.findRecord('node', mirageNode.id));
 

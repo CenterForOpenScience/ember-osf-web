@@ -8,6 +8,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import { guid, guidAfterCreate } from './utils';
 
 export interface MirageNode extends Node {
+    affiliatedInstitutionIds: string[] | number[];
     regionId: string | number;
     lastLogged: Date | string;
 }

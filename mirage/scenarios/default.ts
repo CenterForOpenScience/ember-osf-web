@@ -62,7 +62,7 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
     server.create('user-setting', { user: currentUser });
-    const firstNode = server.create('node', 'withInstitutions');
+    const firstNode = server.create('node', 'withAffiliatedInstitutions');
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList('node', 10, {
         currentUserPermissions: Object.values(Permission),
@@ -108,7 +108,7 @@ function forksScenario(server: Server, currentUser: ModelInstance<User>) {
     forkNode(server, forksNode, { currentUserPermissions: Object.values(Permission) });
 }
 
-function handbookScenario(server: Server, currentUser: ModelInstance) {
+function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     // ValidatedModelForm
     server.create('node', {
         id: 'extng',

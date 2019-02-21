@@ -30,8 +30,9 @@ module('Integration | Component | institutions-list', hooks => {
     });
 
     test('many institutions', async function(assert) {
-        const institutions = server.createList('institution', 10);
-        const mirageNode = server.create('node', { affiliatedInstitutions: institutions });
+        const mirageNode = server.create('node');
+
+        server.createList('institution', 10, { nodes: [mirageNode] });
 
         this.set('node', this.store.findRecord('node', mirageNode.id));
 
@@ -42,8 +43,9 @@ module('Integration | Component | institutions-list', hooks => {
     });
 
     test('paginated institutions', async function(assert) {
-        const institutions = server.createList('institution', 15);
-        const mirageNode = server.create('node', { affiliatedInstitutions: institutions });
+        const mirageNode = server.create('node');
+
+        server.createList('institution', 15, { nodes: [mirageNode] });
 
         this.set('node', this.store.findRecord('node', mirageNode.id));
 
