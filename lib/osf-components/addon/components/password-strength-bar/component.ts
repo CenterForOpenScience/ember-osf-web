@@ -18,6 +18,7 @@ export default class PasswordStrengthBar extends Component {
     // Private parameters
     @service passwordStrength!: PasswordStrength;
     message: string = '';
+    strengthMessage: string = '';
 
     strength = task(function *(this: PasswordStrengthBar, value: string) {
         if (!value) {
@@ -42,12 +43,19 @@ export default class PasswordStrengthBar extends Component {
     get progressStyle(): string {
         switch (this.progress) {
         case 1:
+            this.set('strengthMessage', 'Very weak');
+            return 'danger';
         case 2:
+            this.set('strengthMessage', 'Weak');
             return 'danger';
         case 3:
+            this.set('strengthMessage', 'So-so');
             return 'warning';
         case 4:
+            this.set('strengthMessage', 'Good');
+            return 'success';
         case 5:
+            this.set('strengthMessage', 'Great!');
             return 'success';
         default:
             return 'none';

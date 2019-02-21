@@ -10,11 +10,17 @@
     }
 }
 
-.createPassword:global(.progress) {
-    height: inherit;
-    margin-bottom: 15px;
+.create-password {
+    margin: 5px 0;
 }
 
-.warningMessage {
+.create-password:global(.progress) {
+    height: 10px;
+    margin-bottom: 15px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.warning-message {
     margin-bottom: 10px;
 }

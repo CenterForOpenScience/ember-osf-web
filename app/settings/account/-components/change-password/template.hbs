@@ -25,12 +25,12 @@
                 data-test-new-password
                 @password={{true}}
                 @model={{this.userPassword}}
-                @valuePath='newPassword'
+                @valuePath='password'
                 @shouldShowMessages={{this.didValidate}}
                 @placeholder={{t 'settings.account.changePassword.newPassword.placeholder'}}
                 @ariaLabel={{t 'settings.account.changePassword.newPassword.placeholder'}}
             />
-            <PasswordStrengthBar @password={{this.userPassword.newPassword}} />
+            <PasswordStrengthBar @password={{this.userPassword.password}} />
             <label>{{t 'settings.account.changePassword.confirmPassword.title'}}</label>
             <form.text
                 data-test-confirm-password

@@ -1,16 +1,20 @@
 {{! template-lint-enable no-implicit-this }}
-<div class='row' hidden={{not this.progress}}>
-    <div class='col-xs-12'>
-        <div class='progress' local-class='createPassword'>
+<div data-test-password-bar class='row' hidden={{not this.progress}}>
+    <div class='col-xs-12' local-class='bar-container'>
+        <div class='progress col-xs-9' local-class='create-password'>
             <div
+                local-class='strength-bar'
                 class='progress-bar progress-bar-sm progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}'
                 role='progressbar'>
             </div>
         </div>
-        {{#if this.message}}
-            <div class='text-danger' local-class='warningMessage'>
-                {{this.message}}
-            </div>
-        {{/if}}
+        <div local-class='strength-message' class='col-xs-3 text-{{this.progressStyle}}'>
+            {{this.strengthMessage}}
+        </div>
     </div>
+    {{#if this.message}}
+        <div class='text-danger col-xs-12' local-class='warning-message'>
+            {{this.message}}
+        </div>
+    {{/if}}
 </div>
