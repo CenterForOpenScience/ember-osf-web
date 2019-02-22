@@ -32,8 +32,6 @@ const Validations = buildValidations({
             }).volatile(),
         }),
     ],
-}, {
-    debounce: 500,
 });
 
 export interface UserEmailLinks extends OsfLinks {
