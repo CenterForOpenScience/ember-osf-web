@@ -26,6 +26,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     // Optional arguments
     onError?: (e: object, changeset: ChangesetDef) => void;
     onWillDestroy?: (model: ModelRegistry[M], changeset?: ChangesetDef) => void;
+    onSaveOverride!: (model: ModelRegistry[M]) => void;
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
     disabled: boolean = defaultTo(this.disabled, false);
@@ -54,6 +55,10 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
             try {
                 yield this.changeset.save({});
                 this.onSave(this.changeset);
+                // if(this.onSaveOverride) {
+                    // this.onSaveOverride(this.model);
+                    // return;
+                // }
                 if (this.modelName && this.recreateModel) {
                     set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
                     if (this.model !== undefined) {

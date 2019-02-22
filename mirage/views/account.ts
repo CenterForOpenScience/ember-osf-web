@@ -7,6 +7,12 @@ export function getAccount(this: HandlerContext, schema: Schema, request: Reques
     return response;
 }
 
+export function saveAccount(this: HandlerContext, schema: Schema) {
+    const attrs = { ...this.normalizedRequestAttrs('account') };
+
+    return schema.accounts.create(attrs);
+}
+
 export function deleteAccount(this: HandlerContext, schema: Schema, request: Request) {
     const { id } = request.params;
     const account = schema.accounts.findBy({ id });

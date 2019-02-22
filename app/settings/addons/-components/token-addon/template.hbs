@@ -14,13 +14,13 @@
     </Addon>
     <BsModal
         @open={{this.modalOpen}}
-        @onHide={{action this.closeModal}}
+        @onHide={{this.closeModal}}
         as |modal|
     >
     <ValidatedModelForm
-        @onSave={{action this.onSubmit}}
-        {{!--  @model={{this.account}}  --}}
         @modelName='account'
+        @onSaveOverride={{this.onSave}}
+        @modelProperties={{this.test}}
         as |form|
     >
             <modal.header>

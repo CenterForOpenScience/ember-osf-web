@@ -1,49 +1,52 @@
-import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-// import ModelRegistry from 'ember-data/types/registries/model';
-// import Account from 'ember-osf-web/models/account';
-// import { ValidatedModelName } from 'ember-osf-web/models/osf-model';
+import Account from 'ember-osf-web/models/account';
 import Addon from 'ember-osf-web/models/addon';
 import DS from 'ember-data';
-// import accountService from '../../services/accountService';
-
-// const {Model} = DS;
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 export default class TokenAddon extends Component {
-    addon!: Addon;
-    account!: DS.Model;
-    // profileUrl!: string;
-    modalOpen = false;
-
+    @service currentUser!: CurrentUser;
     @service store!: DS.Store;
 
-    constructor(...args: any[]) {
-        super(...args);
-        this.account = this.store.createRecord('account', {});
-    }
+    addon!: Addon;
+    userAddon!: string;
+    modalOpen = false;
 
-    @action
-    openModal() {
+    openModal = () => {
         this.set('modalOpen', true);
     }
 
-    @action
-    closeModal() {
+    closeModal = () => {
         this.set('modalOpen', false);
     }
 
-    @action
-    onError() {
-        console.log('There is an error?');
-    }
+    onSave = async (account: Account) => {
+        const { store, currentUser, addon  } = this;
+        const { user } = currentUser;
 
-    @action
-    onSubmit(event: any) {
-        console.log(event)
-        // console.log(this.addon.id);
-        // console.log('SAVED!');
-        // console.log(account);
-        // console.log(this.profileUrl);
+        if(!user) {
+            return;
+        }
+
+        let userAddon = store.peekRecord('user-addon', addon.id);
+        if(!userAddon) {
+            userAddon = store.createRecord('user-addon', {
+                id: addon.id,
+                userHasAuth: true,
+                user,
+                account,
+            });
+        }
+
+        // userAddon.set('account', account);
+        account.setProperties({
+            addon: userAddon,
+            provider: addon.id,
+            displayName: user.fullName,
+        });
+
+        await userAddon.save();
+        await account.save();
     }
 }
