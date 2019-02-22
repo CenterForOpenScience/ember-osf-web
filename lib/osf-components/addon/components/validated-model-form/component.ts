@@ -3,7 +3,6 @@ import { action } from '@ember-decorators/object';
 import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { ChangesetDef } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
@@ -26,7 +25,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
 
     // Optional arguments
     onError?: (e: object, changeset: ChangesetDef) => void;
-    onWillDestroy?: (model: ModelRegistry[M]) => void;
+    onWillDestroy?: (model: ModelRegistry[M], changeset?: ChangesetDef) => void;
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
     disabled: boolean = defaultTo(this.disabled, false);
@@ -39,7 +38,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @service toast!: Toast;
 
     shouldShowMessages: boolean = false;
-    saved: boolean = false;
     modelProperties: object = defaultTo(this.modelProperties, {});
 
     @or('disabled', 'saveModelTask.isRunning')
@@ -51,14 +49,12 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         }
 
         yield this.changeset.validate();
-        // const errors = this.changeset.get('error');
 
         if (this.changeset.get('isValid')) {
             try {
                 yield this.changeset.save({});
-                this.set('saved', true);
                 this.onSave(this.changeset);
-                if (this.modelName) {
+                if (this.modelName && this.recreateModel) {
                     set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
                     if (this.model !== undefined) {
                         set(this, 'changeset', buildChangeset(this.model));
@@ -81,7 +77,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     constructor(...args: any[]) {
         super(...args);
 
-        assert('Can only pass either a model or a modelName', !(Boolean(this.model) && Boolean(this.modelName)));
         if (!this.model && this.modelName) {
             this.model = this.store.createRecord(this.modelName, this.modelProperties);
         }
@@ -92,7 +87,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
 
     willDestroy() {
         if (this.onWillDestroy !== undefined && this.model) {
-            this.onWillDestroy(this.model);
+            this.onWillDestroy(this.model, this.changeset);
         } else if (this.changeset) {
             this.changeset.rollback();
         }

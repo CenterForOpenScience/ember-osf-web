@@ -30,7 +30,6 @@ export interface ResultCollection {
     warningMessage?: string;
     warningMessages: string[];
     warnings: ValidationError[];
-    clear: () => null;
 }
 
 interface ValidateOptions {

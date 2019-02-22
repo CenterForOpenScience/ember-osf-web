@@ -17,7 +17,6 @@ export default class ValidatedModelFormController extends Controller {
     @action
     async onSave() {
         if (this.existingNode !== undefined) {
-            this.existingNode.save();
             this.toast.success('Saved!');
         } else {
             this.toast.error('Nothing to save');
