@@ -1,7 +1,8 @@
 /* eslint-disable no-useless-constructor, no-empty-function */
 import { layout, tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+
 import {
     Page,
     Question as RegQuestion,
@@ -9,7 +10,12 @@ import {
     Schema,
     Subquestion as RegSubquestion,
 } from 'ember-osf-web/models/registration-schema';
+import slugify from 'ember-osf-web/utils/slugify';
 import template from './template';
+
+interface RegistrationQuestion extends RegQuestion {
+    slug?: string;
+}
 
 export class Answerable {
     static componentMap: { [key: string]: string } = {
@@ -49,7 +55,7 @@ export class Answerable {
 }
 
 export class Question {
-    static parse(question: RegQuestion, answers: RegistrationMetadata): Question {
+    static parse(question: RegistrationQuestion, answers: RegistrationMetadata): Question {
         let ans: RegistrationMetadata;
         let props: RegSubquestion[];
         if (question.properties) {
@@ -66,6 +72,7 @@ export class Question {
             question.title,
             question.description || '',
             props.map(prop => Answerable.parse(prop, ans)),
+            question.slug || '',
         );
     }
 
@@ -74,7 +81,10 @@ export class Question {
         public readonly title: string,
         public readonly description: string,
         public readonly parts: Answerable[],
-    ) { }
+        public readonly slug: string,
+    ) {
+        this.slug = slugify(title);
+    }
 }
 
 export class Section {
@@ -87,10 +97,12 @@ export class Section {
 
     public readonly title: string;
     public readonly questions: Question[];
+    public readonly slug: string;
 
     constructor(title: string, questions: Question[]) {
         this.title = title;
         this.questions = questions;
+        this.slug = slugify(this.title);
     }
 }
 
@@ -118,8 +130,28 @@ export default class RegistrationFormView extends Component {
     schema!: Schema;
     answers!: RegistrationMetadata;
 
+    showNav: boolean = false;
+
     @computed('schema', 'answers')
     get form(): RegistrationForm {
         return RegistrationForm.parse(this.schema, this.answers);
+    }
+
+    @computed('form.[]')
+    get anchors() {
+        return this.form.sections.map((section: Section) => {
+            return {
+                title: section.title,
+                slug: section.slug,
+                questions: section.questions.map((q: Question) => {
+                    return { title: q.title, slug: `${section.slug}.${q.slug}` };
+                }),
+            };
+        });
+    }
+
+    @action
+    toggleNav() {
+        this.toggleProperty('showNav');
     }
 }

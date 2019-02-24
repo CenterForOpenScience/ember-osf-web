@@ -1,14 +1,61 @@
+<div data-analytics-scope='Form navigation menu' local-class='NavigationMenu {{if (not this.showNav) 'Collapsed'}}'>
+    <div local-class='Header' data-test-anchor-nav-title>
+        {{#if this.showNav}}
+            <span>{{t 'registries.overview.contents'}}</span>
+        {{/if}}
+
+        <OsfButton
+            data-analytics-name={{if this.showNav 'Collapse' 'Expand'}}
+            data-test-toggle-anchor-nav-button
+            @onClick={{action this.toggleNav}}
+            @type='link'
+            @class={{local-class 'ToggleNav__button'}}
+        >
+            <FaIcon @icon={{if this.showNav 'times' 'bars'}} />
+        </OsfButton>
+    </div>
+
+    {{#if this.showNav}}
+        {{! template-lint-disable no-invalid-interactive }}
+        <div onclick={{action this.toggleNav}} local-class='Anchors' data-test-form-block-anchors>
+            {{! template-lint-enable no-invalid-interactive }}
+            {{#each this.anchors as |section|}}
+                <div local-class='SectionAnchor'>
+                    <OsfLink
+                        data-test-section-anchor={{section.slug}}
+                        data-analytics-name='Go to section: {{section.title}}'
+                        @href='#{{section.slug}}'
+                    >
+                        {{section.title}}
+                    </OsfLink>
+                </div>
+                <div local-class='QuestionAnchors'>
+                    {{#each section.questions as |question|}}
+                        <OsfLink
+                            data-analytics-name='Go to question: {{question.title}}'
+                            @href='#{{question.slug}}'
+                            data-test-question-anchor={{question.slug}}
+                        >
+                            {{question.title}}
+                        </OsfLink>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+</div>
+
 {{#each this.form.sections as |form-section|}}
     <section local-class='Section {{if (eq form-section this.form.sections.lastObject) 'Last'}}'>
-        <OsfLink @href='#{{slugify form-section.title}}'>
-            <h2 id='{{slugify form-section.title}}' local-class='SectionTitle'>
+        <OsfLink @href='#{{form-section.slug}}'>
+            <h2 id='{{form-section.slug}}' local-class='SectionTitle'>
                 {{form-section.title}}
             </h2>
         </OsfLink>
 
         {{#each form-section.questions as |question|}}
-            <OsfLink @href='#{{slugify form-section.title}}.{{slugify question.title}}'>
-                <h3 id='{{slugify form-section.title}}.{{slugify question.title}}' local-class='QuestionTitle'>
+            <OsfLink @href='#{{concat form-section.slug '.' question.slug}}'>
+                <h3 id='{{concat form-section.slug '.' question.slug}}' local-class='QuestionTitle'>
                     {{question.title}}
                 </h3>
             </OsfLink>
