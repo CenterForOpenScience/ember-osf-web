@@ -40,7 +40,12 @@ export default function(this: Server) {
     osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);
     osfNestedResource(this, 'node', 'children');
-    osfNestedResource(this, 'node', 'contributors');
+    osfNestedResource(this, 'node', 'contributors', { defaultSortKey: 'index' });
+    osfNestedResource(this, 'node', 'bibliographicContributors', {
+        only: ['index'],
+        relatedModelName: 'contributor',
+        defaultSortKey: 'index',
+    });
     osfNestedResource(this, 'node', 'forks', { only: ['index'] });
     this.post('/nodes/:id/forks', createFork);
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
@@ -56,6 +61,11 @@ export default function(this: Server) {
     this.post('/registrations/:id/forks', forkRegistration);
 
     osfNestedResource(this, 'registration', 'contributors', { defaultSortKey: 'index' });
+    osfNestedResource(this, 'registration', 'bibliographicContributors', {
+        only: ['index'],
+        relatedModelName: 'contributor',
+        defaultSortKey: 'index',
+    });
     osfNestedResource(this, 'registration', 'forks', { only: ['index'] });
     this.post('/registrations/:id/forks', createRegistrationFork);
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });

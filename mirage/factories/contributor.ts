@@ -1,4 +1,4 @@
-import { association, Factory, faker } from 'ember-cli-mirage';
+import { association, Collection, Factory, faker } from 'ember-cli-mirage';
 
 import Contributor from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -14,6 +14,17 @@ export default Factory.extend<Contributor>({
     },
     node: association() as Contributor['node'],
     users: association() as Contributor['users'],
+
+    afterCreate(contributor) {
+        if (contributor.bibliographic) {
+            const { node } = contributor;
+            node.bibliographicContributors = [
+                ...node.bibliographicContributors.models,
+                contributor,
+            ] as unknown as Collection<Contributor>;
+            node.save();
+        }
+    },
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {

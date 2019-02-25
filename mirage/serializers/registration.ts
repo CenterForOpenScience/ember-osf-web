@@ -49,6 +49,14 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            bibliographicContributors: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/bibliographic_contributors/`,
+                        meta: this.buildRelatedLinkMeta(model, 'bibliographicContributors'),
+                    },
+                },
+            },
             affiliatedInstitutions: {
                 links: {
                     related: {

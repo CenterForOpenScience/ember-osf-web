@@ -40,6 +40,14 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
                     },
                 },
             },
+            bibliographicContributors: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/bibliographic_contributors/`,
+                        meta: this.buildRelatedLinkMeta(model, 'bibliographicContributors'),
+                    },
+                },
+            },
             contributors: {
                 links: {
                     related: {
