@@ -12,7 +12,7 @@
             {{this.strengthMessage}}
         </div>
     </div>
-    {{#if this.message}}
+    {{#if (and this.message this.shouldShowMessage)}}
         <div class='text-danger col-xs-12' local-class='warning-message'>
             {{this.message}}
         </div>

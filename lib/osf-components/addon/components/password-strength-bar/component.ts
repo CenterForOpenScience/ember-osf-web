@@ -1,4 +1,5 @@
 import { computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 
@@ -14,11 +15,16 @@ import template from './template';
 export default class PasswordStrengthBar extends Component {
     // Required parameters
     password!: UserPassword;
+    model!: UserPassword;
+    valuePath!: string;
 
     // Private parameters
     @service passwordStrength!: PasswordStrength;
     message: string = '';
     strengthMessage: string = '';
+    shouldShowMessage: boolean = false;
+    @alias('model.validations.attrs.password.message')
+    hasValidationMessage!: boolean;
 
     strength = task(function *(this: PasswordStrengthBar, value: string) {
         if (!value) {
@@ -30,10 +36,11 @@ export default class PasswordStrengthBar extends Component {
         return yield this.passwordStrength.strength(value);
     }).restartable();
 
-    @computed('password', 'strength.lastSuccessful.value.score')
+    @computed('password', 'strength.lastSuccessful.value.score', 'model.validations.attrs.password.message')
     get progress(this: PasswordStrengthBar): number {
         const { lastSuccessful } = this.strength;
-        if (lastSuccessful && lastSuccessful.value) {
+        if (lastSuccessful && lastSuccessful.value && !this.model.validations.attrs.password.isValidating) {
+            this.set('shouldShowMessage', !this.hasValidationMessage);
             this.set('message', lastSuccessful.value.feedback.warning);
         }
         return this.password && lastSuccessful ? 1 + lastSuccessful.value.score : 0;

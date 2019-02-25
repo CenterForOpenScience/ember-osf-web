@@ -1,5 +1,5 @@
 import { action } from '@ember-decorators/object';
-import { alias, and } from '@ember-decorators/object/computed';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
@@ -14,6 +14,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 
 export default class ChangePasswordPane extends Component.extend({
     submitTask: task(function *(this: ChangePasswordPane) {
+        const errorMessage = this.i18n.t('settings.account.changePassword.updateFail');
         const { validations } = yield this.userPassword.validate();
         this.set('didValidate', true);
 
@@ -24,7 +25,7 @@ export default class ChangePasswordPane extends Component.extend({
         try {
             yield this.userPassword.save();
         } catch (e) {
-            return;
+            return this.toast.error(errorMessage);
         }
 
         this.set('hasSubmitted', true);
@@ -42,12 +43,6 @@ export default class ChangePasswordPane extends Component.extend({
     @service store!: DS.Store;
     @alias('currentUser.user') user!: User;
 
-    @alias('userPassword.validations.attrs') a!: object;
-
-    @and(
-        'a.newPassword.isValid',
-    ) formIsValid!: boolean;
-
     init() {
         this.set('userPassword', this.store.createRecord('user-password'));
         return super.init();
@@ -60,6 +55,7 @@ export default class ChangePasswordPane extends Component.extend({
 
     @action
     updateError() {
-        return false;
+        const errorMessage = this.i18n.t('settings.account.changePassword.incorrectPassword');
+        return this.toast.error(errorMessage);
     }
 }

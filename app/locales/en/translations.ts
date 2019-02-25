@@ -1470,6 +1470,8 @@ export default {
             changePassword: {
                 title: 'Change password',
                 updateButton: 'Update password',
+                incorrectPassword: 'Old password does not match current password',
+                updateFail: 'Error updating password',
                 currentPassword: {
                     placeholder: 'Old password',
                 },
