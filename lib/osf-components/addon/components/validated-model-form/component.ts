@@ -29,8 +29,9 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
     disabled: boolean = defaultTo(this.disabled, false);
-    changeset?: ChangesetDef;
+    changeset!: ChangesetDef;
     recreateModel: boolean = defaultTo(this.recreateModel, false);
+    isDirty?: (dirt: boolean) => boolean;
 
     // Private properties
     @service store!: DS.Store;
@@ -44,10 +45,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     inputsDisabled!: boolean;
 
     saveModelTask = task(function *(this: ValidatedModelForm<M>) {
-        if (!this.changeset) {
-            return;
-        }
-
         yield this.changeset.validate();
 
         if (this.changeset.get('isValid')) {
@@ -82,19 +79,23 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         }
         if (!this.changeset && this.model) {
             set(this, 'changeset', buildChangeset(this.model));
+            const changeset = this.changeset as ChangesetDef;
+            changeset.on('afterValidation', () => {
+                if (this.isDirty) {
+                    this.isDirty(changeset.get('isDirty'));
+                }
+            });
         }
     }
 
     willDestroy() {
         if (this.onWillDestroy !== undefined && this.model) {
             this.onWillDestroy(this.model, this.changeset);
-        } else if (this.changeset) {
-            this.changeset.rollback();
         }
     }
 
     @action
     rollback() {
-        this.willDestroy();
+        this.changeset.rollback();
     }
 }

@@ -12,6 +12,7 @@ creating (if necessary), validating, and saving the model.
 * `onSave(changeset)` (required): Action called after the model is successfully validated and saved.
 * `onError(error, changeset)` (optional): Action called if saving the model fails.
 * `onWillDestroy()` (optional): Action called if you transition.
+* `isDirty(dirt: Boolean)` (optional): Action called if changeset.isDirty changes.
 * `model` (optional): Model instance to edit. A changeset will be created to match.
 * `changeset` (optional): Changeset to use for this form. Without this, the form will create a changeset from the model.
 * `modelName` (optional): Name of the model to create.
@@ -39,6 +40,12 @@ When invoked in block form, `validated-model-form` yields a hash with the follow
 {{docs/components/validated-model-form/demo-create onSave=(action this.onSave)}}
 
 ## Demo: Edit
-This also shows how to use the `onWillDestroy()` and `onSave()` actions.
+This also shows how to use the `rollback`, `isDirty()`, `onWillDestroy()`, and `onSave()` actions.
 
-{{docs/components/validated-model-form/demo-edit onSave=(action this.onSave) onWillDestroy=(action this.onWillDestroy) node=this.existingNode}}
+{{docs/components/validated-model-form/demo-edit
+    onSave=(action this.onSave)
+    onWillDestroy=(action this.onWillDestroy)
+    node=this.existingNode
+    changeDirtEditForm=(action this.changeDirtEditForm)
+    changeDirtCreateForm=(action this.changeDirtCreateForm)
+}}
