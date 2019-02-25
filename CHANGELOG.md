@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `circle` - a placeholder for circlular elements
 - Routes:
     - `new-home` - new logged out home page route
+    - `settings/account/change-password` - Panel for changing a user's password
+    - `password-strength-bar` - Shows the strength of a given password
 
 ### Changed
 - Components
