@@ -15,6 +15,14 @@ export function bindEmberStore(service: any, store: DS.Store) {
     }
 }
 
+export function getAppAddons(store: DS.Store) {
+    return store.query('addon', {});
+}
+
+export function getAllUserAddons(store: DS.Store, id: string) {
+    return store.findRecord('user', id, { include: 'addons' });
+}
+
 export async function getUserAddon(store: DS.Store, id: string, user: UserModel) {
     let userAddon = store.peekRecord('user-addon', id);
     if (!userAddon) {
