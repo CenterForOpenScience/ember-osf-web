@@ -3,7 +3,7 @@
         <ValidatedModelForm
             @onSave={{action this.onSave}}
             @modelName='node'
-            @isDirty={{this.changeDirtCreateForm}}
+            @onDirtChange={{this.changeDirtCreateForm}}
             as |form|
         >
             <form.text

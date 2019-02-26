@@ -6,7 +6,7 @@
                 @onWillDestroy={{action this.onWillDestroy}}
                 @model={{this.node}}
                 @disabled={{this.model.taskInstance.isRunning}}
-                @isDirty={{this.changeDirtEditForm}}
+                @onDirtChange={{this.changeDirtEditForm}}
                 as |form|
             >
                 <form.text 
@@ -19,7 +19,7 @@
                 />
                 <BsButton
                     @onClick={{action form.rollback}}
-                    @disabled={{not form.changeset.isDirty}}
+                    @disabled={{not form.isDirty}}
                 >
                     Cancel
                 </BsButton>

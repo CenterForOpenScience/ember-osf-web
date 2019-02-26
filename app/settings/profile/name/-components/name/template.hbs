@@ -44,7 +44,7 @@
             data-test-discard-changes
             data-analytics-name='Discard changes'
             @buttonType='button'
-            @disabled={{not form.changeset.changes}}
+            @disabled={{not form.isDirty}}
             @onClick={{action form.rollback}}
         >
             {{t 'validated_input_form.discard_changes'}}
@@ -53,7 +53,7 @@
             data-test-save
             data-analytics-name='Save'
             @buttonType='submit'
-            @disabled={{and (not form.changeset.changes) form.disabled}}
+            @disabled={{and (not form.isDirty) form.disabled}}
             @type='primary'
         >
             {{t 'general.save'}}

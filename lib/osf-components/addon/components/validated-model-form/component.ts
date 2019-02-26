@@ -1,6 +1,6 @@
 import { layout } from '@ember-decorators/component';
 import { action } from '@ember-decorators/object';
-import { or } from '@ember-decorators/object/computed';
+import { alias, or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { set } from '@ember/object';
@@ -31,7 +31,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     disabled: boolean = defaultTo(this.disabled, false);
     changeset!: ChangesetDef;
     recreateModel: boolean = defaultTo(this.recreateModel, false);
-    isDirty?: (dirt: boolean) => boolean;
+    onDirtChange?: (dirt: boolean) => boolean;
 
     // Private properties
     @service store!: DS.Store;
@@ -44,6 +44,9 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @or('disabled', 'saveModelTask.isRunning')
     inputsDisabled!: boolean;
 
+    @alias('changeset.isDirty')
+    isDirty!: boolean;
+
     saveModelTask = task(function *(this: ValidatedModelForm<M>) {
         yield this.changeset.validate();
 
@@ -55,6 +58,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
                     set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
                     if (this.model !== undefined) {
                         set(this, 'changeset', buildChangeset(this.model));
+                        this._onDirtChange();
                     }
                 }
                 this.set('shouldShowMessages', false);
@@ -78,11 +82,12 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
             this.model = this.store.createRecord(this.modelName, this.modelProperties);
         }
         if (!this.changeset && this.model) {
-            set(this, 'changeset', buildChangeset(this.model));
-            const changeset = this.changeset as ChangesetDef;
+            const changeset = buildChangeset(this.model);
+            set(this, 'changeset', changeset);
+            this._onDirtChange();
             changeset.on('afterValidation', () => {
-                if (this.isDirty) {
-                    this.isDirty(changeset.get('isDirty'));
+                if (this.onDirtChange) {
+                    this._onDirtChange();
                 }
             });
         }
@@ -94,8 +99,15 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         }
     }
 
+    _onDirtChange() {
+        if (typeof (this.onDirtChange) !== 'undefined') {
+            this.onDirtChange(this.isDirty);
+        }
+    }
+
     @action
     rollback() {
         this.changeset.rollback();
+        this._onDirtChange();
     }
 }

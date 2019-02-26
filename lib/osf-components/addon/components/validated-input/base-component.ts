@@ -4,7 +4,11 @@ import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { defineProperty } from '@ember/object';
-import { alias as aliasMacro, oneWay as oneWayMacro } from '@ember/object/computed';
+import {
+    alias as aliasMacro,
+    bool as boolMacro,
+    oneWay as oneWayMacro,
+} from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
 import { ChangesetDef } from 'ember-changeset/types';
 import { ResultCollection } from 'ember-cp-validations';
@@ -22,7 +26,7 @@ export enum ValidationStatus {
 
 export default abstract class BaseValidatedInput extends Component {
     // Required arguments
-    changeset!: ChangesetDef & DS.Model;
+    changeset?: ChangesetDef & DS.Model;
     valuePath!: keyof DS.Model;
 
     // Optional arguments
@@ -45,18 +49,21 @@ export default abstract class BaseValidatedInput extends Component {
 
     @computed('errors', 'validation.options')
     get isRequired(): boolean {
-        if (this.changeset && this.errors) {
-            for (const error of this.errors) {
-                const re = /can't be blank/;
-                if (re.exec(error)) {
-                    return true;
-                }
-            }
-        } else if (!this.validation) {
+        if (!this.validation) {
             return false;
-        } else if (this.validation) {
-            const { options } = this.validation;
-            return options && options.presence && options.presence.presence;
+        }
+        const { options } = this.validation;
+        if (!options) {
+            return false;
+        }
+        if (!options.presence) {
+            return false;
+        }
+        if (options.presence.disabled) {
+            return false;
+        }
+        if (options.presence.presence) {
+            return true;
         }
         return false;
     }
@@ -92,10 +99,11 @@ export default abstract class BaseValidatedInput extends Component {
     constructor(...args: any[]) {
         super(...args);
         if (this.changeset) {
+            defineProperty(this, 'validation', oneWayMacro(`changeset.data.validations.attrs.${this.valuePath}`));
             defineProperty(this, 'errors', oneWayMacro(`changeset.error.${this.valuePath}.validation`));
             defineProperty(this, 'value', aliasMacro(`changeset.${this.valuePath}`));
             defineProperty(this, 'isValidating', oneWayMacro('changeset.isValidating'));
-            defineProperty(this, 'isInvalid', oneWayMacro('changeset.isInvalid'));
+            defineProperty(this, 'isInvalid', boolMacro(`changeset.error.${this.valuePath}`));
         } else if (this.model) {
             defineProperty(this, 'validation', oneWayMacro(`model.validations.attrs.${this.valuePath}`));
             defineProperty(this, 'errors', oneWayMacro(`model.validations.attrs.${this.valuePath}.errors`));
