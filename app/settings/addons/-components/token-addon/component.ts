@@ -31,7 +31,6 @@ export default class TokenAddon extends Component {
     onSave = async (account: Account) => {
         const { currentUser, addon, userAddonAction } = this;
         const { user } = currentUser;
-        // const userAddonAction = bindEmberStore(getUserAddon, store);
 
         if(!user) {
             return;
