@@ -4,6 +4,12 @@ import Account from 'ember-osf-web/models/account';
 import Addon from 'ember-osf-web/models/addon';
 import DS from 'ember-data';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import {
+    getUserAddon,
+    getUserAccount,
+    addNewUserAccount,
+    bindEmberStore ,
+} from 'ember-osf-web/settings/addons/services/addonService';
 
 export default class TokenAddon extends Component {
     @service currentUser!: CurrentUser;
@@ -12,6 +18,7 @@ export default class TokenAddon extends Component {
     addon!: Addon;
     userAddon!: string;
     modalOpen = false;
+    userAddonAction = bindEmberStore(getUserAddon, this.store);
 
     openModal = () => {
         this.set('modalOpen', true);
@@ -22,31 +29,23 @@ export default class TokenAddon extends Component {
     }
 
     onSave = async (account: Account) => {
-        const { store, currentUser, addon  } = this;
+        const { currentUser, addon, userAddonAction } = this;
         const { user } = currentUser;
+        // const userAddonAction = bindEmberStore(getUserAddon, store);
 
         if(!user) {
             return;
         }
 
-        let userAddon = store.peekRecord('user-addon', addon.id);
-        if(!userAddon) {
-            userAddon = store.createRecord('user-addon', {
-                id: addon.id,
-                userHasAuth: true,
-                user,
-                account,
-            });
-        }
-
-        // userAddon.set('account', account);
-        account.setProperties({
-            addon: userAddon,
-            provider: addon.id,
+        const userAddon = await userAddonAction(addon.id, user);
+        const userAccount = await getUserAccount(userAddon) || account;
+        const data = {
+            userAddon,
+            providerId: addon.id,
             displayName: user.fullName,
-        });
+        };
 
-        await userAddon.save();
-        await account.save();
+        await addNewUserAccount(userAccount, data);
+        this.set('modalOpen', false);
     }
 }

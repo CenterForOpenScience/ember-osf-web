@@ -4,7 +4,11 @@ import Component from '@ember/component';
 import DS from 'ember-data';
 import UserModel from 'ember-osf-web/models/user';
 import RSVP from 'rsvp';
-import ModelRegistry from 'ember-data/types/registries/model';
+import {
+    bindEmberStore,
+    deleteUserAddon,
+    deleteAccount,
+} from 'ember-osf-web/settings/addons/services/addonService';
 
 export default class Addon extends Component {
     @service store!: DS.Store;
@@ -13,6 +17,8 @@ export default class Addon extends Component {
     user!: UserModel;
     account!: object;
     modalOpen: boolean = false;
+    deleteUserAddonAction = bindEmberStore(deleteUserAddon, this.store);
+    deleteAccountAction = bindEmberStore(deleteAccount, this.store);
 
     @action
     openDeleteModal() {
@@ -24,25 +30,17 @@ export default class Addon extends Component {
         this.set('modalOpen', false);
     }
 
-    deleteModel = async (name: string & keyof ModelRegistry, id: string) => {
-        const { store } = this;
-        const model = await store.findRecord(
-            name,
-            id,
-            { backgroundReload: false },
-        );
-
-        await model.destroyRecord();
-        return store.unloadRecord(model);
-    }
-
     @action
-    async deleteAccount(id: string, userAddonId: string) {
-        const { deleteModel } = this;
-        const userAddon = deleteModel('user-addon', userAddonId);
-        const account = deleteModel('account', id);
+    async deleteAccount(accountID: string, userAddonID: string) {
+        const {
+            deleteUserAddonAction,
+            deleteAccountAction,
+        } = this;
 
-        await RSVP.all([userAddon, account]);
+        await RSVP.all([
+            deleteAccountAction(accountID),
+            deleteUserAddonAction(userAddonID)
+        ]);
 
         this.set('modalOpen', false);
     }
