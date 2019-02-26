@@ -20,10 +20,6 @@ import template from './template';
 @layout(template, styles)
 @tagName('span')
 export default class ContributorList extends Component.extend({
-    didReceiveAttrs(this: ContributorList) {
-        this.loadContributors.perform();
-    },
-
     loadContributors: task(function *(this: ContributorList, more?: boolean) {
         if (!this.node) {
             return;
@@ -31,20 +27,21 @@ export default class ContributorList extends Component.extend({
 
         const blocker = this.ready.getBlocker();
         if (this.shouldLoadAll && !this.shouldTruncate) {
-            const allContributors = yield this.node.loadAll('contributors');
+            const allContributors = yield this.node.loadAll('bibliographicContributors');
             this.setProperties({
                 displayedContributors: allContributors.toArray(),
                 totalContributors: allContributors.length,
             });
         } else if (more) {
-            const nextPage: QueryHasManyResult<Contributor> = yield this.node.queryHasMany('contributors', {
-                page: this.incrementProperty('page'),
-            });
+            const nextPage: QueryHasManyResult<Contributor> = yield this.node.queryHasMany(
+                'bibliographicContributors',
+                { page: this.incrementProperty('page') },
+            );
             this.displayedContributors.pushObjects(nextPage);
             this.set('totalContributors', nextPage.meta.total);
         } else {
             this.set('page', 1);
-            const firstPage = yield this.node.contributors;
+            const firstPage = yield this.node.bibliographicContributors;
             this.setProperties({
                 displayedContributors: firstPage.toArray(),
                 totalContributors: firstPage.meta.total,
@@ -52,7 +49,7 @@ export default class ContributorList extends Component.extend({
         }
 
         blocker.done();
-    }).drop(),
+    }).on('didReceiveAttrs').restartable(),
 }) {
     // Required arguments
     node?: Node;
