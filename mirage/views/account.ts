@@ -13,6 +13,13 @@ export function saveAccount(this: HandlerContext, schema: Schema) {
     return schema.accounts.create(attrs);
 }
 
+export function updateAccount(this: HandlerContext, schema: Schema, request: Request) {
+    const { id } = request.params;
+    const attrs = this.normalizedRequestAttrs('account');
+
+    return schema.accounts.findBy({ id }).update(attrs);
+}
+
 export function deleteAccount(this: HandlerContext, schema: Schema, request: Request) {
     const { id } = request.params;
     const account = schema.accounts.findBy({ id });

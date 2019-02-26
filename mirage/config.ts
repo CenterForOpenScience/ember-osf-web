@@ -15,7 +15,7 @@ import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
 import { deleteUserAddon } from './views/user-addon';
-import { getAccount, deleteAccount, saveAccount } from './views/account';
+import * as account from './views/account';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
@@ -111,9 +111,10 @@ export default function(this: Server) {
     });
     this.del('/users/:parentID/addons/:id', deleteUserAddon);
 
-    this.get('/users/:parentID/addons/:addonID/accounts', getAccount);
-    this.post('/users/:parentID/addons/:addonID/accounts', saveAccount);
-    this.del('/users/:parentID/addons/:addonID/accounts/:id', deleteAccount);
+    this.get('/users/:parentID/addons/:addonID/accounts', account.getAccount);
+    this.post('/users/:parentID/addons/:addonID/accounts', account.saveAccount);
+    this.patch('/users/:parentID/addons/:addonID/accounts/:id', account.updateAccount);
+    this.del('/users/:parentID/addons/:addonID/accounts/:id', account.deleteAccount);
 
     osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
