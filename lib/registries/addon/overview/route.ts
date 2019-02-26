@@ -30,7 +30,7 @@ export default class Overview extends GuidRoute {
         const registration = yield model.taskInstance as Registration;
 
         if (registration) {
-            const contributors = yield registration.loadAll('contributors');
+            const contributors = yield registration.loadAll('bibliographicContributors');
             const institutions = yield registration.loadAll('affiliatedInstitutions');
             const license = yield registration.license;
 
@@ -63,7 +63,7 @@ export default class Overview extends GuidRoute {
     }
 
     include() {
-        return ['registration_schema', 'contributors', 'identifiers', 'root'];
+        return ['registration_schema', 'bibliographic_contributors', 'identifiers', 'root'];
     }
 
     adapterOptions() {
