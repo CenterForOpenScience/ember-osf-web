@@ -15,10 +15,10 @@ export default class TokenAddon extends Component {
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
 
-    addon!: Addon;
-    userAddon!: string;
-    modalOpen = false;
     userAddonAction = bindEmberStore(getUserAddon, this.store);
+
+    addon!: Addon;
+    modalOpen = false;
 
     openModal = () => {
         this.set('modalOpen', true);

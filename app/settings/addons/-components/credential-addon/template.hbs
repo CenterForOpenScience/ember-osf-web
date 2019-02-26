@@ -6,7 +6,7 @@
          <OsfButton
              data-analytics-name={{concat @addon.name ' addon'}}
              @type='link'
-             @onClick={{action this.openModal}}
+             @onClick={{this.openModal}}
              local-class='button'
          >
              {{t 'settings.addons.link'}}
@@ -14,23 +14,25 @@
     </Addon>
     <BsModal
         @open={{this.modalOpen}}
-        @onHide={{action this.closeModal}}
+        @onHide={{this.closeModal}}
         as |modal|
     >
-        <ValidatedModelForm as |form|>
+        <ValidatedModelForm
+            @modelName='account'
+            @onSaveOverride={{this.onSave}}
+            as |form|
+        >
             <modal.header>
                 <h3>{{t 'settings.addons.account'}} {{@addon.name}}</h3>
             </modal.header>
             <modal.body>
                 <div local-class='form-item'>
                     <h4>{{@addon.name}} {{t 'settings.addons.url'}}</h4>
-                    <div class='input-group'>
-                        <span class='input-group-addon'>{{t 'settings.addons.https'}}</span>
-                        <form.text
-                            @valuePath='url'
-                            @placeholder={{t 'general.required'}}
-                        />
-                    </div>
+                    <form.text
+                        @valuePath='profileUrl'
+                        @placeholder={{t 'general.required'}}
+                        @inputAddon={{t 'settings.addons.https'}}
+                    />
                     <small local-class='sub-text'>
                         {{t 'settings.addons.only'}}
                         {{@addon.name}}
@@ -47,21 +49,25 @@
                 <div local-class='form-item'>
                     <h4>{{t 'settings.addons.password'}}</h4>
                     <form.text
+                        @password={{true}}
                         @valuePath='password'
                         @placeholder={{t 'general.required'}}
                     />
                 </div>
+                <div local-class='form-item'>
+                    <div local-class='form-buttons'>
+                        <OsfButton @onClick={{this.closeModal}}>
+                            {{t 'general.cancel'}}
+                        </OsfButton>
+                        <OsfButton
+                            @buttonType='submit'
+                            @type='primary'
+                        >
+                            {{t 'general.save'}}
+                        </OsfButton>
+                    </div>
+                </div>
             </modal.body>
-            <modal.footer>
-                <OsfButton @onClick={{action this.closeModal}}>
-                    {{t 'general.cancel'}}
-                </OsfButton>
-                <OsfButton
-                    @type='primary'
-                >
-                    {{t 'general.save'}}
-                </OsfButton>
-            </modal.footer>
         </ValidatedModelForm>
     </BsModal>
 {{/let}}

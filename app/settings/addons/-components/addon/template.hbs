@@ -20,14 +20,14 @@
                 <OsfButton
                     local-class='danger'
                     @type='link'
-                    @onClick={{action this.openDeleteModal}}
+                    @onClick={{this.openDeleteModal}}
                 >
                     {{t 'settings.addons.disconnect_account'}}
                 </OsfButton>
             </div>
             <BsModal
                 @open={{this.modalOpen}}
-                @onHide={{action this.closeDeleteModal}}
+                @onHide={{this.closeDeleteModal}}
                 as |modal|
             >
                 <modal.header>
@@ -43,7 +43,7 @@
                 </modal.body>
                 <modal.footer>
                     <OsfButton
-                        @onClick={{action this.closeDeleteModal}}
+                        @onClick={{this.closeDeleteModal}}
                     >
                         {{t 'general.cancel'}}
                     </OsfButton>

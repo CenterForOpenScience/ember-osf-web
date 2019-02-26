@@ -8,6 +8,11 @@
     color: #31708f;
 }
 
-.button {
-    padding: 0;
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+        margin-left: 5px;
+    }
 }

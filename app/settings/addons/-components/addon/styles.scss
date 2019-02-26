@@ -10,6 +10,10 @@
     flex-direction: row;
     justify-content: space-between;
 
+    button {
+        padding: 0 !important;
+    }
+
     .image {
         width: 20px;
         height: 20px;

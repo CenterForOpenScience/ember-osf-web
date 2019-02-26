@@ -1,4 +1,3 @@
-import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import DS from 'ember-data';
@@ -20,17 +19,14 @@ export default class Addon extends Component {
     deleteUserAddonAction = bindEmberStore(deleteUserAddon, this.store);
     deleteAccountAction = bindEmberStore(deleteAccount, this.store);
 
-    @action
-    openDeleteModal() {
+    openDeleteModal = () => {
         this.set('modalOpen', true);
     }
 
-    @action
-    closeDeleteModal() {
+    closeDeleteModal = () => {
         this.set('modalOpen', false);
     }
 
-    @action
     async deleteAccount(accountID: string, userAddonID: string) {
         const {
             deleteUserAddonAction,
