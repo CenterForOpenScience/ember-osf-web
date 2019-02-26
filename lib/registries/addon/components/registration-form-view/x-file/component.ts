@@ -4,10 +4,11 @@ import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { Answerable } from '../component';
+import styles from './styles';
 import template from './template';
 
 @tagName('')
-@layout(template)
+@layout(template, styles)
 export default class ViewFile extends Component {
     static positionalParams = ['part'];
 
