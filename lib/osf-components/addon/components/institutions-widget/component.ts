@@ -84,13 +84,6 @@ export default class InstitutionWidget extends Component.extend({
     @action
     showModal() {
         this.set('shouldShowModal', true);
-        this.analytics.click('button', `${this.analyticsScope} - Add Affiliation - open_modal`);
-    }
-
-    @action
-    closeModal() {
-        this.set('shouldShowModal', false);
-        this.analytics.click('button', `${this.analyticsScope} - Add Affiliation - cancel`);
     }
 
     @action

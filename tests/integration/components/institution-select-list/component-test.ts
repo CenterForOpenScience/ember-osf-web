@@ -6,6 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
+import Institution from 'ember-osf-web/models/institution';
 import { click } from 'ember-osf-web/tests/helpers';
 
 type Context = TestContext & { server: Server };
@@ -45,11 +46,12 @@ module('Integration | Component | institution-select-list', hooks => {
 
     test('button changes', async function(this: Context, assert) {
         const mirageUser = server.create('user');
-        server.create('institution', { users: [mirageUser] });
+        const userInstitution = server.create('institution', { users: [mirageUser] });
 
         this.set('user', this.store.findRecord('user', mirageUser.id));
-        function add(this: Context, institution: any) {
+        function add(this: Context, institution: Institution) {
             this.set('affiliatedList', [institution]);
+            assert.equal(userInstitution.id, institution.id);
         }
         this.set('add', add);
 

@@ -5,6 +5,7 @@
             <OsfButton
                data-test-add-institution-button
                aria-label={{t 'general.add'}}
+                data-analytics-name='Add Affiliation - open_modal'
                @type='link'
                @onClick={{action this.showModal}}
                @disabled={{not @hasAffiliations}}
@@ -50,6 +51,7 @@
         </modal.body>
         <modal.footer>
             <OsfButton
+                data-analytics-name='Add Affiliation - close_modal'
                 @type='primary'
                 @onClick={{action (mut this.shouldShowModal) false}}
             >

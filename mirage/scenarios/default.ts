@@ -92,9 +92,6 @@ function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
         server.create('contributor', { node, users: currentUser, index: 11 });
     }
     server.createList('institution', 20);
-    server.createList('token', 23);
-    server.createList('scope', 5);
-    server.createList('developer-app', 12);
 }
 
 function forksScenario(server: Server, currentUser: ModelInstance<User>) {
