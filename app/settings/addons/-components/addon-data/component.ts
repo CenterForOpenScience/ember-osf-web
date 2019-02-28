@@ -13,11 +13,9 @@ export default class AddonData extends Component {
         let modelData: object = {};
 
         Object.keys(loaded).forEach(key => {
-            let data = loaded[key];
-
-            if(typeof data.toArray === "function") {
-                data = loaded[key].toArray();
-            }
+            const value = loaded[key];
+            const data = typeof value.toArray === "function" ?
+                value.toArray() : value;
 
             modelData = { ...modelData, [key]: data };
         });
