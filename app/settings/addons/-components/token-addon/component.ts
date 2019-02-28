@@ -27,11 +27,13 @@ export default class TokenAddon extends Component.extend(Validations, {
 
     addon!: Addon;
     modalOpen!: boolean;
+    addonLoading!: boolean;
 
     @action
     openModal() {
         this.setProperties({
             modalOpen: true,
+            addonLoading: false,
             apiToken: '',
         });
     }
@@ -53,6 +55,7 @@ export default class TokenAddon extends Component.extend(Validations, {
             displayName: user ? user.fullName : '',
         };
 
+        this.set('addonLoading', true);
         await addNewUserAccount(userAccount, data);
         this.set('modalOpen', false);
     }

@@ -6,6 +6,15 @@
     border-radius: 0;
 }
 
+:global(.ball-pulse) {
+    text-align: left;
+
+    & > div {
+        height: 0.5em !important;
+        width: 0.5em !important;
+    }
+}
+
 .addon {
     border-bottom: 1px solid #eee;
 

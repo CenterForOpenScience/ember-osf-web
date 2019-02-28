@@ -56,8 +56,13 @@
                         <OsfButton
                             @buttonType='submit'
                             @type='primary'
+                            @disabled={{this.addonLoading}}
                         >
-                            {{t 'general.save'}}
+                            {{#if this.addonLoading}}
+                                <LoadingIndicator local-class='loading-icon' @inline={{true}} />
+                            {{else}}
+                                {{t 'general.save'}}
+                            {{/if}}
                         </OsfButton>
                     </div>
                 </div>

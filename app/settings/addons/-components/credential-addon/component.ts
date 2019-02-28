@@ -28,12 +28,14 @@ export default class CredentialAddon extends Component.extend(Validations, {
     userAddonAction = bindEmberStore(getUserAddon, this.store);
 
     addon!: Addon;
-    modalOpen = false;
+    modalOpen!: boolean;
+    addonLoading!: boolean;
 
     @action
     openModal() {
         this.setProperties({
             modalOpen: true,
+            addonLoading: false,
             username: '',
             password: '',
         });
@@ -61,6 +63,7 @@ export default class CredentialAddon extends Component.extend(Validations, {
             displayName: user.fullName,
         };
 
+        this.set('addonLoading', true);
         await addNewUserAccount(userAccount, data);
         this.set('modalOpen', false);
     }

@@ -32,12 +32,14 @@ export default class KeyAddon extends Component.extend(Validations, {
     modelProperties = {
         profileUrl: this.addon.url,
     };
-    modalOpen = false;
+    modalOpen!: boolean;
+    addonLoading!: boolean;
 
     @action
     openModal() {
         this.setProperties({
             modalOpen: true,
+            addonLoading: false,
             accessKey: '',
             secretKey: '',
         });
@@ -65,6 +67,7 @@ export default class KeyAddon extends Component.extend(Validations, {
             displayName: user.fullName,
         };
 
+        this.set('addonLoading', true);
         await addNewUserAccount(userAccount, data);
         this.set('modalOpen', false);
     }
