@@ -54,17 +54,12 @@ export default class KeyAddon extends Component.extend(Validations, {
     async onSave(account: Account) {
         const { currentUser, addon, userAddonAction } = this;
         const { user } = currentUser;
-
-        if(!user) {
-            return;
-        }
-
         const userAddon = await userAddonAction(addon.id, user);
         const userAccount = await getUserAccount(userAddon) || account;
         const data = {
             userAddon,
             providerId: addon.id,
-            displayName: user.fullName,
+            displayName: user ? user.fullName : '',
         };
 
         this.set('addonLoading', true);
