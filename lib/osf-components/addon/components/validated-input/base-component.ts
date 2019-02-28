@@ -26,10 +26,10 @@ export enum ValidationStatus {
 
 export default abstract class BaseValidatedInput extends Component {
     // Required arguments
-    changeset?: ChangesetDef & DS.Model;
     valuePath!: keyof DS.Model;
 
     // Optional arguments
+    changeset?: ChangesetDef & DS.Model;
     label?: string;
     ariaLabel?: string;
     placeholder?: string;
