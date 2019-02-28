@@ -1,7 +1,7 @@
 <div data-analytics-scope='Form navigation menu' local-class='NavigationMenu {{if (not this.showNav) 'Collapsed'}}'>
     <div local-class='Header' data-test-anchor-nav-title>
         {{#if this.showNav}}
-            <span>{{t 'registries.overview.contents'}}</span>
+            <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
         {{/if}}
 
         <OsfButton
@@ -16,15 +16,14 @@
     </div>
 
     {{#if this.showNav}}
-        {{! template-lint-disable no-invalid-interactive }}
-        <div onclick={{action this.toggleNav}} local-class='Anchors' data-test-form-block-anchors>
-            {{! template-lint-enable no-invalid-interactive }}
+        <div local-class='Anchors' data-test-form-block-anchors>
             {{#each this.anchors as |section|}}
                 <div local-class='SectionAnchor'>
                     <OsfLink
                         data-test-section-anchor={{section.slug}}
                         data-analytics-name='Go to section: {{section.title}}'
                         @href='#{{section.slug}}'
+                        @onClick={{action this.toggleNav}}
                     >
                         {{section.title}}
                     </OsfLink>
@@ -34,6 +33,7 @@
                         <OsfLink
                             data-analytics-name='Go to question: {{question.title}}'
                             @href='#{{question.slug}}'
+                            @onClick={{action this.toggleNav}}
                             data-test-question-anchor={{question.slug}}
                         >
                             {{question.title}}

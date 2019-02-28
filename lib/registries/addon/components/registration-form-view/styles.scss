@@ -23,25 +23,27 @@
 .NavigationMenu {
     position: absolute;
     z-index: 100;
-    top: 20px;
+    top: 22px;
     right: 30px;
     width: 200px;
-    background-color: $white;
     box-shadow: 0 1px 2px $primary-box-shadow;
-
 }
 
 .Header {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 2.5;
-    padding-left: 15px;
-    border-bottom: 1px solid $alto;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    border-bottom: 1px solid $alto;
+}
+
+.HeaderText {
+    padding-left: 15px;
+    flex-basis: 80%;
+    background-color: $white;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 2.5;
 }
 
 .ToggleNav__button:global(.btn.btn-link) {
@@ -86,6 +88,7 @@
     height: 300px;
     overflow: scroll;
     padding: 0 15px 15px;
+    background-color: $white;
 
     a {
         color: $primary-blue;
