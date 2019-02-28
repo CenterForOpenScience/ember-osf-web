@@ -13,6 +13,7 @@
 
     // The default 340px isn't quite enough for the auth dropdown
     .secondary-navigation {
+        float: right;
         max-height: 400px !important;
     }
 
@@ -41,6 +42,10 @@
     @media (max-width: 992px) {
         #navbarScope div:global(.container) {
             width: 100%;
+        }
+
+        .secondary-navigation {
+            margin-right: 25px !important;
         }
 
         :global(.navbar-header) {
