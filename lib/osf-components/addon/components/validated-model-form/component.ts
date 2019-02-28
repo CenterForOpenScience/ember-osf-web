@@ -29,6 +29,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     onSaveOverride!: (model: ModelRegistry[M]) => void;
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
+    target?: any;
     disabled: boolean = defaultTo(this.disabled, false);
     changeset!: ChangesetDef;
     recreateModel: boolean = defaultTo(this.recreateModel, false);

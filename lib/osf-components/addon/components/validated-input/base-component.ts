@@ -36,6 +36,7 @@ export default abstract class BaseValidatedInput extends Component {
     disabled: boolean = defaultTo(this.disabled, false);
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
     model?: DS.Model;
+    target?: any;
 
     // Private properties
     @service i18n!: I18n;
@@ -46,6 +47,7 @@ export default abstract class BaseValidatedInput extends Component {
     isInvalid?: boolean;
     isValidating?: boolean;
     validation?: ResultCollection;
+    objectValidation?: any; // defined in constructor
 
     @computed('errors', 'validation.options')
     get isRequired(): boolean {
@@ -82,6 +84,7 @@ export default abstract class BaseValidatedInput extends Component {
             isValidating,
             isInvalid,
         } = this;
+
         switch (true) {
         case !shouldShowMessages || isValidating:
             return ValidationStatus.Hidden;

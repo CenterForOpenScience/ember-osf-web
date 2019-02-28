@@ -6,7 +6,7 @@
          <OsfButton
              data-analytics-name={{concat @addon.name ' addon'}}
              @type='link'
-             @onClick={{this.openModal}}
+             @onClick={{action this.openModal}}
              local-class='button'
          >
              {{t 'settings.addons.link'}}
@@ -14,13 +14,14 @@
     </Addon>
     <BsModal
         @open={{this.modalOpen}}
-        @onHide={{this.closeModal}}
+        @onHide={{action this.closeModal}}
         as |modal|
     >
         <ValidatedModelForm
             @modelName='account'
+            @target={{this}}
             @modelProperties={{this.modelProperties}}
-            @onSaveOverride={{this.onSave}}
+            @onSaveOverride={{action this.onSave}}
             as |form|
         >
             <modal.header>
@@ -31,6 +32,7 @@
                     <h4>{{t 'settings.addons.access_key'}}</h4>
                     <form.text
                         @valuePath='accessKey'
+                        @value={{this.accessKey}}
                         @placeholder={{t 'general.required'}}
                     />
                 </div>
@@ -39,12 +41,13 @@
                     <form.text
                         @password={{true}}
                         @valuePath='secretKey'
+                        @value={{this.secretKey}}
                         @placeholder={{t 'general.required'}}
                     />
                 </div>
                 <div local-class='form-item'>
                     <div local-class='form-buttons'>
-                        <OsfButton @onClick={{this.closeModal}}>
+                        <OsfButton @onClick={{action this.closeModal}}>
                             {{t 'general.cancel'}}
                         </OsfButton>
                         <OsfButton

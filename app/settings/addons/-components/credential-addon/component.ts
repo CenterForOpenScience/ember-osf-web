@@ -1,3 +1,4 @@
+import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import Account from 'ember-osf-web/models/account';
@@ -10,8 +11,17 @@ import {
     addNewUserAccount,
     bindEmberStore ,
 } from 'ember-osf-web/settings/addons/services/addonService';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-export default class CredentialAddon extends Component {
+const Validations = buildValidations({
+    username: validator('presence', true),
+    password: validator('presence', true),
+});
+
+export default class CredentialAddon extends Component.extend(Validations, {
+    username: null,
+    password: null,
+}) {
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
 
@@ -20,15 +30,22 @@ export default class CredentialAddon extends Component {
     addon!: Addon;
     modalOpen = false;
 
-    openModal = () => {
-        this.set('modalOpen', true);
+    @action
+    openModal() {
+        this.setProperties({
+            modalOpen: true,
+            username: '',
+            password: '',
+        });
     }
 
-    closeModal = () => {
+    @action
+    closeModal() {
         this.set('modalOpen', false);
     }
 
-    onSave = async (account: Account) => {
+    @action
+    async onSave(account: Account) {
         const { currentUser, addon, userAddonAction } = this;
         const { user } = currentUser;
 

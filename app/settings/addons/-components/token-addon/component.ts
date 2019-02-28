@@ -1,3 +1,4 @@
+import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import Account from 'ember-osf-web/models/account';
@@ -10,38 +11,46 @@ import {
     addNewUserAccount,
     bindEmberStore ,
 } from 'ember-osf-web/settings/addons/services/addonService';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-export default class TokenAddon extends Component {
+const Validations = buildValidations({
+    apiToken: validator('presence', true)
+});
+
+export default class TokenAddon extends Component.extend(Validations, {
+    apiToken: null,
+}) {
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
 
     userAddonAction = bindEmberStore(getUserAddon, this.store);
 
     addon!: Addon;
-    modalOpen = false;
+    modalOpen!: boolean;
 
-    openModal = () => {
-        this.set('modalOpen', true);
+    @action
+    openModal() {
+        this.setProperties({
+            modalOpen: true,
+            apiToken: '',
+        });
     }
 
-    closeModal = () => {
+    @action
+    closeModal() {
         this.set('modalOpen', false);
     }
 
-    onSave = async (account: Account) => {
+    @action
+    async onSave(account: Account) {
         const { currentUser, addon, userAddonAction } = this;
         const { user } = currentUser;
-
-        if(!user) {
-            return;
-        }
-
         const userAddon = await userAddonAction(addon.id, user);
         const userAccount = await getUserAccount(userAddon) || account;
         const data = {
             userAddon,
             providerId: addon.id,
-            displayName: user.fullName,
+            displayName: user ? user.fullName : '',
         };
 
         await addNewUserAccount(userAccount, data);
