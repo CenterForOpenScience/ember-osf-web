@@ -5,6 +5,7 @@
         analyticsName='Share - tweet'
         icon='twitter-square'
         showText=@showText
+        closeDropdown=@closeDropdown
     )
     linkedin=(component 'sharing-icons/sharing-anchor'
         href=this.linkedinHref
@@ -12,6 +13,7 @@
         analyticsName='Share - linkedin'
         icon='linkedin-square'
         showText=@showText
+        closeDropdown=@closeDropdown
     )
     facebook=(component 'sharing-icons/sharing-anchor'
         href=this.facebookHref
@@ -19,6 +21,7 @@
         analyticsName='Share - facebook'
         icon='facebook-square'
         showText=@showText
+        closeDropdown=@closeDropdown
     )
     email=(component 'sharing-icons/sharing-anchor'
         href=this.emailHref
@@ -26,6 +29,7 @@
         analyticsName='Share - email'
         icon='envelope'
         showText=@showText
+        closeDropdown=@closeDropdown
     )) as |links|}}
     {{#if (has-block)}}
         {{yield links}}

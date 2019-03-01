@@ -15,7 +15,7 @@ import template from './template';
 @tagName('')
 @layout(template, styles)
 export default class SharingIconsDropdown extends Component.extend({
-    bookmark: task(function *(this: SharingIconsDropdown) {
+    bookmark: task(function *(this: SharingIconsDropdown, closeDropdown: () => void) {
         if (!this.bookmarksCollection || !this.node) {
             return;
         }
@@ -41,6 +41,7 @@ export default class SharingIconsDropdown extends Component.extend({
         if (response && response.data) {
             const isBookmarked = Boolean(response.data.find((reg: Registration) => reg.id === this.node.id));
             this.set('isBookmarked', isBookmarked);
+            closeDropdown();
         }
     }).drop(),
     getBookmarksCollection: task(function *(this: SharingIconsDropdown) {

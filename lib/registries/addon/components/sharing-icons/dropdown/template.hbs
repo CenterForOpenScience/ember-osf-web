@@ -8,13 +8,14 @@
             @resultId={{@resultId}}
             @parentId={{@parentId}}
             @showText={{@showText}}
+            @closeDropdown={{action dd.close}}
         as |links|>
             <ul local-class='Dropdown__list'>
                 {{#if @showBookmark}}
                     <li role='menuitem' local-class='Dropdown__option'>
                         <OsfButton
                             @type='link'
-                            @onClick={{action (perform this.bookmark)}}
+                            @onClick={{action (perform this.bookmark dd.close)}}
                         >
                             <FaIcon @icon='bookmark' @fixedWidth={{true}} />
                             {{#if this.isBookmarked}}

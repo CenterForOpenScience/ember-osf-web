@@ -1,8 +1,15 @@
 {{#if this.href}}
-    <a data-analytics-name={{@analyticsName}} href={{this.href}}>
+    <OsfLink
+        data-analytics-name={{@analyticsName}}
+        @onClick={{@closeDropdown}}
+        @href={{this.href}}
+        target='_blank'
+        rel='noopener'
+    >
         <FaIcon @icon={{@icon}} @fixedWidth={{true}} />
         {{#if @showText}}
             {{@medium}}
         {{/if}}
-    </a>
+    </OsfLink>
+
 {{/if}}
