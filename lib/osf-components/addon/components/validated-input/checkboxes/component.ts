@@ -13,10 +13,15 @@ export default class ValidatedCheckboxes extends BaseValidatedComponent {
 
     constructor(...args: any[]) {
         super(...args);
-
-        assert(
-            'validated-input/checkboxes expects valuePath to lead to a hasMany relation',
-            Boolean(this.model.hasMany(this.valuePath as any)),
-        );
+        if (this.model) {
+            assert(
+                'validated-input/checkboxes expects valuePath to lead to a hasMany relation',
+                Boolean(this.model.hasMany(this.valuePath)),
+            );
+        } else {
+            assert(
+                'validated-input/checkboxes expects a model to be passed in',
+            );
+        }
     }
 }
