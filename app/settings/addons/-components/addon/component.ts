@@ -19,10 +19,14 @@ export default class Addon extends Component {
     modalOpen: boolean = false;
     deleteUserAddonAction = bindEmberStore(deleteUserAddon, this.store);
     deleteAccountAction = bindEmberStore(deleteAccount, this.store);
+    addonLoading!: boolean;
 
     @action
     openDeleteModal() {
-        this.set('modalOpen', true);
+        this.setProperties({
+            modalOpen: true,
+            addonLoading: false,
+        });
     }
 
     @action
@@ -37,11 +41,12 @@ export default class Addon extends Component {
             deleteAccountAction,
         } = this;
 
+        this.set('addonLoading', true);
+
         await RSVP.all([
             deleteAccountAction(accountID),
             deleteUserAddonAction(userAddonID)
         ]);
-
         this.set('modalOpen', false);
     }
 }

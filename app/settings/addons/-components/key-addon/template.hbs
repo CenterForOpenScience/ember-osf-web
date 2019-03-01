@@ -51,6 +51,7 @@
                             {{t 'general.cancel'}}
                         </OsfButton>
                         <OsfButton
+                            @disabled={{this.addonLoading}}
                             @buttonType='submit'
                             @type='primary'
                         >

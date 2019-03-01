@@ -48,10 +48,15 @@
                         {{t 'general.cancel'}}
                     </OsfButton>
                     <OsfButton
+                        @disabled={{this.addonLoading}}
                         @type='danger'
                         @onClick={{action this.deleteAccount userAddon.account.id @addon.id}}
                     >
-                        {{t 'settings.addons.disconnect'}}
+                        {{#if this.addonLoading}}
+                            <LoadingIndicator local-class='loading-icon' @inline={{true}} />
+                        {{else}}
+                            {{t 'settings.addons.disconnect'}}
+                        {{/if}}
                     </OsfButton>
                 </modal.footer>
             </BsModal>
