@@ -1,5 +1,5 @@
 {{#if (and this.stateBanner.text this.stateBanner.type) }}
-    <div local-class='Banner' data-test-banner={{@node.state}}>
+    <div local-class='Banner' data-test-banner={{@registration.state}}>
         <BsAlert @dismissible={{this.dismissible}} @type={{this.stateBanner.type}}>
             <div class='text-center'>
                 {{t this.stateBanner.text embargoEndDate=(moment-format this.registration.embargoEndDate 'MMMM D, YYYY') projectUrl=this.projectUrl}}
