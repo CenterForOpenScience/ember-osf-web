@@ -52,15 +52,21 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.dom('[data-test-mla-citation]').containsText(mla);
         await percySnapshot(assert);
         await fillIn('[data-test-given-name-field] input', '');
-        assert.dom('[data-test-citation-container]').doesNotExist();
+        assert.dom('[data-test-citation-container]').exists();
+        assert.dom('[data-test-apa-citation]').containsText(apa);
+        assert.dom('[data-test-mla-citation]').containsText(mla);
         await fillIn('[data-test-given-name-field] input', 'Peggy');
         assert.dom('[data-test-citation-container]').exists();
         assert.dom('[data-test-apa-citation]').containsText(apa);
         assert.dom('[data-test-mla-citation]').containsText(mla);
         await fillIn('[data-test-family-name-field] input', '');
-        assert.dom('[data-test-citation-container]').doesNotExist();
+        assert.dom('[data-test-citation-container]').exists();
+        assert.dom('[data-test-apa-citation]').containsText(apa);
+        assert.dom('[data-test-mla-citation]').containsText(mla);
         await fillIn('[data-test-given-name-field] input', '');
-        assert.dom('[data-test-citation-container]').doesNotExist();
+        assert.dom('[data-test-citation-container]').exists();
+        assert.dom('[data-test-apa-citation]').containsText(apa);
+        assert.dom('[data-test-mla-citation]').containsText(mla);
         await click('[data-test-discard-changes]');
         assert.dom('[data-test-discard-changes')
             .isDisabled('Already discarded changes means you cannot discard changes.');
@@ -71,13 +77,17 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.dom('[data-test-family-name-field] input[type=text]').hasValue('Doyle');
         await fillIn('[data-test-given-name-field] input', 'Maggs');
         assert.dom('[data-test-given-name-field] input[type=text]').hasValue('Maggs');
+        assert.dom('[data-test-citation-container]').exists();
+        assert.dom('[data-test-apa-citation]').containsText(apa);
+        assert.dom('[data-test-mla-citation]').containsText(mla);
+        await click('[data-test-save]');
         assert.dom('[data-test-apa-citation]').containsText('Doyle, M. H. G., DDS.');
         assert.dom('[data-test-mla-citation]').containsText('Doyle, Maggs H. G., DDS.');
-        await click('[data-test-save]');
         assert.dom('[data-test-discard-changes')
             .isDisabled('Just saved means you cannot discard changes.');
         assert.equal(user.givenName, 'Maggs');
     });
+
     test('validation works', async assert => {
         const givenName = 'Peggy';
         const middleNames = 'Herbert Gavin';

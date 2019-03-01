@@ -12,11 +12,12 @@ import template from './template';
 @classNames('form-group')
 export default class ValidatedXInputWrapper extends Component {
     // Required arguments
-    model!: any;
+    changeset!: any;
     valuePath!: string;
     validationStatus!: ValidationStatus;
 
     // Optional arguments
+    errors?: string;
     label?: string;
 
     @className
