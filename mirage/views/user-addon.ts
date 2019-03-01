@@ -4,7 +4,7 @@ export function deleteUserAddon(this: HandlerContext, schema: Schema, request: R
     const { id } = request.params;
     const addon = schema.addons.findBy({ id });
 
-    if(addon) {
+    if (addon) {
         addon.destroy();
     }
 }

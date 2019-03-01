@@ -1,20 +1,20 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { buildValidations, validator } from 'ember-cp-validations';
+import DS from 'ember-data';
 import Account from 'ember-osf-web/models/account';
 import Addon from 'ember-osf-web/models/addon';
-import DS from 'ember-data';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import {
-    getUserAddon,
-    getUserAccount,
     addNewUserAccount,
-    bindEmberStore ,
+    bindEmberStore,
+    getUserAccount,
+    getUserAddon,
 } from 'ember-osf-web/settings/addons/services/addonService';
-import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-    apiToken: validator('presence', true)
+    apiToken: validator('presence', true),
 });
 
 export default class TokenAddon extends Component.extend(Validations, {

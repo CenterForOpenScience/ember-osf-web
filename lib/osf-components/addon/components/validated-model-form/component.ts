@@ -99,6 +99,16 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         }
     }
 
+    async validateObject(this: ValidatedModelForm<M>) {
+        const { target } = this;
+
+        if (!target) {
+            return Promise.resolve(true);
+        }
+        const { validations } = await target.validate();
+        return validations.get('isValid');
+    }
+
     willDestroy() {
         if (this.onWillDestroy !== undefined && this.model) {
             this.onWillDestroy(this.model, this.changeset);

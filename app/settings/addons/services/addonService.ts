@@ -1,7 +1,7 @@
-import UserModel from 'ember-osf-web/models/user';
-import AccountModel from 'ember-osf-web/models/account';
-import UserAddonModel from 'ember-osf-web/models/user-addon';
 import DS from 'ember-data';
+import AccountModel from 'ember-osf-web/models/account';
+import UserModel from 'ember-osf-web/models/user';
+import UserAddonModel from 'ember-osf-web/models/user-addon';
 
 interface AccountData {
     providerId: string;
@@ -10,9 +10,9 @@ interface AccountData {
 }
 
 export function bindEmberStore(service: any, store: DS.Store) {
-    return function(...args: any[]) {
+    return (...args: any[]) => {
         return service(store, ...args);
-    }
+    };
 }
 
 export function getAppAddons(store: DS.Store) {
@@ -39,7 +39,7 @@ export async function getUserAddon(store: DS.Store, id: string, user: UserModel)
 export async function getUserAccount(userAddon: UserAddonModel) {
     const account = await userAddon.get('account');
 
-    if(account && account.get('id')) {
+    if (account && account.get('id')) {
         return account;
     }
     return null;
@@ -80,4 +80,3 @@ export async function deleteAccount(store: DS.Store, id: string) {
     await account.destroyRecord();
     return store.unloadRecord(account);
 }
-
