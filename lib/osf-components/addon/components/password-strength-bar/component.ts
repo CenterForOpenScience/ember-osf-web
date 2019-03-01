@@ -1,8 +1,8 @@
 import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 
+import { ChangesetDef } from 'ember-changeset/types';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { task, timeout } from 'ember-concurrency';
 import { layout } from 'ember-osf-web/decorators/component';
@@ -15,7 +15,7 @@ import template from './template';
 export default class PasswordStrengthBar extends Component {
     // Required parameters
     password!: UserPassword;
-    model!: UserPassword;
+    model!: ChangesetDef;
     valuePath!: string;
 
     // Private parameters
@@ -23,8 +23,6 @@ export default class PasswordStrengthBar extends Component {
     message: string = '';
     strengthMessage: string = '';
     shouldShowMessage: boolean = false;
-    @alias('model.validations.attrs.password.message')
-    hasValidationMessage!: boolean;
 
     strength = task(function *(this: PasswordStrengthBar, value: string) {
         if (!value) {
@@ -36,11 +34,11 @@ export default class PasswordStrengthBar extends Component {
         return yield this.passwordStrength.strength(value);
     }).restartable();
 
-    @computed('password', 'strength.lastSuccessful.value.score', 'model.validations.attrs.password.message')
+    @computed('password', 'strength.lastSuccessful.value.score', 'model.password.isValidating')
     get progress(this: PasswordStrengthBar): number {
         const { lastSuccessful } = this.strength;
-        if (lastSuccessful && lastSuccessful.value && !this.model.validations.attrs.password.isValidating) {
-            this.set('shouldShowMessage', !this.hasValidationMessage);
+        if (lastSuccessful && lastSuccessful.value && !this.model.get('password.isValidating')) {
+            this.set('shouldShowMessage', !this.model.get('errors')[0]);
             this.set('message', lastSuccessful.value.feedback.warning);
         }
         return this.password && lastSuccessful ? 1 + lastSuccessful.value.score : 0;

@@ -30,9 +30,8 @@
                 @ariaLabel={{t 'settings.account.changePassword.newPassword.placeholder'}}
             />
             <PasswordStrengthBar
-                @password={{this.userPassword.password}}
-                @model={{this.userPassword}}
-                @valuePath='password'
+                @password={{form.changeset.password}}
+                @model={{form.changeset}}
             />
             <label>{{t 'settings.account.changePassword.confirmPassword.title'}}</label>
             <form.text
