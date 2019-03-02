@@ -10,6 +10,7 @@ import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
+import { ChangesetDef } from 'ember-changeset/types';
 import getHref from 'ember-osf-web/utils/get-href';
 
 export default class ConnectedEmails extends Component.extend({
@@ -118,9 +119,9 @@ export default class ConnectedEmails extends Component.extend({
     }
 
     @action
-    onSave(email: UserEmail) {
-        if (email.emailAddress) {
-            this.set('lastUserEmail', email.emailAddress);
+    onSave(changeset: ChangesetDef & UserEmail) {
+        if (changeset.get('emailAddress')) {
+            this.set('lastUserEmail', changeset.get('emailAddress'));
             this.set('showAddModal', true);
             this.reloadUnconfirmedList();
 
@@ -128,13 +129,15 @@ export default class ConnectedEmails extends Component.extend({
         }
     }
     @action
-    onError(userEmail: UserEmail, e: DS.AdapterError | Error) {
+    onError(e: DS.AdapterError | Error, changeset: ChangesetDef & UserEmail) {
         if (e instanceof DS.ConflictError) {
-            userEmail.addExistingEmail();
-            userEmail.validate();
+            const emailSet = changeset.get('existingEmails');
+            emailSet.add(changeset.get('emailAddress'));
+            changeset.validate();
         } else if (e instanceof DS.AdapterError) {
-            userEmail.addInvalidEmail();
-            userEmail.validate();
+            const emailSet = changeset.get('invalidEmails');
+            emailSet.add(changeset.get('emailAddress'));
+            changeset.validate();
         } else {
             this.toast.error(e.message);
         }

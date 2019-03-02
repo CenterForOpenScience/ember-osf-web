@@ -5972,6 +5972,14 @@ ember-browserify@^1.2.0:
     through2 "^2.0.0"
     walk-sync "^0.2.7"
 
+ember-changeset@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ember-changeset/-/ember-changeset-2.0.0.tgz#66f5b9d6cec630f2490998affd40550087287459"
+  integrity sha512-hjcyZRjfqqxT5Jz845ia8ZUZhqFCQ5zVl2TsDAjcDVSIsgd27p79k6STHx0H62IJog1M8kvux25P9/kd+84MMg==
+  dependencies:
+    ember-cli-babel "^6.16.0"
+    ember-deep-set "^0.2.0"
+
 "ember-cli-addon-docs-typedoc@https://github.com/typed-ember/ember-cli-addon-docs-typedoc#initial-implementation":
   version "0.1.0"
   resolved "https://github.com/typed-ember/ember-cli-addon-docs-typedoc#51eec5e47acfc26d4038871b321c7fdbca131347"
@@ -7086,6 +7094,13 @@ ember-decorators@^3.0.0:
     "@ember-decorators/service" "^3.0.0"
     ember-cli-babel "^6.0.0"
     semver "^5.5.0"
+
+ember-deep-set@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ember-deep-set/-/ember-deep-set-0.2.0.tgz#93428b599f884c3da0550cbcc062b9ec5969a71e"
+  integrity sha512-3vg9Cw4CIInXzufZMQmScClg23mUw+2ybO53L51spFYP/eGaVmGduWmhrVljyl4lHKN7hW/jvG/YVWtwTPSTKA==
+  dependencies:
+    ember-cli-babel "^7.1.2"
 
 ember-diff-attrs@^0.2.1:
   version "0.2.1"

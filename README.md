@@ -86,6 +86,29 @@ The handbook will be available at [http://localhost:4200/handbook](http://localh
 To enable (experimental) auto-generated docs in the handbook, you can also set
 `HANDBOOK_DOC_GENERATION_ENABLED: true` in your local config.
 
+#### Enable handbook on your fork
+
+1. [Generate a deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/)
+  * `ssh-keygen -t rsa -b 4096 -C <your@email.com>`
+  * Enter file in which to save the key (~/.ssh/id_rsa): `~/deploy_key`
+  * Press enter twice for no passphrase
+2. Add the public key in your GitHub repository settings
+  * `cat ~/deploy_key.pub | pbcopy`
+  * Go to `https://github.com/<org>/<repo>/settings/keys/new`
+  * Title: `Travis CI`
+  * Key: paste in the public key
+  * ☑️ Allow write access
+3. Add the base64-encoded private key to Travis CI
+  * `cat ~/deploy_key | base64 | pbcopy`
+  * Go to `https://travis-ci.org/<org>/<repo>/settings`
+  * Under Environment Variables, add
+    * Name: `DEPLOY_KEY`
+    * Value: paste in the private key
+    * 'Leave Display Value in Build log' off
+    * Click Add
+4. Delete the keypair
+  * `rm ~/deploy_key ~/deploy_key.pub`
+
 ### Code Generators
 
 Make use of the many generators for code, try `ember help generate` for more details
