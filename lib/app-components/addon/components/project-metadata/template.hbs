@@ -1,58 +1,70 @@
-<div class='col-md-6'>
-    <label>
-        {{t 'app_components.project_metadata.field_title_label'}}
-    </label>
-    {{validated-input/text
-        model=this.node
-        valuePath='title'
-        aria-label=(t 'move_to_project.enter_project_title')
-        shouldShowMessages=@didValidate
-    }}
-    <br>
-    <label>
-        {{t 'app_components.project_metadata.field_description_label'}}
-    </label>
-    {{validated-input/textarea
-        model=this.node
-        valuePath='description'
-        shouldShowMessages=@didValidate
-    }}
-</div>
-<div class='col-md-6'>
-    {{#license-picker node=this.node}}
-        {{t 'app_components.project_metadata.field_license_label'}}
-    {{/license-picker}}
-    <br>
-    <label>
-        {{t 'app_components.project_metadata.field_tags_label'}}
-        {{#validated-input/custom
-            model=this.node
-            valuePath='tags'
-            shouldShowMessages=@didValidate
-        }}
-            {{#tag-input
-                tags=this.node.tags
-                addTag=(action 'addTag')
-                removeTagAtIndex=(action 'removeTagAtIndex')
-                allowSpacesInTags=true
-                placeholder=(t 'osf-components.tags-widget.add_tag')
-                aria_label=(t 'file_detial.tags')
-                local-class='tagInput'
-                readOnly=false
-                as |tag|
-            }}
-                <a
-                    href='{{@searchUrl}}?q=(tags:"{{tag}}")'
-                    onclick={{action 'click' 'link' 'Collections - Submit - Search by tag' target=this.analytics}}
-                >
-                    {{tag}}
-                </a>
-            {{/tag-input}}
-        {{/validated-input/custom}}
-    </label>
-</div>
-{{submit-section-buttons
-    discard=(action (perform this.reset))
-    continue=(action (perform this.save))
-    continueDisabled=(v-get this.node 'isInvalid')
-}}
+<ValidatedModelForm 
+    @onSave={{action this.onSave}}
+    @onError={{action this.onError}}
+    @model={{this.node}}
+    as |form|
+>
+    <div class='col-md-6'>
+        <form.text 
+            @label={{t 'app_components.project_metadata.field_title_label'}}
+            @valuePath='title'
+        />
+        <br>
+        <form.textarea 
+            @label={{t 'app_components.project_metadata.field_description_label'}}
+            @valuePath='description'
+        />
+    </div>
+    
+    <div class='col-md-6'>
+        <LicensePicker
+            @node={{this.node}}
+            @form={{form}}
+        >
+            {{t 'app_components.project_metadata.field_license_label'}}
+        </LicensePicker>
+        <br>
+        <label>
+            {{t 'app_components.project_metadata.field_tags_label'}}
+            <form.custom
+                @model={{this.node}}
+                @valuePath='tags'
+            >
+                {{#tag-input
+                    tags=this.node.tags
+                    addTag=(action 'addTag')
+                    removeTagAtIndex=(action 'removeTagAtIndex')
+                    allowSpacesInTags=true
+                    placeholder=(t 'osf-components.tags-widget.add_tag')
+                    aria_label=(t 'file_detial.tags')
+                    local-class='tagInput'
+                    readOnly=false
+                    as |tag|
+                }}
+                    <a
+                        href='{{@searchUrl}}?q=(tags:"{{tag}}")'
+                        onclick={{action 'click' 'link' 'Collections - Submit - Search by tag' target=this.analytics}}
+                    >
+                        {{tag}}
+                    </a>
+                {{/tag-input}}
+            </form.custom>
+        </label>
+    </div>
+    <div class='col-xs-12 text-right'>
+        <OsfButton
+            @type='default'
+            @disabled={{form.submitting}}
+            @onClick={{perform this.reset}}
+        >
+            {{t 'app_components.submit_section.discard'}}
+        </OsfButton>
+        <OsfButton
+            @type='primary'
+            @buttonType='submit'
+            @disabled={{form.submitting}}
+        >
+            {{t 'app_components.submit_section.save'}}
+        </OsfButton>
+    </div>
+</ValidatedModelForm>

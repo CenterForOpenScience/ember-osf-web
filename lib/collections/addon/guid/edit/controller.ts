@@ -1,4 +1,4 @@
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Controller from '@ember/controller';
 import config from 'ember-get-config';
@@ -15,6 +15,11 @@ export default class GuidEdit extends Controller {
 
     isPageDirty: boolean = false;
 
+    @computed('this.collectedMetadatum.hasDirtyAttributes')
+    get isCollectedMetadatumDirty() {
+        return this.collectedMetadatum.hasDirtyAttributes;
+    }
+
     @action
     returnToProjectOverviewPage() {
         // change to using `transitionToRoute()` once the project overview page is in Ember
@@ -24,5 +29,10 @@ export default class GuidEdit extends Controller {
     @action
     setPageDirty() {
         this.set('isPageDirty', true);
+    }
+
+    @action
+    resetPageDirty() {
+        this.set('isPageDirty', false);
     }
 }

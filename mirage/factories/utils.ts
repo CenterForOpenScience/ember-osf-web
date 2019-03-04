@@ -2,7 +2,10 @@ import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 import SeedRandom from 'seedrandom';
 
 import { GUID_ALPHABET } from 'ember-osf-web/const/guid-alphabet';
-import { AbstractQuestion, Answer, RegistrationMetadata, Schema } from 'ember-osf-web/models/registration-schema';
+import Guid from 'ember-osf-web/models/guid';
+import { AbstractQuestion, Answer, RegistrationMetadata } from 'ember-osf-web/models/registration-schema';
+
+import { MirageRegistrationSchema } from './registration-schema';
 
 export function guid(referentType: string) {
     return (id: number) => {
@@ -16,6 +19,12 @@ export function guid(referentType: string) {
 
         return newGuid;
     };
+}
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        guids: Guid;
+    } // eslint-disable-line semi
 }
 
 export function guidAfterCreate(newObj: ModelInstance, server: Server) {
@@ -52,27 +61,32 @@ function fakeAnswer(question: AbstractQuestion, answerIfRequired: boolean): Answ
 /**
  * Create registration metadata with a random number of questions answered.
  *
- * @param {Schema} schema - The schema to generate metadata for.
+ * @param {MirageRegistrationSchema} registrationsSchema - The registration schema to generate metadata for.
  * @param {boolean} answerAllRequired - Whether to ensure all required questions are answered.
  * @return {RegistrationMetadata}
  */
-export function createRegistrationMetadata(schema: Schema, answerAllRequired = false) {
+export function createRegistrationMetadata(
+    registrationSchema: ModelInstance<MirageRegistrationSchema>,
+    answerAllRequired = false,
+) {
     const registrationMetadata: RegistrationMetadata = {};
-    schema.pages.forEach(page =>
-        page.questions.forEach(question => {
-            if (question.type === 'object' && question.properties) {
-                const value: RegistrationMetadata = { };
-                question.properties.forEach(property => {
-                    value[property.id] = fakeAnswer(property, answerAllRequired);
-                });
-                registrationMetadata[question.qid] = {
-                    comments: [],
-                    extra: [],
-                    value,
-                };
-            } else {
-                registrationMetadata[question.qid] = fakeAnswer(question, answerAllRequired);
-            }
-        }));
+    if (registrationSchema.schemaNoConflict) {
+        registrationSchema.schemaNoConflict.pages.forEach(page =>
+            page.questions.forEach(question => {
+                if (question.type === 'object' && question.properties) {
+                    const value: RegistrationMetadata = { };
+                    question.properties.forEach(property => {
+                        value[property.id] = fakeAnswer(property, answerAllRequired);
+                    });
+                    registrationMetadata[question.qid] = {
+                        comments: [],
+                        extra: [],
+                        value,
+                    };
+                } else {
+                    registrationMetadata[question.qid] = fakeAnswer(question, answerAllRequired);
+                }
+            }));
+    }
     return registrationMetadata;
 }

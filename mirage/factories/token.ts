@@ -2,11 +2,12 @@ import { Factory, faker } from 'ember-cli-mirage';
 
 import Token from 'ember-osf-web/models/token';
 
-interface TokenAttrs extends Token {
+export interface MirageToken extends Token {
+    tokenId: string;
     scopeIds: string[];
 }
 
-export default Factory.extend<TokenAttrs>({
+export default Factory.extend<MirageToken>({
     id(i: number) {
         return i.toString().padStart(5, '0');
     },
@@ -20,3 +21,15 @@ export default Factory.extend<TokenAttrs>({
         token.update('scopeIds', [scope.id]);
     },
 });
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        token: MirageToken;
+    } // eslint-disable-line semi
+}
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        tokens: MirageToken;
+    } // eslint-disable-line semi
+}

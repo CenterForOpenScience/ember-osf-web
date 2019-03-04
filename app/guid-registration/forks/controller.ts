@@ -9,11 +9,14 @@ import Registration from 'ember-osf-web/models/registration';
 import StatusMessages from 'ember-osf-web/services/status-messages';
 import Toast from 'ember-toastr/services/toast';
 
+import currentUser from 'ember-osf-web/services/current-user';
+
 export default class GuidRegistrationForks extends Controller {
     @service toast!: Toast;
     @service i18n!: I18N;
     @service statusMessages!: StatusMessages;
     @service analytics!: Analytics;
+    @service currentUser!: currentUser;
 
     toDelete: Registration | null = null;
     deleteModal = false;
@@ -57,12 +60,10 @@ export default class GuidRegistrationForks extends Controller {
     @action
     closeNewModal() {
         this.set('newModal', false);
-        this.analytics.click('button', 'Dashboard - New Project - close_modal');
     }
 
     @action
     newFork(this: GuidRegistrationForks) {
-        this.analytics.click('button', 'Registration Forks - Create Fork');
         this.set('newModal', false);
         this.set('loadingNew', true);
         this.node!.makeFork().then(() => {
@@ -84,7 +85,6 @@ export default class GuidRegistrationForks extends Controller {
 
     @action
     delete(this: GuidRegistrationForks) {
-        this.analytics.click('button', 'Registration Forks - Delete Fork');
         this.set('deleteModal', false);
         const node = this.toDelete;
         if (!node) {

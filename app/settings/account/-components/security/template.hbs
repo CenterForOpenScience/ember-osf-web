@@ -1,5 +1,6 @@
 <Panel
     data-test-security-panel
+    data-analytics-scope='Security Panel'
     local-class='SecurityPanel'
     as |panel|
 >
@@ -12,25 +13,6 @@
                 <span local-class='HeadingText'>
                     {{t 'settings.account.security.twoFactorAuth'}}
                 </span>
-                {{#if this.settings.twoFactorEnabled}}
-                    <BsButton
-                        data-test-two-factor-disable-button
-                        @type='danger'
-                        @size='xs'
-                        @onClick={{action this.disableTwoFactor}}
-                    >
-                        {{t 'settings.account.security.disableTwoFactor'}}
-                    </BsButton>
-                {{else}}
-                    <BsButton
-                        data-test-two-factor-enable-button
-                        @onClick={{action this.enableTwoFactor}}
-                        local-class='EnableButton'
-                        @size='xs'
-                    >
-                        {{t 'settings.account.security.enableTwoFactor'}}
-                    </BsButton>
-                {{/if}}
             </h4>
             <p data-test-why-two-factor>
                 {{t 'settings.account.security.why'}}
@@ -56,10 +38,10 @@
                     @correctLevel='L'
                 />
                 <ValidatedModelForm
+                    data-analytics-scope='Verification form'
                     @model={{this.settings}}
                     @onSave={{action this.verifySecret}}
                     @onError={{action this.verificationError}}
-                    @analyticsScope={{this.analyticsScope}}
                     @onWillDestroy={{action this.destroyForm}}
                     as |form|
                 >
@@ -79,14 +61,41 @@
                         {{/if}}
                         <BsButton
                             data-test-verify-button
+                            data-analytics-name='Submit verification'
                             @type='primary'
                             @buttonType='submit'
                             @disabled={{form.submitting}}
                         >
                             {{t 'settings.account.security.submitVerification'}}
                         </BsButton>
+                        <BsButton
+                            data-test-two-factor-verify-cancel-button
+                            data-analytics-name='Cancel verification'
+                            @onClick={{action this.confirmDisableTwoFactor}}
+                        >
+                            {{t 'general.cancel'}}
+                        </BsButton>
                     </div>
                 </ValidatedModelForm>
+            {{/if}}
+            {{#if (and this.settings.twoFactorEnabled this.settings.twoFactorConfirmed)}}
+                <BsButton
+                    data-test-two-factor-disable-button
+                    data-analytics-name='Disable two-factor'
+                    @type='danger'
+                    @onClick={{action this.disableTwoFactor}}
+                >
+                    {{t 'settings.account.security.disableTwoFactor'}}
+                </BsButton>
+            {{else if (not this.settings.twoFactorEnabled)}}
+                <BsButton
+                    data-test-two-factor-enable-button
+                    data-analytics-name='Configure two-factor'
+                    local-class='EnableButton'
+                    @onClick={{action this.enableTwoFactor}}
+                >
+                    {{t 'settings.account.security.enableTwoFactor'}}
+                </BsButton>
             {{/if}}
         {{/if}}
     </panel.body>
@@ -105,17 +114,19 @@
     <modal.body data-test-confirm-enable-warning>
         {{t 'settings.account.security.enableWarning'}}
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='Confirm enable two factor modal'>
         <BsButton
             data-test-enable-warning-cancel
+            data-analytics-name='Cancel'
             @onClick={{action this.hideDialogs}}
         >
             {{t 'general.cancel'}}
         </BsButton>
         <BsButton
             data-test-enable-warning-confirm
+            data-analytics-name='Enable'
             @onClick={{action this.confirmEnableTwoFactor}}
-            @type='danger'
+            @type='primary'
         >
             {{t 'settings.account.security.enableButton'}}
         </BsButton>
@@ -135,15 +146,17 @@
     <modal.body data-test-confirm-disable-warning>
         {{t 'settings.account.security.disableWarning'}}
     </modal.body>
-    <modal.footer>
+    <modal.footer data-analytics-scope='Confirm disable two factor modal'>
         <BsButton
             data-test-disable-warning-cancel
+            data-analytics-name='Cancel'
             @onClick={{action this.hideDialogs}}
         >
             {{t 'general.cancel'}}
         </BsButton>
         <BsButton
             data-test-disable-warning-confirm
+            data-analytics-name='Confirm'
             @onClick={{action this.confirmDisableTwoFactor}}
             @type='danger'
         >

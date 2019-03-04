@@ -1,0 +1,23 @@
+.Popover {
+    :global(.popover-content) {
+        padding: 4px 2px 2px 8px;
+
+        i {
+            font-size: 1.6em;
+            padding-right: 5px;
+        }
+    }
+}
+
+:global(.btn-link).SharingIconsPopover__anchor {
+    & {
+        margin-top: 8px;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: none;
+        outline: 0;
+    }
+}

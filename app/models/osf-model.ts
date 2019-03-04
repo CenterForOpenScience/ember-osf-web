@@ -2,17 +2,28 @@ import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
+import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
 import DS, { RelationshipsFor } from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
-import { singularize } from 'ember-inflector';
+import { pluralize, singularize } from 'ember-inflector';
+import { Links, PaginationLinks } from 'jsonapi-typescript';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
+import getHref from 'ember-osf-web/utils/get-href';
+import getRelatedHref from 'ember-osf-web/utils/get-related-href';
+import getSelfHref from 'ember-osf-web/utils/get-self-href';
 
-import { Links, PaginationLinks } from 'jsonapi-typescript';
-import { Document as ApiResponseDocument, PaginatedMeta, ResourceCollectionDocument } from 'osf-api';
+import {
+    BaseMeta,
+    Document as ApiResponseDocument,
+    NormalLinks,
+    PaginatedMeta,
+    Relationships,
+    ResourceCollectionDocument,
+} from 'osf-api';
 
 const { Model } = DS;
 
@@ -35,6 +46,10 @@ export interface PaginatedQueryOptions {
     page: number;
 }
 
+export interface OsfLinks extends NormalLinks {
+    relationships?: Relationships;
+}
+
 export type ValidatedModelName = {
     [K in keyof ModelRegistry]: ModelRegistry[K] extends (Validations & DS.Model) ? K : never
 }[keyof ModelRegistry];
@@ -43,13 +58,17 @@ export default class OsfModel extends Model {
     @service store!: DS.Store;
     @service currentUser!: CurrentUser;
 
-    @attr() links: any;
+    @attr() links!: OsfLinks;
     @attr('object', { defaultValue: () => ({}) }) relatedCounts!: { [relName: string]: number };
-    @attr() apiMeta: any;
+    @attr() apiMeta!: BaseMeta;
 
-    @alias('links.relationships') relationshipLinks: any;
+    @alias('links.relationships') relationshipLinks!: Relationships;
 
     @alias('constructor.modelName') modelName!: string & keyof ModelRegistry;
+
+    get apiType() {
+        return pluralize(underscore(this.modelName));
+    }
 
     /*
      * Query a hasMany relationship with query params
@@ -74,7 +93,7 @@ export default class OsfModel extends Model {
 
         // HACK: ember-data discards/ignores the link if an object on the belongsTo side
         // came first. In that case, grab the link where we expect it from OSF's API
-        const url: string = reference.link() || this.relationshipLinks[propertyName].links.related.href;
+        const url = reference.link() || getRelatedHref(this.relationshipLinks[propertyName]);
 
         if (!url) {
             throw new Error(`Could not find a link for '${propertyName}' relationship`);
@@ -144,6 +163,54 @@ export default class OsfModel extends Model {
         return currentResults;
     }
 
+    async createM2MRelationship<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T> & string,
+        relatedModel: OsfModel,
+    ) {
+        return this.modifyM2MRelationship('post', relationshipName, relatedModel);
+    }
+
+    async deleteM2MRelationship<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T> & string,
+        relatedModel: OsfModel,
+    ) {
+        return this.modifyM2MRelationship('delete', relationshipName, relatedModel);
+    }
+
+    async modifyM2MRelationship<T extends OsfModel>(
+        this: T,
+        action: 'post' | 'delete',
+        relationshipName: RelationshipsFor<T> & string,
+        relatedModel: OsfModel,
+    ) {
+        const apiRelationshipName = underscore(relationshipName);
+        const url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
+
+        if (!url) {
+            throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
+        }
+
+        assert(`The related object is required to ${action} a relationship`, Boolean(relatedModel));
+
+        const options: JQuery.AjaxSettings = {
+            url,
+            type: action.toUpperCase(),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                data: [{
+                    id: relatedModel.id,
+                    type: relatedModel.apiType,
+                }],
+            }),
+        };
+
+        return this.currentUser.authenticatedAJAX(options);
+    }
+
     /*
      * Load related count for a given relationship using sparse fieldsets.
      *
@@ -156,9 +223,13 @@ export default class OsfModel extends Model {
         const apiRelationshipName = underscore(relationshipName);
         const errorContext = `while loading related counts for ${this.modelName}.${relationshipName}`;
 
+        if (!this.links.self) {
+            throw new Error(`Unable to find self link on ${this.modelName} ${this.id} ${errorContext}`);
+        }
+
         // Get related count with sparse fieldset.
         const response: ApiResponseDocument = await this.currentUser.authenticatedAJAX({
-            url: this.links.self,
+            url: getHref(this.links.self!),
             data: {
                 related_counts: apiRelationshipName,
                 [`fields[${apiModelName}]`]: apiRelationshipName,

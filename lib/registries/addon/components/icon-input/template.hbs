@@ -1,6 +1,10 @@
-<span class="{{this.class}}" local-class="IconInput {{if this.dark 'Dark'}}">
+<span
+    data-analytics-category='text'
+    local-class='IconInput {{if this.dark 'Dark'}}'
+    ...attributes
+>
     <span>
-        {{fa-icon this.icon fixedWidth=true}}
+        <FaIcon @icon={{this.icon}} @fixedWidth={{true}} />
     </span>
     {{input
         type='text'

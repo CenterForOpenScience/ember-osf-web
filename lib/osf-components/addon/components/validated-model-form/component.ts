@@ -27,7 +27,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
     disabled: boolean = defaultTo(this.disabled, false);
-    analyticsScope?: string;
 
     // Private properties
     @service store!: DS.Store;
@@ -44,9 +43,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     saveModelTask = task(function *(this: ValidatedModelForm<M>) {
         if (!this.model) {
             return;
-        }
-        if (this.analyticsScope) {
-            this.analytics.click('button', `${this.analyticsScope} - Save`);
         }
 
         const { validations } = yield this.model.validate();

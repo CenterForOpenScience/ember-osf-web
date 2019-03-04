@@ -1,0 +1,71 @@
+.Menu__button {
+    :global(.btn.btn-default) {
+        color: $primary-blue;
+        text-align: center;
+        border: 1px solid $alto;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+        background-color: $white;
+        background-size: cover;
+        outline: 0;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            background-color: $alto;
+            outline: 0;
+        }
+
+        .ForksCount__text {
+            padding-left: 4px;
+            color: $midnight-blue;
+        }
+    }
+
+    &:focus {
+        outline: 0;
+    }
+}
+
+.ForksMenu {
+    padding: 15px;
+    border: 1px solid $alto;
+    border-radius: 2px;
+    background-color: $white;
+    background-size: cover;
+    box-shadow: 0 1px 2px $primary-box-shadow;
+}
+
+.ForksMenu__option {
+    a {
+        color: $primary-blue;
+
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            color: $secondary-blue;
+            outline: 0;
+        }
+    }
+
+    :global(.btn.btn-link) {
+        color: $primary-blue;
+        margin: 0;
+        padding: 0;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+            outline: 0;
+        }
+    }
+
+    &:first-child {
+        margin-bottom: 10px;
+    }
+}
+
+.Icon {
+    font-size: 14px;
+}

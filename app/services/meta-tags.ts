@@ -1,5 +1,6 @@
 import { service } from '@ember-decorators/service';
 import Service from '@ember/service';
+import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import pathJoin from 'ember-osf-web/utils/path-join';
@@ -30,6 +31,8 @@ export interface MetaTagsData {
     fbAppId?: DataContent;
     twitterSite?: DataContent;
     twitterCreator?: DataContent;
+    author?: DataContent;
+    keywords?: DataContent;
 }
 
 export interface MetaTagsDefs {
@@ -56,6 +59,7 @@ export interface HeadTagDef {
 export default class MetaTags extends Service {
     @service i18n!: I18N;
     @service router!: any;
+    @service headTags!: HeadTagsService;
 
     /**
      * Get meta tag definitions.
@@ -95,6 +99,7 @@ export default class MetaTags extends Service {
             citation_doi: metaTagsData.doi,
             citation_publisher: metaTagsData.siteName,
             citation_author_institution: metaTagsData.institution,
+            citation_author: metaTagsData.author,
             citation_description: metaTagsData.description,
             citation_public_url: metaTagsData.url,
             citation_publication_date: metaTagsData.publishedDate,
@@ -108,6 +113,8 @@ export default class MetaTags extends Service {
             'dc.datesubmitted': metaTagsData.publishedDate,
             'dc.publisher': metaTagsData.siteName,
             'dc.language': metaTagsData.language,
+            'dc.creator': metaTagsData.author,
+            'dc.keywords': metaTagsData.keywords,
             // Open Graph/Facebook
             'fb:app_id': metaTagsData.fbAppId,
             'og:ttl': 345600, // 4 days = min value.
@@ -115,6 +122,7 @@ export default class MetaTags extends Service {
             'og:type': metaTagsData.type,
             'og:site_name': metaTagsData.siteName,
             'og:url': metaTagsData.url,
+            'og:secure_url': metaTagsData.url,
             'og:description': metaTagsData.description,
             'og:image': metaTagsData.image,
             'og:image:type': metaTagsData.imageType,
@@ -125,6 +133,10 @@ export default class MetaTags extends Service {
             'twitter:card': 'summary',
             'twitter:site': metaTagsData.twitterSite,
             'twitter:creator': metaTagsData.twitterCreator,
+            'twitter:title': metaTagsData.title,
+            'twitter:description': metaTagsData.description,
+            'twitter:image': metaTagsData.image,
+            'twitter:image:alt': metaTagsData.imageAlt,
         };
     }
 
@@ -155,6 +167,17 @@ export default class MetaTags extends Service {
             return { property: name, content };
         }
         return { name, content };
+    }
+
+    updateHeadTags() {
+        this.headTags.collectHeadTags();
+
+        // https://www.zotero.org/support/dev/exposing_metadata#force_zotero_to_refresh_metadata
+        const ev = new Event('ZoteroItemUpdated', {
+            bubbles: true,
+            cancelable: true,
+        });
+        document.dispatchEvent(ev);
     }
 }
 

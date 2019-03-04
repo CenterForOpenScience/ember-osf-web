@@ -1,4 +1,9 @@
-<nav data-test-nav role="navigation" local-class="Nav {{if this.dark 'Dark' 'Light'}} {{if this.mobile 'Mobile'}}">
+<nav
+    data-test-nav
+    role='navigation'
+    local-class='Nav {{if this.dark 'Dark' 'Light'}} {{if this.mobile 'Mobile'}}'
+    ...attributes
+>
     {{yield (hash
         container=(component 'container' class=(local-class 'NavbarContainer'))
         divider=(component 'x-dummy' class=(local-class 'Divider'))

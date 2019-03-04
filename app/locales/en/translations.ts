@@ -55,6 +55,7 @@ export default {
         create: 'Create',
         and: 'and',
         or: 'or',
+        bookmark: 'Bookmark',
         more: 'more',
         upload: 'Upload',
         rename: 'Rename',
@@ -65,6 +66,7 @@ export default {
         downloads: 'Downloads',
         close: 'Close',
         back: 'Back',
+        public: 'Public',
         filter: 'Filter',
         revert: 'Revert',
         save: 'Save',
@@ -75,6 +77,7 @@ export default {
         sort: 'Sort',
         asc_paren: '(asc)',
         desc_paren: '(desc)',
+        loading: 'Loading...',
         next: 'next',
         previous: 'previous',
         help: 'Help',
@@ -96,6 +99,21 @@ export default {
             preprints: 'Preprints',
             registries: 'Registries',
         },
+    },
+    node_categories: {
+        // Keys match the values of node.category from the API. Intended to be used like:
+        // {{t (concat 'node_categories.' node.category)}}
+        analysis: 'Analysis',
+        communication: 'Communication',
+        data: 'Data',
+        hypothesis: 'Hypothesis',
+        instrumentation: 'Instrumentation',
+        'methods and measures': 'Methods and measures',
+        procedure: 'Procedure',
+        project: 'Project',
+        software: 'Software',
+        other: 'Other',
+        uncategorized: 'Uncategorized',
     },
     maintenance: {
         line1: 'The site will undergo maintenance between <strong>{{start}} and {{end}}</strong> ({{utc}} UTC).',
@@ -347,11 +365,6 @@ export default {
         title: 'API Unavailable',
         body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
     },
-    zoom_to_route: {
-        title: 'Zoom directly to any route',
-        zoom: 'Zoom!',
-        placeholder: 'Choose a route',
-    },
     osf_mode_footer: {
         dev_mode: 'This site is running in development mode.',
     },
@@ -489,6 +502,7 @@ export default {
         email_registered: 'This email address has already been registered.',
         email_invalid: 'Invalid email address. If this should not have occurred, please report this to {{supportEmail}}',
         email_match: 'Email addresses must match.',
+        email_duplicate: 'Duplicate email',
         password_email: 'Your password cannot be the same as your email address.',
         password_old: 'Your new password cannot be the same as your old password.',
         password_match: 'Passwords must match.',
@@ -556,6 +570,7 @@ export default {
                 pending_withdrawl: 'Pending withdrawal',
                 embargoed: 'Embargoed',
                 pending_embargo: 'Pending embargo',
+                pending_embargo_termination: 'Pending embargo termination',
                 archiving: 'Archiving',
             },
         },
@@ -647,7 +662,7 @@ export default {
         },
     },
     contributor_list: {
-        and_x_more: '{{x}} more',
+        x_more: '{{x}} more',
     },
     app_components: {
         branded_navbar: {
@@ -913,6 +928,11 @@ export default {
             update_save_error: 'Error updating {{title}} in the collection:\n{{error}}',
             warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.',
         },
+        collection_submission_confirmation_modal: {
+            header: 'Submit project',
+            body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.',
+            add_button: 'Add to collection',
+        },
         collection_item_picker: {
             after_options: {
                 loading: 'Loading\u2026',
@@ -1045,24 +1065,65 @@ export default {
             },
         },
 
+        registration_metadata: {
+            contributors: 'Contributors',
+            description: 'Description',
+            no_description: 'No description given.',
+            registration_type: 'Registration type',
+            date_registered: 'Date registered',
+            date_created: 'Date created',
+            registered_from: 'Registered from',
+            category: 'Category',
+            registration_doi: 'Registration DOI',
+            publication_doi: 'Publication DOI',
+            affiliated_institutions: 'Affiliated institutions',
+            license: 'License',
+            no_license: 'No license',
+            disciplines: 'Disciplines',
+            tags: 'Tags',
+            citation: 'Citation',
+        },
+
         overview: {
             title: 'Overview',
             collapse: 'Collapse',
             expand: 'Expand',
             see_more: 'See more',
-
-            metadata: {
-                title: 'Metadata',
-                x_more: '{{x}} more',
-            },
-
+            metadata: 'Metadata',
+            component_of: 'This is a component of a registration:',
             comments: {
                 title: 'Comments',
+                see_replies: 'See replies',
+                hide_replies: 'Hide replies',
+                report: 'Report',
+                cancel: 'Cancel',
+                load_more: 'Load more replies',
+                create_report: {
+                    success: 'Comment successfully reported',
+                    error: 'Unable to report comment',
+                },
+                category_placeholder: 'Select a category that best describes abuse',
+                retract_report: {
+                    success: 'Report successfully retracted',
+                    error: 'Unable to retract abuse report',
+                },
+                modified: 'Modified ',
+                report_placeholder: 'Describe abuse',
+                comment_abuse: 'Comment reported.',
+                comment_abuse_action: 'Not abuse',
+                abuse_spam: 'Spam or advertising',
+                abuse_hate: 'Hate speech',
+                abuse_violence: 'Violence or harmful behavior',
+                cannot_retract_report: 'Only the reporter can retract report',
+                no_comments: 'No comments.',
             },
 
             links: {
                 title: 'Links',
-                no_links: 'This registration has no links.',
+                linked_nodes: 'Linked projects and components',
+                no_linked_nodes: 'This registration has no linked projects or components.',
+                linked_registrations: 'Linked registrations',
+                no_linked_registrations: 'This registration has no linked registrations.',
             },
 
             contributors: {
@@ -1084,6 +1145,82 @@ export default {
             form_view: {
                 no_files: 'No files uploaded',
             },
+
+            withdrawn: {
+                has_been_withdrawn: 'This registration has been withdrawn for the reason(s) stated below.',
+                date_withdrawn: 'Date withdrawn',
+                justification: 'Justification for withdrawal',
+                no_justification: 'None given',
+                state: 'Withdrawn',
+            },
+
+            withdraw: {
+                withdraw: 'Withdraw registration',
+                withdrawal_justification_label: 'Please provide your justification for withdrawing this registration.',
+                random_scientist_x: 'Type <strong>{{x}}</strong> below and click Withdraw Registration if you are sure you want to continue.',
+                success: 'Withdrawal request submitted successfully',
+                error: 'Unable to withdraw this registration',
+                warning: 'Withdrawing a registration will remove its content from the OSF, but leave basic metadata behind. The title of a withdrawn registration and its contributor list will remain, as will justification or explanation of the withdrawal, should you wish to provide it. Withdrawn registrations will be marked with a "withdrawn" tag. This action is irreversible.',
+            },
+
+            archiving: {
+                currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.',
+                email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{{supportEmail}}">{{supportEmail}}</a> for assistance.',
+            },
+            aria_labels: {
+                main: 'Toolbar: withdraw, fork, share registration',
+                scientist_name_input: 'Random scientist name',
+            },
+            embargoed: {
+                state: 'Embargoed',
+                action: 'End embargo early',
+                action_success: 'Embargo termination request successfully sent',
+                action_error: 'Unable to submit embargo termination request',
+                confirm_text: 'By clicking confirm, an email will be sent to project administrator(s) to approve ending the embargo. If approved, this registration, including any components, will be made public immmediately. This action is irreversible.',
+                confirm_button_text: 'Confirm',
+                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}.',
+            },
+            pending: {
+                state: 'Pending',
+                action: {
+                    approve: 'Approve',
+                    reject: 'Reject',
+                },
+            },
+            public: {
+                state: 'Public',
+            },
+            pendingRegistrationApproval: {
+                banner: 'This is a pending registration of this <a href={{projectUrl}}><u>project</u></a>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.',
+            },
+            pendingWithdrawal: {
+                banner: 'This project is currently pending withdrawal',
+            },
+            pendingEmbargoApproval: {
+                banner: 'This project is currently pending registration, awaiting approval from project administrators. This registration will be final and enter the embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.',
+            },
+            pendingEmbargoTerminationApproval: {
+                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}. A request to lift the embargo and make this registration public is pending.',
+            },
+            update_bookmarks: {
+                add: {
+                    text: 'Bookmark',
+                    success: 'Registration successfully added to your bookmarks',
+                    error: 'Unable to bookmark this registration',
+                },
+                remove: {
+                    text: 'Remove from bookmarks',
+                    success: 'Registration successfully removed from your bookmarks',
+                    error: 'Unable to remove this registration from bookmarks',
+                },
+            },
+            fork: {
+                success: 'Your fork is being created. You\'ll receive an email when it is complete',
+                success_title: 'Fork status',
+                error: 'Unable to fork registration',
+            },
+            view_forks: 'View forks',
+            fork_registration: 'Fork this registration',
         },
     },
     analytics: {
@@ -1210,6 +1347,7 @@ export default {
         'tags-widget': {
             tags: 'Tags',
             add_tag: 'Add a tag to enhance discoverability',
+            no_tags: 'No tags',
         },
     },
     settings: {
@@ -1240,14 +1378,48 @@ export default {
             },
         },
         account: {
+            deactivation: {
+                title: 'Deactivate account',
+                body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="http://help.osf.io/m/settings/l/697108-merge-your-accounts">merging your accounts</a>.',
+                warning: 'Warning:',
+                warningText: 'Once your deactivation has been approved the effects are irreversible.',
+                pending: 'Your account is currently pending deactivation.',
+                requestButton: 'Request deactivation',
+                confirmationTitle: 'Request account deactivation?',
+                confirmationBody: 'Are you sure you want to request account deactivation? An OSF administrator will review your request. If accepted, you will NOT be able to reactivate your account.',
+                confirmationButton: 'Request',
+                confirmationToastMessage: 'An OSF administrator will contact you shortly to confirm your deactivation request.',
+                undoRequestButton: 'Undo deactivation request',
+                undoRequestConfirmationTitle: 'Undo deactivation request?',
+                undoRequestConfirmationBody: 'Are you sure you want to undo your account deactivation request? This will preserve your account status.',
+                undoRequestConfirmationButton: 'Undo deactivation request',
+                undoRequestToastMessage: 'Your deactivation request has been undone.',
+            },
+            defaultRegion: {
+                title: 'Default storage location',
+                why: 'This location will be applied to new projects and components. It will not affect existing projects and components.',
+                updateButton: 'Update location',
+                successToast: 'You have successfully changed your default storage location to <strong>{{region}}</strong>',
+                saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+            },
+            export: {
+                title: 'Export account data',
+                body: 'Exporting your account data allows you to keep a permanent copy of the current state of your account. Keeping a copy of your account data can provide peace of mind or assist in transferring your information to another provider.',
+                requestButton: 'Request export',
+                confirmationTitle: 'Request account export?',
+                confirmationBody: 'Are you sure you want to request account export?',
+                confirmationButton: 'Request',
+                confirmationToastMessage: 'An OSF administrator will contact you shortly to confirm your export request.',
+                saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
+            },
             security: {
-                title: 'Security Settings',
-                twoFactorAuth: 'Two-factor Authentication',
-                enableTwoFactor: 'Enable Two-factor Authentication',
-                enableWarning: 'Enabling two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
-                disableTwoFactor: 'Disable Two-factor Authentication',
+                title: 'Security settings',
+                twoFactorAuth: 'Two-factor authentication',
+                enableTwoFactor: 'Configure',
+                enableWarning: 'Configuring two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.',
+                disableTwoFactor: 'Disable',
                 why: 'By using two-factor authentication, you will protect your OSF account with both your password and your mobile phone.',
-                enableButton: 'Enable',
+                enableButton: 'Configure',
                 importantWarning: 'Important: If you lose access to your mobile device, you will not be able to log in to your OSF account.',
                 howTo: 'To use, you must install an appropriate application on your mobile device. Google Authenticator is a popular choice and is available for both Android and iOS.',
                 onceVerified: 'Once verified, your device will display a six-digit code that must be entered during the login process. This code changes every few seconds, which means that unauthorized users will not be able to log in to you account, even if they know your password.',
@@ -1257,9 +1429,44 @@ export default {
                 disableWarning: 'Are you sure you want to disable two-factor authentication?',
                 disableButton: 'Disable',
                 saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{{supportEmail}}">{{supportEmail}}</a>.',
-                submitVerification: 'Submit',
+                submitVerification: 'Enable',
             },
             title: 'Account settings',
+            connected_emails: {
+                add_email: 'Add email',
+                add_email_modal: {
+                    title: 'Confirmation email sent',
+                    body: '<strong>{{emailAddress}}</strong> was added to your account. You will receive a confirmation email at <strong>{{emailAddress}}</strong>. Please click the link in your email to confirm this action. You will be required to enter your password.',
+                },
+                alternate_emails: 'Alternate emails',
+                confirm_delete: {
+                    title: 'Remove email',
+                    body: 'Are you sure you want to remove <strong>{{emailAddress}}</strong> from your email list?',
+                },
+                resend_confirmation_modal: {
+                    title: 'Resend email confirmation?',
+                    body: 'Are you sure that you want to resend email confirmation to <strong>{{emailAddress}}</strong>?',
+                    resend_button: 'Resend',
+                },
+                resend_fail: 'Unable to resend confirmation email',
+                resend_success: 'Email resent',
+                delete_fail: 'Unable to delete email',
+                delete_success: 'Email deleted',
+                load_fail: 'Unable to load emails',
+                make_primary: 'Make primary',
+                merge_explanation: 'To merge an existing account with this one or to log in with multiple email addresses, add an alternate email address below. All projects and components will be displayed under the email address listed as primary.',
+                no_unconfirmed_emails: 'There are no unconfirmed emails',
+                no_alternate_emails: 'There are no alternate emails',
+                placeholder_text: 'Email address',
+                primary_email: 'Primary email',
+                resend_confirmation: 'Resend confirmation',
+                save_fail: 'Unable to add email',
+                save_success: 'Email added',
+                title: 'Connected emails',
+                unconfirmed_emails: 'Unconfirmed emails',
+                update_fail: 'Unable to update email',
+                update_success: 'Email updated',
+            },
         },
         addons: {
             title: 'Configure add-on accounts',
@@ -1350,5 +1557,17 @@ export default {
         title: 'tempor nec feugiat nisl pretium',
         sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id velit ut tortor pretium. Nisi porta lorem mollis aliquam ut porttitor leo a. Cras fermentum odio eu feugiat. Eget mi proin sed libero enim. Quam adipiscing vitae proin sagittis. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. At varius vel pharetra vel turpis nunc eget. Purus ut faucibus pulvinar elementum integer enim neque volutpat. Turpis nunc eget lorem dolor. Mattis pellentesque id nibh tortor id aliquet lectus proin nibh. Arcu felis bibendum ut tristique et egestas quis. Nisl tincidunt eget nullam non nisi est sit amet. Fringilla urna porttitor rhoncus dolor purus non enim.',
+    },
+    dev_tools: {
+        title: 'Dev tools',
+        zoom_to_route: {
+            title: 'Zoom to route',
+            zoom: 'Zoom!',
+            placeholder: 'Choose a route',
+        },
+        options: {
+            toast_events: 'Display toast for tracked events',
+            show_url_bar: 'Show URL bar -- navigate by URL without reloading',
+        },
     },
 };

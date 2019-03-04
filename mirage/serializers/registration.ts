@@ -1,14 +1,18 @@
-import { ModelInstance } from 'ember-cli-mirage';
+import { ID, ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
 
 import ApplicationSerializer, { SerializedRelationships } from './application';
-import { Attrs } from './node';
+import { NodeAttrs } from './node';
 
 const { OSF: { apiUrl } } = config;
 
-type MirageRegistration = Registration & { attrs: Attrs };
+interface RegistrationAttrs extends NodeAttrs {
+    registeredFromId: ID | null;
+}
+
+type MirageRegistration = Registration & { attrs: RegistrationAttrs };
 
 export default class RegistrationSerializer extends ApplicationSerializer<MirageRegistration> {
     buildRelationships(model: ModelInstance<MirageRegistration>) {
@@ -45,6 +49,22 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            affiliatedInstitutions: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/institutions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'affiliatedInstitutions'),
+                    },
+                },
+            },
+            comments: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/comments/?filter[targetID]=${model.id}`,
+                        meta: this.buildRelatedLinkMeta(model, 'comments'),
+                    },
+                },
+            },
             children: {
                 links: {
                     related: {
@@ -62,10 +82,22 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 },
             },
             registrationSchema: {
+                data: {
+                    id: model.registrationSchema.id,
+                    type: 'registration_schemas',
+                },
                 links: {
                     related: {
                         href: `${apiUrl}/v2/schemas/registrations/${model.registrationSchema.id}`,
                         meta: {},
+                    },
+                },
+            },
+            identifiers: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/identifiers/`,
+                        meta: this.buildRelatedLinkMeta(model, 'identifiers'),
                     },
                 },
             },
@@ -95,6 +127,36 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 links: {
                     related: {
                         href: `${apiUrl}/v2/registrations/${rootId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+        if (model.attrs.registeredFromId !== null) {
+            const { registeredFromId } = model.attrs;
+            relationships.registeredFrom = {
+                data: {
+                    id: registeredFromId,
+                    type: 'nodes',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${registeredFromId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+        if (model.attrs.licenseId !== null) {
+            const { licenseId } = model.attrs;
+            relationships.license = {
+                data: {
+                    id: licenseId,
+                    type: 'licenses',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/licenses/${licenseId}`,
                         meta: {},
                     },
                 },

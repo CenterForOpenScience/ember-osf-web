@@ -1,13 +1,14 @@
 import Service from '@ember/service';
-import { click, currentRouteName } from '@ember/test-helpers';
+import { currentRouteName } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
-import { currentURL, visit } from 'ember-osf-web/tests/helpers';
+import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine, setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
 interface OverviewTestContext extends TestContext {
@@ -29,11 +30,13 @@ module('Registries | Acceptance | overview.index', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: OverviewTestContext) {
-        server.create('root', { currentUser: null }, 'withNewRegistriesStyle');
         server.loadFixtures('registration-schemas');
         this.set('registration', server.create('registration', {
+            archiving: false,
+            withdrawn: false,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        }, 'withRegisteredMeta', 'withContributors'));
+            currentUserPermissions: [Permission.Admin],
+        }, 'withContributors'));
     });
 
     test('it renders', async function(this: OverviewTestContext, assert: Assert) {
@@ -50,19 +53,19 @@ module('Registries | Acceptance | overview.index', hooks => {
         analyticsEngine.register('service:keen', KeenStub);
 
         const testCases = [{
-            name: 'comments',
+            name: 'Comments',
             route: 'registries.overview.comments',
             url: `/--registries/${this.registration.id}/comments`,
         }, {
-            name: 'analytics',
+            name: 'Analytics',
             route: 'guid-registration.analytics.index',
             url: `/--registration/${this.registration.id}/analytics`,
         }, {
-            name: 'components',
+            name: 'Components',
             route: 'registries.overview.children',
             url: `/--registries/${this.registration.id}/components`,
         }, {
-            name: 'links',
+            name: 'Links',
             route: 'registries.overview.links',
             url: `/--registries/${this.registration.id}/links`,
         }];
@@ -70,7 +73,7 @@ module('Registries | Acceptance | overview.index', hooks => {
         for (const testCase of testCases) {
             await visit(`/${this.registration.id}/`);
 
-            await click(`[data-test-link="${testCase.name}"]`);
+            await click(`[data-analytics-name="${testCase.name}"]`);
             await percySnapshot(`Registries sidenav - ${testCase.name}`);
 
             assert.equal(currentURL(), testCase.url, 'At the correct URL');
@@ -80,10 +83,10 @@ module('Registries | Acceptance | overview.index', hooks => {
 
     test('sidenav hrefs', async function(this: OverviewTestContext, assert: Assert) {
         const testCases = [{
-            selector: '[data-test-link="files"]',
+            selector: '[data-analytics-name="Files"]',
             href: `/${this.registration.id}/files/`,
         }, {
-            selector: '[data-test-link="wiki"]',
+            selector: '[data-analytics-name="Wiki"]',
             href: `/${this.registration.id}/wiki/`,
         }];
 
@@ -92,5 +95,33 @@ module('Registries | Acceptance | overview.index', hooks => {
 
             assert.dom(testCase.selector).hasAttribute('href', testCase.href, 'Non-ember routes have the correct href');
         }
+    });
+
+    test('withdrawn tombstone', async function(this: OverviewTestContext, assert: Assert) {
+        this.registration.update('withdrawn', true);
+        const url = `/${this.registration.id}`;
+        await visit(url);
+        await percySnapshot(assert);
+
+        assert.equal(currentURL(), url, 'At the correct URL');
+        assert.dom('[data-test-registration-title]').hasText(this.registration.title, 'Correct title');
+        assert.dom('[data-test-tombstone-title]').hasText(
+            'This registration has been withdrawn for the reason(s) stated below.',
+            'Correct tombstone title',
+        );
+    });
+
+    test('archiving tombstone', async function(this: OverviewTestContext, assert: Assert) {
+        this.registration.update('archiving', true);
+        const url = `/${this.registration.id}`;
+        await visit(url);
+        await percySnapshot(assert);
+
+        assert.equal(currentURL(), url, 'At the correct URL');
+        assert.dom('[data-test-registration-title]').hasText(this.registration.title, 'Correct title');
+        assert.dom('[data-test-tombstone-title]').hasText(
+            'This registration is currently archiving, and no changes can be made at this time.',
+            'Correct tombstone title',
+        );
     });
 });

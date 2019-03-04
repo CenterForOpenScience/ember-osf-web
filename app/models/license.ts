@@ -6,6 +6,7 @@ import OsfModel from './osf-model';
 
 export default class LicenseModel extends OsfModel {
     @attr('fixstring') name!: string;
+    @attr('fixstring') url!: string;
     @attr('fixstring') text!: string;
     @attr('array') requiredFields!: Array<keyof Deserialized>;
 }

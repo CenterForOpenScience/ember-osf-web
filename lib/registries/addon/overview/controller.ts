@@ -2,22 +2,47 @@ import { action, computed } from '@ember-decorators/object';
 import { alias, not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import config from 'ember-get-config';
+import I18N from 'ember-i18n/services/i18n';
 import Media from 'ember-responsive';
 
 import Registration from 'ember-osf-web/models/registration';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import pathJoin from 'ember-osf-web/utils/path-join';
+
+const {
+    support: {
+        supportEmail,
+    },
+} = config;
+
+const { OSF: { url: baseURL } } = config;
 
 export default class Overview extends Controller {
     @service media!: Media;
-    @not('media.isDesktop') showMobileNav!: boolean;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
 
     model!: GuidRouteModel<Registration>;
 
     sidenavGutterClosed = true;
     metadataGutterClosed = true;
 
+    supportEmail = supportEmail;
+
     @alias('model.taskInstance.value') registration?: Registration;
     @not('registration') loading!: boolean;
+
+    @computed('registration.id')
+    get registrationURL() {
+        return this.registration && pathJoin(baseURL, `${this.registration.id}`);
+    }
+
+    @computed('media.isDesktop', 'registration.withdrawn')
+    get showMobileView() {
+        return !this.media.isDesktop && this.registration && !this.registration.withdrawn;
+    }
 
     @computed('media.{isMobile,isTablet,isDesktop}')
     get metadataGutterMode() {
@@ -36,6 +61,16 @@ export default class Overview extends Controller {
             return 'column';
         }
         return 'drawer';
+    }
+
+    @computed('registration.relatedCounts.forks')
+    get forksCount(): number {
+        return (this.registration && this.registration.relatedCounts!.forks) || 0;
+    }
+
+    @computed('registration.relatedCounts.comments')
+    get commentsCount() {
+        return (this.registration && this.registration.relatedCounts!.comments) || 0;
     }
 
     @computed('registration.relatedCounts.{linkedNodes,linkedRegistrations}')

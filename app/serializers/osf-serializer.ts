@@ -4,15 +4,13 @@ import ModelRegistry from 'ember-data/types/registries/model';
 import { AttributesObject } from 'jsonapi-typescript';
 
 import {
-    NormalLinks,
     PaginatedMeta,
-    Relationships,
     Resource,
     ResourceCollectionDocument,
     SingleResourceDocument,
 } from 'osf-api';
 
-import OsfModel from 'ember-osf-web/models/osf-model';
+import OsfModel, { OsfLinks } from 'ember-osf-web/models/osf-model';
 
 const { JSONAPISerializer } = DS;
 
@@ -106,7 +104,7 @@ export default class OsfSerializer extends JSONAPISerializer {
      * the combination of `resourceHash.links` and `resourceHash.relationships`
      */
     _mergeLinks(resourceHash: Resource): Partial<Resource> {
-        const links: NormalLinks & { relationships?: Relationships } = { ...(resourceHash.links || {}) };
+        const links: OsfLinks = { ...(resourceHash.links || {}) };
         if (resourceHash.relationships) {
             links.relationships = resourceHash.relationships;
         }
@@ -154,7 +152,7 @@ export default class OsfSerializer extends JSONAPISerializer {
                 for (const key of Object.keys(serialized.data.relationships)) {
                     const rel = relationships[camelize(key)];
                     if (rel
-                        && rel.members.length === rel.canonicalMembers.length
+                        && rel.members.list.length === rel.canonicalMembers.list.length
                         && rel.members.list.every((v: any, i: any) => v === rel.canonicalMembers.list[i])
                     ) {
                         delete serialized.data.relationships[key];

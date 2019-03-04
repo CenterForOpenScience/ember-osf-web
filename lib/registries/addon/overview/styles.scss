@@ -1,14 +1,16 @@
-h1.Title { /* stylelint-disable-line selector-no-qualifying-type*/
-    color: $white;
-    font-weight: 400;
-    word-break: break-word;
-}
-
 .TitleBackground {
-    min-height: 120px;
     background-image: url('img/bg-dark.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.Container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+
+    margin: 25px 0;
 }
 
 .ContentBackground {
@@ -37,5 +39,58 @@ h1.Title { /* stylelint-disable-line selector-no-qualifying-type*/
     height: 100%;
     overflow-y: auto;
     padding: 20px;
+}
+
+.SideMetadata {
+    padding: 20px;
+    min-width: 300px;
     width: 300px;
+
+    .MetadataTitle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0;
+    }
+}
+
+.TitleContainer {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    justify-content: center;
+    min-height: 80px;
+}
+
+@media screen and (max-width: 767px) {
+    .TitleContainer {
+        width: 100%;
+    }
+}
+
+.Ancestors {
+    color: $white;
+
+    a {
+        color: $white;
+        font-weight: 600;
+
+        &:hover,
+        &:focus {
+            color: $white;
+        }
+    }
+
+    span {
+        font-weight: 600;
+    }
+}
+
+.MainTitle {
+    h1 {
+        color: $white;
+        font-weight: 400;
+        word-break: break-word;
+        margin: 0;
+    }
 }

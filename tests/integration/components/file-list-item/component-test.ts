@@ -4,16 +4,18 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
+import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
+
 module('Integration | Component | file-list-item', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async function(assert) {
-        // Set any properties with this.set('myProperty', 'value');
-        // Handle any actions with this.set('myAction', function(val) { ... });
+        this.owner.register('service:router', OsfLinkRouterStub);
 
         const itemName = 'file.txt';
+        const guid = 'fak34';
 
-        this.set('item', EmberObject.create({ itemName }));
+        this.set('item', EmberObject.create({ itemName, guid }));
 
         await render(hbs`{{file-list-item item=item}}`);
 

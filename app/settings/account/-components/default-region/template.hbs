@@ -1,0 +1,46 @@
+<Panel
+    data-test-default-region-panel
+    as |panel|
+>
+    <panel.heading @title={{t 'settings.account.defaultRegion.title'}} />
+    <panel.body data-analytics-scope='Default region panel'>
+        <ValidatedModelForm
+            @onSave={{action this.updateRegion}}
+            @onError={{action this.updateError}}
+            @model={{this.user}}
+            @disabled={{or this.loadDefaultRunning this.loadRegionsRunning}}
+            as |form|
+        >
+            {{#if (or this.loadDefaultRunning this.loadRegionsRunning)}}
+                <ContentPlaceholders as |placeholder|>
+                    <placeholder.text @lines={{1}} />
+                </ContentPlaceholders>
+            {{else}}
+                <form.select
+                    data-test-region-selector
+                    @renderInPlace={{true}}
+                    @selected={{this.user.defaultRegion.name}}
+                    @model={{this.user}}
+                    @valuePath='defaultRegion'
+                    @options={{this.regions}}
+                    @searchEnabled={{false}}
+                    @placeholder={{this.user.defaultRegion.name}}
+                    as |regionOption|
+                >
+                    {{regionOption.name}}
+                </form.select>
+            {{/if}}
+            <p data-test-why-default-region>
+                {{t 'settings.account.defaultRegion.why'}}
+            </p>
+            <OsfButton
+                data-test-update-region-button
+                data-analytics-name='Submit'
+                type='submit'
+                @disabled={{form.disabled}}
+            >
+                {{t 'settings.account.defaultRegion.updateButton'}}
+            </OsfButton>
+        </ValidatedModelForm>
+    </panel.body>
+</Panel>

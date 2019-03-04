@@ -2,7 +2,7 @@ import { faker, HandlerContext, Request, Schema } from 'ember-cli-mirage';
 
 export function createDeveloperApp(this: HandlerContext, schema: Schema) {
     const attrs = {
-        ...this.normalizedRequestAttrs('developerApp'),
+        ...this.normalizedRequestAttrs('developer-app'),
         clientId: faker.internet.ip(),
         clientSecret: faker.random.uuid(),
     };

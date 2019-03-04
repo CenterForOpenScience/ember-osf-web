@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "19.1.2",
+  "version": "19.2.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -35,6 +35,7 @@
     },
     "ignore": [
       "blueprints/*/files/**",
+      "blueprints/*/engine-files/**",
       "vendor/*"
     ]
   },
@@ -65,6 +66,7 @@
     "ember-a11y-testing": "^0.5.1",
     "ember-ace": "^1.3.1",
     "ember-ajax": "^3.1.0",
+    "ember-basic-dropdown": "^1.0.3",
     "ember-bootstrap": "^1.2.2",
     "ember-bootstrap-datepicker": "^2.0.8",
     "ember-browserify": "^1.2.0",
@@ -84,7 +86,7 @@
     "ember-cli-inject-live-reload": "^1.8.2",
     "ember-cli-inline-content": "0.4.1",
     "ember-cli-meta-tags": "^5.0.0",
-    "ember-cli-mirage": "^0.4.10",
+    "ember-cli-mirage": "^0.4.14",
     "ember-cli-moment-shim": "^3.5.0",
     "ember-cli-password-strength": "^2.0.0",
     "ember-cli-qunit": "^4.4.0",
@@ -92,6 +94,7 @@
     "ember-cli-sanitize-html": "^2.0.1",
     "ember-cli-sass": "8.0.1",
     "ember-cli-shims": "^1.2.0",
+    "ember-cli-showdown": "^4.4.4",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-stylelint": "^2.1.0",
     "ember-cli-template-lint": "^0.7.6",
@@ -108,7 +111,7 @@
     "ember-cp-validations": "^3.5.3",
     "ember-css-modules": "^1.0.3",
     "ember-css-modules-reporter": "^1.2.0",
-    "ember-css-modules-sass": "^1.0.0",
+    "ember-css-modules-sass": "^1.0.1",
     "ember-css-modules-stylelint": "^1.2.0",
     "ember-data": "~3.4.0",
     "ember-data-factory-guy": "~3.1.0",

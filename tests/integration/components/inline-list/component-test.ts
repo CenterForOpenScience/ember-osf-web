@@ -92,7 +92,7 @@ module('Integration | Component | inline-list', hooks => {
             ],
             [
                 ['Doe', 'Smith', 'Johnson', 'Green'],
-                'Doe, Smith, Johnson, and more',
+                'Doe, Smith, Johnson, and 1 more',
             ],
         ];
 
@@ -100,8 +100,8 @@ module('Integration | Component | inline-list', hooks => {
             this.set('list', input);
             await render(hbs`
                 {{#inline-list items=list truncate=3 as | l |}}
-                    {{#if l.truncate~}}
-                        <span>more</span>
+                    {{#if l.remainingCount~}}
+                        <span>{{l.remainingCount}} more</span>
                     {{else}}
                         {{~l.item~}}
                     {{/if}}

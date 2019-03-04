@@ -1,5 +1,8 @@
 {{title (t 'settings.developer-apps.title')}}
-<Panel as |panel|>
+<Panel
+    data-analytics-scope='Developer apps'
+    as |panel|
+>
     <panel.heading @title={{t 'settings.developer-apps.title'}} />
     <panel.body>
         {{outlet}}

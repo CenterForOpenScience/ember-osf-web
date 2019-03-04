@@ -1,10 +1,10 @@
-import { click, currentURL, fillIn, visit, waitFor } from '@ember/test-helpers';
+import { click as untrackedClick, currentURL, fillIn, visit, waitFor } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 module('Acceptance | settings | personal access tokens', hooks => {
     setupOSFApplicationTest(hooks);
@@ -56,9 +56,9 @@ module('Acceptance | settings | personal access tokens', hooks => {
         await visit('/settings/tokens/create');
 
         await fillIn('[data-test-token-name] input', tokenName);
-        await click('[data-test-scope] input[type=checkbox]');
+        await untrackedClick('[data-test-scope] input[type=checkbox]');
         await percySnapshot(assert);
-        await click('[data-test-create-token-button]');
+        await click('[data-analytics-name="Submit button"]');
 
         assert.dom('[data-test-new-token-value]').exists();
 
@@ -90,7 +90,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         assert.dom(input).hasValue(oldName);
         await fillIn(input, newName);
         await percySnapshot(assert);
-        await click('[data-test-save-token-button]');
+        await click('[data-analytics-name="Save"]');
 
         assert.equal(currentURL(), '/settings/tokens');
 

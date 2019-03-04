@@ -2,12 +2,11 @@ import { Factory, faker } from 'ember-cli-mirage';
 
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
-export interface RegistrationSchemaFactory extends
-    Pick<RegistrationSchema, Exclude<keyof RegistrationSchema, 'schema'>> {
-    schemaNoConflict: RegistrationSchema['schema'];
+export interface MirageRegistrationSchema extends RegistrationSchema {
+    schemaNoConflict?: RegistrationSchema['schema'];
 }
 
-export default Factory.extend<RegistrationSchemaFactory>({
+export default Factory.extend<MirageRegistrationSchema>({
     active: true,
     name() {
         return faker.lorem.sentence().replace('.', '');
@@ -28,3 +27,15 @@ export default Factory.extend<RegistrationSchemaFactory>({
         };
     },
 });
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        'registration-schema': MirageRegistrationSchema;
+    } // eslint-disable-line semi
+}
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        registrationSchemas: MirageRegistrationSchema;
+    } // eslint-disable-line semi
+}

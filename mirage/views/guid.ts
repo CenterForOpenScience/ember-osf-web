@@ -15,7 +15,7 @@ export function guidDetail(this: HandlerContext, schema: Schema, request: Reques
     }
 
     if (queryParamIsTruthy(resolve)) {
-        return schema[guid.referentType].find(id);
+        return schema[guid.referentType!].find(id);
     }
 
     return guid;

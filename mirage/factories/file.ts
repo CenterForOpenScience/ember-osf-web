@@ -47,3 +47,9 @@ export default Factory.extend<File>({
         return faker.random.number(1000000000);
     },
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        files: File;
+    } // eslint-disable-line semi
+}

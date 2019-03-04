@@ -1,12 +1,12 @@
 {{#if @href}}
-    <a
-        href={{@href}}
-        onclick={{action 'click' 'link' (concat 'Banner - ' @banner.name) target=this.analytics}}
+    <OsfLink
         target='_blank'
         rel='noopener'
+        data-analytics-name={{concat 'Banner - ' @banner.name}}
+        @href={{@href}}
     >
         {{yield}}
-    </a>
+    </OsfLink>
 {{else}}
     {{yield}}
 {{/if}}

@@ -18,28 +18,45 @@ export interface Root {
     message: string;
     version: string;
     links: Links;
-    currentUser?: User;
+    currentUser?: ModelInstance<User>;
+    currentUserId?: string;
 }
 
 interface RootTraits {
-    withNewRegistriesStyle: Trait;
+    oldRegistrationDetail: Trait;
 }
 
-export default Factory.extend<Root & RootTraits>({
-    activeFlags: [
+export const defaultRootAttrs = {
+    activeFlags: [...new Set([
         ...Object.values(routes),
         ...Object.values(navigation),
         storageI18n,
         verifyEmailModals,
-    ],
+    ])],
     message: 'Welcome to the OSF API.',
     version: '2.8',
     links: {},
-    currentUser: association() as User,
+};
 
-    withNewRegistriesStyle: trait({
-        afterCreate(root: ModelInstance<Root>) {
-            root.activeFlags.push('ember_registries_new_style');
+export default Factory.extend<Root & RootTraits>({
+    ...defaultRootAttrs,
+    currentUser: association() as ModelInstance<User>,
+
+    oldRegistrationDetail: trait<Root>({
+        afterCreate(root) {
+            root.update('activeFlags', root.activeFlags.filter(f => f !== routes['registries.overview']));
         },
     }),
 });
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        root: Root;
+    } // eslint-disable-line semi
+}
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        roots: Root;
+    } // eslint-disable-line semi
+}

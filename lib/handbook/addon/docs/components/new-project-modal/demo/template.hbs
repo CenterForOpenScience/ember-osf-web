@@ -19,7 +19,6 @@
             {{#if this.shouldShowModal}}
                 <NewProjectModal
                     @afterProjectCreated={{action @projectCreated}}
-                    @analyticsContext='Dashboard'
                     @closeModal={{action @closeModal reload=false}}
                 />
             {{/if}}

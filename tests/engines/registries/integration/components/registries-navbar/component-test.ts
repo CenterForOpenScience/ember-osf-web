@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
+import config from 'ember-get-config';
 import { t } from 'ember-i18n/test-support';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { setBreakpoint } from 'ember-responsive/test-support';
@@ -8,6 +9,8 @@ import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+const { OSF: { url: osfUrl } } = config;
 
 const statusMessagesStub = Service.extend({
     messages: [],
@@ -51,7 +54,9 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
     hooks.beforeEach(function(this: TestContext) {
-        this.owner.lookup('service:router').set('_router.currentURL', 'FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'urlFor').returns('FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'isActive').returns(false);
+        sinon.stub(this.owner.lookup('service:router'), 'currentURL').get(() => 'FakeURL');
 
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:features', featuresStub);
@@ -83,6 +88,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     });
 
     test('desktop layout (logged out)', async function(assert) {
+        const osfUrlEncoded = encodeURIComponent(osfUrl);
         setBreakpoint('desktop');
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
@@ -91,7 +97,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
         assert.dom('a[data-test-join]').hasAttribute(
             'href',
-            'http://example.com?campaign=osf-registries&next=http%3A%2F%2Flocalhost%3A5000%2FFakeURL',
+            `http://example.com?campaign=osf-registries&next=${osfUrlEncoded}FakeURL`,
         );
         assert.dom('a[data-test-join]').isVisible('Join button is visible');
 

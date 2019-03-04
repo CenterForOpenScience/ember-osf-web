@@ -22,6 +22,7 @@ declare const config: {
     lintOnBuild: boolean;
     testsEnabled: boolean;
     sourcemapsEnabled: boolean;
+    showDevBanner: boolean;
     modulePrefix: string;
     locationType: string;
     rootURL: string;
@@ -99,6 +100,14 @@ declare const config: {
             joinBannerDismissed: string;
         };
         casUrl: string;
+        analyticsAttrs: {
+            name: string;
+            scope: string;
+            category: string;
+            extra: string;
+            action: string;
+        };
+        doiUrlPrefix: string;
     };
     social: {
         twitter: {
@@ -163,8 +172,10 @@ declare const config: {
     };
     'ember-cli-mirage': {
         enabled: boolean;
-        defaultLoggedOut: boolean;
     };
+
+    mirageScenarios: string[];
+
     engines: {
         collections: {
             enabled: boolean;

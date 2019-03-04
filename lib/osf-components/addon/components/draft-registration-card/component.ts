@@ -106,25 +106,21 @@ export default class DraftRegistrationCard extends Component {
 
     @action
     edit() {
-        this.analytics.click('button', 'Draft Registrations - Edit');
         window.location.assign(this.draftRegistrationUrl);
     }
 
     @action
     delete(this: DraftRegistrationCard) {
-        this.analytics.click('button', 'Draft Registrations - Delete');
         this.set('deleteModalOpen', true);
     }
 
     @action
     cancelDelete(this: DraftRegistrationCard) {
-        this.analytics.click('button', 'Draft Registrations - Cancel Delete');
         this.set('deleteModalOpen', false);
     }
 
     @action
     async confirmDelete(this: DraftRegistrationCard) {
-        this.analytics.click('button', 'Draft Registrations - Confirm Delete');
         this.set('deleteModalOpen', false);
         await this.draftRegistration.destroyRecord();
         if (this.onDelete) {
@@ -134,7 +130,6 @@ export default class DraftRegistrationCard extends Component {
 
     @action
     register() {
-        this.analytics.click('button', 'Draft Registrations - Register');
         window.location.assign(pathJoin(this.draftRegistrationUrl, 'register'));
     }
 }

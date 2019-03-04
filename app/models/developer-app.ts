@@ -1,8 +1,12 @@
 import { attr } from '@ember-decorators/data';
 import { buildValidations, validator } from 'ember-cp-validations';
+import { Link } from 'jsonapi-typescript';
 
 import { Document as ApiResponseDocument } from 'osf-api';
-import OsfModel from './osf-model';
+
+import getHref from 'ember-osf-web/utils/get-href';
+
+import OsfModel, { OsfLinks } from './osf-model';
 
 const Validations = buildValidations({
     name: [
@@ -24,7 +28,12 @@ const Validations = buildValidations({
     ],
 });
 
+export interface DeveloperAppLinks extends OsfLinks {
+    reset: Link;
+}
+
 export default class DeveloperAppModel extends OsfModel.extend(Validations) {
+    @attr() links!: DeveloperAppLinks;
     @attr() callbackUrl!: string;
     @attr() clientId!: string;
     @attr() clientSecret!: string;
@@ -37,7 +46,7 @@ export default class DeveloperAppModel extends OsfModel.extend(Validations) {
     // TODO (EMB-407) When the API is updated, remove this method and reset the secret
     // by PATCHing `clientSecret` to `null`
     async resetSecret(): Promise<void> {
-        const resetUrl = this.links.reset;
+        const resetUrl = getHref(this.links.reset);
         const adapter = this.store.adapterFor('developer-app');
         const serializer = this.store.serializerFor('developer-app');
 

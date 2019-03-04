@@ -1,8 +1,8 @@
 {{#let (hash
-    quickfiles=(component 'hyper-link'
+    quickfiles=(component 'osf-navbar/x-links/hyper-link'
         'guid-user.quickfiles'
         this.currentUser.currentUserId
-        analyticsLabel='Navbar - navbar.my_quick_files'
+        analyticsLabel='My_quick_files'
         hidden=(or
             this.onInstitutions
             (not this.session.isAuthenticated)
@@ -11,39 +11,39 @@
         text=(t 'navbar.my_quick_files')
         onClicked=this.onLinkClicked
     )
-    myprojects=(component 'hyper-link'
+    myprojects=(component 'osf-navbar/x-links/hyper-link'
         this.myProjectsURL
-        analyticsLabel='Navbar - navbar.my_projects'
+        analyticsLabel='My_projects'
         hidden=(not this.session.isAuthenticated)
         tagName='li'
         text=(t 'navbar.my_projects')
         onClicked=this.onLinkClicked
     )
-    myregistrations=(component 'hyper-link'
+    myregistrations=(component 'osf-navbar/x-links/hyper-link'
         this.myRegistrationsURL
-        analyticsLabel='Navbar - navbar.my_registrations'
+        analyticsLabel='My_registrations'
         hidden=(not this.session.isAuthenticated)
         tagName='li'
         text=(t 'navbar.my_registrations')
         onClicked=this.onLinkClicked
     )
-    search=(component 'hyper-link'
+    search=(component 'osf-navbar/x-links/hyper-link'
         this.searchURL
-        analyticsLabel='Navbar - navbar.search'
+        analyticsLabel='Search'
         tagName='li'
         text=(t 'navbar.search')
         onClicked=this.onLinkClicked
     )
-    support=(component 'hyper-link'
+    support=(component 'osf-navbar/x-links/hyper-link'
         this.supportURL
-        analyticsLabel='Navbar - navbar.support'
+        analyticsLabel='Support'
         tagName='li'
         text=(t 'navbar.support')
         onClicked=this.onLinkClicked
     )
-    donate=(component 'hyper-link'
+    donate=(component 'osf-navbar/x-links/hyper-link'
         'https://cos.io/donate'
-        analyticsLabel='Navbar - navbar.donate'
+        analyticsLabel='Donate'
         classNames='navbar-donate-button'
         tagName='li'
         text=(t 'navbar.donate')

@@ -4,6 +4,76 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.2.0] - 2019-03-04
+### Added
+- Components:
+    - `ancestry-display` - display node ancestry breadcrumbs
+    - `settings/account/default-region` - Panel for setting a user's default region
+    - `settings.account.-components.request-deactivation`
+    - `settings.account.-components.request-export`
+    - `settings/account/-components/connected-emails` - a list of all emails connected to an account
+- Utils:
+    - `getHref` - get an href from a `Link`
+    - `getRelatedHref` - get an href from a `Relationship`
+    - `tuple` - create a strictly-typed [tuple](https://www.typescriptlang.org/docs/handbook/basic-types.html#tuple)
+- Tests:
+    - Acceptance:
+        - `settings/account/connected-emails`
+    - Integration:
+        - `ancestry-display` component
+
+### Changed
+- Models:
+    - `osf-model` - use proper types for `links` and `relationshipLinks` attributes
+    - `file` - extend `links` types to include links specific to files
+    - `user` - extend `links` types to include links specific to users
+    - `developer-app` - extend `links` types to include links specific to developer apps
+    - `collection` - improve types for choices fields
+    - `collected-metadatum` - improve types for choice fields
+    - `user-setting` - Added `requestExport()` function, `deactivationRequested` field, and `export` link
+    - `osf-model`
+        - use proper types for `links` and `relationshipLinks` attributes
+        - added helper methods for creating and deleting M2M relationships:
+            - `createM2MRelationship`
+            - `deleteM2MRelationship`
+- Mirage:
+    - Slim down default scenario
+    - Allow different set of scenarios to run based on local settings with `MIRAGE_SCENARIOS`
+    - types:
+        - `server.create(modelName, ...)` now looks up the `modelName` in the `ModelRegistry` and properly types the
+          return values as `ModelInstance<ModelFromTheRegistry>` and type checks any model properties passed in.
+        - same as above, but for `server.createList`
+        - traits now take a type argument (the model they are a trait for) which results in proper typing for
+          `afterCreate(model, server)` without requiring manual typing of its args.
+        - the `afterCreate` method of mirage factories is typed similarly to trait's `afterCreate`
+        - `normalizedRequestAttrs()` now requires the model name to be passed to ensure type safety
+- Services
+    - `analytics` - allow toast-on-click to be used in production builds (when enabled in dev banner)
+- Components
+    - `osf-link` - used to be `link`
+        - `@onClick` parameter used to be `@onclick`
+    - `<ContributorList>` - modified to take in different parameters
+        - `node` (required)
+        - `shouldTruncate` (default true)
+        - `shouldLinkUsers` (default false)
+    - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
+- Tests
+    - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
+- Travis
+    - Use a production build for handbook
+- OSF API
+    - Bump version from 2.8 to 2.14
+
+### Removed
+- Components:
+    - `global-link-to`
+    - `<ContributorList>` - modified to take in different parameters
+        - `node` (required)
+        - `shouldTruncate` (default true)
+        - `shouldLinkUsers` (default false)
+- Mirage:
+    - `DEFAULT_LOGGED_OUT` setting is now redundant
+
 ## [19.1.2] - 2019-02-12
 ### Fixed
 - Utils:
@@ -187,7 +257,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `dashboard` - replaced project creation modal with `new-project-modal` component
 - Tests:
     - `dashboard` - acceptance tests related to project creation workflow
- 
+
 ## [18.1.0] - 2018-10-30
 ### Added
 - Components:

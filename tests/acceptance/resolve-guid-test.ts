@@ -8,6 +8,7 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 import sinon, { SinonStub } from 'sinon';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { currentURL as currentLocationURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
 
@@ -46,7 +47,6 @@ module('Acceptance | resolve-guid', hooks => {
     });
 
     test('User | Index', async assert => {
-        server.create('root', { currentUser: null });
         const user = server.create('user');
 
         await visit(`/${user.id}`);
@@ -55,7 +55,6 @@ module('Acceptance | resolve-guid', hooks => {
     });
 
     test('File | Index', async assert => {
-        server.create('root', { currentUser: null });
         const file = server.create('file', { user: server.create('user') });
 
         await visit(`/${file.id}`);
@@ -70,7 +69,6 @@ module('Acceptance | resolve-guid', hooks => {
         });
 
         test('Index', async assert => {
-            server.create('root', { currentUser: null });
             const node = server.create('node');
 
             await visit(`/${node.id}`);
@@ -79,7 +77,6 @@ module('Acceptance | resolve-guid', hooks => {
         });
 
         test('Forks', async assert => {
-            server.create('root', { currentUser: null });
             const node = server.create('node');
 
             await visit(`/${node.id}/forks`);
@@ -88,7 +85,6 @@ module('Acceptance | resolve-guid', hooks => {
         });
 
         test('Analytics', async assert => {
-            server.create('root', { currentUser: null });
             const node = server.create('node');
 
             await visit(`/${node.id}/analytics`);
@@ -97,7 +93,6 @@ module('Acceptance | resolve-guid', hooks => {
         });
 
         test('Registrations', async assert => {
-            server.create('root', { currentUser: null });
             const node = server.create('node');
 
             await visit(`/${node.id}/registrations`);
@@ -114,7 +109,7 @@ module('Acceptance | resolve-guid', hooks => {
 
         module('No ember_registries_detail_page', __ => {
             test('Index', async assert => {
-                server.create('root', { currentUser: null, activeFlags: [] });
+                server.create('root', 'oldRegistrationDetail');
                 const reg = server.create('registration');
 
                 await visit(`/${reg.id}`);
@@ -123,8 +118,8 @@ module('Acceptance | resolve-guid', hooks => {
             });
 
             test('Forks', async assert => {
-                server.create('root', { currentUser: null, activeFlags: [] });
-                const reg = server.create('registration');
+                server.create('root', 'oldRegistrationDetail');
+                const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 await visit(`/${reg.id}/forks`);
 
@@ -132,8 +127,8 @@ module('Acceptance | resolve-guid', hooks => {
             });
 
             test('Analytics', async assert => {
-                server.create('root', { currentUser: null, activeFlags: [] });
-                const reg = server.create('registration');
+                server.create('root', 'oldRegistrationDetail');
+                const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 const url = `/${reg.id}/analytics`;
 
@@ -145,7 +140,6 @@ module('Acceptance | resolve-guid', hooks => {
 
         module('With ember_registries_detail_page', __ => {
             test('Index', async assert => {
-                server.create('root', { currentUser: null });
                 const reg = server.create('registration');
 
                 await visit(`/${reg.id}`);
@@ -154,8 +148,7 @@ module('Acceptance | resolve-guid', hooks => {
             });
 
             test('Forks', async assert => {
-                server.create('root', { currentUser: null });
-                const reg = server.create('registration');
+                const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 await visit(`/${reg.id}/forks`);
 
@@ -163,8 +156,7 @@ module('Acceptance | resolve-guid', hooks => {
             });
 
             test('Analytics', async assert => {
-                server.create('root', { currentUser: null });
-                const reg = server.create('registration');
+                const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 const url = `/${reg.id}/analytics`;
 
@@ -176,8 +168,6 @@ module('Acceptance | resolve-guid', hooks => {
     });
 
     test('Not found', async assert => {
-        server.create('root', { currentUser: null });
-
         const testCases = [
             { url: '/decaf', test: 'Nonexistent GUID' },
             { url: '/decaf/files', test: 'Nonexistent GUID with existent sub route' },

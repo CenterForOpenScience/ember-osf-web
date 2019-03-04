@@ -1,9 +1,11 @@
 import { run } from '@ember/runloop';
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { make, mockFindRecord, setupFactoryGuy } from 'ember-data-factory-guy';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+
+import { click } from 'ember-osf-web/tests/helpers';
 
 module('Integration | Component | tos-consent-banner', hooks => {
     setupRenderingTest(hooks);

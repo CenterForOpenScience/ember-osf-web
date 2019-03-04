@@ -37,7 +37,6 @@ export default abstract class BaseDataComponent extends Component.extend({
     page: number = defaultTo(this.page, 1);
     pageSize: number = defaultTo(this.pageSize, 10);
     query?: any;
-    analyticsScope?: string;
 
     // Exposes a reload action the the parent scope.
     // Usage: `bindReload=(action (mut this.reload))`, then call `this.reload()` to trigger a reload
@@ -72,18 +71,12 @@ export default abstract class BaseDataComponent extends Component.extend({
 
     @action
     next(this: BaseDataComponent) {
-        if (this.analyticsScope) {
-            this.analytics.click('button', `${this.analyticsScope} - Pagination Next`);
-        }
         this.incrementProperty('page');
         this.loadItemsWrapperTask.perform({ reloading: false });
     }
 
     @action
     previous(this: BaseDataComponent) {
-        if (this.analyticsScope) {
-            this.analytics.click('button', `${this.analyticsScope} - Pagination Previous`);
-        }
         this.decrementProperty('page');
         this.loadItemsWrapperTask.perform({ reloading: false });
     }
