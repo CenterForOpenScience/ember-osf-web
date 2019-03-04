@@ -707,7 +707,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.7.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.2.0...HEAD
+[19.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.2...19.2.0
+[19.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.1...19.1.2
+[19.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.0...19.1.1
+[19.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.0.2...19.1.0
+[19.0.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.0.1...19.0.2
+[19.0.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.0.0...19.0.1
+[19.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.2.2...19.0.0
+[18.2.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.2.1...18.2.2
+[18.2.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.2.0...18.2.1
+[18.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.1.2...18.2.0
+[18.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.1.1...18.1.2
+[18.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.1.0...18.1.1
+[18.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.0.0...18.1.0
+[18.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.7.0...18.0.0
 [0.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.1...0.7.0
 [0.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.2...0.6.1
