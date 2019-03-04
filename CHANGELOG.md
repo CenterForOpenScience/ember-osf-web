@@ -4,10 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [19.2.0] - 2019-03-04
+## [Unreleased]
 ### Added
 - Addons:
     - `ember-changesets`
+
+### Changed
+- Components
+    - `validated-model-form` - use changesets automatically
+
+## [19.2.0] - 2019-03-04
+### Added
 - Components:
     - `ancestry-display` - display node ancestry breadcrumbs
     - `settings/account/default-region` - Panel for setting a user's default region
@@ -59,7 +66,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `shouldTruncate` (default true)
         - `shouldLinkUsers` (default false)
     - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
-    - `validated-model-form` - use changesets automatically
 - Tests
     - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
 - Travis
