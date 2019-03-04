@@ -78,6 +78,9 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 registrationSchema: newReg.parent.registrationSchema,
                 registeredMeta: newReg.parent.registeredMeta,
             });
+            if (!newReg.root) {
+                newReg.update({ root: newReg.parent.root || newReg.parent });
+            }
         } else if (!newReg.registeredMeta) {
             const registrationSchema = newReg.registrationSchema ||
                 faker.random.arrayElement(server.schema.registrationSchemas.all().models) ||
@@ -153,5 +156,11 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
         registration: MirageRegistration;
+    } // eslint-disable-line semi
+}
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        registrations: MirageRegistration;
     } // eslint-disable-line semi
 }

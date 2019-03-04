@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Addons:
+    - `ember-changesets`
 - Components:
     - `settings/account/default-region` - Panel for setting a user's default region
     - `settings.account.-components.request-deactivation`
@@ -39,8 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - traits now take a type argument (the model they are a trait for) which results in proper typing for
           `afterCreate(model, server)` without requiring manual typing of its args.
         - the `afterCreate` method of mirage factories is typed similarly to trait's `afterCreate`
-        - mirage model class methods now take a type argument and their return value will be properly typed.
-          (e.g `server.schema.users.find<User>()` will return `ModelInstance<User>`)
+        - `normalizedRequestAttrs()` now requires the model name to be passed to ensure type safety
 - Services
     - `analytics` - allow toast-on-click to be used in production builds (when enabled in dev banner)
 - Components
@@ -51,10 +52,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `shouldTruncate` (default true)
         - `shouldLinkUsers` (default false)
     - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
+    - `validated-model-form` - use changesets automatically
 - Tests
     - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
 - Travis
     - Use a production build for handbook
+- OSF API
+    - Bump version from 2.8 to 2.14
 
 ### Removed
 - Components:
@@ -65,6 +69,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `shouldLinkUsers` (default false)
 - Mirage:
     - `DEFAULT_LOGGED_OUT` setting is now redundant
+
+## [19.1.2] - 2019-02-12
+### Fixed
+- Utils:
+    - `transitionTargetURL` - clean guid routing path components from URLs
+### Added:
+- Route Flags:
+    - `guid-node.index` -> `ember_project_detail_page`
+    - `guid-registration.index` -> `ember_old_registration_detail_page`
 
 ## [19.1.1] - 2019-02-11
 ### Fixed
@@ -303,6 +316,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list/all` - list of all models of a given type
     - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
     - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
+    - `ancestry-display` - display node ancestry breadcrumbs
     - `delete-button` - configurable delete button, including a confirmation modal and scientist name
     - `tags-widget` - you know, for tags
 - Routes:
@@ -326,6 +340,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `tags-widget` component integration test
     - `register` route acceptance test
     - `param` util unit test
+    - `ancestry-display` integration test
 - Blueprints:
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:

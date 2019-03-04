@@ -75,7 +75,10 @@ export default class SubjectPicker extends Component.extend({
     columns!: Column[];
     editMode: boolean = defaultTo(this.editMode, false);
     currentSubjects: any[] = defaultTo(this.currentSubjects, []);
-    initialSubjects: any[] = defaultTo(this.currentSubjects, []);
+    // Deep-copy the nested `currentSubjects` to `initialSubjects`.
+    // Therefore any operation on `currentSubjects` will not affect `initialSubjects`.
+    // So that we can restore to `initialSubjects` if needed.
+    initialSubjects: any[] = this.currentSubjects.map(item => [...item]);
     hasChanged: boolean = false;
 
     resetColumnSelections() {
@@ -106,12 +109,10 @@ export default class SubjectPicker extends Component.extend({
     @action
     select(this: SubjectPicker, tier: number, selected: Taxonomy) {
         this.analytics.track('button', 'click', `Collections - ${this.editMode ? 'Edit' : 'Submit'} - Discipline Add`);
-
-        // Deep-copy the nested `currentSubjects` to `tempSubjects`.
         // All new selected subjects are first added to `tempSubjects` before saving back to `this.currentSubjects`.
         // This is because Ember does not recognize an array model attribute as dirty
         // if we directly push objects to the array.
-        const tempSubjects: Taxonomy[][] = JSON.parse(JSON.stringify(this.currentSubjects));
+        const tempSubjects: Taxonomy[][] = [...this.currentSubjects];
         this.set('hasChanged', true);
         const column = this.columns[tier];
 

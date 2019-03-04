@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
 import MirageModelRegistry from 'ember-cli-mirage/types/registries/model';
+import MirageSchemaRegistry from 'ember-cli-mirage/types/registries/schema';
 import DS from 'ember-data';
 import EmberDataModelRegistry from 'ember-data/types/registries/model';
 import { Document } from 'osf-api';
@@ -35,7 +36,8 @@ export interface Database {
 }
 
 export type Model<T> = {
-    [P in keyof T]: T[P] extends DS.Model & DS.PromiseObject<infer M> ? ModelInstance<M> :
+    [P in keyof T]:
+        T[P] extends DS.Model & DS.PromiseObject<infer M> ? ModelInstance<M> :
         T[P] extends DS.Model ? ModelInstance<T[P]> :
         T[P] extends DS.PromiseManyArray<infer M> ? Collection<M> :
         T[P] extends DS.Model[] & DS.PromiseManyArray<infer M> ? Collection<M> :
@@ -67,6 +69,7 @@ export interface Collection<T> {
     modelName: string;
     firstObject: ModelInstance<T>;
     update<K extends keyof T>(key: K, val: T[K]): void;
+    update<K extends keyof T>(attrs: { [key: K]: T[K] }): void;
     save(): void;
     reload(): void;
     destroy(): void;
@@ -75,20 +78,22 @@ export interface Collection<T> {
 }
 
 interface ModelClass<T = AnyAttrs> {
-    new<M = T>(attrs: Partial<ModelAttrs<M>>): ModelInstance<M>;
-    create<M = T>(attrs: Partial<ModelAttrs<M>>): ModelInstance<M>;
-    update<M = T>(attrs: Partial<ModelAttrs<M>>): ModelInstance<M>;
-    all<M = T>(): Collection<M>;
-    find<M = T, S extends ID | ID[] = ID>(ids: S): S extends ID ? ModelInstance<M> : Collection<M>;
-    findBy<M = T>(query: Partial<ModelAttrs<M>>): ModelInstance<M>;
-    first<M = T>(): ModelInstance<M>;
-    where<M = T>(query: Partial<ModelAttrs<M>> | ((r: ModelInstance<M>) => boolean)): Collection<M>;
+    new(attrs: Partial<ModelAttrs<T>>): ModelInstance<T>;
+    create(attrs: Partial<ModelAttrs<T>>): ModelInstance<T>;
+    update(attrs: Partial<ModelAttrs<T>>): ModelInstance<T>;
+    all(): Collection<T>;
+    find<S extends ID | ID[]>(ids: S): S extends ID ? ModelInstance<T> : Collection<T>;
+    findBy(query: Partial<ModelAttrs<T>>): ModelInstance<T>;
+    first(): ModelInstance<T>;
+    where(query: Partial<ModelAttrs<T>> | ((r: ModelInstance<T>) => boolean)): Collection<T>;
 }
 
-export interface Schema {
+export type Schema = {
+    [modelName in keyof MirageSchemaRegistry]: ModelClass<MirageSchemaRegistry[modelName]>;
+} & {
     db: Database;
     [modelName: string]: ModelClass;
-}
+};
 
 export declare class Response {
     constructor(code: number, headers: Record<string, string>, body: any);
@@ -105,10 +110,20 @@ export interface Request {
     };
 }
 
+export type NormalizedRequestAttrs<T> = {
+    [P in keyof T]:
+        T[P] extends DS.Model & DS.PromiseObject<DS.Model> ? never :
+        T[P] extends DS.Model ? never :
+        T[P] extends DS.PromiseManyArray<DS.Model> ? never :
+        T[P] extends DS.Model[] & DS.PromiseManyArray<DS.Model> ? never :
+        T[P] extends DS.Model[] ? never :
+        T[P];
+};
+
 export interface HandlerContext {
     request: Request;
     serialize(modelOrCollection: ModelInstance | ModelInstance[] | ModelClass, serializerName?: string): any;
-    normalizedRequestAttrs(model?: string): any;
+    normalizedRequestAttrs<M extends keyof ModelRegistry>(model: M): NormalizedRequestAttrs<ModelRegistry[M]>;
 }
 interface HandlerObject {
     [k: string]: any;
@@ -153,7 +168,9 @@ function handlerDefinition(
 export type resourceAction = 'index' | 'show' | 'create' | 'update' | 'delete';
 
 export type ModelAttrs<T> = {
-    [P in keyof T]: T[P] extends DS.Model & DS.PromiseObject<infer M> ? ModelInstance<M> :
+    [P in keyof T]:
+        P extends 'id' ? string | number :
+        T[P] extends DS.Model & DS.PromiseObject<infer M> ? ModelInstance<M> :
         T[P] extends DS.Model ? ModelInstance<T[P]> :
         T[P] extends DS.PromiseManyArray<infer M> ? Array<ModelInstance<M>> :
         T[P] extends DS.Model[] & DS.PromiseManyArray<infer M> ? Array<ModelInstance<M>> :

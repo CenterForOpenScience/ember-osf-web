@@ -40,7 +40,7 @@ const {
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
     OSF_API_URL: apiUrl = 'http://localhost:8000',
-    OSF_API_VERSION: apiVersion = '2.8',
+    OSF_API_VERSION: apiVersion = '2.14',
     OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
     OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
     OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
@@ -191,7 +191,7 @@ module.exports = function(environment) {
         },
         social: {
             twitter: {
-                viaHandle: 'OSFramework',
+                viaHandle: '@OSFramework',
             },
         },
         signUpPolicy: {
@@ -229,6 +229,8 @@ module.exports = function(environment) {
         },
         featureFlagNames: {
             routes: {
+                'guid-node.index': 'ember_project_detail_page',
+                'guid-registration.index': 'ember_old_registration_detail_page',
                 settings: 'ember_user_settings_profile_page',
                 'settings.profile': 'ember_user_settings_profile_page',
                 'settings.profile.education': 'ember_user_settings_profile_page',

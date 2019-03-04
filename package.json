@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "19.1.1",
+  "version": "19.1.2",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -70,6 +70,7 @@
     "ember-bootstrap": "^1.2.2",
     "ember-bootstrap-datepicker": "^2.0.8",
     "ember-browserify": "^1.2.0",
+    "ember-changeset": "^2.0.0",
     "ember-cli": "~3.4.3",
     "ember-cli-addon-docs": "https://github.com/cos-forks/ember-cli-addon-docs#docs-engine#37",
     "ember-cli-addon-docs-typedoc": "https://github.com/typed-ember/ember-cli-addon-docs-typedoc#initial-implementation",

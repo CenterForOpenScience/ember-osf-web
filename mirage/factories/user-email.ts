@@ -15,3 +15,9 @@ export default Factory.extend<UserEmail>({
 
     user: association(),
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        userEmails: UserEmail;
+    } // eslint-disable-line semi
+}

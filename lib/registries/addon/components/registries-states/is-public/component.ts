@@ -19,7 +19,7 @@ export default class RegistrationIsPublic extends Component.extend({
         }
 
         this.node.setProperties({
-            withdrawn: true,
+            pendingWithdrawal: true,
             withdrawalJustification: this.withdrawalJustification,
         });
 

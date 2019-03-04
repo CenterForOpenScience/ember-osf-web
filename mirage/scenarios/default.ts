@@ -1,8 +1,7 @@
-import { ModelInstance, Server } from 'ember-cli-mirage';
+import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
-import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
@@ -48,10 +47,9 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
 
     server.create('registration', {
         id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find<RegistrationSchema>('prereg_challenge'),
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
-        root: undefined,
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
     // Current user Bookmarks collection
@@ -119,6 +117,12 @@ function handbookScenario(server: Server) {
         const node = server.create('node', { id: `clst${contributorCount}` });
         server.createList('contributor', contributorCount, { node });
     }
+
+    // AncestryDisplay
+    const parent = server.create('node', { id: 'ezcuj', title: faker.lorem.sentences(6) });
+    const child = server.create('node', { parent, id: 'ezcuj1', title: faker.lorem.sentences(5) });
+    const grandChild = server.create('node', { parent: child, root: parent, id: 'ezcuj2' });
+    server.create('node', { parent: grandChild, root: parent, id: 'ezcuj3' });
 }
 
 function settingsScenario(server: Server, currentUser: ModelInstance<User>) {

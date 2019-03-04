@@ -2,10 +2,8 @@ import { capitalize } from '@ember/string';
 import { Collection, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Identifier from 'ember-osf-web/models/identifier';
-import License from 'ember-osf-web/models/license';
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 import { guid, guidAfterCreate } from './utils';
 
@@ -24,7 +22,12 @@ export interface NodeTraits {
 
 export default Factory.extend<MirageNode & NodeTraits>({
     id: guid('node'),
-    afterCreate: guidAfterCreate,
+    afterCreate(newNode, server) {
+        guidAfterCreate(newNode, server);
+        if (!newNode.root && newNode.parent) {
+            newNode.update({ root: newNode.parent.root || newNode.parent });
+        }
+    },
 
     category: faker.list.cycle(
         'project',
@@ -93,7 +96,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
                     category: node.category,
                     title: node.title,
                     registrationSchema: faker.random.arrayElement(
-                        server.schema.registrationSchemas.all<RegistrationSchema>().models,
+                        server.schema.registrationSchemas.all().models,
                     ),
                 });
                 node.contributors.models.forEach(contributor =>
@@ -109,7 +112,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
                 branchedFrom: node,
                 initiator: node.contributors.models[0].users,
                 registrationSchema: faker.random.arrayElement(
-                    server.schema.registrationSchemas.all<RegistrationSchema>().models,
+                    server.schema.registrationSchemas.all().models,
                 ),
             });
         },
@@ -126,7 +129,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
 
     withLicense: trait<MirageNode>({
         afterCreate(node, server) {
-            const license = faker.random.arrayElement(server.schema.licenses.all<License>().models);
+            const license = faker.random.arrayElement(server.schema.licenses.all().models);
             node.license = license; // eslint-disable-line no-param-reassign
             node.save();
         },
@@ -136,5 +139,11 @@ export default Factory.extend<MirageNode & NodeTraits>({
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
         node: MirageNode;
+    } // eslint-disable-line semi
+}
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        nodes: MirageNode;
     } // eslint-disable-line semi
 }

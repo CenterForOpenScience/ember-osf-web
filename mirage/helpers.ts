@@ -1,7 +1,6 @@
 import { faker, ModelAttrs, ModelInstance, Server } from 'ember-cli-mirage';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 import { DraftRegistrationTraits } from './factories/draft-registration';
 import { MirageNode, NodeTraits } from './factories/node';
@@ -19,7 +18,7 @@ export function registerNode(
         title: node.title,
         description: node.description,
         registrationSchema: faker.random.arrayElement(
-            server.schema.registrationSchemas.all<RegistrationSchema>().models,
+            server.schema.registrationSchemas.all().models,
         ),
         ...props,
     }, ...traits);
@@ -52,7 +51,7 @@ export function draftRegisterNode(
         branchedFrom: node,
         initiator: node.contributors.models.length ? node.contributors.models[0].users : undefined,
         registrationSchema: faker.random.arrayElement(
-            server.schema.registrationSchemas.all<RegistrationSchema>().models,
+            server.schema.registrationSchemas.all().models,
         ),
         ...props,
     }, ...traits);

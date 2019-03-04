@@ -4,6 +4,7 @@ import DS from 'ember-data';
 
 import CommentModel from './comment';
 import ContributorModel from './contributor';
+import InstitutionModel from './institution';
 import NodeModel from './node';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import RegistryProviderModel from './registry-provider';
@@ -80,6 +81,9 @@ export default class RegistrationModel extends NodeModel.extend() {
 
     @hasMany('registration', { inverse: 'parent' })
     children!: DS.PromiseManyArray<RegistrationModel>;
+
+    @hasMany('institution', { inverse: 'registrations' })
+    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

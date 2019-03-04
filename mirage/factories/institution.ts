@@ -17,3 +17,9 @@ export default Factory.extend<Institution>({
         };
     },
 });
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        institutions: Institution;
+    } // eslint-disable-line semi
+}
