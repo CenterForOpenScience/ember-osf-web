@@ -4,18 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [19.2.0] - 2019-03-04
 ### Added
 - Addons:
     - `ember-changesets`
 - Components:
+    - `ancestry-display` - display node ancestry breadcrumbs
     - `settings/account/default-region` - Panel for setting a user's default region
     - `settings.account.-components.request-deactivation`
     - `settings.account.-components.request-export`
+    - `settings/account/-components/connected-emails` - a list of all emails connected to an account
 - Utils:
     - `getHref` - get an href from a `Link`
     - `getRelatedHref` - get an href from a `Relationship`
     - `tuple` - create a strictly-typed [tuple](https://www.typescriptlang.org/docs/handbook/basic-types.html#tuple)
+- Tests:
+    - Acceptance:
+        - `settings/account/connected-emails`
+    - Integration:
+        - `ancestry-display` component
 
 ### Changed
 - Models:
@@ -91,7 +98,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `settings.account.-components.security` - Two-factor authentication panel.
     - `osf-button` - our new, use-everywhere button component
-    - `connected-emails` - a list of all emails connected to an account
 - Models:
     - `user-setting`
 - Routes:
@@ -145,7 +151,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
-    - `connected-emails` - a list of all emails connected to an account
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
@@ -163,7 +168,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `new-project-navigation-modal` - component integration test
     - Acceptance:
         - `settings.profile.name`
-        - `settings.account`
         - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
         - Add percy everywhere in the main app
     - Helpers:
@@ -316,7 +320,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list/all` - list of all models of a given type
     - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
     - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
-    - `ancestry-display` - display node ancestry breadcrumbs
     - `delete-button` - configurable delete button, including a confirmation modal and scientist name
     - `tags-widget` - you know, for tags
 - Routes:
@@ -340,7 +343,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `tags-widget` component integration test
     - `register` route acceptance test
     - `param` util unit test
-    - `ancestry-display` integration test
 - Blueprints:
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
