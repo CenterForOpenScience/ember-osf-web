@@ -8,14 +8,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Addons:
     - `ember-changesets`
+
+### Changed
+- Components
+    - `validated-model-form` - use changesets automatically
+
+## [19.2.0] - 2019-03-04
+### Added
 - Components:
+    - `ancestry-display` - display node ancestry breadcrumbs
     - `settings/account/default-region` - Panel for setting a user's default region
     - `settings.account.-components.request-deactivation`
     - `settings.account.-components.request-export`
+    - `settings/account/-components/connected-emails` - a list of all emails connected to an account
 - Utils:
     - `getHref` - get an href from a `Link`
     - `getRelatedHref` - get an href from a `Relationship`
     - `tuple` - create a strictly-typed [tuple](https://www.typescriptlang.org/docs/handbook/basic-types.html#tuple)
+- Tests:
+    - Acceptance:
+        - `settings/account/connected-emails`
+    - Integration:
+        - `ancestry-display` component
 
 ### Changed
 - Models:
@@ -52,7 +66,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `shouldTruncate` (default true)
         - `shouldLinkUsers` (default false)
     - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
-    - `validated-model-form` - use changesets automatically
 - Tests
     - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
 - Travis
@@ -91,7 +104,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `settings.account.-components.security` - Two-factor authentication panel.
     - `osf-button` - our new, use-everywhere button component
-    - `connected-emails` - a list of all emails connected to an account
 - Models:
     - `user-setting`
 - Routes:
@@ -145,7 +157,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
-    - `connected-emails` - a list of all emails connected to an account
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
@@ -163,7 +174,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `new-project-navigation-modal` - component integration test
     - Acceptance:
         - `settings.profile.name`
-        - `settings.account`
         - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
         - Add percy everywhere in the main app
     - Helpers:
@@ -316,7 +326,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list/all` - list of all models of a given type
     - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
     - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
-    - `ancestry-display` - display node ancestry breadcrumbs
     - `delete-button` - configurable delete button, including a confirmation modal and scientist name
     - `tags-widget` - you know, for tags
 - Routes:
@@ -340,7 +349,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `tags-widget` component integration test
     - `register` route acceptance test
     - `param` util unit test
-    - `ancestry-display` integration test
 - Blueprints:
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
@@ -699,7 +707,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.7.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.2.0...HEAD
+[19.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.2...19.2.0
+[19.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.1...19.1.2
+[19.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.0...19.1.1
+[19.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.0.2...19.1.0
+[19.0.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.0.1...19.0.2
+[19.0.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.0.0...19.0.1
+[19.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.2.2...19.0.0
+[18.2.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.2.1...18.2.2
+[18.2.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.2.0...18.2.1
+[18.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.1.2...18.2.0
+[18.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.1.1...18.1.2
+[18.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.1.0...18.1.1
+[18.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.0.0...18.1.0
+[18.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.7.0...18.0.0
 [0.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.1...0.7.0
 [0.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.2...0.6.1
