@@ -5,7 +5,13 @@
 {{yield this.inputElementId}}
 
 {{#if (or this.hasError this.hasWarning)}}
-    <div class='help-block'>
-        {{v-get this.model this.valuePath 'message'}}
-    </div>
+    {{#if this.changeset}}
+        <div class='help-block'>
+            {{@errors}}
+        </div>
+    {{else}}
+        <div class='help-block'>
+            {{v-get this.model this.valuePath 'message'}}
+        </div>
+    {{/if}}
 {{/if}}

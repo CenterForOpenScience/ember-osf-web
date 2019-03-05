@@ -17,6 +17,6 @@ export default class SettingsTokenCreateController extends Controller {
     @action
     onSave(token: Token) {
         this.toast.success(this.i18n.t('settings.tokens.created'));
-        this.router.transitionTo('settings.tokens.edit', token.id);
+        this.router.transitionTo('settings.tokens.edit', token.get('id'));
     }
 }

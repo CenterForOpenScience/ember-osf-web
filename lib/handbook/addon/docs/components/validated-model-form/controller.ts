@@ -1,4 +1,4 @@
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
@@ -13,22 +13,39 @@ export default class ValidatedModelFormController extends Controller {
 
     @reads('model.taskInstance.value')
     existingNode?: Node;
+    createDirt = false;
+    editDirt = false;
 
+    // BEGIN-SNIPPET validated-model-form.controller.ts
     @action
     async onSave() {
         if (this.existingNode !== undefined) {
-            this.existingNode.save();
             this.toast.success('Saved!');
         } else {
             this.toast.error('Nothing to save');
         }
     }
-    // BEGIN-SNIPPET validated-model-form.on-will-destroy.ts
+
     @action
     onWillDestroy() {
-        if (this.existingNode !== undefined) {
-            this.existingNode.rollbackAttributes();
+        if (this.get('isDirty')) {
+            // Do something cool here
         }
+    }
+
+    // Since there are two forms on the page, we need to report on both
+    @action
+    changeDirtEditForm(dirt: boolean) {
+        this.set('editDirt', dirt);
+    }
+    @action
+    changeDirtCreateForm(dirt: boolean) {
+        this.set('createDirt', dirt);
+    }
+
+    @computed('createDirt', 'editDirt')
+    get isDirty() {
+        return this.createDirt || this.editDirt;
     }
     // END-SNIPPET
 }
