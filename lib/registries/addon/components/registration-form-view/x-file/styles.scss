@@ -1,0 +1,14 @@
+.Files {
+    display: flex;
+    flex-direction: column;
+
+    a {
+        color: $primary-blue;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+        }
+    }
+}
