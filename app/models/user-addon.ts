@@ -1,8 +1,8 @@
 import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
+import AccountModel from './account';
 import OsfModel from './osf-model';
 import UserModel from './user';
-import AccountModel from './account';
 
 export default class UserAddonModel extends OsfModel {
     @attr('boolean') userHasAuth!: boolean;

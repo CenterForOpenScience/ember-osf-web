@@ -1,8 +1,8 @@
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import {
-    getAppAddons,
     getAllUserAddons,
+    getAppAddons,
 } from 'ember-osf-web/settings/addons/services/addonService';
 
 import CurrentUser from 'ember-osf-web/services/current-user';

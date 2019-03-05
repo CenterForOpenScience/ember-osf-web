@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 
 export default class AddonLoader extends Component {
-    loaderSize!: Array<number>;
+    loaderSize!: [];
 
     didReceiveAttrs() {
         const size = new Array(10);

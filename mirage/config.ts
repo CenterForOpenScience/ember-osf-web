@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import * as account from './views/account';
 import { updateBookmarks } from './views/collection';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
@@ -15,7 +16,6 @@ import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
 import { deleteUserAddon } from './views/user-addon';
-import * as account from './views/account';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
