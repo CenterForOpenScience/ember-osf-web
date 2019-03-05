@@ -3,24 +3,23 @@
     as |Addon|
 }}
     <Addon @addon={{@addon}} @userAddons={{@userAddons}}>
-         <OsfButton
-             data-analytics-name={{concat @addon.name ' addon'}}
-             @type='link'
-             @onClick={{action this.openModal}}
-             local-class='button'
-         >
-             {{t 'settings.addons.link'}}
-         </OsfButton>
+        <OsfButton
+            data-analytics-name={{concat @addon.name ' addon'}}
+            @type='link'
+            @onClick={{action this.openModal}}
+            local-class='button'
+        >
+            {{t 'settings.addons.link'}}
+        </OsfButton>
     </Addon>
     <BsModal
         @open={{this.modalOpen}}
         @onHide={{action this.closeModal}}
         as |modal|
     >
-        <ValidatedModelForm
-            @modelName='account'
-            @target={{this}}
-            @onSaveOverride={{action this.onSave}}
+        <OsfForm
+            @formData={{this}}
+            @onSave={{action this.onSave}}
             as |form|
         >
             <modal.header>
@@ -30,6 +29,7 @@
                 <div local-class='form-item'>
                     <h4>{{@addon.name}} {{t 'settings.addons.url'}}</h4>
                     <form.text
+                        @value={{this.profileUrl}}
                         @valuePath='profileUrl'
                         @placeholder={{t 'general.required'}}
                         @inputAddon={{t 'settings.addons.https'}}
@@ -43,17 +43,17 @@
                 <div local-class='form-item'>
                     <h4>{{t 'settings.addons.username'}}</h4>
                     <form.text
-                        @valuePath='username'
                         @value={{this.username}}
+                        @valuePath='username'
                         @placeholder={{t 'general.required'}}
                     />
                 </div>
                 <div local-class='form-item'>
                     <h4>{{t 'settings.addons.password'}}</h4>
                     <form.text
-                        @password={{true}}
-                        @valuePath='password'
                         @value={{this.password}}
+                        @valuePath='password'
+                        @password={{true}}
                         @placeholder={{t 'general.required'}}
                     />
                 </div>
@@ -76,6 +76,6 @@
                     </div>
                 </div>
             </modal.body>
-        </ValidatedModelForm>
+        </OsfForm>
     </BsModal>
 {{/let}}

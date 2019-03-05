@@ -1,0 +1,12 @@
+<BsForm
+    @onSubmit={{perform this.saveFormTask}}
+>
+    {{yield (hash
+        text=(
+            component
+            'validated-input/text'
+            model=this.formData
+            shouldShowMessages=this.shouldShowMessages
+        )
+    )}}
+</BsForm>

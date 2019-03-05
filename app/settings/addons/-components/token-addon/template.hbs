@@ -3,24 +3,23 @@
     as |Addon|
 }}
     <Addon @addon={{@addon}} @userAddons={{@userAddons}}>
-         <OsfButton
-             data-analytics-name={{concat @addon.name ' addon'}}
-             @type='link'
-             @onClick={{action this.openModal}}
-             local-class='button'
-         >
-             {{t 'settings.addons.link'}}
-         </OsfButton>
+        <OsfButton
+            data-analytics-name={{concat @addon.name ' addon'}}
+            @type='link'
+            @onClick={{action this.openModal}}
+            local-class='button'
+        >
+            {{t 'settings.addons.link'}}
+        </OsfButton>
     </Addon>
     <BsModal
         @open={{this.modalOpen}}
         @onHide={{action this.closeModal}}
         as |modal|
     >
-        <ValidatedModelForm
-            @modelName='account'
-            @target={{this}}
-            @onSaveOverride={{action this.onSave}}
+        <OsfForm
+            @formData={{this}}
+            @onSave={{action this.onSave}}
             as |form|
         >
             <modal.header>
@@ -29,11 +28,12 @@
             <modal.body>
                 <div local-class='form-item'>
                     <h4>{{@addon.name}} {{t 'settings.addons.repo'}}</h4>
-                     <form.text
-                         @valuePath='profileUrl'
-                         @placeholder={{t 'general.required'}}
-                         @inputAddon={{t 'settings.addons.https'}}
-                     />
+                    <form.text
+                        @value={{this.profileUrl}}
+                        @valuePath='profileUrl'
+                        @placeholder={{t 'general.required'}}
+                        @inputAddon={{t 'settings.addons.https'}}
+                    />
                     <small local-class='sub-text'>
                         {{t 'settings.addons.only'}}
                         {{@addon.name}}
@@ -43,13 +43,13 @@
                 <div local-class='form-item'>
                     <h4>{{t 'settings.addons.api_token'}}</h4>
                     <form.text
-                        @valuePath='apiToken'
                         @value={{this.apiToken}}
+                        @valuePath='apiToken'
                         @placeholder={{t 'settings.addons.api_token'}}
                     />
                 </div>
-                <div local-class="form-item">
-                    <div local-class="form-buttons">
+                <div local-class='form-item'>
+                    <div local-class='form-buttons'>
                         <OsfButton @onClick={{action this.closeModal}}>
                             {{t 'general.cancel'}}
                         </OsfButton>
@@ -67,6 +67,6 @@
                     </div>
                 </div>
             </modal.body>
-        </ValidatedModelForm>
+        </OsfForm>
     </BsModal>
 {{/let}}

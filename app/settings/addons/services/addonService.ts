@@ -3,12 +3,6 @@ import AccountModel from 'ember-osf-web/models/account';
 import UserModel from 'ember-osf-web/models/user';
 import UserAddonModel from 'ember-osf-web/models/user-addon';
 
-interface AccountData {
-    providerId: string;
-    displayName: string;
-    userAddon: UserAddonModel;
-}
-
 export function bindEmberStore(service: any, store: DS.Store) {
     return (...args: any[]) => {
         return service(store, ...args);
@@ -36,24 +30,23 @@ export async function getUserAddon(store: DS.Store, id: string, user: UserModel)
     return userAddon;
 }
 
-export async function getUserAccount(userAddon: UserAddonModel) {
+export async function getUserAccount(store: DS.Store, userAddon: UserAddonModel) {
     const account = await userAddon.get('account');
 
     if (account && account.get('id')) {
         return account;
     }
-    return null;
+    return store.createRecord('account');
 }
 
-export async function addNewUserAccount(account: AccountModel, data: AccountData) {
-    const { userAddon, providerId, displayName } = data;
-
+export async function addNewUserAccount(store: DS.Store, id: string, user: UserModel) {
+    const userAddon = await getUserAddon(store, id, user);
+    const account = await getUserAccount(store, userAddon);
     account.setProperties({
         addon: userAddon,
-        provider: providerId,
-        displayName,
+        provider: id,
+        displayName: user.fullName,
     });
-    userAddon.set('account', account);
 
     await userAddon.save();
     await account.save();

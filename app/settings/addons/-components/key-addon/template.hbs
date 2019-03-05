@@ -3,25 +3,23 @@
     as |Addon|
 }}
     <Addon @addon={{@addon}} @userAddons={{@userAddons}}>
-         <OsfButton
-             data-analytics-name={{concat @addon.name ' addon'}}
-             @type='link'
-             @onClick={{action this.openModal}}
-             local-class='button'
-         >
-             {{t 'settings.addons.link'}}
-         </OsfButton>
+        <OsfButton
+            data-analytics-name={{concat @addon.name ' addon'}}
+            @type='link'
+            @onClick={{action this.openModal}}
+            local-class='button'
+        >
+            {{t 'settings.addons.link'}}
+        </OsfButton>
     </Addon>
     <BsModal
         @open={{this.modalOpen}}
         @onHide={{action this.closeModal}}
         as |modal|
     >
-        <ValidatedModelForm
-            @modelName='account'
-            @target={{this}}
-            @modelProperties={{this.modelProperties}}
-            @onSaveOverride={{action this.onSave}}
+        <OsfForm
+            @formData={{this}}
+            @onSave={{action this.onSave}}
             as |form|
         >
             <modal.header>
@@ -64,6 +62,6 @@
                     </div>
                 </div>
             </modal.body>
-        </ValidatedModelForm>
+        </OsfForm>
     </BsModal>
 {{/let}}
