@@ -31,6 +31,8 @@ const Validations = buildValidations({
             message: 'Passwords must match',
         }),
     ],
+}, {
+    debounce: 500,
 });
 
 export default class UserPasswordModel extends Model.extend(Validations) {

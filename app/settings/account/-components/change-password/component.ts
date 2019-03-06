@@ -35,6 +35,7 @@ export default class ChangePasswordPane extends Component.extend({
     userPassword!: UserPassword;
     hasSubmitted: boolean = false;
     didValidate = false;
+    newPassword = '';
 
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
@@ -51,11 +52,5 @@ export default class ChangePasswordPane extends Component.extend({
     @action
     submit() {
         this.submitTask.perform();
-    }
-
-    @action
-    updateError() {
-        const errorMessage = this.i18n.t('settings.account.changePassword.incorrectPassword');
-        return this.toast.error(errorMessage);
     }
 }
