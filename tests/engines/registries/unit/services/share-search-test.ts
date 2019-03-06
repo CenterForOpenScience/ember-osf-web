@@ -85,15 +85,30 @@ module('Registries | Unit | Service | share-search', hooks => {
 
     test('recognizes all OSF source envs', function(this: TestContext, assert) {
         const service = this.owner.lookup('service:share-search') as ShareSearch;
-        [
+        [ // Source envs
             'https://osf.io/w4yhb/',
             'https://test.osf.io/w4yhb/',
             'https://staging.osf.io/w4yhb/',
             'https://staging2.osf.io/w4yhb/',
             'https://staging3.osf.io/w4yhb/',
         ].forEach(identifier => {
-            const [registration] = service._postProcessRegistrations(getSearchResponse([identifier]));
-            assert.equal(registration.mainLink, identifier);
+            [
+                {
+                    identifiers: [identifier, 'https://staging-share.osf.io/w4yhb/'],
+                    expected: identifier,
+                },
+                {
+                    identifiers: ['https://staging-share.osf.io/w4yhb/', identifier],
+                    expected: identifier,
+                },
+                {
+                    identifiers: [identifier],
+                    expected: identifier,
+                },
+            ].forEach(({ identifiers, expected }) => {
+                const [registration] = service._postProcessRegistrations(getSearchResponse(identifiers));
+                assert.equal(registration.mainLink, expected);
+            });
         });
     });
 });
