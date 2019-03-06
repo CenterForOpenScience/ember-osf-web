@@ -1,16 +1,12 @@
 import { service } from '@ember-decorators/service';
-import Controller from '@ember/controller';
+import Route from '@ember/routing/route';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import {
-    getAllUserAddons,
-    getAppAddons,
-} from 'ember-osf-web/settings/addons/services/addonService';
+import { getAllUserAddons, getAppAddons } from './services/addonService';
 
-export default class SettingsAddonController extends Controller {
-    models!: object;
+export default class SettingsAddonRoute extends Route {
     @service currentUser!: CurrentUser;
 
-    init() {
+    model() {
         const { currentUser } = this;
         const id = currentUser.currentUserId;
 
@@ -18,11 +14,9 @@ export default class SettingsAddonController extends Controller {
             return;
         }
 
-        const models = {
+        return {
             addons: getAppAddons(this.store),
             user: getAllUserAddons(this.store, id),
         };
-
-        this.set('models', models);
     }
 }

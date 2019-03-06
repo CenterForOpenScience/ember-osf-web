@@ -11,12 +11,12 @@
         <panel.heading @title={{t 'settings.addons.title'}} />
         <panel.body>
             <AddonData
-                @models={{models}}
+                @models={{this.model}}
                 @loader={{AddonLoader}}
                 as |data|
             >
                 {{#each data.addons as |addon|}}
-                    <div local-class="addon">
+                    <div local-class='addon'>
                         {{#if (eq addon.auth.type 'token_auth')}}
                             <TokenAddon
                                 @addon={{addon}}
