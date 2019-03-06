@@ -25,7 +25,7 @@
                     data-analytics-name='Toggle'
                     @classNames={{local-class 'Service Dropdown'}}
                 >
-                    <span local-class='HideOnMobile'>{{t 'general.OSF'}}</span>
+                    <span>{{t 'general.OSF'}}</span>
                     <strong>{{t 'general.services.registries'}}</strong>
                     {{nav.icon (if dd.isOpen 'caret-up' 'caret-down')}}
                 </dd.toggle>
@@ -85,7 +85,7 @@
                 <h4>{{t 'navbar.donate'}}</h4>
             </nav.links.primary>
 
-            {{#if (not this.session.isAuthenticated)}}
+            {{#unless this.session.isAuthenticated}}
 
                 <nav.divider @classNames={{local-class 'HideOnMobile'}} />
 
@@ -93,6 +93,7 @@
                     data-test-join='1'
                     data-analytics-name='Sign up'
                     @href={{this.signUpRoute}}
+                    @classNames={{local-class 'HideOnMobile'}}
                 >
                     <h4>{{t 'navbar.join'}}</h4>
                 </nav.links.secondary>
@@ -101,21 +102,22 @@
                     data-test-login='1'
                     data-analytics-name='Sign in'
                     @onclick={{action 'login'}}
+                    @classNames={{local-class 'HideOnMobile'}}
                 >
                     <h4>{{t 'navbar.login'}}</h4>
                 </nav.buttons.secondary>
+            {{/unless}}
 
-            {{else}}
-
-                <BsDropdown
-                    data-analytics-scope='User dropdown'
-                    local-class='AuthDropdown'
-                    as |dd|
+            <BsDropdown
+                data-analytics-scope='User dropdown'
+                local-class='AuthDropdown'
+                as |dd|
+            >
+                <dd.toggle
+                    data-analytics-name='Toggle'
+                    local-class='Dropdown'
                 >
-                    <dd.toggle
-                        data-analytics-name='Toggle'
-                        local-class='Dropdown'
-                    >
+                    {{#if this.session.isAuthenticated}}
                         <img
                             data-test-gravatar
                             local-class='Gravatar'
@@ -123,21 +125,30 @@
                             alt={{t 'auth_dropdown.user_gravatar'}}
                         >
                         {{nav.icon (if dd.isOpen 'caret-up' 'caret-down')}}
-                    </dd.toggle>
+                    {{else}}
+                        <OsfButton
+                            data-test-toggle-navbar
+                            @class={{local-class 'OnlyOnMobile'}}
+                        >
+                            {{nav.icon (if dd.isOpen 'times' 'bars')}}
+                        </OsfButton>
+                    {{/if}}
+                </dd.toggle>
 
-                    <dd.menu
-                        data-test-auth-dropdown
-                        class='dropdown-menu-right'
-                        local-class='AuthDropdownMenu DropdownMenu'
-                        as |ddm|
-                    >
+                <dd.menu
+                    data-test-auth-dropdown
+                    class='dropdown-menu-right'
+                    local-class='AuthDropdownMenu DropdownMenu'
+                    as |ddm|
+                >
+                    {{#if this.session.isAuthenticated}}
                         <ddm.item role='menuitem'>
                             <OsfLink
                                 data-test-ad-my-profile
                                 data-analytics-name='My Profile'
                                 @href={{this.profileURL}}
                             >
-                                {{fa-icon 'user' fixedWidth=true}}
+                                <FaIcon @icon='user' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.my_profile'}}
                             </OsfLink>
                         </ddm.item>
@@ -147,7 +158,7 @@
                                 data-analytics-name='Support'
                                 @route='support'
                             >
-                                {{fa-icon 'life-ring' fixedWidth=true}}
+                                <FaIcon @icon='life-ring' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.osf_support'}}
                             </OsfLink>
                         </ddm.item>
@@ -157,10 +168,57 @@
                                 data-analytics-name='Settings'
                                 @href={{this.settingsURL}}
                             >
-                                {{fa-icon 'cog' fixedWidth=true}}
+                                <FaIcon @icon='cog' @fixedWidth={{true}} />
                                 {{t 'general.settings'}}
                             </OsfLink>
                         </ddm.item>
+                    {{else}}
+                        <ddm.item role='menuitem' local-class='OnlyOnMobile'>
+                            <OsfLink
+                                data-test-join-mobile
+                                data-analytics-name='Sign up'
+                                @href={{this.signUpRoute}}
+                            >
+                                <FaIcon @icon='user-plus' @fixedWidth={{true}} />
+                                {{t 'navbar.join'}}
+                            </OsfLink>
+                        </ddm.item>
+                        <ddm.item role='menuitem' local-class='OnlyOnMobile'>
+                            <OsfButton
+                                data-test-login-mobile
+                                data-analytics-name='Sign in'
+                                @type='link'
+                                @onClick={{action 'login'}}
+                                @class={{local-class 'SignIn__button'}}
+                            >
+                                <FaIcon @icon='sign-in' @fixedWidth={{true}} />
+                                {{t 'navbar.login'}}
+                            </OsfButton>
+                        </ddm.item>
+                    {{/if}}
+
+                    <ddm.item role='menuitem' local-class='OnlyOnMobile'>
+                        <OsfLink
+                            data-test-donate-mobile
+                            data-analytics-name='Donate'
+                            @href={{this.donateRoute}}
+                        >
+                            <FaIcon @icon='usd' @fixedWidth={{true}} />
+                            {{t 'navbar.donate'}}
+                        </OsfLink>
+                    </ddm.item>
+                    <ddm.item role='menuitem' local-class='OnlyOnMobile'>
+                        <OsfLink
+                            data-test-help-mobile
+                            data-analytics-name='Help'
+                            @href={{this.helpRoute}}
+                        >
+                            <FaIcon @icon='info-circle' @fixedWidth={{true}} />
+                            {{t 'general.help'}}
+                        </OsfLink>
+                    </ddm.item>
+
+                    {{#if this.session.isAuthenticated}}
                         <ddm.item role='menuitem'>
                             <OsfButton
                                 data-test-ad-logout
@@ -168,14 +226,13 @@
                                 @type='link'
                                 @onClick={{action 'logout'}}
                             >
-                                {{fa-icon 'sign-out' fixedWidth=true}}
+                                <FaIcon @icon='sign-out' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.log_out'}}
                             </OsfButton>
                         </ddm.item>
-                    </dd.menu>
-                </BsDropdown>
-            {{/if}}
-
+                    {{/if}}
+                </dd.menu>
+            </BsDropdown>
         </nav.section>
     </nav.container>
 </Navbar>
