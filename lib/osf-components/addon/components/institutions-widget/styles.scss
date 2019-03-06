@@ -1,0 +1,11 @@
+.InstitutionWidget__title {
+    font-weight: 700;
+    text-decoration: none solid $color-text-blue-heading;
+    margin-bottom: 10px;
+
+    button {
+        margin-left: 10px;
+        color: $color-text-blue-dark;
+        font-size: 17px;
+    }
+}

@@ -106,6 +106,7 @@
     "ember-code-snippet": "2.3.1",
     "ember-collapsible-panel": "^3.1.1",
     "ember-component-attributes": "^0.1.1",
+    "ember-composable-helpers": "^2.1.0",
     "ember-concurrency": "^0.8.12",
     "ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
     "ember-cookies": "^0.3.0",

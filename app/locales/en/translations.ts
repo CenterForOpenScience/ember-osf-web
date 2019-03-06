@@ -39,6 +39,7 @@ export default {
         embed: 'Embed',
         download: 'Download',
         download_url: 'Download url',
+        done: 'Done',
         delete: 'Delete',
         view: 'View',
         edit: 'Edit',
@@ -1348,6 +1349,13 @@ export default {
             tags: 'Tags',
             add_tag: 'Add a tag to enhance discoverability',
             no_tags: 'No tags',
+        },
+        'institutions-widget': {
+            affiliated_institutions: 'Affiliated institutions',
+            affiliate_institutions: 'Affiliate institutions',
+            add_institution_error: 'Error adding institution',
+            remove_institution_error: 'Error removing institution',
+            no_affiliations: 'No affiliations to add',
         },
     },
     settings: {
