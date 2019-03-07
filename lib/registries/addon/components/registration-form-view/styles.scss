@@ -20,12 +20,28 @@
     font-size: 16px;
 }
 
+.MenuTrigger {
+    margin-top: 20px;
+
+    &:focus {
+        outline: 0;
+    }
+
+    .ToggleNav__button:global(.btn.btn-link) {
+        border: 1px solid $alto;
+        border-radius: 2px;
+        background-color: $white;
+
+        &:hover {
+            background-color: $alto;
+        }
+    }
+}
+
 .NavigationMenu {
-    position: absolute;
     z-index: 100;
-    top: 22px;
-    right: 30px;
-    width: 200px;
+    min-width: 200px;
+    max-width: 300px;
     box-shadow: 0 1px 2px $primary-box-shadow;
 }
 
@@ -39,11 +55,10 @@
 
 .HeaderText {
     padding-left: 15px;
-    flex-basis: 80%;
     background-color: $white;
     font-size: 15px;
     font-weight: 700;
-    line-height: 2.5;
+    line-height: 2.8;
 }
 
 .ToggleNav__button:global(.btn.btn-link) {
@@ -61,26 +76,6 @@
 
     i {
         font-size: 1.1rem;
-    }
-}
-
-.NavigationMenu.Collapsed {
-    box-shadow: none;
-
-    .Header {
-        border-bottom: 0;
-        justify-content: flex-end;
-
-        .ToggleNav__button {
-            border: 1px solid $alto;
-            border-radius: 2px;
-            background-color: $white;
-            background-size: cover;
-        }
-
-        .ToggleNav__button:hover {
-            background-color: $alto;
-        }
     }
 }
 
@@ -115,9 +110,13 @@
     flex-flow: column;
 
     font-size: 13px;
-    padding-bottom: 10px;
 
     &:not(:last-child) {
+        padding-bottom: 10px;
         border-bottom: 1px solid $alto;
+    }
+
+    a:not(:last-child) {
+        padding-bottom: 6px;
     }
 }

@@ -1,49 +1,57 @@
-<div data-analytics-scope='Form navigation menu' local-class='NavigationMenu {{if (not this.showNav) 'Collapsed'}}'>
-    <div local-class='Header' data-test-anchor-nav-title>
-        {{#if this.showNav}}
-            <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
-        {{/if}}
-
+<ResponsiveDropdown @renderInPlace={{true}} as |dd|>
+    {{#dd.trigger local-class='MenuTrigger'}}
         <OsfButton
-            data-analytics-name={{if this.showNav 'Collapse' 'Expand'}}
+            data-analytics-name='Expand'
             data-test-toggle-anchor-nav-button
-            @onClick={{action this.toggleNav}}
             @type='link'
             @class={{local-class 'ToggleNav__button'}}
         >
-            <FaIcon @icon={{if this.showNav 'times' 'bars'}} />
+            <FaIcon @icon='bars' />
         </OsfButton>
-    </div>
-
-    {{#if this.showNav}}
-        <div local-class='Anchors' data-test-form-block-anchors>
-            {{#each this.anchors as |section|}}
-                <div local-class='SectionAnchor'>
-                    <OsfLink
-                        data-test-section-anchor={{section.slug}}
-                        data-analytics-name='Go to section: {{section.title}}'
-                        @href='#{{section.slug}}'
-                        @onClick={{action this.toggleNav}}
-                    >
-                        {{section.title}}
-                    </OsfLink>
-                </div>
-                <div local-class='QuestionAnchors'>
-                    {{#each section.questions as |question|}}
+    {{/dd.trigger}}
+    {{#dd.content}}
+        <div data-analytics-scope='Form navigation menu' local-class='NavigationMenu'>
+            <div local-class='Header' data-test-anchor-nav-title>
+                <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
+                <OsfButton
+                    data-analytics-name='Collapse'
+                    data-test-toggle-anchor-nav-button
+                    @onClick={{action dd.close}}
+                    @type='link'
+                    @class={{local-class 'ToggleNav__button'}}
+                >
+                    <FaIcon @icon='times' />
+                </OsfButton>
+            </div>
+            <div local-class='Anchors' data-test-form-block-anchors>
+                {{#each this.anchors as |section|}}
+                    <div local-class='SectionAnchor'>
                         <OsfLink
-                            data-analytics-name='Go to question: {{question.title}}'
-                            @href='#{{question.slug}}'
-                            @onClick={{action this.toggleNav}}
-                            data-test-question-anchor={{question.slug}}
+                            data-test-section-anchor={{section.slug}}
+                            data-analytics-name='Go to section: {{section.title}}'
+                            @href='#{{section.slug}}'
+                            @onClick={{action dd.close}}
                         >
-                            {{question.title}}
+                            {{section.title}}
                         </OsfLink>
-                    {{/each}}
-                </div>
-            {{/each}}
+                    </div>
+                    <div local-class='QuestionAnchors'>
+                        {{#each section.questions as |question|}}
+                            <OsfLink
+                                data-analytics-name='Go to question: {{question.title}}'
+                                @href='#{{question.slug}}'
+                                @onClick={{action dd.close}}
+                                data-test-question-anchor={{question.slug}}
+                            >
+                                {{question.title}}
+                            </OsfLink>
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
         </div>
-    {{/if}}
-</div>
+    {{/dd.content}}
+</ResponsiveDropdown>
 
 {{#each this.form.sections as |form-section|}}
     <section local-class='Section {{if (eq form-section this.form.sections.lastObject) 'Last'}}'>

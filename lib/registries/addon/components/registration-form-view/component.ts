@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-constructor, no-empty-function */
 import { layout, tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
+import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 
 import {
@@ -130,8 +130,6 @@ export default class RegistrationFormView extends Component {
     schema!: Schema;
     answers!: RegistrationMetadata;
 
-    showNav: boolean = false;
-
     @computed('schema', 'answers')
     get form(): RegistrationForm {
         return RegistrationForm.parse(this.schema, this.answers);
@@ -148,10 +146,5 @@ export default class RegistrationFormView extends Component {
                 }),
             };
         });
-    }
-
-    @action
-    toggleNav() {
-        this.toggleProperty('showNav');
     }
 }
