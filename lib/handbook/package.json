@@ -13,6 +13,7 @@
     "ember-cli-sass": "*",
     "ember-cli-typescript": "*",
     "ember-code-snippet": "*",
+    "ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
     "ember-cp-validations": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
