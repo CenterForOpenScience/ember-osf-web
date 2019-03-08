@@ -19,3 +19,104 @@
 .Answer > p {
     font-size: 16px;
 }
+
+.MenuTrigger {
+    margin-top: 20px;
+
+    &:focus {
+        outline: 0;
+    }
+
+    .ToggleNav__button:global(.btn.btn-link) {
+        border: 1px solid $alto;
+        border-radius: 2px;
+        background-color: $white;
+
+        &:hover {
+            background-color: $alto;
+        }
+    }
+}
+
+.NavigationMenu {
+    z-index: 100;
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: 0 1px 2px $primary-box-shadow;
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid $alto;
+}
+
+.HeaderText {
+    padding-left: 15px;
+    background-color: $white;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 2.8;
+}
+
+.ToggleNav__button:global(.btn.btn-link) {
+    float: right;
+    color: $primary-blue;
+    padding: 3px 8px;
+
+    &:hover {
+        color: $secondary-blue;
+    }
+
+    &:focus {
+        outline: 0;
+    }
+
+    i {
+        font-size: 1.1rem;
+    }
+}
+
+.Anchors {
+    height: 300px;
+    overflow: scroll;
+    padding: 0 15px 15px;
+    background-color: $white;
+
+    a {
+        color: $primary-blue;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+            text-decoration: none;
+        }
+    }
+}
+
+.SectionAnchor {
+    font-weight: 600;
+    font-size: 14px;
+
+    a {
+        line-height: 2.2;
+    }
+}
+
+.QuestionAnchors {
+    display: flex;
+    flex-flow: column;
+
+    font-size: 13px;
+
+    &:not(:last-child) {
+        padding-bottom: 10px;
+        border-bottom: 1px solid $alto;
+    }
+
+    a:not(:last-child) {
+        padding-bottom: 6px;
+    }
+}

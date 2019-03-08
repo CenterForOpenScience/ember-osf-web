@@ -1089,6 +1089,7 @@ export default {
             title: 'Overview',
             collapse: 'Collapse',
             expand: 'Expand',
+            contents: 'Contents',
             see_more: 'See more',
             metadata: 'Metadata',
             component_of: 'This is a component of a registration:',

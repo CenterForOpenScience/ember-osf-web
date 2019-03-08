@@ -3,3 +3,9 @@
     width: auto;
     margin: 0.5rem;
 }
+
+.Trigger {
+    &:focus {
+        outline: 0;
+    }
+}
