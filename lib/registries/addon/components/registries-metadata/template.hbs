@@ -146,11 +146,9 @@
                 @readOnly={{not this.registration.userHasAdminPermission}}
             />
         </div>
-        {{!--
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.citation'}}</h4>
-            {{! TODO EMB-448 }}
+            <CitationViewer @citable={{this.registration}} />
         </div>
-        --}}
     {{/if}}
 </div>
