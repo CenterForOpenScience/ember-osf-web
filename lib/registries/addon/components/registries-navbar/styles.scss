@@ -122,22 +122,21 @@
 .AuthDropdownMenu {
     font-size: 16px;
 
+    // Logout and sign in buttons
     & > li > :global(.btn.btn-link) {
         color: $white;
+        padding: 3px 20px;
+        font-size: inherit;
 
         &:hover {
             color: $secondary-blue;
             text-decoration: none;
-        }
-
-        &:hover {
             outline: 0;
         }
+    }
 
-        &.SignIn__button {
-            padding: 3px 20px;
-            font-size: inherit;
-        }
+    :global(.fa.fa-sign-out) {
+        margin-right: 3px;
     }
 
     :global(.fa.fa-user-plus) {
