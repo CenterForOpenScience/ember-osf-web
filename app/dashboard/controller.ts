@@ -75,7 +75,7 @@ export default class Dashboard extends Controller {
         const user: User = yield this.currentUser.user;
 
         const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
-            embed: ['contributors', 'parent', 'root'],
+            embed: ['bibliographic_contributors', 'parent', 'root'],
             filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
             sort: this.sort || undefined,
@@ -95,7 +95,7 @@ export default class Dashboard extends Controller {
         try {
             const node: Node = yield this.store.findRecord('node', id);
             const linkedNodes: QueryHasManyResult<Node> = yield node.queryHasMany('linkedNodes', {
-                embed: 'contributors',
+                embed: 'bibliographic_contributors',
                 page: { size: 5 },
             });
             this.set(dest, linkedNodes);

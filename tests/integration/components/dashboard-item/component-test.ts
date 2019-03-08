@@ -15,7 +15,7 @@ module('Integration | Component | dashboard-item', hooks => {
 
     test('it renders', async function(assert) {
         const node = server.create('node', {}, 'withContributors');
-        const project = await this.store.findRecord('node', node.id, { include: 'contributors' });
+        const project = await this.store.findRecord('node', node.id, { include: 'bibliographic_contributors' });
 
         this.set('node', project);
         await render(hbs`<DashboardItem @node={{this.node}} />`);

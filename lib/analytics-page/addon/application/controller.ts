@@ -55,7 +55,7 @@ export default class ApplicationController extends Controller {
     hideAdblockWarning = Boolean(this.cookies.read(dismissAdblockCookie));
     userIsBot = navigator.userAgent.includes('Prerender');
 
-    linkedByQueryParams = { embed: 'contributors' };
+    linkedByQueryParams = { embed: 'bibliographic_contributors' };
 
     @reads('model.taskInstance.value')
     node?: Node;

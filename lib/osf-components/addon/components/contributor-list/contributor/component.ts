@@ -13,18 +13,15 @@ export default class ContributorListContributor extends Component.extend({
     loadUser: task(function *(this: ContributorListContributor) {
         const user = yield this.contributor.users;
 
-        const contributorName = this.shouldShortenName ?
-            user.familyName || user.givenName || user.fullName :
-            user.fullName;
+        this.set(
+            'contributorName',
+            this.shouldShortenName ?
+                user.familyName || user.givenName || user.fullName :
+                user.fullName,
+        );
 
-        const contributorLink = this.shouldLinkUser && !this.contributor.unregisteredContributor ?
-            `/${user.id}` :
-            undefined;
-
-        this.setProperties({
-            contributorName,
-            contributorLink,
-        });
+        const shouldLink = this.shouldLinkUser && !this.contributor.unregisteredContributor;
+        this.set('contributorLink', shouldLink ? `/${user.id}` : undefined);
     }).restartable(),
 }) {
     contributor!: Contributor;
