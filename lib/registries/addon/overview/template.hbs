@@ -66,7 +66,7 @@
             </div>
         {{/let}}
     {{else}}
-        {{#if this.showMobileView}}
+        {{#if (and this.showMobileView (not this.registration.withdrawn))}}
             <Navbar as |nav|>
                 <nav.bordered-section>
 
