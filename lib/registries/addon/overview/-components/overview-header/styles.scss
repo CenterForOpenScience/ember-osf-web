@@ -1,0 +1,202 @@
+.TitleBackground {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-image: url('img/bg-dark.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.HeaderContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.Header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 80px;
+
+    h1 {
+        color: $white;
+        font-weight: 400;
+        word-break: break-word;
+        margin: 0;
+    }
+}
+
+.ActionBar {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(38, 57, 71, 0.5);
+    width: 100%;
+    padding: 12px;
+}
+
+.UserMessage {
+    p {
+        margin: 0 10px;
+        color: $white;
+    }
+}
+
+.LeftActionsContainer {
+    flex: 2;
+}
+
+.RightActionsContainer {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.Dropdown {
+    display: flex;
+    align-items: center;
+    position: inherit;
+}
+
+.DropdownToggle {
+    display: flex;
+    align-items: center;
+    color: $white;
+
+    span {
+        font-size: 13px;
+    }
+
+    i {
+        font-size: 14px;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+        color: $white;
+        text-decoration: none;
+    }
+
+    &:hover,
+    :global(.open) & {
+        color: $slate-gray;
+
+        & i:global(.fa) {
+            color: $secondary-blue;
+        }
+    }
+}
+
+.DropdownIcon {
+    padding-left: 8px;
+}
+
+.Menu {
+    width: 100%;
+    background: $white;
+    color: $midnight-blue;
+    padding: 15px 0;
+    border-radius: 0 0 2px 2px;
+    border-width: 0 1px 1px;
+    border-color: $alto;
+    border-style: solid;
+    top: 222px;
+}
+
+.MenuContent {
+    display: flex;
+}
+
+.MenuIcon {
+    display: flex;
+    flex: 1;
+    font-size: 44px;
+    justify-content: center;
+}
+
+.MenuBody {
+    display: flex;
+    flex: 4;
+    flex-direction: column;
+    padding-left: 5px;
+    padding-right: 30px;
+
+    p {
+        margin: 0;
+    }
+}
+
+.IconBox {
+    display: flex;
+    margin-right: 10px;
+    padding: 0;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    p {
+        color: $white;
+        margin: 0;
+    }
+}
+
+.Icon {
+    color: $white;
+    font-size: 20px;
+}
+
+@media(min-width: 992px) {
+    .HeaderContainer {
+        max-width: 1140px;
+    }
+
+    .Menu {
+        top: 30px;
+        max-width: 537px;
+    }
+
+    .Dropdown {
+        position: relative;
+    }
+
+    .MenuBody {
+        flex: 5;
+        padding-right: 50px;
+    }
+
+    .LeftActionsContainer {
+        flex: 1;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .Menu {
+        top: 174px;
+        max-width: 537px;
+    }
+
+    .MenuBody {
+        flex: 5;
+        padding-right: 50px;
+    }
+}
+
+@media (max-width: 991px) {
+    .LeftActionsContainer {
+        display: flex;
+    }
+}
+
+@media (max-width: 400px) {
+    .IconBox {
+        p {
+            display: none;
+        }
+    }
+}
+

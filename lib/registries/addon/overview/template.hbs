@@ -1,37 +1,22 @@
-{{#if this.loading}}
-    <div local-class='ContentBackground Loading'>
-        <LoadingIndicator @dark={{true}} />
-    </div>
-{{else}}
-    {{title this.registration.title}}
-    <RegistriesBanner @registration={{this.registration}} />
-    <div local-class='TitleBackground'>
-        <Container local-class='TitleContainer'>
-            <div local-class='AncestorsAndTitle'>
-                <div local-class='Ancestors'>
-                    <AncestryDisplay @node={{this.registration}} @useLinks={{true}} />
-                </div>
-                <h1
-                    data-test-registration-title
-                    local-class='Title'
-                >
-                    {{this.registration.title}}
-                </h1>
-            </div>
-            <div local-class='Toolbar' data-analytics-scope='Registries Overview Toolbar'>
-                {{#if (not (or this.registration.withdrawn this.showMobileView))}}
-                    <RegistriesOverviewMenu
-                        @registrationURL={{this.registrationURL}}
-                        @forksCount={{this.forksCount}}
-                        @registration={{this.registration}}
-                    />
-                {{/if}}
-            </div>
-        </Container>
-    </div>
-
-    {{#if this.registration.withdrawn}}
-        {{#let (component 'overview/-components/tombstone-page') as |TombstonePage|}}
+{{#let
+    (component 'overview/-components/overview-header')
+    (component 'overview/-components/tombstone-page')
+    as |OverviewHeader TombstonePage|
+}}
+    {{#if this.loading}}
+        <div local-class='ContentBackground Loading'>
+            <LoadingIndicator @dark={{true}} />
+        </div>
+    {{else}}
+        {{title this.registration.title}}
+        <RegistriesBanner @registration={{this.registration}} />
+        <OverviewHeader
+            @registration={{this.registration}}
+            @sidenavGutterClosed={{this.sidenavGutterClosed}}
+            @toggleSidenav={{action 'toggleSidenav'}}
+            @toggleMetadata={{action 'toggleMetadata'}}
+        />
+        {{#if this.registration.withdrawn}}
             <div local-class='ContentBackground'>
                 <TombstonePage
                     @registration={{this.registration}}
@@ -53,9 +38,7 @@
                     </dl>
                 </TombstonePage>
             </div>
-        {{/let}}
-    {{else if this.registration.archiving}}
-        {{#let (component 'overview/-components/tombstone-page') as |TombstonePage|}}
+        {{else if this.registration.archiving}}
             <div local-class='ContentBackground'>
                 <TombstonePage
                     @registration={{this.registration}}
@@ -65,143 +48,103 @@
                     {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail}}
                 </TombstonePage>
             </div>
-        {{/let}}
-    {{else}}
-        {{#if (and this.showMobileView (not this.registration.withdrawn))}}
-            <Navbar as |nav|>
-                <nav.bordered-section>
-
-                    <nav.buttons.default @onclick={{action 'toggleSidenav'}}>
-                        {{nav.icon (if this.sidenavGutterClosed 'bars' 'times')}}
-                    </nav.buttons.default>
-
-                    <nav.buttons.default>
-                        <h4>{{t 'registries.overview.title'}}</h4>
-                    </nav.buttons.default>
-
-                </nav.bordered-section>
-                <nav.bordered-section>
-                    <RegistriesStates @registration={{this.registration}} />
-
-                    <nav.buttons.default @onclick={{action 'toggleMetadata'}}>
-                        {{nav.icon 'info-circle'}}
-                    </nav.buttons.default>
-
-                    {{#sharing-icons/dropdown
-                        title=this.registration.title
-                        description=this.registration.description
-                        hyperlink=this.registrationURL
-                        showText=true
-                        showBookmark=true
-                        registration=this.registration
-                        as |dd|}}
-                        {{#dd.trigger}}
-                            <nav.buttons.default>
-                                {{nav.icon (if dd.isOpen 'times' 'ellipsis-v') }}
-                            </nav.buttons.default>
-                        {{/dd.trigger}}
-                    {{/sharing-icons/dropdown}}
-
-                </nav.bordered-section>
-            </Navbar>
-        {{/if}}
-
-        <div local-class='ContentBackground'>
-            <Gutters
-                @leftMode={{this.sidenavGutterMode}}
-                @leftClosed={{this.sidenavGutterClosed}}
-                @rightMode={{this.metadataGutterMode}}
-                @rightClosed={{this.metadataGutterClosed}}
-                as |gutters|
-            >
-                <gutters.left-gutter data-analytics-scope='Left sidenav'>
-                    <SideNav
-                        @onLinkClicked={{action (mut this.sidenavGutterClosed) true}}
-                        as |nav|
-                    >
-                        <nav.link
-                            data-analytics-name='Overview'
-                            @route='registries.overview.index'
-                            @models={{array this.registration.id}}
-                            @icon='home'
-                            @label={{t 'registries.overview.title'}}
-                        />
-                        <nav.link
-                            data-analytics-name='Files'
-                            @href='/{{this.registration.id}}/files/'
-                            @icon='file-text'
-                            @label={{t 'registries.overview.external_links.files'}}
-                        />
-                        <nav.link
-                            data-analytics-name='Wiki'
-                            @href='/{{this.registration.id}}/wiki/'
-                            @icon='window-maximize'
-                            @label={{t 'registries.overview.external_links.wiki'}}
-                            @count={{this.registration.relatedCounts.wikis}}
-                        />
-                        <nav.link
-                            data-analytics-name='Components'
-                            @route='registries.overview.children'
-                            @models={{array this.registration.id}}
-                            @icon='puzzle-piece'
-                            @label={{t 'registries.overview.components.title'}}
-                            @count={{this.registration.relatedCounts.children}}
-                        />
-                        <nav.link
-                            data-analytics-name='Links'
-                            @route='registries.overview.links'
-                            @models={{array this.registration.id}}
-                            @icon='link'
-                            @label={{t 'registries.overview.links.title'}}
-                            @count={{this.linksCount}}
-                        />
-                        <nav.link
-                            data-analytics-name='Analytics'
-                            @route='registries.overview.analytics'
-                            @models={{array this.registration.id}}
-                            @icon='bar-chart'
-                            @label={{t 'registries.overview.external_links.analytics'}}
-                        />
-                        <nav.link
-                            data-analytics-name='Comments'
-                            @route='registries.overview.comments'
-                            @models={{array this.registration.id}}
-                            @icon='comments'
-                            @label={{t 'registries.overview.comments.title'}}
-                            @count={{this.commentsCount}}
-                        />
-                    </SideNav>
-                </gutters.left-gutter>
-
-                <gutters.body local-class='OverviewBody'>
-                    {{outlet}}
-                </gutters.body>
-
-                <gutters.right-gutter
-                    data-analytics-scope='Right panel'
-                    local-class='SideMetadata'
-                    as |rightGutter|
+        {{else}}
+            <div local-class='ContentBackground'>
+                <Gutters
+                    @leftMode={{this.sidenavGutterMode}}
+                    @leftClosed={{this.sidenavGutterClosed}}
+                    @rightMode={{this.metadataGutterMode}}
+                    @rightClosed={{this.metadataGutterClosed}}
+                    as |gutters|
                 >
-                    {{#if (not-eq rightGutter.mode 'column')}}
-                        <h3 local-class='MetadataTitle'>
-                            {{t 'registries.overview.metadata'}}
-                            <OsfButton
-                                data-analytics-name='Close metadata sidebar'
-                                aria-label={{t 'general.close'}}
-                                @type='link'
-                                @onClick={{action (mut this.metadataGutterClosed) true}}
-                            >
-                                <FaIcon @icon='times' />
-                            </OsfButton>
-                        </h3>
-                    {{/if}}
+                    <gutters.left-gutter data-analytics-scope='Left sidenav'>
+                        <SideNav
+                            @onLinkClicked={{action (mut this.sidenavGutterClosed) true}}
+                            as |nav|
+                        >
+                            <nav.link
+                                data-analytics-name='Overview'
+                                @route='registries.overview.index'
+                                @models={{array this.registration.id}}
+                                @icon='home'
+                                @label={{t 'registries.overview.title'}}
+                            />
+                            <nav.link
+                                data-analytics-name='Files'
+                                @href='/{{this.registration.id}}/files/'
+                                @icon='file-text'
+                                @label={{t 'registries.overview.external_links.files'}}
+                            />
+                            <nav.link
+                                data-analytics-name='Wiki'
+                                @href='/{{this.registration.id}}/wiki/'
+                                @icon='window-maximize'
+                                @label={{t 'registries.overview.external_links.wiki'}}
+                            />
+                            <nav.link
+                                data-analytics-name='Components'
+                                @route='registries.overview.children'
+                                @models={{array this.registration.id}}
+                                @icon='puzzle-piece'
+                                @label={{t 'registries.overview.components.title'}}
+                                @count={{this.registration.relatedCounts.children}}
+                            />
+                            <nav.link
+                                data-analytics-name='Links'
+                                @route='registries.overview.links'
+                                @models={{array this.registration.id}}
+                                @icon='link'
+                                @label={{t 'registries.overview.links.title'}}
+                                @count={{this.linksCount}}
+                            />
+                            <nav.link
+                                data-analytics-name='Analytics'
+                                @route='registries.overview.analytics'
+                                @models={{array this.registration.id}}
+                                @icon='bar-chart'
+                                @label={{t 'registries.overview.external_links.analytics'}}
+                            />
+                            <nav.link
+                                data-analytics-name='Comments'
+                                @route='registries.overview.comments'
+                                @models={{array this.registration.id}}
+                                @icon='comments'
+                                @label={{t 'registries.overview.comments.title'}}
+                                @count={{this.commentsCount}}
+                            />
+                        </SideNav>
+                    </gutters.left-gutter>
 
-                    <RegistriesMetadata
-                        @registration={{this.registration}}
-                        @extendedFields={{true}}
-                    />
-                </gutters.right-gutter>
-            </Gutters>
-        </div>
+                    <gutters.body local-class='OverviewBody'>
+                        {{outlet}}
+                    </gutters.body>
+
+                    <gutters.right-gutter
+                        data-analytics-scope='Right panel'
+                        local-class='SideMetadata'
+                        as |rightGutter|
+                    >
+                        {{#if (not-eq rightGutter.mode 'column')}}
+                            <h3 local-class='MetadataTitle'>
+                                {{t 'registries.overview.metadata'}}
+                                <OsfButton
+                                    data-analytics-name='Close metadata sidebar'
+                                    aria-label={{t 'general.close'}}
+                                    @type='link'
+                                    @onClick={{action (mut this.metadataGutterClosed) true}}
+                                >
+                                    <FaIcon @icon='times' />
+                                </OsfButton>
+                            </h3>
+                        {{/if}}
+
+                        <RegistriesMetadata
+                            @registration={{this.registration}}
+                            @extendedFields={{true}}
+                        />
+                    </gutters.right-gutter>
+                </Gutters>
+            </div>
+        {{/if}}
     {{/if}}
-{{/if}}
+{{/let}}

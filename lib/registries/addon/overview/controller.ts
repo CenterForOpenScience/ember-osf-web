@@ -33,7 +33,6 @@ export default class Overview extends Controller {
 
     @alias('model.taskInstance.value') registration?: Registration;
     @not('registration') loading!: boolean;
-    @not('media.isDesktop') showMobileView!: boolean;
 
     @computed('registration.id')
     get registrationURL() {
