@@ -1,0 +1,43 @@
+<div local-class='TitleBackground'>
+    <Container>
+        <div local-class='Container'>
+            <div local-class='Header'>
+                <div local-class='MainTitle'>
+                    <h1 data-test-registration-title>{{@title}}</h1>
+                </div>
+            </div>
+            <div local-class='Footer'>
+                <div local-class='FooterText'>
+                    {{#if @isAdmin}}
+                        <div />
+                    {{else}}
+                        <p>{{t 'registries.overview.nonAdminMessage'}}</p>
+                    {{/if}}
+                </div>
+                <div local-class='FooterIcons'>
+                    <div local-class='IconBox'>
+                        <FaIcon
+                            local-class='Icon'
+                            @icon='code-fork'
+                        />
+                        <p>{{@forks}}</p>
+                    </div>
+                    <div local-class='IconBox'>
+                        <FaIcon
+                            local-class='Icon'
+                            @icon='bookmark-o'
+                        />
+                        <p>{{@bookmarks}}</p>
+                    </div>
+                    <div local-class='IconBox'>
+                        <FaIcon
+                            local-class='Icon'
+                            @icon='share-alt'
+                        />
+                        <p>{{@shares}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Container>
+</div>

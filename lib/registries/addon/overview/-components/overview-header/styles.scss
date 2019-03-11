@@ -1,0 +1,63 @@
+.TitleBackground {
+    background-image: url('img/bg-dark.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.Header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 80px;
+}
+
+.MainTitle {
+    h1 {
+        color: $white;
+        font-weight: 400;
+        word-break: break-word;
+        margin: 0;
+    }
+}
+
+.Footer {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(38, 57, 71, 0.5);
+    width: 100%;
+    padding: 12px 16px;
+
+    p {
+        color: $white;
+        margin: 0;
+    }
+}
+
+.FooterText {
+    flex: 6;
+}
+
+.FooterIcons {
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+}
+
+.IconBox {
+    display: flex;
+}
+
+.Icon {
+    color: $white;
+    font-size: 20px;
+    margin-right: 8px;
+}
+

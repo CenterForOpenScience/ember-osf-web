@@ -1093,6 +1093,7 @@ export default {
             see_more: 'See more',
             metadata: 'Metadata',
             component_of: 'This is a component of a registration:',
+            nonAdminMessage: 'This public registration is a frozen, non-editable version of <strong>this project</project>.',
             comments: {
                 title: 'Comments',
                 see_replies: 'See replies',
