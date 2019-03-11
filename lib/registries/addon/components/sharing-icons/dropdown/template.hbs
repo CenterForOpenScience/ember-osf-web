@@ -8,14 +8,16 @@
             @resultId={{@resultId}}
             @parentId={{@parentId}}
             @showText={{@showText}}
-            @closeDropdown={{action dd.close}}
         as |links|>
-            <ul local-class='Dropdown__list'>
+            {{! template-lint-disable invalid-interactive }}
+            <ul local-class='Dropdown__list' {{action dd.close preventDefault=false}}>
+                {{! template-lint-enable invalid-interactive }}
                 {{#if @showBookmark}}
                     <li role='menuitem' local-class='Dropdown__option'>
                         <OsfButton
                             @type='link'
-                            @onClick={{action (perform this.bookmark dd.close)}}
+                            @onClick={{action (perform this.bookmark)}}
+                            @bubble={{true}}
                         >
                             <FaIcon @icon='bookmark' @fixedWidth={{true}} />
                             {{#if this.isBookmarked}}

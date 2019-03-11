@@ -14,14 +14,14 @@ import template from './template';
 @layout(template, styles)
 export default class RegistriesOverviewMenu extends Component.extend({
     forkRegistration: task(function *(this: RegistriesOverviewMenu, closeDropdown: () => void) {
-        if (!this.node) {
+        if (!this.registration) {
             return;
         }
 
         closeDropdown();
 
         try {
-            yield this.node.makeFork();
+            yield this.registration.makeFork();
         } catch (e) {
             this.toast.error(this.i18n.t('registries.overview.fork.error'));
             throw e;
@@ -39,10 +39,10 @@ export default class RegistriesOverviewMenu extends Component.extend({
 
     registrationURL!: string;
 
-    node!: RegistrationModel;
+    registration!: RegistrationModel;
 
-    @computed('node.state')
+    @computed('registration.state')
     get isWithdrawn(this: RegistriesOverviewMenu): boolean {
-        return this.node.state === RegistrationState.Withdrawn;
+        return this.registration.state === RegistrationState.Withdrawn;
     }
 }
