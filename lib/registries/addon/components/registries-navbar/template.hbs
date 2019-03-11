@@ -18,25 +18,25 @@
 
             <BsDropdown
                 data-analytics-scope='Services dropdown'
-                as |dd|
+                as |dropdown|
             >
-                <dd.toggle
+                <dropdown.toggle
                     data-test-service
                     data-analytics-name='Toggle'
                     @classNames={{local-class 'Service Dropdown'}}
                 >
                     <span>{{t 'general.OSF'}}</span>
                     <strong>{{t 'general.services.registries'}}</strong>
-                    {{nav.icon (if dd.isOpen 'caret-up' 'caret-down')}}
-                </dd.toggle>
+                    {{nav.icon (if dropdown.isOpen 'caret-up' 'caret-down')}}
+                </dropdown.toggle>
 
-                <dd.menu
+                <dropdown.menu
                     data-test-service-list
                     @classNames={{local-class 'ServiceDropdownMenu DropdownMenu'}}
-                    as |ddm|
+                    as |menu|
                 >
                     {{#each this.services as |service|}}
-                        <ddm.item role='menuitem'>
+                        <menu.item role='menuitem'>
                             <OsfLink
                                 data-analytics-name={{service.name}}
                                 {{! each service has one of `route` and `href` }}
@@ -45,9 +45,9 @@
                             >
                                 <strong local-class='ServiceDropdownEntry'>{{service.name}}</strong>
                             </OsfLink>
-                        </ddm.item>
+                        </menu.item>
                     {{/each}}
-                </dd.menu>
+                </dropdown.menu>
             </BsDropdown>
 
         </nav.section>
@@ -111,9 +111,9 @@
             <BsDropdown
                 data-analytics-scope='User dropdown'
                 local-class='AuthDropdown'
-                as |dd|
+                as |dropdown|
             >
-                <dd.toggle
+                <dropdown.toggle
                     data-analytics-name='Toggle'
                     local-class='Dropdown'
                 >
@@ -124,25 +124,25 @@
                             src='{{this.currentUser.user.profileImage}}&s=30'
                             alt={{t 'auth_dropdown.user_gravatar'}}
                         >
-                        {{nav.icon (if dd.isOpen 'caret-up' 'caret-down')}}
+                        {{nav.icon (if dropdown.isOpen 'caret-up' 'caret-down')}}
                     {{else}}
                         <OsfButton
                             data-test-toggle-navbar
                             @class={{local-class 'OnlyOnMobile'}}
                         >
-                            {{nav.icon (if dd.isOpen 'times' 'bars')}}
+                            {{nav.icon (if dropdown.isOpen 'times' 'bars')}}
                         </OsfButton>
                     {{/if}}
-                </dd.toggle>
+                </dropdown.toggle>
 
-                <dd.menu
+                <dropdown.menu
                     data-test-auth-dropdown
                     class='dropdown-menu-right'
                     local-class='AuthDropdownMenu DropdownMenu'
-                    as |ddm|
+                    as |menu|
                 >
                     {{#if this.session.isAuthenticated}}
-                        <ddm.item role='menuitem'>
+                        <menu.item role='menuitem'>
                             <OsfLink
                                 data-test-ad-my-profile
                                 data-analytics-name='My Profile'
@@ -151,8 +151,8 @@
                                 <FaIcon @icon='user' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.my_profile'}}
                             </OsfLink>
-                        </ddm.item>
-                        <ddm.item role='menuitem'>
+                        </menu.item>
+                        <menu.item role='menuitem'>
                             <OsfLink
                                 data-test-ad-support
                                 data-analytics-name='Support'
@@ -161,8 +161,8 @@
                                 <FaIcon @icon='life-ring' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.osf_support'}}
                             </OsfLink>
-                        </ddm.item>
-                        <ddm.item role='menuitem'>
+                        </menu.item>
+                        <menu.item role='menuitem'>
                             <OsfLink
                                 data-test-ad-settings
                                 data-analytics-name='Settings'
@@ -171,9 +171,9 @@
                                 <FaIcon @icon='cog' @fixedWidth={{true}} />
                                 {{t 'general.settings'}}
                             </OsfLink>
-                        </ddm.item>
+                        </menu.item>
                     {{else}}
-                        <ddm.item role='menuitem' local-class='OnlyOnMobile'>
+                        <menu.item role='menuitem' local-class='OnlyOnMobile'>
                             <OsfLink
                                 data-test-join-mobile
                                 data-analytics-name='Sign up'
@@ -182,8 +182,8 @@
                                 <FaIcon @icon='user-plus' @fixedWidth={{true}} />
                                 {{t 'navbar.join'}}
                             </OsfLink>
-                        </ddm.item>
-                        <ddm.item role='menuitem' local-class='OnlyOnMobile'>
+                        </menu.item>
+                        <menu.item role='menuitem' local-class='OnlyOnMobile'>
                             <OsfButton
                                 data-test-login-mobile
                                 data-analytics-name='Sign in'
@@ -193,10 +193,10 @@
                                 <FaIcon @icon='sign-in' @fixedWidth={{true}} />
                                 {{t 'navbar.login'}}
                             </OsfButton>
-                        </ddm.item>
+                        </menu.item>
                     {{/if}}
 
-                    <ddm.item role='menuitem' local-class='OnlyOnMobile'>
+                    <menu.item role='menuitem' local-class='OnlyOnMobile'>
                         <OsfLink
                             data-test-donate-mobile
                             data-analytics-name='Donate'
@@ -205,8 +205,8 @@
                             <FaIcon @icon='usd' @fixedWidth={{true}} />
                             {{t 'navbar.donate'}}
                         </OsfLink>
-                    </ddm.item>
-                    <ddm.item role='menuitem' local-class='OnlyOnMobile'>
+                    </menu.item>
+                    <menu.item role='menuitem' local-class='OnlyOnMobile'>
                         <OsfLink
                             data-test-help-mobile
                             data-analytics-name='Help'
@@ -215,10 +215,10 @@
                             <FaIcon @icon='info-circle' @fixedWidth={{true}} />
                             {{t 'general.help'}}
                         </OsfLink>
-                    </ddm.item>
+                    </menu.item>
 
                     {{#if this.session.isAuthenticated}}
-                        <ddm.item role='menuitem'>
+                        <menu.item role='menuitem'>
                             <OsfButton
                                 data-test-ad-logout
                                 data-analytics-name='Logout'
@@ -228,9 +228,9 @@
                                 <FaIcon @icon='sign-out' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.log_out'}}
                             </OsfButton>
-                        </ddm.item>
+                        </menu.item>
                     {{/if}}
-                </dd.menu>
+                </dropdown.menu>
             </BsDropdown>
         </nav.section>
     </nav.container>
