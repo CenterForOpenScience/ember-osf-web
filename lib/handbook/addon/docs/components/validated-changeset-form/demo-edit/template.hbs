@@ -1,0 +1,45 @@
+<DocsDemo as |demo|>
+    {{#if this.node}}
+        <demo.example @name='validated-changeset-form.demo-edit.hbs'>
+            <ValidatedChangesetForm
+                @onSave={{action this.onSave changeset}}
+                @onWillDestroy={{action this.onWillDestroy}}
+                @changeset={{changeset this.existingNode this.validation}}
+                @disabled={{this.model.taskInstance.isRunning}}
+                @onDirtChange={{this.changeDirtEditForm}}
+                as |form|
+            >
+                <form.text 
+                    @valuePath='title'
+                    @label='Title'
+                />
+                <form.textarea
+                    @valuePath='description'
+                    @label='Description'
+                />
+                <BsButton
+                    @onClick={{action form.rollback}}
+                    @disabled={{not form.isDirty}}
+                >
+                    Cancel
+                </BsButton>
+                <BsButton
+                    @buttonType='submit'
+                    @disabled={{form.disabled}}
+                >
+                    Save
+                </BsButton>
+            </ValidatedChangesetForm>
+        </demo.example>
+
+        <demo.snippet @name='validated-changeset-form.demo-edit.hbs' />
+        <demo.snippet
+            @name='validated-changeset-form.on-will-destroy.ts'
+            @label='controller.ts'
+        />
+        <demo.snippet
+            @name='validated-changeset-form.is-page-dirty.ts'
+            @label='route.ts'
+        />
+    {{/if}}
+</DocsDemo>

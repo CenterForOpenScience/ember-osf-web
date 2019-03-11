@@ -71,6 +71,7 @@
     "ember-bootstrap-datepicker": "^2.0.8",
     "ember-browserify": "^1.2.0",
     "ember-changeset": "^2.0.0",
+    "ember-changeset-validations": "^2.1.0",
     "ember-cli": "~3.4.3",
     "ember-cli-addon-docs": "https://github.com/cos-forks/ember-cli-addon-docs#docs-engine#37",
     "ember-cli-addon-docs-typedoc": "https://github.com/typed-ember/ember-cli-addon-docs-typedoc#initial-implementation",

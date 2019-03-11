@@ -1,0 +1,20 @@
+{{#validated-input/x-input-wrapper
+    model=this.model
+    changeset=this.changeset
+    errors=this.errors
+    label=this.label
+    valuePath=this.valuePath
+    validationStatus=this.validationStatus
+    as |inputElementId|
+}}
+    <label>
+        {{input
+            id=inputElementId
+            type='checkbox'
+            checked=this.value
+            name=this.valuePath
+            disabled=this.disabled
+        }}
+        {{yield}}
+    </label>
+{{/validated-input/x-input-wrapper}}

@@ -1,0 +1,23 @@
+{{#validated-input/x-input-wrapper
+    model=this.model
+    changeset=this.changeset
+    errors=this.errors
+    valuePath=this.valuePath
+    validationStatus=this.validationStatus
+}}
+    <PowerSelect
+        @id={{this.valuePath}}
+        @name={{this.valuePath}}
+        @options={{this.options}}
+        @selected={{or (get this.model this.valuePath) null}}
+        @onchange={{action this.powerSelectChanged}}
+        @search={{this.search}}
+        @noMatchesMessage={{this.noMatchesMessage}}
+        @disabled={{this.disabled}}
+        @searchEnabled={{this.searchEnabled}}
+        @placeholder={{this.placeholder}}
+        as |option|
+    >
+        {{yield option}}
+    </PowerSelect>
+{{/validated-input/x-input-wrapper}}
