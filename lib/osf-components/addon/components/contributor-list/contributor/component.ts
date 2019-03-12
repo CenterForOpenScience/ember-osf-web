@@ -22,7 +22,7 @@ export default class ContributorListContributor extends Component.extend({
 
         const shouldLink = this.shouldLinkUser && !this.contributor.unregisteredContributor;
         this.set('contributorLink', shouldLink ? `/${user.id}` : undefined);
-    }).restartable(),
+    }).on('didReceiveAttrs').restartable(),
 }) {
     contributor!: Contributor;
     shouldLinkUser: boolean = defaultTo(this.shouldLinkUser, false);
@@ -30,8 +30,4 @@ export default class ContributorListContributor extends Component.extend({
 
     contributorName?: string;
     contributorLink?: string;
-
-    didReceiveAttrs() {
-        this.loadUser.perform();
-    }
 }
