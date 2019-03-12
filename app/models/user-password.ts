@@ -20,15 +20,15 @@ const Validations = buildValidations({
             min: 2,
         }),
         validator('mismatch', {
+            messageKey: 'validationErrors.password_old',
             on: 'currentPassword',
-            message: 'New password must not match current password',
         }),
     ],
     confirmPassword: [
         validator('presence', true),
         validator('confirmation', {
+            messageKey: 'validationErrors.password_match',
             on: 'password',
-            message: 'Passwords must match',
         }),
     ],
 }, {

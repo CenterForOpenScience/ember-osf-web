@@ -25,15 +25,14 @@ export default class ChangePasswordPane extends Component.extend({
         try {
             yield this.userPassword.save();
         } catch (e) {
-            return this.toast.error(errorMessage);
+            this.toast.error(errorMessage);
+        } finally {
+            this.userPassword.unloadRecord();
         }
-
-        this.set('hasSubmitted', true);
     }),
 }) {
     // Private parameters
     userPassword!: UserPassword;
-    hasSubmitted: boolean = false;
     didValidate = false;
     newPassword = '';
 
@@ -45,7 +44,7 @@ export default class ChangePasswordPane extends Component.extend({
     @alias('currentUser.user') user!: User;
 
     init() {
-        this.set('userPassword', this.store.createRecord('user-password'));
+        this.set('userPassword', this.store.createRecord('user-password', { id: '123te' }));
         return super.init();
     }
 

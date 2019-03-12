@@ -7,10 +7,10 @@
         <form
             {{action 'submit' on='submit'}}
         >
-            <label>{{t 'settings.account.changePassword.currentPassword.placeholder'}}</label>
             {{! template-lint-disable no-implicit-this }}
             {{validated-input/text
                 data-test-current-password
+                label=(t 'settings.account.changePassword.currentPassword.placeholder')
                 password=true
                 model=this.userPassword
                 valuePath='currentPassword'
@@ -18,9 +18,9 @@
                 placeholder=(t 'settings.account.changePassword.currentPassword.placeholder')
                 ariaLabel=(t 'settings.account.changePassword.currentPassword.placeholder')
             }}
-            <label>{{t 'settings.account.changePassword.newPassword.placeholder'}}</label>
             {{validated-input/text
                 data-test-new-password
+                label=(t 'settings.account.changePassword.newPassword.placeholder')
                 password=true
                 model=this.userPassword
                 valuePath='password'
@@ -32,9 +32,9 @@
                 @password={{this.userPassword.password}}
                 @model={{this.userPassword}}
             />
-            <label>{{t 'settings.account.changePassword.confirmPassword.title'}}</label>
             {{validated-input/text
                 data-test-confirm-password
+                label=(t 'settings.account.changePassword.confirmPassword.title')
                 password=true
                 model=this.userPassword
                 valuePath='confirmPassword'

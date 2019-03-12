@@ -6,15 +6,11 @@
 {{/if}}
 <div data-test-password-bar class='row' hidden={{not this.progress}}>
     <div class='col-xs-12' local-class='bar-container'>
-        <div class='progress col-xs-9' local-class='create-password'>
+        <div class='progress col-xs-12' local-class='create-password'>
             <div
-                local-class='strength-bar'
                 class='progress-bar progress-bar-sm progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}'
                 role='progressbar'>
             </div>
-        </div>
-        <div local-class='strength-message' class='col-xs-3 text-{{this.progressStyle}}'>
-            {{this.strengthMessage}}
         </div>
     </div>
 </div>

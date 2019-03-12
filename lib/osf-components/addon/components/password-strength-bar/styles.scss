@@ -1,24 +1,19 @@
-@for $i from 0 through 5 {
-    :global(.progress-bar-#{$i}) {
-        width: #{$i * 20%} !important;
-    }
-}
-
-@each $class, $color in $progress-bar-bg-bright {
-    :global(.progress-bar-#{$class}) {
-        background-color: $color;
-    }
-}
-
-.create-password {
-    margin: 5px 0;
-}
-
 .create-password:global(.progress) {
+    margin: 5px 0 15px;
     height: 10px;
-    margin-bottom: 15px;
     padding-left: 0;
     padding-right: 0;
+    @for $i from 0 through 5 {
+        :global(.progress-bar-#{$i}) {
+            width: #{$i * 20%} !important;
+        }
+    }
+    
+    @each $class, $color in $progress-bar-bg-bright {
+        :global(.progress-bar-#{$class}) {
+            background-color: $color;
+        }
+    }
 }
 
 .warning-message {

@@ -6,15 +6,14 @@ export function updatePassword(this: HandlerContext) {
 
     if (attrs.currentPassword !== undefined) {
         if (attrs.currentPassword === currentPassword) {
-            return new Response(204, {}, undefined);
-        } else {
-            return new Response(409, { 'Content-Type': 'application/vnd.api+json' }, {
-                errors: [{
-                    status: 409,
-                    detail: 'Passwords do not match.',
-                }],
-            });
+            return new Response(204, undefined, undefined);
         }
+        return new Response(409, { 'Content-Type': 'application/vnd.api+json' }, {
+            errors: [{
+                status: 409,
+                detail: 'Old password is invalid.',
+            }],
+        });
     }
     return new Response(400, { 'Content-Type': 'application/vnd.api+json' }, {
         errors: [{
