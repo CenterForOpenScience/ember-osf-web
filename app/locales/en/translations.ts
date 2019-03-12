@@ -336,7 +336,7 @@ export default {
         contact_technical: 'For emails about technical support:',
         contact_questions: 'For all other questions or comments:',
         prereg_title: 'Do you have questions about preregistration?',
-        prereg_paragraph_1: 'Check out our',
+        prereg_paragraph_1: 'Check out our ',
         prereg_link_text: 'prereg page',
         status_title: 'Are you experiencing downtime with our services?',
         status_paragraph_1: 'Check out our',
