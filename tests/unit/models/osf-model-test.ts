@@ -2,6 +2,12 @@ import { run } from '@ember/runloop';
 import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import Node from 'ember-osf-web/models/node';
+import { RequestOptions, SparseHasManyResult } from 'ember-osf-web/models/osf-model';
+import { buildFieldsParam, SparseFieldset } from 'ember-osf-web/utils/sparse-fieldsets';
+import { ResourceCollectionDocument } from 'osf-api';
 
 module('Unit | Model | osf-model', hooks => {
     setupTest(hooks);
@@ -70,5 +76,167 @@ module('Unit | Model | osf-model', hooks => {
         });
 
         server.shutdown();
+    });
+
+    test('sparseHasMany calls the right things', async function(assert) {
+        interface TestCase {
+            relation: keyof Node;
+            fieldset: SparseFieldset;
+            options?: RequestOptions;
+            response: ResourceCollectionDocument;
+            expectedResult: SparseHasManyResult;
+        }
+
+        const testCases: TestCase[] = [
+            {
+                relation: 'contributors',
+                fieldset: { contributor: ['index'] },
+                response: {
+                    data: [
+                        { id: 'foo', type: 'contributors', attributes: { index: 0 } },
+                        { id: 'foob', type: 'contributors', attributes: { index: 1 } },
+                    ],
+                    meta: { total: 2, per_page: 10, version: '' },
+                    links: { self: 'selflink' },
+                },
+                expectedResult: {
+                    sparseModels: [
+                        { id: 'foo', modelName: 'contributor', index: 0 },
+                        { id: 'foob', modelName: 'contributor', index: 1 },
+                    ],
+                    meta: { total: 2, per_page: 10, version: '' },
+                    links: { self: 'selflink' },
+                },
+            }, {
+                relation: 'contributors',
+                fieldset: { contributor: ['index', 'users'], user: ['fullName'] },
+                response: {
+                    data: [
+                        {
+                            id: 'foo',
+                            type: 'contributors',
+                            attributes: { index: 1 },
+                            embeds: {
+                                users: {
+                                    data: {
+                                        id: 'userfoo',
+                                        type: 'users',
+                                        attributes: { full_name: 'mega user' },
+                                    },
+                                    meta: { version: '' },
+                                },
+                            },
+                        }, {
+                            id: 'bar',
+                            type: 'contributors',
+                            attributes: { index: 2 },
+                            embeds: {
+                                users: {
+                                    data: {
+                                        id: 'userbar',
+                                        type: 'users',
+                                        attributes: { full_name: 'mogi user' },
+                                    },
+                                    meta: { version: '' },
+                                },
+                            },
+                        },
+                    ],
+                    meta: { total: 2, per_page: 10, version: '' },
+                },
+                expectedResult: {
+                    sparseModels: [
+                        {
+                            id: 'foo',
+                            modelName: 'contributor',
+                            index: 1,
+                            users: {
+                                id: 'userfoo',
+                                modelName: 'user',
+                                fullName: 'mega user',
+                            },
+                        }, {
+                            id: 'bar',
+                            modelName: 'contributor',
+                            index: 2,
+                            users: {
+                                id: 'userbar',
+                                modelName: 'user',
+                                fullName: 'mogi user',
+                            },
+                        },
+                    ],
+                    meta: { total: 2, per_page: 10, version: '' },
+                },
+            },
+        ];
+
+        assert.expect(2 * testCases.length);
+        const sandbox = sinon.createSandbox();
+        const node: Node = this.owner.lookup('service:store').createRecord('node');
+
+        for (const testCase of testCases) {
+            const url = `http://api.example.com/has-many/${testCase.relation}`;
+            sandbox.stub(node, 'getHasManyLink').returns(url);
+
+            const ajaxStub = sandbox.stub(node.currentUser, 'authenticatedAJAX')
+                .resolves(testCase.response);
+
+            const result = await node.sparseHasMany(
+                testCase.relation,
+                testCase.fieldset,
+                testCase.options,
+            );
+
+            const { queryParams = {}, ajaxOptions = {} } = testCase.options || {};
+
+            assert.ok(ajaxStub.calledOnceWithExactly({
+                url,
+                data: {
+                    fields: buildFieldsParam(testCase.fieldset),
+                    ...queryParams,
+                },
+                ...ajaxOptions,
+            }), 'sparseHasMany calls authenticatedAJAX');
+
+            assert.deepEqual(
+                result,
+                testCase.expectedResult,
+                'sparseHasMany returns the right thing',
+            );
+
+            sandbox.restore();
+        }
+    });
+
+    test('sparseLoadAll calls the right things', async function(assert) {
+        const totals = [0, 47, 153, 432];
+        const sandbox = sinon.createSandbox();
+        const node: Node = this.owner.lookup('service:store').createRecord('node');
+        const pageSize = 100;
+
+        for (const total of totals) {
+            let allResults = Array.from({ length: total }).map(() => ({}));
+
+            const sparseHasManyStub = sandbox.stub(node, 'sparseHasMany').callsFake(async () => {
+                const sparseModels = allResults.slice(0, pageSize);
+                allResults = allResults.slice(pageSize);
+                return {
+                    sparseModels,
+                    meta: { total, per_page: pageSize, version: '' },
+                };
+            });
+
+            const result = await node.sparseLoadAll('contributors', { contributor: ['index'] });
+
+            assert.equal(result.length, total, 'Correct number of sparse models');
+            assert.equal(
+                sparseHasManyStub.callCount,
+                Math.max(1, Math.ceil(total / pageSize)),
+                'Called sparseHasMany neither too much nor too little',
+            );
+
+            sandbox.restore();
+        }
     });
 });

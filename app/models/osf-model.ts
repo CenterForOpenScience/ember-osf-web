@@ -15,6 +15,12 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 import getHref from 'ember-osf-web/utils/get-href';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 import getSelfHref from 'ember-osf-web/utils/get-self-href';
+import {
+    buildFieldsParam,
+    parseSparseResource,
+    SparseFieldset,
+    SparseModel,
+} from 'ember-osf-web/utils/sparse-fieldsets';
 
 import {
     BaseMeta,
@@ -37,6 +43,17 @@ export enum Permission {
 type RelationshipType<T, R extends keyof T> = T[R] extends EmberArray<infer U> ? U : never;
 
 export interface QueryHasManyResult<T> extends Array<T> {
+    meta: PaginatedMeta;
+    links?: Links | PaginationLinks;
+}
+
+export interface RequestOptions {
+    queryParams?: object;
+    ajaxOptions?: object;
+}
+
+export interface SparseHasManyResult {
+    sparseModels: SparseModel[];
     meta: PaginatedMeta;
     links?: Links | PaginationLinks;
 }
@@ -70,6 +87,21 @@ export default class OsfModel extends Model {
         return pluralize(underscore(this.modelName));
     }
 
+    getHasManyLink<T extends OsfModel, R extends RelationshipsFor<T>>(
+        this: T,
+        relationshipName: R,
+    ): string {
+        const reference = this.hasMany(relationshipName);
+
+        // HACK: ember-data discards/ignores the link if an object on the belongsTo side
+        // came first. In that case, grab the link where we expect it from OSF's API
+        const url = reference.link() || getRelatedHref(this.relationshipLinks[relationshipName]);
+        if (!url) {
+            throw new Error(`Could not find a link for '${relationshipName}' relationship`);
+        }
+        return url;
+    }
+
     /*
      * Query a hasMany relationship with query params
      *
@@ -89,18 +121,8 @@ export default class OsfModel extends Model {
         queryParams?: object,
         ajaxOptions?: object,
     ): Promise<QueryHasManyResult<RT>> {
-        const reference = this.hasMany(propertyName);
-
-        // HACK: ember-data discards/ignores the link if an object on the belongsTo side
-        // came first. In that case, grab the link where we expect it from OSF's API
-        const url = reference.link() || getRelatedHref(this.relationshipLinks[propertyName]);
-
-        if (!url) {
-            throw new Error(`Could not find a link for '${propertyName}' relationship`);
-        }
-
         const options: object = {
-            url,
+            url: this.getHasManyLink(propertyName),
             data: queryParams,
             ...ajaxOptions,
         };
@@ -265,5 +287,60 @@ export default class OsfModel extends Model {
         } else {
             throw new Error(`Unexpected response ${errorContext}`);
         }
+    }
+
+    /*
+     * https://developer.osf.io/#tag/Sparse-Fieldsets
+     */
+    async sparseHasMany<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T>,
+        fieldset: SparseFieldset,
+        options: RequestOptions = {},
+    ): Promise<SparseHasManyResult> {
+        const response: ResourceCollectionDocument = await this.currentUser.authenticatedAJAX({
+            url: this.getHasManyLink(relationshipName),
+            data: {
+                fields: buildFieldsParam(fieldset),
+                ...options.queryParams,
+            },
+            ...options.ajaxOptions,
+        });
+
+        const { data, meta, links } = response;
+
+        return {
+            sparseModels: data.map(parseSparseResource),
+            meta,
+            ...(links ? { links } : {}),
+        };
+    }
+
+    async sparseLoadAll<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T>,
+        fieldset: SparseFieldset,
+        options: RequestOptions = {},
+    ): Promise<SparseModel[]> {
+        const sparseModels: SparseModel[] = [];
+        let page = 1;
+        let totalPages = 0;
+
+        do { // eslint-disable-line no-await-in-loop
+            const response = await this.sparseHasMany(relationshipName, fieldset, {
+                ...options,
+                queryParams: {
+                    ...options.queryParams,
+                    page,
+                    'page[size]': 100,
+                },
+            });
+
+            sparseModels.push(...response.sparseModels);
+            totalPages = Math.ceil(response.meta.total / response.meta.per_page);
+            page++;
+        } while (page <= totalPages);
+
+        return sparseModels;
     }
 }
