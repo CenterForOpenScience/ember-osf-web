@@ -125,6 +125,7 @@
     // Logout and sign in buttons
     & > li > :global(.btn.btn-link) {
         color: $white;
+        display: block;
         padding: 3px 20px;
         font-size: inherit;
 
