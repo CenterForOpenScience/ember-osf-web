@@ -289,8 +289,31 @@ export default class OsfModel extends Model {
         }
     }
 
-    /*
-     * https://developer.osf.io/#tag/Sparse-Fieldsets
+    /**
+     * Fetch one page of a has-many relationship using sparse fieldsets.
+     * See https://developer.osf.io/#tag/Sparse-Fieldsets
+     *
+     * The API response includes only the specified fields.
+     * This is useful for potentially long lists that require rendering only a few fields.
+     *
+     * Does NOT use ember-data. This means a few things:
+     * - Attributes don't pass through the transforms (e.g. 'fixstring') set with `DS.attr`, they remain as
+     *   represented in JSON. In particular, date fields are not deserialized to `Date` objects.
+     * - Sparse models aren't put in the store. This means no potential interactions with code that does use
+     *   the store, but if you want caching you'll have to do it yourself.
+     *
+     * Example:
+     * ```ts
+     * const contributors = await node.sparseHasMany(
+     *     'contributors',
+     *     { contributor: ['users'], user: ['fullName'] },
+     *     { queryParams: { 'page[size]': 100 } },
+     * });
+     *
+     * contributors.sparseModels.forEach(contrib => {
+     *     console.log(contrib.users.fullName);
+     * );
+     * ```
      */
     async sparseHasMany<T extends OsfModel>(
         this: T,
@@ -316,6 +339,10 @@ export default class OsfModel extends Model {
         };
     }
 
+    /**
+     * Fetch the entirety of a has-many relationship using sparse fieldsets.
+     * See `sparseHasMany` above.
+     */
     async sparseLoadAll<T extends OsfModel>(
         this: T,
         relationshipName: RelationshipsFor<T>,
