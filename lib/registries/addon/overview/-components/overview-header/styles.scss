@@ -38,6 +38,13 @@
     padding: 12px 0;
 }
 
+.UserMessage {
+    p {
+        margin: 0 10px;
+        color: $white;
+    }
+}
+
 .FooterIcons {
     display: flex;
     flex: 1;

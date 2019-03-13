@@ -51,7 +51,9 @@
                         </dropdown.menu>
                     </BsDropdown>
                 {{else}}
-                    <p>{{t 'registries.overview.nonAdminMessage'}}</p>
+                    <div local-class='UserMessage'>
+                        <p>{{t 'registries.overview.nonAdminMessage'}}</p>
+                    </div>
                 {{/if}}
             </div>
             <div local-class='FooterIcons'>
