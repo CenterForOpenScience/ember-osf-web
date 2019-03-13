@@ -14,8 +14,6 @@ import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
-const { assetsPrefix } = config;
-
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
     @service router!: RouterService;
@@ -34,7 +32,7 @@ export default class Overview extends GuidRoute {
             const institutions = yield registration.loadAll('affiliatedInstitutions');
             const license = yield registration.license;
 
-            const image = `${assetsPrefix}engines-dist/registries/assets/img/osf-sharing.png`;
+            const image = 'engines-dist/registries/assets/img/osf-sharing.png';
 
             const metaTagsData = {
                 title: registration.title,

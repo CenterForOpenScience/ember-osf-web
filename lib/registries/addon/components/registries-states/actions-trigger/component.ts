@@ -36,14 +36,14 @@ export default class ActionsTrigger extends Component {
       @not('media.isDesktop') showMobileView!: boolean;
 
       isDisabled?: boolean = defaultTo(this.isDisabled, false);
-      node!: RegistrationModel;
+      registration!: RegistrationModel;
 
-      @computed('node.state')
+      @computed('registration.state')
       get registrationState(this: ActionsTrigger): object {
-          if (this.node.state.includes('pending')) {
+          if (this.registration.state.includes('pending')) {
               return StateToIconMap.pending;
           }
-          return StateToIconMap[this.node.state];
+          return StateToIconMap[this.registration.state];
       }
 
       @computed('isDisabled', 'showMobileView')

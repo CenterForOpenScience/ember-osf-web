@@ -8,11 +8,11 @@ import template from './template';
 
 @layout(template, styles)
 export default class RegistriesStates extends Component {
-    node!: RegistrationModel;
+    registration!: RegistrationModel;
 
-    @computed('node.userHasAdminPermission', 'node.state', 'node.isRoot')
+    @computed('registration.userHasAdminPermission', 'registration.state', 'registration.isRoot')
     get isDisabled(this: RegistriesStates): boolean {
-        return (!this.node.isRoot || !this.node.userHasAdminPermission ||
-            !([RegistrationState.Public, RegistrationState.Embargoed].includes(this.node.state)));
+        return (!this.registration.isRoot || !this.registration.userHasAdminPermission ||
+            !([RegistrationState.Public, RegistrationState.Embargoed].includes(this.registration.state)));
     }
 }

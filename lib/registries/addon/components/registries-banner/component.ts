@@ -43,26 +43,26 @@ const { OSF: { url: baseURL } } = config;
 export default class RegistriesBanner extends Component {
     @service i18n!: I18N;
 
-    @alias('node.embargoEndDate') endEmbargoDate!: string;
+    @alias('registration.embargoEndDate') endEmbargoDate!: string;
 
     // Required
-    node!: RegistrationModel;
+    registration!: RegistrationModel;
 
     // Optional
     dismissible?: boolean = defaultTo(this.dismissible, false);
     type?: string = defaultTo(this.type, 'info');
 
-    @computed('node.state')
+    @computed('registration.state')
     get stateBanner(this: RegistriesBanner) {
-        return stateToBannerMap[this.node.state];
+        return stateToBannerMap[this.registration.state];
     }
 
-    @computed('node.registeredFrom.id')
+    @computed('registration.registeredFrom.id')
     get projectUrl(this: RegistriesBanner) {
-        if (!this.node) {
+        if (!this.registration) {
             return;
         }
-        const registeredFromId = this.node.registeredFrom.get('id');
+        const registeredFromId = this.registration.registeredFrom.get('id');
         return registeredFromId && pathJoin(baseURL, registeredFromId);
     }
 }

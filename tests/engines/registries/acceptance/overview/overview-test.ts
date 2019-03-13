@@ -1,7 +1,4 @@
-import {
-    // faker,
-    ModelInstance,
-} from 'ember-cli-mirage';
+import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { TestContext } from 'ember-test-helpers';
@@ -178,7 +175,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assertHeadMetaTags(assert, 'dateRegistered', moment(reg.dateRegistered).format('YYYY-MM-DD'));
         assertHeadMetaTags(assert, 'dateModified', moment(reg.dateModified).format('YYYY-MM-DD'));
         assertHeadMetaTags(assert, 'url', pathJoin(config.OSF.url, reg.id as string));
-        assertHeadMetaTags(assert, 'image', `${config.assetsPrefix}engines-dist/registries/assets/img/osf-sharing.png`);
+        assertHeadMetaTags(assert, 'image', 'engines-dist/registries/assets/img/osf-sharing.png');
         assertHeadMetaTags(assert, 'tags', reg.tags);
         assertHeadMetaTags(assert, 'contributors', reg.contributors.models.mapBy('users.fullName'));
         assertHeadMetaTags(assert, 'affiliatedInstitutions', affiliatedInstitutions.mapBy('name'), true);

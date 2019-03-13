@@ -1,5 +1,6 @@
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -22,7 +23,7 @@ export default class SharingIcons extends Component {
         const queryParams = {
             url: this.hyperlink,
             text: this.title,
-            via: 'OSFramework',
+            via: config.social.twitter.viaHandle,
         };
         return `https://twitter.com/intent/tweet?${param(queryParams)}`;
     }

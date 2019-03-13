@@ -1,7 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
-import { updateBookmarks } from './views/collection';
+import { bookmarksRegistrationAdd, bookmarksRegistrationDelete } from './views/collection';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
@@ -100,10 +100,18 @@ export default function(this: Server) {
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
     osfResource(this, 'collection');
-    osfNestedResource(this, 'collection', 'linkedRegistrations', { only: ['index'] });
-
-    this.post('/collections/:id/relationships/linked_registrations', updateBookmarks);
-    this.del('/collections/:id/relationships/linked_registrations', updateBookmarks);
+    osfNestedResource(this, 'collection', 'linkedRegistrations', {
+        only: ['index'],
+        path: '/collections/:parentID/linked_registrations',
+    });
+    osfNestedResource(this, 'collection', 'linkedRegistrations', {
+        only: ['create', 'delete'],
+        path: '/collections/:parentID/relationships/linked_registrations',
+        views: {
+            create: bookmarksRegistrationAdd,
+            delete: bookmarksRegistrationDelete,
+        },
+    });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
     osfResource(this, 'region', { only: ['index', 'show'] });
