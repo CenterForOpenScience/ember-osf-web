@@ -1,3 +1,12 @@
+.Container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+
+    margin: 25px 0;
+}
+
 .ContentBackground {
     display: flex;
     flex-grow: 1;

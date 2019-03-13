@@ -38,14 +38,10 @@
     padding: 12px 0;
 }
 
-.FooterText {
-    flex: 6;
-}
-
 .FooterIcons {
     display: flex;
     flex: 1;
-    justify-content: space-around;
+    justify-content: flex-end;
 }
 
 .Dropdown {
@@ -172,6 +168,10 @@
         flex: 5;
         padding-right: 50px;
     }
+
+    .FooterText {
+        flex: 1;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -191,6 +191,18 @@
     .MenuBody {
         flex: 5;
         padding-right: 50px;
+    }
+
+    .FooterText {
+        flex: 2;
+    }
+}
+
+@media (max-width: 400px) {
+    .IconBox {
+        p {
+            display: none;
+        }
     }
 }
 
