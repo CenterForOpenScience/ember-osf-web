@@ -1,10 +1,14 @@
 .TitleBackground {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
     background-image: url('img/bg-dark.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.Container {
+.HeaderContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,14 +21,12 @@
     flex-direction: column;
     justify-content: center;
     min-height: 80px;
-}
 
-.MainTitle {
     h1 {
         color: $white;
         font-weight: 400;
         word-break: break-word;
-        margin: 0;
+        margin: none;
     }
 }
 
@@ -33,12 +35,7 @@
     justify-content: space-between;
     background-color: rgba(38, 57, 71, 0.5);
     width: 100%;
-    padding: 12px 16px;
-
-    p {
-        color: $white;
-        margin: 0;
-    }
+    padding: 12px 0;
 }
 
 .FooterText {
@@ -51,13 +48,149 @@
     justify-content: space-around;
 }
 
+.Dropdown {
+    display: flex;
+    align-items: center;
+    position: inherit;
+}
+
+.DropdownToggle {
+    display: flex;
+    align-items: center;
+    color: $white;
+    margin-left: 5px;
+
+    span {
+        font-size: 13px;
+    }
+
+    i {
+        font-size: 14px;
+        padding-left: 6px;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+        color: $white;
+        text-decoration: none;
+    }
+
+    &:hover,
+    :global(.open) & {
+        color: $slate-gray;
+
+        & i:global(.fa) {
+            color: $secondary-blue;
+        }
+    }
+}
+
+.Menu {
+    width: 100%;
+    background: $white;
+    color: $midnight-blue;
+    padding-top: 15px;
+    border-radius: 0 0 2px 2px;
+    border-width: 0 1px 1px;
+    border-color: $alto;
+    border-style: solid;
+    top: 222px;
+}
+
+.MenuContent {
+    display: flex;
+}
+
+.MenuIcon {
+    display: flex;
+    flex: 1;
+    font-size: 40px;
+    justify-content: center;
+}
+
+.MenuBody {
+    display: flex;
+    flex: 4;
+    flex-direction: column;
+    padding-left: 5px;
+    padding-right: 30px;
+
+    p {
+        margin: none;
+    }
+}
+
+.RegisteredName {
+    margin-bottom: 10px;
+
+    h3 {
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+}
+
+.MenuButtons {
+    margin: 10px 0;
+}
+
 .IconBox {
     display: flex;
+    margin-right: 10px;
+
+    p {
+        color: $white;
+        margin: none;
+    }
 }
 
 .Icon {
     color: $white;
     font-size: 20px;
-    margin-right: 8px;
+    margin-right: 6px;
+}
+
+@media(min-width: 992px) {
+    .HeaderContainer {
+        max-width: 1140px;
+    }
+
+    .Menu {
+        top: 30px;
+        max-width: 537px;
+    }
+
+    .Dropdown {
+        position: relative;
+    }
+
+    .DropdownToggle {
+        margin-left: 18px;
+    }
+
+    .MenuBody {
+        flex: 5;
+        padding-right: 50px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .Menu {
+        top: 30px;
+        max-width: 537px;
+    }
+
+    .Dropdown {
+        position: relative;
+    }
+
+    .DropdownToggle {
+        margin-left: 10px;
+    }
+
+    .MenuBody {
+        flex: 5;
+        padding-right: 50px;
+    }
 }
 

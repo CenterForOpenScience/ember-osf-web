@@ -12,11 +12,10 @@
         <RegistriesBanner @node={{this.registration}} />
 
         <OverviewHeader
-            @title={{this.registration.title}}
+            @registration={{this.registration}}
             @forks={{this.forksCount}}
             @bookmarks={{this.commentsCount}}
             @shares={{this.linksCount}}
-            @isAdmin={{false}}
         />
         {{#if this.registration.withdrawn}}
             <div local-class='ContentBackground'>

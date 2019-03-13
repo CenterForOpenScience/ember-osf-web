@@ -1,43 +1,82 @@
 <div local-class='TitleBackground'>
-    <Container>
-        <div local-class='Container'>
-            <div local-class='Header'>
-                <div local-class='MainTitle'>
-                    <h1 data-test-registration-title>{{@title}}</h1>
-                </div>
+    <div local-class='HeaderContainer'>
+        <div local-class='Header'>
+            <h1 data-test-registration-title>{{@registration.title}}</h1>
+        </div>
+        <div local-class='Footer'>
+            <div local-class='FooterText'>
+                {{#if @registration.userHasAdminPermission}}
+                    <BsDropdown
+                        data-analytics-scope='Registries admin'
+                        local-class='Dropdown'
+                        as |dropdown|
+                    >
+                        <dropdown.toggle @classNames={{local-class 'DropdownToggle'}}>
+                            <span>
+                                <strong>{{t 'registries.overview.pendingMessage'}}</strong>
+                            </span>
+                            <FaIcon
+                                @icon={{if dropdown.isOpen 'caret-up' 'caret-down'}}
+                            />
+                        </dropdown.toggle>
+                        <dropdown.menu @classNames={{local-class 'Menu'}}>
+                            <div local-class='MenuContent'>
+                                <div local-class='MenuIcon'>
+                                    <FaIcon @icon='clock-o' />
+                                </div>
+                                <div local-class='MenuBody'>
+                                    <p>{{t 'registries.overview.pendingInfo'}}</p>
+                                    <div local-class='RegisteredName'>
+                                        <h3>{{t 'registries.overview.registeredFrom'}}</h3>
+                                        <a>
+                                            {{t
+                                                'registries.overview.registryID'
+                                                id=@registration.id
+                                            }}
+                                        </a>
+                                    </div>
+                                    <div local-class='MenuButtons'>
+                                        <OsfButton @type='primary' @onClick={{action this.acceptRegistration}}>
+                                            {{t 'general.accept'}}
+                                        </OsfButton>
+                                        <OsfButton
+                                            @onClick={{action this.rejectRegistration}}
+                                            @type='danger'
+                                        >
+                                            {{t 'general.reject'}}
+                                        </OsfButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </dropdown.menu>
+                    </BsDropdown>
+                {{else}}
+                    <p>{{t 'registries.overview.nonAdminMessage'}}</p>
+                {{/if}}
             </div>
-            <div local-class='Footer'>
-                <div local-class='FooterText'>
-                    {{#if @isAdmin}}
-                        <div />
-                    {{else}}
-                        <p>{{t 'registries.overview.nonAdminMessage'}}</p>
-                    {{/if}}
+            <div local-class='FooterIcons'>
+                <div local-class='IconBox'>
+                    <FaIcon
+                        local-class='Icon'
+                        @icon='code-fork'
+                    />
+                    <p>{{@forks}}</p>
                 </div>
-                <div local-class='FooterIcons'>
-                    <div local-class='IconBox'>
-                        <FaIcon
-                            local-class='Icon'
-                            @icon='code-fork'
-                        />
-                        <p>{{@forks}}</p>
-                    </div>
-                    <div local-class='IconBox'>
-                        <FaIcon
-                            local-class='Icon'
-                            @icon='bookmark-o'
-                        />
-                        <p>{{@bookmarks}}</p>
-                    </div>
-                    <div local-class='IconBox'>
-                        <FaIcon
-                            local-class='Icon'
-                            @icon='share-alt'
-                        />
-                        <p>{{@shares}}</p>
-                    </div>
+                <div local-class='IconBox'>
+                    <FaIcon
+                        local-class='Icon'
+                        @icon='bookmark-o'
+                    />
+                    <p>{{@bookmarks}}</p>
+                </div>
+                <div local-class='IconBox'>
+                    <FaIcon
+                        local-class='Icon'
+                        @icon='share-alt'
+                    />
+                    <p>{{@shares}}</p>
                 </div>
             </div>
         </div>
-    </Container>
+    </div>
 </div>
