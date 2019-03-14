@@ -57,4 +57,13 @@ module('Unit | Model | registration', hooks => {
 
         assert.equal(model.get('state'), 'embargoed');
     });
+
+    test('it updates registrations state when the model changes', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
+        model.set('embargoed', true);
+        assert.equal(model.get('state'), 'embargoed');
+
+        model.set('withdrawn', true);
+        assert.equal(model.get('state'), 'withdrawn');
+    });
 });

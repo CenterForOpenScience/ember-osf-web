@@ -11,13 +11,13 @@ import RegistryProviderModel from './registry-provider';
 import UserModel from './user';
 
 export enum RegistrationState {
-    Embargoed = 'embargoed',
-    Public = 'public',
-    Withdrawn = 'withdrawn',
-    PendingRegistration = 'pendingRegistrationApproval',
-    PendingWithdrawal = 'pendingWithdrawal',
-    PendingEmbargo = 'pendingEmbargoApproval',
-    PendingEmbargoTermination = 'pendingEmbargoTerminationApproval',
+    embargoed = 'embargoed',
+    public = 'public',
+    withdrawn = 'withdrawn',
+    pendingRegistrationApproval = 'pendingRegistrationApproval',
+    pendingWithdrawal = 'pendingWithdrawal',
+    pendingEmbargoApproval = 'pendingEmbargoApproval',
+    pendingEmbargoTerminationApproval = 'pendingEmbargoTerminationApproval',
 }
 
 export default class RegistrationModel extends NodeModel.extend() {
@@ -44,15 +44,12 @@ export default class RegistrationModel extends NodeModel.extend() {
         'pendingEmbargoApproval', 'pendingEmbargoTerminationApproval',
         'pendingWithdrawal')
     get state(): RegistrationState {
-        return (
-            (this.pendingRegistrationApproval && RegistrationState.PendingRegistration) ||
-            (this.pendingEmbargoApproval && RegistrationState.PendingEmbargo) ||
-            (this.pendingEmbargoTerminationApproval && RegistrationState.PendingEmbargoTermination) ||
-            (this.pendingWithdrawal && RegistrationState.PendingWithdrawal) ||
-            (this.withdrawn && RegistrationState.Withdrawn) ||
-            (this.embargoed && RegistrationState.Embargoed) ||
-            RegistrationState.Public
-        );
+        const stateMap = this.registrationStateMap();
+        const currentState: any = Object.keys(stateMap)
+            .filter((key: string) => stateMap[key])
+            .map(activeState => activeState)[0];
+
+        return currentState || RegistrationState.public;
     }
 
     @belongsTo('node', { inverse: 'registrations' })
@@ -84,6 +81,26 @@ export default class RegistrationModel extends NodeModel.extend() {
 
     @hasMany('institution', { inverse: 'registrations' })
     affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
+
+    registrationStateMap(): any {
+        const {
+            pendingRegistrationApproval,
+            pendingEmbargoApproval,
+            pendingEmbargoTerminationApproval,
+            pendingWithdrawal,
+            withdrawn,
+            embargoed,
+        } = this;
+
+        return {
+            pendingRegistrationApproval,
+            pendingEmbargoApproval,
+            pendingEmbargoTerminationApproval,
+            pendingWithdrawal,
+            withdrawn,
+            embargoed,
+        };
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
