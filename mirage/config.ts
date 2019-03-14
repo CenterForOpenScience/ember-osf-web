@@ -1,7 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
-import { bookmarksRegistrationAdd, bookmarksRegistrationDelete } from './views/collection';
+import { updateBookmarks } from './views/collection';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
@@ -59,14 +59,15 @@ export default function(this: Server) {
         path: '/nodes/:parentID/institutions',
     });
     osfNestedResource(this, 'node', 'affiliatedInstitutions', {
-        only: ['create', 'delete', 'update'],
+        only: ['create', 'update'],
         path: '/nodes/:parentID/relationships/institutions',
         views: {
             create: institutionAdd,
-            delete: institutionDelete,
             update: institutionUpdate,
         },
     });
+
+    this.del('/nodes/:parentID/relationships/institutions', institutionDelete);
 
     osfResource(this, 'registration', { except: ['show'] });
     this.get('/registrations/:id', registrationDetail);
@@ -85,9 +86,12 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'registration', 'affiliatedInstitutions', {
+        only: ['index'],
         path: '/registrations/:parentID/institutions',
         relatedModelName: 'institution',
     });
+    this.post('/registrations/:parentID/relationships/institutions', institutionAdd);
+    this.del('/registrations/:parentID/relationships/institutions', institutionDelete);
     osfNestedResource(this, 'registration', 'identifiers', { only: ['index'] });
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
     osfNestedResource(this, 'comment', 'reports', {
@@ -105,13 +109,13 @@ export default function(this: Server) {
         path: '/collections/:parentID/linked_registrations',
     });
     osfNestedResource(this, 'collection', 'linkedRegistrations', {
-        only: ['create', 'delete'],
-        path: '/collections/:parentID/relationships/linked_registrations',
+        only: ['create'],
+        path: '/collections/:parentID/relationships/linked_registrations/',
         views: {
-            create: bookmarksRegistrationAdd,
-            delete: bookmarksRegistrationDelete,
+            create: updateBookmarks,
         },
     });
+    this.del('/collections/:parentID/relationships/linked_registrations/', updateBookmarks);
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
     osfResource(this, 'region', { only: ['index', 'show'] });

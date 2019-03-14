@@ -31,13 +31,13 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             },
             linkedRegistrations: {
                 links: {
-                    related: {
-                        href: `${apiUrl}/v2/registrations/${model.id}/linked_registrations/`,
-                        meta: this.buildRelatedLinkMeta(model, 'linkedRegistrations'),
-                    },
                     self: {
                         href: `${apiUrl}/v2/registrations/${model.id}/relationships/linked_registrations/`,
                         meta: {},
+                    },
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/linked_registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'linkedRegistrations'),
                     },
                 },
             },
@@ -59,6 +59,10 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             },
             affiliatedInstitutions: {
                 links: {
+                    self: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/relationships/institutions/`,
+                        meta: {},
+                    },
                     related: {
                         href: `${apiUrl}/v2/registrations/${model.id}/institutions/`,
                         meta: this.buildRelatedLinkMeta(model, 'affiliatedInstitutions'),

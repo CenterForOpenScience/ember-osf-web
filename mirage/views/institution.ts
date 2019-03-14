@@ -1,12 +1,19 @@
-import { HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
+import { HandlerContext, ModelInstance, Request, Response, Schema } from 'ember-cli-mirage';
+import { MirageNode } from '../factories/node';
+import { MirageRegistration } from '../factories/registration';
 
-export function institutionAdd(this: HandlerContext, schema: Schema, request: Request) {
+function getParentNode(schema: Schema, request: Request) {
+    const nodeType = request.url.split('/')[4];
     const { parentID } = request.params;
-    const node = schema.nodes.find(parentID);
+    if (nodeType === 'registrations') {
+        return schema.registrations.find(parentID) as ModelInstance<MirageRegistration>;
+    }
+    return schema.nodes.find(parentID) as ModelInstance<MirageNode>;
+}
 
-    const institutionIds: Array<number|string> = node.affiliatedInstitutionIds;
-
-    const institutionId = JSON.parse(this.request.requestBody).data[0].id;
+export function institutionAdd(this: HandlerContext, schema: Schema) {
+    const { data: [{ id: institutionId }] } = JSON.parse(this.request.requestBody);
+    const institutionIds: Array<number|string> = getParentNode(schema, this.request).affiliatedInstitutionIds;
 
     try {
         institutionIds.push(institutionId);
@@ -20,11 +27,9 @@ export function institutionAdd(this: HandlerContext, schema: Schema, request: Re
     return institutionIds;
 }
 
-export function institutionDelete(this: HandlerContext, schema: Schema, request: Request) {
-    const { id, parentID } = request.params;
-    const node = schema.nodes.find(parentID);
-
-    const institutionIds: Array<number|string> = node.affiliatedInstitutionIds;
+export function institutionDelete(this: HandlerContext, schema: Schema) {
+    const { data: [{ id }] } = JSON.parse(this.request.requestBody);
+    const institutionIds: Array<number|string> = getParentNode(schema, this.request).affiliatedInstitutionIds;
 
     try {
         institutionIds.splice(institutionIds.indexOf(id), 1);
@@ -37,8 +42,8 @@ export function institutionDelete(this: HandlerContext, schema: Schema, request:
     return institutionIds;
 }
 
-export function institutionUpdate(this: HandlerContext, schema: Schema, request: Request) {
-    const { institutionID } = request.params;
+export function institutionUpdate(this: HandlerContext, schema: Schema) {
+    const { institutionID } = this.request.params;
     const attrs = this.normalizedRequestAttrs('institution');
     const updatedInfo = schema.affiliatedInstitutions.find(institutionID).update(attrs);
 

@@ -21,18 +21,17 @@ export default class SharingIconsDropdown extends Component.extend({
         }
 
         const op = this.isBookmarked ? 'remove' : 'add';
-        let response;
 
         try {
             if (op === 'remove') {
                 this.bookmarksCollection.linkedRegistrations.removeObject(this.registration);
-                response = yield this.bookmarksCollection.deleteM2MRelationship(
+                yield this.bookmarksCollection.deleteM2MRelationship(
                     'linkedRegistrations',
                     this.registration,
                 );
             } else {
                 this.bookmarksCollection.linkedRegistrations.pushObject(this.registration);
-                response = yield this.bookmarksCollection.createM2MRelationship(
+                yield this.bookmarksCollection.createM2MRelationship(
                     'linkedRegistrations',
                     this.registration,
                 );
@@ -44,10 +43,7 @@ export default class SharingIconsDropdown extends Component.extend({
 
         this.toast.success(this.i18n.t(`registries.overview.update_bookmarks.${op}.success`));
 
-        if (response && response.data) {
-            const isBookmarked = Boolean(response.data.find((reg: Registration) => reg.id === this.registration.id));
-            this.set('isBookmarked', isBookmarked);
-        }
+        this.toggleProperty('isBookmarked');
     }).drop(),
     getBookmarksCollection: task(function *(this: SharingIconsDropdown) {
         const collections = yield this.store.findAll('collection', {
