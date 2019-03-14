@@ -26,26 +26,6 @@
                                 </div>
                                 <div local-class='MenuBody'>
                                     <p>{{t 'registries.overview.pendingInfo'}}</p>
-                                    <div local-class='RegisteredName'>
-                                        <h3>{{t 'registries.overview.registeredFrom'}}</h3>
-                                        <a>
-                                            {{t
-                                                'registries.overview.registryID'
-                                                id=@registration.id
-                                            }}
-                                        </a>
-                                    </div>
-                                    <div local-class='MenuButtons'>
-                                        <OsfButton @type='primary' @onClick={{action this.acceptRegistration}}>
-                                            {{t 'general.accept'}}
-                                        </OsfButton>
-                                        <OsfButton
-                                            @onClick={{action this.rejectRegistration}}
-                                            @type='danger'
-                                        >
-                                            {{t 'general.reject'}}
-                                        </OsfButton>
-                                    </div>
                                 </div>
                             </div>
                         </dropdown.menu>
@@ -62,21 +42,18 @@
                         local-class='Icon'
                         @icon='code-fork'
                     />
-                    <p>{{@forks}}</p>
                 </div>
                 <div local-class='IconBox'>
                     <FaIcon
                         local-class='Icon'
                         @icon='bookmark-o'
                     />
-                    <p>{{@bookmarks}}</p>
                 </div>
                 <div local-class='IconBox'>
                     <FaIcon
                         local-class='Icon'
                         @icon='share-alt'
                     />
-                    <p>{{@shares}}</p>
                 </div>
             </div>
         </div>
