@@ -1,8 +1,8 @@
 import { camelize, underscore } from '@ember/string';
-import { HandlerFunction, ModelInstance, resourceAction, Server } from 'ember-cli-mirage';
+import { HandlerFunction, ModelInstance, Request, resourceAction, Schema, Server } from 'ember-cli-mirage';
 import { RelationshipsFor } from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
-import { pluralize } from 'ember-inflector';
+import { pluralize, singularize } from 'ember-inflector';
 
 import { filter, process } from './utils';
 
@@ -144,6 +144,64 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
             server.del(detailPath, opts.views.delete);
         } else {
             server.del(detailPath, opts.relatedModelName);
+        }
+    }
+}
+
+export function osfM2MRelationshipResource<K extends keyof ModelRegistry>(
+    server: Server,
+    parentModelName: K,
+    relationshipName: string & RelationshipsFor<ModelRegistry[K]>,
+    options?: Partial<NestedResourceOptions>,
+) {
+    const opts: NestedResourceOptions = Object.assign({
+        path: `/${pluralize(underscore(parentModelName))}/:parentID/relationships/${underscore(relationshipName)}`,
+        relatedModelName: relationshipName,
+        defaultSortKey: '-id',
+        views: {},
+    }, options);
+    const mirageParentModelName = pluralize(camelize(parentModelName));
+    const actions = gatherActions(opts);
+
+    if (actions.includes('index')) {
+        const relationshipRelatedPath = opts.path.replace('relationships/', '');
+        server.get(relationshipRelatedPath, function(schema, request) {
+            const data = schema[mirageParentModelName]
+                .find(request.params.parentID)[relationshipName]
+                .models
+                .filter((m: ModelInstance) => filter(m, request))
+                .map((model: ModelInstance) => this.serialize(model).data);
+            return process(schema, request, this, data, { defaultSortKey: opts.defaultSortKey });
+        });
+    }
+
+    if (actions.includes('create')) {
+        if (opts.views.create) {
+            server.post(opts.path, opts.views.create);
+        } else {
+            server.post(opts.path, (schema: Schema, request: Request) => {
+                const { parentID } = request.params;
+                const parentModel = schema[mirageParentModelName].find(parentID);
+                const { data: [{ id: relatedModelId, type }] } = JSON.parse(request.requestBody);
+                const existingRelatedIds: Array<number|string> = parentModel[`${singularize(relationshipName)}Ids`];
+                existingRelatedIds.push(relatedModelId);
+                return { data: existingRelatedIds.map(id => ({ id, type })) };
+            });
+        }
+    }
+
+    if (actions.includes('delete')) {
+        if (opts.views.delete) {
+            server.del(opts.path, opts.views.delete);
+        } else {
+            server.del(opts.path, (schema: Schema, request: Request) => {
+                const { parentID } = request.params;
+                const parentModel = schema[mirageParentModelName].find(parentID);
+                const { data: [{ id: relatedModelId, type }] } = JSON.parse(request.requestBody);
+                const existingRelatedIds: Array<number|string> = parentModel[`${singularize(relationshipName)}Ids`];
+                existingRelatedIds.splice(existingRelatedIds.indexOf(relatedModelId), 1);
+                return { data: existingRelatedIds.map(id => ({ id, type })) };
+            });
         }
     }
 }

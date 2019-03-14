@@ -55,18 +55,18 @@ module('Unit | Model | osf-model', hooks => {
             const registration = await store.findRecord('registration', registrationOne.id);
             const institution = user.institutions.toArray()[0];
 
-            let response;
+            let response: {data: Array<{id: string, type: string}>};
             response = await registration.createM2MRelationship(
                 'affiliatedInstitutions',
                 institution,
             );
-            assert.ok(response.includes(institutionOne.id), 'createM2MRelationship works');
+            assert.ok(response.data.findBy('id', institutionOne.id), 'createM2MRelationship works');
 
             response = await registration.deleteM2MRelationship(
                 'affiliatedInstitutions',
                 institution,
             );
-            assert.ok(!response.includes(institutionOne.id), 'deleteM2MRelationship works');
+            assert.notOk(response.data.findBy('id', institutionOne.id), 'deleteM2MRelationship works');
         });
 
         server.shutdown();

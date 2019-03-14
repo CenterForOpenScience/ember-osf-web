@@ -1,6 +1,7 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
+import { t } from 'ember-i18n/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
 import { module, test } from 'qunit';
@@ -130,6 +131,37 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-registration-tags]').isVisible();
         assert.dom('[data-test-tags-widget-tag-input] input').isNotVisible();
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
+    });
+
+    test('bookmarks work', async assert => {
+        const reg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: Object.values(Permission),
+        });
+
+        server.create('collection', { title: 'Bookmarks', bookmarks: true });
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-social-sharing-button]').isVisible();
+        assert.dom('[data-test-bookmarks-button]').isNotVisible();
+
+        await click('[data-test-social-sharing-button]');
+        assert.dom('[data-test-bookmarks-button]').isVisible();
+
+        // Bookmark registration
+        await click('[data-test-bookmarks-button]');
+        await click('[data-test-social-sharing-button]');
+        assert.dom('[data-test-bookmarks-button]').hasText(
+            t('registries.overview.update_bookmarks.remove.text').toString(),
+        );
+
+        // Remove from bookmarks
+        await click('[data-test-bookmarks-button]');
+        await click('[data-test-social-sharing-button]');
+        assert.dom('[data-test-bookmarks-button]').hasText(
+            t('registries.overview.update_bookmarks.add.text').toString(),
+        );
     });
 
     test('Form navigation menu', async assert => {

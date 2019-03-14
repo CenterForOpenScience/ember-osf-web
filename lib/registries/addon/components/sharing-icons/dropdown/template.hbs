@@ -15,6 +15,9 @@
                 {{#if @showBookmark}}
                     <li role='menuitem' local-class='Dropdown__option'>
                         <OsfButton
+                            data-test-bookmarks-button
+                            data-analytics-name={{if this.isBookmarked 'Remove from bookmarks' 'Bookmark'}}
+                            data-analytics-extra='Registration ID: {{this.registration.id}}'
                             @type='link'
                             @onClick={{action (perform this.bookmark)}}
                             @bubble={{true}}
