@@ -66,6 +66,14 @@ module('Unit | Model | registration', hooks => {
         assert.equal(model.get('state'), 'PendingEmbargoTermination');
     });
 
+    test('state returns pendingEmbargoTerminationApproval if both it and embargo true', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
+        model.set('public', true);
+        model.set('pendingWithdrawal', true);
+
+        assert.equal(model.get('state'), 'PendingWithdrawal');
+    });
+
     test('state updates when the model changes', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
         model.set('embargoed', true);
