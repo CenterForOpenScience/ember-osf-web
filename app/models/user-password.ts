@@ -7,10 +7,10 @@ import UserModel from './user';
 const { Model } = DS;
 
 const Validations = buildValidations({
-    currentPassword: [
+    existingPassword: [
         validator('presence', true),
     ],
-    password: [
+    newPassword: [
         validator('presence', true),
         validator('length', {
             max: 255,
@@ -21,14 +21,14 @@ const Validations = buildValidations({
         }),
         validator('mismatch', {
             messageKey: 'validationErrors.password_old',
-            on: 'currentPassword',
+            on: 'existingPassword',
         }),
     ],
     confirmPassword: [
         validator('presence', true),
         validator('confirmation', {
             messageKey: 'validationErrors.password_match',
-            on: 'password',
+            on: 'newPassword',
         }),
     ],
 }, {
@@ -36,8 +36,8 @@ const Validations = buildValidations({
 });
 
 export default class UserPasswordModel extends Model.extend(Validations) {
-    @attr('string') currentPassword!: string;
-    @attr('string') password!: string;
+    @attr('string') existingPassword!: string;
+    @attr('string') newPassword!: string;
     @attr('string') confirmPassword!: string;
 
     @belongsTo('user')

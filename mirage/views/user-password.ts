@@ -2,10 +2,10 @@ import { HandlerContext, Response } from 'ember-cli-mirage';
 
 export function updatePassword(this: HandlerContext) {
     const attrs = this.normalizedRequestAttrs('user-password');
-    const currentPassword = 'oldpassword';
+    const existingPassword = 'oldpassword';
 
-    if (attrs.currentPassword !== undefined) {
-        if (attrs.currentPassword === currentPassword) {
+    if (attrs.existingPassword !== undefined) {
+        if (attrs.existingPassword === existingPassword) {
             return new Response(204, undefined, undefined);
         }
         return new Response(409, { 'Content-Type': 'application/vnd.api+json' }, {

@@ -13,7 +13,7 @@
                 label=(t 'settings.account.changePassword.currentPassword.placeholder')
                 password=true
                 model=this.userPassword
-                valuePath='currentPassword'
+                valuePath='existingPassword'
                 shouldShowMessages=this.didValidate
                 placeholder=(t 'settings.account.changePassword.currentPassword.placeholder')
                 ariaLabel=(t 'settings.account.changePassword.currentPassword.placeholder')
@@ -23,13 +23,13 @@
                 label=(t 'settings.account.changePassword.newPassword.placeholder')
                 password=true
                 model=this.userPassword
-                valuePath='password'
+                valuePath='newPassword'
                 shouldShowMessages=this.didValidate
                 placeholder=(t 'settings.account.changePassword.newPassword.placeholder')
                 ariaLabel=(t 'settings.account.changePassword.newPassword.placeholder')
             }}
             <PasswordStrengthBar
-                @password={{this.userPassword.password}}
+                @password={{this.userPassword.newPassword}}
                 @model={{this.userPassword}}
             />
             {{validated-input/text

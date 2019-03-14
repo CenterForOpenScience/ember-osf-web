@@ -33,9 +33,9 @@ export default class PasswordStrengthBar extends Component.extend({
     @service passwordStrength!: PasswordStrength;
     message: string = '';
     shouldShowMessage: boolean = false;
-    @alias('model.validations.attrs.password.message')
+    @alias('model.validations.attrs.newPassword.message')
         hasValidationMessage!: boolean;
-    @alias('model.validations.attrs.password.isValidating')
+    @alias('model.validations.attrs.newPassword.isValidating')
         isValidating!: boolean;
 
     @computed('password', 'strength.lastSuccessful.value.score', 'hasValidationMessage')

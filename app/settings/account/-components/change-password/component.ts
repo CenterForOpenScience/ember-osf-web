@@ -24,6 +24,7 @@ export default class ChangePasswordPane extends Component.extend({
 
         try {
             yield this.userPassword.save();
+            location.reload();
         } catch (e) {
             this.toast.error(errorMessage);
         } finally {
