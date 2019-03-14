@@ -43,6 +43,6 @@ export default class RegistriesOverviewMenu extends Component.extend({
 
     @computed('registration.state')
     get isWithdrawn(this: RegistriesOverviewMenu): boolean {
-        return this.registration.state === RegistrationState.withdrawn;
+        return this.registration.state === RegistrationState.Withdrawn;
     }
 }

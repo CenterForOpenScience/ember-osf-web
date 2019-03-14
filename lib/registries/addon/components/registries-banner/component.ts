@@ -13,28 +13,28 @@ import styles from './styles';
 import template from './template';
 
 const stateToBannerMap: Record<RegistrationState, {text: string, type: string}> = {
-    pendingRegistrationApproval: {
+    PendingRegistration: {
         text: 'registries.overview.pendingRegistrationApproval.banner',
         type: 'info',
     },
-    pendingWithdrawal: {
+    PendingWithdrawal: {
         text: 'registries.overview.pendingWithdrawal.banner',
         type: 'info',
     },
-    pendingEmbargoApproval: {
+    PendingEmbargo: {
         text: 'registries.overview.pendingEmbargoApproval.banner',
         type: 'info',
     },
-    pendingEmbargoTerminationApproval: {
+    PendingEmbargoTermination: {
         text: 'registries.overview.pendingEmbargoTerminationApproval.banner',
         type: 'danger',
     },
-    embargoed: {
+    Embargoed: {
         text: 'registries.overview.embargoed.banner',
         type: 'danger',
     },
-    public: { text: '', type: '' },
-    withdrawn: { text: '', type: '' },
+    Public: { text: '', type: '' },
+    Withdrawn: { text: '', type: '' },
 };
 
 const { OSF: { url: baseURL } } = config;

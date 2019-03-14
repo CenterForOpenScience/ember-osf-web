@@ -10,60 +10,68 @@ module('Unit | Model | registration', hooks => {
         assert.ok(!!model);
     });
 
-    test('registraiton state selects public as default', function(assert) {
+    test('state selects public as default', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
 
-        assert.equal(model.get('state'), 'public');
+        assert.equal(model.get('state'), 'Public');
     });
 
-    test('registration state returns pendingRegistrationApproval if field is true', function(assert) {
+    test('state returns pendingRegistrationApproval if field is true', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
         model.set('pendingRegistrationApproval', true);
 
-        assert.equal(model.get('state'), 'pendingRegistrationApproval');
+        assert.equal(model.get('state'), 'PendingRegistration');
     });
 
-    test('registration state returns pendingEmbargoApproval if field is true', function(assert) {
+    test('state returns pendingEmbargoApproval if field is true', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
         model.set('pendingEmbargoApproval', true);
 
-        assert.equal(model.get('state'), 'pendingEmbargoApproval');
+        assert.equal(model.get('state'), 'PendingEmbargo');
     });
 
-    test('registration state return pendingEmbargoTerminationApproval if field is true', function(assert) {
+    test('state return pendingEmbargoTerminationApproval if field is true', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
         model.set('pendingEmbargoTerminationApproval', true);
 
-        assert.equal(model.get('state'), 'pendingEmbargoTerminationApproval');
+        assert.equal(model.get('state'), 'PendingEmbargoTermination');
     });
 
-    test('registartion state returns pendingWithdrawal if field is true', function(assert) {
+    test('state returns pendingWithdrawal if field is true', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
         model.set('pendingWithdrawal', true);
 
-        assert.equal(model.get('state'), 'pendingWithdrawal');
+        assert.equal(model.get('state'), 'PendingWithdrawal');
     });
 
-    test('registartion state returns withdrawn if field is true', function(assert) {
+    test('state returns withdrawn if field is true', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
         model.set('withdrawn', true);
 
-        assert.equal(model.get('state'), 'withdrawn');
+        assert.equal(model.get('state'), 'Withdrawn');
     });
 
-    test('registration state returns embargoed if field is true', function(assert) {
+    test('state returns embargoed if field is true', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
         model.set('embargoed', true);
 
-        assert.equal(model.get('state'), 'embargoed');
+        assert.equal(model.get('state'), 'Embargoed');
     });
 
-    test('registration state updates when the model changes', function(assert) {
+    test('state returns pendingEmbargoTerminationApproval if both it and embargo true', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
         model.set('embargoed', true);
-        assert.equal(model.get('state'), 'embargoed');
+        model.set('pendingEmbargoTerminationApproval', true);
+
+        assert.equal(model.get('state'), 'PendingEmbargoTermination');
+    });
+
+    test('state updates when the model changes', function(assert) {
+        const model = run(() => this.owner.lookup('service:store').createRecord('registration'));
+        model.set('embargoed', true);
+        assert.equal(model.get('state'), 'Embargoed');
 
         model.set('withdrawn', true);
-        assert.equal(model.get('state'), 'withdrawn');
+        assert.equal(model.get('state'), 'Withdrawn');
     });
 });

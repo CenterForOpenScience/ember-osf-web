@@ -11,13 +11,13 @@ import RegistryProviderModel from './registry-provider';
 import UserModel from './user';
 
 export enum RegistrationState {
-    embargoed = 'embargoed',
-    public = 'public',
-    withdrawn = 'withdrawn',
-    pendingRegistrationApproval = 'pendingRegistrationApproval',
-    pendingWithdrawal = 'pendingWithdrawal',
-    pendingEmbargoApproval = 'pendingEmbargoApproval',
-    pendingEmbargoTerminationApproval = 'pendingEmbargoTerminationApproval',
+    Embargoed = 'Embargoed',
+    Public = 'Public',
+    Withdrawn = 'Withdrawn',
+    PendingRegistration = 'PendingRegistration',
+    PendingWithdrawal = 'PendingWithdrawal',
+    PendingEmbargo = 'PendingEmbargo',
+    PendingEmbargoTermination = 'PendingEmbargoTermination',
 }
 
 export default class RegistrationModel extends NodeModel.extend() {
@@ -49,7 +49,7 @@ export default class RegistrationModel extends NodeModel.extend() {
             .filter((key: string) => stateMap[key])
             .map(activeState => activeState)[0];
 
-        return currentState || RegistrationState.public;
+        return currentState || RegistrationState.Public;
     }
 
     @belongsTo('node', { inverse: 'registrations' })
@@ -91,14 +91,15 @@ export default class RegistrationModel extends NodeModel.extend() {
             withdrawn,
             embargoed,
         } = this;
+        const embargo = embargoed && !pendingEmbargoTerminationApproval;
 
         return {
-            pendingRegistrationApproval,
-            pendingEmbargoApproval,
-            pendingEmbargoTerminationApproval,
-            pendingWithdrawal,
-            withdrawn,
-            embargoed,
+            PendingRegistration: pendingRegistrationApproval,
+            PendingEmbargo: pendingEmbargoApproval,
+            PendingEmbargoTermination: pendingEmbargoTerminationApproval,
+            PendingWithdrawal: pendingWithdrawal,
+            Withdrawn: withdrawn,
+            Embargoed: embargo,
         };
     }
 }
