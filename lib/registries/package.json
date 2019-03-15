@@ -17,6 +17,7 @@
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
     "ember-component-attributes": "*",
+    "ember-composable-helpers": "*",
     "ember-content-placeholders": "*",
     "ember-cookies": "*",
     "ember-css-modules": "*",

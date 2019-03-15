@@ -11,6 +11,7 @@ import template from './template';
 export default class InstitutionSelectList extends Component {
     // optional properties
     analyticsScope: string = defaultTo(this.analyticsScope, '');
+    usePlaceholders: boolean = defaultTo(this.usePlaceholders, false);
 
     // private properties
     @service analytics!: Analytics;

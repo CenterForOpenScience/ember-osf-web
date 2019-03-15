@@ -3,6 +3,7 @@
     model=@model
     relationshipName='institutions'
     analyticsScope='User Institutions'
+    usePlaceholders=this.usePlaceholders
     as |list|
 }}
     <list.item as |institution|>
@@ -31,4 +32,7 @@
             </ContentPlaceholders>
         {{/if}}
     </list.item>
+    <list.empty>
+        {{t 'osf-components.institutions-widget.no_affiliated_institution.user'}}
+    </list.empty>
 {{/paginated-list/has-many}}

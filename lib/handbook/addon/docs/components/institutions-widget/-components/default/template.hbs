@@ -1,10 +1,19 @@
 <DocsDemo as |demo|>
     <demo.example @name='institutions-widget.default.hbs'>
+        {{! BEGIN-SNIPPET institutions-widget.default.hbs }}
         <InstitutionsWidget
             @node={{@node}}
-            @hasAffiliations={{true}}
             @analyticsScope='Handbook'
+            @shouldShowModal={{this.shouldShowEditableIfAdmin}}
         />
+        {{! END-SNIPPET }}
+
+        <OsfButton
+            @type='link'
+            @onClick={{action (mut this.shouldShowEditableIfAdmin) true}}
+        >
+            Edit
+        </OsfButton>
     </demo.example>
 
     <demo.snippet @name='institutions-widget.default.hbs' />

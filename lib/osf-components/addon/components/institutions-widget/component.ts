@@ -64,6 +64,7 @@ export default class InstitutionWidget extends Component.extend({
     // optional properties
     readOnly: boolean = defaultTo(this.readOnly, false);
     analyticsScope: string = defaultTo(this.analyticsScope, '');
+    shouldShowModal: boolean = defaultTo(this.shouldShowModal, false);
     node?: Node;
     hasAffiliations: boolean = true;
 
@@ -73,7 +74,6 @@ export default class InstitutionWidget extends Component.extend({
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
     @service toast!: Toast;
-    shouldShowModal: boolean = false;
     affiliatedList: Institution[] = [];
 
     init() {

@@ -45,13 +45,18 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
 
     server.create('registration', { id: 'beefs' });
 
-    server.create('registration', {
+    const reg = server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
+    }, 'withContributors', 'withComments', 'withDoi', 'withLicense', 'withAffiliatedInstitutions');
+
+    // User affiliated institution list
+    const affiliatedInstitutionCount = faker.random.number({ min: 0, max: 5 });
+    server.createList('institution', affiliatedInstitutionCount, { users: [currentUser], registrations: [reg] });
+
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
 }
