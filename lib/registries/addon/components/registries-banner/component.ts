@@ -12,31 +12,6 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
 import template from './template';
 
-const stateToBannerMap: Record<RegistrationState, {text: string, type: string}> = {
-    PendingRegistration: {
-        text: 'registries.overview.pendingRegistrationApproval.banner',
-        type: 'info',
-    },
-    PendingWithdrawal: {
-        text: 'registries.overview.pendingWithdrawal.banner',
-        type: 'info',
-    },
-    PendingEmbargo: {
-        text: 'registries.overview.pendingEmbargoApproval.banner',
-        type: 'info',
-    },
-    PendingEmbargoTermination: {
-        text: 'registries.overview.pendingEmbargoTerminationApproval.banner',
-        type: 'danger',
-    },
-    Embargoed: {
-        text: 'registries.overview.embargoed.banner',
-        type: 'danger',
-    },
-    Public: { text: '', type: '' },
-    Withdrawn: { text: '', type: '' },
-};
-
 const { OSF: { url: baseURL } } = config;
 
 @layout(template, styles)
@@ -54,7 +29,47 @@ export default class RegistriesBanner extends Component {
 
     @computed('registration.state')
     get stateBanner(this: RegistriesBanner) {
-        return stateToBannerMap[this.registration.state];
+        const {
+            registration,
+        } = this;
+        const {
+            PendingRegistration,
+            PendingWithdrawal,
+            PendingEmbargo,
+            PendingEmbargoTermination,
+            Embargoed,
+        } = RegistrationState;
+        const banner = { text: '', type: '' };
+
+        switch (registration.state) {
+        case PendingRegistration:
+            return {
+                text: 'registries.overview.pendingRegistrationApproval.banner',
+                type: 'info',
+            };
+        case PendingWithdrawal:
+            return {
+                text: 'registries.overview.pendingWithdrawal.banner',
+                type: 'info',
+            };
+        case PendingEmbargo:
+            return {
+                text: 'registries.overview.pendingEmbargoApproval.banner',
+                type: 'info',
+            };
+        case PendingEmbargoTermination:
+            return {
+                text: 'registries.overview.pendingEmbargoTerminationApproval.banner',
+                type: 'danger',
+            };
+        case Embargoed:
+            return {
+                text: 'registries.overview.embargoed.banner',
+                type: 'danger',
+            };
+        default:
+            return banner;
+        }
     }
 
     @computed('registration.registeredFrom.id')
