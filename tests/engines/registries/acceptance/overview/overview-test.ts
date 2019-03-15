@@ -72,7 +72,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
             await visit(`/${this.registration.id}/`);
 
-            assert.dom('[data-test-banner="embargoed"]').isVisible();
+            assert.dom('[data-test-banner="Embargoed"]').isVisible();
             assert.dom('[data-test-registration-title]').isVisible();
         });
 
@@ -84,7 +84,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
             await visit(`/${this.registration.id}/`);
 
-            assert.dom('[data-test-banner="embargoed"]').isVisible();
+            assert.dom('[data-test-banner="Embargoed"]').isVisible();
             assert.dom('[data-test-registration-title]').isVisible();
         });
 
