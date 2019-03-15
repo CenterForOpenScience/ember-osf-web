@@ -44,10 +44,9 @@ export default class RegistrationModel extends NodeModel.extend() {
         'pendingEmbargoApproval', 'pendingEmbargoTerminationApproval',
         'pendingWithdrawal')
     get state(): RegistrationState {
-        const stateMap = this.registrationStateMap();
+        const stateMap: any = this.registrationStateMap();
         const currentState: any = Object.keys(stateMap)
-            .filter((key: string) => stateMap[key])
-            .map(activeState => activeState)[0];
+            .filter(key => stateMap[key])[0];
 
         return currentState || RegistrationState.Public;
     }
@@ -82,7 +81,7 @@ export default class RegistrationModel extends NodeModel.extend() {
     @hasMany('institution', { inverse: 'registrations' })
     affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
 
-    registrationStateMap(): any {
+    registrationStateMap(): Record<RegistrationState, boolean> {
         const {
             pendingRegistrationApproval,
             pendingEmbargoApproval,
@@ -100,6 +99,7 @@ export default class RegistrationModel extends NodeModel.extend() {
             PendingWithdrawal: pendingWithdrawal,
             Withdrawn: withdrawn,
             Embargoed: embargo,
+            Public: !pendingWithdrawal,
         };
     }
 }
