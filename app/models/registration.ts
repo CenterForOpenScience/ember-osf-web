@@ -45,8 +45,9 @@ export default class RegistrationModel extends NodeModel.extend() {
         'pendingWithdrawal')
     get state(): RegistrationState {
         const stateMap: any = this.registrationStateMap();
-        const currentState: any = Object.keys(stateMap)
-            .filter(key => stateMap[key])[0];
+        const currentState: RegistrationState = Object.keys(stateMap)
+            .filter(active => stateMap[active])
+            .map(key => RegistrationState[key as keyof typeof RegistrationState])[0];
 
         return currentState || RegistrationState.Public;
     }
