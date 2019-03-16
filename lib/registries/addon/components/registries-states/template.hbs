@@ -6,7 +6,7 @@
             {{registries-states/actions-trigger isOpen=dd.isOpen registration=@registration}}
         {{/dd.trigger}}
         {{#dd.content local-class='States'}}
-            {{#if (eq this.registration.state 'public')}}
+            {{#if (eq this.registration.state this.public)}}
                 {{registries-states/is-public registration=@registration closeDropdown=dd.close}}
             {{else}}
                 {{registries-states/is-embargoed registration=@registration closeDropdown=dd.close}}
