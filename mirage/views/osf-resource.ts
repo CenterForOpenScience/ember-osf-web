@@ -1,5 +1,5 @@
 import { camelize, underscore } from '@ember/string';
-import { HandlerFunction, ModelInstance, Request, resourceAction, Schema, Server } from 'ember-cli-mirage';
+import { HandlerFunction, ModelInstance, Request, resourceAction, Response, Schema, Server } from 'ember-cli-mirage';
 import { RelationshipsFor } from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { pluralize, singularize } from 'ember-inflector';
@@ -148,7 +148,7 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     }
 }
 
-export function osfM2MRelationshipResource<K extends keyof ModelRegistry>(
+export function osfToManyRelationship<K extends keyof ModelRegistry>(
     server: Server,
     parentModelName: K,
     relationshipName: string & RelationshipsFor<ModelRegistry[K]>,
@@ -183,9 +183,16 @@ export function osfM2MRelationshipResource<K extends keyof ModelRegistry>(
                 const { parentID } = request.params;
                 const parentModel = schema[mirageParentModelName].find(parentID);
                 const { data: [{ id: relatedModelId, type }] } = JSON.parse(request.requestBody);
-                const existingRelatedIds: Array<number|string> = parentModel[`${singularize(relationshipName)}Ids`];
-                existingRelatedIds.push(relatedModelId);
-                return { data: existingRelatedIds.map(id => ({ id, type })) };
+                const relatedIdsKey = `${singularize(relationshipName)}Ids`;
+                if (parentModel[relatedIdsKey].includes(relatedModelId)) {
+                    return new Response(409, {}, {
+                        errors: [{ detail: 'Conflict.' }],
+                    });
+                }
+                parentModel.update({
+                    [relatedIdsKey]: [...parentModel[relatedIdsKey], relatedModelId],
+                });
+                return { data: parentModel[relatedIdsKey].map((id: string) => ({ id, type })) };
             });
         }
     }
@@ -198,9 +205,13 @@ export function osfM2MRelationshipResource<K extends keyof ModelRegistry>(
                 const { parentID } = request.params;
                 const parentModel = schema[mirageParentModelName].find(parentID);
                 const { data: [{ id: relatedModelId, type }] } = JSON.parse(request.requestBody);
-                const existingRelatedIds: Array<number|string> = parentModel[`${singularize(relationshipName)}Ids`];
-                existingRelatedIds.splice(existingRelatedIds.indexOf(relatedModelId), 1);
-                return { data: existingRelatedIds.map(id => ({ id, type })) };
+                const relatedIdsKey = `${singularize(relationshipName)}Ids`;
+                const relatedIds: Array<number|string> = parentModel[relatedIdsKey];
+                relatedIds.splice(relatedIds.indexOf(relatedModelId), 1);
+                parentModel.update({
+                    [relatedIdsKey]: relatedIds,
+                });
+                return { data: relatedIds.map(id => ({ id, type })) };
             });
         }
     }

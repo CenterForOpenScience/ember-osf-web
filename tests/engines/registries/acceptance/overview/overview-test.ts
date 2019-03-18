@@ -6,6 +6,7 @@ import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
+import { MirageCollection } from 'ember-osf-web/mirage/factories/collection';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import { click, visit } from 'ember-osf-web/tests/helpers';
@@ -139,7 +140,10 @@ module('Registries | Acceptance | overview.overview', hooks => {
             currentUserPermissions: Object.values(Permission),
         });
 
-        server.create('collection', { title: 'Bookmarks', bookmarks: true });
+        const bookmarksColl = server.create(
+            'collection',
+            { title: 'Bookmarks', bookmarks: true },
+        ) as ModelInstance<MirageCollection>;
 
         await visit(`/${reg.id}/`);
 
@@ -156,12 +160,18 @@ module('Registries | Acceptance | overview.overview', hooks => {
             t('registries.overview.update_bookmarks.remove.text').toString(),
         );
 
+        bookmarksColl.reload();
+        assert.ok(bookmarksColl.linkedRegistrationIds.includes(reg.id));
+
         // Remove from bookmarks
         await click('[data-test-bookmarks-button]');
         await click('[data-test-social-sharing-button]');
         assert.dom('[data-test-bookmarks-button]').hasText(
             t('registries.overview.update_bookmarks.add.text').toString(),
         );
+
+        bookmarksColl.reload();
+        assert.notOk(bookmarksColl.linkedRegistrationIds.includes(reg.id));
     });
 
     test('Form navigation menu', async assert => {

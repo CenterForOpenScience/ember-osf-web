@@ -9,7 +9,7 @@ import template from './template';
 @layout(template, styles)
 export default class RegistriesStates extends Component {
     registration!: RegistrationModel;
-    public!: RegistrationState.Public;
+    public = RegistrationState.Public;
 
     @computed('registration.userHasAdminPermission', 'registration.state', 'registration.isRoot')
     get isDisabled(this: RegistriesStates): boolean {

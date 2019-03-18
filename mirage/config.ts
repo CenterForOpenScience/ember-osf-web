@@ -6,7 +6,7 @@ import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { createNode } from './views/node';
-import { osfM2MRelationshipResource, osfNestedResource, osfResource } from './views/osf-resource';
+import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
@@ -52,7 +52,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
-    osfM2MRelationshipResource(this, 'node', 'affiliatedInstitutions', {
+    osfToManyRelationship(this, 'node', 'affiliatedInstitutions', {
         only: ['index', 'create', 'delete'],
         path: '/nodes/:parentID/relationships/institutions',
     });
@@ -73,7 +73,7 @@ export default function(this: Server) {
     this.post('/registrations/:id/forks', createRegistrationFork);
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
-    osfM2MRelationshipResource(this, 'registration', 'affiliatedInstitutions', {
+    osfToManyRelationship(this, 'registration', 'affiliatedInstitutions', {
         only: ['index', 'create', 'delete'],
         path: '/registrations/:parentID/relationships/institutions',
     });
@@ -89,8 +89,9 @@ export default function(this: Server) {
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
 
     osfResource(this, 'collection');
-    osfM2MRelationshipResource(this, 'collection', 'linkedRegistrations', {
+    osfToManyRelationship(this, 'collection', 'linkedRegistrations', {
         only: ['index', 'create', 'delete'],
+        relatedModelName: 'registration',
     });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
