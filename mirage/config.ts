@@ -53,7 +53,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
     osfToManyRelationship(this, 'node', 'affiliatedInstitutions', {
-        only: ['index', 'create', 'delete'],
+        only: ['related', 'add', 'remove'],
         path: '/nodes/:parentID/relationships/institutions',
     });
 
@@ -74,7 +74,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
     osfToManyRelationship(this, 'registration', 'affiliatedInstitutions', {
-        only: ['index', 'create', 'delete'],
+        only: ['related', 'add', 'remove'],
         path: '/registrations/:parentID/relationships/institutions',
     });
     osfNestedResource(this, 'registration', 'identifiers', { only: ['index'] });
@@ -90,8 +90,7 @@ export default function(this: Server) {
 
     osfResource(this, 'collection');
     osfToManyRelationship(this, 'collection', 'linkedRegistrations', {
-        only: ['index', 'create', 'delete'],
-        relatedModelName: 'registration',
+        only: ['related', 'add', 'remove'],
     });
 
     osfResource(this, 'scope', { only: ['index', 'show'] });
