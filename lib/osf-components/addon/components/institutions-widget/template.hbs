@@ -8,7 +8,6 @@
     <BsModal
         @open={{this.shouldShowModal}}
         @onHidden={{action (mut this.shouldShowModal) false}}
-        @class={{local-class 'SelectList'}}
         as |modal|
     >
         <modal.header>

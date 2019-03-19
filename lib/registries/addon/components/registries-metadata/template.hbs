@@ -86,13 +86,13 @@
 
         <div local-class='Field'>
             <EditableField
+                data-analytics-scope='Affiliated institutions'
                 @registration={{this.registration}}
-                @title='registries.registration_metadata.affiliated_institutions'
-                @analyticsName='Add/Remove affiliated institution - open_modal'
+                @title={{t 'registries.registration_metadata.affiliated_institutions'}}
             as |editable|>
                 <InstitutionsWidget
+                    data-analytics-scope='Registries overview'
                     @node={{this.registration}}
-                    @analyticsScope='Registries overview'
                     @shouldShowModal={{editable.showEditable}}
                 />
             </EditableField>

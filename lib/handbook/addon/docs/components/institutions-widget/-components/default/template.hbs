@@ -2,8 +2,8 @@
     <demo.example @name='institutions-widget.default.hbs'>
         {{! BEGIN-SNIPPET institutions-widget.default.hbs }}
         <InstitutionsWidget
+            data-analytics-scope='Handbook'
             @node={{@node}}
-            @analyticsScope='Handbook'
             @shouldShowModal={{this.shouldShowEditableIfAdmin}}
         />
         {{! END-SNIPPET }}

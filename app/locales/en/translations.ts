@@ -1359,7 +1359,8 @@ export default {
             no_affiliations: 'No affiliations to add',
             no_affiliated_institution: {
                 user: 'You have no institutional affiliations',
-                node: 'This {{nodeType}} has no affiliated institutions',
+                project: 'This project has no affiliated institutions',
+                registration: 'This registration has no affiliated institutions',
             },
         },
     },

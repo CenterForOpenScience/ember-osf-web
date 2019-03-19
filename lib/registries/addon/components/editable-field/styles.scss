@@ -1,19 +1,13 @@
 .Editable {
     display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 
-    :global(.btn.btn-link) {
+    .EditButton {
         padding: 0;
-        margin-left: 15px;
-        color: $primary-blue;
-
-        :global(.fa.fa-pencil) {
-            position: relative;
-            top: 5px;
-        }
 
         &:hover,
         &:focus {
-            outline: 0;
             color: $secondary-blue;
         }
     }

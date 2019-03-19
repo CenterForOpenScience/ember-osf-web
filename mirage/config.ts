@@ -60,19 +60,6 @@ export default function(this: Server) {
     osfResource(this, 'registration', { except: ['show'] });
     this.get('/registrations/:id', registrationDetail);
     osfNestedResource(this, 'registration', 'children');
-    osfNestedResource(this, 'registration', 'affiliatedInstitutions', {
-        only: ['index'],
-        path: '/registrations/:parentID/institutions',
-    });
-    osfNestedResource(this, 'registration', 'affiliatedInstitutions', {
-        only: ['create', 'update'],
-        path: '/registrations/:parentID/relationships/institutions',
-        views: {
-            create: institutionAdd,
-            update: institutionUpdate,
-        },
-    });
-    this.del('/registrations/:parentID/relationships/institutions', institutionDelete);
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
     this.post('/registrations/:id/forks', forkRegistration);
 

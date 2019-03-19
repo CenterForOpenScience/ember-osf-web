@@ -10,19 +10,21 @@
         {{#if institution}}
             <li data-test-institution=institution.id>
                 <label local-class='label'>
-                    <OsfButton
-                        data-test-institution-button
-                        data-analytics-name='Add/Remove'
-                        local-class='addRemoveButton'
-                        @type='link'
-                        @disabled={{or this.addTask.isRunning this.removeTask.isRunning}}
-                        @onClick={{if (contains institution @affiliatedList) (action @remove institution) (action @add institution)}}
-                    >
-                        <FaIcon
-                            local-class='institutionIcon'
-                            @icon={{if (contains institution @affiliatedList) 'minus' 'plus'}}
-                        />
-                    </OsfButton>
+                    {{#let (contains institution @affiliatedList) as |isAffiliated|}}
+                        <OsfButton
+                            data-test-institution-button
+                            data-analytics-name={{if isAffiliated 'Remove' 'Add'}}
+                            local-class='addRemoveButton'
+                            @type='link'
+                            @disabled={{or this.addTask.isRunning this.removeTask.isRunning}}
+                            @onClick={{if isAffiliated (action @remove institution) (action @add institution)}}
+                        >
+                            <FaIcon
+                                local-class='institutionIcon'
+                                @icon={{if isAffiliated 'minus' 'plus'}}
+                            />
+                        </OsfButton>
+                    {{/let}}
                     {{institution.name}}
                 </label>
             </li>

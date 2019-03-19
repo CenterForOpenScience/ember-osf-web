@@ -26,8 +26,11 @@
             </div>
         </list.item>
         <list.empty>
-            {{t 'osf-components.institutions-widget.no_affiliated_institution.node'
-                nodeType=(if @node.isRegistration 'registration' 'project')}}
+            {{#if @node.isRegistration}}
+                {{t 'osf-components.institutions-widget.no_affiliated_institution.registration'}}
+            {{else}}
+                {{t 'osf-components.institutions-widget.no_affiliated_institution.project'}}
+            {{/if}}
         </list.empty>
     {{/paginated-list/has-many}}
 </div>
