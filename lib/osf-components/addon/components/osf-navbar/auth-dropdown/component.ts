@@ -55,7 +55,7 @@ export class AuthBase extends Component {
 
     @computed('signUpURL', 'signUpNext')
     get signUpRoute() {
-        return this.features.isEnabled(featureFlagNames.routes.register) ? 'register' :
+        return this.features.isEnabled(featureFlagNames.routes.register) ? `register?${param(this.signUpQueryParams)}` :
             `${this.signUpURL}?${param(this.signUpQueryParams)}`;
     }
 
