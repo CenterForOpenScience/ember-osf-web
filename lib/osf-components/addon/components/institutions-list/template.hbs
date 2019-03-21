@@ -4,6 +4,7 @@
         relationshipName='affiliatedInstitutions'
         bindReload=@reloadList
         analyticsScope='Project Institutions'
+        usePlaceholders=this.usePlaceholders
         as |list|
     }}
         <list.item as |institution|>
@@ -24,5 +25,12 @@
                 {{/if}}
             </div>
         </list.item>
+        <list.empty>
+            {{#if @node.isRegistration}}
+                {{t 'osf-components.institutions-widget.no_affiliated_institution.registration'}}
+            {{else}}
+                {{t 'osf-components.institutions-widget.no_affiliated_institution.project'}}
+            {{/if}}
+        </list.empty>
     {{/paginated-list/has-many}}
 </div>

@@ -83,11 +83,21 @@
             <h4>{{t 'registries.registration_metadata.publication_doi'}}</h4>
         </div>
         --}}
-        {{!--
+
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.affiliated_institutions'}}</h4>
+            <EditableField
+                data-analytics-scope='Affiliated institutions'
+                @registration={{this.registration}}
+                @title={{t 'registries.registration_metadata.affiliated_institutions'}}
+            as |editable|>
+                <InstitutionsWidget
+                    data-analytics-scope='Registries overview'
+                    @node={{this.registration}}
+                    @shouldShowModal={{editable.showEditable}}
+                />
+            </EditableField>
         </div>
-        --}}
+
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.license'}}</h4>
             {{#if this.registration.license}}

@@ -1357,6 +1357,11 @@ export default {
             add_institution_error: 'Error adding institution',
             remove_institution_error: 'Error removing institution',
             no_affiliations: 'No affiliations to add',
+            no_affiliated_institution: {
+                user: 'You have no institutional affiliations',
+                project: 'This project has no affiliated institutions',
+                registration: 'This registration has no affiliated institutions',
+            },
         },
     },
     settings: {
