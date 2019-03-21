@@ -1,28 +1,4 @@
 <div data-test-institutions-widget>
-    <div local-class='InstitutionWidget__title'>
-        {{t 'osf-components.institutions-widget.affiliated_institutions'}}
-        {{#if (not this.readOnly)}}
-            <OsfButton
-               data-test-add-institution-button
-               aria-label={{t 'general.add'}}
-                data-analytics-name='Add Affiliation - open_modal'
-               @type='link'
-               @onClick={{action this.showModal}}
-               @disabled={{not @hasAffiliations}}
-            >
-                <span>
-                    <FaIcon @icon='pencil' />
-                    {{#if (not @hasAffiliations)}}
-                        <BsTooltip
-                            @autoPlacement={{false}}
-                        >
-                            {{t 'osf-components.institutions-widget.no_affiliations'}}
-                        </BsTooltip>
-                    {{/if}}
-                </span>
-            </OsfButton>
-        {{/if}}
-    </div>
     <span>
         <InstitutionsList
             @reloadList={{action (mut this.reloadList)}}

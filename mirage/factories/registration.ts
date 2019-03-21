@@ -19,6 +19,7 @@ export interface RegistrationTraits {
     isPendingWithdrawal: Trait;
     isWithdrawn: Trait;
     withArbitraryState: Trait;
+    withAffiliatedInstitutions: Trait;
 }
 
 const stateAttrs = {
@@ -143,6 +144,14 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     }),
     isWithdrawn: trait<MirageRegistration>({
         ...stateAttrs.withdrawn,
+    }),
+    withAffiliatedInstitutions: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const affiliatedInstitutionCount = faker.random.number({ min: 4, max: 5 });
+            server.createList('institution', affiliatedInstitutionCount, {
+                registrations: [registration],
+            });
+        },
     }),
     withArbitraryState: trait<MirageRegistration>({
         afterCreate(registration) {
