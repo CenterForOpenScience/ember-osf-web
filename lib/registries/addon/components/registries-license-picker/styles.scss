@@ -1,0 +1,26 @@
+.Controls {
+    display: flex;
+    margin-top: 10px;
+
+    .Save {
+        margin-right: 15px;
+        font-weight: 600;
+        margin-right: 10px;
+        border: 0;
+
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: $secondary-blue;
+        }
+    }
+}
+
+.LinkButton {
+    padding: 0;
+    border: 0;
+}
+
+.small {
+    font-size: 85%;
+}

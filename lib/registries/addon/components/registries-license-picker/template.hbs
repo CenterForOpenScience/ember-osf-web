@@ -1,0 +1,132 @@
+{{#if this.registration.license}}
+    <OsfButton
+        data-analytics-name='View license'
+        local-class='LinkButton'
+        @type='link'
+        @onClick={{action (mut this.shouldShowLicense) true}}
+    >
+        {{this.registration.license.name}}
+    </OsfButton>
+
+    {{#if this.shouldShowLicense}}
+        <BsModal
+            @onHide={{action (mut this.shouldShowLicense) false}}
+            as |modal|
+        >
+            <modal.header>
+                <h4 class='modal-title'>
+                    {{t 'registries.registration_metadata.license'}}
+                </h4>
+            </modal.header>
+            <modal.body>
+                {{#if this.registration.license.url}}
+                    <p>
+                        <OsfLink
+                            data-analytics-name='License URL'
+                            @href={{this.registration.license.url}}
+                        >
+                            {{this.registration.license.name}}
+                        </OsfLink>
+                    </p>
+                {{/if}}
+                <LicenseText @node={{this.registration}} />
+            </modal.body>
+        </BsModal>
+    {{/if}}
+{{else}}
+    {{t 'registries.registration_metadata.no_license'}}
+{{/if}}
+
+{{#if this.editMode}}
+    <BsModal @onHide={{action this.onHideModal}} as |modal|>
+        <modal.header>
+            <h4 class='modal-title'>
+                {{t 'registries.registration_metadata.select_license'}}
+            </h4>
+        </modal.header>
+        <modal.body>
+            <ValidatedModelForm
+              @model={{this.registration}}
+              @onSave={{action this.onSave}}
+              @onError={{action this.onError}}
+              as |form|>
+                <form.select
+                    @valuePath='license'
+                    @search={{perform this.queryLicenses}}
+                    @selected={{this.selectedLicense}}
+                    @options={{this.licensesAcceptable}}
+                    @onchange={{action this.changeLicense}}
+                    @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
+                    @placeholder={{t 'registries.registration_metadata.add_license'}}
+                    @renderInPlace={{true}}
+                    as |license|
+                >
+                    {{license.name}}
+                </form.select>
+
+                <div local-class='small help-link'>
+                    <OsfLink
+                        @target='_blank'
+                        @rel='noopener'
+                        @href={{this.helpLink}}
+                    >
+                        {{t 'app_components.license_picker.faq'}}
+                    </OsfLink>
+                </div>
+
+                {{#if this.selectedLicense}}
+                    {{#if this.requiredFields}}
+                        <br>
+                    {{/if}}
+
+                    <form.custom @valuePath='nodeLicense'>
+                        {{#each this.requiredFields as |key|}}
+                            <br>
+                            <label for='nodeLicense-{{key}}'>{{t (concat 'app_components.license_picker.fields.' key)}}</label>
+                            <br>
+                            {{input
+                                class='form-control'
+                                id=(concat 'nodeLicense-' key)
+                                value=(mut (get this.registration.nodeLicense key))
+                                input=(action 'notify')
+                                placeholder='Required'
+                            }}
+                        {{/each}}
+                    </form.custom>
+
+                    <OsfButton
+                        @type='link'
+                        @onClick={{action (mut this.showText) (not this.showText)}}
+                        local-class='LinkButton small'
+                    >
+                        {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
+                    </OsfButton>
+
+                    {{#if this.showText}}
+                        <LicenseText @node={{this.registration}} />
+                    {{/if}}
+
+                    <div local-class='Controls'>
+                        <OsfButton
+                            @type='primary'
+                            @buttonType='submit'
+                            @disabled={{form.submitting}}
+                            @size='sm'
+                            local-class='Save'
+                        >
+                            {{t 'general.save'}}
+                        </OsfButton>
+                        <OsfButton
+                            @type='default'
+                            @disabled={{form.submitting}}
+                            @onClick={{action this.onCancel}}
+                            @size='sm'
+                        >
+                            {{t 'general.cancel'}}
+                        </OsfButton>
+                    </div>
+                {{/if}}
+            </ValidatedModelForm>
+        </modal.body>
+    </BsModal>
+{{/if}}

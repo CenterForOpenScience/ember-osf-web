@@ -138,45 +138,19 @@
         </div>
 
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.license'}}</h4>
-            {{#if this.registration.license}}
-                <OsfButton
-                    data-analytics-name='View license'
-                    local-class='LinkButton'
-                    @type='link'
-                    @onClick={{action (mut this.shouldShowLicense) true}}
-                >
-                    {{this.registration.license.name}}
-                </OsfButton>
-                {{#if this.shouldShowLicense}}
-                    <BsModal
-                        @onHide={{action (mut this.shouldShowLicense) false}}
-                        as |modal|
-                    >
-                        <modal.header>
-                            <h4 class='modal-title'>
-                                {{t 'registries.registration_metadata.license'}}
-                            </h4>
-                        </modal.header>
-                        <modal.body>
-                            {{#if this.registration.license.url}}
-                                <p>
-                                    <OsfLink
-                                        data-analytics-name='License URL'
-                                        @href={{this.registration.license.url}}
-                                    >
-                                        {{this.registration.license.name}}
-                                    </OsfLink>
-                                </p>
-                            {{/if}}
-                            <LicenseText @node={{this.registration}} />
-                        </modal.body>
-                    </BsModal>
-                {{/if}}
-            {{else}}
-                {{t 'registries.registration_metadata.no_license'}}
-            {{/if}}
+            <EditableField
+                data-analytics-scope='License'
+                @registration={{this.registration}}
+                @title={{t 'registries.registration_metadata.license'}}
+            as |editable|>
+                <RegistriesLicensePicker
+                    data-analytics-scope='Registries overview'
+                    @registration={{this.registration}}
+                    @editMode={{editable.showEditable}}
+                />
+            </EditableField>
         </div>
+
         <div local-class='Field'>
             <EditableField::TagsManager @registration={{this.registration}} as |tagsManager|>
                 <EditableField

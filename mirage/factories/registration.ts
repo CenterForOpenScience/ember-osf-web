@@ -80,7 +80,6 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     id: guid('registration'),
     afterCreate(newReg, server) {
         guidAfterCreate(newReg, server);
-
         if (newReg.parent) {
             newReg.update({
                 dateRegistered: newReg.parent.dateRegistered,
@@ -105,6 +104,12 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
             newReg.update({
                 registrationSchema,
                 registeredMeta: createRegistrationMetadata(registrationSchema, true),
+            });
+        }
+
+        if (!newReg.provider) {
+            newReg.update({
+                provider: server.schema.registrationProviders.find('osf'),
             });
         }
     },
