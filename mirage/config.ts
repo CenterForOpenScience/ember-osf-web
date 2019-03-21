@@ -11,6 +11,7 @@ import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
+import { searchCollections } from './views/collection-search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
@@ -136,6 +137,7 @@ export default function(this: Server) {
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
     this.get('/providers/collections/:parentID/taxonomies', getProviderTaxonomies);
+    this.post('/search/collections/', searchCollections);
 
     // Waterbutler namespace
     this.namespace = '/wb';
