@@ -5,14 +5,13 @@ import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import moment from 'moment';
 
-import Contributor from 'ember-osf-web/models/contributor';
-import Institution from 'ember-osf-web/models/institution';
 import Registration from 'ember-osf-web/models/registration';
 import GuidRoute, { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import Analytics from 'ember-osf-web/services/analytics';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import pathJoin from 'ember-osf-web/utils/path-join';
+import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
 
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
@@ -25,11 +24,22 @@ export default class Overview extends GuidRoute {
     setHeadTags = task(function *(this: Overview, model: any) {
         const blocker = this.ready.getBlocker();
 
-        const registration = yield model.taskInstance as Registration;
+        const registration: Registration = yield model.taskInstance;
 
         if (registration) {
-            const contributors = yield registration.loadAll('bibliographicContributors');
-            const institutions = yield registration.loadAll('affiliatedInstitutions');
+            const contributors: SparseModel[] = yield registration.sparseLoadAll(
+                'bibliographicContributors',
+                {
+                    contributor: ['users', 'index'],
+                    user: ['fullName'],
+                },
+            );
+
+            const institutions: SparseModel[] = yield registration.sparseLoadAll(
+                'affiliatedInstitutions',
+                { institution: ['name'] },
+            );
+
             const license = yield registration.license;
 
             const image = 'engines-dist/registries/assets/img/osf-sharing.png';
@@ -45,8 +55,8 @@ export default class Overview extends GuidRoute {
                 keywords: registration.tags,
                 siteName: 'OSF',
                 license: license && license.name,
-                author: contributors.map((contrib: Contributor) => contrib.users.get('fullName')),
-                institution: institutions.map((ins: Institution) => ins.get('name')),
+                author: contributors.map(contrib => (contrib.users as { fullName: string }).fullName),
+                institution: institutions.map(institution => institution.name as string),
             };
 
             this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
@@ -54,7 +64,7 @@ export default class Overview extends GuidRoute {
         }
 
         blocker.done();
-    });
+    }).cancelOn('deactivate').restartable();
 
     modelName(): 'registration' {
         return 'registration';
