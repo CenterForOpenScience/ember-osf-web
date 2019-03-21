@@ -94,6 +94,7 @@ export default {
         required: 'Required',
         options: 'Options',
         optional: 'Optional',
+        optional_paren: '(optional)',
         services: {
             collections: 'Collections',
             institutions: 'Institutions',

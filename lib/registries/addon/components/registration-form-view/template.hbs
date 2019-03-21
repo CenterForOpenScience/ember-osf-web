@@ -65,6 +65,9 @@
             <OsfLink @href='#{{concat form-section.slug '.' question.slug}}'>
                 <h3 id='{{concat form-section.slug '.' question.slug}}' local-class='QuestionTitle'>
                     {{question.title}}
+                    {{#unless question.required}}
+                        {{t 'general.optional_paren'}}
+                    {{/unless}}
                 </h3>
             </OsfLink>
 
