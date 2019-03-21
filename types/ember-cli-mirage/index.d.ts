@@ -108,6 +108,7 @@ export interface Request {
     queryParams: {
         [key: string]: string,
     };
+    method: string;
 }
 
 export type NormalizedRequestAttrs<T> = {

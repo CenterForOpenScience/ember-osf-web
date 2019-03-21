@@ -1,10 +1,12 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
+import { t } from 'ember-i18n/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
+import { MirageCollection } from 'ember-osf-web/mirage/factories/collection';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import { click, visit } from 'ember-osf-web/tests/helpers';
@@ -130,6 +132,46 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-registration-tags]').isVisible();
         assert.dom('[data-test-tags-widget-tag-input] input').isNotVisible();
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
+    });
+
+    test('bookmarks work', async assert => {
+        const reg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: Object.values(Permission),
+        });
+
+        const bookmarksColl = server.create(
+            'collection',
+            { title: 'Bookmarks', bookmarks: true },
+        ) as ModelInstance<MirageCollection>;
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-social-sharing-button]').isVisible();
+        assert.dom('[data-test-bookmarks-button]').isNotVisible();
+
+        await click('[data-test-social-sharing-button]');
+        assert.dom('[data-test-bookmarks-button]').isVisible();
+
+        // Bookmark registration
+        await click('[data-test-bookmarks-button]');
+        await click('[data-test-social-sharing-button]');
+        assert.dom('[data-test-bookmarks-button]').hasText(
+            t('registries.overview.update_bookmarks.remove.text').toString(),
+        );
+
+        bookmarksColl.reload();
+        assert.ok(bookmarksColl.linkedRegistrationIds.includes(reg.id));
+
+        // Remove from bookmarks
+        await click('[data-test-bookmarks-button]');
+        await click('[data-test-social-sharing-button]');
+        assert.dom('[data-test-bookmarks-button]').hasText(
+            t('registries.overview.update_bookmarks.add.text').toString(),
+        );
+
+        bookmarksColl.reload();
+        assert.notOk(bookmarksColl.linkedRegistrationIds.includes(reg.id));
     });
 
     test('Form navigation menu', async assert => {

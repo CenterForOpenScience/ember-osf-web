@@ -39,7 +39,7 @@
                 {{/dd.content}}
             </ResponsiveDropdown>
         </div>
-        <div data-test-social-sharing-button class='btn-group' role='group' aria-label={{t 'general.share'}}>
+        <div class='btn-group' role='group' aria-label={{t 'general.share'}}>
             {{#sharing-icons/dropdown
                 title=@registration.title
                 description=@registration.description
@@ -50,6 +50,7 @@
                 as |dd|}}
                 {{#dd.trigger local-class='Menu__button'}}
                     <OsfButton
+                        data-test-social-sharing-button
                         data-analytics-name='Show sharing options'
                         @type='default'
                     >

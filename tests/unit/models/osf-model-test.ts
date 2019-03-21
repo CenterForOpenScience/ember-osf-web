@@ -39,4 +39,36 @@ module('Unit | Model | osf-model', hooks => {
 
         server.shutdown();
     });
+
+    test('createM2MRelationship/deleteM2MRelationship works', async function(assert) {
+        const server = startMirage();
+        const store = this.owner.lookup('service:store');
+
+        await run(async () => {
+            const userOne = server.create('user');
+            const registrationOne = server.create('registration');
+            const institutionOne = server.create('institution', { users: [userOne] });
+
+            server.create('contributor', { node: registrationOne, users: userOne });
+
+            const user = await store.findRecord('user', userOne.id, { include: 'institutions' });
+            const registration = await store.findRecord('registration', registrationOne.id);
+            const institution = user.institutions.toArray()[0];
+
+            let response: {data: Array<{id: string, type: string}>};
+            response = await registration.createM2MRelationship(
+                'affiliatedInstitutions',
+                institution,
+            );
+            assert.ok(response.data.findBy('id', institutionOne.id), 'createM2MRelationship works');
+
+            response = await registration.deleteM2MRelationship(
+                'affiliatedInstitutions',
+                institution,
+            );
+            assert.notOk(response.data.findBy('id', institutionOne.id), 'deleteM2MRelationship works');
+        });
+
+        server.shutdown();
+    });
 });
