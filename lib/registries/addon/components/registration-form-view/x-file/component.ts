@@ -10,9 +10,7 @@ import template from './template';
 @tagName('')
 @layout(template, styles)
 export default class ViewFile extends Component {
-    static positionalParams = ['part'];
+    answerable!: Answerable;
 
-    part!: Answerable;
-
-    @alias('part.extra') fileList!: object[];
+    @alias('answerable.extra') fileList!: object[];
 }
