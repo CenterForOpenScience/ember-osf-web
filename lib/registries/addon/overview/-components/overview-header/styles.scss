@@ -30,12 +30,12 @@
     }
 }
 
-.Footer {
+.ActionBar {
     display: flex;
     justify-content: space-between;
     background-color: rgba(38, 57, 71, 0.5);
     width: 100%;
-    padding: 12px 0;
+    padding: 12px;
 }
 
 .UserMessage {
@@ -45,7 +45,12 @@
     }
 }
 
-.FooterIcons {
+.LeftActions {
+    flex: 2;
+    justify-content: flex-start;
+}
+
+.RightActions {
     display: flex;
     flex: 1;
     justify-content: flex-end;
@@ -61,7 +66,6 @@
     display: flex;
     align-items: center;
     color: $white;
-    margin-left: 5px;
 
     span {
         font-size: 13px;
@@ -69,7 +73,6 @@
 
     i {
         font-size: 14px;
-        padding-left: 6px;
     }
 
     &:active,
@@ -89,11 +92,15 @@
     }
 }
 
+.DropdownIcon {
+    padding-left: 8px;
+}
+
 .Menu {
     width: 100%;
     background: $white;
     color: $midnight-blue;
-    padding: 30px 0;
+    padding: 15px 0;
     border-radius: 0 0 2px 2px;
     border-width: 0 1px 1px;
     border-color: $alto;
@@ -108,7 +115,7 @@
 .MenuIcon {
     display: flex;
     flex: 1;
-    font-size: 40px;
+    font-size: 44px;
     justify-content: center;
 }
 
@@ -127,6 +134,11 @@
 .IconBox {
     display: flex;
     margin-right: 10px;
+    padding: 0;
+
+    &:last-child {
+        margin-right: 0;
+    }
 
     p {
         color: $white;
@@ -137,7 +149,6 @@
 .Icon {
     color: $white;
     font-size: 20px;
-    margin-right: 6px;
 }
 
 @media(min-width: 992px) {
@@ -154,16 +165,12 @@
         position: relative;
     }
 
-    .DropdownToggle {
-        margin-left: 18px;
-    }
-
     .MenuBody {
         flex: 5;
         padding-right: 50px;
     }
 
-    .FooterText {
+    .LeftActions {
         flex: 1;
     }
 }
@@ -178,17 +185,9 @@
         position: relative;
     }
 
-    .DropdownToggle {
-        margin-left: 10px;
-    }
-
     .MenuBody {
         flex: 5;
         padding-right: 50px;
-    }
-
-    .FooterText {
-        flex: 2;
     }
 }
 

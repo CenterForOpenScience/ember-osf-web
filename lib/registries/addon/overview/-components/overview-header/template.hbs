@@ -3,27 +3,40 @@
         <div local-class='Header'>
             <h1 data-test-registration-title>{{@registration.title}}</h1>
         </div>
-        <div local-class='Footer'>
-            <div local-class='FooterText'>
+        <div local-class='ActionBar'>
+            <div local-class='LeftActions'>
                 {{#if @registration.userHasAdminPermission}}
+                    {{#if this.showMobileView}}
+                        <OsfButton
+                             local-class='IconBox'
+                             data-analytics-name='Toggle navigation sidebar'
+                             @type='link'
+                             @onClick={{@toggleSidenav}}
+                        >
+                            <FaIcon
+                                local-class='Icon'
+                                @icon={{if @sidenavGutterClosed 'bars' 'times'}}
+                            />
+                        </OsfButton>
+                    {{/if}}
                     <BsDropdown
                         data-analytics-scope='Registries admin'
                         local-class='Dropdown'
                         as |dropdown|
                     >
                         <dropdown.toggle @classNames={{local-class 'DropdownToggle'}}>
+
                             <span>
                                 <strong>{{t 'registries.overview.pendingMessage'}}</strong>
                             </span>
                             <FaIcon
+                                local-class='DropdownIcon'
                                 @icon={{if dropdown.isOpen 'caret-up' 'caret-down'}}
                             />
                         </dropdown.toggle>
                         <dropdown.menu @classNames={{local-class 'Menu'}}>
                             <div local-class='MenuContent'>
-                                <div local-class='MenuIcon'>
-                                    <FaIcon @icon='clock-o' />
-                                </div>
+                                <FaIcon local-class="MenuIcon" @icon='clock-o' />
                                 <div local-class='MenuBody'>
                                     <p>{{t 'registries.overview.pendingInfo'}}</p>
                                 </div>
@@ -36,7 +49,7 @@
                     </div>
                 {{/if}}
             </div>
-            <div local-class='FooterIcons'>
+            <div local-class='RightActions'>
                 <div local-class='IconBox'>
                     <FaIcon
                         local-class='Icon'
@@ -55,6 +68,16 @@
                         @icon='share-alt'
                     />
                 </div>
+                {{#if this.showMobileView}}
+                     <OsfButton
+                         local-class='IconBox'
+                         data-analytics-name='Toggle metadata sidebar'
+                         @type='link'
+                         @onClick={{@toggleMetadata}}
+                    >
+                        <FaIcon local-class='Icon' @icon='info-circle' />
+                    </OsfButton>
+                {{/if}}
             </div>
         </div>
     </div>

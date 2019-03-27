@@ -9,13 +9,12 @@
         </div>
     {{else}}
         {{title this.registration.title}}
-        <RegistriesBanner @node={{this.registration}} />
-
+        <RegistriesBanner @registration={{this.registration}} />
         <OverviewHeader
             @registration={{this.registration}}
-            @forks={{this.forksCount}}
-            @bookmarks={{this.commentsCount}}
-            @shares={{this.linksCount}}
+            @sidenavGutterClosed={{this.sidenavGutterClosed}}
+            @toggleSidenav={{action 'toggleSidenav'}}
+            @toggleMetadata={{action 'toggleMetadata'}}
         />
         {{#if this.registration.withdrawn}}
             <div local-class='ContentBackground'>
@@ -50,44 +49,6 @@
                 </TombstonePage>
             </div>
         {{else}}
-            {{#if this.showMobileView}}
-                <Navbar as |nav|>
-                    <nav.bordered-section>
-
-                        <nav.buttons.default @onclick={{action 'toggleSidenav'}}>
-                            {{nav.icon (if this.sidenavGutterClosed 'bars' 'times')}}
-                        </nav.buttons.default>
-
-                        <nav.buttons.default>
-                            <h4>{{t 'registries.overview.title'}}</h4>
-                        </nav.buttons.default>
-
-                    </nav.bordered-section>
-                    <nav.bordered-section>
-                        <RegistriesStates @node={{this.registration}} />
-
-                        <nav.buttons.default @onclick={{action 'toggleMetadata'}}>
-                            {{nav.icon 'info-circle'}}
-                        </nav.buttons.default>
-
-                        {{#sharing-icons/dropdown
-                            title=this.registration.title
-                            description=this.registration.description
-                            hyperlink=this.registrationURL
-                            showText=true
-                            showBookmark=true
-                            registration=this.registration
-                            as |dd|}}
-                            {{#dd.trigger}}
-                                <nav.buttons.default>
-                                    {{nav.icon (if dd.isOpen 'times' 'ellipsis-v') }}
-                                </nav.buttons.default>
-                            {{/dd.trigger}}
-                        {{/sharing-icons/dropdown}}
-                    </nav.bordered-section>
-                </Navbar>
-            {{/if}}
-
             <div local-class='ContentBackground'>
                 <Gutters
                     @leftMode={{this.sidenavGutterMode}}
