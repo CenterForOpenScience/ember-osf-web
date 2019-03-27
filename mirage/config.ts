@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import { getCitation } from './views/citation';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
@@ -35,6 +36,10 @@ export default function(this: Server) {
 
     osfResource(this, 'institution', { only: ['index'], defaultPageSize: 1000 });
     osfResource(this, 'license', { only: ['index', 'show'] });
+    osfResource(this, 'citation-style', {
+        only: ['index'],
+        path: '/citations/styles',
+    });
 
     osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);
@@ -79,6 +84,8 @@ export default function(this: Server) {
     });
     osfNestedResource(this, 'registration', 'identifiers', { only: ['index'] });
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
+    this.get('/registrations/:guid/citation/:citationStyleID', getCitation);
+
     osfNestedResource(this, 'comment', 'reports', {
         except: ['delete'],
         path: '/comments/:parentID/reports',
