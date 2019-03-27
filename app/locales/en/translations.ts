@@ -1363,6 +1363,11 @@ export default {
                 registration: 'This registration has no affiliated institutions',
             },
         },
+        'citation-viewer': {
+            get_more: 'Get more citations',
+            placeholder: 'Enter citation style (e.g. "APA")',
+            type_to_search: 'Start typing to search citation styles',
+        },
     },
     settings: {
         toggleNav: 'Toggle navigation',
