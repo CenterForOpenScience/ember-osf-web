@@ -20,6 +20,8 @@ const {
 } = config;
 
 function registrationScenario(server: Server, currentUser: ModelInstance<User>) {
+    server.loadFixtures('citation-styles');
+
     const registrationNode = server.create(
         'node',
         {

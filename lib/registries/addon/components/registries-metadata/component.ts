@@ -37,6 +37,7 @@ export default class RegistriesMetadata extends Component.extend({
 
     // Private properties
     registrationDoi?: string;
+    expandCitations: boolean = false;
 
     @computed('registrationDoi')
     get registrationDoiUrl() {
@@ -54,5 +55,12 @@ export default class RegistriesMetadata extends Component.extend({
     @computed('registeredFromId')
     get registeredFromDisplayUrl() {
         return `${osfUrl.split('//')[1]}${this.registeredFromId}`;
+    }
+
+    @computed('registration.id')
+    get registrationDisplayUrl() {
+        return this.registration ?
+            `${osfUrl.split('//')[1]}${this.registration.id}` :
+            null;
     }
 }

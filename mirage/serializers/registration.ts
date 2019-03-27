@@ -93,6 +93,14 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            citation: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/citation/`,
+                        meta: {},
+                    },
+                },
+            },
             registrationSchema: {
                 data: {
                     id: model.registrationSchema.id,
