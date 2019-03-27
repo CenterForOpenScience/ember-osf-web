@@ -14,7 +14,7 @@ import template from './template';
 @layout(template, styles)
 export default class RegistrationIsPublic extends Component.extend({
     submitWithdrawal: task(function *(this: RegistrationIsPublic) {
-        if (!this.registration && !this.withdrawalJustification) {
+        if (!this.registration) {
             return;
         }
 
@@ -56,12 +56,11 @@ export default class RegistrationIsPublic extends Component.extend({
 
     @computed(
         'submitWithdrawal.isRunning',
-        'withdrawalJustification',
         'scientistNameInput',
         'scientistName',
     )
     get submitDisabled(this: RegistrationIsPublic): boolean {
-        return this.submitWithdrawal.isRunning || !this.withdrawalJustification ||
+        return this.submitWithdrawal.isRunning ||
             (this.scientistNameInput !== this.scientistName);
     }
 }
