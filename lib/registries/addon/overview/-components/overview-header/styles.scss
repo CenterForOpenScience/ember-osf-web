@@ -45,12 +45,11 @@
     }
 }
 
-.LeftActions {
+.LeftActionsContainer {
     flex: 2;
-    justify-content: flex-start;
 }
 
-.RightActions {
+.RightActionsContainer {
     display: flex;
     flex: 1;
     justify-content: flex-end;
@@ -170,24 +169,26 @@
         padding-right: 50px;
     }
 
-    .LeftActions {
+    .LeftActionsContainer {
         flex: 1;
     }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
     .Menu {
-        top: 30px;
+        top: 174px;
         max-width: 537px;
-    }
-
-    .Dropdown {
-        position: relative;
     }
 
     .MenuBody {
         flex: 5;
         padding-right: 50px;
+    }
+}
+
+@media (max-width: 991px) {
+    .LeftActionsContainer {
+        display: flex;
     }
 }
 
