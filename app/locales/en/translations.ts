@@ -1471,6 +1471,7 @@ export default {
                 title: 'Change password',
                 updateButton: 'Update password',
                 updateFail: 'Error updating password',
+                updateSuccess: 'Successfully changed password',
                 currentPassword: {
                     placeholder: 'Old password',
                 },

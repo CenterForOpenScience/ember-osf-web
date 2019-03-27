@@ -1362,6 +1362,13 @@
   resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
   integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
+"@types/toastr@^2.1.36":
+  version "2.1.36"
+  resolved "https://registry.yarnpkg.com/@types/toastr/-/toastr-2.1.36.tgz#6b692ec384147324cffe13892e9e5b26bd1e69e7"
+  integrity sha512-mz4eBVCNrH0AyGpt+6DLl/xE+CPrSqMfQs/cMTAGJl8W9W375DNOTYOon1GsuSJqVU1QqZ4jCuARzo4TNQNrDg==
+  dependencies:
+    "@types/jquery" "*"
+
 "@typescript-eslint/eslint-plugin@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-1.3.0.tgz#e64c859a3eec10d96731eb5f72b5f48796a2f9ad"

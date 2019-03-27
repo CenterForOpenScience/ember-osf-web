@@ -25,7 +25,7 @@ export default class PasswordStrengthBar extends Component.extend({
     }).restartable(),
 }) {
     // Required parameters
-    password!: UserPassword;
+    password!: string;
     model!: UserPassword;
 
     // Private parameters
@@ -38,8 +38,11 @@ export default class PasswordStrengthBar extends Component.extend({
     @alias('model.validations.attrs.newPassword.isValidating')
         isValidating!: boolean;
 
-    @computed('password', 'strength.lastSuccessful.value.score', 'hasValidationMessage')
-    get progress(this: PasswordStrengthBar) {
+    @computed('password',
+        'strength.{lastSuccessful,lastSuccessful.value,lastSuccessful.value.score}',
+        'hasValidationMessage',
+        'isValidating')
+    get progress() {
         const { lastSuccessful } = this.strength;
         if (lastSuccessful && lastSuccessful.value && !this.isValidating) {
             this.set('shouldShowMessage', !this.hasValidationMessage);
@@ -66,7 +69,7 @@ export default class PasswordStrengthBar extends Component.extend({
         }
     }
 
-    didUpdateAttrs(this: PasswordStrengthBar) {
-        this.strength.perform(this.get('password'));
+    didUpdateAttrs() {
+        this.strength.perform(this.password);
     }
 }

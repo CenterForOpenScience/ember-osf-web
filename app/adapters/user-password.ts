@@ -10,13 +10,12 @@ const {
 } = config;
 
 export default class UserPasswordAdapter extends OsfAdapter {
-    host = host;
-    namespace = namespace;
-
     urlForCreateRecord(): string {
         let userID = '';
         if (this.currentUser && this.currentUser.user && this.currentUser.user.id) {
             userID = this.currentUser.user.id;
+        } else {
+            throw Error('Must provide valid user');
         }
         return `${host}/${namespace}/users/${userID}/settings/password/`;
     }

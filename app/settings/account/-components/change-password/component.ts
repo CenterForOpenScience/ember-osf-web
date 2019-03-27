@@ -1,9 +1,8 @@
-import { action } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
-import { task } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -15,25 +14,30 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 export default class ChangePasswordPane extends Component.extend({
     submitTask: task(function *(this: ChangePasswordPane) {
         const errorMessage = this.i18n.t('settings.account.changePassword.updateFail');
+        const successMessage = this.i18n.t('settings.account.changePassword.updateSuccess');
         const { validations } = yield this.userPassword.validate();
         this.set('didValidate', true);
 
         if (!validations.isValid) {
             return;
         }
-
         try {
             yield this.userPassword.save();
-            location.reload();
         } catch (e) {
             this.toast.error(errorMessage);
-        } finally {
-            this.userPassword.unloadRecord();
+            return;
+        }
+        this.userPassword.unloadRecord();
+        this.currentUser.logout();
+        this.toast.success(successMessage);
+        const { timeOut, hideDuration } = window.toastr.options;
+        if (timeOut && hideDuration) {
+            yield timeout(timeOut + hideDuration);
         }
     }),
 }) {
     // Private parameters
-    userPassword!: UserPassword;
+    userPassword: UserPassword;
     didValidate = false;
     newPassword = '';
 
@@ -44,13 +48,9 @@ export default class ChangePasswordPane extends Component.extend({
     @service store!: DS.Store;
     @alias('currentUser.user') user!: User;
 
-    init() {
-        this.set('userPassword', this.store.createRecord('user-password', { id: '123te' }));
-        return super.init();
-    }
-
-    @action
-    submit() {
-        this.submitTask.perform();
+    constructor(...args: any[]) {
+        super(...args);
+        const id = Math.floor(Math.random() * 1000000);
+        this.userPassword = this.store.createRecord('user-password', { id });
     }
 }
