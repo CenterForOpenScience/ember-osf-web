@@ -94,6 +94,7 @@ export default {
         required: 'Required',
         options: 'Options',
         optional: 'Optional',
+        optional_paren: '(optional)',
         services: {
             collections: 'Collections',
             institutions: 'Institutions',
@@ -1085,6 +1086,10 @@ export default {
             citation: 'Citation',
         },
 
+        form_view: {
+            none_selected: 'None selected',
+        },
+
         overview: {
             title: 'Overview',
             collapse: 'Collapse',
@@ -1145,7 +1150,7 @@ export default {
             },
 
             form_view: {
-                no_files: 'No files uploaded',
+                no_files: 'No files selected',
             },
 
             withdrawn: {
