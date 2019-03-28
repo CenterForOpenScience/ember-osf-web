@@ -6,24 +6,25 @@
     {{title this.registration.title}}
     <RegistriesBanner @registration={{this.registration}} />
     <div local-class='TitleBackground'>
-        <Container>
-            <div local-class='Container'>
-                <div local-class='TitleContainer'>
-                    <div local-class='Ancestors'>
-                        <AncestryDisplay @node={{this.registration}} @useLinks={{true}} />
-                    </div>
-                    <div local-class='MainTitle'>
-                        <h1 data-test-registration-title>{{this.registration.title}}</h1>
-                    </div>
+        <Container local-class='TitleContainer'>
+            <div local-class='AncestorsAndTitle'>
+                <div local-class='Ancestors'>
+                    <AncestryDisplay @node={{this.registration}} @useLinks={{true}} />
                 </div>
+                <h1
+                    data-test-registration-title
+                    local-class='Title'
+                >
+                    {{this.registration.title}}
+                </h1>
+            </div>
+            <div local-class='Toolbar' data-analytics-scope='Registries Overview Toolbar'>
                 {{#if (not (or this.registration.withdrawn this.showMobileView))}}
-                    <div local-class='Toolbar' data-analytics-scope='Registries Overview Toolbar'>
-                        <RegistriesOverviewMenu
-                            @registrationURL={{this.registrationURL}}
-                            @forksCount={{this.forksCount}}
-                            @registration={{this.registration}}
-                        />
-                    </div>
+                    <RegistriesOverviewMenu
+                        @registrationURL={{this.registrationURL}}
+                        @forksCount={{this.forksCount}}
+                        @registration={{this.registration}}
+                    />
                 {{/if}}
             </div>
         </Container>
