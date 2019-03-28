@@ -1,0 +1,60 @@
+<section
+    local-class='FormSection {{unless @formSection.isSubsection 'TopSection'}}'
+    ...attributes
+>
+    {{#if @formSection.isSubsection}}
+        <h3 id='{{@formSection.slug}}' local-class='SectionTitle'>
+            <OsfLink @href='#{{@formSection.slug}}'>
+                {{@formSection.title}}
+            </OsfLink>
+        </h3>
+    {{else}}
+        <h2 id='{{@formSection.slug}}' local-class='SectionTitle'>
+            <OsfLink @href='#{{@formSection.slug}}'>
+                {{@formSection.title}}
+            </OsfLink>
+        </h2>
+    {{/if}}
+
+    {{#each @formSection.sectionParts as |sectionPart|}}
+        {{#if sectionPart.isQuestion}}
+            {{#let (concat @formSection.slug '.' sectionPart.slug) as |slug|}}
+                <section id={{slug}}>
+                    {{#if @formSection.isSubsection}}
+                        <h4 local-class='QuestionTitle'>
+                            <OsfLink @href='#{{slug}}'>
+                                {{sectionPart.title}}
+                            </OsfLink>
+                        </h4>
+                    {{else}}
+                        <h3 local-class='QuestionTitle'>
+                            <OsfLink @href='#{{slug}}'>
+                                {{sectionPart.title}}
+                            </OsfLink>
+                        </h3>
+                    {{/if}}
+
+                    {{#if @formSection.description}}
+                        <p local-class='Description Preformatted'>{{@formSection.description}}</p>
+                    {{/if}}
+
+                    {{#each sectionPart.answerables as |answerable|}}
+                        <section local-class='Answerable'>
+                            <h5 local-class='Description'>
+                                <span local-class='Preformatted'>{{answerable.description}}</span>
+                                {{#unless answerable.isRequired}}
+                                    {{t 'general.optional_paren'}}
+                                {{/unless}}
+                            </h5>
+                            {{component answerable.componentName answerable=answerable}}
+                        </section>
+                    {{/each}}
+                </section>
+            {{/let}}
+        {{else}}
+            {{#let (component 'registration-form-view/x-section') as |FormSection|}}
+                <FormSection @formSection={{sectionPart}} />
+            {{/let}}
+        {{/if}}
+    {{/each}}
+</section>
