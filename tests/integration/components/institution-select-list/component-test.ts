@@ -6,7 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
-import Institution from 'ember-osf-web/models/institution';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { click } from 'ember-osf-web/tests/helpers';
 
 type Context = TestContext & { server: Server };
@@ -14,56 +14,35 @@ type Context = TestContext & { server: Server };
 module('Integration | Component | institution-select-list', hooks => {
     setupRenderingTest(hooks);
 
-    hooks.beforeEach(function(this: Context, assert) {
+    hooks.beforeEach(async function(this: Context) {
         this.server = startMirage();
         this.store = this.owner.lookup('service:store');
-
-        this.setProperties({
-            add: () => assert.ok(true),
-            remove: () => assert.ok(true),
-            addTask: () => assert.ok(true),
-            removeTask: () => assert.ok(true),
-            affiliatedList: [],
+        const mirageRegistration = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: Object.values(Permission),
         });
+        const registration = await this.store.findRecord('registration', mirageRegistration.id);
+        this.set('node', registration);
     });
 
     test('it renders', async function(this: Context, assert) {
         const mirageUser = server.create('user', 'withInstitutions');
+        const user = await this.store.findRecord('user', mirageUser.id);
+        this.set('user', user);
 
-        this.set('user', this.store.findRecord('user', mirageUser.id));
+        await render(hbs`<InstitutionSelectList @user={{this.user}} @node={{this.node}} />`);
 
-        await render(hbs`
-            <InstitutionSelectList
-                @model={{this.user}}
-                @add={{this.add}}
-                @remove={{this.remove}}
-                @addTask={{this.addTask}}
-                @removeTask={{this.removeTask}}
-                @affiliatedList={{this.affiliatedList}}
-            />`);
         assert.dom('[data-test-institution]').exists({ count: 3 });
     });
 
     test('button changes', async function(this: Context, assert) {
         const mirageUser = server.create('user');
-        const userInstitution = server.create('institution', { users: [mirageUser] });
+        const user = await this.store.findRecord('user', mirageUser.id);
+        server.create('institution', { users: [mirageUser] });
+        this.set('user', user);
 
-        this.set('user', this.store.findRecord('user', mirageUser.id));
-        function add(this: Context, institution: Institution) {
-            this.set('affiliatedList', [institution]);
-            assert.equal(userInstitution.id, institution.id);
-        }
-        this.set('add', add);
+        await render(hbs`<InstitutionSelectList @user={{this.user}} @node={{this.node}} />`);
 
-        await render(hbs`
-            <InstitutionSelectList
-                @model={{this.user}}
-                @add={{this.add}}
-                @remove={{this.remove}}
-                @addTask={{this.addTask}}
-                @removeTask={{this.removeTask}}
-                @affiliatedList={{this.affiliatedList}}
-            />`);
         assert.dom('[data-test-institution]').exists();
         assert.dom('[data-test-institution-button]').exists();
         assert.dom('[data-test-institution-button] > i').hasClass('fa-plus');

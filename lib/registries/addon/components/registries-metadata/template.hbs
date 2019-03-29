@@ -97,7 +97,8 @@
                 <InstitutionsWidget
                     data-analytics-scope='Registries overview'
                     @node={{this.registration}}
-                    @shouldShowModal={{editable.showEditable}}
+                    @shouldShowModal={{editable.shouldShowEditable}}
+                    @hideModal={{editable.hideEditable}}
                 />
             </EditableField>
         </div>

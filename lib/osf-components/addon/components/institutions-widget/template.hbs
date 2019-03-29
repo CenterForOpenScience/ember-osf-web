@@ -7,7 +7,7 @@
     </span>
     <BsModal
         @open={{this.shouldShowModal}}
-        @onHidden={{action (mut this.shouldShowModal) false}}
+        @onHidden={{@hideModal}}
         as |modal|
     >
         <modal.header>
@@ -17,19 +17,16 @@
         </modal.header>
         <modal.body>
             <InstitutionSelectList
-                @model={{this.currentUser.user}}
-                @add={{action this.add}}
-                @remove={{action this.remove}}
-                @addTask={{this.addInstitution}}
-                @removeTask={{this.removeInstitution}}
-                @affiliatedList={{this.affiliatedList}}
+                @user={{this.currentUser.user}}
+                @node={{@node}}
+                @reloadList={{this.reloadList}}
             />
         </modal.body>
         <modal.footer>
             <OsfButton
                 data-analytics-name='Add Affiliation - close_modal'
                 @type='primary'
-                @onClick={{action (mut this.shouldShowModal) false}}
+                @onClick={{@hideModal}}
             >
                 {{t 'general.done'}}
             </OsfButton>
