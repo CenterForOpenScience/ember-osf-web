@@ -5,7 +5,7 @@
 html,
 body,
 body > :global(.ember-view) {
-    height: 100%;
+    min-height: 100%;
 }
 
 :global(#toast-container) > div { // stylelint-disable-line selector-max-id
