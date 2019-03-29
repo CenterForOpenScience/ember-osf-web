@@ -4,7 +4,7 @@
 >
     <panel.heading @title={{t 'settings.account.changePassword.title'}} />
     <panel.body data-analytics-scope='Change password panel'>
-        <form>
+        <form data-test-password-form>
             {{#let (component 'validated-input/text') as |ValidatedTextInput| }}
                 <ValidatedTextInput
                     data-test-current-password
@@ -27,6 +27,7 @@
                     @ariaLabel={{t 'settings.account.changePassword.newPassword.placeholder'}}
                 />
                 <PasswordStrengthBar
+                    data-test-strength-bar
                     @password={{this.userPassword.newPassword}}
                     @model={{this.userPassword}}
                 />
