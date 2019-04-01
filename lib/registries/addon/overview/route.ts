@@ -77,7 +77,7 @@ export default class Overview extends GuidRoute {
     adapterOptions() {
         return {
             query: {
-                related_counts: 'forks,comments,linked_nodes,linked_registrations,children',
+                related_counts: 'forks,comments,linked_nodes,linked_registrations,children,wikis',
             },
         };
     }
