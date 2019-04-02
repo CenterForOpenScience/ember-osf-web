@@ -7,10 +7,10 @@
            data-analytics-name='Edit'
            local-class='EditButton'
            @type='link'
-           @onClick={{action (mut this.showEditable) true}}
+           @onClick={{action (mut this.shouldShowEditable) true}}
         >
             <FaIcon @icon='pencil' @fixedWidth={{true}} />
         </OsfButton>
     {{/if}}
 </div>
-{{yield (hash showEditable=this.showEditable)}}
+{{yield (hash shouldShowEditable=this.shouldShowEditable hideEditable=(action this.hideEditable))}}
