@@ -2,12 +2,6 @@
 
 // stylelint-disable selector-class-pattern
 
-html,
-body,
-body > :global(.ember-view) {
-    min-height: 100%;
-}
-
 :global(#toast-container) > div { // stylelint-disable-line selector-max-id
     opacity: 1;
 }
