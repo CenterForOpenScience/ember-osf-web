@@ -1,10 +1,12 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import RouterService from '@ember/routing/router-service';
-import { task } from 'ember-concurrency';
+import { all, task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import moment from 'moment';
 
+import Identifier from 'ember-osf-web/models/identifier';
+import LicenseModel from 'ember-osf-web/models/license';
 import Registration from 'ember-osf-web/models/registration';
 import GuidRoute, { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -27,21 +29,25 @@ export default class Overview extends GuidRoute {
         const registration: Registration = yield model.taskInstance;
 
         if (registration) {
-            const contributors: SparseModel[] = yield registration.sparseLoadAll(
-                'bibliographicContributors',
-                {
-                    contributor: ['users', 'index'],
-                    user: ['fullName'],
-                },
-            );
+            const [
+                contributors = [],
+                institutions = [],
+                license = null,
+                identifiers = [],
+            ] = yield all([
+                registration.sparseLoadAll(
+                    'bibliographicContributors',
+                    { contributor: ['users', 'index'], user: ['fullName'] },
+                ),
+                registration.sparseLoadAll(
+                    'affiliatedInstitutions',
+                    { institution: ['name'] },
+                ),
+                registration.license,
+                registration.identifiers,
+            ]);
 
-            const institutions: SparseModel[] = yield registration.sparseLoadAll(
-                'affiliatedInstitutions',
-                { institution: ['name'] },
-            );
-
-            const license = yield registration.license;
-
+            const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
             const image = 'engines-dist/registries/assets/img/osf-sharing.png';
 
             const metaTagsData = {
@@ -51,12 +57,15 @@ export default class Overview extends GuidRoute {
                 modifiedDate: moment(registration.dateModified).format('YYYY-MM-DD'),
                 identifier: registration.id,
                 url: pathJoin(config.OSF.url, registration.id),
+                doi: doi && doi.value,
                 image,
                 keywords: registration.tags,
                 siteName: 'OSF',
-                license: license && license.name,
-                author: contributors.map(contrib => (contrib.users as { fullName: string }).fullName),
-                institution: institutions.map(institution => institution.name as string),
+                license: license && (license as LicenseModel).name,
+                author: (contributors as SparseModel[]).map(
+                    contrib => (contrib.users as { fullName: string }).fullName,
+                ),
+                institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
 
             this.set('headTags', this.metaTags.getHeadTags(metaTagsData));

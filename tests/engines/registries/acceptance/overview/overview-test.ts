@@ -24,6 +24,7 @@ const tagsMap: Record<string, string[]> = {
     contributors: ['dc.creator', 'citation_author'],
     affiliatedInstitutions: ['citation_author_institution'],
     tags: ['dc.keywords'],
+    doi: ['citation_doi'],
     dateRegistered: ['dc.datesubmitted', 'citation_publication_date'],
     dateModified: ['dc.datemodified'],
     url: ['citation_public_url', 'og:url', 'og:secure_url'],
@@ -206,7 +207,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             tags: ['Social Media', 'Education'],
             currentUserPermissions: Object.values(Permission),
-        }, 'withContributors');
+        }, 'withContributors', 'withDoi');
 
         const affiliatedInstitutions = server.createList('institution', 2, { registrations: [reg] });
 
@@ -218,6 +219,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assertHeadMetaTags(assert, 'dateModified', moment(reg.dateModified).format('YYYY-MM-DD'));
         assertHeadMetaTags(assert, 'url', pathJoin(config.OSF.url, reg.id as string));
         assertHeadMetaTags(assert, 'image', 'engines-dist/registries/assets/img/osf-sharing.png');
+        assertHeadMetaTags(assert, 'doi', reg.identifiers.models[0].value);
         assertHeadMetaTags(assert, 'tags', reg.tags);
         assertHeadMetaTags(assert, 'contributors', reg.contributors.models.mapBy('users.fullName'));
         assertHeadMetaTags(assert, 'affiliatedInstitutions', affiliatedInstitutions.mapBy('name'), true);
