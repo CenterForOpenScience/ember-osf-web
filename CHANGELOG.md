@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `institution-select-list` - a checkbox list of institutions a user can select
     - `placeholder`
         - `circle` - a placeholder for circlular elements
+- Routes:
+    - `new-home` - new logged out home page route
 
 ### Changed
 - Components
