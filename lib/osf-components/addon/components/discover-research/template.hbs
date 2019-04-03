@@ -1,0 +1,29 @@
+<h2 local-class='heading'>
+    {{t 'osf-components.discover-research.discover_research_header'}}
+</h2>
+<p local-class='subHeading'>
+    {{t 'osf-components.discover-research.discover_research_subheader'}}
+</p>
+<div
+    data-test-search-bar
+    local-class='searchBar'
+>
+    <span
+        data-analytics-category='text'
+        local-class='iconInput'
+    >
+        <span>
+            <FaIcon
+                @icon='search'
+                @fixedWidth={{true}}
+            />
+        </span>
+        {{input
+            local-class='input'
+            type='text'
+            placeholder=(t 'osf-components.discover-research.discover_input_placeholder')
+            enter=(action '_onSearch' this.value)
+            value=(mut this.value)
+        }}
+    </span>
+</div>

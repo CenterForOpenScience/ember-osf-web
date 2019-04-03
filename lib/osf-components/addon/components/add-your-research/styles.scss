@@ -1,0 +1,21 @@
+.startButton:global(.btn) {
+    margin: 40px 0;
+    width: 250px;
+    height: 60px;
+    font-size: 20px;
+    background-color: #15a5eb;
+}
+
+@media(max-width: 768px) {
+    .startButton:global(.btn) {
+        width: 164px;
+        height: 40px;
+        font-size: 18px;
+    }
+}
+
+@media(max-width: 375px) {
+    .startButton:global(.btn) {
+        margin: 35px 0;
+    }
+}

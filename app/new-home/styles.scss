@@ -1,0 +1,71 @@
+/* stylelint-disable selector-class-pattern, selector-max-id */
+
+.hero {
+    color: #fff;
+    text-align: center;
+    background: url('/assets/images/dashboard/hero-home-banner.jpg') center center no-repeat;
+    background-size: cover;
+    position: relative;
+    padding: 28px 20px 75px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: linear-gradient(90deg, #009574 1%, #003f7c 100%);
+        opacity: 0.85;
+    }
+
+    .headerContainer {
+        position: relative;
+
+        :global(h1) {
+            font-size: 48px;
+            font-weight: 700;
+            max-width: 785px;
+            margin: 0 auto;
+        }
+
+        .headerSubHeading {
+            font-size: 32px;
+            margin: 22px auto 0;
+            max-width: 646px;
+        }
+    }
+}
+
+@media(max-width: 768px) {
+    .hero {
+        min-height: 500px;
+
+        .headerContainer {
+            :global(h1) {
+                font-size: 36px;
+            }
+            
+            .headerSubHeading {
+                font-size: 24px;
+                margin: 22px auto 0;
+                max-width: 490px;
+            }
+        }
+    }
+}
+
+@media(max-width: 375px) {
+    .hero {
+        .headerContainer {
+            :global(h1) {
+                font-size: 32px;
+            }
+
+            .headerSubHeading {
+                font-size: 20px;
+                margin: 22px 5% 0;
+            }
+        }
+    }
+}
