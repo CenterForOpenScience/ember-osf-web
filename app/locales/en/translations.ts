@@ -1077,6 +1077,9 @@ export default {
             tags: 'Tags',
             citation: 'Citation',
             edit_field: 'Edit {{field}}',
+            save_category: {
+                error: 'Unable to save category',
+            },
         },
 
         form_view: {

@@ -68,10 +68,24 @@ export enum NodeType {
     Registration = 'registration',
 }
 
+export enum NodeCategory {
+    Data = 'data',
+    Other = 'other',
+    Project = 'project',
+    Software = 'software',
+    Analysis = 'analysis',
+    Procedure = 'procedure',
+    Hypothesis = 'hypothesis',
+    Uncategorized = 'uncategorized',
+    Communication = 'communication',
+    Instrumentation = 'instrumentation',
+    MethodsAndMeasures = 'methods and measures',
+}
+
 export default class NodeModel extends BaseFileItem.extend(Validations, CollectableValidations) {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
-    @attr('node-category') category!: string;
+    @attr('node-category') category!: NodeCategory;
     @attr('array') currentUserPermissions!: Permission[];
     @attr('boolean') currentUserIsContributor!: boolean;
     @attr('boolean') fork!: boolean;
