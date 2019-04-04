@@ -41,6 +41,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `institution-select-list` - a checkbox list of institutions a user can select
     - `placeholder`
         - `circle` - a placeholder for circlular elements
+    - `add-your-research` - a button component for the new-home page header
+    - `discover-research` - a search bar component that takes you to the search page
 - Routes:
     - `new-home` - new logged out home page route
     - `settings/account/change-password` - Panel for changing a user's password
