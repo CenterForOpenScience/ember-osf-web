@@ -3,7 +3,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
-import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 module('Acceptance | new home page test', hooks => {
     setupOSFApplicationTest(hooks);
@@ -26,5 +26,12 @@ module('Acceptance | new home page test', hooks => {
         // Check footer.
         assert.dom('footer').exists();
         await percySnapshot(assert);
+    });
+
+    test('Get Started button works', async assert => {
+        await visit('/new-home');
+
+        await click('[data-test-get-started-button]');
+        assert.equal(currentURL(), '/register?campaign=&next=');
     });
 });
