@@ -97,6 +97,7 @@ Router.map(function() {
     this.route('dashboard');
     this.route('goodbye');
     this.route('institutions');
+    this.route('new-home');
     this.route('quickfiles');
     this.route('register');
     this.route('settings', function() {
