@@ -9,7 +9,7 @@
                 @onDirtChange={{this.changeDirtEditForm}}
                 as |form|
             >
-                <form.text 
+                <form.text
                     @valuePath='title'
                     @label='Title'
                 />
@@ -34,11 +34,11 @@
 
         <demo.snippet @name='validated-model-form.demo-edit.hbs' />
         <demo.snippet
-            @name='validated-model-form.on-will-destroy.ts'
+            @name='validated-model-form.controller.ts'
             @label='controller.ts'
         />
         <demo.snippet
-            @name='validated-model-form.is-page-dirty.ts'
+            @name='validated-model-form.route.ts'
             @label='route.ts'
         />
     {{/if}}
