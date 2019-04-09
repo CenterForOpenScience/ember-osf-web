@@ -3,22 +3,36 @@
     font-weight: 700;
     max-width: 709px;
     margin: 0 auto;
+
+    &.versionB {
+        font-size: 24px;
+        max-width: 350px;
+    }
 }
 
 .subHeading {
     font-size: 24px;
-    margin: 22px auto 0;
+    margin: 19px auto 0;
     max-width: 599px;
+
+    &.versionB {
+        font-size: 20px;
+        max-width: 350px;
+    }
 }
 
 .searchBar {
-    margin-top: 33px;
+    margin-top: 24px;
 
     .iconInput {
         background-color: #fff;
         width: 540px;
         display: inline-flex;
         align-items: center;
+
+        &.versionB {
+            width: 350px;
+        }
 
         span {
             font-size: 25px;
@@ -30,7 +44,7 @@
             color: #365063;
             font-size: 16px;
             height: 60px;
-            width: 494px;
+            width: 100%;
             padding: 0 15px;
             border: 0;
             overflow: hidden;
@@ -47,16 +61,26 @@
 @media(max-width: 768px) {
     .heading {
         font-size: 24px;
+
+        &.versionB {
+            font-size: 20px;
+        }
     }
 
     .subHeading {
         font-size: 20px;
         max-width: 493px;
+
+        &.versionB {
+            font-size: 18px;
+            max-width: 335px;
+        }
     }
 
     .searchBar {
         .iconInput {
-            width: 348px;
+            width: 335px;
+            max-width: 335px;
             height: 40px;
 
             span {
@@ -64,7 +88,6 @@
             }
     
             input {
-                width: 308px;
                 height: 40px;
             }
         }
@@ -81,7 +104,8 @@
     }
 
     .searchBar {
-        .iconInput {
+        .iconInput,
+        .iconInput.versionB {
             width: 90%;
 
             input {

@@ -1369,10 +1369,14 @@ export default {
             placeholder: 'Enter citation style (e.g. "APA")',
             type_to_search: 'Start typing to search citation styles',
         },
+        'add-your-research': {
+            header: 'Add your research',
+            subheader: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.',
+        },
         'discover-research': {
-            discover_research_header: 'Discover public research',
-            discover_research_subheader: 'Discover projects, data, materials, and collaborators on OSF that might be helpful to your own research.',
-            discover_input_placeholder: 'Search discipline, author...',
+            header: 'Discover public research',
+            subheader: 'Discover projects, data, materials, and collaborators on OSF that might be helpful to your own research.',
+            placeholder: 'Search discipline, author...',
         },
     },
     settings: {

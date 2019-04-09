@@ -11,4 +11,23 @@
             <DiscoverResearch @onSearch={{action 'search'}} />
         </header>
     </div>
+    <br>
+    <div local-class='hero'>
+        <header local-class='headerContainer'>
+            <h1 data-test-hero-heading>
+                {{t 'new_home.header'}}
+            </h1>
+            <p data-test-hero-subheading local-class='headerSubHeading'>
+                {{t 'new_home.subHeader'}}
+            </p>
+            <div local-class='flex-container'>
+                <div local-class='addResearch'>
+                    <AddYourResearch @version='versionB' />
+                </div>
+                <div local-class='discoverResearch'>
+                    <DiscoverResearch @version='versionB' @onSearch={{action 'search'}} />
+                </div>
+            </div>
+        </header>
+    </div>
 </div>

@@ -1,8 +1,17 @@
+{{#if (eq this.version 'versionB')}}
+    <h2 data-test-add-research-heading local-class='heading'>
+        {{t 'osf-components.add-your-research.header'}}
+    </h2>
+    <p data-test-add-research-subheading local-class='subHeading'>
+        {{t 'osf-components.add-your-research.subheader'}}
+    </p>
+{{/if}}
+
 <OsfLink
     data-test-get-started-button
     data-analytics-name='Get-started'
     class='btn btn-primary'
-    local-class='startButton'
+    local-class='startButton {{this.version}}'
     @route='register'
 >
     {{t 'home.free_link'}}

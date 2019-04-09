@@ -35,6 +35,18 @@
             margin: 22px auto 0;
             max-width: 646px;
         }
+
+        .flex-container {
+            margin-top: 84px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .addResearch,
+        .discoverResearch {
+            display: inline-flex;
+        }
     }
 }
 
@@ -52,6 +64,20 @@
                 margin: 22px auto 0;
                 max-width: 490px;
             }
+        }
+    }
+}
+
+@media(max-width: 709px) {
+    .hero {
+        .headerContainer {
+            .flex-container {
+                margin-top: 32px;
+            }
+        }
+
+        .discoverResearch {
+            margin-top: 15px;
         }
     }
 }

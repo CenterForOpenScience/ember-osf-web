@@ -1,3 +1,16 @@
+.heading {
+    font-size: 24px;
+    font-weight: 700;
+    max-width: 349px;
+    margin: 0 auto;
+}
+
+.subHeading {
+    font-size: 20px;
+    max-width: 349px;
+    margin: 19px auto 0;
+}
+
 .startButton:global(.btn) {
     margin: 40px 0;
     width: 250px;
@@ -6,9 +19,22 @@
     background-color: #15a5eb;
     display: inline-grid;
     align-content: center;
+
+    &.versionB {
+        margin: 24px 0;
+    }
 }
 
 @media(max-width: 768px) {
+    .heading {
+        font-size: 20px;
+    }
+
+    .subHeading {
+        font-size: 18px;
+        max-width: 335px;
+    }
+
     .startButton:global(.btn) {
         width: 164px;
         height: 40px;
