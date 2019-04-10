@@ -17,6 +17,7 @@ const {
         apiVersion,
         devMode,
     },
+    featureFlagNames: { homePageVersionB },
 } = config;
 
 export default class OsfCookie extends Base {
@@ -34,14 +35,17 @@ export default class OsfCookie extends Base {
             url: `${apiUrl}/${apiNamespace}/`,
         });
 
-        if (devMode) {
-            this._checkApiVersion();
-        }
-
         if (Array.isArray(res.meta.active_flags)) {
             this.features.setup(
                 res.meta.active_flags.reduce((acc, flag) => ({ ...acc, [flag]: true }), {}),
             );
+        }
+
+        if (devMode) {
+            this._checkApiVersion();
+            if (!this.features.flags.includes(homePageVersionB)) {
+                this.features.disable(homePageVersionB);
+            }
         }
 
         const userData = res.meta.current_user;

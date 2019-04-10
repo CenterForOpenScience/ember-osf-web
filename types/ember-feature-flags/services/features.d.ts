@@ -1,7 +1,11 @@
 import Features from 'ember-feature-flags';
 
+interface MyFeatures extends Features {
+    flags: string[];
+}
+
 declare module 'ember-feature-flags/services/features' {
-    export = Features;
+    export = MyFeatures;
 }
 
 declare module '@ember/service' {

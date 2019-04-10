@@ -260,6 +260,7 @@ module.exports = function(environment) {
             storageI18n: 'storage_i18n',
             enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
+            homePageVersionB: 'home_page_version_b',
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,

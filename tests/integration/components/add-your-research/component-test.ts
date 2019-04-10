@@ -1,4 +1,5 @@
 import { render } from '@ember/test-helpers';
+import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -16,6 +17,9 @@ module('Integration | Component | discover-research', hooks => {
         await render(hbs`<AddYourResearch/>`);
         assert.dom('[data-test-get-started-button]').exists();
         assert.dom('[data-test-get-started-button]').hasText('Get started');
+
+        await a11yAudit(this.element);
+        assert.ok(true, 'no a11y errors found!');
     });
 
     test('it renders version B', async function(assert) {

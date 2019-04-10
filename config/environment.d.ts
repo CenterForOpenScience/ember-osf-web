@@ -157,6 +157,7 @@ declare const config: {
         storageI18n: string;
         enableInactiveSchemas: string;
         verifyEmailModals: string;
+        homePageVersionB: string;
     };
     gReCaptcha: {
         siteKey: string;
