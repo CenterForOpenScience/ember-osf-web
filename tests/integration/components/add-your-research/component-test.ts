@@ -19,7 +19,7 @@ module('Integration | Component | discover-research', hooks => {
         assert.dom('[data-test-get-started-button]').hasText('Get started');
 
         await a11yAudit(this.element);
-        assert.ok(true, 'no a11y errors found!');
+        assert.ok(true, 'No a11y errors on page');
     });
 
     test('it renders version B', async function(assert) {
@@ -34,5 +34,8 @@ module('Integration | Component | discover-research', hooks => {
         assert.dom('[data-test-add-research-subheading]').exists();
         assert.dom('[data-test-add-research-subheading]')
             .hasText('Labs and teams across the globe use OSF to open their projects up to the scientific community.');
+
+        await a11yAudit(this.element);
+        assert.ok(true, 'No a11y errors on page');
     });
 });

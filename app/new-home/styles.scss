@@ -40,12 +40,25 @@
             margin-top: 84px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
+            justify-content: center;
         }
 
         .addResearch,
         .discoverResearch {
             display: inline-flex;
+            padding: 0 10 0 0;
+        }
+    }
+}
+
+@media(min-width: 1000px) {
+    .hero {
+        .addResearch {
+            margin-right: 80px;
+        }
+
+        .discoverResearch {
+            margin-left: 80px;
         }
     }
 }
@@ -68,7 +81,7 @@
     }
 }
 
-@media(max-width: 709px) {
+@media(max-width: 729px) {
     .hero {
         .headerContainer {
             .flex-container {
