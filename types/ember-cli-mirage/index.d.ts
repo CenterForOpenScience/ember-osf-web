@@ -131,7 +131,7 @@ interface HandlerOptions {
     timing?: number;
     coalesce?: boolean;
 }
-type HandlerFunction = (this: HandlerContext, schema: Schema, request: Request) => any;
+export type HandlerFunction = (this: HandlerContext, schema: Schema, request: Request) => any;
 
 /* tslint:disable unified-signatures */
 function handlerDefinition(path: string, options?: HandlerOptions): void;

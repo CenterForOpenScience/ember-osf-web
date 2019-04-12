@@ -15,6 +15,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 import getHref from 'ember-osf-web/utils/get-href';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 import getSelfHref from 'ember-osf-web/utils/get-self-href';
+import pathJoin from 'ember-osf-web/utils/path-join';
 
 import {
     BaseMeta,
@@ -185,12 +186,23 @@ export default class OsfModel extends Model {
         relatedModel: OsfModel,
     ) {
         const apiRelationshipName = underscore(relationshipName);
-        const url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
+        let url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
+
+        let data = JSON.stringify({
+            data: [{
+                id: relatedModel.id,
+                type: relatedModel.apiType,
+            }],
+        });
+
+        if (url && action === 'delete') {
+            data = '';
+            url = pathJoin(url, relatedModel.id);
+        }
 
         if (!url) {
             throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
         }
-
         assert(`The related object is required to ${action} a relationship`, Boolean(relatedModel));
 
         const options: JQuery.AjaxSettings = {
@@ -199,12 +211,7 @@ export default class OsfModel extends Model {
             headers: {
                 'Content-Type': 'application/json',
             },
-            data: JSON.stringify({
-                data: [{
-                    id: relatedModel.id,
-                    type: relatedModel.apiType,
-                }],
-            }),
+            data,
         };
 
         return this.currentUser.authenticatedAJAX(options);

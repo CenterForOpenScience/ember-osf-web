@@ -1,0 +1,62 @@
+<div data-test-institutions-widget>
+    <div local-class='InstitutionWidget__title'>
+        {{t 'osf-components.institutions-widget.affiliated_institutions'}}
+        {{#if (not this.readOnly)}}
+            <OsfButton
+               data-test-add-institution-button
+               aria-label={{t 'general.add'}}
+                data-analytics-name='Add Affiliation - open_modal'
+               @type='link'
+               @onClick={{action this.showModal}}
+               @disabled={{not @hasAffiliations}}
+            >
+                <span>
+                    <FaIcon @icon='pencil' />
+                    {{#if (not @hasAffiliations)}}
+                        <BsTooltip
+                            @autoPlacement={{false}}
+                        >
+                            {{t 'osf-components.institutions-widget.no_affiliations'}}
+                        </BsTooltip>
+                    {{/if}}
+                </span>
+            </OsfButton>
+        {{/if}}
+    </div>
+    <span>
+        <InstitutionsList
+            @reloadList={{action (mut this.reloadList)}}
+            @node={{@node}}
+        />
+    </span>
+    <BsModal
+        @open={{this.shouldShowModal}}
+        @onHidden={{action (mut this.shouldShowModal) false}}
+        as |modal|
+    >
+        <modal.header>
+            <h3 class='modal-title'>
+                {{t 'osf-components.institutions-widget.affiliate_institutions'}}
+            </h3>
+        </modal.header>
+        <modal.body>
+            <InstitutionSelectList
+                @model={{this.currentUser.user}}
+                @add={{action this.add}}
+                @remove={{action this.remove}}
+                @addTask={{this.addInstitution}}
+                @removeTask={{this.removeInstitution}}
+                @affiliatedList={{this.affiliatedList}}
+            />
+        </modal.body>
+        <modal.footer>
+            <OsfButton
+                data-analytics-name='Add Affiliation - close_modal'
+                @type='primary'
+                @onClick={{action (mut this.shouldShowModal) false}}
+            >
+                {{t 'general.done'}}
+            </OsfButton>
+        </modal.footer>
+    </BsModal>
+</div>

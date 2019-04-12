@@ -131,8 +131,9 @@
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.tags'}}</h4>
             <TagsWidget
+                data-test-registration-tags
                 @taggable={{this.registration}}
-                @readOnly={{true}}
+                @readOnly={{not this.registration.userHasAdminPermission}}
             />
         </div>
         {{!--

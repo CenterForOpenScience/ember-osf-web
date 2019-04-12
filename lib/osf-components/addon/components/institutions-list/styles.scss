@@ -1,0 +1,31 @@
+.paginatedInstitutions {
+    ul {
+        display: inline-flex;
+        flex-wrap: wrap;
+        margin-right: -9px;
+        margin-left: -9px;
+
+        li {
+            padding: 0 9px;
+            flex: none;
+            border: 0;
+        }
+    }
+}
+
+.InstitutionList__item {
+    display: inline-block;
+    float: none;
+
+    a {
+        background: inherit;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+        border: 1px solid $color-border-white;
+        background-size: cover;
+        background-color: $color-bg-white;
+    }
+}

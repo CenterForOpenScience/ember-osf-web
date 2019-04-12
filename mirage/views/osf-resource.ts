@@ -1,5 +1,5 @@
 import { camelize, underscore } from '@ember/string';
-import { ModelInstance, resourceAction, Server } from 'ember-cli-mirage';
+import { HandlerFunction, ModelInstance, resourceAction, Server } from 'ember-cli-mirage';
 import { RelationshipsFor } from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { pluralize } from 'ember-inflector';
@@ -16,6 +16,15 @@ interface ResourceOptions {
 
 interface NestedResourceOptions extends ResourceOptions {
     relatedModelName: keyof ModelRegistry;
+    views: ViewObject;
+}
+
+interface ViewObject {
+    index?: HandlerFunction;
+    show?: HandlerFunction;
+    create?: HandlerFunction;
+    update?: HandlerFunction;
+    delete?: HandlerFunction;
 }
 
 function gatherActions(opts: ResourceOptions) {
@@ -86,6 +95,7 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
         path: `/${pluralize(underscore(parentModelName))}/:parentID/${underscore(relationshipName)}`,
         relatedModelName: relationshipName,
         defaultSortKey: '-id',
+        views: {},
     }, options);
     const mirageParentModelName = pluralize(camelize(parentModelName));
     const mirageRelatedModelName = pluralize(camelize(opts.relatedModelName));
@@ -104,19 +114,36 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     }
 
     if (actions.includes('show')) {
-        server.get(detailPath, mirageRelatedModelName);
+        if (opts.views.show) {
+            server.get(detailPath, opts.views.show);
+        } else {
+            server.get(detailPath, mirageRelatedModelName);
+        }
     }
 
     if (actions.includes('create')) {
-        server.post(opts.path, mirageRelatedModelName);
+        if (opts.views.create) {
+            server.post(opts.path, opts.views.create);
+        } else {
+            server.post(opts.path, mirageRelatedModelName);
+        }
     }
 
     if (actions.includes('update')) {
-        server.put(detailPath, opts.relatedModelName);
-        server.patch(detailPath, opts.relatedModelName);
+        if (opts.views.update) {
+            server.put(detailPath, opts.views.update);
+            server.patch(detailPath, opts.views.update);
+        } else {
+            server.put(detailPath, opts.relatedModelName);
+            server.patch(detailPath, opts.relatedModelName);
+        }
     }
 
     if (actions.includes('delete')) {
-        server.del(detailPath, opts.relatedModelName);
+        if (opts.views.delete) {
+            server.del(detailPath, opts.views.delete);
+        } else {
+            server.del(detailPath, opts.relatedModelName);
+        }
     }
 }
