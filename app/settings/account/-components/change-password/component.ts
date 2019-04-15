@@ -30,7 +30,7 @@ export default class ChangePasswordPane extends Component.extend({
         this.userPassword.unloadRecord();
         this.toast.success(successMessage);
         const { timeOut, hideDuration } = window.toastr.options;
-        if (timeOut && hideDuration) {
+        if (typeof timeOut !== 'undefined' && typeof hideDuration !== 'undefined') {
             yield timeout(Number(timeOut) + Number(hideDuration));
         }
         this.currentUser.logout();
