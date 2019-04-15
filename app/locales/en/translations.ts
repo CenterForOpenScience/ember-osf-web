@@ -377,6 +377,27 @@ export default {
         privacy: 'Privacy&nbsp;Policy',
         separator: ' | ',
     },
+    new_home: {
+        support: {
+            header: 'How OSF supports your research',
+            search: {
+                header: 'Search and Discover',
+                subHeader: 'Find papers, data, and materials to inspire your next research project. Search public projects to build on the work of others and find new collaborators.',
+            },
+            design: {
+                header: 'Design Your Study',
+                subHeader: 'Start a project and add collaborators, giving them access to protocols and other research materials. Built-in version control tracks the evolution of your study.',
+            },
+            analyze: {
+                header: 'Collect and Analyze Data',
+                subHeader: 'Store data, code, and other materials in OSF Storage, or connect your Dropbox or other third-party account. Every file gets a unique, persistent URL for citing and sharing.',
+            },
+            publish: {
+                header: 'Publish Your Reports',
+                subHeader: 'Share papers in OSF Preprints or a community-based preprint provider, so others can find and cite your work. Track impact with metrics like downloads and view counts.',
+            },
+        },
+    },
     home: {
         title: 'Home',
         youtube_modal_title: 'Getting Started with OSF',

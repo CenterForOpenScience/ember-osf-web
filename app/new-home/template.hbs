@@ -1,1 +1,32 @@
 <NewHome::-Components::HeroBanner />
+<div local-class='supportContainer'>
+    <header local-class='headerContainer'>
+        <h1 data-test-support-heading>
+            {{t 'new_home.support.header'}}
+        </h1>
+        <div local-class='flex-container'>
+            <div>
+                <SupportItem
+                    @icon='search'
+                    @header={{t 'new_home.support.search.header'}}
+                    @subHeader={{t 'new_home.support.search.subHeader'}} 
+                />
+                <SupportItem
+                    @icon='search'
+                    @header={{t 'new_home.support.design.header'}}
+                    @subHeader={{t 'new_home.support.design.subHeader'}} 
+                />
+                <SupportItem
+                    @icon='search'
+                    @header={{t 'new_home.support.search.header'}}
+                    @subHeader={{t 'new_home.support.search.subHeader'}} 
+                />
+                <SupportItem
+                    @icon='search'
+                    @header={{t 'new_home.support.search.header'}}
+                    @subHeader={{t 'new_home.support.search.subHeader'}} 
+                />
+            </div>
+        </div>
+    </header>
+</div>
