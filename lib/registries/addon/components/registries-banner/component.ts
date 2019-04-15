@@ -60,7 +60,7 @@ export default class RegistriesBanner extends Component {
     @computed('node.registeredFrom.id')
     get projectUrl(this: RegistriesBanner) {
         if (!this.node) {
-            return;
+            return undefined;
         }
         const registeredFromId = this.node.registeredFrom.get('id');
         return registeredFromId && pathJoin(baseURL, registeredFromId);

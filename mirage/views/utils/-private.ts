@@ -77,9 +77,8 @@ export function buildQueryParams(params: QueryParameters): string {
     });
     if (paramString.length > 1) {
         return paramString;
-    } else {
-        return '';
     }
+    return '';
 }
 
 export function paginate(
@@ -189,7 +188,7 @@ export function embed(
     };
 }
 
-export function compareStrings (
+export function compareStrings(
     actualValue: string,
     comparisonValue: string,
     operator: ComparisonOperators,
@@ -204,7 +203,7 @@ export function compareStrings (
     }
 }
 
-export function compareBooleans (
+export function compareBooleans(
     actualValue: boolean,
     comparisonValue: boolean,
     operator: ComparisonOperators,
@@ -228,9 +227,8 @@ export function compare(
         return compareStrings(actualValue, comparisonValue, operator);
     } else if (typeof actualValue === 'boolean') {
         return compareBooleans(actualValue, queryParamIsTruthy(comparisonValue), operator);
-    } else {
-        throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
     }
+    throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
 }
 
 export function toOperator(operatorString: string): ComparisonOperators {

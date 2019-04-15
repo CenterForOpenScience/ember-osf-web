@@ -42,7 +42,8 @@ export default class RegistrationModel extends NodeModel.extend() {
     @computed(
         'withdrawn', 'embargoed', 'public', 'pendingRegistrationApproval',
         'pendingEmbargoApproval', 'pendingEmbargoTerminationApproval',
-        'pendingWithdrawal')
+        'pendingWithdrawal',
+    )
     get state(): RegistrationState {
         return (
             (this.pendingRegistrationApproval && RegistrationState.PendingRegistration) ||

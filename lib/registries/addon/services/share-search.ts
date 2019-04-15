@@ -48,7 +48,6 @@ export class ShareTermsFilter extends ShareFilter {
 }
 
 export class ShareTermsAggregation implements SearchModifier {
-    /* eslint-disable-next-line no-useless-constructor, no-empty-function  */
     private readonly valueImpl: TypedMap<ShareTermsAggregation>;
 
     constructor(private name: string, private field: string, private size: number = 200) {

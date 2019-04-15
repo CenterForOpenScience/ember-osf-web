@@ -80,6 +80,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Use a production build for handbook
 - OSF API
     - Bump version from 2.8 to 2.14
+- Linting
+    - upgraded to latest versions of:
+        - eslint-plugin-typescript -> @typescript-eslint/eslint-plugin
+        - typescript-eslint-parser -> @typescript-eslint/eslint-parser (now a dep of @typescript-eslint/eslint-plugin)
+        - ember-cli-eslint (upgrade required to get eslint 5, for compatibility with @typescript-eslint/eslint-plugin)
+        - eslint-plugin-ember (upgrade required for compatibility with ember-cli-eslint)
+        - eslint-config-airbnb-base (upgrade required for compatibility with eslint 5)
+        - eslint-plugin-eslint-comments (upgrade required for compatibility with eslint 5)
+    - made style and config changes so that linting passes after above upgrades
 
 ### Removed
 - Components:

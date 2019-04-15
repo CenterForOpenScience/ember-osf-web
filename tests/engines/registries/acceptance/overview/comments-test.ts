@@ -1,7 +1,6 @@
 import { currentRouteName } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -12,7 +11,7 @@ module('Registries | Acceptance | overview.comments', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('it renders', async function(this: TestContext, assert: Assert) {
+    test('it renders', async assert => {
         const registration = server.create(
             'registration',
             { currentUserPermissions: [Permission.Admin] },

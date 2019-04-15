@@ -48,6 +48,7 @@ export default class UserQuickfiles extends Route.extend({
         } catch (error) {
             blocker.errored(error);
             this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
+            return undefined;
         }
     });
 

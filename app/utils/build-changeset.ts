@@ -23,9 +23,8 @@ export default function buildChangeset<M extends ValidatedModelName>(model: Mode
     );
 
     const validateFn: ValidatorFunc = async params => {
-        return model.validateAttribute(params.key, params.newValue).then(({ validations }) => {
-            return validations.isValid ? true : validations.message;
-        });
+        const { validations } = await model.validateAttribute(params.key, params.newValue);
+        return validations.isValid ? true : validations.message;
     };
 
     return new Changeset(model, validateFn, validationMap, useOptions) as ChangesetDef;

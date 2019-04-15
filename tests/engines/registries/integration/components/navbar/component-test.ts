@@ -1,6 +1,5 @@
 import { click, render } from '@ember/test-helpers';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
-import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
@@ -8,7 +7,7 @@ import { module, test } from 'qunit';
 module('Registries | Integration | Component | Navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
-    test('it renders', async function(this: TestContext, assert) {
+    test('it renders', async assert => {
         await render(hbs`
             <Navbar>
                 This is a test!

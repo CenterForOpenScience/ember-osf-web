@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define,camelcase */
+/* eslint-disable camelcase */
 
 import * as JSONAPI from 'jsonapi-typescript';
 
@@ -89,4 +89,4 @@ export interface NormalLinks extends JSONAPI.Links {
     self?: JSONAPI.Link | null;
     html?: JSONAPI.Link | null;
 }
-/* eslint-enable no-use-before-define,camelcase */
+/* eslint-enable camelcase */

@@ -56,7 +56,7 @@ function checkGeneratedFiles(generatedFile) {
 describe('Acceptance: ember generate and destroy handbook-component', function() {
     setupTestHooks(this);
 
-    it('handbook-component foo-bar', async function() {
+    it('handbook-component foo-bar', async () => {
         const args = ['handbook-component', 'foo-bar'];
 
         await emberNew();

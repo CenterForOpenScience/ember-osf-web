@@ -50,7 +50,7 @@ export default class Guid extends Route {
 
             if (!collectionItem.userHasAdminPermission) {
                 this.intermediateTransitionTo(this.theme.prefixRoute('forbidden'));
-                return;
+                return undefined;
             }
 
             collectionItem.set('collectable', true);
@@ -65,6 +65,7 @@ export default class Guid extends Route {
             } as TaskInstanceResult;
         } catch (e) {
             this.intermediateTransitionTo(this.theme.prefixRoute('page-not-found'));
+            return undefined;
         }
     });
 
@@ -73,7 +74,7 @@ export default class Guid extends Route {
 
         if (!/^[a-z0-9]{5}(-[a-z0-9]{5})?$/.test(guid)) {
             this.transitionTo(this.theme.prefixRoute('page-not-found'));
-            return;
+            return undefined;
         }
 
         return {

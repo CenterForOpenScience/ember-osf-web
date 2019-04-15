@@ -19,7 +19,7 @@ export default class SecurityPane extends Component.extend({
         const { user } = this.currentUser;
 
         if (!user) {
-            return undefined;
+            return;
         }
         this.settings = yield user.belongsTo('settings').reload();
     }),
@@ -37,7 +37,7 @@ export default class SecurityPane extends Component.extend({
             }
             const { supportEmail } = config.support;
             const saveErrorMessage = this.i18n.t('settings.account.security.saveError', { supportEmail });
-            return this.toast.error(saveErrorMessage);
+            this.toast.error(saveErrorMessage);
         } finally {
             this.hideDialogs();
         }
@@ -105,7 +105,7 @@ export default class SecurityPane extends Component.extend({
         } else {
             const { supportEmail } = config.support;
             const saveErrorMessage: string = this.i18n.t('settings.account.security.saveError', { supportEmail });
-            return this.toast.error(saveErrorMessage);
+            this.toast.error(saveErrorMessage);
         }
     }
 

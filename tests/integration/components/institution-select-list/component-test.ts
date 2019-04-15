@@ -49,6 +49,7 @@ module('Integration | Component | institution-select-list', hooks => {
         const userInstitution = server.create('institution', { users: [mirageUser] });
 
         this.set('user', this.store.findRecord('user', mirageUser.id));
+        // eslint-disable-next-line no-shadow
         function add(this: Context, institution: Institution) {
             this.set('affiliatedList', [institution]);
             assert.equal(userInstitution.id, institution.id);

@@ -98,9 +98,7 @@ export default function(this: Server) {
     osfResource(this, 'scope', { only: ['index', 'show'] });
     osfResource(this, 'region', { only: ['index', 'show'] });
 
-    this.get('/status', () => {
-        return { meta: { version: '2.8' }, maintenance: null };
-    });
+    this.get('/status', () => ({ meta: { version: '2.8' }, maintenance: null }));
 
     osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
@@ -133,14 +131,12 @@ export default function(this: Server) {
     // Private namespace
     this.namespace = '/_';
 
-    this.get('/banners/current/', () => {
-        return {
-            data: {
-                attributes: {
-                },
-                type: 'banners',
-                id: '',
+    this.get('/banners/current/', () => ({
+        data: {
+            attributes: {
             },
-        };
-    });
+            type: 'banners',
+            id: '',
+        },
+    }));
 }
