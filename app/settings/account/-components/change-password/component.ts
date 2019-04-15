@@ -28,12 +28,12 @@ export default class ChangePasswordPane extends Component.extend({
             return;
         }
         this.userPassword.unloadRecord();
-        this.currentUser.logout();
         this.toast.success(successMessage);
         const { timeOut, hideDuration } = window.toastr.options;
         if (timeOut && hideDuration) {
-            yield timeout(timeOut + hideDuration);
+            yield timeout(Number(timeOut) + Number(hideDuration));
         }
+        this.currentUser.logout();
     }),
 }) {
     // Private parameters
@@ -50,6 +50,8 @@ export default class ChangePasswordPane extends Component.extend({
 
     constructor(...args: any[]) {
         super(...args);
+
+        // creates a fake id because ember data expects one
         const id = Math.floor(Math.random() * 1000000);
         this.userPassword = this.store.createRecord('user-password', { id });
     }
