@@ -14,6 +14,7 @@ import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
+import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
@@ -115,6 +116,7 @@ export default function(this: Server) {
     this.patch('/users/:parentID/settings/emails/:emailID/', updateEmails);
     this.post('/users/:parentID/settings/emails/', createEmails);
     this.post('/users/:id/settings/export', userSettings.requestExport);
+    this.post('/users/:parentID/settings/password/', updatePassword);
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
