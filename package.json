@@ -188,12 +188,12 @@
     "tslint": "^5.16.0",
     "tslint-consistent-codestyle": "^1.11.1",
     "tslint-eslint-rules": "^5.0.0",
-    "typescript": "^3.2.0"
+    "typescript": "^3.4.5"
   },
   "resolutions": {
     "ember-cli-clipboard": "0.9.0",
     "tsutils": "2.29.0",
-    "typescript": "3.2.2"
+    "typescript": "3.4.5"
   },
   "engines": {
     "node": ">= 8"
