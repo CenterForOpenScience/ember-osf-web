@@ -94,7 +94,7 @@ export default class OsfModel extends Model {
 
         // HACK: ember-data discards/ignores the link if an object on the belongsTo side
         // came first. In that case, grab the link where we expect it from OSF's API
-        const url = reference.link() || getRelatedHref(this.relationshipLinks[relationshipName]);
+        const url = reference.link() || getRelatedHref(this.relationshipLinks[relationshipName as string]);
         if (!url) {
             throw new Error(`Could not find a link for '${relationshipName}' relationship`);
         }

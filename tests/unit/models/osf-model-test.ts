@@ -1,4 +1,5 @@
 import { run } from '@ember/runloop';
+import { RelationshipsFor } from 'ember-data';
 import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -80,7 +81,7 @@ module('Unit | Model | osf-model', hooks => {
 
     test('sparseHasMany calls the right things', async function(assert) {
         interface TestCase {
-            relation: keyof Node;
+            relation: RelationshipsFor<Node>;
             fieldset: SparseFieldset;
             options?: RequestOptions;
             response: ResourceCollectionDocument;
@@ -216,7 +217,8 @@ module('Unit | Model | osf-model', hooks => {
         const pageSize = 100;
 
         for (const total of totals) {
-            let allResults = Array.from({ length: total }).map(() => ({}));
+            const id = 1;
+            let allResults = Array.from({ length: total }).map(() => ({ id, modelName: 'foo' }));
 
             const sparseHasManyStub = sandbox.stub(node, 'sparseHasMany').callsFake(async () => {
                 const sparseModels = allResults.slice(0, pageSize);

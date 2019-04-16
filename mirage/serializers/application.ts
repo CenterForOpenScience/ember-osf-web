@@ -1,16 +1,16 @@
 import { underscore } from '@ember/string';
 import { Collection, JSONAPISerializer, ModelInstance, Request } from 'ember-cli-mirage';
-import { RelationshipsFor } from 'ember-data';
+import DS, { RelationshipsFor } from 'ember-data';
 import config from 'ember-get-config';
 import { RelatedLinkMeta, Relationship } from 'osf-api';
 
 const { OSF: { apiUrl } } = config;
 
-export type SerializedRelationships<T> = {
+export type SerializedRelationships<T extends DS.Model> = {
     [relName in Exclude<RelationshipsFor<T>, 'toString'>]?: Relationship;
 };
 
-export default class ApplicationSerializer<T> extends JSONAPISerializer {
+export default class ApplicationSerializer<T extends DS.Model> extends JSONAPISerializer {
     keyForAttribute(attr: string) {
         return underscore(attr);
     }
@@ -30,7 +30,7 @@ export default class ApplicationSerializer<T> extends JSONAPISerializer {
         // We have to cast the relationship to a Collection here because only hasManys will have .models
         const related = model[relationship] as unknown as Collection<T>;
         const count = Array.isArray(related.models) ? related.models.length : 0;
-        return relatedCounts.includes(this.keyForRelationship(relationship)) ? { count } : {};
+        return relatedCounts.includes(this.keyForRelationship(relationship as string)) ? { count } : {};
     }
 
     buildNormalLinks(model: ModelInstance<T>) {
