@@ -7742,7 +7742,14 @@ ember-resolver@^5.0.1:
     ember-cli-version-checker "^3.0.0"
     resolve "^1.10.0"
 
-ember-responsive@^3.0.0-beta.1, ember-responsive@^3.0.0-beta.3:
+ember-responsive@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ember-responsive/-/ember-responsive-3.0.0.tgz#03791da324299a8c8cb461e541a5e1aeca887881"
+  integrity sha512-5JQ+REBu37M7NNDJOnTjzp5eQzg4cX7VtPcD19V3nBcntRuDwf7N6TndLxmw4Kt3JXuzQL4PkDE2SgVKuNTdWQ==
+  dependencies:
+    ember-cli-babel "^6.6.0"
+
+ember-responsive@^3.0.0-beta.1:
   version "3.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/ember-responsive/-/ember-responsive-3.0.0-beta.3.tgz#63f4f5cad179399e40cd6a591bb2677c4cc0a874"
   integrity sha512-C7E0C/hKy5BT5tjHxzyLItc7Bq/Ci/IoUucQ1OQts81Uxq0SG4srjbfO0ZlDq6nbV7xxe9xdPMPD5tPHii8W2w==
@@ -10276,10 +10283,10 @@ ignore@^5.0.5:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.0.5.tgz#c663c548d6ce186fb33616a8ccb5d46e56bdbbf9"
   integrity sha512-kOC8IUb8HSDMVcYrDVezCxpJkzSQWTAzf3olpKM6o9rM5zpojx23O0Fl8Wr4+qJ6ZbPEHqf1fdwev/DS7v7pmA==
 
-immutable@4.0.0-rc.9:
-  version "4.0.0-rc.9"
-  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.9.tgz#1e6e0094e649013ec3742d2b5aeeca5eeda4f0bf"
-  integrity sha512-uw4u9Jy3G2Y1qkIFtEGy9NgJxFJT1l3HKgeSFHfrvy91T8W54cJoQ+qK3fTwhil8XkEHuc2S+MI+fbD0vKObDA==
+immutable@4.0.0-rc.12:
+  version "4.0.0-rc.12"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
+  integrity sha512-0M2XxkZLx/mi3t8NVwIm1g8nHoEmM9p9UBl/G9k4+hm0kBgOVdMV/B3CY5dQ8qG8qc80NN4gDV4HQv6FTJ5q7A==
 
 import-fresh@^2.0.0:
   version "2.0.0"
