@@ -7587,14 +7587,15 @@ ember-onbeforeunload@^1.2.0:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-ember-page-title@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/ember-page-title/-/ember-page-title-4.0.3.tgz#0bb83c4519a5c79ed04a167bba3160884c198f86"
-  integrity sha512-Q6eTS4f00MGOVYqokA6sYwO8n5EWtUGwWNx1iqZwrpiWs5utsRz3nwYN/DfbBJJ/YCZSBpQezd3zvDvt1P32LA==
+ember-page-title@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/ember-page-title/-/ember-page-title-5.0.1.tgz#7e1b744f47ad9bc5aadbdb47bcecce0e1170221d"
+  integrity sha512-xUlKRuerTQRLrnBVWsPv7a2Rmz3M4I2Irqj21bI7Q7UZfxEFQBjmksZ7TAe21anC2VdUdTXrd25QWRaRrHpduw==
   dependencies:
-    ember-cli-babel "^6.7.1"
+    ember-cli-babel "^6.6.0"
     ember-cli-head "^0.4.0"
     ember-cli-htmlbars "^2.0.1"
+    ember-copy "^1.0.0"
 
 "ember-parachute@https://github.com/cos-forks/ember-parachute#v0.3.7+cos3":
   version "0.3.7"

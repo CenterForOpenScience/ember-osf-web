@@ -294,6 +294,9 @@ module.exports = function(environment) {
         mirageScenarios: MIRAGE_SCENARIOS,
 
         defaultProvider: 'osf',
+        pageTitle: {
+            prepend: false,
+        },
     };
 
     if (environment === 'development') {
