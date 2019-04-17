@@ -175,7 +175,7 @@
     "keen-analysis": "^2.0.0",
     "keen-dataviz": "^2.0.4",
     "keen-tracking": "^2.0.9",
-    "lint-staged": "^7.1.0",
+    "lint-staged": "^8.1.5",
     "liquid-fire": "^0.29.3",
     "loader.js": "^4.7.0",
     "loaders.css": "^0.1.2",
