@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
-import config from 'ember-get-config';
 import { t } from 'ember-i18n/test-support';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { setBreakpoint } from 'ember-responsive/test-support';
@@ -9,8 +8,6 @@ import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
-const { OSF: { url: osfUrl } } = config;
 
 const statusMessagesStub = Service.extend({
     messages: [],
@@ -88,7 +85,6 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     });
 
     test('desktop layout (logged out)', async function(assert) {
-        const osfUrlEncoded = encodeURIComponent(osfUrl);
         setBreakpoint('desktop');
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
