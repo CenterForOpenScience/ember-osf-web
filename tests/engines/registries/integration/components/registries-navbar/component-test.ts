@@ -95,10 +95,6 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await render(hbs`<RegistriesNavbar @campaign="osf-registries" @signUpURL="http://example.com" />`);
 
         assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
-        assert.dom('a[data-test-join]').hasAttribute(
-            'href',
-            `http://example.com?campaign=osf-registries&next=${osfUrlEncoded}FakeURL`,
-        );
         assert.dom('a[data-test-join]').isVisible('Join button is visible');
 
         assert.dom('a[role="button"][data-test-login]').hasText(`${t('navbar.login')}`);
