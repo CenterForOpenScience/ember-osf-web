@@ -118,7 +118,7 @@
     "ember-concurrency": "^0.10.0",
     "ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
     "ember-cookies": "^0.4.0",
-    "ember-cp-validations": "^3.5.3",
+    "ember-cp-validations": "^4.0.0-beta.8",
     "ember-css-modules": "^1.0.3",
     "ember-css-modules-reporter": "^1.2.0",
     "ember-css-modules-sass": "^1.0.1",
