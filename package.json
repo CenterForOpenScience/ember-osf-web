@@ -43,7 +43,7 @@
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@ember/jquery": "^0.6.0",
     "@ember/optional-features": "^0.7.0",
-    "@ember/test-helpers": "^0.7.21",
+    "@ember/test-helpers": "^1.5.0",
     "@types/ace": "^0.0.39",
     "@types/dropzone": "^5.0.4",
     "@types/ember": "^3.0.25",
