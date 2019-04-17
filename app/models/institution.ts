@@ -36,18 +36,16 @@ export default class InstitutionModel extends OsfModel {
             return this.assets.logo;
         } else if (this.logoPath) {
             return this.logoPath;
-        } else {
-            return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
         }
+        return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
     }
 
     @computed('assets', 'assets.logo_rounded', 'logoUrl')
     get logoRoundedUrl(): string {
         if (this.assets && this.assets.logo_rounded) {
             return this.assets.logo_rounded;
-        } else {
-            return this.logoUrl;
         }
+        return this.logoUrl;
     }
 }
 

@@ -10,7 +10,7 @@ import template from './template';
 export default class RegistriesStates extends Component {
     node!: RegistrationModel;
 
-    @computed('node.userHasAdminPermission', 'node.state', 'node.isRoot')
+    @computed('node.{userHasAdminPermission,state,isRoot}')
     get isDisabled(this: RegistriesStates): boolean {
         return (!this.node.isRoot || !this.node.userHasAdminPermission ||
             !([RegistrationState.Public, RegistrationState.Embargoed].includes(this.node.state)));

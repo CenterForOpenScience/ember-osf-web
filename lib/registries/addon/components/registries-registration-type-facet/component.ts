@@ -90,7 +90,7 @@ export default class RegistriesRegistrationTypeFacet extends Component.extend({
     @action
     typeChecked(filter: ShareTermsFilter, checked: boolean) {
         if (!this.onlyOSF) {
-            return;
+            return undefined;
         }
 
         this.analytics.track('filter', checked ? 'remove' : 'add', `Discover - type ${filter.display}`);

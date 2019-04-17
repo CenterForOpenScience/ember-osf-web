@@ -3,7 +3,6 @@ import { getContext } from '@ember/test-helpers/setup-context';
 import { faker } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import { setupApplicationTest } from 'ember-qunit';
-import { TestContext } from 'ember-test-helpers';
 
 const {
     OSF: {
@@ -64,11 +63,11 @@ export function currentURL() {
 
 export function setupOSFApplicationTest(hooks: any) {
     setupApplicationTest(hooks);
-    hooks.beforeEach(async function(this: TestContext) {
+    hooks.beforeEach(async () => {
         faker.seed(17);
     });
 
-    hooks.afterEach(async function(this: TestContext, assert: any) {
+    hooks.afterEach(async (assert: any) => {
         assert.dom('img[alt*="Missing translation"]').doesNotExist();
     });
 }

@@ -20,6 +20,7 @@ function setupEngineFixtures(hooks: any) {
 }
 
 export function setupEngineTest(hooks: any, engine: string) {
+    // eslint-disable-next-line ember/no-restricted-resolver-tests
     setupTest(hooks, { resolver: engineResolverFor(engine) });
     setupEngineFixtures(hooks);
 }
@@ -61,7 +62,7 @@ export function setupEngineApplicationTest(hooks: any, engine: string, mountPoin
     setupOSFApplicationTest(hooks);
     setupEngineFixtures(hooks);
 
-    hooks.beforeEach(async function(this: TestContext) {
+    hooks.beforeEach(async () => {
         await loadEngine(engine, mountPoint || engine);
     });
 }

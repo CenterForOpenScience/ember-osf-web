@@ -1,5 +1,4 @@
 import { Delimiter, DELIMITERS, replace } from 'app-components/helpers/math';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 const TEX_EXPRS = [
@@ -37,11 +36,13 @@ for (const template of TEMPLATES) {
 }
 
 module('Unit | Helper | math', _ => {
-    test('it parses', function(this: TestContext, assert) {
+    test('it parses', assert => {
         for (const testCase of TEST_CASES) {
-            const result = replace(testCase.input, DELIMITERS, (expr: string, delim: Delimiter) => {
-                return `<Length: ${expr.length}, Inline: ${delim.inline}>`;
-            });
+            const result = replace(
+                testCase.input,
+                DELIMITERS,
+                (expr: string, delim: Delimiter) => `<Length: ${expr.length}, Inline: ${delim.inline}>`,
+            );
 
             assert.equal(result, testCase.output, `Properly parsed ${testCase.input}`);
         }

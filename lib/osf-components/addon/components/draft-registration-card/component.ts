@@ -31,12 +31,12 @@ export default class DraftRegistrationCard extends Component {
     // Private properties
     deleteModalOpen = false;
 
-    @computed('draftRegistration.branchedFrom.id', 'draftRegistration.id')
+    @computed('draftRegistration.{branchedFrom.id,id}')
     get draftRegistrationUrl() {
         return pathJoin(baseURL, this.draftRegistration.branchedFrom.get('id'), 'drafts', this.draftRegistration.id);
     }
 
-    @computed('draftRegistration.registrationSchema', 'draftRegistration.registration_metadata')
+    @computed('draftRegistration.{registrationSchema,registrationMetadata}')
     get percentComplete() {
         let requiredQuestions = 0;
         let answeredRequiredQuestions = 0;
