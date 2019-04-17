@@ -149,7 +149,7 @@
     "ember-power-select": "^2.0.0",
     "ember-promise-helpers": "^1.0.4",
     "ember-qrcode-shim": "^0.4.0",
-    "ember-radio-button": "^1.2.4",
+    "ember-radio-button": "^2.0.0",
     "ember-resolver": "^5.0.1",
     "ember-responsive": "^3.0.0",
     "ember-simple-auth": "^1.6.0",
