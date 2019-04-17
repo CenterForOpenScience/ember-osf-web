@@ -177,14 +177,13 @@ export default class RegistrationFormView extends Component {
 
     @computed('form')
     get anchors() {
-        return this.form.sections.map((section: Section) => {
-            return {
-                title: section.title,
-                slug: section.slug,
-                sectionParts: section.sectionParts.map(p => {
-                    return { title: p.title, slug: `${section.slug}.${p.slug}` };
-                }),
-            };
-        });
+        return this.form.sections.map((section: Section) => ({
+            title: section.title,
+            slug: section.slug,
+            sectionParts: section.sectionParts.map(p => ({
+                title: p.title,
+                slug: `${section.slug}.${p.slug}`,
+            })),
+        }));
     }
 }

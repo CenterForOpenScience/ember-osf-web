@@ -19,47 +19,43 @@ import template from './template';
 export default class InstitutionSelectList extends Component.extend({
     loadNodeAffiliatedInstitutions: task(function *(this: InstitutionSelectList) {
         if (!this.node) {
-            return undefined;
+            return;
         }
 
-        try {
-            const affiliatedList: SparseModel[] = yield this.node.sparseLoadAll(
-                'affiliatedInstitutions',
-                { institution: ['id'] },
-            );
-            this.set('affiliatedList', affiliatedList.mapBy('id'));
-        } catch (e) {
-            return false;
-        }
+        const affiliatedList: SparseModel[] = yield this.node.sparseLoadAll(
+            'affiliatedInstitutions',
+            { institution: ['id'] },
+        );
+        this.set('affiliatedList', affiliatedList.mapBy('id'));
     }).on('didReceiveAttrs').restartable(),
-    addInstitution: task(function *(this: InstitutionSelectList, institution: Institution) {
-        const errorMessage = this.i18n.t('osf-components.institutions-widget.add_institution_error');
 
+    addInstitution: task(function *(this: InstitutionSelectList, institution: Institution) {
         if (!this.node) {
-            return undefined;
+            return;
         }
+        const errorMessage = this.i18n.t('osf-components.institutions-widget.add_institution_error');
 
         try {
             yield this.node.createM2MRelationship('affiliatedInstitutions', institution);
             this.affiliatedList.pushObject(institution.id);
             this.reloadList();
         } catch (e) {
-            return this.toast.error(errorMessage);
+            this.toast.error(errorMessage);
         }
     }),
-    removeInstitution: task(function *(this: InstitutionSelectList, institution: Institution) {
-        const errorMessage = this.i18n.t('osf-components.institutions-widget.remove_institution_error');
 
+    removeInstitution: task(function *(this: InstitutionSelectList, institution: Institution) {
         if (!this.node) {
-            return undefined;
+            return;
         }
+        const errorMessage = this.i18n.t('osf-components.institutions-widget.remove_institution_error');
 
         try {
             yield this.node.deleteM2MRelationship('affiliatedInstitutions', institution);
             this.affiliatedList.removeObject(institution.id);
             this.reloadList();
         } catch (e) {
-            return this.toast.error(errorMessage);
+            this.toast.error(errorMessage);
         }
     }),
 }) {
