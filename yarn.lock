@@ -7018,12 +7018,12 @@ ember-cli@~3.4.3:
     watch-detector "^0.1.0"
     yam "^0.0.24"
 
-ember-click-outside@^0.1.12:
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/ember-click-outside/-/ember-click-outside-0.1.12.tgz#4b78ab675b613c2a989e792ca396cb19331e5ad8"
-  integrity sha1-S3irZ1thPCqYnnkso5bLGTMeWtg=
+ember-click-outside@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/ember-click-outside/-/ember-click-outside-1.0.4.tgz#a1f86e4a00c4e029349951a2e8bccb92cb9b22f4"
+  integrity sha512-lLkPJQU6QtG3mGVqZj6LBi9RT262F1OfRxxcwaj1xWv++D/dcRCIx9w8shIOxsUlo2+xzyKKjHyBjO4Vzrneag==
   dependencies:
-    ember-cli-babel "^6.3.0"
+    ember-cli-babel "^6.6.0"
     ember-cli-htmlbars "^2.0.1"
 
 ember-code-snippet@^2.1.0:
