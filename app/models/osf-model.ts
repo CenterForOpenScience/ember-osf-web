@@ -39,7 +39,6 @@ export enum Permission {
     Admin = 'admin',
 }
 
-// eslint-disable-next-line space-infix-ops
 type RelationshipType<T, R extends keyof T> = T[R] extends EmberArray<infer U> ? U : never;
 
 export interface QueryHasManyResult<T> extends Array<T> {
@@ -353,7 +352,7 @@ export default class OsfModel extends Model {
         let page = 1;
         let totalPages = 0;
 
-        do { // eslint-disable-line no-await-in-loop
+        do { // eslint-disable-next-line no-await-in-loop
             const response = await this.sparseHasMany(relationshipName, fieldset, {
                 ...options,
                 queryParams: {

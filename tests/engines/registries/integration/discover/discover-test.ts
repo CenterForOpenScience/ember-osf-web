@@ -6,7 +6,6 @@ import { OrderedSet, ValueObject } from 'immutable';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import Analytics from 'ember-osf-web/services/analytics';
 import { setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
 import param from 'ember-osf-web/utils/param';
@@ -18,9 +17,7 @@ import ShareSearch, {
     ShareTermsFilter,
 } from 'registries/services/share-search';
 
-const equals = (expected: ValueObject) => {
-    return sinon.match((x: any) => expected.equals(x));
-};
+const equals = (expected: ValueObject) => sinon.match((x: any) => expected.equals(x));
 
 const emptyResults: SearchResults<ShareRegistration> = {
     total: 0,
@@ -432,7 +429,7 @@ module('Registries | Integration | discover', hooks => {
         });
 
         const analytics = engine.lookup('service:analytics');
-        analytics.actions.click = function(this: Analytics, ...args: any[]) {
+        analytics.actions.click = function(...args: any[]) {
             (this.click as any)(...args);
             const event = args[args.length - 1] as MouseEvent;
 

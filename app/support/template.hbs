@@ -60,24 +60,14 @@
             <div local-class='SupportCol'>
                 <h4 class='f-w-lg bg-color-select'>{{t 'support.contact_title'}}</h4>
                 <div class='clearfix'>
-                    <p>{{t 'support.contact_technical'}}</p>
-                    <p>
-                        <OsfLink
-                            data-analytics-name='support_email'
-                            class='text-bigger'
-                            @href='mailto:{{this.supportEmail}}'
-                        >
-                            {{this.supportEmail}}
-                        </OsfLink>
-                    </p>
                     <p>{{t 'support.contact_questions'}}</p>
                     <p>
                         <OsfLink
-                            data-analytics-name='contact_email'
+                            data-analytics-name='contact_form'
                             class='text-bigger'
-                            @href='mailto:{{this.contactEmail}}'
+                            @href='https://openscience.zendesk.com/hc/en-us'
                         >
-                            {{this.contactEmail}}
+                            {{t 'support.contact_form'}}
                         </OsfLink>
                     </p>
                 </div>

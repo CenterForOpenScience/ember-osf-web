@@ -36,9 +36,8 @@ export default class PaginatedList extends Component {
         }
         if (this.page < this.maxPage || !(this.totalCount % this.pageSize)) {
             return this.pageSize;
-        } else {
-            return this.totalCount % this.pageSize;
         }
+        return this.totalCount % this.pageSize;
     }
 
     @computed('items.length', 'loading', 'placeholderCount')
