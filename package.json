@@ -18,8 +18,12 @@
     "test:config": "mocha node-tests/config-test.js",
     "test:translations": "mocha node-tests/translations-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
-    "test:node-tests": "mocha 'node-tests/**/*-test.js'",
-    "precommit": "lint-staged"
+    "test:node-tests": "mocha 'node-tests/**/*-test.js'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "linters": {
@@ -163,7 +167,7 @@
     "eslint-plugin-ember": "^6.2.0",
     "eslint-plugin-eslint-comments": "^3.1.1",
     "flat": "^4.0.0",
-    "husky": "^0.14.3",
+    "husky": "^1.3.1",
     "immutable": "4.0.0-rc.12",
     "js-md5": "^0.7.3",
     "jsonapi-typescript": "^0.1.3",
