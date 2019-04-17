@@ -23,4 +23,5 @@ module.exports = {
             '-headless',
         ],
     },
+    browser_disconnect_timeout: 30,
 };
