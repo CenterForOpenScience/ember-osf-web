@@ -1,0 +1,52 @@
+.iconInput {
+    background-color: #fff;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+
+    span {
+        font-size: 25px;
+        color: #337ab7;
+        padding: 0 5px 0 10px;
+    }
+
+    input {
+        color: #365063;
+        font-size: 16px;
+        height: 60px;
+        width: 100%;
+        padding: 0 15px;
+        border: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    input:focus {
+        outline: none;
+    }
+}
+
+@media(max-width: 768px) {
+    .iconInput {
+        height: 40px;
+
+        span {
+            font-size: 18px;
+        }
+
+        input {
+            height: 40px;
+        }
+    }
+}
+
+@media(max-width: 375px) {
+    .iconInput {
+        width: 90%;
+
+        input {
+            width: 80%;
+        }
+    }
+}

@@ -377,10 +377,6 @@ export default {
         privacy: 'Privacy&nbsp;Policy',
         separator: ' | ',
     },
-    new_home: {
-        header: 'The place to share your research',
-        subHeader: 'OSF is a free, open platform to support your research and enable collaboration.',
-    },
     home: {
         title: 'Home',
         youtube_modal_title: 'Getting Started with OSF',
@@ -1369,14 +1365,18 @@ export default {
             placeholder: 'Enter citation style (e.g. "APA")',
             type_to_search: 'Start typing to search citation styles',
         },
-        'add-your-research': {
-            header: 'Add your research',
-            subheader: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.',
-        },
-        'discover-research': {
-            header: 'Discover public research',
-            subheader: 'Discover projects, data, materials, and collaborators on OSF that might be helpful to your own research.',
+        'search-bar': {
+            heading: 'Discover public research',
+            subheading: 'Discover projects, data, materials, and collaborators on OSF that might be helpful to your own research.',
             placeholder: 'Search discipline, author...',
+        },
+        'hero-banner': {
+            heading: 'The place to share your research',
+            subheading: 'OSF is a free, open platform to support your research and enable collaboration.',
+            add_your_research: {
+                heading: 'Add your research',
+                subheading: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.',
+            },
         },
     },
     settings: {

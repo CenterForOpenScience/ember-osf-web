@@ -7,6 +7,6 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class AddYourResearch extends Component {
+export default class GetStartedButton extends Component {
     version: string = defaultTo(this.version, 'versionA');
 }

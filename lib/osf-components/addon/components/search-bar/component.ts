@@ -7,13 +7,13 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class DiscoverResearch extends Component {
+export default class SearchBar extends Component {
     value: string = '';
     version: string = defaultTo(this.version, 'versionA');
     @requiredAction onSearch!: (query: string) => void;
 
     @action
-    _onSearch(this: DiscoverResearch, query: string) {
+    _onSearch(this: SearchBar, query: string) {
         this.onSearch(query);
     }
 }
