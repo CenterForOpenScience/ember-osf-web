@@ -48,7 +48,7 @@ export default function checkAuth<T extends ConcreteSubclass<Route>>(
                         'error-no-api',
                         transitionTargetURL(transition).slice(1),
                     );
-                    return;
+                    return undefined;
                 }
             }
             // In any case, let the route load normally.

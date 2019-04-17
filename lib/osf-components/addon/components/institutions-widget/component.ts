@@ -19,7 +19,7 @@ import template from './template';
 export default class InstitutionWidget extends Component.extend({
     loadNodeAffiliatedInstitutions: task(function *(this: InstitutionWidget) {
         if (!this.node) {
-            return undefined;
+            return;
         }
 
         try {
@@ -27,14 +27,14 @@ export default class InstitutionWidget extends Component.extend({
                 yield this.node.queryHasMany('affiliatedInstitutions');
             this.set('affiliatedList', affiliatedList);
         } catch (e) {
-            return false;
+            // TODO: handle error fetching affiliated institutions
         }
     }),
     addInstitution: task(function *(this: InstitutionWidget, institution: Institution) {
         const errorMessage = this.i18n.t('osf-components.institutions-widget.add_institution_error');
 
         if (!this.node) {
-            return undefined;
+            return;
         }
 
         try {
@@ -42,14 +42,14 @@ export default class InstitutionWidget extends Component.extend({
             this.affiliatedList.pushObject(institution);
             this.reloadList();
         } catch (e) {
-            return this.toast.error(errorMessage);
+            this.toast.error(errorMessage);
         }
     }),
     removeInstitution: task(function *(this: InstitutionWidget, institution: Institution) {
         const errorMessage = this.i18n.t('osf-components.institutions-widget.remove_institution_error');
 
         if (!this.node) {
-            return undefined;
+            return;
         }
 
         try {
@@ -57,7 +57,7 @@ export default class InstitutionWidget extends Component.extend({
             this.affiliatedList.removeObject(institution);
             this.reloadList();
         } catch (e) {
-            return this.toast.error(errorMessage);
+            this.toast.error(errorMessage);
         }
     }),
 }) {

@@ -31,7 +31,7 @@ export default class NodeCard extends Component {
     // Private properties
     searchUrl = pathJoin(baseURL, 'search');
 
-    @computed('node', 'node.isRegistration', 'node.registrationSchema', 'node.registeredMeta.@each')
+    @computed('node', 'node.{isRegistration,registrationSchema,registeredMeta.@each}')
     get registrationTitle(): string | undefined {
         if (this.node && this.node.isRegistration) {
             const registration = this.node as Registration;
@@ -54,7 +54,7 @@ export default class NodeCard extends Component {
         return undefined;
     }
 
-    @computed('readOnly', 'node', 'node.nodeType', 'node.userHasWritePermission')
+    @computed('readOnly', 'node', 'node.{nodeType,userHasWritePermission}')
     get showDropdown() {
         return !this.readOnly && this.node && this.node.nodeType === NodeType.Fork && this.node.userHasWritePermission;
     }

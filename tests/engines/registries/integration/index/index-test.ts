@@ -5,7 +5,6 @@ import { TestContext } from 'ember-test-helpers';
 import { module, skip } from 'qunit';
 import sinon from 'sinon';
 
-import Analytics from 'ember-osf-web/services/analytics';
 import { stubRegistriesShareSearch } from 'ember-osf-web/tests/engines/registries/helpers';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
@@ -132,7 +131,7 @@ module('Registries | Integration | index', hooks => {
 
         for (const testCase of testCases) {
             stub.reset();
-            stub.callsFake(function(this: Analytics, ...args: any[]) {
+            stub.callsFake((...args: any[]) => {
                 const event = args[args.length - 1] as MouseEvent;
                 // Prevent redirects from being followed
                 if (!event.preventDefault) {

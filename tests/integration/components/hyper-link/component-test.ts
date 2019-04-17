@@ -8,19 +8,19 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | hyper-link', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders ember routes', async function(this: TestContext, assert) {
+    test('it renders ember routes', async assert => {
         await render(hbs`{{osf-navbar/x-links/hyper-link foo}}`);
 
         assert.dom('a').exists();
     });
 
-    test('it renders external hrefs', async function(this: TestContext, assert) {
+    test('it renders external hrefs', async assert => {
         await render(hbs`{{osf-navbar/x-links/hyper-link 'http://example.com'}}`);
 
         assert.dom('a[href="http://example.com"]').exists();
     });
 
-    test('it renders internal hrefs', async function(this: TestContext, assert) {
+    test('it renders internal hrefs', async assert => {
         await render(hbs`{{osf-navbar/x-links/hyper-link '/'}}`);
 
         assert.dom('a[href="/"]').exists();
@@ -40,13 +40,13 @@ module('Integration | Component | hyper-link', hooks => {
         assert.dom('a').doesNotExist();
     });
 
-    test('it renders `text`', async function(this: TestContext, assert) {
+    test('it renders `text`', async assert => {
         await render(hbs`{{osf-navbar/x-links/hyper-link text='This is my text'}}`);
 
         assert.dom('a').hasText('This is my text');
     });
 
-    test('it renders yields', async function(this: TestContext, assert) {
+    test('it renders yields', async assert => {
         await render(hbs`
             {{#osf-navbar/x-links/hyper-link text='This is my text'}}
                 This is not my text
@@ -56,7 +56,7 @@ module('Integration | Component | hyper-link', hooks => {
         assert.dom('a').hasText('This is not my text');
     });
 
-    test('it allows overriding route when curried', async function(this: TestContext, assert) {
+    test('it allows overriding route when curried', async assert => {
         await render(hbs`
             {{#let (
                 hash

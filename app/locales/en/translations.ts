@@ -1467,6 +1467,22 @@ export default {
                 update_fail: 'Unable to update email',
                 update_success: 'Email updated',
             },
+            changePassword: {
+                title: 'Change password',
+                updateButton: 'Update password',
+                updateFail: 'Error updating password',
+                updateSuccess: 'Successfully changed password',
+                currentPassword: {
+                    placeholder: 'Old password',
+                },
+                newPassword: {
+                    placeholder: 'New password',
+                },
+                confirmPassword: {
+                    title: 'Confirm new password',
+                    placeholder: 'Verify password',
+                },
+            },
         },
         addons: {
             title: 'Configure add-on accounts',
