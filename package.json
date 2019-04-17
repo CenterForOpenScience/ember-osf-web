@@ -44,7 +44,7 @@
     "@ember/jquery": "^0.6.0",
     "@ember/optional-features": "^0.7.0",
     "@ember/test-helpers": "^1.5.0",
-    "@types/ace": "^0.0.39",
+    "@types/ace": "^0.0.42",
     "@types/dropzone": "^5.0.4",
     "@types/ember": "^3.0.25",
     "@types/ember-data": "^3.1.7",

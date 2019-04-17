@@ -1083,10 +1083,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@types/ace@^0.0.39":
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/@types/ace/-/ace-0.0.39.tgz#ccb2f6654e5118e7e2bd5302be3b54dcdcb54f51"
-  integrity sha512-td1Co4L1/GZtysn8LRlVdNxmIjZvM5/VGzvIEWPiSpurUbr4CzRAKD2IiWxbMr02GW72vUqjfUjziu5Zj4hWAg==
+"@types/ace@^0.0.42":
+  version "0.0.42"
+  resolved "https://registry.yarnpkg.com/@types/ace/-/ace-0.0.42.tgz#941973bc5c1d5c9213f0561b8b2d82a18e1400ea"
+  integrity sha512-ZakacqExJnGSoz0fSFtSL1A1Df+MIqTIPBBMl1ppEU8wS5AWGx0EPQPOyiAazkyMrskI0iG16tT+K1ZmIJGGnA==
 
 "@types/acorn@^4.0.3":
   version "4.0.5"
