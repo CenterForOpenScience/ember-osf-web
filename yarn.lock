@@ -7400,12 +7400,12 @@ ember-font-awesome@^3.1.0:
     ember-cli-htmlbars "^2.0.2"
     font-awesome "^4.7.0"
 
-ember-g-recaptcha@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/ember-g-recaptcha/-/ember-g-recaptcha-0.10.0.tgz#0ba45fc7ab5427bdc33d6558e715e0ac3e5aaac0"
-  integrity sha512-HMTIXKVUGL3VXI5eZpUnwH6tk5jtHV+zMxlrJL6p8qM9qKVy8ibomGYB+Kyrp+U6E+3CoCa72tvRHSxz0y1WrA==
+ember-g-recaptcha@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ember-g-recaptcha/-/ember-g-recaptcha-1.0.0.tgz#974e75157a12b514da541836b2499866a8cd59f7"
+  integrity sha512-yPw73Mjuhk2T56KxMpVlpJw4LUSmJ1tT+DjFKZzuDSdFUAvO/NtPzC4Y3QzZgY6CjFuYy7p2rYRAAp1O80aIhw==
   dependencies:
-    ember-cli-babel "^6.6.0"
+    ember-cli-babel "^6.16.0"
 
 ember-get-config@^0.2.2, ember-get-config@^0.2.4:
   version "0.2.4"

@@ -132,7 +132,7 @@
     "ember-faker": "^1.2.1",
     "ember-feature-flags": "^5.0.0",
     "ember-font-awesome": "^3.1.0",
-    "ember-g-recaptcha": "^0.10.0",
+    "ember-g-recaptcha": "^1.0.0",
     "ember-get-config": "^0.2.4",
     "ember-i18n": "^5.0.2",
     "ember-i18n-cp-validations": "^3.1.0",
