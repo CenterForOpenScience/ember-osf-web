@@ -81,7 +81,7 @@
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-autoprefixer": "^0.8.1",
     "ember-cli-babel": "^6.16.0",
-    "ember-cli-blueprint-test-helpers": "^0.18.3",
+    "ember-cli-blueprint-test-helpers": "^0.19.2",
     "ember-cli-clipboard": "0.9.0",
     "ember-cli-code-coverage": "https://github.com/kategengler/ember-cli-code-coverage#master#2018-08-15T15:51:29Zs",
     "ember-cli-dependency-checker": "^3.0.0",
