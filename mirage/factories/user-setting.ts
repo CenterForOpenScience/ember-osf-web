@@ -12,9 +12,8 @@ export default Factory.extend<MirageUserSetting>({
             return this.user.id;
         } else if (this.userId) {
             return this.userId as string;
-        } else {
-            return index.toString();
         }
+        return index.toString();
     },
     twoFactorEnabled: false,
     twoFactorConfirmed: false,

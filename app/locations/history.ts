@@ -39,9 +39,8 @@ export default class FragmentHistoryLocation extends HistoryLocation.extend(Guid
         if (fragment && newURL === currentPathAndQuery) {
             this.scrollToFragment.perform(fragment);
             return super.replaceURL(`${newURL}#${fragment}`);
-        } else {
-            return super.replaceURL(newURL);
         }
+        return super.replaceURL(newURL);
     }
 
     onUpdateURL(callback: (newURL: string) => void) {

@@ -39,9 +39,8 @@ export function filter(model: ModelInstance, request: Request) {
                     }
                     return compare(model[field], val, toOperator(operator));
                 });
-            } else {
-                return true;
             }
+            return true;
         });
 }
 

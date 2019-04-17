@@ -24,7 +24,7 @@ export default class DefaultRegionPane extends Component.extend({
     loadDefaultRegionTask: task(function *(this: DefaultRegionPane) {
         const { user } = this.currentUser;
         if (!user) {
-            return undefined;
+            return;
         }
 
         yield user.belongsTo('defaultRegion').reload();

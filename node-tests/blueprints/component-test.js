@@ -21,27 +21,23 @@ function checkComponentFiles(file, root) {
 describe('Blueprint: component', function() {
     setupTestHooks(this);
 
-    describe('generates valid component files', function() {
-        beforeEach(function() {
+    describe('generates valid component files', () => {
+        beforeEach(() => {
             setupPodConfig({ usePods: true });
         });
 
-        it('in app', function() {
-            return emberNew()
-                .then(linkBlueprints)
-                .then(() => emberGenerateDestroy(
-                    ['component', 'foo-bar'],
-                    file => checkComponentFiles(file, 'app'),
-                ));
-        });
+        it('in app', () => emberNew()
+            .then(linkBlueprints)
+            .then(() => emberGenerateDestroy(
+                ['component', 'foo-bar'],
+                file => checkComponentFiles(file, 'app'),
+            )));
 
-        it('in addon', function() {
-            return emberNew({ target: 'addon' })
-                .then(linkBlueprints)
-                .then(() => emberGenerateDestroy(
-                    ['component', 'foo-bar'],
-                    file => checkComponentFiles(file, 'addon'),
-                ));
-        });
+        it('in addon', () => emberNew({ target: 'addon' })
+            .then(linkBlueprints)
+            .then(() => emberGenerateDestroy(
+                ['component', 'foo-bar'],
+                file => checkComponentFiles(file, 'addon'),
+            )));
     });
 });

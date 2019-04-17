@@ -23,12 +23,10 @@ function checkOsfModelFiles(file) {
 describe('Blueprint: osf-model', function() {
     setupTestHooks(this);
 
-    it('generates correct files', function() {
-        return emberNew()
-            .then(linkBlueprints)
-            .then(() => emberGenerateDestroy(
-                ['osf-model', 'foo-bar'],
-                file => checkOsfModelFiles(file),
-            ));
-    });
+    it('generates correct files', () => emberNew()
+        .then(linkBlueprints)
+        .then(() => emberGenerateDestroy(
+            ['osf-model', 'foo-bar'],
+            file => checkOsfModelFiles(file),
+        )));
 });
