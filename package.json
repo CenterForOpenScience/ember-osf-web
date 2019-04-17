@@ -42,7 +42,7 @@
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@ember/jquery": "^0.6.0",
-    "@ember/optional-features": "^0.6.3",
+    "@ember/optional-features": "^0.7.0",
     "@ember/test-helpers": "^0.7.21",
     "@types/ace": "^0.0.39",
     "@types/dropzone": "^5.0.4",
