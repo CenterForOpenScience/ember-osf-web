@@ -154,10 +154,12 @@ declare const config: {
         navigation: {
             institutions: string;
         };
+        ABTesting: {
+            homePageVersionB: string;
+        };
         storageI18n: string;
         enableInactiveSchemas: string;
         verifyEmailModals: string;
-        homePageVersionB: string;
     };
     gReCaptcha: {
         siteKey: string;

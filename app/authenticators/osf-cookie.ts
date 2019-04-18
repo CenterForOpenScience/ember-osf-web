@@ -17,7 +17,7 @@ const {
         apiVersion,
         devMode,
     },
-    featureFlagNames: { homePageVersionB },
+    featureFlagNames: { ABTesting },
 } = config;
 
 export default class OsfCookie extends Base {
@@ -43,8 +43,11 @@ export default class OsfCookie extends Base {
 
         if (devMode) {
             this._checkApiVersion();
-            if (!this.features.flags.includes(homePageVersionB)) {
-                this.features.disable(homePageVersionB);
+            //
+            // TODO: create function to initialize all feature flags in config
+            //
+            if (!this.features.flags.includes(ABTesting.homePageVersionB)) {
+                this.features.disable(ABTesting.homePageVersionB);
             }
         }
 

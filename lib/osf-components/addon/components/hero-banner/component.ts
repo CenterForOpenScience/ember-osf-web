@@ -13,13 +13,13 @@ import { layout } from 'ember-osf-web/decorators/component';
 import styles from './styles';
 import template from './template';
 
-const { featureFlagNames: { homePageVersionB } } = config;
+const { featureFlagNames: { ABTesting } } = config;
 
 @layout(template, styles)
 export default class NewHome extends Component {
     @service features!: Features;
 
-    @alias(`features.${camelize(homePageVersionB)}`)
+    @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
     shouldShowVersionB!: boolean;
 
     @action

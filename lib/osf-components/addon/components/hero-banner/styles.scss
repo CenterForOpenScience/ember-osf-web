@@ -1,5 +1,3 @@
-/* stylelint-disable selector-class-pattern, selector-max-id */
-
 .hero {
     color: #fff;
     text-align: center;
@@ -24,7 +22,7 @@ header {
     position: relative;
     margin-top: 15px;
 
-    .heading {
+    h1 {
         font-size: 48px;
         font-weight: 700;
         max-width: 785px;
@@ -93,7 +91,7 @@ header {
         min-height: 500px;
 
         header {
-            .heading {
+            h1 {
                 font-size: 36px;
             }
             
@@ -154,7 +152,7 @@ header {
 
 @media(max-width: 375px) {
     header {
-        .heading {
+        h1 {
             font-size: 32px;
         }
 
