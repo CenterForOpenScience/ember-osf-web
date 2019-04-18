@@ -1,7 +1,6 @@
 <ValidatedModelForm
     data-analytics-scope='Name form'
     @onSave={{action this.onSave}}
-    @onWillDestroy={{action this.onWillDestroy}}
     @model={{this.user}}
     as |form|
 >
@@ -45,8 +44,8 @@
             data-test-discard-changes
             data-analytics-name='Discard changes'
             @buttonType='button'
-            @disabled={{not this.isPageDirty}}
-            @onClick={{action this.onWillDestroy this.user}}
+            @disabled={{not form.isDirty}}
+            @onClick={{action form.rollback}}
         >
             {{t 'validated_input_form.discard_changes'}}
         </OsfButton>
@@ -54,7 +53,7 @@
             data-test-save
             data-analytics-name='Save'
             @buttonType='submit'
-            @disabled={{and (not this.isPageDirty) form.disabled}}
+            @disabled={{and (not form.isDirty) form.disabled}}
             @type='primary'
         >
             {{t 'general.save'}}

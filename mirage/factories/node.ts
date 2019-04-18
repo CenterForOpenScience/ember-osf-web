@@ -8,6 +8,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import { guid, guidAfterCreate } from './utils';
 
 export interface MirageNode extends Node {
+    affiliatedInstitutionIds: string[] | number[];
     regionId: string | number;
     lastLogged: Date | string;
 }
@@ -18,6 +19,8 @@ export interface NodeTraits {
     withDraftRegistrations: Trait;
     withDoi: Trait;
     withLicense: Trait;
+    withAffiliatedInstitutions: Trait;
+    withManyAffiliatedInstitutions: Trait;
 }
 
 export default Factory.extend<MirageNode & NodeTraits>({
@@ -132,6 +135,23 @@ export default Factory.extend<MirageNode & NodeTraits>({
             const license = faker.random.arrayElement(server.schema.licenses.all().models);
             node.license = license; // eslint-disable-line no-param-reassign
             node.save();
+        },
+    }),
+
+    withAffiliatedInstitutions: trait<MirageNode>({
+        afterCreate(node, server) {
+            const affiliatedInstitutionCount = faker.random.number({ min: 4, max: 5 });
+            server.createList('institution', affiliatedInstitutionCount, {
+                nodes: [node],
+            });
+        },
+    }),
+
+    withManyAffiliatedInstitutions: trait<MirageNode>({
+        afterCreate(node, server) {
+            server.createList('institution', 15, {
+                nodes: [node],
+            });
         },
     }),
 });

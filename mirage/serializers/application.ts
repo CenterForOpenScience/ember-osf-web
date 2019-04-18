@@ -6,7 +6,6 @@ import { RelatedLinkMeta, Relationship } from 'osf-api';
 
 const { OSF: { apiUrl } } = config;
 
-// eslint-disable-next-line space-infix-ops
 export type SerializedRelationships<T> = {
     [relName in Exclude<RelationshipsFor<T>, 'toString'>]?: Relationship;
 };

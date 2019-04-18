@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import MirageModelRegistry from 'ember-cli-mirage/types/registries/model';
 import MirageSchemaRegistry from 'ember-cli-mirage/types/registries/schema';
 import DS from 'ember-data';
@@ -132,7 +131,7 @@ interface HandlerOptions {
     timing?: number;
     coalesce?: boolean;
 }
-type HandlerFunction = (this: HandlerContext, schema: Schema, request: Request) => any;
+export type HandlerFunction = (this: HandlerContext, schema: Schema, request: Request) => any;
 
 /* tslint:disable unified-signatures */
 function handlerDefinition(path: string, options?: HandlerOptions): void;
@@ -276,4 +275,3 @@ export class JSONAPISerializer {
     serialize(object: ModelInstance, request: Request): SingleResourceDocument;
     normalize(json: any): any;
 }
-/* eslint-enable no-use-before-define */

@@ -6,6 +6,7 @@ import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
+import { institutionAdd, institutionDelete, institutionUpdate } from './views/institution';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource } from './views/osf-resource';
 import { forkRegistration, registrationDetail } from './views/registration';
@@ -13,6 +14,7 @@ import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
+import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
@@ -48,6 +50,19 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
+    osfNestedResource(this, 'node', 'affiliatedInstitutions', {
+        only: ['index'],
+        path: '/nodes/:parentID/institutions',
+    });
+    osfNestedResource(this, 'node', 'affiliatedInstitutions', {
+        only: ['create', 'delete', 'update'],
+        path: '/nodes/:parentID/relationships/institutions',
+        views: {
+            create: institutionAdd,
+            delete: institutionDelete,
+            update: institutionUpdate,
+        },
+    });
 
     osfResource(this, 'registration', { except: ['show'] });
     this.get('/registrations/:id', registrationDetail);
@@ -84,9 +99,7 @@ export default function(this: Server) {
     osfResource(this, 'scope', { only: ['index', 'show'] });
     osfResource(this, 'region', { only: ['index', 'show'] });
 
-    this.get('/status', () => {
-        return { meta: { version: '2.8' }, maintenance: null };
-    });
+    this.get('/status', () => ({ meta: { version: '2.8' }, maintenance: null }));
 
     osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
@@ -103,6 +116,7 @@ export default function(this: Server) {
     this.patch('/users/:parentID/settings/emails/:emailID/', updateEmails);
     this.post('/users/:parentID/settings/emails/', createEmails);
     this.post('/users/:id/settings/export', userSettings.requestExport);
+    this.post('/users/:parentID/settings/password/', updatePassword);
 
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
@@ -119,14 +133,12 @@ export default function(this: Server) {
     // Private namespace
     this.namespace = '/_';
 
-    this.get('/banners/current/', () => {
-        return {
-            data: {
-                attributes: {
-                },
-                type: 'banners',
-                id: '',
+    this.get('/banners/current/', () => ({
+        data: {
+            attributes: {
             },
-        };
-    });
+            type: 'banners',
+            id: '',
+        },
+    }));
 }

@@ -26,6 +26,7 @@ const Router = EmberRouter.extend({
     statusMessages: service('status-messages'),
     ready: service('ready'),
 
+    // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
     readyBlocker: null as Blocker | null,
     location: config.locationType,
     rootURL: config.rootURL,
@@ -97,6 +98,7 @@ Router.map(function() {
     this.route('dashboard');
     this.route('goodbye');
     this.route('institutions');
+    this.route('new-home');
     this.route('quickfiles');
     this.route('register');
     this.route('settings', function() {

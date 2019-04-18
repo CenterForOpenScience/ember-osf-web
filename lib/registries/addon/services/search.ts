@@ -36,9 +36,6 @@ export class MapProxy<T> implements ValueObject {
     }
 }
 
-// Doesn't matter for types but useful for keeping all interfaces together.
-/* eslint-disable no-use-before-define */
-
 interface Filter {
    key: string;
    type: symbol;
@@ -64,8 +61,6 @@ interface Options {
 export interface SearchModifier extends ValueObject {
     apply(query: any): any;
 }
-
-/* eslint-enable no-use-before-define */
 
 export class SearchOrder extends MapProxy<Order> implements Order {
     get display() {

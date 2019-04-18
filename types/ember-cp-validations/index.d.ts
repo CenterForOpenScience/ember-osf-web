@@ -9,6 +9,7 @@ interface GlobalValidations {
     attrs: {
         [attrName: string]: ResultCollection;
     };
+    validatableAttributes: string[];
 }
 
 export interface ResultCollection {

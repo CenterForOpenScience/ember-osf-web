@@ -12,6 +12,7 @@ export default class Application extends Route.extend({
         if (!/^collections\.(provider|page-not-found)/.test(transition.targetName)) {
             return this.transitionToExternal('home');
         }
+        return undefined;
     },
 }) {
     @service theme!: Theme;

@@ -48,9 +48,7 @@ export default class GuidNodeRegistrations extends Controller {
                 },
             });
         schemas = schemas.toArray();
-        schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => {
-            return a.name.length - b.name.length;
-        });
+        schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => a.name.length - b.name.length);
         this.set('defaultSchema', schemas.firstObject);
         this.set('selectedSchema', this.defaultSchema);
         this.set('schemas', schemas);
@@ -63,7 +61,7 @@ export default class GuidNodeRegistrations extends Controller {
         return this.tab ? this.tab : 'registrations';
     }
 
-    @computed('node.id', 'node.root.id', 'node.root.userHasAdminPermission')
+    @computed('node.{id,root.id,root.userHasAdminPermission}')
     get isComponentRootAdmin() {
         return this.node && this.node.id !== this.node.root.get('id') && this.node.root.get('userHasAdminPermission');
     }

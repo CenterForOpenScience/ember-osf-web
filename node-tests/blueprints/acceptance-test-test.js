@@ -14,8 +14,9 @@ const linkBlueprints = require('./helpers/link-blueprints');
 describe('Acceptance: ember-osf-web generate and destroy acceptance-test', function() {
     setupTestHooks(this);
 
-    beforeEach(function() {
-        return emberNew().then(linkBlueprints).then(() => {
+    beforeEach(() => emberNew()
+        .then(linkBlueprints)
+        .then(() => {
             fs.writeFileSync(
                 '.ember-cli',
                 `{
@@ -23,11 +24,8 @@ describe('Acceptance: ember-osf-web generate and destroy acceptance-test', funct
                 "usePods": true
                 }`,
             );
-        });
-    });
-    it('acceptance-test foo', function() {
-        return emberGenerateDestroy(['acceptance-test', 'foo'], _file => {
-            expect(_file('tests/acceptance/foo-test.ts')).to.contain('setupOSFApplicationTest');
-        });
-    });
+        }));
+    it('acceptance-test foo', () => emberGenerateDestroy(['acceptance-test', 'foo'], _file => {
+        expect(_file('tests/acceptance/foo-test.ts')).to.contain('setupOSFApplicationTest');
+    }));
 });

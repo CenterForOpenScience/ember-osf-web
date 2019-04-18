@@ -61,7 +61,8 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 }
 
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
-    const firstNode = server.create('node', {});
+    server.create('user-setting', { user: currentUser });
+    const firstNode = server.create('node', 'withAffiliatedInstitutions');
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList('node', 10, {
         currentUserPermissions: Object.values(Permission),
@@ -104,13 +105,24 @@ function forksScenario(server: Server, currentUser: ModelInstance<User>) {
     forkNode(server, forksNode, { currentUserPermissions: Object.values(Permission) });
 }
 
-function handbookScenario(server: Server) {
+function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     // ValidatedModelForm
     server.create('node', {
         id: 'extng',
         title: 'Existing node!',
         description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
     });
+
+    // InstitutionsWidget
+    const institutionsNode = server.create('node', {
+        id: 'lacks',
+    }, 'withAffiliatedInstitutions');
+
+    server.createList('institution', 2, { users: [currentUser], nodes: [institutionsNode] });
+
+    server.create('node', {
+        id: 'manys',
+    }, 'withManyAffiliatedInstitutions');
 
     // ContributorList
     for (const contributorCount of [1, 2, 3, 23]) {
@@ -165,6 +177,6 @@ export default function(server: Server) {
         quickfilesScenario(server, currentUser);
     }
     if (handbookEnabled) {
-        handbookScenario(server);
+        handbookScenario(server, currentUser);
     }
 }
