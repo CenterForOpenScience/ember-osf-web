@@ -15,6 +15,7 @@ export default class SettingsDeveloperAppsEditRoute extends Route.extend({
 }) {
     @service router!: RouterService;
 
+    // eslint-disable-next-line camelcase
     model(params: { developer_app_id: string }) {
         return {
             id: params.developer_app_id,

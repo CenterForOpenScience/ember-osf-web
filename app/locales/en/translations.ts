@@ -331,8 +331,8 @@ export default {
         guides_paragraph: 'Learn how to use OSF for improving your research workflow. Read our <a href="{{helpUrl}}" data-analytics-name="guides_link">guides</a> for step-by-step screenshots that show you the basics of project structures, version control, privacy, files, add-on support, and more!',
         guides_button: 'Visit guides',
         contact_title: 'Get in touch',
-        contact_technical: 'For emails about technical support:',
-        contact_questions: 'For all other questions or comments:',
+        contact_questions: 'For technical support or other questions,',
+        contact_form: 'submit a request.',
         prereg_title: 'Do you have questions about preregistration?',
         prereg_paragraph: 'Check out our <a href="{{preregUrl}}" data-analytics-name="prereg_link">prereg page</a>.',
         status_title: 'Are you experiencing downtime with our services?',
@@ -523,7 +523,7 @@ export default {
     },
     // These keys come from the "osf_status" cookie set by Flask to expose status messages added to the session with push_status_message()
     status: {
-        welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="http://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>',
+        welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://openscience.zendesk.com/hc/en-us" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>',
         alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.',
         remove_addon: 'Because the GitHub add-on for {{extra.category}} "{{extra.title}}" was authenticated by {{extra.user}}, authentication information has been deleted.',
         project_deleted: 'Project has been successfully deleted.',
@@ -1396,7 +1396,7 @@ export default {
         account: {
             deactivation: {
                 title: 'Deactivate account',
-                body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="http://help.osf.io/m/settings/l/697108-merge-your-accounts">merging your accounts</a>.',
+                body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="https://openscience.zendesk.com/hc/en-us/articles/360019738014">merging your accounts</a>.',
                 warning: 'Warning:',
                 warningText: 'Once your deactivation has been approved the effects are irreversible.',
                 pending: 'Your account is currently pending deactivation.',
@@ -1482,6 +1482,22 @@ export default {
                 unconfirmed_emails: 'Unconfirmed emails',
                 update_fail: 'Unable to update email',
                 update_success: 'Email updated',
+            },
+            changePassword: {
+                title: 'Change password',
+                updateButton: 'Update password',
+                updateFail: 'Error updating password',
+                updateSuccess: 'Successfully changed password',
+                currentPassword: {
+                    placeholder: 'Old password',
+                },
+                newPassword: {
+                    placeholder: 'New password',
+                },
+                confirmPassword: {
+                    title: 'Confirm new password',
+                    placeholder: 'Verify password',
+                },
             },
         },
         addons: {

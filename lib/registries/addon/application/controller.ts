@@ -22,7 +22,7 @@ export default class Application extends Controller {
 
     activeService = OSFService.REGISTRIES;
     searchRoute = 'registries.discover';
-    supportRoute = 'http://help.osf.io/m/registrations/';
+    supportRoute = 'https://openscience.zendesk.com/hc/en-us/categories/360001550953';
 
     @action
     search(query: string) {

@@ -22,7 +22,7 @@ const {
 export default class RegistriesMetadata extends Component.extend({
     loadIdentifiers: task(function *(this: RegistriesMetadata) {
         if (!this.registration) {
-            return undefined;
+            return;
         }
         const identifiers: Identifier[] = yield this.registration.identifiers;
         const doi = identifiers.find(i => i.category === 'doi');

@@ -63,7 +63,7 @@ module('Acceptance | resolve-guid', hooks => {
     });
 
     module('Node', mhooks => {
-        mhooks.beforeEach(async function(this: TestContext) {
+        mhooks.beforeEach(async () => {
             const analyticsEngine = await loadEngine('analytics-page', 'guid-node.analytics');
             analyticsEngine.register('service:keen', KeenStub);
         });
@@ -102,7 +102,7 @@ module('Acceptance | resolve-guid', hooks => {
     });
 
     module('Registration', mhooks => {
-        mhooks.beforeEach(async function(this: TestContext) {
+        mhooks.beforeEach(async () => {
             const analyticsEngine = await loadEngine('analytics-page', 'guid-registration.analytics');
             analyticsEngine.register('service:keen', KeenStub);
         });

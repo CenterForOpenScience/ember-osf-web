@@ -65,13 +65,13 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         this.owner.register('service:statusMessages', statusMessagesStub);
     });
 
-    test('it renders', async function(assert) {
+    test('it renders', async assert => {
         await render(hbs`<RegistriesNavbar />`);
 
         assert.dom('nav[data-test-nav]').exists('The nav element is rendered');
     });
 
-    test('desktop layout', async function(assert) {
+    test('desktop layout', async assert => {
         setBreakpoint('desktop');
 
         await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
@@ -122,7 +122,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('a[role="button"][data-test-login]').isNotVisible('Login button not is visible');
     });
 
-    test('tablet layout', async function(assert) {
+    test('tablet layout', async assert => {
         setBreakpoint('tablet');
 
         await render(hbs`<RegistriesNavbar />`);
@@ -241,7 +241,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.ok(this.get('onSearch').calledWith('This is my query'));
     });
 
-    test('service list', async function(assert) {
+    test('service list', async assert => {
         await render(hbs`<RegistriesNavbar />`);
 
         assert.dom('[data-test-service-list]').isNotVisible();

@@ -113,7 +113,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             }
         });
 
-    test('only admin can edit registration tags', async function(this: OverviewTestContext, assert: Assert) {
+    test('only admin can edit registration tags', async assert => {
         const tags = ['Suspendisse', 'Mauris', 'ipsum', 'facilisis'];
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),

@@ -14,17 +14,15 @@ const fixture = require('../helpers/fixture');
 describe('Blueprint: component-addon', function() {
     setupTestHooks(this);
 
-    describe('generates valid component files', function() {
-        beforeEach(function() {
+    describe('generates valid component files', () => {
+        beforeEach(() => {
             setupPodConfig({ usePods: true });
             return emberNew({ target: 'addon' }).then(linkBlueprints);
         });
 
-        it('in addon (app tree)', function() {
-            return emberGenerateDestroy(['component-addon', 'foo-bar'], file => {
-                expect(file('app/components/foo-bar/component.js'))
-                    .to.equal(fixture('blueprints/component-addon/component.js'));
-            });
-        });
+        it('in addon (app tree)', () => emberGenerateDestroy(['component-addon', 'foo-bar'], file => {
+            expect(file('app/components/foo-bar/component.js'))
+                .to.equal(fixture('blueprints/component-addon/component.js'));
+        }));
     });
 });

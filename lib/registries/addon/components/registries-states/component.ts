@@ -11,7 +11,7 @@ export default class RegistriesStates extends Component {
     registration!: RegistrationModel;
     public = RegistrationState.Public;
 
-    @computed('registration.userHasAdminPermission', 'registration.state', 'registration.isRoot')
+    @computed('registration.{userHasAdminPermission,state,isRoot}')
     get isDisabled(this: RegistriesStates): boolean {
         return (!this.registration.isRoot || !this.registration.userHasAdminPermission ||
             !([RegistrationState.Public, RegistrationState.Embargoed].includes(this.registration.state)));

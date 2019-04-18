@@ -14,7 +14,7 @@ export default class Overview extends Controller {
     @computed('registration.{root,isRoot}')
     get root() {
         if (!this.registration || this.registration.isRoot) {
-            return;
+            return undefined;
         }
 
         return this.registration.belongsTo('root').value() as Registration;

@@ -33,7 +33,7 @@ export default class GuidNodeForks extends Controller {
     @computed('node')
     get nodeType(this: GuidNodeForks) {
         if (!this.node) {
-            return;
+            return undefined;
         }
         return this.node.parent ? 'component' : 'project';
     }
