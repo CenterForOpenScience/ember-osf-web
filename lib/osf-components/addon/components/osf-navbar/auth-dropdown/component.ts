@@ -19,7 +19,7 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
 import template from './template';
 
-const { OSF: { url: baseUrl }, featureFlagNames } = config;
+const { OSF: { url: baseUrl } } = config;
 
 export class AuthBase extends Component {
     @service analytics!: Analytics;
@@ -51,12 +51,6 @@ export class AuthBase extends Component {
     @computed('router.currentURL')
     get signUpNext() {
         return pathJoin(baseUrl, this.router.currentURL);
-    }
-
-    @computed('signUpURL', 'signUpNext')
-    get signUpRoute() {
-        return this.features.isEnabled(featureFlagNames.routes.register) ? 'register' :
-            `${this.signUpURL}?${param(this.signUpQueryParams)}`;
     }
 
     @computed('router.currentRouteName', 'signUpNext')

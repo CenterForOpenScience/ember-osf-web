@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
-import config from 'ember-get-config';
 import { t } from 'ember-i18n/test-support';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { setBreakpoint } from 'ember-responsive/test-support';
@@ -9,8 +8,6 @@ import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
-const { OSF: { url: osfUrl } } = config;
 
 const statusMessagesStub = Service.extend({
     messages: [],
@@ -88,17 +85,12 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     });
 
     test('desktop layout (logged out)', async function(assert) {
-        const osfUrlEncoded = encodeURIComponent(osfUrl);
         setBreakpoint('desktop');
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
         await render(hbs`<RegistriesNavbar @campaign="osf-registries" @signUpURL="http://example.com" />`);
 
         assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
-        assert.dom('a[data-test-join]').hasAttribute(
-            'href',
-            `http://example.com?campaign=osf-registries&next=${osfUrlEncoded}FakeURL`,
-        );
         assert.dom('a[data-test-join]').isVisible('Join button is visible');
 
         assert.dom('a[role="button"][data-test-login]').hasText(`${t('navbar.login')}`);
