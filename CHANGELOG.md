@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [19.3.0]
 ### Added
 - Addons:
     - `ember-changesets`
@@ -18,10 +18,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `new-home` - new logged out home page route
     - `settings/account/change-password` - Panel for changing a user's password
     - `password-strength-bar` - Shows the strength of a given password
+    - `support` - updated language and links
 
 ### Changed
 - Components
     - `validated-model-form` - use changesets automatically
+
+### Removed
+- Components
+    - `settings/account/request-export`
+
+### Fixed
+- `osf-navbar/auth-dropdown` - make sure `campaign` and `next` query params are included in link to register
 
 ## [19.2.0] - 2019-03-04
 ### Added
