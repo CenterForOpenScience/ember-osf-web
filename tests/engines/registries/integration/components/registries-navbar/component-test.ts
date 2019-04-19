@@ -54,9 +54,20 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
     hooks.beforeEach(function(this: TestContext) {
-        sinon.stub(this.owner.lookup('service:router'), 'urlFor').returns('FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'urlFor').callsFake(
+            (route, params) => {
+                let url = `/${route}`;
+                if (params.queryParams) {
+                    const queryParamString = Object.entries(params.queryParams)
+                        .map(([key, value]) => `${key}=${value}`).join('&');
+                    url = `${url}?${queryParamString}`;
+                }
+                return url;
+            },
+        );
         sinon.stub(this.owner.lookup('service:router'), 'isActive').returns(false);
         sinon.stub(this.owner.lookup('service:router'), 'currentURL').get(() => 'FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'currentRouteName').get(() => 'FakeRoute');
 
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:features', featuresStub);
@@ -74,7 +85,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     test('desktop layout', async assert => {
         setBreakpoint('desktop');
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
         assert.dom('[data-test-search-bar]').isVisible('Search bar is visible');
@@ -88,16 +99,15 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     });
 
     test('desktop layout (logged out)', async function(assert) {
-        const osfUrlEncoded = encodeURIComponent(osfUrl);
         setBreakpoint('desktop');
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
-        await render(hbs`<RegistriesNavbar @campaign="osf-registries" @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar @campaign="osf-registries" />`);
 
         assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
         assert.dom('a[data-test-join]').hasAttribute(
             'href',
-            `http://example.com?campaign=osf-registries&next=${osfUrlEncoded}FakeURL`,
+            `/register?campaign=osf-registries&next=${osfUrl}FakeURL`,
         );
         assert.dom('a[data-test-join]').isVisible('Join button is visible');
 
@@ -111,7 +121,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         setBreakpoint('desktop');
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         // Not visible due to not having a test image
         assert.dom('img[data-test-gravatar]').exists('User Gravatar is rendered');
@@ -170,7 +180,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         setBreakpoint('mobile');
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         await click('[data-test-gravatar]');
 
@@ -186,7 +196,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         setBreakpoint('mobile');
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         await click('[data-test-toggle-navbar]');
 
@@ -204,7 +214,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         // Not visible due to not having a test image
         assert.dom('img[data-test-gravatar]').exists('User Gravatar is rendered');
