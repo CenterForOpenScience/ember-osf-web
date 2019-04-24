@@ -32,7 +32,9 @@ const stateAttrs = {
     embargoed: {
         pendingEmbargoApproval: false,
         embargoed: true,
-        embargoEndDate: faker.date.future(),
+        embargoEndDate() {
+            return faker.date.future(1, new Date(2022, 0, 0));
+        },
     },
     pendingEmbargoApproval: {
         pendingEmbargoApproval: true,
@@ -46,7 +48,9 @@ const stateAttrs = {
     withdrawn: {
         withdrawn: true,
         pendingWithdrawal: false,
-        dateWithdrawn: faker.date.recent(),
+        dateWithdrawn() {
+            return faker.date.past(1, new Date(2019, 0, 0));
+        },
     },
     normal: {
         pendingRegistrationApproval: false,
@@ -93,7 +97,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     },
 
     dateRegistered() {
-        return faker.date.recent(5);
+        return faker.date.past(1, new Date(2019, 0, 0));
     },
     registration: true,
     pendingRegistrationApproval: false,
