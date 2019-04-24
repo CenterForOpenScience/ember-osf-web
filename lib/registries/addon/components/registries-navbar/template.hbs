@@ -92,7 +92,8 @@
                 <nav.links.secondary
                     data-test-join='1'
                     data-analytics-name='Sign up'
-                    @href={{this.signUpRoute}}
+                    @route='register'
+                    @queryParams={{this.signUpQueryParams}}
                     @classNames={{local-class 'HideOnMobile'}}
                 >
                     <h4>{{t 'navbar.join'}}</h4>
@@ -177,7 +178,8 @@
                             <OsfLink
                                 data-test-join-mobile
                                 data-analytics-name='Sign up'
-                                @href={{this.signUpRoute}}
+                                @route='register'
+                                @queryParams={{this.signUpQueryParams}}
                             >
                                 <FaIcon @icon='user-plus' @fixedWidth={{true}} />
                                 {{t 'navbar.join'}}
