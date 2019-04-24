@@ -200,6 +200,37 @@ export default class OsfModel extends Model {
         return this.modifyM2MRelationship('delete', relationshipName, relatedModel);
     }
 
+    async updateM2MRelationship<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T> & string,
+        relatedModels: OsfModel[],
+    ) {
+        const apiRelationshipName = underscore(relationshipName);
+        const url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
+
+        const data = JSON.stringify({
+            data: relatedModels.map(relatedModel =>
+                ({ id: relatedModel.id, type: relatedModel.apiType })),
+        });
+
+        if (!url) {
+            throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
+        }
+        assert('A list of related objects is required to perform a PUT on a relationship',
+            Boolean(relatedModels));
+
+        const options: JQuery.AjaxSettings = {
+            url,
+            type: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data,
+        };
+
+        return this.currentUser.authenticatedAJAX(options);
+    }
+
     async modifyM2MRelationship<T extends OsfModel>(
         this: T,
         action: 'post' | 'delete',
