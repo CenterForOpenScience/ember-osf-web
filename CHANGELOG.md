@@ -104,6 +104,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `institution-select-list` - a checkbox list of institutions a user can select
     - `placeholder`
         - `circle` - a placeholder for circlular elements
+    - `support-section` - container for the support section on the logged out homepage
+    - `support-item` - an item on the support-section component
+    - `learn-more-button` - a button that goes to the cos.io learn more page
 - Routes:
     - `new-home` - new logged out home page route
     - `settings/account/change-password` - Panel for changing a user's password

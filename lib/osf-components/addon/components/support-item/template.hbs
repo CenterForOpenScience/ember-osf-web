@@ -1,9 +1,15 @@
 <div local-class='container'>
-    <img src='/assets/images/dashboard/{{this.icon}}.svg' alt='{{this.icon}}'>
-    <h2 local-class='heading'>
+    {{! template-lint-disable no-html-comments }}
+    <!-- Icon SVGs grabbed from fontawesome.io
+        Changes: fill color
+        License: https://fontawesome.com/license
+    -->
+    {{! template-lint-enable no-html-comments }}
+    <img data-test-icon-image src='/assets/images/dashboard/{{this.icon}}.svg' alt='{{this.icon}}'>
+    <h2 data-test-support-header>
         {{this.header}}
     </h2>
-    <p local-class='subHeading'>
+    <p data-test-support-subheader>
         {{this.subHeader}}
     </p>
 </div>
