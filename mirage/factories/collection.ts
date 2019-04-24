@@ -9,8 +9,8 @@ export default Factory.extend<Collection>({
     afterCreate: guidAfterCreate,
 
     title: faker.lorem.sentence(),
-    dateCreated: faker.date.past(2),
-    dateModified: faker.date.past(2),
+    dateCreated: faker.date.past(2, new Date(2019, 0, 0)),
+    dateModified: faker.date.past(2, new Date(2019, 0, 0)),
     bookmarks: faker.random.boolean(),
 });
 
