@@ -106,6 +106,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     embargoEndDate: null,
     pendingEmbargoApproval: false,
     withdrawn: false,
+    dateWithdrawn: null,
     pendingWithdrawal: false,
     pendingEmbargoTerminationApproval: false,
 
