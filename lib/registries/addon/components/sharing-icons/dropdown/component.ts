@@ -16,20 +16,25 @@ import template from './template';
 @layout(template, styles)
 export default class SharingIconsDropdown extends Component.extend({
     bookmark: task(function *(this: SharingIconsDropdown) {
-        if (!this.bookmarksCollection || !this.node) {
+        if (!this.bookmarksCollection || !this.registration) {
             return;
         }
 
         const op = this.isBookmarked ? 'remove' : 'add';
-        let response;
 
         try {
             if (op === 'remove') {
-                this.bookmarksCollection.linkedRegistrations.removeObject(this.node);
-                response = yield this.bookmarksCollection.deleteM2MRelationship('linkedRegistrations', this.node);
+                this.bookmarksCollection.linkedRegistrations.removeObject(this.registration);
+                yield this.bookmarksCollection.deleteM2MRelationship(
+                    'linkedRegistrations',
+                    this.registration,
+                );
             } else {
-                this.bookmarksCollection.linkedRegistrations.pushObject(this.node);
-                response = yield this.bookmarksCollection.createM2MRelationship('linkedRegistrations', this.node);
+                this.bookmarksCollection.linkedRegistrations.pushObject(this.registration);
+                yield this.bookmarksCollection.createM2MRelationship(
+                    'linkedRegistrations',
+                    this.registration,
+                );
             }
         } catch (e) {
             this.toast.error(this.i18n.t(`registries.overview.update_bookmarks.${op}.error`));
@@ -38,10 +43,7 @@ export default class SharingIconsDropdown extends Component.extend({
 
         this.toast.success(this.i18n.t(`registries.overview.update_bookmarks.${op}.success`));
 
-        if (response && response.data) {
-            const isBookmarked = Boolean(response.data.find((reg: Registration) => reg.id === this.node.id));
-            this.set('isBookmarked', isBookmarked);
-        }
+        this.toggleProperty('isBookmarked');
     }).drop(),
     getBookmarksCollection: task(function *(this: SharingIconsDropdown) {
         const collections = yield this.store.findAll('collection', {
@@ -55,7 +57,7 @@ export default class SharingIconsDropdown extends Component.extend({
         this.set('bookmarksCollection', collections.firstObject);
 
         const bookmarkedRegs = yield this.bookmarksCollection.linkedRegistrations;
-        const isBookmarked = Boolean(bookmarkedRegs.find((reg: Registration) => reg.id === this.node.id));
+        const isBookmarked = Boolean(bookmarkedRegs.find((reg: Registration) => reg.id === this.registration.id));
 
         this.set('isBookmarked', isBookmarked);
     }).on('init'),
@@ -64,7 +66,7 @@ export default class SharingIconsDropdown extends Component.extend({
     @service toast!: Toast;
     @service i18n!: I18n;
 
-    node!: Registration;
+    registration!: Registration;
     bookmarksCollection!: Collection;
     isBookmarked?: boolean;
 }

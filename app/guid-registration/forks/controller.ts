@@ -25,7 +25,7 @@ export default class GuidRegistrationForks extends Controller {
 
     reloadList?: (page?: number) => void;
 
-    forksQueryParams = { embed: 'contributors' };
+    forksQueryParams = { embed: 'bibliographic_contributors' };
 
     @reads('model.taskInstance.value')
     node?: Registration;

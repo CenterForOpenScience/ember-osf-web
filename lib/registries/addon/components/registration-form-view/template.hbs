@@ -1,25 +1,63 @@
-{{#each this.form.sections as |form-section|}}
-    <section local-class='Section {{if (eq form-section this.form.sections.lastObject) 'Last'}}'>
-        <OsfLink @href='#{{slugify form-section.title}}'>
-            <h2 id='{{slugify form-section.title}}' local-class='SectionTitle'>
-                {{form-section.title}}
-            </h2>
-        </OsfLink>
-
-        {{#each form-section.questions as |question|}}
-            <OsfLink @href='#{{slugify form-section.title}}.{{slugify question.title}}'>
-                <h3 id='{{slugify form-section.title}}.{{slugify question.title}}' local-class='QuestionTitle'>
-                    {{question.title}}
-                </h3>
-            </OsfLink>
-
-            <p class='small'>{{question.description}}</p>
-
-            <div local-class='Answer'>
-                {{#each question.parts as |part|}}
-                    {{component (concat 'registration-form-view/' part.component) part}}
+<ResponsiveDropdown @renderInPlace={{true}} as |dd|>
+    {{#dd.trigger local-class='MenuTrigger'}}
+        <OsfButton
+            data-analytics-name='Expand'
+            data-test-toggle-anchor-nav-button
+            @type='link'
+            @class={{local-class 'ToggleNav__button'}}
+        >
+            <FaIcon @icon='bars' />
+        </OsfButton>
+    {{/dd.trigger}}
+    {{#dd.content}}
+        <div data-analytics-scope='Form navigation menu' local-class='NavigationMenu'>
+            <div local-class='Header' data-test-anchor-nav-title>
+                <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
+                <OsfButton
+                    data-analytics-name='Collapse'
+                    data-test-toggle-anchor-nav-button
+                    @onClick={{action dd.close}}
+                    @type='link'
+                    @class={{local-class 'ToggleNav__button'}}
+                >
+                    <FaIcon @icon='times' />
+                </OsfButton>
+            </div>
+            <div local-class='Anchors' data-test-form-block-anchors>
+                {{#each this.anchors as |section|}}
+                    <div local-class='SectionAnchor'>
+                        <OsfLink
+                            data-test-section-anchor={{section.slug}}
+                            data-analytics-name='Go to section: {{section.title}}'
+                            @href='#{{section.slug}}'
+                            @onClick={{action dd.close}}
+                        >
+                            {{section.title}}
+                        </OsfLink>
+                    </div>
+                    <div local-class='QuestionAnchors'>
+                        {{#each section.sectionParts as |question|}}
+                            <OsfLink
+                                data-analytics-name='Go to question: {{question.title}}'
+                                @href='#{{question.slug}}'
+                                @onClick={{action dd.close}}
+                                data-test-question-anchor={{question.slug}}
+                            >
+                                {{question.title}}
+                            </OsfLink>
+                        {{/each}}
+                    </div>
                 {{/each}}
             </div>
-        {{/each}}
-    </section>
-{{/each}}
+        </div>
+    {{/dd.content}}
+</ResponsiveDropdown>
+
+{{#let (component 'registration-form-view/x-section') as |FormSection|}}
+    {{#each this.form.sections as |formSection|}}
+        <FormSection
+            data-test-form-section={{formSection.slug}}
+            @formSection={{formSection}}
+        />
+    {{/each}}
+{{/let}}

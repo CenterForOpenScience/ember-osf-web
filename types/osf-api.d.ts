@@ -86,7 +86,7 @@ export interface RelatedLinkMeta {
 }
 
 export interface NormalLinks extends JSONAPI.Links {
-    self?: JSONAPI.Link | null;
-    html?: JSONAPI.Link | null;
+    self?: JSONAPI.Link;
+    html?: JSONAPI.Link;
 }
 /* eslint-enable camelcase */

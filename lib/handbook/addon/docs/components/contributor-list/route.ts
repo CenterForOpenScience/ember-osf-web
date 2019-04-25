@@ -8,7 +8,7 @@ export default class extends Route {
         return RSVP.hash([1, 2, 3, 23].reduce(
             (acc, contribCount) => {
                 const id = `clst${contribCount}`;
-                acc[contribCount] = this.store.findRecord('node', id, { include: 'contributors' });
+                acc[contribCount] = this.store.findRecord('node', id, { include: 'bibliographic_contributors' });
                 return acc;
             },
             {} as Record<string, Promise<Node>>,

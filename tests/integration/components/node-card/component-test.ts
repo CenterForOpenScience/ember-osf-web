@@ -19,10 +19,10 @@ module('Integration | Component | node-card', hooks => {
         this.owner.register('service:router', OsfLinkRouterStub);
         this.set('contributors', []);
         const node = server.create('node', {}, 'withContributors');
-        const project = await this.store.findRecord('node', node.id, { include: 'contributors' });
+        const project = await this.store.findRecord('node', node.id, { include: 'bibliographic_contributors' });
 
         this.set('node', project);
-        this.set('contributors', project.contributors);
+        this.set('contributors', project.bibliographicContributors);
         this.set('delete', () => []);
 
         await render(hbs`{{node-card contributors=this.contributors node=this.node delete=this.delete}}`);

@@ -8,6 +8,7 @@ export interface AbstractQuestion {
     required?: boolean;
     description?: string;
     properties?: Subquestion[];
+    options?: string[];
 }
 
 export interface Subquestion extends AbstractQuestion {

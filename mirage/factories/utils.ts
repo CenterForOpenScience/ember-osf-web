@@ -3,7 +3,7 @@ import SeedRandom from 'seedrandom';
 
 import { GUID_ALPHABET } from 'ember-osf-web/const/guid-alphabet';
 import Guid from 'ember-osf-web/models/guid';
-import { AbstractQuestion, Answer, RegistrationMetadata } from 'ember-osf-web/models/registration-schema';
+import { Answer, Question, RegistrationMetadata, Subquestion } from 'ember-osf-web/models/registration-schema';
 
 import { MirageRegistrationSchema } from './registration-schema';
 
@@ -34,13 +34,19 @@ export function guidAfterCreate(newObj: ModelInstance, server: Server) {
     });
 }
 
-function fakeAnswer(question: AbstractQuestion, answerIfRequired: boolean): Answer<any> {
+function fakeAnswer(question: Question | Subquestion, answerIfRequired: boolean): Answer<any> {
     const answer: Answer<any> = {
         comments: [],
         extra: [],
         value: '',
     };
-    if ((answerIfRequired && question.required) || faker.random.boolean()) {
+    if (question.type === 'object' && question.properties) {
+        const value: RegistrationMetadata = {};
+        question.properties.forEach(property => {
+            value[property.id] = fakeAnswer(property, answerIfRequired);
+        });
+        answer.value = value;
+    } else if ((answerIfRequired && question.required) || faker.random.boolean()) {
         if (question.type === 'osf-upload') {
             const numFiles = faker.random.number({ min: 1, max: 5 });
             answer.extra = Array.from({ length: numFiles }).map(() => ({
@@ -51,6 +57,18 @@ function fakeAnswer(question: AbstractQuestion, answerIfRequired: boolean): Answ
                 viewUrl: '/',
             }));
             answer.value = (answer.extra[0] as any).selectedFileName;
+        } else if (question.type === 'choose' || question.type === 'multiselect') {
+            if (question.format === 'singleselect') {
+                answer.value = faker.random.arrayElement(question.options!);
+            } else {
+                answer.value = Array.from(
+                    { length: faker.random.number({ min: 1, max: question.options!.length }) },
+                    () => faker.random.arrayElement(question.options!),
+                );
+            }
+            if (typeof answer.value !== 'string' && 'text' in answer.value) {
+                answer.value = answer.value.text;
+            }
         } else {
             answer.value = faker.lorem.sentences(faker.random.number({ min: 1, max: 10 }));
         }

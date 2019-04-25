@@ -15,6 +15,7 @@ function fakeRequest(queryParams: { [key: string]: string }): Request {
         url: '',
         params: {},
         queryParams,
+        method: '',
     };
 }
 

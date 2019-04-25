@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
+import config from 'ember-get-config';
 import { t } from 'ember-i18n/test-support';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { setBreakpoint } from 'ember-responsive/test-support';
@@ -8,6 +9,8 @@ import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+const { OSF: { url: osfUrl } } = config;
 
 const statusMessagesStub = Service.extend({
     messages: [],
@@ -51,9 +54,20 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
     hooks.beforeEach(function(this: TestContext) {
-        sinon.stub(this.owner.lookup('service:router'), 'urlFor').returns('FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'urlFor').callsFake(
+            (route, params) => {
+                let url = `/${route}`;
+                if (params.queryParams) {
+                    const queryParamString = Object.entries(params.queryParams)
+                        .map(([key, value]) => `${key}=${value}`).join('&');
+                    url = `${url}?${queryParamString}`;
+                }
+                return url;
+            },
+        );
         sinon.stub(this.owner.lookup('service:router'), 'isActive').returns(false);
         sinon.stub(this.owner.lookup('service:router'), 'currentURL').get(() => 'FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'currentRouteName').get(() => 'FakeRoute');
 
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:features', featuresStub);
@@ -71,7 +85,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     test('desktop layout', async assert => {
         setBreakpoint('desktop');
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
         assert.dom('[data-test-search-bar]').isVisible('Search bar is visible');
@@ -88,9 +102,13 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         setBreakpoint('desktop');
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
-        await render(hbs`<RegistriesNavbar @campaign="osf-registries" @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar @campaign="osf-registries" />`);
 
         assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
+        assert.dom('a[data-test-join]').hasAttribute(
+            'href',
+            `/register?campaign=osf-registries&next=${osfUrl}FakeURL`,
+        );
         assert.dom('a[data-test-join]').isVisible('Join button is visible');
 
         assert.dom('a[role="button"][data-test-login]').hasText(`${t('navbar.login')}`);
@@ -103,7 +121,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         setBreakpoint('desktop');
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         // Not visible due to not having a test image
         assert.dom('img[data-test-gravatar]').exists('User Gravatar is rendered');
@@ -162,13 +180,15 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         setBreakpoint('mobile');
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
-        assert.equal(visibleText('[data-test-service]'), t('general.services.registries'));
+        await click('[data-test-gravatar]');
+
+        assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
         assert.dom('[data-test-search-bar-mobile]').isVisible('Mobile search bar visible');
 
-        assert.dom('a[data-test-help]').isNotVisible();
-        assert.dom('a[data-test-donate]').isNotVisible();
+        assert.dom('a[data-test-help-mobile]').isVisible();
+        assert.dom('a[data-test-donate-mobile]').isVisible();
         assert.dom('[data-test-search-bar]').isNotVisible('Search bar hidden');
     });
 
@@ -176,13 +196,15 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         setBreakpoint('mobile');
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
-        assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
-        assert.dom('a[data-test-join]').isVisible('Join button is visible');
+        await click('[data-test-toggle-navbar]');
 
-        assert.dom('a[role="button"][data-test-login]').hasText(`${t('navbar.login')}`);
-        assert.dom('a[role="button"][data-test-login]').isVisible('Login button is visible');
+        assert.dom('a[data-test-join-mobile]').hasText(`${t('navbar.join')}`);
+        assert.dom('a[data-test-join-mobile]').isVisible('Join button is visible');
+
+        assert.dom('button[data-test-login-mobile]').hasText(`${t('navbar.login')}`);
+        assert.dom('button[data-test-login-mobile]').isVisible('Login button is visible');
 
         assert.dom('img[data-test-gravatar]').isNotVisible('No user Gravatar when logged out');
     });
@@ -192,7 +214,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar @signUpURL="http://example.com" />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         // Not visible due to not having a test image
         assert.dom('img[data-test-gravatar]').exists('User Gravatar is rendered');

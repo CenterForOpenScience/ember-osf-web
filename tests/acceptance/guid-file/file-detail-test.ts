@@ -182,7 +182,7 @@ module('Acceptance | guid file', hooks => {
             assert.dom('[data-test-twitter-link]')
                 .hasAttribute(
                     'href',
-                    `${twitter}${file.name}&url=${encodedOsfUrl}${file.guid}&via=%40OSFramework`,
+                    `${twitter}${file.name}&url=${encodedOsfUrl}${file.guid}&via=${config.social.twitter.viaHandle}`,
                 );
             assert.dom('[data-test-facebook-link]')
                 .hasAttribute(

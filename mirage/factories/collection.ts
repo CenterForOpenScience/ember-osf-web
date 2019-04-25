@@ -4,7 +4,12 @@ import Collection from 'ember-osf-web/models/collection';
 
 import { guid, guidAfterCreate } from './utils';
 
-export default Factory.extend<Collection>({
+export interface MirageCollection extends Collection {
+    linkedRegistrationIds: Array<string|number>;
+    linkedNodeIds: Array<string|number>;
+}
+
+export default Factory.extend<MirageCollection>({
     id: guid('collection'),
     afterCreate: guidAfterCreate,
 
@@ -14,8 +19,14 @@ export default Factory.extend<Collection>({
     bookmarks: faker.random.boolean(),
 });
 
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        collections: MirageCollection;
+    } // eslint-disable-line semi
+}
+
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        collections: Collection;
+        collections: MirageCollection;
     } // eslint-disable-line semi
 }

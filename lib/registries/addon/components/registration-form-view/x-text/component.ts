@@ -8,7 +8,5 @@ import template from './template';
 @tagName('')
 @layout(template)
 export default class ViewText extends Component {
-    static positionalParams = ['part'];
-
-    part!: Answerable;
+    answerable!: Answerable;
 }

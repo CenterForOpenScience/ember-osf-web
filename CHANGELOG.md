@@ -5,6 +5,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Features:
+    - Registries overview navigation menu (#600)
+    - Editable registration institutions (#617)
+    - Display registration wiki count (#625)
+    - Add `citation_doi` to `<meta>` tags (#628)
+- Components:
+    - `citation-viewer` - displays citations for a node (#608)
+- Data:
+    - `Node.bibliographicContributors` relationship (#604)
+    - `OsfModel.sparseHasMany`, `sparseLoadAll` (#614)
+- Utils:
+    - Sparse fieldset utils (#614)
+
+### Changed
+- Components:
+    - `contributor-list` - display only bibliographic contributors (#604)
+
+### Fixed
+- Registries discover page - recognize links to registrations on test.osf.io (#597)
+- Registration form rendering errors (#620)
+- Allow withdrawing registrations without justification (#622)
+- Position tooltips and footer correctly (#624, #626)
 
 ## [19.3.0]
 ### Added

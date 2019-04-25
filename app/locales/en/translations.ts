@@ -94,6 +94,7 @@ export default {
         required: 'Required',
         options: 'Options',
         optional: 'Optional',
+        optional_paren: '(optional)',
         services: {
             collections: 'Collections',
             institutions: 'Institutions',
@@ -1077,10 +1078,15 @@ export default {
             citation: 'Citation',
         },
 
+        form_view: {
+            none_selected: 'None selected',
+        },
+
         overview: {
             title: 'Overview',
             collapse: 'Collapse',
             expand: 'Expand',
+            contents: 'Contents',
             see_more: 'See more',
             metadata: 'Metadata',
             component_of: 'This is a component of a registration:',
@@ -1136,7 +1142,7 @@ export default {
             },
 
             form_view: {
-                no_files: 'No files uploaded',
+                no_files: 'No files selected',
             },
 
             withdrawn: {
@@ -1348,6 +1354,16 @@ export default {
             add_institution_error: 'Error adding institution',
             remove_institution_error: 'Error removing institution',
             no_affiliations: 'No affiliations to add',
+            no_affiliated_institution: {
+                user: 'You have no institutional affiliations',
+                project: 'This project has no affiliated institutions',
+                registration: 'This registration has no affiliated institutions',
+            },
+        },
+        'citation-viewer': {
+            get_more: 'Get more citations',
+            placeholder: 'Enter citation style (e.g. "APA")',
+            type_to_search: 'Start typing to search citation styles',
         },
     },
     settings: {

@@ -1,6 +1,6 @@
 <div class='btn-group pull-right' role='group' aria-label={{t 'registries.overview.aria_labels.main'}}>
     <div class='btn-group' role='group'>
-        <RegistriesStates @node={{this.node}} />
+        <RegistriesStates @registration={{this.registration}} />
     </div>
     {{#unless this.isWithdrawn}}
         <div class='btn-group' role='group'>
@@ -21,7 +21,7 @@
                             <OsfLink
                                 data-analytics-name='Go to forks page'
                                 @route='guid-registration.forks'
-                                @models={{array this.node.id}}
+                                @models={{array @registration.id}}
                             >
                                 {{t 'registries.overview.view_forks'}}
                             </OsfLink>
@@ -39,17 +39,18 @@
                 {{/dd.content}}
             </ResponsiveDropdown>
         </div>
-        <div data-test-social-sharing-button class='btn-group' role='group' aria-label={{t 'general.share'}}>
+        <div class='btn-group' role='group' aria-label={{t 'general.share'}}>
             {{#sharing-icons/dropdown
                 title=@registration.title
                 description=@registration.description
                 hyperlink=@registrationURL
                 showBookmark=true
                 showText=true
-                node=this.node
+                registration=@registration
                 as |dd|}}
                 {{#dd.trigger local-class='Menu__button'}}
                     <OsfButton
+                        data-test-social-sharing-button
                         data-analytics-name='Show sharing options'
                         @type='default'
                     >
