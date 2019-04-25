@@ -24,11 +24,17 @@
 .Description {
     font-size: 14px;
     font-style: italic;
+    line-height: inherit;
     color: $color-text-gray-dark;
 }
 
 .Preformatted {
     white-space: pre-wrap;
+}
+
+.Answerable,
+.Answerable p {
+    font-size: 16px;
 }
 
 .Answerable:not(:first-of-type) {
