@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [19.4.0] - 2019-04-25
 ### Added
 - Features:
     - Registries overview navigation menu (#600)
@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Allow withdrawing registrations without justification (#622)
 - Position tooltips and footer correctly (#624, #626)
 
-## [19.3.0]
+## [19.3.0] - 2019-04-18
 ### Added
 - Addons:
     - `ember-changesets`
@@ -759,7 +759,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.2.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.4.0...HEAD
+[19.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.3.0...19.4.0
+[19.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.2.0...19.3.0
 [19.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.2...19.2.0
 [19.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.1...19.1.2
 [19.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.0...19.1.1
