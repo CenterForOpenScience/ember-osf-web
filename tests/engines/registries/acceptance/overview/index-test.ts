@@ -98,7 +98,10 @@ module('Registries | Acceptance | overview.index', hooks => {
     });
 
     test('withdrawn tombstone', async function(this: OverviewTestContext, assert: Assert) {
-        this.registration.update('withdrawn', true);
+        this.set('registration', server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: [Permission.Admin],
+        }, 'withContributors', 'isWithdrawn'));
         const url = `/${this.registration.id}`;
         await visit(url);
         await percySnapshot(assert);
@@ -112,7 +115,10 @@ module('Registries | Acceptance | overview.index', hooks => {
     });
 
     test('archiving tombstone', async function(this: OverviewTestContext, assert: Assert) {
-        this.registration.update('archiving', true);
+        this.set('registration', server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: [Permission.Admin],
+        }, 'withContributors', 'isArchiving'));
         const url = `/${this.registration.id}`;
         await visit(url);
         await percySnapshot(assert);
