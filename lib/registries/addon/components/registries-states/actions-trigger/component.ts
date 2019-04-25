@@ -5,29 +5,10 @@ import Component from '@ember/component';
 import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import RegistrationModel from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationState } from 'ember-osf-web/models/registration';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
-
-const StateToIconMap: Record<string, { text: string, icon: string }> = {
-    public: {
-        text: 'registries.overview.public.state',
-        icon: 'eye',
-    },
-    pending: {
-        text: 'registries.overview.pending.state',
-        icon: 'hourglass-o',
-    },
-    embargoed: {
-        text: 'registries.overview.embargoed.state',
-        icon: 'lock',
-    },
-    withdrawn: {
-        text: 'registries.overview.withdrawn.state',
-        icon: 'ban',
-    },
-};
 
 @layout(template, styles)
 export default class ActionsTrigger extends Component {
@@ -36,14 +17,45 @@ export default class ActionsTrigger extends Component {
       @not('media.isDesktop') showMobileView!: boolean;
 
       isDisabled?: boolean = defaultTo(this.isDisabled, false);
-      node!: RegistrationModel;
+      registration!: RegistrationModel;
 
-      @computed('node.state')
+      @computed('registration.state')
       get registrationState(this: ActionsTrigger): object {
-          if (this.node.state.includes('pending')) {
-              return StateToIconMap.pending;
+          const { registration } = this;
+          const {
+              PendingRegistration,
+              PendingWithdrawal,
+              PendingEmbargo,
+              PendingEmbargoTermination,
+              Withdrawn,
+              Embargoed,
+          } = RegistrationState;
+
+          switch (registration.state) {
+          case PendingRegistration:
+          case PendingWithdrawal:
+          case PendingEmbargo:
+          case PendingEmbargoTermination:
+              return {
+                  text: 'registries.overview.pending.state',
+                  icon: 'hourglass-o',
+              };
+          case Withdrawn:
+              return {
+                  text: 'registries.overview.withdrawn.state',
+                  icon: 'ban',
+              };
+          case Embargoed:
+              return {
+                  text: 'registries.overview.embargoed.state',
+                  icon: 'lock',
+              };
+          default:
+              return {
+                  text: 'registries.overview.public.state',
+                  icon: 'eye',
+              };
           }
-          return StateToIconMap[this.node.state];
       }
 
       @computed('isDisabled', 'showMobileView')

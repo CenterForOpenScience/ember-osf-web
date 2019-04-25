@@ -11,13 +11,13 @@ import RegistryProviderModel from './registry-provider';
 import UserModel from './user';
 
 export enum RegistrationState {
-    Embargoed = 'embargoed',
-    Public = 'public',
-    Withdrawn = 'withdrawn',
-    PendingRegistration = 'pendingRegistrationApproval',
-    PendingWithdrawal = 'pendingWithdrawal',
-    PendingEmbargo = 'pendingEmbargoApproval',
-    PendingEmbargoTermination = 'pendingEmbargoTerminationApproval',
+    Embargoed = 'Embargoed',
+    Public = 'Public',
+    Withdrawn = 'Withdrawn',
+    PendingRegistration = 'PendingRegistration',
+    PendingWithdrawal = 'PendingWithdrawal',
+    PendingEmbargo = 'PendingEmbargo',
+    PendingEmbargoTermination = 'PendingEmbargoTermination',
 }
 
 export default class RegistrationModel extends NodeModel.extend() {
@@ -29,6 +29,7 @@ export default class RegistrationModel extends NodeModel.extend() {
     @attr('boolean') pendingEmbargoApproval!: boolean;
     @attr('boolean') pendingEmbargoTerminationApproval!: boolean;
     @attr('boolean') withdrawn!: boolean;
+    @attr('date') dateWithdrawn!: Date | null;
     @attr('fixstring') withdrawalJustification?: string;
     @attr('boolean') pendingWithdrawal!: boolean;
     @attr('fixstring') registrationSupplement?: string;
@@ -45,15 +46,12 @@ export default class RegistrationModel extends NodeModel.extend() {
         'pendingWithdrawal',
     )
     get state(): RegistrationState {
-        return (
-            (this.pendingRegistrationApproval && RegistrationState.PendingRegistration) ||
-            (this.pendingEmbargoApproval && RegistrationState.PendingEmbargo) ||
-            (this.pendingEmbargoTerminationApproval && RegistrationState.PendingEmbargoTermination) ||
-            (this.pendingWithdrawal && RegistrationState.PendingWithdrawal) ||
-            (this.withdrawn && RegistrationState.Withdrawn) ||
-            (this.embargoed && RegistrationState.Embargoed) ||
-            RegistrationState.Public
-        );
+        const stateMap: any = this.registrationStateMap();
+        const currentState: RegistrationState = Object.keys(stateMap)
+            .filter(active => stateMap[active])
+            .map(key => RegistrationState[key as keyof typeof RegistrationState])[0];
+
+        return currentState || RegistrationState.Public;
     }
 
     @belongsTo('node', { inverse: 'registrations' })
@@ -85,6 +83,28 @@ export default class RegistrationModel extends NodeModel.extend() {
 
     @hasMany('institution', { inverse: 'registrations' })
     affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
+
+    registrationStateMap(): Record<RegistrationState, boolean> {
+        const {
+            pendingRegistrationApproval,
+            pendingEmbargoApproval,
+            pendingEmbargoTerminationApproval,
+            pendingWithdrawal,
+            withdrawn,
+            embargoed,
+        } = this;
+        const embargo = embargoed && !pendingEmbargoTerminationApproval;
+
+        return {
+            PendingRegistration: pendingRegistrationApproval,
+            PendingEmbargo: pendingEmbargoApproval,
+            PendingEmbargoTermination: pendingEmbargoTerminationApproval,
+            PendingWithdrawal: pendingWithdrawal,
+            Withdrawn: withdrawn,
+            Embargoed: embargo,
+            Public: !pendingWithdrawal,
+        };
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

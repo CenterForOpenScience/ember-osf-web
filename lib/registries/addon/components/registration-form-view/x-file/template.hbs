@@ -1,9 +1,11 @@
-<div local-class='Files'>
+<ul>
     {{#each this.fileList as |file|}}
-        <OsfLink @href={{file.viewUrl}}>
-            {{file.selectedFileName}}
-        </OsfLink>
+        <li>
+            <OsfLink @href={{file.viewUrl}}>
+                {{file.selectedFileName}}
+            </OsfLink>
+        </li>
     {{else}}
-        {{t 'registries.overview.form_view.no_files'}}
+        <li>{{t 'registries.overview.form_view.no_files'}}</li>
     {{/each}}
-</div>
+</ul>

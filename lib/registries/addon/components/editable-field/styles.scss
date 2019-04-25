@@ -1,0 +1,14 @@
+.Editable {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    .EditButton {
+        padding: 0;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+        }
+    }
+}

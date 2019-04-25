@@ -94,6 +94,9 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<ContributorModel>;
 
+    @hasMany('contributor', { inverse: null })
+    bibliographicContributors!: DS.PromiseManyArray<ContributorModel>;
+
     @belongsTo('node', { inverse: 'children' })
     parent!: DS.PromiseObject<NodeModel> & NodeModel;
 

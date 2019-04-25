@@ -17,6 +17,20 @@
             color: $secondary-blue;
         }
     }
+
+    :global(.btn.btn-default) {
+        background-color: $osf-dark-blue-navbar;
+        border: 0;
+
+        i {
+            font-size: 20px;
+        }
+
+        &:hover,
+        &:focus {
+            outline: 0;
+        }
+    }
 }
 
 .DropdownMenu {
@@ -87,6 +101,10 @@
     & i {
         font-size: 20px;
     }
+
+    input {
+        min-width: 0;
+    }
 }
 
 .AuthDropdown {
@@ -103,6 +121,26 @@
 
 .AuthDropdownMenu {
     font-size: 16px;
+
+    // Logout and sign in buttons
+    & > li > :global(.btn.btn-link) {
+        color: $white;
+        display: block;
+        padding: 3px 20px;
+        font-size: inherit;
+
+        &:hover {
+            color: $secondary-blue;
+            text-decoration: none;
+            outline: 0;
+        }
+    }
+
+    :global(.fa.fa-user-plus) {
+        position: relative;
+        left: 2px;
+        margin-right: 3px;
+    }
 }
 
 .SearchDropdown {

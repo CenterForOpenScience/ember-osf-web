@@ -14,17 +14,17 @@ import template from './template';
 @layout(template, styles)
 export default class RegistrationIsPublic extends Component.extend({
     submitWithdrawal: task(function *(this: RegistrationIsPublic) {
-        if (!this.node && !this.withdrawalJustification) {
+        if (!this.registration) {
             return;
         }
 
-        this.node.setProperties({
+        this.registration.setProperties({
             pendingWithdrawal: true,
             withdrawalJustification: this.withdrawalJustification,
         });
 
         try {
-            yield this.node.save();
+            yield this.registration.save();
         } catch (e) {
             this.toast.error(this.i18n.t('registries.overview.withdraw.error'));
             throw e;
@@ -40,7 +40,7 @@ export default class RegistrationIsPublic extends Component.extend({
     @service i18n!: I18N;
     @service toast!: Toast;
 
-    node!: Registration;
+    registration!: Registration;
 
     scientistName?: string;
     scientistNameInput?: string = '';
@@ -56,12 +56,11 @@ export default class RegistrationIsPublic extends Component.extend({
 
     @computed(
         'submitWithdrawal.isRunning',
-        'withdrawalJustification',
         'scientistNameInput',
         'scientistName',
     )
     get submitDisabled(this: RegistrationIsPublic): boolean {
-        return this.submitWithdrawal.isRunning || !this.withdrawalJustification ||
+        return this.submitWithdrawal.isRunning ||
             (this.scientistNameInput !== this.scientistName);
     }
 }

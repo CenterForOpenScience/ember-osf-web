@@ -191,7 +191,7 @@ module.exports = function(environment) {
         },
         social: {
             twitter: {
-                viaHandle: '@OSFramework',
+                viaHandle: 'OSFramework',
             },
         },
         signUpPolicy: {
@@ -231,12 +231,12 @@ module.exports = function(environment) {
             routes: {
                 'guid-node.index': 'ember_project_detail_page',
                 'guid-registration.index': 'ember_old_registration_detail_page',
-                settings: 'ember_user_settings_profile_page',
-                'settings.profile': 'ember_user_settings_profile_page',
-                'settings.profile.education': 'ember_user_settings_profile_page',
-                'settings.profile.employment': 'ember_user_settings_profile_page',
-                'settings.profile.name': 'ember_user_settings_profile_page',
-                'settings.profile.social': 'ember_user_settings_profile_page',
+                settings: 'ember_user_settings_page',
+                'settings.profile': 'ember_user_settings_page',
+                'settings.profile.education': 'ember_user_settings_page',
+                'settings.profile.employment': 'ember_user_settings_page',
+                'settings.profile.name': 'ember_user_settings_page',
+                'settings.profile.social': 'ember_user_settings_page',
                 'settings.account': 'ember_user_settings_account_page',
                 'settings.tokens': 'ember_user_settings_tokens_page',
                 'settings.tokens.index': 'ember_user_settings_tokens_page',

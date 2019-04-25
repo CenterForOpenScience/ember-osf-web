@@ -31,13 +31,13 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             },
             linkedRegistrations: {
                 links: {
-                    related: {
-                        href: `${apiUrl}/v2/registrations/${model.id}/linked_registrations/`,
-                        meta: this.buildRelatedLinkMeta(model, 'linkedRegistrations'),
-                    },
                     self: {
                         href: `${apiUrl}/v2/registrations/${model.id}/relationships/linked_registrations/`,
                         meta: {},
+                    },
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/linked_registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'linkedRegistrations'),
                     },
                 },
             },
@@ -49,8 +49,20 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            bibliographicContributors: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/bibliographic_contributors/`,
+                        meta: this.buildRelatedLinkMeta(model, 'bibliographicContributors'),
+                    },
+                },
+            },
             affiliatedInstitutions: {
                 links: {
+                    self: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/relationships/institutions/`,
+                        meta: {},
+                    },
                     related: {
                         href: `${apiUrl}/v2/registrations/${model.id}/institutions/`,
                         meta: this.buildRelatedLinkMeta(model, 'affiliatedInstitutions'),
@@ -78,6 +90,14 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     related: {
                         href: `${apiUrl}/v2/registrations/${model.id}/forks/`,
                         meta: this.buildRelatedLinkMeta(model, 'forks'),
+                    },
+                },
+            },
+            citation: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/citation/`,
+                        meta: {},
                     },
                 },
             },

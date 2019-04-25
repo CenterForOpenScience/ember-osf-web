@@ -7,9 +7,10 @@ import { layout } from 'ember-osf-web/decorators/component';
 import License from 'ember-osf-web/models/license';
 import Node from 'ember-osf-web/models/node';
 
+import styles from './styles';
 import template from './template';
 
-@layout(template)
+@layout(template, styles)
 @tagName('')
 export default class LicenseText extends Component {
     node!: Node;

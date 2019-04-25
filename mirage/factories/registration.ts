@@ -7,6 +7,7 @@ import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
 export interface MirageRegistration extends Registration {
     index: number;
+    affiliatedInstitutionIds: Array<string|number>;
 }
 
 export interface RegistrationTraits {
@@ -18,6 +19,7 @@ export interface RegistrationTraits {
     isPendingWithdrawal: Trait;
     isWithdrawn: Trait;
     withArbitraryState: Trait;
+    withAffiliatedInstitutions: Trait;
 }
 
 const stateAttrs = {
@@ -32,7 +34,9 @@ const stateAttrs = {
     embargoed: {
         pendingEmbargoApproval: false,
         embargoed: true,
-        embargoEndDate: faker.date.future(),
+        embargoEndDate() {
+            return faker.date.future(1, new Date(2022, 0, 0));
+        },
     },
     pendingEmbargoApproval: {
         pendingEmbargoApproval: true,
@@ -46,7 +50,9 @@ const stateAttrs = {
     withdrawn: {
         withdrawn: true,
         pendingWithdrawal: false,
-        dateWithdrawn: faker.date.recent(),
+        dateWithdrawn() {
+            return faker.date.past(1, new Date(2019, 0, 0));
+        },
     },
     normal: {
         pendingRegistrationApproval: false,
@@ -93,7 +99,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     },
 
     dateRegistered() {
-        return faker.date.recent(5);
+        return faker.date.past(1, new Date(2019, 0, 0));
     },
     registration: true,
     pendingRegistrationApproval: false,
@@ -102,6 +108,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     embargoEndDate: null,
     pendingEmbargoApproval: false,
     withdrawn: false,
+    dateWithdrawn: null,
     pendingWithdrawal: false,
     pendingEmbargoTerminationApproval: false,
 
@@ -142,6 +149,14 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     }),
     isWithdrawn: trait<MirageRegistration>({
         ...stateAttrs.withdrawn,
+    }),
+    withAffiliatedInstitutions: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const affiliatedInstitutionCount = faker.random.number({ min: 4, max: 5 });
+            server.createList('institution', affiliatedInstitutionCount, {
+                registrations: [registration],
+            });
+        },
     }),
     withArbitraryState: trait<MirageRegistration>({
         afterCreate(registration) {

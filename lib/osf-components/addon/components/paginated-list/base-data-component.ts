@@ -34,7 +34,6 @@ export default abstract class BaseDataComponent extends Component.extend({
     }).restartable(),
 }) {
     // Optional arguments
-    page: number = defaultTo(this.page, 1);
     pageSize: number = defaultTo(this.pageSize, 10);
     query?: any;
 
@@ -51,12 +50,12 @@ export default abstract class BaseDataComponent extends Component.extend({
     totalCount?: number;
     items?: any[];
     errorShown: boolean = false;
+    page: number = 1;
 
     // Will be performed with an options hash of type LoadItemsOptions
     abstract loadItemsTask: ComputedProperty<Task<void>>;
 
-    constructor(...args: any[]) {
-        super(...args);
+    didReceiveAttrs() {
         if (this.bindReload) {
             this.bindReload(this._doReload.bind(this));
         }

@@ -1,3 +1,4 @@
+import { camelize } from '@ember/string';
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
 import { compare, embed, paginate, ProcessOptions, sort, toOperator } from './-private';
 
@@ -29,7 +30,7 @@ export function filter(model: ModelInstance, request: Request) {
                 const [groups, operator] = filtered.slice(1);
                 return groups.split(',').some(group => {
                     const fields = group.split('.');
-                    const field = fields.slice(-1)[0];
+                    const field = camelize(fields.slice(-1)[0]);
                     const subModels = fields.slice(0, -1);
                     if (subModels.length > 0) {
                         throw new Error(`We aren't ready for submodels yet, but we got: ${subModels}`);

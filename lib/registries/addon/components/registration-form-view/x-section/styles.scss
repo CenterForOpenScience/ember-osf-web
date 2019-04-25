@@ -1,0 +1,42 @@
+.TopSection {
+    padding-bottom: 25px;
+    border-bottom: $slate-gray 3px solid;
+}
+
+.SectionTitle {
+    margin: 23px 0;
+}
+
+.FormSection:last-of-type {
+    border-bottom: 0;
+}
+
+.QuestionTitle {
+    border-top: $alto 1px solid;
+    padding-top: 24px;
+}
+
+.SectionTitle a,
+.QuestionTitle a {
+    color: inherit;
+}
+
+.Description {
+    font-size: 14px;
+    font-style: italic;
+    line-height: inherit;
+    color: $color-text-gray-dark;
+}
+
+.Preformatted {
+    white-space: pre-wrap;
+}
+
+.Answerable,
+.Answerable p {
+    font-size: 16px;
+}
+
+.Answerable:not(:first-of-type) {
+    margin-top: 20px;
+}

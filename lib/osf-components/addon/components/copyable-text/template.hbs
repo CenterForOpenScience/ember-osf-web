@@ -9,13 +9,12 @@
         aria-label={{t 'osf-components.copyable-text.copyToClipboard'}}
     >
         {{fa-icon 'copy'}}
-        {{#if this.showTooltip}}
-            <BsTooltip
-                @visible={{true}}
-            >
-                {{t 'osf-components.copyable-text.copied'}}
-            </BsTooltip>
-        {{/if}}
+        <BsTooltip
+            @triggerEvents=''
+            @visible={{this.showTooltip}}
+        >
+            {{t 'osf-components.copyable-text.copied'}}
+        </BsTooltip>
     </CopyButton>
 </span>
 <input

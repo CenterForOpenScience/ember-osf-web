@@ -12,14 +12,14 @@ import template from './template';
 @layout(template)
 export default class RegistrationIsEmbargoed extends Component.extend({
     endEmbargo: task(function *(this: RegistrationIsEmbargoed) {
-        if (!this.node) {
+        if (!this.registration) {
             return;
         }
 
-        this.node.set('public', true);
+        this.registration.set('public', true);
 
         try {
-            yield this.node.save();
+            yield this.registration.save();
         } catch (e) {
             this.toast.error(this.i18n.t('registries.overview.embargoed.action_error'));
         }
@@ -32,7 +32,7 @@ export default class RegistrationIsEmbargoed extends Component.extend({
     @service i18n!: I18N;
     @service toast!: Toast;
 
-    node!: Registration;
+    registration!: Registration;
     closeDropdown?: () => void;
     showModal?: boolean = false;
 
