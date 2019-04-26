@@ -184,7 +184,7 @@
     "node-sass": "^4.11.0",
     "qunit-dom": "^0.8.4",
     "sass": "^1.15.2",
-    "seedrandom": "^2.4.4",
+    "seedrandom": "^3.0.1",
     "sinon": "^7.3.2",
     "stylelint-config-css-modules": "^1.2.0",
     "stylelint-config-sass-guidelines": "^5.0.0",
