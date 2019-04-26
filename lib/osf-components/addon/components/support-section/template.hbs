@@ -5,57 +5,61 @@
         </h1>
     </header>
     <div local-class='flex-container'>
-        <div>
-            <SupportItem
-                data-test-support-search
-                local-class='supportItem'
-                @icon='search'
-                @header={{t 'osf-components.support-section.search.header'}}
-                @subHeader={{t 'osf-components.support-section.search.subHeader'}} 
-            />
-            <img
-                data-test-arrow
-                local-class='arrowImage'
-                src='/assets/images/dashboard/arrow.svg'
-                alt={{t 'osf-components.support-section.arrow'}}
-            >
+        <div local-class='flex-row'>
+            <div>
+                <SupportItem
+                    data-test-support-search
+                    local-class='supportItem'
+                    @icon='search'
+                    @header={{t 'osf-components.support-section.search.header'}}
+                    @subHeader={{t 'osf-components.support-section.search.subHeader'}}
+                />
+                <img
+                    data-test-arrow
+                    local-class='arrowImage'
+                    src='/assets/images/dashboard/arrow.svg'
+                    alt={{t 'osf-components.support-section.arrow'}}
+                >
+            </div>
+            <div>
+                <SupportItem
+                    data-test-support-design
+                    local-class='supportItem'
+                    @icon='pencil-alt'
+                    @header={{t 'osf-components.support-section.design.header'}}
+                    @subHeader={{t 'osf-components.support-section.design.subHeader'}}
+                />
+                <img
+                    data-test-arrow
+                    local-class='arrowImage'
+                    src='/assets/images/dashboard/arrow.svg'
+                    alt={{t 'osf-components.support-section.arrow'}}
+                >
+            </div>
         </div>
-        <div>
+        <div local-class='flex-row'>
+            <div>
+                <SupportItem
+                    data-test-support-analyze
+                    local-class='supportItem'
+                    @icon='chart-area'
+                    @header={{t 'osf-components.support-section.analyze.header'}}
+                    @subHeader={{t 'osf-components.support-section.analyze.subHeader'}}
+                />
+                <img
+                    data-test-arrow
+                    local-class='arrowImage'
+                    src='/assets/images/dashboard/arrow.svg'
+                    alt={{t 'osf-components.support-section.arrow'}}
+                >
+            </div>
             <SupportItem
-                data-test-support-design
-                local-class='supportItem'
-                @icon='pencil-alt'
-                @header={{t 'osf-components.support-section.design.header'}}
-                @subHeader={{t 'osf-components.support-section.design.subHeader'}} 
+                data-test-support-publish
+                @icon='file-alt'
+                @header={{t 'osf-components.support-section.publish.header'}}
+                @subHeader={{t 'osf-components.support-section.publish.subHeader'}}
             />
-            <img
-                data-test-arrow
-                local-class='arrowImage'
-                src='/assets/images/dashboard/arrow.svg'
-                alt={{t 'osf-components.support-section.arrow'}}
-            >
         </div>
-        <div>
-            <SupportItem
-                data-test-support-analyze
-                local-class='supportItem'
-                @icon='chart-area'
-                @header={{t 'osf-components.support-section.analyze.header'}}
-                @subHeader={{t 'osf-components.support-section.analyze.subHeader'}} 
-            />
-            <img
-                data-test-arrow
-                local-class='arrowImage'
-                src='/assets/images/dashboard/arrow.svg'
-                alt={{t 'osf-components.support-section.arrow'}}
-            >
-        </div>
-        <SupportItem
-            data-test-support-publish
-            @icon='file-alt'
-            @header={{t 'osf-components.support-section.publish.header'}}
-            @subHeader={{t 'osf-components.support-section.publish.subHeader'}} 
-        />
     </div>
     <LearnMoreButton local-class='learnMoreButton' />
 </div>

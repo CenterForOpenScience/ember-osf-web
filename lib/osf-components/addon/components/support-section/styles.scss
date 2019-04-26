@@ -31,9 +31,29 @@
     margin: 30px auto 0;
 }
 
+.flex-row {
+    display: inline-flex;
+}
+
 .learnMoreButton {
     text-align: center;
     margin: 45px 0;
+}
+
+@media (max-width: 1174px) and (min-width: 614px) {
+    .flex-container {
+        width: 70%;
+        margin: auto;
+    }
+
+    .arrowImage {
+        display: none;
+    }
+
+    .flex-row {
+        width: 100%;
+        justify-content: space-evenly;
+    }
 }
 
 @media (max-width: 768px) {
@@ -55,6 +75,10 @@
         display: block;
         transform: rotate(90deg);
         margin: 0 auto;
+    }
+
+    .flex-row {
+        display: block;
     }
 }
 
