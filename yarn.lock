@@ -6138,12 +6138,12 @@ ember-ace@^2.0.1:
     ember-cli-htmlbars "^2.0.2"
     ember-cli-node-assets "^0.2.2"
 
-ember-ajax@^3.1.0:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/ember-ajax/-/ember-ajax-3.1.3.tgz#f51b8e3e36765575a2698c8660e377d4d6371642"
-  integrity sha512-C+BmWxXECGWuv7T17OHSQySpVuoCalmxI/NLUr+3eSlBeCD0xwI3mRRL1CbmAWXdyNwzK3je+lFCSuMaJu2miA==
+ember-ajax@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ember-ajax/-/ember-ajax-5.0.0.tgz#404b17c93194ab37aff86b7b8607d8edab93c9ec"
+  integrity sha512-Pet0S5VuiO7PDOwyTIF28VHdR7BpugL+jp+6PxNHRQvAq3SkKmVnXN0W06rnOgicH3xX29S46fx7czkKOGB3gA==
   dependencies:
-    ember-cli-babel "^6.16.0"
+    ember-cli-babel "^7.5.0"
     najax "^1.0.3"
 
 ember-angle-bracket-invocation-polyfill@^1.3.0:
@@ -6480,7 +6480,7 @@ ember-cli-babel@^6.1.0, ember-cli-babel@^6.7.1, ember-cli-babel@^6.8.0, ember-cl
     ember-cli-version-checker "^2.1.0"
     semver "^5.4.1"
 
-ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.0, ember-cli-babel@^7.1.3, ember-cli-babel@^7.2.0, ember-cli-babel@^7.4.0, ember-cli-babel@^7.4.3, ember-cli-babel@^7.7.3:
+ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.0, ember-cli-babel@^7.1.3, ember-cli-babel@^7.2.0, ember-cli-babel@^7.4.0, ember-cli-babel@^7.4.3, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3:
   version "7.7.3"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.7.3.tgz#f94709f6727583d18685ca6773a995877b87b8a0"
   integrity sha512-/LWwyKIoSlZQ7k52P+6agC7AhcOBqPJ5C2u27qXHVVxKvCtg6ahNuRk/KmfZmV4zkuw4EjTZxfJE1PzpFyHkXg==
