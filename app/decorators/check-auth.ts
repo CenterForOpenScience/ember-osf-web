@@ -5,6 +5,7 @@ import config from 'ember-get-config';
 import SessionService from 'ember-simple-auth/services/session';
 
 import { NotLoggedIn } from 'ember-osf-web/errors';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
@@ -31,10 +32,18 @@ export default function checkAuth<T extends ConcreteSubclass<Route>>(
     class AuthenticatedRoute extends RouteSubclass {
         @service router!: ServiceRegistry['router'];
         @service session!: SessionService;
+        @service currentUser!: CurrentUser;
 
         async beforeModel(transition: any) {
+            // Need to handle view-only links before checking auth, and this is the only reasonable place to do it.
+            // This limitation points toward replacing this decorator with a service method meant to be
+            // called in Route.beforeModel. Decorator mixins should probably be considered an anti-pattern.
+            const { viewOnlyToken } = this.paramsFor('application') as Record<string, string>;
+
             try {
-                if (!this.session.isAuthenticated) {
+                if (!this.session.isAuthenticated || this.currentUser.viewOnlyToken !== viewOnlyToken) {
+                    this.currentUser.setProperties({ viewOnlyToken });
+
                     // Check whether user is actually logged in.
                     await this.session.authenticate(authenticator);
                 }

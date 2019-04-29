@@ -49,6 +49,8 @@ export default class CurrentUserService extends Service {
     @service session!: Session;
     @service cookies!: Cookies;
 
+    viewOnlyToken: string = '';
+
     showTosConsentBanner = false;
 
     /**
