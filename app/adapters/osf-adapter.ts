@@ -75,9 +75,12 @@ export default class OsfAdapter extends JSONAPIAdapter {
     buildQuery(snapshot: DS.Snapshot): object {
         const { query: adapterOptionsQuery = {} } = (snapshot.adapterOptions || {}) as AdapterOptions;
 
-        const query: { include?: any, embed?: any } = {
+        const { viewOnlyToken } = this.currentUser;
+
+        const query: Partial<Record<'include' | 'embed' | 'view_only', string>> = {
             ...super.buildQuery(snapshot),
             ...adapterOptionsQuery,
+            ...(viewOnlyToken ? { view_only: viewOnlyToken } : {}),
         };
 
         return {

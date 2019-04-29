@@ -42,6 +42,7 @@ export interface RootMeta extends BaseMeta {
 export interface BaseMeta {
     version: string;
     total_bibliographic?: number;
+    anonymous?: boolean;
 }
 
 export interface Resource extends JSONAPI.ResourceObject {

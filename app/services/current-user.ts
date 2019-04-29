@@ -9,6 +9,7 @@ import Session from 'ember-simple-auth/services/session';
 import RSVP from 'rsvp';
 
 import User from 'ember-osf-web/models/user';
+import { addQueryParam } from 'ember-osf-web/utils/param';
 
 const {
     OSF: {
@@ -30,6 +31,11 @@ function hashCode(str: string): number {
         .split('')
         // eslint-disable-next-line no-bitwise
         .reduce((acc, _, i) => ((acc << 5) - acc) + str.charCodeAt(i), 0); // tslint:disable-line no-bitwise
+}
+
+export interface OsfAjaxOptions {
+    omitStandardHeaders: boolean;
+    omitViewOnlyToken: boolean;
 }
 
 /**
@@ -114,12 +120,16 @@ export default class CurrentUserService extends Service {
      * Perform an AJAX request as the current user.
      */
     async authenticatedAJAX(
-        options: JQuery.AjaxSettings,
-        addApiHeaders: boolean = true,
+        ajaxOptions: JQuery.AjaxSettings,
+        osfOptions: Partial<OsfAjaxOptions> = {},
     ): Promise<any> {
-        const opts = { ...options };
+        const opts = { ...ajaxOptions };
 
-        if (addApiHeaders) {
+        if (!osfOptions.omitViewOnlyToken && this.viewOnlyToken) {
+            opts.url = addQueryParam(opts.url!, 'view_only', this.viewOnlyToken);
+        }
+
+        if (!osfOptions.omitStandardHeaders) {
             opts.headers = {
                 ...this.ajaxHeaders(),
                 ...opts.headers,

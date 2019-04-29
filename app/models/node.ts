@@ -179,7 +179,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     /**
      * Is this node being viewed through an anonymized, view-only link?
      */
-    @bool('meta.anonymous') isAnonymous!: boolean;
+    @bool('apiMeta.anonymous') isAnonymous!: boolean;
 
     /**
      * Does the current user have write permission on this node?

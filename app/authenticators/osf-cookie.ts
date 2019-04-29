@@ -90,7 +90,7 @@ export default class OsfCookie extends Base {
                     version: 'latest',
                 },
             },
-            false, // Don't add API version headers
+            { omitStandardHeaders: true },
         );
 
         warn(
