@@ -5,8 +5,19 @@ import { isArray } from '@ember/array';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import RouterService from '@ember/routing/router-service';
+import config from 'ember-get-config';
+
+import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import { addQueryParam } from 'ember-osf-web/utils/param';
+
 import template from './template';
+
+const {
+    OSF: {
+        url: osfURL,
+    },
+} = config;
 
 type AnchorRel = 'noreferrer' | 'noopener';
 type AnchorTarget = '_self' | '_blank' | '_parent' | '_top';
@@ -15,6 +26,7 @@ type AnchorTarget = '_self' | '_blank' | '_parent' | '_top';
 @layout(template)
 export default class OsfLink extends Component {
     @service router!: RouterService;
+    @service currentUser!: CurrentUser;
 
     route?: string;
     models?: any[];
@@ -27,17 +39,34 @@ export default class OsfLink extends Component {
 
     onClick?: () => void;
 
-    @computed('href', 'route', 'models.[]', 'queryParams', 'fragment')
+    @computed('href', 'route', 'models.[]', 'queryParams', 'fragment', 'currentUser.viewOnlyToken')
     get _href() {
-        let url: string | undefined = this.href;
+        const {
+            fragment,
+            href,
+            models,
+            queryParams,
+            route,
+        } = this;
+        const { viewOnlyToken } = this.currentUser;
 
-        if (url === undefined && this.route) {
-            url = this.router.urlFor(this.route, ...(this.models || []), {
-                queryParams: this.queryParams || {},
-            });
-            if (this.fragment) {
-                url = `${url}#${this.fragment}`;
+        let url: string;
+
+        if (typeof route === 'undefined') {
+            url = href || '';
+        } else {
+            url = this.router.urlFor(
+                route,
+                ...(models || []),
+                { queryParams },
+            );
+            if (fragment) {
+                url = `${url}#${fragment}`;
             }
+        }
+
+        if (viewOnlyToken && (url.startsWith('/') || url.startsWith(osfURL))) {
+            url = addQueryParam(url || '', 'view_only', viewOnlyToken);
         }
 
         return url;
