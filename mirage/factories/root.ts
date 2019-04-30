@@ -18,8 +18,9 @@ export interface Root {
     message: string;
     version: string;
     links: Links;
-    currentUser?: ModelInstance<User>;
+    currentUser: ModelInstance<User> | null;
     currentUserId?: string;
+    withAnonymizedVOL: boolean;
 }
 
 interface RootTraits {
@@ -36,6 +37,7 @@ export const defaultRootAttrs = {
     message: 'Welcome to the OSF API.',
     version: '2.8',
     links: {},
+    withAnonymizedVOL: false,
 };
 
 export default Factory.extend<Root & RootTraits>({

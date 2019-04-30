@@ -12,6 +12,7 @@ interface RootObject {
     version: string;
     links: Links;
     currentUser?: ModelInstance<User>;
+    withAnonymizedVOL?: boolean;
 }
 
 export default class RootSerializer extends ApplicationSerializer<RootObject> {
