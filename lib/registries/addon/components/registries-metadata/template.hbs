@@ -89,16 +89,35 @@
 
     {{#if @extendedFields}}
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.registration_doi'}}</h4>
-            {{#if this.registrationDoi}}
-                <OsfLink
-                    data-analytics-name='Registration DOI'
-                    @href={{this.registrationDoiUrl}}
-                >
-                    {{this.registrationDoi}}
-                </OsfLink>
-            {{/if}}
-            {{! TODO: mint DOIs }}
+            <EditableField
+                data-analytics-scope='DOI'
+                @managerComponent={{component 'editable-field/doi-manager' node=this.registration}}
+                @hasCustomButtons={{true}}
+                @title={{t 'registries.registration_metadata.registration_doi'}}
+                @name='doi'
+                @editHeader={{t 'registries.registration_metadata.create_doi'}}
+                as |field|
+            >
+                <field.edit>
+                    <NodeDoi @manager={{field.manager}} />
+                </field.edit>
+                <field.display>
+                    <NodeDoi @manager={{field.manager}} />
+                </field.display>
+                <field.buttons>
+                    <div local-class='CreateButton'>
+                        <OsfButton
+                            data-analytics-name='Create DOI'
+                            data-test-create-doi
+                            disabled={{field.manager.requestDoi.isRunning}}
+                            @type='primary'
+                            @onClick={{action field.manager.requestDoi}}
+                        >
+                            {{t 'registries.registration_metadata.create_doi'}}
+                        </OsfButton>
+                    </div>
+                </field.buttons>
+            </EditableField>
         </div>
         {{!--
         <div local-class='Field'>

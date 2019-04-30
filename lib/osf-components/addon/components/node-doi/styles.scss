@@ -1,0 +1,10 @@
+.CreateMessage {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+
+    p {
+        margin-left: 15px;
+    }
+}

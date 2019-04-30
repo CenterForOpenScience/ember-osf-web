@@ -175,7 +175,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @hasMany('log', { inverse: 'originalNode' })
     logs!: DS.PromiseManyArray<LogModel>;
 
-    @hasMany('identifier', { inverse: null })
+    @hasMany('identifier', { inverse: 'referent' })
     identifiers!: DS.PromiseManyArray<IdentifierModel>;
 
     // These are only computeds because maintaining separate flag values on

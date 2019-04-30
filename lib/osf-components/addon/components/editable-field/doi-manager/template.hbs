@@ -1,0 +1,12 @@
+{{yield (hash
+    cancel=(action this.cancel)
+    fieldIsEmpty=this.fieldIsEmpty
+    emptyFieldText=(t 'registries.registration_metadata.no_doi')
+    startEditing=(action this.startEditing)
+    inEditMode=this.inEditMode
+    userCanEdit=(and this.userCanEdit (not this.nodeDoi))
+    shouldShowField=this.shouldShowField
+    requestDoi=(perform this.requestDoi)
+    nodeDoiUrl=this.nodeDoiUrl
+    nodeDoi=this.nodeDoi
+)}}

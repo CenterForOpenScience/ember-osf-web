@@ -115,7 +115,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
 
     withDoi: trait<MirageNode>({
         afterCreate(node, server) {
-            const identifier = server.create('identifier');
+            const identifier = server.create('identifier', { referent: node });
             // eslint-disable-next-line no-param-reassign
             node.identifiers = [identifier] as unknown as Collection<Identifier>;
             node.save();
