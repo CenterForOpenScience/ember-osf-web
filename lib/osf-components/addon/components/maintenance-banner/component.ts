@@ -5,11 +5,11 @@ import { task } from 'ember-concurrency';
 import Cookies from 'ember-cookies/services/cookies';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
-import $ from 'jquery';
 import moment from 'moment';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 import styles from './styles';
 import template from './template';
@@ -35,12 +35,13 @@ const {
 export default class MaintenanceBanner extends Component.extend({
     getMaintenanceStatus: task(function *(this: MaintenanceBanner): IterableIterator<any> {
         const url: string = `${config.OSF.apiUrl}/v2/status/`;
-        const data = yield $.ajax(url, { type: 'GET' });
+        const data = yield this.currentUser.authenticatedAJAX({ url, type: 'GET' });
         this.set('maintenance', data.maintenance);
     }).restartable(),
 }) {
     @service analytics!: Analytics;
     @service cookies!: Cookies;
+    @service currentUser!: CurrentUser;
 
     maintenance?: MaintenanceData | null;
 

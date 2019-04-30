@@ -10,13 +10,16 @@ import LicenseModel from 'ember-osf-web/models/license';
 import Registration from 'ember-osf-web/models/registration';
 import GuidRoute, { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
 
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
     @service router!: RouterService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
@@ -94,7 +97,9 @@ export default class Overview extends GuidRoute {
     afterModel(this: Overview, model: GuidRouteModel<Registration>) {
         // Do not return model.taskInstance
         // as it would block rendering until model.taskInstance resolves and `setHeadTags` task terminates.
-        this.get('setHeadTags').perform(model);
+        if (!this.currentUser.viewOnlyToken) {
+            this.get('setHeadTags').perform(model);
+        }
     }
 
     @action
