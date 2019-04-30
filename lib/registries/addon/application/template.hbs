@@ -2,6 +2,9 @@
 
 {{#if this.newStyleEnabled}}
     <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' @onSearch={{action 'search'}} />
+    <MaintenanceBanner />
+    <StatusBanner />
+    <TosConsentBanner />
 {{else}}
     <OsfHeader as |header|>
         <header.navbar
