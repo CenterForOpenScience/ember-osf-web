@@ -657,6 +657,7 @@ export default {
     },
     contributor_list: {
         x_more: '{{x}} more',
+        anonymous: 'Anonymous contributors',
     },
     app_components: {
         branded_navbar: {
