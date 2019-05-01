@@ -112,11 +112,26 @@
                 </EditableField>
             </EditableField::DoiManager>
         </div>
-        {{!--
+
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.publication_doi'}}</h4>
+            <EditableField::PublicationDoiManager @node={{this.registration}} as |pubDoiManager|>
+                <EditableField
+                    data-analytics-scope='Publication DOI'
+                    @manager={{pubDoiManager}}
+                    @title={{t 'registries.registration_metadata.publication_doi'}}
+                    @name='publication DOI'
+                    @hasCustomButtons={{true}}
+                    as |field|
+                >
+                    <field.edit>
+                        <NodePublicationDoiEditable @manager={{pubDoiManager}} />
+                    </field.edit>
+                    <field.display>
+                        <NodePublicationDoi @manager={{pubDoiManager}} />
+                    </field.display>
+                </EditableField>
+            </EditableField::PublicationDoiManager>
         </div>
-        --}}
 
         <div local-class='Field'>
             <EditableField::InstitutionsManager @node={{this.registration}} as |institutionsManager|>

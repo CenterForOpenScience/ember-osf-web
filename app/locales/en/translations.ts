@@ -532,6 +532,7 @@ export default {
         min_subjects: 'You must select at least {{minLength}} subject(s).',
         node_license_invalid: 'Invalid required fields for the license',
         node_license_missing_fields: 'The following required fields are missing: {{missingFields}}',
+        invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)',
     },
     validated_input_form: {
         discard_changes: 'Discard changes',
@@ -1104,6 +1105,7 @@ export default {
             affiliated_institutions: 'Affiliated institutions',
             license: 'License',
             no_license: 'No license',
+            no_publication_doi: 'No publication DOI given',
             disciplines: 'Disciplines',
             tags: 'Tags',
             citation: 'Citation',

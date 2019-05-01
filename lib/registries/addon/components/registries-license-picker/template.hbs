@@ -68,22 +68,20 @@
 
             <div local-class='Controls'>
                 <OsfButton
+                    @type='default'
+                    @disabled={{form.disabled}}
+                    @onClick={{action @manager.onCancel}}
+                >
+                    {{t 'general.cancel'}}
+                </OsfButton>
+                <OsfButton
                     data-analytics-name='Save license'
                     data-test-save-license
                     @type='primary'
                     @buttonType='submit'
                     @disabled={{form.disabled}}
-                    @size='sm'
                 >
                     {{t 'general.save'}}
-                </OsfButton>
-                <OsfButton
-                    @type='default'
-                    @disabled={{form.disabled}}
-                    @onClick={{action @manager.onCancel}}
-                    @size='sm'
-                >
-                    {{t 'general.cancel'}}
                 </OsfButton>
             </div>
         {{/if}}

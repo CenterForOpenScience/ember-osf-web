@@ -50,6 +50,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') withdrawalJustification?: string;
     @attr('boolean') pendingWithdrawal!: boolean;
     @attr('fixstring') registrationSupplement?: string;
+    @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
 
     // Write-only attributes
