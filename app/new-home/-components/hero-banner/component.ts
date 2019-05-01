@@ -1,4 +1,5 @@
-import { action } from '@ember-decorators/object';
+import { tagName } from '@ember-decorators/component';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -16,11 +17,17 @@ import template from './template';
 const { featureFlagNames: { ABTesting } } = config;
 
 @layout(template, styles)
+@tagName('')
 export default class NewHome extends Component {
     @service features!: Features;
 
     @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
     shouldShowVersionB!: boolean;
+
+    @computed('shouldShowVersionB')
+    get versionClass(this: NewHome): string {
+        return this.shouldShowVersionB ? 'versionB' : '';
+    }
 
     @action
     search(query: string) {

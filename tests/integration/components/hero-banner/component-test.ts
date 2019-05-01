@@ -1,6 +1,7 @@
 import { render } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-i18n/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -14,14 +15,16 @@ module('Integration | Component | Hero banner', hooks => {
         const router = this.owner.lookup('router:main');
         router.setupRouter();
 
-        await render(hbs`<HeroBanner />`);
-        assert.dom('[data-test-hero-heading]').hasText('The place to share your research');
+        await render(hbs`<NewHome::-Components::HeroBanner />`);
+        assert.dom('[data-test-add-research-heading]').doesNotExist();
+        assert.dom('[data-test-add-research-subheading]').doesNotExist();
+        assert.dom('[data-test-hero-heading]')
+            .containsText(t('osf-components.hero-banner.heading').toString());
         assert.dom('[data-test-hero-subheading]')
-            .hasText('OSF is a free, open platform to support your research and enable collaboration.');
-        assert.dom('[data-test-add-research-A]').exists();
-        assert.dom('[data-test-discover-A]').exists();
-        assert.dom('[data-test-add-research-B]').doesNotExist();
-        assert.dom('[data-test-discover-B]').doesNotExist();
+            .containsText(t('osf-components.hero-banner.subheading').toString());
+
+        assert.dom('[data-test-add-research]').exists();
+        assert.dom('[data-test-discover]').exists();
 
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');
@@ -36,13 +39,10 @@ module('Integration | Component | Hero banner', hooks => {
         // Set feature flag to show version B
         features.enable('ABTesting.homePageVersionB');
 
-        await render(hbs`<HeroBanner />`);
+        await render(hbs`<NewHome::-Components::HeroBanner />`);
 
-        assert.dom('[data-test-add-research-B]').exists();
-        assert.dom('[data-test-discover-B]').exists();
-        assert.dom('[data-test-add-research-A]').doesNotExist();
-        assert.dom('[data-test-discover-A]').doesNotExist();
-
+        assert.dom('[data-test-add-research-heading]').exists();
+        assert.dom('[data-test-add-research-subheading]').exists();
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');
     });

@@ -1366,6 +1366,7 @@ export default {
             type_to_search: 'Start typing to search citation styles',
         },
         'search-bar': {
+            aria: 'Search',
             heading: 'Discover public research',
             subheading: 'Discover projects, data, materials, and collaborators on OSF that might be helpful to your own research.',
             placeholder: 'Search discipline, author...',

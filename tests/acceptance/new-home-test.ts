@@ -1,9 +1,14 @@
 import { currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import Features from 'ember-feature-flags';
+import config from 'ember-get-config';
+import { t } from 'ember-i18n/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+
+const { featureFlagNames: { ABTesting } } = config;
 
 module('Acceptance | new home page test', hooks => {
     setupOSFApplicationTest(hooks);
@@ -15,16 +20,25 @@ module('Acceptance | new home page test', hooks => {
         assert.equal(currentURL(), '/new-home', "Still at 'new-home'.");
         // Check navbar
         assert.dom('nav.navbar').exists();
-        assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .sign-in').exists();
 
         // Check page
-        assert.dom('[data-test-hero-heading]').hasText('The place to share your research');
+        assert.dom('[data-test-hero-heading]')
+            .containsText(t('osf-components.hero-banner.heading').toString());
         assert.dom('[data-test-hero-subheading]')
-            .hasText('OSF is a free, open platform to support your research and enable collaboration.');
+            .containsText(t('osf-components.hero-banner.subheading').toString());
 
         // Check footer.
         assert.dom('footer').exists();
+        await percySnapshot(assert);
+    });
+
+    test('visiting new-home version B', async function(assert) {
+        await visit('/new-home');
+        const features = this.owner.lookup('service:features') as Features;
+
+        features.enable(ABTesting.homePageVersionB);
+
         await percySnapshot(assert);
     });
 
