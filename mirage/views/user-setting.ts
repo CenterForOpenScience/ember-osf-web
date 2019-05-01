@@ -12,8 +12,8 @@ export function updateUserSetting(this: HandlerContext, schema: Schema, request:
     }
 
     let confirmTwoFactor = twoFactorConfirmed && twoFactorEnabled;
-    if (attrs.verification !== undefined) {
-        if (attrs.verification === 123456) {
+    if (attrs.twoFactorVerification !== undefined) {
+        if (attrs.twoFactorVerification === 123456) {
             if (twoFactorEnabled === true) {
                 confirmTwoFactor = true;
             }
