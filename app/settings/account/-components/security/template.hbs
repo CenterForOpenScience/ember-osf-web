@@ -32,7 +32,7 @@
                 </p>
                 <QrCode
                     data-test-2f-qr-code
-                    @text={{this.settings.secret}}
+                    @text={{this.keyUri}}
                     @width={{260}}
                     @height={{260}}
                     @correctLevel='L'
@@ -103,6 +103,7 @@
 <BsModal
     data-test-confirm-enable-modal
     @open={{this.showEnableWarning}}
+    @onHide={{action this.hideDialogs}}
     as |modal|
 >
     <modal.header>
