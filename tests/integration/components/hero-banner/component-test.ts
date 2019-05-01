@@ -23,6 +23,8 @@ module('Integration | Component | Hero banner', hooks => {
         assert.dom('[data-test-hero-subheading]')
             .containsText(t('osf-components.hero-banner.subheading').toString());
 
+        assert.notOk(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
+
         assert.dom('[data-test-add-research]').exists();
         assert.dom('[data-test-discover]').exists();
 
@@ -43,6 +45,8 @@ module('Integration | Component | Hero banner', hooks => {
 
         assert.dom('[data-test-add-research-heading]').exists();
         assert.dom('[data-test-add-research-subheading]').exists();
+        assert.ok(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
+
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');
     });
