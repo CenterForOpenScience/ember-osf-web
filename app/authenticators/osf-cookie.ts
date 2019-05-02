@@ -17,6 +17,7 @@ const {
         apiVersion,
         devMode,
     },
+    featureFlagNames: { ABTesting },
 } = config;
 
 export default class OsfCookie extends Base {
@@ -34,14 +35,20 @@ export default class OsfCookie extends Base {
             url: `${apiUrl}/${apiNamespace}/`,
         });
 
-        if (devMode) {
-            this._checkApiVersion();
-        }
-
         if (Array.isArray(res.meta.active_flags)) {
             this.features.setup(
                 res.meta.active_flags.reduce((acc, flag) => ({ ...acc, [flag]: true }), {}),
             );
+        }
+
+        if (devMode) {
+            this._checkApiVersion();
+            //
+            // TODO: create function to initialize all feature flags in config
+            //
+            if (!this.features.flags.includes(ABTesting.homePageVersionB)) {
+                this.features.disable(ABTesting.homePageVersionB);
+            }
         }
 
         const userData = res.meta.current_user;

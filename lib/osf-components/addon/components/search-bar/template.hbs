@@ -1,0 +1,23 @@
+<div data-test-search-bar>
+    <span
+        data-analytics-category='text'
+        local-class='iconInput'
+    >
+        <span>
+            <FaIcon
+                @icon='search'
+                @fixedWidth={{true}}
+            />
+        </span>
+        {{! template-lint-disable no-implicit-this }}
+        {{input
+            data-test-search-input
+            (html-attributes aria-label=(t 'osf-components.search-bar.aria'))
+            type='text'
+            placeholder=(t 'osf-components.search-bar.placeholder')
+            enter=(action this._onSearch this.value)
+            value=(mut this.value)
+        }}
+        {{! template-lint-enable no-implicit-this }}
+    </span>
+</div>

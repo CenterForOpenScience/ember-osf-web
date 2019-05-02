@@ -1,0 +1,35 @@
+<div local-class='hero'>
+    <header local-class='heroHeader'>
+        <h1 data-test-hero-heading>
+            {{t 'osf-components.hero-banner.heading'}}
+        </h1>
+        <h2 data-test-hero-subheading>
+            {{t 'osf-components.hero-banner.subheading'}}
+        </h2>
+        <div data-test-hero-container local-class='{{this.versionClass}}'>
+            <div data-test-add-research local-class='addResearch'>
+                {{#if this.shouldShowVersionB}}
+                    <h3 data-test-add-research-heading>
+                        {{t 'osf-components.hero-banner.add_your_research.heading'}}
+                    </h3>
+                    <h4 data-test-add-research-subheading>
+                        {{t 'osf-components.hero-banner.add_your_research.subheading'}}
+                    </h4>
+                {{/if}}
+                <GetStartedButton local-class='getStartedButton' />
+            </div>
+            <div data-test-discover local-class='discoverResearch'>
+                <h3 data-test-discover-heading>
+                    {{t 'osf-components.search-bar.heading'}}
+                </h3>
+                <h4 data-test-discover-subheading>
+                    {{t 'osf-components.search-bar.subheading'}}
+                </h4>
+                <SearchBar
+                    local-class='searchBar'
+                    @onSearch={{action 'search'}}
+                />
+            </div>
+        </div>
+    </header>
+</div>

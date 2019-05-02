@@ -95,6 +95,7 @@ const Router = EmberRouter.extend({
 Router.map(function() {
     // All non-guid routes (except error routes) belong above "Guid Routing"
     this.route('home', { path: '/' });
+    this.route('new-home');
     this.route('dashboard');
     this.route('goodbye');
     this.route('institutions');

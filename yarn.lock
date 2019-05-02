@@ -1958,10 +1958,10 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
   integrity sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
 
-axe-core@^2.4.2:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-2.6.1.tgz#28772c4f76966d373acda35b9a409299dc00d1b5"
-  integrity sha512-QFfI3d+x/v92HJWGBaNfgrxdfon9/xXzd04YYfm5w5NJQOLex8qkJCctOt7+ky6e1l9zcQ5E7jsvbnTgQzyfTw==
+axe-core@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-3.2.2.tgz#b06d6e9ae4636d706068843272bfaeed3fe97362"
+  integrity sha512-gAy4kMSPpuRJV3mwictJqlg5LhE84Vw2CydKdC4tvrLhR6+G3KW51zbL/vYujcLA2jvWOq3HMHrVeNuw+mrLVA==
 
 babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -2182,6 +2182,13 @@ babel-plugin-debug-macros@^0.1.10, babel-plugin-debug-macros@^0.1.11:
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/babel-plugin-debug-macros/-/babel-plugin-debug-macros-0.1.11.tgz#6c562bf561fccd406ce14ab04f42c218cf956605"
   integrity sha512-hZw5qNNGAR02Y+yBUrtsnJHh8OXavkayPRqKGAXnIm4t5rWVpj3ArwsC7TWdpZsBguQvHAeyTxZ7s23yY60HHg==
+  dependencies:
+    semver "^5.3.0"
+
+babel-plugin-debug-macros@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-debug-macros/-/babel-plugin-debug-macros-0.2.0.tgz#0120ac20ce06ccc57bf493b667cf24b85c28da7a"
+  integrity sha512-Wpmw4TbhR3Eq2t3W51eBAQSdKlr+uAyF0GI4GtPfMCD12Y4cIdpKC9l0RjNTH/P9isFypSqqewMPm7//fnZlNA==
   dependencies:
     semver "^5.3.0"
 
@@ -5829,15 +5836,16 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-ember-a11y-testing@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/ember-a11y-testing/-/ember-a11y-testing-0.5.1.tgz#30cc67119a0c49b4138a8a5dec08175caa187e8f"
-  integrity sha512-DFbu9E6W0B2e79Lftt6r4vR0heaTIpLGo52izEk4TqrLgyvv8mwoPuuWX+MCk88H+SHl1YnVkK7k0Sd81jfcKw==
+ember-a11y-testing@^0.5.7:
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/ember-a11y-testing/-/ember-a11y-testing-0.5.7.tgz#fe2f1fb98884083acb22d4033b9954d68c77bdc6"
+  integrity sha512-hptaIRhxlVcPBhstWy9XQrbHQaaDfK/5YiUj8CSpFPA1uyppbqcWvRUxSMD7N/usqLeXTccJpnIbPOHQXivtLQ==
   dependencies:
-    axe-core "^2.4.2"
+    axe-core "^3.2.2"
     broccoli-funnel "^2.0.1"
     ember-cli-babel "^6.8.2"
     ember-cli-version-checker "^2.1.0"
+    ember-get-config "^0.2.4"
 
 ember-ace@^1.3.1:
   version "1.3.1"
@@ -5858,6 +5866,15 @@ ember-ajax@^3.1.0:
   dependencies:
     ember-cli-babel "^6.16.0"
     najax "^1.0.3"
+
+ember-angle-bracket-invocation-polyfill@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/ember-angle-bracket-invocation-polyfill/-/ember-angle-bracket-invocation-polyfill-1.3.0.tgz#2702f7102dd389f684830fbb5504ebec37febaf7"
+  integrity sha512-KD43MYtxZ0UPpT340CjassDV9SnHpiACKNy8ZXUvj1pDXY+PJgmLmrFTTON9GUQhDNwUQLfRpeSR0+k7X90lMw==
+  dependencies:
+    ember-cli-babel "^6.17.0"
+    ember-cli-version-checker "^2.1.2"
+    ember-compatibility-helpers "^1.0.2"
 
 ember-app-scheduler@^1.0.1:
   version "1.0.3"
@@ -6126,7 +6143,7 @@ ember-cli-babel@^6.16.0:
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^6.6.0, ember-cli-babel@^6.9.2:
+ember-cli-babel@^6.17.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.9.2:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.18.0.tgz#3f6435fd275172edeff2b634ee7b29ce74318957"
   integrity sha512-7ceC8joNYxY2wES16iIBlbPSxwKDBhYwC8drU3ZEvuPDMwVv1KzxCNu1fvxyFEBWhwaRNTUxSCsEVoTd9nosGA==
@@ -6882,6 +6899,15 @@ ember-compatibility-helpers@^1.0.0:
   integrity sha512-eXNA6Cl/a1oYFfML6sHLo7o5Yl3afJjvLvcUbfBFB7dsIFjToKAS+KngIrQoZ0xSlfSwlZXxgyTk/toC/14AjA==
   dependencies:
     babel-plugin-debug-macros "^0.1.11"
+    ember-cli-version-checker "^2.1.1"
+    semver "^5.4.1"
+
+ember-compatibility-helpers@^1.0.2:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ember-compatibility-helpers/-/ember-compatibility-helpers-1.2.0.tgz#feee16c5e9ef1b1f1e53903b241740ad4b01097e"
+  integrity sha512-pUW4MzJdcaQtwGsErYmitFRs0rlCYBAnunVzlFFUBr4xhjlCjgHJo0b53gFnhTgenNM3d3/NqLarzRhDTjXRTg==
+  dependencies:
+    babel-plugin-debug-macros "^0.2.0"
     ember-cli-version-checker "^2.1.1"
     semver "^5.4.1"
 

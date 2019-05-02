@@ -1365,6 +1365,20 @@ export default {
             placeholder: 'Enter citation style (e.g. "APA")',
             type_to_search: 'Start typing to search citation styles',
         },
+        'search-bar': {
+            aria: 'Search',
+            heading: 'Discover public research',
+            subheading: 'Discover projects, data, materials, and collaborators on OSF that might be helpful to your own research.',
+            placeholder: 'Search discipline, author...',
+        },
+        'hero-banner': {
+            heading: 'The place to share your research',
+            subheading: 'OSF is a free, open platform to support your research and enable collaboration.',
+            add_your_research: {
+                heading: 'Add your research',
+                subheading: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.',
+            },
+        },
     },
     settings: {
         toggleNav: 'Toggle navigation',
