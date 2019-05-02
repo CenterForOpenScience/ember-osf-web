@@ -15,7 +15,7 @@ module('Acceptance | new home page test', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visiting new-home', async function(assert) {
+    test('visiting new-home', async assert => {
         await visit('/new-home');
 
         assert.equal(currentURL(), '/new-home', "Still at 'new-home'.");
@@ -33,7 +33,7 @@ module('Acceptance | new home page test', hooks => {
 
         // Check footer.
         assert.dom('footer').exists();
-        await a11yAudit(this.element);
+        await a11yAudit();
         await percySnapshot(assert);
     });
 
@@ -48,7 +48,7 @@ module('Acceptance | new home page test', hooks => {
         assert.dom('[data-test-add-research-subheading]').exists();
         assert.ok(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
 
-        await a11yAudit(this.element);
+        await a11yAudit();
         await percySnapshot(assert);
     });
 
