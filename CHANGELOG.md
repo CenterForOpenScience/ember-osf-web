@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
-    - `hero-banner` - a banner to be used on the logged-out homepage.
+    - `new-home/-components/hero-banner` - a banner to be used on the logged-out homepage.
 - Tests:
     - Acceptance:
         - `new-home`

@@ -1,4 +1,5 @@
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, settled, visit } from '@ember/test-helpers';
+import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
@@ -14,7 +15,7 @@ module('Acceptance | new home page test', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visiting new-home', async assert => {
+    test('visiting new-home', async function(assert) {
         await visit('/new-home');
 
         assert.equal(currentURL(), '/new-home', "Still at 'new-home'.");
@@ -28,8 +29,11 @@ module('Acceptance | new home page test', hooks => {
         assert.dom('[data-test-hero-subheading]')
             .containsText(t('osf-components.hero-banner.subheading').toString());
 
+        assert.notOk(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
+
         // Check footer.
         assert.dom('footer').exists();
+        await a11yAudit(this.element);
         await percySnapshot(assert);
     });
 
@@ -39,6 +43,12 @@ module('Acceptance | new home page test', hooks => {
 
         features.enable(ABTesting.homePageVersionB);
 
+        await settled();
+        assert.dom('[data-test-add-research-heading]').exists();
+        assert.dom('[data-test-add-research-subheading]').exists();
+        assert.ok(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
+
+        await a11yAudit(this.element);
         await percySnapshot(assert);
     });
 

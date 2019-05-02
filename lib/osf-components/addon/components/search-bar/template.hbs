@@ -10,14 +10,14 @@
             />
         </span>
         {{! template-lint-disable no-implicit-this }}
-        <input
+        {{input
             data-test-search-input
+            (html-attributes aria-label=(t 'osf-components.search-bar.aria'))
             type='text'
-            aria-label='{{t 'osf-components.search-bar.aria'}}'
-            placeholder='{{t 'osf-components.search-bar.placeholder'}}'
-            enter={{action this._onSearch this.value}}
-            value={{mut this.value}}
-        >
+            placeholder=(t 'osf-components.search-bar.placeholder')
+            enter=(action this._onSearch this.value)
+            value=(mut this.value)
+        }}
         {{! template-lint-enable no-implicit-this }}
     </span>
 </div>
