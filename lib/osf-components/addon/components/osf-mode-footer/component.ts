@@ -2,6 +2,7 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import RouterService from '@ember/routing/router-service';
+import { underscore } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
@@ -34,7 +35,7 @@ export default class OsfModeFooter extends Component {
     url: string = '/';
 
     get featureList() {
-        return this.features.flags;
+        return this.features.flags.map(flag => underscore(flag)).sort();
     }
 
     @action
