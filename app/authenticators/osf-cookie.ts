@@ -41,14 +41,15 @@ export default class OsfCookie extends Base {
             );
         }
 
+        //
+        // TODO: create function to initialize all feature flags in config
+        //
+        if (!this.features.flags.includes(ABTesting.homePageVersionB)) {
+            this.features.disable(ABTesting.homePageVersionB);
+        }
+
         if (devMode) {
             this._checkApiVersion();
-            //
-            // TODO: create function to initialize all feature flags in config
-            //
-            if (!this.features.flags.includes(ABTesting.homePageVersionB)) {
-                this.features.disable(ABTesting.homePageVersionB);
-            }
         }
 
         const userData = res.meta.current_user;
