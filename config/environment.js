@@ -261,7 +261,7 @@ module.exports = function(environment) {
             enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
             ABTesting: {
-                homePageVersionB: 'a_b_testing_home_page_version_b',
+                homePageVersionB: 'ab_testing_home_page_version_b',
             },
         },
         gReCaptcha: {
