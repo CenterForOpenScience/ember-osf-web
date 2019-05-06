@@ -1423,6 +1423,8 @@ export default {
             add_your_research: {
                 heading: 'Add your research',
                 subheading: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.',
+            },
+        },
         'support-section': {
             header: 'How OSF supports your research',
             arrow: 'arrow',

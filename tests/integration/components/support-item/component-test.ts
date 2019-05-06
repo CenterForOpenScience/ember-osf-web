@@ -1,6 +1,6 @@
 import { render } from '@ember/test-helpers';
-// TODO: Add a11y tests after added to develop
-// import a11yAudit from 'ember-a11y-testing/test-support/audit';
+import a11yAudit from 'ember-a11y-testing/test-support/audit';
+import { t } from 'ember-i18n/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -11,8 +11,9 @@ module('Integration | Component | support-item', hooks => {
 
     test('it renders', async function(assert) {
         this.set('icon', 'search');
-        this.set('header', 'Test header');
-        this.set('subHeader', 'Test subheader');
+        this.set('header', 'Search and Discover');
+        this.set('subHeader', 'Find papers, data, and materials to inspire your next research project. ' +
+        'Search public projects to build on the work of others and find new collaborators.');
         await render(hbs`
             <SupportItem
                 @icon={{this.icon}}
@@ -21,10 +22,12 @@ module('Integration | Component | support-item', hooks => {
             />`);
         assert.dom('[data-test-icon-image]').exists();
         assert.dom('[data-test-icon-image]').hasAttribute('alt', 'search');
-        assert.dom('[data-test-support-header]').hasText('Test header');
-        assert.dom('[data-test-support-subheader]').hasText('Test subheader');
-        // TODO: Add a11y tests to page after adding to develop
-        // await a11yAudit(this.element);
-        // assert.ok(true, 'No a11y errors on page');
+        assert.dom('[data-test-support-header]')
+            .containsText(t('osf-components.support-section.search.header').toString());
+        assert.dom('[data-test-support-subheader]')
+            .containsText(t('osf-components.support-section.search.subHeader').toString());
+
+        await a11yAudit(this.element);
+        assert.ok(true, 'No a11y errors on page');
     });
 });
