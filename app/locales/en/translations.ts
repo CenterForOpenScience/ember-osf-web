@@ -265,6 +265,11 @@ export default {
             description: 'Improve your next study. Enter the Prereg Challenge and you could win $1,000.',
             button: 'Start Prereg Challenge',
         },
+        view_only: {
+            anonymized_warning: 'You are viewing OSF through an anonymized, view-only link. This may limit the data you have permission to see.',
+            warning: 'You are viewing OSF through a view-only link. This may limit the data you have permission to see.',
+            view_normally: 'Stop using a view-only link',
+        },
     },
     move_to_project: {
         create_new_project: 'Create new public project',

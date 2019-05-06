@@ -4,7 +4,7 @@ import config from 'ember-get-config';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-import { visit } from 'ember-osf-web/tests/helpers';
+import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 
 const {
     OSF: {

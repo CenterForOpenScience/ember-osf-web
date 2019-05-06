@@ -36,7 +36,12 @@ export interface RootMeta extends BaseMeta {
     active_flags: string[];
     message: string;
     version: string;
-    current_user?: { data: UserResource };
+    current_user?: {
+        data: UserResource,
+        meta?: {
+            anonymous?: boolean;
+        },
+    };
 }
 
 export interface BaseMeta {
