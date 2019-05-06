@@ -24,7 +24,7 @@ export default class XAnchor extends Component {
 
     @service currentUser!: CurrentUser;
 
-    @attribute
+    @attribute('href')
     @computed('href')
     get _href() {
         const { href } = this;

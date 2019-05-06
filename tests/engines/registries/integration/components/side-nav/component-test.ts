@@ -20,12 +20,16 @@ class RouterStub extends Service {
     }
 }
 
+class CurrentUserStub extends Service {
+}
+
 /* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | side-nav', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:router', RouterStub);
+        this.owner.register('service:current-user', CurrentUserStub);
     });
 
     test('it renders', async assert => {
