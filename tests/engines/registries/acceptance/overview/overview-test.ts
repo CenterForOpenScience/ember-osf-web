@@ -227,7 +227,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-bookmarks-button]');
         await click('[data-test-social-sharing-button]');
         assert.dom('[data-test-bookmarks-button]').hasText(
-            t('registries.overview.update_bookmarks.remove.text').toString(),
+            t('registries.overview.bookmark.remove.text').toString(),
         );
 
         bookmarksColl.reload();
@@ -237,7 +237,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-bookmarks-button]');
         await click('[data-test-social-sharing-button]');
         assert.dom('[data-test-bookmarks-button]').hasText(
-            t('registries.overview.update_bookmarks.add.text').toString(),
+            t('registries.overview.bookmark.add.text').toString(),
         );
 
         bookmarksColl.reload();

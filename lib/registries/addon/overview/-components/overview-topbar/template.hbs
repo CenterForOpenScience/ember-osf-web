@@ -1,0 +1,84 @@
+<div local-class='LeftActionsContainer'>
+    <RegistriesStates @registration={{@registration}} />
+</div>
+<div local-class='RightActionsContainer'>
+    <ResponsiveDropdown as |dd|>
+        <dd.trigger local-class='Action'>
+            <FaIcon
+                local-class='Icon'
+                @icon='code-fork'
+            />
+            <BsTooltip
+                @placement='top'
+                @triggerEvents='hover'
+            >
+                {{t 'registries.overview.tooltips.fork'}}
+            </BsTooltip>
+        </dd.trigger>
+        <dd.content>
+            <div local-class='ForksMenu'>
+                <div local-class='ForksMenu__option'>
+                    <OsfLink
+                        data-analytics-name='Go to forks page'
+                        @route='guid-registration.forks'
+                        @models={{array @registration.id}}
+                    >
+                        {{t 'registries.overview.view_forks'}}
+                    </OsfLink>
+                </div>
+                <div local-class='ForksMenu__option'>
+                    <OsfButton
+                        data-analytics-name='Fork registration'
+                        @type='link'
+                        @disabled={{this.forkRegistration.isRunning}}
+                        @onClick={{action (perform this.forkRegistration (action dd.close))}}
+                    >
+                        {{t 'registries.overview.fork_registration'}}
+                    </OsfButton>
+                </div>
+            </div>
+        </dd.content>
+    </ResponsiveDropdown>
+
+    <OsfButton
+        data-test-bookmarks-button
+        data-analytics-name={{if this.isBookmarked 'Remove from bookmarks' 'Bookmark'}}
+        data-analytics-extra='Registration ID: {{this.registration.id}}'
+        @type='link'
+        @onClick={{action (perform this.bookmark)}}
+        @disabled={{this.bookmark.isRunning}}
+        local-class='ActionButton'
+    >
+        <FaIcon
+            local-class='Icon'
+            @icon='{{if this.isBookmarked 'bookmark' 'bookmark-o'}}'
+        />
+        <BsTooltip
+            @placement='top'
+            @triggerEvents='hover'
+        >
+            {{t (if this.isBookmarked 'registries.overview.tooltips.remove_bookmark' 'registries.overview.tooltips.bookmark')}}
+        </BsTooltip>
+    </OsfButton>
+
+    {{#sharing-icons/dropdown
+        title=@registration.title
+        description=@registration.description
+        hyperlink=this.registrationURL
+        showText=true
+        registration=@registration
+        as |dd|}}
+        <dd.trigger local-class='Action'>
+            <FaIcon
+                local-class='Icon'
+                @icon='share-alt'
+            />
+            <BsTooltip
+                @placement='top'
+                @triggerEvents='hover'
+            >
+                {{t 'registries.overview.tooltips.share'}}
+            </BsTooltip>
+        </dd.trigger>
+    {{/sharing-icons/dropdown}}
+</div>

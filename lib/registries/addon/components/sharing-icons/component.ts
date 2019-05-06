@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import param from 'ember-osf-web/utils/param';
 import template from './template';
 
@@ -16,7 +15,6 @@ export default class SharingIcons extends Component {
     resultId?: string;
     parentId?: string;
     facebookAppId?: string;
-    showBookmark?: boolean = defaultTo(this.showBookmark, false);
 
     @computed('hyperlink', 'title')
     get twitterHref(this: SharingIcons): string {

@@ -1,4 +1,4 @@
-import { computed } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
@@ -7,6 +7,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 import styles from './styles';
 import template from './template';
@@ -45,7 +46,8 @@ export default class RegistrationIsPublic extends Component.extend({
     scientistName?: string;
     scientistNameInput?: string = '';
     withdrawalJustification?: string = '';
-    closeDropdown?: () => void;
+    closeDropdown!: () => void;
+    showModal: boolean = defaultTo(this.showModal, false);
 
     didReceiveAttrs(this: RegistrationIsPublic) {
         this.setProperties({
@@ -62,5 +64,13 @@ export default class RegistrationIsPublic extends Component.extend({
     get submitDisabled(this: RegistrationIsPublic): boolean {
         return this.submitWithdrawal.isRunning ||
             (this.scientistNameInput !== this.scientistName);
+    }
+
+    @action
+    close() {
+        if (this.registration.hasDirtyAttributes) {
+            this.registration.rollbackAttributes();
+        }
+        this.closeDropdown();
     }
 }

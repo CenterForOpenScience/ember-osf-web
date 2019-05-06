@@ -9,12 +9,13 @@
         </div>
     {{else}}
         {{title this.registration.title}}
-        <RegistriesBanner @registration={{this.registration}} />
         <OverviewHeader
             @registration={{this.registration}}
             @sidenavGutterClosed={{this.sidenavGutterClosed}}
-            @toggleSidenav={{action 'toggleSidenav'}}
-            @toggleMetadata={{action 'toggleMetadata'}}
+            @metadataGutterClosed={{this.metadataGutterClosed}}
+            @toggleSidenav={{action this.toggleSidenav}}
+            @toggleMetadata={{action this.toggleMetadata}}
+            @toggleOverview={{action this.toggleOverview}}
         />
         {{#if this.registration.withdrawn}}
             <div local-class='ContentBackground'>

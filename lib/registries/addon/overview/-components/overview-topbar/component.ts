@@ -1,21 +1,44 @@
 import { tagName } from '@ember-decorators/component';
+import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
-import { DS } from 'ember-data';
-import I18n from 'ember-i18n/services/i18n';
+import DS from 'ember-data';
+import config from 'ember-get-config';
+import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import Collection from 'ember-osf-web/models/collection';
-import Registration from 'ember-osf-web/models/registration';
+import CollectionModel from 'ember-osf-web/models/collection';
+import RegistrationModel, { RegistrationState } from 'ember-osf-web/models/registration';
+import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
 import template from './template';
 
+const { OSF: { url: baseURL } } = config;
+
 @tagName('')
 @layout(template, styles)
-export default class SharingIconsDropdown extends Component.extend({
-    bookmark: task(function *(this: SharingIconsDropdown) {
+export default class OverviewTopbar extends Component.extend({
+    forkRegistration: task(function *(this: OverviewTopbar, closeDropdown: () => void) {
+        if (!this.registration) {
+            return;
+        }
+
+        try {
+            yield this.registration.makeFork();
+            this.toast.success(
+                this.i18n.t('registries.overview.fork.success'),
+                this.i18n.t('registries.overview.fork.success_title'),
+            );
+        } catch (e) {
+            this.toast.error(this.i18n.t('registries.overview.fork.error'));
+            throw e;
+        } finally {
+            closeDropdown();
+        }
+    }).drop(),
+    bookmark: task(function *(this: OverviewTopbar) {
         if (!this.bookmarksCollection || !this.registration) {
             return;
         }
@@ -45,7 +68,7 @@ export default class SharingIconsDropdown extends Component.extend({
 
         this.toggleProperty('isBookmarked');
     }).drop(),
-    getBookmarksCollection: task(function *(this: SharingIconsDropdown) {
+    getBookmarksCollection: task(function *(this: OverviewTopbar) {
         const collections = yield this.store.findAll('collection', {
             adapterOptions: { 'filter[bookmarks]': 'true' },
         });
@@ -57,16 +80,27 @@ export default class SharingIconsDropdown extends Component.extend({
         this.set('bookmarksCollection', collections.firstObject);
 
         const bookmarkedRegs = yield this.bookmarksCollection.linkedRegistrations;
-        const isBookmarked = Boolean(bookmarkedRegs.find((reg: Registration) => reg.id === this.registration.id));
+        const isBookmarked = Boolean(bookmarkedRegs.find((reg: RegistrationModel) => reg.id === this.registration.id));
 
         this.set('isBookmarked', isBookmarked);
     }).on('init'),
 }) {
     @service store!: DS.Store;
     @service toast!: Toast;
-    @service i18n!: I18n;
+    @service i18n!: I18N;
 
-    registration!: Registration;
-    bookmarksCollection!: Collection;
+    registration!: RegistrationModel;
+
+    bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
+
+    @computed('registration.state')
+    get isWithdrawn() {
+        return this.registration.state === RegistrationState.Withdrawn;
+    }
+
+    @computed('registration.id')
+    get registrationURL() {
+        return this.registration && pathJoin(baseURL, `${this.registration.id}`);
+    }
 }

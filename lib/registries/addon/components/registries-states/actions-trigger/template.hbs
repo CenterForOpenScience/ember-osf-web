@@ -1,14 +1,4 @@
-<OsfButton
-    data-analytics-name='Expand admin action'
-    data-analytics-extra={{concat 'Current state: ' @registration.state}}
-    @type='default'
-    @class={{local-class this.buttonClass}}
->
-    {{#if this.showMobileView}}
-        {{fa-icon this.registrationState.icon}}
-        {{fa-icon (if this.isDisabled '' (if @isOpen 'caret-up' 'caret-down'))}}
-    {{else}}
-        {{t this.registrationState.text}}
-        {{fa-icon (if this.isDisabled this.registrationState.icon (if @isOpen 'caret-up' 'caret-down'))}}
-    {{/if}}
-</OsfButton>
+<span local-class='StateText'>
+    {{@state}}
+    <FaIcon @icon={{if @isOpen 'caret-up' 'caret-down'}} @fixedWidth={{true}} />
+</span>

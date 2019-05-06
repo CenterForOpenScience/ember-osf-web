@@ -1,28 +1,18 @@
-.Menu__button {
-    :global(.btn.btn-default) {
-        color: $primary-blue;
-        text-align: center;
-        border: 1px solid $alto;
-        border-top-left-radius: 2px;
-        border-bottom-left-radius: 2px;
-        background-color: $white;
-        background-size: cover;
-        outline: 0;
+.Action {
+    color: $slate-gray;
+}
 
-        &:hover,
-        &:focus {
-            color: $secondary-blue;
-            background-color: $alto;
-            outline: 0;
-        }
+.ActionButton {
+    color: $slate-gray;
+    text-align: center;
+    outline: 0;
+    padding: 0;
 
-        .ForksCount__text {
-            padding-left: 4px;
-            color: $midnight-blue;
-        }
-    }
-
+    &:hover,
+    &:active,
     &:focus {
+        color: $slate-gray;
+        text-decoration: none;
         outline: 0;
     }
 }
@@ -67,5 +57,19 @@
 }
 
 .Icon {
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 10px;
+}
+
+.LeftActionsContainer {
+    flex: 2;
+    align-items: baseline;
+}
+
+.RightActionsContainer {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: baseline;
 }

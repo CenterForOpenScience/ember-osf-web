@@ -3,82 +3,35 @@
         <div local-class='Header'>
             <h1 data-test-registration-title>{{@registration.title}}</h1>
         </div>
-        <div local-class='ActionBar'>
-            <div local-class='LeftActionsContainer'>
-                {{#if @registration.userHasAdminPermission}}
-                    {{#if this.showMobileView}}
-                        <OsfButton
-                             local-class='IconBox'
-                             data-analytics-name='Toggle navigation sidebar'
-                             @type='link'
-                             @onClick={{@toggleSidenav}}
-                        >
-                            <FaIcon
-                                local-class='Icon'
-                                @icon={{if @sidenavGutterClosed 'bars' 'times'}}
-                            />
-                        </OsfButton>
-                    {{/if}}
-                    <BsDropdown
-                        data-analytics-scope='Registries admin'
-                        local-class='Dropdown'
-                        as |dropdown|
-                    >
-                        <dropdown.toggle @classNames={{local-class 'DropdownToggle'}}>
+        {{#if (not (or @registration.archiving @registration.withdrawn))}}
+            <div local-class='ActionBar'>
+                {{overview/-components/overview-topbar registration=this.registration}}
+            </div>
+            {{#if this.showMobileView}}
+                <Navbar local-class='SideBarToggle' as |nav|>
+                    <nav.bordered-section>
+                        <nav.buttons.default @onclick={{@toggleSidenav}}>
+                            {{nav.icon (if @sidenavGutterClosed 'bars' 'times')}}
+                        </nav.buttons.default>
 
-                            <span>
-                                <strong>{{t 'registries.overview.pendingMessage'}}</strong>
-                            </span>
-                            <FaIcon
-                                local-class='DropdownIcon'
-                                @icon={{if dropdown.isOpen 'caret-up' 'caret-down'}}
-                            />
-                        </dropdown.toggle>
-                        <dropdown.menu @classNames={{local-class 'Menu'}}>
-                            <div local-class='MenuContent'>
-                                <FaIcon local-class="MenuIcon" @icon='clock-o' />
-                                <div local-class='MenuBody'>
-                                    <p>{{t 'registries.overview.pendingInfo'}}</p>
-                                </div>
-                            </div>
-                        </dropdown.menu>
-                    </BsDropdown>
-                {{else}}
-                    <div local-class='UserMessage'>
-                        <p>{{t 'registries.overview.nonAdminMessage'}}</p>
-                    </div>
-                {{/if}}
-            </div>
-            <div local-class='RightActionsContainer'>
-                <div local-class='IconBox'>
-                    <FaIcon
-                        local-class='Icon'
-                        @icon='code-fork'
-                    />
-                </div>
-                <div local-class='IconBox'>
-                    <FaIcon
-                        local-class='Icon'
-                        @icon='bookmark-o'
-                    />
-                </div>
-                <div local-class='IconBox'>
-                    <FaIcon
-                        local-class='Icon'
-                        @icon='share-alt'
-                    />
-                </div>
-                {{#if this.showMobileView}}
-                     <OsfButton
-                         local-class='IconBox'
-                         data-analytics-name='Toggle metadata sidebar'
-                         @type='link'
-                         @onClick={{@toggleMetadata}}
-                    >
-                        <FaIcon local-class='Icon' @icon='info-circle' />
-                    </OsfButton>
-                {{/if}}
-            </div>
-        </div>
+                        <nav.buttons.default
+                            @onclick={{@toggleOverview}}
+                            local-class={{unless @metadataGutterClosed 'NonActive'}}
+                        >
+                            <h4>{{t 'registries.overview.title'}}</h4>
+                        </nav.buttons.default>
+                    </nav.bordered-section>
+
+                    <nav.bordered-section>
+                        <nav.buttons.default
+                            @onclick={{@toggleMetadata}}
+                            local-class={{if @metadataGutterClosed 'NonActive'}}
+                        >
+                            <h4>{{t 'registries.overview.metadata'}}</h4>
+                        </nav.buttons.default>
+                    </nav.bordered-section>
+                </Navbar>
+            {{/if}}
+        {{/if}}
     </div>
 </div>
