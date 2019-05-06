@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
     - `new-home/-components/hero-banner` - a banner to be used on the logged-out homepage.
+    - `banners/view-only-link` - banner displayed when using a view-only link
 - Tests:
     - Acceptance:
         - `new-home`
@@ -17,6 +18,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `get-started-button`
         - `search-bar`
         - `hero-banner`
+- View-only link support:
+    - Add `view_only` query param to `application` route
+    - Store VOL info (token, anonymized) on `current-user` service
+    - Include VOL token in all API requests, all links within OSF
+### Changed
+- Components
+    - `contributor-list` - display something useful when using an anonymized VOL
 
 ## [19.4.0] - 2019-04-25
 ### Added
