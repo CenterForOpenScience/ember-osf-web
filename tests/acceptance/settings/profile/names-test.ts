@@ -13,7 +13,7 @@ module('Acceptance | settings | profile | name', hooks => {
     test('cannot use unauthenticated', async function(assert) {
         this.owner.register('service:current-user', CurrentUserStub);
         const currentUser = this.owner.lookup('service:current-user');
-        await visit('settings/profile/name');
+        await visit('/settings/profile/name');
         assert.equal(currentUser.urlCalled, '/settings/profile/name');
     });
 
