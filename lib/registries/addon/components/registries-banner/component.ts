@@ -72,12 +72,12 @@ export default class RegistriesBanner extends Component {
         }
     }
 
-    @computed('registration.registeredFrom.id')
+    @computed('registration')
     get projectUrl(this: RegistriesBanner) {
         if (!this.registration) {
             return undefined;
         }
-        const registeredFromId = this.registration.registeredFrom.get('id');
+        const registeredFromId = this.registration.belongsTo('registeredFrom').id();
         return registeredFromId && pathJoin(baseURL, registeredFromId);
     }
 }
