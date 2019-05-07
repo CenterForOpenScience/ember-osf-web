@@ -112,6 +112,6 @@ export default class Overview extends GuidRoute {
 
     @action
     error() {
-        this.replaceWith('page-not-found', this.router.currentURL.slice(1));
+        this.replaceWith('page-not-found', notFoundURL(this.router.currentURL));
     }
 }

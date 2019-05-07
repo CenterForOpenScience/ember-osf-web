@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Add `view_only` query param to `application` route
     - Store VOL info (token, anonymized) on `current-user` service
     - Include VOL token in all API requests, all links within OSF
+- Utils
+    - `notFoundURL` (in `utils/clean-url`) - makes a URL suitable for a `not-found` route's `path` param
 ### Changed
 - Components
     - `contributor-list` - display something useful when using an anonymized VOL
