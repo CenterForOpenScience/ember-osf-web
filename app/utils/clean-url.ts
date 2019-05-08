@@ -8,7 +8,7 @@ export default function cleanURL(url: string) {
 
     const cleanedURL = url
         .replace(/(?:^|\/)--[^/?]+/g, '') // remove '--foo' segments
-        .replace(/\/(?=$|\?)/, ''); // remove trailing slash
+        .replace(/\/(?=$|[?#])/, ''); // remove trailing slash
 
     return cleanedURL.startsWith('/') ? cleanedURL : `/${cleanedURL}`;
 }
@@ -19,5 +19,5 @@ export default function cleanURL(url: string) {
 export function notFoundURL(url: string) {
     return cleanURL(url)
         .slice(1) // remove leading '/'
-        .split('?')[0]; // remove query string to avoid duplicated query params
+        .replace(/\?[^#]*/, ''); // remove query string to avoid duplicated query params
 }
