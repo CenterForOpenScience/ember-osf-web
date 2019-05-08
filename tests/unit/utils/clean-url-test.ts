@@ -106,6 +106,14 @@ const TEST_CASES = [{
     input: '/normal--url/?query=param',
     cleanOutput: '/normal--url?query=param',
     notFoundOutput: 'normal--url',
+}, {
+    input: '/--user/abcd/#frag',
+    cleanOutput: '/abcd#frag',
+    notFoundOutput: 'abcd#frag',
+}, {
+    input: '/--user/abcd/?query=param#frag',
+    cleanOutput: '/abcd?query=param#frag',
+    notFoundOutput: 'abcd#frag',
 }];
 
 module('Unit | Utility | cleanURL', () => {
