@@ -18,7 +18,7 @@ module('Acceptance | view-only-links', hooks => {
     setupMirage(hooks);
 
     test('View-only links', async assert => {
-        server.create('root', { withAnonymizedVOL: true });
+        server.create('root', 'withAnonymizedVOL');
         const viewOnlyToken = 'thisisatoken';
 
         const requests: Request[] = [];
@@ -65,7 +65,7 @@ module('Acceptance | view-only-links', hooks => {
     });
 
     test('View-only banner (logged in, non-anonymized)', async assert => {
-        server.create('user', 'loggedIn');
+        server.create('root');
 
         const viewOnlyToken = 'thisisatoken';
         await visit(`/support?view_only=${viewOnlyToken}`);
@@ -80,7 +80,7 @@ module('Acceptance | view-only-links', hooks => {
     });
 
     test('View-only banner (logged in, anonymized)', async assert => {
-        server.create('root', { withAnonymizedVOL: true });
+        server.create('root', 'withAnonymizedVOL');
 
         const viewOnlyToken = 'thisisatoken';
         await visit(`/support?view_only=${viewOnlyToken}`);
@@ -95,6 +95,8 @@ module('Acceptance | view-only-links', hooks => {
     });
 
     test('View-only banner (logged out, non-anonymized)', async assert => {
+        server.create('root', 'loggedOut');
+
         const viewOnlyToken = 'thisisatoken';
         await visit(`/support?view_only=${viewOnlyToken}`);
 
@@ -108,7 +110,7 @@ module('Acceptance | view-only-links', hooks => {
     });
 
     test('View-only banner (logged out, anonymized)', async assert => {
-        server.create('root', { currentUser: null, withAnonymizedVOL: true });
+        server.create('root', 'loggedOut', 'withAnonymizedVOL');
 
         const viewOnlyToken = 'thisisatoken';
         await visit(`/support?view_only=${viewOnlyToken}`);
