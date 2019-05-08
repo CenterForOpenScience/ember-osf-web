@@ -2,25 +2,32 @@
     @horizontalPosition='left'
     @initiallyOpened={{this.shouldOpenDropdownOnLoad}}
     as |dd|>
-    <dd.trigger @class={{local-class 'Menu__button'}}>
+    <dd.trigger
+        data-analytics-name='Expand state dropdown'
+        data-test-state-button
+        @class={{local-class 'Menu__button'}}
+    >
         {{registries-states/actions-trigger
             isOpen=dd.isOpen
             registration=@registration
             state=this.registrationState.buttonText
         }}
     </dd.trigger>
-    <dd.content @class={{local-class 'States'}}>
+    <dd.content
+        data-test-state-description
+        @class={{local-class 'States'}}
+    >
         {{#if this.registrationState}}
             <div local-class='DescriptionContainer'>
-                <FaIcon @icon={{this.registrationState.icon}} @size='4' />
+                <FaIcon data-test-state-icon @icon={{this.registrationState.icon}} @size='4' />
                 <div local-class='DescriptionText'>
-                    <h4>{{this.registrationState.short}}</h4>
-                    <p>{{this.registrationState.long}}</p>
+                    <h4 data-test-state-description-short>{{this.registrationState.short}}</h4>
+                    <p data-test-state-description-long>{{this.registrationState.long}}</p>
                 </div>
             </div>
         {{/if}}
         {{#unless this.shouldHideAdminActions}}
-            <div local-class='AdminActions'>
+            <div data-test-state-admin-actions local-class='AdminActions'>
                 {{#if (eq this.registration.state this.public)}}
                     {{registries-states/is-public registration=@registration closeDropdown=dd.close}}
                 {{else}}

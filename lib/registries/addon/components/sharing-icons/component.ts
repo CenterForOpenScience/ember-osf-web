@@ -14,7 +14,7 @@ export default class SharingIcons extends Component {
     description?: string;
     resultId?: string;
     parentId?: string;
-    facebookAppId?: string;
+    facebookAppId?: string = config.FB_APP_ID || '';
 
     @computed('hyperlink', 'title')
     get twitterHref(this: SharingIcons): string {

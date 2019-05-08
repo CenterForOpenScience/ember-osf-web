@@ -1,9 +1,15 @@
-<div local-class='LeftActionsContainer'>
+<div data-test-topbar-states local-class='LeftActionsContainer'>
     <RegistriesStates @registration={{@registration}} />
 </div>
-<div local-class='RightActionsContainer'>
+<div data-test-topbar-share-bookmark-fork
+    local-class='RightActionsContainer'
+>
     <ResponsiveDropdown as |dd|>
-        <dd.trigger local-class='Action'>
+        <dd.trigger
+            data-test-forks-dropdown-button
+            data-analytics-name='Expand fork dropdown'
+            local-class='Action'
+        >
             <FaIcon
                 local-class='Icon'
                 @icon='code-fork'
@@ -16,10 +22,11 @@
             </BsTooltip>
         </dd.trigger>
         <dd.content>
-            <div local-class='ForksMenu'>
+            <div data-test-forks-dropdown-options local-class='ForksMenu'>
                 <div local-class='ForksMenu__option'>
                     <OsfLink
                         data-analytics-name='Go to forks page'
+                        data-test-go-to-forks-view
                         @route='guid-registration.forks'
                         @models={{array @registration.id}}
                     >
@@ -29,6 +36,7 @@
                 <div local-class='ForksMenu__option'>
                     <OsfButton
                         data-analytics-name='Fork registration'
+                        data-test-fork-registration
                         @type='link'
                         @disabled={{this.forkRegistration.isRunning}}
                         @onClick={{action (perform this.forkRegistration (action dd.close))}}
@@ -57,7 +65,11 @@
             @placement='top'
             @triggerEvents='hover'
         >
-            {{t (if this.isBookmarked 'registries.overview.tooltips.remove_bookmark' 'registries.overview.tooltips.bookmark')}}
+            {{#if this.isBookmarked}}
+                {{t 'registries.overview.tooltips.remove_bookmark'}}
+            {{else}}
+                {{t 'registries.overview.tooltips.bookmark'}}
+            {{/if}}
         </BsTooltip>
     </OsfButton>
 
@@ -68,7 +80,11 @@
         showText=true
         registration=@registration
         as |dd|}}
-        <dd.trigger local-class='Action'>
+        <dd.trigger
+            data-test-social-sharing-button
+            data-analytics-name='Expand sharing menu'
+            local-class='Action'
+        >
             <FaIcon
                 local-class='Icon'
                 @icon='share-alt'

@@ -8,6 +8,7 @@ import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 export interface MirageRegistration extends Registration {
     index: number;
     affiliatedInstitutionIds: Array<string|number>;
+    forkIds: Array<string|number>;
 }
 
 export interface RegistrationTraits {
@@ -16,10 +17,12 @@ export interface RegistrationTraits {
     isArchiving: Trait;
     isEmbargoed: Trait;
     isPendingEmbargoApproval: Trait;
+    isPendingEmbargoTerminationApproval: Trait;
     isPendingWithdrawal: Trait;
     isWithdrawn: Trait;
     withArbitraryState: Trait;
     withAffiliatedInstitutions: Trait;
+    isPublic: Trait;
 }
 
 const stateAttrs = {
@@ -33,6 +36,13 @@ const stateAttrs = {
     },
     embargoed: {
         pendingEmbargoApproval: false,
+        embargoed: true,
+        embargoEndDate() {
+            return faker.date.future(1, new Date(2022, 0, 0));
+        },
+    },
+    pendingEmbargoTerminationApproval: {
+        pendingEmbargoTerminationApproval: true,
         embargoed: true,
         embargoEndDate() {
             return faker.date.future(1, new Date(2022, 0, 0));
@@ -147,8 +157,14 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     isPendingWithdrawal: trait<MirageRegistration>({
         ...stateAttrs.pendingWithdrawal,
     }),
+    isPendingEmbargoTerminationApproval: trait<MirageRegistration>({
+        ...stateAttrs.pendingEmbargoTerminationApproval,
+    }),
     isWithdrawn: trait<MirageRegistration>({
         ...stateAttrs.withdrawn,
+    }),
+    isPublic: trait<MirageRegistration>({
+        ...stateAttrs.normal,
     }),
     withAffiliatedInstitutions: trait<MirageRegistration>({
         afterCreate(registration, server) {

@@ -68,7 +68,7 @@ export default class RegistriesStates extends Component {
 
     @computed('registration.{userHasAdminPermission,state}')
     get shouldOpenDropdownOnLoad() {
-        return this.registration.userHasReadPermission &&
+        return this.registration.userHasAdminPermission &&
             ![RegistrationState.Embargoed, RegistrationState.Public].includes(this.registration.state);
     }
 
@@ -77,7 +77,7 @@ export default class RegistriesStates extends Component {
         if (!this.registration) {
             return undefined;
         }
-        const registeredFromId = this.registration.registeredFrom.get('id');
+        const registeredFromId = this.registration.belongsTo('registeredFrom').id();
         return registeredFromId && pathJoin(baseURL, registeredFromId);
     }
 

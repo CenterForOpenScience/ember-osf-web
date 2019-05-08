@@ -39,8 +39,6 @@ export default {
         embed: 'Embed',
         download: 'Download',
         download_url: 'Download url',
-        accept: 'Accept',
-        reject: 'Reject',
         done: 'Done',
         delete: 'Delete',
         view: 'View',
