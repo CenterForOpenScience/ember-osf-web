@@ -18,7 +18,9 @@ function deserializeQueryString(queryString: string): Record<string, string> {
 }
 
 export function addQueryParam(url: string, key: string, value: string): string {
-    const [path, queryString, fragment] = url.split(/\?|#/) as Array<string | undefined>;
+    const [, path, queryString, fragment] = url.match(
+        /^([^?#]+)(?:\?([^#]+))?(?:#(.+))?$/,
+    ) as Array<string | undefined>;
     const queryParams = {
         ...deserializeQueryString(queryString || ''),
         [key]: value,
