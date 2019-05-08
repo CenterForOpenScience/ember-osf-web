@@ -31,7 +31,7 @@ export const OSF_SERVICES: ServiceLink[] = [
     { name: OSFService.HOME, route: 'home' },
     { name: OSFService.PREPRINTS, href: `${osfURL}preprints/` },
     { name: OSFService.REGISTRIES, route: 'registries' },
-    { name: OSFService.MEETINGS, href: `${osfURL}meetings/` },
+    { name: OSFService.MEETINGS, route: 'meetings' },
     { name: OSFService.INSTITUTIONS, route: 'institutions' },
 ];
 
