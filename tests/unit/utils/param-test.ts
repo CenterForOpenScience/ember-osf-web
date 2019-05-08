@@ -48,6 +48,12 @@ module('Unit | Utility | param', () => {
                 val: 'bar',
                 expected: 'https://osf.io/?aoeu=aoeu&blah=blee&foo=bar#hahafragment',
             },
+            {
+                initial: 'https://osf.io/#hahafragment',
+                key: 'foo',
+                val: 'bar',
+                expected: 'https://osf.io/?foo=bar#hahafragment',
+            },
         ];
 
         for (const testCase of testCases) {
