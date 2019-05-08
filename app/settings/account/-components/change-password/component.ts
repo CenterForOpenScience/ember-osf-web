@@ -1,3 +1,4 @@
+import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -47,6 +48,11 @@ export default class ChangePasswordPane extends Component.extend({
     @service toast!: Toast;
     @service store!: DS.Store;
     @alias('currentUser.user') user!: User;
+
+    @computed('userPassword.validations.attrs.{newPassword,existingPassword,confirmPassword}.isValidating')
+    get shouldShowMessage() {
+        return Boolean(!this.userPassword.validations.attrs.newPassword.message);
+    }
 
     constructor(...args: any[]) {
         super(...args);

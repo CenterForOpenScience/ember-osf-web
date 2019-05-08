@@ -8,6 +8,7 @@ import { task, timeout } from 'ember-concurrency';
 import I18n from 'ember-i18n/services/i18n';
 import { layout } from 'ember-osf-web/decorators/component';
 import UserPassword from 'ember-osf-web/models/user-password';
+import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -28,15 +29,17 @@ export default class PasswordStrengthBar extends Component.extend({
     password!: string;
     model!: UserPassword;
 
+    // Optional parameters
+    shouldShowMessage: boolean = defaultTo(this.shouldShowMessage, true);
+
     // Private parameters
     @service i18n!: I18n;
     @service passwordStrength!: PasswordStrength;
     message: string = '';
-    shouldShowMessage: boolean = false;
     @alias('model.validations.attrs.newPassword.message')
         hasValidationMessage!: boolean;
     @alias('model.validations.attrs.newPassword.isValidating')
-        isValidating!: boolean;
+       isValidating!: boolean;
 
     @computed('password',
         'strength.{lastSuccessful,lastSuccessful.value,lastSuccessful.value.score}',
@@ -45,7 +48,6 @@ export default class PasswordStrengthBar extends Component.extend({
     get progress() {
         const { lastSuccessful } = this.strength;
         if (lastSuccessful && lastSuccessful.value && !this.isValidating) {
-            this.set('shouldShowMessage', !this.hasValidationMessage);
             this.set('message', lastSuccessful.value.feedback.warning);
         }
         return this.password && lastSuccessful ? 1 + lastSuccessful.value.score : 0;
