@@ -31,7 +31,7 @@ export const OSF_SERVICES: ServiceLink[] = [
     { name: OSFService.HOME, route: 'home' },
     { name: OSFService.PREPRINTS, href: `${osfURL}preprints/` },
     { name: OSFService.REGISTRIES, route: 'registries' },
-    { name: OSFService.MEETINGS, href: `${osfURL}meetings/` },
+    { name: OSFService.MEETINGS, route: 'meetings' },
     { name: OSFService.INSTITUTIONS, route: 'institutions' },
 ];
 
@@ -51,9 +51,18 @@ export default class OsfNavbar extends Component {
     get _activeService() {
         let { activeService } = this;
 
-        // HACK/Special case until institutions are put into an engine
-        if (activeService === OSFService.HOME && this.router.currentRouteName === 'institutions') {
-            activeService = OSFService.INSTITUTIONS;
+        const { currentRouteName } = this.router;
+        if (activeService === OSFService.HOME && currentRouteName) {
+            for (const osfService of OSF_SERVICES) {
+                if (!osfService.route) {
+                    continue;
+                }
+                const routeRegExp = new RegExp(`^${osfService.route}($|\\.)`);
+                if (routeRegExp.test(currentRouteName)) {
+                    activeService = osfService.name as OSFService;
+                    break;
+                }
+            }
         }
 
         return this.services.find(x => x.name === activeService);

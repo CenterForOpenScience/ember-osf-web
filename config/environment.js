@@ -253,6 +253,7 @@ module.exports = function(environment) {
                 'registries.overview.contributors': 'ember_registries_detail_page',
                 'registries.overview.children': 'ember_registries_detail_page',
                 'registries.overview.links': 'ember_registries_detail_page',
+                'meetings.index': 'ember_meetings_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
