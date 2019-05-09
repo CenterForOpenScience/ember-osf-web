@@ -54,7 +54,7 @@ export default class PasswordStrengthBar extends Component.extend({
         return this.strength && this.strength.score >= this.minStrength;
     }
 
-    @computed('strength', 'strength.{feedback.warning,score}', 'valid')
+    @computed('strength', 'strength.feedback.warning', 'valid')
     get message() {
         if (this.strength) {
             if (this.strength.feedback.warning) {
