@@ -91,7 +91,7 @@
         <div local-class='Field'>
             <EditableField
                 data-analytics-scope='Affiliated institutions'
-                @manager={{component 'editable-field/institutions-manager' node=this.registration}}
+                @managerComponent={{component 'editable-field/institutions-manager' node=this.registration}}
                 @registration={{this.registration}}
                 @title={{t 'registries.registration_metadata.affiliated_institutions'}}
                 @name='affiliated institutions'
@@ -156,7 +156,7 @@
         <div local-class='Field'>
             <EditableField
                 data-analytics-scope='Tags'
-                @manager={{component 'editable-field/tags-manager' registration=this.registration}}
+                @managerComponent={{component 'editable-field/tags-manager' registration=this.registration}}
                 @registration={{this.registration}}
                 @title={{t 'registries.registration_metadata.tags'}}
                 @name='tags'

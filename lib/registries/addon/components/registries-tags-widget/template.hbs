@@ -3,8 +3,8 @@
     aria-label={{t 'osf-components.tags-widget.tags'}}
     local-class='TagsWidget'
     @tags={{if this.readOnly @registration.tags @manager.tags}}
-    @addTag={{action @manager.addTag}}
-    @removeTagAtIndex={{action @manager.removeTag}}
+    @addTag={{action this.addTag}}
+    @removeTagAtIndex={{action this.removeTag}}
     @allowSpacesInTags={{true}}
     @placeholder={{t 'osf-components.tags-widget.add_tag'}}
     @readOnly={{this.readOnly}}

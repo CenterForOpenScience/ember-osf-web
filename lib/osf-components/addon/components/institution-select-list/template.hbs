@@ -16,7 +16,7 @@
                             data-analytics-name={{if isAffiliated 'Remove' 'Add'}}
                             local-class='addRemoveButton'
                             @type='link'
-                            @disabled={{@manager.shouldDisableButtons}}
+                            @disabled={{@manager.save.isRunning}}
                             @onClick={{if isAffiliated (action @manager.removeInstitution institution) (action @manager.addInstitution institution)}}
                         >
                             <FaIcon
