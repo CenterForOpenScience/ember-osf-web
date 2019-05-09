@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Routes:
+    - `meetings` - parent route for meetings
+        - `meetings.index` - meetings landing page
 - Components:
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
@@ -13,10 +16,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Tests:
     - Acceptance:
         - `new-home`
+        - `meetings/index`
     - Integration:
         - `get-started-button`
         - `search-bar`
         - `hero-banner`
+
+### Changed
+- Components:
+    - `osf-navbar` - detect active OSF service for any non-engine service
 
 ## [19.4.0] - 2019-04-25
 ### Added

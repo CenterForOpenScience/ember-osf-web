@@ -120,6 +120,9 @@ Router.map(function() {
         });
     });
     this.route('support');
+    this.route('meetings', function() {
+        this.route('index', { path: '/' }); // Note: this can be removed once another child route exists
+    });
 
     if (collections.enabled) {
         this.mount('collections');
