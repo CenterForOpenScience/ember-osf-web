@@ -266,9 +266,8 @@ export default {
             button: 'Start Prereg Challenge',
         },
         view_only: {
-            anonymized_warning: 'You are viewing OSF through an anonymized, view-only link. This may limit the data you have permission to see.',
-            warning: 'You are viewing OSF through a view-only link. This may limit the data you have permission to see.',
-            view_normally: 'Stop using a view-only link',
+            warning: 'You are viewing OSF through a view-only link, which may limit the data you have permission to see.',
+            view_normally: 'Leave this view',
         },
     },
     move_to_project: {
@@ -681,6 +680,9 @@ export default {
                 copyrightHolders: 'Copyright Holders',
                 year: 'Year',
             },
+        },
+        license_text: {
+            anonymized_placeholder: '[anonymized]',
         },
         navbar: {
             add_item: 'Add to {{objectType}}',

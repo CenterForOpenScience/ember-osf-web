@@ -16,7 +16,6 @@ export default class BannersViewOnlyLink extends Component {
     @service router!: RouterService;
 
     @bool('currentUser.viewOnlyToken') shouldDisplay!: boolean;
-    @alias('currentUser.anonymizedViewOnly') anonymized!: boolean;
 
     @action
     stopViewOnly() {
