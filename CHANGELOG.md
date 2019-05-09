@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Include VOL token in all API requests, all links within OSF
 - Utils
     - `notFoundURL` (in `utils/clean-url`) - makes a URL suitable for a `not-found` route's `path` param
+    - `camelizeKeys`, `snakifyKeys`, and `mapKeysAndValues` in `utils/map-keys`
 ### Changed
 - Components
     - `contributor-list` - display something useful when using an anonymized VOL

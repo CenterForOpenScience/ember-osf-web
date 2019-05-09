@@ -2,7 +2,6 @@ import { action } from '@ember-decorators/object';
 import { alias, sort } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import EmberObject from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';

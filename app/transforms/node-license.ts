@@ -1,57 +1,36 @@
-import EmberObject from '@ember/object';
-import { camelize, decamelize } from '@ember/string';
 import DS from 'ember-data';
 
-interface SerializedNodeLicense extends EmberObject {
+import { NodeLicense } from 'ember-osf-web/models/node';
+import { camelizeKeys, snakifyKeys } from 'ember-osf-web/utils/map-keys';
+
+interface SerializedNodeLicense {
     copyright_holders?: string[]; // eslint-disable-line camelcase
     year?: string;
-}
-
-export interface NodeLicense extends EmberObject {
-    copyrightHolders?: string;
-    year?: string;
-}
-
-function rekeyObject<T>(fn: (str: string) => string, object: T, recursive?: boolean): EmberObject {
-    const obj = Object.entries(object)
-        .reduce((acc, [key, val]) => ({
-            ...acc,
-            [fn(key)]: recursive && typeof val === 'object' ?
-                rekeyObject(fn, val, recursive) :
-                val,
-        }), {});
-
-    return EmberObject.create(obj);
-}
-
-function camelizeObject<T>(object: T, recursive?: boolean): EmberObject {
-    return rekeyObject(camelize, object, recursive);
-}
-
-function decamelizeObject<T>(object: T, recursive?: boolean): EmberObject {
-    return rekeyObject(decamelize, object, recursive);
 }
 
 export default class NodeLicenseTransform extends DS.Transform {
     deserialize(value: SerializedNodeLicense): NodeLicense {
         if (!value) {
-            return EmberObject.create({});
+            return Object.freeze({});
         }
 
         const {
-            copyright_holders = [], // eslint-disable-line camelcase
+            copyrightHolders = [],
             year = '',
-        } = value;
+        } = camelizeKeys(value) as {
+            copyrightHolders?: string | string[],
+            year?: string,
+        };
 
-        return camelizeObject({
-            copyright_holders: copyright_holders.join(', '),
+        return Object.freeze({
+            copyrightHolders: typeof copyrightHolders === 'string' ? copyrightHolders : copyrightHolders.join(', '),
             year,
         });
     }
 
     serialize(value: NodeLicense): SerializedNodeLicense {
         if (!value) {
-            return EmberObject.create({});
+            return {};
         }
 
         const {
@@ -59,12 +38,12 @@ export default class NodeLicenseTransform extends DS.Transform {
             year = '',
         } = value;
 
-        return EmberObject.create(decamelizeObject({
+        return snakifyKeys({
             copyrightHolders: copyrightHolders
                 .split(', ')
                 .map(s => s.trim()),
             year,
-        }));
+        });
     }
 }
 

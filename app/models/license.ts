@@ -1,6 +1,6 @@
 import { attr } from '@ember-decorators/data';
 
-import { NodeLicense } from 'ember-osf-web/transforms/node-license';
+import { NodeLicense } from 'ember-osf-web/models/node';
 
 import OsfModel from './osf-model';
 

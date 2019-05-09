@@ -22,25 +22,31 @@ export default class LicenseText extends Component {
     @service i18n!: I18n;
     @alias('node.license') license!: License;
 
-    @computed('license.{text,requiredFields.[]}', 'node.{isAnonymous,nodeLicense}')
+    @computed('license.text', 'node.{isAnonymous,nodeLicense}')
     get licenseText(): string {
-        const requiredFields = this.license.get('requiredFields');
-        const licenseText = this.license.get('text') || '';
+        const {
+            license,
+            node,
+            i18n,
+        } = this;
+
         const {
             nodeLicense,
             isAnonymous,
-        } = this.node;
+        } = node;
 
-        if (!nodeLicense || !requiredFields || !requiredFields.length) {
+        const licenseText = license.get('text') || '';
+
+        if (!nodeLicense) {
             return licenseText;
         }
-
-        const anonPlaceholder = this.i18n.t('app_components.license_text.anonymized_placeholder');
 
         return Object.entries(nodeLicense).reduce(
             (text, [key, value]) => text.replace(
                 new RegExp(`{{${key}}}`),
-                isAnonymous ? anonPlaceholder : value,
+                isAnonymous ?
+                    i18n.t('app_components.license_text.anonymized_placeholder') :
+                    value,
             ),
             licenseText,
         );

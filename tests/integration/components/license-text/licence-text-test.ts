@@ -1,4 +1,3 @@
-import EmberObject from '@ember/object';
 import { render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-i18n/test-support';
@@ -34,15 +33,15 @@ module('Osf components | Integration | Component | License text', hooks => {
     test('it renders (with placeholders)', async function(assert) {
         const license = server.create('license', {
             name: 'EMU APL: Avian public license',
-            requiredFields: ['copyright_holders', 'year'],
+            requiredFields: ['copyrightHolders', 'year'],
             text: 'I am an emu. You are {{copyrightHolders}} from {{year}}.',
         });
         const mirageNode = server.create('node', {
             license,
-            nodeLicense: EmberObject.create({
-                copyrightHolders: ['Bill', 'Ted'],
+            nodeLicense: {
+                copyrightHolders: 'Bill and Ted',
                 year: '1989',
-            }),
+            },
         });
 
         const node = await this.store.findRecord('node', mirageNode.id);
@@ -61,10 +60,10 @@ module('Osf components | Integration | Component | License text', hooks => {
         });
         const mirageNode = server.create('node', {
             license,
-            nodeLicense: EmberObject.create({
-                copyrightHolders: ['Bill', 'Ted'],
+            nodeLicense: {
+                copyrightHolders: 'Bill and Ted',
                 year: '1989',
-            }),
+            },
         });
 
         const node = await this.store.findRecord('node', mirageNode.id);

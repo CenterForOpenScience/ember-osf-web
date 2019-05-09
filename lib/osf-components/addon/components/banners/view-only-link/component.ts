@@ -1,5 +1,5 @@
 import { action } from '@ember-decorators/object';
-import { alias, bool } from '@ember-decorators/object/computed';
+import { bool } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import RouterService from '@ember/routing/router-service';
