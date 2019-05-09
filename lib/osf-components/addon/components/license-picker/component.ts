@@ -71,6 +71,6 @@ export default class LicensePicker extends Component.extend({
     @action
     notify(this: LicensePicker) {
         // TODO: find a better way to set propertyDidChange
-        this.node.set('nodeLicense', EmberObject.create({ ...this.node.nodeLicense }));
+        this.node.set('nodeLicense', { ...this.node.nodeLicense });
     }
 }
