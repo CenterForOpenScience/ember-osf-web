@@ -2,12 +2,12 @@ import EmberObject from '@ember/object';
 import { camelize, decamelize } from '@ember/string';
 import DS from 'ember-data';
 
-interface Serialized extends EmberObject {
+interface SerializedNodeLicense extends EmberObject {
     copyright_holders?: string[]; // eslint-disable-line camelcase
     year?: string;
 }
 
-export interface Deserialized extends EmberObject {
+export interface NodeLicense extends EmberObject {
     copyrightHolders?: string;
     year?: string;
 }
@@ -32,8 +32,8 @@ function decamelizeObject<T>(object: T, recursive?: boolean): EmberObject {
     return rekeyObject(decamelize, object, recursive);
 }
 
-export default class NodeLicense extends DS.Transform {
-    deserialize(value: Serialized): Deserialized {
+export default class NodeLicenseTransform extends DS.Transform {
+    deserialize(value: SerializedNodeLicense): NodeLicense {
         if (!value) {
             return EmberObject.create({});
         }
@@ -49,7 +49,7 @@ export default class NodeLicense extends DS.Transform {
         });
     }
 
-    serialize(value: Deserialized): Serialized {
+    serialize(value: NodeLicense): SerializedNodeLicense {
         if (!value) {
             return EmberObject.create({});
         }
@@ -70,6 +70,6 @@ export default class NodeLicense extends DS.Transform {
 
 declare module 'ember-data/types/registries/transform' {
     export default interface TransformRegistry {
-        'node-license': NodeLicense;
+        'node-license': NodeLicenseTransform;
     } // eslint-disable-line semi
 }

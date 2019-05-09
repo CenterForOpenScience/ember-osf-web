@@ -7,7 +7,7 @@ import { htmlSafe } from '@ember/string';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
-import { Deserialized as NodeLicense } from 'ember-osf-web/transforms/node-license';
+import { NodeLicense } from 'ember-osf-web/transforms/node-license';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
