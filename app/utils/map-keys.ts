@@ -6,10 +6,16 @@ export function mapKeysAndValues<Value, NewValue>(
     mapValue: (v: Value) => NewValue,
 ): object {
     return Object.entries(obj).reduce(
-        (acc, [k, v]) => ({
-            ...acc,
-            [mapKey(k)]: mapValue(v),
-        }),
+        (acc, [k, v]) => {
+            const mappedKey = mapKey(k);
+            if (Object.prototype.hasOwnProperty.call(acc, mappedKey)) {
+                throw Error(`Mapping keys causes duplicate key: "${mappedKey}"`);
+            }
+            return {
+                ...acc,
+                [mappedKey]: mapValue(v),
+            };
+        },
         {} as Record<string, NewValue>,
     );
 }
