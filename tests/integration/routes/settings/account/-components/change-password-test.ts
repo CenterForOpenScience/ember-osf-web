@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 import { click } from 'ember-osf-web/tests/helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | routes | settings | profile | name | -components | citation-preview', hooks => {
+module('Integration | routes | settings | account | -components | change-password', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async assert => {
