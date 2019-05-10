@@ -5,6 +5,7 @@
     "ember-engine"
   ],
   "dependencies": {
+    "ember-angle-bracket-invocation-polyfill": "*",
     "ember-bootstrap": "*",
     "ember-cli-addon-docs": "*",
     "ember-cli-addon-docs-typedoc": "*",
