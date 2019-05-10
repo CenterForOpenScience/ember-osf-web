@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
     - `new-home/-components/hero-banner` - a banner to be used on the logged-out homepage.
+- Utilities:
+    - `leaf-vals` - get values of all leaves in an object tree
 - Tests:
     - Acceptance:
         - `new-home`
@@ -21,10 +23,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `get-started-button`
         - `search-bar`
         - `hero-banner`
+    - Unit:
+        - `leaf-vals` utility
 
 ### Changed
 - Components:
     - `osf-navbar` - detect active OSF service for any non-engine service
+- Authenticators:
+    - `osf-cookie` - initialize any disabled feature flags found in config
 
 ## [19.4.0] - 2019-04-25
 ### Added
