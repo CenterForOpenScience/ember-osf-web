@@ -92,7 +92,6 @@
             <EditableField
                 data-analytics-scope='Affiliated institutions'
                 @managerComponent={{component 'editable-field/institutions-manager' node=this.registration}}
-                @registration={{this.registration}}
                 @title={{t 'registries.registration_metadata.affiliated_institutions'}}
                 @name='affiliated institutions'
                 as |field|
@@ -106,7 +105,7 @@
                 </field.edit>
                 <field.display>
                     <InstitutionsList
-                        @reloadList={{action (mut field.manager.reloadList)}}
+                        @reloadList={{field.manager.bindReload}}
                         @node={{this.registration}}
                     />
                 </field.display>
@@ -157,7 +156,6 @@
             <EditableField
                 data-analytics-scope='Tags'
                 @managerComponent={{component 'editable-field/tags-manager' registration=this.registration}}
-                @registration={{this.registration}}
                 @title={{t 'registries.registration_metadata.tags'}}
                 @name='tags'
                 as |field|
