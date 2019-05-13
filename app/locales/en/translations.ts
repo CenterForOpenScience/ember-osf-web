@@ -1223,6 +1223,18 @@ export default {
             fork_registration: 'Fork this registration',
         },
     },
+    meetings: {
+        index: {
+            'meetings-list': {
+                min_5_submissions: 'Only conferences with at least five submissions are displayed.',
+                name: 'Name',
+                submissions: 'Submissions',
+                location: 'Location',
+                date: 'Date',
+                empty: 'No results found for this search term.',
+            },
+        },
+    },
     analytics: {
         pageTitle: '{{nodeTitle}} Analytics',
         forks: 'Forks',
