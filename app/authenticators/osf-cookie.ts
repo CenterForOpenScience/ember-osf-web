@@ -1,5 +1,6 @@
 import { service } from '@ember-decorators/service';
 import { warn } from '@ember/debug';
+import { camelize } from '@ember/string';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
@@ -8,6 +9,7 @@ import Session from 'ember-simple-auth/services/session';
 
 import { NotLoggedIn } from 'ember-osf-web/errors';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import leafVals from 'ember-osf-web/utils/leaf-vals';
 import { RootDocument } from 'osf-api';
 
 const {
@@ -17,7 +19,7 @@ const {
         apiVersion,
         devMode,
     },
-    featureFlagNames: { ABTesting },
+    featureFlagNames,
 } = config;
 
 export default class OsfCookie extends Base {
@@ -41,12 +43,13 @@ export default class OsfCookie extends Base {
             );
         }
 
-        //
-        // TODO: create function to initialize all feature flags in config
-        //
-        if (!this.features.flags.includes(ABTesting.homePageVersionB)) {
-            this.features.disable(ABTesting.homePageVersionB);
-        }
+        // Initialize any uninitialized flags found in config.
+        const flags: string[] = leafVals(featureFlagNames);
+        flags.forEach(flag => {
+            if (!this.features.flags.includes(camelize(flag))) {
+                this.features.disable(flag);
+            }
+        });
 
         if (devMode) {
             this._checkApiVersion();
