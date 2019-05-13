@@ -1,0 +1,39 @@
+.osf-meeting-header-img {
+    background: #67a3bf;
+    background: linear-gradient(35deg, #67a3bf 0%, #166596 18%, #000 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#67a3bf', endColorstr='#000000', GradientType=1);
+    /* IE6-9 fallback on horizontal gradient */
+    color: #fff;
+    padding-top: 40px;
+    position: relative;
+}
+
+.network-img {
+    background: url('/static/img/meeting-page/network-web.png') repeat;
+    background-size: contain;
+    height: 1000px;
+    margin-bottom: -1000px;
+    opacity: 0.35;
+}
+
+.user-icon {
+    font-size: 85px;
+    padding-top: 25px;
+}
+
+.cloud-icon {
+    font-size: 100px;
+    padding-top: 25px;
+}
+
+.icon-circle {
+    border-radius: 85px;
+    box-shadow: 0 0 10px #e0e7ec;
+    width: 140px;
+    height: 140px;
+}
+
+.osf-meeting-header h1 {
+    font-size: 3.5em;
+    margin-bottom: -15px;
+}
