@@ -146,4 +146,6 @@ export default function(this: Server) {
             id: '',
         },
     }));
+
+    osfResource(this, 'meeting', { only: ['index'] });
 }
