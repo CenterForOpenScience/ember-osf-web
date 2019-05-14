@@ -1,15 +1,10 @@
-{{#unless @taggable.tags.length}}
-    <span data-test-no-tags>
-        {{t 'osf-components.tags-widget.no_tags'}}
-    </span>
-{{/unless}}
 <TagInput
-    data-test-tags-widget-tag-input
+    data-test-tags-widget-tag-input={{if this.readOnly 'readonly' 'edit'}}
     aria-label={{t 'osf-components.tags-widget.tags'}}
     local-class='TagsWidget'
-    @tags={{@taggable.tags}}
-    @addTag={{action this._addTag}}
-    @removeTagAtIndex={{action this._removeTag}}
+    @tags={{if this.readOnly @registration.tags @manager.tags}}
+    @addTag={{action this.addTag}}
+    @removeTagAtIndex={{action this.removeTag}}
     @allowSpacesInTags={{true}}
     @placeholder={{t 'osf-components.tags-widget.add_tag'}}
     @readOnly={{this.readOnly}}
@@ -20,7 +15,7 @@
         data-test-tags-widget-tag='{{tag}}'
         data-analytics-name='Click tag'
         role='link'
-        {{action this._clickTag tag}}
+        {{action @manager.clickTag tag}}
     >
         {{tag}}
     </span>

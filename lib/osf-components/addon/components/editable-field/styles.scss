@@ -5,10 +5,13 @@
 
     .EditButton {
         padding: 0;
+    }
+}
 
-        &:hover,
-        &:focus {
-            color: $secondary-blue;
-        }
+.Controls {
+    margin-top: 15px;
+
+    button:first-child {
+        margin-right: 5px;
     }
 }
