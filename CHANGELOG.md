@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Models:
+    - `meeting` - for OSF Meetings
+- Adapters:
+    - `meeting` - in private namespace
+- Serializers:
+    - `meeting`
 - Routes:
     - `meetings` - parent route for meetings
         - `meetings.index` - meetings landing page
@@ -13,6 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
     - `new-home/-components/hero-banner` - a banner to be used on the logged-out homepage.
+    - `meetings/index/components/meetings-list` - meetings list for the meetings index page
+    - `paginated-list/x-header` - a paginated list header closure component
 - Utilities:
     - `leaf-vals` - get values of all leaves in an object tree
 - Tests:
@@ -23,12 +31,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `get-started-button`
         - `search-bar`
         - `hero-banner`
+        - `meetings-list`
     - Unit:
         - `leaf-vals` utility
+- Mirage:
+    - `meeting` factory
+    - private `meetings` endpoint
+    - meetings scenario
 
 ### Changed
 - Components:
     - `osf-navbar` - detect active OSF service for any non-engine service
+    - `paginated-list`
+        - add ability to provide a header row
+        - add splattributes to item
 - Authenticators:
     - `osf-cookie` - initialize any disabled feature flags found in config
 
