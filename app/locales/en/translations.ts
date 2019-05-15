@@ -1232,6 +1232,7 @@ export default {
                 location: 'Location',
                 date: 'Date',
                 empty: 'No results found for this search term.',
+            },
             'meetings-hero-banner': {
                 image_alt: 'Logo for OSF meeting',
                 h3: 'A <strong>free poster and presentation sharing service</strong> for academic meetings and conferences',

@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `new-home/-components/hero-banner` - a banner to be used on the logged-out homepage.
     - `meetings/index/components/meetings-list` - meetings list for the meetings index page
     - `paginated-list/x-header` - a paginated list header closure component
+    - `meetings/index/components/meetings-hero-banner` - meetings landing page hero banner
+    - `meetings/index/components/meetings-footer` - meetings landing page footer
 - Utilities:
     - `leaf-vals` - get values of all leaves in an object tree
 - Tests:
@@ -32,6 +34,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `search-bar`
         - `hero-banner`
         - `meetings-list`
+        - `meetings-hero-banner`
+        - `meetings-footer`
     - Unit:
         - `leaf-vals` utility
 - Mirage:
