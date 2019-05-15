@@ -145,6 +145,10 @@ function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('developer-app', 12);
 }
 
+function meetingsScenario(server: Server) {
+    server.createList('meeting', 25);
+}
+
 export default function(server: Server) {
     server.loadFixtures('registration-schemas');
     server.loadFixtures('regions');
@@ -176,6 +180,9 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('quickfiles')) {
         quickfilesScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('meetings')) {
+        meetingsScenario(server);
     }
     if (handbookEnabled) {
         handbookScenario(server, currentUser);
