@@ -1084,6 +1084,7 @@ export default {
             disciplines: 'Disciplines',
             tags: 'Tags',
             citation: 'Citation',
+            edit_field: 'Edit {{field}}',
         },
 
         form_view: {
@@ -1230,6 +1231,43 @@ export default {
             fork_registration: 'Fork this registration',
         },
     },
+    meetings: {
+        index: {
+            'meetings-list': {
+                min_5_submissions: 'Only conferences with at least five submissions are displayed.',
+                name: 'Name',
+                submissions: 'Submissions',
+                location: 'Location',
+                date: 'Date',
+                empty: 'No results found for this search term.',
+            },
+            'meetings-hero-banner': {
+                image_alt: 'Logo for OSF meeting',
+                h3: 'A <strong>free poster and presentation sharing service</strong> for academic meetings and conferences',
+                conference_organizers_h3: 'For Conference Organizers',
+                conference_organizers_help_text: 'Register your event to broaden its impact. Events get a dedicated page, an easy submission process, and persistent links.',
+                conference_organizers_register_button: 'Register',
+                conference_organizers_register_panel_texts: '<p>OSF Meetings is a product that we offer to academic conferences at no cost. To request poster and talk hosting for a conference:</p><p class=\'text-center\'><strong>Submit this <a href=\'https://docs.google.com/forms/d/e/1FAIpQLSeBq4CfC5CjTBz49TP2dO9ZIsQc6QAAJFUoUbkS767Le9twLw/viewform\'>set-up form </a></strong></p><p>We\'ll review and add your conference within one business day.</p>',
+                conference_participants_h3: 'For Conference Participants',
+                conference_participants_help_text: 'Share your posters and presentations along with any supporting data and materials. Get persistent links and usage analytics.',
+                conference_participants_upload_button: 'Upload',
+                conference_participants_upload_panel_texts: '<p>The OSF can host posters and talks for scholarly meetings. Submitting a presentation is easy:</p><ul><li>Find the email address for your conference by clicking on its name in the list below</li><li>Send your materials to the OSF Meetings email address for your conference</li></ul><p>We’ll create an OSF project for you. You\'ll get a permanent link to your presentation, plus analytics about who has viewed and downloaded your work.</p>',
+            },
+            'meetings-footer': {
+                discover: 'Discover',
+                discover_text: 'Explore posters and presentations from events long after they\'re over.',
+                share: 'Share',
+                share_text: 'Get persistent links to your content and increase your impact.',
+                enhance: 'Enhance',
+                enhance_text: 'Add supplementary data and materials to your submission to make your work more transparent.',
+                who_use_text: 'Who uses OSF Meetings?',
+                aps_img_alt: 'Logo for American Physiological Society (APS)',
+                bitss_img_alt: 'Logo for Berkeley Initiative for Transparency in the Social Sciences (BITSS)',
+                nrao_img_alt: 'Logo for National Radio Astronomy Observatory (NRAO)',
+                spsp_img_alt: 'Logo for Society for Personality and Social Psychology (SPSP)',
+            },
+        },
+    },
     analytics: {
         pageTitle: '{{nodeTitle}} Analytics',
         forks: 'Forks',
@@ -1356,17 +1394,14 @@ export default {
             add_tag: 'Add a tag to enhance discoverability',
             no_tags: 'No tags',
         },
-        'institutions-widget': {
-            affiliated_institutions: 'Affiliated institutions',
-            affiliate_institutions: 'Affiliate institutions',
-            add_institution_error: 'Error adding institution',
-            remove_institution_error: 'Error removing institution',
-            no_affiliations: 'No affiliations to add',
+        'institutions-list': {
             no_affiliated_institution: {
-                user: 'You have no institutional affiliations',
                 project: 'This project has no affiliated institutions',
                 registration: 'This registration has no affiliated institutions',
             },
+        },
+        'institutions-select-list': {
+            no_affiliated_institution: 'You have no institutional affiliations',
         },
         'citation-viewer': {
             get_more: 'Get more citations',

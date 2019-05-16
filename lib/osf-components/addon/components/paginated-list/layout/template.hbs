@@ -1,20 +1,17 @@
-{{#if this.loading}}
-    {{#if this.placeholderCount}}
-        <ul class='list-group m-md'>
+<ul class='list-group m-md'>
+    {{yield (hash
+        header=(component 'paginated-list/x-header')
+    )}}
+    {{#if this.loading}}
+        {{#if this.placeholderCount}}
             {{#each (range 1 this.placeholderCount)}}
                 {{yield (hash
                     item=(component 'paginated-list/x-item')
                     doReload=(action @doReload)
                 )}}
             {{/each}}
-        </ul>
-    {{else}}
-        {{loading-indicator dark=true}}
-    {{/if}}
-{{else if this.errorShown}}
-    <p>{{t 'osf-components.paginated-list.error'}}</p>
-{{else if @items.length}}
-    <ul class='list-group m-md'>
+        {{/if}}
+    {{else if @items.length}}
         {{#each @items as |item index|}}
             {{#unless item.isDeleted}}
                 {{yield (hash
@@ -23,8 +20,16 @@
                 )}}
             {{/unless}}
         {{/each}}
-    </ul>
-{{else}}
+    {{/if}}
+</ul>
+
+{{#if this.loading}}
+    {{#if (not this.placeholderCount)}}
+        {{loading-indicator dark=true}}
+    {{/if}}
+{{else if this.errorShown}}
+    <p>{{t 'osf-components.paginated-list.error'}}</p>
+{{else if (not @items.length)}}
     {{yield (hash
         empty=(component 'paginated-list/x-render')
         doReload=(action @doReload)

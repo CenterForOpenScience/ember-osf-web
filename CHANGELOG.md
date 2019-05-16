@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Models:
+    - `meeting` - for OSF Meetings
+- Adapters:
+    - `meeting` - in private namespace
+- Serializers:
+    - `meeting`
 - Routes:
     - `meetings` - parent route for meetings
         - `meetings.index` - meetings landing page
@@ -13,7 +19,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
     - `new-home/-components/hero-banner` - a banner to be used on the logged-out homepage.
+    - `meetings/index/components/meetings-list` - meetings list for the meetings index page
+    - `paginated-list/x-header` - a paginated list header closure component
+    - `meetings/index/components/meetings-hero-banner` - meetings landing page hero banner
+    - `meetings/index/components/meetings-footer` - meetings landing page footer
     - `banners/view-only-link` - banner displayed when using a view-only link
+- Utilities:
+    - `leaf-vals` - get values of all leaves in an object tree
+    - `notFoundURL` (in `utils/clean-url`) - makes a URL suitable for a `not-found` route's `path` param
+    - `camelizeKeys`, `snakifyKeys`, and `mapKeysAndValues` in `utils/map-keys`
 - Tests:
     - Acceptance:
         - `new-home`
@@ -22,20 +36,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `get-started-button`
         - `search-bar`
         - `hero-banner`
+        - `meetings-list`
+        - `meetings-hero-banner`
+        - `meetings-footer`
+    - Unit:
+        - `leaf-vals` utility
+- Mirage:
+    - `meeting` factory
+    - private `meetings` endpoint
+    - meetings scenario
 - View-only link support:
     - Add `view_only` query param to `application` route
     - Store VOL info (token, anonymized) on `current-user` service
     - Include VOL token in all API requests, all links within OSF
-- Utils
-    - `notFoundURL` (in `utils/clean-url`) - makes a URL suitable for a `not-found` route's `path` param
-    - `camelizeKeys`, `snakifyKeys`, and `mapKeysAndValues` in `utils/map-keys`
-### Changed
-- Components
-    - `contributor-list` - display something useful when using an anonymized VOL
 
 ### Changed
 - Components:
     - `osf-navbar` - detect active OSF service for any non-engine service
+    - `paginated-list`
+        - add ability to provide a header row
+        - add splattributes to item
+    - `contributor-list` - display something useful when using an anonymized VOL
+- Authenticators:
+    - `osf-cookie` - initialize any disabled feature flags found in config
 
 ## [19.4.0] - 2019-04-25
 ### Added

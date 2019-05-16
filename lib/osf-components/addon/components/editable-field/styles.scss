@@ -1,0 +1,17 @@
+.Editable {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    .EditButton {
+        padding: 0;
+    }
+}
+
+.Controls {
+    margin-top: 15px;
+
+    button:first-child {
+        margin-right: 5px;
+    }
+}
