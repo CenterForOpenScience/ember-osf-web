@@ -1,4 +1,4 @@
-<div data-test-topbar-states local-class='LeftActionsContainer'>
+<div data-test-topbar-states>
     <RegistriesStates @registration={{@registration}} />
 </div>
 <div data-test-topbar-share-bookmark-fork
@@ -23,27 +23,24 @@
         </dd.trigger>
         <dd.content>
             <div data-test-forks-dropdown-options local-class='ForksMenu'>
-                <div local-class='ForksMenu__option'>
-                    <OsfLink
-                        data-analytics-name='Go to forks page'
-                        data-test-go-to-forks-view
-                        @route='guid-registration.forks'
-                        @models={{array @registration.id}}
-                    >
-                        {{t 'registries.overview.view_forks'}}
-                    </OsfLink>
-                </div>
-                <div local-class='ForksMenu__option'>
-                    <OsfButton
-                        data-analytics-name='Fork registration'
-                        data-test-fork-registration
-                        @type='link'
-                        @disabled={{this.forkRegistration.isRunning}}
-                        @onClick={{action (perform this.forkRegistration (action dd.close))}}
-                    >
-                        {{t 'registries.overview.fork_registration'}}
-                    </OsfButton>
-                </div>
+                <OsfLink
+                    data-analytics-name='Go to forks page'
+                    data-test-go-to-forks-view
+                    @route='guid-registration.forks'
+                    @models={{array @registration.id}}
+                >
+                    {{t 'registries.overview.view_forks'}}
+                </OsfLink>
+                <OsfButton
+                    data-analytics-name='Fork registration'
+                    data-test-fork-registration
+                    @type='link'
+                    @disabled={{this.forkRegistration.isRunning}}
+                    @onClick={{action (perform this.forkRegistration (action dd.close))}}
+                    local-class='ForkButton'
+                >
+                    {{t 'registries.overview.fork_registration'}}
+                </OsfButton>
             </div>
         </dd.content>
     </ResponsiveDropdown>
@@ -54,7 +51,7 @@
         data-analytics-extra='Registration ID: {{this.registration.id}}'
         @type='link'
         @onClick={{action (perform this.bookmark)}}
-        @disabled={{this.bookmark.isRunning}}
+        @disabled={{or this.bookmark.isRunning @registration.isAnonymous}}
         local-class='ActionButton'
     >
         <FaIcon
@@ -73,13 +70,14 @@
         </BsTooltip>
     </OsfButton>
 
-    {{#sharing-icons/dropdown
-        title=@registration.title
-        description=@registration.description
-        hyperlink=this.registrationURL
-        showText=true
-        registration=@registration
-        as |dd|}}
+    <SharingIcons::Dropdown
+        @title={{@registration.title}}
+        @description={{@registration.description}}
+        @hyperlink={{this.registrationURL}}
+        @showText={{true}}
+        @registration={{@registration}}
+        as |dd|
+    >
         <dd.trigger
             data-test-social-sharing-button
             data-analytics-name='Expand sharing menu'
@@ -96,5 +94,5 @@
                 {{t 'registries.overview.tooltips.share'}}
             </BsTooltip>
         </dd.trigger>
-    {{/sharing-icons/dropdown}}
+    </SharingIcons::Dropdown>
 </div>

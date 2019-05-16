@@ -25,7 +25,7 @@ export default class RegistriesStates extends Component {
     @service i18n!: I18N;
 
     @computed('registration.state')
-    get stateIcon(this: RegistriesStates): string {
+    get stateIcon() {
         const { registration } = this;
         const {
             PendingRegistration,
@@ -49,7 +49,7 @@ export default class RegistriesStates extends Component {
     }
 
     @computed('registration.state', 'stateIcon')
-    get registrationState() {
+    get stateText() {
         if (!this.registration) {
             return undefined;
         }
@@ -62,7 +62,6 @@ export default class RegistriesStates extends Component {
                   moment(this.registration.embargoEndDate).format('MMMM D, YYYY'),
             }),
             buttonText: this.i18n.t(`registries.overview.${stateKey}.text`),
-            icon: this.stateIcon,
         };
     }
 
@@ -82,7 +81,7 @@ export default class RegistriesStates extends Component {
     }
 
     @computed('registration.{userHasAdminPermission,state,isRoot}')
-    get shouldHideAdminActions(this: RegistriesStates): boolean {
+    get shouldHideAdminActions() {
         return (!this.registration.isRoot || !this.registration.userHasAdminPermission ||
             !([RegistrationState.Public, RegistrationState.Embargoed].includes(this.registration.state)));
     }

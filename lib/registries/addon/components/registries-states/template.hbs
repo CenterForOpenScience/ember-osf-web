@@ -5,33 +5,36 @@
     <dd.trigger
         data-analytics-name='Expand state dropdown'
         data-test-state-button
-        @class={{local-class 'Menu__button'}}
+        @class={{local-class 'StateText'}}
     >
-        {{registries-states/actions-trigger
-            isOpen=dd.isOpen
-            registration=@registration
-            state=this.registrationState.buttonText
-        }}
+        {{this.stateText.buttonText}}
+        <FaIcon @icon={{if @isOpen 'caret-up' 'caret-down'}} @fixedWidth={{true}} />
     </dd.trigger>
     <dd.content
         data-test-state-description
         @class={{local-class 'States'}}
     >
-        {{#if this.registrationState}}
+        {{#if this.stateText}}
             <div local-class='DescriptionContainer'>
-                <FaIcon data-test-state-icon @icon={{this.registrationState.icon}} @size='4' />
+                <FaIcon data-test-state-icon @icon={{this.stateIcon}} @size='4' />
                 <div local-class='DescriptionText'>
-                    <h4 data-test-state-description-short>{{this.registrationState.short}}</h4>
-                    <p data-test-state-description-long>{{this.registrationState.long}}</p>
+                    <h4 data-test-state-description-short>{{this.stateText.short}}</h4>
+                    <p
+                        data-analytics-name='Go to project URL'
+                        data-analytics-category='link'
+                        data-test-state-description-long
+                    >
+                        {{this.stateText.long}}
+                    </p>
                 </div>
             </div>
         {{/if}}
         {{#unless this.shouldHideAdminActions}}
             <div data-test-state-admin-actions local-class='AdminActions'>
                 {{#if (eq this.registration.state this.public)}}
-                    {{registries-states/is-public registration=@registration closeDropdown=dd.close}}
+                    <RegistriesStates::IsPublic @registration={{@registration}} @closeDropdown={{dd.close}} />
                 {{else}}
-                    {{registries-states/is-embargoed registration=@registration closeDropdown=dd.close}}
+                    <RegistriesStates::IsEmbargoed @registration={{@registration}} @closeDropdown={{dd.close}} />
                 {{/if}}
             </div>
         {{/unless}}

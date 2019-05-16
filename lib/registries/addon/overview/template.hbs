@@ -1,151 +1,145 @@
-{{#let
-    (component 'overview/-components/overview-header')
-    (component 'overview/-components/tombstone-page')
-    as |OverviewHeader TombstonePage|
-}}
-    {{#if this.loading}}
-        <div local-class='ContentBackground Loading'>
-            <LoadingIndicator @dark={{true}} />
+{{#if this.loading}}
+    <div local-class='ContentBackground Loading'>
+        <LoadingIndicator @dark={{true}} />
+    </div>
+{{else}}
+    {{title this.registration.title}}
+    <Overview::-Components::OverviewHeader
+        @registration={{this.registration}}
+        @sidenavGutterClosed={{this.sidenavGutterClosed}}
+        @metadataGutterClosed={{this.metadataGutterClosed}}
+        @toggleSidenav={{action this.toggleSidenav}}
+        @toggleMetadata={{action this.toggleMetadata}}
+        @toggleOverview={{action this.toggleOverview}}
+    />
+    {{#if this.registration.withdrawn}}
+        <div local-class='ContentBackground'>
+            <Overview::-Components::TombstonePage
+                @registration={{this.registration}}
+                @icon='ban'
+                @titleText={{t 'registries.overview.withdrawn.has_been_withdrawn'}}
+            >
+                <dl>
+                    <dt>{{t 'registries.overview.withdrawn.date_withdrawn'}}</dt>
+                    <dd>{{moment-format this.registration.dateWithdrawn 'MMMM D, YYYY'}}</dd>
+
+                    <dt>{{t 'registries.overview.withdrawn.justification'}}</dt>
+                    <dd>
+                        {{#if this.registration.withdrawalJustification}}
+                            {{this.registration.withdrawalJustification}}
+                        {{else}}
+                            {{t 'registries.overview.withdrawn.no_justification'}}
+                        {{/if}}
+                    </dd>
+                </dl>
+            </Overview::-Components::TombstonePage>
+        </div>
+    {{else if this.registration.archiving}}
+        <div local-class='ContentBackground'>
+            <Overview::-Components::TombstonePage
+                @registration={{this.registration}}
+                @icon='hourglass-half'
+                @titleText={{t 'registries.overview.archiving.currently_archiving'}}
+            >
+                {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail}}
+            </Overview::-Components::TombstonePage>
         </div>
     {{else}}
-        {{title this.registration.title}}
-        <OverviewHeader
-            @registration={{this.registration}}
-            @sidenavGutterClosed={{this.sidenavGutterClosed}}
-            @metadataGutterClosed={{this.metadataGutterClosed}}
-            @toggleSidenav={{action this.toggleSidenav}}
-            @toggleMetadata={{action this.toggleMetadata}}
-            @toggleOverview={{action this.toggleOverview}}
-        />
-        {{#if this.registration.withdrawn}}
-            <div local-class='ContentBackground'>
-                <TombstonePage
-                    @registration={{this.registration}}
-                    @icon='ban'
-                    @titleText={{t 'registries.overview.withdrawn.has_been_withdrawn'}}
-                >
-                    <dl>
-                        <dt>{{t 'registries.overview.withdrawn.date_withdrawn'}}</dt>
-                        <dd>{{moment-format this.registration.dateWithdrawn 'MMMM D, YYYY'}}</dd>
-
-                        <dt>{{t 'registries.overview.withdrawn.justification'}}</dt>
-                        <dd>
-                            {{#if this.registration.withdrawalJustification}}
-                                {{this.registration.withdrawalJustification}}
-                            {{else}}
-                                {{t 'registries.overview.withdrawn.no_justification'}}
-                            {{/if}}
-                        </dd>
-                    </dl>
-                </TombstonePage>
-            </div>
-        {{else if this.registration.archiving}}
-            <div local-class='ContentBackground'>
-                <TombstonePage
-                    @registration={{this.registration}}
-                    @icon='hourglass-half'
-                    @titleText={{t 'registries.overview.archiving.currently_archiving'}}
-                >
-                    {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail}}
-                </TombstonePage>
-            </div>
-        {{else}}
-            <div local-class='ContentBackground'>
-                <Gutters
-                    @leftMode={{this.sidenavGutterMode}}
-                    @leftClosed={{this.sidenavGutterClosed}}
-                    @rightMode={{this.metadataGutterMode}}
-                    @rightClosed={{this.metadataGutterClosed}}
-                    as |gutters|
-                >
-                    <gutters.left-gutter data-analytics-scope='Left sidenav'>
-                        <SideNav
-                            @onLinkClicked={{action (mut this.sidenavGutterClosed) true}}
-                            as |nav|
-                        >
-                            <nav.link
-                                data-analytics-name='Overview'
-                                @route='registries.overview.index'
-                                @models={{array this.registration.id}}
-                                @icon='home'
-                                @label={{t 'registries.overview.title'}}
-                            />
-                            <nav.link
-                                data-analytics-name='Files'
-                                @href='/{{this.registration.id}}/files/'
-                                @icon='file-text'
-                                @label={{t 'registries.overview.external_links.files'}}
-                            />
-                            <nav.link
-                                data-analytics-name='Wiki'
-                                @href='/{{this.registration.id}}/wiki/'
-                                @icon='window-maximize'
-                                @label={{t 'registries.overview.external_links.wiki'}}
-                            />
-                            <nav.link
-                                data-analytics-name='Components'
-                                @route='registries.overview.children'
-                                @models={{array this.registration.id}}
-                                @icon='puzzle-piece'
-                                @label={{t 'registries.overview.components.title'}}
-                                @count={{this.registration.relatedCounts.children}}
-                            />
-                            <nav.link
-                                data-analytics-name='Links'
-                                @route='registries.overview.links'
-                                @models={{array this.registration.id}}
-                                @icon='link'
-                                @label={{t 'registries.overview.links.title'}}
-                                @count={{this.linksCount}}
-                            />
-                            <nav.link
-                                data-analytics-name='Analytics'
-                                @route='registries.overview.analytics'
-                                @models={{array this.registration.id}}
-                                @icon='bar-chart'
-                                @label={{t 'registries.overview.external_links.analytics'}}
-                            />
-                            <nav.link
-                                data-analytics-name='Comments'
-                                @route='registries.overview.comments'
-                                @models={{array this.registration.id}}
-                                @icon='comments'
-                                @label={{t 'registries.overview.comments.title'}}
-                                @count={{this.commentsCount}}
-                            />
-                        </SideNav>
-                    </gutters.left-gutter>
-
-                    <gutters.body local-class='OverviewBody'>
-                        {{outlet}}
-                    </gutters.body>
-
-                    <gutters.right-gutter
-                        data-analytics-scope='Right panel'
-                        local-class='SideMetadata'
-                        as |rightGutter|
+        <div local-class='ContentBackground'>
+            <Gutters
+                @leftMode={{this.sidenavGutterMode}}
+                @leftClosed={{this.sidenavGutterClosed}}
+                @rightMode={{this.metadataGutterMode}}
+                @rightClosed={{this.metadataGutterClosed}}
+                as |gutters|
+            >
+                <gutters.left-gutter data-analytics-scope='Left sidenav'>
+                    <SideNav
+                        @onLinkClicked={{action (mut this.sidenavGutterClosed) true}}
+                        as |nav|
                     >
-                        {{#if (not-eq rightGutter.mode 'column')}}
-                            <h3 local-class='MetadataTitle'>
-                                {{t 'registries.overview.metadata'}}
-                                <OsfButton
-                                    data-analytics-name='Close metadata sidebar'
-                                    aria-label={{t 'general.close'}}
-                                    @type='link'
-                                    @onClick={{action (mut this.metadataGutterClosed) true}}
-                                >
-                                    <FaIcon @icon='times' />
-                                </OsfButton>
-                            </h3>
-                        {{/if}}
-
-                        <RegistriesMetadata
-                            @registration={{this.registration}}
-                            @extendedFields={{true}}
+                        <nav.link
+                            data-analytics-name='Overview'
+                            @route='registries.overview.index'
+                            @models={{array this.registration.id}}
+                            @icon='home'
+                            @label={{t 'registries.overview.title'}}
                         />
-                    </gutters.right-gutter>
-                </Gutters>
-            </div>
-        {{/if}}
+                        <nav.link
+                            data-analytics-name='Files'
+                            @href='/{{this.registration.id}}/files/'
+                            @icon='file-text'
+                            @label={{t 'registries.overview.external_links.files'}}
+                        />
+                        <nav.link
+                            data-analytics-name='Wiki'
+                            @href='/{{this.registration.id}}/wiki/'
+                            @icon='window-maximize'
+                            @label={{t 'registries.overview.external_links.wiki'}}
+                        />
+                        <nav.link
+                            data-analytics-name='Components'
+                            @route='registries.overview.children'
+                            @models={{array this.registration.id}}
+                            @icon='puzzle-piece'
+                            @label={{t 'registries.overview.components.title'}}
+                            @count={{this.registration.relatedCounts.children}}
+                        />
+                        <nav.link
+                            data-analytics-name='Links'
+                            @route='registries.overview.links'
+                            @models={{array this.registration.id}}
+                            @icon='link'
+                            @label={{t 'registries.overview.links.title'}}
+                            @count={{this.linksCount}}
+                        />
+                        <nav.link
+                            data-analytics-name='Analytics'
+                            @route='registries.overview.analytics'
+                            @models={{array this.registration.id}}
+                            @icon='bar-chart'
+                            @label={{t 'registries.overview.external_links.analytics'}}
+                        />
+                        <nav.link
+                            data-analytics-name='Comments'
+                            @route='registries.overview.comments'
+                            @models={{array this.registration.id}}
+                            @icon='comments'
+                            @label={{t 'registries.overview.comments.title'}}
+                            @count={{this.commentsCount}}
+                        />
+                    </SideNav>
+                </gutters.left-gutter>
+
+                <gutters.body local-class='OverviewBody'>
+                    {{outlet}}
+                </gutters.body>
+
+                <gutters.right-gutter
+                    data-analytics-scope='Right panel'
+                    local-class='SideMetadata'
+                    as |rightGutter|
+                >
+                    {{#if (not-eq rightGutter.mode 'column')}}
+                        <h3 local-class='MetadataTitle'>
+                            {{t 'registries.overview.metadata'}}
+                            <OsfButton
+                                data-analytics-name='Close metadata sidebar'
+                                aria-label={{t 'general.close'}}
+                                @type='link'
+                                @onClick={{action (mut this.metadataGutterClosed) true}}
+                            >
+                                <FaIcon @icon='times' />
+                            </OsfButton>
+                        </h3>
+                    {{/if}}
+
+                    <RegistriesMetadata
+                        @registration={{this.registration}}
+                        @extendedFields={{true}}
+                    />
+                </gutters.right-gutter>
+            </Gutters>
+        </div>
     {{/if}}
-{{/let}}
+{{/if}}

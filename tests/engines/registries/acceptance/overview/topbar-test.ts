@@ -2,13 +2,14 @@ import { triggerEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-i18n/test-support';
+import moment from 'moment';
 import { module, test } from 'qunit';
 
 import { MirageCollection } from 'ember-osf-web/mirage/factories/collection';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
-import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
+import stripHtmlTags from 'ember-osf-web/tests/helpers/strip-html-tags';
 
 const registrationStates: Record<string, {
     trait: string, icon: string,
@@ -191,13 +192,18 @@ module('Registries | Acceptance | overview.topbar', hooks => {
             if (stateInfo.hasAdminActions) {
                 assert.dom('[data-test-state-admin-actions]').isVisible();
             }
+
             assert.dom('[data-test-state-description-short]').hasText(
                 t(`registries.overview.${state}.short_description`).toString(),
             );
-            if (!reg.embargoEndDate) {
-                // ember-i18n test helper t does not support passing in options object.
+
+            if (reg.embargoEndDate) {
                 assert.dom('[data-test-state-description-long]').hasText(
-                    stripHtmlTags(t(`registries.overview.${state}.long_description`).toString()),
+                    stripHtmlTags(
+                        t(`registries.overview.${state}.long_description`, {
+                            embargoEndDate: moment(reg.embargoEndDate).format('MMMM D, YYYY'),
+                        }).toString(),
+                    ),
                 );
             }
             assert.dom('[data-test-state-icon]').hasClass(`fa-${stateInfo.icon}`);
