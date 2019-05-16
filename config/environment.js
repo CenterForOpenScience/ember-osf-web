@@ -34,6 +34,7 @@ const {
         'loggedIn',
         'dashboard',
         'settings',
+        'meetings',
     ],
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
