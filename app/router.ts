@@ -121,7 +121,7 @@ Router.map(function() {
     });
     this.route('support');
     this.route('meetings', function() {
-        this.route('index', { path: '/' }); // Note: this can be removed once another child route exists
+        this.route('detail', { path: '/:meeting_id' });
     });
 
     if (collections.enabled) {
