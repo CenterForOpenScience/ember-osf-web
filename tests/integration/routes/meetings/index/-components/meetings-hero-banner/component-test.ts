@@ -22,5 +22,9 @@ module('Integration | Component | meetings-hero-banner', hooks => {
         await click('[data-test-upload-button]');
         assert.dom('[data-test-register-panel-text]').exists({ count: 1 }, '1 register panel text');
         assert.dom('[data-test-upload-panel-text]').exists({ count: 1 }, '1 upload panel text');
+        await click('[data-test-register-button]');
+        await click('[data-test-upload-button]');
+        assert.dom('[data-test-register-panel-text]').doesNotExist();
+        assert.dom('[data-test-upload-panel-text]').doesNotExist();
     });
 });

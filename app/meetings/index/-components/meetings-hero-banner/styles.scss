@@ -1,8 +1,6 @@
 .osf-meeting-header-img {
     background: #67a3bf;
     background: linear-gradient(35deg, #67a3bf 0%, #166596 18%, #000 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#67a3bf', endColorstr='#000000', GradientType=1);
-    /* IE6-9 fallback on horizontal gradient */
     color: #fff;
     padding-top: 40px;
     position: relative;
@@ -33,7 +31,13 @@
     height: 140px;
 }
 
-.osf-meeting-header h1 {
-    font-size: 3.5em;
-    margin-bottom: -15px;
+.osf-meeting-header {
+    h1 {
+        font-size: 3.5em;
+        margin-bottom: -15px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
 }
