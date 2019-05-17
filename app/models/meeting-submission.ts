@@ -4,12 +4,12 @@ import DS from 'ember-data';
 import OsfModel from './osf-model';
 import UserModel from './user';
 
-export default class MeetingSubmissionsModel extends OsfModel {
+export default class MeetingSubmissionModel extends OsfModel {
     @attr('string') title!: string;
     @attr('string') category!: string;
     @attr('string') authorName!: string;
     @attr('number') downloadCount!: number;
-    @attr('date') dateCreated!: Date;
+    @attr('date') created!: Date;
 
     @belongsTo('user', { inverse: null })
     author!: DS.PromiseObject<UserModel> & UserModel;
@@ -17,6 +17,6 @@ export default class MeetingSubmissionsModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'meeting-submissions': MeetingSubmissionsModel;
+        'meeting-submission': MeetingSubmissionModel;
     } // eslint-disable-line semi
 }

@@ -1,5 +1,7 @@
-import { attr } from '@ember-decorators/data';
+import { attr, hasMany } from '@ember-decorators/data';
+import DS from 'ember-data';
 
+import MeetingSubmissionModel from 'ember-osf-web/models/meeting-submission';
 import OsfModel from './osf-model';
 
 export interface FieldNames {
@@ -29,6 +31,7 @@ export default class MeetingModel extends OsfModel {
     @attr('boolean') active!: boolean;
     @attr('fixstring') logoUrl!: string;
     @attr('object') fieldNames!: object;
+    @hasMany('meeting-submission') submissions!: DS.PromiseArray<MeetingSubmissionModel>;
 }
 
 declare module 'ember-data/types/registries/model' {

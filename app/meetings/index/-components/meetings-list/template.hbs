@@ -46,7 +46,11 @@
         </list.header>
         <list.item local-class='item' as |meeting|>
             {{#if meeting}}
-                <div data-test-meetings-list-item-name>{{meeting.name}}</div>
+                <div data-test-meetings-list-item-name>
+                    {{#link-to 'meetings.detail' meeting.id }}
+                        {{meeting.name}}
+                    {{/link-to}}
+                </div>
                 <div data-test-meetings-list-item-submissions>{{meeting.submissionsCount}}</div>
                 <div data-test-meetings-list-item-location>{{meeting.location}}</div>
                 <div data-test-meetings-list-item-date>

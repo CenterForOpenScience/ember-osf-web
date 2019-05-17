@@ -1,10 +1,10 @@
 import OsfSerializer from './osf-serializer';
 
-export default class MeetingSubmissionsSerializer extends OsfSerializer {
+export default class MeetingSubmissionSerializer extends OsfSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'meeting-submissions': MeetingSubmissionsSerializer;
+        'meeting-submission': MeetingSubmissionSerializer;
     } // eslint-disable-line semi
 }

@@ -148,4 +148,8 @@ export default function(this: Server) {
     }));
 
     osfResource(this, 'meeting', { only: ['index'] });
+    osfToManyRelationship(this, 'meeting', 'submissions', {
+        only: ['related'],
+        path: '/meetings/:parentID/submissions/',
+    });
 }

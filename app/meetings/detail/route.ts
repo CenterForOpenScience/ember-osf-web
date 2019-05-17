@@ -7,8 +7,8 @@ import Analytics from 'ember-osf-web/services/analytics';
 export default class MeetingsDetail extends Route {
     @service analytics!: Analytics;
 
-    model(params: string) {
-        return params;
+    model(params: Record<string, string>) {
+        return params.meeting_id;
     }
 
     @action

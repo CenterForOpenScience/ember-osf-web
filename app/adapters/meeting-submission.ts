@@ -1,19 +1,22 @@
 import DS from 'ember-data';
 import OsfAdapter from './osf-adapter';
 
-export default class MeetingSubmissionsAdapter extends OsfAdapter {
+export default class MeetingSubmissionAdapter extends OsfAdapter {
     namespace = '_/meetings';
-    buildUrl(_: 'meeting-submissions', __: string, ___: DS.Snapshot, requestType: string, query: any) {
+    buildUrl(_: 'meeting-submission', __: string, ___: DS.Snapshot, requestType: string, query: any) {
         if (requestType === 'query') {
             return this.urlForQuery(query);
         }
 
-        throw new Error('meeting-submissions endpoint only supports query.');
+        throw new Error('meeting-submission endpoint only supports query.');
     }
 
     urlForQuery(query: any) {
         if (query.meetingId) {
             const { meetingId } = query;
+            // need to delete query.meetingId so that it doesn appear as a query param in url
+            // eslint-disable-next-line no-param-reassign
+            delete query.meetingId;
             return `${this.host}/${this.namespace}/${meetingId}/submissions/`;
         }
 
@@ -23,6 +26,6 @@ export default class MeetingSubmissionsAdapter extends OsfAdapter {
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'meeting-submissions': MeetingSubmissionsAdapter;
+        'meeting-submission': MeetingSubmissionAdapter;
     } // eslint-disable-line semi
 }

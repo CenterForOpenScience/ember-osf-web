@@ -1259,6 +1259,16 @@ export default {
                 spsp_img_alt: 'Logo for Society for Personality and Social Psychology (SPSP)',
             },
         },
+        detail: {
+            'meeting-submissions-list': {
+                title: 'Title',
+                author: 'Author',
+                category: 'Category',
+                dateCreated: 'Date Created',
+                downloads: 'Downloads',
+                noSubmissions: 'No Submissions',
+            },
+        },
     },
     analytics: {
         pageTitle: '{{nodeTitle}} Analytics',

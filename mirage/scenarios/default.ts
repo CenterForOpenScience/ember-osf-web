@@ -147,6 +147,11 @@ function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
 
 function meetingsScenario(server: Server) {
     server.createList('meeting', 25);
+    server.create('meeting', {
+        id: 'testmeeting',
+        name: 'Test Meeting',
+        submissions: server.createList('meeting-submission', 10),
+    });
 }
 
 export default function(server: Server) {
