@@ -46,7 +46,7 @@
         </list.header>
         <list.item local-class='item' as |submission|>
             {{#if submission}}
-                <div>
+                <div data-test-submissions-list-item-title>
                     <a href={{submission.links.html}}>{{submission.title}}</a>
                 </div>
                 <div data-test-submissions-list-item-author>{{submission.authorName}}</div>
