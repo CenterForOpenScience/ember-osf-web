@@ -31,7 +31,7 @@ export default class MeetingModel extends OsfModel {
     @attr('boolean') active!: boolean;
     @attr('fixstring') logoUrl!: string;
     @attr('object') fieldNames!: object;
-    @hasMany('meeting-submission') submissions!: DS.PromiseArray<MeetingSubmissionModel>;
+    @hasMany('meeting-submission') submissions!: DS.PromiseManyArray<MeetingSubmissionModel>;
 }
 
 declare module 'ember-data/types/registries/model' {
