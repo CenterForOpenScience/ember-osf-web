@@ -16,7 +16,7 @@
         @query={{this.query}}
         as |list|
     >
-        <list.header data-test-submissions-index- local-class='header'>
+        <list.header data-test-submissions-index local-class='header'>
             {{#let (component 'sort-button'
                 class=(local-class 'sort-button')
                 sortAction=(action this.sortSubmissions)

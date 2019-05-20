@@ -17,7 +17,7 @@ export default class MeetingSubmissionsList extends Component.extend({
         const query = {} as Record<string, string>;
         query.meetingId = this.meetingId;
         if (this.search) {
-            query['filter[title,author,meeting_category]'] = this.search;
+            query['filter[title,author_name,meeting_category]'] = this.search;
         }
         if (this.sort) {
             query.sort = this.sort;
