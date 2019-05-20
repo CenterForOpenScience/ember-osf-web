@@ -119,12 +119,15 @@ module('Registries | Acceptance | overview.overview', hooks => {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             tags,
             currentUserPermissions: Object.values(Permission),
-        }, 'withContributors');
+        });
 
         await visit(`/${reg.id}/`);
 
+        assert.dom('[data-test-edit-button="tags"]').isVisible();
+        await click('[data-test-edit-button="tags"]');
+
         assert.dom('[data-test-registration-tags]').isVisible();
-        assert.dom('[data-test-tags-widget-tag-input] input').isVisible();
+        assert.dom('[data-test-tags-widget-tag-input="edit"] input').isVisible();
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
 
         reg.update({ currentUserPermissions: [Permission.Read] });
@@ -133,6 +136,72 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-registration-tags]').isVisible();
         assert.dom('[data-test-tags-widget-tag-input] input').isNotVisible();
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
+    });
+
+    test('only admin can edit affiliated institutions', async assert => {
+        const user = server.create('user', {
+            institutions: server.createList('institution', 2),
+        }, 'loggedIn');
+
+        const reg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: [Permission.Write, Permission.Read],
+        }, 'withAffiliatedInstitutions');
+
+        // Non admin: read only view
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="affiliated institutions"]').isNotVisible();
+        reg.affiliatedInstitutionIds.forEach(institutionId => assert
+            .dom(`[data-test-institution-list-institution="${institutionId}"]`)
+            .exists('registration institution list is correct'));
+
+        // Admin: editable view
+        reg.update({ currentUserPermissions: Object.values(Permission) });
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-edit-button="affiliated institutions"]').isVisible();
+
+        // Admin can affiliate institutions
+        await click('[data-test-edit-button="affiliated institutions"]');
+        user.institutionIds.forEach(institutionId => assert
+            .dom(`[data-test-institution="${institutionId}"]`)
+            .exists('user institution list is correct'));
+
+        await click(`[data-test-institution-button="add-${user.institutionIds[0]}"]`);
+        await click(`[data-test-institution-button="add-${user.institutionIds[1]}"]`);
+
+        assert.dom('[data-test-save-edits]').isVisible();
+        await click('[data-test-save-edits]');
+
+        reg.reload();
+        user.institutionIds.every(userInstitutionId =>
+            reg.affiliatedInstitutionIds.includes(userInstitutionId));
+
+        // Admin can remove affiliated institutions
+        await click('[data-test-edit-button="affiliated institutions"]');
+
+        await click(`[data-test-institution-button="remove-${user.institutionIds[0]}"]`);
+        await click(`[data-test-institution-button="remove-${user.institutionIds[1]}"]`);
+
+        assert.dom('[data-test-save-edits]').isVisible();
+        await click('[data-test-save-edits]');
+
+        reg.reload();
+        user.institutionIds.every(userInstitutionId =>
+            !reg.affiliatedInstitutionIds.includes(userInstitutionId));
+
+        // Discard edits works
+        await click('[data-test-edit-button="affiliated institutions"]');
+
+        await click(`[data-test-institution-button="add-${user.institutionIds[0]}"]`);
+        await click(`[data-test-institution-button="add-${user.institutionIds[1]}"]`);
+
+        assert.dom('[data-test-discard-edits]').isVisible();
+        await click('[data-test-discard-edits]');
+
+        user.institutionIds.forEach(userinstitutionId => assert
+            .dom(`[data-test-institution-list-institution="${userinstitutionId}"]`)
+            .doesNotExist('registration institution list is not updated after discarding edits'));
     });
 
     test('bookmarks work', async assert => {

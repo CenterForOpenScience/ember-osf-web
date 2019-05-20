@@ -29,7 +29,7 @@
                 <PasswordStrengthBar
                     data-test-strength-bar
                     @password={{this.userPassword.newPassword}}
-                    @model={{this.userPassword}}
+                    @shouldShowMessages={{not this.shouldHideStrengthBarMessage}}
                 />
                 <ValidatedTextInput
                     data-test-confirm-password

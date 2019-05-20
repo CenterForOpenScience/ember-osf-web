@@ -1,18 +1,16 @@
-<ul class='list-group'>
-    {{#paginated-list/has-many
-        modelTaskInstance=@modelTaskInstance
-        relationshipName=@relationshipName
-        query=this.queryParams
-        bindReload=this.bindReload
-        as |pr|
-    }}
-        <pr.item as |node|>
-            <NodeCard
-                @node={{node}}
-                @showTags={{@showTags}}
-            />
-        </pr.item>
+<PaginatedList::HasMany
+    @modelTaskInstance={{@modelTaskInstance}}
+    @relationshipName={{@relationshipName}}
+    @query={{this.queryParams}}
+    @bindReload={{this.bindReload}}
+    as |list|
+>
+    <list.item as |node|>
+        <NodeCard
+            @node={{node}}
+            @showTags={{@showTags}}
+        />
+    </list.item>
 
-        {{yield (hash empty=pr.empty)}}
-    {{/paginated-list/has-many}}
-</ul>
+    {{yield (hash empty=list.empty)}}
+</PaginatedList::HasMany>

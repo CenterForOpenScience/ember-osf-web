@@ -120,6 +120,9 @@ Router.map(function() {
         });
     });
     this.route('support');
+    this.route('meetings', function() {
+        this.route('detail', { path: '/:meeting_id' });
+    });
 
     if (collections.enabled) {
         this.mount('collections');
