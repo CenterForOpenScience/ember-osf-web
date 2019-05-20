@@ -1,4 +1,5 @@
 import { action } from '@ember-decorators/object';
+import DS, { AttributesFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -6,7 +7,9 @@ import BaseValidatedComponent from '../base-component';
 import template from './template';
 
 @layout(template)
-export default class ValidatedPowerSelect extends BaseValidatedComponent {
+export default class ValidatedPowerSelect<M extends DS.Model> extends BaseValidatedComponent<M> {
+    valuePath!: AttributesFor<M>;
+
     onchange?: (value: string) => void;
 
     search: () => any = this.search;
@@ -16,7 +19,7 @@ export default class ValidatedPowerSelect extends BaseValidatedComponent {
     placeholder?: string = this.placeholder;
 
     @action
-    powerSelectChanged(this: ValidatedPowerSelect, value: string) {
+    powerSelectChanged(value: string) {
         if (this.model && this.valuePath) {
             this.model.set(this.valuePath, value);
         }

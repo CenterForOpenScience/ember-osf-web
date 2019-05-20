@@ -51,20 +51,26 @@ export default class SubjectPicker extends Component.extend({
         this.get('querySubjects').perform();
     },
 
-    querySubjects: task(function *(this: SubjectPicker, parents = 'null', tier = 0): IterableIterator<any> {
-        const column: Column = this.columns.objectAt(tier)!;
+    querySubjects: task(
+        function *(
+            this: SubjectPicker,
+            parents: string = 'null',
+            tier: number = 0,
+        ): IterableIterator<any> {
+            const column: Column = this.columns.objectAt(tier)!;
 
-        const taxonomies: Taxonomy[] = yield this.provider.queryHasMany('taxonomies', {
-            filter: {
-                parents,
-            },
-            page: {
-                size: 150, // Law category has 117 (Jan 2018)
-            },
-        });
+            const taxonomies: Taxonomy[] = yield this.provider.queryHasMany('taxonomies', {
+                filter: {
+                    parents,
+                },
+                page: {
+                    size: 150, // Law category has 117 (Jan 2018)
+                },
+            });
 
-        column.set('subjects', taxonomies ? taxonomies.toArray() : []);
-    }),
+            column.set('subjects', taxonomies ? taxonomies.toArray() : []);
+        },
+    ),
 }) {
     @service analytics!: Analytics;
     @service store!: DS.Store;

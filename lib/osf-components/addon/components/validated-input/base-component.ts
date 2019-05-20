@@ -12,7 +12,7 @@ import {
 import { isEmpty } from '@ember/utils';
 import { ChangesetDef } from 'ember-changeset/types';
 import { ResultCollection } from 'ember-cp-validations';
-import DS from 'ember-data';
+import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
 import I18n from 'ember-i18n/services/i18n';
 
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -24,9 +24,9 @@ export enum ValidationStatus {
     HasWarning,
 }
 
-export default abstract class BaseValidatedInput extends Component {
+export default abstract class BaseValidatedInput<M extends DS.Model> extends Component {
     // Required arguments
-    valuePath!: keyof DS.Model;
+    valuePath!: AttributesFor<M> | RelationshipsFor<M>;
 
     // Optional arguments
     changeset?: ChangesetDef & DS.Model;
@@ -35,7 +35,7 @@ export default abstract class BaseValidatedInput extends Component {
     placeholder?: string;
     disabled: boolean = defaultTo(this.disabled, false);
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
-    model?: DS.Model;
+    model?: M;
 
     // Private properties
     @service i18n!: I18n;

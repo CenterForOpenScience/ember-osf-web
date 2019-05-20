@@ -119,7 +119,7 @@ module('Acceptance | dashboard', hooks => {
     // Skipping to avoid test timeouts -- reenable with ENG-311
     skip('user has many projects', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
-        const nodes = server.createList('node', 30, {}, 'withContributors');
+        const nodes = server.createList('node', 21, {}, 'withContributors');
         server.create('node', {
             id: noteworthyNode,
             linkedNodes: nodes.slice(0, 5),
@@ -146,7 +146,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom('[data-analytics-name="load_nodes"]').exists('The control to load more projects still exists');
         await click('[data-analytics-name="load_nodes"]');
         projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
-        assert.equal(projects.length, 30, 'All 30 projects are loaded after clicking `more` twice');
+        assert.equal(projects.length, 21, 'All 21 projects are loaded after clicking `more` twice');
 
         assert.dom('[data-analytics-name="load_nodes"]')
             .doesNotExist('The control to load more projects is gone after all projects are loaded');

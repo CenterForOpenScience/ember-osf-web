@@ -12,7 +12,7 @@ export function stubRegistriesShareSearch(context: TestContext) {
     engine.register('service:share-search', shareSearch, { instantiate: false });
     context.owner.register('service:share-search', shareSearch, { instantiate: false });
 
-    sinon.stub(shareSearch, 'registrations').returns({
+    sinon.stub(shareSearch, 'registrations').returns(Promise.resolve({
         total: 420,
         results: [{
             id: '1',
@@ -21,6 +21,13 @@ export function stubRegistriesShareSearch(context: TestContext) {
             mainLink: 'https://example.com/cancer-potatoes',
             contributors: [],
             hyperLinks: [],
+            infoLinks: [],
+            registrationType: 'baz',
+            sources: [],
+            subjectSynonyms: [],
+            subjects: [],
+            tags: [],
+            withdrawn: false,
         }, {
             id: '2',
             title: 'Can Potatoes Cure Cancer?',
@@ -28,11 +35,18 @@ export function stubRegistriesShareSearch(context: TestContext) {
             mainLink: 'https://example.com/super-potatoes',
             contributors: [],
             hyperLinks: [],
+            infoLinks: [],
+            registrationType: 'baz',
+            sources: [],
+            subjectSynonyms: [],
+            subjects: [],
+            tags: [],
+            withdrawn: false,
         }],
         aggregations: {
             sources: {
                 buckets: [],
             },
         },
-    });
+    }));
 }
