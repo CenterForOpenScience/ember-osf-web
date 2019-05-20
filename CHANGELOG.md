@@ -8,13 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Models:
     - `meeting` - for OSF Meetings
+    - `meeting-submission` - for OSF Meetings submissions
 - Adapters:
     - `meeting` - in private namespace
+    - `meeting-submission` - in private namespace, with custom urlforQuery and buildUrl methods.
 - Serializers:
     - `meeting`
+    - `meeting-submission`
 - Routes:
     - `meetings` - parent route for meetings
         - `meetings.index` - meetings landing page
+        - `meetings.detail` - meeting detail page
 - Components:
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
@@ -23,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list/x-header` - a paginated list header closure component
     - `meetings/index/components/meetings-hero-banner` - meetings landing page hero banner
     - `meetings/index/components/meetings-footer` - meetings landing page footer
+    - `meetings/detail/components/meeting-submissions-list` - meeting submissions list
 - Utilities:
     - `leaf-vals` - get values of all leaves in an object tree
 - Tests:
@@ -36,12 +41,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `meetings-list`
         - `meetings-hero-banner`
         - `meetings-footer`
+        - `meeting-submissions-list`
     - Unit:
         - `leaf-vals` utility
 - Mirage:
     - `meeting` factory
+    - `meeting-submission` factory
     - private `meetings` endpoint
     - meetings scenario
+
+- .vscode/settings.json
+    - Add `typescript.tsdk` setting so that VS Code uses workspace's TypeScript version by default.
 
 ### Changed
 - Components:
