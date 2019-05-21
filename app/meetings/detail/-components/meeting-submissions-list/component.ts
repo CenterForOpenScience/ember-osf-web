@@ -1,6 +1,7 @@
 import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
+import MeetingSubmissionModel from 'ember-osf-web/models/meeting-submission';
 
 export default class MeetingSubmissionsList extends Component.extend({
     searchSubmissions: task(function *(this: MeetingSubmissionsList, search: string) {
@@ -28,5 +29,10 @@ export default class MeetingSubmissionsList extends Component.extend({
     @action
     sortSubmissions(sort: string) {
         this.set('sort', sort);
+    }
+
+    @action
+    downloadFile(submission: MeetingSubmissionModel) {
+        window.open(submission.links.download);
     }
 }

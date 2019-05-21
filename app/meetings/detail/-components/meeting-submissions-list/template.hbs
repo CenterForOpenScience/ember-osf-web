@@ -54,7 +54,12 @@
                 <div data-test-submissions-list-item-date>
                     {{moment-format submission.created 'MMM DD, YYYY'}}
                 </div>
-                <div data-test-submissions-list-item-download>{{submission.downloadCount}}</div>
+                <div data-test-submissions-list-item-download>
+                    <OsfButton @type='success' class='btn-xs' @onClick={{action this.downloadFile submission}}>
+                        <FaIcon @icon='download' class='fa-inverse' />
+                    </OsfButton>
+                    {{submission.downloadCount}}
+                </div>
             {{else}}
                 <div data-test-submissions-list-placeholder-title>{{placeholder.text lines=1}}</div>
                 <div data-test-submissions-list-placeholder-author>{{placeholder.text lines=1}}</div>

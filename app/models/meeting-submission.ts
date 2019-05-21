@@ -4,12 +4,19 @@ import DS from 'ember-data';
 import OsfModel from './osf-model';
 import UserModel from './user';
 
+export interface MeetingSubmissionLinks {
+    download?: string;
+    self?: string;
+    html?: string;
+}
+
 export default class MeetingSubmissionModel extends OsfModel {
     @attr('string') title!: string;
     @attr('string') category!: string;
     @attr('string') authorName!: string;
     @attr('number') downloadCount!: number;
     @attr('date') created!: Date;
+    @attr() links!: MeetingSubmissionLinks;
 
     @belongsTo('user', { inverse: null })
     author!: DS.PromiseObject<UserModel> & UserModel;
