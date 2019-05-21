@@ -1,0 +1,98 @@
+.carousel-container {
+    position: relative;
+}
+
+.dot-nav {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    cursor: default;
+    text-align: center;
+}
+
+.dot-nav li {
+    position: relative;
+    display: inline-block;
+    margin: 0 10px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.dot-nav {
+    a {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        outline: none;
+        border-radius: 50%;
+        background-color: #fff;
+        background-color: rgba(255, 255, 255, 0.3);
+        text-indent: -999em;
+        cursor: pointer;
+        position: absolute;
+        overflow: hidden;
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 1);
+        transition: background-color 0.3s;
+
+        ::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            height: 0;
+            left: 0;
+            width: 100%;
+            background-color: #000;
+            box-shadow: 0 0 1px #fff;
+            transition: height 0.3s;
+        }
+
+        :hover,
+        :focus {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .current a::after {
+        height: 100%;
+    }
+}
+
+.item-list {
+    height: 400px;
+    width: 100%;
+    padding: 0 15px;
+
+    li {
+        display: none;
+        height: inherit;
+        animation-name: fade;
+        animation-duration: 1.5s;
+
+        &:global(.active) {
+            display: block;
+        }
+    }
+}
+
+.arrow-previous {
+    transform: rotate(180deg);
+}
+
+.btn {
+    position: absolute;
+    top: 50%;
+    background: inherit;
+    border: 0;
+}
+
+.btn-next {
+    right: 0;
+}
+  
+@keyframes fade {
+    from { opacity: 0.4; } 
+    to { opacity: 1; }
+}

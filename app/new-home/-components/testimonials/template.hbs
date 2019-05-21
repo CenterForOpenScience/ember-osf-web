@@ -1,0 +1,62 @@
+{{! template-lint-disable no-bare-strings }}
+<div local-class='container'>
+    <header>
+        <h1 data-test-testimonials-heading>
+            {{t 'osf-components.testimonials.heading'}}
+        </h1>
+    </header>
+    <Carousel data-test-carousel-container as |container|>
+        <container.slide>
+            <div local-class='slide-content'>
+                <div local-class='flex-column'>
+                    <span local-class='quote'>&quot;</span>
+                    <p>
+                        {{t 'osf-components.testimonials.slide_1.text'}}
+                    </p>
+                    <p local-class='description'>
+                        <span local-class='description-bold'>
+                            {{t 'osf-components.testimonials.slide_1.description.name'}}
+                        </span>
+                        <span>
+                            {{t 'osf-components.testimonials.slide_1.description.position'}}
+                        </span>
+                        <span>
+                            {{t 'osf-components.testimonials.slide_1.description.location'}}
+                        </span>
+                        <span local-class='description-bold research-link'>
+                            {{t 'osf-components.testimonials.see_her_research'}}
+                        </span>
+                    </p>
+                </div>
+                <img
+                    src='/assets/images/dashboard/ayala-patricia.png'
+                    alt='{{t 'osf-components.testimonials.slide_1.alt'}}'
+                >
+            </div>
+        </container.slide>
+        <container.slide>
+            <div local-class='slide-content'>
+                <p>
+                    <span local-class='quote'>&quot;</span>
+                    {{t 'osf-components.testimonials.slide_2.text'}}
+                </p>
+                <img
+                    src='/assets/images/dashboard/maya.png'
+                    alt='{{t 'osf-components.testimonials.slide_2.alt'}}'
+                >
+            </div>
+        </container.slide>
+        <container.slide>
+            <div local-class='slide-content'>
+                <p>
+                    <span local-class='quote'>&quot;</span>
+                    {{t 'osf-components.testimonials.slide_3.text'}}
+                </p>
+                <img
+                    src='/assets/images/dashboard/cohen-phillip.png'
+                    alt='{{t 'osf-components.testimonials.slide_3.alt'}}'
+                >
+            </div>
+        </container.slide>
+    </Carousel>
+</div>

@@ -1,0 +1,33 @@
+<section local-class='carousel-container' aria-labelledby='carousel-heading'>
+    {{yield (hash header=(component 'carousel/x-header'))}}
+    <ol local-class='dot-nav' role='tablist'>
+        <li local-class='current' role='presentation'>
+            <a role='tab' aria-controls='carousel-content-1' tabindex='0' aria-selected='true'></a>
+        </li>
+        <li role='presentation'>
+            <a role='tab' aria-controls='carousel-content-2' tabindex='-1' aria-selected='false'></a>
+        </li>
+        <li role='presentation'>
+            <a role='tab' aria-controls='carousel-content-3' tabindex='-1' aria-selected='false'></a>
+        </li>
+    </ol>
+    <ul data-test-carousel-list local-class='item-list'>
+        {{yield (hash slide=(component 'carousel/x-item' register=(action this.register) allItems=this.carouselItems))}}
+    </ul>
+    <button type='button' local-class='btn' {{action 'changeSlide' 'previous'}}>
+        <img
+            data-test-previous-arrow
+            local-class='arrow-previous'
+            src='/assets/images/dashboard/arrow.svg'
+            alt={{t 'general.previous'}}
+        >
+    </button>
+    <button type='button' local-class='btn btn-next' {{action 'changeSlide' 'next'}}>
+        <img
+            data-test-next-arrow
+            local-class='arrow-next'
+            src='/assets/images/dashboard/arrow.svg'
+            alt={{t 'general.next'}}
+        >
+    </button>
+</section>

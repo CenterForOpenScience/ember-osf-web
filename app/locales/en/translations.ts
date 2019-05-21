@@ -1484,6 +1484,28 @@ export default {
                 subheading: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.',
             },
         },
+        testimonials: {
+            heading: 'What others are saying',
+            see_her_research: 'See her research',
+            see_his_research: 'See his research',
+            slide_1: {
+                text: 'OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration.',
+                alt: 'Patricia Ayala testimonial',
+                description: {
+                    name: 'Patricia Ayala',
+                    position: 'Research Services Librarian',
+                    location: 'University of Toronto',
+                },
+            },
+            slide_2: {
+                text: 'OSF has been indispensable in helping me create fully reproducible research pipelines from preregistration through data collection, analysis, and writing. Its versatility makes it my one-stop shop for projects ranging from open-source methods and software papers to many-lab empirical papers with several dozen authors. And its Dropbox integration effortlessly transforms my existing local workflow into a public repository.',
+                alt: 'Maya testimonial',
+            },
+            slide_3: {
+                text: 'Because SocArXiv is a not-for-profit organization, researchers can be assured that they are sharing their research in an environment where access, inclusivity, and preservation, rather than profit, will remain at the heart of the mission. A great benefit of partnering with OSF is that this application is a free public good.',
+                alt: 'Philip Cohen testimonial',
+            },
+        },
     },
     settings: {
         toggleNav: 'Toggle navigation',

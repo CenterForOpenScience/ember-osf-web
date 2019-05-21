@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif|Coustard');
+
+.container {
+    background-color: #ecf0f1;
+
+    header {
+        padding: 32px 20px 10px;
+    }
+
+    h1 {
+        font-size: 48px;
+        font-weight: 600;
+        text-align: center;
+        max-width: 785px;
+        margin: 0 auto;
+        color: #263947;
+    }
+}
+
+.slide-content {
+    display: flex;
+    height: inherit;
+    padding: 10px 50px 0;
+    justify-content: center;
+}
+
+.slide-content img {
+    align-self: flex-end;
+}
+
+.slide-content {
+    p {
+        height: 192px;
+        max-width: 444px;
+        font-family: Bree Serif;
+        font-size: 32px;
+        color: #365063;
+        text-decoration: none solid rgb(54, 80, 99);
+        line-height: 48px;
+        text-align: center;
+    }    
+
+    .description {
+        font-family: Open Sans;
+        width: 445px;
+        height: 66px;
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+.quote {
+    width: inherit;
+    height: 48px;
+    display: block;
+    padding: 20px;
+    font-family: Coustard;
+    font-size: 60px;
+    color: #a5b3bd;
+    text-decoration: none solid rgb(165, 179, 189);
+    line-height: 48px;
+    text-align: center;
+    transform: rotate(180deg);
+}
+
+.description-bold {
+    font-weight: 700;
+}
+
+.research-link {
+    color: #337ab7;
+}
+
+.description span {
+    display: block;
+    line-height: 1.5em;
+}
+
+.visually-hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .container h1 {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 375px) {
+    .container h1 {
+        font-size: 32px;
+    }
+}
