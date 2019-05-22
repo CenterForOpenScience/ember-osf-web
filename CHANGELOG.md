@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list/x-header` - a paginated list header closure component
     - `meetings/index/components/meetings-hero-banner` - meetings landing page hero banner
     - `meetings/index/components/meetings-footer` - meetings landing page footer
+    - `settings/account/-components/connected-identities` - connected identities component
 - Utilities:
     - `leaf-vals` - get values of all leaves in an object tree
 - Tests:

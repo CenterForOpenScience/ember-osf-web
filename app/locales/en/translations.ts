@@ -1548,6 +1548,22 @@ export default {
                     placeholder: 'Verify password',
                 },
             },
+            connected_identities: {
+                title: 'Connected identities',
+                description: 'Connected identities allow you to log in to the OSF via a third-party service.<br>You can revoke these authorizations here.',
+                no_identities: 'You have not authorized any external services to log in to the OSF.',
+                status: {
+                    verified: 'Verified',
+                    pending: 'Pending',
+                },
+                confirm_remove: {
+                    title: 'Remove authorization?',
+                    body: 'Are you sure you want to remove this authorization?',
+                    confirm_button_text: 'Remove',
+                },
+                remove_fail: 'Revocation request failed. Please contact <a href="mailto:{{supportEmail}}">{{supportEmail}}</a> if the problem persists.',
+                remove_success: 'You have revoked this connected identity.',
+            },
         },
         addons: {
             title: 'Configure add-on accounts',
