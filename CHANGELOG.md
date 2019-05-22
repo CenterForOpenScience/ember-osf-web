@@ -8,10 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Models:
     - `meeting` - for OSF Meetings
+    - `external-identity` - for connected identities
 - Adapters:
     - `meeting` - in private namespace
+    - `external-identity` - for connected identities
 - Serializers:
     - `meeting`
+    - `external-identity` - for connected identities
 - Routes:
     - `meetings` - parent route for meetings
         - `meetings.index` - meetings landing page
