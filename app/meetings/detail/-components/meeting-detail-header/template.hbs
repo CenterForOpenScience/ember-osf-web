@@ -1,0 +1,53 @@
+<h1 data-test-meeting-name>{{this.meeting.name}}</h1>
+
+<div data-test-meeting-location-and-date local-class='location-and-date-text'>
+    {{this.locationAndDateText}}
+</div>
+
+{{#if this.meeting.logoUrl}}
+    <div>
+        <img data-test-meeting-logo src={{this.meeting.logoUrl}} alt={{t 'meetings.detail.meeting-detail-header.image_alt'}} class='img-responsive'>
+    </div>
+{{/if}}
+
+{{#if this.meeting.active}}
+    <div local-class='toggle-panel-button'>
+        <a>
+            <span data-test-meeting-toggle-panel-button data-analytics-name='Toggle' role='button' {{action this.togglePanel}}> {{this.panelToggleLinkText}} </span>
+        </a>
+    </div>
+{{/if}}
+{{#if this.meeting.infoUrl}}
+    <a data-test-meeting-info-url href='{{this.meeting.infoUrl}}' target='_blank' rel='noopener'>{{this.conferenceHomepageText}}</a>
+{{/if}}
+<CpPanel @open={{this.isPanelOpen}} as |panel|>
+    <panel.body>
+        <h2 data-test-meeting-panel-header local-class='panel-header-text'>{{this.panelHeaderText}}</h2>
+        <p data-test-meeting-send-email>
+            {{t 'meetings.detail.meeting-detail-header.send_email'}}
+        </p>
+        <ul data-test-meeting-email-address-line>
+            {{#if this.meeting.isAcceptingTypeOne}}
+                <li>{{this.typeOneEmailLineText}}</li>
+            {{/if}}
+            
+            {{#if this.meeting.isAcceptingTypeTwo}}
+                <li>{{this.typeTwoEmailLineText}}</li>
+            {{/if}}
+        </ul>
+        <p data-test-meeting-format-header>{{t 'meetings.detail.meeting-detail-header.format_header'}}</p>
+        <div data-test-meeting-format-body>
+            <dl style='padding-left: 25px'>
+                <dt>{{t 'meetings.detail.meeting-detail-header.subject'}}</dt>
+                <dd>{{this.meeting.fieldNames.mail_subject}}</dd>
+                <dt>{{t 'meetings.detail.meeting-detail-header.message_body'}}</dt>
+                <dd>{{this.meeting.fieldNames.mail_message_body}}</dd>
+                <dt>{{t 'meetings.detail.meeting-detail-header.attachment'}}</dt>
+                <dd>{{this.meeting.fieldNames.mail_attachment}}</dd>
+            </dl>
+        </div>
+        <p data-test-meeting-panel-footer-note>
+            {{t 'meetings.detail.meeting-detail-header.panel_footer_note'}}
+        </p>
+    </panel.body>
+</CpPanel>
