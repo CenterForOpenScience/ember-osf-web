@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `meetings/index/components/meetings-footer` - meetings landing page footer
     - `meetings/detail/components/meeting-submissions-list` - meeting submissions list
     - `settings/account/-components/connected-identities` - connected identities component
+    - `meetings/detail/components/meeting-detail-header` - meeting detail header
 - Utilities:
     - `leaf-vals` - get values of all leaves in an object tree
 - Tests:
