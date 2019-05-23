@@ -1,9 +1,11 @@
 {{#if this.href}}
     <OsfLink
         data-analytics-name={{@analyticsName}}
+        data-test-share-registration={{@medium}}
         @href={{this.href}}
         target='_blank'
         rel='noopener'
+        ...attributes
     >
         <FaIcon @icon={{@icon}} @fixedWidth={{true}} />
         {{#if @showText}}

@@ -1,0 +1,42 @@
+<div local-class='TitleBackground'>
+    <div local-class='HeaderContainer'>
+        <div local-class='Header'>
+            <h1 data-test-registration-title>{{@registration.title}}</h1>
+        </div>
+        {{#if (not (or @registration.archiving @registration.withdrawn))}}
+            <div local-class='ActionBar'>
+                <Overview::-Components::OverviewTopbar @registration={{this.registration}} />
+            </div>
+            {{#if this.showMobileView}}
+                <Navbar local-class='SideBarToggle' as |nav|>
+                    <nav.bordered-section>
+                        <nav.buttons.default
+                            @onclick={{@toggleSidenav}}
+                            data-analytics-name='Show sidenav'
+                        >
+                            {{nav.icon (if @sidenavGutterClosed 'bars' 'times')}}
+                        </nav.buttons.default>
+
+                        <nav.buttons.default
+                            @onclick={{@toggleOverview}}
+                            local-class={{unless @metadataGutterClosed 'NonActive'}}
+                            data-analytics-name='Show overview'
+                        >
+                            <h4>{{t 'registries.overview.title'}}</h4>
+                        </nav.buttons.default>
+                    </nav.bordered-section>
+
+                    <nav.bordered-section>
+                        <nav.buttons.default
+                            data-analytics-name='Show metadata'
+                            @onclick={{@toggleMetadata}}
+                            local-class={{if @metadataGutterClosed 'NonActive'}}
+                        >
+                            <h4>{{t 'registries.overview.metadata'}}</h4>
+                        </nav.buttons.default>
+                    </nav.bordered-section>
+                </Navbar>
+            {{/if}}
+        {{/if}}
+    </div>
+</div>

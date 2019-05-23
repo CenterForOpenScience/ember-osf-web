@@ -33,7 +33,6 @@ export default class Overview extends Controller {
 
     @alias('model.taskInstance.value') registration?: Registration;
     @not('registration') loading!: boolean;
-    @not('media.isDesktop') showMobileView!: boolean;
 
     @computed('registration.id')
     get registrationURL() {
@@ -59,11 +58,6 @@ export default class Overview extends Controller {
         return 'drawer';
     }
 
-    @computed('registration.relatedCounts.forks')
-    get forksCount(): number {
-        return (this.registration && this.registration.relatedCounts!.forks) || 0;
-    }
-
     @computed('registration.relatedCounts.comments')
     get commentsCount() {
         return (this.registration && this.registration.relatedCounts!.comments) || 0;
@@ -86,5 +80,13 @@ export default class Overview extends Controller {
     @action
     toggleMetadata() {
         this.toggleProperty('metadataGutterClosed');
+    }
+
+    @action
+    toggleOverview() {
+        this.setProperties({
+            sidenavGutterClosed: true,
+            metadataGutterClosed: true,
+        });
     }
 }

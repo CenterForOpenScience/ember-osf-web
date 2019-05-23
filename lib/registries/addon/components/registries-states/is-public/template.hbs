@@ -1,37 +1,64 @@
-<div local-class='WithdrawDropdown' data-test-withdrawal-form>
-    <p local-class='header'>{{t 'registries.overview.withdraw.withdraw'}}</p>
-    <p>{{t 'registries.overview.withdraw.warning'}}</p>
-    <p><strong>{{t 'registries.overview.withdraw.withdrawal_justification_label'}}</strong></p>
-    <div class='form-group'>
-        {{textarea
-            class='form-control'
-            rows='4'
-            required=true
-            value=this.withdrawalJustification
-        }}
-    </div>
-    <p>{{t 'registries.overview.withdraw.random_scientist_x' x=this.scientistName}}</p>
-    <div local-class='Container'>
-        <div>
-            {{input
-                class='form-control'
-                required=true
-                value=this.scientistNameInput
-                type='text'
-            }}
+<OsfButton
+    data-analytics-name='Open withdraw form modal'
+    @type='danger'
+    @onClick={{action (mut this.showModal) true}}
+>
+    {{t 'registries.overview.withdraw.withdraw'}}
+</OsfButton>
+
+<BsModal
+    @tagName='span'
+    @open={{this.showModal}}
+    @onSubmit={{action (perform this.submitWithdrawal)}}
+    @onHide={{action this.close}}
+    @renderInPlace={{true}}
+    as |modal|
+>
+    <modal.header>
+        <h3>{{t 'registries.overview.withdraw.withdraw'}}</h3>
+    </modal.header>
+
+    <modal.body>
+        <div local-class='WithdrawDropdown' data-test-withdrawal-form>
+            <p>{{t 'registries.overview.withdraw.warning'}}</p>
+            <p><strong>{{t 'registries.overview.withdraw.withdrawal_justification_label'}}</strong></p>
+            <div class='form-group'>
+                {{textarea
+                    class='form-control'
+                    rows='4'
+                    required=true
+                    value=this.withdrawalJustification
+                }}
+            </div>
+            <p>{{t 'registries.overview.withdraw.random_scientist_x' x=this.scientistName}}</p>
+            <div local-class='Container'>
+                <div>
+                    {{input
+                        class='form-control'
+                        required=true
+                        value=this.scientistNameInput
+                        type='text'
+                    }}
+                </div>
+            </div>
         </div>
-        <div>
-            <OsfButton
-                data-analytics-name='Withdraw registration'
-                @type='danger'
-                @disabled={{this.submitDisabled}}
-                @class={{local-class 'WithdrawalForm__button'}}
-                @onClick={{action (perform this.submitWithdrawal)}}
-                @buttonType='submit'
-                @block={{true}}
-            >
-                {{t 'registries.overview.withdraw.withdraw'}}
-            </OsfButton>
-        </div>
-    </div>
-</div>
+    </modal.body>
+
+    <modal.footer>
+        <OsfButton
+            @disabled={{this.submitWithdrawal.isRunning}}
+            @onClick={{action modal.close}}
+        >
+            {{t 'general.cancel'}}
+        </OsfButton>
+        <OsfButton
+            data-analytics-name='Withdraw registration'
+            @type='danger'
+            @disabled={{or this.submitDisabled this.submitWithdrawal.isRunning}}
+            @onClick={{action modal.submit}}
+            @buttonType='submit'
+        >
+            {{t 'registries.overview.withdraw.withdraw'}}
+        </OsfButton>
+    </modal.footer>
+</BsModal>

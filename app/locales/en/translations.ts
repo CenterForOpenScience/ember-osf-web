@@ -1167,19 +1167,6 @@ export default {
                 currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.',
                 email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{{supportEmail}}">{{supportEmail}}</a> for assistance.',
             },
-            aria_labels: {
-                main: 'Toolbar: withdraw, fork, share registration',
-                scientist_name_input: 'Random scientist name',
-            },
-            embargoed: {
-                state: 'Embargoed',
-                action: 'End embargo early',
-                action_success: 'Embargo termination request successfully sent',
-                action_error: 'Unable to submit embargo termination request',
-                confirm_text: 'By clicking confirm, an email will be sent to project administrator(s) to approve ending the embargo. If approved, this registration, including any components, will be made public immmediately. This action is irreversible.',
-                confirm_button_text: 'Confirm',
-                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}.',
-            },
             pending: {
                 state: 'Pending',
                 action: {
@@ -1189,20 +1176,42 @@ export default {
             },
             public: {
                 state: 'Public',
+                text: 'Public registration',
+                short_description: 'Public',
+                long_description: 'This public registration is a frozen, non-editable version of this <strong><a href={{projectUrl}}>project</a></strong>.',
             },
-            pendingRegistrationApproval: {
-                banner: 'This is a pending registration of this <a href={{projectUrl}}><u>project</u></a>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.',
+            pendingRegistration: {
+                text: 'Pending registration',
+                short_description: 'Pending registration approval',
+                long_description: 'This is a pending registration of this <strong><a href={{projectUrl}}>project</a></strong>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.',
             },
             pendingWithdrawal: {
-                banner: 'This project is currently pending withdrawal',
+                text: 'Public registration',
+                short_description: 'Pending withdrawal',
+                long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.',
             },
-            pendingEmbargoApproval: {
-                banner: 'This project is currently pending registration, awaiting approval from project administrators. This registration will be final and enter the embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.',
+            pendingEmbargo: {
+                text: 'Pending registration',
+                short_description: 'Pending embargo approval',
+                long_description: 'This registration is pending approval. It will be final and enter an embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.',
             },
-            pendingEmbargoTerminationApproval: {
-                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}. A request to lift the embargo and make this registration public is pending.',
+            pendingEmbargoTermination: {
+                text: 'Embargoed registration',
+                short_description: 'Pending embargo termination',
+                long_description: 'This registration is embargoed. It will remain private until {{embargoEndDate}}. A request to make this registration public is pending.',
             },
-            update_bookmarks: {
+            embargoed: {
+                state: 'Embargoed',
+                action: 'End embargo early',
+                action_success: 'Embargo termination request successfully sent',
+                action_error: 'Unable to submit embargo termination request',
+                confirm_text: 'By clicking confirm, an email will be sent to project administrator(s) to approve ending the embargo. If approved, this registration, including any components, will be made public immmediately. This action is irreversible.',
+                confirm_button_text: 'Confirm',
+                text: 'Embargoed registration',
+                short_description: 'Embargoed',
+                long_description: 'This registration is embargoed. It will remain private until {{embargoEndDate}}.',
+            },
+            bookmark: {
                 add: {
                     text: 'Bookmark',
                     success: 'Registration successfully added to your bookmarks',
@@ -1221,6 +1230,12 @@ export default {
             },
             view_forks: 'View forks',
             fork_registration: 'Fork this registration',
+            tooltips: {
+                bookmark: 'Bookmark this registration',
+                remove_bookmark: 'Remove bookmark',
+                share: 'Share this registration',
+                fork: 'Fork this registration',
+            },
         },
     },
     meetings: {

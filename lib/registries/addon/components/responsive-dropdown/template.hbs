@@ -1,16 +1,21 @@
 <BasicDropdown
     @verticalPosition='below'
-    @horizontalPosition='right'
-    @calculatePosition={{action 'calculatePosition'}}
+    @horizontalPosition={{this.horizontalPosition}}
+    @calculatePosition={{action this.calculatePosition}}
     @disabled={{@disabled}}
-    @onClose={{action 'closeDropdown'}}
+    @onClose={{action this.closeDropdown}}
     @renderInPlace={{this.shouldRenderInPlace}}
+    @initiallyOpened={{@initiallyOpened}}
     as |dd|>
 
     {{yield (hash
         trigger=(component dd.trigger class=(local-class 'Trigger'))
         isOpen=dd.isOpen
         close=(action dd.actions.close)
-        content=(component dd.content overlay=this.useOverlay defaultClass=(local-class (if this.useOverlay 'reg-modal-dialog' '')))
-      )}}
+        content=(component dd.content
+            overlay=this.useOverlay
+            defaultClass=(local-class (if this.useOverlay 'reg-modal-dialog'))
+        ))
+    }}
+
 </BasicDropdown>
