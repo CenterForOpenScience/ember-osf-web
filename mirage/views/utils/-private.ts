@@ -53,7 +53,7 @@ export function dynamicSort(property: string) {
     };
 }
 
-export function sort(request: Request, data: Array<unknown>, options: ProcessOptions = {}): Array<unknown> {
+export function sort(request: Request, data: unknown[], options: ProcessOptions = {}): unknown[] {
     const { queryParams } = request;
     const { defaultSortKey = 'date_modified' } = options;
     let sortKey: string = defaultSortKey;
@@ -83,7 +83,7 @@ export function buildQueryParams(params: QueryParameters): string {
 
 export function paginate(
     request: Request,
-    data: Array<unknown>,
+    data: unknown[],
     options: ProcessOptions = {},
 ): ResourceCollectionDocument {
     const total = data.length;

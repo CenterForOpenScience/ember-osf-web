@@ -1,8 +1,9 @@
 import DS from 'ember-data';
 
 declare module 'ember-data' {
-    export type AttributesFor<Model, T extends keyof Model = keyof Model> = T extends string ? T : never;
-    export type RelationshipsFor<Model, T extends keyof Model = keyof Model> = T extends string ? T : never;
+    export type ModelKeys<Model extends DS.Model> = Exclude<keyof Model, keyof DS.Model>;
+    export type AttributesFor<Model extends DS.Model> = ModelKeys<Model>;
+    export type RelationshipsFor<Model extends DS.Model> = ModelKeys<Model>;
     namespace DS {
         interface JSONAPIAdapter {
             buildQuery(snapshot: DS.Snapshot): object;

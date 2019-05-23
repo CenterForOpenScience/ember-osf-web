@@ -196,6 +196,10 @@ declare const config: {
     };
 
     defaultProvider: string;
+
+    pageTitle: {
+        prepend: boolean;
+    };
 };
 
 export default config;

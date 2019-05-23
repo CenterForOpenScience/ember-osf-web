@@ -76,7 +76,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
 
     withContributors: trait<MirageNode>({
         afterCreate(node, server) {
-            const contributorCount = faker.random.number({ min: 1, max: 25 });
+            const contributorCount = faker.random.number({ min: 1, max: 5 });
             if (contributorCount === 1) {
                 server.create('contributor', { node, index: 0, permission: Permission.Admin, bibliographic: true });
             } else if (contributorCount === 2) {

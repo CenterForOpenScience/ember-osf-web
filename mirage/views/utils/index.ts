@@ -12,7 +12,7 @@ export function process(
     schema: Schema,
     request: Request,
     handlerContext: HandlerContext,
-    data: Array<unknown>,
+    data: unknown[],
     options?: ProcessOptions,
 ) {
     const context = { schema, request, handlerContext };
