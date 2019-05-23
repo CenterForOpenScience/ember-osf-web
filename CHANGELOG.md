@@ -46,6 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `meeting` factory
     - private `meetings` endpoint
     - meetings scenario
+    - `external-identities` factory and endpoint
+    - add `external-identities` to settings scenario
 
 ### Changed
 - Components:
