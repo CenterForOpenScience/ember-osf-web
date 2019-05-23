@@ -1,0 +1,26 @@
+.description-list-separator {
+    margin-bottom: 10px;
+}
+
+.identities-list ul {
+    margin: 0;
+
+    & > li {
+        border: 0;
+        padding: 10px;
+
+        &:hover {
+            background-color: #e6e6e6;
+        }
+    }
+}
+
+.delete-button {
+    margin-top: -2px;
+    float: right;
+    clear: right;
+
+    & > button {
+        padding: 0;
+    }
+}

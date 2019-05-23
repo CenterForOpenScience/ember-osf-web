@@ -1,8 +1,7 @@
 {{title (t 'settings.account.title')}}
-{{! template-lint-disable no-implicit-this }}
-{{settings/account/-components/connected-emails}}
-{{settings/account/-components/default-region}}
-{{settings/account/-components/change-password}}
-{{settings/account/-components/security}}
-{{settings/account/-components/request-deactivation}}
-{{! template-lint-enable no-implicit-this }}
+<Settings::Account::-Components::ConnectedEmails />
+<Settings::Account::-Components::DefaultRegion />
+<Settings::Account::-Components::ConnectedIdentities />
+<Settings::Account::-Components::ChangePassword />
+<Settings::Account::-Components::Security />
+<Settings::Account::-Components::RequestDeactivation />

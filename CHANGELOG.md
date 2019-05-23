@@ -8,10 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Models:
     - `meeting` - for OSF Meetings
+    - `external-identity` - for connected identities
 - Adapters:
     - `meeting` - in private namespace
+    - `external-identity` - for connected identities
 - Serializers:
     - `meeting`
+    - `external-identity` - for connected identities
 - Routes:
     - `meetings` - parent route for meetings
         - `meetings.index` - meetings landing page
@@ -23,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list/x-header` - a paginated list header closure component
     - `meetings/index/components/meetings-hero-banner` - meetings landing page hero banner
     - `meetings/index/components/meetings-footer` - meetings landing page footer
+    - `settings/account/-components/connected-identities` - connected identities component
 - Utilities:
     - `leaf-vals` - get values of all leaves in an object tree
 - Tests:
@@ -36,12 +40,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `meetings-list`
         - `meetings-hero-banner`
         - `meetings-footer`
+        - `connected-identities`
     - Unit:
         - `leaf-vals` utility
 - Mirage:
     - `meeting` factory
     - private `meetings` endpoint
     - meetings scenario
+    - `external-identities` factory and endpoint
+    - add `external-identities` to settings scenario
 
 ### Changed
 - Components:
