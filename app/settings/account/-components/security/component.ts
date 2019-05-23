@@ -37,7 +37,7 @@ export default class SecurityPane extends Component.extend({
             'emails',
             { 'filter[primary]': true },
         );
-        this.primaryEmail = emails.length ? emails[0] : undefined;
+        this.set('primaryEmail', emails.length ? emails[0] : undefined);
     }),
 
     saveSettings: task(function *(this: SecurityPane) {
@@ -72,6 +72,7 @@ export default class SecurityPane extends Component.extend({
     init() {
         super.init();
         this.loadSettings.perform();
+        this.loadPrimaryEmail.perform();
     }
 
     hideDialogs() {
@@ -81,7 +82,7 @@ export default class SecurityPane extends Component.extend({
         });
     }
 
-    @computed('this.primaryEmail')
+    @computed('primaryEmail')
     get keyUri() {
         if (this.primaryEmail && this.settings) {
             const keyUri = `otpauth://totp/OSF:${this.primaryEmail.emailAddress}?secret=${this.settings.secret}`;
@@ -94,7 +95,6 @@ export default class SecurityPane extends Component.extend({
     enableTwoFactor() {
         this.set('showError', false);
         this.set('showEnableWarning', true);
-        this.loadPrimaryEmail.perform();
     }
 
     @action
