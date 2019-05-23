@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `meetings-list`
         - `meetings-hero-banner`
         - `meetings-footer`
+        - `connected-identities`
     - Unit:
         - `leaf-vals` utility
 - Mirage:
