@@ -3,6 +3,7 @@ import config from 'ember-get-config';
 
 import { getCitation } from './views/citation';
 import { getProviderTaxonomies } from './views/collection-provider-taxonomies';
+import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
@@ -11,7 +12,6 @@ import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
-import { searchCollections } from './views/collection-search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';

@@ -67,7 +67,7 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 function collectionScenario(server: Server) {
     const primaryCollection = server.create('collection');
     const node = server.create('node');
-    const nodeGuid = server.create('guid', { id:node.id })
+    const nodeGuid = server.create('guid', { id: node.id });
     server.create('collected-metadatum', { guid: nodeGuid, collection: primaryCollection } );
     const taxonomies = server.schema.taxonomies.all<Taxonomy>().models;
     server.create('collection-provider', { id: 'studyswap', primaryCollection, taxonomies});

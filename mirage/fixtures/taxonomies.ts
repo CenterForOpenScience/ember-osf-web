@@ -1,4 +1,4 @@
-import Taxnonomy from 'ember-osf-web/models/taxonomy'
+import Taxnonomy from 'ember-osf-web/models/taxonomy';
 
 const taxonomies: Array<Partial<Taxnonomy>> = [
     {
@@ -31,6 +31,6 @@ const taxonomies: Array<Partial<Taxnonomy>> = [
         },
         shareTitle: 'bepress',
     },
-]
+];
 
 export default taxonomies;
