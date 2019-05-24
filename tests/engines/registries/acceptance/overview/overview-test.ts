@@ -1,10 +1,14 @@
+import { capitalize } from '@ember/string';
+import { click as untrackedClick } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
+import { selectChoose } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
+import { NodeCategory } from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import { click, visit } from 'ember-osf-web/tests/helpers';
@@ -248,5 +252,33 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assertHeadMetaTags(assert, 'tags', reg.tags);
         assertHeadMetaTags(assert, 'contributors', reg.contributors.models.mapBy('users.fullName'));
         assertHeadMetaTags(assert, 'affiliatedInstitutions', affiliatedInstitutions.mapBy('name'), true);
+    });
+
+    test('editable registration category', async assert => {
+        const reg = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            category: NodeCategory.Project,
+        });
+
+        await visit(`/${reg.id}/`);
+
+        await click('[data-test-edit-button="category"]');
+        assert.dom('[data-test-select-category] div[class~="ember-power-select-trigger"]')
+            .hasText(capitalize(reg.category));
+
+        await untrackedClick('[data-test-select-category] div[class~="ember-power-select-trigger"]');
+        assert.dom('.ember-power-select-option').exists({ count: Object.values(NodeCategory).length - 1 });
+
+        await selectChoose('[data-test-select-category]', capitalize(NodeCategory.Instrumentation));
+        await click('[data-test-save-edits]');
+
+        reg.reload();
+        assert.equal(reg.category, NodeCategory.Instrumentation);
+
+        // Non-admin cannot edit
+        reg.update({ currentUserPermissions: [Permission.Read, Permission.Write] });
+
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="category"]').doesNotExist();
     });
 });

@@ -6,16 +6,9 @@ import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import { TagsManager } from 'osf-components/components/editable-field/tags-manager/component';
 import styles from './styles';
 import template from './template';
-
-interface TagsManager {
-    tags: string[];
-    removeTag: (index: number) => void;
-    addTag: (tag: string) => void;
-    clickTag: (tag: string) => void;
-    readOnly: boolean;
-}
 
 @layout(template, styles)
 export default class RegistriesTagsWidget extends Component.extend({ styles }) {

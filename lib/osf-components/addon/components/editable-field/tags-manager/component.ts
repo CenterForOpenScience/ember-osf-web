@@ -10,12 +10,24 @@ import Registration from 'ember-osf-web/models/registration';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import template from './template';
 
-const { OSF: { url: baseUrl } } = config;
+export interface TagsManager {
+    tags: string[];
+    removeTag: (index: number) => void;
+    addTag: (tag: string) => void;
+    clickTag: (tag: string) => void;
+    readOnly: boolean;
+}
+
+const {
+    OSF: {
+        url: baseUrl,
+    },
+} = config;
 
 @tagName('')
 @layout(template)
-export default class TagsManager extends Component.extend({
-    save: task(function *(this: TagsManager) {
+export default class TagsManagerComponent extends Component.extend({
+    save: task(function *(this: TagsManagerComponent) {
         this.registration.set('tags', [...this.currentTags]);
         yield this.registration.save();
         this.set('requestedEditMode', false);

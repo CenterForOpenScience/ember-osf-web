@@ -13,10 +13,17 @@ import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import template from './template';
 
+export interface InstitutionsManager {
+    reloadList?: (page?: number) => void;
+    addInstitution: (institution: Institution) => void;
+    removeInstitution: (institution: Institution) => void;
+    affiliatedList: Institution[];
+}
+
 @tagName('')
 @layout(template)
-export default class InstitutionsManager extends Component.extend({
-    loadNodeAffiliatedInstitutions: task(function *(this: InstitutionsManager) {
+export default class InstitutionsManagerComponent extends Component.extend({
+    loadNodeAffiliatedInstitutions: task(function *(this: InstitutionsManagerComponent) {
         if (!this.node) {
             return undefined;
         }
@@ -36,7 +43,7 @@ export default class InstitutionsManager extends Component.extend({
             return false;
         }
     }).on('didReceiveAttrs').restartable(),
-    submitChanges: task(function *(this: InstitutionsManager) {
+    save: task(function *(this: InstitutionsManagerComponent) {
         yield this.node.updateM2MRelationship('affiliatedInstitutions', this.affiliatedList);
         this.setProperties({
             currentAffiliatedList: [...this.affiliatedList],

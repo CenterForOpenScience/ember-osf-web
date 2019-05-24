@@ -60,14 +60,22 @@
         </div>
     </div>
 
-    {{#if this.registration.category}}
-        <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.category'}}</h4>
-            <div data-test-registries-metadata='category'>
-                {{t (concat 'node_categories.' this.registration.category)}}
-            </div>
-        </div>
-    {{/if}}
+    <div local-class='Field'>
+        <EditableField
+            data-analytics-scope='Category'
+            @managerComponent={{component 'editable-field/category-manager' node=this.registration}}
+            @title={{t 'registries.registration_metadata.category'}}
+            @name='category'
+            as |field|
+        >
+            <field.edit>
+                <NodeCategoryPicker @manager={{field.manager}} />
+            </field.edit>
+            <field.display>
+                <NodeCategory @category={{field.manager.category}} />
+            </field.display>
+        </EditableField>
+    </div>
 
     {{#if @extendedFields}}
         <div local-class='Field'>
