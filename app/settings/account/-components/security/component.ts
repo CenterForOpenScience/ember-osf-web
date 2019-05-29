@@ -23,7 +23,7 @@ export default class SecurityPane extends Component.extend({
         if (!user) {
             return;
         }
-        this.settings = yield user.belongsTo('settings').reload();
+        this.set('settings', yield user.belongsTo('settings').reload());
     }),
 
     loadPrimaryEmail: task(function *(this: SecurityPane) {
@@ -82,7 +82,7 @@ export default class SecurityPane extends Component.extend({
         });
     }
 
-    @computed('primaryEmail')
+    @computed('primaryEmail', 'settings')
     get keyUri() {
         if (this.primaryEmail && this.settings) {
             const keyUri = `otpauth://totp/OSF:${this.primaryEmail.emailAddress}?secret=${this.settings.secret}`;
