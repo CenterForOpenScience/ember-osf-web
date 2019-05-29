@@ -138,17 +138,25 @@
         </div>
 
         <div local-class='Field'>
-            <EditableField
-                data-analytics-scope='License'
-                @registration={{this.registration}}
-                @title={{t 'registries.registration_metadata.license'}}
-            as |editable|>
-                <RegistriesLicensePicker
-                    data-analytics-scope='Registries overview'
-                    @registration={{this.registration}}
-                    @editMode={{editable.showEditable}}
-                />
-            </EditableField>
+            <div local-class='Field'>
+                <EditableField::LicenseManager @node={{this.registration}} as |licenseManager|>
+                    <EditableField
+                        data-analytics-scope='License'
+                        @manager={{licenseManager}}
+                        @title={{t 'registries.registration_metadata.license'}}
+                        @name='license'
+                        @hasCustomButtons={{true}}
+                        as |field|
+                    >
+                        <field.edit>
+                            <RegistriesLicensePicker @manager={{licenseManager}} />
+                        </field.edit>
+                        <field.display>
+                            <LicenseViewer @manager={{licenseManager}} />
+                        </field.display>
+                    </EditableField>
+                </EditableField::LicenseManager>
+            </div>
         </div>
 
         <div local-class='Field'>

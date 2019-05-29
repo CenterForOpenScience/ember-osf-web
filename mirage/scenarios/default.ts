@@ -56,7 +56,7 @@ function registrationScenario(
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         currentUserPermissions: Object.values(Permission),
-}, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
+    }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
