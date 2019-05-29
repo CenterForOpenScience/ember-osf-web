@@ -1,6 +1,4 @@
-import Taxnonomy from 'ember-osf-web/models/taxonomy';
-
-const taxonomies: Array<Partial<Taxnonomy>> = [
+const taxonomies = [
     {
         id: 'artsandhumanities',
         text: 'Arts and Humanities',

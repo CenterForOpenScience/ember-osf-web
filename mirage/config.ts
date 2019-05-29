@@ -136,6 +136,7 @@ export default function(this: Server) {
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
+    osfResource(this, 'collection', { path: '/collections' });
     this.get('/providers/collections/:parentID/taxonomies', getProviderTaxonomies);
     this.post('/search/collections/', searchCollections);
 

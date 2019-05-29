@@ -11,14 +11,14 @@ export default class CollectedMetadatumSerializer extends ApplicationSerializer<
             collection: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/providers/collections/${model.id}/`,
+                        href: `${apiUrl}/v2/collections/${model.collection.id}/`,
                     },
                 },
             },
             guid: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/guids/${model.id}/`,
+                        href: `${apiUrl}/v2/nodes/${model.id}/`,
                     },
                 },
             },

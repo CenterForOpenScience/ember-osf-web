@@ -1,9 +1,8 @@
 import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
-import Taxonomy from 'ember-osf-web/models/taxonomy';
 import { process } from './utils';
 
 export function getProviderTaxonomies(this: HandlerContext, schema: Schema, request: Request) {
-    const taxonomies = schema.taxonomies.all<Taxonomy>().models;
+    const taxonomies = schema.taxonomies.all().models;
     const parentTaxonomyId = request.queryParams['filter[parents]'];
     let matchingTaxonomies;
     if (parentTaxonomyId === 'null') {

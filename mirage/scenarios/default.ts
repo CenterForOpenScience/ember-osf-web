@@ -2,7 +2,6 @@ import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
-import Taxonomy from 'ember-osf-web/models/taxonomy';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
@@ -67,10 +66,9 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 function collectionScenario(server: Server) {
     const primaryCollection = server.create('collection');
     const node = server.create('node');
-    const nodeGuid = server.create('guid', { id: node.id });
-    server.create('collected-metadatum', { guid: nodeGuid, collection: primaryCollection } );
-    const taxonomies = server.schema.taxonomies.all<Taxonomy>().models;
-    server.create('collection-provider', { id: 'studyswap', primaryCollection, taxonomies});
+    server.create('collected-metadatum', { guid: node, collection: primaryCollection, subjects: [[{ text : 'Education', id: '123' }]] });
+    const taxonomies = server.schema.taxonomies.all().models;
+    server.create('collection-provider', { id: 'studyswap', primaryCollection, taxonomies });
 }
 
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {

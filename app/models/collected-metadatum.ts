@@ -7,7 +7,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import tuple from 'ember-osf-web/utils/tuple';
 
 import Collection, { ChoicesFields } from './collection';
-import Guid from './guid';
+import Node from './node';
 import OsfModel from './osf-model';
 import { SubjectRef } from './taxonomy';
 import User from './user';
@@ -67,7 +67,7 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
     @attr('string') volume?: string;
 
     @belongsTo('collection') collection!: Collection;
-    @belongsTo('guid') guid!: Guid;
+    @belongsTo('node') guid!: Node;
     @belongsTo('user') creator!: User;
 
     @computed('subjects')
