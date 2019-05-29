@@ -59,7 +59,7 @@ export default class CommentCard extends Component.extend({
 
         this.toast.success(this.i18n.t('registries.overview.comments.retract_report.success'));
     }),
-    loadReplies: task(function *(this: CommentCard, more = false) {
+    loadReplies: task(function *(this: CommentCard, more: boolean = false) {
         if (!more) {
             const replies = yield this.comment.replies;
             if (!this.replies) {

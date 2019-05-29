@@ -9,6 +9,7 @@ const sessionStub = Service.extend({
 });
 const storeStub = Service.extend();
 const themeStub = Service.extend();
+const headTagsStub = Service.extend();
 
 module('Unit | Route | collections/provider/submit', hooks => {
     setupEngineTest(hooks, 'collections');
@@ -18,6 +19,7 @@ module('Unit | Route | collections/provider/submit', hooks => {
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:store', storeStub);
         this.owner.register('service:theme', themeStub);
+        this.owner.register('service:head-tags', headTagsStub);
     });
 
     test('it exists', function(assert) {

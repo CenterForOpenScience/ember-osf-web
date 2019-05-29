@@ -44,7 +44,7 @@ export default class UserQuickfiles extends Controller {
         }
     });
 
-    flash = task(function *(item: File, message: string, type = 'success', duration = 2000) {
+    flash = task(function *(item: File, message: string, type: string = 'success', duration: number = 2000) {
         item.set('flash', { message, type });
         yield timeout(duration);
         item.set('flash', null);
