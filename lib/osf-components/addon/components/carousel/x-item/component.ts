@@ -17,6 +17,7 @@ export default class CarouselItem extends Component {
 
     // Private params
     index: number = 0;
+    slideIndex: number = 0;
 
     didInsertElement(this: CarouselItem, ...args: any[]) {
         this._super(...args);
@@ -24,6 +25,7 @@ export default class CarouselItem extends Component {
 
         const allItems = this.get('allItems');
         this.set('index', allItems.indexOf(this));
+        this.set('slideIndex', allItems.indexOf(this) + 1);
     }
 
     @computed('allItems.@each')

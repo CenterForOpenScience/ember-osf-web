@@ -43,4 +43,19 @@ export default class Carousel extends Component {
             isActive: true,
         });
     }
+
+    @action
+    navClick(item: any) {
+        const activeSlide = this.get('carouselItems').findBy('isActive');
+        const activeIndex = activeSlide.index;
+        const newIndex = item.index;
+
+        this.get('carouselItems')[activeIndex].setProperties({
+            isActive: false,
+        });
+
+        this.get('carouselItems')[newIndex].setProperties({
+            isActive: true,
+        });
+    }
 }

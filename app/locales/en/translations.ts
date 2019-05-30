@@ -1493,17 +1493,24 @@ export default {
                 alt: 'Patricia Ayala testimonial',
                 description: {
                     name: 'Patricia Ayala',
-                    position: 'Research Services Librarian',
-                    location: 'University of Toronto',
+                    position: 'Research Services Librarian<br>University of Toronto',
                 },
             },
             slide_2: {
-                text: 'OSF has been indispensable in helping me create fully reproducible research pipelines from preregistration through data collection, analysis, and writing. Its versatility makes it my one-stop shop for projects ranging from open-source methods and software papers to many-lab empirical papers with several dozen authors. And its Dropbox integration effortlessly transforms my existing local workflow into a public repository.',
+                text: 'OSF is indispensable in helping me create reproducible research pipelines from preregistration through data collection and analysis. Its versatility makes it my one-stop shop for projects. The Dropbox integration effortlessly transforms my existing local workflow to public repository.',
                 alt: 'Maya testimonial',
+                description: {
+                    name: 'Maya Mathur',
+                    position: 'Department of Epidemiology<br>Harvard University',
+                },
             },
             slide_3: {
                 text: 'Because SocArXiv is a not-for-profit organization, researchers can be assured that they are sharing their research in an environment where access, inclusivity, and preservation, rather than profit, will remain at the heart of the mission. A great benefit of partnering with OSF is that this application is a free public good.',
                 alt: 'Philip Cohen testimonial',
+                description: {
+                    name: 'Philip Cohen',
+                    position: 'SocArXiv papers',
+                },
             },
         },
     },

@@ -1,15 +1,22 @@
 <section local-class='carousel-container' aria-labelledby='carousel-heading'>
     {{yield (hash header=(component 'carousel/x-header'))}}
     <ol local-class='dot-nav' role='tablist'>
-        <li local-class='current' role='presentation'>
-            <a role='tab' aria-controls='carousel-content-1' tabindex='0' aria-selected='true'></a>
-        </li>
-        <li role='presentation'>
-            <a role='tab' aria-controls='carousel-content-2' tabindex='-1' aria-selected='false'></a>
-        </li>
-        <li role='presentation'>
-            <a role='tab' aria-controls='carousel-content-3' tabindex='-1' aria-selected='false'></a>
-        </li>
+        {{#each this.carouselItems as |item|}}
+            <li
+                role='presentation'
+                local-class={{if item.isActive 'current' ''}}
+                aria-controls={{concat 'carousel-content-' item.tabIndex}}
+                tabIndex={{if item.isActive '0' '-1'}}
+                aria-selected={{if item.isActive 'true' 'false'}}
+            >
+                <button type='button' local-class='navBtn' data-slide={{item.index}} {{action 'navClick' item}}>
+                    <span class='visuallyHidden'>{{item.slideIndex}}</span>
+                    {{#if item.isActive}}
+                        <span class='visuallyhidden'></span>
+                    {{/if}}
+                </button>
+            </li>
+        {{/each}}
     </ol>
     <ul data-test-carousel-list local-class='item-list'>
         {{yield (hash slide=(component 'carousel/x-item' register=(action this.register) allItems=this.carouselItems))}}
