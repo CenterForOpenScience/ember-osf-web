@@ -9,10 +9,11 @@
 </div>
 
 <ContentPlaceholders as |placeholder|>
-    <PaginatedList::All
+    <PaginatedList::HasMany
         data-test-submissions-list-list
         local-class='table'
-        @modelName='meeting-submission'
+        @relationshipName='submissions'
+        @modelTaskInstance={{this.model.taskInstance}}
         @query={{this.query}}
         as |list|
     >
@@ -71,5 +72,5 @@
         <list.empty data-test-submissions-list-empty local-class='empty'>
             {{t 'meetings.detail.meeting-submissions-list.noSubmissions'}}
         </list.empty>
-    </PaginatedList::All>
+    </PaginatedList::HasMany>
 </ContentPlaceholders>

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Models:
     - `meeting` - for OSF Meetings
     - `meeting-submission` - for OSF Meetings submissions
+    - `external-identity` - for connected identities
 - Adapters:
     - `meeting` - in private namespace
     - `meeting-submission` - in private namespace, with custom urlforQuery and buildUrl methods.

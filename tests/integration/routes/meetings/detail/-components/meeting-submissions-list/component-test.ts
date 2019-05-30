@@ -1,6 +1,7 @@
 import { click, render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest, skip } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
@@ -8,14 +9,19 @@ module('Integration | routes | meetings | index | -components | meeting-submissi
     setupRenderingTest(hooks);
     setupMirage(hooks);
 
-    test('it renders and paginates', async assert => {
+    hooks.beforeEach(function(this: TestContext) {
+        this.store = this.owner.lookup('service:store');
+    });
+
+    test('it renders and paginates', async function(assert) {
         server.create('meeting', {
             id: 'testmeeting',
             name: 'Test Meeting',
             submissions: server.createList('meeting-submission', 15),
         });
-
-        await render(hbs`<Meetings::Detail::-Components::MeetingSubmissionsList @meetingId='testmeeting' />`);
+        const model = { taskInstance: this.store.findRecord('meeting', 'testmeeting') };
+        this.set('model', model);
+        await render(hbs`<Meetings::Detail::-Components::MeetingSubmissionsList @model={{this.model}} />`);
 
         assert.dom('[data-test-submissions-list-header-title]')
             .exists({ count: 1 }, '1 title header');
@@ -73,9 +79,10 @@ module('Integration | routes | meetings | index | -components | meeting-submissi
                 }),
             ],
         });
-
+        const model = { taskInstance: this.store.findRecord('meeting', 'testmeeting') };
+        this.set('model', model);
         this.set('search', 'yellow');
-        await render(hbs`<Meetings::Detail::-Components::MeetingSubmissionsList @meetingId='testmeeting' />`);
+        await render(hbs`<Meetings::Detail::-Components::MeetingSubmissionsList @model={{this.model}} />`);
 
         assert.dom('[data-test-submissions-list-item-title]')
             .exists({ count: 3 }, '3 submissions');
@@ -87,7 +94,7 @@ module('Integration | routes | meetings | index | -components | meeting-submissi
             .hasText('yellow', 'submission category matches search term');
     });
 
-    test('it sorts', async assert => {
+    test('it sorts', async function(assert) {
         server.create('meeting', {
             id: 'testmeeting',
             name: 'Test Meeting',
@@ -116,7 +123,10 @@ module('Integration | routes | meetings | index | -components | meeting-submissi
             ],
         });
 
-        await render(hbs`<Meetings::Detail::-Components::MeetingSubmissionsList @meetingId='testmeeting' />`);
+        const model = { taskInstance: this.store.findRecord('meeting', 'testmeeting') };
+        this.set('model', model);
+
+        await render(hbs`<Meetings::Detail::-Components::MeetingSubmissionsList @model={{this.model}} />`);
 
         assert.dom('[data-test-submissions-list-item-title]')
             .exists({ count: 3 }, '3 submissions');
