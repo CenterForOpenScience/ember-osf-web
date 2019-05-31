@@ -53,7 +53,7 @@
                 <div data-test-submissions-list-item-author>{{submission.authorName}}</div>
                 <div data-test-submissions-list-item-category>{{submission.category}}</div>
                 <div data-test-submissions-list-item-date>
-                    {{moment-format submission.created 'MMM DD, YYYY'}}
+                    {{moment-format submission.created 'YYYY-MM-DD hh:mm A'}}
                 </div>
                 <div data-test-submissions-list-item-download>
                     <OsfButton @type='success' class='btn-xs' @onClick={{action this.downloadFile submission}}>
