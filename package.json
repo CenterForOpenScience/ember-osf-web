@@ -187,7 +187,7 @@
     "seedrandom": "^3.0.1",
     "sinon": "^7.3.2",
     "stylelint-config-css-modules": "^1.2.0",
-    "stylelint-config-sass-guidelines": "^5.0.0",
+    "stylelint-config-sass-guidelines": "^6.0.0",
     "toastr": "^2.1.4",
     "tslint": "^5.16.0",
     "tslint-consistent-codestyle": "^1.11.1",
