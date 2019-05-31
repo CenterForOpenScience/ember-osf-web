@@ -44,7 +44,7 @@ export default class CategoryManagerComponent extends Component.extend({
     selectedCategory!: NodeCategory;
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
-    @alias('node.category') category!: boolean;
+    @alias('node.category') category!: NodeCategory;
 
     didReceiveAttrs() {
         if (this.node) {

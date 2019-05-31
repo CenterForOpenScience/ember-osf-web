@@ -11,7 +11,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Identifier from 'ember-osf-web/models/identifier';
-import Node from 'ember-osf-web/models/node';
+import Registration, { RegistrationState } from 'ember-osf-web/models/registration';
 import template from './template';
 
 export interface DoiManager {
@@ -59,7 +59,7 @@ export default class DoiManagerComponent extends Component.extend({
     }),
 }) {
     // required
-    node!: Node;
+    node!: Registration;
     nodeDoi!: string;
 
     // private
@@ -73,9 +73,14 @@ export default class DoiManagerComponent extends Component.extend({
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
     @not('nodeDoi') fieldIsEmpty!: boolean;
 
-    @computed('fieldIsEmpty', 'userCanEdit')
+    @computed('userCanEdit', 'node.state', 'nodeDoi')
+    get userCanMintDoi() {
+        return !this.nodeDoi && this.userCanEdit && this.node.state === RegistrationState.Public;
+    }
+
+    @computed('fieldIsEmpty', 'userCanMintDoi')
     get shouldShowField() {
-        return this.userCanEdit || !this.fieldIsEmpty;
+        return this.userCanMintDoi || !this.fieldIsEmpty;
     }
 
     @computed('nodeDoi')

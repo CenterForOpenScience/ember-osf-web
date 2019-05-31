@@ -329,6 +329,14 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-registration-doi]').isVisible();
         reg.reload();
         assert.ok(Boolean(reg.identifierIds.length), 'Registration doi successfully minted');
-        assert.dom('[data-test-edit-button="doi"]').isNotVisible('Registration doi can only be minted once');
+        assert.dom('[data-test-edit-button="doi"]').isNotVisible('A registration doi can only be minted once');
+
+        const nonPublicReg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: Object.values(Permission),
+        }, 'isEmbargoed');
+
+        await visit(`/${nonPublicReg.id}/`);
+        assert.dom('[data-test-editable-field="doi"]').doesNotExist('DOIs are only available for public registrations');
     });
 });

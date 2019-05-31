@@ -1,16 +1,7 @@
-{{#if @manager.inEditMode}}
-    <div local-class='CreateMessage'>
-        <FaIcon @icon='info-circle' @size='4' @fixedWidth={{true}} />
-        <p>
-            {{t 'registries.registration_metadata.doi_create'}}
-        </p>
-    </div>
-{{else}}
-    <OsfLink
-        data-analytics-name='Registration DOI'
-        data-test-registration-doi
-        @href={{@manager.nodeDoiUrl}}
-    >
-        {{@manager.nodeDoi}}
-    </OsfLink>
-{{/if}}
+<OsfLink
+    data-analytics-name='Registration DOI'
+    data-test-registration-doi
+    @href={{@manager.nodeDoiUrl}}
+>
+    {{@manager.nodeDoi}}
+</OsfLink>

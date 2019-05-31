@@ -1110,9 +1110,10 @@ export default {
             save_description_error: 'Unable to save description',
             add_description: 'Add description',
             create_doi: 'Create DOI',
-            create_doi_failed: 'Unable to mint registration doi',
+            create_doi_failed: 'Unable to mint registration DOI',
             edit_field: 'Edit {{field}}',
-            doi_create: 'A DOI (Digital Object Identifier) is persistent and will always resolve to this registration. DOIs are available for public registrations.',
+            create_doi_header: 'Are you sure you want to create a DOI for this registration?',
+            create_doi_text: 'A DOI is persistent and will always resolve to this page.',
             no_doi: 'No DOI assigned',
             save_category: {
                 error: 'Unable to save category',
