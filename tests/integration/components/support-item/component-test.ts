@@ -25,8 +25,8 @@ module('Integration | Component | support-item', hooks => {
         assert.dom('[data-test-icon-image]').hasAttribute('alt', 'search');
         assert.dom('[data-test-support-header]')
             .containsText(t('new-home.support-section.search.header').toString());
-        assert.dom('[data-test-support-subheader]')
-            .containsText(t('new-home.support-section.search.subHeader').toString());
+        assert.dom('[data-test-support-description]')
+            .containsText(t('new-home.support-section.search.description').toString());
 
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');
