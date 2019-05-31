@@ -8,7 +8,7 @@
 
 {{#if this.meeting.logoUrl}}
     <div>
-        <img 
+        <img
             data-test-meeting-logo
             src={{this.meeting.logoUrl}}
             alt={{t 'meetings.detail.meeting-detail-header.image_alt'}}
@@ -31,8 +31,8 @@
 
 {{#if this.meeting.infoUrl}}
     <OsfLink data-test-meeting-info-url @href={{this.meeting.infoUrl}}>
-        {{if this.meeting.fieldNames.homepage_link_text 
-            this.meeting.fieldNames.homepage_link_text 
+        {{if this.meeting.fieldNames.homepage_link_text
+            this.meeting.fieldNames.homepage_link_text
             (t 'meetings.detail.meeting-detail-header.conference_homepage')
         }}
     </OsfLink>
@@ -48,31 +48,46 @@
         </p>
         <ul data-test-meeting-email-address-line>
             {{#if this.meeting.isAcceptingTypeOne}}
-                <li>{{t 'meetings.detail.meeting-detail-header.email_text' 
-                        typeName=this.meeting.fieldNames.submission1_plural 
+                <li>
+                    {{t 'meetings.detail.meeting-detail-header.email_text'
+                        typeName=this.meeting.fieldNames.submission1_plural
                         emailAddress=this.meeting.typeOneSubmissionEmail
                     }}
                 </li>
             {{/if}}
-            
+
             {{#if this.meeting.isAcceptingTypeTwo}}
                 <li>
-                    {{t 'meetings.detail.meeting-detail-header.email_text' 
-                        typeName=this.meeting.fieldNames.submission2_plural 
+                    {{t 'meetings.detail.meeting-detail-header.email_text'
+                        typeName=this.meeting.fieldNames.submission2_plural
                         emailAddress=this.meeting.typeTwoSubmissionEmail
                     }}
                 </li>
             {{/if}}
         </ul>
-        <p data-test-meeting-format-header>{{t 'meetings.detail.meeting-detail-header.format_header'}}</p>
+        <p data-test-meeting-format-header>
+            {{t 'meetings.detail.meeting-detail-header.format_header'}}
+        </p>
         <div data-test-meeting-format-body>
             <dl local-class='meeting-format-body'>
-                <dt>{{t 'meetings.detail.meeting-detail-header.subject'}}</dt>
-                <dd>{{this.meeting.fieldNames.mail_subject}}</dd>
-                <dt>{{t 'meetings.detail.meeting-detail-header.message_body'}}</dt>
-                <dd>{{this.meeting.fieldNames.mail_message_body}}</dd>
-                <dt>{{t 'meetings.detail.meeting-detail-header.attachment'}}</dt>
-                <dd>{{this.meeting.fieldNames.mail_attachment}}</dd>
+                <dt>
+                    {{t 'meetings.detail.meeting-detail-header.subject'}}
+                </dt>
+                <dd>
+                    {{this.meeting.fieldNames.mail_subject}}
+                </dd>
+                <dt>
+                    {{t 'meetings.detail.meeting-detail-header.message_body'}}
+                </dt>
+                <dd>
+                    {{this.meeting.fieldNames.mail_message_body}}
+                </dd>
+                <dt>
+                    {{t 'meetings.detail.meeting-detail-header.attachment'}}
+                </dt>
+                <dd>
+                    {{this.meeting.fieldNames.mail_attachment}}
+                </dd>
             </dl>
         </div>
         <p data-test-meeting-panel-footer-note>
