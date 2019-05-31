@@ -8013,7 +8013,17 @@ ember-sinon-qunit@^3.1.0:
     ember-cli-babel "^7.1.2"
     ember-sinon "~3.1.0"
 
-ember-sinon@^3.1.0, ember-sinon@~3.1.0:
+ember-sinon@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ember-sinon/-/ember-sinon-4.0.0.tgz#bb9bc43b68cc4500457261606a47c7b6ef8c30a3"
+  integrity sha512-SF6+ak/8yTyD2R8ylz9HYzoziiJCCB6bh/QG/ly4aqAf9eXL+ldQE91IljzEDh6B8feMUpUCGGajbrs9svwhQA==
+  dependencies:
+    broccoli-funnel "^2.0.0"
+    broccoli-merge-trees "^3.0.0"
+    ember-cli-babel "^7.7.3"
+    sinon "^7.3.2"
+
+ember-sinon@~3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/ember-sinon/-/ember-sinon-3.1.0.tgz#76733aae1cc32c9426202bdc0f5b61552753a7df"
   integrity sha512-/UARfA4UBlhhmtvk6Vcvj3CH2foThqCORbXiUiQUBISNxqtZFdwGpnJMt4vY8etyArmop18B33UTmZzNKbfhmg==
