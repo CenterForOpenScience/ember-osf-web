@@ -48,7 +48,9 @@
         <list.item local-class='item' as |submission|>
             {{#if submission}}
                 <div data-test-submissions-list-item-title>
-                    <a href={{submission.links.html}}>{{submission.title}}</a>
+                    <OsfLink @href={{submission.links.html}}>
+                        {{submission.title}}
+                    </OsfLink>
                 </div>
                 <div data-test-submissions-list-item-author>
                     {{submission.authorName}}
