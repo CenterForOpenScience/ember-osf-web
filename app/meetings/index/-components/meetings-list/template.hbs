@@ -46,7 +46,11 @@
         </list.header>
         <list.item local-class='item' as |meeting|>
             {{#if meeting}}
-                <div data-test-meetings-list-item-name>{{meeting.name}}</div>
+                <div data-test-meetings-list-item-name>
+                    <OsfLink @route='meetings.detail' @models={{array meeting.id}}>
+                        {{meeting.name}}
+                    </OsfLink>
+                </div>
                 <div data-test-meetings-list-item-submissions>{{meeting.submissionsCount}}</div>
                 <div data-test-meetings-list-item-location>{{meeting.location}}</div>
                 <div data-test-meetings-list-item-date>

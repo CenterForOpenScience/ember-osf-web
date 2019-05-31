@@ -1,12 +1,18 @@
 import { click, render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+import { OsfLinkRouterStub } from '../../../../../helpers/osf-link-router-stub';
 
 module('Integration | routes | meetings | index | -components | meetings-list', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+
+    hooks.beforeEach(function(this: TestContext) {
+        this.owner.register('service:router', OsfLinkRouterStub);
+    });
 
     test('it renders and paginates', async assert => {
         server.createList('meeting', 11);
