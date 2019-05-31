@@ -25,16 +25,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
-    - `new-home/-components/hero-banner` - a banner to be used on the logged-out homepage.
+    - `new-home`
+        - `hero-banner` - a banner to be used on the logged-out homepage.
+        - `support-section`
+            - `support-item` - an item on the support-section component
+            - `learn-more-button` - a button that goes to the cos.io learn more page
     - `meetings/index/components/meetings-list` - meetings list for the meetings index page
     - `paginated-list/x-header` - a paginated list header closure component
     - `meetings/index/components/meetings-hero-banner` - meetings landing page hero banner
     - `meetings/index/components/meetings-footer` - meetings landing page footer
     - `meetings/detail/components/meeting-submissions-list` - meeting submissions list
     - `settings/account/-components/connected-identities` - connected identities component
-    - `support-section` - container for the support section on the logged out homepage
-    - `support-item` - an item on the support-section component
-    - `learn-more-button` - a button that goes to the cos.io learn more page
 - Utilities:
     - `leaf-vals` - get values of all leaves in an object tree
 - Tests:
