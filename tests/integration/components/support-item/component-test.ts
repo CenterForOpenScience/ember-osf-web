@@ -12,20 +12,21 @@ module('Integration | Component | support-item', hooks => {
     test('it renders', async function(assert) {
         this.set('icon', 'search');
         this.set('header', 'Search and Discover');
-        this.set('subHeader', 'Find papers, data, and materials to inspire your next research project. ' +
+        this.set('description', 'Find papers, data, and materials to inspire your next research project. ' +
         'Search public projects to build on the work of others and find new collaborators.');
+
         await render(hbs`
-            <SupportItem
+            <NewHome::-Components::SupportSection::SupportItem
                 @icon={{this.icon}}
                 @header={{this.header}}
-                @subHeader={{this.subHeader}}
+                @description={{this.description}}
             />`);
         assert.dom('[data-test-icon-image]').exists();
         assert.dom('[data-test-icon-image]').hasAttribute('alt', 'search');
         assert.dom('[data-test-support-header]')
-            .containsText(t('osf-components.support-section.search.header').toString());
+            .containsText(t('new-home.support-section.search.header').toString());
         assert.dom('[data-test-support-subheader]')
-            .containsText(t('osf-components.support-section.search.subHeader').toString());
+            .containsText(t('new-home.support-section.search.subHeader').toString());
 
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');

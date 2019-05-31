@@ -1,65 +1,68 @@
 <div local-class='container'>
     <header>
         <h1 data-test-support-heading>
-            {{t 'osf-components.support-section.header'}}
+            {{t 'new-home.support-section.header'}}
         </h1>
     </header>
     <div local-class='flex-container'>
         <div local-class='flex-row'>
             <div>
-                <SupportItem
+                <NewHome::-Components::SupportSection::SupportItem
                     data-test-support-search
                     local-class='supportItem'
                     @icon='search'
-                    @header={{t 'osf-components.support-section.search.header'}}
-                    @subHeader={{t 'osf-components.support-section.search.subHeader'}}
+                    @header={{t 'new-home.support-section.search.header'}}
+                    @description={{t 'new-home.support-section.search.description'}}
                 />
                 <img
                     data-test-arrow
                     local-class='arrowImage'
                     src='/assets/images/dashboard/arrow.svg'
-                    alt={{t 'osf-components.support-section.arrow'}}
+                    alt={{t 'new-home.support-section.arrow'}}
                 >
             </div>
             <div>
-                <SupportItem
+                <NewHome::-Components::SupportSection::SupportItem
                     data-test-support-design
                     local-class='supportItem'
                     @icon='pencil-alt'
-                    @header={{t 'osf-components.support-section.design.header'}}
-                    @subHeader={{t 'osf-components.support-section.design.subHeader'}}
+                    @header={{t 'new-home.support-section.design.header'}}
+                    @description={{t 'new-home.support-section.design.description'}}
                 />
                 <img
                     data-test-arrow
                     local-class='arrowImage'
                     src='/assets/images/dashboard/arrow.svg'
-                    alt={{t 'osf-components.support-section.arrow'}}
+                    alt={{t 'new-home.support-section.arrow'}}
                 >
             </div>
         </div>
         <div local-class='flex-row'>
             <div>
-                <SupportItem
+                <NewHome::-Components::SupportSection::SupportItem
                     data-test-support-analyze
                     local-class='supportItem'
                     @icon='chart-area'
-                    @header={{t 'osf-components.support-section.analyze.header'}}
-                    @subHeader={{t 'osf-components.support-section.analyze.subHeader'}}
+                    @header={{t 'new-home.support-section.analyze.header'}}
+                    @description={{t 'new-home.support-section.analyze.description'}}
                 />
                 <img
                     data-test-arrow
                     local-class='arrowImage'
                     src='/assets/images/dashboard/arrow.svg'
-                    alt={{t 'osf-components.support-section.arrow'}}
+                    alt={{t 'new-home.support-section.arrow'}}
                 >
             </div>
-            <SupportItem
+            <NewHome::-Components::SupportSection::SupportItem
                 data-test-support-publish
                 @icon='file-alt'
-                @header={{t 'osf-components.support-section.publish.header'}}
-                @subHeader={{t 'osf-components.support-section.publish.subHeader'}}
+                @header={{t 'new-home.support-section.publish.header'}}
+                @description={{t 'new-home.support-section.publish.description'}}
             />
         </div>
     </div>
-    <LearnMoreButton data-test-learn-more-button local-class='learnMoreButton' />
+    <NewHome::-Components::SupportSection::LearnMoreButton
+        data-test-learn-more-button
+        local-class='learnMoreButton'
+    />
 </div>

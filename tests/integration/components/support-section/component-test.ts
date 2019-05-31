@@ -13,7 +13,7 @@ module('Integration | Component | support-section', hooks => {
         await render(hbs`<NewHome::-Components::SupportSection />`);
 
         assert.dom('[data-test-support-heading]')
-            .containsText(t('osf-components.support-section.header').toString());
+            .containsText(t('new-home.support-section.header').toString());
         assert.dom('[data-test-support-search]').exists();
         assert.dom('[data-test-support-design]').exists();
         assert.dom('[data-test-support-analyze]').exists();

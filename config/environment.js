@@ -157,6 +157,7 @@ module.exports = function(environment) {
             apiHeaders: {
                 ACCEPT: `application/vnd.api+json; version=${apiVersion}`,
             },
+            learnMore: 'https://cos.io/our-products/osf/',
             renderUrl,
             waterbutlerUrl,
             helpUrl,

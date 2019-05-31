@@ -1,4 +1,4 @@
-.learnMoreButton:global(.btn) {
+.learnMoreButton {
     width: 250px;
     height: 60px;
     font-size: 20px;
@@ -9,7 +9,7 @@
 }
 
 @media(max-width: 768px) {
-    .learnMoreButton:global(.btn) {
+    .learnMoreButton {
         width: 164px;
         height: 40px;
         font-size: 18px;

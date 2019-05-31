@@ -76,6 +76,7 @@ declare const config: {
         apiUrl: string;
         apiVersion: string;
         apiHeaders: { [k: string]: string };
+        learnMore: string;
         renderUrl: string;
         waterbutlerUrl: string;
         helpUrl: string;
