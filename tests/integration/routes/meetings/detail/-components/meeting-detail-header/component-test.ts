@@ -95,7 +95,9 @@ module('Integration | routes | meetings | index | -components | meeting-detail-h
         await render(hbs`<Meetings::Detail::-Components::MeetingDetailHeader @meeting={{this.meeting}} />`);
         assert.dom('[data-test-meeting-name]').hasText(meeting.name);
         assert.dom('[data-test-meeting-logo]').hasAttribute('src', meeting.logoUrl);
-        assert.dom('[data-test-meeting-toggle-panel-button]').hasText(`Add your ${meeting.fieldNames.submission1}`);
+        assert.dom('[data-test-meeting-toggle-panel-button]').hasText(
+            `Add your ${meeting.fieldNames.submission1_plural}`,
+        );
         assert.dom('[data-test-meeting-info-url]').hasText(meeting.fieldNames.homepage_link_text);
         assert.dom('[data-test-meeting-info-url]').hasAttribute('href', meeting.infoUrl);
         assert.dom('[data-test-meeting-panel-header]').doesNotExist();
@@ -144,7 +146,9 @@ module('Integration | routes | meetings | index | -components | meeting-detail-h
         await render(hbs`<Meetings::Detail::-Components::MeetingDetailHeader @meeting={{this.meeting}} />`);
         assert.dom('[data-test-meeting-name]').hasText(meeting.name);
         assert.dom('[data-test-meeting-logo]').hasAttribute('src', meeting.logoUrl);
-        assert.dom('[data-test-meeting-toggle-panel-button]').hasText(`Add your ${meeting.fieldNames.submission2}`);
+        assert.dom('[data-test-meeting-toggle-panel-button]').hasText(
+            `Add your ${meeting.fieldNames.submission2_plural}`,
+        );
         assert.dom('[data-test-meeting-info-url]').hasText(meeting.fieldNames.homepage_link_text);
         assert.dom('[data-test-meeting-info-url]').hasAttribute('href', meeting.infoUrl);
         assert.dom('[data-test-meeting-panel-header]').doesNotExist();
