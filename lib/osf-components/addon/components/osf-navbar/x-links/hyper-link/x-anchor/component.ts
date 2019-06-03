@@ -6,7 +6,7 @@ import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import { addQueryParam } from 'ember-osf-web/utils/param';
+import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 import template from './template';
 
 const {

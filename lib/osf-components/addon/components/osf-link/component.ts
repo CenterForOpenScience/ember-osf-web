@@ -9,7 +9,7 @@ import config from 'ember-get-config';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import { addQueryParam } from 'ember-osf-web/utils/param';
+import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 
 import template from './template';
 
