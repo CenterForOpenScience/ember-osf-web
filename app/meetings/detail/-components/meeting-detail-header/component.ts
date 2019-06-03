@@ -5,11 +5,11 @@ import I18N from 'ember-i18n/services/i18n';
 import MeetingModel from 'ember-osf-web/models/meeting';
 
 export default class MeetingDetailHeader extends Component {
-    @service i18n!: I18N;
-
-    // Required param
+    // Required parameters
     meeting!: MeetingModel;
-    // Private property
+
+    // Private properties
+    @service i18n!: I18N;
     isPanelOpen = false;
 
     @computed('meeting.{fieldNames,isAcceptingTypeOne,isAcceptingTypeTwo}')

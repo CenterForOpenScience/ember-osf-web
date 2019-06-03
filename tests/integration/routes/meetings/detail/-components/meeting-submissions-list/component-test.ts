@@ -5,7 +5,7 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-module('Integration | routes | meetings | index | -components | meeting-submissions-list', hooks => {
+module('Integration | routes | meetings | detail | -components | meeting-submissions-list', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
 

@@ -6,7 +6,7 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-module('Integration | routes | meetings | index | -components | meeting-detail-header', hooks => {
+module('Integration | routes | meetings | detail | -components | meeting-detail-header', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
 
@@ -18,28 +18,8 @@ module('Integration | routes | meetings | index | -components | meeting-detail-h
         server.create('meeting', {
             id: 'testmeeting',
             name: 'Test Meeting',
-            location: 'Guangzhou, Guangdong, CHINA',
-            startDate: new Date(2017, 1, 1),
-            endDate: new Date(2018, 1, 1),
             isAcceptingTypeOne: true,
             isAcceptingTypeTwo: true,
-            typeOneSubmissionEmail: 'typeonefake@cos.io',
-            typeTwoSubmissionEmail: 'typetwofake@cos.io',
-            active: true,
-            logoUrl: 'fakelogourl.com',
-            infoUrl: 'inforurl.com',
-            fieldNames: {
-                mail_message_body: 'mail message body',
-                add_submission: 'A\'s and B\'s',
-                submission1_plural: 'essays',
-                meeting_title_type: 'nvm',
-                mail_subject: 'mail subject',
-                submission2_plural: 'theses',
-                mail_attachment: 'mail attachment',
-                submission2: 'song',
-                submission1: 'music',
-                homepage_link_text: 'homepagelinktext',
-            },
         });
         const meeting = await this.store.findRecord('meeting', 'testmeeting');
         this.set('meeting', meeting);
@@ -67,28 +47,8 @@ module('Integration | routes | meetings | index | -components | meeting-detail-h
         server.create('meeting', {
             id: 'testmeeting',
             name: 'Test Meeting',
-            location: 'Guangzhou, Guangdong, CHINA',
-            startDate: new Date(2017, 1, 1),
-            endDate: new Date(2018, 1, 1),
             isAcceptingTypeOne: true,
             isAcceptingTypeTwo: false,
-            typeOneSubmissionEmail: 'typeonefake@cos.io',
-            typeTwoSubmissionEmail: 'typetwofake@cos.io',
-            active: true,
-            logoUrl: 'fakelogourl.com',
-            infoUrl: 'inforurl.com',
-            fieldNames: {
-                mail_message_body: 'mail message body',
-                add_submission: 'A\'s and B\'s',
-                submission1_plural: 'essays',
-                meeting_title_type: 'nvm',
-                mail_subject: 'mail subject',
-                submission2_plural: 'theses',
-                mail_attachment: 'mail attachment',
-                submission2: 'song',
-                submission1: 'music',
-                homepage_link_text: 'homepagelinktext',
-            },
         });
         const meeting = await this.store.findRecord('meeting', 'testmeeting');
         this.set('meeting', meeting);
@@ -118,28 +78,8 @@ module('Integration | routes | meetings | index | -components | meeting-detail-h
         server.create('meeting', {
             id: 'testmeeting',
             name: 'Test Meeting',
-            location: 'Guangzhou, Guangdong, CHINA',
-            startDate: new Date(2017, 1, 1),
-            endDate: new Date(2018, 1, 1),
             isAcceptingTypeOne: false,
             isAcceptingTypeTwo: true,
-            typeOneSubmissionEmail: 'typeonefake@cos.io',
-            typeTwoSubmissionEmail: 'typetwofake@cos.io',
-            active: true,
-            logoUrl: 'fakelogourl.com',
-            infoUrl: 'inforurl.com',
-            fieldNames: {
-                mail_message_body: 'mail message body',
-                add_submission: 'A\'s and B\'s',
-                submission1_plural: 'essays',
-                meeting_title_type: 'nvm',
-                mail_subject: 'mail subject',
-                submission2_plural: 'theses',
-                mail_attachment: 'mail attachment',
-                submission2: 'song',
-                submission1: 'music',
-                homepage_link_text: 'homepagelinktext',
-            },
         });
         const meeting = await this.store.findRecord('meeting', 'testmeeting');
         this.set('meeting', meeting);

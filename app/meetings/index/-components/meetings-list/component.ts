@@ -8,6 +8,7 @@ export default class MeetingsList extends Component.extend({
         this.set('search', search);
     }).restartable(),
 }) {
+    // Private properties
     search?: string;
     sort?: string;
 
