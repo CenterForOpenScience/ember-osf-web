@@ -16,6 +16,7 @@ export interface MirageNode extends Node {
 
 export interface NodeTraits {
     anonymized: Trait;
+    currentUserAdmin: Trait;
     withContributors: Trait;
     withRegistrations: Trait;
     withDraftRegistrations: Trait;
@@ -156,6 +157,10 @@ export default Factory.extend<MirageNode & NodeTraits>({
                 nodes: [node],
             });
         },
+    }),
+
+    currentUserAdmin: trait<MirageNode>({
+        currentUserPermissions: Object.values(Permission),
     }),
 
     anonymized: trait<MirageNode>({

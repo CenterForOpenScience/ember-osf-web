@@ -1,10 +1,10 @@
 import { Request } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
-import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
+import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
 const {
     OSF: {
@@ -14,7 +14,7 @@ const {
 } = config;
 
 module('Acceptance | view-only-links', hooks => {
-    setupApplicationTest(hooks);
+    setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
     test('View-only links', async assert => {
@@ -122,5 +122,17 @@ module('Acceptance | view-only-links', hooks => {
 
         assert.equal(currentURL(), '/');
         assert.dom('[data-test-view-normally]').doesNotExist();
+    });
+
+    test('Transition from project to registration does not add bad VOL', async assert => {
+        const mirageProject = server.create('node', 'currentUserAdmin');
+        const mirageRegistration = server.create('registration', {
+            registeredFrom: mirageProject,
+        }, 'currentUserAdmin');
+
+        await visit(`/${mirageProject.id}/registrations`);
+        await click('[data-test-node-card-heading] a');
+
+        assert.equal(currentURL(), `/--registries/${mirageRegistration.id}`, 'URL does not have view_only');
     });
 });
