@@ -1,5 +1,13 @@
 <div local-class='container'>
-    <img data-test-icon-image src='/assets/images/dashboard/{{this.icon}}.svg' alt='{{this.icon}}'>
+    {{#if (eq this.icon 'search')}}
+        <img data-test-icon-image src='/assets/images/new-home/search.svg' alt={{this.icon}}>
+    {{else if (eq this.icon 'pencil-alt')}}
+        <img data-test-icon-image src='/assets/images/new-home/pencil-alt.svg' alt={{this.icon}}>
+    {{else if (eq this.icon 'chart-area')}}
+        <img data-test-icon-image src='/assets/images/new-home/chart-area.svg' alt={{this.icon}}>
+    {{else if (eq this.icon 'file-alt')}}
+        <img data-test-icon-image src='/assets/images/new-home/file-alt.svg' alt={{this.icon}}>
+    {{/if}}
     <h2 data-test-support-header>
         {{this.header}}
     </h2>

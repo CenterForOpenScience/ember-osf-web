@@ -3,6 +3,7 @@
 const nodeSass = require('node-sass');
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const broccoliAssetRevDefaults = require('broccoli-asset-rev/lib/default-options');
 
 const { EMBER_ENV } = process.env;
 const IS_PROD = EMBER_ENV === 'production';
@@ -65,6 +66,7 @@ module.exports = function(defaults) {
         },
         fingerprint: {
             enabled: true,
+            extensions: broccoliAssetRevDefaults.extensions.concat(['svg']),
             exclude: [
                 'zxcvbn.js',
                 'assets/osf-assets',
