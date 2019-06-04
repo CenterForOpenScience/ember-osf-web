@@ -8,26 +8,41 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Models:
     - `meeting` - for OSF Meetings
+    - `meeting-submission` - for OSF Meetings submissions
+    - `external-identity` - for connected identities
 - Adapters:
     - `meeting` - in private namespace
+    - `meeting-submission` - in private namespace, with custom urlforQuery and buildUrl methods.
+    - `external-identity` - for connected identities
 - Serializers:
     - `meeting`
+    - `meeting-submission`
+    - `external-identity` - for connected identities
 - Routes:
     - `meetings` - parent route for meetings
         - `meetings.index` - meetings landing page
+        - `meetings.detail` - meeting detail page
 - Components:
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
-    - `new-home/-components/hero-banner` - a banner to be used on the logged-out homepage.
+    - `new-home`
+        - `hero-banner` - a banner to be used on the logged-out homepage.
+        - `support-section`
+            - `support-item` - an item on the support-section component
+            - `learn-more-button` - a button that goes to the cos.io learn more page
     - `meetings/index/components/meetings-list` - meetings list for the meetings index page
     - `paginated-list/x-header` - a paginated list header closure component
     - `meetings/index/components/meetings-hero-banner` - meetings landing page hero banner
     - `meetings/index/components/meetings-footer` - meetings landing page footer
+    - `meetings/detail/components/meeting-submissions-list` - meeting submissions list
+    - `settings/account/-components/connected-identities` - connected identities component
+    - `meetings/detail/components/meeting-detail-header` - meeting detail header
     - `banners/view-only-link` - banner displayed when using a view-only link
 - Utilities:
     - `leaf-vals` - get values of all leaves in an object tree
     - `notFoundURL` (in `utils/clean-url`) - makes a URL suitable for a `not-found` route's `path` param
     - `camelizeKeys`, `snakifyKeys`, and `mapKeysAndValues` in `utils/map-keys`
+    - `addPathSegment` (in `utils/url-parts`) - adds a path segment to a given URL
 - Tests:
     - Acceptance:
         - `new-home`
@@ -39,16 +54,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `meetings-list`
         - `meetings-hero-banner`
         - `meetings-footer`
+        - `meeting-submissions-list`
+        - `connected-identities`
     - Unit:
         - `leaf-vals` utility
 - Mirage:
     - `meeting` factory
+    - `meeting-submission` factory
     - private `meetings` endpoint
     - meetings scenario
+    - `external-identities` factory and endpoint
+    - add `external-identities` to settings scenario
 - View-only link support:
     - Add `view_only` query param to `application` route
     - Store VOL info (token, anonymized) on `current-user` service
     - Include VOL token in all API requests, all links within OSF
+
+- .vscode/settings.json
+    - Add `typescript.tsdk` setting so that VS Code uses workspace's TypeScript version by default.
 
 ### Changed
 - Components:

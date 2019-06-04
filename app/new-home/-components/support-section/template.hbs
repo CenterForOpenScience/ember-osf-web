@@ -1,0 +1,68 @@
+<div local-class='container'>
+    <header>
+        <h1 data-test-support-heading>
+            {{t 'new-home.support-section.header'}}
+        </h1>
+    </header>
+    <div local-class='flex-container'>
+        <div local-class='flex-row'>
+            <div>
+                <NewHome::-Components::SupportSection::SupportItem
+                    data-test-support-search
+                    local-class='supportItem'
+                    @icon='search'
+                    @header={{t 'new-home.support-section.search.header'}}
+                    @description={{t 'new-home.support-section.search.description'}}
+                />
+                <img
+                    data-test-arrow
+                    local-class='arrowImage'
+                    src='/assets/images/new-home/arrow.svg'
+                    alt={{t 'new-home.support-section.arrow'}}
+                >
+            </div>
+            <div>
+                <NewHome::-Components::SupportSection::SupportItem
+                    data-test-support-design
+                    local-class='supportItem'
+                    @icon='pencil-alt'
+                    @header={{t 'new-home.support-section.design.header'}}
+                    @description={{t 'new-home.support-section.design.description'}}
+                />
+                <img
+                    data-test-arrow
+                    local-class='arrowImage'
+                    src='/assets/images/new-home/arrow.svg'
+                    alt={{t 'new-home.support-section.arrow'}}
+                >
+            </div>
+        </div>
+        <div local-class='flex-row'>
+            <div>
+                <NewHome::-Components::SupportSection::SupportItem
+                    data-test-support-analyze
+                    local-class='supportItem'
+                    @icon='chart-area'
+                    @header={{t 'new-home.support-section.analyze.header'}}
+                    @description={{t 'new-home.support-section.analyze.description'}}
+                />
+                <img
+                    data-test-arrow
+                    local-class='arrowImage'
+                    src='/assets/images/new-home/arrow.svg'
+                    alt={{t 'new-home.support-section.arrow'}}
+                >
+            </div>
+            <NewHome::-Components::SupportSection::SupportItem
+                data-test-support-publish
+                @icon='file-alt'
+                @header={{t 'new-home.support-section.publish.header'}}
+                @description={{t 'new-home.support-section.publish.description'}}
+            />
+        </div>
+    </div>
+    <NewHome::-Components::SupportSection::LearnMoreButton
+        data-test-learn-more-button
+        local-class='learnMoreButton'
+    />
+</div>

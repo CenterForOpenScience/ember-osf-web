@@ -123,6 +123,11 @@ export default function(this: Server) {
     this.post('/users/:id/settings/export', userSettings.requestExport);
     this.post('/users/:parentID/settings/password/', updatePassword);
 
+    osfResource(this, 'external-identity', {
+        path: '/users/me/settings/identities',
+        only: ['index', 'delete'],
+    });
+
     this.get('/users/:id/nodes', userNodeList);
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 
@@ -147,5 +152,9 @@ export default function(this: Server) {
         },
     }));
 
-    osfResource(this, 'meeting', { only: ['index'] });
+    osfResource(this, 'meeting', { only: ['index', 'show'] });
+    osfToManyRelationship(this, 'meeting', 'submissions', {
+        only: ['related'],
+        path: '/meetings/:parentID/submissions/',
+    });
 }

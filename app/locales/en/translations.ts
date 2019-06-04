@@ -454,6 +454,29 @@ export default {
         free_title1: 'Free and open source.',
         free_title2: 'OSF is a public good built to support your research.',
         free_link: 'Get started',
+        learn_more: 'Learn more',
+    },
+    'new-home': {
+        'support-section': {
+            header: 'How OSF supports your research',
+            arrow: 'arrow',
+            search: {
+                header: 'Search and Discover',
+                description: 'Find papers, data, and materials to inspire your next research project. Search public projects to build on the work of others and find new collaborators.',
+            },
+            design: {
+                header: 'Design Your Study',
+                description: 'Start a project and add collaborators, giving them access to protocols and other research materials. Built-in version control tracks the evolution of your study.',
+            },
+            analyze: {
+                header: 'Collect and Analyze Data',
+                description: 'Store data, code, and other materials in OSF Storage, or connect your Dropbox or other third-party account. Every file gets a unique, persistent URL for citing and sharing.',
+            },
+            publish: {
+                header: 'Publish Your Reports',
+                description: 'Share papers in OSF Preprints or a community-based preprint provider, so others can find and cite your work. Track impact with metrics like downloads and view counts.',
+            },
+        },
     },
     tos_consent: {
         paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
@@ -1267,6 +1290,28 @@ export default {
                 spsp_img_alt: 'Logo for Society for Personality and Social Psychology (SPSP)',
             },
         },
+        detail: {
+            'meeting-submissions-list': {
+                title: 'Title',
+                author: 'Author',
+                category: 'Category',
+                dateCreated: 'Date created',
+                downloads: 'Downloads',
+                noSubmissions: 'No submissions',
+            },
+            'meeting-detail-header': {
+                image_alt: 'Meeting logo image',
+                add_your: 'Add your',
+                send_email: 'Send an email to the following address(es) from the email account you would like used on the OSF:',
+                email_text: 'For {{typeName}}, email <a href="{{emailAddress}}">{{emailAddress}}</a>',
+                format_header: 'The format of the email should be as follows:',
+                subject: 'Subject',
+                message_body: 'Message body',
+                attachment: 'Attachment',
+                panel_footer_note: 'Once sent, we will follow-up by sending you the permanent identifier that others can use to cite your work; you can also login and make changes, such as uploading additional files, to your project at that URL.If you didn\'t have an OSF account, one will be created automatically and a link to set your password will be emailed to you; if you do, we will simply create a new project in your account.By creating an account you agree to our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms</a> and that you have read our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>, including our information on <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md#f-cookies">Cookie Use</a>.',
+                conference_homepage: 'Conference homepage',
+            },
+        },
     },
     analytics: {
         pageTitle: '{{nodeTitle}} Analytics',
@@ -1555,6 +1600,22 @@ export default {
                     title: 'Confirm new password',
                     placeholder: 'Verify password',
                 },
+            },
+            connected_identities: {
+                title: 'Connected identities',
+                description: 'Connected identities allow you to log in to the OSF via a third-party service.<br>You can revoke these authorizations here.',
+                no_identities: 'You have not authorized any external services to log in to the OSF.',
+                status: {
+                    verified: 'Verified',
+                    pending: 'Pending',
+                },
+                confirm_remove: {
+                    title: 'Remove authorization?',
+                    body: 'Are you sure you want to remove this authorization?',
+                    confirm_button_text: 'Remove',
+                },
+                remove_fail: 'Revocation request failed. Please contact <a href="mailto:{{supportEmail}}">{{supportEmail}}</a> if the problem persists.',
+                remove_success: 'You have revoked this connected identity.',
             },
         },
         addons: {

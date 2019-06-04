@@ -23,13 +23,21 @@ module('Acceptance | new home page test', hooks => {
         assert.dom('nav.navbar').exists();
         assert.dom('nav.navbar .sign-in').exists();
 
-        // Check page
+        // Check hero
         assert.dom('[data-test-hero-heading]')
             .containsText(t('osf-components.hero-banner.heading').toString());
         assert.dom('[data-test-hero-subheading]')
             .containsText(t('osf-components.hero-banner.subheading').toString());
-
         assert.notOk(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
+
+        // Check support
+        assert.dom('[data-test-support-heading]').hasText('How OSF supports your research');
+        assert.dom('[data-test-support-search]').exists();
+        assert.dom('[data-test-support-design]').exists();
+        assert.dom('[data-test-support-analyze]').exists();
+        assert.dom('[data-test-support-publish]').exists();
+        assert.dom('[data-test-arrow]').exists({ count: 3 });
+        assert.dom('[data-test-learn-more-button]').exists();
 
         // Check footer.
         assert.dom('footer').exists();
