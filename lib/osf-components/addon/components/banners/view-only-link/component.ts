@@ -19,6 +19,6 @@ export default class BannersViewOnlyLink extends Component {
 
     @action
     stopViewOnly() {
-        this.router.transitionTo('home', { queryParams: { view_only: undefined } });
+        this.router.transitionTo('home', { queryParams: { view_only: '' } });
     }
 }
