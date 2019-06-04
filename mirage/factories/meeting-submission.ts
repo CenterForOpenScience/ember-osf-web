@@ -6,7 +6,7 @@ export default Factory.extend<MeetingSubmission>({
     title() {
         return faker.lorem.sentence();
     },
-    category() {
+    meetingCategory() {
         return faker.random.arrayElement([
             'poster',
             'talk',
