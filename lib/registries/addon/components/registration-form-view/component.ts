@@ -46,9 +46,9 @@ export class Answerable {
         return new Answerable(
             question.type,
             question.format,
-            fixAnswerValue(answer.value as string | string[]),
+            answer ? fixAnswerValue(answer.value as string | string[]) : '',
             Boolean(question.required),
-            (answer.extra && answer.extra.length) ? answer.extra : {},
+            (answer && answer.extra && answer.extra.length) ? answer.extra : {},
             question.description,
         );
     }

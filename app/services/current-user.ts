@@ -9,7 +9,7 @@ import Session from 'ember-simple-auth/services/session';
 import RSVP from 'rsvp';
 
 import User from 'ember-osf-web/models/user';
-import { addQueryParam } from 'ember-osf-web/utils/param';
+import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 
 const {
     OSF: {

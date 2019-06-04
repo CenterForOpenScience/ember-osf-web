@@ -34,6 +34,8 @@ export function guidAfterCreate(newObj: ModelInstance, server: Server) {
     });
 }
 
+const anonymizedQuestions = ['Authors'];
+
 function fakeAnswer(question: Question | Subquestion, answerIfRequired: boolean): Answer<any> {
     const answer: Answer<any> = {
         comments: [],
@@ -86,11 +88,15 @@ function fakeAnswer(question: Question | Subquestion, answerIfRequired: boolean)
 export function createRegistrationMetadata(
     registrationSchema: ModelInstance<MirageRegistrationSchema>,
     answerAllRequired = false,
+    anonymized = false,
 ) {
     const registrationMetadata: RegistrationMetadata = {};
     if (registrationSchema.schemaNoConflict) {
         registrationSchema.schemaNoConflict.pages.forEach(page =>
             page.questions.forEach(question => {
+                if (anonymized && anonymizedQuestions.includes(question.title)) {
+                    return;
+                }
                 if (question.type === 'object' && question.properties) {
                     const value: RegistrationMetadata = { };
                     question.properties.forEach(property => {
