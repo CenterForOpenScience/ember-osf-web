@@ -56,6 +56,6 @@ module('Acceptance | new home page test', hooks => {
         await visit('/new-home');
 
         await click('[data-test-get-started-button]');
-        assert.equal(currentURL(), '/register?campaign=&next=');
+        assert.equal(currentURL(), '/register');
     });
 });
