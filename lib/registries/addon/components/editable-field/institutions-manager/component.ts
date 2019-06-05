@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { alias, and } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
@@ -40,7 +40,7 @@ export default class InstitutionsManager extends Component.extend({
         yield this.node.updateM2MRelationship('affiliatedInstitutions', this.affiliatedList);
         this.setProperties({
             currentAffiliatedList: [...this.affiliatedList],
-            inEditMode: false,
+            requestedEditMode: false,
         });
         this.reloadList();
     }),
@@ -52,12 +52,14 @@ export default class InstitutionsManager extends Component.extend({
     @service i18n!: I18N;
     @service toast!: Toast;
 
-    inEditMode: boolean = false;
     affiliatedList!: QueryHasManyResult<Institution>;
     currentAffiliatedList!: QueryHasManyResult<Institution>;
     reloadList!: (page?: number) => void;
+    requestedEditMode: boolean = false;
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+
+    @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
 
     @computed('currentAffiliatedList.[]', 'loadNodeAffiliatedInstitutions.isRunning')
     get fieldIsEmpty() {
@@ -82,7 +84,7 @@ export default class InstitutionsManager extends Component.extend({
 
     @action
     startEditing() {
-        this.set('inEditMode', true);
+        this.set('requestedEditMode', true);
     }
 
     @action
@@ -97,6 +99,6 @@ export default class InstitutionsManager extends Component.extend({
 
     @action
     cancel() {
-        this.set('inEditMode', false);
+        this.set('requestedEditMode', false);
     }
 }

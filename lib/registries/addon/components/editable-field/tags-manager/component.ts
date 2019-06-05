@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { alias, and } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
@@ -18,17 +18,19 @@ export default class TagsManager extends Component.extend({
     save: task(function *(this: TagsManager) {
         this.registration.set('tags', [...this.currentTags]);
         yield this.registration.save();
-        this.set('inEditMode', false);
+        this.set('requestedEditMode', false);
     }),
 }) {
     // required
     registration!: Registration;
 
     // private
-    inEditMode: boolean = false;
+    requestedEditMode: boolean = false;
     currentTags: string[] = [];
 
     @alias('registration.userHasAdminPermission') userCanEdit!: boolean;
+
+    @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
 
     didReceiveAttrs() {
         if (this.registration) {
@@ -48,7 +50,7 @@ export default class TagsManager extends Component.extend({
 
     @action
     startEditing() {
-        this.set('inEditMode', true);
+        this.set('requestedEditMode', true);
     }
 
     @action
@@ -68,6 +70,6 @@ export default class TagsManager extends Component.extend({
 
     @action
     cancel() {
-        this.set('inEditMode', false);
+        this.set('requestedEditMode', false);
     }
 }
