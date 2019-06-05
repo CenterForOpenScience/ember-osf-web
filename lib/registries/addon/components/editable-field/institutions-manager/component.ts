@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
-import { or } from '@ember-decorators/object/computed';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
@@ -36,10 +36,12 @@ export default class InstitutionsManager extends Component.extend({
             return false;
         }
     }).on('didReceiveAttrs').restartable(),
-    submitChanges: task(function *(this: InstitutionsManager, hideEditable: () => void) {
+    submitChanges: task(function *(this: InstitutionsManager) {
         yield this.node.updateM2MRelationship('affiliatedInstitutions', this.affiliatedList);
-        this.setProperties({ currentAffiliatedList: [...this.affiliatedList] });
-        hideEditable();
+        this.setProperties({
+            currentAffiliatedList: [...this.affiliatedList],
+            inEditMode: false,
+        });
         this.reloadList();
     }),
 }) {
@@ -50,16 +52,14 @@ export default class InstitutionsManager extends Component.extend({
     @service i18n!: I18N;
     @service toast!: Toast;
 
+    inEditMode: boolean = false;
     affiliatedList!: QueryHasManyResult<Institution>;
     currentAffiliatedList!: QueryHasManyResult<Institution>;
     reloadList!: (page?: number) => void;
 
-    @or(
-        'loadNodeAffiliatedInstitutions.isRunning',
-        'submitChanges.isRunning',
-    ) shouldDisableButtons!: boolean;
+    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
 
-    @computed('currentAffiliatedList.length', 'loadNodeAffiliatedInstitutions.isRunning')
+    @computed('currentAffiliatedList.[]', 'loadNodeAffiliatedInstitutions.isRunning')
     get fieldIsEmpty() {
         if (this.loadNodeAffiliatedInstitutions.isRunning) {
             return false;
@@ -69,28 +69,20 @@ export default class InstitutionsManager extends Component.extend({
 
     @computed('node.isRegistration')
     get emptyFieldText() {
-        return this.node.isRegistration ?
-            this.i18n.t('osf-components.institutions-widget.no_affiliated_institution.node') :
-            this.i18n.t('osf-components.institutions-widget.no_affiliated_institution.project');
-    }
-
-    @computed('fieldIsEmpty', 'node.userHasAdminPermission')
-    get shouldShowTitle() {
-        if (this.fieldIsEmpty === undefined) {
-            return true;
+        if (this.node.isRegistration) {
+            return this.i18n.t('osf-components.institutions-widget.no_affiliated_institution.registration');
         }
-        return !this.fieldIsEmpty || this.node.userHasAdminPermission;
+        return this.i18n.t('osf-components.institutions-widget.no_affiliated_institution.project');
     }
 
-    @computed('fieldIsEmpty', 'node.userHasAdminPermission')
-    get shouldShowEmptyFieldText() {
-        return this.node.userHasAdminPermission && this.fieldIsEmpty;
+    @computed('fieldIsEmpty', 'userCanEdit')
+    get shouldShowField() {
+        return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @computed('affiliatedList.{length}', 'currentAffiliatedList.{length}')
-    get fieldChanged() {
-        return ((this.affiliatedList || []).length !== (this.currentAffiliatedList || []).length) ||
-            (!this.affiliatedList.mapBy('id').every(id => this.currentAffiliatedList.mapBy('id').includes(id)));
+    @action
+    startEditing() {
+        this.set('inEditMode', true);
     }
 
     @action
@@ -104,16 +96,7 @@ export default class InstitutionsManager extends Component.extend({
     }
 
     @action
-    save(this: InstitutionsManager, hideEditable: () => void) {
-        this.submitChanges.perform(hideEditable);
-    }
-
-    @action
-    cancel(hideEditable: () => void) {
-        if (this.fieldChanged) {
-            this.setProperties({ affiliatedList: [...this.currentAffiliatedList] });
-            this.reloadList();
-        }
-        hideEditable();
+    cancel() {
+        this.set('inEditMode', false);
     }
 }
