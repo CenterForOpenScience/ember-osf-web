@@ -1,14 +1,14 @@
 {{yield (hash
-    save=(perform this.submitChanges)
+    save=(action this.save)
     cancel=(action this.cancel)
     addInstitution=(action this.addInstitution)
     removeInstitution=(action this.removeInstitution)
+    shouldShowEmptyFieldText=this.shouldShowEmptyFieldText
+    shouldShowTitle=this.shouldShowTitle
+    shouldDisableButtons=this.shouldDisableButtons
     fieldIsEmpty=this.fieldIsEmpty
     emptyFieldText=this.emptyFieldText
     affiliatedList=this.affiliatedList
     reloadList=this.reloadList
-    startEditing=(action this.startEditing)
-    inEditMode=this.inEditMode
-    userCanEdit=this.userCanEdit
-    shouldShowField=this.shouldShowField
+    fieldChanged=this.fieldChanged
 )}}

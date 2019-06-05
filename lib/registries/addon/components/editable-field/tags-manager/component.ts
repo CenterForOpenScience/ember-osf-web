@@ -1,12 +1,12 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
+import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import template from './template';
 
@@ -14,50 +14,60 @@ const { OSF: { url: baseUrl } } = config;
 
 @tagName('')
 @layout(template)
-export default class TagsManager extends Component.extend({
-    save: task(function *(this: TagsManager) {
-        this.registration.set('tags', [...this.currentTags]);
-        yield this.registration.save();
-        this.set('inEditMode', false);
-    }),
-}) {
+export default class TagsManager extends Component {
     // required
     registration!: Registration;
 
-    // private
-    inEditMode: boolean = false;
+    // private properties
+    @service analytics!: Analytics;
+
     currentTags: string[] = [];
 
-    @alias('registration.userHasAdminPermission') userCanEdit!: boolean;
-
-    didReceiveAttrs() {
+    constructor(properties: object) {
+        super(properties);
         if (this.registration) {
             this.setProperties({ currentTags: [...this.registration.tags] });
         }
     }
 
-    @computed('registration.tags.[]')
+    @computed('registration.tags.length')
     get fieldIsEmpty() {
         return !this.registration.tags.length;
     }
 
-    @computed('fieldIsEmpty', 'userCanEdit')
-    get shouldShowField() {
-        return this.userCanEdit || !this.fieldIsEmpty;
+    @computed('currentTags.length,registration.{tags.length,hasDirtyAttributes}')
+    get fieldChanged() {
+        return this.registration.tags.length !== this.currentTags.length ||
+            !(this.registration.tags.every(tag => this.currentTags.includes(tag)));
     }
 
-    @action
-    startEditing() {
-        this.set('inEditMode', true);
+    @computed('fieldIsEmpty', 'registration.userHasAdminPermission')
+    get shouldShowTitle() {
+        return !this.fieldIsEmpty || this.registration.userHasAdminPermission;
+    }
+
+    @computed('fieldIsEmpty', 'registration.userHasAdminPermission')
+    get shouldShowEmptyFieldText() {
+        return this.fieldIsEmpty && this.registration.userHasAdminPermission;
     }
 
     @action
     addTag(tag: string) {
+        this.analytics.trackFromElement(this.element, {
+            name: 'Add tag',
+            category: 'tag',
+            action: 'add',
+        });
         this.setProperties({ currentTags: [...this.currentTags, tag].sort() });
     }
 
     @action
     removeTag(index: number) {
+        this.analytics.trackFromElement(this.element, {
+            name: 'Remove tag',
+            category: 'tag',
+            action: 'remove',
+        });
         this.setProperties({ currentTags: this.currentTags.slice().removeAt(index) });
     }
 
@@ -67,7 +77,17 @@ export default class TagsManager extends Component.extend({
     }
 
     @action
-    cancel() {
-        this.set('inEditMode', false);
+    save(hideEditable: () => void) {
+        this.registration.set('tags', [...this.currentTags]);
+        this.registration.save();
+        hideEditable();
+    }
+
+    @action
+    cancel(hideEditable: () => void) {
+        if (this.fieldChanged) {
+            this.setProperties({ currentTags: [...this.registration.tags] });
+        }
+        hideEditable();
     }
 }

@@ -1,35 +1,36 @@
-<this.managerComponent as |manager|>
-    {{#if manager.shouldShowField}}
-        <div local-class='Editable'>
+<this.manager as |manager|>
+    <div local-class='Editable'>
+        {{#if manager.shouldShowTitle}}
             <h4>{{@title}}</h4>
-            {{#if manager.userCanEdit}}
-                <OsfButton
-                   data-test-edit-button={{@name}}
-                   aria-label={{t 'general.edit'}}
-                   data-analytics-name='Edit'
-                   local-class='EditButton'
-                   @type='link'
-                   @onClick={{action manager.startEditing}}
-                >
-                    <FaIcon @icon='pencil' @fixedWidth={{true}} />
-                </OsfButton>
-            {{/if}}
-        </div>
-        {{#if manager.fieldIsEmpty}}
-            {{#if manager.userCanEdit}}
-                {{manager.emptyFieldText}}
-            {{/if}}
-        {{else}}
-            {{yield (hash
-                display=(component 'editable-field/block')
-                manager=manager
-            )}}
         {{/if}}
+        {{#if @registration.userHasAdminPermission}}
+            <OsfButton
+               data-test-edit-button={{@name}}
+               aria-label={{t 'general.edit'}}
+               data-analytics-name='Edit'
+               local-class='EditButton'
+               @type='link'
+               @onClick={{action (mut this.shouldShowEditable) true}}
+            >
+                <FaIcon @icon='pencil' @fixedWidth={{true}} />
+            </OsfButton>
+        {{/if}}
+    </div>
+
+    {{#if manager.shouldShowEmptyFieldText}}
+        {{manager.emptyFieldText}}
     {{/if}}
 
+    {{#unless manager.fieldIsEmpty}}
+        {{yield (hash
+            display=(component 'editable-field/block')
+            manager=manager
+        )}}
+    {{/unless}}
+
     <BsModal
-        @open={{manager.inEditMode}}
-        @onHide={{action manager.cancel}}
+        @open={{this.shouldShowEditable}}
+        @onHide={{action manager.cancel (action this.hideEditable)}}
         as |modal|
     >
         <modal.header>
@@ -42,33 +43,37 @@
                 {{yield (hash
                     edit=(component 'editable-field/block')
                     manager=manager
+                    shouldShowEditable=this.shouldShowEditable
+                    hideEditable=(action this.hideEditable)
                 )}}
-                <div local-class='Controls'>
-                    {{#if manager.save}}
-                        <OsfButton
-                            data-test-save-edits
-                            data-analytics-name='Save'
-                            @type='primary'
-                            @size='sm'
-                            @disabled={{manager.save.isRunning}}
-                            @onClick={{action manager.save}}
-                        >
-                            {{t 'general.save'}}
-                        </OsfButton>
-                    {{/if}}
-                    {{#if manager.cancel}}
-                        <OsfButton
-                            data-test-discard-edits
-                            data-analytics-name='Discard'
-                            @size='sm'
-                            @disabled={{manager.save.isRunning}}
-                            @onClick={{action manager.cancel}}
-                        >
-                            {{t 'general.cancel'}}
-                        </OsfButton>
-                    {{/if}}
-                </div>
+                {{#if manager.fieldChanged}}
+                    <div local-class='Controls'>
+                        {{#if manager.save}}
+                            <OsfButton
+                                data-test-save-edits
+                                data-analytics-name='Save'
+                                @type='primary'
+                                @size='sm'
+                                @disabled={{manager.shouldDisableButtons}}
+                                @onClick={{action manager.save (action this.hideEditable)}}
+                            >
+                                {{t 'general.save'}}
+                            </OsfButton>
+                        {{/if}}
+                        {{#if manager.cancel}}
+                            <OsfButton
+                                data-test-discard-edits
+                                data-analytics-name='Discard'
+                                @size='sm'
+                                @disabled={{manager.shouldDisableButtons}}
+                                @onClick={{action manager.cancel (action this.hideEditable)}}
+                            >
+                                {{t 'general.cancel'}}
+                            </OsfButton>
+                        {{/if}}
+                    </div>
+                {{/if}}
             </div>
         </modal.body>
     </BsModal>
-</this.managerComponent>
+</this.manager>

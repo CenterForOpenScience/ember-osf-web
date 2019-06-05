@@ -12,6 +12,7 @@ interface InstitutionsManager {
     addInstitution: (institution: Institution) => void;
     removeInstitution: (institution: Institution) => void;
     affiliatedList: Institution[];
+    shouldDisableButtons?: boolean;
 }
 
 @layout(template, styles)

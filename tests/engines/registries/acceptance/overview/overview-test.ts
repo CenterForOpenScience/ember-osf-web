@@ -167,6 +167,8 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .dom(`[data-test-institution="${institutionId}"]`)
             .exists('user institution list is correct'));
 
+        assert.dom('[data-test-save-edits]').isNotVisible();
+
         await click(`[data-test-institution-button="add-${user.institutionIds[0]}"]`);
         await click(`[data-test-institution-button="add-${user.institutionIds[1]}"]`);
 
@@ -179,6 +181,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         // Admin can remove affiliated institutions
         await click('[data-test-edit-button="affiliated institutions"]');
+        assert.dom('[data-test-save-edits]').isNotVisible();
 
         await click(`[data-test-institution-button="remove-${user.institutionIds[0]}"]`);
         await click(`[data-test-institution-button="remove-${user.institutionIds[1]}"]`);
@@ -192,6 +195,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         // Discard edits works
         await click('[data-test-edit-button="affiliated institutions"]');
+        assert.dom('[data-test-discard-edits]').isNotVisible();
 
         await click(`[data-test-institution-button="add-${user.institutionIds[0]}"]`);
         await click(`[data-test-institution-button="add-${user.institutionIds[1]}"]`);

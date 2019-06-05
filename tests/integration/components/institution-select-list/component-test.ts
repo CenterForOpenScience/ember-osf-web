@@ -28,6 +28,7 @@ module('Integration | Component | institution-select-list', hooks => {
             addInstitution: noop,
             removeInstitution: noop,
             affiliatedList: [],
+            shouldDisableButtons: false,
         };
         this.set('node', registration);
         this.set('manager', managerStub);
