@@ -116,14 +116,16 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
         description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
     });
 
-    // EditableField
-    const editable = server.create('registration', {
-        id: 'editj',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        currentUserPermissions: Object.values(Permission),
+    // InstitutionsWidget
+    const institutionsNode = server.create('node', {
+        id: 'lacks',
     }, 'withAffiliatedInstitutions');
 
-    server.create('contributor', { users: currentUser, node: editable });
+    server.createList('institution', 2, { users: [currentUser], nodes: [institutionsNode] });
+
+    server.create('node', {
+        id: 'manys',
+    }, 'withManyAffiliatedInstitutions');
 
     // ContributorList
     for (const contributorCount of [1, 2, 3, 23]) {

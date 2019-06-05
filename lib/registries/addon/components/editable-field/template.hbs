@@ -1,0 +1,16 @@
+<div local-class='Editable'>
+    <h4>{{@title}}</h4>
+    {{#if @registration.userHasAdminPermission}}
+        <OsfButton
+           data-test-edit-button
+           aria-label={{t 'general.edit'}}
+           data-analytics-name='Edit'
+           local-class='EditButton'
+           @type='link'
+           @onClick={{action (mut this.shouldShowEditable) true}}
+        >
+            <FaIcon @icon='pencil' @fixedWidth={{true}} />
+        </OsfButton>
+    {{/if}}
+</div>
+{{yield (hash shouldShowEditable=this.shouldShowEditable hideEditable=(action this.hideEditable))}}
