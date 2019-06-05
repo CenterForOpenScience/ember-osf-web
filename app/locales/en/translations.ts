@@ -1099,7 +1099,6 @@ export default {
             disciplines: 'Disciplines',
             tags: 'Tags',
             citation: 'Citation',
-            edit_field: 'Edit {{field}}',
         },
 
         form_view: {
