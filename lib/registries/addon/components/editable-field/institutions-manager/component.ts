@@ -71,10 +71,10 @@ export default class InstitutionsManager extends Component.extend({
 
     @computed('node.isRegistration')
     get emptyFieldText() {
-        if (this.node.get('isRegistration')) {
-            return this.i18n.t('osf-components.institutions-list.no_affiliated_institution.registration');
+        if (this.node.isRegistration) {
+            return this.i18n.t('osf-components.institutions-widget.no_affiliated_institution.registration');
         }
-        return this.i18n.t('osf-components.institutions-list.no_affiliated_institution.project');
+        return this.i18n.t('osf-components.institutions-widget.no_affiliated_institution.project');
     }
 
     @computed('fieldIsEmpty', 'userCanEdit')

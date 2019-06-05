@@ -5,6 +5,11 @@
 
     .EditButton {
         padding: 0;
+
+        &:hover,
+        &:focus {
+            color: $secondary-blue;
+        }
     }
 }
 
