@@ -12,7 +12,7 @@
                 {{#if institution}}
                     <OsfLink @href={{institution.links.html}}>
                         <img
-                            data-test-institution-list-institution={{institution.name}}
+                            data-test-institution-list-institution={{institution.id}}
                             class='img-circle img-responsive'
                             src={{institution.logoRoundedUrl}}
                             alt={{institution.name}}
@@ -25,12 +25,5 @@
                 {{/if}}
             </div>
         </list.item>
-        <list.empty>
-            {{#if @node.isRegistration}}
-                {{t 'osf-components.institutions-widget.no_affiliated_institution.registration'}}
-            {{else}}
-                {{t 'osf-components.institutions-widget.no_affiliated_institution.project'}}
-            {{/if}}
-        </list.empty>
     {{/paginated-list/has-many}}
 </div>
