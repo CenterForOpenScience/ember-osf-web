@@ -11,42 +11,43 @@ import { layout } from 'ember-osf-web/decorators/component';
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import User from 'ember-osf-web/models/user';
+import CurrentUser from 'ember-osf-web/services/current-user';
+
 import template from './template';
 
 export interface InstitutionsManager {
-    reloadList?: (page?: number) => void;
+    bindReload?: (page?: number) => void;
     addInstitution: (institution: Institution) => void;
     removeInstitution: (institution: Institution) => void;
     affiliatedList: Institution[];
+    node: Node;
+    user: User;
 }
 
 @tagName('')
 @layout(template)
 export default class InstitutionsManagerComponent extends Component.extend({
     loadNodeAffiliatedInstitutions: task(function *(this: InstitutionsManagerComponent) {
-        if (!this.node) {
-            return undefined;
-        }
-
-        try {
-            const affiliatedList: QueryHasManyResult<Institution> = yield this.node.queryHasMany(
-                'affiliatedInstitutions', {
-                    pageSize: 100,
-                },
-            );
-            this.setProperties({
-                affiliatedList,
-                currentAffiliatedList: [...affiliatedList],
-            });
-            return true;
-        } catch (e) {
-            return false;
+        if (this.node) {
+            try {
+                const affiliatedList: QueryHasManyResult<Institution> = yield this.node.queryHasMany(
+                    'affiliatedInstitutions', {
+                        pageSize: 100,
+                    },
+                );
+                this.setProperties({
+                    affiliatedList,
+                });
+            } catch (e) {
+                throw e;
+            }
         }
     }).on('didReceiveAttrs').restartable(),
     save: task(function *(this: InstitutionsManagerComponent) {
-        yield this.node.updateM2MRelationship('affiliatedInstitutions', this.affiliatedList);
+        yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
         this.setProperties({
-            currentAffiliatedList: [...this.affiliatedList],
+            affiliatedList: [...this.currentAffiliatedList],
             requestedEditMode: false,
         });
         this.reloadList();
@@ -58,6 +59,7 @@ export default class InstitutionsManagerComponent extends Component.extend({
     // private properties
     @service i18n!: I18N;
     @service toast!: Toast;
+    @service currentUser!: CurrentUser;
 
     affiliatedList!: QueryHasManyResult<Institution>;
     currentAffiliatedList!: QueryHasManyResult<Institution>;
@@ -68,12 +70,12 @@ export default class InstitutionsManagerComponent extends Component.extend({
 
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
 
-    @computed('currentAffiliatedList.[]', 'loadNodeAffiliatedInstitutions.isRunning')
+    @computed('affiliatedList.[]', 'loadNodeAffiliatedInstitutions.isRunning')
     get fieldIsEmpty() {
         if (this.loadNodeAffiliatedInstitutions.isRunning) {
             return false;
         }
-        return this.currentAffiliatedList && !this.currentAffiliatedList.length;
+        return this.affiliatedList && !this.affiliatedList.length;
     }
 
     @computed('node.isRegistration')
@@ -91,17 +93,20 @@ export default class InstitutionsManagerComponent extends Component.extend({
 
     @action
     startEditing() {
-        this.set('requestedEditMode', true);
+        this.setProperties({
+            requestedEditMode: true,
+            currentAffiliatedList: [...this.affiliatedList],
+        });
     }
 
     @action
-    addInstitution(this: InstitutionsManager, institution: Institution) {
-        this.affiliatedList.pushObject(institution);
+    addInstitution(institution: Institution) {
+        this.currentAffiliatedList.pushObject(institution);
     }
 
     @action
-    removeInstitution(this: InstitutionsManager, institution: Institution) {
-        this.affiliatedList.removeObject(institution);
+    removeInstitution(institution: Institution) {
+        this.currentAffiliatedList.removeObject(institution);
     }
 
     @action

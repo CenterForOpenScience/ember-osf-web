@@ -5,11 +5,12 @@
     removeInstitution=(action this.removeInstitution)
     fieldIsEmpty=this.fieldIsEmpty
     emptyFieldText=this.emptyFieldText
-    affiliatedList=this.affiliatedList
-    reloadList=this.reloadList
+    affiliatedList=this.currentAffiliatedList
     startEditing=(action this.startEditing)
     inEditMode=this.inEditMode
     userCanEdit=this.userCanEdit
     shouldShowField=this.shouldShowField
     bindReload=(action (mut this.reloadList))
+    node=this.node
+    user=this.currentUser.user
 )}}

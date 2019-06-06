@@ -1,8 +1,8 @@
 <div data-test-institutions-list local-class='paginatedInstitutions'>
     {{#paginated-list/has-many
-        model=@node
+        model=@manager.node
         relationshipName='affiliatedInstitutions'
-        bindReload=@reloadList
+        bindReload=@manager.bindReload
         analyticsScope='Project Institutions'
         usePlaceholders=this.usePlaceholders
         as |list|

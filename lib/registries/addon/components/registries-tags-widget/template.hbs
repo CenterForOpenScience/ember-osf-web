@@ -2,7 +2,7 @@
     data-test-tags-widget-tag-input={{if this.readOnly 'readonly' 'edit'}}
     aria-label={{t 'osf-components.tags-widget.tags'}}
     local-class='TagsWidget'
-    @tags={{if this.readOnly @registration.tags @manager.tags}}
+    @tags={{if this.readOnly @manager.registration.tags @manager.tags}}
     @addTag={{action this.addTag}}
     @removeTagAtIndex={{action this.removeTag}}
     @allowSpacesInTags={{true}}

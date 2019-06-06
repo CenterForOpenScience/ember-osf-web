@@ -3,7 +3,6 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { layout } from 'ember-osf-web/decorators/component';
-import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { TagsManager } from 'osf-components/components/editable-field/tags-manager/component';
@@ -14,7 +13,6 @@ import template from './template';
 export default class RegistriesTagsWidget extends Component.extend({ styles }) {
     // Required
     manager!: TagsManager;
-    registration!: Registration;
 
     // Optional
     readOnly?: boolean = defaultTo(this.readOnly, false);

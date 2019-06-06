@@ -1,6 +1,5 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
@@ -8,7 +7,6 @@ import config from 'ember-get-config';
 import { layout } from 'ember-osf-web/decorators/component';
 import Identifier from 'ember-osf-web/models/identifier';
 import Registration from 'ember-osf-web/models/registration';
-import CurrentUser from 'ember-osf-web/services/current-user';
 import styles from './styles';
 import template from './template';
 
@@ -38,8 +36,6 @@ export default class RegistriesMetadata extends Component.extend({
     extendedFields?: boolean;
 
     // Private properties
-    @service currentUser!: CurrentUser;
-
     registrationDoi?: string;
     expandCitations: boolean = false;
 
