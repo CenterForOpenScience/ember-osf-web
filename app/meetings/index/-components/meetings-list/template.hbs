@@ -58,7 +58,9 @@
                     {{meeting.location}}
                 </div>
                 <div data-test-meetings-list-item-date>
-                    {{moment-format meeting.startDate 'MMM DD, YYYY'}} - {{moment-format meeting.endDate 'MMM DD, YYYY'}}
+                    {{if meeting.startDate (moment-format meeting.startDate 'MMM DD, YYYY')}}
+                    {{if (or meeting.startDate meeting.endDate) ' - '}}
+                    {{if meeting.endDate (moment-format meeting.endDate 'MMM DD, YYYY')}}
                 </div>
             {{else}}
                 <div data-test-meetings-list-placeholder-name>

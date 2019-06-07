@@ -66,16 +66,16 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
             name: 'Test Meeting',
             submissions: [
                 server.create('meeting-submission', {
-                    title: 'red yellow green', authorName: 'purple', category: 'poster',
+                    title: 'red yellow green', authorName: 'purple', meetingCategory: 'poster',
                 }),
                 server.create('meeting-submission', {
-                    title: 'not green', authorName: 'yellow', category: 'poster',
+                    title: 'not green', authorName: 'yellow', meetingCategory: 'poster',
                 }),
                 server.create('meeting-submission', {
-                    title: 'not red', authorName: 'purple', category: 'yellow',
+                    title: 'not red', authorName: 'purple', meetingCategory: 'yellow',
                 }),
                 server.create('meeting-submission', {
-                    title: 'Forever young', authorName: 'Blackpink', category: 'Kpop',
+                    title: 'Forever young', authorName: 'Blackpink', meetingCategory: 'Kpop',
                 }),
             ],
         });
@@ -102,21 +102,21 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
                 server.create('meeting-submission', {
                     title: 'a',
                     authorName: 'Jisoo',
-                    category: 'poster',
+                    meetingCategory: 'poster',
                     downloadCount: 100,
                     created: new Date(2017, 1, 1),
                 }),
                 server.create('meeting-submission', {
                     title: 'b',
                     authorName: 'Lisa',
-                    category: 'poster',
+                    meetingCategory: 'poster',
                     downloadCount: 300,
                     created: new Date(2018, 1, 1),
                 }),
                 server.create('meeting-submission', {
                     title: 'c',
                     authorName: 'Rosé',
-                    category: 'talk',
+                    meetingCategory: 'talk',
                     downloadCount: 250,
                     created: new Date(2019, 1, 1),
                 }),
@@ -141,34 +141,34 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
 
         await click('[data-test-ascending-sort="author_name"]');
         assert.dom('[data-test-submissions-list-item-author]')
-            .hasText('Jisoo', 'Sorts by author ascendening');
+            .hasText('Jisoo', 'Sorts by author ascending');
 
         await click('[data-test-descending-sort="author_name"]');
         assert.dom('[data-test-submissions-list-item-author]')
-            .hasText('Rosé', 'Sorts by author descendening');
+            .hasText('Rosé', 'Sorts by author descending');
 
-        await click('[data-test-ascending-sort="category"]');
+        await click('[data-test-ascending-sort="meeting_category"]');
         assert.dom('[data-test-submissions-list-item-category]')
-            .hasText('poster', 'Sorts by category ascendening');
+            .hasText('poster', 'Sorts by category ascending');
 
-        await click('[data-test-descending-sort="category"]');
+        await click('[data-test-descending-sort="meeting_category"]');
         assert.dom('[data-test-submissions-list-item-category]')
-            .hasText('talk', 'Sorts by category descendening');
+            .hasText('talk', 'Sorts by category descending');
 
         await click('[data-test-ascending-sort="created"]');
         assert.dom('[data-test-submissions-list-item-date]')
-            .containsText('2017', 'Sorts by date ascendening');
+            .containsText('2017', 'Sorts by date ascending');
 
         await click('[data-test-descending-sort="created"]');
         assert.dom('[data-test-submissions-list-item-date]')
-            .containsText('2019', 'Sorts by date descendening');
+            .containsText('2019', 'Sorts by date descending');
 
         await click('[data-test-ascending-sort="download_count"]');
         assert.dom('[data-test-submissions-list-item-download]')
-            .hasText('100', 'Sorts by download_count ascendening');
+            .hasText('100', 'Sorts by download_count ascending');
 
         await click('[data-test-descending-sort="download_count"]');
         assert.dom('[data-test-submissions-list-item-download]')
-            .hasText('300', 'Sorts by download_count descendening');
+            .hasText('300', 'Sorts by download_count descending');
     });
 });

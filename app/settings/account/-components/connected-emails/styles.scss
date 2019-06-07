@@ -24,34 +24,38 @@
     margin-top: 8px;
 }
 
-.email-section {
-    :global(.list-group-item):last-of-type > .email-object {
-        border-bottom: 0;
+.email-list {
+    ul {
+        margin: 0;
     }
-}
 
-.email-list ul {
-    margin: 0;
-
-    & > li {
+    li {
         border: 0;
         padding: 0;
         margin-bottom: 0;
+
+        &:last-of-type > .email-object {
+            border-bottom: 0;
+        }
     }
 }
 
 .email-object {
     border-bottom: 1px solid $color-border-gray;
-    padding: 20px 8px 13px;
+    padding: 13px 8px;
 }
 
 .no-object-message {
-    padding: 20px 8px 13px;
+    padding: 13px 8px;
+}
+
+.email-address {
+    display: inline-block;
+    padding: 7px 0;
 }
 
 .options {
     margin-right: 0;
-    margin-top: -8px;
     float: right;
 }
 

@@ -12,7 +12,7 @@ export interface MeetingSubmissionLinks {
 
 export default class MeetingSubmissionModel extends OsfModel {
     @attr('string') title!: string;
-    @attr('string') category!: string;
+    @attr('string') meetingCategory!: string;
     @attr('string') authorName!: string;
     @attr('number') downloadCount!: number;
     @attr('date') created!: Date;

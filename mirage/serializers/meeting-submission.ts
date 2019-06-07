@@ -10,6 +10,7 @@ export default class MeetingSubmissionSerializer extends ApplicationSerializer<M
         return {
             self: 'fakeUrl',
             html: `${url}${model.id}`,
+            download: 'fakeDownloadUrl',
         };
     }
 }

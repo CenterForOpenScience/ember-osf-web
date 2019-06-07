@@ -1,0 +1,35 @@
+<div data-test-institutions-widget>
+    <span>
+        <InstitutionsList
+            @reloadList={{action (mut this.reloadList)}}
+            @node={{@node}}
+        />
+    </span>
+    <BsModal
+        @open={{this.shouldShowModal}}
+        @onHidden={{@hideModal}}
+        as |modal|
+    >
+        <modal.header>
+            <h3 class='modal-title'>
+                {{t 'osf-components.institutions-widget.affiliate_institutions'}}
+            </h3>
+        </modal.header>
+        <modal.body>
+            <InstitutionSelectList
+                @user={{this.currentUser.user}}
+                @node={{@node}}
+                @reloadList={{this.reloadList}}
+            />
+        </modal.body>
+        <modal.footer>
+            <OsfButton
+                data-analytics-name='Add Affiliation - close_modal'
+                @type='primary'
+                @onClick={{@hideModal}}
+            >
+                {{t 'general.done'}}
+            </OsfButton>
+        </modal.footer>
+    </BsModal>
+</div>

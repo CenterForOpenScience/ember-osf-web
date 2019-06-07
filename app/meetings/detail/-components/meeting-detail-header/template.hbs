@@ -17,26 +17,30 @@
     </div>
 {{/if}}
 
-{{#if this.meeting.active}}
-    <div local-class='toggle-panel-button'>
+<div local-class='toggle-button-and-homepage-link-container'>
+    {{#if this.meeting.active}}
         <OsfButton
+            local-class='toggle-panel-button'
             data-analytics-name='Toggle meeting submission panel'
-            data-test-meeting-toggle-panel-button @type='link'
-            @onClick={{action this.togglePanel}}
-        >
+            data-test-meeting-toggle-panel-button
+            @type='link'
+            @onClick={{action this.togglePanel}}>
             {{t 'meetings.detail.meeting-detail-header.add_your'}} {{this.addSubmissionText}}
         </OsfButton>
-    </div>
-{{/if}}
-
-{{#if this.meeting.infoUrl}}
-    <OsfLink data-test-meeting-info-url @href={{this.meeting.infoUrl}}>
-        {{if this.meeting.fieldNames.homepage_link_text
-            this.meeting.fieldNames.homepage_link_text
-            (t 'meetings.detail.meeting-detail-header.conference_homepage')
-        }}
-    </OsfLink>
-{{/if}}
+    {{/if}}
+    {{if (and this.meeting.active this.meeting.infoUrl) '|'}}
+    {{#if this.meeting.infoUrl}}
+        <OsfLink
+            local-class='meeting-homepage-link'
+            data-test-meeting-info-url
+            @href={{this.meeting.infoUrl}}>
+            {{if this.meeting.fieldNames.homepage_link_text
+                this.meeting.fieldNames.homepage_link_text
+                (t 'meetings.detail.meeting-detail-header.conference_homepage')
+            }}
+        </OsfLink>
+    {{/if}}
+</div>
 
 <CpPanel @open={{this.isPanelOpen}} as |panel|>
     <panel.body>

@@ -1107,7 +1107,6 @@ export default {
             disciplines: 'Disciplines',
             tags: 'Tags',
             citation: 'Citation',
-            edit_field: 'Edit {{field}}',
         },
 
         form_view: {
@@ -1439,14 +1438,17 @@ export default {
             add_tag: 'Add a tag to enhance discoverability',
             no_tags: 'No tags',
         },
-        'institutions-list': {
+        'institutions-widget': {
+            affiliated_institutions: 'Affiliated institutions',
+            affiliate_institutions: 'Affiliate institutions',
+            add_institution_error: 'Error adding institution',
+            remove_institution_error: 'Error removing institution',
+            no_affiliations: 'No affiliations to add',
             no_affiliated_institution: {
+                user: 'You have no institutional affiliations',
                 project: 'This project has no affiliated institutions',
                 registration: 'This registration has no affiliated institutions',
             },
-        },
-        'institutions-select-list': {
-            no_affiliated_institution: 'You have no institutional affiliations',
         },
         'citation-viewer': {
             get_more: 'Get more citations',

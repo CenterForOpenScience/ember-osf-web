@@ -1,5 +1,6 @@
 .org-logo {
-    transform: translateY(50%);
+    display: flex;
+    align-items: center;
 }
 
 .org-logo img {
@@ -9,7 +10,6 @@
 .org-logo div {
     position: relative;
     top: 50%;
-    transform: translateY(-50%);
 }
 
 .blue-icon {

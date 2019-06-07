@@ -80,7 +80,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
     osfToManyRelationship(this, 'registration', 'affiliatedInstitutions', {
-        only: ['related', 'update', 'add', 'remove'],
+        only: ['related', 'add', 'remove'],
         path: '/registrations/:parentID/relationships/institutions',
     });
     osfNestedResource(this, 'registration', 'identifiers', { only: ['index'] });
