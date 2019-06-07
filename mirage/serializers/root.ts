@@ -13,6 +13,7 @@ interface RootObject extends DS.Model {
     version: string;
     links: Links;
     currentUser?: ModelInstance<User>;
+    _withAnonymizedVOL?: boolean;
 }
 
 export default class RootSerializer extends ApplicationSerializer<RootObject> {

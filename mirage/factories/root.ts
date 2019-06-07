@@ -18,12 +18,15 @@ export interface Root {
     message: string;
     version: string;
     links: Links;
-    currentUser?: ModelInstance<User>;
+    currentUser: ModelInstance<User> | null;
     currentUserId?: string;
+    _withAnonymizedVOL: boolean;
 }
 
 interface RootTraits {
     oldRegistrationDetail: Trait;
+    loggedOut: Trait;
+    withAnonymizedVOL: Trait;
 }
 
 export const defaultRootAttrs = {
@@ -36,6 +39,7 @@ export const defaultRootAttrs = {
     message: 'Welcome to the OSF API.',
     version: '2.8',
     links: {},
+    _withAnonymizedVOL: false,
 };
 
 export default Factory.extend<Root & RootTraits>({
@@ -46,6 +50,14 @@ export default Factory.extend<Root & RootTraits>({
         afterCreate(root) {
             root.update('activeFlags', root.activeFlags.filter(f => f !== routes['registries.overview']));
         },
+    }),
+
+    loggedOut: trait<Root>({
+        currentUser: null,
+    }),
+
+    withAnonymizedVOL: trait<Root>({
+        _withAnonymizedVOL: true,
     }),
 });
 

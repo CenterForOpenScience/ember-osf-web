@@ -265,6 +265,10 @@ export default {
             description: 'Improve your next study. Enter the Prereg Challenge and you could win $1,000.',
             button: 'Start Prereg Challenge',
         },
+        view_only: {
+            warning: 'You are viewing OSF through a view-only link, which may limit the data you have permission to see.',
+            view_normally: 'Leave this view',
+        },
     },
     move_to_project: {
         create_new_project: 'Create new public project',
@@ -680,6 +684,7 @@ export default {
     },
     contributor_list: {
         x_more: '{{x}} more',
+        anonymous: 'Anonymous contributors',
     },
     app_components: {
         branded_navbar: {
@@ -698,6 +703,9 @@ export default {
                 copyrightHolders: 'Copyright Holders',
                 year: 'Year',
             },
+        },
+        license_text: {
+            anonymized_placeholder: '[anonymized]',
         },
         navbar: {
             add_item: 'Add to {{objectType}}',

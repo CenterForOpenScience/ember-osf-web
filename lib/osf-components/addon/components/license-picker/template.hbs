@@ -39,7 +39,7 @@
                 id=(concat 'nodeLicense-' key)
                 value=(mut (get this.node.nodeLicense key))
                 input=(action 'notify')
-                placeholder='Required'
+                placeholder=(t 'general.required')
             }}
         {{/each}}
     </this.form.custom>

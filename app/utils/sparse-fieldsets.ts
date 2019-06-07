@@ -3,6 +3,7 @@ import ModelRegistry from 'ember-data/types/registries/model';
 import { pluralize, singularize } from 'ember-inflector';
 import { Links } from 'jsonapi-typescript';
 
+import { camelizeKeys, mapKeysAndValues } from 'ember-osf-web/utils/map-keys';
 import { Resource } from 'osf-api';
 
 // Automatic type safety for attributes and relationships appears prohibitively expensive.
@@ -17,20 +18,6 @@ export type SparseFieldset = {
     [K in keyof ModelRegistry]?: string[]
 };
 
-function mapKeysAndValues<Value, NewValue>(
-    obj: Record<string, Value>,
-    mapKey: (k: string) => string,
-    mapValue: (v: Value) => NewValue,
-): Record<string, NewValue> {
-    return Object.entries(obj).reduce(
-        (acc, [k, v]) => ({
-            ...acc,
-            [mapKey(k)]: mapValue(v),
-        }),
-        {} as Record<string, NewValue>,
-    );
-}
-
 export function parseSparseResource(resource: Resource): SparseModel {
     const {
         id,
@@ -40,11 +27,7 @@ export function parseSparseResource(resource: Resource): SparseModel {
         links,
     } = resource;
 
-    const mappedAttributes = mapKeysAndValues(
-        attributes || {},
-        key => camelize(key),
-        value => value,
-    );
+    const mappedAttributes = camelizeKeys(attributes || {});
 
     const mappedEmbeds = mapKeysAndValues(
         embeds || {},

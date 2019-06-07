@@ -6,9 +6,9 @@ import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 const routerStub = Service.extend({
-    currentURL: '',
+    currentURL: '/',
     urlFor() {
-        return 'FakeURL';
+        return '/FakeURL';
     },
     isActive() {
         return false;

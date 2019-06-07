@@ -21,7 +21,7 @@ import template from './template';
 @tagName('span')
 export default class ContributorList extends Component.extend({
     loadContributors: task(function *(this: ContributorList, more?: boolean) {
-        if (!this.node) {
+        if (!this.node || this.node.isAnonymous) {
             return;
         }
 

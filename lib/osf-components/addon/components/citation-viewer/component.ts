@@ -9,7 +9,7 @@ import Node from 'ember-osf-web/models/node';
 import Preprint from 'ember-osf-web/models/preprint';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
-import pathJoin from 'ember-osf-web/utils/path-join';
+import { addPathSegment } from 'ember-osf-web/utils/url-parts';
 import { SingleResourceDocument } from 'osf-api';
 
 import template from './template';
@@ -29,10 +29,13 @@ const defaultCitations: DefaultCitation[] = [
 function citationUrl(citable: Node | Preprint, citationStyleId: string) {
     const relatedHref = getRelatedHref(citable.links.relationships!.citation);
 
-    return pathJoin(
-        relatedHref!,
+    if (!relatedHref) {
+        throw Error('Error getting citation URL');
+    }
+
+    return addPathSegment(
+        relatedHref,
         citationStyleId,
-        '/',
     );
 }
 

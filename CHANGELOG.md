@@ -37,8 +37,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `meetings/detail/components/meeting-submissions-list` - meeting submissions list
     - `settings/account/-components/connected-identities` - connected identities component
     - `meetings/detail/components/meeting-detail-header` - meeting detail header
+    - `banners/view-only-link` - banner displayed when using a view-only link
 - Utilities:
     - `leaf-vals` - get values of all leaves in an object tree
+    - `notFoundURL` (in `utils/clean-url`) - makes a URL suitable for a `not-found` route's `path` param
+    - `camelizeKeys`, `snakifyKeys`, and `mapKeysAndValues` in `utils/map-keys`
+    - `addPathSegment` (in `utils/url-parts`) - adds a path segment to a given URL
 - Tests:
     - Acceptance:
         - `new-home`
@@ -61,6 +65,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - meetings scenario
     - `external-identities` factory and endpoint
     - add `external-identities` to settings scenario
+- View-only link support:
+    - Add `view_only` query param to `application` route
+    - Store VOL info (token, anonymized) on `current-user` service
+    - Include VOL token in all API requests, all links within OSF
 
 - .vscode/settings.json
     - Add `typescript.tsdk` setting so that VS Code uses workspace's TypeScript version by default.
@@ -71,6 +79,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list`
         - add ability to provide a header row
         - add splattributes to item
+    - `contributor-list` - display something useful when using an anonymized VOL
 - Authenticators:
     - `osf-cookie` - initialize any disabled feature flags found in config
 

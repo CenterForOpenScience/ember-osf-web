@@ -9,6 +9,7 @@ export interface NodeAttrs {
     parentId: ID | null;
     rootId: ID | null;
     licenseId: ID | null;
+    _anonymized: boolean;
 }
 
 type MirageNode = Node & { attrs: NodeAttrs };
@@ -161,6 +162,13 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
         return {
             ...super.buildNormalLinks(model),
             html: `/${model.id}/`,
+        };
+    }
+
+    buildApiMeta(model: ModelInstance<MirageNode>) {
+        return {
+            ...super.buildApiMeta(model),
+            ...(model.attrs._anonymized ? { anonymous: true } : {}),
         };
     }
 }

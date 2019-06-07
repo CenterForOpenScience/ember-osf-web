@@ -36,12 +36,18 @@ export interface RootMeta extends BaseMeta {
     active_flags: string[];
     message: string;
     version: string;
-    current_user?: { data: UserResource };
+    current_user?: {
+        data: UserResource,
+        meta?: {
+            anonymous?: boolean;
+        },
+    };
 }
 
 export interface BaseMeta {
     version: string;
     total_bibliographic?: number;
+    anonymous?: boolean;
 }
 
 export interface Resource extends JSONAPI.ResourceObject {
