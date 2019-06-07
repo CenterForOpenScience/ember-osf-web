@@ -1,6 +1,6 @@
 import { capitalize } from '@ember/string';
-import { click as untrackedClick } from '@ember/test-helpers';
-import { ModelInstance } from 'ember-cli-mirage';
+import { click as untrackedClick, fillIn } from '@ember/test-helpers';
+import { faker, ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { selectChoose } from 'ember-power-select/test-support';
@@ -126,14 +126,14 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-edit-button="tags"]').isVisible();
         await click('[data-test-edit-button="tags"]');
 
-        assert.dom('[data-test-registration-tags]').isVisible();
+        assert.dom('[data-test-tags]').isVisible();
         assert.dom('[data-test-tags-widget-tag-input="edit"] input').isVisible();
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
 
         reg.update({ currentUserPermissions: [Permission.Read] });
         await visit(`/${reg.id}/`);
 
-        assert.dom('[data-test-registration-tags]').isVisible();
+        assert.dom('[data-test-tags-read-only]').isVisible();
         assert.dom('[data-test-tags-widget-tag-input] input').isNotVisible();
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
     });
@@ -252,6 +252,31 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assertHeadMetaTags(assert, 'tags', reg.tags);
         assertHeadMetaTags(assert, 'contributors', reg.contributors.models.mapBy('users.fullName'));
         assertHeadMetaTags(assert, 'affiliatedInstitutions', affiliatedInstitutions.mapBy('name'), true);
+    });
+
+    test('Editable description', async assert => {
+        const reg = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            description: '',
+        });
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-edit-button="description"]').isVisible();
+        assert.dom('[data-test-description-input]').isNotVisible();
+        await click('[data-test-edit-button="description"]');
+        assert.dom('[data-test-description-input]').isVisible();
+
+        const newDescription = faker.lorem.sentences(2);
+
+        await fillIn('[data-test-description-input] textarea', newDescription);
+        assert.dom('[data-test-save-edits]').isVisible();
+        await click('[data-test-save-edits]');
+
+        assert.equal(reg.description, newDescription, 'description successfully updated');
+        reg.update({ currentUserPermissions: [] });
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="description"]').isNotVisible();
     });
 
     test('editable registration category', async assert => {

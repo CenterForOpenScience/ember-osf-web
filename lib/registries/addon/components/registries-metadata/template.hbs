@@ -20,10 +20,20 @@
     </div>
 
     <div local-class='Field'>
-        <h4>{{t 'registries.registration_metadata.description'}}</h4>
-        <div data-test-registries-metadata='description'>
-            {{or this.registration.description (t 'registries.registration_metadata.no_description')}}
-        </div>
+        <EditableField
+            data-analytics-scope='Description'
+            @managerComponent={{component 'editable-field/description-manager' node=this.registration}}
+            @title={{t 'registries.registration_metadata.description'}}
+            @name='description'
+            as |field|
+        >
+            <field.edit>
+                <NodeDescriptionEditable @manager={{field.manager}} />
+            </field.edit>
+            <field.display>
+                <NodeDescription @manager={{field.manager}} />
+            </field.display>
+        </EditableField>
     </div>
 
     <div local-class='Field'>
@@ -105,17 +115,10 @@
                 as |field|
             >
                 <field.edit>
-                    <InstitutionSelectList
-                        @user={{this.currentUser.user}}
-                        @node={{this.registration}}
-                        @manager={{field.manager}}
-                    />
+                    <InstitutionSelectList @manager={{field.manager}} />
                 </field.edit>
                 <field.display>
-                    <InstitutionsList
-                        @reloadList={{field.manager.bindReload}}
-                        @node={{this.registration}}
-                    />
+                    <InstitutionsList @manager={{field.manager}} />
                 </field.display>
             </EditableField>
         </div>
@@ -170,14 +173,13 @@
             >
                 <field.edit>
                     <RegistriesTagsWidget
-                        data-test-registration-tags
+                        data-test-tags
                         @manager={{field.manager}}
                     />
                 </field.edit>
                 <field.display>
                     <RegistriesTagsWidget
-                        data-test-registration-tags
-                        @registration={{this.registration}}
+                        data-test-tags-read-only
                         @manager={{field.manager}}
                         @readOnly={{true}}
                     />

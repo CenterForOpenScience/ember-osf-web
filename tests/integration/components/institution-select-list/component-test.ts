@@ -15,34 +15,28 @@ const noop = () => { /* noop */ };
 module('Integration | Component | institution-select-list', hooks => {
     setupRenderingTest(hooks);
 
-    hooks.beforeEach(async function(this: Context) {
+    hooks.beforeEach(function(this: Context) {
         this.server = startMirage();
         this.store = this.owner.lookup('service:store');
         const mirageRegistration = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             currentUserPermissions: Object.values(Permission),
         });
-        const registration = await this.store.findRecord('registration', mirageRegistration.id);
+        const registration = this.store.findRecord('registration', mirageRegistration.id);
+        const mirageUser = server.create('user', 'withInstitutions');
+        const user = this.store.findRecord('user', mirageUser.id);
         const managerStub = {
-            reloadList: noop,
             addInstitution: noop,
             removeInstitution: noop,
             affiliatedList: [],
+            node: registration,
+            user,
         };
-        this.set('node', registration);
         this.set('manager', managerStub);
     });
 
-    test('it renders', async function(this: Context, assert) {
-        const mirageUser = server.create('user', 'withInstitutions');
-        const user = await this.store.findRecord('user', mirageUser.id);
-        this.set('user', user);
-
-        await render(hbs`<InstitutionSelectList
-            @user={{this.user}}
-            @node={{this.node}}
-            @manager={{this.manager}}
-        />`);
+    test('it renders', async assert => {
+        await render(hbs`<InstitutionSelectList @manager={{this.manager}} />`);
 
         assert.dom('[data-test-institution]').exists({ count: 3 });
     });

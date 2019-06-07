@@ -1076,6 +1076,8 @@ export default {
             disciplines: 'Disciplines',
             tags: 'Tags',
             citation: 'Citation',
+            save_description_error: 'Unable to save description',
+            add_description: 'Add description',
             edit_field: 'Edit {{field}}',
             save_category: {
                 error: 'Unable to save category',

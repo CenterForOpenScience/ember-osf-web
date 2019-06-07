@@ -16,6 +16,7 @@ export interface TagsManager {
     addTag: (tag: string) => void;
     clickTag: (tag: string) => void;
     readOnly: boolean;
+    registration: Registration;
 }
 
 const {
@@ -44,12 +45,6 @@ export default class TagsManagerComponent extends Component.extend({
 
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
 
-    didReceiveAttrs() {
-        if (this.registration) {
-            this.setProperties({ currentTags: [...this.registration.tags] });
-        }
-    }
-
     @computed('registration.tags.[]')
     get fieldIsEmpty() {
         return !this.registration.tags.length;
@@ -62,7 +57,10 @@ export default class TagsManagerComponent extends Component.extend({
 
     @action
     startEditing() {
-        this.set('requestedEditMode', true);
+        this.setProperties({
+            requestedEditMode: true,
+            currentTags: [...this.registration.tags],
+        });
     }
 
     @action
