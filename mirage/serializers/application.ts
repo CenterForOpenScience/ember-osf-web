@@ -2,7 +2,7 @@ import { underscore } from '@ember/string';
 import { Collection, JSONAPISerializer, ModelInstance, Request } from 'ember-cli-mirage';
 import DS, { RelationshipsFor } from 'ember-data';
 import config from 'ember-get-config';
-import { RelatedLinkMeta, Relationship } from 'osf-api';
+import { BaseMeta, RelatedLinkMeta, Relationship } from 'osf-api';
 
 const { OSF: { apiUrl } } = config;
 
@@ -43,9 +43,19 @@ export default class ApplicationSerializer<T extends DS.Model> extends JSONAPISe
         return {};
     }
 
+    buildApiMeta(_: ModelInstance<T>): BaseMeta {
+        return {
+            version: '',
+        };
+    }
+
     serialize(model: ModelInstance<T>, request: Request) {
         const json = super.serialize(model, request);
         json.data.links = this.buildNormalLinks(model);
+        json.data.meta = {
+            ...this.buildApiMeta(model),
+            ...(json.data.meta || {}),
+        };
         json.data.relationships = Object
             .entries(this.buildRelationships(model))
             .reduce((acc, [key, value]) => {

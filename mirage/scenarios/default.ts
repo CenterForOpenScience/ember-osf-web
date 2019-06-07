@@ -148,6 +148,11 @@ function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
 }
 
 function meetingsScenario(server: Server) {
+    server.create('meeting', {
+        id: 'testmeeting',
+        name: 'Test Meeting',
+        submissions: server.createList('meeting-submission', 15),
+    });
     server.createList('meeting', 25);
 }
 

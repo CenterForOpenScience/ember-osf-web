@@ -26,10 +26,10 @@ export default Factory.extend<Comment & CommentTraits>({
         return faker.lorem.sentences(faker.random.number({ min: 1, max: 4 }));
     },
     dateCreated() {
-        return faker.date.past(3, new Date(2019, 0, 0));
+        return faker.date.past(3);
     },
     dateModified() {
-        return faker.date.past(3, new Date(2019, 0, 0));
+        return faker.date.past(3);
     },
     modified: false,
     deleted: false,

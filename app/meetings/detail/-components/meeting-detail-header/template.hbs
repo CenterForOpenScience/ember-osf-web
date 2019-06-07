@@ -1,0 +1,101 @@
+<h1 data-test-meeting-name>{{this.meeting.name}}</h1>
+
+<div data-test-meeting-location-and-date local-class='location-and-date-text'>
+    {{if this.meeting.location (concat this.meeting.location ' | ')}}
+    {{moment-format this.meeting.startDate 'MMM DD, YYYY'}}
+    {{if this.meeting.endDate (concat ' - ' (moment-format this.meeting.endDate 'MMM DD, YYYY'))}}
+</div>
+
+{{#if this.meeting.logoUrl}}
+    <div>
+        <img
+            data-test-meeting-logo
+            src={{this.meeting.logoUrl}}
+            alt={{t 'meetings.detail.meeting-detail-header.image_alt'}}
+            class='img-responsive'
+        >
+    </div>
+{{/if}}
+
+<div local-class='toggle-button-and-homepage-link-container'>
+    {{#if this.meeting.active}}
+        <OsfButton
+            local-class='toggle-panel-button'
+            data-analytics-name='Toggle meeting submission panel'
+            data-test-meeting-toggle-panel-button
+            @type='link'
+            @onClick={{action this.togglePanel}}>
+            {{t 'meetings.detail.meeting-detail-header.add_your'}} {{this.addSubmissionText}}
+        </OsfButton>
+    {{/if}}
+    {{if (and this.meeting.active this.meeting.infoUrl) '|'}}
+    {{#if this.meeting.infoUrl}}
+        <OsfLink
+            local-class='meeting-homepage-link'
+            data-test-meeting-info-url
+            @href={{this.meeting.infoUrl}}>
+            {{if this.meeting.fieldNames.homepage_link_text
+                this.meeting.fieldNames.homepage_link_text
+                (t 'meetings.detail.meeting-detail-header.conference_homepage')
+            }}
+        </OsfLink>
+    {{/if}}
+</div>
+
+<CpPanel @open={{this.isPanelOpen}} as |panel|>
+    <panel.body>
+        <h2 data-test-meeting-panel-header local-class='panel-header-text'>
+            {{t 'meetings.detail.meeting-detail-header.add_your'}} {{this.addSubmissionText}}
+        </h2>
+        <p data-test-meeting-send-email>
+            {{t 'meetings.detail.meeting-detail-header.send_email'}}
+        </p>
+        <ul data-test-meeting-email-address-line>
+            {{#if this.meeting.isAcceptingTypeOne}}
+                <li>
+                    {{t 'meetings.detail.meeting-detail-header.email_text'
+                        typeName=this.meeting.fieldNames.submission1_plural
+                        emailAddress=this.meeting.typeOneSubmissionEmail
+                    }}
+                </li>
+            {{/if}}
+
+            {{#if this.meeting.isAcceptingTypeTwo}}
+                <li>
+                    {{t 'meetings.detail.meeting-detail-header.email_text'
+                        typeName=this.meeting.fieldNames.submission2_plural
+                        emailAddress=this.meeting.typeTwoSubmissionEmail
+                    }}
+                </li>
+            {{/if}}
+        </ul>
+        <p data-test-meeting-format-header>
+            {{t 'meetings.detail.meeting-detail-header.format_header'}}
+        </p>
+        <div data-test-meeting-format-body>
+            <dl local-class='meeting-format-body'>
+                <dt>
+                    {{t 'meetings.detail.meeting-detail-header.subject'}}
+                </dt>
+                <dd>
+                    {{this.meeting.fieldNames.mail_subject}}
+                </dd>
+                <dt>
+                    {{t 'meetings.detail.meeting-detail-header.message_body'}}
+                </dt>
+                <dd>
+                    {{this.meeting.fieldNames.mail_message_body}}
+                </dd>
+                <dt>
+                    {{t 'meetings.detail.meeting-detail-header.attachment'}}
+                </dt>
+                <dd>
+                    {{this.meeting.fieldNames.mail_attachment}}
+                </dd>
+            </dl>
+        </div>
+        <p data-test-meeting-panel-footer-note>
+            {{t 'meetings.detail.meeting-detail-header.panel_footer_note'}}
+        </p>
+    </panel.body>
+</CpPanel>

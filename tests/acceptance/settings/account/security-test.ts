@@ -89,7 +89,7 @@ module('Acceptance | settings/account | security', hooks => {
     test('cannot use unauthenticated', async function(assert) {
         this.owner.register('service:current-user', CurrentUserStub);
         const currentUser = this.owner.lookup('service:current-user');
-        await visit('settings/account/');
+        await visit('/settings/account/');
         assert.equal(currentUser.urlCalled, '/settings/account');
     });
 

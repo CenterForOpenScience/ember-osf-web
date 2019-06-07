@@ -186,20 +186,22 @@
                 </field.display>
             </EditableField>
         </div>
-        <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.citation'}}</h4>
-            <OsfButton
-                data-analytics-name='{{if this.expandCitations 'Collapse' 'Expand'}} citations'
-                local-class='LinkButton'
-                @type='link'
-                @onClick={{action (mut this.expandCitations) (not this.expandCitations)}}
-            >
-                {{this.registrationDisplayUrl}}
-                <FaIcon @icon={{if this.expandCitations 'caret-up' 'caret-down'}} />
-            </OsfButton>
-            {{#if this.expandCitations}}
-                <CitationViewer @citable={{this.registration}} />
-            {{/if}}
-        </div>
+        {{#unless this.registration.isAnonymous}}
+            <div local-class='Field'>
+                <h4>{{t 'registries.registration_metadata.citation'}}</h4>
+                <OsfButton
+                    data-analytics-name='{{if this.expandCitations 'Collapse' 'Expand'}} citations'
+                    local-class='LinkButton'
+                    @type='link'
+                    @onClick={{action (mut this.expandCitations) (not this.expandCitations)}}
+                >
+                    {{this.registrationDisplayUrl}}
+                    <FaIcon @icon={{if this.expandCitations 'caret-up' 'caret-down'}} />
+                </OsfButton>
+                {{#if this.expandCitations}}
+                    <CitationViewer @citable={{this.registration}} />
+                {{/if}}
+            </div>
+        {{/unless}}
     {{/if}}
 </div>

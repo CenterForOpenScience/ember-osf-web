@@ -46,17 +46,35 @@
         </list.header>
         <list.item local-class='item' as |meeting|>
             {{#if meeting}}
-                <div data-test-meetings-list-item-name>{{meeting.name}}</div>
-                <div data-test-meetings-list-item-submissions>{{meeting.submissionsCount}}</div>
-                <div data-test-meetings-list-item-location>{{meeting.location}}</div>
+                <div data-test-meetings-list-item-name>
+                    <OsfLink @route='meetings.detail' @models={{array meeting.id}}>
+                        {{meeting.name}}
+                    </OsfLink>
+                </div>
+                <div data-test-meetings-list-item-submissions>
+                    {{meeting.submissionsCount}}
+                </div>
+                <div data-test-meetings-list-item-location>
+                    {{meeting.location}}
+                </div>
                 <div data-test-meetings-list-item-date>
-                    {{moment-format meeting.startDate 'MMM DD, YYYY'}} - {{moment-format meeting.endDate 'MMM DD, YYYY'}}
+                    {{if meeting.startDate (moment-format meeting.startDate 'MMM DD, YYYY')}}
+                    {{if (or meeting.startDate meeting.endDate) ' - '}}
+                    {{if meeting.endDate (moment-format meeting.endDate 'MMM DD, YYYY')}}
                 </div>
             {{else}}
-                <div data-test-meetings-list-placeholder-name>{{placeholder.text lines=1}}</div>
-                <div data-test-meetings-list-placeholder-submissions>{{placeholder.text lines=1}}</div>
-                <div data-test-meetings-list-placeholder-location>{{placeholder.text lines=1}}</div>
-                <div data-test-meetings-list-placeholder-date>{{placeholder.text lines=1}}</div>
+                <div data-test-meetings-list-placeholder-name>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-meetings-list-placeholder-submissions>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-meetings-list-placeholder-location>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-meetings-list-placeholder-date>
+                    {{placeholder.text lines=1}}
+                </div>
             {{/if}}
         </list.item>
         <list.empty data-tests-meetings-list-empty local-class='empty'>
