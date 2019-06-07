@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [19.5.0] - 2019-06-07
 ### Added
 - Models:
     - `meeting` - for OSF Meetings
@@ -25,39 +25,68 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `get-started-button` - a button that takes you to the '/register' page.
     - `search-bar` - a search bar component that takes you to the search page.
+    - `paginated-list/x-header` - a paginated list header closure component
+    - `banners/view-only-link` - banner displayed when using a view-only link
     - `new-home`
         - `hero-banner` - a banner to be used on the logged-out homepage.
         - `support-section`
             - `support-item` - an item on the support-section component
             - `learn-more-button` - a button that goes to the cos.io learn more page
-    - `meetings/index/components/meetings-list` - meetings list for the meetings index page
-    - `paginated-list/x-header` - a paginated list header closure component
-    - `meetings/index/components/meetings-hero-banner` - meetings landing page hero banner
-    - `meetings/index/components/meetings-footer` - meetings landing page footer
-    - `meetings/detail/components/meeting-submissions-list` - meeting submissions list
-    - `settings/account/-components/connected-identities` - connected identities component
-    - `meetings/detail/components/meeting-detail-header` - meeting detail header
-    - `banners/view-only-link` - banner displayed when using a view-only link
+    - `meetings`
+        - `index`
+            - `meetings-hero-banner` - meetings landing page hero banner
+            - `meetings-list` - meetings list for the meetings index page
+            - `meetings-footer` - meetings landing page footer
+        - `detail`
+            - `meeting-detail-header` - meeting detail header
+            - `meeting-submissions-list` - meeting submissions list
+    - `settings`
+        - `account`
+            - `connected-identities` - connected identities component
+- Helpers:
+    - `is-feature-enabled` - helper that checks if a feature flag is enabled
 - Utilities:
-    - `leaf-vals` - get values of all leaves in an object tree
-    - `notFoundURL` (in `utils/clean-url`) - makes a URL suitable for a `not-found` route's `path` param
-    - `camelizeKeys`, `snakifyKeys`, and `mapKeysAndValues` in `utils/map-keys`
-    - `addPathSegment` (in `utils/url-parts`) - adds a path segment to a given URL
+    - `leafVals` - get values of all leaves in an object tree
+    - `clean-url`
+        - `notFoundURL` - makes a URL suitable for a `not-found` route's `path` param
+    - `map-keys`
+        - `camelizeKeys`
+        - `snakifyKeys`
+        - `mapKeysAndValues`
+    - `url-parts`
+        - `splitUrl`
+        - `joinUrl`
+        - `addQueryParam` - adds a query param to a given URL
+        - `addPathSegment` - adds a path segment to a given URL
 - Tests:
     - Acceptance:
         - `new-home`
         - `meetings/index`
+        - `meetings/detail`
+        - `view-only-link`
+        - `registries/overview/view-only-link`
     - Integration:
         - `get-started-button`
         - `search-bar`
         - `hero-banner`
-        - `meetings-list`
-        - `meetings-hero-banner`
-        - `meetings-footer`
-        - `meeting-submissions-list`
-        - `connected-identities`
+        - `view-only-link`
+        - `meetings`
+            - `index`
+                - `meetings-hero-banner`
+                - `meetings-list`
+                - `meetings-footer`
+            - `detail`
+                - `meeting-detail-header`
+                - `meeting-submissions-list`
+        - `settings`
+            - `account`
+                - `connected-identities`
     - Unit:
-        - `leaf-vals` utility
+        - utils:
+            - `leafVals`
+            - `notFoundURL` (in `clean-url`)
+            - `camelizeKeys` (in `map-keys`)
+            - `addPathSegment` (in `url-parts`)
 - Mirage:
     - `meeting` factory
     - `meeting-submission` factory
@@ -69,19 +98,53 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Add `view_only` query param to `application` route
     - Store VOL info (token, anonymized) on `current-user` service
     - Include VOL token in all API requests, all links within OSF
-
-- .vscode/settings.json
-    - Add `typescript.tsdk` setting so that VS Code uses workspace's TypeScript version by default.
+- Types:
+    - `ember-a11y-testing` - `a11yAudit`
+- DX:
+    - .vscode/settings.json
+        - Add `typescript.tsdk` setting so that VS Code uses workspace's TypeScript version by default.
 
 ### Changed
+- Adapters:
+    - `osf-adapter` - added support for view-only links
+- Controllers:
+    - `applicaton` - added `viewOnlyToken` query param
+- Routes:
+    - `applicaton` - added `viewOnlyToken` query param
 - Components:
-    - `osf-navbar` - detect active OSF service for any non-engine service
+    - `osf-navbar`
+        - detect active OSF service for any non-engine service
+        - `x-links/hyper-link/x-anchor` added support for view-only links
     - `paginated-list`
         - add ability to provide a header row
         - add splattributes to item
     - `contributor-list` - display something useful when using an anonymized VOL
+    - `osf-link` - added support for view-only links
+    - `osf-mode-footer` - add features tab for toggling feature flags
+    - `app-components`
+        - `license-text` - moved to `osf-components`
+        - `license-picker` - moved to `osf-components`
 - Authenticators:
-    - `osf-cookie` - initialize any disabled feature flags found in config
+    - `osf-cookie`
+        - initialize any disabled feature flags found in config
+        - added support for view-only links
+- Decorators:
+    - `checkAuth` - added support for view-only links
+- Transforms:
+    - `node-license` - use `camelizeKeys` and `snakifyKeys` utils
+- Services:
+    - `current-user` - added support for view-only links
+- Utilities:
+    - `sparse-fieldsets` - use `camelizeKeys` and `snakifyKeys` utils
+- Tests:
+    - Integration:
+        - `contributor-list` - add tests for anonymized nodes
+- Mirage:
+    - `node` factory - added support for view-only links
+    - `root` factory - added support for view-only links
+    - default scenario - added meetings scenario
+- Misc:
+    - ugrade dependencies (see package.json diff)
 
 ## [19.4.0] - 2019-04-25
 ### Added
@@ -838,39 +901,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.4.0...HEAD
-[19.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.3.0...19.4.0
-[19.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.2.0...19.3.0
-[19.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.2...19.2.0
-[19.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.1...19.1.2
-[19.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.1.0...19.1.1
-[19.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.0.2...19.1.0
-[19.0.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.0.1...19.0.2
-[19.0.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.0.0...19.0.1
-[19.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.2.2...19.0.0
-[18.2.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.2.1...18.2.2
-[18.2.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.2.0...18.2.1
-[18.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.1.2...18.2.0
-[18.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.1.1...18.1.2
-[18.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.1.0...18.1.1
-[18.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/18.0.0...18.1.0
-[18.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.7.0...18.0.0
-[0.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.1...0.7.0
-[0.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.0...0.6.1
-[0.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.2...0.6.1
-[0.5.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.1...0.5.2
-[0.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.0...0.5.1
-[0.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.4.1...0.5.0
-[0.4.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.4.0...0.4.1
-[0.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.7...0.4.0
-[0.3.7]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.6...0.3.7
-[0.3.6]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.5...0.3.6
-[0.3.5]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.4...0.3.5
-[0.3.4]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.3...0.3.4
-[0.3.3]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.2...0.3.3
-[0.3.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.1...0.3.2
-[0.3.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.0...0.3.1
-[0.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.2.0...0.3.0
-[0.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.1.1...0.2.0
-[0.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.1.0...0.1.1
-[0.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/7dad0d13c0253de88720dd058e96e11905d56911...0.1.0
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.5.0...HEAD
+[19.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.0
+[19.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.4.0
+[19.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.3.0
+[19.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.2.0
+[19.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.1.2
+[19.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.1.1
+[19.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.1.0
+[19.0.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.0.2
+[19.0.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.0.1
+[19.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.0.0
+[18.2.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.2.2
+[18.2.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.2.1
+[18.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.2.0
+[18.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.1.2
+[18.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.1.1
+[18.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.1.0
+[18.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.0.0
+[0.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.7.0
+[0.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.6.1
+[0.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.6.1
+[0.5.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.5.2
+[0.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.5.1
+[0.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.5.0
+[0.4.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.4.1
+[0.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.4.0
+[0.3.7]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.7
+[0.3.6]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.6
+[0.3.5]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.5
+[0.3.4]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.4
+[0.3.3]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.3
+[0.3.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.2
+[0.3.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.1
+[0.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.0
+[0.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.2.0
+[0.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.1.1
+[0.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.1.0
