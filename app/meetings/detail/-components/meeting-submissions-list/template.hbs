@@ -1,0 +1,98 @@
+<div data-test-submissions-list-search local-class='search'>
+    <div class='col-xs-12 col-sm-6 col-sm-offset-6'>
+        {{input
+            type='text'
+            placeholder='Search'
+            key-up=(perform this.searchSubmissions)
+        }}
+    </div>
+</div>
+
+<ContentPlaceholders as |placeholder|>
+    <PaginatedList::HasMany
+        data-test-submissions-list-list
+        local-class='table'
+        @relationshipName='submissions'
+        @modelTaskInstance={{this.model.taskInstance}}
+        @query={{this.query}}
+        as |list|
+    >
+        <list.header data-test-submissions-index local-class='header'>
+            {{#let (component 'sort-button'
+                class=(local-class 'sort-button')
+                sortAction=(action this.sortSubmissions)
+                sort=this.sort
+            ) as |SortButton|}}
+                <div data-test-submissions-list-header-title style='width: 40%'>
+                    {{t 'meetings.detail.meeting-submissions-list.title'}}
+                    <SortButton @sortBy='title' />
+                </div>
+                <div data-test-submissions-list-header-author style='width: 15%'>
+                    {{t 'meetings.detail.meeting-submissions-list.author'}}
+                    <SortButton @sortBy='author_name' />
+                </div>
+                <div data-test-submissions-list-header-category style='width: 15%'>
+                    {{t 'meetings.detail.meeting-submissions-list.category'}}
+                    <SortButton @sortBy='meeting_category' />
+                </div>
+                <div data-test-submissions-list-header-date style='width: 15%'>
+                    {{t 'meetings.detail.meeting-submissions-list.dateCreated'}}
+                    <SortButton @sortBy='created' />
+                </div>
+                <div data-test-submissions-list-header-download style='width: 15%'>
+                    {{t 'meetings.detail.meeting-submissions-list.downloads'}}
+                    <SortButton @sortBy='download_count' />
+                </div>
+            {{/let}}
+        </list.header>
+        <list.item local-class='item' as |submission|>
+            {{#if submission}}
+                <div data-test-submissions-list-item-title>
+                    <OsfLink @href={{submission.links.html}}>
+                        {{submission.title}}
+                    </OsfLink>
+                </div>
+                <div data-test-submissions-list-item-author>
+                    {{submission.authorName}}
+                </div>
+                <div data-test-submissions-list-item-category>
+                    {{submission.meetingCategory}}
+                </div>
+                <div data-test-submissions-list-item-date>
+                    {{moment-format submission.created 'YYYY-MM-DD hh:mm A'}}
+                </div>
+                <div data-test-submissions-list-item-download>
+                    {{#if submission.links.download}}
+                        <OsfButton
+                            @type='success'
+                            class='btn-xs'
+                            @onClick={{action this.downloadFile submission}}
+                        >
+                            <FaIcon @icon='download' class='fa-inverse' />
+                        </OsfButton>
+                        {{submission.downloadCount}}
+                    {{/if}}
+                </div>
+            {{else}}
+                <div data-test-submissions-list-placeholder-title>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-submissions-list-placeholder-author>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-submissions-list-placeholder-category>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-submissions-list-placeholder-date>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-submissions-list-placeholder-download>
+                    {{placeholder.text lines=1}}
+                </div>
+            {{/if}}
+        </list.item>
+        <list.empty data-test-submissions-list-empty local-class='empty'>
+            {{t 'meetings.detail.meeting-submissions-list.noSubmissions'}}
+        </list.empty>
+    </PaginatedList::HasMany>
+</ContentPlaceholders>

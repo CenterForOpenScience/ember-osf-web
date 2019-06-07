@@ -8,6 +8,7 @@ import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import param from 'ember-osf-web/utils/param';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
@@ -96,7 +97,7 @@ export default class ResolveGuid extends Route {
 
     @action
     error(error: Error, transition: Transition) {
-        this.replaceWith('not-found', transitionTargetURL(transition).slice(1));
+        this.replaceWith('not-found', notFoundURL(transitionTargetURL(transition)));
 
         throw error;
     }

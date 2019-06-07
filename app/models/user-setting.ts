@@ -8,7 +8,7 @@ import OsfModel, { OsfLinks } from './osf-model';
 import UserModel from './user';
 
 const Validations = buildValidations({
-    verification: [
+    twoFactorVerification: [
         validator('presence', true),
         validator('number', {
             allowString: true,
@@ -29,7 +29,7 @@ export default class UserSettingModel extends OsfModel.extend(Validations) {
     @attr('boolean') subscribeOsfGeneralEmail!: boolean;
     @attr('boolean') deactivationRequested!: boolean;
     @attr('string') secret!: string;
-    @attr('number') verification?: number;
+    @attr('number') twoFactorVerification?: number;
 
     @belongsTo('user', { inverse: 'settings', async: false })
     user!: UserModel;

@@ -9,6 +9,7 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
+import CurrentUser from 'ember-osf-web/services/current-user';
 import { click } from 'ember-osf-web/tests/helpers';
 
 const i18nStub = Service.extend({
@@ -36,6 +37,7 @@ const i18nStub = Service.extend({
 
 interface ThisTestContext extends TestContext {
     i18n: I18N;
+    currentUser: CurrentUser;
 }
 
 module('Integration | Component | contributor-list', hooks => {
@@ -46,6 +48,7 @@ module('Integration | Component | contributor-list', hooks => {
         this.owner.register('service:i18n', i18nStub);
         this.i18n = this.owner.lookup('service:i18n');
         this.store = this.owner.lookup('service:store');
+        this.currentUser = this.owner.lookup('service:current-user');
     });
 
     test('shouldLinkUsers links contributor names', async function(assert) {
@@ -130,5 +133,34 @@ module('Integration | Component | contributor-list', hooks => {
         await click('[data-test-load-more-contribs]');
         assert.dom('[data-test-contributor-name]').exists({ count: 28 });
         assert.dom('[data-test-load-more-contribs]').doesNotExist();
+    });
+
+    test('it handles anonymized nodes', async function(this: ThisTestContext, assert) {
+        const mirageNode = server.create('node');
+
+        const biblioUsers = server.createList('user', 8);
+        for (const user of biblioUsers) {
+            server.create('contributor', { node: mirageNode, users: user });
+        }
+
+        this.currentUser.viewOnlyToken = 'hey look a VOL';
+        const node = await this.store.findRecord('node', mirageNode.id);
+        node.set('apiMeta', {
+            version: '',
+            anonymous: true,
+        });
+        this.setProperties({ node });
+
+        await render(hbs`<ContributorList @node={{this.node}} @shouldTruncate={{false}} />`);
+
+        assert.dom('[data-test-contributor-name]').doesNotExist();
+        assert.dom('[data-test-load-more-contribs]').doesNotExist();
+        assert.dom().hasText('Anonymous contributors');
+
+        await render(hbs`<ContributorList @node={{this.node}} @shouldTruncate={{true}} />`);
+
+        assert.dom('[data-test-contributor-name]').doesNotExist();
+        assert.dom('[data-test-load-more-contribs]').doesNotExist();
+        assert.dom().hasText('Anonymous contributors');
     });
 });

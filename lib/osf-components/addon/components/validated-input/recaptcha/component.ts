@@ -1,5 +1,6 @@
 import { action, computed } from '@ember-decorators/object';
 import Ember from 'ember';
+import DS, { AttributesFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import BaseValidatedComponent from '../base-component';
@@ -10,7 +11,9 @@ export interface GRecaptcha {
 }
 
 @layout(template)
-export default class ValidatedRecaptcha extends BaseValidatedComponent {
+export default class ValidatedRecaptcha<M extends DS.Model> extends BaseValidatedComponent<M> {
+    valuePath!: AttributesFor<M>;
+
     // Exposes a reset action the the parent scope.
     // Usage: `bindReset=(action (mut this.resetRecaptcha))`, then call `this.resetRecaptcha()` to trigger a reset
     bindReset?: (action: () => void) => void;
@@ -38,12 +41,12 @@ export default class ValidatedRecaptcha extends BaseValidatedComponent {
     }
 
     @action
-    onCaptchaResolved(this: ValidatedRecaptcha, reCaptchaResponse: string) {
+    onCaptchaResolved(reCaptchaResponse: string) {
         this.set('value', reCaptchaResponse);
     }
 
     @action
-    onCaptchaExpired(this: ValidatedRecaptcha) {
+    onCaptchaExpired() {
         this.set('value', '');
     }
 }

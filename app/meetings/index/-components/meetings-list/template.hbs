@@ -1,0 +1,84 @@
+<p data-test-meetings-list-min-5 local-class='min_5_submissions'>
+    {{t 'meetings.index.meetings-list.min_5_submissions'}}
+</p>
+
+<div data-test-meetings-list-search local-class='search'>
+    <div class='col-xs-12 col-sm-6 col-sm-offset-6'>
+        {{input
+            type='text'
+            placeholder='Search'
+            key-up=(perform this.searchMeetings)
+        }}
+    </div>
+</div>
+
+<ContentPlaceholders as |placeholder|>
+    <PaginatedList::All
+        data-test-meetings-list-list
+        local-class='table'
+        @modelName='meeting'
+        @query={{this.query}}
+        as |list|
+    >
+        <list.header data-test-meetings-index- local-class='header'>
+            {{#let (component 'sort-button'
+                class=(local-class 'sort-button')
+                sortAction=(action this.sortMeetings)
+                sort=this.sort
+            ) as |SortButton|}}
+                <div data-test-meetings-list-header-name style='width: 45%'>
+                    {{t 'meetings.index.meetings-list.name'}}
+                    <SortButton @sortBy='name' />
+                </div>
+                <div data-test-meetings-list-header-submissions style='width: 15%'>
+                    {{t 'meetings.index.meetings-list.submissions'}}
+                    <SortButton @sortBy='submissions_count' />
+                </div>
+                <div data-test-meetings-list-header-location style='width: 20%'>
+                    {{t 'meetings.index.meetings-list.location'}}
+                    <SortButton @sortBy='location' />
+                </div>
+                <div data-test-meetings-list-header-date style='width: 20%'>
+                    {{t 'meetings.index.meetings-list.date'}}
+                    <SortButton @sortBy='start_date' />
+                </div>
+            {{/let}}
+        </list.header>
+        <list.item local-class='item' as |meeting|>
+            {{#if meeting}}
+                <div data-test-meetings-list-item-name>
+                    <OsfLink @route='meetings.detail' @models={{array meeting.id}}>
+                        {{meeting.name}}
+                    </OsfLink>
+                </div>
+                <div data-test-meetings-list-item-submissions>
+                    {{meeting.submissionsCount}}
+                </div>
+                <div data-test-meetings-list-item-location>
+                    {{meeting.location}}
+                </div>
+                <div data-test-meetings-list-item-date>
+                    {{if meeting.startDate (moment-format meeting.startDate 'MMM DD, YYYY')}}
+                    {{if (or meeting.startDate meeting.endDate) ' - '}}
+                    {{if meeting.endDate (moment-format meeting.endDate 'MMM DD, YYYY')}}
+                </div>
+            {{else}}
+                <div data-test-meetings-list-placeholder-name>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-meetings-list-placeholder-submissions>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-meetings-list-placeholder-location>
+                    {{placeholder.text lines=1}}
+                </div>
+                <div data-test-meetings-list-placeholder-date>
+                    {{placeholder.text lines=1}}
+                </div>
+            {{/if}}
+        </list.item>
+        <list.empty data-tests-meetings-list-empty local-class='empty'>
+            {{t 'meetings.index.meetings-list.empty'}}
+        </list.empty>
+    </PaginatedList::All>
+</ContentPlaceholders>

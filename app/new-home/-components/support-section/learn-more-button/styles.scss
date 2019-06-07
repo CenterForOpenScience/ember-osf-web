@@ -1,0 +1,17 @@
+.learnMoreButton {
+    width: 250px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #009dd5;
+    display: inline-grid;
+    align-content: center;
+}
+
+@media(max-width: 768px) {
+    .learnMoreButton {
+        width: 164px;
+        height: 40px;
+        font-size: 18px;
+    }
+}

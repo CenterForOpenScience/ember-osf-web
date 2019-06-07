@@ -145,6 +145,17 @@ function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('token', 23);
     server.createList('scope', 5);
     server.createList('developer-app', 12);
+    server.create('external-identity', { id: 'ORCID' }, 'withStatusVerified');
+    server.createList('external-identity', 10);
+}
+
+function meetingsScenario(server: Server) {
+    server.create('meeting', {
+        id: 'testmeeting',
+        name: 'Test Meeting',
+        submissions: server.createList('meeting-submission', 15),
+    });
+    server.createList('meeting', 25);
 }
 
 export default function(server: Server) {
@@ -178,6 +189,9 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('quickfiles')) {
         quickfilesScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('meetings')) {
+        meetingsScenario(server);
     }
     if (handbookEnabled) {
         handbookScenario(server, currentUser);

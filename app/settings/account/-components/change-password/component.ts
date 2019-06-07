@@ -1,4 +1,4 @@
-import { alias } from '@ember-decorators/object/computed';
+import { alias, not, or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
@@ -36,17 +36,24 @@ export default class ChangePasswordPane extends Component.extend({
         this.currentUser.logout();
     }),
 }) {
-    // Private parameters
-    userPassword: UserPassword;
-    didValidate = false;
-    newPassword = '';
-
+    // Private properties
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
     @service passwordStrength!: PasswordStrength;
     @service toast!: Toast;
     @service store!: DS.Store;
+
+    userPassword: UserPassword;
+    didValidate = false;
+    @not('didValidate') didNotValidate!: boolean;
+
     @alias('currentUser.user') user!: User;
+
+    @or(
+        'didNotValidate',
+        'userPassword.validations.attrs.newPassword.{message,isValidating}',
+    )
+    shouldHideStrengthBarMessage!: boolean;
 
     constructor(...args: any[]) {
         super(...args);

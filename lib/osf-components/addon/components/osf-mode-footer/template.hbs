@@ -36,6 +36,22 @@
                 <tab.pane @title='Zoom to route'>
                     <ZoomToRoute />
                 </tab.pane>
+                <tab.pane @title='Features'>
+                    <ul local-class='features'>
+                        {{#each this.featureList as |feature|}}
+                            <li>
+                                <label>
+                                    {{input
+                                        type='checkbox'
+                                        click=(action this.toggleFeature feature)
+                                        checked=(is-feature-enabled this.features feature)
+                                    }}
+                                    {{feature}}
+                                </label>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </tab.pane>
             </BsTab>
         </modal.body>
     </BsModal>

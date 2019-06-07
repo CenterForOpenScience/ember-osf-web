@@ -1,0 +1,27 @@
+.org-logo {
+    display: flex;
+    align-items: center;
+}
+
+.org-logo img {
+    padding: 20px 20% 0;
+}
+
+.org-logo div {
+    position: relative;
+    top: 50%;
+}
+
+.blue-icon {
+    color: #337ab7;
+    font-size: 50px;
+}
+
+.icon-circle {
+    display: inline-block;
+    border-radius: 60px;
+    width: 100px;
+    height: 100px;
+    padding-top: 20px;
+    border: 3px solid #d3e1ee;
+}

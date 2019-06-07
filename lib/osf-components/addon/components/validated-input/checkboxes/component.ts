@@ -1,4 +1,5 @@
 import { assert } from '@ember/debug';
+import DS, { RelationshipsFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -7,7 +8,9 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class ValidatedCheckboxes extends BaseValidatedComponent {
+export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidatedComponent<M> {
+    valuePath!: RelationshipsFor<M>;
+
     // Additional required arguments
     options!: any[]; // Model instances that could be added to the hasMany
 

@@ -55,9 +55,9 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
     hooks.beforeEach(function(this: TestContext) {
         sinon.stub(this.owner.lookup('service:router'), 'urlFor').callsFake(
-            (route, params) => {
+            (route: string, params?: { queryParams: object }) => {
                 let url = `/${route}`;
-                if (params.queryParams) {
+                if (params && params.queryParams) {
                     const queryParamString = Object.entries(params.queryParams)
                         .map(([key, value]) => `${key}=${value}`).join('&');
                     url = `${url}?${queryParamString}`;
@@ -66,7 +66,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
             },
         );
         sinon.stub(this.owner.lookup('service:router'), 'isActive').returns(false);
-        sinon.stub(this.owner.lookup('service:router'), 'currentURL').get(() => 'FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'currentURL').get(() => '/FakeURL');
         sinon.stub(this.owner.lookup('service:router'), 'currentRouteName').get(() => 'FakeRoute');
 
         this.owner.register('service:session', sessionStub);

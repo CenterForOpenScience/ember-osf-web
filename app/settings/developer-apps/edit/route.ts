@@ -3,12 +3,14 @@ import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { task } from 'ember-concurrency';
 
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
+
 export default class SettingsDeveloperAppsEditRoute extends Route.extend({
     modelTask: task(function *(this: SettingsDeveloperAppsEditRoute, id: string) {
         try {
             return yield this.store.findRecord('developer-app', id, { reload: false });
         } catch (e) {
-            this.replaceWith('not-found', this.router.currentURL.slice(1));
+            this.replaceWith('not-found', notFoundURL(this.router.currentURL));
             throw e;
         }
     }),

@@ -47,11 +47,9 @@ module('Unit | Adapter | osf-adapter', hooks => {
     test('#buildURL uses relationship links if available for delete, update, and find', function(assert) {
         const url = 'http://localhost:8000/v2/users/me/rel/';
         const adapter = this.owner.lookup('adapter:osf-adapter');
-        const user = FactoryGuy.make('user', {
-            links: {
-                self: url,
-            },
-        });
+        const user = FactoryGuy.make('user');
+        user.set('links', { self: url });
+
         ['delete', 'update', 'find'].forEach(verb => {
             const result = adapter.buildURL(
                 'user',
@@ -66,29 +64,8 @@ module('Unit | Adapter | osf-adapter', hooks => {
     test('#buildURL uses snapshot.adapterOptions.url if available', function(assert) {
         const url = 'http://localhost:8000/v2/users/me/rel/';
         const adapter = this.owner.lookup('adapter:osf-adapter');
-        const user = FactoryGuy.make('user', {
-            links: null,
-        });
-
-        const result = adapter.buildURL(
-            'user',
-            'me',
-            user._internalModel.createSnapshot({
-                adapterOptions: {
-                    url,
-                },
-            }),
-            'createRecord',
-        );
-        assert.equal(url, result);
-    });
-
-    test('#buildURL uses snapshot.adapterOptions.url if available', function(assert) {
-        const url = 'http://localhost:8000/v2/users/me/rel/';
-        const adapter = this.owner.lookup('adapter:osf-adapter');
-        const user = FactoryGuy.make('user', {
-            links: null,
-        });
+        const user = FactoryGuy.make('user');
+        user.set('links', null);
 
         const result = adapter.buildURL(
             'user',

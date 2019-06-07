@@ -265,6 +265,10 @@ export default {
             description: 'Improve your next study. Enter the Prereg Challenge and you could win $1,000.',
             button: 'Start Prereg Challenge',
         },
+        view_only: {
+            warning: 'You are viewing OSF through a view-only link, which may limit the data you have permission to see.',
+            view_normally: 'Leave this view',
+        },
     },
     move_to_project: {
         create_new_project: 'Create new public project',
@@ -450,6 +454,29 @@ export default {
         free_title1: 'Free and open source.',
         free_title2: 'OSF is a public good built to support your research.',
         free_link: 'Get started',
+        learn_more: 'Learn more',
+    },
+    'new-home': {
+        'support-section': {
+            header: 'How OSF supports your research',
+            arrow: 'arrow',
+            search: {
+                header: 'Search and Discover',
+                description: 'Find papers, data, and materials to inspire your next research project. Search public projects to build on the work of others and find new collaborators.',
+            },
+            design: {
+                header: 'Design Your Study',
+                description: 'Start a project and add collaborators, giving them access to protocols and other research materials. Built-in version control tracks the evolution of your study.',
+            },
+            analyze: {
+                header: 'Collect and Analyze Data',
+                description: 'Store data, code, and other materials in OSF Storage, or connect your Dropbox or other third-party account. Every file gets a unique, persistent URL for citing and sharing.',
+            },
+            publish: {
+                header: 'Publish Your Reports',
+                description: 'Share papers in OSF Preprints or a community-based preprint provider, so others can find and cite your work. Track impact with metrics like downloads and view counts.',
+            },
+        },
     },
     tos_consent: {
         paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
@@ -657,6 +684,7 @@ export default {
     },
     contributor_list: {
         x_more: '{{x}} more',
+        anonymous: 'Anonymous contributors',
     },
     app_components: {
         branded_navbar: {
@@ -675,6 +703,9 @@ export default {
                 copyrightHolders: 'Copyright Holders',
                 year: 'Year',
             },
+        },
+        license_text: {
+            anonymized_placeholder: '[anonymized]',
         },
         navbar: {
             add_item: 'Add to {{objectType}}',
@@ -1222,6 +1253,65 @@ export default {
             fork_registration: 'Fork this registration',
         },
     },
+    meetings: {
+        index: {
+            'meetings-list': {
+                min_5_submissions: 'Only conferences with at least five submissions are displayed.',
+                name: 'Name',
+                submissions: 'Submissions',
+                location: 'Location',
+                date: 'Date',
+                empty: 'No results found for this search term.',
+            },
+            'meetings-hero-banner': {
+                image_alt: 'Logo for OSF meeting',
+                h3: 'A <strong>free poster and presentation sharing service</strong> for academic meetings and conferences',
+                conference_organizers_h3: 'For Conference Organizers',
+                conference_organizers_help_text: 'Register your event to broaden its impact. Events get a dedicated page, an easy submission process, and persistent links.',
+                conference_organizers_register_button: 'Register',
+                conference_organizers_register_panel_texts: '<p>OSF Meetings is a product that we offer to academic conferences at no cost. To request poster and talk hosting for a conference:</p><p class=\'text-center\'><strong>Submit this <a href=\'https://docs.google.com/forms/d/e/1FAIpQLSeBq4CfC5CjTBz49TP2dO9ZIsQc6QAAJFUoUbkS767Le9twLw/viewform\'>set-up form </a></strong></p><p>We\'ll review and add your conference within one business day.</p>',
+                conference_participants_h3: 'For Conference Participants',
+                conference_participants_help_text: 'Share your posters and presentations along with any supporting data and materials. Get persistent links and usage analytics.',
+                conference_participants_upload_button: 'Upload',
+                conference_participants_upload_panel_texts: '<p>The OSF can host posters and talks for scholarly meetings. Submitting a presentation is easy:</p><ul><li>Find the email address for your conference by clicking on its name in the list below</li><li>Send your materials to the OSF Meetings email address for your conference</li></ul><p>We’ll create an OSF project for you. You\'ll get a permanent link to your presentation, plus analytics about who has viewed and downloaded your work.</p>',
+            },
+            'meetings-footer': {
+                discover: 'Discover',
+                discover_text: 'Explore posters and presentations from events long after they\'re over.',
+                share: 'Share',
+                share_text: 'Get persistent links to your content and increase your impact.',
+                enhance: 'Enhance',
+                enhance_text: 'Add supplementary data and materials to your submission to make your work more transparent.',
+                who_use_text: 'Who uses OSF Meetings?',
+                aps_img_alt: 'Logo for American Physiological Society (APS)',
+                bitss_img_alt: 'Logo for Berkeley Initiative for Transparency in the Social Sciences (BITSS)',
+                nrao_img_alt: 'Logo for National Radio Astronomy Observatory (NRAO)',
+                spsp_img_alt: 'Logo for Society for Personality and Social Psychology (SPSP)',
+            },
+        },
+        detail: {
+            'meeting-submissions-list': {
+                title: 'Title',
+                author: 'Author',
+                category: 'Category',
+                dateCreated: 'Date created',
+                downloads: 'Downloads',
+                noSubmissions: 'No submissions',
+            },
+            'meeting-detail-header': {
+                image_alt: 'Meeting logo image',
+                add_your: 'Add your',
+                send_email: 'Send an email to the following address(es) from the email account you would like used on the OSF:',
+                email_text: 'For {{typeName}}, email <a href="{{emailAddress}}">{{emailAddress}}</a>',
+                format_header: 'The format of the email should be as follows:',
+                subject: 'Subject',
+                message_body: 'Message body',
+                attachment: 'Attachment',
+                panel_footer_note: 'Once sent, we will follow-up by sending you the permanent identifier that others can use to cite your work; you can also login and make changes, such as uploading additional files, to your project at that URL.If you didn\'t have an OSF account, one will be created automatically and a link to set your password will be emailed to you; if you do, we will simply create a new project in your account.By creating an account you agree to our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms</a> and that you have read our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>, including our information on <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md#f-cookies">Cookie Use</a>.',
+                conference_homepage: 'Conference homepage',
+            },
+        },
+    },
     analytics: {
         pageTitle: '{{nodeTitle}} Analytics',
         forks: 'Forks',
@@ -1365,6 +1455,20 @@ export default {
             placeholder: 'Enter citation style (e.g. "APA")',
             type_to_search: 'Start typing to search citation styles',
         },
+        'search-bar': {
+            aria: 'Search',
+            heading: 'Discover public research',
+            subheading: 'Discover projects, data, materials, and collaborators on OSF that might be helpful to your own research.',
+            placeholder: 'Search discipline, author...',
+        },
+        'hero-banner': {
+            heading: 'The place to share your research',
+            subheading: 'OSF is a free, open platform to support your research and enable collaboration.',
+            add_your_research: {
+                heading: 'Add your research',
+                subheading: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.',
+            },
+        },
     },
     settings: {
         toggleNav: 'Toggle navigation',
@@ -1498,6 +1602,22 @@ export default {
                     title: 'Confirm new password',
                     placeholder: 'Verify password',
                 },
+            },
+            connected_identities: {
+                title: 'Connected identities',
+                description: 'Connected identities allow you to log in to the OSF via a third-party service.<br>You can revoke these authorizations here.',
+                no_identities: 'You have not authorized any external services to log in to the OSF.',
+                status: {
+                    verified: 'Verified',
+                    pending: 'Pending',
+                },
+                confirm_remove: {
+                    title: 'Remove authorization?',
+                    body: 'Are you sure you want to remove this authorization?',
+                    confirm_button_text: 'Remove',
+                },
+                remove_fail: 'Revocation request failed. Please contact <a href="mailto:{{supportEmail}}">{{supportEmail}}</a> if the problem persists.',
+                remove_success: 'You have revoked this connected identity.',
             },
         },
         addons: {

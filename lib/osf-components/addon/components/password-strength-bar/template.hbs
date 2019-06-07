@@ -1,5 +1,5 @@
-{{#if (and this.shouldShowMessage this.message)}}
-    <div class='text-danger col-xs-12' local-class='warning-message'>
+{{#if (and @shouldShowMessages this.message)}}
+    <div class='{{if this.valid 'text-warning' 'text-danger'}} col-xs-12' local-class='warning-message'>
         {{this.message}}
     </div>
 {{/if}}

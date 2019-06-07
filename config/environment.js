@@ -34,6 +34,7 @@ const {
         'loggedIn',
         'dashboard',
         'settings',
+        'meetings',
     ],
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
@@ -156,6 +157,7 @@ module.exports = function(environment) {
             apiHeaders: {
                 ACCEPT: `application/vnd.api+json; version=${apiVersion}`,
             },
+            learnMoreUrl: 'https://cos.io/our-products/osf/',
             renderUrl,
             waterbutlerUrl,
             helpUrl,
@@ -253,6 +255,8 @@ module.exports = function(environment) {
                 'registries.overview.contributors': 'ember_registries_detail_page',
                 'registries.overview.children': 'ember_registries_detail_page',
                 'registries.overview.links': 'ember_registries_detail_page',
+                'meetings.index': 'ember_meetings_page',
+                'meetings.detail': 'ember_meeting_detail_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
@@ -260,6 +264,9 @@ module.exports = function(environment) {
             storageI18n: 'storage_i18n',
             enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
+            ABTesting: {
+                homePageVersionB: 'ab_testing_home_page_version_b',
+            },
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,
@@ -291,6 +298,9 @@ module.exports = function(environment) {
         mirageScenarios: MIRAGE_SCENARIOS,
 
         defaultProvider: 'osf',
+        pageTitle: {
+            prepend: false,
+        },
     };
 
     if (environment === 'development') {

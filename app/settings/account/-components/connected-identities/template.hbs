@@ -1,0 +1,51 @@
+<Panel
+    data-test-connected-identities-panel
+    data-analytics-scope='Connected identities panel'
+    as |panel|
+>
+    <panel.heading @title={{t 'settings.account.connected_identities.title'}} />
+    <panel.body>
+        <p data-test-connected-identities-description>
+            {{t 'settings.account.connected_identities.description'}}
+        </p>
+        <hr local-class='description-list-separator'>
+        <PaginatedList::All
+            data-test-connected-identities-list
+            local-class='identities-list'
+            @modelName='external-identity'
+            @bindReload={{action (mut this.reloadIdentitiesList)}}
+            as |list|
+        >
+            <list.item as |identity|>
+                {{#if (not identity)}}
+                    <ContentPlaceholders as |placeholder|>
+                        <placeholder.heading @subtitle={{false}} />
+                    </ContentPlaceholders>
+                {{else}}
+                    <span data-test-connected-identities-item='{{identity.id}}'>
+                        {{identity.id}}: {{identity.externalId}}
+                        (
+                        {{#if (eq identity.status 'VERIFIED')}}
+                            {{t 'settings.account.connected_identities.status.verified'}}
+                        {{else}}
+                            {{t 'settings.account.connected_identities.status.pending'}}
+                        {{/if}}
+                        )
+                        <DeleteButton
+                            data-test-connected-identities-delete
+                            local-class='delete-button'
+                            @small={{true}}
+                            @delete={{action this.removeIdentity identity}}
+                            @modalTitle={{t 'settings.account.connected_identities.confirm_remove.title'}}
+                            @modalBody={{t 'settings.account.connected_identities.confirm_remove.body' identity=identity}}
+                            @confirmButtonText={{t 'settings.account.connected_identities.confirm_remove.confirm_button_text'}}
+                        />
+                    </span>
+                {{/if}}
+            </list.item>
+            <list.empty>
+                <p>{{t 'settings.account.connected_identities.no_identities'}}</p>
+            </list.empty>
+        </PaginatedList::All>
+    </panel.body>
+</Panel>
