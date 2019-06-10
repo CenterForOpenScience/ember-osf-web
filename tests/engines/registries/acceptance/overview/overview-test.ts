@@ -306,4 +306,37 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await visit(`/${reg.id}/`);
         assert.dom('[data-test-edit-button="category"]').doesNotExist();
     });
+
+    test('Check only admin can mint registration DOI', async assert => {
+        const reg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        });
+
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-create-doi]').doesNotExist();
+
+        reg.update({ currentUserPermissions: Object.values(Permission) });
+        await visit(`/${reg.id}/`);
+
+        await click('[data-test-edit-button="doi"]');
+
+        assert.dom('[data-test-create-doi]').isVisible();
+        assert.dom('[data-test-registration-doi]').isNotVisible();
+        assert.notOk(Boolean(reg.identifierIds.length));
+
+        await click('[data-test-create-doi]');
+
+        assert.dom('[data-test-registration-doi]').isVisible();
+        reg.reload();
+        assert.ok(Boolean(reg.identifierIds.length), 'Registration doi successfully minted');
+        assert.dom('[data-test-edit-button="doi"]').isNotVisible('A registration doi can only be minted once');
+
+        const nonPublicReg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: Object.values(Permission),
+        }, 'isEmbargoed');
+
+        await visit(`/${nonPublicReg.id}/`);
+        assert.dom('[data-test-editable-field="doi"]').doesNotExist('DOIs are only available for public registrations');
+    });
 });

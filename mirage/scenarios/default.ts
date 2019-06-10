@@ -19,7 +19,10 @@ const {
     },
 } = config;
 
-function registrationScenario(server: Server, currentUser: ModelInstance<User>) {
+function registrationScenario(
+    server: Server,
+    currentUser: ModelInstance<User>,
+) {
     server.loadFixtures('citation-styles');
 
     const registrationNode = server.create(
@@ -53,7 +56,7 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withDoi', 'withLicense', 'withAffiliatedInstitutions');
+    }, 'withContributors', 'withComments', 'withLicense', 'withAffiliatedInstitutions');
 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });

@@ -1,4 +1,4 @@
-.Editable {
+.Editable__header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -9,9 +9,11 @@
 }
 
 .Controls {
-    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
 
     button:first-child {
-        margin-right: 5px;
+        margin-right: 10px;
     }
 }
