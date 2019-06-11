@@ -18,13 +18,8 @@ export enum Events {
     Error = 'error',
 }
 
-export default class Ready extends Service.extend(Evented) {
-    isReady = false;
-
-    lastId = 0;
-    blockers = A();
-
-    tryReady = task(function *(this: Ready) {
+export default class Ready extends Service.extend(Evented, {
+    tryReady: task(function *(this: Ready) {
         // Waiting until `destroy` makes sure that everyone in `render` and `afterRender`
         // (e.g. components, jQuery plugins, etc.) has a chance to call `getBlocker`, and that
         // all DOM manipulation has settled.
@@ -33,7 +28,12 @@ export default class Ready extends Service.extend(Evented) {
             set(this, 'isReady', true);
             this.trigger(Events.IsReady);
         }
-    }).restartable();
+    }).restartable(),
+}) {
+    isReady = false;
+
+    lastId = 0;
+    blockers = A();
 
     getBlocker(this: Ready): Blocker {
         if (get(this, 'isReady')) {

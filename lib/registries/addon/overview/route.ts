@@ -1,7 +1,8 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import ComputedProperty from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
-import { all, task } from 'ember-concurrency';
+import { all, Task, task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import moment from 'moment';
 
@@ -26,57 +27,7 @@ export default class Overview extends GuidRoute {
 
     headTags?: HeadTagDef[];
 
-    setHeadTags = task(function *(this: Overview, model: any) {
-        const blocker = this.ready.getBlocker();
-
-        const registration: Registration = yield model.taskInstance;
-
-        if (registration) {
-            const [
-                contributors = [],
-                institutions = [],
-                license = null,
-                identifiers = [],
-            ] = yield all([
-                registration.sparseLoadAll(
-                    'bibliographicContributors',
-                    { contributor: ['users', 'index'], user: ['fullName'] },
-                ),
-                registration.sparseLoadAll(
-                    'affiliatedInstitutions',
-                    { institution: ['name'] },
-                ),
-                registration.license,
-                registration.identifiers,
-            ]);
-
-            const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
-            const image = 'engines-dist/registries/assets/img/osf-sharing.png';
-
-            const metaTagsData = {
-                title: registration.title,
-                description: registration.description,
-                publishedDate: moment(registration.dateRegistered).format('YYYY-MM-DD'),
-                modifiedDate: moment(registration.dateModified).format('YYYY-MM-DD'),
-                identifier: registration.id,
-                url: pathJoin(config.OSF.url, registration.id),
-                doi: doi && doi.value,
-                image,
-                keywords: registration.tags,
-                siteName: 'OSF',
-                license: license && (license as LicenseModel).name,
-                author: (contributors as SparseModel[]).map(
-                    contrib => (contrib.users as { fullName: string }).fullName,
-                ),
-                institution: (institutions as SparseModel[]).map(institution => institution.name as string),
-            };
-
-            this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
-            this.metaTags.updateHeadTags();
-        }
-
-        blocker.done();
-    }).cancelOn('deactivate').restartable();
+    setHeadTags!: ComputedProperty<Task<void>>;
 
     modelName(): 'registration' {
         return 'registration';
@@ -115,3 +66,59 @@ export default class Overview extends GuidRoute {
         this.replaceWith('page-not-found', notFoundURL(this.router.currentURL));
     }
 }
+
+Object.defineProperties(Overview.prototype, {
+    setHeadTags: {
+        value: task(function *(this: Overview, model: any) {
+            const blocker = this.ready.getBlocker();
+
+            const registration: Registration = yield model.taskInstance;
+
+            if (registration) {
+                const [
+                    contributors = [],
+                    institutions = [],
+                    license = null,
+                    identifiers = [],
+                ] = yield all([
+                    registration.sparseLoadAll(
+                        'bibliographicContributors',
+                        { contributor: ['users', 'index'], user: ['fullName'] },
+                    ),
+                    registration.sparseLoadAll(
+                        'affiliatedInstitutions',
+                        { institution: ['name'] },
+                    ),
+                    registration.license,
+                    registration.identifiers,
+                ]);
+
+                const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
+                const image = 'engines-dist/registries/assets/img/osf-sharing.png';
+
+                const metaTagsData = {
+                    title: registration.title,
+                    description: registration.description,
+                    publishedDate: moment(registration.dateRegistered).format('YYYY-MM-DD'),
+                    modifiedDate: moment(registration.dateModified).format('YYYY-MM-DD'),
+                    identifier: registration.id,
+                    url: pathJoin(config.OSF.url, registration.id),
+                    doi: doi && doi.value,
+                    image,
+                    keywords: registration.tags,
+                    siteName: 'OSF',
+                    license: license && (license as LicenseModel).name,
+                    author: (contributors as SparseModel[]).map(
+                        contrib => (contrib.users as { fullName: string }).fullName,
+                    ),
+                    institution: (institutions as SparseModel[]).map(institution => institution.name as string),
+                };
+
+                this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
+                this.metaTags.updateHeadTags();
+            }
+
+            blocker.done();
+        }).cancelOn('deactivate').restartable(),
+    },
+});

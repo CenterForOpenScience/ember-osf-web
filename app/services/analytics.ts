@@ -141,18 +141,8 @@ class EventInfo {
     }
 }
 
-export default class Analytics extends Service {
-    @service metrics!: Metrics;
-    @service session!: Session;
-    @service ready!: Ready;
-    @service router!: RouterService;
-    @service toast!: Toast;
-
-    shouldToastOnEvent: boolean = false;
-
-    rootElement?: Element;
-
-    trackPageTask = task(function *(
+export default class Analytics extends Service.extend({
+    trackPageTask: task(function *(
         this: Analytics,
         pagePublic: boolean | undefined,
         resourceType: string,
@@ -204,7 +194,17 @@ export default class Analytics extends Service {
             pagePublic,
             ...eventParams,
         });
-    }).restartable();
+    }).restartable(),
+}) {
+    @service metrics!: Metrics;
+    @service session!: Session;
+    @service ready!: Ready;
+    @service router!: RouterService;
+    @service toast!: Toast;
+
+    shouldToastOnEvent: boolean = false;
+
+    rootElement?: Element;
 
     @action
     click(this: Analytics, category: string, label: string, extraInfo?: string | object) {

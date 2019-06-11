@@ -19,7 +19,35 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import template from './template';
 
 @layout(template)
-export default class ValidatedModelForm<M extends ValidatedModelName> extends Component {
+export default class ValidatedModelForm<M extends ValidatedModelName> extends Component.extend({
+    saveModelTask: task(function *(this: ValidatedModelForm<ValidatedModelName>) {
+        yield this.changeset.validate();
+
+        if (this.changeset.get('isValid')) {
+            try {
+                yield this.changeset.save({});
+                this.onSave(this.changeset);
+                if (this.modelName && this.recreateModel) {
+                    set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
+                    if (this.model !== undefined) {
+                        set(this, 'changeset', buildChangeset(this.model));
+                        this._onDirtChange();
+                    }
+                }
+                this.set('shouldShowMessages', false);
+            } catch (e) {
+                if (this.onError) {
+                    this.onError(e, this.changeset);
+                } else {
+                    this.toast.error(e);
+                }
+                throw e;
+            }
+        } else {
+            this.set('shouldShowMessages', true);
+        }
+    }),
+}) {
     // Required arguments
     @requiredAction onSave!: (changeset: ChangesetDef) => void;
 
@@ -46,34 +74,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
 
     @alias('changeset.isDirty')
     isDirty!: boolean;
-
-    saveModelTask = task(function *(this: ValidatedModelForm<M>) {
-        yield this.changeset.validate();
-
-        if (this.changeset.get('isValid')) {
-            try {
-                yield this.changeset.save({});
-                this.onSave(this.changeset);
-                if (this.modelName && this.recreateModel) {
-                    set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
-                    if (this.model !== undefined) {
-                        set(this, 'changeset', buildChangeset(this.model));
-                        this._onDirtChange();
-                    }
-                }
-                this.set('shouldShowMessages', false);
-            } catch (e) {
-                if (this.onError) {
-                    this.onError(e, this.changeset);
-                } else {
-                    this.toast.error(e);
-                }
-                throw e;
-            }
-        } else {
-            this.set('shouldShowMessages', true);
-        }
-    });
 
     constructor(...args: any[]) {
         super(...args);

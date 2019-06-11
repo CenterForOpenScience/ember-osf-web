@@ -176,40 +176,8 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         this.set('searchable', results.total);
         this.set('filterableSources', filterableSources);
     }).on('init'),
-}) {
-    @service i18n!: I18N;
-    @service analytics!: Analytics;
-    @service shareSearch!: ShareSearch;
 
-    sortOptions = sortOptions;
-
-    results: EmberArray<ShareRegistration> = A([]);
-    searchable!: number;
-    totalResults: number = 0;
-    searchOptions!: SearchOptions;
-
-    filterableSources: Array<{
-        count: number;
-        filter: SearchFilter;
-    }> = defaultTo(this.filterableSources, []);
-
-    get filterStyles() {
-        return {
-            sources: styles['ActiveFilters--Sources'],
-            registration_type: styles['ActiveFilters--RegistrationType'],
-        };
-    }
-
-    @computed('searchOptions', 'totalResults')
-    get maxPage() {
-        const max = Math.ceil(this.totalResults / this.searchOptions.size);
-        if (max > (10000 / this.searchOptions.size)) {
-            return Math.ceil(10000 / this.searchOptions.size);
-        }
-        return max;
-    }
-
-    doSearch = task(function *(this: Discover) {
+    doSearch: task(function *(this: Discover) {
         // Unless OSF is the only source, registration_type filters must be cleared
         if (!(this.sources.length === 1 && this.sources[0]!.value === 'OSF')) {
             this.set('registrationTypes', A([]));
@@ -250,7 +218,39 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         this.set('results', A(results.results));
         this.set('totalResults', results.total);
-    }).restartable();
+    }).restartable(),
+}) {
+    @service i18n!: I18N;
+    @service analytics!: Analytics;
+    @service shareSearch!: ShareSearch;
+
+    sortOptions = sortOptions;
+
+    results: EmberArray<ShareRegistration> = A([]);
+    searchable!: number;
+    totalResults: number = 0;
+    searchOptions!: SearchOptions;
+
+    filterableSources: Array<{
+        count: number;
+        filter: SearchFilter;
+    }> = defaultTo(this.filterableSources, []);
+
+    get filterStyles() {
+        return {
+            sources: styles['ActiveFilters--Sources'],
+            registration_type: styles['ActiveFilters--RegistrationType'],
+        };
+    }
+
+    @computed('searchOptions', 'totalResults')
+    get maxPage() {
+        const max = Math.ceil(this.totalResults / this.searchOptions.size);
+        if (max > (10000 / this.searchOptions.size)) {
+            return Math.ceil(10000 / this.searchOptions.size);
+        }
+        return max;
+    }
 
     setup(this: Discover) {
         this.get('doSearch').perform();

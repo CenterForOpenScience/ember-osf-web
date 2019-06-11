@@ -49,7 +49,43 @@ enum modals {
  */
 @layout(template, styles)
 @localClassNames('file-browser')
-export default class FileBrowser extends Component {
+export default class FileBrowser extends Component.extend({
+    moveToProject: task(function *(this: FileBrowser) {
+        if (!this.node) {
+            return;
+        }
+        this.analytics.track('file', 'move', 'Quick Files - Move to project');
+
+        this.setProperties({
+            isMoving: true,
+        });
+
+        const selectedItem = this.selectedItems.firstObject;
+        const isNewProject = !!this.node && !!this.node.isNew;
+        const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships!.parent;
+
+        const moveSuccess: boolean = yield this.moveFile(selectedItem as unknown as File, this.node);
+
+        let successPropertyUpdates = {};
+
+        if (moveSuccess) {
+            successPropertyUpdates = {
+                currentModal: modals.SuccessMove,
+                isNewProject,
+                isChildNode,
+                projectSelectState: ProjectSelectState.main,
+                isProjectSelectorValid: false,
+            };
+        }
+
+        const propertyUpdates = {
+            isMoving: false,
+            ...successPropertyUpdates,
+        };
+
+        this.setProperties(propertyUpdates);
+    }),
+}) {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
@@ -101,42 +137,6 @@ export default class FileBrowser extends Component {
         preventMultipleFiles: true,
         acceptDirectories: false,
     };
-
-    moveToProject = task(function *(this: FileBrowser) {
-        if (!this.node) {
-            return;
-        }
-        this.analytics.track('file', 'move', 'Quick Files - Move to project');
-
-        this.setProperties({
-            isMoving: true,
-        });
-
-        const selectedItem = this.selectedItems.firstObject;
-        const isNewProject = !!this.node && !!this.node.isNew;
-        const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships!.parent;
-
-        const moveSuccess: boolean = yield this.moveFile(selectedItem as unknown as File, this.node);
-
-        let successPropertyUpdates = {};
-
-        if (moveSuccess) {
-            successPropertyUpdates = {
-                currentModal: modals.SuccessMove,
-                isNewProject,
-                isChildNode,
-                projectSelectState: ProjectSelectState.main,
-                isProjectSelectorValid: false,
-            };
-        }
-
-        const propertyUpdates = {
-            isMoving: false,
-            ...successPropertyUpdates,
-        };
-
-        this.setProperties(propertyUpdates);
-    });
 
     @not('items') loading!: boolean;
     @alias('user.links.relationships.quickfiles.links.upload.href') uploadUrl!: string;

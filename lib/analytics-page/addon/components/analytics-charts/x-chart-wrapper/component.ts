@@ -21,25 +21,8 @@ enum OverlayReason {
 }
 
 @layout(template, styles)
-export default class ChartWrapper extends Component {
-    @service keen!: KeenService;
-    @service i18n!: I18n;
-    @service analytics!: AnalyticsService;
-
-    // Required arguments
-    chartSpec!: ChartSpec;
-    chartEnabled!: boolean;
-    nodeTaskInstance!: TaskInstance<Node>;
-    startDate!: Moment;
-    endDate!: Moment;
-
-    // Private properties
-    chart!: KeenDataviz; // set in didInsertElement
-    overlayShown: boolean = true;
-    keenError: boolean = false;
-    loading: boolean = false;
-
-    loadKeen = task(function *(this: ChartWrapper) {
+export default class ChartWrapper extends Component.extend({
+    loadKeen: task(function *(this: ChartWrapper) {
         this.showOverlay(OverlayReason.Loading);
         const node = yield this.nodeTaskInstance;
         try {
@@ -61,7 +44,24 @@ export default class ChartWrapper extends Component {
             this.showOverlay(OverlayReason.Error);
             throw e;
         }
-    }).restartable();
+    }).restartable(),
+}) {
+    @service keen!: KeenService;
+    @service i18n!: I18n;
+    @service analytics!: AnalyticsService;
+
+    // Required arguments
+    chartSpec!: ChartSpec;
+    chartEnabled!: boolean;
+    nodeTaskInstance!: TaskInstance<Node>;
+    startDate!: Moment;
+    endDate!: Moment;
+
+    // Private properties
+    chart!: KeenDataviz; // set in didInsertElement
+    overlayShown: boolean = true;
+    keenError: boolean = false;
+    loading: boolean = false;
 
     didInsertElement(this: ChartWrapper) {
         this.chart = new KeenDataviz()

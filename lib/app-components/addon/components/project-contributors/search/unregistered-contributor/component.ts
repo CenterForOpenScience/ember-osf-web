@@ -15,19 +15,8 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class UnregisteredContributor extends Component {
-    @service analytics!: Analytics;
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-    @service toast!: Toast;
-
-    model?: Contributor;
-    node: Node = this.node;
-    didValidate: boolean = false;
-
-    @requiredAction closeForm!: () => void;
-
-    add = task(function *(this: UnregisteredContributor) {
+export default class UnregisteredContributor extends Component.extend({
+    add: task(function *(this: UnregisteredContributor) {
         const { validations } = yield this.model!.validate();
         this.set('didValidate', true);
 
@@ -50,7 +39,18 @@ export default class UnregisteredContributor extends Component {
 
         this.reset(false);
         this.closeForm();
-    }).drop();
+    }).drop(),
+}) {
+    @service analytics!: Analytics;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
+    @service toast!: Toast;
+
+    model?: Contributor;
+    node: Node = this.node;
+    didValidate: boolean = false;
+
+    @requiredAction closeForm!: () => void;
 
     didReceiveAttrs(this: UnregisteredContributor) {
         this.reset();

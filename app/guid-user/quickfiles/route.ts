@@ -30,13 +30,8 @@ export default class UserQuickfiles extends Route.extend({
             }),
         });
     },
-}) {
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-    @service ready!: Ready;
-    @service router!: any;
 
-    loadModel = task(function *(this: UserQuickfiles, userModel: any) {
+    loadModel: task(function *(this: UserQuickfiles, userModel: any) {
         const blocker = this.get('ready').getBlocker();
         try {
             const user = yield userModel.taskInstance;
@@ -52,7 +47,12 @@ export default class UserQuickfiles extends Route.extend({
             this.replaceWith('not-found', notFoundURL(this.router.currentURL));
             return undefined;
         }
-    });
+    }),
+}) {
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service ready!: Ready;
+    @service router!: any;
 
     model(this: UserQuickfiles) {
         return {

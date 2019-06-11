@@ -42,6 +42,16 @@ export default class SignUpForm extends Component.extend({
 
         this.set('hasSubmitted', true);
     }).drop(),
+
+    strength: task(function *(this: SignUpForm, value: string) {
+        if (!value) {
+            return 0;
+        }
+
+        yield timeout(250);
+
+        return yield this.passwordStrength.strength(value);
+    }).restartable(),
 }) {
     // Optional parameters
     campaign?: string;
@@ -56,16 +66,6 @@ export default class SignUpForm extends Component.extend({
     @service passwordStrength!: PasswordStrength;
     @service analytics!: Analytics;
     @service store!: DS.Store;
-
-    strength = task(function *(this: SignUpForm, value: string) {
-        if (!value) {
-            return 0;
-        }
-
-        yield timeout(250);
-
-        return yield this.passwordStrength.strength(value);
-    }).restartable();
 
     @computed('userRegistration.password', 'strength.lastSuccessful.value.score')
     get progress(this: SignUpForm): number {

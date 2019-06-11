@@ -12,12 +12,8 @@ import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import AnalyticsService from 'ember-osf-web/services/analytics';
 import Ready, { Blocker } from 'ember-osf-web/services/ready';
 
-export default class AnalyticsPageRoute extends Route {
-    @service analytics!: AnalyticsService;
-    @service ready!: Ready;
-    @service store!: DS.Store;
-
-    reloadNode = task(function *(this: AnalyticsPageRoute, model: Node, blocker: Blocker) {
+export default class AnalyticsPageRoute extends Route.extend({
+    reloadNode: task(function *(this: AnalyticsPageRoute, model: Node, blocker: Blocker) {
         const node = yield model.reload({
             adapterOptions: {
                 query: {
@@ -29,9 +25,9 @@ export default class AnalyticsPageRoute extends Route {
         blocker.done();
 
         return node;
-    });
+    }),
 
-    getNodeWithCounts = task(function *(this: AnalyticsPageRoute, taskInstance: TaskInstance<Node>) {
+    getNodeWithCounts: task(function *(this: AnalyticsPageRoute, taskInstance: TaskInstance<Node>) {
         const blocker = this.ready.getBlocker();
 
         const node = yield taskInstance;
@@ -43,7 +39,11 @@ export default class AnalyticsPageRoute extends Route {
             modelName: node.modelName,
             taskInstance: this.get('reloadNode').perform(node, blocker),
         };
-    });
+    }),
+}) {
+    @service analytics!: AnalyticsService;
+    @service ready!: Ready;
+    @service store!: DS.Store;
 
     model(this: AnalyticsPageRoute, _: {}, transition: Transition) {
         const guidHandlerInfo = transition.handlerInfos.find(

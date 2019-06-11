@@ -21,21 +21,8 @@ const nameFields = [
 ].join();
 
 @layout(template, styles)
-export default class Search extends Component {
-    @service analytics!: Analytics;
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-    @service toast!: Toast;
-
-    query: string = '';
-    page: number = 1;
-    showUnregisteredForm: boolean = false;
-    node: Node = this.node;
-
-    @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;
-    @alias('results.meta.total_pages') totalPages?: number;
-
-    search = task(function *(this: Search, page?: number) {
+export default class Search extends Component.extend({
+    search: task(function *(this: Search, page?: number) {
         if (!this.query) {
             return undefined;
         }
@@ -55,9 +42,9 @@ export default class Search extends Component {
         });
 
         return results;
-    }).restartable();
+    }).restartable(),
 
-    addContributor = task(function *(this: Search, user: User) {
+    addContributor: task(function *(this: Search, user: User) {
         this.analytics.track('list', 'filter', 'Collections - Contributors - Add Contributor');
 
         const contributor = this.store.createRecord('contributor', {
@@ -75,5 +62,18 @@ export default class Search extends Component {
             this.toast.error(this.i18n.t('app_components.project_contributors.search.add_contributor_error'));
             throw e;
         }
-    });
+    }),
+}) {
+    @service analytics!: Analytics;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
+    @service toast!: Toast;
+
+    query: string = '';
+    page: number = 1;
+    showUnregisteredForm: boolean = false;
+    node: Node = this.node;
+
+    @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;
+    @alias('results.meta.total_pages') totalPages?: number;
 }

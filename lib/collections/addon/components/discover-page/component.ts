@@ -92,6 +92,48 @@ export default class DiscoverPage extends Component.extend({
         this._super(...args);
         this.set('firstLoad', true);
     },
+
+    loadPage: task(function *(this: DiscoverPage) {
+        this.set('loading', true);
+
+        if (!this.firstLoad) {
+            yield timeout(500);
+        }
+
+        try {
+            const results = yield this.query(this.queryAttributes);
+
+            this.setProperties({
+                numberOfResults: results.meta.total,
+                loading: false,
+                firstLoad: false,
+                results,
+                queryError: false,
+            });
+
+            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
+                this.search();
+            }
+        } catch (errorResponse) {
+            this.setProperties({
+                loading: false,
+                firstLoad: false,
+                numberOfResults: 0,
+                results: emptyResults(),
+            });
+            // If issue with search query, for example, invalid lucene search syntax
+            if (errorResponse instanceof DS.ServerError ||
+                errorResponse instanceof DS.AbortError ||
+                errorResponse instanceof DS.TimeoutError) {
+                this.set('serverError', true);
+            } else {
+                this.set('queryError', true);
+            }
+
+            // re-throw for error monitoring
+            throw errorResponse;
+        }
+    }).keepLatest(),
 }) {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
@@ -265,48 +307,6 @@ export default class DiscoverPage extends Component.extend({
     get hasInitializedFacets() {
         return this.facetContexts.every(({ didInit }) => didInit);
     }
-
-    loadPage = task(function *(this: DiscoverPage) {
-        this.set('loading', true);
-
-        if (!this.firstLoad) {
-            yield timeout(500);
-        }
-
-        try {
-            const results = yield this.query(this.queryAttributes);
-
-            this.setProperties({
-                numberOfResults: results.meta.total,
-                loading: false,
-                firstLoad: false,
-                results,
-                queryError: false,
-            });
-
-            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
-                this.search();
-            }
-        } catch (errorResponse) {
-            this.setProperties({
-                loading: false,
-                firstLoad: false,
-                numberOfResults: 0,
-                results: emptyResults(),
-            });
-            // If issue with search query, for example, invalid lucene search syntax
-            if (errorResponse instanceof DS.ServerError ||
-                errorResponse instanceof DS.AbortError ||
-                errorResponse instanceof DS.TimeoutError) {
-                this.set('serverError', true);
-            } else {
-                this.set('queryError', true);
-            }
-
-            // re-throw for error monitoring
-            throw errorResponse;
-        }
-    }).keepLatest();
 
     scrollToResults() {
         // Scrolls to top of search results

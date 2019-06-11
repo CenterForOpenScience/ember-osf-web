@@ -22,7 +22,67 @@ const {
     },
 } = config;
 
-export default class Dashboard extends Controller {
+export default class Dashboard extends Controller.extend({
+    setupTask: task(function *(this: Dashboard) {
+        this.set('filter', null);
+
+        const institutions = this.store.findAll('institution');
+
+        yield all([
+            institutions,
+            this.get('findNodes').perform(),
+            this.get('getPopularAndNoteworthy').perform(popularNode, 'popular'),
+            this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy'),
+        ]);
+
+        this.set('institutions', institutions.toArray());
+    }).restartable(),
+
+    filterNodes: task(function *(this: Dashboard, filter: string) {
+        yield timeout(500);
+        this.setProperties({ filter });
+        this.analytics.track('list', 'filter', 'Dashboard - Search projects');
+        yield this.get('findNodes').perform();
+    }).restartable(),
+
+    findNodes: task(function *(this: Dashboard, more?: boolean) {
+        const indicatorProperty = more ? 'loadingMore' : 'loading';
+        this.set(indicatorProperty, true);
+
+        const user: User = yield this.currentUser.user;
+
+        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
+            embed: ['bibliographic_contributors', 'parent', 'root'],
+            // eslint-disable-next-line ember/no-global-jquery
+            filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
+            page: more ? this.incrementProperty('page') : this.set('page', 1),
+            sort: this.sort || undefined,
+        });
+
+        if (more && this.nodes) {
+            this.nodes.pushObjects(nodes);
+        } else {
+            this.set('nodes', nodes);
+        }
+
+        this.set(indicatorProperty, false);
+        this.set('initialLoad', false);
+    }).restartable(),
+
+    getPopularAndNoteworthy: task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
+        try {
+            const node: Node = yield this.store.findRecord('node', id);
+            const linkedNodes: QueryHasManyResult<Node> = yield node.queryHasMany('linkedNodes', {
+                embed: 'bibliographic_contributors',
+                page: { size: 5 },
+            });
+            this.set(dest, linkedNodes);
+        } catch (e) {
+            const failedProperty = `failedLoading-${dest}` as 'failedLoading-noteworthy' | 'failedLoading-popular';
+            this.set(failedProperty, true);
+        }
+    }),
+}) {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
@@ -45,66 +105,6 @@ export default class Dashboard extends Controller {
     nodes?: QueryHasManyResult<Node>;
     noteworthy!: QueryHasManyResult<Node>;
     popular!: QueryHasManyResult<Node>;
-
-    setupTask = task(function *(this: Dashboard) {
-        this.set('filter', null);
-
-        const institutions = this.store.findAll('institution');
-
-        yield all([
-            institutions,
-            this.get('findNodes').perform(),
-            this.get('getPopularAndNoteworthy').perform(popularNode, 'popular'),
-            this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy'),
-        ]);
-
-        this.set('institutions', institutions.toArray());
-    }).restartable();
-
-    filterNodes = task(function *(this: Dashboard, filter: string) {
-        yield timeout(500);
-        this.setProperties({ filter });
-        this.analytics.track('list', 'filter', 'Dashboard - Search projects');
-        yield this.get('findNodes').perform();
-    }).restartable();
-
-    findNodes = task(function *(this: Dashboard, more?: boolean) {
-        const indicatorProperty = more ? 'loadingMore' : 'loading';
-        this.set(indicatorProperty, true);
-
-        const user: User = yield this.currentUser.user;
-
-        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
-            embed: ['bibliographic_contributors', 'parent', 'root'],
-            // eslint-disable-next-line ember/no-global-jquery
-            filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
-            page: more ? this.incrementProperty('page') : this.set('page', 1),
-            sort: this.sort || undefined,
-        });
-
-        if (more && this.nodes) {
-            this.nodes.pushObjects(nodes);
-        } else {
-            this.set('nodes', nodes);
-        }
-
-        this.set(indicatorProperty, false);
-        this.set('initialLoad', false);
-    }).restartable();
-
-    getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
-        try {
-            const node: Node = yield this.store.findRecord('node', id);
-            const linkedNodes: QueryHasManyResult<Node> = yield node.queryHasMany('linkedNodes', {
-                embed: 'bibliographic_contributors',
-                page: { size: 5 },
-            });
-            this.set(dest, linkedNodes);
-        } catch (e) {
-            const failedProperty = `failedLoading-${dest}` as 'failedLoading-noteworthy' | 'failedLoading-popular';
-            this.set(failedProperty, true);
-        }
-    });
 
     @alias('currentUser.user') user!: User;
 

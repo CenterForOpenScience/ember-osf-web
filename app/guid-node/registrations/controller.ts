@@ -13,7 +13,23 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 
 const { OSF: { url: baseURL } } = config;
 
-export default class GuidNodeRegistrations extends Controller {
+export default class GuidNodeRegistrations extends Controller.extend({
+    getRegistrationSchemas: task(function *(this: GuidNodeRegistrations) {
+        let schemas = yield this.store.findAll('registration-schema',
+            {
+                adapterOptions: {
+                    query: {
+                        'filter[active]': true,
+                    },
+                },
+            });
+        schemas = schemas.toArray();
+        schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => a.name.length - b.name.length);
+        this.set('defaultSchema', schemas.firstObject);
+        this.set('selectedSchema', this.defaultSchema);
+        this.set('schemas', schemas);
+    }),
+}) {
     @service analytics!: Analytics;
     @service store!: DS.Store;
 
@@ -37,22 +53,6 @@ export default class GuidNodeRegistrations extends Controller {
         embargoedCountries: 'https://www.pmddtc.state.gov/?id=ddtc_public_portal_country_landing',
         terms: 'https://osf.io/4uxbj/',
     };
-
-    getRegistrationSchemas = task(function *(this: GuidNodeRegistrations) {
-        let schemas = yield this.store.findAll('registration-schema',
-            {
-                adapterOptions: {
-                    query: {
-                        'filter[active]': true,
-                    },
-                },
-            });
-        schemas = schemas.toArray();
-        schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => a.name.length - b.name.length);
-        this.set('defaultSchema', schemas.firstObject);
-        this.set('selectedSchema', this.defaultSchema);
-        this.set('schemas', schemas);
-    });
 
     @alias('model.taskInstance.value') node!: Node | null;
 

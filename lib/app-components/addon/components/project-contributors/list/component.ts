@@ -18,39 +18,31 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class List extends Component {
-    @service analytics!: Analytics;
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-    @service toast!: Toast;
-
-    contributors: ArrayProxy<Contributor> = this.contributors;
-    node: Node = this.node;
-
+export default class List extends Component.extend({
     /**
      * Changes the contributor's permissions
      */
-    updatePermissions = task(function *(this: List, contributor: HighlightableContributor, permission: Permission) {
+    updatePermissions: task(function *(this: List, contributor: HighlightableContributor, permission: Permission) {
         this.analytics.track('option', 'select', 'Collections - Submit - Change Permission');
         contributor.setProperties({ permission });
 
         yield this.get('saveAndHighlight').perform(contributor);
-    }).enqueue();
+    }).enqueue(),
 
     /**
      * Changes the contributor's bibliographic
      */
-    toggleBibliographic = task(function *(this: List, contributor: HighlightableContributor) {
+    toggleBibliographic: task(function *(this: List, contributor: HighlightableContributor) {
         const actionName = `${contributor.toggleProperty('bibliographic') ? '' : 'de'}select`;
         this.analytics.track('checkbox', actionName, 'Collections - Submit - Update Bibliographic');
 
         yield this.get('saveAndHighlight').perform(contributor);
-    }).enqueue();
+    }).enqueue(),
 
     /**
      * Changes the order of contributors for ember-sortable
      */
-    reorderContributors = task(function *(
+    reorderContributors: task(function *(
         this: List,
         contributors: HighlightableContributor[],
         contributor: HighlightableContributor,
@@ -62,12 +54,12 @@ export default class List extends Component {
         contributor.set('index', newIndex);
 
         yield this.get('saveAndHighlight').perform(contributor);
-    }).drop();
+    }).drop(),
 
     /**
      * Saves the contributor and highlights the row with success/failure
      */
-    saveAndHighlight = task(function *(this: List, contributor: HighlightableContributor): IterableIterator<any> {
+    saveAndHighlight: task(function *(this: List, contributor: HighlightableContributor): IterableIterator<any> {
         let highlightClass: typeof contributor.highlightClass;
 
         try {
@@ -80,12 +72,12 @@ export default class List extends Component {
         contributor.setProperties({ highlightClass });
         yield timeout(2000);
         contributor.setProperties({ highlightClass: '' });
-    });
+    }),
 
     /**
      * Removes a contributor
      */
-    removeContributor = task(function *(this: List, contributor: Contributor) {
+    removeContributor: task(function *(this: List, contributor: Contributor) {
         this.analytics.track('button', 'click', 'Collections - Submit - Remove Contributor');
 
         try {
@@ -98,7 +90,15 @@ export default class List extends Component {
         // It's necessary to unload the record from the store after destroying it, in case the user is added back as a
         // contributor again
         this.store.unloadRecord(contributor);
-    });
+    }),
+}) {
+    @service analytics!: Analytics;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
+    @service toast!: Toast;
+
+    contributors: ArrayProxy<Contributor> = this.contributors;
+    node: Node = this.node;
 
     /**
      * If the current user is an admin

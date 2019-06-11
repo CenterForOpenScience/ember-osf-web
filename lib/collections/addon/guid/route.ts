@@ -21,12 +21,8 @@ interface Params {
     guid: string;
 }
 
-export default class Guid extends Route {
-    @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
-    @service theme!: Theme;
-
-    loadModel = task(function *(this: Guid, guid: string): IterableIterator<any> {
+export default class Guid extends Route.extend({
+    loadModel: task(function *(this: Guid, guid: string): IterableIterator<any> {
         const provider = this.theme.provider as CollectionProvider;
 
         let collection: Collection;
@@ -67,7 +63,11 @@ export default class Guid extends Route {
             this.intermediateTransitionTo(this.theme.prefixRoute('page-not-found'));
             return undefined;
         }
-    });
+    }),
+}) {
+    @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
+    @service theme!: Theme;
 
     model(this: Guid) {
         const { guid } = this.paramsFor(this.routeName) as Params;

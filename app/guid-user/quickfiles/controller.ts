@@ -13,44 +13,29 @@ import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-export default class UserQuickfiles extends Controller {
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
-    @service toast!: Toast;
-
-    pageName = 'QuickFiles';
-
-    filter: string = this.filter || '';
-    // Initialized in setupController.
-    newProject!: Node;
-    sort: string = this.sort || 'name';
-
-    @alias('model.taskInstance.value.user') user!: User;
-    @alias('model.taskInstance.value.files') allFiles!: File[];
-
-    updateFilter = task(function *(this: UserQuickfiles, filter: string) {
+export default class UserQuickfiles extends Controller.extend({
+    updateFilter: task(function *(this: UserQuickfiles, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Quick Files - Filter files');
-    }).restartable();
+    }).restartable(),
 
-    createProject = task(function *(this: UserQuickfiles, node: Node) {
+    createProject: task(function *(this: UserQuickfiles, node: Node) {
         try {
             return yield node.save();
         } catch (ex) {
             this.get('toast').error(this.get('i18n').t('move_to_project.could_not_create_project'));
             return undefined;
         }
-    });
+    }),
 
-    flash = task(function *(item: File, message: string, type: string = 'success', duration: number = 2000) {
+    flash: task(function *(item: File, message: string, type: string = 'success', duration: number = 2000) {
         item.set('flash', { message, type });
         yield timeout(duration);
         item.set('flash', null);
-    });
+    }),
 
-    addFile = task(function *(this: UserQuickfiles, id: string) {
+    addFile: task(function *(this: UserQuickfiles, id: string) {
         const allFiles = this.get('allFiles');
         const duplicate = allFiles.findBy('id', id);
 
@@ -70,9 +55,9 @@ export default class UserQuickfiles extends Controller {
         const i18n = this.get('i18n');
         this.get('toast').success(i18n.t('file_browser.file_added_toast'));
         this.get('flash').perform(file, i18n.t('file_browser.file_added'));
-    });
+    }),
 
-    deleteFile = task(function *(this: UserQuickfiles, file: File) {
+    deleteFile: task(function *(this: UserQuickfiles, file: File) {
         try {
             yield file.destroyRecord();
             yield this.get('flash').perform(file, this.get('i18n').t('file_browser.file_deleted'), 'danger');
@@ -80,15 +65,15 @@ export default class UserQuickfiles extends Controller {
         } catch (e) {
             yield this.get('flash').perform(file, this.get('i18n').t('file_browser.delete_failed'), 'danger');
         }
-    });
+    }),
 
-    deleteFiles = task(function *(this: UserQuickfiles, files: File[]) {
+    deleteFiles: task(function *(this: UserQuickfiles, files: File[]) {
         const deleteFile = this.get('deleteFile');
 
         yield all(files.map(file => deleteFile.perform(file)));
-    });
+    }),
 
-    moveFile = task(function *(this: UserQuickfiles, file: File, node: Node): IterableIterator<any> {
+    moveFile: task(function *(this: UserQuickfiles, file: File, node: Node): IterableIterator<any> {
         try {
             if (node.get('isNew')) {
                 yield this.get('createProject').perform(node);
@@ -110,9 +95,9 @@ export default class UserQuickfiles extends Controller {
         }
 
         return false;
-    });
+    }),
 
-    renameFile = task(function *(
+    renameFile: task(function *(
         this: UserQuickfiles,
         file: File,
         name: string,
@@ -134,7 +119,22 @@ export default class UserQuickfiles extends Controller {
         } catch (ex) {
             flash.perform(file, 'Failed to rename item', 'danger');
         }
-    });
+    }),
+}) {
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service toast!: Toast;
+
+    pageName = 'QuickFiles';
+
+    filter: string = this.filter || '';
+    // Initialized in setupController.
+    newProject!: Node;
+    sort: string = this.sort || 'name';
+
+    @alias('model.taskInstance.value.user') user!: User;
+    @alias('model.taskInstance.value.files') allFiles!: File[];
 
     @computed('allFiles.[]', 'filter', 'sort')
     get files(this: UserQuickfiles): File[] | null {

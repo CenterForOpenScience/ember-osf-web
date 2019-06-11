@@ -14,16 +14,8 @@ import template from './template';
 
 @layout(template, styles)
 @localClassNames('TosConsentBanner')
-export default class TosConsentBanner extends Component {
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-
-    // Private properties
-    show = false;
-    didValidate = false;
-    hasSubmitted = false;
-
-    saveUser = task(function *(this: TosConsentBanner) {
+export default class TosConsentBanner extends Component.extend({
+    saveUser: task(function *(this: TosConsentBanner) {
         const user = yield this.currentUser.user;
         const { validations } = yield user.validate();
         this.set('didValidate', true);
@@ -34,7 +26,15 @@ export default class TosConsentBanner extends Component {
 
         yield user.save();
         this.currentUser.set('showTosConsentBanner', false);
-    }).drop();
+    }).drop(),
+}) {
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+
+    // Private properties
+    show = false;
+    didValidate = false;
+    hasSubmitted = false;
 
     constructor(properties: object) {
         super(properties);

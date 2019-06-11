@@ -14,16 +14,8 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 
-export default class GuidFile extends Route {
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-    @service('head-tags') headTagsService!: HeadTagsService;
-    @service metaTags!: MetaTags;
-    @service ready!: Ready;
-
-    headTags?: HeadTagDef[];
-
-    setHeadTags = task(function *(this: GuidFile, model: any) {
+export default class GuidFile extends Route.extend({
+    setHeadTags: task(function *(this: GuidFile, model: any) {
         const blocker = this.get('ready').getBlocker();
         const dateCreated = model.file.get('dateCreated');
         const dateModified = model.file.get('dateModified');
@@ -38,7 +30,15 @@ export default class GuidFile extends Route {
         this.set('headTags', this.get('metaTags').getHeadTags(metaTagsData));
         this.get('headTagsService').collectHeadTags();
         blocker.done();
-    });
+    }),
+}) {
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service('head-tags') headTagsService!: HeadTagsService;
+    @service metaTags!: MetaTags;
+    @service ready!: Ready;
+
+    headTags?: HeadTagDef[];
 
     async model(this: GuidFile, params: { guid: string }) {
         try {

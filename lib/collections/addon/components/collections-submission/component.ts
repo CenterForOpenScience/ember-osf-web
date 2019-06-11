@@ -31,35 +31,8 @@ enum Section {
 }
 
 @layout(template, styles)
-export default class Submit extends Component {
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-    @service theme!: Theme;
-    @service toast!: Toast;
-
-    readonly edit: boolean = defaultTo(this.edit, false);
-    readonly provider: CollectionProvider = this.provider;
-    readonly collection: Collection = this.collection;
-    readonly collectedMetadatum: CollectedMetadatum = this.collectedMetadatum;
-
-    collectionItem: Node | null = defaultTo(this.collectionItem, null);
-    isProjectSelectorValid: boolean = false;
-    sections = Section;
-    activeSection: Section = this.edit ? Section.projectMetadata : Section.project;
-    savedSections: Section[] = this.edit ? [
-        Section.project,
-        Section.projectMetadata,
-        Section.projectContributors,
-        Section.collectionSubjects,
-        Section.collectionMetadata,
-    ] : [];
-    showCancelDialog: boolean = false;
-    i18nKeyPrefix = 'collections.collections_submission.';
-    showSubmitModal: boolean = false;
-
-    save = task(function *(this: Submit) {
+export default class Submit extends Component.extend({
+    save: task(function *(this: Submit) {
         if (!this.collectionItem) {
             return;
         }
@@ -109,7 +82,34 @@ export default class Submit extends Component {
                 error: e.errors[0].detail,
             }));
         }
-    }).drop();
+    }).drop(),
+}) {
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
+    @service theme!: Theme;
+    @service toast!: Toast;
+
+    readonly edit: boolean = defaultTo(this.edit, false);
+    readonly provider: CollectionProvider = this.provider;
+    readonly collection: Collection = this.collection;
+    readonly collectedMetadatum: CollectedMetadatum = this.collectedMetadatum;
+
+    collectionItem: Node | null = defaultTo(this.collectionItem, null);
+    isProjectSelectorValid: boolean = false;
+    sections = Section;
+    activeSection: Section = this.edit ? Section.projectMetadata : Section.project;
+    savedSections: Section[] = this.edit ? [
+        Section.project,
+        Section.projectMetadata,
+        Section.projectContributors,
+        Section.collectionSubjects,
+        Section.collectionMetadata,
+    ] : [];
+    showCancelDialog: boolean = false;
+    i18nKeyPrefix = 'collections.collections_submission.';
+    showSubmitModal: boolean = false;
 
     @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
     get choiceFields(): Array<{ label: string; value: string | undefined; }> {

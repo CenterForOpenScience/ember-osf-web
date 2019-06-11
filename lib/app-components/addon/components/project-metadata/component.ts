@@ -15,7 +15,12 @@ import template from './template';
 
 @layout(template, styles)
 @tagName('')
-export default class ProjectMetadata extends Component {
+export default class ProjectMetadata extends Component.extend({
+    reset: task(function *(this: ProjectMetadata) {
+        this.node.rollbackAttributes();
+        yield this.node.reload();
+    }),
+}) {
     @service analytics!: Analytics;
     @service i18n!: I18N;
     @service store!: DS.Store;
@@ -24,11 +29,6 @@ export default class ProjectMetadata extends Component {
     node: Node = this.node;
 
     @requiredAction continue!: () => void;
-
-    reset = task(function *(this: ProjectMetadata) {
-        this.node.rollbackAttributes();
-        yield this.node.reload();
-    });
 
     @action
     addTag(this: ProjectMetadata, tag: string) {

@@ -20,16 +20,8 @@ interface TaskInstanceResult {
 }
 
 @requireAuth()
-export default class Submit extends Route.extend(ConfirmationMixin, {}) {
-    @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
-    @service theme!: Theme;
-    @service i18n!: I18N;
-
-    // This tells ember-onbeforeunload what to use as the body for the warning before leaving the page.
-    confirmationMessage = this.i18n.t('collections.collections_submission.warning_body');
-
-    loadModel = task(function *(this: Submit): IterableIterator<any> {
+export default class Submit extends Route.extend(ConfirmationMixin, {
+    loadModel: task(function *(this: Submit): IterableIterator<any> {
         const provider = this.theme.provider as CollectionProvider;
         const collection = yield provider.primaryCollection;
 
@@ -43,7 +35,15 @@ export default class Submit extends Route.extend(ConfirmationMixin, {}) {
             collection,
             collectedMetadatum,
         } as TaskInstanceResult;
-    });
+    }),
+}) {
+    @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
+    @service theme!: Theme;
+    @service i18n!: I18N;
+
+    // This tells ember-onbeforeunload what to use as the body for the warning before leaving the page.
+    confirmationMessage = this.i18n.t('collections.collections_submission.warning_body');
 
     model(this: Submit) {
         return {

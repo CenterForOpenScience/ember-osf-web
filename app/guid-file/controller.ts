@@ -39,7 +39,13 @@ const lookupTable: { [k: string]: { [s: string]: string} } = {
     },
 };
 
-export default class GuidFile extends Controller {
+export default class GuidFile extends Controller.extend({
+    updateFilter: task(function *(this: GuidFile, filter: string) {
+        yield timeout(250);
+        this.setProperties({ filter });
+        this.analytics.track('list', 'filter', 'Quick Files - Filter file browser');
+    }).restartable(),
+}) {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
@@ -93,12 +99,6 @@ export default class GuidFile extends Controller {
     get fileText(this: GuidFile) {
         return Boolean(this.file) && this.file.getContents();
     }
-
-    updateFilter = task(function *(this: GuidFile, filter: string) {
-        yield timeout(250);
-        this.setProperties({ filter });
-        this.analytics.track('list', 'filter', 'Quick Files - Filter file browser');
-    }).restartable();
 
     @computed('allFiles.[]', 'filter', 'sort')
     get files(this: GuidFile) {
