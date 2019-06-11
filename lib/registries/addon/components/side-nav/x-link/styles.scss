@@ -6,7 +6,7 @@ $sidenav-link-height: 40px;
     height: $sidenav-link-height;
     justify-content: space-between;
     width: 100%;
-    padding: 5px 20px;
+    padding: 5px 10px;
     color: $primary-blue;
     outline: 0 !important;
 
@@ -26,11 +26,10 @@ $sidenav-link-height: 40px;
     }
 
     &:global(.active) {
-        color: $white;
-        background-color: $primary-blue;
+        color: $black;
+        background-color: $selected-blue;
         border: $white 1px solid;
-        border-left: 0;
-        border-right: 0;
+        border-radius: 5px;
 
         .Count {
             color: inherit;
@@ -59,10 +58,10 @@ $sidenav-link-height: 40px;
 @mixin hover-poke-through($background-color) {
     position: absolute;
     padding: 11px;
+    padding-left: 0;
     height: $sidenav-link-height;
 
-    top: -20px;
-    left: 28px;
+    top: -10px;
 
     // Forces the label to stay on a single line
     // otherwise it will wrap every letter.
@@ -76,6 +75,9 @@ $sidenav-link-height: 40px;
     border: $alto 1px solid;
     border-left: 0;
 
+    // Round the right corners of the h4 elements
+    border-radius: 0 5px 5px 0;
+
     // Cover the border around the h4 to give it the "poke out/through" effect
     &::before {
         position: absolute;
@@ -83,6 +85,7 @@ $sidenav-link-height: 40px;
         border: $white 1px solid;
         border-left: 0;
         border-right: 0;
+        background: transparent;
 
         // Needs to be set to render. Adding content messes things up. Don't do that.
         content: '';
@@ -93,7 +96,8 @@ $sidenav-link-height: 40px;
         left: -1px;
         height: calc(2px + 100%);
 
-        // Matches the width of the parent gutter
+        // Matches the width of the parent gutter 
+        // Check the width of the .Collapse:hover div below)
         width: 26px;
     }
 }
@@ -110,11 +114,26 @@ $sidenav-link-height: 40px;
         display: none;
     }
 
-    &:hover:global(.active) h4 {
-        @include hover-poke-through($primary-blue);
+    &:hover div {
+        @include hover-poke-through($white);
+        border: 0;
+        left: 28px;
+        padding-right: 0;
+        width: max-content;
     }
 
+    &:hover:global(.active) h4 {
+        @include hover-poke-through($selected-blue);
+        position: relative;
+        top: -21px;
+        padding-left: 11px;
+    }
+    
     &:hover:not(:global(.active)) h4 {
         @include hover-poke-through($white);
+        position: relative;
+        top: -21px;
+        padding-left: 11px;
     }
+
 }

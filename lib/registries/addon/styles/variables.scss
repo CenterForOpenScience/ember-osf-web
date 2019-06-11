@@ -1,5 +1,6 @@
 @import 'app/styles/variables';
 
+$selected-blue: rgba(51, 122, 183, 0.2); // Used to show current page
 $primary-blue: #337ab7; // Links, Icons
 // (AAA) $primary-blue: ##0059a6; // Links, Icons
 $secondary-blue: #15a5eb; // Link Hover
@@ -21,5 +22,6 @@ $secondary-red: #fb2424; // Red Hover
 
 $disabled-gray: #a5b3bd; // Disabled button icons
 $white: #fff;
+$black: #000;
 
 $primary-box-shadow: rgba(0, 0, 0, 0.2);
