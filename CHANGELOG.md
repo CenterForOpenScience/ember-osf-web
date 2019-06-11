@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Components:
+    - `meetings`
+        - `detail`
+            - `meeting-submissions-list` - removed download count sorting
+- Tests:
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-submissions-list` - removed checking of download count sorting
 
 ## [19.5.0] - 2019-06-07
 ### Added
