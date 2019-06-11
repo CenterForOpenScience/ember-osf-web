@@ -1,9 +1,9 @@
 import { Factory, faker } from 'ember-cli-mirage';
 
+import { randomGravatar } from 'ember-osf-web/mirage/utils';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 
 import { guid, guidAfterCreate } from './utils';
-import { randomGravatar } from 'ember-osf-web/mirage/utils';
 
 export default Factory.extend<CollectionProvider>({
     id: guid('collection-provider'),

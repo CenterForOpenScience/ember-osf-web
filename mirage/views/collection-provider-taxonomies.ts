@@ -6,14 +6,13 @@ export function getProviderTaxonomies(this: HandlerContext, schema: Schema, requ
     const parentTaxonomyId = request.queryParams['filter[parents]'];
     let matchingTaxonomies;
     if (parentTaxonomyId === 'null') {
-        matchingTaxonomies = taxonomies.filter( item => item.parent === null);
+        matchingTaxonomies = taxonomies.filter(item => item.parent === null);
     } else {
-        matchingTaxonomies = taxonomies.filter( item => {
+        matchingTaxonomies = taxonomies.filter(item => {
             if (item.parent) {
                 return item.parent.id === parentTaxonomyId;
-            } else {
-                return false;
             }
+            return false;
         });
     }
     const json = process(schema, request, this, matchingTaxonomies.map(m => this.serialize(m).data));

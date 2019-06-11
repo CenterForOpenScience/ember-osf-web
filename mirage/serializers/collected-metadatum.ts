@@ -9,6 +9,10 @@ export default class CollectedMetadatumSerializer extends ApplicationSerializer<
     buildRelationships(model: ModelInstance<CollectedMetadatum>) {
         return {
             collection: {
+                data: {
+                    id: model.collection.id,
+                    type: 'collections',
+                },
                 links: {
                     related: {
                         href: `${apiUrl}/v2/collections/${model.collection.id}/`,
@@ -16,19 +20,27 @@ export default class CollectedMetadatumSerializer extends ApplicationSerializer<
                 },
             },
             guid: {
+                data: {
+                    id: model.guid.id,
+                    type: 'nodes',
+                },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${model.id}/`,
+                        href: `${apiUrl}/v2/nodes/${model.guid.id}/`,
                     },
                 },
             },
             creator: {
+                data: {
+                    id: model.creator.id,
+                    type: 'users',
+                },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/users/${model.id}/`,
+                        href: `${apiUrl}/v2/users/${model.creator.id}/`,
                     },
                 },
-            }
+            },
         };
     }
 }

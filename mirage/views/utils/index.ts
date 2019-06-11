@@ -1,6 +1,6 @@
 import { camelize } from '@ember/string';
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
-import { compare, embed, paginate, ProcessOptions, sort, toOperator } from './-private';
+import { compare, compareIds, embed, paginate, ProcessOptions, sort, toOperator } from './-private';
 
 export interface ViewContext {
     handlerContext: HandlerContext;
@@ -37,6 +37,11 @@ export function filter(model: ModelInstance, request: Request) {
                         // If this error comes up, that means we need to implement deep filtering on submodels.
                         // For example, filter[contributors.users.full_name]=meit will need to go to the
                         // contributor's user and compare that user's full_name with the string 'meit'.
+                    }
+                    // currently, filtering by a list of delimited values are only supported for IDs
+                    // therefore we make a special case for filtering by ids.
+                    if (field === 'id') {
+                        return compareIds(model[field], val, toOperator(operator));
                     }
                     return compare(model[field], val, toOperator(operator));
                 });

@@ -2,7 +2,7 @@ import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import DS from 'ember-data';
 
-import { choiceFields } from './collected-metadatum';
+import CollectedMetadatumModel, { choiceFields } from './collected-metadatum';
 import CollectionProviderModel from './collection-provider';
 import NodeModel from './node';
 import OsfModel from './osf-model';
@@ -38,6 +38,9 @@ export default class CollectionModel extends OsfModel {
 
     @hasMany('registration', { inverse: null })
     linkedRegistrations!: DS.PromiseManyArray<RegistrationModel>;
+
+    @hasMany('collected-metadatum', { inverse: 'collection' })
+    collectedMetadata!: DS.PromiseManyArray<CollectedMetadatumModel>;
 
     @computed(`{${choicesFields.join()}}.length`)
     get displayChoicesFields() {

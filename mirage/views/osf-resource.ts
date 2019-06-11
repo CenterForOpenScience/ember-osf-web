@@ -124,7 +124,11 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     }
 
     if (actions.includes('show')) {
-        server.get(detailPath, mirageRelatedModelName);
+        server.get(detailPath, function(schema, request) {
+            const model = this.serialize(schema[mirageRelatedModelName].find(request.params.id)).data;
+            const data = process(schema, request, this, [model], options).data[0];
+            return { data };
+        });
     }
 
     if (actions.includes('create')) {

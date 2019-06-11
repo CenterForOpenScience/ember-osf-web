@@ -30,12 +30,16 @@ export default class CollectionProviderSerializer extends ApplicationSerializer<
                 },
             },
             primaryCollection: {
+                data: {
+                    id: model.primaryCollection.id,
+                    type: 'collections',
+                },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/collections/${model.primaryCollection.id}/`
-                    }
-                }
-            }
+                        href: `${apiUrl}/v2/collections/${model.primaryCollection.id}/`,
+                    },
+                },
+            },
         };
     }
 }
