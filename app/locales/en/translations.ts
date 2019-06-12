@@ -1115,6 +1115,13 @@ export default {
             create_doi_header: 'Are you sure you want to create a DOI for this registration?',
             create_doi_text: 'A DOI is persistent and will always resolve to this page.',
             no_doi: 'No DOI assigned',
+            add_license: 'Add license',
+            edit_license: {
+                success: 'License successfully updated',
+                error: 'Unable to update license',
+            },
+            select_license: 'Select license',
+            no_matches: 'No matches found',
             save_category: {
                 error: 'Unable to save category',
             },

@@ -1,6 +1,6 @@
 import OsfAdapter from './osf-adapter';
 
-export default class RegistryProviderAdapter extends OsfAdapter {
+export default class RegistrationProviderAdapter extends OsfAdapter {
     pathForType(_: string): string {
         return 'providers/registries';
     }
@@ -8,6 +8,6 @@ export default class RegistryProviderAdapter extends OsfAdapter {
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'registry-provider': RegistryProviderAdapter;
+        'registration-provider': RegistrationProviderAdapter;
     } // eslint-disable-line semi
 }

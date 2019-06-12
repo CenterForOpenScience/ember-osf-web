@@ -56,7 +56,7 @@ function registrationScenario(
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withLicense', 'withAffiliatedInstitutions');
+    }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
@@ -164,6 +164,7 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
+    server.loadFixtures('registration-providers');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
         [

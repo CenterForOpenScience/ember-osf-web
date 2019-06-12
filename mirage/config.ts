@@ -134,6 +134,12 @@ export default function(this: Server) {
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
+    osfResource(this, 'registration-provider', { path: '/providers/registrations' });
+    osfNestedResource(this, 'registration-provider', 'licensesAcceptable', {
+        only: ['index'],
+        path: '/providers/registrations/:parentID/licenses/',
+        relatedModelName: 'license',
+    });
 
     // Waterbutler namespace
     this.namespace = '/wb';

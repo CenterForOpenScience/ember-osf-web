@@ -10,6 +10,7 @@ const { OSF: { apiUrl } } = config;
 
 interface RegistrationAttrs extends NodeAttrs {
     registeredFromId: ID | null;
+    providerId: ID | null;
 }
 
 type MirageRegistration = Registration & { attrs: RegistrationAttrs };
@@ -122,6 +123,22 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 },
             },
         };
+        if (model.attrs.providerId) {
+            const { providerId } = model.attrs;
+            relationships.provider = {
+                data: {
+                    id: providerId,
+                    type: 'registration-providers',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/registrations/${providerId}/`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+
         if (model.attrs.parentId !== null) {
             const { parentId } = model.attrs;
             relationships.parent = {

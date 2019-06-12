@@ -3,7 +3,8 @@ import { click as untrackedClick, fillIn } from '@ember/test-helpers';
 import { faker, ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
-import { selectChoose } from 'ember-power-select/test-support';
+import { t } from 'ember-i18n/test-support';
+import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
 import { module, test } from 'qunit';
@@ -314,10 +315,8 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         await visit(`/${reg.id}/`);
         assert.dom('[data-test-create-doi]').doesNotExist();
-
         reg.update({ currentUserPermissions: Object.values(Permission) });
         await visit(`/${reg.id}/`);
-
         await click('[data-test-edit-button="doi"]');
 
         assert.dom('[data-test-create-doi]').isVisible();
@@ -338,5 +337,45 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         await visit(`/${nonPublicReg.id}/`);
         assert.dom('[data-test-editable-field="doi"]').doesNotExist('DOIs are only available for public registrations');
+    });
+
+    test('Editable license', async assert => {
+        server.loadFixtures('licenses');
+        server.loadFixtures('registration-providers');
+
+        const reg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: [Permission.Write, Permission.Read],
+        });
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-edit-button="license"]').isNotVisible();
+        reg.update({ currentUserPermissions: Object.values(Permission) });
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-edit-button="license"]').isVisible();
+        await click('[data-test-edit-button="license"]');
+
+        assert.dom('[data-test-license-edit-form]').isVisible();
+        await selectSearch('[data-test-select-license]', 'No');
+        assert.dom('.ember-power-select-options').hasText('No license');
+        await selectChoose('[data-test-select-license]', 'No license');
+
+        await click('[data-test-save-license]');
+
+        const validationErrorMsg = `${t('validationErrors.node_license_missing_fields')} \
+            ${t('app_components.license_picker.fields.copyrightHolders')}`;
+        assert.dom('.help-block').hasText(validationErrorMsg, 'validation works');
+
+        await fillIn('[data-test-required-field="copyrightHolders"]', 'Jane Doe, John Doe');
+        await click('[data-test-save-license]');
+
+        assert.equal(reg.license.name, 'No license');
+        assert.equal(reg.nodeLicense!.year, new Date().getUTCFullYear().toString());
+
+        // @ts-ignore
+        assert.deepEqual(reg.nodeLicense!.copyright_holders, ['Jane Doe', 'John Doe']);
     });
 });
