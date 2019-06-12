@@ -132,7 +132,7 @@
 @media (max-width: 756px) {
     .slide-content {
         flex-wrap: wrap;
-        height: 655px;
+        height: 600px;
 
         p {
             font-size: 20px;
@@ -149,6 +149,12 @@
 
     .slide-image {
         margin-top: 15px;
+    }
+}
+
+@media (max-width: 470px) {
+    .slide-content {
+        height: 655px;
     }
 }
 
