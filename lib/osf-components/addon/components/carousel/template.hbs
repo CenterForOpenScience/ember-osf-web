@@ -1,17 +1,18 @@
-<section local-class='carousel-container'>
+<section data-test-carousel-container local-class='carousel-container'>
     {{yield (hash header=(component 'carousel/x-header'))}}
-    <ol local-class='dot-nav' role='tablist'>
+    <ol data-test-dot-navigation local-class='dot-nav' role='tablist'>
         {{#each this.carouselItems as |item|}}
             <li
+                data-test-navigation-item
                 role='tab'
                 local-class={{if item.isActive 'current' ''}}
                 tabIndex={{if item.isActive '0' '-1'}}
                 aria-selected={{if item.isActive 'true' 'false'}}
             >
-                <button type='button' local-class='navBtn' data-slide={{item.index}} {{action 'navClick' item}}>
+                <button data-test-navigation-button type='button' data-slide={{item.index}} {{action 'navClick' item}}>
                     <span class='visuallyHidden'>{{item.slideIndex}}</span>
                     {{#if item.isActive}}
-                        <span class='visuallyhidden'></span>
+                        <span class='visuallyhidden'>{{t 'osf-components.carousel.current_slide'}}</span>
                     {{/if}}
                 </button>
             </li>
@@ -20,20 +21,31 @@
     <ul data-test-carousel-list local-class='item-list'>
         {{yield (hash slide=(component 'carousel/x-item' register=(action this.register) allItems=this.carouselItems))}}
     </ul>
-    <button type='button' local-class='btn' {{action 'changeSlide' 'previous'}}>
+    <OsfButton
+        data-test-carousel-button-previous
+        data-analytics-name='Previous'
+        local-class='btn'
+        @type='button'
+        @onClick={{action 'changeSlide' 'previous'}}
+    >
         <img
             data-test-previous-arrow
             local-class='arrow-previous'
             src='/assets/images/dashboard/arrow.svg'
             alt={{t 'general.previous'}}
         >
-    </button>
-    <button type='button' local-class='btn btn-next' {{action 'changeSlide' 'next'}}>
+    </OsfButton>
+    <OsfButton
+        data-test-carousel-button-next
+        data-analytics-name='Next'
+        local-class='btn btn-next'
+        @type='button'
+        @onClick={{action 'changeSlide' 'next'}}
+    >
         <img
             data-test-next-arrow
-            local-class='arrow-next'
             src='/assets/images/dashboard/arrow.svg'
             alt={{t 'general.next'}}
         >
-    </button>
+    </OsfButton>
 </section>

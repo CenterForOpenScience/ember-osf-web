@@ -82,10 +82,6 @@
     line-height: 1.5em;
 }
 
-.visually-hidden {
-    display: none;
-}
-
 // Header media points
 @media (max-width: 768px) {
     .container h1 {
@@ -136,7 +132,7 @@
 @media (max-width: 756px) {
     .slide-content {
         flex-wrap: wrap;
-        height: 656px;
+        height: 655px;
 
         p {
             font-size: 20px;
@@ -147,12 +143,22 @@
         }
     }
 
+    .quote {
+        height: 66px;
+    }
+
     .slide-image {
         margin-top: 15px;
     }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 411px) {
+    .quote {
+        height: 66px;
+    }
+}
+
+@media (max-width: 360px) {
     .slide-image {
         width: 250px;
     }
@@ -160,5 +166,11 @@
     .image-tall {
         height: 200px;
         width: auto;
+    }
+}
+
+@media (max-width: 320px) {
+    .slide-content {
+        height: 680px;
     }
 }

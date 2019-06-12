@@ -1484,6 +1484,9 @@ export default {
                 subheading: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.',
             },
         },
+        carousel: {
+            current_slide: '(Current Slide)',
+        },
         testimonials: {
             heading: 'What others are saying',
             see_her_research: 'See her research',

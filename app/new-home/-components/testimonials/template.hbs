@@ -1,14 +1,14 @@
 {{! template-lint-disable no-bare-strings }}
-<div local-class='container'>
+<div data-test-testimonials-container local-class='container'>
     <header>
         <h1 data-test-testimonials-heading>
             {{t 'osf-components.testimonials.heading'}}
         </h1>
     </header>
-    <Carousel data-test-carousel-container local-class='test-class' as |container|>
-        <container.slide>
+    <Carousel as |container|>
+        <container.slide data-test-slide-1>
             <div local-class='slide-content'>
-                <div local-class='flex-column'>
+                <div>
                     <span local-class='quote'>&quot;</span>
                     <p>
                         {{t 'osf-components.testimonials.slide_1.text'}}
@@ -20,7 +20,7 @@
                         <span>
                             {{t 'osf-components.testimonials.slide_1.description.position'}}
                         </span>
-                        <span local-class='description-bold research-link'>
+                        <span local-class='description-bold'>
                             <OsfLink
                                 data-analytics-name='noteworthy_search'
                                 @href='/wx9bf/'
@@ -37,9 +37,9 @@
                 >
             </div>
         </container.slide>
-        <container.slide>
+        <container.slide data-test-slide-2>
             <div local-class='slide-content'>
-                <div local-class='flex-column'>
+                <div>
                     <p local-class='testimonial-small'>
                         <span local-class='quote'>&quot;</span>
                         {{t 'osf-components.testimonials.slide_2.text'}}
@@ -51,7 +51,7 @@
                         <span>
                             {{t 'osf-components.testimonials.slide_2.description.position'}}
                         </span>
-                        <span local-class='description-bold research-link'>
+                        <span local-class='description-bold'>
                             <OsfLink
                                 data-analytics-name='noteworthy_search'
                                 @href='/e9tg8/'
@@ -68,9 +68,9 @@
                 >
             </div>
         </container.slide>
-        <container.slide>
+        <container.slide data-test-slide-3>
             <div local-class='slide-content'>
-                <div local-class='flex-column'>
+                <div>
                     <p local-class='testimonial-small'>
                         <span local-class='quote'>&quot;</span>
                         {{t 'osf-components.testimonials.slide_3.text'}}
@@ -82,7 +82,7 @@
                         <span>
                             {{t 'osf-components.testimonials.slide_3.description.position'}}
                         </span>
-                        <span local-class='description-bold research-link'>
+                        <span local-class='description-bold'>
                             <OsfLink
                                 data-analytics-name='noteworthy_search'
                                 @href='/2u4tf/'
