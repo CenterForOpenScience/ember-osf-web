@@ -132,7 +132,7 @@
 @media (max-width: 756px) {
     .slide-content {
         flex-wrap: wrap;
-        height: 600px;
+        height: 580px;
 
         p {
             font-size: 20px;
@@ -154,7 +154,14 @@
 
 @media (max-width: 470px) {
     .slide-content {
-        height: 655px;
+        height: 630px;
+        // height: 655px;
+    }
+}
+
+@media (max-width: 375px) {
+    .slide-content {
+        height: 660px;
     }
 }
 
@@ -165,6 +172,10 @@
 }
 
 @media (max-width: 360px) {
+    .slide-content {
+        height: 630px;
+    }
+    
     .slide-image {
         width: 250px;
     }

@@ -9,7 +9,12 @@
                 tabIndex={{if item.isActive '0' '-1'}}
                 aria-selected={{if item.isActive 'true' 'false'}}
             >
-                <button data-test-navigation-button type='button' data-slide={{item.index}} {{action 'navClick' item}}>
+                <button
+                    data-test-navigation-button
+                    type='button'
+                    data-slide={{item.index}}
+                    {{action 'navClick' item}}
+                >
                     <span class='visuallyHidden'>{{item.slideIndex}}</span>
                     {{#if item.isActive}}
                         <span class='visuallyhidden'>{{t 'osf-components.carousel.current_slide'}}</span>
@@ -26,7 +31,7 @@
         data-analytics-name='Previous'
         local-class='btn'
         @type='button'
-        @onClick={{action 'changeSlide' 'previous'}}
+        @onClick={{action this.changeSlide 'previous'}}
     >
         <img
             data-test-previous-arrow
@@ -40,7 +45,7 @@
         data-analytics-name='Next'
         local-class='btn btn-next'
         @type='button'
-        @onClick={{action 'changeSlide' 'next'}}
+        @onClick={{action this.changeSlide 'next'}}
     >
         <img
             data-test-next-arrow

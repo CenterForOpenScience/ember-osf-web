@@ -3,6 +3,7 @@ import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import CarouselItem from 'osf-components/components/carousel/x-item/component';
 
 import styles from './styles';
 import template from './template';
@@ -10,52 +11,42 @@ import template from './template';
 @layout(template, styles)
 @tagName('')
 export default class Carousel extends Component {
-    // Private params
-    carouselItems: any[] = [];
+    // Private properties
+    carouselItems: CarouselItem[] = [];
 
     @computed('carouselItems.{length,@each.isActive}')
     get activeSlide() {
-        return this.get('carouselItems').findBy('isActive');
+        return this.carouselItems.findBy('isActive');
     }
 
     @action
-    register(item: any) {
-        this.get('carouselItems').pushObject(item);
+    register(item: CarouselItem) {
+        this.carouselItems.pushObject(item);
     }
 
     @action
     changeSlide(direction: string) {
-        const activeSlide = this.get('carouselItems').findBy('isActive');
-        const activeIndex = activeSlide.index;
+        const activeSlide = this.carouselItems.findBy('isActive');
+        const activeIndex = activeSlide!.index;
         let newIndex = direction === 'previous' ? activeIndex - 1 : activeIndex + 1;
 
-        if (newIndex > this.get('carouselItems').length - 1) {
+        if (newIndex > this.carouselItems.length - 1) {
             newIndex = 0;
         } else if (newIndex < 0) {
-            newIndex = this.get('carouselItems').length - 1;
+            newIndex = this.carouselItems.length - 1;
         }
 
-        this.get('carouselItems')[activeIndex].setProperties({
-            isActive: false,
-        });
-
-        this.get('carouselItems')[newIndex].setProperties({
-            isActive: true,
-        });
+        this.carouselItems[activeIndex].set('isActive', false);
+        this.carouselItems[newIndex].set('isActive', true);
     }
 
     @action
-    navClick(item: any) {
-        const activeSlide = this.get('carouselItems').findBy('isActive');
-        const activeIndex = activeSlide.index;
+    navClick(item: CarouselItem) {
+        const activeSlide = this.carouselItems.findBy('isActive');
+        const activeIndex = activeSlide!.index;
         const newIndex = item.index;
 
-        this.get('carouselItems')[activeIndex].setProperties({
-            isActive: false,
-        });
-
-        this.get('carouselItems')[newIndex].setProperties({
-            isActive: true,
-        });
+        this.carouselItems[activeIndex].set('isActive', false);
+        this.carouselItems[newIndex].set('isActive', true);
     }
 }

@@ -44,11 +44,17 @@ module('Acceptance | new home page test', hooks => {
         assert.dom('[data-test-testimonials-heading]').hasText('What others are saying');
         assert.dom('[data-test-testimonials-container]').exists();
         // check for 3 carousel slides
-        assert.dom('[data-test-slide-1]').exists();
+        assert.dom('[data-test-testimonials-slide-1]').exists();
+
+        await percySnapshot(assert);
+
         await click('[data-test-carousel-button-next]');
-        assert.dom('[data-test-slide-2]').exists();
+
+        await percySnapshot(assert);
+
+        assert.dom('[data-test-testimonials-slide-2]').exists();
         await click('[data-test-carousel-button-next]');
-        assert.dom('[data-test-slide-3]').exists();
+        assert.dom('[data-test-testimonials-slide-3]').exists();
 
         // Check integrations
         assert.dom('[data-test-integrations-heading]')

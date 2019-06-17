@@ -1,39 +1,33 @@
-import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import template from './template';
 
 @layout(template)
-@tagName('li')
 export default class CarouselItem extends Component {
-    classNameBindings = ['isActive:active', 'slidingIn:slide-in', 'slidingOut:slide-out', 'from'];
-
-    // Required params
+    // Required properties
     allItems!: object[];
     @requiredAction
     register!: (item: object) => void;
 
-    // Private params
+    // Private properties
     index: number = 0;
     slideIndex: number = 0;
 
-    didInsertElement(this: CarouselItem, ...args: any[]) {
+    didInsertElement(...args: any[]) {
         this._super(...args);
         this.register(this);
-
-        const allItems = this.get('allItems');
-        this.set('index', allItems.indexOf(this));
-        this.set('slideIndex', allItems.indexOf(this) + 1);
+        this.set('index', this.allItems.indexOf(this));
+        this.set('slideIndex', this.allItems.indexOf(this) + 1);
     }
 
     @computed('allItems.@each')
     get isActive() {
-        return (this as object) === this.get('allItems').firstObject;
+        return (this as object) === this.allItems.firstObject;
     }
 
     @computed('isActive')
     get tabIndex() {
-        return this.get('isActive') ? 0 : -1;
+        return this.isActive ? 0 : -1;
     }
 }
