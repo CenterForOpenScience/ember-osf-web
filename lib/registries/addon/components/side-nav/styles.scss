@@ -30,7 +30,7 @@ $width-collapsed: 80px;
         color: $white;
     }
 
-    &:hover h4::before {
+    &:hover * > ::before {
         // Adjusts the white border to not cover the top gray line
         top: 0 !important;
         height: calc(1px + 100%) !important;
