@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Components:
     - `meetings`
+        - `index`
+            - `meetings-list` - sort by submission count (descending) by default
         - `detail`
             - `meeting-submissions-list` - removed download count sorting
 - Tests:

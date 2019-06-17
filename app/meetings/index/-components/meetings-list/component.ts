@@ -10,7 +10,7 @@ export default class MeetingsList extends Component.extend({
 }) {
     // Private properties
     search?: string;
-    sort?: string;
+    sort = '-submissions_count';
 
     @computed('search', 'sort')
     get query() {
