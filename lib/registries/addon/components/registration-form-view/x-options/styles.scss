@@ -9,3 +9,15 @@
     content: '✓';
     padding-right: 8px;
 }
+
+.OptionsList li { 
+    padding: 2px;
+}
+
+.OptionsList li:first-of-type {
+    padding-top: 0;
+}
+
+.OptionsList li:last-of-type {
+    padding-bottom: 0;
+}
