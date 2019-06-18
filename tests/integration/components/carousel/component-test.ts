@@ -44,97 +44,97 @@ module('Integration | Component | carousel', hooks => {
     });
 
     test('Next button works', async function(assert) {
-        assert.dom('[data-test-slide-1]').hasClass('active');
-        assert.dom('[data-test-slide-2]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-3]').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-1] > li').hasClass('active');
+        assert.dom('[data-test-slide-2] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-3] > li').doesNotHaveClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:first-of-type')!
             .getAttribute('aria-selected'), 'true');
 
         await click('[data-test-carousel-button-next]');
 
-        assert.dom('[data-test-slide-1]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-2]').hasClass('active');
-        assert.dom('[data-test-slide-3]').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-1] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-2] > li').hasClass('active');
+        assert.dom('[data-test-slide-3] > li').doesNotHaveClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:nth-of-type(2)')!
             .getAttribute('aria-selected'), 'true');
 
         await click('[data-test-carousel-button-next]');
 
-        assert.dom('[data-test-slide-1]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-2]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-3]').hasClass('active');
+        assert.dom('[data-test-slide-1] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-2] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-3] > li').hasClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:nth-of-type(3')!
             .getAttribute('aria-selected'), 'true');
 
         await click('[data-test-carousel-button-next]');
 
-        assert.dom('[data-test-slide-1]').hasClass('active');
-        assert.dom('[data-test-slide-2]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-3]').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-1] > li').hasClass('active');
+        assert.dom('[data-test-slide-2] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-3] > li').doesNotHaveClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:first-of-type')!
             .getAttribute('aria-selected'), 'true');
     });
 
     test('Previous button works', async function(assert) {
-        assert.dom('[data-test-slide-1]').hasClass('active');
-        assert.dom('[data-test-slide-2]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-3]').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-1] > li').hasClass('active');
+        assert.dom('[data-test-slide-2] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-3] > li').doesNotHaveClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:first-of-type')!
             .getAttribute('aria-selected'), 'true');
 
         await click('[data-test-carousel-button-previous]');
 
-        assert.dom('[data-test-slide-1]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-2]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-3]').hasClass('active');
+        assert.dom('[data-test-slide-1] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-2] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-3] > li').hasClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:nth-of-type(3)')!
             .getAttribute('aria-selected'), 'true');
 
         await click('[data-test-carousel-button-previous]');
 
-        assert.dom('[data-test-slide-1]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-2]').hasClass('active');
-        assert.dom('[data-test-slide-3]').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-1] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-2] > li').hasClass('active');
+        assert.dom('[data-test-slide-3] > li').doesNotHaveClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:nth-of-type(2)')!
             .getAttribute('aria-selected'), 'true');
 
         await click('[data-test-carousel-button-previous]');
 
-        assert.dom('[data-test-slide-1]').hasClass('active');
-        assert.dom('[data-test-slide-2]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-3]').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-1] > li').hasClass('active');
+        assert.dom('[data-test-slide-2] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-3] > li').doesNotHaveClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:first-of-type')!
             .getAttribute('aria-selected'), 'true');
     });
 
     test('li navigation works', async function(assert) {
-        assert.dom('[data-test-slide-1]').hasClass('active');
-        assert.dom('[data-test-slide-2]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-3]').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-1] > li').hasClass('active');
+        assert.dom('[data-test-slide-2] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-3] > li').doesNotHaveClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:first-of-type')!
             .getAttribute('aria-selected'), 'true');
 
         await click('[data-test-navigation-item]:nth-of-type(2) > [data-test-navigation-button]');
 
-        assert.dom('[data-test-slide-1]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-2]').hasClass('active');
-        assert.dom('[data-test-slide-3]').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-1] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-2] > li').hasClass('active');
+        assert.dom('[data-test-slide-3] > li').doesNotHaveClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:nth-of-type(2)')!
             .getAttribute('aria-selected'), 'true');
 
         await click('[data-test-navigation-item]:nth-of-type(3) > [data-test-navigation-button]');
 
-        assert.dom('[data-test-slide-1]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-2]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-3]').hasClass('active');
+        assert.dom('[data-test-slide-1] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-2] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-3] > li').hasClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:nth-of-type(3)')!
             .getAttribute('aria-selected'), 'true');
 
         await click('[data-test-navigation-item]:first-of-type > [data-test-navigation-button]');
 
-        assert.dom('[data-test-slide-1]').hasClass('active');
-        assert.dom('[data-test-slide-2]').doesNotHaveClass('active');
-        assert.dom('[data-test-slide-3]').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-1] > li').hasClass('active');
+        assert.dom('[data-test-slide-2] > li').doesNotHaveClass('active');
+        assert.dom('[data-test-slide-3] > li').doesNotHaveClass('active');
         assert.equal(this.element.querySelector('[data-test-navigation-item]:first-of-type')!
             .getAttribute('aria-selected'), 'true');
     });
