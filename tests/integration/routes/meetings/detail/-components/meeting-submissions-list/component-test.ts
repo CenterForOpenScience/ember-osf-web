@@ -104,6 +104,8 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
                     authorName: 'Jisoo',
                     meetingCategory: 'poster',
                     downloadCount: 100,
+                    dateCreated: new Date(2017, 1, 1),
+                    // Also set created because the sort key is the underlying model field in the BE
                     created: new Date(2017, 1, 1),
                 }),
                 server.create('meeting-submission', {
@@ -111,6 +113,8 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
                     authorName: 'Lisa',
                     meetingCategory: 'poster',
                     downloadCount: 300,
+                    dateCreated: new Date(2018, 1, 1),
+                    // Also set created because the sort key is the underlying model field in the BE
                     created: new Date(2018, 1, 1),
                 }),
                 server.create('meeting-submission', {
@@ -118,6 +122,8 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
                     authorName: 'Rosé',
                     meetingCategory: 'talk',
                     downloadCount: 250,
+                    dateCreated: new Date(2019, 1, 1),
+                    // Also set created because the sort key is the underlying model field in the BE
                     created: new Date(2019, 1, 1),
                 }),
             ],
