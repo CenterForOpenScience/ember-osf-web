@@ -18,6 +18,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - `detail`
                 - `meeting-submissions-list` - removed checking of download count sorting
 
+### Fixed
+- Models:
+    - `meeting-submission` - renamed `created` to `dateCreated` to match API
+- Components:
+    - `meetings`
+        - `detail`
+            - `meeting-submissions-list` - renamed `created` to `dateCreated` to match API
+- Tests:
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-submissions-list` - renamed `created` to `dateCreated` to match API
+- Mirage:
+    - `meeting-submission` factory - renamed `created` to `dateCreated` to match API
+
 ## [19.5.0] - 2019-06-07
 ### Added
 - Models:
