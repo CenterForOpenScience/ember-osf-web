@@ -39,6 +39,19 @@ module('Acceptance | new home page test', hooks => {
         assert.dom('[data-test-arrow]').exists({ count: 3 });
         assert.dom('[data-test-learn-more-button]').exists();
 
+        // Check integrations
+        assert.dom('[data-test-integrations-heading]')
+            .containsText(t('new-home.integrations-section.header').toString());
+        assert.dom('[data-test-authentication-heading]')
+            .containsText(t('new-home.integrations-section.authentication').toString());
+        assert.dom('[data-test-discovery-heading]')
+            .containsText(t('new-home.integrations-section.discovery').toString());
+        assert.dom('[data-test-references-heading]')
+            .containsText(t('new-home.integrations-section.references').toString());
+        assert.dom('[data-test-storage-heading]')
+            .containsText(t('new-home.integrations-section.storage').toString());
+        assert.dom('[data-test-logo]').exists({ count: 8 });
+
         // Check footer.
         assert.dom('footer').exists();
         await a11yAudit();

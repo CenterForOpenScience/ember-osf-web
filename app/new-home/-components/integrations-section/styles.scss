@@ -1,0 +1,117 @@
+$font-color: #263947;
+$border: 1px solid #ddd;
+
+.container {
+    margin-top: 42px;
+}
+
+.integrationsHeader {
+    text-align: center;
+    padding: 0 20px;
+}
+
+.integrationsHeading {
+    font-size: 32px;
+    color: $font-color;
+    font-weight: 600;
+}
+
+.flexContainer {
+    display: flex;
+    justify-content: center;
+    padding: 35px 20px 49px;
+}
+
+.flexRow {
+    display: inline-flex;
+
+    &:not(:last-of-type) {
+        border-right: $border;
+    }
+}
+
+.flexColumn {
+    text-align: center;
+    width: 255px;
+
+    &:not(:last-of-type) {
+        border-right: $border;
+    }
+}
+
+.logoImg {
+    height: 32px;
+    margin: 15px;
+
+    &.logoTall {
+        height: 50px;
+    }
+}
+
+.columnHeader {
+    font-size: 24px;
+    font-weight: normal;
+    color: $font-color;
+}
+
+@media (max-width: 1025px) {
+    .logoImg {
+        height: 25px;
+    }
+
+    .columnHeader {
+        font-size: 20px;
+    }
+
+    .flexRow {
+        width: 50%;
+    }
+}
+
+@media (max-width: 736px) {
+    .flexColumn {
+        width: 100%;
+    }
+
+    .flexContainer {
+        width: 75%;
+        margin: auto;
+        flex-wrap: wrap;
+    }
+
+    .flexRow {
+        width: 100%;
+        justify-content: center;
+
+        &:not(:last-of-type) {
+            border-right: 0;
+            border-bottom: $border;
+        }
+    }
+}
+
+@media (max-width: 613px) {
+    .flexRow {
+        display: block;
+        width: 70%;
+    }
+
+    .flexColumn {
+        margin: 0 auto;
+        border-right: 0;
+
+        &:not(:last-of-type) {
+            border-right: 0;
+            border-bottom: $border;
+        }
+    }
+
+    .logoImg {
+        margin: 40px auto;
+        display: block;
+    }
+
+    .columnHeader {
+        font-size: 16px;
+    }
+}
