@@ -41,7 +41,7 @@ export function filter(model: ModelInstance, request: Request) {
                     // currently, filtering by a list of delimited values are only supported for IDs
                     // therefore we make a special case for filtering by ids.
                     if (field === 'id') {
-                        return compareIds(model[field], val, toOperator(operator));
+                        return compareIds(model.id, val, toOperator(operator));
                     }
                     return compare(model[field], val, toOperator(operator));
                 });

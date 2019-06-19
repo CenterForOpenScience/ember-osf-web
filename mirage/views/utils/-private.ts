@@ -220,22 +220,24 @@ export function compareBooleans(
 }
 
 export function compareIds(
-    actualValue: any,
-    comparisonValue: string,
+    actualValue: string | number,
+    comparisonValue: string | number,
     operator: ComparisonOperators,
 ): boolean {
+    const actualString = actualValue.toString();
+    const comparisonString = comparisonValue.toString();
     switch (operator) {
     case ComparisonOperators.Eq:
-        return comparisonValue.split(',').includes(actualValue);
+        return comparisonString.split(',').includes(actualString);
     case ComparisonOperators.Ne:
-        return !comparisonValue.split(',').includes(actualValue);
+        return !comparisonString.split(',').includes(actualString);
     default:
         throw new Error(`IDs can't be compared with "${operator}".`);
     }
 }
 
 export function compare(
-    actualValue: any,
+    actualValue: string | boolean | string[],
     comparisonValue: string,
     operator: ComparisonOperators,
 ): boolean {
