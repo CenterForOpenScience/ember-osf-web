@@ -1,9 +1,11 @@
 <h1 data-test-meeting-name>{{this.meeting.name}}</h1>
 
 <div data-test-meeting-location-and-date local-class='location-and-date-text'>
-    {{if this.meeting.location (concat this.meeting.location ' | ')}}
-    {{moment-format this.meeting.startDate 'MMM DD, YYYY'}}
-    {{if this.meeting.endDate (concat ' - ' (moment-format this.meeting.endDate 'MMM DD, YYYY'))}}
+    {{if this.meeting.location this.meeting.location}}
+    {{if (and this.meeting.location (or this.meeting.startDate this.meeting.endDate)) ' | '}}
+    {{if this.meeting.startDate (moment-format this.meeting.startDate 'MMM DD, YYYY')}}
+    {{if (or this.meeting.startDate this.meeting.endDate) ' - '}}
+    {{if this.meeting.endDate (moment-format this.meeting.endDate 'MMM DD, YYYY')}}
 </div>
 
 {{#if this.meeting.logoUrl}}

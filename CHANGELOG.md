@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Tests:
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-detail-header` - add tests for location and dates
+
 ### Changed
 - Components:
     - `meetings`
@@ -25,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `meetings`
         - `detail`
             - `meeting-submissions-list` - renamed `created` to `dateCreated` to match API
+            - `meeting-detail-header` - only attempt to display dates when defined
 - Tests:
     - Integration:
         - `meetings`
