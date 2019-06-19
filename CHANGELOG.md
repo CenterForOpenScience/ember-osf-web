@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Acceptance:
         - `meetings`
             - `detail` - add submission with long title
+            - `index` - add meeting with long name
 
 ### Fixed
 - Models:
@@ -38,6 +39,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
                 - renamed `created` to `dateCreated` to match API
                 - applied `table-layout: fixed` to force truncating of long submission titles
             - `meeting-detail-header` - only attempt to display dates when defined
+        - `index`
+            - `meetings-list` - applied `table-layout: fixed` to force truncating of long meeting names
 - Tests:
     - Integration:
         - `meetings`
