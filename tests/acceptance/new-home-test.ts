@@ -51,6 +51,7 @@ module('Acceptance | new home page test', hooks => {
         assert.dom('[data-test-storage-heading]')
             .containsText(t('new-home.integrations-section.storage').toString());
         assert.dom('[data-test-logo]').exists({ count: 8 });
+        assert.dom('[data-test-get-started-button]').exists({ count: 1 });
 
         // Check footer.
         assert.dom('footer').exists();
@@ -68,6 +69,7 @@ module('Acceptance | new home page test', hooks => {
         assert.dom('[data-test-add-research-heading]').exists();
         assert.dom('[data-test-add-research-subheading]').exists();
         assert.ok(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
+        assert.dom('[data-test-get-started-button]').exists({ count: 2 });
 
         await a11yAudit();
         await percySnapshot(assert);

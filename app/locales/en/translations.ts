@@ -479,7 +479,6 @@ export default {
         },
         'integrations-section': {
             header: 'OSF integrations make your workflow more efficient',
-            divider: 'divider',
             authentication: 'Authentication',
             discovery: 'Discovery',
             references: 'References',

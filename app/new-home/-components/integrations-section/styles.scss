@@ -19,7 +19,7 @@ $border: 1px solid #ddd;
 .flexContainer {
     display: flex;
     justify-content: center;
-    padding: 35px 20px 49px;
+    padding: 35px 20px 43px;
 }
 
 .flexRow {
@@ -52,6 +52,11 @@ $border: 1px solid #ddd;
     font-size: 24px;
     font-weight: normal;
     color: $font-color;
+}
+
+.buttonContainer {
+    margin-bottom: 53px;
+    text-align: center;
 }
 
 @media (max-width: 1025px) {
