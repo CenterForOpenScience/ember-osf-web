@@ -38,7 +38,7 @@ export default class HyperLink extends Component {
         return this.model || this.positionalModel;
     }
 
-    @computed('route', 'positionalRoute')
+    @computed('resolvedRoute')
     get isEmber(): boolean {
         return !/^(?:http|\/)/i.test(this.resolvedRoute);
     }

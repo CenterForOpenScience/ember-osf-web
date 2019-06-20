@@ -91,24 +91,15 @@
         <div local-class='Field'>
             <EditableField
                 data-analytics-scope='Affiliated institutions'
-                @managerComponent={{component 'editable-field/institutions-manager' node=this.registration}}
+                @registration={{this.registration}}
                 @title={{t 'registries.registration_metadata.affiliated_institutions'}}
-                @name='affiliated institutions'
-                as |field|
-            >
-                <field.edit>
-                    <InstitutionSelectList
-                        @user={{this.currentUser.user}}
-                        @node={{this.registration}}
-                        @manager={{field.manager}}
-                    />
-                </field.edit>
-                <field.display>
-                    <InstitutionsList
-                        @reloadList={{field.manager.bindReload}}
-                        @node={{this.registration}}
-                    />
-                </field.display>
+            as |editable|>
+                <InstitutionsWidget
+                    data-analytics-scope='Registries overview'
+                    @node={{this.registration}}
+                    @shouldShowModal={{editable.shouldShowEditable}}
+                    @hideModal={{editable.hideEditable}}
+                />
             </EditableField>
         </div>
 
@@ -153,43 +144,29 @@
             {{/if}}
         </div>
         <div local-class='Field'>
-            <EditableField
-                data-analytics-scope='Tags'
-                @managerComponent={{component 'editable-field/tags-manager' registration=this.registration}}
-                @title={{t 'registries.registration_metadata.tags'}}
-                @name='tags'
-                as |field|
-            >
-                <field.edit>
-                    <RegistriesTagsWidget
-                        data-test-registration-tags
-                        @manager={{field.manager}}
-                    />
-                </field.edit>
-                <field.display>
-                    <RegistriesTagsWidget
-                        data-test-registration-tags
-                        @registration={{this.registration}}
-                        @manager={{field.manager}}
-                        @readOnly={{true}}
-                    />
-                </field.display>
-            </EditableField>
+            <h4>{{t 'registries.registration_metadata.tags'}}</h4>
+            <TagsWidget
+                data-test-registration-tags
+                @taggable={{this.registration}}
+                @readOnly={{not this.registration.userHasAdminPermission}}
+            />
         </div>
-        <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.citation'}}</h4>
-            <OsfButton
-                data-analytics-name='{{if this.expandCitations 'Collapse' 'Expand'}} citations'
-                local-class='LinkButton'
-                @type='link'
-                @onClick={{action (mut this.expandCitations) (not this.expandCitations)}}
-            >
-                {{this.registrationDisplayUrl}}
-                <FaIcon @icon={{if this.expandCitations 'caret-up' 'caret-down'}} />
-            </OsfButton>
-            {{#if this.expandCitations}}
-                <CitationViewer @citable={{this.registration}} />
-            {{/if}}
-        </div>
+        {{#unless this.registration.isAnonymous}}
+            <div local-class='Field'>
+                <h4>{{t 'registries.registration_metadata.citation'}}</h4>
+                <OsfButton
+                    data-analytics-name='{{if this.expandCitations 'Collapse' 'Expand'}} citations'
+                    local-class='LinkButton'
+                    @type='link'
+                    @onClick={{action (mut this.expandCitations) (not this.expandCitations)}}
+                >
+                    {{this.registrationDisplayUrl}}
+                    <FaIcon @icon={{if this.expandCitations 'caret-up' 'caret-down'}} />
+                </OsfButton>
+                {{#if this.expandCitations}}
+                    <CitationViewer @citable={{this.registration}} />
+                {{/if}}
+            </div>
+        {{/unless}}
     {{/if}}
 </div>

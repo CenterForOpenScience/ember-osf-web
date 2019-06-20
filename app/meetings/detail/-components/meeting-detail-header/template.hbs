@@ -1,9 +1,11 @@
 <h1 data-test-meeting-name>{{this.meeting.name}}</h1>
 
 <div data-test-meeting-location-and-date local-class='location-and-date-text'>
-    {{if this.meeting.location (concat this.meeting.location ' | ')}}
-    {{moment-format this.meeting.startDate 'MMM DD, YYYY'}}
-    {{if this.meeting.endDate (concat ' - ' (moment-format this.meeting.endDate 'MMM DD, YYYY'))}}
+    {{if this.meeting.location this.meeting.location}}
+    {{if (and this.meeting.location (or this.meeting.startDate this.meeting.endDate)) ' | '}}
+    {{if this.meeting.startDate (moment-format this.meeting.startDate 'MMM DD, YYYY')}}
+    {{if (or this.meeting.startDate this.meeting.endDate) ' - '}}
+    {{if this.meeting.endDate (moment-format this.meeting.endDate 'MMM DD, YYYY')}}
 </div>
 
 {{#if this.meeting.logoUrl}}
@@ -17,26 +19,30 @@
     </div>
 {{/if}}
 
-{{#if this.meeting.active}}
-    <div local-class='toggle-panel-button'>
+<div local-class='toggle-button-and-homepage-link-container'>
+    {{#if this.meeting.active}}
         <OsfButton
+            local-class='toggle-panel-button'
             data-analytics-name='Toggle meeting submission panel'
-            data-test-meeting-toggle-panel-button @type='link'
-            @onClick={{action this.togglePanel}}
-        >
+            data-test-meeting-toggle-panel-button
+            @type='link'
+            @onClick={{action this.togglePanel}}>
             {{t 'meetings.detail.meeting-detail-header.add_your'}} {{this.addSubmissionText}}
         </OsfButton>
-    </div>
-{{/if}}
-
-{{#if this.meeting.infoUrl}}
-    <OsfLink data-test-meeting-info-url @href={{this.meeting.infoUrl}}>
-        {{if this.meeting.fieldNames.homepage_link_text
-            this.meeting.fieldNames.homepage_link_text
-            (t 'meetings.detail.meeting-detail-header.conference_homepage')
-        }}
-    </OsfLink>
-{{/if}}
+    {{/if}}
+    {{if (and this.meeting.active this.meeting.infoUrl) '|'}}
+    {{#if this.meeting.infoUrl}}
+        <OsfLink
+            local-class='meeting-homepage-link'
+            data-test-meeting-info-url
+            @href={{this.meeting.infoUrl}}>
+            {{if this.meeting.fieldNames.homepage_link_text
+                this.meeting.fieldNames.homepage_link_text
+                (t 'meetings.detail.meeting-detail-header.conference_homepage')
+            }}
+        </OsfLink>
+    {{/if}}
+</div>
 
 <CpPanel @open={{this.isPanelOpen}} as |panel|>
     <panel.body>

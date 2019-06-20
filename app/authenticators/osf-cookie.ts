@@ -33,9 +33,23 @@ export default class OsfCookie extends Base {
      * @return {Promise}
      */
     async authenticate(): Promise<object> {
-        const res: RootDocument = await this.currentUser.authenticatedAJAX({
-            url: `${apiUrl}/${apiNamespace}/`,
-        });
+        const url = `${apiUrl}/${apiNamespace}/`;
+        let res: RootDocument = await this.currentUser.authenticatedAJAX(
+            { url },
+        );
+
+        let userData = res.meta.current_user;
+        const anonymizedViewOnly = Boolean(userData && userData.meta && userData.meta.anonymous);
+        this.currentUser.setProperties({ anonymizedViewOnly });
+
+        if (anonymizedViewOnly) {
+            res = await this.currentUser.authenticatedAJAX(
+                { url },
+                { omitViewOnlyToken: true },
+            );
+
+            userData = res.meta.current_user;
+        }
 
         if (Array.isArray(res.meta.active_flags)) {
             this.features.setup(
@@ -54,8 +68,6 @@ export default class OsfCookie extends Base {
         if (devMode) {
             this._checkApiVersion();
         }
-
-        const userData = res.meta.current_user;
 
         if (!userData) {
             throw new NotLoggedIn();
@@ -81,7 +93,7 @@ export default class OsfCookie extends Base {
                     version: 'latest',
                 },
             },
-            false, // Don't add API version headers
+            { omitStandardHeaders: true },
         );
 
         warn(

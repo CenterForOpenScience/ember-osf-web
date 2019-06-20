@@ -66,7 +66,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
             },
         );
         sinon.stub(this.owner.lookup('service:router'), 'isActive').returns(false);
-        sinon.stub(this.owner.lookup('service:router'), 'currentURL').get(() => 'FakeURL');
+        sinon.stub(this.owner.lookup('service:router'), 'currentURL').get(() => '/FakeURL');
         sinon.stub(this.owner.lookup('service:router'), 'currentRouteName').get(() => 'FakeRoute');
 
         this.owner.register('service:session', sessionStub);

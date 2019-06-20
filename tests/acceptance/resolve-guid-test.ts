@@ -172,8 +172,6 @@ module('Acceptance | resolve-guid', hooks => {
             { url: '/decaf', test: 'Nonexistent GUID' },
             { url: '/decaf/files', test: 'Nonexistent GUID with existent sub route' },
             { url: '/decaf/blah/blah/blah', test: 'Nonexistent GUID with nonexistent sub route' },
-            { url: '/decaf?tastes-like=dirt', test: 'GUID with query params' },
-            { url: '/decaf/files?cream=1', test: 'GUID and subpath with query params' },
         ];
 
         assert.expect(6 * testCases.length);
