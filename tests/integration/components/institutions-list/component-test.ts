@@ -16,8 +16,7 @@ interface ThisTestContext extends TestContext {
     manager: {
         node?: Node;
         user: User;
-        removeInstitution: () => void;
-        addInstitution: () => void;
+        toggleInstitution: () => void;
         affiliatedList?: Institution[];
     };
     mirageNode: ModelInstance<Node>;
@@ -39,8 +38,7 @@ module('Integration | Component | institutions-list', hooks => {
         const node = this.store.findRecord('node', mirageNode.id);
 
         const managerStub = {
-            addInstitution: noop,
-            removeInstitution: noop,
+            toggleInstitution: noop,
             affiliatedList: [] as Institution[],
             node,
             user,

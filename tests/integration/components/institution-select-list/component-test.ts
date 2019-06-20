@@ -26,8 +26,7 @@ module('Integration | Component | institution-select-list', hooks => {
         const mirageUser = server.create('user', 'withInstitutions');
         const user = this.store.findRecord('user', mirageUser.id);
         const managerStub = {
-            addInstitution: noop,
-            removeInstitution: noop,
+            toggleInstitution: noop,
             affiliatedList: [],
             node: registration,
             user,
