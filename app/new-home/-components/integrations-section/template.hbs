@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-    {{#if this.shouldShowVersionB}}
+    {{#if (not this.shouldShowVersionB)}}
         <div local-class='buttonContainer'>
             <GetStartedButton />
         </div>
