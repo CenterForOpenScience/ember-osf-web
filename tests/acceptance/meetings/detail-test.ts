@@ -1,4 +1,5 @@
 import { currentURL, visit } from '@ember/test-helpers';
+import { faker } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -12,10 +13,13 @@ module(moduleName, hooks => {
     setupMirage(hooks);
 
     test('meetings detail', async assert => {
+        const longTitleSubmission = server.create('meeting-submission', {
+            title: faker.lorem.paragraph(),
+        });
         server.create('meeting', {
             id: 'testmeeting',
             name: 'Test Meeting',
-            submissions: server.createList('meeting-submission', 15),
+            submissions: server.createList('meeting-submission', 15).concat(longTitleSubmission),
         });
         await visit('/meetings/testmeeting');
         assert.equal(currentURL(), '/meetings/testmeeting', "Still at '/meetings/testmeeting'.");
