@@ -42,11 +42,6 @@
         height: inherit;
         animation-name: fade;
         animation-duration: 1s;
-
-        &:global(.active) {
-            left: 0;
-            display: block;
-        }
     }
 }
 
@@ -66,6 +61,6 @@
 }
 
 @keyframes fade {
-    from { opacity: 0.4; } 
+    from { opacity: 0.4; }
     to { opacity: 1; }
 }

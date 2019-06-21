@@ -1,4 +1,4 @@
-<section data-test-carousel-container local-class='carousel-container'>
+<section data-test-carousel-container local-class='carousel-container' ...attributes>
     {{yield (hash header=(component 'carousel/x-header'))}}
     <ol data-test-dot-navigation local-class='dot-nav' role='tablist'>
         {{#each this.carouselItems as |item|}}

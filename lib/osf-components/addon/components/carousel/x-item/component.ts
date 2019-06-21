@@ -1,9 +1,14 @@
+import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+
+import styles from './styles';
 import template from './template';
 
-@layout(template)
+@layout(template, styles)
+@tagName('')
 export default class CarouselItem extends Component {
     // Required properties
     allItems!: CarouselItem[];
