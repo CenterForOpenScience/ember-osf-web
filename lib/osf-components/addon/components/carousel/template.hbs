@@ -13,7 +13,7 @@
                     data-test-navigation-button
                     type='button'
                     data-slide={{item.index}}
-                    {{action 'navClick' item}}
+                    {{action this.navClick item}}
                 >
                     <span class='visuallyHidden'>{{item.slideIndex}}</span>
                     {{#if item.isActive}}
