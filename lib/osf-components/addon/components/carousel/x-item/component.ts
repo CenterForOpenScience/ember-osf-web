@@ -6,7 +6,7 @@ import template from './template';
 @layout(template)
 export default class CarouselItem extends Component {
     // Required properties
-    allItems!: object[];
+    allItems!: CarouselItem[];
     @requiredAction
     register!: (item: object) => void;
 
@@ -23,7 +23,7 @@ export default class CarouselItem extends Component {
 
     @computed('allItems.@each')
     get isActive() {
-        return (this as object) === this.allItems.firstObject;
+        return this === this.allItems[0];
     }
 
     @computed('isActive')
