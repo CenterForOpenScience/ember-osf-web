@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `meetings`
             - `detail`
                 - `meeting-detail-header` - add tests for location and dates
+- Components:
+    - `new-home`
+        - `integrations versions A/B` - A list of all supported integrations
 
 ### Changed
 - Components:
@@ -20,6 +23,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `detail`
             - `meeting-submissions-list` - removed download count sorting
 - Tests:
+    - Acceptance:
+        - `new-home` - Added tests to support integrations section
     - Integration:
         - `meetings`
             - `detail`
