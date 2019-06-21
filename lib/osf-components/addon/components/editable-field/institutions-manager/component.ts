@@ -18,6 +18,7 @@ import template from './template';
 
 export interface InstitutionsManager {
     bindReload?: (page?: number) => void;
+    toggleInstitution: (institution: Institution) => void;
     addInstitution: (institution: Institution) => void;
     removeInstitution: (institution: Institution) => void;
     affiliatedList: Institution[];
@@ -107,6 +108,15 @@ export default class InstitutionsManagerComponent extends Component.extend({
     @action
     removeInstitution(institution: Institution) {
         this.currentAffiliatedList.removeObject(institution);
+    }
+
+    @action
+    toggleInstitution(institution: Institution) {
+        if (this.currentAffiliatedList.includes(institution)) {
+            this.currentAffiliatedList.removeObject(institution);
+        } else {
+            this.currentAffiliatedList.pushObject(institution);
+        }
     }
 
     @action
