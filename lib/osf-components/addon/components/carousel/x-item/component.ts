@@ -10,10 +10,9 @@ import template from './template';
 @layout(template, styles)
 @tagName('')
 export default class CarouselItem extends Component {
-    // Required properties
+    // Required parameters
     allItems!: CarouselItem[];
-    @requiredAction
-    register!: (item: object) => void;
+    @requiredAction register!: (item: CarouselItem) => void;
 
     // Private properties
     index: number = 0;
