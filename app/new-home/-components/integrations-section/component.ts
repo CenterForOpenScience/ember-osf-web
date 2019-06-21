@@ -1,5 +1,4 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -21,9 +20,4 @@ export default class IntegrationsSection extends Component {
 
     @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
     shouldShowVersionB!: boolean;
-
-    @computed('shouldShowVersionB')
-    get versionClass(this: IntegrationsSection): string {
-        return this.shouldShowVersionB ? 'versionB' : '';
-    }
 }
