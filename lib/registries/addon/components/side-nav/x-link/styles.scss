@@ -77,28 +77,26 @@ $sidenav-link-height: 40px;
     border-radius: 0 5px 5px 0;
 
     // Cover the border around the h4 to give it the "poke out/through" effect
-    &.LabelWrapper {
-        &::before {
-            position: absolute;
-            z-index: 100;
-            border: solid 1px $white;
-            border-left: 0;
-            border-right: 0;
-            background: transparent;
+    &::before {
+        position: absolute;
+        z-index: 100;
+        border: solid 1px $white;
+        border-left: 0;
+        border-right: 0;
+        background: transparent;
 
-            // Needs to be set to render. Adding content messes things up. Don't do that.
-            content: '';
+        // Needs to be set to render. Adding content messes things up. Don't do that.
+        content: '';
 
-            // Sized and positioned to be 1px larger on all sides
-            // than the h4 to cover the border
-            top: -1px;
-            left: -1px;
-            height: calc(2px + 100%);
+        // Sized and positioned to be 1px larger on all sides
+        // than the h4 to cover the border
+        top: -1px;
+        left: -1px;
+        height: calc(2px + 100%);
 
-            // Matches the width of the parent gutter 
-            // Check the width of the .Collapse:hover .LabelWrapper below)
-            width: 26px;
-        }
+        // Matches the width of the parent gutter 
+        // Check the width of the .Collapse:hover .LabelWrapper below)
+        width: 26px;
     }
 }
 
