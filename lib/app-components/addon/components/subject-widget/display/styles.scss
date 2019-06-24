@@ -1,0 +1,37 @@
+.subject-tag {
+    background: $color-bg-blue-light;
+    border-radius: 0;
+    color: $color-text-black;
+    cursor: default;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    margin-right: 5px;
+    margin-bottom: 4px;
+    padding: 5px 10px;
+}
+
+.subjects {
+    padding: 0;
+    margin: 0;
+    border: 0;
+
+    li {
+        list-style: none;
+        display: inline-flex;
+    }
+}
+
+.remove-button {
+    border: 0;
+    padding: 0;
+
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+    }
+
+    i {
+        margin-left: 10px;
+    }
+}

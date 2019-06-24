@@ -1,0 +1,20 @@
+{{#if @manager.loadingNodeSubjects}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    <ul local-class='subjects'>
+        {{#each @manager.subjects as |subject|}}
+            <li local-class='subject-tag'>
+                {{subject.text}}
+                {{#if @manager.editMode}}
+                    <OsfButton
+                        local-class='remove-button'
+                        @type='link'
+                        @onClick={{action @manager.remove subject}}
+                    >
+                        <FaIcon @icon='times' />
+                    </OsfButton>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ul>
+{{/if}}

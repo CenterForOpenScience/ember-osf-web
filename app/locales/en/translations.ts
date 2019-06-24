@@ -878,6 +878,9 @@ export default {
                 search: 'Search',
             },
         },
+        subject_widget: {
+            search_subjects: 'Start typing to search subjects',
+        },
         submit_section: {
             discard: 'Discard changes',
             save: 'Save and continue',

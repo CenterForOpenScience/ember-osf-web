@@ -16,6 +16,14 @@ export default class RegistrationProviderSerializer extends ApplicationSerialize
                     },
                 },
             },
+            subjects: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/registrations/${model.id}/subjects/`,
+                        meta: {},
+                    },
+                },
+            },
         };
     }
 }

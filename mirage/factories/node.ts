@@ -55,7 +55,6 @@ export default Factory.extend<MirageNode & NodeTraits>({
         ])());
     },
     collection: false,
-    subjects: [],
     registration: false,
     dateCreated() {
         return faker.date.past(1, new Date(2015, 0, 0));

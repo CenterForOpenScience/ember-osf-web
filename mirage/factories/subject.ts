@@ -1,0 +1,42 @@
+import { Factory, faker, ID, Trait, trait } from 'ember-cli-mirage';
+
+import SubjectModel from 'ember-osf-web/models/subject';
+
+export interface SubjectTraits {
+    withChildren: Trait;
+}
+
+export interface MirageSubject extends SubjectModel {
+    parentId: string;
+    childrenIds: ID[];
+}
+
+export default Factory.extend<MirageSubject & SubjectTraits>({
+    text() {
+        return faker.lorem.words(3);
+    },
+
+    withChildren: trait<MirageSubject>({
+        afterCreate(subject, server) {
+            const count = faker.random.number({ min: 1, max: 4 });
+
+            server.createList(
+                'subject',
+                count,
+                { parentId: subject.id },
+            );
+        },
+    }),
+});
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        subject: MirageSubject;
+    } // eslint-disable-line semi
+}
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        subjects: MirageSubject;
+    } // eslint-disable-line semi
+}

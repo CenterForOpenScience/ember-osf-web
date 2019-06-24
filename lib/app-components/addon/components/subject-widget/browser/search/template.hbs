@@ -1,0 +1,12 @@
+<PowerSelect
+    @search={{perform this.querySubjects}}
+    @onchange={{action @manager.selectSubject}}
+    @searchMessage={{t 'app_components.subject_widget.search_subjects'}}
+    @searchField='text'
+    @options={{this.queryResults}}
+    as |subject|
+>
+    <span>
+        {{subject.text}}
+    </span>
+</PowerSelect>

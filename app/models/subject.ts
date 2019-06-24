@@ -6,7 +6,7 @@ import OsfModel from './osf-model';
 export default class SubjectModel extends OsfModel {
     @attr('fixstring') text!: string;
 
-    @belongsTo('subject')
+    @belongsTo('subject', { inverse: 'children' })
     parent?: DS.PromiseObject<SubjectModel> & SubjectModel;
 
     @hasMany('subject', { inverse: 'parent' })
