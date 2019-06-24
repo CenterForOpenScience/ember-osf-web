@@ -15,7 +15,7 @@ export default class MeetingSubmissionModel extends OsfModel {
     @attr('string') meetingCategory!: string;
     @attr('string') authorName!: string;
     @attr('number') downloadCount!: number;
-    @attr('date') created!: Date;
+    @attr('date') dateCreated!: Date;
     @attr() links!: MeetingSubmissionLinks;
 
     @belongsTo('user', { inverse: null })

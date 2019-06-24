@@ -41,7 +41,6 @@
                 </div>
                 <div data-test-submissions-list-header-download style='width: 15%'>
                     {{t 'meetings.detail.meeting-submissions-list.downloads'}}
-                    <SortButton @sortBy='download_count' />
                 </div>
             {{/let}}
         </list.header>
@@ -59,7 +58,7 @@
                     {{submission.meetingCategory}}
                 </div>
                 <div data-test-submissions-list-item-date>
-                    {{moment-format submission.created 'YYYY-MM-DD hh:mm A'}}
+                    {{moment-format submission.dateCreated 'YYYY-MM-DD hh:mm A'}}
                 </div>
                 <div data-test-submissions-list-item-download>
                     {{#if submission.links.download}}

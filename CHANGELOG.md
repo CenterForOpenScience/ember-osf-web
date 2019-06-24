@@ -4,6 +4,58 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.5.1] - 2019-06-24
+### Added
+- Tests:
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-detail-header` - add tests for location and dates
+- Components:
+    - `new-home`
+        - `testimonials` - A section for the testimonials carousel
+        - `integrations versions A/B` - A list of all supported integrations
+    - `carousel`
+
+### Changed
+- Components:
+    - `meetings`
+        - `index`
+            - `meetings-list` - sort by submission count (descending) by default
+        - `detail`
+            - `meeting-submissions-list` - removed download count sorting
+- Tests:
+    - Acceptance:
+        - `new-home` - Added tests to support integrations section
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-submissions-list` - removed checking of download count sorting
+    - Acceptance:
+        - `meetings`
+            - `detail` - add submission with long title
+            - `index` - add meeting with long name
+
+### Fixed
+- Models:
+    - `meeting-submission` - renamed `created` to `dateCreated` to match API
+- Components:
+    - `meetings`
+        - `detail`
+            - `meeting-submissions-list`
+                - renamed `created` to `dateCreated` to match API
+                - applied `table-layout: fixed` to force truncating of long submission titles
+            - `meeting-detail-header` - only attempt to display dates when defined
+        - `index`
+            - `meetings-list` - applied `table-layout: fixed` to force truncating of long meeting names
+- Tests:
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-submissions-list` - renamed `created` to `dateCreated` to match API
+- Mirage:
+    - `meeting-submission` factory - renamed `created` to `dateCreated` to match API
+
 ## [19.5.0] - 2019-06-07
 ### Added
 - Models:
@@ -901,7 +953,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.5.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.5.1...HEAD
+[19.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.1
 [19.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.0
 [19.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.4.0
 [19.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.3.0

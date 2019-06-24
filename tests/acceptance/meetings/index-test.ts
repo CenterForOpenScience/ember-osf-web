@@ -1,4 +1,5 @@
 import { click as untrackedClick, currentURL, visit } from '@ember/test-helpers';
+import { faker } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -13,6 +14,7 @@ module(moduleName, hooks => {
 
     test('meetings index', async assert => {
         server.createList('meeting', 15);
+        server.create('meeting', { name: faker.lorem.paragraph() });
         await visit('/meetings');
         assert.equal(currentURL(), '/meetings', "Still at '/meetings'.");
         await percySnapshot(`${moduleName} - default`);

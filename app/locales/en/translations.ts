@@ -477,6 +477,51 @@ export default {
                 description: 'Share papers in OSF Preprints or a community-based preprint provider, so others can find and cite your work. Track impact with metrics like downloads and view counts.',
             },
         },
+        testimonials: {
+            heading: 'What others are saying',
+            see_her_research: 'See her research',
+            see_his_research: 'See his research',
+            carousel_heading: 'User testimonials',
+            slide_1: {
+                text: 'OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration.',
+                alt: 'Patricia Ayala testimonial',
+                description: {
+                    name: 'Patricia Ayala',
+                    position: 'Research Services Librarian<br>University of Toronto',
+                },
+            },
+            slide_2: {
+                text: 'OSF is indispensable in helping me create reproducible research pipelines from preregistration through data collection and analysis. Its versatility makes it my one-stop shop for projects. The Dropbox integration effortlessly transforms my existing local workflow to public repository.',
+                alt: 'Maya testimonial',
+                description: {
+                    name: 'Maya Mathur',
+                    position: 'Department of Epidemiology<br>Harvard University',
+                },
+            },
+            slide_3: {
+                text: 'Because SocArXiv is a not-for-profit organization, researchers can be assured that they are sharing their research in an environment where access, inclusivity, and preservation, rather than profit, will remain at the heart of the mission. A great benefit of partnering with OSF is that this application is a free public good.',
+                alt: 'Philip Cohen testimonial',
+                description: {
+                    name: 'Philip Cohen',
+                    position: 'SocArXiv papers',
+                },
+            },
+        },
+        'integrations-section': {
+            header: 'OSF integrations make your workflow more efficient',
+            authentication: 'Authentication',
+            discovery: 'Discovery',
+            references: 'References',
+            storage: 'Storage',
+            incommon: 'Incommon logo',
+            sso: 'SSO logo',
+            google_scholar: 'Google Scholar logo',
+            orcid: 'Orcid logo',
+            mendeley: 'Mendeley logo',
+            zotero: 'Zotero logo',
+            dropbox: 'Dropbox logo',
+            google_drive: 'Google Drive logo',
+        },
     },
     tos_consent: {
         paragraph: 'We\'ve updated our <a href="{{link1}}">Terms of Use</a> and <a href="{{link2}}">Privacy Policy</a>. Please read them carefully.',
@@ -1468,6 +1513,12 @@ export default {
                 heading: 'Add your research',
                 subheading: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.',
             },
+        },
+        carousel: {
+            current_slide: '(Current Slide)',
+            previous_slide: 'Previous slide',
+            next_slide: 'Next slide',
+            go_to_slide: 'Go to slide {{slideIndex}}',
         },
     },
     settings: {
