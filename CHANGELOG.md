@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [19.5.1] - 2019-06-24
 ### Added
 - Tests:
     - Integration:
@@ -953,7 +953,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.5.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.5.1...HEAD
+[19.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.1
 [19.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.0
 [19.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.4.0
 [19.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.3.0
