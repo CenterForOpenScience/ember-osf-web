@@ -15,7 +15,7 @@ function checkAriaSelected(assert: Assert, element: Element, slideNum: number, e
             `[data-test-navigation-item]:nth-of-type(${slideNum})`,
         )!.getAttribute('aria-selected'),
         expectedValue,
-        `aria-selected is 'true' for navigation item ${slideNum}`,
+        `aria-selected is ${expectedValue} for navigation item ${slideNum}`,
     );
 }
 

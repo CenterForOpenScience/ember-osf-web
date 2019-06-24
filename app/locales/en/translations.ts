@@ -481,6 +481,7 @@ export default {
             heading: 'What others are saying',
             see_her_research: 'See her research',
             see_his_research: 'See his research',
+            carousel_heading: 'User testimonials',
             slide_1: {
                 text: 'OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration.',
                 alt: 'Patricia Ayala testimonial',
@@ -1515,6 +1516,9 @@ export default {
         },
         carousel: {
             current_slide: '(Current Slide)',
+            previous_slide: 'Previous slide',
+            next_slide: 'Next slide',
+            go_to_slide: 'Go to slide {{slideIndex}}',
         },
     },
     settings: {
