@@ -13,7 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
                 - `meeting-detail-header` - add tests for location and dates
 - Components:
     - `new-home`
+        - `testimonials` - A section for the testimonials carousel
         - `integrations versions A/B` - A list of all supported integrations
+    - `carousel`
 
 ### Changed
 - Components:

@@ -39,6 +39,23 @@ module('Acceptance | new home page test', hooks => {
         assert.dom('[data-test-arrow]').exists({ count: 3 });
         assert.dom('[data-test-learn-more-button]').exists();
 
+        // Check carousel
+        assert.dom('[data-test-testimonials-container]').exists();
+        assert.dom('[data-test-testimonials-heading]').hasText('What others are saying');
+        assert.dom('[data-test-testimonials-container]').exists();
+        // check for 3 carousel slides
+        assert.dom('[data-test-testimonials-slide-1]').exists();
+
+        await percySnapshot(assert);
+
+        await click('[data-test-carousel-button-next]');
+
+        await percySnapshot(assert);
+
+        assert.dom('[data-test-testimonials-slide-2]').exists();
+        await click('[data-test-carousel-button-next]');
+        assert.dom('[data-test-testimonials-slide-3]').exists();
+
         // Check integrations
         assert.dom('[data-test-integrations-heading]')
             .containsText(t('new-home.integrations-section.header').toString());
@@ -53,7 +70,7 @@ module('Acceptance | new home page test', hooks => {
         assert.dom('[data-test-logo]').exists({ count: 8 });
         assert.dom('[data-test-get-started-button]').exists({ count: 2 });
 
-        // Check footer.
+        // Check footer
         assert.dom('footer').exists();
         await a11yAudit();
         await percySnapshot(assert);
