@@ -23,6 +23,7 @@ import { Permission } from './osf-model';
 import PreprintModel from './preprint';
 import RegionModel from './region';
 import RegistrationModel from './registration';
+import SubjectModel from './subject';
 import WikiModel from './wiki';
 
 const Validations = buildValidations({
@@ -104,7 +105,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @attr('fixstring') templateFrom!: string;
     @attr('string') analyticsKey?: string;
     @attr('boolean') preprint!: boolean;
-    @attr('array') subjects!: string[];
+    // @attr('array') subjects!: string[];
     @attr('boolean') currentUserCanComment!: boolean;
     @attr('boolean') wikiEnabled!: boolean;
 
@@ -178,6 +179,8 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @hasMany('identifier', { inverse: 'referent' })
     identifiers!: DS.PromiseManyArray<IdentifierModel>;
 
+    @hasMany('subject', { inverse: null })
+    subjects!: DS.PromiseManyArray<SubjectModel>;
     // These are only computeds because maintaining separate flag values on
     // different classes would be a headache TODO: Improve.
 

@@ -31,7 +31,8 @@
   },
   "ember-addon": {
     "paths": [
-      "../osf-components"
+      "../osf-components",
+      "../app-components"
     ]
   }
 }

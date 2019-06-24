@@ -1,4 +1,4 @@
-import { association, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, faker, ModelInstance, Server, trait, Trait } from 'ember-cli-mirage';
 
 import Registration from 'ember-osf-web/models/registration';
 
@@ -24,6 +24,7 @@ export interface RegistrationTraits {
     withArbitraryState: Trait;
     withAffiliatedInstitutions: Trait;
     isPublic: Trait;
+    withSubjects: Trait;
 }
 
 const stateAttrs = {
@@ -79,7 +80,7 @@ const stateAttrs = {
 
 export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     id: guid('registration'),
-    afterCreate(newReg, server) {
+    afterCreate(newReg: ModelInstance<Registration>, server: Server) {
         guidAfterCreate(newReg, server);
         if (newReg.parent) {
             newReg.update({
@@ -129,10 +130,9 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     articleDoi: null,
     pendingWithdrawal: false,
     pendingEmbargoTerminationApproval: false,
-
     registeredFrom: association(),
 
-    index(i) {
+    index(i: number) {
         return i;
     },
     withComments: trait<MirageRegistration>({
@@ -188,6 +188,17 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 faker.list.cycle(...Object.keys(stateAttrs))(registration.index);
             const attrsToUse = stateAttrs[arbitraryState as keyof typeof stateAttrs];
             registration.update(attrsToUse);
+        },
+    }),
+    withSubjects: trait<MirageRegistration>({
+        afterCreate(registration) {
+            const providerSubjects = registration.provider.subjects.models;
+            const subjectCount = faker.random.number({ min: 1, max: 6 });
+            const subjects = [];
+            for (let i = 0; i < subjectCount; i++) {
+                subjects.push(faker.random.arrayElement(providerSubjects));
+            }
+            registration.update({ subjects });
         },
     }),
 });

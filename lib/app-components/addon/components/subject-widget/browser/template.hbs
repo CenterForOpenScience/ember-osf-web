@@ -1,0 +1,20 @@
+{{#if @manager.loadingRootSubjects}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    <div local-class='subjects-browser'>
+        <div local-class='subjects-browser-search'>
+            <SubjectWidget::Browser::Search @manager={{@manager}} />
+        </div>
+        <div local-class='subjects-browser-list'>
+            {{#each @manager.rootSubjects as |subject|}}
+                <SubjectWidget::Browser::ItemManager
+                    @subject={{subject}}
+                    @manager={{@manager}}
+                    as |itemManager|
+                >
+                    <SubjectWidget::Browser::Item @manager={{itemManager}} />
+                </SubjectWidget::Browser::ItemManager>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}

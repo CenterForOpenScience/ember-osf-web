@@ -17,7 +17,7 @@ interface NestedResourceOptions extends ResourceOptions {
     onCreate?: (parent: ModelInstance, child: ModelInstance) => void;
 }
 
-type relationshipAction = 'related' | 'update' | 'add' | 'remove';
+type relationshipAction = 'self' | 'related' | 'update' | 'add' | 'remove';
 
 interface RelationshipOptions extends ActionOptions<relationshipAction> {
     defaultPageSize?: number;
@@ -46,7 +46,7 @@ function gatherResourceActions(opts: ResourceOptions) {
 }
 
 function gatherRelationshipActions(opts: RelationshipOptions) {
-    const actions: relationshipAction[] = ['related', 'update', 'add', 'remove'];
+    const actions: relationshipAction[] = ['self', 'related', 'update', 'add', 'remove'];
     return gatherActions(opts, actions);
 }
 
@@ -211,6 +211,23 @@ export function osfToManyRelationship<K extends keyof ModelRegistry>(
                 [relatedIdsKey]: relateds.map((relatedModel: { id: string, type: string }) => relatedModel.id),
             });
             return { data: parentModel[relatedIdsKey].map((id: string) => ({ id, type: relateds[0].type })) };
+        });
+    }
+
+    if (actions.includes('self')) {
+        server.patch(opts.path, (schema: Schema, request: Request) => {
+            const { parentID } = request.params;
+            const parentModel = schema[mirageParentModelName].find(parentID);
+            const { data: relatedRefs } = JSON.parse(request.requestBody) as {
+                data: Array<Record<'id' | 'type', string>>,
+            };
+            const relatedIdsKey = `${singularize(relationshipName)}Ids`;
+
+            parentModel.update({
+                [relatedIdsKey]: relatedRefs.mapBy('id'),
+            });
+
+            return { data: relatedRefs };
         });
     }
 

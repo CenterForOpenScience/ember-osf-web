@@ -264,6 +264,42 @@ export default class OsfModel extends Model {
         return this.currentUser.authenticatedAJAX(options);
     }
 
+    async setM2MRelationship<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T> & string,
+        relatedModels: string[] | OsfModel[],
+    ) {
+        const apiRelationshipName = underscore(relationshipName);
+        const url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
+        if (!url) {
+            throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
+        }
+
+        let relatedIds: string[];
+        if (relatedModels.length && typeof relatedModels[0] !== 'string') {
+            relatedIds = relatedModels.mapBy('id');
+        } else {
+            relatedIds = relatedModels as string[];
+        }
+
+        // Doesn't work for polymorphic relationships
+        // @ts-ignore TODO: augment HasManyReference
+        const { type } = this.hasMany(relationshipName);
+
+        const data = JSON.stringify({
+            data: relatedIds.map(id => ({ id, type })),
+        });
+
+        return this.currentUser.authenticatedAJAX({
+            url,
+            type: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data,
+        });
+    }
+
     /*
      * Load related count for a given relationship using sparse fieldsets.
      *

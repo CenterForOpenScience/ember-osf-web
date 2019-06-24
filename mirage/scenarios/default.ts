@@ -185,6 +185,14 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     const child = server.create('node', { parent, id: 'ezcuj1', title: faker.lorem.sentences(5) });
     const grandChild = server.create('node', { parent: child, root: parent, id: 'ezcuj2' });
     server.create('node', { parent: grandChild, root: parent, id: 'ezcuj3' });
+
+    // SubjectWidgets
+    server.createList('subject', 10, 'withChildren');
+    const provider = server.schema.registrationProviders.find('osf');
+    provider.update({
+        subjects: server.schema.subjects.all().models,
+    });
+    server.create('registration', { id: 'subj' }, 'withSubjects');
 }
 
 function settingsScenario(server: Server, currentUser: ModelInstance<User>) {

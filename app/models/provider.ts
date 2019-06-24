@@ -3,6 +3,7 @@ import DS from 'ember-data';
 
 import LicenseModel from './license';
 import OsfModel from './osf-model';
+import SubjectModel from './subject';
 import TaxonomyModel from './taxonomy';
 
 /* eslint-disable camelcase */
@@ -37,6 +38,9 @@ export default abstract class ProviderModel extends OsfModel {
 
     @hasMany('taxonomy')
     taxonomies!: DS.PromiseManyArray<TaxonomyModel>;
+
+    @hasMany('subject', { inverse: null })
+    subjects!: DS.PromiseManyArray<SubjectModel>;
 
     @hasMany('taxonomy')
     highlightedTaxonomies!: DS.PromiseManyArray<TaxonomyModel>;
