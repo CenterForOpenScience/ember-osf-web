@@ -16,15 +16,8 @@
                         >
                             {{nav.icon (if @sidenavGutterClosed 'bars' 'times')}}
                         </nav.buttons.default>
-
-                        <nav.buttons.default
-                            @onclick={{@toggleOverview}}
-                            local-class={{unless @metadataGutterClosed 'NonActive'}}
-                            data-analytics-name='Show overview'
-                        >
-                        </nav.buttons.default>
                     </nav.bordered-section>
-
+                    
                     <nav.bordered-section>
                         <nav.buttons.default
                             data-analytics-name='Show metadata'
