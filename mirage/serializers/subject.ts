@@ -1,15 +1,22 @@
-import { ModelInstance } from 'ember-cli-mirage';
+import { ID, ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import Subject from 'ember-osf-web/models/subject';
 
-import ApplicationSerializer from './application';
+import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class SubjectSerializer extends ApplicationSerializer<Subject> {
-    buildRelationships(model: ModelInstance<Subject>) {
-        return {
+export interface SubjectAttrs {
+    parentId: ID | null;
+    childrenIds: ID[];
+}
+
+type MirageSubject = Subject & { attrs: SubjectAttrs };
+
+export default class SubjectSerializer extends ApplicationSerializer<MirageSubject> {
+    buildRelationships(model: ModelInstance<MirageSubject>) {
+        const relationships: SerializedRelationships<MirageSubject> = {
             children: {
                 links: {
                     related: {
@@ -19,5 +26,23 @@ export default class SubjectSerializer extends ApplicationSerializer<Subject> {
                 },
             },
         };
+
+        if (model.attrs.parentId !== null) {
+            const { parentId } = model.attrs;
+            relationships.parent = {
+                data: {
+                    id: parentId,
+                    type: this.typeKeyForModel(model),
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/subjects/${parentId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+
+        return relationships;
     }
 }

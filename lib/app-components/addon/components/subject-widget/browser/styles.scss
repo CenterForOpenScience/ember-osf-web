@@ -4,5 +4,36 @@
 }
 
 .subjects-browser-search {
-    margin: 25px 0;  
+    margin-bottom: 15px;
+}
+
+.toggle-button {
+    padding: 0;
+    border: 0;
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: none;
+        outline: 0;
+    }
+
+    &.active {
+        background-color: $color-bg-blue-dark;
+        padding: 5px 7px;
+        color: $color-text-white;
+        border-radius: 5px;
+    }
+}
+
+
+.browser-menu {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    margin: 25px 0;
+
+    button:first-child {
+        margin-right: 25px;
+    }
 }
