@@ -1,7 +1,7 @@
 {{#each this.chunkedDisplayFields as |fields|}}
     <div class='row'>
         {{#each fields as |field|}}
-            <div class='col-md-6'>
+            <div data-test-metadata-field={{field.labelKey}} class='col-md-6'>
                 <label>
                     {{t (concat 'collections.collection_metadata.' field.labelKey)}}
                 </label>
