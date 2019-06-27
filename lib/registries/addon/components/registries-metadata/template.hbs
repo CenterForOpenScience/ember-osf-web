@@ -134,6 +134,25 @@
         </div>
 
         <div local-class='Field'>
+            <SubjectWidget::Manager @model={{this.registration}} as |subjectsManager|>
+                <EditableField
+                    data-analytics-scope='Subjects'
+                    @manager={{subjectsManager}}
+                    @title={{t 'registries.registration_metadata.subjects'}}
+                    @name='subjects'
+                    as |field|
+                >
+                    <field.edit>
+                        <SubjectWidget @manager={{subjectsManager}} />
+                    </field.edit>
+                    <field.display>
+                        <SubjectWidget::Display @manager={{subjectsManager}} />
+                    </field.display>
+                </EditableField>
+            </SubjectWidget::Manager>
+        </div>
+
+        <div local-class='Field'>
             <EditableField::InstitutionsManager @node={{this.registration}} as |institutionsManager|>
                 <EditableField
                     data-analytics-scope='Affiliated institutions'

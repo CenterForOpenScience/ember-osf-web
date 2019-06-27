@@ -1,10 +1,13 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { action, computed } from '@ember-decorators/object';
+import { alias, and } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
+import I18N from 'ember-i18n/services/i18n';
+import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import OsfModel, { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
@@ -66,18 +69,28 @@ export default class SubjectManagerComponent extends Component.extend({
     save: task(function *(this: SubjectManagerComponent) {
         this.model.set('subjects', this.subjects);
 
-        yield this.model.save();
+        try {
+            yield this.model.save();
 
-        this.setProperties({
-            initialSubjects: [...this.subjects],
-            hasChanged: false,
-        });
+            this.toast.error(this.i18n.t('registries.registration_metadata.save_subjects_error'));
+
+            this.setProperties({
+                initialSubjects: [...this.subjects],
+                hasChanged: false,
+            });
+            this.set('requestedEditMode', false);
+        } catch (e) {
+            throw e;
+        }
     }).drop(),
 }) {
     // Required
     model!: ModelWithSubjects;
 
     // Private
+    @service toast!: Toast;
+    @service i18n!: I18N;
+
     initialSubjects?: SubjectModel[];
     subjects: SubjectModel[] = [];
     hasChanged: boolean = false; // TODO sort subjects, hasChanged -> CP comparing them
@@ -86,6 +99,10 @@ export default class SubjectManagerComponent extends Component.extend({
     rootSubjects!: QueryHasManyResult<SubjectModel>;
     editMode: boolean = defaultTo(this.editMode, false);
     selectedSubject!: SubjectModel;
+    requestedEditMode: boolean = false;
+
+    @alias('model.userHasAdminPermission') userCanEdit!: boolean;
+    @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
 
     @alias('save.isRunning')
     isSaving!: boolean;
@@ -96,8 +113,25 @@ export default class SubjectManagerComponent extends Component.extend({
     @alias('initializeSubjects.isRunning')
     loadingNodeSubjects!: boolean;
 
+    @computed('initialSubjects.[]')
+    get fieldIsEmpty() {
+        return !(this.initialSubjects || []).length;
+    }
+
+    @computed('fieldIsEmpty', 'userCanEdit')
+    get shouldShowField() {
+        return this.userCanEdit || !this.fieldIsEmpty;
+    }
+
     inModelSubjects(subject: SubjectModel): boolean {
         return Boolean(this.subjects.findBy('id', subject.id));
+    }
+
+    @action
+    startEditing() {
+        this.setProperties({
+            requestedEditMode: true,
+        });
     }
 
     @action
@@ -119,12 +153,14 @@ export default class SubjectManagerComponent extends Component.extend({
         this.subjects.removeObject(subject);
         this.set('hasChanged', true);
     }
+
     @action
-    discardChanges() {
+    cancel() {
         assert('Cannot discard changes while saving', !this.isSaving);
         this.setProperties({
             subjects: this.initialSubjects,
             hasChanged: false,
+            requestedEditMode: false,
         });
     }
 }

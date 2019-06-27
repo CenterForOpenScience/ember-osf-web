@@ -34,7 +34,7 @@ export default class SearchResult extends Component.extend({
 
     @computed('select.{selected}')
     get asSelectedItemComponent() {
-        // <SelectItemComponent select={{select.selected}}>
+        // <SelectedItemComponent @select={{select.selected}}>
         return this.select && this.select.selected;
     }
 }

@@ -1172,6 +1172,7 @@ export default {
             category: 'Category',
             registration_doi: 'Registration DOI',
             publication_doi: 'Publication DOI',
+            subjects: 'Subjects',
             affiliated_institutions: 'Affiliated institutions',
             license: 'License',
             no_license: 'No license',
@@ -1217,6 +1218,9 @@ export default {
                 success: 'Tags successfully updated.',
                 error: 'Unable to save tags.',
             },
+            no_subjects: 'No subjects added',
+            save_subjects_error: 'Unable to save subjects',
+            subjects_placeholder: 'Added subjects will appear here',
         },
 
         form_view: {
