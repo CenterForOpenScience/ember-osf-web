@@ -20,7 +20,7 @@ export default class RegistrationProviderSerializer extends ApplicationSerialize
                 links: {
                     related: {
                         href: `${apiUrl}/v2/providers/registrations/${model.id}/subjects/`,
-                        meta: {},
+                        meta: this.buildRelatedLinkMeta(model, 'subjects'),
                     },
                 },
             },

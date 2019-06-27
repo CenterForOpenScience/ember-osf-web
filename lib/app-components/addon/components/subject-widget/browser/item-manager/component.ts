@@ -20,6 +20,7 @@ export interface ItemManager {
     subject: Subject[];
     loading: boolean;
     subjectManager: SubjectManager;
+    childrenCount: number;
 }
 
 @tagName('')
@@ -28,6 +29,7 @@ export default class ItemManagerComponent extends Component.extend({
     getChildren: task(function *(this: ItemManagerComponent, more: boolean = false) {
         const children = yield this.subject.queryHasMany('children', {
             page: more ? this.incrementProperty('page') : 1,
+            related_counts: 'children',
         });
         if (more) {
             this.children.pushObjects(children);
@@ -36,7 +38,7 @@ export default class ItemManagerComponent extends Component.extend({
                 children,
             });
         }
-    }).on('didReceiveAttrs').restartable(),
+    }).restartable(),
 }) {
     subject!: Subject;
 
@@ -46,7 +48,10 @@ export default class ItemManagerComponent extends Component.extend({
 
     manager!: SubjectManager;
 
-    @bool('children.length')
+    @alias('subject.relationshipLinks.children.links.related.meta.count')
+    childrenCount!: number;
+
+    @bool('childrenCount')
     hasChildren!: boolean;
 
     @alias('getChildren.isRunning')
@@ -54,12 +59,18 @@ export default class ItemManagerComponent extends Component.extend({
 
     @computed('manager.subjects.[]')
     get selected() {
-        return Boolean(this.manager.subjects.findBy('id', this.subject.id));
+        return this.manager.inModelSubjects(this.subject);
+        // return Boolean(this.manager.subjects.findBy('id', this.subject.id));
     }
 
     @action
     toggleChildren() {
         this.toggleProperty('shouldShowChildren');
+        if (this.shouldShowChildren) {
+            if (!this.children) {
+                this.getChildren.perform();
+            }
+        }
     }
 
     @action

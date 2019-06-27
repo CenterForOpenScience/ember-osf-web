@@ -1,0 +1,13 @@
+{{#if this.selectedSubject}}
+    <span local-class='selected-item'>{{this.selectedSubject.text}}</span>
+{{else}}
+    <span local-class='Titles' ...attributes>
+        {{#each this.subjectAncestry as |ancestor|}}
+            <span local-class='AncestorTitle'>
+                {{ancestor.text}}
+            </span>
+            <span local-class='delimiter'>/</span>
+        {{/each}}
+        <strong>{{this.subject.text}}</strong>
+    </span>
+{{/if}}

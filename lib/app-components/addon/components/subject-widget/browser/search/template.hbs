@@ -1,12 +1,12 @@
 <PowerSelect
+    @selected={{this.selectedSubject}}
     @search={{perform this.querySubjects}}
-    @onchange={{action @manager.selectSubject}}
+    @onchange={{action this.selectSubject}}
+    @selectedItemComponent='subject-widget/browser/search-result'
     @searchMessage={{t 'app_components.subject_widget.search_subjects'}}
     @searchField='text'
-    @options={{this.queryResults}}
+    @options={{this.searchResults}}
     as |subject|
 >
-    <span>
-        {{subject.text}}
-    </span>
+    <SubjectWidget::Browser::SearchResult @subject={{subject}} />
 </PowerSelect>

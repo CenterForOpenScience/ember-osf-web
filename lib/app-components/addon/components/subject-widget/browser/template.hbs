@@ -1,20 +1,40 @@
-{{#if @manager.loadingRootSubjects}}
-    <LoadingIndicator @dark={{true}} />
-{{else}}
-    <div local-class='subjects-browser'>
+<div local-class='subjects-browser'>
+    <div local-class='browser-menu'>
+        <OsfButton
+            @onClick={{action this.togglePanes}}
+            @type='link'
+            local-class='toggle-button {{if this.inBrowserMode 'active'}}'
+        >
+            {{t 'app_components.subject_widget.browser_full_list'}}
+        </OsfButton>
+        <OsfButton
+            @onClick={{action this.togglePanes}}
+            @type='link'
+            local-class='toggle-button {{if this.inSearchMode 'active'}}'
+        >
+            {{t 'app_components.subject_widget.search_subjects_list'}}
+        </OsfButton>
+    </div>
+
+    {{#if this.inSearchMode}}
         <div local-class='subjects-browser-search'>
             <SubjectWidget::Browser::Search @manager={{@manager}} />
         </div>
+    {{else}}
         <div local-class='subjects-browser-list'>
-            {{#each @manager.rootSubjects as |subject|}}
-                <SubjectWidget::Browser::ItemManager
-                    @subject={{subject}}
-                    @manager={{@manager}}
-                    as |itemManager|
-                >
-                    <SubjectWidget::Browser::Item @manager={{itemManager}} />
-                </SubjectWidget::Browser::ItemManager>
-            {{/each}}
+            {{#if @manager.loadingRootSubjects}}
+                <LoadingIndicator @dark={{true}} />
+            {{else}}
+                {{#each @manager.rootSubjects as |subject|}}
+                    <SubjectWidget::Browser::ItemManager
+                        @subject={{subject}}
+                        @manager={{@manager}}
+                        as |itemManager|
+                    >
+                        <SubjectWidget::Browser::Item @manager={{itemManager}} />
+                    </SubjectWidget::Browser::ItemManager>
+                {{/each}}
+            {{/if}}
         </div>
-    </div>
-{{/if}}
+    {{/if}}
+</div>

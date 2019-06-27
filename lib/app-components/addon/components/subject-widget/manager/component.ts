@@ -31,6 +31,7 @@ export interface SubjectManager {
     loadingRootSubjects: boolean;
     loadingNodeSubjects: boolean;
     editMode: boolean;
+    inModelSubjects: (subject: SubjectModel) => boolean;
 }
 
 @tagName('')
@@ -39,27 +40,10 @@ export default class SubjectManagerComponent extends Component.extend({
     initializeSubjects: task(function *(this: SubjectManagerComponent) {
         const subjects: SubjectModel[] = yield this.model.loadAll('subjects');
         this.setProperties({
-            subjects,
+            subjects: [...subjects],
             initialSubjects: [...subjects],
         });
     }).on('didReceiveAttrs').restartable(),
-    querySubjects: task(function *(this: SubjectManagerComponent, text: string) {
-        // return yield this.provider.queryHasMany('subjects', {
-        //     filter: {
-        //         text,
-        //     },
-        // });
-
-        const queryResults: QueryHasManyResult<SubjectModel> = yield this.provider.queryHasMany('subjects', {
-            filter: {
-                text,
-            },
-        });
-
-        this.setProperties({ queryResults });
-
-        return queryResults;
-    }).restartable(),
     getRootSubjects: task(function *(this: SubjectManagerComponent, parent: string = 'null') {
         if (!this.provider) {
             this.setProperties({
@@ -74,6 +58,7 @@ export default class SubjectManagerComponent extends Component.extend({
             page: {
                 size: 150, // Law category has 117 (Jan 2018)
             },
+            related_counts: 'children',
         });
 
         this.setProperties({ rootSubjects: queryResults });
@@ -105,11 +90,15 @@ export default class SubjectManagerComponent extends Component.extend({
     @alias('save.isRunning')
     isSaving!: boolean;
 
-    @alias('querySubjects.isRunning')
+    @alias('getRootSubjects.isRunning')
     loadingRootSubjects!: boolean;
 
     @alias('initializeSubjects.isRunning')
     loadingNodeSubjects!: boolean;
+
+    inModelSubjects(subject: SubjectModel): boolean {
+        return Boolean(this.subjects.findBy('id', subject.id));
+    }
 
     @action
     selectSubject(subject: SubjectModel) {
@@ -130,7 +119,6 @@ export default class SubjectManagerComponent extends Component.extend({
         this.subjects.removeObject(subject);
         this.set('hasChanged', true);
     }
-
     @action
     discardChanges() {
         assert('Cannot discard changes while saving', !this.isSaving);

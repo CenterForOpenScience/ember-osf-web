@@ -14,10 +14,13 @@
 .expand-button {
     border: 0;
     padding: 0;
+    color: $color-text-black;
 
     &:hover,
     &:active,
     &:focus {
+        color: $color-text-black;
         text-decoration: none;
+        outline: none;
     }
 }

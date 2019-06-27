@@ -880,6 +880,8 @@ export default {
         },
         subject_widget: {
             search_subjects: 'Start typing to search subjects',
+            browser_full_list: 'Browser full subjects list',
+            search_subjects_list: 'Search subjects list',
         },
         submit_section: {
             discard: 'Discard changes',

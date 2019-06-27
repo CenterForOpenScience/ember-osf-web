@@ -1,0 +1,26 @@
+.Titles {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.AncestorTitle {
+    max-width: 33%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 767px) {
+    .AncestorTitle {
+        max-width: 90%;
+    }
+}
+
+.delimiter {
+    padding: 0 8px;
+}
+
+.selected-item {
+    padding-left: 5px;
+}

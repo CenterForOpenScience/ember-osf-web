@@ -7,7 +7,7 @@ export interface SubjectTraits {
 }
 
 export interface MirageSubject extends SubjectModel {
-    parentId: string;
+    parentId: ID;
     childrenIds: ID[];
 }
 
@@ -20,11 +20,20 @@ export default Factory.extend<MirageSubject & SubjectTraits>({
         afterCreate(subject, server) {
             const count = faker.random.number({ min: 1, max: 4 });
 
-            server.createList(
-                'subject',
-                count,
-                { parentId: subject.id },
-            );
+            if (subject.text.includes('et')) {
+                server.createList(
+                    'subject',
+                    count,
+                    { parentId: subject.id },
+                    'withChildren',
+                );
+            } else {
+                server.createList(
+                    'subject',
+                    count,
+                    { parentId: subject.id },
+                );
+            }
         },
     }),
 });
