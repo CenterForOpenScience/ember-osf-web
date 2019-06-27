@@ -9,10 +9,12 @@
                 @fixedWidth={{true}}
             />
         </span>
+        <label for='search' local-class='displayNone'>{{t 'osf-components.search-bar.search'}}</label>
         {{! template-lint-disable no-implicit-this }}
         {{input
             data-test-search-input
             (html-attributes aria-label=(t 'osf-components.search-bar.aria'))
+            name='search'
             type='text'
             placeholder=(t 'osf-components.search-bar.placeholder')
             enter=(action this._onSearch this.value)

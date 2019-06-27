@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
+import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -8,10 +8,8 @@ import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 import InViewport from 'ember-in-viewport/services/in-viewport.js';
 
-import { serviceLinks } from 'ember-osf-web/const/service-links';
-import Analytics from 'ember-osf-web/services/analytics';
-
 import { layout } from 'ember-osf-web/decorators/component';
+import Analytics from 'ember-osf-web/services/analytics';
 
 import styles from './styles';
 import template from './template';
@@ -20,7 +18,7 @@ const { featureFlagNames: { ABTesting } } = config;
 
 @layout(template, styles)
 @tagName('')
-export default class NewHome extends Component {
+export default class Testimonials extends Component {
     @service analytics!: Analytics;
     @service features!: Features;
     @service InViewport!: InViewport;
@@ -29,14 +27,14 @@ export default class NewHome extends Component {
     shouldShowVersionB!: boolean;
 
     @computed('shouldShowVersionB')
-    get version(this: NewHome): string {
+    get version(this: Testimonials): string {
         return this.shouldShowVersionB ? 'versionB' : 'versionA';
     }
 
-    didInsertElement(this: NewHome, ...args: any[]) {
+    didInsertElement(this: Testimonials, ...args: any[]) {
         // Watches the element for when it comes into view
         this._super(...args);
-        const section = document.getElementById('hero-section');
+        const section = document.getElementById('testimonial-section');
         const { onEnter } = this.InViewport.watchElement(section);
         onEnter(this.didEnterViewport.bind(this));
     }
@@ -46,20 +44,13 @@ export default class NewHome extends Component {
         this.analytics.track(
             'page',
             'scroll',
-            `Logged-out homepage ${this.version} - Hero Banner`,
+            `Logged-out homepage ${this.version} - Testimonial section`,
         );
     }
 
     willDestroyElement() {
         // Stop watching the element on destroy
-        const section = document.getElementById('hero-section');
+        const section = document.getElementById('testimonial-section');
         this.InViewport.stopWatching(section);
-    }
-
-    @action
-    search(query: string) {
-        const { search } = serviceLinks;
-        this.analytics.track('search', 'enter', `Logged-out homepage ${this.version} - Search`);
-        window.location.href = `${search}?q=${query}&page=1`;
     }
 }

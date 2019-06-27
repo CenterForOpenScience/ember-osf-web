@@ -10,6 +10,7 @@
             >
                 <button
                     data-test-navigation-button
+                    data-analytics-name='Carousel - Go to slide {{item.slideIndex}}'
                     type='button'
                     data-slide={{item.index}}
                     aria-label={{t 'osf-components.carousel.go_to_slide' slideIndex=item.slideIndex}}
@@ -28,7 +29,7 @@
     </ul>
     <OsfButton
         data-test-carousel-button-previous
-        data-analytics-name='Previous'
+        data-analytics-name='Carousel - Previous slide'
         local-class='btn'
         aria-label={{t 'osf-components.carousel.previous_slide'}}
         @type='button'
@@ -43,7 +44,7 @@
     </OsfButton>
     <OsfButton
         data-test-carousel-button-next
-        data-analytics-name='Next'
+        data-analytics-name='Carousel - Next slide'
         local-class='btn btn-next'
         aria-label={{t 'osf-components.carousel.next_slide'}}
         @type='button'

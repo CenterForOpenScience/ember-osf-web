@@ -27,6 +27,10 @@
     }
 }
 
+.displayNone {
+    display: none;
+}
+
 @media(max-width: 768px) {
     .iconInput {
         height: 40px;
