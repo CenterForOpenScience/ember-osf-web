@@ -144,6 +144,7 @@
     "ember-mockdate-shim": "^0.1.0",
     "ember-moment": "^7.7.0",
     "ember-onbeforeunload": "^1.2.0",
+    "ember-oo-modifiers": "^0.3.0",
     "ember-page-title": "^5.0.1",
     "ember-parachute": "https://github.com/cos-forks/ember-parachute#v0.3.7+cos3",
     "ember-percy": "^1.5.0",
