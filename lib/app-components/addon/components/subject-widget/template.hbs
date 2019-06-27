@@ -1,8 +1,2 @@
-<SubjectWidget::Manager
-    @model={{@model}}
-    @editMode={{true}}
-    as |subjectManager|
->
-    <SubjectWidget::Display @manager={{subjectManager}} />
-    <SubjectWidget::Browser @manager={{subjectManager}} />
-</SubjectWidget::Manager>
+<SubjectWidget::Display @manager={{@manager}} @inEditMode={{true}} />
+<SubjectWidget::Browser @manager={{@manager}} />

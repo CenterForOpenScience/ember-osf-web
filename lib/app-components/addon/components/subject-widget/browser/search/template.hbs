@@ -4,8 +4,9 @@
     @onchange={{action this.selectSubject}}
     @selectedItemComponent='subject-widget/browser/search-result'
     @searchMessage={{t 'app_components.subject_widget.search_subjects'}}
+    @renderInPlace={{true}}
     @searchField='text'
-    @options={{this.searchResults}}
+    @options={{this.queryResults}}
     as |subject|
 >
     <SubjectWidget::Browser::SearchResult @subject={{subject}} />

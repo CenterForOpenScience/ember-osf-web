@@ -5,7 +5,7 @@
         {{#each @manager.subjects as |subject|}}
             <li local-class='subject-tag'>
                 {{subject.text}}
-                {{#if @manager.editMode}}
+                {{#if this.inEditMode}}
                     <OsfButton
                         local-class='remove-button'
                         @type='link'
@@ -15,6 +15,10 @@
                     </OsfButton>
                 {{/if}}
             </li>
+        {{else}}
+            <span local-class='placeholder'>
+                {{t 'registries.registration_metadata.subjects_placeholder'}}
+            </span>
         {{/each}}
     </ul>
 {{/if}}

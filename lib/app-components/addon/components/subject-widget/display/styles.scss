@@ -21,6 +21,13 @@
     }
 }
 
+.placeholder {
+    border: 1px dotted $color-border-gray-light;
+    padding: 2px 4px;
+    font-style: italic;
+    color: $color-text-gray-dark;
+}
+
 .remove-button {
     border: 0;
     padding: 0;

@@ -1,14 +1,19 @@
 {{yield (hash
-    subjects=this.subjects
+    subjects=(if this.inEditMode this.subjects this.initialSubjects)
     add=(action this.add)
     remove=(action this.remove)
-    discardChanges=(action this.discardChanges)
+    cancel=(action this.cancel)
+    fieldIsEmpty=this.fieldIsEmpty
+    shouldShowField=this.shouldShowField
+    emptyFieldText=(t 'registries.registration_metadata.no_subjects')
+    startEditing=(action this.startEditing)
+    inEditMode=this.inEditMode
+    userCanEdit=this.userCanEdit
     save=(perform this.save)
     rootSubjects=this.rootSubjects
     isSaving=this.isSaving
     isLoading=this.isLoading
     hasChanged=this.hasChanged
-    editMode=this.editMode
     loadingNodeSubjects=this.loadingNodeSubjects
     loadingRootSubjects=this.loadingRootSubjects
     provider=this.provider
