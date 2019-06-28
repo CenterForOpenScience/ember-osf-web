@@ -4,6 +4,19 @@ export default buildRoutes(function() {
     this.route('index', { path: '/registries' });
     this.route('discover', { path: '/registries/discover' });
 
+    this.route('start', { path: '/registries/start' });
+
+    this.route('forms', { path: '/registries/forms' }, function() {
+        this.route('help', { path: '/help' });
+    });
+
+    this.route('drafts', { path: '/registries/drafts' }, function() {
+        this.route('draft', { path: '/:id' }, function() {
+            this.route('form');
+            this.route('review');
+        });
+    });
+
     this.route('overview', { path: '/:guid' } as any, function() {
         this.route('analytics');
         this.route('children', { path: '/components' });
