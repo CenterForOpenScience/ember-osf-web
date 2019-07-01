@@ -6,6 +6,11 @@
     children=this.children
     shouldShowChildren=this.shouldShowChildren
     subject=this.subject
-    loading=this.loading
+    loading=(and this.loading (not this.loadingMoreChildren))
     subjectManager=@manager
+    childrenCount=this.childrenCount
+    showMore=(action this.showMore)
+    hasMore=this.hasMore
+    loadingMoreChildren=this.loadingMoreChildren
+    placeholderCount=this.placeholderCount
 )}}

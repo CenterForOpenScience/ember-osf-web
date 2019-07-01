@@ -20,7 +20,6 @@ export default class SearchSubjects extends Component.extend({
             page: {
                 size: 150,
             },
-            embed: ['parent'],
             related_counts: 'children',
         });
 

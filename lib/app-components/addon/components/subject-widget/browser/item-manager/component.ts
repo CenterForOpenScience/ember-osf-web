@@ -1,11 +1,14 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { alias, bool } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
+import DS from 'ember-data';
 
 import { SubjectManager } from 'app-components/components/subject-widget/manager/component';
 import { layout } from 'ember-osf-web/decorators/component';
+import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Subject from 'ember-osf-web/models/subject';
 
 import template from './template';
@@ -14,6 +17,7 @@ export interface ItemManager {
     selected: boolean;
     hasChildren: boolean;
     onChange: (subject: Subject) => void;
+    showMore: () => void;
     toggleChildren: () => void;
     children: Subject[];
     shouldShowChildren: boolean;
@@ -33,6 +37,7 @@ export default class ItemManagerComponent extends Component.extend({
         });
         if (more) {
             this.children.pushObjects(children);
+            this.setProperties({ loadingMoreChildren: false });
         } else {
             this.setProperties({
                 children,
@@ -40,15 +45,17 @@ export default class ItemManagerComponent extends Component.extend({
         }
     }).restartable(),
 }) {
+    @service store!: DS.Store;
     subject!: Subject;
 
     shouldShowChildren: boolean = false;
-    children!: Subject[];
+    children!: QueryHasManyResult<Subject>;
+    loadingMoreChildren: boolean = false;
+
     page = 1;
 
     manager!: SubjectManager;
 
-    @alias('subject.relationshipLinks.children.links.related.meta.count')
     childrenCount!: number;
 
     @bool('childrenCount')
@@ -57,10 +64,29 @@ export default class ItemManagerComponent extends Component.extend({
     @alias('getChildren.isRunning')
     loading!: boolean;
 
+    constructor(properties: object) {
+        super(properties);
+        if (this.subject) {
+            const childrenCount = this.subject.childrenCount || 0;
+            this.setProperties({ childrenCount });
+        }
+    }
+
+    @computed('childrenCount')
+    get placeholderCount() {
+        const count = this.childrenCount < 10 ? this.childrenCount : 10;
+        return count;
+    }
+
     @computed('manager.subjects.[]')
     get selected() {
         return this.manager.inModelSubjects(this.subject);
-        // return Boolean(this.manager.subjects.findBy('id', this.subject.id));
+    }
+
+    @computed('children.[]', 'children.meta.{total,per_page}')
+    get hasMore(): boolean | undefined {
+        return this.children && (this.children.meta.total > this.children.meta.per_page)
+            && (this.children.length < this.children.meta.total);
     }
 
     @action
@@ -71,6 +97,12 @@ export default class ItemManagerComponent extends Component.extend({
                 this.getChildren.perform();
             }
         }
+    }
+
+    @action
+    showMore() {
+        this.setProperties({ loadingMoreChildren: true });
+        this.getChildren.perform(true);
     }
 
     @action

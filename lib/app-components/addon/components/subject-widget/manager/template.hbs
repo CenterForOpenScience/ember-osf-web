@@ -1,5 +1,6 @@
 {{yield (hash
-    subjects=(if this.inEditMode this.subjects this.initialSubjects)
+    subjects=this.subjects
+    initialSubjects=this.initialSubjects
     add=(action this.add)
     remove=(action this.remove)
     cancel=(action this.cancel)

@@ -2,7 +2,7 @@
     <LoadingIndicator @dark={{true}} />
 {{else}}
     <ul local-class='subjects'>
-        {{#each @manager.subjects as |subject|}}
+        {{#each this.subjects as |subject|}}
             <li local-class='subject-tag'>
                 {{subject.text}}
                 {{#if this.inEditMode}}
