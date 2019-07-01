@@ -17,7 +17,7 @@
             <div local-class='children'>
                 {{#if @manager.loading}}
                     <ContentPlaceholders as |placeholder|>
-                        <placeholder.text @lines={{@manager.childrenCount}} />
+                        <placeholder.text @lines={{@manager.placeholderCount}} />
                     </ContentPlaceholders>
                 {{else}}
                     {{#each @manager.children as |child|}}
@@ -29,6 +29,21 @@
                             <SubjectWidget::Browser::Item @manager={{itemManager}} />
                         </SubjectWidget::Browser::ItemManager>
                     {{/each}}
+                    {{#if @manager.hasMore}}
+                        {{#if @manager.loadingMoreChildren}}
+                            <ContentPlaceholders as |placeholder|>
+                                <placeholder.text @lines={{@manager.placeholderCount}} />
+                            </ContentPlaceholders>
+                        {{else}}
+                            <OsfButton
+                                @type='link'
+                                @onClick={{action @manager.showMore}}
+                                local-class='More'
+                            >
+                                {{t 'registries.registration_metadata.show_more'}}
+                            </OsfButton>
+                        {{/if}}
+                    {{/if}}
                 {{/if}}
             </div>
         {{/if}}

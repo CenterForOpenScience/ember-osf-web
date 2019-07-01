@@ -1221,6 +1221,7 @@ export default {
             no_subjects: 'No subjects added',
             save_subjects_error: 'Unable to save subjects',
             subjects_placeholder: 'Added subjects will appear here',
+            show_more: 'Show more',
         },
 
         form_view: {

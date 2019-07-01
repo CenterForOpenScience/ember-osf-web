@@ -24,3 +24,15 @@
         outline: none;
     }
 }
+
+.More {
+    border: 0;
+    padding: 0;
+
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+        outline: none;
+    }
+}

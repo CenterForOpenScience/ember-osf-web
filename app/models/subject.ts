@@ -1,4 +1,5 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import { alias } from '@ember-decorators/object/computed';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
@@ -11,6 +12,9 @@ export default class SubjectModel extends OsfModel {
 
     @hasMany('subject', { inverse: 'parent' })
     children!: DS.PromiseManyArray<SubjectModel>;
+
+    @alias('relationshipLinks.children.links.related.meta.count')
+    childrenCount!: number;
 }
 
 declare module 'ember-data/types/registries/model' {

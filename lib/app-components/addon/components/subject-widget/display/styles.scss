@@ -11,8 +11,8 @@
 }
 
 .subjects {
-    padding: 0;
-    margin: 0;
+    padding-left: 0;
+    margin-top: 10px;
     border: 0;
 
     li {
@@ -23,7 +23,7 @@
 
 .placeholder {
     border: 1px dotted $color-border-gray-light;
-    padding: 2px 4px;
+    padding: 4px 8px;
     font-style: italic;
     color: $color-text-gray-dark;
 }

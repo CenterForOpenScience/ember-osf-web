@@ -24,6 +24,7 @@ interface ModelWithSubjects extends OsfModel {
 
 export interface SubjectManager {
     subjects: SubjectModel[];
+    initialSubjects: SubjectModel[];
     add: (subject: SubjectModel) => void;
     remove: (subject: SubjectModel) => void;
     discardChanges: () => void;
@@ -43,7 +44,7 @@ export default class SubjectManagerComponent extends Component.extend({
     initializeSubjects: task(function *(this: SubjectManagerComponent) {
         const subjects: SubjectModel[] = yield this.model.loadAll('subjects');
         this.setProperties({
-            subjects: [...subjects],
+            subjects,
             initialSubjects: [...subjects],
         });
     }).on('didReceiveAttrs').restartable(),
@@ -72,14 +73,13 @@ export default class SubjectManagerComponent extends Component.extend({
         try {
             yield this.model.save();
 
-            this.toast.error(this.i18n.t('registries.registration_metadata.save_subjects_error'));
-
             this.setProperties({
                 initialSubjects: [...this.subjects],
                 hasChanged: false,
             });
             this.set('requestedEditMode', false);
         } catch (e) {
+            this.toast.error(this.i18n.t('registries.registration_metadata.save_subjects_error'));
             throw e;
         }
     }).drop(),
@@ -91,8 +91,8 @@ export default class SubjectManagerComponent extends Component.extend({
     @service toast!: Toast;
     @service i18n!: I18N;
 
-    initialSubjects?: SubjectModel[];
-    subjects: SubjectModel[] = [];
+    initialSubjects!: SubjectModel[];
+    subjects!: SubjectModel[];
     hasChanged: boolean = false; // TODO sort subjects, hasChanged -> CP comparing them
     provider!: Provider;
     queryResults!: QueryHasManyResult<SubjectModel>;
