@@ -1,4 +1,4 @@
-<div
+<section
     local-class='hero'
     {{track-scroll 'Hero Banner'}}
 >
@@ -30,9 +30,10 @@
                 </h4>
                 <SearchBar
                     local-class='searchBar'
+                    data-analytics-scope='Logged-out homepage {{this.version}}'
                     @onSearch={{action 'search'}}
                 />
             </div>
         </div>
     </header>
-</div>
+</section>

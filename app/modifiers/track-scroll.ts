@@ -7,27 +7,32 @@ import Modifier from 'ember-oo-modifiers';
 
 class TrackScrollModifier extends Modifier {
     @service analytics!: Analytics;
-    @service InViewport!: InViewport;
+    @service inViewport!: InViewport;
 
-    didInsertElement([eventName]: [string]) {
-        const { onEnter } = this.InViewport.watchElement(this.element);
-        onEnter(() => { this.didEnterViewport(eventName); });
+    didShow = false;
+
+    didInsertElement([name]: [string]) {
+        const { onEnter } = this.inViewport.watchElement(this.element);
+        onEnter(() => { this.didEnterViewport(name); });
     }
 
-    didEnterViewport(eventName: string) {
-        // Run analytics when the component comes into view
-        this.analytics.trackFromElement(
-            this.element,
-            {
-                name: eventName,
-                category: 'page',
-                action: 'scroll',
-            },
-        );
+    didEnterViewport(name: string) {
+        if (!this.didShow) {
+            // Run analytics when the component comes into view
+            this.analytics.trackFromElement(
+                this.element,
+                {
+                    name,
+                    category: 'page',
+                    action: 'scroll',
+                },
+            );
+            this.didShow = true;
+        }
     }
 
     willDestroyElement() {
-        this.InViewport.stopWatching(this.element);
+        this.inViewport.stopWatching(this.element);
     }
 }
 

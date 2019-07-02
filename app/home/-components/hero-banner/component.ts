@@ -19,7 +19,7 @@ const { featureFlagNames: { ABTesting } } = config;
 
 @layout(template, styles)
 @tagName('')
-export default class NewHome extends Component {
+export default class NewHomeHeroBanner extends Component {
     @service analytics!: Analytics;
     @service features!: Features;
 
@@ -27,7 +27,7 @@ export default class NewHome extends Component {
     shouldShowVersionB!: boolean;
 
     @computed('shouldShowVersionB')
-    get version(this: NewHome): string {
+    get version(this: NewHomeHeroBanner): string {
         return this.shouldShowVersionB ? 'versionB' : 'versionA';
     }
 

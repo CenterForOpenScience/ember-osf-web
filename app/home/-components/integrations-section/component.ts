@@ -5,7 +5,6 @@ import Component from '@ember/component';
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
-import InViewport from 'ember-in-viewport/services/in-viewport.js';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
@@ -15,7 +14,6 @@ const { featureFlagNames: { ABTesting } } = config;
 export default class IntegrationsSection extends Component {
     @service analytics!: Analytics;
     @service features!: Features;
-    @service InViewport!: InViewport;
 
     @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
     shouldShowVersionB!: boolean;
