@@ -308,6 +308,51 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-edit-button="category"]').doesNotExist();
     });
 
+    test('editable publication doi', async assert => {
+        const reg = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+        });
+
+        await visit(`/${reg.id}/`);
+
+        await click('[data-test-edit-button="publication DOI"]');
+
+        assert.notOk(reg.articleDoi);
+        assert.dom('[data-test-publication-doi-input] input').isVisible();
+
+        const invalidDoi = '10.123213';
+        await fillIn('[data-test-publication-doi-input] input', invalidDoi);
+        await click('[data-test-save-publication-doi]');
+
+        assert.dom('.help-block').hasText(t('validationErrors.invalid_doi').toString(), 'validation works');
+        await untrackedClick('button.close');
+
+        await click('[data-test-edit-button="publication DOI"]');
+        assert.dom('.help-block').isNotVisible();
+
+        const publicationDoi = '10.12312/123';
+        await fillIn('[data-test-publication-doi-input] input', publicationDoi);
+        await click('[data-test-save-publication-doi]');
+
+        reg.reload();
+        assert.ok(reg.articleDoi);
+        assert.equal(reg.articleDoi, publicationDoi);
+
+        // Can delete publication DOI
+        await click('[data-test-edit-button="publication DOI"]');
+        await fillIn('[data-test-publication-doi-input] input', '');
+        await click('[data-test-save-publication-doi]');
+
+        reg.reload();
+        assert.notOk(reg.articleDoi);
+
+        // Non-admin cannot edit
+        reg.update({ currentUserPermissions: [] });
+
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="publication DOI"]').doesNotExist();
+    });
+
     test('Check only admin can mint registration DOI', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),

@@ -1,0 +1,39 @@
+<form>
+    <ValidatedInput::Custom
+        data-test-publication-doi-input
+        @model={{@manager.validationNode}}
+        @valuePath='articleDoi'
+        @shouldShowMessages={{@manager.didValidate}}
+        @placeholder={{this.doiPlaceholder}}
+    >
+        <div class='input-group'>
+            <span class='input-group-addon'>{{this.doiUrlPrefix}}</span>
+            {{input
+                value=@manager.validationNode.articleDoi
+                type='text'
+                class='form-control form-group'
+                placeholder=this.doiPlaceholder
+            }}
+        </div>
+    </ValidatedInput::Custom>
+
+    <div local-class='Controls'>
+        <OsfButton
+            data-analytics-name='Cancel'
+            @onClick={{action @manager.cancel}}
+            @disabled={{@manager.save.isRunning}}
+        >
+            {{t 'general.cancel'}}
+        </OsfButton>
+        <OsfButton
+            data-analytics-name='Save'
+            data-test-save-publication-doi
+            @type='primary'
+            @buttonType='submit'
+            @onClick={{action @manager.save}}
+            @disabled={{@manager.save.isRunning}}
+        >
+            {{t 'general.save'}}
+        </OsfButton>
+    </div>
+</form>
