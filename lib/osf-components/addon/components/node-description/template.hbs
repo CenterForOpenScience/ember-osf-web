@@ -1,3 +1,32 @@
-<span local-class='Description__field' ...attributes>
-    {{@manager.description}}
-</span>
+<div 
+    {{!-- did-update will not trigger without listening to manager.description. 'this' is not accessible within setTruncate function --}}
+    {{did-insert this.setTruncate @manager.description this}} 
+    {{did-update this.setTruncate @manager.description this}} 
+    id='description' 
+    local-class='DescriptionWrapper {{if this.truncateDescription 'hide'}}'>
+
+    {{#if this.shouldTruncate}}
+        <div 
+            local-class='DescriptionOverlay {{if this.truncateDescription 'collapsed' 'expanded'}}'
+            {{!-- {{action this.toggleFullDescription}} --}}
+        >
+        </div>
+    {{/if}}
+
+    <span local-class='Description__field' ...attributes>
+        {{@manager.description}}
+    </span>
+</div>
+
+{{#if this.shouldTruncate}}
+    <OsfButton
+        data-test-load-more-contribs   
+        data-analytics-name='Show full description'
+        aria-label={{t 'contributor_list.more'}}
+        local-class='ToggleButton'
+        @type='link'
+        @onClick={{action this.toggleFullDescription}}
+    >
+        <FaIcon @icon='{{if this.truncateDescription 'caret-down' 'caret-up'}}'/>
+    </OsfButton>
+{{/if}}
