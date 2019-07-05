@@ -8,7 +8,7 @@ module('Integration | Component | learn-more-button', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async function(assert) {
-        await render(hbs`<NewHome::-Components::SupportSection::LearnMoreButton />`);
+        await render(hbs`<Home::-Components::SupportSection::LearnMoreButton />`);
         assert.dom('[data-test-learn-more-button]').exists();
         assert.dom('[data-test-learn-more-button]').hasText('Learn more');
 

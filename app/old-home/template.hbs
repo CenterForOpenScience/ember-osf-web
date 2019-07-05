@@ -1,0 +1,292 @@
+{{title (t 'home.title')}}
+<div data-analytics-scope='Logged-out home'>
+    {{#if this.goodbye}}
+        <BsAlert
+            data-test-goodbye-banner
+            local-class='goodbye'
+            @type='success'
+            @classNames='text-center'
+        >
+            <p>{{t 'home.alert_logged_out'}}</p>
+        </BsAlert>
+    {{/if}}
+    <BsModal
+        @open={{this.modalOpen}}
+        @backdrop={{true}}
+        @onHidden={{action (mut this.modalOpen) false}}
+        as | modal |
+    >
+        <modal.header>
+            <h4>{{t 'home.youtube_modal_title'}}</h4>
+        </modal.header>
+        <modal.body>
+            <EmberYoutube
+                @ytid={{this.youtubeId}}
+                @playerVars={{this.playerVars}}
+            />
+        </modal.body>
+    </BsModal>
+    <div id='home-hero'>
+        <div class='container text-center'>
+            <div local-class='network-bg'></div>
+            <h1 local-class='hero-brand'>{{t 'home.brand'}}</h1>
+            <h3 local-class='hero-tagline'>{{t 'home.tagline'}}</h3>
+            <OsfLogo @animate={{true}} />
+            <div id='signUp' class='anchor'></div>
+            <div id='hero-signup' class='container'>
+                <div class='row'>
+                    <div class='col-sm-6 hidden-xs'>
+                        <OsfLink
+                            data-analytics-name='youtube_video'
+                            class='youtube'
+                            aria-label='{{t 'home.youtube_label'}}'
+                            @href='https://www.youtube.com/watch?v={{this.youtubeId}}'
+                            @onClick={{action (mut this.modalOpen) true}}
+                        >
+                            <i local-class='icon icon-play'></i>
+                        </OsfLink>
+                        <img
+                            src='/assets/images/home/screenshot.png'
+                            class='img-responsive'
+                            id='screenshot'
+                            alt='{{t 'home.osf_screenshot_alt'}}'
+                        >
+                    </div>
+                    <div class='col-sm-6' local-class='sign-up-div'>
+                        <h2>{{t 'home.signup_title'}}</h2>
+                        <div id='signUpScope'>
+                            <SignUpForm data-test-sign-up-form />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='container' local-class='grey-pullout space-top space-bottom'>
+        <div class='row' local-class='space-bottom'>
+            <div class='col-xs-12 text-center'>
+                <h2>
+                    <strong>{{t 'home.collaboration'}}</strong>
+                </h2>
+                <h3>{{t 'home.management'}}</h3>
+            </div>
+        </div>
+        <div class='row' local-class='feature-1'>
+            <div class='col-md-6'>
+                <div class='row'>
+                    <div class='col-xs-1'>
+                        <i local-class='icon icon-cloud icon-feature'></i>
+                    </div>
+                    <div class='col-xs-9 col-xs-offset-1'>
+                        <h3>{{t 'home.structured_projects_title'}}</h3>
+                        <p>
+                            {{t 'home.structured_projects_paragraph'}}
+                            <span class='label label-primary' local-class='label-home'>{{t 'home.secure_cloud'}}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-xs-1'>
+                        <i local-class='icon icon-group icon-feature'></i>
+                    </div>
+                    <div class='col-xs-9 col-xs-offset-1'>
+                        <h3>{{t 'home.control_access_title'}}</h3>
+                        <p>
+                            {{t 'home.control_access_paragraph'}}
+                            <span class='label label-primary' local-class='label-home'>{{t 'home.control_access_span'}}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-xs-1'>
+                        <i local-class='icon icon-workflow icon-feature'></i>
+                    </div>
+                    <div class='col-xs-9 col-xs-offset-1'>
+                        <h3>{{t 'home.workflow_title'}}</h3>
+                        <p>
+                            {{t 'home.workflow_paragraph'}}
+                            <span class='label label-primary' local-class='label-home'>{{t 'home.workflow_span'}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-6'>
+                <div local-class='student-wrap'>
+                    <div local-class='student-image'>
+                        <div local-class='quote'>
+                            <span local-class='main'>{{t 'home.student_main'}}</span>
+                            <span local-class='attrib'>{{t 'home.student_attrib'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='container'>
+        <div local-class='feature-2 space-top space-bottom'>
+            <div class='row'>
+                <div class='col-xs-12 text-center' local-class='headline'>
+                    <h2>{{t 'home.integrations_title'}}</h2>
+                </div>
+            </div>
+            <div class='row' local-class='integrations'>
+                <div class='col-sm-3 col-xs-6'>
+                    <img src='/assets/images/home/dropbox.png' class='img-responsive' alt='{{t 'home.integrations_alt_dropbox'}}'>
+                </div>
+                <div class='col-sm-3 col-xs-6'>
+                    <img src='/assets/images/home/github.png' class='img-responsive' alt='{{t 'home.integrations_alt_github'}}'>
+                </div>
+                <div class='col-sm-3 col-xs-6'>
+                    <img src='/assets/images/home/amazon.png' class='img-responsive' alt='{{t 'home.integrations_alt_amazon'}}'>
+                </div>
+                <div class='col-sm-3 col-xs-6'>
+                    <img src='/assets/images/home/box.png' class='img-responsive' alt='{{t 'home.integrations_alt_box'}}'>
+                </div>
+            </div>
+            <div class='row' local-class='integrations'>
+                <div class='col-sm-3 col-xs-6'>
+                    <img src='/assets/images/home/google.png' class='img-responsive' alt='{{t 'home.integrations_alt_google'}}'>
+                </div>
+                <div class='col-sm-3 col-xs-6'>
+                    <img src='/assets/images/home/figshare.png' class='img-responsive' alt='{{t 'home.integrations_alt_figshare'}}'>
+                </div>
+                <div class='col-sm-3 col-xs-6'>
+                    <img src='/assets/images/home/dataverse.png' class='img-responsive' alt='{{t 'home.integrations_alt_dataverse'}}'>
+                </div>
+                <div class='col-sm-3 col-xs-6'>
+                    <img src='/assets/images/home/mendeley.png' class='img-responsive' alt='{{t 'home.integrations_alt_mendeley'}}'>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div local-class='feature-3'>
+        <div class='container'>
+            <div class='row space-top'>
+                <div class='col-md-12 text-center space-bottom'>
+                    <h2>{{t 'home.features_title'}}</h2>
+                </div>
+            </div>
+            <div class='row space-bottom'>
+                {{#each this.features as | featuresColumn i |}}
+                    <div class='col-sm-6 text-{{if i 'left' 'right'}}'>
+                        {{#each featuresColumn as | feature |}}
+                            <h3>{{t (concat 'home.features_' feature '_title')}}</h3>
+                            <p>{{t (concat 'home.features_' feature '_paragraph')}}</p>
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <div local-class='feature-4'>
+        <div class='container'>
+            <div class='row text-center' local-class='space-top space-bottom'>
+                <div class='col-md-4 col-md-offset-1'>
+                    <i local-class='icon icon-earth'></i>
+                    <h2>{{t 'home.global_title'}}</h2>
+                    <p>
+                        {{t 'home.global_paragraph'}}
+                        <OsfLink
+                            data-analytics-name='explore_activity'
+                            @href='/explore/activity/'
+                        >
+                            {{t 'home.global_link'~}}
+                        </OsfLink>
+                        <span class='label label-warning' local-class='label-home'>{{t 'home.global_label'}}</span>
+                    </p>
+                </div>
+                <div class='col-md-4 col-md-offset-1'>
+                    <i local-class='icon icon-nonprofit'></i>
+                    <h2>{{t 'home.non_profit_title'}}</h2>
+                    <p>
+                        {{t 'home.non_profit_paragraph1'}}
+                        <OsfLink
+                            data-analytics-name='cos_webpage'
+                            @href='https://cos.io/'
+                        >
+                            {{t 'home.non_profit_link'~}}
+                        </OsfLink>
+                        {{t 'home.non_profit_paragraph2'}}
+                        <span class='label label-success' local-class='label-home'>{{t 'home.non_profit_label'}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='container'>
+        <div local-class='space-top space-bottom feature-5'>
+            <div class='row'>
+                <div class='col-md-12 text-center'>
+                    <h2>{{t 'home.users_title'}}</h2>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-xs-4 col-md-3'>
+                    <img src='/assets/images/home/user2.jpg' class='img-circle img-responsive' alt='{{t 'home.users_1_alt'}}'>
+                </div>
+                <div class='col-xs-8'>
+                    <h3>{{t 'home.users_1_title'}}</h3>
+                    <p>
+                        {{t 'home.users_1_paragraph'}}
+                        <br>
+                        <small>
+                            <em>{{t 'home.users_1_small'}}</em>
+                        </small>
+                    </p>
+                </div>
+            </div>
+            <div class='row hidden-xs hidden-sm'>
+                <div class='col-md-7 col-md-offset-2'>
+                    <h3>{{t 'home.users_2_title'}}</h3>
+                    <p>
+                        {{t 'home.users_2_paragraph'}}
+                        <br>
+                        <small>
+                            <em>{{t 'home.users_2_small'}}</em>
+                        </small>
+                    </p>
+                </div>
+                <div class='col-md-3'>
+                    <img src='/assets/images/home/user3.jpg' class='img-circle img-responsive' alt='{{t 'home.users_2_alt'}}'>
+                </div>
+            </div>
+            <div class='row hidden-xs hidden-sm'>
+                <div class='col-md-3'>
+                    <img src='/assets/images/home/user4.jpg' class='img-circle img-responsive' alt='{{t 'home.users_3_alt'}}'>
+                </div>
+                <div class='col-md-7'>
+                    <h3>{{t 'home.users_3_title'}}</h3>
+                    <p>
+                        {{t 'home.users_3_paragraph'}}
+                        <br>
+                        <small>
+                            <em>{{t 'home.users_3_small'}}</em>
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div local-class='space-top space-bottom feature-6'>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-8'>
+                    <h2>
+                        <strong>{{t 'home.free_title1'}}</strong>
+                    </h2>
+                    <h4>{{t 'home.free_title2'}}</h4>
+                    <OsfLink
+                        data-analytics-name='goto_signup'
+                        class='btn btn-info btn-lg'
+                        @href='#signUp'
+                    >
+                        {{t 'home.free_link'}}
+                    </OsfLink>
+                </div>
+                <div class='col-md-4 hidden-xs hidden-sm'>
+                    <OsfLogo @double={{true}} />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

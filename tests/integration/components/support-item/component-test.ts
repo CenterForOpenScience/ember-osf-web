@@ -16,7 +16,7 @@ module('Integration | Component | support-item', hooks => {
         'Search public projects to build on the work of others and find new collaborators.');
 
         await render(hbs`
-            <NewHome::-Components::SupportSection::SupportItem
+            <Home::-Components::SupportSection::SupportItem
                 @icon={{this.icon}}
                 @header={{this.header}}
                 @description={{this.description}}

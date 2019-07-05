@@ -5,14 +5,14 @@ import { module, test } from 'qunit';
 
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
-module('Acceptance | logged-out home page', hooks => {
+module('Acceptance | old logged-out home page', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('visiting /', async assert => {
-        await visit('/');
+        await visit('/old-home');
 
-        assert.equal(currentURL(), '/', "Still at '/'.");
+        assert.equal(currentURL(), '/old-home', "Still at '/old-home'.");
 
         // Check navbar.
         assert.dom('nav.navbar').exists();
@@ -42,7 +42,6 @@ module('Acceptance | logged-out home page', hooks => {
         await visit('/?goodbye=true');
         assert.equal(currentURL(), '/?goodbye=true', "Still at '/?goodbye=true'.");
 
-        assert.dom('[data-test-goodbye-banner]').exists('Goodbye banner exists');
         await percySnapshot(assert);
         assert.dom('a[href="/support"]').exists('Support link exists');
         await click('a[href="/support"]');
@@ -50,7 +49,5 @@ module('Acceptance | logged-out home page', hooks => {
         assert.dom('a[href="/"]').exists('Home link exists');
         await click('a[href="/"]');
         assert.equal(currentURL(), '/', 'No more query parameter');
-        assert.dom('[data-test-goodbye-banner]')
-            .doesNotExist('No goodbye banner when returning to the page');
     });
 });
