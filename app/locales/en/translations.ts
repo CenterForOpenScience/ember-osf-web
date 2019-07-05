@@ -1093,6 +1093,8 @@ export default {
         registration_metadata: {
             contributors: 'Contributors',
             description: 'Description',
+            show_more: 'Show more',
+            show_less: 'Show less',
             no_description: 'No description given.',
             registration_type: 'Registration type',
             date_registered: 'Date registered',
