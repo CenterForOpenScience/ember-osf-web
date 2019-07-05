@@ -1,7 +1,13 @@
+import { action } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import Analytics from 'ember-osf-web/services/analytics';
 
-export default class DraftsReviewRoute extends Route.extend({}) {
-    model() {
-        return this.modelFor('drafts');
+export default class DraftsReviewRoute extends Route {
+    @service analytics!: Analytics;
+
+    @action
+    didTransition() {
+        this.analytics.trackPage();
     }
 }

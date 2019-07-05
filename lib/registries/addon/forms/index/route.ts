@@ -1,7 +1,13 @@
+import { action } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import Analytics from 'ember-osf-web/services/analytics';
 
-export default class FormsHelpRoute extends Route.extend({}) {
-    model() {
-        return this.modelFor('forms');
+export default class FormsIndexRoute extends Route {
+    @service analytics!: Analytics;
+
+    @action
+    didTransition() {
+        this.analytics.trackPage();
     }
 }
