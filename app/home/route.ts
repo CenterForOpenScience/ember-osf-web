@@ -10,7 +10,7 @@ export default class Home extends Route {
   @service analytics!: Analytics;
   @service session!: Session;
 
-  async beforeModel(this: Home, transition: Transition) {
+  async beforeModel(transition: Transition) {
       await super.beforeModel(transition);
 
       if (this.session.isAuthenticated) {
@@ -19,7 +19,7 @@ export default class Home extends Route {
   }
 
   @action
-  didTransition(this: Home) {
+  didTransition() {
       this.analytics.trackPage();
   }
 }
