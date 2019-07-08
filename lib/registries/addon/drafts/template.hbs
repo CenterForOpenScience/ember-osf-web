@@ -1,16 +1,2 @@
-{{#if this.loading}}
-    <div local-class='ContentBackground Loading'>
-        <LoadingIndicator @dark={{true}} />
-    </div>
-{{else}}
-    {{title (t 'registries.drafts.page_title')}}
-    <div local-class=''>
-        <div class='container'>
-            <div class='row'>
-                <h1>{{t 'registries.drafts.page_title'}}</h1>
-                {{!-- This is where the registries drafts page will be. --}}
-            </div>
-            {{outlet}}
-        </div>
-    </div>
-{{/if}}
+{{title (t 'registries.drafts.page_title')}}
+{{outlet}}

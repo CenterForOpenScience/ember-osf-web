@@ -48,11 +48,7 @@ function registrationScenario(
     );
     draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
 
-    // server.create('registration', { id: 'beefs' });
-
-    server.create('draft-registration', {
-        id: 'beefs',
-    });
+    server.create('registration', { id: 'beefs' });
 
     server.create('registration', {
         id: 'decaf',
