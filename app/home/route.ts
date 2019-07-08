@@ -6,28 +6,20 @@ import Session from 'ember-simple-auth/services/session';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
-import Controller from './controller';
-
 export default class Home extends Route {
-    @service analytics!: Analytics;
-    @service session!: Session;
+  @service analytics!: Analytics;
+  @service session!: Session;
 
-    async beforeModel(this: Home, transition: Transition) {
-        await super.beforeModel(transition);
+  async beforeModel(transition: Transition) {
+      await super.beforeModel(transition);
 
-        if (this.session.isAuthenticated) {
-            this.transitionTo('dashboard');
-        }
-    }
+      if (this.session.isAuthenticated) {
+          this.transitionTo('dashboard');
+      }
+  }
 
-    @action
-    didTransition(this: Home) {
-        this.analytics.trackPage();
-    }
-
-    resetController(controller: Controller, isExiting: boolean, _: Transition) {
-        if (isExiting) {
-            controller.set('goodbye', null);
-        }
-    }
+  @action
+  didTransition() {
+      this.analytics.trackPage();
+  }
 }

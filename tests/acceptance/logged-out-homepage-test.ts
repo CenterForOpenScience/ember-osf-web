@@ -11,14 +11,14 @@ import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 const { featureFlagNames: { ABTesting } } = config;
 
-module('Acceptance | new home page test', hooks => {
+module('Acceptance | logged-out home page test', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visiting new-home', async assert => {
-        await visit('/new-home');
+    test('visiting home', async assert => {
+        await visit('/');
 
-        assert.equal(currentURL(), '/new-home', "Still at 'new-home'.");
+        assert.equal(currentURL(), '/', "Still at 'home'.");
         // Check navbar
         assert.dom('nav.navbar').exists();
         assert.dom('nav.navbar .sign-in').exists();
@@ -76,8 +76,8 @@ module('Acceptance | new home page test', hooks => {
         await percySnapshot(assert);
     });
 
-    test('visiting new-home version B', async function(assert) {
-        await visit('/new-home');
+    test('visiting home version B', async function(assert) {
+        await visit('/');
         const features = this.owner.lookup('service:features') as Features;
 
         features.enable(ABTesting.homePageVersionB);
@@ -93,7 +93,7 @@ module('Acceptance | new home page test', hooks => {
     });
 
     test('Get Started button works', async assert => {
-        await visit('/new-home');
+        await visit('/');
 
         await click('[data-test-get-started-button]');
         assert.equal(currentURL(), '/register');
