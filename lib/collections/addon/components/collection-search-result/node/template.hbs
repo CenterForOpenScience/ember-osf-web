@@ -17,7 +17,7 @@
     {{contributor-list node=this.item}}
 
     {{#if this.subjects}}
-        {{collection-subjects-list subjects=this.subjects onClickSubject=(action @addTaxonomyFilter)}}
+        {{collection-subjects-list subjects=this.subjects onClickSubject=(action @addSubjectFilter)}}
     {{/if}}
     {{#if @extraSubjects}}
         <span class='text-muted'>+{{@extraSubjects.length}}</span>

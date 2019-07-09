@@ -33,7 +33,7 @@ export default class PreprintProviderModel extends ProviderModel {
     @alias('links.relationships.preprints.links.related.meta')
     reviewableStatusCounts!: RelatedLinkMeta;
 
-    @alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects')
+    @alias('links.relationships.highlighted_subjects.links.related.meta.has_highlighted_subjects')
     hasHighlightedSubjects!: boolean;
 
     @computed('preprintWord')

@@ -80,7 +80,10 @@ export default class ItemManagerComponent extends Component.extend({
 
     @computed('manager.subjects.[]')
     get selected() {
-        return this.manager.inModelSubjects(this.subject);
+        if (this.manager.subjects) {
+            return Boolean(this.manager.subjects.findBy('id', this.subject.id));
+        }
+        return undefined;
     }
 
     @computed('children.[]', 'children.meta.{total,per_page}')

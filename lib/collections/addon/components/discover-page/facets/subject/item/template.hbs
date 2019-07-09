@@ -1,4 +1,4 @@
-{{#if item.childCount}}
+{{#if item.childrenCount}}
     <button
         class="pointer m-r-xs"
         local-class="button {{if expanded 'show-children'}}"
@@ -16,12 +16,12 @@
     {{input
         type='checkbox'
         checked=checked
-        change=(action updateFilters item.path)
+        change=(action updateFilters item.text)
     }}
     {{item.text}}
 </label>
 {{#if expanded}}
-    {{discover-page/facets/taxonomy/list
+    {{discover-page/facets/subject/list
         children=item.children
         activeFilter=activeFilter
         updateFilters=updateFilters

@@ -9,56 +9,56 @@ import { localClassNames } from 'ember-css-modules';
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
-import { getTaxonomies, TaxonomyItem } from '../component';
+import { getSubjects, SubjectItem } from '../component';
 import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
 @tagName('li')
 @localClassNames('taxonomy-item')
-export default class TaxonomyListItem extends Component.extend({
+export default class SubjectListItem extends Component.extend({
     /**
      * Using an observer here because the expandedList changes may occur before the nested item exists 🐔/🥚
      */
     // eslint-disable-next-line ember/no-observers
-    expandedChanged: observer('expanded', function(this: TaxonomyListItem) {
+    expandedChanged: observer('expanded', function(this: SubjectListItem) {
         this.fetchChildren();
     }),
 
-    didInsertElement(this: TaxonomyListItem) {
+    didInsertElement(this: SubjectListItem) {
         this.fetchChildren();
     },
 }) {
     @service analytics!: Analytics;
     @service theme!: Theme;
 
-    item: TaxonomyItem = this.item;
+    item: SubjectItem = this.item;
     activeFilter: string[] = this.activeFilter;
     expandedList: string[] = this.expandedList;
-    getTaxonomies = getTaxonomies.drop();
+    getSubjects = getSubjects.drop();
 
-    @alias('item.path')
-    path!: string;
+    @alias('item.text')
+    text!: string;
 
-    @computed('activeFilter.[]', 'path')
+    @computed('activeFilter.[]', 'text')
     get checked(): boolean {
-        return this.activeFilter.includes(this.path);
+        return this.activeFilter.includes(this.text);
     }
 
-    @computed('expandedList.[]', 'path')
+    @computed('expandedList.[]', 'text')
     get expanded(): boolean {
-        return this.expandedList.includes(this.path);
+        return this.expandedList.includes(this.text);
     }
 
-    fetchChildren(this: TaxonomyListItem) {
+    fetchChildren(this: SubjectListItem) {
         if (!this.expanded) {
             return;
         }
 
-        const { childCount, children } = this.item;
+        const { childrenCount, children } = this.item;
 
-        if (childCount !== children.length) {
-            this.get('getTaxonomies').perform(this.item, this.theme.provider!);
+        if (childrenCount !== children.length) {
+            this.get('getSubjects').perform(this.item, this.theme.provider!);
         }
     }
 
@@ -66,7 +66,7 @@ export default class TaxonomyListItem extends Component.extend({
     toggleExpand() {
         const {
             expanded,
-            item: { text, path },
+            item: { text },
         } = this;
 
         this.analytics.track(
@@ -76,6 +76,6 @@ export default class TaxonomyListItem extends Component.extend({
         );
 
         const method = expanded ? 'removeObject' : 'pushObject';
-        this.expandedList[method](path);
+        this.expandedList[method](text);
     }
 }

@@ -1,21 +1,17 @@
-import { attr, belongsTo } from '@ember-decorators/data';
+import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { computed as iComputed } from '@ember/object';
 import { alias as iAlias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
+import DS from 'ember-data';
 
 import tuple from 'ember-osf-web/utils/tuple';
 
 import Collection, { ChoicesFields } from './collection';
 import Guid from './guid';
 import OsfModel from './osf-model';
-import { SubjectRef } from './taxonomy';
+import SubjectModel from './subject';
 import User from './user';
-
-export interface DisplaySubject {
-    text: string;
-    path: string;
-}
 
 export const choiceFields = tuple(
     'collectedType',
@@ -63,31 +59,14 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
     @attr('string') issue?: string;
     @attr('string') programArea?: string;
     @attr('string') status?: string;
-    @attr('subjects') subjects!: SubjectRef[][];
     @attr('string') volume?: string;
 
     @belongsTo('collection') collection!: Collection;
     @belongsTo('guid') guid!: Guid;
     @belongsTo('user') creator!: User;
 
-    @computed('subjects')
-    get displaySubjects(): DisplaySubject[] {
-        // returns a list of unique subjects and its path for display and filtering
-        const displaySubjects: DisplaySubject[] = [];
-        this.subjects.forEach(subjectPathArray => {
-            let index = 0;
-            const includedTester = (element: DisplaySubject) => element.text === subjectPathArray[index].text;
-            for (index = 0; index < subjectPathArray.length; index++) {
-                // Only append the subjects if they are not already included in the list
-                if (!displaySubjects.some(includedTester)) {
-                    const { text } = subjectPathArray[index];
-                    const path = ['', ...subjectPathArray.slice(0, index + 1).map(item => item.text)].join('|');
-                    displaySubjects.push({ text, path });
-                }
-            }
-        });
-        return displaySubjects;
-    }
+    @hasMany('subject', { inverse: null })
+    subjects!: DS.PromiseManyArray<SubjectModel> | SubjectModel[];
 
     @computed('collection.displayChoicesFields.[]')
     get displayChoiceFields() {

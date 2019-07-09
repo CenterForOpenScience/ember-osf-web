@@ -5,7 +5,7 @@ import { task } from 'ember-concurrency';
 import { layout } from 'ember-osf-web/decorators/component';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Provider from 'ember-osf-web/models/provider';
-import Taxonomy from 'ember-osf-web/models/taxonomy';
+import Subject from 'ember-osf-web/models/subject';
 import Theme from 'ember-osf-web/services/theme';
 import Base from '../base/component';
 import styles from './styles';
@@ -13,71 +13,72 @@ import template from './template';
 
 const pageSize = 150;
 
-export interface TaxonomyItem {
+export interface SubjectItem {
     id: string;
     text: string;
-    children: TaxonomyItem[];
-    childCount: number;
+    children: SubjectItem[];
+    childrenCount: number;
     shareTitle: string;
-    path: string;
 }
 
-function getParentPaths(item: string): string[] {
-    const [prefix, ...subjectNames] = item.split('|').slice(0, -1);
+// function getParentPaths(item: string): string[] {
+//     const [prefix, ...subjectNames] = item.split('|').slice(0, -1);
+//
+//     return subjectNames
+//         .reduce((acc, val) => acc.concat(`${acc.lastObject}|${val}`), [prefix])
+//         .slice(1);
+//  }
 
-    return subjectNames
-        .reduce((acc, val) => acc.concat(`${acc.lastObject}|${val}`), [prefix])
-        .slice(1);
-}
-
-export const getTaxonomies = task(function *(item: TaxonomyItem, provider: Provider) {
-    const results: QueryHasManyResult<Taxonomy> = yield provider.queryHasMany('taxonomies', {
-        filter: { parents: item.id },
+export const getSubjects = task(function *(item: SubjectItem, provider: Provider) {
+    const results: QueryHasManyResult<Subject> = yield provider.queryHasMany('subjects', {
+        filter: { parent: item.id },
         page: { size: pageSize },
+        related_counts: 'children',
     });
 
     setProperties(item, {
         children: results
-            .map(({ id, text, childCount, shareTitle, path }) => ({
+            .map(({ id, text, childrenCount, taxonomyName: shareTitle }) => ({
                 id,
                 text,
                 children: [],
-                childCount,
+                childrenCount,
                 shareTitle,
-                path: path.replace(/^\w+/, ''),
             }))
             .sortBy('text'),
     });
 });
 
 @layout(template, styles)
-export default class SearchFacetTaxonomy extends Base.extend({
-    getTaxonomies,
+export default class SearchFacetSubject extends Base.extend({
+    getSubjects,
 
-    didInsertElement(this: SearchFacetTaxonomy, ...args: any[]) {
+    didInsertElement(this: SearchFacetSubject, ...args: any[]) {
         this._super(...args);
 
         const { context, filterChanged } = this;
 
         setProperties(context, {
             didInit: true,
-            expandedList: (context.activeFilter as string[])
-                .map(getParentPaths)
-                .reduce((acc, val) => acc.concat(val), [])
-                .uniq(),
+            expandedList: [] as string[],
+            // expandedList: (context.activeFilter as string[])
+            //     .map(getParentPaths)
+            //     .reduce((acc, val) => acc.concat(val), [])
+            //     .uniq(),
             updateFilters(item?: string) {
-                const { activeFilter, defaultQueryFilters, expandedList } = context;
+                // const { activeFilter, defaultQueryFilters, expandedList } = context;
+                const { activeFilter, defaultQueryFilters } = context;
 
                 if (item) {
                     const inFilter = activeFilter.includes(item);
 
                     const method = inFilter ? 'removeObject' : 'pushObject';
                     activeFilter[method](item);
-
-                    if (!inFilter) {
-                        const parents = getParentPaths(item).filter(path => !expandedList.includes(path));
-                        expandedList.pushObjects(parents);
-                    }
+                    // TODO: Auto expand parents of current subjects active filters.
+                    // if (!inFilter) {
+                    //     const parents = getParentPaths(item).filter(path => !expandedList.includes(path));
+                    //     expandedList.pushObject(parents);
+                    // }
                 }
 
                 setProperties(context, {
@@ -85,7 +86,7 @@ export default class SearchFacetTaxonomy extends Base.extend({
                     currentQueryFilters: !activeFilter.length ?
                         defaultQueryFilters :
                         {
-                            subjects: activeFilter.map(path => path.replace(/^.*\|/, '')),
+                            subjects: activeFilter,
                         },
                 });
 
@@ -100,17 +101,16 @@ export default class SearchFacetTaxonomy extends Base.extend({
                 id: 'null',
                 text: '',
                 children: [],
-                childCount: 0,
+                childrenCount: 0,
                 shareTitle: '',
-                path: '',
             },
         });
 
-        this.get('getTaxonomies').perform(this.item, this.theme.provider!);
+        this.get('getSubjects').perform(this.item, this.theme.provider!);
     },
 }) {
     @service theme!: Theme;
 
-    item: TaxonomyItem = this.item;
+    item: SubjectItem = this.item;
     context!: Base['context'] & { expandedList: string[]; };
 }

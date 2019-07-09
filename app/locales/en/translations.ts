@@ -923,7 +923,7 @@ export default {
             other_repositories: 'Other collections',
             facet_titles: {
                 collection_provider: 'Providers',
-                taxonomy: 'Subject',
+                subject: 'Subject',
                 status: 'Status',
                 collected_type: 'Type',
                 issue: 'Issue',

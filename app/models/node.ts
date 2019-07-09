@@ -105,7 +105,6 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @attr('fixstring') templateFrom!: string;
     @attr('string') analyticsKey?: string;
     @attr('boolean') preprint!: boolean;
-    // @attr('array') subjects!: string[];
     @attr('boolean') currentUserCanComment!: boolean;
     @attr('boolean') wikiEnabled!: boolean;
 

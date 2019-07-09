@@ -5,5 +5,5 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class ActiveFilterTaxonomy extends Base {
+export default class ActiveFilterSubject extends Base {
 }

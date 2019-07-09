@@ -21,7 +21,7 @@ import styles from './styles';
 import template from './template';
 
 const filterQueryParams = [
-    'taxonomy',
+    'subject',
     'provider',
     'tags',
     'sources',
@@ -128,7 +128,7 @@ export default class DiscoverPage extends Component.extend({
     sort: string = defaultTo(this.sort, '');
     sources: string = defaultTo(this.sources, '');
     start: string = defaultTo(this.start, '');
-    taxonomy: string = defaultTo(this.taxonomy, '');
+    subject: string = defaultTo(this.subject, '');
     tags: string = defaultTo(this.tags, '');
     type: string = defaultTo(this.type, '');
     status: string = defaultTo(this.status, '');

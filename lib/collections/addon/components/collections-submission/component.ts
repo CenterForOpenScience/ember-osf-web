@@ -91,7 +91,15 @@ export default class Submit extends Component {
                 this.collectionItem.set('public', true);
                 yield this.collectionItem.save();
             }
-            yield this.collectedMetadatum.save();
+
+            if (operation === 'add') {
+                const subjects = this.collectedMetadatum.subjects.toArray();
+                const collectionSubmission = yield this.collectedMetadatum.save();
+                collectionSubmission.setProperties({ subjects });
+                yield collectionSubmission.save();
+            } else {
+                yield this.collectedMetadatum.save();
+            }
 
             this.collectionItem.set('collectable', false);
 

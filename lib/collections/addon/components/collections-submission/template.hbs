@@ -1,6 +1,6 @@
-<CollectionSubmissionConfirmationModal 
+<CollectionSubmissionConfirmationModal
     @openModal={{this.showSubmitModal}}
-    @addToCollection={{action (perform this.save)}} 
+    @addToCollection={{action (perform this.save)}}
     @cancel={{action this.resetShowSubmitModal}}
 />
 <div class='submit-header' local-class='header'>
@@ -106,14 +106,12 @@
         }}
             {{#section.active}}
                 {{subject-picker
-                    id='subjects'
-                    currentSubjects=this.collectedMetadatum.subjects
                     model=this.collectedMetadatum
                     continue=(action 'nextSection')
                 }}
             {{/section.active}}
             {{#section.complete}}
-                {{collection-subjects-list subjects=this.collectedMetadatum.displaySubjects onClickSubject=(action this.noop)}}
+                {{collection-subjects-list subjects=this.collectedMetadatum.subjects onClickSubject=(action this.noop)}}
             {{/section.complete}}
         {{/sections.section}}
 

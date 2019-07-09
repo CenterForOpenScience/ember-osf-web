@@ -67,7 +67,7 @@ export default class Discover extends Controller {
                 // Regular preprints and branded preprints get provider and taxonomy facets
                 [
                     ['sources', 'collection-provider', { hidden: true }],
-                    ['subjects', 'taxonomy'],
+                    ['subject', 'subject'],
                     ['type', 'collected-type'],
                     ['issue', 'issue'],
                     ['program-area', 'program-area'],

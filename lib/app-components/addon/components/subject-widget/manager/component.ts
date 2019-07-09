@@ -35,18 +35,21 @@ export interface SubjectManager {
     loadingRootSubjects: boolean;
     loadingNodeSubjects: boolean;
     editMode: boolean;
-    inModelSubjects: (subject: SubjectModel) => boolean;
 }
 
 @tagName('')
 @layout(template)
 export default class SubjectManagerComponent extends Component.extend({
     initializeSubjects: task(function *(this: SubjectManagerComponent) {
-        const subjects: SubjectModel[] = yield this.model.loadAll('subjects');
-        this.setProperties({
-            subjects,
-            initialSubjects: [...subjects],
-        });
+        if (this.model.isNew) {
+            this.setProperties({ subjects: [] as SubjectModel[] });
+        } else {
+            const subjects: SubjectModel[] = yield this.model.loadAll('subjects');
+            this.setProperties({
+                subjects,
+                initialSubjects: [...subjects],
+            });
+        }
     }).on('didReceiveAttrs').restartable(),
     getRootSubjects: task(function *(this: SubjectManagerComponent, parent: string = 'null') {
         if (!this.provider) {
@@ -67,8 +70,12 @@ export default class SubjectManagerComponent extends Component.extend({
 
         this.setProperties({ rootSubjects: queryResults });
     }).on('init'),
-    save: task(function *(this: SubjectManagerComponent) {
+    save: task(function *(this: SubjectManagerComponent, onSave?: () => void) {
         this.model.set('subjects', this.subjects);
+
+        if (onSave) {
+            return onSave();
+        }
 
         try {
             yield this.model.save();
@@ -94,7 +101,7 @@ export default class SubjectManagerComponent extends Component.extend({
     initialSubjects!: SubjectModel[];
     subjects!: SubjectModel[];
     hasChanged: boolean = false; // TODO sort subjects, hasChanged -> CP comparing them
-    provider!: Provider;
+    provider: Provider = this.provider;
     queryResults!: QueryHasManyResult<SubjectModel>;
     rootSubjects!: QueryHasManyResult<SubjectModel>;
     editMode: boolean = defaultTo(this.editMode, false);
@@ -121,10 +128,6 @@ export default class SubjectManagerComponent extends Component.extend({
     @computed('fieldIsEmpty', 'userCanEdit')
     get shouldShowField() {
         return this.userCanEdit || !this.fieldIsEmpty;
-    }
-
-    inModelSubjects(subject: SubjectModel): boolean {
-        return Boolean(this.subjects.findBy('id', subject.id));
     }
 
     @action
@@ -158,7 +161,7 @@ export default class SubjectManagerComponent extends Component.extend({
     cancel() {
         assert('Cannot discard changes while saving', !this.isSaving);
         this.setProperties({
-            subjects: this.initialSubjects,
+            subjects: [...this.initialSubjects],
             hasChanged: false,
             requestedEditMode: false,
         });

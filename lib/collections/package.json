@@ -15,6 +15,7 @@
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
     "ember-concurrency": "*",
+    "ember-content-placeholders": "*",
     "ember-collapsible-panel": "*",
     "ember-cp-validations": "*",
     "ember-css-modules": "*",

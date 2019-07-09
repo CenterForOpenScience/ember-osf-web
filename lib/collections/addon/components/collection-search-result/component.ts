@@ -9,11 +9,12 @@ import { localClassNames } from 'ember-css-modules';
 import ModelRegistry from 'ember-data/types/registries/model';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import CollectedMetadatum, { DisplaySubject } from 'ember-osf-web/models/collected-metadatum';
+import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
 import Preprint from 'ember-osf-web/models/preprint';
 import Registration from 'ember-osf-web/models/registration';
+import Subject from 'ember-osf-web/models/subject';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -44,7 +45,7 @@ export default class CollectionSearchResult extends Component {
 
     @alias('result.guid.content') item!: Collectable;
     @alias('item.constructor.modelName') type!: CollectableType;
-    @alias('result.displaySubjects')! subjects!: DisplaySubject[];
+    @alias('result.subjects')! subjects!: Subject[];
 
     @computed('result.displayChoiceFields')
     get choiceFilters() {
@@ -58,8 +59,8 @@ export default class CollectionSearchResult extends Component {
     }
 
     @action
-    addTaxonomyFilter(subject: DisplaySubject) {
-        this.facetContexts.findBy('component', 'taxonomy')!.updateFilters(subject.path);
+    addSubjectFilter(subject: Subject) {
+        this.facetContexts.findBy('component', 'subject')!.updateFilters(subject.text);
     }
 
     @action
