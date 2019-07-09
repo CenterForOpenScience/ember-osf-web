@@ -2,7 +2,6 @@
     {{!-- did-update will not trigger without listening to manager.description. 'this' is not accessible within setTruncate function --}}
     {{did-insert this.setTruncate @manager.description this}} 
     {{did-update this.setTruncate @manager.description this}} 
-    id='description' 
     local-class='DescriptionWrapper {{if this.truncateDescription 'hide'}}'>
 
     {{#if this.shouldTruncate}}
@@ -19,10 +18,8 @@
 
 {{#if this.shouldTruncate}}
     <OsfButton
-        data-test-load-more-contribs   
         data-analytics-name='Show full description'
         aria-label={{t (if this.truncateDescription 'registries.registration_metadata.show_more' 'registries.registration_metadata.show_less')}}
-        local-class='ToggleButton'
         @type='link'
         @onClick={{action this.toggleFullDescription}}
     >
