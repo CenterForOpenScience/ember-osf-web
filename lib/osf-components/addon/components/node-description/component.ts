@@ -14,14 +14,13 @@ export default class NodeDescription extends Component {
     shouldTruncate: boolean = false;
     truncateDescription: boolean = true;
 
-    setTruncate(element: Element, args: any[]) { // args: [description, this]
-        const node = args[1];
+    setTruncate(element: Element) {
         const { height, width } = element.getBoundingClientRect();
         if (height && width && height > 49) { // height limit should be (.hide {max-height} - 1)
-            node.set('shouldTruncate', true);
-            node.set('truncateDescription', true);
+            this.set('shouldTruncate', true);
+            this.set('truncateDescription', true);
         } else {
-            node.set('shouldTruncate', false);
+            this.set('shouldTruncate', false);
         }
     }
 

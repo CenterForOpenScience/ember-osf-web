@@ -1,8 +1,8 @@
 <div 
-    {{!-- did-update will not trigger without listening to manager.description. 'this' is not accessible within setTruncate function --}}
-    {{did-insert this.setTruncate @manager.description this}} 
-    {{did-update this.setTruncate @manager.description this}} 
-    local-class='DescriptionWrapper {{if this.truncateDescription 'hide'}}'>
+    {{did-insert (action this.setTruncate) @manager.description}} 
+    {{did-update (action this.setTruncate) @manager.description}} 
+    local-class='DescriptionWrapper Description__field {{if this.truncateDescription 'hide'}}'
+    ...attributes>
 
     {{#if this.shouldTruncate}}
         <div 
@@ -11,9 +11,7 @@
         </div>
     {{/if}}
 
-    <span local-class='Description__field' ...attributes>
-        {{@manager.description}}
-    </span>
+    {{@manager.description}}
 </div>
 
 {{#if this.shouldTruncate}}
