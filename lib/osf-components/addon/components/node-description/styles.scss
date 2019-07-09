@@ -8,8 +8,9 @@
     overflow: hidden;
 }
 
+// This max-height property should match the heightLimit param in the component file
 .hide {
-    max-height: 50px;
+    max-height: 200px; 
 }
 
 .DescriptionOverlay {
