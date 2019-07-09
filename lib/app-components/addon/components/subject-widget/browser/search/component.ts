@@ -1,6 +1,6 @@
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
 
 import { SubjectManager } from 'app-components/components/subject-widget/manager/component';
 import { layout } from 'ember-osf-web/decorators/component';
@@ -13,6 +13,8 @@ import template from './template';
 @layout(template, styles)
 export default class SearchSubjects extends Component.extend({
     querySubjects: task(function *(this: SearchSubjects, text: string) {
+        yield timeout(500);
+
         const queryResults = yield this.manager.provider.queryHasMany('subjects', {
             filter: {
                 text,
@@ -34,8 +36,13 @@ export default class SearchSubjects extends Component.extend({
     @action
     selectSubject(selectedSubject: Subject) {
         this.setProperties({ selectedSubject });
-        if (!this.manager.inModelSubjects(selectedSubject)) {
+        if (!this.inModelSubjects) {
             this.manager.add(selectedSubject);
         }
+    }
+
+    @computed('manager.subjects.[]')
+    get inModelSubjects() {
+        return Boolean(this.manager.subjects.findBy('id', this.selectedSubject.id));
     }
 }

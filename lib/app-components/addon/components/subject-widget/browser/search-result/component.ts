@@ -13,7 +13,7 @@ import template from './template';
 @layout(template, styles)
 export default class SearchResult extends Component.extend({
     getSubjectAncestry: task(function *(this: SearchResult) {
-        if (!this.asSelectedItemComponent) {
+        if (!this.selectedItem) {
             const ancestors: Subject[] = [];
             const parentSubject = yield this.subject.parent;
             if (parentSubject) {
@@ -33,7 +33,7 @@ export default class SearchResult extends Component.extend({
     subjectAncestry: Subject[] = [];
 
     @computed('select.{selected}')
-    get asSelectedItemComponent() {
+    get selectedItem() {
         // <SelectedItemComponent @select={{select.selected}}>
         return this.select && this.select.selected;
     }

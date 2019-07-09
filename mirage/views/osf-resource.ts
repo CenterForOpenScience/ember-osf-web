@@ -50,6 +50,7 @@ function gatherRelationshipActions(opts: RelationshipOptions) {
     return gatherActions(opts, actions);
 }
 
+// For top-level resources, e.g. `/v2/nodes/`
 export function osfResource(
     server: Server,
     modelName: keyof ModelRegistry,
@@ -97,6 +98,8 @@ export function osfResource(
     }
 }
 
+// For resources that are only accessible through a top-level resource's relationship,
+// e.g. `/v2/nodes/<node_id>/contributors/<contributor_id>` (there is no `/v2/contributors/<contributor_id>`)
 export function osfNestedResource<K extends keyof ModelRegistry>(
     server: Server,
     parentModelName: K,
@@ -157,6 +160,8 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     }
 }
 
+// For to-many relationships between top-level resources,
+// e.g. `/v2/nodes/<node_id>/affiliated_institutions/<id>` (but the institution lives at `/v2/institutions/<id>`)
 export function osfToManyRelationship<K extends keyof ModelRegistry>(
     server: Server,
     parentModelName: K,

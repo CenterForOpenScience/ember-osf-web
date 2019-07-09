@@ -1,5 +1,5 @@
-{{#if this.selectedSubject}}
-    <span local-class='selected-item'>{{this.selectedSubject.text}}</span>
+{{#if this.selectedItem}}
+    <span local-class='selected-item'>{{this.selectedItem.text}}</span>
 {{else}}
     <span local-class='Titles' ...attributes>
         {{#each this.subjectAncestry as |ancestor|}}
