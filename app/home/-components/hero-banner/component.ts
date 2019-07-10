@@ -8,7 +8,6 @@ import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
 import { serviceLinks } from 'ember-osf-web/const/service-links';
-import Analytics from 'ember-osf-web/services/analytics';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -19,15 +18,14 @@ const { featureFlagNames: { ABTesting } } = config;
 
 @layout(template, styles)
 @tagName('')
-export default class NewHomeHeroBanner extends Component {
-    @service analytics!: Analytics;
+export default class HomeHeroBanner extends Component {
     @service features!: Features;
 
     @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
     shouldShowVersionB!: boolean;
 
     @computed('shouldShowVersionB')
-    get version(this: NewHomeHeroBanner): string {
+    get version(): string {
         return this.shouldShowVersionB ? 'versionB' : 'versionA';
     }
 

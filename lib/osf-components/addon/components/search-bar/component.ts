@@ -17,7 +17,11 @@ export default class SearchBar extends Component {
 
     @action
     _onSearch(query: string) {
-        this.analytics.track('search', 'enter', 'Search');
+        this.analytics.trackFromElement(this.element, {
+            name: 'Search',
+            category: 'search',
+            action: 'enter',
+        });
         this.onSearch(query);
     }
 }
