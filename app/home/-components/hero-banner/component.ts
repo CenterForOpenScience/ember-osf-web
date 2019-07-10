@@ -34,7 +34,6 @@ export default class NewHomeHeroBanner extends Component {
     @action
     search(query: string) {
         const { search } = serviceLinks;
-        this.analytics.track('search', 'enter', `Logged-out homepage ${this.version} - Search`);
         window.location.href = `${search}?q=${query}&page=1`;
     }
 }
