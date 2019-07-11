@@ -2,14 +2,16 @@
     <nav class='navbar navbar-inverse navbar-fixed-top' id='navbarScope' role='navigation'>
         <div class='container'>
             <div class='navbar-header'>
-                <OsfLink 
+                <OsfLink
                     data-test-nav-home-link
                     data-analytics-name='Home'
                     aria-label={{t 'navbar.go_home'}}
                     class='navbar-brand'
                     @route='home'
                 >
-                    <span class='osf-navbar-logo'></span>
+                    <span class='osf-navbar-logo'>
+                        <img src='/assets/images/global/cos-white2.png' alt={{t 'navbar.osf_logo'}}>
+                    </span>
                 </OsfLink>
                 {{! Current app }}
                 <div class='service-name'>
