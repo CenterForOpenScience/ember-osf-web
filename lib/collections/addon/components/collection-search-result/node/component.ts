@@ -19,7 +19,7 @@ import template from './template';
 export default class SearchResultNode extends Component.extend({
     didRender(...args: any[]) {
         this._super(...args);
-        // MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);
     },
 }) {
     @service analytics!: Analytics;
