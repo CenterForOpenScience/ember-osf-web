@@ -88,6 +88,10 @@
         font-size: 20px;
         max-width: 350px;
     }
+
+    .searchBar {
+        padding-top: 35px;
+    }
 }
 
 @media(max-width: 768px) {
@@ -148,6 +152,10 @@
 
         .getStartedButton {
             margin: 15px auto 35px;
+        }
+
+        .searchBar {
+            padding-top: 0;
         }
     }
 }

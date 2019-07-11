@@ -18,15 +18,15 @@ const { featureFlagNames: { ABTesting } } = config;
 
 @layout(template, styles)
 @tagName('')
-export default class NewHome extends Component {
+export default class HomeHeroBanner extends Component {
     @service features!: Features;
 
     @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
     shouldShowVersionB!: boolean;
 
     @computed('shouldShowVersionB')
-    get versionClass(this: NewHome): string {
-        return this.shouldShowVersionB ? 'versionB' : '';
+    get version(): string {
+        return this.shouldShowVersionB ? 'versionB' : 'versionA';
     }
 
     @action
