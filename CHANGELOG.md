@@ -5,12 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- `new-home` route is now `home`
+
+### Removed
+- `old-home` route
+- `old-home` tests
+
+## [19.5.1] - 2019-06-24
 ### Added
 - Tests:
     - Integration:
         - `meetings`
             - `detail`
                 - `meeting-detail-header` - add tests for location and dates
+- Components:
+    - `new-home`
+        - `testimonials` - A section for the testimonials carousel
+        - `integrations versions A/B` - A list of all supported integrations
+    - `carousel`
 
 ### Changed
 - Components:
@@ -20,6 +33,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `detail`
             - `meeting-submissions-list` - removed download count sorting
 - Tests:
+    - Acceptance:
+        - `new-home` - Added tests to support integrations section
     - Integration:
         - `meetings`
             - `detail`
@@ -946,7 +961,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.5.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.5.1...HEAD
+[19.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.1
 [19.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.0
 [19.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.4.0
 [19.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.3.0

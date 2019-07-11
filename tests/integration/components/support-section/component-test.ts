@@ -10,7 +10,7 @@ module('Integration | Component | support-section', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async function(assert) {
-        await render(hbs`<NewHome::-Components::SupportSection />`);
+        await render(hbs`<Home::-Components::SupportSection />`);
 
         assert.dom('[data-test-support-heading]')
             .containsText(t('new-home.support-section.header').toString());
