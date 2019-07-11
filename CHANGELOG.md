@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - `new-home` route is now `home`
+- add lang attribute to html element in index.html
 
 ### Removed
 - `old-home` route
