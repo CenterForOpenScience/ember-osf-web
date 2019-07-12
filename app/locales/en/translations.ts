@@ -316,6 +316,7 @@ export default {
         other_views: 'Other OSF views',
         login: 'Login',
         join: 'Join',
+        osf_logo: 'OSF logo',
     },
     auth_dropdown: {
         log_out: 'Log Out',
