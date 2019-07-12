@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [19.6.1] - 2019-07-12
+### Fixed
+- Config:
+    - add waffle flag for `guid-user` route
+- Components:
+    - `home`
+        - `testimonials` - link to `guid-user` instead of `resolve-guid`
+
 ## [19.6.0] - 2019-07-12
 ### Added
 - Mirage:
@@ -1010,7 +1018,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.6.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.6.1...HEAD
+[19.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.1
 [19.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.0
 [19.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.1
 [19.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.0
