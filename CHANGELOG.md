@@ -4,18 +4,60 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [19.6.0] - 2019-07-12
 ### Added
-- Analytics:
-    - `new-home` - add scroll analytics and improve wording
+- Mirage:
+    - Factories:
+        - `collected-metadatum`
+        - `collection-provider`
+        - `taxonomy`
+    - Serializers:
+        - `collected-metadatum`
+        - `collection-provider`
+        - `taxonomy`
+    - Fixtures:
+        - `taxonomies`
+    - Scenarios:
+        - `collection`
+    - Views:
+        - `collection-provider-taxonomies`
+        - `collection-search`
+    - Endpoints:
+        - `/providers/collections`
+        - `/providers/collections/:parentID/licenses/`
+        - `/collections/:parentID/collected_metadata/`
+        - `/providers/collections/:parentID/taxonomies`
+        - `/search/collections/`
 
 ### Changed
-- `new-home` route is now `home`
-- add lang attribute to html element in index.html
-
-### Removed
-- `old-home` route
-- `old-home` tests
+- Models:
+    - `collected-metadatum` - changed `guid` relationship to be a `node` relationship
+    - `collection-provider` - removed `collections` relatioship
+    - `collection`
+        - removed `provider` relationship inverse (`collections`)
+        - added `collectedMetadata` relationship
+- Routes:
+    - `new-home`
+        - renamed to `home` (replacing existing `home` route)
+        - add scroll analytics and improve wording
+- Engines:
+    - `collections`
+        - updated `collection-item-picker` component to use `collectedMetadata` relationship
+        - updated `collections-submission` component to set the `guid` relationship to the node instead of the guid
+- Tests:
+    - Acceptance:
+        - `new-home` - renamed to `logged-out-homepage` (replacing existing `logged-out-homepage` test)
+- Mirage:
+    - Factories:
+        - `collection` - add choices fields
+    - Serializers:
+        - `collection` - add `provider` and `collectedMetadata` relationships
+    - Views:
+        - `osf-resource` - add pass through `process()` to `osfNestedResource` `show` action
+    - Utils:
+        - `filter` - add ability to filter by a list of ids.
+- Misc:
+    - add lang attribute to `html` element in `index.html`
 
 ## [19.5.1] - 2019-06-24
 ### Added
@@ -966,7 +1008,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.5.1...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.6.0...HEAD
+[19.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.0
 [19.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.1
 [19.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.0
 [19.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.4.0
