@@ -1,4 +1,5 @@
 <div 
+    data-test-node-description-wrapper
     {{did-insert (action this.setTruncate) @manager.description}} 
     {{did-update (action this.setTruncate) @manager.description}} 
     local-class='DescriptionWrapper Description__field {{if this.truncateDescription 'hide'}}'
@@ -6,6 +7,7 @@
 
     {{#if this.shouldTruncate}}
         <div 
+            data-test-node-description-overlay
             local-class='DescriptionOverlay {{if this.truncateDescription 'collapsed'}}'
         >
         </div>
@@ -16,6 +18,7 @@
 
 {{#if this.shouldTruncate}}
     <OsfButton
+        data-test-node-description-button
         data-analytics-name='Show full description'
         aria-label={{t (if this.truncateDescription 'registries.registration_metadata.show_more' 'registries.registration_metadata.show_less')}}
         @type='link'

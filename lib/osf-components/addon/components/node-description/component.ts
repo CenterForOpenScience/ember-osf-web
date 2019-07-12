@@ -17,8 +17,8 @@ export default class NodeDescription extends Component {
     truncateDescription: boolean = true;
 
     setTruncate(element: Element) {
-        const { height, width } = element.getBoundingClientRect();
-        if (height && width && height > (heightLimit - 1)) {
+        const height = element.clientHeight;
+        if (height && height > (heightLimit - 1)) {
             this.set('shouldTruncate', true);
             this.set('truncateDescription', true);
         } else {
