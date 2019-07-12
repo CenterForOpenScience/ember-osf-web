@@ -1,5 +1,9 @@
 {{! template-lint-disable no-bare-strings }}
-<div data-test-testimonials-container local-class='container'>
+<section
+    data-test-testimonials-container
+    local-class='container'
+    {{track-scroll 'Testimonial section'}}
+>
     <header>
         <h1 data-test-testimonials-heading>
             {{t 'new-home.testimonials.heading'}}
@@ -27,8 +31,9 @@
                         </span>
                         <span local-class='description-bold'>
                             <OsfLink
-                                data-analytics-name='testimonial_link'
-                                @href='https://osf.io/wx9bf/'
+                                data-analytics-name='View research'
+                                @route='resolve-guid'
+                                @models={{array 'wx9bf'}}
                             >
                                 {{t 'new-home.testimonials.see_her_research'}}
                             </OsfLink>
@@ -37,7 +42,7 @@
                 </div>
                 <img
                     local-class='slide-image'
-                    src='/assets/images/dashboard/ayala-patricia.png'
+                    src='/assets/images/new-home/ayala-patricia.png'
                     alt='{{t 'new-home.testimonials.slide_1.alt'}}'
                 >
             </div>
@@ -58,8 +63,9 @@
                         </span>
                         <span local-class='description-bold'>
                             <OsfLink
-                                data-analytics-name='testimonial_link'
-                                @href='https://osf.io/e9tg8/'
+                                data-analytics-name='View research'
+                                @route='resolve-guid'
+                                @models={{array 'e9tg8'}}
                             >
                                 {{t 'new-home.testimonials.see_her_research'}}
                             </OsfLink>
@@ -67,8 +73,8 @@
                     </p>
                 </div>
                 <img
-                    local-class='slide-image image-tall'
-                    src='/assets/images/dashboard/maya.png'
+                    local-class='slide-image'
+                    src='/assets/images/new-home/mathur-maya.png'
                     alt='{{t 'new-home.testimonials.slide_2.alt'}}'
                 >
             </div>
@@ -89,8 +95,9 @@
                         </span>
                         <span local-class='description-bold'>
                             <OsfLink
-                                data-analytics-name='testimonial_link'
-                                @href='https://osf.io/2u4tf/'
+                                data-analytics-name='View research'
+                                @route='resolve-guid'
+                                @models={{array '2u4tf'}}
                             >
                                 {{t 'new-home.testimonials.see_his_research'}}
                             </OsfLink>
@@ -99,10 +106,10 @@
                 </div>
                 <img
                     local-class='slide-image'
-                    src='/assets/images/dashboard/cohen-phillip.png'
+                    src='/assets/images/new-home/cohen-phillip.png'
                     alt='{{t 'new-home.testimonials.slide_3.alt'}}'
                 >
             </div>
         </carousel.slide>
     </Carousel>
-</div>
+</section>

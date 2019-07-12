@@ -1505,6 +1505,7 @@ export default {
             heading: 'Discover public research',
             subheading: 'Discover projects, data, materials, and collaborators on OSF that might be helpful to your own research.',
             placeholder: 'Search discipline, author...',
+            search: 'Search',
         },
         'hero-banner': {
             heading: 'The place to share your research',

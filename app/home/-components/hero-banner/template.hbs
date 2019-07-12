@@ -1,4 +1,7 @@
-<div local-class='hero'>
+<section
+    local-class='hero'
+    {{track-scroll 'Hero Banner'}}
+>
     <header local-class='heroHeader'>
         <h1 data-test-hero-heading>
             {{t 'osf-components.hero-banner.heading'}}
@@ -6,7 +9,7 @@
         <h2 data-test-hero-subheading>
             {{t 'osf-components.hero-banner.subheading'}}
         </h2>
-        <div data-test-hero-container local-class='{{this.versionClass}}'>
+        <div data-test-hero-container local-class='{{this.version}}'>
             <div data-test-add-research local-class='addResearch'>
                 {{#if this.shouldShowVersionB}}
                     <h3 data-test-add-research-heading>
@@ -32,4 +35,4 @@
             </div>
         </div>
     </header>
-</div>
+</section>
