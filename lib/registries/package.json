@@ -31,7 +31,6 @@
     "ember-page-title": "*",
     "ember-parachute": "*",
     "ember-responsive": "*",
-    "ember-test-selectors": "*",
     "ember-toastr": "*",
     "ember-truth-helpers": "*",
     "immutable": "*"
