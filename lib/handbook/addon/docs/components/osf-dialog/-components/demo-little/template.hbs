@@ -1,0 +1,20 @@
+<DocsDemo as |demo|>
+    <demo.example @name='osf-dialog.demo-little.hbs'>
+        <OsfDialog as |dialog|>
+            <dialog.trigger>
+                <OsfButton @onClick={{dialog.open}}>Little dialog!</OsfButton>
+            </dialog.trigger>
+            <dialog.heading>
+                Hello!
+            </dialog.heading>
+            <dialog.main>
+                Here's some stuff
+            </dialog.main>
+            <dialog.footer>
+                <OsfButton @type='primary' @onClick={{dialog.close}}>Cool</OsfButton>
+            </dialog.footer>
+        </OsfDialog>
+    </demo.example>
+
+    <demo.snippet @name='osf-dialog.demo-little.hbs' />
+</DocsDemo>

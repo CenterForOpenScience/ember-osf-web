@@ -1,0 +1,24 @@
+<DocsDemo as |demo|>
+    <demo.example @name='osf-dialog.demo-big.hbs'>
+        <OsfDialog as |dialog|>
+            <dialog.trigger>
+                <OsfButton @onClick={{dialog.open}}>Big dialog!</OsfButton>
+            </dialog.trigger>
+            <dialog.heading>
+                The dialog expands with its contents to a point, then lets it scroll.
+            </dialog.heading>
+            <dialog.main>
+                {{#each (range 0 1000)}}
+                    Here's some stuff that's a whole bunch of stuff.
+                {{/each}}
+            </dialog.main>
+            <dialog.footer>
+                <OsfButton @type='success' @onClick={{dialog.close}}>
+                    Yep that's some stuff
+                </OsfButton>
+            </dialog.footer>
+        </OsfDialog>
+    </demo.example>
+
+    <demo.snippet @name='osf-dialog.demo-big.hbs' />
+</DocsDemo>
