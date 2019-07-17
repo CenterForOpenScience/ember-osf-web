@@ -1,17 +1,17 @@
-import { click } from '@ember/test-helpers';
+import { click as untrackedClick } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { visit } from 'ember-osf-web/tests/helpers';
+import { click, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
 module('Collections | Acceptance | submit', hooks => {
     setupEngineApplicationTest(hooks, 'collections');
     setupMirage(hooks);
 
-    test('it renders', async assert => {
+    test('it renders', async () => {
         server.loadFixtures('taxonomies');
         server.loadFixtures('licenses');
         const currentUser = server.create('user', 'loggedIn');
@@ -34,31 +34,31 @@ module('Collections | Acceptance | submit', hooks => {
             licensesAcceptable,
         });
         await visit(`/collections/${provider.id}/submit`);
-        await percySnapshot(assert);
-        await click('.ember-power-select-placeholder');
-        await click('.ember-power-select-option');
-        await percySnapshot(assert);
-        await click('.ember-power-select-placeholder');
-        await click('.ember-power-select-option');
-        await click('.btn-primary');
-        await percySnapshot(assert);
-        await click('.btn-primary');
-        await percySnapshot(assert);
-        await click('ol > li');
-        await click('.btn-primary');
-        await percySnapshot(assert);
-        await click('[data-test-metadata-field="collected_type_label"] > div > div > .ember-power-select-trigger');
-        await click('.ember-power-select-option');
-        await click('[data-test-metadata-field="issue_label"] > div > div > .ember-power-select-trigger');
-        await click('.ember-power-select-option');
-        await click('[data-test-metadata-field="program_area_label"] > div > div > .ember-power-select-trigger');
-        await click('.ember-power-select-option');
-        await click('[data-test-metadata-field="status_label"] > div > div > .ember-power-select-trigger');
-        await click('.ember-power-select-option');
-        await click('[data-test-metadata-field="volume_label"] > div > div > .ember-power-select-trigger');
-        await click('.ember-power-select-option');
-        await click('.btn-primary');
+        await percySnapshot('Collections | Acceptance | submit | select project');
+        await untrackedClick('[data-test-collections-item-picker] .ember-power-select-trigger');
+        await untrackedClick(`[data-test-collections-node-title="${nodeToBeAdded.title}"]`);
+        await percySnapshot('Collections | Acceptance | submit | project metadata');
+        await untrackedClick('[data-test-collections-license-picker] .ember-power-select-trigger');
+        await untrackedClick('.ember-power-select-option');
+        await untrackedClick('[data-test-project-metadata-continue]');
+        await percySnapshot('Collections | Acceptance | submit | project contributors');
+        await untrackedClick('.btn-primary');
+        await percySnapshot('Collections | Acceptance | submit | collection subjects');
+        await untrackedClick(`[data-test-subject-picker-column-subject-name="${taxonomies[0].text}"]`);
+        await untrackedClick('.btn-primary');
+        await percySnapshot('Collections | Acceptance | submit | collection metadata');
+        await untrackedClick('[data-test-metadata-field="collected_type_label"] .ember-power-select-trigger');
+        await untrackedClick('.ember-power-select-option');
+        await untrackedClick('[data-test-metadata-field="issue_label"] .ember-power-select-trigger');
+        await untrackedClick('.ember-power-select-option');
+        await untrackedClick('[data-test-metadata-field="program_area_label"] .ember-power-select-trigger');
+        await untrackedClick('.ember-power-select-option');
+        await untrackedClick('[data-test-metadata-field="status_label"] .ember-power-select-trigger');
+        await untrackedClick('.ember-power-select-option');
+        await untrackedClick('[data-test-metadata-field="volume_label"] .ember-power-select-trigger');
+        await untrackedClick('.ember-power-select-option');
+        await untrackedClick('.btn-primary');
         await click('.btn-success');
-        await percySnapshot(assert);
+        await percySnapshot('Collections | Acceptance | submit | confirm public modal');
     });
 });

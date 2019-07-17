@@ -1,31 +1,32 @@
-{{discover-page
-    query=(action 'query')
-    searchResultComponent='collection-search-result'
-    activeFilters=this.activeFilters
-    consumingService=this.consumingService
-    discoverHeader=this.discoverHeader
-    facets=this.facets
-    lockedParams=this.lockedParams
+{{title (t 'collections.discover.title') replace=false}}
+<DiscoverPage
+    @query={{action 'query'}}
+    @searchResultComponent='collection-search-result'
+    @activeFilters={{this.activeFilters}}
+    @consumingService={{this.consumingService}}
+    @discoverHeader={{this.discoverHeader}}
+    @facets={{this.facets}}
+    @lockedParams={{this.lockedParams}}
     
-    queryParams=this.queryParams
-    searchPlaceholder=this.searchPlaceholder
-    showActiveFilters=true
-    sortOptions=this.sortOptions
+    @queryParams={{this.queryParams}}
+    @searchPlaceholder={{this.searchPlaceholder}}
+    @showActiveFilters={{true}}
+    @sortOptions={{this.sortOptions}}
 
-    sources=this.sources
-    start=this.start
-    end=this.end
-    tags=this.tags
+    @sources={{this.sources}}
+    @start={{this.start}}
+    @end={{this.end}}
+    @tags={{this.tags}}
 
-    page=this.page
-    provider=this.provider
-    q=this.q
-    type=this.type
-    taxonomy=this.subject
+    @page={{this.page}}
+    @provider={{this.provider}}
+    @q={{this.q}}
+    @type={{this.type}}
+    @taxonomy={{this.subject}}
 
-    collectedType=this.collectedType
-    issue=this.issue
-    programArea=this.programArea
-    status=this.status
-    volume=this.volume
-}}
+    @collectedType={{this.collectedType}}
+    @issue={{this.issue}}
+    @programArea={{this.programArea}}
+    @status={{this.status}}
+    @volume={{this.volume}}
+/>

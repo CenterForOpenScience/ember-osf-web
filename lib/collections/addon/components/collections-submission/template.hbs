@@ -146,11 +146,11 @@
                     {{t (concat this.i18nKeyPrefix 'cancel')}}
                 </button>
                 {{#if this.edit}}
-                    <button class='btn btn-success' {{action (perform this.save)}}>
+                    <button data-analytics-name='Update' class='btn btn-success' {{action (perform this.save)}}>
                         {{t (concat this.i18nKeyPrefix 'update' '_button')}}
                     </button>
                 {{else}}
-                    <button class='btn btn-success' {{action this.setShowSubmitModal}} disabled={{not (eq this.activeSection this.sections.submit)}}>
+                    <button data-analytics-name='Submit' class='btn btn-success' {{action this.setShowSubmitModal}} disabled={{not (eq this.activeSection this.sections.submit)}}>
                         {{t (concat this.i18nKeyPrefix 'add' '_button')}}
                     </button>
                 {{/if}}
