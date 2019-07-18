@@ -9,8 +9,6 @@ This is a dialog box! Use it for dialog boxes and modal popup things.
     * whether the dialog should be rendered in place (instead of wormhole'd to the app root)
     * forwarded to [ember-wormhole](https://github.com/yapplabs/ember-wormhole#can-i-render-in-place-ie-unwormhole)
     * good in integration tests, but generally shouldn't be used in real life
-* `@isModal` (optional; default `true`)
-    * whether the dialog should be *modal*, i.e. will block interaction with controls in the background
 
 ## Yielded hash
 Invoked as `<OsfDialog as |dialog|>`, the yielded hash `dialog` provides the following:
