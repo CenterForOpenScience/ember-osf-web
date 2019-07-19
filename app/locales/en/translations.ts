@@ -1079,7 +1079,9 @@ export default {
                 title: 'Choose Unfinished Draft',
             },
             draft: {
-                title: 'Fill Out Basic Registration Info',
+                metadata: {
+                    title: 'Fill Out Basic Registration Info',
+                },
                 form: {
                     title: 'Fill Out Registration Form',
                 },
