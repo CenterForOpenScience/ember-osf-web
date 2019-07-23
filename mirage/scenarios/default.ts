@@ -64,6 +64,8 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 }
 
 function collectionScenario(server: Server, currentUser: ModelInstance<User>) {
+    const taxonomies = server.schema.taxonomies.all().models;
+    const licensesAcceptable = server.schema.licenses.all().models;
     const primaryCollection = server.create('collection');
     const nodeToBeAdded = server.create('node', {
         title: 'Node to be added to collection',
@@ -75,7 +77,9 @@ function collectionScenario(server: Server, currentUser: ModelInstance<User>) {
         index: 0,
     });
     const nodeAdded = server.create('node', {
+        description: 'A random description',
         title: 'Added to collection',
+        license: licensesAcceptable[0],
         currentUserPermissions: Object.values(Permission),
     });
     server.create('contributor', {
@@ -112,8 +116,6 @@ function collectionScenario(server: Server, currentUser: ModelInstance<User>) {
             ],
         ],
     });
-    const taxonomies = server.schema.taxonomies.all().models;
-    const licensesAcceptable = server.schema.licenses.all().models;
     server.create('collection-provider', {
         id: 'studyswap',
         primaryCollection,
