@@ -1,4 +1,4 @@
-import { click } from '@ember/test-helpers';
+import { click as untrackedClick } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -11,7 +11,7 @@ module('Collections | Acceptance | update', hooks => {
     setupEngineApplicationTest(hooks, 'collections');
     setupMirage(hooks);
 
-    test('it renders', async assert => {
+    test('it renders', async () => {
         server.loadFixtures('taxonomies');
         server.loadFixtures('licenses');
         const taxonomies = server.schema.taxonomies.all().models;
@@ -42,14 +42,14 @@ module('Collections | Acceptance | update', hooks => {
             licensesAcceptable,
         });
         await visit(`/collections/${provider.id}/${nodeAdded.id}/edit`);
-        await percySnapshot(assert);
-        await click('.btn-primary');
-        await percySnapshot(assert);
-        await click('.btn-primary');
-        await percySnapshot(assert);
-        await click('.btn-primary');
-        await percySnapshot(assert);
-        await click('.btn-primary');
-        await percySnapshot(assert);
+        await percySnapshot('Collections | Acceptance | update | project metadata');
+        await untrackedClick('[data-test-project-metadata-continue]');
+        await percySnapshot('Collections | Acceptance | update | project contributors');
+        await untrackedClick('[data-test-collection-project-contributors] [data-test-submit-section-continue]');
+        await percySnapshot('Collections | Acceptance | update | collection subjects');
+        await untrackedClick('[data-test-collection-subject-picker] [data-test-submit-section-continue]');
+        await percySnapshot('Collections | Acceptance | update | collection metadata');
+        await untrackedClick('[data-test-collection-metadata] [data-test-submit-section-continue]');
+        await percySnapshot('Collections | Acceptance | update | finished');
     });
 });

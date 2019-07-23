@@ -85,12 +85,13 @@
             as |section|
         }}
             {{#section.active}}
-                {{project-contributors
-                    node=this.collectionItem
-                    contributors=this.collectionItem.contributors
-                    discard=(action 'noop')
-                    continue=(action 'nextSection')
-                }}
+                <ProjectContributors
+                    data-test-collection-project-contributors
+                    @node={{this.collectionItem}}
+                    @contributors={{this.collectionItem.contributors}}
+                    @discard={{action 'noop'}}
+                    @continue={{action 'nextSection'}}
+                />
             {{/section.active}}
             {{#section.complete}}
                 <p>{{contributor-list node=this.collectionItem shouldTruncate=false}}</p>
@@ -105,12 +106,13 @@
             as |section|
         }}
             {{#section.active}}
-                {{subject-picker
-                    id='subjects'
-                    currentSubjects=this.collectedMetadatum.subjects
-                    model=this.collectedMetadatum
-                    continue=(action 'nextSection')
-                }}
+                <SubjectPicker
+                    data-test-collection-subject-picker
+                    @id='subjects'
+                    @currentSubjects={{this.collectedMetadatum.subjects}}
+                    @model={{this.collectedMetadatum}}
+                    @continue={{action 'nextSection'}}
+                />
             {{/section.active}}
             {{#section.complete}}
                 {{collection-subjects-list subjects=this.collectedMetadatum.displaySubjects onClickSubject=(action this.noop)}}
@@ -124,11 +126,12 @@
             as |section|
         }}
             {{#section.active}}
-                {{collection-metadata
-                    collection=this.collection
-                    collectedMetadatum=this.collectedMetadatum
-                    continue=(action 'nextSection')
-                }}
+                <CollectionMetadata
+                    data-test-collection-metadata
+                    @collection={{this.collection}}
+                    @collectedMetadatum={{this.collectedMetadatum}}
+                    @continue={{action 'nextSection'}}
+                />
             {{/section.active}}
             {{#section.complete}}
                 {{#each this.choiceFields as |field|}}
@@ -146,11 +149,11 @@
                     {{t (concat this.i18nKeyPrefix 'cancel')}}
                 </button>
                 {{#if this.edit}}
-                    <button data-analytics-name='Update' class='btn btn-success' {{action (perform this.save)}}>
+                    <button data-test-collection-public-node-submit data-analytics-name='Update' class='btn btn-success' {{action (perform this.save)}}>
                         {{t (concat this.i18nKeyPrefix 'update' '_button')}}
                     </button>
                 {{else}}
-                    <button data-analytics-name='Submit' class='btn btn-success' {{action this.setShowSubmitModal}} disabled={{not (eq this.activeSection this.sections.submit)}}>
+                    <button data-test-collection-private-node-submit data-analytics-name='Submit' class='btn btn-success' {{action this.setShowSubmitModal}} disabled={{not (eq this.activeSection this.sections.submit)}}>
                         {{t (concat this.i18nKeyPrefix 'add' '_button')}}
                     </button>
                 {{/if}}

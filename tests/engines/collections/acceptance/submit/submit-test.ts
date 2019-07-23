@@ -37,15 +37,19 @@ module('Collections | Acceptance | submit', hooks => {
         await percySnapshot('Collections | Acceptance | submit | select project');
         await untrackedClick('[data-test-collections-item-picker] .ember-power-select-trigger');
         await untrackedClick(`[data-test-collections-node-title="${nodeToBeAdded.title}"]`);
+
         await percySnapshot('Collections | Acceptance | submit | project metadata');
         await untrackedClick('[data-test-collections-license-picker] .ember-power-select-trigger');
         await untrackedClick('.ember-power-select-option');
         await untrackedClick('[data-test-project-metadata-continue]');
+
         await percySnapshot('Collections | Acceptance | submit | project contributors');
-        await untrackedClick('.btn-primary');
+        await untrackedClick('[data-test-collection-project-contributors] [data-test-submit-section-continue]');
+
         await percySnapshot('Collections | Acceptance | submit | collection subjects');
         await untrackedClick(`[data-test-subject-picker-column-subject-name="${taxonomies[0].text}"]`);
-        await untrackedClick('.btn-primary');
+        await untrackedClick('[data-test-collection-subject-picker] [data-test-submit-section-continue]');
+
         await percySnapshot('Collections | Acceptance | submit | collection metadata');
         await untrackedClick('[data-test-metadata-field="collected_type_label"] .ember-power-select-trigger');
         await untrackedClick('.ember-power-select-option');
@@ -57,8 +61,9 @@ module('Collections | Acceptance | submit', hooks => {
         await untrackedClick('.ember-power-select-option');
         await untrackedClick('[data-test-metadata-field="volume_label"] .ember-power-select-trigger');
         await untrackedClick('.ember-power-select-option');
-        await untrackedClick('.btn-primary');
-        await click('.btn-success');
+        await untrackedClick('[data-test-collection-metadata] [data-test-submit-section-continue]');
+        await click('[data-test-collection-private-node-submit]');
+
         await percySnapshot('Collections | Acceptance | submit | confirm public modal');
     });
 });
