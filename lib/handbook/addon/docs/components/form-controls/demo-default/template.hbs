@@ -1,0 +1,27 @@
+<DocsDemo as |demo|>
+    <demo.example @name='form-controls.demo-default.hbs'>
+        <form {{action this.submit on='submit'}}>
+            <FormControls
+                @changeset={{changeset this.node this.validation}}
+                as |form|
+            >
+                <form.text
+                    @label='Title'
+                    @valuePath='title'
+                />
+                <form.text
+                    @label='Description'
+                    @valuePath='description'
+                />
+            </FormControls>
+            <OsfButton
+                @type='primary'
+                @buttonType='submit'
+            >
+                Submit
+            </OsfButton>
+        </form>
+    </demo.example>
+
+    <demo.snippet @name='form-controls.demo-default.hbs' />
+</DocsDemo>

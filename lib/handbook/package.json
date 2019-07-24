@@ -8,6 +8,8 @@
     "@ember/render-modifiers": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
     "ember-bootstrap": "*",
+    "ember-changeset": "^2.1.2",
+    "ember-changeset-validations": "^2.1.0",
     "ember-cli-addon-docs": "*",
     "ember-cli-addon-docs-typedoc": "*",
     "ember-cli-babel": "*",
