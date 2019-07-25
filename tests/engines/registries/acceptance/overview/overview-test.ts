@@ -268,13 +268,22 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-edit-button="description"]');
         assert.dom('[data-test-description-input]').isVisible();
 
-        const newDescription = faker.lorem.sentences(2);
+        const newDescription = faker.lorem.sentences(500);
 
         await fillIn('[data-test-description-input] textarea', newDescription);
         assert.dom('[data-test-save-edits]').isVisible();
         await click('[data-test-save-edits]');
 
         assert.equal(reg.description, newDescription, 'description successfully updated');
+        assert.dom('[data-test-node-description-overlay]').exists('description is truncated');
+        assert.dom('[data-test-node-description-button]').exists();
+        assert.dom('[data-test-node-description-wrapper]').hasStyle({
+            maxHeight: '200px',
+        });
+        await click('[data-test-node-description-button]');
+        assert.dom('[data-test-node-description-wrapper]').hasStyle({
+            maxHeight: 'none',
+        });
         reg.update({ currentUserPermissions: [] });
         await visit(`/${reg.id}/`);
         assert.dom('[data-test-edit-button="description"]').isNotVisible();

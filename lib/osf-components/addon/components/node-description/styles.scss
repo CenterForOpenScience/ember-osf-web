@@ -1,4 +1,25 @@
 .Description__field {
     word-break: break-word;
-    margin-bottom: 15px;
+}
+
+.DescriptionWrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+// This max-height property should match the heightLimit param in the component file
+.hide {
+    max-height: 200px; 
+}
+
+.DescriptionOverlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+
+    &.collapsed {
+        background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    }
 }
