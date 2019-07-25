@@ -6,4 +6,7 @@ export const nodeValidation: ValidationObject<NodeModel> = {
     title: [
         validatePresence(true),
     ],
+    description: [
+        validatePresence(true),
+    ],
 };

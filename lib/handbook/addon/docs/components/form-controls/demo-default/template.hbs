@@ -2,7 +2,7 @@
     <demo.example @name='form-controls.demo-default.hbs'>
         <form {{action this.submit on='submit'}}>
             <FormControls
-                @changeset={{changeset this.node this.validation}}
+                @changeset={{this.changeset}}
                 as |form|
             >
                 <form.text

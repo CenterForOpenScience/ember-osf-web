@@ -9,5 +9,5 @@ import template from './template';
 export default class FormControls extends Component {
     // Optional arguments
     disabled: boolean = defaultTo(this.disabled, false);
-    shouldShowMessages: boolean = false;
+    shouldShowMessages: boolean = true;
 }

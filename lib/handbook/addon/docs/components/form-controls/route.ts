@@ -1,6 +1,7 @@
 import { computed } from '@ember-decorators/object';
 import Route from '@ember/routing/route';
 import Changeset from 'ember-changeset';
+import lookupValidator from 'ember-changeset-validations';
 import { task } from 'ember-concurrency';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
@@ -18,7 +19,11 @@ export default class FormControls extends Route.extend(ConfirmationMixin, {
     }
 
     setupController(controller: FormController) {
-        const changeset = new Changeset(controller.node, controller.validation);
+        const model = {
+            title: '',
+            description: '',
+        };
+        const changeset = new Changeset(model, lookupValidator(controller.validation), controller.validation);
         controller.set('changeset', changeset);
     }
 

@@ -3,8 +3,6 @@ import { reads } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-// import Changeset from 'ember-changeset';
-// import lookupValidator from 'ember-changeset-validations';
 import { ChangesetDef } from 'ember-changeset/types';
 import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
@@ -32,7 +30,10 @@ export default class FormController extends Controller {
 
     @action
     submit() {
-        this.changeset.save({});
-        this.toast.success('Saved!');
+        this.changeset.validate();
+        if (this.changeset.isValid) {
+            this.changeset.save({});
+            this.toast.success('Saved!');
+        }
     }
 }

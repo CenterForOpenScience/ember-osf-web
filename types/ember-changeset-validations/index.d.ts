@@ -3,7 +3,7 @@ import { validator } from 'ember-validations';
 
 export type ValidatorFunction = (key: string, result: any) => string | string[] | true;
 
-export function lookupValidator(validator: validatorObject): ValidatorFunc;
+export default function lookupValidator(validator: validatorObject): ValidatorFunc;
 
 // FIXME: Below doesn't actually work, but setting it aside for now to get actual
 // functionality implemented. James is upgrading types a bit, and the following
