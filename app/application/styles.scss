@@ -2,6 +2,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: filter 0.25s ease-out;
 }
 
 .Application__page {
