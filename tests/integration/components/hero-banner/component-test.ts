@@ -18,7 +18,7 @@ module('Integration | Component | Hero banner', hooks => {
         const router = this.owner.lookup('router:main');
         router.setupRouter();
 
-        await render(hbs`<NewHome::-Components::HeroBanner />`);
+        await render(hbs`<Home::-Components::HeroBanner />`);
         assert.dom('[data-test-add-research-heading]').doesNotExist();
         assert.dom('[data-test-add-research-subheading]').doesNotExist();
         assert.dom('[data-test-hero-heading]')
@@ -44,7 +44,7 @@ module('Integration | Component | Hero banner', hooks => {
         // Set feature flag to show version B
         features.enable(ABTesting.homePageVersionB);
 
-        await render(hbs`<NewHome::-Components::HeroBanner />`);
+        await render(hbs`<Home::-Components::HeroBanner />`);
 
         assert.dom('[data-test-add-research-heading]').exists();
         assert.dom('[data-test-add-research-subheading]').exists();

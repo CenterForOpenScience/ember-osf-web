@@ -66,6 +66,67 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('file', 5, { user: currentUser });
 }
 
+function collectionScenario(server: Server, currentUser: ModelInstance<User>) {
+    const taxonomies = server.schema.taxonomies.all().models;
+    const licensesAcceptable = server.schema.licenses.all().models;
+    const primaryCollection = server.create('collection');
+    const nodeToBeAdded = server.create('node', {
+        title: 'Node to be added to collection',
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeToBeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    const nodeAdded = server.create('node', {
+        description: 'A random description',
+        title: 'Added to collection',
+        license: licensesAcceptable[0],
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    server.create('collected-metadatum', {
+        creator: currentUser,
+        guid: nodeAdded,
+        id: nodeAdded.id,
+        collection: primaryCollection,
+        subjects: [[{ text: 'Arts and Humanities', id: '123' }]],
+    });
+    server.create('collected-metadatum', {
+        creator: currentUser,
+        guid: server.create('node', 'withContributors'),
+        collection: primaryCollection,
+        subjects: [
+            [
+                { text: 'Arts and Humanities', id: '123' },
+                { text: 'Theatre and Performance Studies', id: '456' },
+            ],
+        ],
+    });
+    server.create('collected-metadatum', {
+        creator: currentUser,
+        guid: server.create('node', 'withContributors'),
+        collection: primaryCollection,
+        subjects: [
+            [
+                { text: 'Another Primary Subject', id: '123' },
+                { text: 'Another Secondary Subject', id: '456' },
+            ],
+        ],
+    });
+    server.create('collection-provider', {
+        id: 'studyswap',
+        primaryCollection,
+        taxonomies,
+        licensesAcceptable,
+    });
+}
+
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
     server.create('user-setting', { user: currentUser });
     const firstNode = server.create('node', 'withAffiliatedInstitutions');
@@ -164,6 +225,7 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
+    server.loadFixtures('taxonomies');
     server.loadFixtures('registration-providers');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
@@ -182,6 +244,9 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('registrations')) {
         registrationScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('collections')) {
+        collectionScenario(server, currentUser);
     }
     if (mirageScenarios.includes('forks')) {
         forksScenario(server, currentUser);

@@ -59,7 +59,7 @@ module.exports = function(defaults) {
             importBootstrapCSS: false,
         },
         'ember-composable-helpers': {
-            only: ['contains'],
+            only: ['contains', 'range'],
         },
         'ember-cli-password-strength': {
             bundleZxcvbn: !IS_PROD,
@@ -135,9 +135,6 @@ module.exports = function(defaults) {
             generateURI(filePath) {
                 return config.assetsPrefix.replace(/\/$/, '') + filePath;
             },
-        },
-        'ember-test-selectors': {
-            strip: false,
         },
     });
 

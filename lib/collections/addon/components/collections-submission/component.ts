@@ -11,7 +11,6 @@ import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
-import Guid from 'ember-osf-web/models/guid';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -75,14 +74,7 @@ export default class Submit extends Component {
             return;
         }
 
-        const guid = this.store.push({
-            data: {
-                id: this.collectionItem.id,
-                type: 'guid',
-            },
-        }) as Guid;
-
-        this.collectedMetadatum.setProperties({ guid });
+        this.collectedMetadatum.set('guid', this.collectionItem);
 
         const operation = this.edit ? 'update' : 'add';
 

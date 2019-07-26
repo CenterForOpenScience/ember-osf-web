@@ -1,0 +1,23 @@
+<DocsDemo as |demo|>
+    <demo.example @name='osf-dialog.demo-no-outside-click.hbs'>
+        <OsfDialog @closeOnOutsideClick={{false}} as |dialog|>
+            <dialog.trigger>
+                <OsfButton @onClick={{dialog.open}}>Harder to close dialog!</OsfButton>
+            </dialog.trigger>
+            <dialog.heading>
+                Clicking outside does nothing.
+            </dialog.heading>
+            <dialog.main>
+                Here's a long word:
+                Hellohellohellohellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhelloooooooooooooooooooooooooohello
+            </dialog.main>
+            <dialog.footer>
+                <OsfButton @type='warning' @onClick={{dialog.close}}>
+                    Hello
+                </OsfButton>
+            </dialog.footer>
+        </OsfDialog>
+    </demo.example>
+
+    <demo.snippet @name='osf-dialog.demo-no-outside-click.hbs' />
+</DocsDemo>

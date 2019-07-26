@@ -55,6 +55,7 @@ declare const config: {
             authenticated: string;
             resource: string;
             isPublic: string;
+            version: string;
         };
     }>;
     FB_APP_ID?: string;

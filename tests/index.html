@@ -6,7 +6,15 @@
     <title>Ember OSF Web Tests</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true},
+          skipStartupTypeset: true
+      });
+    </script>
+    <script type="text/javascript" async
+      src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
     {{content-for "head"}}
     {{content-for "test-head"}}
 
@@ -26,7 +34,6 @@
     <script src="{{rootURL}}assets/test-support.js"></script>
     <script src="{{rootURL}}assets/ember-osf-web.js"></script>
     <script src="{{rootURL}}assets/tests.js"></script>
-
     {{content-for "body-footer"}}
     {{content-for "test-body-footer"}}
   </body>

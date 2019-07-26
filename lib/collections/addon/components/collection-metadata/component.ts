@@ -1,4 +1,3 @@
-import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { mapBy } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
@@ -14,7 +13,6 @@ interface CollectionMetadataField {
     optionsKey: ChoicesFields;
 }
 
-@tagName('')
 export default class CollectionMetadata extends Component {
     collection: Collection = this.collection;
     collectedMetadatum: CollectedMetadatum = this.collectedMetadatum;

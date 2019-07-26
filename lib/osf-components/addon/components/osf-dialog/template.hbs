@@ -1,0 +1,48 @@
+{{yield (hash
+    trigger=(component 'osf-dialog/trigger')
+    open=(action this.openDialog)
+)}}
+{{#if this.isDialogVisible}}
+    <EmberWormhole
+        @tagName='span'
+        @destinationElement={{this.osfModalState.dialogWormholeTarget}}
+        @renderInPlace={{this.renderInPlace}}
+    >
+        <div
+            data-test-dialog-background
+            local-class='DialogBackground'
+            {{on 'click' (action this.onClickBackground)}}
+        >
+            <div
+                data-test-dialog
+                local-class='Dialog'
+                tabindex='0'
+                role='dialog'
+                aria-labelledby='osf-dialog-heading'
+                ...attributes
+                {{on 'keydown' (action this.onKeydown)}}
+            >
+                <div
+                    role='document'
+                    local-class='DialogDocument'
+                >
+                    {{yield (hash
+                        heading=(component 'osf-dialog/heading'
+                            closeDialog=(action this.closeDialog)
+                            headingId='osf-dialog-heading'
+                        )
+                        close=(action this.closeDialog)
+                    )}}
+                    {{yield (hash
+                        main=(component 'osf-dialog/main')
+                        close=(action this.closeDialog)
+                    )}}
+                    {{yield (hash
+                        footer=(component 'osf-dialog/footer')
+                        close=(action this.closeDialog)
+                    )}}
+                </div>
+            </div>
+        </div>
+    </EmberWormhole>
+{{/if}}

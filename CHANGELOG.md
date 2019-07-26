@@ -5,6 +5,124 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Components
+    - `osf-navbar` - use img tag with alt text for navbar OSF logo instead of background CSS image
+
+## [19.6.1] - 2019-07-12
+### Fixed
+- Config:
+    - add waffle flag for `guid-user` route
+- Components:
+    - `home`
+        - `testimonials` - link to `guid-user` instead of `resolve-guid`
+
+## [19.6.0] - 2019-07-12
+### Added
+- Mirage:
+    - Factories:
+        - `collected-metadatum`
+        - `collection-provider`
+        - `taxonomy`
+    - Serializers:
+        - `collected-metadatum`
+        - `collection-provider`
+        - `taxonomy`
+    - Fixtures:
+        - `taxonomies`
+    - Scenarios:
+        - `collection`
+    - Views:
+        - `collection-provider-taxonomies`
+        - `collection-search`
+    - Endpoints:
+        - `/providers/collections`
+        - `/providers/collections/:parentID/licenses/`
+        - `/collections/:parentID/collected_metadata/`
+        - `/providers/collections/:parentID/taxonomies`
+        - `/search/collections/`
+
+### Changed
+- Models:
+    - `collected-metadatum` - changed `guid` relationship to be a `node` relationship
+    - `collection-provider` - removed `collections` relatioship
+    - `collection`
+        - removed `provider` relationship inverse (`collections`)
+        - added `collectedMetadata` relationship
+- Routes:
+    - `new-home`
+        - renamed to `home` (replacing existing `home` route)
+        - add scroll analytics and improve wording
+- Engines:
+    - `collections`
+        - updated `collection-item-picker` component to use `collectedMetadata` relationship
+        - updated `collections-submission` component to set the `guid` relationship to the node instead of the guid
+- Tests:
+    - Acceptance:
+        - `new-home` - renamed to `logged-out-homepage` (replacing existing `logged-out-homepage` test)
+- Mirage:
+    - Factories:
+        - `collection` - add choices fields
+    - Serializers:
+        - `collection` - add `provider` and `collectedMetadata` relationships
+    - Views:
+        - `osf-resource` - add pass through `process()` to `osfNestedResource` `show` action
+    - Utils:
+        - `filter` - add ability to filter by a list of ids.
+- Misc:
+    - add lang attribute to `html` element in `index.html`
+
+## [19.5.1] - 2019-06-24
+### Added
+- Tests:
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-detail-header` - add tests for location and dates
+- Components:
+    - `new-home`
+        - `testimonials` - A section for the testimonials carousel
+        - `integrations versions A/B` - A list of all supported integrations
+    - `carousel`
+
+### Changed
+- Components:
+    - `meetings`
+        - `index`
+            - `meetings-list` - sort by submission count (descending) by default
+        - `detail`
+            - `meeting-submissions-list` - removed download count sorting
+- Tests:
+    - Acceptance:
+        - `new-home` - Added tests to support integrations section
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-submissions-list` - removed checking of download count sorting
+    - Acceptance:
+        - `meetings`
+            - `detail` - add submission with long title
+            - `index` - add meeting with long name
+
+### Fixed
+- Models:
+    - `meeting-submission` - renamed `created` to `dateCreated` to match API
+- Components:
+    - `meetings`
+        - `detail`
+            - `meeting-submissions-list`
+                - renamed `created` to `dateCreated` to match API
+                - applied `table-layout: fixed` to force truncating of long submission titles
+            - `meeting-detail-header` - only attempt to display dates when defined
+        - `index`
+            - `meetings-list` - applied `table-layout: fixed` to force truncating of long meeting names
+- Tests:
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-submissions-list` - renamed `created` to `dateCreated` to match API
+- Mirage:
+    - `meeting-submission` factory - renamed `created` to `dateCreated` to match API
 
 ## [19.5.0] - 2019-06-07
 ### Added
@@ -903,7 +1021,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.5.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.6.1...HEAD
+[19.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.1
+[19.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.0
+[19.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.1
 [19.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.0
 [19.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.4.0
 [19.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.3.0

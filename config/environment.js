@@ -119,6 +119,7 @@ module.exports = function(environment) {
                     authenticated: 'dimension1',
                     resource: 'dimension2',
                     isPublic: 'dimension3',
+                    version: 'dimension4',
                 },
             },
             {
@@ -232,6 +233,7 @@ module.exports = function(environment) {
         featureFlagNames: {
             routes: {
                 'guid-node.index': 'ember_project_detail_page',
+                'guid-user.index': 'ember_user_profile_page',
                 'guid-registration.index': 'ember_old_registration_detail_page',
                 settings: 'ember_user_settings_page',
                 'settings.profile': 'ember_user_settings_page',

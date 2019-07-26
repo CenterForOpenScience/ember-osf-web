@@ -2,6 +2,8 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { getCitation } from './views/citation';
+import { getProviderTaxonomies } from './views/collection-provider-taxonomies';
+import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
@@ -140,6 +142,16 @@ export default function(this: Server) {
         path: '/providers/registrations/:parentID/licenses/',
         relatedModelName: 'license',
     });
+
+    osfResource(this, 'collection-provider', { path: '/providers/collections' });
+    osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
+        path: 'providers/collections/:parentID/licenses/',
+    });
+    osfNestedResource(this, 'collection', 'collectedMetadata', {
+        path: 'collections/:parentID/collected_metadata/',
+    });
+    this.get('/providers/collections/:parentID/taxonomies', getProviderTaxonomies);
+    this.post('/search/collections/', searchCollections);
 
     // Waterbutler namespace
     this.namespace = '/wb';

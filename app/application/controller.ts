@@ -7,6 +7,7 @@ import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
 import Theme from 'ember-osf-web/services/theme';
+import OsfModalState from 'osf-components/services/osf-modal-state';
 
 const {
     featureFlagNames: {
@@ -18,6 +19,7 @@ export default class Application extends Controller {
     @service router!: RouterService;
     @service theme!: Theme;
     @service features!: Features;
+    @service osfModalState!: OsfModalState;
 
     queryParams = [{
         viewOnlyToken: {

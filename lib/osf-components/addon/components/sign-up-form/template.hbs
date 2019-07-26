@@ -3,9 +3,8 @@
     local-class='SignUpForm'
     {{action 'submit' on='submit'}}
 >
-    {{! template-lint-disable no-implicit-this }}
     {{validated-input/text
-        data-test-sign-up-full-name
+        (html-attributes data-test-sign-up-full-name=true)
         model=this.userRegistration
         valuePath='fullName'
         shouldShowMessages=this.didValidate
@@ -14,7 +13,7 @@
         ariaLabel=(t 'osf-components.sign-up-form.full_name')
     }}
     {{validated-input/text
-        data-test-sign-up-email-1
+        (html-attributes data-test-sign-up-email-1=true)
         model=this.userRegistration
         valuePath='email1'
         shouldShowMessages=this.didValidate
@@ -23,7 +22,7 @@
         ariaLabel=(t 'osf-components.sign-up-form.contact_email')
     }}
     {{validated-input/text
-        data-test-sign-up-email-2
+        (html-attributes data-test-sign-up-email-2=true)
         model=this.userRegistration
         valuePath='email2'
         shouldShowMessages=this.didValidate
@@ -32,7 +31,7 @@
         ariaLabel=(t 'osf-components.sign-up-form.confirm_email')
     }}
     {{validated-input/text
-        data-test-sign-up-password
+        (html-attributes data-test-sign-up-password=true)
         password=true
         model=this.userRegistration
         valuePath='password'

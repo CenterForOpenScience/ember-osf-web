@@ -13,7 +13,6 @@ import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
-import $ from 'jquery';
 import styles from './styles';
 import template from './template';
 
@@ -74,19 +73,14 @@ export default class CollectionItemPicker extends Component.extend({
 
         // Filter out nodes that are already in the current collection
         const nodeIds = nodes.mapBy('id').join();
-
-        const params = $.param({
+        const cgm = yield this.collection.queryHasMany('collectedMetadata', {
             'filter[id]': nodeIds,
-            'fields[collected-metadata]': '', // sparse fieldset optimization (only need IDs)
-        });
-
-        const { data } = yield this.currentUser.authenticatedAJAX({
-            url: `${this.collection.links.self}collected_metadata/?${params}`,
         });
 
         // Collected-metadata IDs are the same as node IDs
-        const cgmIds: string[] = data.mapBy('id');
-        const filteredNodes = nodes.filter(({ id }) => !cgmIds.includes(id));
+        const cgmCompoundIds: string[] = cgm.mapBy('id');
+        const cgmSimpleIds: string[] = cgmCompoundIds.map(id => id.split('-')[1]);
+        const filteredNodes = nodes.filter(({ id }) => !cgmSimpleIds.includes(id));
         const { meta } = nodes;
         const hasMore = meta.total > meta.per_page * this.page;
         const items = more ? this.items.concat(filteredNodes) : filteredNodes;
