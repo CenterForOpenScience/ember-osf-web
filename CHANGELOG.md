@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components
     - `osf-navbar` - use img tag with alt text for navbar OSF logo instead of background CSS image
 
+### Fixed
+- Components
+    - `project-contributors/list` - add ability to load more pages of contributors
+
 ## [19.6.1] - 2019-07-12
 ### Fixed
 - Config:

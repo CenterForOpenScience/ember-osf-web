@@ -45,4 +45,14 @@
             />
         {{/each}}
     </SortableGroup>
+    {{#if this.hasMore}}
+        <div local-class='has-more-container'>
+            <OsfButton
+                @type='link'
+                @onClick={{action this.loadMoreContributors}}
+            >
+                {{t 'app_components.project_contributors.list.load_more_contributors'}}
+            </OsfButton>
+        </div>
+    {{/if}}
 </div>
