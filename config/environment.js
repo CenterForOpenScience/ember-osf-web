@@ -119,7 +119,8 @@ module.exports = function(environment) {
                     authenticated: 'dimension1',
                     resource: 'dimension2',
                     isPublic: 'dimension3',
-                    version: 'dimension4',
+                    isWithdrawn: 'dimension4',
+                    version: 'dimension5',
                 },
             },
             {

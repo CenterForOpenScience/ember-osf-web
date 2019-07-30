@@ -156,6 +156,7 @@ export default class Analytics extends Service {
         this: Analytics,
         pagePublic: boolean | undefined,
         resourceType: string,
+        withdrawn: string,
         versionType: string,
     ) {
         // Wait until everything has settled
@@ -169,6 +170,7 @@ export default class Analytics extends Service {
         logEvent(this, 'Tracked page', {
             pagePublic,
             resourceType,
+            withdrawn,
             versionType,
             ...eventParams,
         });
@@ -179,6 +181,7 @@ export default class Analytics extends Service {
                 authenticated,
                 isPublic,
                 resource,
+                isWithdrawn,
                 version,
             } = gaConfig.dimensions!;
 
@@ -199,6 +202,7 @@ export default class Analytics extends Service {
                 [authenticated]: this.session.isAuthenticated ? 'Logged in' : 'Logged out',
                 [isPublic]: isPublicValue,
                 [resource]: resourceType,
+                [isWithdrawn]: withdrawn,
                 [version]: versionType,
                 ...eventParams,
             });
@@ -247,9 +251,10 @@ export default class Analytics extends Service {
         this: Analytics,
         pagePublic?: boolean,
         resourceType: string = 'n/a',
+        withdrawn: string = 'n/a',
         version: string = 'n/a',
     ) {
-        this.get('trackPageTask').perform(pagePublic, resourceType, version);
+        this.get('trackPageTask').perform(pagePublic, resourceType, withdrawn, version);
     }
 
     trackFromElement(target: Element, initialInfo: InitialEventInfo) {
