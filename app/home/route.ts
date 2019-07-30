@@ -2,7 +2,6 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
-import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
@@ -26,7 +25,7 @@ export default class Home extends Route {
 
   @action
   didTransition() {
-      const shouldShowVersionB = this.features.isEnabled(camelize(ABTesting.homePageVersionB));
+      const shouldShowVersionB = this.features.isEnabled(ABTesting.homePageVersionB);
       const version = shouldShowVersionB ? 'versionB' : 'versionA';
       this.analytics.trackPage(undefined, undefined, undefined, version);
   }
