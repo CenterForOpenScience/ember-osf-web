@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Components
     - `osf-navbar` - use img tag with alt text for navbar OSF logo instead of background CSS image
+    - `analytics` - added isWithdrawn analytic to trackpage
 
 ## [19.6.1] - 2019-07-12
 ### Fixed
