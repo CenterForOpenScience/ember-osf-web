@@ -55,6 +55,7 @@ declare const config: {
             authenticated: string;
             resource: string;
             isPublic: string;
+            isWithdrawn: string;
             version: string;
         };
     }>;
