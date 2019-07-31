@@ -849,6 +849,14 @@
     ember-cli-babel "^6.16.0"
     ember-compatibility-helpers "^1.1.1"
 
+"@ember/render-modifiers@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ember/render-modifiers/-/render-modifiers-1.0.0.tgz#dc1e4c615e38507da4b6a80f6e4b27fe4d37ec8f"
+  integrity sha512-TqUW7exzLUwnzqHqKbo5ui0rvrS/YkbRlFD+h07kDYVFJkS2uPwkQE/K4YDeTywqN6er7VamFwl7Og98sPjmiQ==
+  dependencies:
+    ember-cli-babel "^7.1.2"
+    ember-modifier-manager-polyfill "^1.0.1"
+
 "@ember/test-helpers@^0.7.26":
   version "0.7.27"
   resolved "https://registry.yarnpkg.com/@ember/test-helpers/-/test-helpers-0.7.27.tgz#c622cabd0cbb95b34efc1e1b6274ab5a14edc138"
@@ -7184,7 +7192,7 @@ ember-cli-version-checker@^2.0.0, ember-cli-version-checker@^2.1.0, ember-cli-ve
     resolve "^1.3.3"
     semver "^5.3.0"
 
-ember-cli-version-checker@^3.0.0, ember-cli-version-checker@^3.1.2, ember-cli-version-checker@^3.1.3:
+ember-cli-version-checker@^3.0.0, ember-cli-version-checker@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/ember-cli-version-checker/-/ember-cli-version-checker-3.1.3.tgz#7c9b4f5ff30fdebcd480b1c06c4de43bb51c522c"
   integrity sha512-PZNSvpzwWgv68hcXxyjREpj3WWb81A7rtYNQq1lLEgrWIchF8ApKJjWP3NBpHjaatwILkZAV8klair5WFlXAKg==
@@ -7862,7 +7870,7 @@ ember-modal-dialog@2.4.3:
     ember-ignore-children-helper "^1.0.0"
     ember-wormhole "^0.5.1"
 
-ember-modifier-manager-polyfill@^1.0.3:
+ember-modifier-manager-polyfill@^1.0.1, ember-modifier-manager-polyfill@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/ember-modifier-manager-polyfill/-/ember-modifier-manager-polyfill-1.0.3.tgz#6554b70d09a7d3b80d366b72ed482fb9a3e813c0"
   integrity sha512-d8Uz0BhAZaqzttF4NXTwJ/A8uPrgd7fMho5jh89BfzJAHu5WZfGewX9cbjh3m6f512ZyxkIeeolw3Z5/Jyaujg==
@@ -7879,6 +7887,16 @@ ember-moment@^7.7.0:
     ember-cli-babel "^6.7.2"
     ember-getowner-polyfill "^2.2.0"
     ember-macro-helpers "^2.1.0"
+
+ember-on-modifier@^0.12.4:
+  version "0.12.4"
+  resolved "https://registry.yarnpkg.com/ember-on-modifier/-/ember-on-modifier-0.12.4.tgz#55de795b9b12bb15c028243b764f95f44ff2d7f5"
+  integrity sha512-Y/XZ/O4eoCZFr7fN3aCafGyo+SyfTM2iQKU/k7T1OJ+HsWT15b8FES7I2i5t5u4NPbTyTX1pJPbYQ9JXfdV5TA==
+  dependencies:
+    broccoli-funnel "^2.0.2"
+    ember-cli-babel "^7.7.3"
+    ember-cli-version-checker "^3.1.3"
+    ember-modifier-manager-polyfill "^1.0.3"
 
 ember-onbeforeunload@^1.2.0:
   version "1.2.0"
@@ -8187,14 +8205,6 @@ ember-template-lint@^0.8.16:
     minimatch "^3.0.4"
     resolve "^1.1.3"
     strip-bom "^3.0.0"
-
-ember-test-selectors@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/ember-test-selectors/-/ember-test-selectors-2.1.0.tgz#faebdf06702aaa0bc510d55eb721ce54d2e85793"
-  integrity sha512-c5HmvefmeABH8hg380TSNZiE9VAK1CBeXWrgyXy+IXHtsew4lZHHw7GnqCAqsakxwvmaMARbAKY9KfSAE91s1g==
-  dependencies:
-    ember-cli-babel "^6.8.2"
-    ember-cli-version-checker "^3.1.2"
 
 ember-tether@^1.0.0-beta.2:
   version "1.0.0-beta.2"
@@ -19064,6 +19074,11 @@ which@~1.2.1:
   integrity sha1-mofEN48D6CfOyvGs31bHNsAcFOU=
   dependencies:
     isexe "^2.0.0"
+
+wicg-inert@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/wicg-inert/-/wicg-inert-2.1.0.tgz#5e1ac6f8f25778ee4722471253f27a138fc7f517"
+  integrity sha512-7QFAisbzgMY8/+ftQI+LUpCICAAOah0MBJj0GNLsy7YFZo4UxpDsdf7qgixdA5mml4zmyFA7d7zUefsRbbFXTA==
 
 wide-align@1.1.3, wide-align@^1.1.0:
   version "1.1.3"

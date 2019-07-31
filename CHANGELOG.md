@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.7.0] - 2019-07-31
+### Added
+- Components
+    - `osf-dialog` - for dialog boxes and modal popup things
+- Tests
+    - Acceptance
+        - collections
+            - discover page test that just takes snapshots
+            - submit test that just takes snapshot
+            - edit test that just takes snapshots
+
+### Changed
+- Components
+    - `osf-navbar` - use img tag with alt text for navbar OSF logo instead of background CSS image
+- Services
+    - `analytics` - added `isWithdrawn` custom dimension to `trackPage()`
+
+### Removed
+- Packages
+    - `ember-test-selectors`
+
+### Fixed
+- Components
+    - `sign-up-policy` - fixed links to terms of service and privacy policy
+
 ## [19.6.1] - 2019-07-12
 ### Fixed
 - Config:
@@ -1016,7 +1041,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.6.1...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.7.0...HEAD
+[19.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.0
 [19.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.1
 [19.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.0
 [19.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.1

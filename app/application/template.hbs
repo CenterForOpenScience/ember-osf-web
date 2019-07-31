@@ -1,6 +1,10 @@
 <HeadLayout />
 {{title (t 'general.OSF')}}
-<div data-test-application local-class='Application'>
+<div
+    data-test-application
+    local-class='Application'
+    inert={{this.osfModalState.inModalState}}
+>
     {{#unless this.disableHeader}}
         {{#if this.theme.isProvider}}
             <style>
@@ -27,5 +31,10 @@
     </div>
     <OsfFooter />
     <CookieBanner />
-    <OsfModeFooter />
 </div>
+<div
+    {{! This is where dialog boxes are wormhole'd }}
+    {{did-insert (action (mut this.osfModalState.dialogWormholeTarget))}}
+    {{will-destroy (action (mut this.osfModalState.dialogWormholeTarget) null)}}
+></div>
+<OsfModeFooter />

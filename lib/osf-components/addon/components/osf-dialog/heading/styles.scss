@@ -1,0 +1,20 @@
+.HeadingWrapper {
+    display: flex;
+    justify-content: space-between;
+    max-height: 15vh;
+    overflow-y: auto;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.Heading {
+    padding: 1rem 0.75rem 1rem 1.25rem;
+
+    color: $color-text-gray-blue;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.CloseButton.CloseButton {
+    align-self: flex-start;
+}

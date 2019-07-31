@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "19.6.1",
+  "version": "19.7.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -47,6 +47,7 @@
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@ember/jquery": "^0.6.0",
     "@ember/optional-features": "^0.7.0",
+    "@ember/render-modifiers": "^1.0.0",
     "@ember/test-helpers": "^1.5.0",
     "@types/ace": "^0.0.42",
     "@types/dropzone": "^5.0.4",
@@ -143,6 +144,7 @@
     "ember-metrics": "https://github.com/cos-forks/ember-metrics#v0.12.1+cos0",
     "ember-mockdate-shim": "^0.1.0",
     "ember-moment": "^7.7.0",
+    "ember-on-modifier": "^0.12.4",
     "ember-onbeforeunload": "^1.2.0",
     "ember-oo-modifiers": "^0.3.0",
     "ember-page-title": "^5.0.1",
@@ -161,7 +163,6 @@
     "ember-source": "~3.4.0",
     "ember-tag-input": "^1.2.2",
     "ember-template-compiler": "^1.9.0-alpha",
-    "ember-test-selectors": "^2.1.0",
     "ember-toastr": "^1.7.2",
     "ember-wormhole": "^0.5.4",
     "ember-youtube": "^0.9.0",
@@ -194,7 +195,8 @@
     "tslint": "^5.16.0",
     "tslint-consistent-codestyle": "^1.11.1",
     "tslint-eslint-rules": "^5.0.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "wicg-inert": "^2.1.0"
   },
   "resolutions": {
     "ember-cli-clipboard": "0.9.0",

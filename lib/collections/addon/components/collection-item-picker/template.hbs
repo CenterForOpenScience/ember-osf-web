@@ -1,32 +1,33 @@
-{{#if (not findNodes.last)}}
-    <div class="ball-pulse ball-dark text-center">
+{{#if (not this.findNodes.last)}}
+    <div class='ball-pulse ball-dark text-center'>
         <div></div>
         <div></div>
         <div></div>
     </div>
 {{else}}
-    <div class="form-group">
-        <div class="m-t-sm">
-            {{#power-select
-                renderInPlace=false
-                placeholder=(t 'move_to_project.select_placeholder')
-                options=items
-                matcher=matcher
-                afterOptionsComponent=(component
+    <div data-test-collections-item-picker class='form-group'>
+        <div class='m-t-sm'>
+            <PowerSelect
+                @renderInPlace={{false}}
+                @placeholder={{t 'move_to_project.select_placeholder'}}
+                @options={{this.items}}
+                @matcher={{this.matcher}}
+                @afterOptionsComponent={{component
                     'collection-item-picker/after-options'
                     loadMore=(action 'loadMore')
-                    hasMore=hasMore
-                    isLoading=loadingMore
-                )
-                search=(perform findNodes)
-                oninput=(action 'oninput')
-                selected=selected
-                searchField='title'
-                onchange=(action 'valueChanged')
+                    hasMore=this.hasMore
+                    isLoading=this.loadingMore
+                }}
+                @search={{perform this.findNodes}}
+                @oninput={{action 'oninput'}}
+                @selected={{this.selected}}
+                @searchField='title'
+                @onchange={{action 'valueChanged'}}
                 as |item|
-            }}
-                {{get-ancestor-descriptor item}} <strong>{{item.title}}</strong>
-            {{/power-select}}
+            >
+                {{get-ancestor-descriptor item}} <strong data-test-collections-node-title={{item.title}}>{{item.title}}</strong>
+            </PowerSelect>
+            
         </div>
     </div>
 {{/if}}

@@ -59,7 +59,7 @@ module.exports = function(defaults) {
             importBootstrapCSS: false,
         },
         'ember-composable-helpers': {
-            only: ['contains'],
+            only: ['contains', 'range'],
         },
         'ember-cli-password-strength': {
             bundleZxcvbn: !IS_PROD,
@@ -136,13 +136,12 @@ module.exports = function(defaults) {
                 return config.assetsPrefix.replace(/\/$/, '') + filePath;
             },
         },
-        'ember-test-selectors': {
-            strip: false,
-        },
     });
 
     app.import('node_modules/dropzone/dist/dropzone.css');
     app.import('node_modules/dropzone/dist/dropzone.js');
+
+    app.import('node_modules/wicg-inert/dist/inert.min.js');
 
     app.import({
         test: 'vendor/ember/ember-template-compiler.js',
