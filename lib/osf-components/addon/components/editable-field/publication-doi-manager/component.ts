@@ -45,7 +45,7 @@ export default class PublicationDoiManagerComponent extends Component.extend({
             return;
         }
 
-        const doi = extractDoi(this.validationNode.articleDoi as string) || '';
+        const doi = extractDoi(this.validationNode.articleDoi as string) || null;
 
         this.node.set('articleDoi', doi);
         try {
