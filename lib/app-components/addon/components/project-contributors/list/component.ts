@@ -27,8 +27,11 @@ export default class List extends Component.extend({
         this.set('hasMore', this.contributors && this.contributors.length < contributors.meta.total);
     }),
 }) {
-    // Required paramaters
+    // Required parameters
     node: Node = this.node;
+
+    // Optional parameters
+    bindReload?: (action: () => void) => void;
 
     // Private properties
     @service analytics!: Analytics;
@@ -103,6 +106,7 @@ export default class List extends Component.extend({
 
         try {
             yield contributor.destroyRecord();
+            this._doReload();
             this.toast.success(this.i18n.t('app_components.project_contributors.list.remove_contributor_success'));
         } catch (e) {
             this.toast.error(this.i18n.t('app_components.project_contributors.list.remove_contributor_error'));
@@ -145,9 +149,22 @@ export default class List extends Component.extend({
         this.loadContributors.perform();
     }
 
+    didReceiveAttrs() {
+        if (this.bindReload) {
+            this.bindReload(this._doReload.bind(this));
+        }
+    }
+
     @action
     loadMoreContributors() {
         this.page++;
+        this.loadContributors.perform();
+    }
+
+    @action
+    _doReload() {
+        this.page = 1;
+        this.set('contributors', []);
         this.loadContributors.perform();
     }
 }
