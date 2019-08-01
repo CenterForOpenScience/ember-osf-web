@@ -1,0 +1,48 @@
+{{#if (eq @block.blockType 'page-heading') }}
+    <h1>{{@block.blockText}}</h1>
+{{else if (eq @block.blockType 'section-heading') }}
+    <h2>{{@block.blockText}}</h2>
+{{else if (eq @block.blockType 'subsection-heading') }}
+    <h3>{{@block.blockText}}</h3>
+{{else if (eq @block.blockType 'input label') }}
+    <br>
+    <label>{{@block.blockText}}</label>
+{{else if (eq @block.blockType 'short-text input') }}
+    <br>
+    <input
+        type='text'
+        name={{@block.blockId}}
+        required={{@block.required}}
+        disabled={{@block.disabled}}
+    >
+{{else if (eq @block.blockType 'long-text input') }}
+    <br>
+    <textarea
+    name={{@block.blockId}}
+    required={{@block.required}}
+    disabled={{@block.disabled}}
+    />
+{{else if (eq @block.blockType 'single-select option') }}
+    <br>
+    <input 
+        type='radio'
+        name={{@block.blockId}}
+        value={{@block.value}}
+        required={{@block.required}}
+    >
+    {{@block.blockText}}
+{{else if (eq @block.blockType 'multi-select option') }}
+    <br>
+    <input 
+        type='checkbox'
+        name={{@block.blockId}}
+        value={{@block.value}}
+        required={{@block.required}}
+    >
+    {{@block.blockText}}
+{{/if}}
+
+{{#if @block.helpText }}
+    <br>
+    <h5 local-class='Description'>{{@block.helpText}}</h5>
+{{/if}}

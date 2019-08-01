@@ -52,7 +52,7 @@ function registrationScenario(
 
     server.create('registration', {
         id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        registrationSchema: server.schema.registrationSchemas.find('open_ended_registration'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         currentUserPermissions: Object.values(Permission),

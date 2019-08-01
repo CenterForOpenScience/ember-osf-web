@@ -42,6 +42,16 @@ export interface Schema {
     description: string;
 }
 
+export interface FormBlock {
+    blockType: string;
+    blockText: string;
+    blockId?: string;
+    helpText ?: string;
+    required?: boolean;
+    disabled?: boolean;
+    value?: any;
+}
+
 export interface Answer<T> {
     value?: T;
     comments?: any[]; // String?
@@ -56,6 +66,7 @@ export default class RegistrationSchemaModel extends OsfModel {
     @attr('boolean') active!: boolean;
     @attr('fixstring') name!: string;
     @attr('number') schemaVersion!: number;
+    @attr('array') formBlocks!: FormBlock[];
     @attr('object') schema!: Schema;
 }
 
