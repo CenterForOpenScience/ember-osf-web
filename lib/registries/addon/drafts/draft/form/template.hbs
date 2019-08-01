@@ -2,9 +2,11 @@
 <section>
     <h1>{{t 'registries.drafts.draft.form.title'}}</h1>
     {{!-- Fill out this registration form. --}}
-    {{#each this.model.formBlocks as |block|}}
-        <SchemaBlock
-            @block={{block}}
-        />
+    {{#each this.model.formBlocks as |block index|}}
+        {{#if (and (gt index this.startIndex) (lt index this.endIndex) ) }}
+            <SchemaBlock
+                @block={{block}}
+            />
+        {{/if}}
     {{/each}}
 </section>
