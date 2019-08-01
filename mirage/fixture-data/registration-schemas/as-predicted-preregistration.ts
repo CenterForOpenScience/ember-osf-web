@@ -33,7 +33,7 @@ export default {
             blockType: 'single-select option',
             blockText: 'Yes, at least some data have been collected for this study already',
             blockId: 'data',
-            value: 'no',
+            value: 'yes',
         },
         {
             blockType: 'single-select option',
