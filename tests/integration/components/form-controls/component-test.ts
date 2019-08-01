@@ -1,13 +1,12 @@
 import { render } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
-import Changeset from 'ember-changeset';
-import lookupValidator from 'ember-changeset-validations';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 import { nodeValidation } from './validation';
 
@@ -15,34 +14,43 @@ module('Integration | Component | form-controls', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
 
-    test('it renders 991', async function(assert) {
+    test('it renders', async function(assert) {
         const model = {
             title: '',
             description: '',
         };
-        const changeset = new Changeset(model, lookupValidator(nodeValidation), nodeValidation);
+        const changeset = buildChangeset(model, nodeValidation);
         this.set('changeset', changeset);
 
         await render(hbs`
             <form data-test-form>
-                <FormControls as |form| >
-                    <form.text @label='title' @valuePath='title' />
-                    <form.text @label='description' @valuePath='description' />
+                <FormControls @changeset={{this.changeset}} as |form| >
+                    <form.text
+                        data-test-title-input
+                        @label='title'
+                        @valuePath='title'
+                    />
+                    <form.text
+                        data-test-description-input
+                        @label='description'
+                        @valuePath='description'
+                    />
                 </FormControls>
             </form>
         `);
         assert.dom('[data-test-form]').exists();
-        assert.dom('.form-group > input').exists({ count: 2 });
+        assert.dom('[data-test-title-input] input').exists({ count: 1 });
+        assert.dom('[data-test-description-input] input').exists({ count: 1 });
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');
     });
 
-    test('it validates 991', async function(assert) {
+    test('it validates', async function(assert) {
         const model = {
             title: '',
             description: '',
         };
-        const changeset = new Changeset(model, lookupValidator(nodeValidation), nodeValidation);
+        const changeset = buildChangeset(model, nodeValidation);
         this.set('changeset', changeset);
 
         function submit() {
@@ -54,10 +62,20 @@ module('Integration | Component | form-controls', hooks => {
         this.set('descriptionValue', '');
 
         await render(hbs`
-            <form data-test-form {{action this.submit on='submit'}}>
+            <form data-test-form {{on 'submit' this.submit}}>
                 <FormControls @changeset={{this.changeset}} as |form| >
-                    <form.text @label='title' @valuePath='title' @value={{this.titleValue}} />
-                    <form.text @label='description' @valuePath='description' @value={{this.descriptionValue}} />
+                    <form.text
+                        data-test-title-input
+                        @label='title'
+                        @valuePath='title'
+                        @value={{this.titleValue}}
+                    />
+                    <form.text
+                        data-test-description-input
+                        @label='description'
+                        @valuePath='description'
+                        @value={{this.descriptionValue}}
+                    />
                 </FormControls>
                 <OsfButton
                     data-test-submit-button
@@ -71,13 +89,15 @@ module('Integration | Component | form-controls', hooks => {
         assert.dom('[data-test-form]').exists();
         await click('[data-analytics-name="submit"]');
         // Check that input has a validation message
-        assert.dom('.form-group > .help-block').exists({ count: 2 });
+        assert.dom('[data-test-title-input] .help-block').exists({ count: 1 });
+        assert.dom('[data-test-description-input] .help-block').exists({ count: 1 });
 
         // Change the value to fit validation standards (does exist)
         this.set('titleValue', 'test title');
         this.set('descriptionValue', 'test description');
 
         // Check that the input no longer has a validation message
-        assert.dom('.form-group > .help-block').doesNotExist();
+        assert.dom('[data-test-title-input] .help-block').doesNotExist();
+        assert.dom('[data-test-description-input] .help-block').doesNotExist();
     });
 });

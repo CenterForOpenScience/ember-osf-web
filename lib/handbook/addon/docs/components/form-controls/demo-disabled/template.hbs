@@ -1,0 +1,36 @@
+<DocsDemo as |demo|>
+    <demo.example @name='form-controls.demo-disabled.hbs'>
+        <form {{action this.submit on='submit'}}>
+            <FormControls
+                @changeset={{this.changeset}}
+                @disabled={{this.disabled}}
+                as |form|
+            >
+                <form.text
+                    @label='Title'
+                    @valuePath='title'
+                />
+                <form.text
+                    @label='Description'
+                    @valuePath='description'
+                />
+            </FormControls>
+            <OsfButton
+                @type='primary'
+                @buttonType='submit'
+                @disabled={{this.disabled}}
+            >
+                Submit
+            </OsfButton>
+        </form>
+    </demo.example>
+
+    <OsfButton
+        @class='center-block m-b-lg'
+        @onClick={{action (mut this.disabled) (not this.disabled)}}
+    >
+        set: disabled = {{not this.disabled}}
+    </OsfButton>
+
+    <demo.snippet @name='form-controls.demo-disabled.hbs' />
+</DocsDemo>

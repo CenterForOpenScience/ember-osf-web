@@ -79,6 +79,7 @@
     "ember-bootstrap": "^1.2.2",
     "ember-bootstrap-datepicker": "^2.0.9",
     "ember-browserify": "^1.2.0",
+    "ember-changeset": "^2.1.2",
     "ember-changeset-validations": "^2.1.0",
     "ember-cli": "~3.4.3",
     "ember-cli-addon-docs": "https://github.com/cos-forks/ember-cli-addon-docs#docs-engine#37",
@@ -220,8 +221,5 @@
       "lib/osf-components",
       "lib/registries"
     ]
-  },
-  "dependencies": {
-    "ember-changeset": "^2.1.2"
   }
 }

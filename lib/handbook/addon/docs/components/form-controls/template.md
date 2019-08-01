@@ -20,3 +20,9 @@ When invoked in a form, `<FormControls />` yields a hash with the following keys
     submit=(action this.submit)
     changeset=this.changeset
 }}
+
+## Demo: Disabled
+{{docs/components/form-controls/demo-disabled
+    submit=(action this.submit)
+    changeset=this.changeset
+}}

@@ -1,13 +1,18 @@
-import { layout } from '@ember-decorators/component';
+import { layout, tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
+import Changeset from 'ember-changeset';
 
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
 @layout(template)
+@tagName('')
 export default class FormControls extends Component {
-    // Optional arguments
+    // Required parameters
+    changeset!: Changeset;
+
+    // Optional parameters
     disabled: boolean = defaultTo(this.disabled, false);
-    shouldShowMessages: boolean = true;
+    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 }
