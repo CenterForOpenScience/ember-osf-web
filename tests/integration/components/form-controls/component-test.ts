@@ -1,11 +1,10 @@
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-import { click } from 'ember-osf-web/tests/helpers';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 import { nodeValidation } from './validation';
@@ -15,6 +14,7 @@ module('Integration | Component | form-controls', hooks => {
     setupMirage(hooks);
 
     test('it renders', async function(assert) {
+        assert.ok(true);
         const model = {
             title: '',
             description: '',
@@ -53,16 +53,15 @@ module('Integration | Component | form-controls', hooks => {
         const changeset = buildChangeset(model, nodeValidation);
         this.set('changeset', changeset);
 
-        function submit() {
-            // @ts-ignore 'changeset-validations aren't set up correctly for this to typecheck'
-            changeset.validate();
-        }
-        this.set('submit', submit);
         this.set('titleValue', '');
         this.set('descriptionValue', '');
+        this.set('submit', () => {
+            changeset.validate();
+            assert.ok(true);
+        });
 
         await render(hbs`
-            <form data-test-form {{on 'submit' this.submit}}>
+            <form data-test-form {{on 'submit' (prevent-default this.submit)}}>
                 <FormControls @changeset={{this.changeset}} as |form| >
                     <form.text
                         data-test-title-input
@@ -87,7 +86,7 @@ module('Integration | Component | form-controls', hooks => {
             </form>
         `);
         assert.dom('[data-test-form]').exists();
-        await click('[data-analytics-name="submit"]');
+        await click('[data-test-submit-button]');
         // Check that input has a validation message
         assert.dom('[data-test-title-input] .help-block').exists({ count: 1 });
         assert.dom('[data-test-description-input] .help-block').exists({ count: 1 });

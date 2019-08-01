@@ -7634,6 +7634,13 @@ ember-diff-attrs@^0.2.1:
     ember-cli-version-checker "^2.1.0"
     lodash "^4.12.0"
 
+ember-event-helpers@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ember-event-helpers/-/ember-event-helpers-0.1.0.tgz#4b7f49f136b660df21731a9e0329507c0816438e"
+  integrity sha512-JdsYPmW0g0LLKmdRGxS9lRIdtB1Swc7Asr0XmUwhkjbFY40bfB0wlQ8P2yA3YLqbP/ToShBitN62t9Cy4PTazQ==
+  dependencies:
+    ember-cli-babel "^7.7.3"
+
 ember-export-application-global@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ember-export-application-global/-/ember-export-application-global-2.0.0.tgz#8d6d7619ac8a1a3f8c43003549eb21ebed685bd2"

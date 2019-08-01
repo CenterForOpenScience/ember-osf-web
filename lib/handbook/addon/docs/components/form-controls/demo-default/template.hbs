@@ -1,6 +1,6 @@
 <DocsDemo as |demo|>
     <demo.example @name='form-controls.demo-default.hbs'>
-        <form {{action this.submit on='submit'}}>
+        <form {{on 'submit' (prevent-default this.submit)}}>
             <FormControls
                 @changeset={{this.changeset}}
                 as |form|
