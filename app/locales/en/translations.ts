@@ -809,6 +809,7 @@ export default {
                     remove: 'Remove',
                     remove_author: 'Remove author',
                 },
+                load_more_contributors: 'Load more contributors',
             },
             search: {
                 placeholder: 'Search by name',
