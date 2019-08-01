@@ -2,6 +2,7 @@
     {{project-contributors/search
         node=this.node
         contributors=this.contributors
+        onAddContributor=(action this.reloadContributors)
     }}
 </div>
 <div class='col-xs-12 col-md-7'>
@@ -18,6 +19,7 @@
     <p>{{t 'app_components.project_contributors.instructions'}}</p>
     {{project-contributors/list
         node=this.node
+        bindReload=(action (mut this.reloadContributorsList))
     }}
 </div>
 {{submit-section-buttons

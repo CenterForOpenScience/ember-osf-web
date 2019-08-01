@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Components
+    - `project-contributors/list`
+        - add ability to load more pages of contributors
+        - add loading indicator
 
 ## [19.7.0] - 2019-07-31
 ### Added
@@ -30,10 +35,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Components
     - `sign-up-policy` - fixed links to terms of service and privacy policy
-
-### Fixed
-- Components
-    - `project-contributors/list` - add ability to load more pages of contributors
 
 ## [19.6.1] - 2019-07-12
 ### Fixed
