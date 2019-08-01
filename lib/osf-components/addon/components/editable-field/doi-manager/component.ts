@@ -50,11 +50,13 @@ export default class DoiManagerComponent extends Component.extend({
                 if (doi) {
                     this.set('nodeDoi', doi.value);
                 }
-                this.set('requestedEditMode', false);
             } catch (e) {
-                this.toast.error(this.i18n.t('registries.registration_metadata.create_doi_failed'));
+                identifier.rollbackAttributes();
+                this.toast.error(this.i18n.t('registries.registration_metadata.mint_doi.error'));
                 throw e;
             }
+            this.set('requestedEditMode', false);
+            this.toast.success(this.i18n.t('registries.registration_metadata.mint_doi.success'));
         }
     }),
 }) {

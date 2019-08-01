@@ -24,14 +24,16 @@ export interface DescriptionManager {
 export default class DescriptionManagerComponent extends Component.extend({
     save: task(function *(this: DescriptionManagerComponent) {
         if (this.node) {
+            this.node.set('description', this.currentDescription);
             try {
-                this.node.set('description', this.currentDescription);
                 yield this.node.save();
-                this.set('requestedEditMode', false);
             } catch (e) {
-                this.toast.error(this.i18n.t('registries.registration_metadata.save_description_error'));
+                this.node.rollbackAttributes();
+                this.toast.error(this.i18n.t('registries.registration_metadata.edit_description.error'));
                 throw e;
             }
+            this.set('requestedEditMode', false);
+            this.toast.success(this.i18n.t('registries.registration_metadata.edit_description.success'));
         }
     }),
 }) {

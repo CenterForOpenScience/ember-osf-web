@@ -1158,23 +1158,43 @@ export default {
             disciplines: 'Disciplines',
             tags: 'Tags',
             citation: 'Citation',
-            save_description_error: 'Unable to save description',
             add_description: 'Add description',
             create_doi: 'Create DOI',
-            create_doi_failed: 'Unable to mint registration DOI',
             edit_field: 'Edit {{field}}',
-            create_doi_header: 'Are you sure you want to create a DOI for this registration?',
-            create_doi_text: 'A DOI is persistent and will always resolve to this page.',
             no_doi: 'No DOI assigned',
             add_license: 'Add license',
-            edit_license: {
-                success: 'License successfully updated',
-                error: 'Unable to update license',
-            },
             select_license: 'Select license',
             no_matches: 'No matches found',
-            save_category: {
-                error: 'Unable to save category',
+
+            edit_description: {
+                success: 'Description successfully updated.',
+                error: 'Unable to save description.',
+            },
+            edit_category: {
+                success: 'Category successfully updated.',
+                error: 'Unable to save category.',
+            },
+            mint_doi: {
+                header: 'Are you sure you want to create a DOI for this registration?',
+                text: 'A DOI is persistent and will always resolve to this page.',
+                success: 'DOI successfully created.',
+                error: 'Unable to create registration DOI.',
+            },
+            edit_pub_doi: {
+                success: 'Publication DOI successfully updated.',
+                error: 'Unable to save publication DOI.',
+            },
+            edit_institutions: {
+                success: 'Affiliated institutions successfully updated.',
+                error: 'Unable to save affiliated institutions.',
+            },
+            edit_license: {
+                success: 'License successfully updated.',
+                error: 'Unable to save license.',
+            },
+            edit_tags: {
+                success: 'Tags successfully updated.',
+                error: 'Unable to save tags.',
             },
         },
 
