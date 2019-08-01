@@ -22,24 +22,6 @@
     required={{@block.required}}
     disabled={{@block.disabled}}
     />
-{{else if (eq @block.blockType 'single-select option') }}
-    <br>
-    <input 
-        type='radio'
-        name={{@block.blockId}}
-        value={{@block.value}}
-        required={{@block.required}}
-    >
-    {{@block.blockText}}
-{{else if (eq @block.blockType 'multi-select option') }}
-    <br>
-    <input 
-        type='checkbox'
-        name={{@block.blockId}}
-        value={{@block.value}}
-        required={{@block.required}}
-    >
-    {{@block.blockText}}
 {{/if}}
 
 {{#if @block.helpText }}
