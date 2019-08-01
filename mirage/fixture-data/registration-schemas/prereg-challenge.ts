@@ -7,6 +7,7 @@ export default {
     id: 'prereg_challenge',
     active: true,
     name: 'Prereg Challenge',
+    formBlocks: [],
     schemaVersion: 2,
     // To avoid collision with mirage schema. Will be changed to 'schema' in serializer.
     schemaNoConflict: {
