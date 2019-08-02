@@ -45,7 +45,8 @@ export interface Schema {
 export interface FormBlock {
     blockType: string;
     blockText: string;
-    blockId?: string;
+    id?: string;
+    qid?: string;
     helpText ?: string;
     required?: boolean;
     disabled?: boolean;

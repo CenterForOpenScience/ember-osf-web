@@ -13,32 +13,28 @@ export default {
         {
             blockType: 'page-heading',
             blockText: 'Page One',
-            blockId: '1',
+            id: '1',
         },
         {
             blockType: 'section-heading',
             blockText: 'Existing Data',
-            blockId: 'data',
         },
         {
             blockType: 'input label',
             blockText: 'Has any data been collected for this study already?',
-            blockId: 'data',
-        },
-        {
-            blockType: 'single-select input',
-            blockId: 'data',
         },
         {
             blockType: 'single-select option',
             blockText: 'Yes, at least some data have been collected for this study already',
-            blockId: 'data',
+            qid: 'data',
+            id: 'data-yes',
             value: 'yes',
         },
         {
             blockType: 'single-select option',
             blockText: 'No, no data have been collected for this study yet',
-            blockId: 'data',
+            qid: 'data',
+            id: 'data-no',
             value: 'no',
         },
         {
@@ -48,11 +44,12 @@ export default {
         {
             blockType: 'input label',
             blockText: 'What is the main question being asked or hypothesis being tested in this study?',
-            blockId: 'hypothesis',
+            qid: 'hypothesis',
         },
         {
             blockType: 'long-text input',
-            blockId: 'hypothesis',
+            qid: 'hypothesis',
+            id: 'hypothesis-input',
         },
         {
             blockType: 'section-heading',
@@ -61,11 +58,12 @@ export default {
         {
             blockType: 'input label',
             blockText: 'Describe the key dependent variable(s) specifying how they will be measured.',
-            blockId: 'dependent',
+            qid: 'dependent',
         },
         {
             blockType: 'long-text input',
-            blockId: 'dependent',
+            qid: 'dependent',
+            id: 'dependent-input',
         },
         {
             blockType: 'section-heading',
@@ -74,11 +72,12 @@ export default {
         {
             blockType: 'input label',
             blockText: 'Specify exactly which analyses you will conduct to examine the main question/hypothesis.',
-            blockId: 'analysis',
+            qid: 'analysis',
         },
         {
             blockType: 'long-text input',
-            blockId: 'analysis',
+            qid: 'analysis',
+            id: 'analysis-input',
         },
         {
             blockType: 'section-heading',
@@ -87,9 +86,12 @@ export default {
         {
             blockType: 'input label',
             blockText: 'Any secondary analyses?',
+            qid: 'analyses2',
         },
         {
             blockType: 'long-text input',
+            qid: 'analyses2',
+            id: 'analyses2-input',
         },
         {
             blockType: 'section-heading',
@@ -98,9 +100,12 @@ export default {
         {
             blockType: 'input label',
             blockText: 'How many observations will be collected or what will determine sample size? No need to justify decision, but be precise about exactly how the number will be determined.',
+            qid: 'sample',
         },
         {
             blockType: 'long-text input',
+            qid: 'sample',
+            id: 'sample-input',
         },
         {
             blockType: 'section-heading',
@@ -109,9 +114,12 @@ export default {
         {
             blockType: 'input label',
             blockText: 'Anything else you would like to pre-register? (e.g., data exclusions, variables collected for exploratory purposes, unusual analyses planned?',
+            qid: 'other',
         },
         {
             blockType: 'long-text input',
+            qid: 'other',
+            id: 'other-input',
         },
     ],
     schemaNoConflict: {
