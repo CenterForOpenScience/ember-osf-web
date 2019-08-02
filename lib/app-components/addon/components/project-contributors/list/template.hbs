@@ -28,35 +28,33 @@
             </FaIcon>
         </div>
     </div>
+    <SortableGroup
+        @onChange={{action (perform this.reorderContributors)}}
+        as |group|
+    >
+        {{#each this.contributors as |contributor|}}
+            <ProjectContributors::List::Item
+                @group={{group}}
+                @contributor={{contributor}}
+                @isAdmin={{this.isAdmin}}
+                @adminCount={{this.adminCount}}
+                @bibliographicCount={{this.bibliographicCount}}
+                @removeContributor={{action (perform this.removeContributor)}}
+                @toggleBibliographic={{action (perform this.toggleBibliographic)}}
+                @updatePermissions={{action (perform this.updatePermissions)}}
+            />
+        {{/each}}
+    </SortableGroup>
     {{#if this.loadContributors.isRunning}}
         <LoadingIndicator @dark={{true}} />
-    {{else}}
-        <SortableGroup
-            @onChange={{action (perform this.reorderContributors)}}
-            as |group|
-        >
-            {{#each this.contributors as |contributor|}}
-                <ProjectContributors::List::Item
-                    @group={{group}}
-                    @contributor={{contributor}}
-                    @isAdmin={{this.isAdmin}}
-                    @adminCount={{this.adminCount}}
-                    @bibliographicCount={{this.bibliographicCount}}
-                    @removeContributor={{action (perform this.removeContributor)}}
-                    @toggleBibliographic={{action (perform this.toggleBibliographic)}}
-                    @updatePermissions={{action (perform this.updatePermissions)}}
-                />
-            {{/each}}
-        </SortableGroup>
-        {{#if this.hasMore}}
-            <div local-class='has-more-container'>
-                <OsfButton
-                    @type='link'
-                    @onClick={{action this.loadMoreContributors}}
-                >
-                    {{t 'app_components.project_contributors.list.load_more_contributors'}}
-                </OsfButton>
-            </div>
-        {{/if}}
+    {{else if this.hasMore}}
+        <div local-class='has-more-container'>
+            <OsfButton
+                @type='link'
+                @onClick={{action this.loadMoreContributors}}
+            >
+                {{t 'app_components.project_contributors.list.load_more_contributors'}}
+            </OsfButton>
+        </div>
     {{/if}}
 </div>
