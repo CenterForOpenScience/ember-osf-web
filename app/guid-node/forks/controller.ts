@@ -25,7 +25,7 @@ export default class GuidNodeForks extends Controller {
 
     reloadList?: (page?: number) => void; // bound by paginated-list
 
-    forksQueryParams = { embed: 'contributors' };
+    forksQueryParams = { embed: 'bibliographic_contributors' };
 
     @reads('model.taskInstance.value')
     node?: Node;
@@ -33,7 +33,7 @@ export default class GuidNodeForks extends Controller {
     @computed('node')
     get nodeType(this: GuidNodeForks) {
         if (!this.node) {
-            return;
+            return undefined;
         }
         return this.node.parent ? 'component' : 'project';
     }

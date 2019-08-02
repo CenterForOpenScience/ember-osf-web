@@ -1,0 +1,19 @@
+<div local-class='HeadingWrapper'>
+    <h2
+        local-class='Heading'
+        id={{@headingId}}
+        ...attributes
+    >
+        {{yield}}
+    </h2>
+    <OsfButton
+        data-test-close-dialog
+        data-analytics-name='Close dialog'
+        @type='link'
+        @onClick={{action @closeDialog}}
+        local-class='CloseButton'
+        aria-label={{t 'general.close'}}
+    >
+        <FaIcon @icon='times' />
+    </OsfButton>
+</div>

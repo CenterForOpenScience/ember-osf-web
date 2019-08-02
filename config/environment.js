@@ -34,6 +34,7 @@ const {
         'loggedIn',
         'dashboard',
         'settings',
+        'meetings',
     ],
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
@@ -118,6 +119,8 @@ module.exports = function(environment) {
                     authenticated: 'dimension1',
                     resource: 'dimension2',
                     isPublic: 'dimension3',
+                    isWithdrawn: 'dimension4',
+                    version: 'dimension5',
                 },
             },
             {
@@ -156,6 +159,7 @@ module.exports = function(environment) {
             apiHeaders: {
                 ACCEPT: `application/vnd.api+json; version=${apiVersion}`,
             },
+            learnMoreUrl: 'https://cos.io/our-products/osf/',
             renderUrl,
             waterbutlerUrl,
             helpUrl,
@@ -191,7 +195,7 @@ module.exports = function(environment) {
         },
         social: {
             twitter: {
-                viaHandle: '@OSFramework',
+                viaHandle: 'OSFramework',
             },
         },
         signUpPolicy: {
@@ -214,7 +218,7 @@ module.exports = function(environment) {
         support: {
             preregUrl: 'https://cos.io/prereg/',
             statusPageUrl: 'https://status.cos.io',
-            faqPageUrl: 'http://help.osf.io/m/faqs/l/726460-faqs',
+            faqPageUrl: 'https://openscience.zendesk.com/hc/en-us/articles/360019737894',
             supportEmail: 'support@osf.io',
             contactEmail: 'contact@osf.io',
             consultationUrl: 'https://cos.io/stats_consulting/',
@@ -230,13 +234,14 @@ module.exports = function(environment) {
         featureFlagNames: {
             routes: {
                 'guid-node.index': 'ember_project_detail_page',
+                'guid-user.index': 'ember_user_profile_page',
                 'guid-registration.index': 'ember_old_registration_detail_page',
-                settings: 'ember_user_settings_profile_page',
-                'settings.profile': 'ember_user_settings_profile_page',
-                'settings.profile.education': 'ember_user_settings_profile_page',
-                'settings.profile.employment': 'ember_user_settings_profile_page',
-                'settings.profile.name': 'ember_user_settings_profile_page',
-                'settings.profile.social': 'ember_user_settings_profile_page',
+                settings: 'ember_user_settings_page',
+                'settings.profile': 'ember_user_settings_page',
+                'settings.profile.education': 'ember_user_settings_page',
+                'settings.profile.employment': 'ember_user_settings_page',
+                'settings.profile.name': 'ember_user_settings_page',
+                'settings.profile.social': 'ember_user_settings_page',
                 'settings.account': 'ember_user_settings_account_page',
                 'settings.tokens': 'ember_user_settings_tokens_page',
                 'settings.tokens.index': 'ember_user_settings_tokens_page',
@@ -253,6 +258,8 @@ module.exports = function(environment) {
                 'registries.overview.contributors': 'ember_registries_detail_page',
                 'registries.overview.children': 'ember_registries_detail_page',
                 'registries.overview.links': 'ember_registries_detail_page',
+                'meetings.index': 'ember_meetings_page',
+                'meetings.detail': 'ember_meeting_detail_page',
             },
             navigation: {
                 institutions: 'institutions_nav_bar',
@@ -260,6 +267,9 @@ module.exports = function(environment) {
             storageI18n: 'storage_i18n',
             enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
+            ABTesting: {
+                homePageVersionB: 'ab_testing_home_page_version_b',
+            },
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,
@@ -291,6 +301,9 @@ module.exports = function(environment) {
         mirageScenarios: MIRAGE_SCENARIOS,
 
         defaultProvider: 'osf',
+        pageTitle: {
+            prepend: false,
+        },
     };
 
     if (environment === 'development') {

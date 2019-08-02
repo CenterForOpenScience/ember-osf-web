@@ -17,12 +17,9 @@ export default class CitationPreview extends Component {
         const trimmedName = names.trim();
         return trimmedName
             .split(/\s+/)
-            .map(upperCaseName => {
-                return `${upperCaseName[0].toUpperCase()}.`;
-            })
-            .filter(initial => {
-                return initial.match(/^[a-z]/i);
-            }).join(' ');
+            .map(upperCaseName => `${upperCaseName[0].toUpperCase()}.`)
+            .filter(initial => initial.match(/^[a-z]/i))
+            .join(' ');
     }
 
     suffix(suffix: string): string {
@@ -37,7 +34,7 @@ export default class CitationPreview extends Component {
         return returnValue;
     }
 
-    @computed('user.familyName', 'user.givenName', 'user.middleNames', 'user.suffix')
+    @computed('user.{familyName,givenName,middleNames,suffix}')
     get citeApa(): string {
         const currentUser = this.user;
         let cite = `${currentUser.familyName}, ${this.initials(currentUser.givenName)}`;
@@ -53,7 +50,7 @@ export default class CitationPreview extends Component {
         return cite;
     }
 
-    @computed('user.familyName', 'user.givenName', 'user.middleNames', 'user.suffix')
+    @computed('user.{familyName,givenName,middleNames,suffix}')
     get citeMla() {
         const currentUser = this.user;
         let cite = `${currentUser.familyName}, ${currentUser.givenName}`;

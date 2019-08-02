@@ -1,5 +1,6 @@
 import { service } from '@ember-decorators/service';
 import { warn } from '@ember/debug';
+import { camelize } from '@ember/string';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
@@ -8,6 +9,7 @@ import Session from 'ember-simple-auth/services/session';
 
 import { NotLoggedIn } from 'ember-osf-web/errors';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import leafVals from 'ember-osf-web/utils/leaf-vals';
 import { RootDocument } from 'osf-api';
 
 const {
@@ -17,6 +19,7 @@ const {
         apiVersion,
         devMode,
     },
+    featureFlagNames,
 } = config;
 
 export default class OsfCookie extends Base {
@@ -30,12 +33,22 @@ export default class OsfCookie extends Base {
      * @return {Promise}
      */
     async authenticate(): Promise<object> {
-        const res: RootDocument = await this.currentUser.authenticatedAJAX({
-            url: `${apiUrl}/${apiNamespace}/`,
-        });
+        const url = `${apiUrl}/${apiNamespace}/`;
+        let res: RootDocument = await this.currentUser.authenticatedAJAX(
+            { url },
+        );
 
-        if (devMode) {
-            this._checkApiVersion();
+        let userData = res.meta.current_user;
+        const anonymizedViewOnly = Boolean(userData && userData.meta && userData.meta.anonymous);
+        this.currentUser.setProperties({ anonymizedViewOnly });
+
+        if (anonymizedViewOnly) {
+            res = await this.currentUser.authenticatedAJAX(
+                { url },
+                { omitViewOnlyToken: true },
+            );
+
+            userData = res.meta.current_user;
         }
 
         if (Array.isArray(res.meta.active_flags)) {
@@ -44,7 +57,17 @@ export default class OsfCookie extends Base {
             );
         }
 
-        const userData = res.meta.current_user;
+        // Initialize any uninitialized flags found in config.
+        const flags: string[] = leafVals(featureFlagNames);
+        flags.forEach(flag => {
+            if (!this.features.flags.includes(camelize(flag))) {
+                this.features.disable(flag);
+            }
+        });
+
+        if (devMode) {
+            this._checkApiVersion();
+        }
 
         if (!userData) {
             throw new NotLoggedIn();
@@ -70,7 +93,7 @@ export default class OsfCookie extends Base {
                     version: 'latest',
                 },
             },
-            false, // Don't add API version headers
+            { omitStandardHeaders: true },
         );
 
         warn(

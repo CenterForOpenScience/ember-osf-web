@@ -9,12 +9,18 @@
             @parentId={{@parentId}}
             @showText={{@showText}}
         as |links|>
-            <ul local-class='Dropdown__list'>
+            {{! template-lint-disable invalid-interactive }}
+            <ul local-class='Dropdown__list' {{action dd.close preventDefault=false}}>
+                {{! template-lint-enable invalid-interactive }}
                 {{#if @showBookmark}}
                     <li role='menuitem' local-class='Dropdown__option'>
                         <OsfButton
+                            data-test-bookmarks-button
+                            data-analytics-name={{if this.isBookmarked 'Remove from bookmarks' 'Bookmark'}}
+                            data-analytics-extra='Registration ID: {{this.registration.id}}'
                             @type='link'
                             @onClick={{action (perform this.bookmark)}}
+                            @bubble={{true}}
                         >
                             <FaIcon @icon='bookmark' @fixedWidth={{true}} />
                             {{#if this.isBookmarked}}

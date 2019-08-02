@@ -1,0 +1,40 @@
+{{#paginated-list/has-many
+    local-class='institutionList'
+    model=@user
+    relationshipName='institutions'
+    analyticsScope='User Institutions'
+    usePlaceholders=this.usePlaceholders
+    as |list|
+}}
+    <list.item as |institution|>
+        {{#if institution}}
+            <li data-test-institution=institution.id>
+                <label local-class='label'>
+                    {{#let (contains institution.id this.affiliatedList) as |isAffiliated|}}
+                        <OsfButton
+                            data-test-institution-button
+                            data-analytics-name={{if isAffiliated 'Remove' 'Add'}}
+                            local-class='addRemoveButton'
+                            @type='link'
+                            @disabled={{this.shouldDisableButtons}}
+                            @onClick={{perform (if isAffiliated this.removeInstitution this.addInstitution) institution}}
+                        >
+                            <FaIcon
+                                local-class='institutionIcon'
+                                @icon={{if isAffiliated 'minus' 'plus'}}
+                            />
+                        </OsfButton>
+                    {{/let}}
+                    {{institution.name}}
+                </label>
+            </li>
+        {{else}}
+            <ContentPlaceholders as |placeholder|>
+                {{placeholder.list items=2}}
+            </ContentPlaceholders>
+        {{/if}}
+    </list.item>
+    <list.empty>
+        {{t 'osf-components.institutions-widget.no_affiliated_institution.user'}}
+    </list.empty>
+{{/paginated-list/has-many}}

@@ -15,6 +15,12 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 import getHref from 'ember-osf-web/utils/get-href';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 import getSelfHref from 'ember-osf-web/utils/get-self-href';
+import {
+    buildFieldsParam,
+    parseSparseResource,
+    SparseFieldset,
+    SparseModel,
+} from 'ember-osf-web/utils/sparse-fieldsets';
 
 import {
     BaseMeta,
@@ -33,10 +39,20 @@ export enum Permission {
     Admin = 'admin',
 }
 
-// eslint-disable-next-line space-infix-ops
 type RelationshipType<T, R extends keyof T> = T[R] extends EmberArray<infer U> ? U : never;
 
 export interface QueryHasManyResult<T> extends Array<T> {
+    meta: PaginatedMeta;
+    links?: Links | PaginationLinks;
+}
+
+export interface RequestOptions {
+    queryParams?: object;
+    ajaxOptions?: object;
+}
+
+export interface SparseHasManyResult {
+    sparseModels: SparseModel[];
     meta: PaginatedMeta;
     links?: Links | PaginationLinks;
 }
@@ -70,6 +86,21 @@ export default class OsfModel extends Model {
         return pluralize(underscore(this.modelName));
     }
 
+    getHasManyLink<T extends OsfModel, R extends RelationshipsFor<T>>(
+        this: T,
+        relationshipName: R,
+    ): string {
+        const reference = this.hasMany(relationshipName);
+
+        // HACK: ember-data discards/ignores the link if an object on the belongsTo side
+        // came first. In that case, grab the link where we expect it from OSF's API
+        const url = reference.link() || getRelatedHref(this.relationshipLinks[relationshipName as string]);
+        if (!url) {
+            throw new Error(`Could not find a link for '${relationshipName}' relationship`);
+        }
+        return url;
+    }
+
     /*
      * Query a hasMany relationship with query params
      *
@@ -89,18 +120,8 @@ export default class OsfModel extends Model {
         queryParams?: object,
         ajaxOptions?: object,
     ): Promise<QueryHasManyResult<RT>> {
-        const reference = this.hasMany(propertyName);
-
-        // HACK: ember-data discards/ignores the link if an object on the belongsTo side
-        // came first. In that case, grab the link where we expect it from OSF's API
-        const url = reference.link() || getRelatedHref(this.relationshipLinks[propertyName]);
-
-        if (!url) {
-            throw new Error(`Could not find a link for '${propertyName}' relationship`);
-        }
-
         const options: object = {
-            url,
+            url: this.getHasManyLink(propertyName),
             data: queryParams,
             ...ajaxOptions,
         };
@@ -188,10 +209,16 @@ export default class OsfModel extends Model {
         const apiRelationshipName = underscore(relationshipName);
         const url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
 
+        const data = JSON.stringify({
+            data: [{
+                id: relatedModel.id,
+                type: relatedModel.apiType,
+            }],
+        });
+
         if (!url) {
             throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
         }
-
         assert(`The related object is required to ${action} a relationship`, Boolean(relatedModel));
 
         const options: JQuery.AjaxSettings = {
@@ -200,12 +227,7 @@ export default class OsfModel extends Model {
             headers: {
                 'Content-Type': 'application/json',
             },
-            data: JSON.stringify({
-                data: [{
-                    id: relatedModel.id,
-                    type: relatedModel.apiType,
-                }],
-            }),
+            data,
         };
 
         return this.currentUser.authenticatedAJAX(options);
@@ -264,5 +286,87 @@ export default class OsfModel extends Model {
         } else {
             throw new Error(`Unexpected response ${errorContext}`);
         }
+    }
+
+    /**
+     * Fetch one page of a has-many relationship using sparse fieldsets.
+     * See https://developer.osf.io/#tag/Sparse-Fieldsets
+     *
+     * The API response includes only the specified fields.
+     * This is useful for potentially long lists that require rendering only a few fields.
+     *
+     * Does NOT use ember-data. This means a few things:
+     * - Attributes don't pass through the transforms (e.g. 'fixstring') set with `DS.attr`, they remain as
+     *   represented in JSON. In particular, date fields are not deserialized to `Date` objects.
+     * - Sparse models aren't put in the store. This means no potential interactions with code that does use
+     *   the store, but if you want caching you'll have to do it yourself.
+     *
+     * Example:
+     * ```ts
+     * const contributors = await node.sparseHasMany(
+     *     'contributors',
+     *     { contributor: ['users'], user: ['fullName'] },
+     *     { queryParams: { 'page[size]': 100 } },
+     * });
+     *
+     * contributors.sparseModels.forEach(contrib => {
+     *     console.log(contrib.users.fullName);
+     * );
+     * ```
+     */
+    async sparseHasMany<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T>,
+        fieldset: SparseFieldset,
+        options: RequestOptions = {},
+    ): Promise<SparseHasManyResult> {
+        const response: ResourceCollectionDocument = await this.currentUser.authenticatedAJAX({
+            url: this.getHasManyLink(relationshipName),
+            data: {
+                fields: buildFieldsParam(fieldset),
+                ...options.queryParams,
+            },
+            ...options.ajaxOptions,
+        });
+
+        const { data, meta, links } = response;
+
+        return {
+            sparseModels: data.map(parseSparseResource),
+            meta,
+            ...(links ? { links } : {}),
+        };
+    }
+
+    /**
+     * Fetch the entirety of a has-many relationship using sparse fieldsets.
+     * See `sparseHasMany` above.
+     */
+    async sparseLoadAll<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T>,
+        fieldset: SparseFieldset,
+        options: RequestOptions = {},
+    ): Promise<SparseModel[]> {
+        const sparseModels: SparseModel[] = [];
+        let page = 1;
+        let totalPages = 0;
+
+        do { // eslint-disable-next-line no-await-in-loop
+            const response = await this.sparseHasMany(relationshipName, fieldset, {
+                ...options,
+                queryParams: {
+                    ...options.queryParams,
+                    page,
+                    'page[size]': 100,
+                },
+            });
+
+            sparseModels.push(...response.sparseModels);
+            totalPages = Math.ceil(response.meta.total / response.meta.per_page);
+            page++;
+        } while (page <= totalPages);
+
+        return sparseModels;
     }
 }

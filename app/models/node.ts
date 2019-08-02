@@ -1,13 +1,11 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { alias, bool, equal } from '@ember-decorators/object/computed';
-import EmberObject from '@ember/object';
 import { not } from '@ember/object/computed';
 import { htmlSafe } from '@ember/string';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
-import { Deserialized as NodeLicense } from 'ember-osf-web/transforms/node-license';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
@@ -68,6 +66,11 @@ export enum NodeType {
     Registration = 'registration',
 }
 
+export interface NodeLicense {
+    readonly copyrightHolders?: string;
+    readonly year?: string;
+}
+
 export default class NodeModel extends BaseFileItem.extend(Validations, CollectableValidations) {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
@@ -93,6 +96,9 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
 
     @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<ContributorModel>;
+
+    @hasMany('contributor', { inverse: null })
+    bibliographicContributors!: DS.PromiseManyArray<ContributorModel>;
 
     @belongsTo('node', { inverse: 'children' })
     parent!: DS.PromiseObject<NodeModel> & NodeModel;
@@ -176,7 +182,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     /**
      * Is this node being viewed through an anonymized, view-only link?
      */
-    @bool('meta.anonymous') isAnonymous!: boolean;
+    @bool('apiMeta.anonymous') isAnonymous!: boolean;
 
     /**
      * Does the current user have write permission on this node?
@@ -224,7 +230,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
 
     @computed('root')
     get isRoot() {
-        const rootId = this.belongsTo('root').id();
+        const rootId = (this as NodeModel).belongsTo('root').id();
         return !rootId || rootId === this.id;
     }
 
@@ -262,10 +268,10 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
             year = new Date().getUTCFullYear().toString(),
         } = (this.nodeLicense || {});
 
-        const nodeLicenseDefaults: NodeLicense = EmberObject.create({
+        const nodeLicenseDefaults: NodeLicense = {
             copyrightHolders,
             year,
-        });
+        };
 
         // Only set the required fields on nodeLicense
         const props = requiredFields.reduce(
@@ -273,7 +279,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
             {},
         );
 
-        this.set('nodeLicense', EmberObject.create(props));
+        this.set('nodeLicense', props);
     }
 }
 

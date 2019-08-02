@@ -32,7 +32,7 @@
                 </p>
                 <QrCode
                     data-test-2f-qr-code
-                    @text={{this.settings.secret}}
+                    @text={{this.keyUri}}
                     @width={{260}}
                     @height={{260}}
                     @correctLevel='L'
@@ -47,7 +47,7 @@
                     <div>
                         <form.text
                             data-test-verification-code-field
-                            @valuePath='verification'
+                            @valuePath='twoFactorVerification'
                             @label={{t 'settings.account.security.enterVerification'}}
                         />
                         {{#if this.showError}}
@@ -103,6 +103,7 @@
 <BsModal
     data-test-confirm-enable-modal
     @open={{this.showEnableWarning}}
+    @onHide={{action this.hideDialogs}}
     as |modal|
 >
     <modal.header>
@@ -135,6 +136,7 @@
 <BsModal
     data-test-confirm-disable-modal
     @open={{this.showDisableWarning}}
+    @onHide={{action this.hideDialogs}}
     as |modal|
 >
     <modal.header>

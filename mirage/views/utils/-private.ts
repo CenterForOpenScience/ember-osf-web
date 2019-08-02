@@ -26,6 +26,7 @@ interface QueryParameters {
 // The key is the model and the list contains the relationships to embed.
 const alwaysEmbed: { [key: string]: string[] } = {
     contributors: ['users'],
+    'collected-metadata': ['guid'],
 };
 
 interface WithAttributes {
@@ -53,7 +54,7 @@ export function dynamicSort(property: string) {
     };
 }
 
-export function sort(request: Request, data: Array<unknown>, options: ProcessOptions = {}): Array<unknown> {
+export function sort(request: Request, data: unknown[], options: ProcessOptions = {}): unknown[] {
     const { queryParams } = request;
     const { defaultSortKey = 'date_modified' } = options;
     let sortKey: string = defaultSortKey;
@@ -77,14 +78,13 @@ export function buildQueryParams(params: QueryParameters): string {
     });
     if (paramString.length > 1) {
         return paramString;
-    } else {
-        return '';
     }
+    return '';
 }
 
 export function paginate(
     request: Request,
-    data: Array<unknown>,
+    data: unknown[],
     options: ProcessOptions = {},
 ): ResourceCollectionDocument {
     const total = data.length;
@@ -189,7 +189,7 @@ export function embed(
     };
 }
 
-export function compareStrings (
+export function compareStrings(
     actualValue: string,
     comparisonValue: string,
     operator: ComparisonOperators,
@@ -204,7 +204,7 @@ export function compareStrings (
     }
 }
 
-export function compareBooleans (
+export function compareBooleans(
     actualValue: boolean,
     comparisonValue: boolean,
     operator: ComparisonOperators,
@@ -219,8 +219,25 @@ export function compareBooleans (
     }
 }
 
+export function compareIds(
+    actualValue: string | number,
+    comparisonValue: string | number,
+    operator: ComparisonOperators,
+): boolean {
+    const actualString = actualValue.toString();
+    const comparisonString = comparisonValue.toString();
+    switch (operator) {
+    case ComparisonOperators.Eq:
+        return comparisonString.split(',').includes(actualString);
+    case ComparisonOperators.Ne:
+        return !comparisonString.split(',').includes(actualString);
+    default:
+        throw new Error(`IDs can't be compared with "${operator}".`);
+    }
+}
+
 export function compare(
-    actualValue: string | boolean,
+    actualValue: string | boolean | string[],
     comparisonValue: string,
     operator: ComparisonOperators,
 ): boolean {
@@ -228,9 +245,10 @@ export function compare(
         return compareStrings(actualValue, comparisonValue, operator);
     } else if (typeof actualValue === 'boolean') {
         return compareBooleans(actualValue, queryParamIsTruthy(comparisonValue), operator);
-    } else {
-        throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
+    } else if (actualValue instanceof Array) {
+        return actualValue.includes(comparisonValue);
     }
+    throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
 }
 
 export function toOperator(operatorString: string): ComparisonOperators {

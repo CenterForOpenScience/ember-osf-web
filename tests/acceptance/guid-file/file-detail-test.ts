@@ -113,12 +113,12 @@ module('Acceptance | guid file', hooks => {
                     user: currentUser,
                 },
             );
-            await visit(`--file/${fileOne.id}`);
-            assert.equal(currentURL(), `--file/${fileOne.guid}`);
+            await visit(`/--file/${fileOne.id}`);
+            assert.equal(currentURL(), `/--file/${fileOne.guid}`);
             assert.dom('[data-test-file-title-header]').containsText(fileOne.name);
             assert.dom(`[data-test-file-item-link="${fileTwo.name}"]`).exists();
             await click(`[data-test-file-item-link="${fileTwo.name}"]`);
-            assert.equal(currentURL(), `/--file/${fileTwo.guid}?show=view`);
+            assert.equal(currentURL(), `/--file/${fileTwo.guid}`);
             assert.dom('[data-test-file-title-header]').containsText(fileTwo.name);
         });
 
@@ -182,7 +182,7 @@ module('Acceptance | guid file', hooks => {
             assert.dom('[data-test-twitter-link]')
                 .hasAttribute(
                     'href',
-                    `${twitter}${file.name}&url=${encodedOsfUrl}${file.guid}&via=%40OSFramework`,
+                    `${twitter}${file.name}&url=${encodedOsfUrl}${file.guid}&via=${config.social.twitter.viaHandle}`,
                 );
             assert.dom('[data-test-facebook-link]')
                 .hasAttribute(
@@ -309,12 +309,12 @@ module('Acceptance | guid file', hooks => {
                     user: otherUser,
                 },
             );
-            await visit(`--file/${fileOne.id}`);
-            assert.equal(currentURL(), `--file/${fileOne.guid}`);
+            await visit(`/--file/${fileOne.id}`);
+            assert.equal(currentURL(), `/--file/${fileOne.guid}`);
             assert.dom('[data-test-file-title-header]').containsText(fileOne.name);
             assert.dom(`[data-test-file-item-link="${fileTwo.name}"]`).exists();
             await click(`[data-test-file-item-link="${fileTwo.name}"]`);
-            assert.equal(currentURL(), `/--file/${fileTwo.guid}?show=view`);
+            assert.equal(currentURL(), `/--file/${fileTwo.guid}`);
             assert.dom('[data-test-file-title-header]').containsText(fileTwo.name);
         });
 

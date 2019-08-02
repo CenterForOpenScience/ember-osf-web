@@ -9,6 +9,7 @@ export interface NodeAttrs {
     parentId: ID | null;
     rootId: ID | null;
     licenseId: ID | null;
+    _anonymized: boolean;
 }
 
 type MirageNode = Node & { attrs: NodeAttrs };
@@ -37,6 +38,14 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
                     self: {
                         href: `${apiUrl}/v2/nodes/${model.id}/relationships/linked_registrations/`,
                         meta: {},
+                    },
+                },
+            },
+            bibliographicContributors: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/bibliographic_contributors/`,
+                        meta: this.buildRelatedLinkMeta(model, 'bibliographicContributors'),
                     },
                 },
             },
@@ -85,6 +94,18 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
                     related: {
                         href: `${apiUrl}/v2/nodes/${model.id}/identifiers/`,
                         meta: this.buildRelatedLinkMeta(model, 'identifiers'),
+                    },
+                },
+            },
+            affiliatedInstitutions: {
+                links: {
+                    self: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/relationships/institutions/`,
+                        meta: {},
+                    },
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/institutions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'affiliatedInstitutions'),
                     },
                 },
             },
@@ -141,6 +162,13 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
         return {
             ...super.buildNormalLinks(model),
             html: `/${model.id}/`,
+        };
+    }
+
+    buildApiMeta(model: ModelInstance<MirageNode>) {
+        return {
+            ...super.buildApiMeta(model),
+            ...(model.attrs._anonymized ? { anonymous: true } : {}),
         };
     }
 }

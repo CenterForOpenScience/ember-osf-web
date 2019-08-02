@@ -21,6 +21,7 @@ function fakeRequest(url: string, { page, pageSize }: { page?: number, pageSize?
         url,
         params: {},
         queryParams,
+        method: '',
     };
 }
 

@@ -1,0 +1,115 @@
+{{! template-lint-disable no-bare-strings }}
+<section
+    data-test-testimonials-container
+    local-class='container'
+    {{track-scroll 'Testimonial section'}}
+>
+    <header>
+        <h1 data-test-testimonials-heading>
+            {{t 'new-home.testimonials.heading'}}
+        </h1>
+    </header>
+    <Carousel as |carousel|>
+        <carousel.header>
+            <h2>
+                {{t 'new-home.testimonials.carousel_heading'}}
+            </h2>
+        </carousel.header>
+        <carousel.slide data-test-testimonials-slide-1>
+            <div local-class='slide-content'>
+                <div>
+                    <span local-class='quote'>&quot;</span>
+                    <p>
+                        {{t 'new-home.testimonials.slide_1.text'}}
+                    </p>
+                    <p local-class='description'>
+                        <span local-class='description-bold'>
+                            {{t 'new-home.testimonials.slide_1.description.name'}}
+                        </span>
+                        <span>
+                            {{t 'new-home.testimonials.slide_1.description.position'}}
+                        </span>
+                        <span local-class='description-bold'>
+                            <OsfLink
+                                data-analytics-name='View research'
+                                @route='guid-user'
+                                @models={{array 'wx9bf'}}
+                            >
+                                {{t 'new-home.testimonials.see_her_research'}}
+                            </OsfLink>
+                        </span>
+                    </p>
+                </div>
+                <img
+                    local-class='slide-image'
+                    src='/assets/images/new-home/ayala-patricia.png'
+                    alt='{{t 'new-home.testimonials.slide_1.alt'}}'
+                >
+            </div>
+        </carousel.slide>
+        <carousel.slide data-test-testimonials-slide-2>
+            <div local-class='slide-content'>
+                <div>
+                    <p local-class='testimonial-small'>
+                        <span local-class='quote'>&quot;</span>
+                        {{t 'new-home.testimonials.slide_2.text'}}
+                    </p>
+                    <p local-class='description'>
+                        <span local-class='description-bold'>
+                            {{t 'new-home.testimonials.slide_2.description.name'}}
+                        </span>
+                        <span>
+                            {{t 'new-home.testimonials.slide_2.description.position'}}
+                        </span>
+                        <span local-class='description-bold'>
+                            <OsfLink
+                                data-analytics-name='View research'
+                                @route='guid-user'
+                                @models={{array 'e9tg8'}}
+                            >
+                                {{t 'new-home.testimonials.see_her_research'}}
+                            </OsfLink>
+                        </span>
+                    </p>
+                </div>
+                <img
+                    local-class='slide-image'
+                    src='/assets/images/new-home/mathur-maya.png'
+                    alt='{{t 'new-home.testimonials.slide_2.alt'}}'
+                >
+            </div>
+        </carousel.slide>
+        <carousel.slide data-test-testimonials-slide-3>
+            <div local-class='slide-content'>
+                <div>
+                    <p local-class='testimonial-small'>
+                        <span local-class='quote'>&quot;</span>
+                        {{t 'new-home.testimonials.slide_3.text'}}
+                    </p>
+                    <p local-class='description'>
+                        <span local-class='description-bold'>
+                            {{t 'new-home.testimonials.slide_3.description.name'}}
+                        </span>
+                        <span>
+                            {{t 'new-home.testimonials.slide_3.description.position'}}
+                        </span>
+                        <span local-class='description-bold'>
+                            <OsfLink
+                                data-analytics-name='View research'
+                                @route='guid-user'
+                                @models={{array '2u4tf'}}
+                            >
+                                {{t 'new-home.testimonials.see_his_research'}}
+                            </OsfLink>
+                        </span>
+                    </p>
+                </div>
+                <img
+                    local-class='slide-image'
+                    src='/assets/images/new-home/cohen-phillip.png'
+                    alt='{{t 'new-home.testimonials.slide_3.alt'}}'
+                >
+            </div>
+        </carousel.slide>
+    </Carousel>
+</section>

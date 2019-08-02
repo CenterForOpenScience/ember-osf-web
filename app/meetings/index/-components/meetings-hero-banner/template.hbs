@@ -1,0 +1,86 @@
+<div local-class='osf-meeting-header-img'>
+    <div local-class='osf-meeting-header'>
+        <div data-test-hero-banner-container class='container'>
+            <div class='text-center m-b-lg'>
+                <h1>
+                    <img
+                        data-test-osf-meeting-img
+                        src='/assets/images/meetings/osf_meetings_white.png'
+                        alt={{t 'meetings.index.meetings-hero-banner.image_alt'}}
+                        style='width: 80%'
+                    >
+                </h1>
+                <h2>
+                    {{t 'meetings.index.meetings-hero-banner.h3'}}
+                </h2>
+            </div>
+            <div local-class='network-img'> </div>
+            <div class='row'>
+                <div class='col-md-6 col-lg-5 col-xl-4 text-center m-b-lg'>
+                    <FaIcon
+                        data-test-fa-icon-users
+                        @icon='users'
+                        class='m-v-sm'
+                        local-class='user-icon icon-circle'
+                    />
+                    <h3 class='f-w-xl'>
+                        {{t 'meetings.index.meetings-hero-banner.conference_organizers_h3'}}
+                    </h3>
+                    <div class='text-left'>
+                        <p>
+                            {{t 'meetings.index.meetings-hero-banner.conference_organizers_help_text'}}
+                        </p>
+                    </div>
+                    <div class='p-v-md'>
+                        <OsfButton
+                            data-test-register-button
+                            @type='success'
+                            @onClick={{action this.toggleRegisterPanel}}
+                        >
+                            {{t 'meetings.index.meetings-hero-banner.conference_organizers_register_button'}}
+                        </OsfButton>
+                    </div>
+                    <CpPanel @open={{this.registerPanelOpen}} as |panel| >
+                        <panel.body>
+                            <div data-test-register-panel-text class='m-lg osf-box-lt p-md text-left'>
+                                {{t 'meetings.index.meetings-hero-banner.conference_organizers_register_panel_texts'}}
+                            </div>
+                        </panel.body>
+                    </CpPanel>
+                </div>
+                <div class='col-md-6 col-lg-5 col-lg-offset-2 col-xl-4 col-xl-offset-4 text-center m-b-lg'>
+                    <FaIcon
+                        data-test-fa-icon-cloud-upload
+                        @icon='cloud-upload'
+                        class='m-v-sm'
+                        local-class='user-icon icon-circle'
+                    />
+                    <h3 class='f-w-xl'>
+                        {{t 'meetings.index.meetings-hero-banner.conference_participants_h3'}}
+                    </h3>
+                    <div class='text-left'>
+                        <p>
+                            {{t 'meetings.index.meetings-hero-banner.conference_participants_help_text'}}
+                        </p>
+                    </div>
+                    <div class='p-v-md'>
+                        <OsfButton
+                            data-test-upload-button
+                            @type='success'
+                            @onClick={{action this.toggleUploadPanel}}
+                        >
+                            {{t 'meetings.index.meetings-hero-banner.conference_participants_upload_button'}}
+                        </OsfButton>
+                    </div>
+                    <CpPanel @open={{this.uploadPanelOpen}} as |panel| >
+                        <panel.body>
+                            <div data-test-upload-panel-text class='m-lg osf-box-lt p-md text-left'>
+                                {{t 'meetings.index.meetings-hero-banner.conference_participants_upload_panel_texts'}}
+                            </div>
+                        </panel.body>
+                    </CpPanel>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

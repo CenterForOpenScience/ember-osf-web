@@ -1,11 +1,15 @@
 import Service from '@ember/service';
-import KeenAdapter from 'ember-osf-web/metrics-adapters/keen';
+import { make, setupFactoryGuy } from 'ember-data-factory-guy';
 import { setupTest } from 'ember-qunit';
 import sinonTest from 'ember-sinon-qunit/test-support/test';
 import { module, test } from 'qunit';
 
+import KeenAdapter from 'ember-osf-web/metrics-adapters/keen';
+import Node from 'ember-osf-web/models/node';
+
 module('Unit | Metrics Adapter | keen ', hooks => {
     setupTest(hooks);
+    setupFactoryGuy(hooks);
 
     test('it exists', function(assert) {
         assert.ok(this.owner.lookup('metrics-adapter:keen') instanceof KeenAdapter);
@@ -17,7 +21,7 @@ module('Unit | Metrics Adapter | keen ', hooks => {
         const trackPublic = this.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.stub(adapter, 'trackPrivateEvent');
 
-        this.stub(adapter, 'getCurrentNode').resolves({ public: true });
+        this.stub(adapter, 'getCurrentNode').resolves(make('node', { public: true }) as Node);
 
         await adapter.trackPage({ page: 'Foo', title: 'Bar' });
 
@@ -31,7 +35,7 @@ module('Unit | Metrics Adapter | keen ', hooks => {
         const trackPublic = this.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.stub(adapter, 'trackPrivateEvent');
 
-        this.stub(adapter, 'getCurrentNode').resolves({ public: false });
+        this.stub(adapter, 'getCurrentNode').resolves(make('node', { public: false }) as Node);
 
         await adapter.trackPage({ page: 'Foo', title: 'Bar' });
 

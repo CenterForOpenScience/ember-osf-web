@@ -1,0 +1,101 @@
+<div class='row icon-bar m-v-lg'>
+    <div class='col-md-4 col-sm-4 text-center '>
+        <div class='p-v-md m-t-xl m-h-md'>
+            <FaIcon
+                data-test-eye-icon
+                @icon='eye'
+                local-class='blue-icon icon-circle'
+            />
+            <h3>
+                {{t 'meetings.index.meetings-footer.discover'}}
+            </h3>
+            <div class='p-h-lg'>
+                <p>
+                    {{t 'meetings.index.meetings-footer.discover_text'}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class='col-md-4 col-sm-4 text-center'>
+        <div class=' p-v-md  m-t-xl m-h-md'>
+            <FaIcon
+                data-test-share-alt-icon
+                @icon='share-alt'
+                local-class='blue-icon icon-circle'
+            />
+            <h3>
+                {{t 'meetings.index.meetings-footer.share'}}
+            </h3>
+            <div class='p-h-lg'>
+                <p>
+                    {{t 'meetings.index.meetings-footer.share_text'}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class='col-md-4 col-sm-4 text-center'>
+        <div class='p-v-md  m-t-xl m-h-md'>
+            <FaIcon
+                data-test-magic-icon
+                @icon='magic'
+                local-class='blue-icon icon-circle'
+            />
+            <h3>
+                {{t 'meetings.index.meetings-footer.enhance'}}
+            </h3>
+            <div class='p-h-lg'>
+                <p>
+                    {{t 'meetings.index.meetings-footer.enhance_text'}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='row text-center m-b-md'>
+    <h2>
+        {{t 'meetings.index.meetings-footer.who_use_text'}}
+    </h2>
+</div>
+<div class='row m-b-lg' local-class='org-logo'>
+    <div class='col-sm-3 col-xs-6  text-center'>
+        <OsfLink @href='http://www.psychologicalscience.org/' @target='_blank'>
+            <img
+                data-test-aps-img
+                src='/assets/images/meetings/APS.jpg'
+                alt={{t 'meetings.index.meetings-footer.aps_img_alt'}}
+                class='img-responsive'
+            >
+        </OsfLink>
+    </div>
+    <div class='col-sm-3 col-xs-6 text-center'>
+        <OsfLink @href='http://www.bitss.org/' @target='_blank'>
+            <img
+                data-test-bitss-img
+                src='/assets/images/meetings/BITSS.png'
+                alt={{t 'meetings.index.meetings-footer.bitss_img_alt'}}
+                class='img-responsive'
+            >
+        </OsfLink>
+    </div>
+    <div class='col-sm-3 col-xs-6 text-center'>
+        <OsfLink @href='http://www.nrao.edu/' @target='_blank'>
+            <img
+                data-test-nrao-img
+                src='/assets/images/meetings/NRAO.jpg'
+                alt={{t 'meetings.index.meetings-footer.nrao_img_alt'}}
+                class='img-responsive'
+            >
+        </OsfLink>
+    </div>
+    <div class='col-sm-3 col-xs-6 text-center'>
+        <OsfLink @href='http://www.spsp.org/' @target='_blank'>
+            <img
+                data-test-spsp-img
+                src='/assets/images/meetings/SPSP.jpg'
+                alt={{t 'meetings.index.meetings-footer.spsp_img_alt'}}
+                class='img-responsive'
+            >
+        </OsfLink>
+    </div>
+</div>

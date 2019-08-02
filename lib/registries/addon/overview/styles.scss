@@ -4,13 +4,50 @@
     background-size: cover;
 }
 
-.Container {
-    display: flex;
+.TitleContainer {
     align-items: center;
-    justify-content: space-around;
-    width: 100%;
+    justify-content: space-between;
 
-    margin: 25px 0;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.AncestorsAndTitle {
+    flex-grow: 1;
+    min-height: 80px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.Ancestors {
+    color: $white;
+
+    a {
+        color: $white;
+        font-weight: 600;
+
+        &:hover,
+        &:focus {
+            color: $white;
+        }
+    }
+
+    span {
+        font-weight: 600;
+    }
+}
+
+.Title.Title {
+    color: $white;
+    font-weight: 400;
+    word-break: break-word;
+    margin: 0;
+}
+
+.Toolbar {
+    flex-shrink: 0;
 }
 
 .ContentBackground {
@@ -51,46 +88,5 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 0;
-    }
-}
-
-.TitleContainer {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    justify-content: center;
-    min-height: 80px;
-}
-
-@media screen and (max-width: 767px) {
-    .TitleContainer {
-        width: 100%;
-    }
-}
-
-.Ancestors {
-    color: $white;
-
-    a {
-        color: $white;
-        font-weight: 600;
-
-        &:hover,
-        &:focus {
-            color: $white;
-        }
-    }
-
-    span {
-        font-weight: 600;
-    }
-}
-
-.MainTitle {
-    h1 {
-        color: $white;
-        font-weight: 400;
-        word-break: break-word;
-        margin: 0;
     }
 }

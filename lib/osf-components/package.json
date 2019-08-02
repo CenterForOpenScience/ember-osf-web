@@ -4,9 +4,11 @@
     "ember-addon"
   ],
   "dependencies": {
+    "ember-angle-bracket-invocation-polyfill": "*",
     "ember-bootstrap": "*",
     "ember-bootstrap-datepicker": "*",
     "ember-cli-babel": "*",
+    "ember-cli-clipboard": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-htmlbars-inline-precompile": "*",
     "ember-cli-sass": "*",
@@ -17,7 +19,6 @@
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
     "ember-i18n": "*",
-    "ember-i18n-inject": "*",
-    "ember-test-selectors": "*"
+    "ember-i18n-inject": "*"
   }
 }

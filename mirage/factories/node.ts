@@ -8,16 +8,22 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import { guid, guidAfterCreate } from './utils';
 
 export interface MirageNode extends Node {
+    affiliatedInstitutionIds: string[] | number[];
     regionId: string | number;
     lastLogged: Date | string;
+    _anonymized: boolean;
 }
 
 export interface NodeTraits {
+    anonymized: Trait;
+    currentUserAdmin: Trait;
     withContributors: Trait;
     withRegistrations: Trait;
     withDraftRegistrations: Trait;
     withDoi: Trait;
     withLicense: Trait;
+    withAffiliatedInstitutions: Trait;
+    withManyAffiliatedInstitutions: Trait;
 }
 
 export default Factory.extend<MirageNode & NodeTraits>({
@@ -70,10 +76,11 @@ export default Factory.extend<MirageNode & NodeTraits>({
     nodeLicense: null,
     public: true,
     tags: faker.lorem.words(5).split(' '),
+    _anonymized: false,
 
     withContributors: trait<MirageNode>({
         afterCreate(node, server) {
-            const contributorCount = faker.random.number({ min: 1, max: 25 });
+            const contributorCount = faker.random.number({ min: 1, max: 5 });
             if (contributorCount === 1) {
                 server.create('contributor', { node, index: 0, permission: Permission.Admin, bibliographic: true });
             } else if (contributorCount === 2) {
@@ -133,6 +140,31 @@ export default Factory.extend<MirageNode & NodeTraits>({
             node.license = license; // eslint-disable-line no-param-reassign
             node.save();
         },
+    }),
+
+    withAffiliatedInstitutions: trait<MirageNode>({
+        afterCreate(node, server) {
+            const affiliatedInstitutionCount = faker.random.number({ min: 4, max: 5 });
+            server.createList('institution', affiliatedInstitutionCount, {
+                nodes: [node],
+            });
+        },
+    }),
+
+    withManyAffiliatedInstitutions: trait<MirageNode>({
+        afterCreate(node, server) {
+            server.createList('institution', 15, {
+                nodes: [node],
+            });
+        },
+    }),
+
+    currentUserAdmin: trait<MirageNode>({
+        currentUserPermissions: Object.values(Permission),
+    }),
+
+    anonymized: trait<MirageNode>({
+        _anonymized: true,
     }),
 });
 

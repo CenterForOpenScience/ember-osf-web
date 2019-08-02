@@ -5,6 +5,7 @@
     "ember-engine"
   ],
   "dependencies": {
+    "ember-angle-bracket-invocation-polyfill": "*",
     "ember-basic-dropdown": "*",
     "ember-bootstrap": "*",
     "ember-cli-babel": "*",
@@ -17,6 +18,7 @@
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
     "ember-component-attributes": "*",
+    "ember-composable-helpers": "*",
     "ember-content-placeholders": "*",
     "ember-cookies": "*",
     "ember-css-modules": "*",
@@ -29,7 +31,6 @@
     "ember-page-title": "*",
     "ember-parachute": "*",
     "ember-responsive": "*",
-    "ember-test-selectors": "*",
     "ember-toastr": "*",
     "ember-truth-helpers": "*",
     "immutable": "*"

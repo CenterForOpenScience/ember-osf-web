@@ -20,9 +20,9 @@ export default class NodeList extends Component {
     get queryParams() {
         switch (this.relationshipName) {
         case 'registrations':
-            return { embed: ['contributors', 'registration_schema'] };
+            return { embed: ['bibliographic_contributors', 'registration_schema'] };
         case 'forks':
-            return { embed: 'contributors' };
+            return { embed: 'bibliographic_contributors' };
         default:
             return {};
         }

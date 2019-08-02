@@ -26,7 +26,7 @@ export default class XLinks extends Component {
 
     @computed('router.currentRouteName')
     get supportURL() {
-        return this.onInstitutions ? 'http://help.osf.io/m/institutions' : 'support';
+        return this.onInstitutions ? 'https://openscience.zendesk.com/hc/en-us/categories/360001550913' : 'support';
     }
 
     @computed('router.currentRouteName')

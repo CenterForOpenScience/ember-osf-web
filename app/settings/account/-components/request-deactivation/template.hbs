@@ -44,6 +44,7 @@
 <BsModal
     data-test-confirm-deactivate-modal
     @open={{this.showRequestDialog}}
+    @onHidden={{action this.closeDialogs}}
     as |modal|
 >
     <modal.header>

@@ -2,32 +2,31 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
+import Features from 'ember-feature-flags/services/features';
+import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
-import Controller from './controller';
+const { featureFlagNames: { ABTesting } } = config;
 
 export default class Home extends Route {
-    @service analytics!: Analytics;
-    @service session!: Session;
+  @service analytics!: Analytics;
+  @service session!: Session;
+  @service features!: Features;
 
-    async beforeModel(this: Home, transition: Transition) {
-        await super.beforeModel(transition);
+  async beforeModel(transition: Transition) {
+      await super.beforeModel(transition);
 
-        if (this.session.isAuthenticated) {
-            this.transitionTo('dashboard');
-        }
-    }
+      if (this.session.isAuthenticated) {
+          this.transitionTo('dashboard');
+      }
+  }
 
-    @action
-    didTransition(this: Home) {
-        this.analytics.trackPage();
-    }
-
-    resetController(controller: Controller, isExiting: boolean, _: Transition) {
-        if (isExiting) {
-            controller.set('goodbye', null);
-        }
-    }
+  @action
+  didTransition() {
+      const shouldShowVersionB = this.features.isEnabled(ABTesting.homePageVersionB);
+      const version = shouldShowVersionB ? 'versionB' : 'versionA';
+      this.analytics.trackPage(undefined, undefined, undefined, version);
+  }
 }

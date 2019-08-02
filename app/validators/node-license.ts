@@ -6,13 +6,12 @@ import BaseValidator from 'ember-cp-validations/validators/base';
 import I18N from 'ember-i18n/services/i18n';
 import License from 'ember-osf-web/models/license';
 import Node from 'ember-osf-web/models/node';
-import { Deserialized } from 'ember-osf-web/transforms/node-license';
 
 interface Options extends EmberObject {
     on: 'license';
 }
 
-export default class NodeLicense extends BaseValidator {
+export default class NodeLicenseValidator extends BaseValidator {
     @service i18n!: I18N;
 
     async validate(
@@ -36,7 +35,7 @@ export default class NodeLicense extends BaseValidator {
         }
 
         const missingFields = license.requiredFields
-            .filter((field: keyof Deserialized) => !value[field])
+            .filter(field => !value[field])
             .sort()
             .map(field => this.i18n.t(`app_components.license_picker.fields.${field}`))
             .join(', ');

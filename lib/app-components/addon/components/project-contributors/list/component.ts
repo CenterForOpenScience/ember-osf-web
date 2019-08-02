@@ -1,6 +1,5 @@
-import { computed } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
-import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
@@ -10,7 +9,7 @@ import Toast from 'ember-toastr/services/toast';
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
-import { Permission } from 'ember-osf-web/models/osf-model';
+import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import { HighlightableContributor } from './item/component';
@@ -18,14 +17,31 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class List extends Component {
+export default class List extends Component.extend({
+    loadContributors: task(function *(this: List) {
+        const contributors: QueryHasManyResult<Contributor> = yield this.node.queryHasMany(
+            'contributors',
+            { page: this.page },
+        );
+        this.set('contributors', this.contributors.concat(contributors));
+        this.set('hasMore', this.contributors && this.contributors.length < contributors.meta.total);
+    }),
+}) {
+    // Required parameters
+    node: Node = this.node;
+
+    // Optional parameters
+    bindReload?: (action: () => void) => void;
+
+    // Private properties
     @service analytics!: Analytics;
     @service i18n!: I18N;
     @service store!: DS.Store;
     @service toast!: Toast;
 
-    contributors: ArrayProxy<Contributor> = this.contributors;
-    node: Node = this.node;
+    contributors: Contributor[] = [];
+    hasMore = false;
+    page = 1;
 
     /**
      * Changes the contributor's permissions
@@ -90,6 +106,7 @@ export default class List extends Component {
 
         try {
             yield contributor.destroyRecord();
+            this._doReload();
             this.toast.success(this.i18n.t('app_components.project_contributors.list.remove_contributor_success'));
         } catch (e) {
             this.toast.error(this.i18n.t('app_components.project_contributors.list.remove_contributor_error'));
@@ -125,5 +142,29 @@ export default class List extends Component {
             (acc, { permission: p, unregisteredContributor: u }) => acc + +(p === Permission.Admin && !u),
             0,
         );
+    }
+
+    init() {
+        super.init();
+        this.loadContributors.perform();
+    }
+
+    didReceiveAttrs() {
+        if (this.bindReload) {
+            this.bindReload(this._doReload.bind(this));
+        }
+    }
+
+    @action
+    loadMoreContributors() {
+        this.page++;
+        this.loadContributors.perform();
+    }
+
+    @action
+    _doReload() {
+        this.page = 1;
+        this.set('contributors', []);
+        this.loadContributors.perform();
     }
 }

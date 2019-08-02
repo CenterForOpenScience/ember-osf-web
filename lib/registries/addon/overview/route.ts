@@ -1,23 +1,25 @@
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import RouterService from '@ember/routing/router-service';
-import { task } from 'ember-concurrency';
+import { all, task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import moment from 'moment';
 
-import Contributor from 'ember-osf-web/models/contributor';
-import Institution from 'ember-osf-web/models/institution';
+import Identifier from 'ember-osf-web/models/identifier';
+import LicenseModel from 'ember-osf-web/models/license';
 import Registration from 'ember-osf-web/models/registration';
 import GuidRoute, { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import pathJoin from 'ember-osf-web/utils/path-join';
-
-const { assetsPrefix } = config;
+import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
 
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
     @service router!: RouterService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
@@ -27,14 +29,29 @@ export default class Overview extends GuidRoute {
     setHeadTags = task(function *(this: Overview, model: any) {
         const blocker = this.ready.getBlocker();
 
-        const registration = yield model.taskInstance as Registration;
+        const registration: Registration = yield model.taskInstance;
 
         if (registration) {
-            const contributors = yield registration.loadAll('contributors');
-            const institutions = yield registration.loadAll('affiliatedInstitutions');
-            const license = yield registration.license;
+            const [
+                contributors = [],
+                institutions = [],
+                license = null,
+                identifiers = [],
+            ] = yield all([
+                registration.sparseLoadAll(
+                    'bibliographicContributors',
+                    { contributor: ['users', 'index'], user: ['fullName'] },
+                ),
+                registration.sparseLoadAll(
+                    'affiliatedInstitutions',
+                    { institution: ['name'] },
+                ),
+                registration.license,
+                registration.identifiers,
+            ]);
 
-            const image = `${assetsPrefix}engines-dist/registries/assets/img/osf-sharing.png`;
+            const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
+            const image = 'engines-dist/registries/assets/img/osf-sharing.png';
 
             const metaTagsData = {
                 title: registration.title,
@@ -43,12 +60,15 @@ export default class Overview extends GuidRoute {
                 modifiedDate: moment(registration.dateModified).format('YYYY-MM-DD'),
                 identifier: registration.id,
                 url: pathJoin(config.OSF.url, registration.id),
+                doi: doi && doi.value,
                 image,
                 keywords: registration.tags,
                 siteName: 'OSF',
-                license: license && license.name,
-                author: contributors.map((contrib: Contributor) => contrib.users.get('fullName')),
-                institution: institutions.map((ins: Institution) => ins.get('name')),
+                license: license && (license as LicenseModel).name,
+                author: (contributors as SparseModel[]).map(
+                    contrib => (contrib.users as { fullName: string }).fullName,
+                ),
+                institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
 
             this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
@@ -56,20 +76,20 @@ export default class Overview extends GuidRoute {
         }
 
         blocker.done();
-    });
+    }).cancelOn('deactivate').restartable();
 
     modelName(): 'registration' {
         return 'registration';
     }
 
     include() {
-        return ['registration_schema', 'contributors', 'identifiers', 'root'];
+        return ['registration_schema', 'bibliographic_contributors', 'identifiers', 'root'];
     }
 
     adapterOptions() {
         return {
             query: {
-                related_counts: 'forks,comments,linked_nodes,linked_registrations,children',
+                related_counts: 'forks,comments,linked_nodes,linked_registrations,children,wikis',
             },
         };
     }
@@ -77,7 +97,9 @@ export default class Overview extends GuidRoute {
     afterModel(this: Overview, model: GuidRouteModel<Registration>) {
         // Do not return model.taskInstance
         // as it would block rendering until model.taskInstance resolves and `setHeadTags` task terminates.
-        this.get('setHeadTags').perform(model);
+        if (!this.currentUser.viewOnlyToken) {
+            this.get('setHeadTags').perform(model);
+        }
     }
 
     @action
@@ -90,6 +112,6 @@ export default class Overview extends GuidRoute {
 
     @action
     error() {
-        this.replaceWith('page-not-found', this.router.currentURL.slice(1));
+        this.replaceWith('page-not-found', notFoundURL(this.router.currentURL));
     }
 }

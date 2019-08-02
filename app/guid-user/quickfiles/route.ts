@@ -2,10 +2,12 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import { task } from 'ember-concurrency';
+
 import GuidUserQuickfilesController from 'ember-osf-web/guid-user/quickfiles/controller';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 
 function preventDrop(e: DragEvent) {
     if ((e.target as HTMLDivElement).id === 'quickfiles-dropzone') {
@@ -47,7 +49,8 @@ export default class UserQuickfiles extends Route.extend({
             return model;
         } catch (error) {
             blocker.errored(error);
-            this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
+            this.replaceWith('not-found', notFoundURL(this.router.currentURL));
+            return undefined;
         }
     });
 

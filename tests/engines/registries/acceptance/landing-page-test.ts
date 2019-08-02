@@ -18,11 +18,11 @@ module('Registries | Acceptance | landing page', hooks => {
         freezeDateAt('1982-06-23');
     });
 
-    hooks.afterEach(function(this: TestContext) {
+    hooks.afterEach(() => {
         unfreezeDate();
     });
 
-    test('visiting /registries/', async function(this: TestContext, assert: Assert) {
+    test('visiting /registries/', async assert => {
         await visit('/registries/');
         assert.dom('[data-test-search-box]').exists();
         await percySnapshot(assert);

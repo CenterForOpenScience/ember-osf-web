@@ -5,17 +5,363 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Components
+    - `project-contributors/list`
+        - add ability to load more pages of contributors
+        - add loading indicator
+
+## [19.7.0] - 2019-07-31
+### Added
+- Components
+    - `osf-dialog` - for dialog boxes and modal popup things
+- Tests
+    - Acceptance
+        - collections
+            - discover page test that just takes snapshots
+            - submit test that just takes snapshot
+            - edit test that just takes snapshots
+
+### Changed
+- Components
+    - `osf-navbar` - use img tag with alt text for navbar OSF logo instead of background CSS image
+- Services
+    - `analytics` - added `isWithdrawn` custom dimension to `trackPage()`
+
+### Removed
+- Packages
+    - `ember-test-selectors`
+
+### Fixed
+- Components
+    - `sign-up-policy` - fixed links to terms of service and privacy policy
+
+## [19.6.1] - 2019-07-12
+### Fixed
+- Config:
+    - add waffle flag for `guid-user` route
+- Components:
+    - `home`
+        - `testimonials` - link to `guid-user` instead of `resolve-guid`
+
+## [19.6.0] - 2019-07-12
+### Added
+- Mirage:
+    - Factories:
+        - `collected-metadatum`
+        - `collection-provider`
+        - `taxonomy`
+    - Serializers:
+        - `collected-metadatum`
+        - `collection-provider`
+        - `taxonomy`
+    - Fixtures:
+        - `taxonomies`
+    - Scenarios:
+        - `collection`
+    - Views:
+        - `collection-provider-taxonomies`
+        - `collection-search`
+    - Endpoints:
+        - `/providers/collections`
+        - `/providers/collections/:parentID/licenses/`
+        - `/collections/:parentID/collected_metadata/`
+        - `/providers/collections/:parentID/taxonomies`
+        - `/search/collections/`
+
+### Changed
+- Models:
+    - `collected-metadatum` - changed `guid` relationship to be a `node` relationship
+    - `collection-provider` - removed `collections` relatioship
+    - `collection`
+        - removed `provider` relationship inverse (`collections`)
+        - added `collectedMetadata` relationship
+- Routes:
+    - `new-home`
+        - renamed to `home` (replacing existing `home` route)
+        - add scroll analytics and improve wording
+- Engines:
+    - `collections`
+        - updated `collection-item-picker` component to use `collectedMetadata` relationship
+        - updated `collections-submission` component to set the `guid` relationship to the node instead of the guid
+- Tests:
+    - Acceptance:
+        - `new-home` - renamed to `logged-out-homepage` (replacing existing `logged-out-homepage` test)
+- Mirage:
+    - Factories:
+        - `collection` - add choices fields
+    - Serializers:
+        - `collection` - add `provider` and `collectedMetadata` relationships
+    - Views:
+        - `osf-resource` - add pass through `process()` to `osfNestedResource` `show` action
+    - Utils:
+        - `filter` - add ability to filter by a list of ids.
+- Misc:
+    - add lang attribute to `html` element in `index.html`
+
+## [19.5.1] - 2019-06-24
+### Added
+- Tests:
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-detail-header` - add tests for location and dates
+- Components:
+    - `new-home`
+        - `testimonials` - A section for the testimonials carousel
+        - `integrations versions A/B` - A list of all supported integrations
+    - `carousel`
+
+### Changed
+- Components:
+    - `meetings`
+        - `index`
+            - `meetings-list` - sort by submission count (descending) by default
+        - `detail`
+            - `meeting-submissions-list` - removed download count sorting
+- Tests:
+    - Acceptance:
+        - `new-home` - Added tests to support integrations section
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-submissions-list` - removed checking of download count sorting
+    - Acceptance:
+        - `meetings`
+            - `detail` - add submission with long title
+            - `index` - add meeting with long name
+
+### Fixed
+- Models:
+    - `meeting-submission` - renamed `created` to `dateCreated` to match API
+- Components:
+    - `meetings`
+        - `detail`
+            - `meeting-submissions-list`
+                - renamed `created` to `dateCreated` to match API
+                - applied `table-layout: fixed` to force truncating of long submission titles
+            - `meeting-detail-header` - only attempt to display dates when defined
+        - `index`
+            - `meetings-list` - applied `table-layout: fixed` to force truncating of long meeting names
+- Tests:
+    - Integration:
+        - `meetings`
+            - `detail`
+                - `meeting-submissions-list` - renamed `created` to `dateCreated` to match API
+- Mirage:
+    - `meeting-submission` factory - renamed `created` to `dateCreated` to match API
+
+## [19.5.0] - 2019-06-07
+### Added
+- Models:
+    - `meeting` - for OSF Meetings
+    - `meeting-submission` - for OSF Meetings submissions
+    - `external-identity` - for connected identities
+- Adapters:
+    - `meeting` - in private namespace
+    - `meeting-submission` - in private namespace, with custom urlforQuery and buildUrl methods.
+    - `external-identity` - for connected identities
+- Serializers:
+    - `meeting`
+    - `meeting-submission`
+    - `external-identity` - for connected identities
+- Routes:
+    - `meetings` - parent route for meetings
+        - `meetings.index` - meetings landing page
+        - `meetings.detail` - meeting detail page
+- Components:
+    - `get-started-button` - a button that takes you to the '/register' page.
+    - `search-bar` - a search bar component that takes you to the search page.
+    - `paginated-list/x-header` - a paginated list header closure component
+    - `banners/view-only-link` - banner displayed when using a view-only link
+    - `new-home`
+        - `hero-banner` - a banner to be used on the logged-out homepage.
+        - `support-section`
+            - `support-item` - an item on the support-section component
+            - `learn-more-button` - a button that goes to the cos.io learn more page
+    - `meetings`
+        - `index`
+            - `meetings-hero-banner` - meetings landing page hero banner
+            - `meetings-list` - meetings list for the meetings index page
+            - `meetings-footer` - meetings landing page footer
+        - `detail`
+            - `meeting-detail-header` - meeting detail header
+            - `meeting-submissions-list` - meeting submissions list
+    - `settings`
+        - `account`
+            - `connected-identities` - connected identities component
+- Helpers:
+    - `is-feature-enabled` - helper that checks if a feature flag is enabled
+- Utilities:
+    - `leafVals` - get values of all leaves in an object tree
+    - `clean-url`
+        - `notFoundURL` - makes a URL suitable for a `not-found` route's `path` param
+    - `map-keys`
+        - `camelizeKeys`
+        - `snakifyKeys`
+        - `mapKeysAndValues`
+    - `url-parts`
+        - `splitUrl`
+        - `joinUrl`
+        - `addQueryParam` - adds a query param to a given URL
+        - `addPathSegment` - adds a path segment to a given URL
+- Tests:
+    - Acceptance:
+        - `new-home`
+        - `meetings/index`
+        - `meetings/detail`
+        - `view-only-link`
+        - `registries/overview/view-only-link`
+    - Integration:
+        - `get-started-button`
+        - `search-bar`
+        - `hero-banner`
+        - `view-only-link`
+        - `meetings`
+            - `index`
+                - `meetings-hero-banner`
+                - `meetings-list`
+                - `meetings-footer`
+            - `detail`
+                - `meeting-detail-header`
+                - `meeting-submissions-list`
+        - `settings`
+            - `account`
+                - `connected-identities`
+    - Unit:
+        - utils:
+            - `leafVals`
+            - `notFoundURL` (in `clean-url`)
+            - `camelizeKeys` (in `map-keys`)
+            - `addPathSegment` (in `url-parts`)
+- Mirage:
+    - `meeting` factory
+    - `meeting-submission` factory
+    - private `meetings` endpoint
+    - meetings scenario
+    - `external-identities` factory and endpoint
+    - add `external-identities` to settings scenario
+- View-only link support:
+    - Add `view_only` query param to `application` route
+    - Store VOL info (token, anonymized) on `current-user` service
+    - Include VOL token in all API requests, all links within OSF
+- Types:
+    - `ember-a11y-testing` - `a11yAudit`
+- DX:
+    - .vscode/settings.json
+        - Add `typescript.tsdk` setting so that VS Code uses workspace's TypeScript version by default.
+
+### Changed
+- Adapters:
+    - `osf-adapter` - added support for view-only links
+- Controllers:
+    - `applicaton` - added `viewOnlyToken` query param
+- Routes:
+    - `applicaton` - added `viewOnlyToken` query param
+- Components:
+    - `osf-navbar`
+        - detect active OSF service for any non-engine service
+        - `x-links/hyper-link/x-anchor` added support for view-only links
+    - `paginated-list`
+        - add ability to provide a header row
+        - add splattributes to item
+    - `contributor-list` - display something useful when using an anonymized VOL
+    - `osf-link` - added support for view-only links
+    - `osf-mode-footer` - add features tab for toggling feature flags
+    - `app-components`
+        - `license-text` - moved to `osf-components`
+        - `license-picker` - moved to `osf-components`
+- Authenticators:
+    - `osf-cookie`
+        - initialize any disabled feature flags found in config
+        - added support for view-only links
+- Decorators:
+    - `checkAuth` - added support for view-only links
+- Transforms:
+    - `node-license` - use `camelizeKeys` and `snakifyKeys` utils
+- Services:
+    - `current-user` - added support for view-only links
+- Utilities:
+    - `sparse-fieldsets` - use `camelizeKeys` and `snakifyKeys` utils
+- Tests:
+    - Integration:
+        - `contributor-list` - add tests for anonymized nodes
+- Mirage:
+    - `node` factory - added support for view-only links
+    - `root` factory - added support for view-only links
+    - default scenario - added meetings scenario
+- Misc:
+    - ugrade dependencies (see package.json diff)
+
+## [19.4.0] - 2019-04-25
+### Added
+- Features:
+    - Registries overview navigation menu (#600)
+    - Editable registration institutions (#617)
+    - Display registration wiki count (#625)
+    - Add `citation_doi` to `<meta>` tags (#628)
+- Components:
+    - `citation-viewer` - displays citations for a node (#608)
+- Data:
+    - `Node.bibliographicContributors` relationship (#604)
+    - `OsfModel.sparseHasMany`, `sparseLoadAll` (#614)
+- Utils:
+    - Sparse fieldset utils (#614)
+
+### Changed
+- Components:
+    - `contributor-list` - display only bibliographic contributors (#604)
+
+### Fixed
+- Registries discover page - recognize links to registrations on test.osf.io (#597)
+- Registration form rendering errors (#620)
+- Allow withdrawing registrations without justification (#622)
+- Position tooltips and footer correctly (#624, #626)
+
+## [19.3.0] - 2019-04-18
 ### Added
 - Addons:
     - `ember-changesets`
 - Components:
+    - `institutions-widget` - has a list of institutions associated with a node. Has a modal to add/remove
+    - `institutions-list` - shows a list of institutions
+    - `institution-select-list` - a checkbox list of institutions a user can select
+    - `placeholder`
+        - `circle` - a placeholder for circlular elements
+- Routes:
+    - `new-home` - new logged out home page route
+    - `settings/account/change-password` - Panel for changing a user's password
+    - `password-strength-bar` - Shows the strength of a given password
+    - `support` - updated language and links
+
+### Changed
+- Components
+    - `validated-model-form` - use changesets automatically
+
+### Removed
+- Components
+    - `settings/account/request-export`
+
+### Fixed
+- `osf-navbar/auth-dropdown` - make sure `campaign` and `next` query params are included in link to register
+
+## [19.2.0] - 2019-03-04
+### Added
+- Components:
+    - `ancestry-display` - display node ancestry breadcrumbs
     - `settings/account/default-region` - Panel for setting a user's default region
     - `settings.account.-components.request-deactivation`
     - `settings.account.-components.request-export`
+    - `settings/account/-components/connected-emails` - a list of all emails connected to an account
 - Utils:
     - `getHref` - get an href from a `Link`
     - `getRelatedHref` - get an href from a `Relationship`
     - `tuple` - create a strictly-typed [tuple](https://www.typescriptlang.org/docs/handbook/basic-types.html#tuple)
+- Tests:
+    - Acceptance:
+        - `settings/account/connected-emails`
+    - Integration:
+        - `ancestry-display` component
 
 ### Changed
 - Models:
@@ -52,13 +398,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `shouldTruncate` (default true)
         - `shouldLinkUsers` (default false)
     - `osf-mode-footer` - show dev banner based on `config.showDevBanner`
-    - `validated-model-form` - use changesets automatically
 - Tests
     - Using new `click` handler everywhere in main app to verify `data-analytics-name` usage
 - Travis
     - Use a production build for handbook
 - OSF API
     - Bump version from 2.8 to 2.14
+- Linting
+    - upgraded to latest versions of:
+        - eslint-plugin-typescript -> @typescript-eslint/eslint-plugin
+        - typescript-eslint-parser -> @typescript-eslint/eslint-parser (now a dep of @typescript-eslint/eslint-plugin)
+        - ember-cli-eslint (upgrade required to get eslint 5, for compatibility with @typescript-eslint/eslint-plugin)
+        - eslint-plugin-ember (upgrade required for compatibility with ember-cli-eslint)
+        - eslint-config-airbnb-base (upgrade required for compatibility with eslint 5)
+        - eslint-plugin-eslint-comments (upgrade required for compatibility with eslint 5)
+    - made style and config changes so that linting passes after above upgrades
 
 ### Removed
 - Components:
@@ -91,7 +445,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components:
     - `settings.account.-components.security` - Two-factor authentication panel.
     - `osf-button` - our new, use-everywhere button component
-    - `connected-emails` - a list of all emails connected to an account
 - Models:
     - `user-setting`
 - Routes:
@@ -145,7 +498,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-onbeforeunload` - Handle warnings if we have unsaved changes on a page
 - Components:
     - `new-project-navigation-modal` - For navigating away to nodes. Or not.
-    - `connected-emails` - a list of all emails connected to an account
 - Handbook:
     - `new-project-modal` component
     - `new-project-navigation-modal` component
@@ -163,7 +515,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `new-project-navigation-modal` - component integration test
     - Acceptance:
         - `settings.profile.name`
-        - `settings.account`
         - `guid-user/quickfiles` - acceptance tests around landing on the page and mostly move to project
         - Add percy everywhere in the main app
     - Helpers:
@@ -316,7 +667,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `paginated-list/all` - list of all models of a given type
     - `osf-header` - the OSF navbar, various banners, and secondary navbar wormhole all wrapped up.
     - `hyper-link` - combined `a` and `{{link-to}}` based off the `route` passed in. Supports analytics as well.
-    - `ancestry-display` - display node ancestry breadcrumbs
     - `delete-button` - configurable delete button, including a confirmation modal and scientist name
     - `tags-widget` - you know, for tags
 - Routes:
@@ -340,7 +690,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `tags-widget` component integration test
     - `register` route acceptance test
     - `param` util unit test
-    - `ancestry-display` integration test
 - Blueprints:
     - `osf-model` - creates model, adapter, and serializer for an OSF model
 - Types:
@@ -699,23 +1048,44 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.7.0...HEAD
-[0.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.1...0.7.0
-[0.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.6.0...0.6.1
-[0.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.2...0.6.1
-[0.5.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.1...0.5.2
-[0.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.5.0...0.5.1
-[0.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.4.1...0.5.0
-[0.4.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.4.0...0.4.1
-[0.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.7...0.4.0
-[0.3.7]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.6...0.3.7
-[0.3.6]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.5...0.3.6
-[0.3.5]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.4...0.3.5
-[0.3.4]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.3...0.3.4
-[0.3.3]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.2...0.3.3
-[0.3.2]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.1...0.3.2
-[0.3.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.3.0...0.3.1
-[0.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.2.0...0.3.0
-[0.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.1.1...0.2.0
-[0.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/compare/0.1.0...0.1.1
-[0.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/compare/7dad0d13c0253de88720dd058e96e11905d56911...0.1.0
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.7.0...HEAD
+[19.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.0
+[19.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.1
+[19.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.0
+[19.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.1
+[19.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.5.0
+[19.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.4.0
+[19.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.3.0
+[19.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.2.0
+[19.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.1.2
+[19.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.1.1
+[19.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.1.0
+[19.0.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.0.2
+[19.0.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.0.1
+[19.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.0.0
+[18.2.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.2.2
+[18.2.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.2.1
+[18.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.2.0
+[18.1.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.1.2
+[18.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.1.1
+[18.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.1.0
+[18.0.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/18.0.0
+[0.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.7.0
+[0.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.6.1
+[0.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.6.1
+[0.5.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.5.2
+[0.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.5.1
+[0.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.5.0
+[0.4.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.4.1
+[0.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.4.0
+[0.3.7]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.7
+[0.3.6]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.6
+[0.3.5]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.5
+[0.3.4]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.4
+[0.3.3]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.3
+[0.3.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.2
+[0.3.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.1
+[0.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.3.0
+[0.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.2.0
+[0.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.1.1
+[0.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/0.1.0

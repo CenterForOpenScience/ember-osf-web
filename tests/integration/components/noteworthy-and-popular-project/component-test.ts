@@ -15,7 +15,7 @@ module('Integration | Component | noteworthy-and-popular-project', hooks => {
 
     test('it renders', async function(assert) {
         const node = server.create('node', {}, 'withContributors');
-        const project = await this.store.findRecord('node', node.id, { include: 'contributors' });
+        const project = await this.store.findRecord('node', node.id, { include: 'bibliographic_contributors' });
         this.set('project', project);
 
         await render(hbs`<NoteworthyAndPopularProject @project={{this.project}} />`);

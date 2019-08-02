@@ -31,6 +31,12 @@ export default class CopyableText extends Component {
     async _success() {
         if (this.analyticsLabel) {
             this.analytics.click('button', this.analyticsLabel);
+        } else {
+            this.analytics.trackFromElement(this.element, {
+                name: 'Copy text',
+                category: 'button',
+                action: 'click',
+            });
         }
         if (this.success) {
             this.success();

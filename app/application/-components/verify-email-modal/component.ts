@@ -115,18 +115,17 @@ export default class VerifyEmailModal extends Component.extend({
                 verifyError: 'verifyEmail.add.verifyError',
                 denyError: 'verifyEmail.add.denyError',
             };
-        } else {
-            return {
-                header: 'verifyEmail.merge.header',
-                body: 'verifyEmail.merge.body',
-                verifyButton: 'verifyEmail.merge.verifyButton',
-                denyButton: 'verifyEmail.merge.denyButton',
-                verifySuccess: 'verifyEmail.merge.verifySuccess',
-                denySuccess: 'verifyEmail.merge.denySuccess',
-                verifyError: 'verifyEmail.merge.verifyError',
-                denyError: 'verifyEmail.merge.denyError',
-            };
         }
+        return {
+            header: 'verifyEmail.merge.header',
+            body: 'verifyEmail.merge.body',
+            verifyButton: 'verifyEmail.merge.verifyButton',
+            denyButton: 'verifyEmail.merge.denyButton',
+            verifySuccess: 'verifyEmail.merge.verifySuccess',
+            denySuccess: 'verifyEmail.merge.denySuccess',
+            verifyError: 'verifyEmail.merge.verifyError',
+            denyError: 'verifyEmail.merge.denyError',
+        };
     }
 
     constructor(...args: any[]) {

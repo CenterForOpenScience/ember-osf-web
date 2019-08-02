@@ -55,6 +55,8 @@ declare const config: {
             authenticated: string;
             resource: string;
             isPublic: string;
+            isWithdrawn: string;
+            version: string;
         };
     }>;
     FB_APP_ID?: string;
@@ -76,6 +78,7 @@ declare const config: {
         apiUrl: string;
         apiVersion: string;
         apiHeaders: { [k: string]: string };
+        learnMoreUrl: string;
         renderUrl: string;
         waterbutlerUrl: string;
         helpUrl: string;
@@ -154,6 +157,9 @@ declare const config: {
         navigation: {
             institutions: string;
         };
+        ABTesting: {
+            homePageVersionB: string;
+        };
         storageI18n: string;
         enableInactiveSchemas: string;
         verifyEmailModals: string;
@@ -193,6 +199,10 @@ declare const config: {
     };
 
     defaultProvider: string;
+
+    pageTitle: {
+        prepend: boolean;
+    };
 };
 
 export default config;

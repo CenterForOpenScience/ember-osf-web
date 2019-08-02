@@ -20,6 +20,8 @@ const {
 } = config;
 
 function registrationScenario(server: Server, currentUser: ModelInstance<User>) {
+    server.loadFixtures('citation-styles');
+
     const registrationNode = server.create(
         'node',
         {
@@ -51,7 +53,8 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
+    }, 'withContributors', 'withComments', 'withDoi', 'withLicense', 'withAffiliatedInstitutions');
+
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
 }
@@ -60,8 +63,70 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('file', 5, { user: currentUser });
 }
 
+function collectionScenario(server: Server, currentUser: ModelInstance<User>) {
+    const taxonomies = server.schema.taxonomies.all().models;
+    const licensesAcceptable = server.schema.licenses.all().models;
+    const primaryCollection = server.create('collection');
+    const nodeToBeAdded = server.create('node', {
+        title: 'Node to be added to collection',
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeToBeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    const nodeAdded = server.create('node', {
+        description: 'A random description',
+        title: 'Added to collection',
+        license: licensesAcceptable[0],
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    server.create('collected-metadatum', {
+        creator: currentUser,
+        guid: nodeAdded,
+        id: nodeAdded.id,
+        collection: primaryCollection,
+        subjects: [[{ text: 'Arts and Humanities', id: '123' }]],
+    });
+    server.create('collected-metadatum', {
+        creator: currentUser,
+        guid: server.create('node', 'withContributors'),
+        collection: primaryCollection,
+        subjects: [
+            [
+                { text: 'Arts and Humanities', id: '123' },
+                { text: 'Theatre and Performance Studies', id: '456' },
+            ],
+        ],
+    });
+    server.create('collected-metadatum', {
+        creator: currentUser,
+        guid: server.create('node', 'withContributors'),
+        collection: primaryCollection,
+        subjects: [
+            [
+                { text: 'Another Primary Subject', id: '123' },
+                { text: 'Another Secondary Subject', id: '456' },
+            ],
+        ],
+    });
+    server.create('collection-provider', {
+        id: 'studyswap',
+        primaryCollection,
+        taxonomies,
+        licensesAcceptable,
+    });
+}
+
 function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
-    const firstNode = server.create('node', {});
+    server.create('user-setting', { user: currentUser });
+    const firstNode = server.create('node', 'withAffiliatedInstitutions');
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
     const nodes = server.createList('node', 10, {
         currentUserPermissions: Object.values(Permission),
@@ -104,13 +169,24 @@ function forksScenario(server: Server, currentUser: ModelInstance<User>) {
     forkNode(server, forksNode, { currentUserPermissions: Object.values(Permission) });
 }
 
-function handbookScenario(server: Server) {
+function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     // ValidatedModelForm
     server.create('node', {
         id: 'extng',
         title: 'Existing node!',
         description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
     });
+
+    // InstitutionsWidget
+    const institutionsNode = server.create('node', {
+        id: 'lacks',
+    }, 'withAffiliatedInstitutions');
+
+    server.createList('institution', 2, { users: [currentUser], nodes: [institutionsNode] });
+
+    server.create('node', {
+        id: 'manys',
+    }, 'withManyAffiliatedInstitutions');
 
     // ContributorList
     for (const contributorCount of [1, 2, 3, 23]) {
@@ -130,6 +206,17 @@ function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
     server.createList('token', 23);
     server.createList('scope', 5);
     server.createList('developer-app', 12);
+    server.create('external-identity', { id: 'ORCID' }, 'withStatusVerified');
+    server.createList('external-identity', 10);
+}
+
+function meetingsScenario(server: Server) {
+    server.create('meeting', {
+        id: 'testmeeting',
+        name: 'Test Meeting',
+        submissions: server.createList('meeting-submission', 15),
+    });
+    server.createList('meeting', 25);
 }
 
 export default function(server: Server) {
@@ -137,6 +224,7 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
+    server.loadFixtures('taxonomies');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
         [
@@ -155,6 +243,9 @@ export default function(server: Server) {
     if (mirageScenarios.includes('registrations')) {
         registrationScenario(server, currentUser);
     }
+    if (mirageScenarios.includes('collections')) {
+        collectionScenario(server, currentUser);
+    }
     if (mirageScenarios.includes('forks')) {
         forksScenario(server, currentUser);
     }
@@ -164,7 +255,10 @@ export default function(server: Server) {
     if (mirageScenarios.includes('quickfiles')) {
         quickfilesScenario(server, currentUser);
     }
+    if (mirageScenarios.includes('meetings')) {
+        meetingsScenario(server);
+    }
     if (handbookEnabled) {
-        handbookScenario(server);
+        handbookScenario(server, currentUser);
     }
 }

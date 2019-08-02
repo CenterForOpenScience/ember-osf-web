@@ -1,0 +1,55 @@
+<Panel
+    data-test-change-password-panel
+    as |panel|
+>
+    <panel.heading @title={{t 'settings.account.changePassword.title'}} />
+    <panel.body data-analytics-scope='Change password panel'>
+        <form data-test-password-form>
+            {{#let (component 'validated-input/text') as |ValidatedTextInput| }}
+                <ValidatedTextInput
+                    data-test-current-password
+                    @label={{t 'settings.account.changePassword.currentPassword.placeholder'}}
+                    @password={{true}}
+                    @model={{this.userPassword}}
+                    @valuePath='existingPassword'
+                    @shouldShowMessages={{this.didValidate}}
+                    @placeholder={{t 'settings.account.changePassword.currentPassword.placeholder'}}
+                    @ariaLabel={{t 'settings.account.changePassword.currentPassword.placeholder'}}
+                />
+                <ValidatedTextInput
+                    data-test-new-password
+                    @label={{t 'settings.account.changePassword.newPassword.placeholder'}}
+                    @password={{true}}
+                    @model={{this.userPassword}}
+                    @valuePath='newPassword'
+                    @shouldShowMessages={{this.didValidate}}
+                    @placeholder={{t 'settings.account.changePassword.newPassword.placeholder'}}
+                    @ariaLabel={{t 'settings.account.changePassword.newPassword.placeholder'}}
+                />
+                <PasswordStrengthBar
+                    data-test-strength-bar
+                    @password={{this.userPassword.newPassword}}
+                    @shouldShowMessages={{not this.shouldHideStrengthBarMessage}}
+                />
+                <ValidatedTextInput
+                    data-test-confirm-password
+                    @label={{t 'settings.account.changePassword.confirmPassword.title'}}
+                    @password={{true}}
+                    @model={{this.userPassword}}
+                    @valuePath='confirmPassword'
+                    @shouldShowMessages={{this.didValidate}}
+                    @placeholder={{t 'settings.account.changePassword.confirmPassword.placeholder'}}
+                    @ariaLabel={{t 'settings.account.changePassword.confirmPassword.placeholder'}}
+                />
+            {{/let}}
+            <OsfButton
+                data-test-update-password-button
+                data-analytics-name='Submit'
+                @buttonType='submit'
+                @onClick={{perform this.submitTask}}
+            >
+                {{t 'settings.account.changePassword.updateButton'}}
+            </OsfButton>
+        </form>
+    </panel.body>
+</Panel>

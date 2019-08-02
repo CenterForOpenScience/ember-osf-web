@@ -59,7 +59,7 @@ export default class CommentCard extends Component.extend({
 
         this.toast.success(this.i18n.t('registries.overview.comments.retract_report.success'));
     }),
-    loadReplies: task(function *(this: CommentCard, more = false) {
+    loadReplies: task(function *(this: CommentCard, more: boolean = false) {
         if (!more) {
             const replies = yield this.comment.replies;
             if (!this.replies) {
@@ -105,7 +105,7 @@ export default class CommentCard extends Component.extend({
     @computed('node')
     get currentUserCanComment() {
         if (!this.node) {
-            return;
+            return undefined;
         }
         return this.node.currentUserCanComment;
     }
@@ -139,7 +139,7 @@ export default class CommentCard extends Component.extend({
     @computed('currentUser', 'comment')
     get isAuthor() {
         if (!this.comment) {
-            return;
+            return undefined;
         }
         return this.comment.canEdit &&
             (this.comment.user.get('id') === this.currentUser.currentUserId);

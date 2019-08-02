@@ -1,10 +1,11 @@
 import Ember from 'ember';
 
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import Media from 'ember-responsive';
 
 export default class ResponsiveDropdown extends Component {
@@ -12,7 +13,16 @@ export default class ResponsiveDropdown extends Component {
 
     @not('media.isDesktop') useOverlay!: boolean;
 
+    // eslint-disable-next-line ember/no-ember-testing-in-module-scope
     inTestMode: boolean = Ember.testing;
+    renderInPlace: boolean = defaultTo(this.renderInPlace, false);
+
+    @computed('inTestMode', 'useOverlay', 'renderInPlace')
+    get shouldRenderInPlace() {
+        // Always renderInPlace in tests
+        // Don't renderInPlace on mobile (since we use modal)
+        return this.inTestMode || (this.renderInPlace && !this.useOverlay);
+    }
 
     @action
     closeDropdown(this: ResponsiveDropdown): void {

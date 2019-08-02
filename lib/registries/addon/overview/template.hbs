@@ -4,27 +4,28 @@
     </div>
 {{else}}
     {{title this.registration.title}}
-    <RegistriesBanner @node={{this.registration}} />
+    <RegistriesBanner @registration={{this.registration}} />
     <div local-class='TitleBackground'>
-        <Container>
-            <div local-class='Container'>
-                <div local-class='TitleContainer'>
-                    <div local-class='Ancestors'>
-                        <AncestryDisplay @node={{this.registration}} @useLinks={{true}} />
-                    </div>
-                    <div local-class='MainTitle'>
-                        <h1 data-test-registration-title>{{this.registration.title}}</h1>
-                    </div>
+        <Container local-class='TitleContainer'>
+            <div local-class='AncestorsAndTitle'>
+                <div local-class='Ancestors'>
+                    <AncestryDisplay @node={{this.registration}} @useLinks={{true}} />
                 </div>
-                {{#unless this.showMobileView}}
-                    <div local-class='Toolbar' data-analytics-scope='Registries Overview Toolbar'>
-                        <RegistriesOverviewMenu
-                            @registrationURL={{this.registrationURL}}
-                            @forksCount={{this.forksCount}}
-                            @node={{this.registration}}
-                        />
-                    </div>
-                {{/unless}}
+                <h1
+                    data-test-registration-title
+                    local-class='Title'
+                >
+                    {{this.registration.title}}
+                </h1>
+            </div>
+            <div local-class='Toolbar' data-analytics-scope='Registries Overview Toolbar'>
+                {{#if (not (or this.registration.withdrawn this.showMobileView))}}
+                    <RegistriesOverviewMenu
+                        @registrationURL={{this.registrationURL}}
+                        @forksCount={{this.forksCount}}
+                        @registration={{this.registration}}
+                    />
+                {{/if}}
             </div>
         </Container>
     </div>
@@ -66,7 +67,7 @@
             </div>
         {{/let}}
     {{else}}
-        {{#if this.showMobileView}}
+        {{#if (and this.showMobileView (not this.registration.withdrawn))}}
             <Navbar as |nav|>
                 <nav.bordered-section>
 
@@ -80,7 +81,7 @@
 
                 </nav.bordered-section>
                 <nav.bordered-section>
-                    <RegistriesStates @node={{this.registration}} />
+                    <RegistriesStates @registration={{this.registration}} />
 
                     <nav.buttons.default @onclick={{action 'toggleMetadata'}}>
                         {{nav.icon 'info-circle'}}
@@ -92,7 +93,7 @@
                         hyperlink=this.registrationURL
                         showText=true
                         showBookmark=true
-                        node=this.registration
+                        registration=this.registration
                         as |dd|}}
                         {{#dd.trigger}}
                             <nav.buttons.default>
@@ -136,6 +137,7 @@
                             @href='/{{this.registration.id}}/wiki/'
                             @icon='window-maximize'
                             @label={{t 'registries.overview.external_links.wiki'}}
+                            @count={{this.registration.relatedCounts.wikis}}
                         />
                         <nav.link
                             data-analytics-name='Components'

@@ -1,11 +1,16 @@
-import { association, Factory, faker } from 'ember-cli-mirage';
+import { association, Collection, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Contributor from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
-export default Factory.extend<Contributor>({
+interface ContributorTraits {
+    registered: Trait;
+    unregistered: Trait;
+}
+
+export default Factory.extend<Contributor & ContributorTraits>({
     permission: faker.list.cycle(...Object.values(Permission)),
-    bibliographic: faker.list.cycle(true, false),
+    bibliographic: true,
     unregisteredContributor() {
         return faker.random.number(5) ? undefined : faker.name.firstName();
     },
@@ -14,6 +19,20 @@ export default Factory.extend<Contributor>({
     },
     node: association() as Contributor['node'],
     users: association() as Contributor['users'],
+
+    afterCreate(contributor) {
+        if (contributor.bibliographic) {
+            const { node } = contributor;
+            node.bibliographicContributors = [
+                ...node.bibliographicContributors.models,
+                contributor,
+            ] as unknown as Collection<Contributor>;
+            node.save();
+        }
+    },
+
+    registered: trait({ unregisteredContributor: undefined }),
+    unregistered: trait({ unregisteredContributor: 'unregistered' }),
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {

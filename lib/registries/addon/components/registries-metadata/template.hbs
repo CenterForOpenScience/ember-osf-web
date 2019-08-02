@@ -1,12 +1,16 @@
 <div ...attributes>
     <div local-class='Field'>
         <h4>
-            <OsfLink
-                data-analytics-name='Contributors'
-                @href={{concat '/' this.registration.id '/contributors'}}
-            >
+            {{#if @extendedFields}}
+                <OsfLink
+                    data-analytics-name='Contributors'
+                    @href={{concat '/' this.registration.id '/contributors'}}
+                >
+                    {{t 'registries.registration_metadata.contributors'}}
+                </OsfLink>
+            {{else}}
                 {{t 'registries.registration_metadata.contributors'}}
-            </OsfLink>
+            {{/if}}
         </h4>
         <ContributorList
             @node={{this.registration}}
@@ -83,11 +87,22 @@
             <h4>{{t 'registries.registration_metadata.publication_doi'}}</h4>
         </div>
         --}}
-        {{!--
+
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.affiliated_institutions'}}</h4>
+            <EditableField
+                data-analytics-scope='Affiliated institutions'
+                @registration={{this.registration}}
+                @title={{t 'registries.registration_metadata.affiliated_institutions'}}
+            as |editable|>
+                <InstitutionsWidget
+                    data-analytics-scope='Registries overview'
+                    @node={{this.registration}}
+                    @shouldShowModal={{editable.shouldShowEditable}}
+                    @hideModal={{editable.hideEditable}}
+                />
+            </EditableField>
         </div>
-        --}}
+
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.license'}}</h4>
             {{#if this.registration.license}}
@@ -131,15 +146,27 @@
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.tags'}}</h4>
             <TagsWidget
+                data-test-registration-tags
                 @taggable={{this.registration}}
-                @readOnly={{true}}
+                @readOnly={{not this.registration.userHasAdminPermission}}
             />
         </div>
-        {{!--
-        <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.citation'}}</h4>
-            {{! TODO EMB-448 }}
-        </div>
-        --}}
+        {{#unless this.registration.isAnonymous}}
+            <div local-class='Field'>
+                <h4>{{t 'registries.registration_metadata.citation'}}</h4>
+                <OsfButton
+                    data-analytics-name='{{if this.expandCitations 'Collapse' 'Expand'}} citations'
+                    local-class='LinkButton'
+                    @type='link'
+                    @onClick={{action (mut this.expandCitations) (not this.expandCitations)}}
+                >
+                    {{this.registrationDisplayUrl}}
+                    <FaIcon @icon={{if this.expandCitations 'caret-up' 'caret-down'}} />
+                </OsfButton>
+                {{#if this.expandCitations}}
+                    <CitationViewer @citable={{this.registration}} />
+                {{/if}}
+            </div>
+        {{/unless}}
     {{/if}}
 </div>

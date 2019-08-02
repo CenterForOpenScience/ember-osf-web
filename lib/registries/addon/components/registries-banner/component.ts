@@ -12,57 +12,72 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
 import template from './template';
 
-const stateToBannerMap: Record<RegistrationState, {text: string, type: string}> = {
-    pendingRegistrationApproval: {
-        text: 'registries.overview.pendingRegistrationApproval.banner',
-        type: 'info',
-    },
-    pendingWithdrawal: {
-        text: 'registries.overview.pendingWithdrawal.banner',
-        type: 'info',
-    },
-    pendingEmbargoApproval: {
-        text: 'registries.overview.pendingEmbargoApproval.banner',
-        type: 'info',
-    },
-    pendingEmbargoTerminationApproval: {
-        text: 'registries.overview.pendingEmbargoTerminationApproval.banner',
-        type: 'danger',
-    },
-    embargoed: {
-        text: 'registries.overview.embargoed.banner',
-        type: 'danger',
-    },
-    public: { text: '', type: '' },
-    withdrawn: { text: '', type: '' },
-};
-
 const { OSF: { url: baseURL } } = config;
 
 @layout(template, styles)
 export default class RegistriesBanner extends Component {
     @service i18n!: I18N;
 
-    @alias('node.embargoEndDate') endEmbargoDate!: string;
+    @alias('registration.embargoEndDate') endEmbargoDate!: string;
 
     // Required
-    node!: RegistrationModel;
+    registration!: RegistrationModel;
 
     // Optional
     dismissible?: boolean = defaultTo(this.dismissible, false);
     type?: string = defaultTo(this.type, 'info');
 
-    @computed('node.state')
+    @computed('registration.state')
     get stateBanner(this: RegistriesBanner) {
-        return stateToBannerMap[this.node.state];
+        const {
+            registration,
+        } = this;
+        const {
+            PendingRegistration,
+            PendingWithdrawal,
+            PendingEmbargo,
+            PendingEmbargoTermination,
+            Embargoed,
+        } = RegistrationState;
+        const banner = { text: '', type: '' };
+
+        switch (registration.state) {
+        case PendingRegistration:
+            return {
+                text: 'registries.overview.pendingRegistrationApproval.banner',
+                type: 'info',
+            };
+        case PendingWithdrawal:
+            return {
+                text: 'registries.overview.pendingWithdrawal.banner',
+                type: 'info',
+            };
+        case PendingEmbargo:
+            return {
+                text: 'registries.overview.pendingEmbargoApproval.banner',
+                type: 'info',
+            };
+        case PendingEmbargoTermination:
+            return {
+                text: 'registries.overview.pendingEmbargoTerminationApproval.banner',
+                type: 'danger',
+            };
+        case Embargoed:
+            return {
+                text: 'registries.overview.embargoed.banner',
+                type: 'danger',
+            };
+        default:
+            return banner;
+        }
     }
 
-    @computed('node.registeredFrom.id')
+    @computed('registration')
     get projectUrl(this: RegistriesBanner) {
-        if (!this.node) {
-            return;
+        if (!this.registration) {
+            return undefined;
         }
-        const registeredFromId = this.node.registeredFrom.get('id');
+        const registeredFromId = this.registration.belongsTo('registeredFrom').id();
         return registeredFromId && pathJoin(baseURL, registeredFromId);
     }
 }

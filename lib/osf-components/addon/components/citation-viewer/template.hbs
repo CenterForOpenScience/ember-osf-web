@@ -1,0 +1,41 @@
+<div data-analytics-scope='Citations' ...attributes>
+    {{#if this.loadDefaultCitations.isRunning}}
+        <LoadingIndicator @dark={{true}} />
+    {{else}}
+        {{#each this.loadDefaultCitations.last.value as |citation|}}
+            <h5>{{citation.displayTitle}}</h5>
+            <p data-analytics-scope='{{citation.displayTitle}} citation'>
+                <CopyableText
+                    data-test-default-citation={{citation.id}}
+                    @text={{citation.citation}}
+                />
+            </p>
+        {{/each}}
+    {{/if}}
+
+    <h5>{{t 'osf-components.citation-viewer.get_more'}}</h5>
+    <PowerSelect
+        @search={{perform this.searchCitationStyles}}
+        @selected={{this.selectedCitationStyle}}
+        @onchange={{perform this.renderCitation}}
+        @allowClear={{true}}
+        @placeholder={{t 'osf-components.citation-viewer.placeholder'}}
+        @searchMessage={{t 'osf-components.citation-viewer.type_to_search'}}
+        as |citationStyle|
+    >
+        <span data-test-citation-search-result={{citationStyle.id}}>
+            {{citationStyle.title}}
+        </span>
+    </PowerSelect>
+
+    {{#if this.renderCitation.isRunning}}
+        <LoadingIndicator @dark={{true}} />
+    {{else if this.renderCitation.last.isSuccessful}}
+        <p>
+            <CopyableText
+                data-test-selected-citation={{this.selectedCitationStyle}}
+                @text={{this.renderCitation.last.value}}
+            />
+        </p>
+    {{/if}}
+</div>

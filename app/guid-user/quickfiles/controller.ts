@@ -40,10 +40,11 @@ export default class UserQuickfiles extends Controller {
             return yield node.save();
         } catch (ex) {
             this.get('toast').error(this.get('i18n').t('move_to_project.could_not_create_project'));
+            return undefined;
         }
     });
 
-    flash = task(function *(item: File, message: string, type = 'success', duration = 2000) {
+    flash = task(function *(item: File, message: string, type: string = 'success', duration: number = 2000) {
         item.set('flash', { message, type });
         yield timeout(duration);
         item.set('flash', null);

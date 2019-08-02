@@ -1,5 +1,6 @@
+import { camelize } from '@ember/string';
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
-import { compare, embed, paginate, ProcessOptions, sort, toOperator } from './-private';
+import { compare, compareIds, embed, paginate, ProcessOptions, sort, toOperator } from './-private';
 
 export interface ViewContext {
     handlerContext: HandlerContext;
@@ -11,7 +12,7 @@ export function process(
     schema: Schema,
     request: Request,
     handlerContext: HandlerContext,
-    data: Array<unknown>,
+    data: unknown[],
     options?: ProcessOptions,
 ) {
     const context = { schema, request, handlerContext };
@@ -29,7 +30,7 @@ export function filter(model: ModelInstance, request: Request) {
                 const [groups, operator] = filtered.slice(1);
                 return groups.split(',').some(group => {
                     const fields = group.split('.');
-                    const field = fields.slice(-1)[0];
+                    const field = camelize(fields.slice(-1)[0]);
                     const subModels = fields.slice(0, -1);
                     if (subModels.length > 0) {
                         throw new Error(`We aren't ready for submodels yet, but we got: ${subModels}`);
@@ -37,11 +38,15 @@ export function filter(model: ModelInstance, request: Request) {
                         // For example, filter[contributors.users.full_name]=meit will need to go to the
                         // contributor's user and compare that user's full_name with the string 'meit'.
                     }
+                    // currently, filtering by a list of delimited values are only supported for IDs
+                    // therefore we make a special case for filtering by ids.
+                    if (field === 'id') {
+                        return compareIds(model.id, val, toOperator(operator));
+                    }
                     return compare(model[field], val, toOperator(operator));
                 });
-            } else {
-                return true;
             }
+            return true;
         });
 }
 

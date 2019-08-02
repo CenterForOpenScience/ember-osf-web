@@ -203,15 +203,6 @@
     background-color: #214762;
 }
 
-.osf-navbar-logo {
-    float: left;
-    margin-right: 8px;
-    background: url('/assets/images/global/cos-white2.png');
-    background-size: 100%;
-    width: 27px;
-    height: 27px;
-}
-
 .dropdown-menu {
     position: absolute;
     top: 100%;
@@ -492,10 +483,13 @@
         /* Enlarges OSF Font */
         /* Enlarges OSF logo and modifies placement */
         .osf-navbar-logo {
-            width: 35px;
-            height: 35px;
-            margin-top: -4px;
-            margin-left: -4px;
+            float: left;
+            margin: -4px 8px 0 -4px;
+
+            img {
+                width: 35px;
+                height: 35px;
+            }
         }
 
         /* Defines position of dropdown toggle (caret) for primary navigation*/

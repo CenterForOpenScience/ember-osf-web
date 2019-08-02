@@ -1,0 +1,36 @@
+<div data-test-institutions-list local-class='paginatedInstitutions'>
+    {{#paginated-list/has-many
+        model=@node
+        relationshipName='affiliatedInstitutions'
+        bindReload=@reloadList
+        analyticsScope='Project Institutions'
+        usePlaceholders=this.usePlaceholders
+        as |list|
+    }}
+        <list.item as |institution|>
+            <div local-class='InstitutionList__item'>
+                {{#if institution}}
+                    <OsfLink @href={{institution.links.html}}>
+                        <img
+                            data-test-institution-list-institution={{institution.name}}
+                            class='img-circle img-responsive'
+                            src={{institution.logoRoundedUrl}}
+                            alt={{institution.name}}
+                        >
+                    </OsfLink>
+                {{else}}
+                    <Placeholder as |placeholder|>
+                        <placeholder.circle />
+                    </Placeholder>
+                {{/if}}
+            </div>
+        </list.item>
+        <list.empty>
+            {{#if @node.isRegistration}}
+                {{t 'osf-components.institutions-widget.no_affiliated_institution.registration'}}
+            {{else}}
+                {{t 'osf-components.institutions-widget.no_affiliated_institution.project'}}
+            {{/if}}
+        </list.empty>
+    {{/paginated-list/has-many}}
+</div>

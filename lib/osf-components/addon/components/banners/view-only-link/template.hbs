@@ -1,0 +1,21 @@
+<BsAlert
+    data-analytics-scope='View-only link banner'
+    local-class='Alert'
+    @visible={{this.shouldDisplay}}
+    @type='info'
+>
+    <div local-class='Banner'>
+        <p>
+            {{t 'banners.view_only.warning'}}
+        </p>
+
+        <OsfButton
+            data-test-view-normally
+            data-analytics-name='Stop view-only link'
+            @type='default'
+            @onClick={{action this.stopViewOnly}}
+        >
+            {{t 'banners.view_only.view_normally'}}
+        </OsfButton>
+    </div>
+</BsAlert>

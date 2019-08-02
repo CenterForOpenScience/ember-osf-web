@@ -59,7 +59,7 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
         })}`;
     }
 
-    @computed('provider', 'provider.id', 'provider.name', 'provider.documentType.pluralCapitalized')
+    @computed('provider', 'provider.{id,name,documentType.pluralCapitalized}')
     get headerText() {
         if (this.provider) {
             // Special casing for Thesis Commons

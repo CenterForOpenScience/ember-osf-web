@@ -3,6 +3,7 @@
 const nodeSass = require('node-sass');
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const broccoliAssetRevDefaults = require('broccoli-asset-rev/lib/default-options');
 
 const { EMBER_ENV } = process.env;
 const IS_PROD = EMBER_ENV === 'production';
@@ -57,11 +58,15 @@ module.exports = function(defaults) {
             importBootstrapFont: true,
             importBootstrapCSS: false,
         },
+        'ember-composable-helpers': {
+            only: ['contains', 'range'],
+        },
         'ember-cli-password-strength': {
             bundleZxcvbn: !IS_PROD,
         },
         fingerprint: {
             enabled: true,
+            extensions: broccoliAssetRevDefaults.extensions.concat(['svg']),
             exclude: [
                 'zxcvbn.js',
                 'assets/osf-assets',
@@ -131,13 +136,12 @@ module.exports = function(defaults) {
                 return config.assetsPrefix.replace(/\/$/, '') + filePath;
             },
         },
-        'ember-test-selectors': {
-            strip: false,
-        },
     });
 
     app.import('node_modules/dropzone/dist/dropzone.css');
     app.import('node_modules/dropzone/dist/dropzone.js');
+
+    app.import('node_modules/wicg-inert/dist/inert.min.js');
 
     app.import({
         test: 'vendor/ember/ember-template-compiler.js',

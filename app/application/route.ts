@@ -4,6 +4,7 @@ import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 
 import checkAuth from 'ember-osf-web/decorators/check-auth';
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 const {
     i18n: {
@@ -23,6 +24,13 @@ export default class ApplicationRoute extends Route.extend(
      */
 ) {
     @service i18n!: I18N;
+    @service currentUser!: CurrentUser;
+
+    queryParams = {
+        viewOnlyToken: {
+            refreshModel: true,
+        },
+    };
 
     afterModel(this: ApplicationRoute) {
         const i18n = this.get('i18n');

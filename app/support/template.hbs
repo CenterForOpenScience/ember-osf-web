@@ -11,21 +11,14 @@
                 <h4 class='f-w-lg bg-color-select'>
                     <OsfLink
                         data-analytics-name='faq_title'
-                        @href='/faq'
+                        @href={{this.faqPageUrl}}
                     >
                         {{t 'support.faq_title'}}
                     </OsfLink>
                 </h4>
                 <div class='clearfix'>
                     <p>
-                        {{t 'support.faq_paragraph'}}
-                        <OsfLink
-                            data-analytics-name='faq_link'
-                            @href={{this.faqPageUrl}}
-                        >
-                            {{~t 'support.faq_link_text'~}}
-                        </OsfLink>
-                        {{~t 'general.period'}}
+                        {{t 'support.faq_paragraph' faqPageUrl=this.faqPageUrl}}
                     </p>
                     <OsfLink
                         data-analytics-name='faq_button'
@@ -44,31 +37,18 @@
                     <OsfLink
                         data-analytics-name='guides_title'
                         @href={{this.helpUrl}}
-                        @target='_blank'
-                        @rel='noreferrer'
                     >
                         {{t 'support.guides_title'}}
                     </OsfLink>
                 </h4>
                 <div class='clearfix'>
                     <p>
-                        {{t 'support.guides_paragraph_1'}}
-                        <OsfLink
-                            data-analytics-name='guides_link'
-                            @href={{this.helpUrl}}
-                            @target='_blank'
-                            @rel='noreferrer'
-                        >
-                            {{t 'support.guides_link_text'}}
-                        </OsfLink>
-                        {{t 'support.guides_paragraph_2'}}
+                        {{t 'support.guides_paragraph' helpUrl=this.helpUrl}}
                     </p>
                     <OsfLink
                         data-analytics-name='guides_button'
                         class='btn btn-info m-t-lg pull-right'
                         @href={{this.helpUrl}}
-                        @target='_blank'
-                        @rel='noreferrer'
                     >
                         {{t 'support.guides_button'}}
                         <i class='fa fa-angle-right'></i>
@@ -80,24 +60,14 @@
             <div local-class='SupportCol'>
                 <h4 class='f-w-lg bg-color-select'>{{t 'support.contact_title'}}</h4>
                 <div class='clearfix'>
-                    <p>{{t 'support.contact_technical'}}</p>
-                    <p>
-                        <OsfLink
-                            data-analytics-name='support_email'
-                            class='text-bigger'
-                            @href='mailto:{{this.supportEmail}}'
-                        >
-                            {{this.supportEmail}}
-                        </OsfLink>
-                    </p>
                     <p>{{t 'support.contact_questions'}}</p>
                     <p>
                         <OsfLink
-                            data-analytics-name='contact_email'
+                            data-analytics-name='contact_form'
                             class='text-bigger'
-                            @href='mailto:{{this.contactEmail}}'
+                            @href='https://openscience.zendesk.com/hc/en-us'
                         >
-                            {{this.contactEmail}}
+                            {{t 'support.contact_form'}}
                         </OsfLink>
                     </p>
                 </div>
@@ -109,40 +79,19 @@
         <div class='col-sm-4'>
             <h5 class='m-t-md f-w-xl'>{{t 'support.prereg_title'}}</h5>
             <p>
-                {{t 'support.prereg_paragraph_1'}}
-                <OsfLink
-                    data-analytics-name='prereg_link'
-                    @href={{this.preregUrl}}
-                >
-                    {{t 'support.prereg_link_text'}}
-                </OsfLink>
-                {{t 'support.prereg_paragraph_2'}}
+                {{t 'support.prereg_paragraph' preregUrl=this.preregUrl}}
             </p>
         </div>
         <div class='col-sm-4'>
             <h5 class='m-t-md f-w-xl'>{{t 'support.status_title'}}</h5>
             <p>
-                {{t 'support.status_paragraph_1'}}
-                <OsfLink
-                    data-analytics-name='status_page_link'
-                    @href={{this.statusPageUrl}}
-                >
-                    {{t 'support.status_link_text'}}
-                </OsfLink>
-                {{t 'support.status_paragraph_2'}}
+                {{t 'support.status_paragraph' statusPageUrl=this.statusPageUrl}}
             </p>
         </div>
         <div class='col-sm-4'>
             <h5 class='m-t-md f-w-xl'>{{t 'support.consultation_title'}}</h5>
             <p>
-                {{t 'support.consultation_paragraph'}}
-                <OsfLink
-                    data-analytics-name='consultation_link'
-                    @href={{this.consultationUrl}}
-                >
-                    {{t 'support.consultation_link_text'}}
-                </OsfLink>
-                {{~t 'general.period'}}
+                {{t 'support.consultation_paragraph' consultationUrl=this.consultationUrl}}
             </p>
         </div>
     </div>

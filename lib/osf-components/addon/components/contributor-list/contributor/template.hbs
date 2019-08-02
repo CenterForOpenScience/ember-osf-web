@@ -1,4 +1,4 @@
-{{#if this.contributorLink~}}
+{{~#if this.contributorLink~}}
     {{!--
         using <a> instead of <Link> so handlebars `~` can eat up whitespace
         TODO: switch to `{{#osf-link}}` invocation when <Link> is renamed
@@ -11,5 +11,7 @@
         {{~this.contributorName~}}
     </a>
 {{~else~}}
-    {{~this.contributorName~}}
-{{/if}}
+    <span data-test-contributor-name>
+        {{~this.contributorName~}}
+    </span>
+{{~/if~}}

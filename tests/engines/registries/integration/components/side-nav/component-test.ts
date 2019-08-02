@@ -20,27 +20,31 @@ class RouterStub extends Service {
     }
 }
 
+class CurrentUserStub extends Service {
+}
+
 /* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | side-nav', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:router', RouterStub);
+        this.owner.register('service:current-user', CurrentUserStub);
     });
 
-    test('it renders', async function(assert) {
+    test('it renders', async assert => {
         await render(hbs`<SideNav />`);
 
         assert.dom('nav[data-test-side-nav]').exists('The nav element is rendered');
     });
 
-    test('it renders splattributes', async function(assert) {
+    test('it renders splattributes', async assert => {
         await render(hbs`<SideNav data-for-a-test="foo" />`);
 
         assert.dom('nav[data-test-side-nav][data-for-a-test="foo"]').exists('The nav element contains splattributes');
     });
 
-    test('it yielded component render splattributes', async function(assert) {
+    test('it yielded component render splattributes', async assert => {
         await render(hbs`
             <SideNav as |nav|>
                 <nav.link data-for-a-test="bar" @route="home" @icon="home" @label="test" />

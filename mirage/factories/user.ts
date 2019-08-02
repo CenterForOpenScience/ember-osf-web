@@ -65,7 +65,7 @@ export default Factory.extend<MirageUser & UserTraits>({
 
     withInstitutions: trait<MirageUser>({
         afterCreate(user, server) {
-            server.createList('institution', 5, { users: [user] });
+            server.createList('institution', 3, { users: [user] });
         },
     }),
 

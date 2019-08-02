@@ -26,6 +26,7 @@ const Router = EmberRouter.extend({
     statusMessages: service('status-messages'),
     ready: service('ready'),
 
+    // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
     readyBlocker: null as Blocker | null,
     location: config.locationType,
     rootURL: config.rootURL,
@@ -117,6 +118,9 @@ Router.map(function() {
         });
     });
     this.route('support');
+    this.route('meetings', function() {
+        this.route('detail', { path: '/:meeting_id' });
+    });
 
     if (collections.enabled) {
         this.mount('collections');

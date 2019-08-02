@@ -31,13 +31,14 @@ export default class Search extends Component {
     page: number = 1;
     showUnregisteredForm: boolean = false;
     node: Node = this.node;
+    onAddContributor?: () => void;
 
     @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;
     @alias('results.meta.total_pages') totalPages?: number;
 
     search = task(function *(this: Search, page?: number) {
         if (!this.query) {
-            return;
+            return undefined;
         }
 
         if (page) {
@@ -70,6 +71,9 @@ export default class Search extends Component {
 
         try {
             yield contributor.save();
+            if (this.onAddContributor) {
+                this.onAddContributor();
+            }
             this.toast.success(this.i18n.t('app_components.project_contributors.search.add_contributor_success'));
         } catch (e) {
             this.toast.error(this.i18n.t('app_components.project_contributors.search.add_contributor_error'));
