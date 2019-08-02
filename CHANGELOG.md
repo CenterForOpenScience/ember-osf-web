@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `analytics` - allow passing through of `nonIteraction` flag to Google Analytics
 - Modifiers
     - `trackScroll` - set `nonInteraction` flag when calling `analytics.trackFromElement()`
+- Routes
+    - `home` - remove version and shorten analytics scope
 
 ## [19.7.0] - 2019-07-31
 ### Added
