@@ -25,6 +25,7 @@ class TrackScrollModifier extends Modifier {
                     name,
                     category: 'page',
                     action: 'scroll',
+                    nonInteraction: true,
                 },
             );
             this.didShow = true;
