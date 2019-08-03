@@ -6409,10 +6409,21 @@ ember-browserify@^1.2.0:
     through2 "^2.0.0"
     walk-sync "^0.2.7"
 
-ember-changeset@^2.0.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/ember-changeset/-/ember-changeset-2.1.1.tgz#8ff657afb9267965a04d763d46a1582835e596db"
-  integrity sha512-pStPLApI8bCfkXE/jEo1fPgHjZtkLlsBIs0qp3UbHOYnPFlE4CiuksjpFlcQWhZ2J8Ighi6UaPeL0SjQM6v1Wg==
+ember-changeset-validations@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ember-changeset-validations/-/ember-changeset-validations-2.1.0.tgz#454b5adc1e4b4bcb0bdf1896a5d50f0bee77b1f0"
+  integrity sha512-LOAA8KSjpmZkDFvUkFJwDlgiJrQGUwtYAM3ZBTEpbQ8uKo5KEkZ1KkV2hNBV3U9Dv6AEauKp/RpwB9Pn10fzdA==
+  dependencies:
+    ember-changeset "^2.0.0"
+    ember-cli-babel "^6.16.0"
+    ember-cli-htmlbars "^3.0.0"
+    ember-get-config "^0.2.4"
+    ember-validators "^2.0.0"
+
+ember-changeset@^2.0.0, ember-changeset@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/ember-changeset/-/ember-changeset-2.1.2.tgz#8313db829905299e78fe2c5e3df1563551a4c81d"
+  integrity sha512-zUp9cx/jggV5/HH58AnsoYHvxd9Lea0gPcf98gIYKEJb/yoA034eWUxnL5gMZ9cW0wZg+GxdF3I592K8GBpYoQ==
   dependencies:
     ember-cli-babel "^6.16.0"
     ember-deep-set "^0.2.0"
@@ -7622,6 +7633,13 @@ ember-diff-attrs@^0.2.1:
     ember-cli-string-utils "^1.0.0"
     ember-cli-version-checker "^2.1.0"
     lodash "^4.12.0"
+
+ember-event-helpers@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ember-event-helpers/-/ember-event-helpers-0.1.0.tgz#4b7f49f136b660df21731a9e0329507c0816438e"
+  integrity sha512-JdsYPmW0g0LLKmdRGxS9lRIdtB1Swc7Asr0XmUwhkjbFY40bfB0wlQ8P2yA3YLqbP/ToShBitN62t9Cy4PTazQ==
+  dependencies:
+    ember-cli-babel "^7.7.3"
 
 ember-export-application-global@^2.0.0:
   version "2.0.0"
