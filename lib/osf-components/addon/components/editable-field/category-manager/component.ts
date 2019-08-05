@@ -25,11 +25,13 @@ export default class CategoryManagerComponent extends Component.extend({
         this.node.set('category', this.selectedCategory);
         try {
             yield this.node.save();
-            this.set('inEditMode', false);
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.node_metadata.save_category.error'));
+            this.node.rollbackAttributes();
+            this.toast.error(this.i18n.t('registries.registration_metadata.edit_category.error'));
             throw e;
         }
+        this.set('inEditMode', false);
+        this.toast.success(this.i18n.t('registries.registration_metadata.edit_category.success'));
     }),
 }) {
     // required

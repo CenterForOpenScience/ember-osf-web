@@ -46,11 +46,18 @@ export default class InstitutionsManagerComponent extends Component.extend({
         }
     }).on('didReceiveAttrs').restartable(),
     save: task(function *(this: InstitutionsManagerComponent) {
-        yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
+        try {
+            yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
+        } catch (e) {
+            this.node.rollbackAttributes();
+            this.toast.error(this.i18n.t('registries.registration_metadata.edit_institutions.error'));
+            throw e;
+        }
         this.setProperties({
             affiliatedList: [...this.currentAffiliatedList],
             requestedEditMode: false,
         });
+        this.toast.success(this.i18n.t('registries.registration_metadata.edit_institutions.success'));
         this.reloadList();
     }),
 }) {

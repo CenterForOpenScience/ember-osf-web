@@ -45,16 +45,18 @@ export default class PublicationDoiManagerComponent extends Component.extend({
             return;
         }
 
-        const doi = extractDoi(this.validationNode.articleDoi as string) || '';
+        const doi = extractDoi(this.validationNode.articleDoi as string) || null;
 
         this.node.set('articleDoi', doi);
         try {
             yield this.node.save();
-            this.set('requestedEditMode', false);
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.node_metadata.save_pub_doi.error'));
+            this.node.rollbackAttributes();
+            this.toast.error(this.i18n.t('registries.registration_metadata.edit_pub_doi.error'));
             throw e;
         }
+        this.set('requestedEditMode', false);
+        this.toast.success(this.i18n.t('registries.registration_metadata.edit_pub_doi.success'));
     }).restartable(),
 }) {
     // required
