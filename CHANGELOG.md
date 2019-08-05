@@ -15,6 +15,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - add ability to load more pages of contributors
         - add loading indicator
 
+## [19.7.1] - 2019-08-05
+### Changed
+- Services
+    - `analytics` - allow passing through of `nonIteraction` flag to Google Analytics
+- Modifiers
+    - `trackScroll` - set `nonInteraction` flag when calling `analytics.trackFromElement()`
+- Routes
+    - `home` - remove version and shorten analytics scope
+
 ## [19.7.0] - 2019-07-31
 ### Added
 - Components
@@ -1052,7 +1061,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.7.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.7.1...HEAD
+[19.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.1
 [19.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.0
 [19.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.1
 [19.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.0
