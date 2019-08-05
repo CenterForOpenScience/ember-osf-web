@@ -15,20 +15,6 @@ export default class CollectionProviderSerializer extends ApplicationSerializer<
                     },
                 },
             },
-            highlightedTaxonomies: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/providers/collections/${model.id}/taxonomies/highlighted/`,
-                    },
-                },
-            },
-            taxonomies: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/providers/collections/${model.id}/taxonomies/`,
-                    },
-                },
-            },
             primaryCollection: {
                 data: {
                     id: model.primaryCollection.id,
