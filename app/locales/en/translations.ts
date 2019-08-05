@@ -965,7 +965,6 @@ export default {
             other_repositories: 'Other collections',
             facet_titles: {
                 collection_provider: 'Providers',
-                taxonomy: 'Subject',
                 status: 'Status',
                 collected_type: 'Type',
                 issue: 'Issue',
@@ -1025,7 +1024,6 @@ export default {
                 button: 'Clear filters',
                 heading: 'Active Filters',
                 remove_provider: 'Remove provider',
-                remove_subject: 'Remove subject',
                 remove_type: 'Remove type',
                 remove_status: 'Remove status',
                 remove_issue: 'Remove issue',

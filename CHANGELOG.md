@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `collections`
         - Components
             - `collections-submission` - removed subjects section
+            - `discover-page` - removed subject/taxonomy search filter
+            - `collection-search-result` - removed subjects display
+        - Routes
+            - `discover` - removed subject/taxonomy facet
 
 ## [19.7.1] - 2019-08-05
 ### Changed
