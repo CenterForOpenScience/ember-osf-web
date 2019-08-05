@@ -25,6 +25,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - Routes
             - `discover` - removed subject/taxonomy facet
 
+### Removed
+- Engines
+    - `collections`
+        - Components
+            - `collection-subjects-list`
+
 ## [19.7.1] - 2019-08-05
 ### Changed
 - Services
