@@ -45,17 +45,6 @@ const Validations = buildValidations({
             ],
         };
     }, {}),
-    subjects: [
-        validator('presence', {
-            presence: true,
-            minLength: 1,
-            messageKey: 'validationErrors.min_subjects',
-        }),
-        validator('array', {
-            minLength: 1,
-            messageKey: 'validationErrors.min_subjects',
-        }),
-    ],
 });
 
 export default class CollectedMetadatumModel extends OsfModel.extend(Validations) {

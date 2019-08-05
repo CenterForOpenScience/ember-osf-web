@@ -10,10 +10,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `form-controls` - a form-input wrapper that takes a changeset
 
 ### Changed
+- Models
+    - `collected-metadatum` - removed subject validation
 - Components
     - `project-contributors/list`
         - add ability to load more pages of contributors
         - add loading indicator
+- Engines
+    - `collections`
+        - Components
+            - `collections-submission` - removed subjects section
 
 ## [19.7.1] - 2019-08-05
 ### Changed
