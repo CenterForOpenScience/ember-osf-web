@@ -32,6 +32,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - `collection-subjects-list`
             - `discover-page/facets/taxonomy`
             - `discover-page/active-filters/taxonomy`
+        - Helpers
+            - `custom-taxonomy-filter`
 
 ## [19.7.1] - 2019-08-05
 ### Changed
