@@ -8,7 +8,6 @@ import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
-import { SubjectRef } from 'ember-osf-web/models/taxonomy';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -28,13 +27,10 @@ export default class SearchResultNode extends Component.extend({
 
     hostAppName = config.hostAppName;
     maxTags: number = defaultTo(this.maxTags, 10);
-    maxSubjects: number = defaultTo(this.maxSubjects, 10);
     maxCreators: number = defaultTo(this.maxCreators, 10);
     maxDescription: number = defaultTo(this.maxDescription, 300);
     showBody: boolean = defaultTo(this.showBody, false);
     expandable: boolean = defaultTo(this.expandable, false);
-
-    subjects: SubjectRef[] = defaultTo(this.subjects, []);
 
     item: Node = this.item;
 

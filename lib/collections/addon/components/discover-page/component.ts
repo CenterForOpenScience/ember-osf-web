@@ -21,7 +21,6 @@ import styles from './styles';
 import template from './template';
 
 const filterQueryParams = [
-    'taxonomy',
     'provider',
     'tags',
     'sources',
@@ -38,7 +37,6 @@ const filterQueryParams = [
 
 export interface Filters extends EmberObject {
     providers: string[];
-    subjects: string[];
     types: string[];
 }
 
@@ -128,7 +126,6 @@ export default class DiscoverPage extends Component.extend({
     sort: string = defaultTo(this.sort, '');
     sources: string = defaultTo(this.sources, '');
     start: string = defaultTo(this.start, '');
-    taxonomy: string = defaultTo(this.taxonomy, '');
     tags: string = defaultTo(this.tags, '');
     type: string = defaultTo(this.type, '');
     status: string = defaultTo(this.status, '');

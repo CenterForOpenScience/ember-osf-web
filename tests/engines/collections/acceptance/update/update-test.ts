@@ -12,9 +12,7 @@ module('Collections | Acceptance | update', hooks => {
     setupMirage(hooks);
 
     test('it renders', async () => {
-        server.loadFixtures('taxonomies');
         server.loadFixtures('licenses');
-        const taxonomies = server.schema.taxonomies.all().models;
         const licensesAcceptable = server.schema.licenses.all().models;
         const currentUser = server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
@@ -33,12 +31,10 @@ module('Collections | Acceptance | update', hooks => {
             guid: nodeAdded,
             id: nodeAdded.id,
             collection: primaryCollection,
-            subjects: [[{ text: 'Arts and Humanities', id: '123' }]],
         });
         const provider = server.create('collection-provider', {
             id: 'studyswap',
             primaryCollection,
-            taxonomies,
             licensesAcceptable,
         });
         await visit(`/collections/${provider.id}/${nodeAdded.id}/edit`);
@@ -46,8 +42,6 @@ module('Collections | Acceptance | update', hooks => {
         await untrackedClick('[data-test-project-metadata-continue]');
         await percySnapshot('Collections | Acceptance | update | project contributors');
         await untrackedClick('[data-test-collection-project-contributors] [data-test-submit-section-continue]');
-        await percySnapshot('Collections | Acceptance | update | collection subjects');
-        await untrackedClick('[data-test-collection-subject-picker] [data-test-submit-section-continue]');
         await percySnapshot('Collections | Acceptance | update | collection metadata');
         await untrackedClick('[data-test-collection-metadata] [data-test-submit-section-continue]');
         await percySnapshot('Collections | Acceptance | update | finished');
