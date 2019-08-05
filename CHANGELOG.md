@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - `discover` - removed subject/taxonomy facet
 
 ### Removed
+- Components
+    - `subject-picker`
 - Engines
     - `collections`
         - Components

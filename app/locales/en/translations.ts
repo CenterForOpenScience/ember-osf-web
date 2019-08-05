@@ -918,13 +918,6 @@ export default {
             prev: '«',
             next: '»',
         },
-        subject_picker: {
-            remove: 'Remove',
-            discard: 'Discard',
-            column: {
-                search: 'Search',
-            },
-        },
         submit_section: {
             discard: 'Discard changes',
             save: 'Save and continue',
