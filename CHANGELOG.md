@@ -11,7 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Models
-    - `collected-metadatum` - removed subject validation
+    - `collected-metadatum`
+        - removed `subjects` validation
+        - removed `subjects` attribute
+        - removed `displaySubjects` computed
 - Components
     - `project-contributors/list`
         - add ability to load more pages of contributors
