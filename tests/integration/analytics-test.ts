@@ -32,6 +32,7 @@ module('Integration | Analytics handling', hooks => {
                 action: 'click',
                 label: 'Scope! - Button!',
                 extra: undefined,
+                nonInteraction: undefined,
             }],
         ], 'One click event');
     });
@@ -54,6 +55,7 @@ module('Integration | Analytics handling', hooks => {
                 action: 'click',
                 label: 'Scope! - Button!',
                 extra: 'Foo',
+                nonInteraction: undefined,
             }],
         ], 'One click event');
     });
@@ -74,11 +76,13 @@ module('Integration | Analytics handling', hooks => {
                 action: 'click',
                 label: 'Scope! - Button!',
                 extra: undefined,
+                nonInteraction: undefined,
             }], [{
                 category: 'button',
                 action: 'click',
                 label: 'Scope! - Button!',
                 extra: undefined,
+                nonInteraction: undefined,
             }],
         ], 'Two click events');
     });
@@ -110,6 +114,7 @@ module('Integration | Analytics handling', hooks => {
                 action: 'click',
                 label: 'Scope 1 - Scope 2 - Scope 3 - Button!',
                 extra: undefined,
+                nonInteraction: undefined,
             }],
         ], 'One click event with nested scopes');
     });
@@ -135,11 +140,13 @@ module('Integration | Analytics handling', hooks => {
                 action: 'click',
                 label: 'Scope 1 - Scope 3 - Link!',
                 extra: undefined,
+                nonInteraction: undefined,
             }], [{
                 category: 'button',
                 action: 'click',
                 label: 'Scope 1 - Scope 2 - Button!',
                 extra: undefined,
+                nonInteraction: undefined,
             }],
         ], 'One button, one link');
     });
@@ -172,30 +179,35 @@ module('Integration | Analytics handling', hooks => {
                 action: 'click',
                 label: 'Scope! - Button!',
                 extra: undefined,
+                nonInteraction: undefined,
             }],
             [{
                 category: 'link',
                 action: 'click',
                 label: 'Scope! - Link!',
                 extra: undefined,
+                nonInteraction: undefined,
             }],
             [{
                 category: 'button',
                 action: 'click',
                 label: 'Scope! - Button link!',
                 extra: undefined,
+                nonInteraction: undefined,
             }],
             [{
                 category: 'checkbox',
                 action: 'click',
                 label: 'Scope! - Checkbox!',
                 extra: undefined,
+                nonInteraction: undefined,
             }],
             [{
                 category: 'other',
                 action: 'click',
                 label: 'Scope! - Other button!',
                 extra: undefined,
+                nonInteraction: undefined,
             }],
         ], 'Correct categories');
     });

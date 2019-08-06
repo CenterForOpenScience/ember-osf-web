@@ -9,7 +9,7 @@ import { localClassNames } from 'ember-css-modules';
 import ModelRegistry from 'ember-data/types/registries/model';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import CollectedMetadatum, { DisplaySubject } from 'ember-osf-web/models/collected-metadatum';
+import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
 import Preprint from 'ember-osf-web/models/preprint';
@@ -34,7 +34,6 @@ export default class CollectionSearchResult extends Component {
 
     hostAppName = config.hostAppName;
     maxTags: number = defaultTo(this.maxTags, 10);
-    maxSubjects: number = defaultTo(this.maxSubjects, 10);
     maxCreators: number = defaultTo(this.maxCreators, 10);
     maxDescription: number = defaultTo(this.maxDescription, 300);
     showBody: boolean = defaultTo(this.showBody, false);
@@ -44,7 +43,6 @@ export default class CollectionSearchResult extends Component {
 
     @alias('result.guid.content') item!: Collectable;
     @alias('item.constructor.modelName') type!: CollectableType;
-    @alias('result.displaySubjects')! subjects!: DisplaySubject[];
 
     @computed('result.displayChoiceFields')
     get choiceFilters() {
@@ -55,11 +53,6 @@ export default class CollectionSearchResult extends Component {
                 value: this.result[field],
             }))
             .filter(({ value }) => !!value);
-    }
-
-    @action
-    addTaxonomyFilter(subject: DisplaySubject) {
-        this.facetContexts.findBy('component', 'taxonomy')!.updateFilters(subject.path);
     }
 
     @action

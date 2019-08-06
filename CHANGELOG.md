@@ -5,6 +5,49 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Components
+    - `form-controls` - a form-input wrapper that takes a changeset
+
+### Changed
+- Models
+    - `collected-metadatum`
+        - removed `subjects` validation
+        - removed `subjects` attribute
+        - removed `displaySubjects` computed
+- Components
+    - `project-contributors/list`
+        - add ability to load more pages of contributors
+        - add loading indicator
+- Engines
+    - `collections`
+        - Components
+            - `collections-submission` - removed subjects section
+            - `discover-page` - removed subject/taxonomy search filter
+            - `collection-search-result` - removed subjects display
+        - Routes
+            - `discover` - removed subject/taxonomy facet
+
+### Removed
+- Components
+    - `subject-picker`
+- Engines
+    - `collections`
+        - Components
+            - `collection-subjects-list`
+            - `discover-page/facets/taxonomy`
+            - `discover-page/active-filters/taxonomy`
+        - Helpers
+            - `custom-taxonomy-filter`
+
+## [19.7.1] - 2019-08-05
+### Changed
+- Services
+    - `analytics` - allow passing through of `nonIteraction` flag to Google Analytics
+- Modifiers
+    - `trackScroll` - set `nonInteraction` flag when calling `analytics.trackFromElement()`
+- Routes
+    - `home` - remove version and shorten analytics scope
 
 ## [19.7.0] - 2019-07-31
 ### Added
@@ -30,10 +73,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Components
     - `sign-up-policy` - fixed links to terms of service and privacy policy
-
-### Fixed
-- Components
-    - `project-contributors/list` - add ability to load more pages of contributors
 
 ## [19.6.1] - 2019-07-12
 ### Fixed
@@ -1047,7 +1086,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.7.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.7.1...HEAD
+[19.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.1
 [19.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.0
 [19.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.1
 [19.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.0

@@ -45,7 +45,9 @@
             />
         {{/each}}
     </SortableGroup>
-    {{#if this.hasMore}}
+    {{#if this.loadContributors.isRunning}}
+        <LoadingIndicator @dark={{true}} />
+    {{else if this.hasMore}}
         <div local-class='has-more-container'>
             <OsfButton
                 @type='link'

@@ -919,13 +919,6 @@ export default {
             prev: '«',
             next: '»',
         },
-        subject_picker: {
-            remove: 'Remove',
-            discard: 'Discard',
-            column: {
-                search: 'Search',
-            },
-        },
         submit_section: {
             discard: 'Discard changes',
             save: 'Save and continue',
@@ -966,7 +959,6 @@ export default {
             other_repositories: 'Other collections',
             facet_titles: {
                 collection_provider: 'Providers',
-                taxonomy: 'Subject',
                 status: 'Status',
                 collected_type: 'Type',
                 issue: 'Issue',
@@ -989,8 +981,6 @@ export default {
             project_metadata_tags_label: 'Tags:',
             project_contributors_title: 'Project contributors',
             project_contributors_description: 'Updates made to this section will update the project.',
-            subjects_title: 'Collection subjects',
-            subjects_description: 'Select a discipline and subdiscipline, if relevant. Add more by clicking on a new discipline.',
             collection_metadata_title: 'Collection metadata',
             cancel: 'Cancel',
             add_button: 'Add to collection',
@@ -1028,7 +1018,6 @@ export default {
                 button: 'Clear filters',
                 heading: 'Active Filters',
                 remove_provider: 'Remove provider',
-                remove_subject: 'Remove subject',
                 remove_type: 'Remove type',
                 remove_status: 'Remove status',
                 remove_issue: 'Remove issue',
@@ -1104,6 +1093,38 @@ export default {
             pagination: {
                 previous: '«',
                 next: '»',
+            },
+        },
+
+        start: {
+            page_title: 'Start Registration',
+        },
+
+        forms: {
+            page_title: 'Select Registration Forms',
+            form: {
+                title: 'Choose From Existing Registration Schema',
+            },
+            help: {
+                title: 'Help Choose Registration Form',
+            },
+        },
+
+        drafts: {
+            page_title: 'View Registration Drafts',
+            index: {
+                title: 'Choose Unfinished Draft',
+            },
+            draft: {
+                metadata: {
+                    title: 'Fill Out Basic Registration Info',
+                },
+                form: {
+                    title: 'Fill Out Registration Form',
+                },
+                review: {
+                    title: 'Review Registration Before Submitting',
+                },
             },
         },
 

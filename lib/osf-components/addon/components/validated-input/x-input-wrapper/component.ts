@@ -19,6 +19,7 @@ export default class ValidatedXInputWrapper extends Component {
     // Optional arguments
     errors?: string;
     label?: string;
+    id?: string;
 
     @className
     @equal('validationStatus', ValidationStatus.HasError)
@@ -34,6 +35,6 @@ export default class ValidatedXInputWrapper extends Component {
 
     @computed('elementId', 'valuePath')
     get inputElementId() {
-        return `${this.elementId}__${this.valuePath}`;
+        return this.id ? this.id : `${this.elementId}__${this.valuePath}`;
     }
 }

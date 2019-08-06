@@ -24,9 +24,8 @@ enum Section {
     project = 0,
     projectMetadata = 1,
     projectContributors = 2,
-    collectionSubjects = 3,
-    collectionMetadata = 4,
-    submit = 5,
+    collectionMetadata = 3,
+    submit = 4,
 }
 
 @layout(template, styles)
@@ -51,7 +50,6 @@ export default class Submit extends Component {
         Section.project,
         Section.projectMetadata,
         Section.projectContributors,
-        Section.collectionSubjects,
         Section.collectionMetadata,
     ] : [];
     showCancelDialog: boolean = false;

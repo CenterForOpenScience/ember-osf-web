@@ -1,6 +1,6 @@
-<CollectionSubmissionConfirmationModal 
+<CollectionSubmissionConfirmationModal
     @openModal={{this.showSubmitModal}}
-    @addToCollection={{action (perform this.save)}} 
+    @addToCollection={{action (perform this.save)}}
     @cancel={{action this.resetShowSubmitModal}}
 />
 <div class='submit-header' local-class='header'>
@@ -95,27 +95,6 @@
             {{/section.active}}
             {{#section.complete}}
                 <p>{{contributor-list node=this.collectionItem shouldTruncate=false}}</p>
-            {{/section.complete}}
-        {{/sections.section}}
-
-        {{#sections.section
-            section=this.sections.collectionSubjects
-            tooltip=(t (concat this.i18nKeyPrefix 'closed_tooltip'))
-            title=(t (concat this.i18nKeyPrefix 'subjects_title'))
-            description=(t (concat this.i18nKeyPrefix 'subjects_description'))
-            as |section|
-        }}
-            {{#section.active}}
-                <SubjectPicker
-                    data-test-collection-subject-picker
-                    @id='subjects'
-                    @currentSubjects={{this.collectedMetadatum.subjects}}
-                    @model={{this.collectedMetadatum}}
-                    @continue={{action 'nextSection'}}
-                />
-            {{/section.active}}
-            {{#section.complete}}
-                {{collection-subjects-list subjects=this.collectedMetadatum.displaySubjects onClickSubject=(action this.noop)}}
             {{/section.complete}}
         {{/sections.section}}
 
