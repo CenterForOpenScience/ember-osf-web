@@ -64,7 +64,6 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 }
 
 function collectionScenario(server: Server, currentUser: ModelInstance<User>) {
-    const taxonomies = server.schema.taxonomies.all().models;
     const licensesAcceptable = server.schema.licenses.all().models;
     const primaryCollection = server.create('collection');
     const nodeToBeAdded = server.create('node', {
@@ -92,34 +91,20 @@ function collectionScenario(server: Server, currentUser: ModelInstance<User>) {
         guid: nodeAdded,
         id: nodeAdded.id,
         collection: primaryCollection,
-        subjects: [[{ text: 'Arts and Humanities', id: '123' }]],
     });
     server.create('collected-metadatum', {
         creator: currentUser,
         guid: server.create('node', 'withContributors'),
         collection: primaryCollection,
-        subjects: [
-            [
-                { text: 'Arts and Humanities', id: '123' },
-                { text: 'Theatre and Performance Studies', id: '456' },
-            ],
-        ],
     });
     server.create('collected-metadatum', {
         creator: currentUser,
         guid: server.create('node', 'withContributors'),
         collection: primaryCollection,
-        subjects: [
-            [
-                { text: 'Another Primary Subject', id: '123' },
-                { text: 'Another Secondary Subject', id: '456' },
-            ],
-        ],
     });
     server.create('collection-provider', {
         id: 'studyswap',
         primaryCollection,
-        taxonomies,
         licensesAcceptable,
     });
 }
@@ -224,7 +209,6 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
-    server.loadFixtures('taxonomies');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
         [

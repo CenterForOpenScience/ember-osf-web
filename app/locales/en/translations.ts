@@ -918,13 +918,6 @@ export default {
             prev: '«',
             next: '»',
         },
-        subject_picker: {
-            remove: 'Remove',
-            discard: 'Discard',
-            column: {
-                search: 'Search',
-            },
-        },
         submit_section: {
             discard: 'Discard changes',
             save: 'Save and continue',
@@ -965,7 +958,6 @@ export default {
             other_repositories: 'Other collections',
             facet_titles: {
                 collection_provider: 'Providers',
-                taxonomy: 'Subject',
                 status: 'Status',
                 collected_type: 'Type',
                 issue: 'Issue',
@@ -988,8 +980,6 @@ export default {
             project_metadata_tags_label: 'Tags:',
             project_contributors_title: 'Project contributors',
             project_contributors_description: 'Updates made to this section will update the project.',
-            subjects_title: 'Collection subjects',
-            subjects_description: 'Select a discipline and subdiscipline, if relevant. Add more by clicking on a new discipline.',
             collection_metadata_title: 'Collection metadata',
             cancel: 'Cancel',
             add_button: 'Add to collection',
@@ -1027,7 +1017,6 @@ export default {
                 button: 'Clear filters',
                 heading: 'Active Filters',
                 remove_provider: 'Remove provider',
-                remove_subject: 'Remove subject',
                 remove_type: 'Remove type',
                 remove_status: 'Remove status',
                 remove_issue: 'Remove issue',

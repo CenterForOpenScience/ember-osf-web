@@ -23,6 +23,7 @@ export interface TrackedData {
     action?: string;
     extra?: string;
     label: string;
+    nonInteraction?: boolean;
 }
 
 export interface InitialEventInfo {
@@ -30,6 +31,7 @@ export interface InitialEventInfo {
     category?: string;
     action?: string;
     extra?: string;
+    nonInteraction?: boolean;
 }
 
 function logEvent(analytics: Analytics, title: string, data: object) {
@@ -58,6 +60,7 @@ class EventInfo {
     category?: string;
     action?: string;
     extra?: string;
+    nonInteraction?: boolean;
 
     constructor(targetElement: Element, rootElement: Element, initialInfo?: InitialEventInfo) {
         if (initialInfo) {
@@ -84,6 +87,7 @@ class EventInfo {
             action: this.action,
             label: [...this.scopes.reverse(), this.name].join(' - '),
             extra: this.extra,
+            nonInteraction: this.nonInteraction,
         };
     }
 
