@@ -1095,6 +1095,38 @@ export default {
             },
         },
 
+        start: {
+            page_title: 'Start Registration',
+        },
+
+        forms: {
+            page_title: 'Select Registration Forms',
+            form: {
+                title: 'Choose From Existing Registration Schema',
+            },
+            help: {
+                title: 'Help Choose Registration Form',
+            },
+        },
+
+        drafts: {
+            page_title: 'View Registration Drafts',
+            index: {
+                title: 'Choose Unfinished Draft',
+            },
+            draft: {
+                metadata: {
+                    title: 'Fill Out Basic Registration Info',
+                },
+                form: {
+                    title: 'Fill Out Registration Form',
+                },
+                review: {
+                    title: 'Review Registration Before Submitting',
+                },
+            },
+        },
+
         index: {
             lead: 'The <span class="f-w-lg">open</span> registries network',
             see_example: 'See an example',
