@@ -22,6 +22,7 @@ import replication_recipe_pre_registration from
 
 export type MirageRegistrationSchema =
     Pick<RegistrationSchema, 'id' | 'active' | 'name' | 'schemaVersion'> &
+    { schemaBlocks: RegistrationSchema['schemaBlocks']} &
     { schemaNoConflict: RegistrationSchema['schema'] };
 
 export default [

@@ -9,6 +9,100 @@ export default {
     name: 'AsPredicted Preregistration',
     schemaVersion: 2,
     // To avoid collision with mirage schema. Will be changed to 'schema' in serializer.
+    schemaBlocks: [
+        {
+            blockType: 'page-heading',
+            displayText: 'Page One',
+            id: '1',
+        },
+        {
+            blockType: 'section-heading',
+            displayText: 'Existing Data',
+        },
+        {
+            blockType: 'single-select-input',
+            displayText: 'Has any data been collected for this study already?',
+            questionId: 'data',
+            required: true,
+        },
+        {
+            blockType: 'select-input-option',
+            displayText: 'Yes, at least some data have been collected for this study already',
+            questionId: 'data',
+            id: 'data-yes',
+        },
+        {
+            blockType: 'select-input-option',
+            displayText: 'No, no data have been collected for this study yet',
+            questionId: 'data',
+            id: 'data-no',
+        },
+        {
+            blockType: 'page-heading',
+            displayText: 'Page Two',
+            id: '2',
+        },
+        {
+            blockType: 'section-heading',
+            displayText: 'Hypothesis',
+        },
+        {
+            blockType: 'long-text-input',
+            displayText: 'What is the main question being asked or hypothesis being tested in this study?',
+            questionId: 'hypothesis',
+            id: 'hypothesis-input',
+        },
+        {
+            blockType: 'section-heading',
+            displayText: 'Dependent variables',
+        },
+        {
+            blockType: 'long-text-input',
+            questionId: 'dependent',
+            displayText: 'Describe the key dependent variable(s) specifying how they will be measured.',
+            id: 'dependent-input',
+        },
+        {
+            blockType: 'section-heading',
+            displayText: 'Analyses',
+        },
+        {
+            blockType: 'long-text-input',
+            displayText: 'Specify exactly which analyses you will conduct to examine the main question/hypothesis.',
+            questionId: 'analysis',
+            id: 'analysis-input',
+        },
+        {
+            blockType: 'section-heading',
+            displayText: 'More analyses',
+        },
+        {
+            blockType: 'long-text-input',
+            displayText: 'Any secondary analyses?',
+            questionId: 'analyses2',
+            id: 'analyses2-input',
+        },
+        {
+            blockType: 'section-heading',
+            displayText: 'Sample size',
+        },
+        {
+            blockType: 'long-text-input',
+            displayText: 'How many observations will be collected or what will determine sample size? No need to justify decision, but be precise about exactly how the number will be determined.',
+            questionId: 'sample',
+            id: 'sample-input',
+        },
+        {
+            blockType: 'section-heading',
+            displayText: 'Other',
+        },
+        {
+            blockType: 'long-text-input',
+            displayText: 'Anything else you would like to pre-register? (e.g., data exclusions, variables collected for exploratory purposes, unusual analyses planned?',
+            questionId: 'other',
+            id: 'other-input',
+        },
+    ],
     schemaNoConflict: {
         description: 'You will be asked to answer 8 questions about your study. This registration form uses the content recommended on the website AsPredicted.org.',
         title: 'AsPredicted Preregistration',

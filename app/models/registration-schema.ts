@@ -42,6 +42,15 @@ export interface Schema {
     description: string;
 }
 
+export interface SchemaBlock {
+    id?: string;
+    blockType: string;
+    displayText: string;
+    questionId?: string;
+    helpText ?: string;
+    required?: boolean;
+}
+
 export interface Answer<T> {
     value?: T;
     comments?: any[]; // String?
@@ -56,6 +65,7 @@ export default class RegistrationSchemaModel extends OsfModel {
     @attr('boolean') active!: boolean;
     @attr('fixstring') name!: string;
     @attr('number') schemaVersion!: number;
+    @attr('array') schemaBlocks!: SchemaBlock[];
     @attr('object') schema!: Schema;
 }
 
