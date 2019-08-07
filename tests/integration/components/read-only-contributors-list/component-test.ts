@@ -1,28 +1,16 @@
 import { render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import I18N from 'ember-i18n/services/i18n';
 
 import { setupRenderingTest } from 'ember-qunit';
-import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-import CurrentUser from 'ember-osf-web/services/current-user';
-
-interface ThisTestContext extends TestContext {
-    i18n: I18N;
-    currentUser: CurrentUser;
-}
-
-module('Integration | Component | read-only-contributor-list', hooks => {
+module('Integration | Component | read-only-contributors-list', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
 
-    hooks.beforeEach(function(this: ThisTestContext) {
+    test('it renders', async function(assert) {
         this.store = this.owner.lookup('service:store');
-    });
-
-    test('it renders 991', async function(assert) {
         const node = server.create('node');
         const users = server.createList('user', 4);
         for (const user of users) {
