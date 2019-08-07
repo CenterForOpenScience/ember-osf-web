@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `form-controls` - a form-input wrapper that takes a changeset
 - Models
     - `schema-block` - for registration-schemas
+- Modifiers
+    - `capture-element` - easily store an element from the template
 
 ### Changed
 - Models
