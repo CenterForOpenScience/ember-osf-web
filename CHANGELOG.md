@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `project-contributors/list`
         - add ability to load more pages of contributors
         - add loading indicator
+    - `osf-dialog`
+        - add `@isOpen` param for programmatic control
+        - add `@isModal` param (default `true`)
 - Engines
     - `collections`
         - Components

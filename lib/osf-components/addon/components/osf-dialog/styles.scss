@@ -14,7 +14,12 @@
     z-index: 900;
 }
 
+.Unclickable {
+    pointer-events: none;
+}
+
 .Dialog {
+    pointer-events: auto;
     max-height: 90vh;
 
     .DialogDocument {
