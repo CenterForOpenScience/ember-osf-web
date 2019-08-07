@@ -1,37 +1,45 @@
 {{#if this.showDevBanner}}
-    <div local-class='DevBanner'>
-        <OsfButton
-            title={{t 'dev_tools.title'}}
-            @type='link'
-            @onClick={{action (mut this.showModal) true}}
-        >
-            {{#if this.showUrlInput}}
-                {{fa-icon 'rocket'}}
-            {{else}}
-                <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
-            {{/if}}
-        </OsfButton>
-        {{#if this.showUrlInput}}
-            {{input type='text' value=this.url enter=(action this.transitionToUrl)}}
-        {{/if}}
-    </div>
-    <BsModal
-        @open={{this.showModal}}
-        @onHide={{action (mut this.showModal) false}}
-        as |modal|
-    >
-        <modal.header @title={{t 'dev_tools.title'}} />
-        <modal.body>
+    <OsfDialog @isModal={{false}} as |dialog|>
+        <dialog.trigger>
+            <div local-class='DevBanner'>
+                <OsfButton
+                    title={{t 'dev_tools.title'}}
+                    @type='link'
+                    @onClick={{dialog.open}}
+                >
+                    {{#if this.showUrlInput}}
+                        {{fa-icon 'rocket'}}
+                    {{else}}
+                        <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
+                    {{/if}}
+                </OsfButton>
+                {{#if this.showUrlInput}}
+                    {{input type='text' value=this.url enter=(action this.transitionToUrl)}}
+                {{/if}}
+            </div>
+        </dialog.trigger>
+
+        <dialog.heading>
+            {{t 'dev_tools.title'}}
+        </dialog.heading>
+
+        <dialog.main>
             <BsTab local-class='Tabs' as |tab|>
                 <tab.pane @title='Options'>
-                    <label>
-                        {{input type='checkbox' checked=this.analytics.shouldToastOnEvent}}
-                        {{t 'dev_tools.options.toast_events'}}
-                    </label>
-                    <label>
-                        {{input type='checkbox' checked=this.showUrlInput}}
-                        {{t 'dev_tools.options.show_url_bar'}}
-                    </label>
+                    <ul local-class='OptionsList'>
+                        <li>
+                            <label>
+                                {{input type='checkbox' checked=this.analytics.shouldToastOnEvent}}
+                                {{t 'dev_tools.options.toast_events'}}
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                {{input type='checkbox' checked=this.showUrlInput}}
+                                {{t 'dev_tools.options.show_url_bar'}}
+                            </label>
+                        </li>
+                    </ul>
                 </tab.pane>
                 <tab.pane @title='Zoom to route'>
                     <ZoomToRoute />
@@ -53,6 +61,6 @@
                     </ul>
                 </tab.pane>
             </BsTab>
-        </modal.body>
-    </BsModal>
+        </dialog.main>
+    </OsfDialog>
 {{/if}}
