@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components
     - `project-contributors`
         - added `onAddContributor` hook
+- Tests
+    - added `ember-basic-dropdown-wormhole` div to test index.html 
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource
