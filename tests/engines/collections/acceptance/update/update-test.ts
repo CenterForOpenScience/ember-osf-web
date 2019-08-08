@@ -39,7 +39,7 @@ module('Collections | Acceptance | update', hooks => {
         });
         await visit(`/collections/${provider.id}/${nodeAdded.id}/edit`);
         await percySnapshot('Collections | Acceptance | update | project metadata');
-        await untrackedClick('[data-test-project-metadata-continue]');
+        await untrackedClick('[data-test-project-metadata-save-button]');
         await percySnapshot('Collections | Acceptance | update | project contributors');
         await untrackedClick('[data-test-collection-project-contributors] [data-test-submit-section-continue]');
         await percySnapshot('Collections | Acceptance | update | collection metadata');

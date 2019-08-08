@@ -36,9 +36,9 @@ module('Collections | Acceptance | submit', hooks => {
         await untrackedClick(`[data-test-collections-node-title="${nodeToBeAdded.title}"]`);
 
         await percySnapshot('Collections | Acceptance | submit | project metadata');
-        await untrackedClick('[data-test-collections-license-picker] .ember-power-select-trigger');
+        await untrackedClick('[data-test-project-metadata-license-picker] .ember-power-select-trigger');
         await untrackedClick('.ember-power-select-option');
-        await untrackedClick('[data-test-project-metadata-continue]');
+        await untrackedClick('[data-test-project-metadata-save-button]');
 
         await percySnapshot('Collections | Acceptance | submit | project contributors');
         await untrackedClick('[data-test-collection-project-contributors] [data-test-submit-section-continue]');
