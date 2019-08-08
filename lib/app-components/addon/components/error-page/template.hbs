@@ -1,34 +1,34 @@
-{{title (t (concat translateKey '.heading'))}}
+{{title (t (concat this.translationKey '.heading'))}}
 
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <h1>{{t (concat translateKey '.heading')}}</h1>
+<div class='container'>
+    <div class='row'>
+        <div class='col-xs-12'>
+            <h1>{{t (concat this.translationKey '.heading')}}</h1>
             <p>
-                {{t (concat translateKey '.message')}}
+                {{t (concat this.translationKey '.message')}}
                 <br>
                 <span>
                     {{t 'app_components.error_page.email_message'}}
                     <a
-                        href="mailto:{{supportEmail}}"
-                        onclick={{action 'click' 'link' (concat label ' - Support') target=analytics}}
+                        href='mailto:{{this.supportEmail}}'
+                        onclick={{action 'click' 'link' (concat this.label ' - Support') target=this.analytics}}
                     >
-                        {{supportEmail}}
+                        {{this.supportEmail}}
                     </a>
                 </span>
             </p>
-            {{#if theme.isProvider}}
+            {{#if this.theme.isProvider}}
                 <a
-                    class="btn btn-primary m-t-md"
-                    href={{theme.pathPrefix}}
-                    onclick={{action 'click' 'link' (concat label ' - Go to Index') target=analytics}}
+                    class='btn btn-primary m-t-md'
+                    href={{this.theme.pathPrefix}}
+                    onclick={{action 'click' 'link' (concat this.label ' - Go to Index') target=this.analytics}}
                 >
                     {{t 'app_components.error_page.go_to'
-                        brand=(t @brandKey name=theme.provider.name)
+                        brand=(t @brandKey name=this.theme.provider.name)
                     }}
                 </a>
             {{else}}
-                {{#link-to-external 'home' class="btn btn-primary m-t-md"}}
+                {{#link-to-external 'home' class='btn btn-primary m-t-md'}}
                     {{t 'app_components.error_page.go_to' brand=(t 'general.OSF')}}
                 {{/link-to-external}}
             {{/if}}
