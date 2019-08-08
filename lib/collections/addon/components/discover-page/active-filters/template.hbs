@@ -1,19 +1,22 @@
-<div class="row">
-    <div class="col-sm-6">
-        <h4>{{t "collections.discover_page.active_filters.heading"}}:</h4>
+<div class='row'>
+    <div class='col-sm-6'>
+        <h4>{{t 'collections.discover_page.active_filters.heading'}}:</h4>
     </div>
-    <div class="col-sm-6">
-        <span class="pull-right">
+    <div class='col-sm-6'>
+        <span class='pull-right'>
             {{!CLEAR FILTERS BUTTON}}
-            <button class="btn btn-default btn-sm" {{action clearFilters}}>
+            <button
+                class='btn btn-default btn-sm'
+                {{action @clearFilters}}
+            >
                 {{t 'collections.discover_page.active_filters.button'}}
-                {{fa-icon 'remove'}}
+                <FaIcon @icon='remove' />
             </button>
         </span>
     </div>
 </div>
 
-{{#each facetContexts as |context|}}
+{{#each @facetContexts as |context|}}
     {{component
         (concat 'discover-page/active-filters/' context.component)
         context=context
