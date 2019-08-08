@@ -47,6 +47,7 @@
                     as |tag|
                 >
                     <a
+                        data-test-project-metadata-tag={{tag}}
                         href='{{@searchUrl}}?q=(tags:"{{tag}}")'
                         onclick={{action 'click' 'link' 'Collections - Submit - Search by tag' target=this.analytics}}
                     >
