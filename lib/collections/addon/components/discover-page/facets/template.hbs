@@ -1,16 +1,26 @@
 {{!Copied from Ember-SHARE}}
-<div class="p-t-md">
-    {{#each facetContexts as |context|}}
-        <div class="panel panel-default" local-class="facet-panel" hidden={{get context 'options.hidden'}}>
-            <div class="panel-heading" local-class="facet-heading">
+<div class='p-t-md'>
+    {{#each @facetContexts as |context|}}
+        <div
+            class='panel panel-default'
+            local-class='facet-panel'
+            hidden={{get context 'options.hidden'}}
+        >
+            <div
+                class='panel-heading'
+                local-class='facet-heading'
+            >
                 {{context.title}}
             </div>
-            <div class="panel-body" local-class="facet-body">
+            <div
+                class='panel-body'
+                local-class='facet-body'
+            >
                 {{component
                     (concat 'discover-page/facets/' context.component)
                     context=context
-                    filterChanged=filterChanged
-                    filterReplace=filterReplace
+                    filterChanged=@filterChanged
+                    filterReplace=@filterReplace
                 }}
             </div>
         </div>

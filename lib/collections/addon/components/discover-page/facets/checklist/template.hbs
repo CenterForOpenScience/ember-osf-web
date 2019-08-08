@@ -1,13 +1,13 @@
 <div>
-    <ul local-class="nobullet">
-        {{#each items as |item|}}
+    <ul local-class='nobullet'>
+        {{#each this.items as |item|}}
             <li>
-                <label local-class="label">
-                    {{input
-                        type="checkbox"
-                        checked=item.checked
-                        change=(action 'updateFilters' item.key)
-                    }}
+                <label local-class='label'>
+                    <Input
+                        @type='checkbox'
+                        @checked={{item.checked}}
+                        @change={{action this.updateFilters item.key}}
+                    />
                     {{item.key}}
                 </label>
             </li>
