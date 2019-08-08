@@ -1,7 +1,12 @@
 <div class='col-xs-12'>
     {{!Title}}
     <h4>
-        <a href='{{this.item.links.html}}'>{{this.item.title}}</a>
+        <a
+            data-test-collection-search-result-node-title
+            href={{this.item.links.html}}
+        >
+            {{this.item.title}}
+        </a>
     </h4>
 </div>
 
@@ -18,7 +23,9 @@
 
     {{!Description}}
     <p>
-        <div class='text-muted m-t-sm'>
+        <div
+            data-test-collection-search-result-node-description
+            class='text-muted m-t-sm'>
             {{#if this.showBody}}
                 {{unescape-xml-entities this.item.description}}
             {{else}}
@@ -34,7 +41,10 @@
 
     {{!Last edited on on}}
     {{#if this.item.dateModified}}
-        <div class='m-t-sm'>
+        <div
+            data-test-collection-search-result-node-date-modified
+            class='m-t-sm'
+        >
             <em>
                 {{t
                     'discover.search_results.lastEdited'

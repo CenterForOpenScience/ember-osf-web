@@ -1,7 +1,7 @@
 <div>
     <ul local-class='nobullet'>
         {{#each this.providers as |item|}}
-            <li>
+            <li data-test-collection-provider-facet-item={{item.key}}>
                 <label local-class='provider-label'>
                     <Input
                         @type='checkbox'
@@ -16,6 +16,7 @@
         {{/each}}
         {{#if this.theme.isProvider}}
             <a
+                data-test-collection-provider-facet-other-repos
                 href={{this.otherReposLink}}
                 onclick={{action 'click' 'link' 'Discover - Other Collections' target=this.analytics}}
             >

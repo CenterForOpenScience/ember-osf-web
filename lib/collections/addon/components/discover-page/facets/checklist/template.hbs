@@ -1,7 +1,7 @@
 <div>
     <ul local-class='nobullet'>
         {{#each this.items as |item|}}
-            <li>
+            <li data-test-checklist-facet-item={{item.key}}>
                 <label local-class='label'>
                     <Input
                         @type='checkbox'
