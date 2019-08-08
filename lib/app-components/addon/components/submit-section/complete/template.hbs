@@ -1,6 +1,7 @@
 {{#if @showReopen}}
     {{! template-lint-disable invalid-interactive }}
     <div
+        data-test-submit-section-click-to-edit
         role='{{if this.editable 'button'}}'
         {{action 'edit'}}
     >
