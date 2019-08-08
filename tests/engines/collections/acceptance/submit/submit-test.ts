@@ -55,7 +55,7 @@ module('Collections | Acceptance | submit', hooks => {
         await untrackedClick('[data-test-metadata-field="volume_label"] .ember-power-select-trigger');
         await untrackedClick('.ember-power-select-option');
         await untrackedClick('[data-test-collection-metadata] [data-test-submit-section-continue]');
-        await click('[data-test-collection-submit]');
+        await click('[data-test-collections-submit-submit-button]');
 
         await percySnapshot('Collections | Acceptance | submit | confirm public modal');
     });

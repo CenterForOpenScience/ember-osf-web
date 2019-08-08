@@ -8,11 +8,13 @@
 </div>
 <div local-class='body'>
     <SubmitSections
+        data-test-collections-submit-sections
         @activeSection={{this.activeSection}}
         @savedSections={{this.savedSections}}
         as |sections|
     >
         <sections.section
+            data-test-collections-submit-section='project'
             @section={{this.sections.project}}
             @title={{t (concat this.i18nKeyPrefix 'project_select_title')}}
             @continue={{action this.nextSection this.sections.project}}
@@ -36,6 +38,7 @@
         </sections.section>
 
         <sections.section
+            data-test-collections-submit-section='projectMetadata'
             @section={{this.sections.projectMetadata}}
             @tooltip={{t (concat this.i18nKeyPrefix 'closed_tooltip')}}
             @title={{t (concat this.i18nKeyPrefix 'project_metadata_title')}}
@@ -82,6 +85,7 @@
         </sections.section>
 
         <sections.section
+            data-test-collections-submit-section='projectContributors'
             @section={{this.sections.projectContributors}}
             @tooltip={{t (concat this.i18nKeyPrefix 'closed_tooltip')}}
             @title={{t (concat this.i18nKeyPrefix 'project_contributors_title')}}
@@ -108,6 +112,7 @@
         </sections.section>
 
         <sections.section
+            data-test-collections-submit-section='collectionMetadata'
             @section={{this.sections.collectionMetadata}}
             @tooltip={{t (concat this.i18nKeyPrefix 'closed_tooltip')}}
             @title={{t (concat this.i18nKeyPrefix 'collection_metadata_title')}}
@@ -131,14 +136,22 @@
             </section.complete>
         </sections.section>
 
-        <section class='row' local-class='last-buttons'>
+        <section
+            data-test-collections-submit-section='buttons'
+            class='row'
+            local-class='last-buttons'
+        >
             <div class='col-xs-12 text-right'>
-                <button class='btn btn-default' {{action this.cancel}}>
+                <button
+                    data-test-collections-submit-cancel-button
+                    class='btn btn-default'
+                    {{action this.cancel}}
+                >
                     {{t (concat this.i18nKeyPrefix 'cancel')}}
                 </button>
                 {{#if this.edit}}
                     <button
-                        data-test-collection-update
+                        data-test-collections-submit-update-button
                         data-analytics-name='Update'
                         class='btn btn-success'
                         {{action (perform this.save)}}
@@ -147,7 +160,7 @@
                     </button>
                 {{else}}
                     <button
-                        data-test-collection-submit
+                        data-test-collections-submit-submit-button
                         data-analytics-name='Submit'
                         class='btn btn-success'
                         {{action this.setShowSubmitModal}}
