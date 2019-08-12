@@ -8,12 +8,6 @@
     }
 }
 
-.Controls {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-
-    button:first-child {
-        margin-right: 10px;
-    }
+.DialogMain {
+    min-width: 30vw;
 }
