@@ -20,6 +20,7 @@
     <div local-class='Controls'>
         <OsfButton
             data-analytics-name='Cancel'
+            data-test-cancel-publication-doi
             @onClick={{action @manager.cancel}}
             @disabled={{@manager.save.isRunning}}
         >

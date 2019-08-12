@@ -335,7 +335,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-save-publication-doi]');
 
         assert.dom('.help-block').hasText(t('validationErrors.invalid_doi').toString(), 'validation works');
-        await untrackedClick('button.close');
+        await untrackedClick('[data-test-cancel-publication-doi]');
 
         await click('[data-test-edit-button="publication DOI"]');
         assert.dom('.help-block').isNotVisible();
