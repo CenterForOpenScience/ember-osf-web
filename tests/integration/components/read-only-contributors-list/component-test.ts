@@ -21,7 +21,7 @@ module('Integration | Component | read-only-contributors-list', hooks => {
 
         await render(hbs`<Registries::ReadOnlyContributorsList @node={{this.node}} />`);
 
-        assert.dom('a[data-test-contributor-name]').exists({ count: 3 });
+        assert.dom('[data-test-contributor-name]').exists({ count: 4 });
 
         assert.ok('[data-test-edit-contributors-link]');
     });
