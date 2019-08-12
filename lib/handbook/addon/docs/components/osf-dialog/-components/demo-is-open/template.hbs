@@ -3,7 +3,11 @@
         <OsfButton @onClick={{action (mut this.isOpen) true}}>
             Open it!
         </OsfButton>
-        <OsfDialog @isOpen={{this.isOpen}} as |dialog|>
+        <OsfDialog
+            @isOpen={{this.isOpen}}
+            @onClose={{action (mut this.isOpen) false}}
+            as |dialog|
+        >
             <dialog.heading>
                 No need to depend on user action!
             </dialog.heading>

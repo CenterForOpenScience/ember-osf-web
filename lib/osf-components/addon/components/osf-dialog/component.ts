@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { action } from '@ember-decorators/object';
+import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 
@@ -24,9 +25,14 @@ export default class OsfDialog extends Component {
     renderInPlace: boolean = defaultTo(this.renderInPlace, false);
     fixedWidth: boolean = defaultTo(this.fixedWidth, false);
 
+    // private
+    hasTriggeredOpen: boolean = false;
+
+    @or('isOpen', 'hasTriggeredOpen') shouldBeOpen!: boolean;
+
     @action
     openDialog() {
-        this.set('isOpen', true);
+        this.set('hasTriggeredOpen', true);
         if (this.onOpen) {
             this.onOpen();
         }
@@ -34,7 +40,7 @@ export default class OsfDialog extends Component {
 
     @action
     closeDialog() {
-        this.set('isOpen', false);
+        this.set('hasTriggeredOpen', false);
         if (this.onClose) {
             this.onClose();
         }
@@ -43,7 +49,7 @@ export default class OsfDialog extends Component {
     @action
     updateModalState() {
         if (this.isModal) {
-            if (this.isOpen) {
+            if (this.shouldBeOpen) {
                 this.osfModalState.enterModalState();
             } else {
                 this.osfModalState.exitModalState();
