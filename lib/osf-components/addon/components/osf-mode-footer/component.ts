@@ -30,7 +30,6 @@ export default class OsfModeFooter extends Component {
     @service router!: RouterService;
 
     showDevBanner = config.showDevBanner;
-    showModal = false;
     showUrlInput = false;
     url: string = '/';
 

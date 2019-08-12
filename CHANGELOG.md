@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `form-controls` - a form-input wrapper that takes a changeset
 - Models
     - `schema-block` - for registration-schemas
+- Modifiers
+    - `capture-element` - easily store an element from the template
 
 ### Changed
 - Models
@@ -21,6 +23,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `project-contributors/list`
         - add ability to load more pages of contributors
         - add loading indicator
+    - `osf-dialog`
+        - add `@isOpen` param for programmatic control
+        - add `@isModal` param (default `true`)
 - Engines
     - `collections`
         - Components

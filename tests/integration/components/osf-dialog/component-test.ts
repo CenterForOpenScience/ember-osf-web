@@ -1,9 +1,14 @@
-import { click as untrackedClick, render } from '@ember/test-helpers';
+import { click as untrackedClick, render, settled } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';
+import { TestContext } from 'ember-test-helpers';
+
+interface DialogTestContext extends TestContext {
+    isOpen: boolean;
+}
 
 module('Integration | Component | osf-dialog', hooks => {
     setupRenderingTest(hooks);
@@ -93,5 +98,41 @@ module('Integration | Component | osf-dialog', hooks => {
 
         await untrackedClick('[test-footer-close]');
         assert.dom('[data-test-dialog]').doesNotExist('Dialog closed by clicking custom button in footer block');
+    });
+
+    test('can control dialog with @isOpen', async function(this: DialogTestContext, assert) {
+        this.set('isOpen', false);
+
+        await render(hbs`<OsfDialog @renderInPlace={{true}} @isOpen={{this.isOpen}} as |dialog|>
+            <dialog.heading />
+            <dialog.main />
+            <dialog.footer />
+        </OsfDialog>`);
+        assert.dom('[data-test-dialog]').doesNotExist('Dialog closed');
+
+        this.set('isOpen', true);
+        await settled();
+        assert.dom('[data-test-dialog]').exists('Dialog open');
+
+        this.set('isOpen', false);
+        await settled();
+        assert.dom('[data-test-dialog]').doesNotExist('Dialog closed');
+    });
+
+    test('does not close on outside click', async assert => {
+        await render(hbs`<OsfDialog @renderInPlace={{true}} as |dialog|>
+            <dialog.trigger>
+                <button test-open-dialog {{on 'click' dialog.open}}>Click me!</button>
+            </dialog.trigger>
+            <dialog.heading />
+            <dialog.main />
+            <dialog.footer />
+        </OsfDialog>`);
+
+        await untrackedClick('[test-open-dialog]');
+        assert.dom('[data-test-dialog]').exists('Dialog open');
+
+        await untrackedClick('[data-test-dialog-background]');
+        assert.dom('[data-test-dialog]').doesNotExist('Dialog closed');
     });
 });
