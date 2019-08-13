@@ -1377,6 +1377,13 @@ export default {
                 fork: 'Fork this registration',
             },
         },
+        partial_registration_modal: {
+            title: 'Select Components',
+            continueButton: 'Continue',
+            cancelButton: 'Cancel',
+            selectAll: 'Select All',
+            clearAll: 'Clear All',
+        },
     },
     meetings: {
         index: {

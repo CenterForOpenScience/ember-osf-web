@@ -1,0 +1,26 @@
+.children {
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.subject-text {
+    font-weight: normal;
+
+    input {
+        margin-right: 4px;
+    }
+}
+
+.expand-button {
+    border: 0;
+    padding: 0;
+    color: $color-text-black;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $color-text-black;
+        text-decoration: none;
+        outline: none;
+    }
+}

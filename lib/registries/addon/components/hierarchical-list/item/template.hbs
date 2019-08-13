@@ -1,0 +1,17 @@
+{{input type='checkbox' change=(action @manager.onChange) checked=@manager.itemChecked disabled=@manager.isRoot }}
+<OsfButton local-class='expand-button' @type='link' @onClick={{action @manager.toggleShowChildren}}>
+    {{@manager.item.title}}
+    {{#if @manager.item.children}}
+        <FaIcon @icon='caret-{{if @manager.isShowChildren 'up' 'down'}}' @fixedWidth={{true}} />
+    {{/if}}
+</OsfButton>
+{{#if (and @manager.item.children @manager.isShowChildren)}}
+    <div local-class='children'>
+        {{#each @manager.item.children as |child|}}
+            <HierarchicalList::ItemManager @item={{child}} @listManager={{@manager.listManager}}
+                as |childManager|>
+                <HierarchicalList::Item @manager={{childManager}} />
+            </HierarchicalList::ItemManager>
+        {{/each}}
+    </div>
+{{/if}}
