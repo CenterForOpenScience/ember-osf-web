@@ -96,7 +96,7 @@ export default function(this: Server) {
     this.del('/comments/:id/reports/:reporter_id', reportDelete);
 
     osfResource(this, 'registration-schema', { path: '/schemas/registrations' });
-    osfResource(this, 'schema-block', {
+    osfNestedResource(this, 'registration-schema', 'schemaBlocks', {
         path: '/schemas/registrations/:parentID/schema_blocks',
         defaultSortKey: 'index',
         defaultPageSize: 1000,

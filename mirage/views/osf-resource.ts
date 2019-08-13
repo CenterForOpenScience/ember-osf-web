@@ -119,14 +119,14 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
                 .models
                 .filter((m: ModelInstance) => filter(m, request))
                 .map((model: ModelInstance) => this.serialize(model).data);
-            return process(schema, request, this, data, { defaultSortKey: opts.defaultSortKey });
+            return process(schema, request, this, data, opts);
         });
     }
 
     if (actions.includes('show')) {
         server.get(detailPath, function(schema, request) {
             const model = this.serialize(schema[mirageRelatedModelName].find(request.params.id)).data;
-            const data = process(schema, request, this, [model], options).data[0];
+            const data = process(schema, request, this, [model], opts).data[0];
             return { data };
         });
     }
