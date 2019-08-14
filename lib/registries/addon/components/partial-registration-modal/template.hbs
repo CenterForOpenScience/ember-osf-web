@@ -1,8 +1,8 @@
-<BsModal as |modal|>
-    <modal.header local-class='modal-title'>
+<OsfDialog @isOpen={{@modalManager.isOpen}} as |dialog|>
+    <dialog.heading local-class='modal-title'>
         {{t 'registries.partial_registration_modal.title'}}
-    </modal.header>
-    <modal.body local-class='modal-body'>
+    </dialog.heading>
+    <dialog.main local-class='modal-body'>
         <OsfButton @type=='link' local-class='select-clear-button' @onClick={{action @modalManager.selectAll}}>
             {{t 'registries.partial_registration_modal.selectAll'}}
         </OsfButton>
@@ -18,13 +18,13 @@
                 <HierarchicalList::Item @manager={{itemManager}} />
             </HierarchicalList::ItemManager>
         {{/if}}
-    </modal.body>
-    <modal.footer>
+    </dialog.main>
+    <dialog.footer>
         <OsfButton @type='primary' local-class='modal-button-continue'>
             {{t 'registries.partial_registration_modal.continueButton'}}
         </OsfButton>
         <OsfButton @type='default' local-class='modal-button-cancel'>
             {{t 'registries.partial_registration_modal.cancelButton'}}
         </OsfButton>
-    </modal.footer>
-</BsModal>
+    </dialog.footer>
+</OsfDialog>

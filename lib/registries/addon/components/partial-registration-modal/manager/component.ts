@@ -13,6 +13,7 @@ export interface PartialRegistrationModalManager {
     nodesIncludingRoot: NodeModel[];
     selectedNodes: NodeModel[];
     rootNode: NodeModel;
+    isOpen: boolean;
 }
 
 @layout(template)
@@ -32,6 +33,7 @@ export default class PartialRegistrationModalManagerComponent extends Component.
     nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
     selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
     rootNode!: NodeModel;
+    isOpen: boolean = defaultTo(this.isOpen, false);
 
     didReceiveAttrs(this: PartialRegistrationModalManagerComponent) {
         this.loadAllChildNodes.perform();
