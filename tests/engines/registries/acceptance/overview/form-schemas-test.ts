@@ -10,6 +10,7 @@ module('Registries | Acceptance | overview form schemas', hooks => {
     setupMirage(hooks);
 
     test('All registration schemas render', async assert => {
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
 
         for (const registrationSchema of server.schema.registrationSchemas.all().models) {

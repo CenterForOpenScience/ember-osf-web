@@ -34,6 +34,10 @@ const testSchema = {
     name: 'Test Schema',
     schemaVersion: 801,
     schemaBlockIds: ids,
+    schemaNoConflict: {
+        title: 'Fake title for testing',
+        pages: [],
+    },
 };
 
 export default [
