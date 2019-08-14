@@ -18,9 +18,16 @@
 }
 
 .Tabs {
+    min-width: 60vw;
+
     :global(.tab-content) {
         padding: 10px;
     }
+}
+
+.OptionsList {
+    list-style-type: none;
+    padding-left: 0;
 }
 
 .features {

@@ -2,7 +2,12 @@
     trigger=(component 'osf-dialog/trigger')
     open=(action this.openDialog)
 )}}
-{{#if this.isDialogVisible}}
+{{#if this.isOpen}}
+    <script
+        {{! These should be on <EmberWormhole> below, but we need Ember 3.11 for that }}
+        {{did-insert (action this.updateModalState)}}
+        {{will-destroy (action this.updateModalState)}}
+    ></script>
     <EmberWormhole
         @tagName='span'
         @destinationElement={{this.osfModalState.dialogWormholeTarget}}
@@ -10,7 +15,7 @@
     >
         <div
             data-test-dialog-background
-            local-class='DialogBackground'
+            local-class='DialogBackground {{unless this.isModal 'Unclickable'}}'
             {{on 'click' (action this.onClickBackground)}}
         >
             <div

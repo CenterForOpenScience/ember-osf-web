@@ -16,32 +16,44 @@ export default class OsfDialog extends Component {
     @service osfModalState!: OsfModalState;
 
     // optional
+    onClose?: () => void;
+    onOpen?: () => void;
+    isOpen: boolean = defaultTo(this.isOpen, false);
+    isModal: boolean = defaultTo(this.isModal, true);
     closeOnOutsideClick: boolean = defaultTo(this.closeOnOutsideClick, true);
     renderInPlace: boolean = defaultTo(this.renderInPlace, false);
-    isModal: boolean = defaultTo(this.isModal, true);
-
-    isDialogVisible: boolean = defaultTo(this.isDialogVisible, false);
 
     @action
     openDialog() {
-        this.set('isDialogVisible', true);
-        if (this.isModal) {
-            this.osfModalState.enterModalState();
+        this.set('isOpen', true);
+        if (this.onOpen) {
+            this.onOpen();
         }
     }
 
     @action
     closeDialog() {
-        this.set('isDialogVisible', false);
+        this.set('isOpen', false);
+        if (this.onClose) {
+            this.onClose();
+        }
+    }
+
+    @action
+    updateModalState() {
         if (this.isModal) {
-            this.osfModalState.exitModalState();
+            if (this.isOpen) {
+                this.osfModalState.enterModalState();
+            } else {
+                this.osfModalState.exitModalState();
+            }
         }
     }
 
     @action
     onClickBackground(event: MouseEvent) {
         const isOutsideDialog = event.target === event.currentTarget;
-        if (isOutsideDialog && this.closeOnOutsideClick) {
+        if (isOutsideDialog && this.closeOnOutsideClick && this.isModal) {
             this.closeDialog();
         }
     }

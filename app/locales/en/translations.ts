@@ -1598,6 +1598,11 @@ export default {
             next_slide: 'Next slide',
             go_to_slide: 'Go to slide {{slideIndex}}',
         },
+        registries: {
+            'read-only-contributors-list': {
+                editContributorsOnYourProject: 'Edit contributors on your project',
+            },
+        },
     },
     settings: {
         toggleNav: 'Toggle navigation',

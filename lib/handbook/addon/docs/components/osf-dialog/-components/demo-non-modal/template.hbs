@@ -1,0 +1,19 @@
+<DocsDemo as |demo|>
+    <demo.example @name='osf-dialog.demo-non-modal.hbs'>
+        <OsfDialog @isModal={{false}} as |dialog|>
+            <dialog.trigger>
+                <OsfButton @onClick={{dialog.open}}>
+                    Open!
+                </OsfButton>
+            </dialog.trigger>
+            <dialog.heading>
+                This one doesn't block the rest of the app.
+            </dialog.heading>
+            <dialog.main>
+                Click around in the background!
+            </dialog.main>
+        </OsfDialog>
+    </demo.example>
+
+    <demo.snippet @name='osf-dialog.demo-non-modal.hbs' />
+</DocsDemo>
