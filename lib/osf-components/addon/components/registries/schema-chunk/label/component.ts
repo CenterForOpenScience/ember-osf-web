@@ -6,5 +6,5 @@ import template from './template';
 
 @layout(template)
 @tagName('')
-export default class SectionHeading extends Component {
+export default class Label extends Component {
 }

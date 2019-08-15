@@ -3,4 +3,39 @@
         component
         'registries/schema-chunk/page-heading'
     )
+    section-heading=(
+        component
+        'registries/schema-chunk/section-heading'
+    )
+    subsection-heading=(
+        component
+        'registries/schema-chunk/subsection-heading'
+    )
+    paragraph=(
+        component
+        'registries/schema-chunk/paragraph'
+    )
+    label=(
+        component
+        'registries/schema-chunk/label'
+        chunkId=@chunkId
+    )
+    text=(
+        component
+        'registries/schema-chunk/text'
+        chunkId=@chunkId
+        answerId=@answerId
+        changeset=@changeset
+        disabled=this.disabled
+        shouldShowMessages=this.shouldShowMessages
+    )
+    textarea=(
+        component
+        'registries/schema-chunk/textarea'
+        chunkId=@chunkId
+        answerId=@answerId
+        changeset=@changeset
+        disabled=this.disabled
+        shouldShowMessages=this.shouldShowMessages
+    )
 )}}
