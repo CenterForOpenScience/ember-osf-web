@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [19.8.0] - 2019-08-15
 ### Added
 - Components
     - `form-controls` - a form-input wrapper that takes a changeset
@@ -1094,7 +1094,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.7.1...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.8.0...HEAD
+[19.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.8.0
 [19.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.1
 [19.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.0
 [19.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.1
