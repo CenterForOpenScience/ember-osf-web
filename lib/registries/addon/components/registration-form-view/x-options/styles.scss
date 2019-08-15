@@ -1,0 +1,23 @@
+.OptionsList {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 20px;
+    text-indent: -20px;
+
+    li { 
+        padding: 5px 0;
+    }
+
+    li::before {
+        content: '✓';
+        padding-right: 8px;
+    }
+
+    li:last-of-type {
+        padding-bottom: 0;
+    }
+
+    li:first-of-type {
+        padding-top: 0;
+    }
+}

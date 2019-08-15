@@ -578,6 +578,7 @@ export default {
         min_subjects: 'You must select at least {{minLength}} subject(s).',
         node_license_invalid: 'Invalid required fields for the license',
         node_license_missing_fields: 'The following required fields are missing: {{missingFields}}',
+        invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)',
     },
     validated_input_form: {
         discard_changes: 'Discard changes',
@@ -808,6 +809,7 @@ export default {
                     remove: 'Remove',
                     remove_author: 'Remove author',
                 },
+                load_more_contributors: 'Load more contributors',
             },
             search: {
                 placeholder: 'Search by name',
@@ -917,13 +919,6 @@ export default {
             prev: '«',
             next: '»',
         },
-        subject_picker: {
-            remove: 'Remove',
-            discard: 'Discard',
-            column: {
-                search: 'Search',
-            },
-        },
         submit_section: {
             discard: 'Discard changes',
             save: 'Save and continue',
@@ -964,7 +959,6 @@ export default {
             other_repositories: 'Other collections',
             facet_titles: {
                 collection_provider: 'Providers',
-                taxonomy: 'Subject',
                 status: 'Status',
                 collected_type: 'Type',
                 issue: 'Issue',
@@ -987,8 +981,6 @@ export default {
             project_metadata_tags_label: 'Tags:',
             project_contributors_title: 'Project contributors',
             project_contributors_description: 'Updates made to this section will update the project.',
-            subjects_title: 'Collection subjects',
-            subjects_description: 'Select a discipline and subdiscipline, if relevant. Add more by clicking on a new discipline.',
             collection_metadata_title: 'Collection metadata',
             cancel: 'Cancel',
             add_button: 'Add to collection',
@@ -1026,7 +1018,6 @@ export default {
                 button: 'Clear filters',
                 heading: 'Active Filters',
                 remove_provider: 'Remove provider',
-                remove_subject: 'Remove subject',
                 remove_type: 'Remove type',
                 remove_status: 'Remove status',
                 remove_issue: 'Remove issue',
@@ -1105,6 +1096,38 @@ export default {
             },
         },
 
+        start: {
+            page_title: 'Start Registration',
+        },
+
+        forms: {
+            page_title: 'Select Registration Forms',
+            form: {
+                title: 'Choose From Existing Registration Schema',
+            },
+            help: {
+                title: 'Help Choose Registration Form',
+            },
+        },
+
+        drafts: {
+            page_title: 'View Registration Drafts',
+            index: {
+                title: 'Choose Unfinished Draft',
+            },
+            draft: {
+                metadata: {
+                    title: 'Fill Out Basic Registration Info',
+                },
+                form: {
+                    title: 'Fill Out Registration Form',
+                },
+                review: {
+                    title: 'Review Registration Before Submitting',
+                },
+            },
+        },
+
         index: {
             lead: 'The <span class="f-w-lg">open</span> registries network',
             see_example: 'See an example',
@@ -1139,6 +1162,8 @@ export default {
         registration_metadata: {
             contributors: 'Contributors',
             description: 'Description',
+            show_more: 'Show more',
+            show_less: 'Show less',
             no_description: 'No description given.',
             registration_type: 'Registration type',
             date_registered: 'Date registered',
@@ -1150,9 +1175,48 @@ export default {
             affiliated_institutions: 'Affiliated institutions',
             license: 'License',
             no_license: 'No license',
+            no_publication_doi: 'No publication DOI given',
             disciplines: 'Disciplines',
             tags: 'Tags',
             citation: 'Citation',
+            add_description: 'Add description',
+            create_doi: 'Create DOI',
+            edit_field: 'Edit {{field}}',
+            no_doi: 'No DOI assigned',
+            add_license: 'Add license',
+            select_license: 'Select license',
+            no_matches: 'No matches found',
+
+            edit_description: {
+                success: 'Description successfully updated.',
+                error: 'Unable to save description.',
+            },
+            edit_category: {
+                success: 'Category successfully updated.',
+                error: 'Unable to save category.',
+            },
+            mint_doi: {
+                header: 'Are you sure you want to create a DOI for this registration?',
+                text: 'A DOI is persistent and will always resolve to this page.',
+                success: 'DOI successfully created.',
+                error: 'Unable to create registration DOI.',
+            },
+            edit_pub_doi: {
+                success: 'Publication DOI successfully updated.',
+                error: 'Unable to save publication DOI.',
+            },
+            edit_institutions: {
+                success: 'Affiliated institutions successfully updated.',
+                error: 'Unable to save affiliated institutions.',
+            },
+            edit_license: {
+                success: 'License successfully updated.',
+                error: 'Unable to save license.',
+            },
+            edit_tags: {
+                success: 'Tags successfully updated.',
+                error: 'Unable to save tags.',
+            },
         },
 
         form_view: {
@@ -1243,19 +1307,6 @@ export default {
                 currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.',
                 email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{{supportEmail}}">{{supportEmail}}</a> for assistance.',
             },
-            aria_labels: {
-                main: 'Toolbar: withdraw, fork, share registration',
-                scientist_name_input: 'Random scientist name',
-            },
-            embargoed: {
-                state: 'Embargoed',
-                action: 'End embargo early',
-                action_success: 'Embargo termination request successfully sent',
-                action_error: 'Unable to submit embargo termination request',
-                confirm_text: 'By clicking confirm, an email will be sent to project administrator(s) to approve ending the embargo. If approved, this registration, including any components, will be made public immmediately. This action is irreversible.',
-                confirm_button_text: 'Confirm',
-                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}.',
-            },
             pending: {
                 state: 'Pending',
                 action: {
@@ -1265,20 +1316,42 @@ export default {
             },
             public: {
                 state: 'Public',
+                text: 'Public registration',
+                short_description: 'Public',
+                long_description: 'This public registration is a frozen, non-editable version of this <strong><a href={{projectUrl}}>project</a></strong>.',
             },
-            pendingRegistrationApproval: {
-                banner: 'This is a pending registration of this <a href={{projectUrl}}><u>project</u></a>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.',
+            pendingRegistration: {
+                text: 'Pending registration',
+                short_description: 'Pending registration approval',
+                long_description: 'This is a pending registration of this <strong><a href={{projectUrl}}>project</a></strong>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.',
             },
             pendingWithdrawal: {
-                banner: 'This project is currently pending withdrawal',
+                text: 'Public registration',
+                short_description: 'Pending withdrawal',
+                long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.',
             },
-            pendingEmbargoApproval: {
-                banner: 'This project is currently pending registration, awaiting approval from project administrators. This registration will be final and enter the embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.',
+            pendingEmbargo: {
+                text: 'Pending registration',
+                short_description: 'Pending embargo approval',
+                long_description: 'This registration is pending approval. It will be final and enter an embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.',
             },
-            pendingEmbargoTerminationApproval: {
-                banner: 'This registration is currently embargoed. It will remain private until its embargo end date, {{embargoEndDate}}. A request to lift the embargo and make this registration public is pending.',
+            pendingEmbargoTermination: {
+                text: 'Embargoed registration',
+                short_description: 'Pending embargo termination',
+                long_description: 'This registration is embargoed. It will remain private until {{embargoEndDate}}. A request to make this registration public is pending.',
             },
-            update_bookmarks: {
+            embargoed: {
+                state: 'Embargoed',
+                action: 'End embargo early',
+                action_success: 'Embargo termination request successfully sent',
+                action_error: 'Unable to submit embargo termination request',
+                confirm_text: 'By clicking confirm, an email will be sent to project administrator(s) to approve ending the embargo. If approved, this registration, including any components, will be made public immmediately. This action is irreversible.',
+                confirm_button_text: 'Confirm',
+                text: 'Embargoed registration',
+                short_description: 'Embargoed',
+                long_description: 'This registration is embargoed. It will remain private until {{embargoEndDate}}.',
+            },
+            bookmark: {
                 add: {
                     text: 'Bookmark',
                     success: 'Registration successfully added to your bookmarks',
@@ -1297,6 +1370,12 @@ export default {
             },
             view_forks: 'View forks',
             fork_registration: 'Fork this registration',
+            tooltips: {
+                bookmark: 'Bookmark this registration',
+                remove_bookmark: 'Remove bookmark',
+                share: 'Share this registration',
+                fork: 'Fork this registration',
+            },
         },
     },
     meetings: {
@@ -1484,17 +1563,14 @@ export default {
             add_tag: 'Add a tag to enhance discoverability',
             no_tags: 'No tags',
         },
-        'institutions-widget': {
-            affiliated_institutions: 'Affiliated institutions',
-            affiliate_institutions: 'Affiliate institutions',
-            add_institution_error: 'Error adding institution',
-            remove_institution_error: 'Error removing institution',
-            no_affiliations: 'No affiliations to add',
+        'institutions-list': {
             no_affiliated_institution: {
-                user: 'You have no institutional affiliations',
                 project: 'This project has no affiliated institutions',
                 registration: 'This registration has no affiliated institutions',
             },
+        },
+        'institutions-select-list': {
+            no_affiliated_institution: 'You have no institutional affiliations',
         },
         'citation-viewer': {
             get_more: 'Get more citations',
@@ -1521,6 +1597,11 @@ export default {
             previous_slide: 'Previous slide',
             next_slide: 'Next slide',
             go_to_slide: 'Go to slide {{slideIndex}}',
+        },
+        registries: {
+            'read-only-contributors-list': {
+                editContributorsOnYourProject: 'Edit contributors on your project',
+            },
         },
     },
     settings: {

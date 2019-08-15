@@ -1,11 +1,11 @@
 import { assert } from '@ember/debug';
-import { schedule } from '@ember/runloop';
+import { run, schedule } from '@ember/runloop';
 import Service from '@ember/service';
 
 export default class OsfModalState extends Service {
     dialogWormholeTarget?: HTMLElement;
 
-    inModalState!: boolean;
+    inModalState: boolean = false;
 
     private priorActiveElement: HTMLElement | null = null;
 
@@ -17,25 +17,32 @@ export default class OsfModalState extends Service {
             this.priorActiveElement = activeElement;
         }
 
-        const bodyElement = document.querySelector('body')!;
-        bodyElement.classList.add('modal-open');
+        // Update global state in another runloop to avoid "modified twice in one render" errors
+        run.next(this, function() {
+            const bodyElement = document.querySelector('body')!;
+            bodyElement.classList.add('modal-open');
 
-        this.set('inModalState', true);
+            this.set('inModalState', true);
+        });
     }
 
     exitModalState() {
-        schedule('destroy', null, () => {
-            const { priorActiveElement } = this;
-            if (priorActiveElement && priorActiveElement.isConnected) {
-                priorActiveElement.focus();
-            }
-            this.priorActiveElement = null;
+        // Update global state in another runloop to avoid "modified twice in one render" errors
+        run.next(this, function() {
+            const bodyElement = document.querySelector('body')!;
+            bodyElement.classList.remove('modal-open');
+
+            this.set('inModalState', false);
+
+            // ...and wait for `priorActiveElement` to become focusable again
+            schedule('afterRender', this, function() {
+                const { priorActiveElement } = this;
+                if (priorActiveElement && priorActiveElement.isConnected) {
+                    priorActiveElement.focus();
+                }
+                this.priorActiveElement = null;
+            });
         });
-
-        const bodyElement = document.querySelector('body')!;
-        bodyElement.classList.remove('modal-open');
-
-        this.set('inModalState', false);
     }
 }
 

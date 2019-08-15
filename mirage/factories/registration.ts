@@ -8,6 +8,8 @@ import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 export interface MirageRegistration extends Registration {
     index: number;
     affiliatedInstitutionIds: Array<string|number>;
+    identifierIds: Array<string|number>;
+    forkIds: Array<string|number>;
 }
 
 export interface RegistrationTraits {
@@ -16,10 +18,12 @@ export interface RegistrationTraits {
     isArchiving: Trait;
     isEmbargoed: Trait;
     isPendingEmbargoApproval: Trait;
+    isPendingEmbargoTerminationApproval: Trait;
     isPendingWithdrawal: Trait;
     isWithdrawn: Trait;
     withArbitraryState: Trait;
     withAffiliatedInstitutions: Trait;
+    isPublic: Trait;
 }
 
 const stateAttrs = {
@@ -38,6 +42,13 @@ const stateAttrs = {
             return faker.date.future(1, new Date(2022, 0, 0));
         },
     },
+    pendingEmbargoTerminationApproval: {
+        pendingEmbargoTerminationApproval: true,
+        embargoed: true,
+        embargoEndDate() {
+            return faker.date.future(1, new Date(2022, 0, 0));
+        },
+    },
     pendingEmbargoApproval: {
         pendingEmbargoApproval: true,
         embargoed: false,
@@ -50,6 +61,7 @@ const stateAttrs = {
     withdrawn: {
         withdrawn: true,
         pendingWithdrawal: false,
+        currentUserPermissions: null,
         dateWithdrawn() {
             return faker.date.past(1, new Date(2019, 0, 0));
         },
@@ -69,7 +81,6 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     id: guid('registration'),
     afterCreate(newReg, server) {
         guidAfterCreate(newReg, server);
-
         if (newReg.parent) {
             newReg.update({
                 dateRegistered: newReg.parent.dateRegistered,
@@ -96,6 +107,12 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 registeredMeta: createRegistrationMetadata(registrationSchema, true),
             });
         }
+
+        if (!newReg.provider) {
+            newReg.update({
+                provider: server.schema.registrationProviders.find('osf'),
+            });
+        }
     },
 
     dateRegistered() {
@@ -109,6 +126,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     pendingEmbargoApproval: false,
     withdrawn: false,
     dateWithdrawn: null,
+    articleDoi: null,
     pendingWithdrawal: false,
     pendingEmbargoTerminationApproval: false,
 
@@ -147,8 +165,14 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     isPendingWithdrawal: trait<MirageRegistration>({
         ...stateAttrs.pendingWithdrawal,
     }),
+    isPendingEmbargoTerminationApproval: trait<MirageRegistration>({
+        ...stateAttrs.pendingEmbargoTerminationApproval,
+    }),
     isWithdrawn: trait<MirageRegistration>({
         ...stateAttrs.withdrawn,
+    }),
+    isPublic: trait<MirageRegistration>({
+        ...stateAttrs.normal,
     }),
     withAffiliatedInstitutions: trait<MirageRegistration>({
         afterCreate(registration, server) {

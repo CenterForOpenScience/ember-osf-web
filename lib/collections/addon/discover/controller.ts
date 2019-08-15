@@ -16,7 +16,6 @@ export default class Discover extends Controller {
 
     activeFilters = {
         providers: [],
-        subjects: [],
     };
 
     model!: Array<{
@@ -67,7 +66,6 @@ export default class Discover extends Controller {
                 // Regular preprints and branded preprints get provider and taxonomy facets
                 [
                     ['sources', 'collection-provider', { hidden: true }],
-                    ['subjects', 'taxonomy'],
                     ['type', 'collected-type'],
                     ['issue', 'issue'],
                     ['program-area', 'program-area'],
@@ -92,7 +90,6 @@ export default class Discover extends Controller {
 
     page = 1; // Page query param. Must be passed to component, so can be reflected in URL
     provider = ''; // Provider query param. Must be passed to component, so can be reflected in URL
-    subject = ''; // Subject query param.  Must be passed to component, so can be reflected in URL
     q = ''; // q query param.  Must be passed to component, so can be reflected in URL
 
     sources = ''; // Sources query param. Must be passed to component, so can be reflected in the URL
@@ -114,7 +111,6 @@ export default class Discover extends Controller {
         'type',
         'start',
         'end',
-        'subject',
         'provider',
         ...choiceFields,
     ];

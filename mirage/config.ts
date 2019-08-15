@@ -2,12 +2,12 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { getCitation } from './views/citation';
-import { getProviderTaxonomies } from './views/collection-provider-taxonomies';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
+import { identifierCreate } from './views/identifier';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { forkRegistration, registrationDetail } from './views/registration';
@@ -82,10 +82,11 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
     osfToManyRelationship(this, 'registration', 'affiliatedInstitutions', {
-        only: ['related', 'add', 'remove'],
+        only: ['related', 'update', 'add', 'remove'],
         path: '/registrations/:parentID/relationships/institutions',
     });
     osfNestedResource(this, 'registration', 'identifiers', { only: ['index'] });
+    this.post('/registrations/:parentID/identifiers/', identifierCreate);
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
     this.get('/registrations/:guid/citation/:citationStyleID', getCitation);
 
@@ -134,6 +135,12 @@ export default function(this: Server) {
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
+    osfResource(this, 'registration-provider', { path: '/providers/registrations' });
+    osfNestedResource(this, 'registration-provider', 'licensesAcceptable', {
+        only: ['index'],
+        path: '/providers/registrations/:parentID/licenses/',
+        relatedModelName: 'license',
+    });
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
@@ -142,7 +149,6 @@ export default function(this: Server) {
     osfNestedResource(this, 'collection', 'collectedMetadata', {
         path: 'collections/:parentID/collected_metadata/',
     });
-    this.get('/providers/collections/:parentID/taxonomies', getProviderTaxonomies);
     this.post('/search/collections/', searchCollections);
 
     // Waterbutler namespace

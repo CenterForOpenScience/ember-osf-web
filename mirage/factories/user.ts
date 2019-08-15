@@ -1,11 +1,12 @@
-import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, Factory, faker, ID, trait, Trait } from 'ember-cli-mirage';
 
 import User from 'ember-osf-web/models/user';
 
 import { guid, guidAfterCreate } from './utils';
 
 export interface MirageUser extends User {
-    contributorIds: string[];
+    contributorIds: ID[];
+    institutionIds: ID[];
 }
 
 export interface UserTraits {

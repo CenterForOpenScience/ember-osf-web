@@ -4,108 +4,47 @@
     </div>
 {{else}}
     {{title this.registration.title}}
-    <RegistriesBanner @registration={{this.registration}} />
-    <div local-class='TitleBackground'>
-        <Container local-class='TitleContainer'>
-            <div local-class='AncestorsAndTitle'>
-                <div local-class='Ancestors'>
-                    <AncestryDisplay @node={{this.registration}} @useLinks={{true}} />
-                </div>
-                <h1
-                    data-test-registration-title
-                    local-class='Title'
-                >
-                    {{this.registration.title}}
-                </h1>
-            </div>
-            <div local-class='Toolbar' data-analytics-scope='Registries Overview Toolbar'>
-                {{#if (not (or this.registration.withdrawn this.showMobileView))}}
-                    <RegistriesOverviewMenu
-                        @registrationURL={{this.registrationURL}}
-                        @forksCount={{this.forksCount}}
-                        @registration={{this.registration}}
-                    />
-                {{/if}}
-            </div>
-        </Container>
-    </div>
-
+    <Overview::-Components::OverviewHeader
+        @registration={{this.registration}}
+        @sidenavGutterClosed={{this.sidenavGutterClosed}}
+        @metadataGutterClosed={{this.metadataGutterClosed}}
+        @toggleSidenav={{action this.toggleSidenav}}
+        @toggleMetadata={{action this.toggleMetadata}}
+        @toggleOverview={{action this.toggleOverview}}
+    />
     {{#if this.registration.withdrawn}}
-        {{#let (component 'overview/-components/tombstone-page') as |TombstonePage|}}
-            <div local-class='ContentBackground'>
-                <TombstonePage
-                    @registration={{this.registration}}
-                    @icon='ban'
-                    @titleText={{t 'registries.overview.withdrawn.has_been_withdrawn'}}
-                >
-                    <dl>
-                        <dt>{{t 'registries.overview.withdrawn.date_withdrawn'}}</dt>
-                        <dd>{{moment-format this.registration.dateWithdrawn 'MMMM D, YYYY'}}</dd>
+        <div local-class='ContentBackground'>
+            <Overview::-Components::TombstonePage
+                @registration={{this.registration}}
+                @icon='ban'
+                @titleText={{t 'registries.overview.withdrawn.has_been_withdrawn'}}
+            >
+                <dl>
+                    <dt>{{t 'registries.overview.withdrawn.date_withdrawn'}}</dt>
+                    <dd>{{moment-format this.registration.dateWithdrawn 'MMMM D, YYYY'}}</dd>
 
-                        <dt>{{t 'registries.overview.withdrawn.justification'}}</dt>
-                        <dd>
-                            {{#if this.registration.withdrawalJustification}}
-                                {{this.registration.withdrawalJustification}}
-                            {{else}}
-                                {{t 'registries.overview.withdrawn.no_justification'}}
-                            {{/if}}
-                        </dd>
-                    </dl>
-                </TombstonePage>
-            </div>
-        {{/let}}
+                    <dt>{{t 'registries.overview.withdrawn.justification'}}</dt>
+                    <dd>
+                        {{#if this.registration.withdrawalJustification}}
+                            {{this.registration.withdrawalJustification}}
+                        {{else}}
+                            {{t 'registries.overview.withdrawn.no_justification'}}
+                        {{/if}}
+                    </dd>
+                </dl>
+            </Overview::-Components::TombstonePage>
+        </div>
     {{else if this.registration.archiving}}
-        {{#let (component 'overview/-components/tombstone-page') as |TombstonePage|}}
-            <div local-class='ContentBackground'>
-                <TombstonePage
-                    @registration={{this.registration}}
-                    @icon='hourglass-half'
-                    @titleText={{t 'registries.overview.archiving.currently_archiving'}}
-                >
-                    {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail}}
-                </TombstonePage>
-            </div>
-        {{/let}}
+        <div local-class='ContentBackground'>
+            <Overview::-Components::TombstonePage
+                @registration={{this.registration}}
+                @icon='hourglass-half'
+                @titleText={{t 'registries.overview.archiving.currently_archiving'}}
+            >
+                {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail}}
+            </Overview::-Components::TombstonePage>
+        </div>
     {{else}}
-        {{#if (and this.showMobileView (not this.registration.withdrawn))}}
-            <Navbar as |nav|>
-                <nav.bordered-section>
-
-                    <nav.buttons.default @onclick={{action 'toggleSidenav'}}>
-                        {{nav.icon (if this.sidenavGutterClosed 'bars' 'times')}}
-                    </nav.buttons.default>
-
-                    <nav.buttons.default>
-                        <h4>{{t 'registries.overview.title'}}</h4>
-                    </nav.buttons.default>
-
-                </nav.bordered-section>
-                <nav.bordered-section>
-                    <RegistriesStates @registration={{this.registration}} />
-
-                    <nav.buttons.default @onclick={{action 'toggleMetadata'}}>
-                        {{nav.icon 'info-circle'}}
-                    </nav.buttons.default>
-
-                    {{#sharing-icons/dropdown
-                        title=this.registration.title
-                        description=this.registration.description
-                        hyperlink=this.registrationURL
-                        showText=true
-                        showBookmark=true
-                        registration=this.registration
-                        as |dd|}}
-                        {{#dd.trigger}}
-                            <nav.buttons.default>
-                                {{nav.icon (if dd.isOpen 'times' 'ellipsis-v') }}
-                            </nav.buttons.default>
-                        {{/dd.trigger}}
-                    {{/sharing-icons/dropdown}}
-
-                </nav.bordered-section>
-            </Navbar>
-        {{/if}}
-
         <div local-class='ContentBackground'>
             <Gutters
                 @leftMode={{this.sidenavGutterMode}}
@@ -137,7 +76,6 @@
                             @href='/{{this.registration.id}}/wiki/'
                             @icon='window-maximize'
                             @label={{t 'registries.overview.external_links.wiki'}}
-                            @count={{this.registration.relatedCounts.wikis}}
                         />
                         <nav.link
                             data-analytics-name='Components'

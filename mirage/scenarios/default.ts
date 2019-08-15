@@ -19,7 +19,10 @@ const {
     },
 } = config;
 
-function registrationScenario(server: Server, currentUser: ModelInstance<User>) {
+function registrationScenario(
+    server: Server,
+    currentUser: ModelInstance<User>,
+) {
     server.loadFixtures('citation-styles');
 
     const registrationNode = server.create(
@@ -53,7 +56,7 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withDoi', 'withLicense', 'withAffiliatedInstitutions');
+    }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
@@ -64,7 +67,6 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
 }
 
 function collectionScenario(server: Server, currentUser: ModelInstance<User>) {
-    const taxonomies = server.schema.taxonomies.all().models;
     const licensesAcceptable = server.schema.licenses.all().models;
     const primaryCollection = server.create('collection');
     const nodeToBeAdded = server.create('node', {
@@ -92,34 +94,20 @@ function collectionScenario(server: Server, currentUser: ModelInstance<User>) {
         guid: nodeAdded,
         id: nodeAdded.id,
         collection: primaryCollection,
-        subjects: [[{ text: 'Arts and Humanities', id: '123' }]],
     });
     server.create('collected-metadatum', {
         creator: currentUser,
         guid: server.create('node', 'withContributors'),
         collection: primaryCollection,
-        subjects: [
-            [
-                { text: 'Arts and Humanities', id: '123' },
-                { text: 'Theatre and Performance Studies', id: '456' },
-            ],
-        ],
     });
     server.create('collected-metadatum', {
         creator: currentUser,
         guid: server.create('node', 'withContributors'),
         collection: primaryCollection,
-        subjects: [
-            [
-                { text: 'Another Primary Subject', id: '123' },
-                { text: 'Another Secondary Subject', id: '456' },
-            ],
-        ],
     });
     server.create('collection-provider', {
         id: 'studyswap',
         primaryCollection,
-        taxonomies,
         licensesAcceptable,
     });
 }
@@ -177,16 +165,14 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
         description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
     });
 
-    // InstitutionsWidget
-    const institutionsNode = server.create('node', {
-        id: 'lacks',
+    // EditableField
+    const editable = server.create('registration', {
+        id: 'editj',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        currentUserPermissions: Object.values(Permission),
     }, 'withAffiliatedInstitutions');
 
-    server.createList('institution', 2, { users: [currentUser], nodes: [institutionsNode] });
-
-    server.create('node', {
-        id: 'manys',
-    }, 'withManyAffiliatedInstitutions');
+    server.create('contributor', { users: currentUser, node: editable });
 
     // ContributorList
     for (const contributorCount of [1, 2, 3, 23]) {
@@ -224,7 +210,7 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
-    server.loadFixtures('taxonomies');
+    server.loadFixtures('registration-providers');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
         [

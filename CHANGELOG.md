@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.8.0] - 2019-08-15
+### Added
+- Components
+    - `form-controls` - a form-input wrapper that takes a changeset
+    - `read-only-contributors-list` - a read only list of a node's contributors with a link to contributors page for editing
+- Models
+    - `schema-block` - for registration-schemas
+- Modifiers
+    - `capture-element` - easily store an element from the template
+
+### Changed
+- Models
+    - `collected-metadatum`
+        - removed `subjects` validation
+        - removed `subjects` attribute
+        - removed `displaySubjects` computed
+- Components
+    - `project-contributors/list`
+        - add ability to load more pages of contributors
+        - add loading indicator
+    - `osf-dialog`
+        - add `@isOpen` param for programmatic control
+        - add `@isModal` param (default `true`)
+- Engines
+    - `collections`
+        - Components
+            - `collections-submission` - removed subjects section
+            - `discover-page` - removed subject/taxonomy search filter
+            - `collection-search-result` - removed subjects display
+        - Routes
+            - `discover` - removed subject/taxonomy facet
+
+### Removed
+- Components
+    - `subject-picker`
+- Engines
+    - `collections`
+        - Components
+            - `collection-subjects-list`
+            - `discover-page/facets/taxonomy`
+            - `discover-page/active-filters/taxonomy`
+        - Helpers
+            - `custom-taxonomy-filter`
+
 ## [19.7.1] - 2019-08-05
 ### Changed
 - Services
@@ -1050,7 +1094,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.7.1...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.8.0...HEAD
+[19.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.8.0
 [19.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.1
 [19.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.0
 [19.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.6.1

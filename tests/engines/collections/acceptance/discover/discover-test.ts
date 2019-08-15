@@ -11,7 +11,6 @@ module('Collections | Acceptance | discover', hooks => {
     setupMirage(hooks);
 
     test('it renders', async assert => {
-        server.loadFixtures('taxonomies');
         const currentUser = server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         const nodeAdded = server.create('node', {
@@ -28,14 +27,11 @@ module('Collections | Acceptance | discover', hooks => {
             guid: nodeAdded,
             id: nodeAdded.id,
             collection: primaryCollection,
-            subjects: [[{ text: 'Arts and Humanities', id: '123' }]],
         });
-        const taxonomies = server.schema.taxonomies.all().models;
         const licensesAcceptable = server.schema.licenses.all().models;
         const provider = server.create('collection-provider', {
             id: 'studyswap',
             primaryCollection,
-            taxonomies,
             licensesAcceptable,
         });
         await visit(`/collections/${provider.id}/discover`);

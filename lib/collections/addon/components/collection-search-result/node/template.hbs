@@ -16,13 +16,6 @@
 <div class='col-xs-12'>
     {{contributor-list node=this.item}}
 
-    {{#if this.subjects}}
-        {{collection-subjects-list subjects=this.subjects onClickSubject=(action @addTaxonomyFilter)}}
-    {{/if}}
-    {{#if @extraSubjects}}
-        <span class='text-muted'>+{{@extraSubjects.length}}</span>
-    {{/if}}
-
     {{!Description}}
     <p>
         <div class='text-muted m-t-sm'>

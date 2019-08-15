@@ -1,3 +1,4 @@
+import { action } from '@ember-decorators/object';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 
@@ -11,7 +12,15 @@ import template from './template';
 export default class ProjectContributors extends Component {
     node: Node = this.node;
     contributors: ArrayProxy<Contributor> = this.contributors;
+    reloadContributorsList?: () => void; // bound by project-contributors/list
 
     @requiredAction discard!: () => void;
     @requiredAction continue!: () => void;
+
+    @action
+    reloadContributors() {
+        if (this.reloadContributorsList) {
+            this.reloadContributorsList();
+        }
+    }
 }

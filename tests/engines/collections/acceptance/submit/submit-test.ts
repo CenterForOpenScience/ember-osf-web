@@ -12,7 +12,6 @@ module('Collections | Acceptance | submit', hooks => {
     setupMirage(hooks);
 
     test('it renders', async () => {
-        server.loadFixtures('taxonomies');
         server.loadFixtures('licenses');
         const currentUser = server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
@@ -25,12 +24,10 @@ module('Collections | Acceptance | submit', hooks => {
             users: currentUser,
             index: 0,
         });
-        const taxonomies = server.schema.taxonomies.all().models;
         const licensesAcceptable = server.schema.licenses.all().models;
         const provider = server.create('collection-provider', {
             id: 'studyswap',
             primaryCollection,
-            taxonomies,
             licensesAcceptable,
         });
         await visit(`/collections/${provider.id}/submit`);
@@ -45,10 +42,6 @@ module('Collections | Acceptance | submit', hooks => {
 
         await percySnapshot('Collections | Acceptance | submit | project contributors');
         await untrackedClick('[data-test-collection-project-contributors] [data-test-submit-section-continue]');
-
-        await percySnapshot('Collections | Acceptance | submit | collection subjects');
-        await untrackedClick(`[data-test-subject-picker-column-subject-name="${taxonomies[0].text}"]`);
-        await untrackedClick('[data-test-collection-subject-picker] [data-test-submit-section-continue]');
 
         await percySnapshot('Collections | Acceptance | submit | collection metadata');
         await untrackedClick('[data-test-metadata-field="collected_type_label"] .ember-power-select-trigger');
