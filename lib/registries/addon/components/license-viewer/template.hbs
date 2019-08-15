@@ -1,0 +1,33 @@
+<OsfButton
+  data-analytics-name='View license'
+  local-class='LinkButton'
+  @type='link'
+  @onClick={{action (mut this.shouldShowLicense) true}}
+>
+    {{@manager.registration.license.name}}
+</OsfButton>
+
+<BsModal
+    @onHidden={{action (mut this.shouldShowLicense) false}}
+    @open={{this.shouldShowLicense}}
+    as |modal|
+>
+    <modal.header>
+        <h4 class='modal-title'>
+            {{t 'registries.registration_metadata.license'}}
+        </h4>
+    </modal.header>
+    <modal.body>
+        {{#if @manager.registration.license.url}}
+            <p>
+                <OsfLink
+                    data-analytics-name='License URL'
+                    @href={{@manager.registration.license.url}}
+                >
+                    {{@manager.registration.license.name}}
+                </OsfLink>
+            </p>
+        {{/if}}
+        <LicenseText @node={{@manager.registration}} />
+    </modal.body>
+</BsModal>

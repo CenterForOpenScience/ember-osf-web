@@ -6,7 +6,6 @@ import { percySnapshot } from 'ember-percy';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
-import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine, setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
@@ -31,12 +30,12 @@ module('Registries | Acceptance | overview.index', hooks => {
 
     hooks.beforeEach(function(this: OverviewTestContext) {
         server.loadFixtures('registration-schemas');
+        server.create('user', 'loggedIn');
         this.set('registration', server.create('registration', {
             archiving: false,
             withdrawn: false,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-            currentUserPermissions: [Permission.Admin],
-        }, 'withContributors'));
+        }, 'withContributors', 'currentUserAdmin'));
     });
 
     test('it renders', async function(this: OverviewTestContext, assert: Assert) {
@@ -100,8 +99,7 @@ module('Registries | Acceptance | overview.index', hooks => {
     test('withdrawn tombstone', async function(this: OverviewTestContext, assert: Assert) {
         this.set('registration', server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-            currentUserPermissions: [Permission.Admin],
-        }, 'withContributors', 'isWithdrawn'));
+        }, 'withContributors', 'currentUserAdmin', 'isWithdrawn'));
         const url = `/${this.registration.id}`;
         await visit(url);
         await percySnapshot(assert);
@@ -117,8 +115,7 @@ module('Registries | Acceptance | overview.index', hooks => {
     test('archiving tombstone', async function(this: OverviewTestContext, assert: Assert) {
         this.set('registration', server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-            currentUserPermissions: [Permission.Admin],
-        }, 'withContributors', 'isArchiving'));
+        }, 'withContributors', 'currentUserAdmin', 'isArchiving'));
         const url = `/${this.registration.id}`;
         await visit(url);
         await percySnapshot(assert);

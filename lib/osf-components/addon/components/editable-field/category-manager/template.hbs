@@ -1,0 +1,12 @@
+{{yield (hash
+    save=(perform this.save)
+    cancel=(action this.cancel)
+    onSelect=(action this.onSelect)
+    fieldIsEmpty=this.fieldIsEmpty
+    startEditing=(action this.startEditing)
+    inEditMode=this.inEditMode
+    userCanEdit=this.userCanEdit
+    shouldShowField=this.shouldShowField
+    selectedCategory=this.selectedCategory
+    category=this.category
+)}}

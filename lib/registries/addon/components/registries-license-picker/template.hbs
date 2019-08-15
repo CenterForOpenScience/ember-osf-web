@@ -1,0 +1,89 @@
+{{#if @manager.inEditMode}}
+    <ValidatedModelForm
+        data-test-license-edit-form
+        @model={{@manager.registration}}
+        @onSave={{@manager.onSave}}
+        @onError={{@manager.onError}}
+        as |form|
+    >
+        <form.select
+            data-analytics-category='text'
+            data-analytics-name='Select license'
+            data-test-select-license
+            @valuePath='license'
+            @search={{action @manager.queryLicenses}}
+            @selected={{@manager.selectedLicense}}
+            @options={{@manager.licensesAcceptable}}
+            @onchange={{@manager.changeLicense}}
+            @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
+            @placeholder={{t 'registries.registration_metadata.add_license'}}
+            @renderInPlace={{true}}
+            as |license|
+        >
+            {{license.name}}
+        </form.select>
+
+        <div local-class='small help-link'>
+            <OsfLink
+                @target='_blank'
+                @rel='noopener'
+                @href={{this.helpLink}}
+            >
+                {{t 'app_components.license_picker.faq'}}
+            </OsfLink>
+        </div>
+
+        {{#if @manager.selectedLicense}}
+            {{#if @manager.requiredFields}}
+                <br>
+            {{/if}}
+
+            <form.custom @valuePath='nodeLicense'>
+                {{#each @manager.requiredFields as |key|}}
+                    <div class='form-group'>
+                        <label>
+                            {{t (concat 'app_components.license_picker.fields.' key)}}
+                            {{input
+                                (html-attributes data-test-required-field=key)
+                                class='form-control'
+                                value=(mut (get @manager.registration.nodeLicense key))
+                                placeholder=(t 'general.required')
+                            }}
+                        </label>
+                    </div>
+                {{/each}}
+            </form.custom>
+
+            <OsfButton
+                @type='link'
+                @onClick={{action (mut this.showText) (not this.showText)}}
+                local-class='LinkButton small'
+            >
+                {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
+            </OsfButton>
+
+            {{#if this.showText}}
+                <LicenseText @node={{@manager.registration}} />
+            {{/if}}
+
+            <div local-class='Controls'>
+                <OsfButton
+                    @type='default'
+                    @disabled={{form.disabled}}
+                    @onClick={{action @manager.onCancel}}
+                >
+                    {{t 'general.cancel'}}
+                </OsfButton>
+                <OsfButton
+                    data-analytics-name='Save license'
+                    data-test-save-license
+                    @type='primary'
+                    @buttonType='submit'
+                    @disabled={{form.disabled}}
+                >
+                    {{t 'general.save'}}
+                </OsfButton>
+            </div>
+        {{/if}}
+    </ValidatedModelForm>
+{{/if}}

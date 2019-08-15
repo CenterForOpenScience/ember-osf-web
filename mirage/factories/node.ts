@@ -2,7 +2,7 @@ import { capitalize } from '@ember/string';
 import { Collection, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Identifier from 'ember-osf-web/models/identifier';
-import Node from 'ember-osf-web/models/node';
+import Node, { NodeCategory } from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
 import { guid, guidAfterCreate } from './utils';
@@ -35,19 +35,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
         }
     },
 
-    category: faker.list.cycle(
-        'project',
-        'analysis',
-        'communication',
-        'data',
-        'hypothesis',
-        'instrumentation',
-        'methods and measures',
-        'procedure',
-        'project',
-        'software',
-        'other',
-    ),
+    category: faker.random.arrayElement(Object.values(NodeCategory)),
     fork: false,
     currentUserIsContributor: false,
     preprint: false,
@@ -127,7 +115,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
 
     withDoi: trait<MirageNode>({
         afterCreate(node, server) {
-            const identifier = server.create('identifier');
+            const identifier = server.create('identifier', { referent: node });
             // eslint-disable-next-line no-param-reassign
             node.identifiers = [identifier] as unknown as Collection<Identifier>;
             node.save();

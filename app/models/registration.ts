@@ -1,13 +1,14 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
+import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
 import CommentModel from './comment';
 import ContributorModel from './contributor';
 import InstitutionModel from './institution';
 import NodeModel from './node';
+import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
-import RegistryProviderModel from './registry-provider';
 import UserModel from './user';
 
 export enum RegistrationState {
@@ -20,7 +21,23 @@ export enum RegistrationState {
     PendingEmbargoTermination = 'PendingEmbargoTermination',
 }
 
-export default class RegistrationModel extends NodeModel.extend() {
+const Validations = buildValidations({
+    license: [
+        validator('presence', {
+            presence: true,
+        }),
+    ],
+    nodeLicense: [
+        validator('presence', {
+            presence: true,
+        }),
+        validator('node-license', {
+            on: 'license',
+        }),
+    ],
+});
+
+export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('date') dateRegistered!: Date;
     @attr('boolean') pendingRegistrationApproval!: boolean;
     @attr('boolean') archiving!: boolean;
@@ -33,6 +50,7 @@ export default class RegistrationModel extends NodeModel.extend() {
     @attr('fixstring') withdrawalJustification?: string;
     @attr('boolean') pendingWithdrawal!: boolean;
     @attr('fixstring') registrationSupplement?: string;
+    @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
 
     // Write-only attributes
@@ -60,8 +78,8 @@ export default class RegistrationModel extends NodeModel.extend() {
     @belongsTo('user', { inverse: null })
     registeredBy!: DS.PromiseObject<UserModel> & UserModel;
 
-    @belongsTo('registry-provider', { inverse: 'registrations' })
-    provider!: DS.PromiseObject<RegistryProviderModel> & RegistryProviderModel;
+    @belongsTo('registration-provider', { inverse: 'registrations' })
+    provider!: DS.PromiseObject<RegistrationProviderModel> & RegistrationProviderModel;
 
     @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<ContributorModel>;
@@ -76,7 +94,7 @@ export default class RegistrationModel extends NodeModel.extend() {
     parent!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
 
     @belongsTo('registration', { inverse: null })
-    root!: DS.PromiseObject<NodeModel> & NodeModel;
+    root!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
 
     @hasMany('registration', { inverse: 'parent' })
     children!: DS.PromiseManyArray<RegistrationModel>;

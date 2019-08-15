@@ -6,7 +6,7 @@ $sidenav-link-height: 40px;
     height: $sidenav-link-height;
     justify-content: space-between;
     width: 100%;
-    padding: 5px 20px;
+    padding: 5px 10px;
     color: $primary-blue;
     outline: 0 !important;
 
@@ -26,11 +26,10 @@ $sidenav-link-height: 40px;
     }
 
     &:global(.active) {
-        color: $white;
-        background-color: $primary-blue;
+        color: $midnight-blue;
+        background-color: $selected-blue;
         border: $white 1px solid;
-        border-left: 0;
-        border-right: 0;
+        border-radius: 5px;
 
         .Count {
             color: inherit;
@@ -59,10 +58,10 @@ $sidenav-link-height: 40px;
 @mixin hover-poke-through($background-color) {
     position: absolute;
     padding: 11px;
+    padding-left: 0;
     height: $sidenav-link-height;
 
-    top: -20px;
-    left: 28px;
+    top: -10px;
 
     // Forces the label to stay on a single line
     // otherwise it will wrap every letter.
@@ -71,18 +70,20 @@ $sidenav-link-height: 40px;
     // Arbitrary number, just needs to be > 1 to avoid
     // overlapping with text and < 100 so the border gets covered by the ::before
     z-index: 10;
-
+    
     background: $background-color;
-    border: $alto 1px solid;
-    border-left: 0;
+
+    // Round the right corners of the h4 elements
+    border-radius: 0 5px 5px 0;
 
     // Cover the border around the h4 to give it the "poke out/through" effect
     &::before {
         position: absolute;
         z-index: 100;
-        border: $white 1px solid;
+        border: solid 1px $white;
         border-left: 0;
         border-right: 0;
+        background: transparent;
 
         // Needs to be set to render. Adding content messes things up. Don't do that.
         content: '';
@@ -93,7 +94,8 @@ $sidenav-link-height: 40px;
         left: -1px;
         height: calc(2px + 100%);
 
-        // Matches the width of the parent gutter
+        // Matches the width of the parent gutter 
+        // Check the width of the .Collapse:hover .LabelWrapper below)
         width: 26px;
     }
 }
@@ -110,11 +112,28 @@ $sidenav-link-height: 40px;
         display: none;
     }
 
-    &:hover:global(.active) h4 {
-        @include hover-poke-through($primary-blue);
+    &:hover .LabelWrapper {
+        @include hover-poke-through($white);
+        border: $alto 1px solid;
+        border-left: 0;
+        left: 28px;
+        padding-right: 0;
+        width: max-content;
     }
 
+    &:hover h4 {
+        position: relative;
+        top: -21px;
+        padding: 11px;
+        z-index: 10;
+        border-radius: 0 5px 5px 0;
+    }
+
+    &:hover:global(.active) h4 {
+        background: $selected-blue;
+    }
+    
     &:hover:not(:global(.active)) h4 {
-        @include hover-poke-through($white);
+        background: $white;
     }
 }

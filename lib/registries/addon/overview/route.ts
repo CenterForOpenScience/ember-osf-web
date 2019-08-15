@@ -83,7 +83,7 @@ export default class Overview extends GuidRoute {
     }
 
     include() {
-        return ['registration_schema', 'bibliographic_contributors', 'identifiers', 'root'];
+        return ['registration_schema', 'bibliographic_contributors', 'identifiers', 'root', 'provider'];
     }
 
     adapterOptions() {

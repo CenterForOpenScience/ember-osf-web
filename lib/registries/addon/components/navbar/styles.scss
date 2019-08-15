@@ -17,6 +17,11 @@
         border-right-style: solid;
         border-right-width: 1px;
     }
+
+    &.Bordered:last-child {
+        border-left-style: solid;
+        border-left-width: 1px;
+    }
 }
 
 .Divider {
@@ -107,6 +112,10 @@
 
     & .Section.Bordered > .Item:not(:last-child) {
         border-right-color: $white;
+    }
+
+    & .Section.Bordered:last-child {
+        border-left-color: $white;
     }
 }
 // --- \Color "Themes" ---

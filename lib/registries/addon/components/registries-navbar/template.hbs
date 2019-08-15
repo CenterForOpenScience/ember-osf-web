@@ -71,7 +71,7 @@
                 data-test-help='1'
                 data-analytics-name='Help'
                 @href={{this.helpRoute}}
-                @classNames={{local-class 'HideOnMobile'}}
+                local-class='HideOnMobile'
             >
                 <h4>{{t 'general.help'}}</h4>
             </nav.links.secondary>
@@ -80,7 +80,7 @@
                 data-test-donate='1'
                 data-analytics-name='Donate'
                 @href={{this.donateRoute}}
-                @classNames={{local-class 'HideOnMobile'}}
+                local-class='HideOnMobile'
             >
                 <h4>{{t 'navbar.donate'}}</h4>
             </nav.links.primary>
@@ -94,7 +94,7 @@
                     data-analytics-name='Sign up'
                     @route='register'
                     @queryParams={{this.signUpQueryParams}}
-                    @classNames={{local-class 'HideOnMobile'}}
+                    local-class='HideOnMobile'
                 >
                     <h4>{{t 'navbar.join'}}</h4>
                 </nav.links.secondary>
