@@ -8,10 +8,10 @@
 {{#if (and @manager.item.children @manager.isShowChildren)}}
     <div local-class='children'>
         {{#each @manager.item.children as |child|}}
-            <HierarchicalList::ItemManager @item={{child}} @listManager={{@manager.listManager}}
+            <Registries::HierarchicalList::ItemManager @item={{child}} @listManager={{@manager.listManager}}
                 as |childManager|>
-                <HierarchicalList::Item @manager={{childManager}} />
-            </HierarchicalList::ItemManager>
+                <Registries::HierarchicalList::Item @manager={{childManager}} />
+            </Registries::HierarchicalList::ItemManager>
         {{/each}}
     </div>
 {{/if}}

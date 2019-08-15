@@ -4,7 +4,10 @@ import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import NodeModel from 'ember-osf-web/models/node';
-import { PartialRegistrationModalManager } from 'registries/components/partial-registration-modal/manager/component';
+
+import {
+    PartialRegistrationModalManager,
+} from 'osf-components/components/registries/partial-registration-modal/manager/component';
 import template from './template';
 
 export interface HierarchicalListItemManager {

@@ -1,8 +1,10 @@
 import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
-
-import { PartialRegistrationModalManager } from 'registries/components/partial-registration-modal/manager/component';
+// tslint:disable-next-line:max-line-length
+import {
+    PartialRegistrationModalManager,
+} from 'osf-components/components/registries/partial-registration-modal/manager/component';
 import styles from './styles';
 import template from './template';
 
