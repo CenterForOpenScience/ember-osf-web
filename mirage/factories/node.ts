@@ -30,8 +30,12 @@ export default Factory.extend<MirageNode & NodeTraits>({
     id: guid('node'),
     afterCreate(newNode, server) {
         guidAfterCreate(newNode, server);
-        if (!newNode.root && newNode.parent) {
-            newNode.update({ root: newNode.parent.root || newNode.parent });
+        if (!newNode.root) {
+            if (newNode.parent) {
+                newNode.update({ root: newNode.parent.root });
+            } else {
+                newNode.update({ root: newNode });
+            }
         }
     },
 
