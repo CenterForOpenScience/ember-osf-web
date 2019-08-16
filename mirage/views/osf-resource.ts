@@ -104,7 +104,7 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
 ) {
     const opts: NestedResourceOptions = Object.assign({
         path: `/${pluralize(underscore(parentModelName))}/:parentID/${underscore(relationshipName)}`,
-        relatedModelName: relationshipName,
+        relatedModelName: singularize(relationshipName),
         defaultSortKey: '-id',
     }, options);
     const mirageParentModelName = pluralize(camelize(parentModelName));
@@ -132,7 +132,15 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     }
 
     if (actions.includes('create')) {
-        server.post(opts.path, mirageRelatedModelName);
+        server.post(opts.path, function(schema, request) {
+            const attrs = this.normalizedRequestAttrs(opts.relatedModelName);
+            const child = schema[mirageRelatedModelName].create(attrs);
+            const parent = schema[mirageParentModelName].find(request.params.parentID);
+            parent[relationshipName].models.pushObject(child);
+            parent.save();
+            child.reload();
+            return child;
+        });
     }
 
     if (actions.includes('update')) {
