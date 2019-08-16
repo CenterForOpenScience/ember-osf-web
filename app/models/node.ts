@@ -66,6 +66,20 @@ export enum NodeType {
     Registration = 'registration',
 }
 
+export enum NodeCategory {
+    Data = 'data',
+    Other = 'other',
+    Project = 'project',
+    Software = 'software',
+    Analysis = 'analysis',
+    Procedure = 'procedure',
+    Hypothesis = 'hypothesis',
+    Uncategorized = 'uncategorized',
+    Communication = 'communication',
+    Instrumentation = 'instrumentation',
+    MethodsAndMeasures = 'methods and measures',
+}
+
 export interface NodeLicense {
     readonly copyrightHolders?: string;
     readonly year?: string;
@@ -74,7 +88,7 @@ export interface NodeLicense {
 export default class NodeModel extends BaseFileItem.extend(Validations, CollectableValidations) {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
-    @attr('node-category') category!: string;
+    @attr('node-category') category!: NodeCategory;
     @attr('array') currentUserPermissions!: Permission[];
     @attr('boolean') currentUserIsContributor!: boolean;
     @attr('boolean') fork!: boolean;
@@ -161,7 +175,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @hasMany('log', { inverse: 'originalNode' })
     logs!: DS.PromiseManyArray<LogModel>;
 
-    @hasMany('identifier', { inverse: null })
+    @hasMany('identifier', { inverse: 'referent' })
     identifiers!: DS.PromiseManyArray<IdentifierModel>;
 
     // These are only computeds because maintaining separate flag values on

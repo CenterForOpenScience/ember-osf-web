@@ -18,7 +18,7 @@ $width-collapsed: 80px;
 
 .Links {
     border-bottom: $alto 1px solid;
-    padding: 15px 0;
+    padding: 15px 10px;
     width: 100%;
 }
 
@@ -30,7 +30,7 @@ $width-collapsed: 80px;
         color: $white;
     }
 
-    &:hover h4::before {
+    &:hover :global(.SideNav_LabelWrapper)::before {
         // Adjusts the white border to not cover the top gray line
         top: 0 !important;
         height: calc(1px + 100%) !important;

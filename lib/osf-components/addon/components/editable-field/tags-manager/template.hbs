@@ -1,0 +1,15 @@
+{{yield (hash
+    save=(perform this.save)
+    cancel=(action this.cancel)
+    addTag=(action this.addTag)
+    removeTag=(action this.removeTag)
+    clickTag=(action this.clickTag)
+    tags=this.currentTags
+    registration=this.registration
+    fieldIsEmpty=this.fieldIsEmpty
+    emptyFieldText=(t 'osf-components.tags-widget.no_tags')
+    startEditing=(action this.startEditing)
+    inEditMode=this.inEditMode
+    userCanEdit=this.userCanEdit
+    shouldShowField=this.shouldShowField
+)}}

@@ -9,12 +9,12 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 
 const { defaultProvider, assetsPrefix } = config;
 
-type ProviderType = 'collection' | 'preprint' | 'registry';
+type ProviderType = 'collection' | 'preprint' | 'registration';
 
 interface Setting {
     assetPath: string;
     routePath: string;
-    model: 'collection-provider' | 'preprint-provider' | 'registry-provider';
+    model: 'collection-provider' | 'preprint-provider' | 'registration-provider';
 }
 
 const settings: { [P in ProviderType]: Setting } = {
@@ -28,10 +28,10 @@ const settings: { [P in ProviderType]: Setting } = {
         routePath: 'preprints',
         model: 'preprint-provider',
     },
-    registry: {
+    registration: {
         assetPath: 'registries-assets',
         routePath: 'registries',
-        model: 'registry-provider',
+        model: 'registration-provider',
     },
 };
 

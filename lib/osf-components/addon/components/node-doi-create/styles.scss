@@ -1,0 +1,13 @@
+.CreateMessage {
+    display: flex;
+    width: 100%;
+
+    p {
+        margin-left: 15px;
+    }
+}
+
+.CreateButton {
+    display: flex;
+    justify-content: flex-end;
+}

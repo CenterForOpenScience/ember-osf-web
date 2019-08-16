@@ -1,12 +1,15 @@
-import { ModelInstance } from 'ember-cli-mirage';
+import { capitalize } from '@ember/string';
+import { click as untrackedClick, fillIn } from '@ember/test-helpers';
+import { faker, ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { t } from 'ember-i18n/test-support';
+import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
-import { MirageCollection } from 'ember-osf-web/mirage/factories/collection';
+import { NodeCategory } from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import { click, visit } from 'ember-osf-web/tests/helpers';
@@ -76,7 +79,6 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
             await visit(`/${this.registration.id}/`);
 
-            assert.dom('[data-test-banner="Embargoed"]').isVisible();
             assert.dom('[data-test-registration-title]').isVisible();
         });
 
@@ -88,7 +90,6 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
             await visit(`/${this.registration.id}/`);
 
-            assert.dom('[data-test-banner="Embargoed"]').isVisible();
             assert.dom('[data-test-registration-title]').isVisible();
         });
 
@@ -120,60 +121,89 @@ module('Registries | Acceptance | overview.overview', hooks => {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             tags,
             currentUserPermissions: Object.values(Permission),
-        }, 'withContributors');
+        });
 
         await visit(`/${reg.id}/`);
 
-        assert.dom('[data-test-registration-tags]').isVisible();
-        assert.dom('[data-test-tags-widget-tag-input] input').isVisible();
+        assert.dom('[data-test-edit-button="tags"]').isVisible();
+        await click('[data-test-edit-button="tags"]');
+
+        assert.dom('[data-test-tags]').isVisible();
+        assert.dom('[data-test-tags-widget-tag-input="edit"] input').isVisible();
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
 
         reg.update({ currentUserPermissions: [Permission.Read] });
         await visit(`/${reg.id}/`);
 
-        assert.dom('[data-test-registration-tags]').isVisible();
+        assert.dom('[data-test-tags-read-only]').isVisible();
         assert.dom('[data-test-tags-widget-tag-input] input').isNotVisible();
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
     });
 
-    test('bookmarks work', async assert => {
+    test('only admin can edit affiliated institutions', async assert => {
+        const user = server.create('user', {
+            institutions: server.createList('institution', 2),
+        }, 'loggedIn');
+
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-            currentUserPermissions: Object.values(Permission),
-        });
+            currentUserPermissions: [Permission.Write, Permission.Read],
+        }, 'withAffiliatedInstitutions');
 
-        const bookmarksColl = server.create(
-            'collection',
-            { title: 'Bookmarks', bookmarks: true },
-        ) as ModelInstance<MirageCollection>;
+        // Non admin: read only view
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="affiliated institutions"]').isNotVisible();
+        reg.affiliatedInstitutionIds.forEach(institutionId => assert
+            .dom(`[data-test-institution-list-institution="${institutionId}"]`)
+            .exists('registration institution list is correct'));
 
+        // Admin: editable view
+        reg.update({ currentUserPermissions: Object.values(Permission) });
         await visit(`/${reg.id}/`);
 
-        assert.dom('[data-test-social-sharing-button]').isVisible();
-        assert.dom('[data-test-bookmarks-button]').isNotVisible();
+        assert.dom('[data-test-edit-button="affiliated institutions"]').isVisible();
 
-        await click('[data-test-social-sharing-button]');
-        assert.dom('[data-test-bookmarks-button]').isVisible();
+        // Admin can affiliate institutions
+        await click('[data-test-edit-button="affiliated institutions"]');
+        user.institutionIds.forEach(institutionId => assert
+            .dom(`[data-test-institution="${institutionId}"]`)
+            .exists('user institution list is correct'));
 
-        // Bookmark registration
-        await click('[data-test-bookmarks-button]');
-        await click('[data-test-social-sharing-button]');
-        assert.dom('[data-test-bookmarks-button]').hasText(
-            t('registries.overview.update_bookmarks.remove.text').toString(),
-        );
+        await click(`[data-test-institution-button="add-${user.institutionIds[0]}"]`);
+        await click(`[data-test-institution-button="add-${user.institutionIds[1]}"]`);
 
-        bookmarksColl.reload();
-        assert.ok(bookmarksColl.linkedRegistrationIds.includes(reg.id));
+        assert.dom('[data-test-save-edits]').isVisible();
+        await click('[data-test-save-edits]');
 
-        // Remove from bookmarks
-        await click('[data-test-bookmarks-button]');
-        await click('[data-test-social-sharing-button]');
-        assert.dom('[data-test-bookmarks-button]').hasText(
-            t('registries.overview.update_bookmarks.add.text').toString(),
-        );
+        reg.reload();
+        user.institutionIds.every(userInstitutionId =>
+            reg.affiliatedInstitutionIds.includes(userInstitutionId));
 
-        bookmarksColl.reload();
-        assert.notOk(bookmarksColl.linkedRegistrationIds.includes(reg.id));
+        // Admin can remove affiliated institutions
+        await click('[data-test-edit-button="affiliated institutions"]');
+
+        await click(`[data-test-institution-button="remove-${user.institutionIds[0]}"]`);
+        await click(`[data-test-institution-button="remove-${user.institutionIds[1]}"]`);
+
+        assert.dom('[data-test-save-edits]').isVisible();
+        await click('[data-test-save-edits]');
+
+        reg.reload();
+        user.institutionIds.every(userInstitutionId =>
+            !reg.affiliatedInstitutionIds.includes(userInstitutionId));
+
+        // Discard edits works
+        await click('[data-test-edit-button="affiliated institutions"]');
+
+        await click(`[data-test-institution-button="add-${user.institutionIds[0]}"]`);
+        await click(`[data-test-institution-button="add-${user.institutionIds[1]}"]`);
+
+        assert.dom('[data-test-discard-edits]').isVisible();
+        await click('[data-test-discard-edits]');
+
+        user.institutionIds.forEach(userinstitutionId => assert
+            .dom(`[data-test-institution-list-institution="${userinstitutionId}"]`)
+            .doesNotExist('registration institution list is not updated after discarding edits'));
     });
 
     test('Form navigation menu', async assert => {
@@ -224,5 +254,183 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assertHeadMetaTags(assert, 'tags', reg.tags);
         assertHeadMetaTags(assert, 'contributors', reg.contributors.models.mapBy('users.fullName'));
         assertHeadMetaTags(assert, 'affiliatedInstitutions', affiliatedInstitutions.mapBy('name'), true);
+    });
+
+    test('Editable description', async assert => {
+        const reg = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            description: '',
+        });
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-edit-button="description"]').isVisible();
+        assert.dom('[data-test-description-input]').isNotVisible();
+        await click('[data-test-edit-button="description"]');
+        assert.dom('[data-test-description-input]').isVisible();
+
+        const newDescription = faker.lorem.sentences(500);
+
+        await fillIn('[data-test-description-input] textarea', newDescription);
+        assert.dom('[data-test-save-edits]').isVisible();
+        await click('[data-test-save-edits]');
+
+        assert.equal(reg.description, newDescription, 'description successfully updated');
+        assert.dom('[data-test-node-description-overlay]').exists('description is truncated');
+        assert.dom('[data-test-node-description-button]').exists();
+        assert.dom('[data-test-node-description-wrapper]').hasStyle({
+            maxHeight: '200px',
+        });
+        await click('[data-test-node-description-button]');
+        assert.dom('[data-test-node-description-wrapper]').hasStyle({
+            maxHeight: 'none',
+        });
+        reg.update({ currentUserPermissions: [] });
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="description"]').isNotVisible();
+    });
+
+    test('editable registration category', async assert => {
+        const reg = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            category: NodeCategory.Project,
+        });
+
+        await visit(`/${reg.id}/`);
+
+        await click('[data-test-edit-button="category"]');
+        assert.dom('[data-test-select-category] div[class~="ember-power-select-trigger"]')
+            .hasText(capitalize(reg.category));
+
+        await untrackedClick('[data-test-select-category] div[class~="ember-power-select-trigger"]');
+        assert.dom('.ember-power-select-option').exists({ count: Object.values(NodeCategory).length - 1 });
+
+        await selectChoose('[data-test-select-category]', capitalize(NodeCategory.Instrumentation));
+        await click('[data-test-save-edits]');
+
+        reg.reload();
+        assert.equal(reg.category, NodeCategory.Instrumentation);
+
+        // Non-admin cannot edit
+        reg.update({ currentUserPermissions: [Permission.Read, Permission.Write] });
+
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="category"]').doesNotExist();
+    });
+
+    test('editable publication doi', async assert => {
+        const reg = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+        });
+
+        await visit(`/${reg.id}/`);
+
+        await click('[data-test-edit-button="publication DOI"]');
+
+        assert.notOk(reg.articleDoi);
+        assert.dom('[data-test-publication-doi-input] input').isVisible();
+
+        const invalidDoi = '10.123213';
+        await fillIn('[data-test-publication-doi-input] input', invalidDoi);
+        await click('[data-test-save-publication-doi]');
+
+        assert.dom('.help-block').hasText(t('validationErrors.invalid_doi').toString(), 'validation works');
+        await untrackedClick('button.close');
+
+        await click('[data-test-edit-button="publication DOI"]');
+        assert.dom('.help-block').isNotVisible();
+
+        const publicationDoi = '10.12312/123';
+        await fillIn('[data-test-publication-doi-input] input', publicationDoi);
+        await click('[data-test-save-publication-doi]');
+
+        reg.reload();
+        assert.ok(reg.articleDoi);
+        assert.equal(reg.articleDoi, publicationDoi);
+
+        // Can delete publication DOI
+        await click('[data-test-edit-button="publication DOI"]');
+        await fillIn('[data-test-publication-doi-input] input', '');
+        await click('[data-test-save-publication-doi]');
+
+        reg.reload();
+        assert.notOk(reg.articleDoi);
+
+        // Non-admin cannot edit
+        reg.update({ currentUserPermissions: [] });
+
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="publication DOI"]').doesNotExist();
+    });
+
+    test('Check only admin can mint registration DOI', async assert => {
+        const reg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        });
+
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-create-doi]').doesNotExist();
+        reg.update({ currentUserPermissions: Object.values(Permission) });
+        await visit(`/${reg.id}/`);
+        await click('[data-test-edit-button="doi"]');
+
+        assert.dom('[data-test-create-doi]').isVisible();
+        assert.dom('[data-test-registration-doi]').isNotVisible();
+        assert.notOk(Boolean(reg.identifierIds.length));
+
+        await click('[data-test-create-doi]');
+
+        assert.dom('[data-test-registration-doi]').isVisible();
+        reg.reload();
+        assert.ok(Boolean(reg.identifierIds.length), 'Registration doi successfully minted');
+        assert.dom('[data-test-edit-button="doi"]').isNotVisible('A registration doi can only be minted once');
+
+        const nonPublicReg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: Object.values(Permission),
+        }, 'isEmbargoed');
+
+        await visit(`/${nonPublicReg.id}/`);
+        assert.dom('[data-test-editable-field="doi"]').doesNotExist('DOIs are only available for public registrations');
+    });
+
+    test('Editable license', async assert => {
+        server.loadFixtures('licenses');
+        server.loadFixtures('registration-providers');
+
+        const reg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            currentUserPermissions: [Permission.Write, Permission.Read],
+        });
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-edit-button="license"]').isNotVisible();
+        reg.update({ currentUserPermissions: Object.values(Permission) });
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-edit-button="license"]').isVisible();
+        await click('[data-test-edit-button="license"]');
+
+        assert.dom('[data-test-license-edit-form]').isVisible();
+        await selectSearch('[data-test-select-license]', 'No');
+        assert.dom('.ember-power-select-options').hasText('No license');
+        await selectChoose('[data-test-select-license]', 'No license');
+
+        await click('[data-test-save-license]');
+
+        const validationErrorMsg = `${t('validationErrors.node_license_missing_fields')} \
+            ${t('app_components.license_picker.fields.copyrightHolders')}`;
+        assert.dom('.help-block').hasText(validationErrorMsg, 'validation works');
+
+        await fillIn('[data-test-required-field="copyrightHolders"]', 'Jane Doe, John Doe');
+        await click('[data-test-save-license]');
+
+        assert.equal(reg.license.name, 'No license');
+        assert.equal(reg.nodeLicense!.year, new Date().getUTCFullYear().toString());
+
+        // @ts-ignore
+        assert.deepEqual(reg.nodeLicense!.copyright_holders, ['Jane Doe', 'John Doe']);
     });
 });

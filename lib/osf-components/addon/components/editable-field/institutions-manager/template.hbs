@@ -1,0 +1,17 @@
+{{yield (hash
+    save=(perform this.save)
+    cancel=(action this.cancel)
+    addInstitution=(action this.addInstitution)
+    removeInstitution=(action this.removeInstitution)
+    toggleInstitution=(action this.toggleInstitution)
+    fieldIsEmpty=this.fieldIsEmpty
+    emptyFieldText=this.emptyFieldText
+    affiliatedList=this.currentAffiliatedList
+    startEditing=(action this.startEditing)
+    inEditMode=this.inEditMode
+    userCanEdit=this.userCanEdit
+    shouldShowField=this.shouldShowField
+    bindReload=(action (mut this.reloadList))
+    node=this.node
+    user=this.currentUser.user
+)}}

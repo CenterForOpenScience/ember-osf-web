@@ -1,16 +1,42 @@
-{{#if this.isDisabled}}
-    {{registries-states/actions-trigger registration=@registration isDisabled=true}}
-{{else}}
-    <ResponsiveDropdown as |dd|>
-        {{#dd.trigger local-class='Menu__button'}}
-            {{registries-states/actions-trigger isOpen=dd.isOpen registration=@registration}}
-        {{/dd.trigger}}
-        {{#dd.content local-class='States'}}
-            {{#if (eq this.registration.state this.public)}}
-                {{registries-states/is-public registration=@registration closeDropdown=dd.close}}
-            {{else}}
-                {{registries-states/is-embargoed registration=@registration closeDropdown=dd.close}}
-            {{/if}}
-        {{/dd.content}}
-    </ResponsiveDropdown>
-{{/if}}
+<ResponsiveDropdown
+    @horizontalPosition='left'
+    @initiallyOpened={{this.shouldOpenDropdownOnLoad}}
+    as |dd|>
+    <dd.trigger
+        data-analytics-name='Expand state dropdown'
+        data-test-state-button
+        @class={{local-class 'StateText'}}
+    >
+        {{this.stateText.buttonText}}
+        <FaIcon @icon={{if @isOpen 'caret-up' 'caret-down'}} @fixedWidth={{true}} />
+    </dd.trigger>
+    <dd.content
+        data-test-state-description
+        @class={{local-class 'States'}}
+    >
+        {{#if this.stateText}}
+            <div local-class='DescriptionContainer'>
+                <FaIcon data-test-state-icon @icon={{this.stateIcon}} @size='4' />
+                <div local-class='DescriptionText'>
+                    <h4 data-test-state-description-short>{{this.stateText.short}}</h4>
+                    <p
+                        data-analytics-name='Go to project URL'
+                        data-analytics-category='link'
+                        data-test-state-description-long
+                    >
+                        {{this.stateText.long}}
+                    </p>
+                </div>
+            </div>
+        {{/if}}
+        {{#unless this.shouldHideAdminActions}}
+            <div data-test-state-admin-actions local-class='AdminActions'>
+                {{#if (eq this.registration.state this.public)}}
+                    <RegistriesStates::IsPublic @registration={{@registration}} @closeDropdown={{dd.close}} />
+                {{else}}
+                    <RegistriesStates::IsEmbargoed @registration={{@registration}} @closeDropdown={{dd.close}} />
+                {{/if}}
+            </div>
+        {{/unless}}
+    </dd.content>
+</ResponsiveDropdown>

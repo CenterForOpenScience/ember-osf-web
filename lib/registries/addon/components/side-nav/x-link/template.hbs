@@ -8,7 +8,9 @@
     >
         <span local-class='Label'>
             <FaIcon @icon={{@icon}} @fixedWidth={{true}} @class={{local-class 'Icon'}} />
-            <h4>{{@label}}</h4>
+            <div local-class='LabelWrapper' class='SideNav_LabelWrapper'>
+                <h4>{{@label}}</h4>
+            </div>
         </span>
 
         <span local-class='Count'>
@@ -24,12 +26,14 @@
         @models={{@models}}
         @route={{@route}}
         @href={{@href}}
-        @onclick={{@onClick}}
+        @onClick={{@onClick}}
         ...attributes
     >
         <span local-class='Label'>
             <FaIcon @icon={{@icon}} @fixedWidth={{true}} @class={{local-class 'Icon'}} />
-            <h4>{{@label}}</h4>
+            <div local-class='LabelWrapper'>
+                <h4>{{@label}}</h4>
+            </div>
         </span>
 
         <span local-class='Count'>
