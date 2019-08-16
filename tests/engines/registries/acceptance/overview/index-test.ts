@@ -29,6 +29,7 @@ module('Registries | Acceptance | overview.index', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: OverviewTestContext) {
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
         server.create('user', 'loggedIn');
         this.set('registration', server.create('registration', {

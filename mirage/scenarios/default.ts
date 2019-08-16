@@ -206,6 +206,7 @@ function meetingsScenario(server: Server) {
 }
 
 export default function(server: Server) {
+    server.loadFixtures('schema-blocks');
     server.loadFixtures('registration-schemas');
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
