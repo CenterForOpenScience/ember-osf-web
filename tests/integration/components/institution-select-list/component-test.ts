@@ -7,46 +7,36 @@ import { module, test } from 'qunit';
 
 import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { click } from 'ember-osf-web/tests/helpers';
 
 type Context = TestContext & { server: Server };
+
+const noop = () => { /* noop */ };
 
 module('Integration | Component | institution-select-list', hooks => {
     setupRenderingTest(hooks);
 
-    hooks.beforeEach(async function(this: Context) {
+    hooks.beforeEach(function(this: Context) {
         this.server = startMirage();
         this.store = this.owner.lookup('service:store');
         const mirageRegistration = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             currentUserPermissions: Object.values(Permission),
         });
-        const registration = await this.store.findRecord('registration', mirageRegistration.id);
-        this.set('node', registration);
+        const registration = this.store.findRecord('registration', mirageRegistration.id);
+        const mirageUser = server.create('user', 'withInstitutions');
+        const user = this.store.findRecord('user', mirageUser.id);
+        const managerStub = {
+            toggleInstitution: noop,
+            affiliatedList: [],
+            node: registration,
+            user,
+        };
+        this.set('manager', managerStub);
     });
 
-    test('it renders', async function(this: Context, assert) {
-        const mirageUser = server.create('user', 'withInstitutions');
-        const user = await this.store.findRecord('user', mirageUser.id);
-        this.set('user', user);
-
-        await render(hbs`<InstitutionSelectList @user={{this.user}} @node={{this.node}} />`);
+    test('it renders', async assert => {
+        await render(hbs`<InstitutionSelectList @manager={{this.manager}} />`);
 
         assert.dom('[data-test-institution]').exists({ count: 3 });
-    });
-
-    test('button changes', async function(this: Context, assert) {
-        const mirageUser = server.create('user');
-        const user = await this.store.findRecord('user', mirageUser.id);
-        server.create('institution', { users: [mirageUser] });
-        this.set('user', user);
-
-        await render(hbs`<InstitutionSelectList @user={{this.user}} @node={{this.node}} />`);
-
-        assert.dom('[data-test-institution]').exists();
-        assert.dom('[data-test-institution-button]').exists();
-        assert.dom('[data-test-institution-button] > i').hasClass('fa-plus');
-        await click('[data-test-institution-button]');
-        assert.dom('[data-test-institution-button] > i').hasClass('fa-minus');
     });
 });

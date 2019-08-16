@@ -1,9 +1,7 @@
-<ul>
-    {{#if this.selectedOptions.length}}
-        {{#each this.selectedOptions as |option|}}
-            <li>{{option}}</li>
-        {{/each}}
+<ul local-class='OptionsList'>
+    {{#each this.selectedOptions as |option|}}
+        <li>{{option}}</li>
     {{else}}
-        <li>{{t 'registries.form_view.none_selected'}}</li>
-    {{/if}}
+        <span>{{t 'registries.form_view.none_selected'}}</span>
+    {{/each}}
 </ul>

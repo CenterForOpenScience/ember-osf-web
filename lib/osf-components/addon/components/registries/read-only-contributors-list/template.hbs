@@ -1,0 +1,14 @@
+<div local-class='contributorContainer' ...attributes>
+    <ContributorList
+        @node={{this.node}}
+        @shouldTruncate={{false}}
+        @shouldLinkUsers={{true}}
+    />
+    <OsfLink
+        data-test-edit-contributors-link
+        data-analytics-name='Edit contributors'
+        @href='/{{@node.id}}/contributors'
+    >
+        {{t 'osf-components.registries.read-only-contributors-list.editContributorsOnYourProject'}}
+    </OsfLink>
+</div>

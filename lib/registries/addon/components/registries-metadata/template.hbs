@@ -20,10 +20,22 @@
     </div>
 
     <div local-class='Field'>
-        <h4>{{t 'registries.registration_metadata.description'}}</h4>
-        <div data-test-registries-metadata='description'>
-            {{or this.registration.description (t 'registries.registration_metadata.no_description')}}
-        </div>
+        <EditableField::DescriptionManager @node={{this.registration}} as |descriptionManager|>
+            <EditableField
+                data-analytics-scope='Description'
+                @manager={{descriptionManager}}
+                @title={{t 'registries.registration_metadata.description'}}
+                @name='description'
+                as |field|
+            >
+                <field.edit>
+                    <NodeDescriptionEditable @manager={{descriptionManager}} />
+                </field.edit>
+                <field.display>
+                    <NodeDescription @manager={{descriptionManager}} />
+                </field.display>
+            </EditableField>
+        </EditableField::DescriptionManager>
     </div>
 
     <div local-class='Field'>
@@ -60,96 +72,132 @@
         </div>
     </div>
 
-    {{#if this.registration.category}}
-        <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.category'}}</h4>
-            <div data-test-registries-metadata='category'>
-                {{t (concat 'node_categories.' this.registration.category)}}
-            </div>
-        </div>
-    {{/if}}
+    <div local-class='Field'>
+        <EditableField::CategoryManager @node={{this.registration}} as |categoryManager|>
+            <EditableField
+                data-analytics-scope='Category'
+                @manager={{categoryManager}}
+                @title={{t 'registries.registration_metadata.category'}}
+                @name='category'
+                as |field|
+            >
+                <field.edit>
+                    <NodeCategoryPicker @manager={{categoryManager}} />
+                </field.edit>
+                <field.display>
+                    <NodeCategory @category={{categoryManager.category}} />
+                </field.display>
+            </EditableField>
+        </EditableField::CategoryManager>
+    </div>
 
     {{#if @extendedFields}}
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.registration_doi'}}</h4>
-            {{#if this.registrationDoi}}
-                <OsfLink
-                    data-analytics-name='Registration DOI'
-                    @href={{this.registrationDoiUrl}}
+            <EditableField::DoiManager @node={{this.registration}} as |doiManager|>
+                <EditableField
+                    data-analytics-scope='DOI'
+                    @manager={{doiManager}}
+                    @hasCustomButtons={{true}}
+                    @title={{t 'registries.registration_metadata.registration_doi'}}
+                    @name='doi'
+                    @editHeader={{t 'registries.registration_metadata.create_doi'}}
+                    as |field|
                 >
-                    {{this.registrationDoi}}
-                </OsfLink>
-            {{/if}}
-            {{! TODO: mint DOIs }}
-        </div>
-        {{!--
-        <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.publication_doi'}}</h4>
-        </div>
-        --}}
-
-        <div local-class='Field'>
-            <EditableField
-                data-analytics-scope='Affiliated institutions'
-                @registration={{this.registration}}
-                @title={{t 'registries.registration_metadata.affiliated_institutions'}}
-            as |editable|>
-                <InstitutionsWidget
-                    data-analytics-scope='Registries overview'
-                    @node={{this.registration}}
-                    @shouldShowModal={{editable.shouldShowEditable}}
-                    @hideModal={{editable.hideEditable}}
-                />
-            </EditableField>
+                    <field.edit>
+                        <NodeDoiCreate @manager={{doiManager}} />
+                    </field.edit>
+                    <field.display>
+                        <NodeDoi @manager={{doiManager}} />
+                    </field.display>
+                </EditableField>
+            </EditableField::DoiManager>
         </div>
 
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.license'}}</h4>
-            {{#if this.registration.license}}
-                <OsfButton
-                    data-analytics-name='View license'
-                    local-class='LinkButton'
-                    @type='link'
-                    @onClick={{action (mut this.shouldShowLicense) true}}
+            <EditableField::PublicationDoiManager @node={{this.registration}} as |pubDoiManager|>
+                <EditableField
+                    data-analytics-scope='Publication DOI'
+                    @manager={{pubDoiManager}}
+                    @title={{t 'registries.registration_metadata.publication_doi'}}
+                    @name='publication DOI'
+                    @hasCustomButtons={{true}}
+                    as |field|
                 >
-                    {{this.registration.license.name}}
-                </OsfButton>
-                {{#if this.shouldShowLicense}}
-                    <BsModal
-                        @onHide={{action (mut this.shouldShowLicense) false}}
-                        as |modal|
+                    <field.edit>
+                        <NodePublicationDoiEditable @manager={{pubDoiManager}} />
+                    </field.edit>
+                    <field.display>
+                        <NodePublicationDoi @manager={{pubDoiManager}} />
+                    </field.display>
+                </EditableField>
+            </EditableField::PublicationDoiManager>
+        </div>
+
+        <div local-class='Field'>
+            <EditableField::InstitutionsManager @node={{this.registration}} as |institutionsManager|>
+                <EditableField
+                    data-analytics-scope='Affiliated institutions'
+                    @manager={{institutionsManager}}
+                    @title={{t 'registries.registration_metadata.affiliated_institutions'}}
+                    @name='affiliated institutions'
+                    as |field|
+                >
+                    <field.edit>
+                        <InstitutionSelectList @manager={{institutionsManager}} />
+                    </field.edit>
+                    <field.display>
+                        <InstitutionsList @manager={{institutionsManager}} />
+                    </field.display>
+                </EditableField>
+            </EditableField::InstitutionsManager>
+        </div>
+
+        <div local-class='Field'>
+            <div local-class='Field'>
+                <EditableField::LicenseManager @node={{this.registration}} as |licenseManager|>
+                    <EditableField
+                        data-analytics-scope='License'
+                        @manager={{licenseManager}}
+                        @title={{t 'registries.registration_metadata.license'}}
+                        @name='license'
+                        @hasCustomButtons={{true}}
+                        as |field|
                     >
-                        <modal.header>
-                            <h4 class='modal-title'>
-                                {{t 'registries.registration_metadata.license'}}
-                            </h4>
-                        </modal.header>
-                        <modal.body>
-                            {{#if this.registration.license.url}}
-                                <p>
-                                    <OsfLink
-                                        data-analytics-name='License URL'
-                                        @href={{this.registration.license.url}}
-                                    >
-                                        {{this.registration.license.name}}
-                                    </OsfLink>
-                                </p>
-                            {{/if}}
-                            <LicenseText @node={{this.registration}} />
-                        </modal.body>
-                    </BsModal>
-                {{/if}}
-            {{else}}
-                {{t 'registries.registration_metadata.no_license'}}
-            {{/if}}
+                        <field.edit>
+                            <RegistriesLicensePicker @manager={{licenseManager}} />
+                        </field.edit>
+                        <field.display>
+                            <LicenseViewer @manager={{licenseManager}} />
+                        </field.display>
+                    </EditableField>
+                </EditableField::LicenseManager>
+            </div>
         </div>
+
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.tags'}}</h4>
-            <TagsWidget
-                data-test-registration-tags
-                @taggable={{this.registration}}
-                @readOnly={{not this.registration.userHasAdminPermission}}
-            />
+            <EditableField::TagsManager @registration={{this.registration}} as |tagsManager|>
+                <EditableField
+                    data-analytics-scope='Tags'
+                    @manager={{tagsManager}}
+                    @title={{t 'registries.registration_metadata.tags'}}
+                    @name='tags'
+                    as |field|
+                >
+                    <field.edit>
+                        <RegistriesTagsWidget
+                            data-test-tags
+                            @manager={{tagsManager}}
+                        />
+                    </field.edit>
+                    <field.display>
+                        <RegistriesTagsWidget
+                            data-test-tags-read-only
+                            @manager={{tagsManager}}
+                            @readOnly={{true}}
+                        />
+                    </field.display>
+                </EditableField>
+            </EditableField::TagsManager>
         </div>
         {{#unless this.registration.isAnonymous}}
             <div local-class='Field'>
