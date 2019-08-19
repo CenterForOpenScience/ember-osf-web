@@ -121,6 +121,7 @@
                     @node={{this.collectionItem}}
                     @contributors={{this.collectionItem.contributors}}
                     @discard={{action this.noop}}
+                    @onAddContributor={{action this.onAddContributor}}
                     @continue={{action this.nextSection}}
                 />
             </section.active>

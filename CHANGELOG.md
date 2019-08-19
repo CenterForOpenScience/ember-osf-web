@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Engines
     - `collections`
         - fixed template lint and use angle brackets in submission templates
+        - `submit`
+            - reload bibliographicContributors when adding a contributor
 - Mirage
     - `osfNestedResource`
         - added custom `post` handler to fix `create` action

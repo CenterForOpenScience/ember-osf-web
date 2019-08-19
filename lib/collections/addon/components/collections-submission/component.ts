@@ -169,6 +169,13 @@ export default class Submit extends Component {
         // Nothing to see here
     }
 
+    @action
+    onAddContributor() {
+        if (this.collectionItem) {
+            this.collectionItem.hasMany('bibliographicContributors').reload();
+        }
+    }
+
     /**
      * Advances to the next section of the form
      */
