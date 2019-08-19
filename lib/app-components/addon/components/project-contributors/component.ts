@@ -16,11 +16,15 @@ export default class ProjectContributors extends Component {
 
     @requiredAction discard!: () => void;
     @requiredAction continue!: () => void;
+    onAddContributor?: () => void;
 
     @action
     reloadContributors() {
         if (this.reloadContributorsList) {
             this.reloadContributorsList();
+        }
+        if (this.onAddContributor) {
+            this.onAddContributor();
         }
     }
 }
