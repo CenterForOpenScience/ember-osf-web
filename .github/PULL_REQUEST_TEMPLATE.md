@@ -39,7 +39,7 @@
 ## Ticket
 
 <!-- Link to JIRA ticket. Please indicate unticketed PRs with: `N/A` -->
-https://openscience.atlassian.net/browse/EMB-
+https://openscience.atlassian.net/browse/ENG-
 
 # Reviewer Checklist
 
