@@ -4,6 +4,7 @@ import config from 'ember-get-config';
 import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
+import { createBibliographicContributor } from './views/contributor';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
 import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
@@ -47,7 +48,10 @@ export default function(this: Server) {
     osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);
     osfNestedResource(this, 'node', 'children');
-    osfNestedResource(this, 'node', 'contributors', { defaultSortKey: 'index' });
+    osfNestedResource(this, 'node', 'contributors', {
+        defaultSortKey: 'index',
+        onCreate: createBibliographicContributor,
+    });
     osfNestedResource(this, 'node', 'bibliographicContributors', {
         only: ['index'],
         relatedModelName: 'contributor',
