@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Mirage
+    - `osfNestedResource`
+        - added `onCreate` hook to perform additional operations after creating a child resource
+
 ### Fixed
 - Mirage
     - `osfNestedResource` - added custom `post` handler to fix `create` action
