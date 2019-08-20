@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource
+- Packages
+    - update to [ember-angle-bracket-invocation-polyfill@^2.0.2](https://github.com/rwjblue/ember-angle-bracket-invocation-polyfill/releases/tag/v2.0.2)
 
 ### Fixed
 - Mirage
@@ -16,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added custom `post` handler to fix `create` action
     - `node/contributors` nested resource
         - conditionally create bibliographic contributors when creating contributors
+    - Serializers
+        - `contributors` - serialize correct nested self link
 
 ## [19.8.0] - 2019-08-15
 ### Added
