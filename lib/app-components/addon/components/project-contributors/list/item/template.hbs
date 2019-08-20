@@ -1,7 +1,7 @@
 <SortableItem
-    @model={{@contributor}}
-    @class='row'
     local-class={{concat 'row ' (get @contributor 'highlightClass')}}
+    @class='row'
+    @model={{@contributor}}
     @group={{@group}}
     @spacing={{1}}
     @handle='.handle'
@@ -14,10 +14,10 @@
     {{! Profile image}}
     <div class='col-xs-2 col-sm-1'>
         <img
-            alt={{t 'app_components.project_contributors.list.item.img_alt'}}
-            class='m-l-xs'
             local-class='profile-image'
+            class='m-l-xs'
             src={{@contributor.users.profileImage}}
+            alt={{t 'app_components.project_contributors.list.item.img_alt'}}
         >
     </div>
 
@@ -69,13 +69,13 @@
 
     {{! Bibliographic (Citation) }}
     <div
-        class='col-xs-10 col-xs-offset-2 col-sm-2 col-sm-offset-0 bib-padding'
         local-class='text-sm-center'
+        class='col-xs-10 col-xs-offset-2 col-sm-2 col-sm-offset-0 bib-padding'
     >
         <label
-            for='{{@contributor.id}}-citation'
-            class='visible-xs-inline'
             local-class='checkbox-label'
+            class='visible-xs-inline'
+            for='{{@contributor.id}}-citation'
         >
             <em>
                 {{t 'app_components.project_contributors.list.item.in_citation_label'}}

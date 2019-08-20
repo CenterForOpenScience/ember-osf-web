@@ -6,7 +6,11 @@
     >
         {{! template-lint-enable invalid-interactive }}
         {{yield}}
-        <p class='text-smaller' local-class='edit-message' hidden={{not this.editable}}>
+        <p
+            local-class='edit-message'
+            class='text-smaller'
+            hidden={{not this.editable}}
+        >
             {{t 'app_components.submit_section.click_to_edit'}}
         </p>
     </div>
