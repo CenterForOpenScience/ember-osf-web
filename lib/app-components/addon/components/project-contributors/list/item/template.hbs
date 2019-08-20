@@ -54,7 +54,7 @@
             <PowerSelect
                 @searchEnabled={{false}}
                 @options={{this.permissions}}
-                @onchange={{action (action @updatePermissions @contributor)}}
+                @onchange={{action @updatePermissions @contributor}}
                 @selected={{@contributor.permission}}
                 as |option|
             >
