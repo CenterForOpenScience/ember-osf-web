@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Mirage
     - `osfNestedResource` - added custom `post` handler to fix `create` action
+    - Serializers
+        - `contributors` - serialize correct nested self link
 
 ## [19.8.0] - 2019-08-15
 ### Added
