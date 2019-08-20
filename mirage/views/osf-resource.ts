@@ -14,6 +14,7 @@ interface ResourceOptions extends ActionOptions<resourceAction> {
 
 interface NestedResourceOptions extends ResourceOptions {
     relatedModelName: keyof ModelRegistry;
+    onCreate?: (parent: ModelInstance, child: ModelInstance) => void;
 }
 
 type relationshipAction = 'related' | 'update' | 'add' | 'remove';
@@ -139,6 +140,9 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
             parent[relationshipName].models.pushObject(child);
             parent.save();
             child.reload();
+            if (opts.onCreate) {
+                opts.onCreate(parent, child);
+            }
             return child;
         });
     }
