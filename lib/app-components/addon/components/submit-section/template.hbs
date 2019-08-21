@@ -1,12 +1,12 @@
 {{#if this.showTooltip}}
-    {{bs-tooltip
-        title=this.tooltip
-        triggerElement='parentView'
-        autoPlacement=true
-        viewportSelector=this.elementId
-    }}
+    <BsTooltip
+        @title={{this.tooltip}}
+        @triggerElement='parentView'
+        @autoPlacement={{true}}
+        @viewportSelector={{this.elementId}}
+    />
 {{/if}}
-{{#panels.panel
+{{#@panels.panel
     open=this.isOpen
     as |panel|
 }}
@@ -23,4 +23,4 @@
             editSection=(action 'editSection')
         )
     )}}
-{{/panels.panel}}
+{{/@panels.panel}}

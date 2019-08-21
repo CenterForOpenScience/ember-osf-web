@@ -1,96 +1,103 @@
-{{#sortable-item
-    model=contributor
-    class="row"
-    local-class=(concat 'row ' (get contributor 'highlightClass'))
-    group=group
-    spacing=1
-    handle=".handle"
-}}
+<SortableItem
+    local-class={{concat 'row ' (get @contributor 'highlightClass')}}
+    @class='row'
+    @model={{@contributor}}
+    @group={{@group}}
+    @spacing={{1}}
+    @handle='.handle'
+>
     {{! Handle }}
-    <div class="col-xs-2 col-sm-1 text-nowrap">
-        <span class="fa fa-bars sortable-bars handle small"></span>
+    <div class='col-xs-2 col-sm-1 text-nowrap'>
+        <span class='fa fa-bars sortable-bars handle small'></span>
     </div>
 
     {{! Profile image}}
-    <div class="col-xs-2 col-sm-1">
+    <div class='col-xs-2 col-sm-1'>
         <img
+            local-class='profile-image'
+            class='m-l-xs'
+            src={{@contributor.users.profileImage}}
             alt={{t 'app_components.project_contributors.list.item.img_alt'}}
-            class="m-l-xs"
-            local-class="profile-image"
-            src={{contributor.users.profileImage}}
         >
     </div>
 
     {{! Name }}
-    <div class="col-xs-7 col-sm-3 text-nowrap">
-        {{#if contributor.unregisteredContributor}}
-            {{contributor.unregisteredContributor}}
+    <div class='col-xs-7 col-sm-3 text-nowrap'>
+        {{#if @contributor.unregisteredContributor}}
+            {{@contributor.unregisteredContributor}}
         {{else}}
-            <a href={{contributor.users.links.html}} target="_blank" rel="noopener">
-                {{contributor.users.fullName}}
+            <a href={{@contributor.users.links.html}} target='_blank' rel='noopener'>
+                {{@contributor.users.fullName}}
             </a>
         {{/if}}
     </div>
 
-    <div class="visible-xs-inline-block col-xs-1">
+    <div class='visible-xs-inline-block col-xs-1'>
         <button
-            {{action removeContributor contributor}}
-            class="text-danger"
+            {{action @removeContributor @contributor}}
+            class='text-danger'
             aria-label={{t 'app_components.project_contributors.list.item.remove_author'}}
-            hidden={{not canRemove}}
+            hidden={{not this.canRemove}}
         >
-            {{fa-icon 'times'}}
+            <FaIcon @icon='times' />
         </button>
     </div>
 
     {{! Permissions }}
-    <div class="col-xs-10 col-xs-offset-2 col-sm-3 col-sm-offset-0 text-nowrap">
-        <span class="visible-xs-inline permission-label">
+    <div class='col-xs-10 col-xs-offset-2 col-sm-3 col-sm-offset-0 text-nowrap'>
+        <span class='visible-xs-inline permission-label'>
             <em>
                 {{t 'app_components.project_contributors.list.item.permissions_label'}}
             </em>
         </span>
-        {{#if canChangePermissions}}
-            {{#power-select
-                searchEnabled=false
-                options=permissions
-                onchange=(action (action updatePermissions contributor))
-                selected=contributor.permission
+        {{#if this.canChangePermissions}}
+            <PowerSelect
+                @searchEnabled={{false}}
+                @options={{this.permissions}}
+                @onchange={{action @updatePermissions @contributor}}
+                @selected={{@contributor.permission}}
                 as |option|
-            }}
+            >
                 {{t (concat 'app_components.project_contributors.list.item.permissions.' option)}}
-            {{/power-select}}
+            </PowerSelect>
         {{else}}
-            <span class="text-smaller">
-                {{t (concat 'app_components.project_contributors.list.item.permissions.' contributor.permission)}}
+            <span class='text-smaller'>
+                {{t (concat 'app_components.project_contributors.list.item.permissions.' @contributor.permission)}}
             </span>
         {{/if}}
     </div>
 
     {{! Bibliographic (Citation) }}
-    <div class="col-xs-10 col-xs-offset-2 col-sm-2 col-sm-offset-0 bib-padding" local-class="text-sm-center">
-        <label for="{{contributor.id}}-citation" class="visible-xs-inline" local-class="checkbox-label">
+    <div
+        local-class='text-sm-center'
+        class='col-xs-10 col-xs-offset-2 col-sm-2 col-sm-offset-0 bib-padding'
+    >
+        <label
+            local-class='checkbox-label'
+            class='visible-xs-inline'
+            for='{{@contributor.id}}-citation'
+        >
             <em>
                 {{t 'app_components.project_contributors.list.item.in_citation_label'}}
             </em>
         </label>
-        {{input
-            id=(concat contributor.id '-citation')
-            type='checkbox'
-            disabled=(not canChangeBibliographic)
-            checked=contributor.bibliographic
-            change=(action toggleBibliographic contributor)
-        }}
+        <Input
+            @id={{concat @contributor.id '-citation'}}
+            @type='checkbox'
+            @disabled={{not this.canChangeBibliographic}}
+            @checked={{@contributor.bibliographic}}
+            @change={{action @toggleBibliographic @contributor}}
+        />
     </div>
 
     {{! Remove }}
-    <div class="hidden-xs col-sm-2 text-center">
+    <div class='hidden-xs col-sm-2 text-center'>
         <button
-            {{action removeContributor contributor}}
-            class="btn btn-danger btn-sm"
-            disabled={{not canRemove}}
+            {{action @removeContributor @contributor}}
+            class='btn btn-danger btn-sm'
+            disabled={{not this.canRemove}}
         >
             {{t 'app_components.project_contributors.list.item.remove'}}
         </button>
     </div>
-{{/sortable-item}}
+</SortableItem>

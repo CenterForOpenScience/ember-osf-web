@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - update to [ember-angle-bracket-invocation-polyfill@^2.0.2](https://github.com/rwjblue/ember-angle-bracket-invocation-polyfill/releases/tag/v2.0.2)
 
 ### Fixed
+- Engines
+    - `collections`
+        - fixed template lint and use angle brackets in submission templates
 - Mirage
     - `osfNestedResource`
         - added custom `post` handler to fix `create` action
