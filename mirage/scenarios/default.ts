@@ -60,10 +60,6 @@ function registrationScenario(
 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
-
-    const root = server.create('node', { id: '8hcbx' });
-    const child = server.create('node', { parent: root });
-    server.create('node', { parent: child });
 }
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
