@@ -1,14 +1,14 @@
 <div local-class='branded-nav-wrapper'>
     <nav
-        class='navbar navbar-inverse navbar-fixed-top'
         local-class='branded-nav'
+        class='navbar navbar-inverse navbar-fixed-top'
         id='navbarScope'
         role='navigation'
     >
         <div class='container'>
             <div class='navbar-header'>
                 {{#link-to @brandRoute provider=this.theme.provider class='navbar-brand'}}
-                    <span class='navbar-image' local-class='navbar-image'></span>
+                    <span local-class='navbar-image' class='navbar-image'></span>
                     <span class='navbar-title'>{{this.brandTitle}}</span>
                 {{/link-to}}
 
@@ -27,8 +27,8 @@
 
             {{! Secondary nav links }}
             <BsCollapse
-                @classNames='navbar-collapse navbar-right'
                 local-class='secondary-navigation'
+                @classNames='navbar-collapse navbar-right'
                 @collapsed={{not this.showNavLinks}}
             >
                 <ul class='nav navbar-nav' local-class='links'>

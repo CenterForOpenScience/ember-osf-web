@@ -4,14 +4,24 @@
             <div class='row'>
                 <div class='text-center m-t-lg col-xs-12'>
                     {{#if this.theme.isProvider}}
-                        {{!-- <div local-class='provider-brand' style='background-image: url('/collections/assets/img/osf-bg.jpg')'></div> --}}
+                        {{!--
+                        <div
+                            local-class='provider-brand'
+                            style='background-image: url('/collections/assets/img/osf-bg.jpg')'>
+                        </div>
+                        --}}
                     {{else}}
                         <h1>
                             <OsfLogo />
                             {{t 'general.OSF'}}
                             {{t 'collections.index.title'}}
                         </h1>
-                        {{!-- <div local-class='osf-bg' style='background-image: url('/engines-dist/collections/assets/img/osf-bg.jpg')'></div> --}}
+                        {{!--
+                        <div
+                            local-class='osf-bg'
+                            style='background-image: url('/engines-dist/collections/assets/img/osf-bg.jpg')'>
+                        </div>
+                        --}}
                     {{/if}}
                     <p class='lead'>
                         {{#if this.theme.isProvider}}
@@ -25,7 +35,10 @@
                         {{/if}}
                     </p>
                 </div>
-                <div class='col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 m-v-lg' local-class='preprint-search'>
+                <div
+                    local-class='preprint-search'
+                    class='col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 m-v-lg'
+                >
                     {{!-- {{search-preprints search='search'}} --}}
                     {{#if (not this.theme.isProvider)}}
                         {{!-- {{total-share-results}} --}}
@@ -39,9 +52,9 @@
                             {{t 'general.or'}}
                         </p>
                         <a
-                            type='button'
-                            class='btn btn-success btn-lg'
                             local-class='preprint-submit-button'
+                            class='btn btn-success btn-lg'
+                            type='button'
                             onclick={{action 'click' 'link' 'Index - Add collection' target=this.analytics}}
                             href={{concat this.theme.pathPrefix 'submit'}}
                         >
@@ -64,7 +77,10 @@
     </div>
 
     {{#unless this.theme.isProvider}}
-        <div class='p-v-md' local-class='provider-logos'>
+        <div
+            local-class='provider-logos'
+            class='p-v-md'
+        >
             <div class='container'>
                 <div class='row'>
                     <div class='col-xs-12'>
@@ -114,7 +130,10 @@
         </div>
     {{/unless}}
 
-    <div class='p-v-md' local-class='subjects'>
+    <div
+        local-class='subjects'
+        class='p-v-md'
+    >
         <div class='container'>
             <div class='row p-v-md'>
                 <div class='col-xs-12'>
@@ -129,9 +148,12 @@
                         {{/if}}
                     </h2>
                     {{#if this.theme.provider.hasHighlightedSubjects}}
-                        {{#link-to (route-prefix 'discover') local-class='seeAllSubjects'}}
+                        <LinkTo
+                            local-class='seeAllSubjects'
+                            @route={{route-prefix 'discover'}}
+                        >
                             {{t 'index.subjects.links.seeAllSubjects'}}
-                        {{/link-to}}
+                        </LinkTo>
                     {{/if}}
                     <div class='p-lg' local-class='subjectsList'>
                         {{#if this.theme.provider.additionalProviders}}
@@ -146,10 +168,17 @@
     </div>
 
     {{#if this.theme.provider.advisoryBoard.length}}
-        <div class='p-v-md' local-class='advisory'>
+        <div
+            local-class='advisory'
+            class='p-v-md'
+        >
             <div class='container'>
                 <div class='row'>
-                    {{sanitize-html raw=true value=this.theme.provider.advisoryBoard options=this.sanitizeOptions}}
+                    {{sanitize-html
+                        raw=true
+                        value=this.theme.provider.advisoryBoard
+                        options=this.sanitizeOptions
+                    }}
                 </div>
             </div>
         </div>
