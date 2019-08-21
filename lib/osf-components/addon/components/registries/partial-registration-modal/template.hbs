@@ -1,13 +1,23 @@
-<OsfDialog @isOpen={{@modalManager.isOpen}} as |dialog|>
+<OsfDialog @isOpen={{@modalManager.isOpen}} @renderInPlace={{@modalManager.renderInPlace}} as |dialog|>
     <dialog.heading local-class='modal-title'>
         {{t 'registries.partial_registration_modal.title'}}
     </dialog.heading>
     <dialog.main local-class='modal-body'>
-        <OsfButton @type=='link' local-class='select-clear-button' @onClick={{action @modalManager.selectAll}}>
+        <OsfButton 
+            @type=='link' 
+            local-class='select-clear-button' 
+            @onClick={{action @modalManager.selectAll}}
+            data-test-select-all
+        >
             {{t 'registries.partial_registration_modal.selectAll'}}
         </OsfButton>
         |
-        <OsfButton @type=='link' local-class='select-clear-button' @onClick={{action @modalManager.clearAll}}>
+        <OsfButton 
+            @type=='link' 
+            local-class='select-clear-button' 
+            @onClick={{action @modalManager.clearAll}}
+            data-test-clear-all
+        >
             {{t 'registries.partial_registration_modal.clearAll'}}
         </OsfButton>
         {{#if @modalManager.loadAllChildNodes.isRunning}}

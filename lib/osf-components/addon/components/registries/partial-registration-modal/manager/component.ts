@@ -28,6 +28,7 @@ export default class PartialRegistrationModalManagerComponent extends Component.
     selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
     rootNode!: NodeModel;
     isOpen: boolean = defaultTo(this.isOpen, false);
+    renderInPlace: boolean = defaultTo(this.renderInPlace, false);
 
     didReceiveAttrs() {
         this.loadAllChildNodes.perform();
@@ -41,18 +42,6 @@ export default class PartialRegistrationModalManagerComponent extends Component.
     @action
     clearAll() {
         this.selectedNodes.removeObjects(this.selectedNodes.filter(item => item !== this.rootNode));
-    }
-
-    @action
-    addNode(node: NodeModel) {
-        this.selectedNodes.pushObject(node);
-        this.addParents(node);
-    }
-
-    @action
-    removeNode(node: NodeModel) {
-        this.selectedNodes.removeObject(node);
-        this.removeChildren(node);
     }
 
     @action
@@ -89,5 +78,15 @@ export default class PartialRegistrationModalManagerComponent extends Component.
                 }
             }
         }
+    }
+
+    addNode(node: NodeModel) {
+        this.selectedNodes.pushObject(node);
+        this.addParents(node);
+    }
+
+    removeNode(node: NodeModel) {
+        this.selectedNodes.removeObject(node);
+        this.removeChildren(node);
     }
 }

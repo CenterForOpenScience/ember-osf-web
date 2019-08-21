@@ -1,15 +1,28 @@
-{{input type='checkbox' change=(action @manager.onChange) checked=@manager.itemChecked disabled=@manager.isRoot }}
-<OsfButton local-class='expand-button' @type='link' @onClick={{action @manager.toggleShowChildren}}>
-    {{@manager.item.title}}
-    {{#if @manager.item.children}}
-        <FaIcon @icon='caret-{{if @manager.isShowChildren 'up' 'down'}}' @fixedWidth={{true}} />
-    {{/if}}
-</OsfButton>
+<div data-test-item={{@manager.item.id}}>
+    {{input type='checkbox' change=(action @manager.onChange) checked=@manager.itemChecked disabled=@manager.isRoot}}
+    <OsfButton 
+        local-class='expand-button' 
+        @type='link' 
+        @onClick={{action @manager.toggleShowChildren}}
+        data-test-expand-child={{@manager.item.id}}
+    >
+        {{@manager.item.title}}
+        {{#if @manager.item.children}}
+            <FaIcon 
+                @icon='caret-{{if @manager.isShowChildren 'up' 'down'}}' 
+                @fixedWidth={{true}} 
+            />
+        {{/if}}
+    </OsfButton>
+</div>
 {{#if (and @manager.item.children @manager.isShowChildren)}}
     <div local-class='children'>
         {{#each @manager.item.children as |child|}}
-            <Registries::HierarchicalList::ItemManager @item={{child}} @listManager={{@manager.listManager}}
-                as |childManager|>
+            <Registries::HierarchicalList::ItemManager 
+                @item={{child}} 
+                @listManager={{@manager.listManager}}
+                as |childManager|
+            >
                 <Registries::HierarchicalList::Item @manager={{childManager}} />
             </Registries::HierarchicalList::ItemManager>
         {{/each}}
