@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Engines
     - `collections`
         - Tests
+            - added/improved test selectors to templates related to submit
             - improved submit acceptance tests to perform assertions in addition to taking snapshots
 - Tests
     - added `ember-basic-dropdown-wormhole` div to test index.html 
