@@ -60,8 +60,8 @@ export default class RegistrationSchemaModel extends OsfModel {
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: Schema;
 
-    @hasMany('schema-block', { inverse: null })
-    schemaBlocks!: DS.PromiseManyArray<SchemaBlock>;
+    @hasMany('schema-block', { inverse: null, async: false })
+    schemaBlocks!: DS.PromiseManyArray<SchemaBlock> | SchemaBlock[];
 }
 
 declare module 'ember-data/types/registries/model' {
