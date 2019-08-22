@@ -15,7 +15,7 @@ export default class ErrorPage extends Component {
     @service theme!: Theme;
 
     label: string = defaultTo(this.label, '');
-    translationKey: string = defaultTo(this.translationKey, '');
+    translateKey: string = defaultTo(this.translateKey, '');
 
     @computed('theme.{isProvider,provider}')
     get supportEmail(): string {
