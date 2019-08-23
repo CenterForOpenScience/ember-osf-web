@@ -2,8 +2,23 @@ import { attr } from '@ember-decorators/data';
 
 import OsfModel from './osf-model';
 
+type SchemaBlockType =
+    'page-heading' |
+    'section-heading' |
+    'subsection-heading' |
+    'paragraph' |
+    'question-title' |
+    'short-text-input' |
+    'long-text-input' |
+    'file-input' |
+    'contributors-input' |
+    'multi-select-input' |
+    'single-select-input' |
+    'select-input-option' |
+    'select-other-option';
+
 export interface SchemaBlock {
-    blockType?: string;
+    blockType?: SchemaBlockType;
     chunkId?: string;
     answerId?: string;
     displayText?: string;
@@ -13,7 +28,7 @@ export interface SchemaBlock {
 }
 
 export default class SchemaBlockModel extends OsfModel implements SchemaBlock {
-    @attr('string') blockType?: string;
+    @attr('string') blockType?: SchemaBlockType;
     @attr('string') chunkId?: string;
     @attr('string') answerId?: string;
     @attr('string') displayText?: string;

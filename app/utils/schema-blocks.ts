@@ -1,7 +1,7 @@
 import { assert } from '@ember/debug';
 import { SchemaBlock } from 'ember-osf-web/models/schema-block';
 
-export class QuestionChunk {
+export interface QuestionChunk {
   labelBlock?: SchemaBlock;
   inputBlock?: SchemaBlock;
   optionBlocks?: SchemaBlock[];
@@ -25,7 +25,7 @@ export function getPages(blocks: SchemaBlock[]) {
                 pages.push(blankPage);
             }
 
-            const lastPage: Array<SchemaBlock | QuestionChunk> = pages.slice(-1)[0];
+            const lastPage: SchemaBlock[] = pages.slice(-1)[0];
             if (block.blockType === 'page-heading') {
                 pages.push([block]);
             } else {
@@ -33,18 +33,25 @@ export function getPages(blocks: SchemaBlock[]) {
             }
             return pages;
         },
-        [] as Array<Array<SchemaBlock | QuestionChunk>>,
+        [] as SchemaBlock[][],
     );
     return pageArray;
 }
 
 export function getQuestionChunk(blocks: SchemaBlock[], id: string) {
     const questionChunk: QuestionChunk = {};
-    blocks.forEach(block => {
-        if (block.chunkId === id) {
-            switch (block.blockType) {
+    let lastChunkIndex: number | undefined;
+    let consecutiveChunks = true;
+    const chunkBlocks = blocks.filter(block => block.chunkId === id);
+    chunkBlocks.forEach(chunkBlock => {
+        if (lastChunkIndex && chunkBlock.index && Math.abs(lastChunkIndex - chunkBlock.index) !== 1) {
+            consecutiveChunks = false;
+        }
+        lastChunkIndex = chunkBlock.index;
+        if (chunkBlock.chunkId === id) {
+            switch (chunkBlock.blockType) {
             case 'question-title':
-                questionChunk.labelBlock = block;
+                questionChunk.labelBlock = chunkBlock;
                 break;
             case 'long-text-input':
             case 'short-text-input':
@@ -52,24 +59,24 @@ export function getQuestionChunk(blocks: SchemaBlock[], id: string) {
             case 'contributors-input':
             case 'single-select-input':
             case 'multi-select-input':
-                assert('input block with no answerID!', !isEmpty(block.answerId));
-                assert('input block with no chunkID!', !isEmpty(block.chunkId));
+                assert('input block with no answerID!', !isEmpty(chunkBlock.answerId));
+                assert('input block with no chunkID!', !isEmpty(chunkBlock.chunkId));
                 assert('question with multiple input blocks!', !questionChunk.inputBlock);
                 if (questionChunk.chunkId) {
-                    assert('question with mismatched chunkID!', questionChunk.chunkId === block.chunkId);
+                    assert('question with mismatched chunkID!', questionChunk.chunkId === chunkBlock.chunkId);
                 } else {
-                    questionChunk.chunkId = block.chunkId;
+                    questionChunk.chunkId = chunkBlock.chunkId;
                 }
-                questionChunk.inputBlock = block;
-                questionChunk.answerId = block.answerId;
+                questionChunk.inputBlock = chunkBlock;
+                questionChunk.answerId = chunkBlock.answerId;
                 break;
             case 'select-input-option':
                 if (questionChunk.inputBlock) {
                     assert('question with mismatched chunkID!',
-                        !isEmpty(block.chunkId) && questionChunk.chunkId === block.chunkId);
+                        !isEmpty(chunkBlock.chunkId) && questionChunk.chunkId === chunkBlock.chunkId);
                     questionChunk.optionBlocks = [
                         ...(questionChunk.optionBlocks || []),
-                        block,
+                        chunkBlock,
                     ];
                 } else {
                     assert('select-option without a question!');
@@ -80,6 +87,7 @@ export function getQuestionChunk(blocks: SchemaBlock[], id: string) {
             }
         }
     });
+    assert('non-consecutive blocks used to create chunk', consecutiveChunks);
     assert('question chunk with no input element',
         questionChunk.inputBlock !== null && questionChunk.inputBlock !== undefined);
     if ((questionChunk.inputBlock) &&
