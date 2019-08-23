@@ -6,7 +6,9 @@
         height='30'
         width='30'
     >
-    <a href={{@user.links.html}} target='_blank' rel='noopener'>
+    <a
+        data-test-project-contributors-search-user-name
+        href={{@user.links.html}} target='_blank' rel='noopener'>
         {{~@user.fullName~}}
     </a>
     {{#if this.isSelf}}
@@ -21,12 +23,16 @@
             class='hint hint--left pull-right'
             aria-label={{t 'components.preprint-form-authors.already_added'}}
         >
-            <button class='btn btn-default btn-small disabled disabled-checkmark'>
+            <button
+                data-test-project-contributors-is-contributor-button
+                class='btn btn-default btn-small disabled disabled-checkmark'
+            >
                 <FaIcon @icon='check' @aria-hidden='true' />
             </button>
         </span>
     {{else}}
         <button
+            data-test-project-contributors-add-contributor-button
             class='btn btn-success btn-small pull-right'
             {{action this.addContributor @user}}
         >

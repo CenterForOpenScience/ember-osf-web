@@ -105,6 +105,7 @@ export default class Submit extends Component {
     get choiceFields(): Array<{ label: string; value: string | undefined; }> {
         return this.collectedMetadatum.displayChoiceFields
             .map(field => ({
+                name: field,
                 label: `collections.collection_metadata.${underscore(field)}_label`,
                 value: this.collectedMetadatum[field],
             }));
@@ -166,6 +167,13 @@ export default class Submit extends Component {
     @action
     noop() {
         // Nothing to see here
+    }
+
+    @action
+    onAddContributor() {
+        if (this.collectionItem) {
+            this.collectionItem.hasMany('bibliographicContributors').reload();
+        }
     }
 
     /**

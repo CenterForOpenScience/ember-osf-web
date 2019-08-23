@@ -1,5 +1,6 @@
 <form {{action (perform this.search) on='submit'}}>
     <div
+        data-test-project-contributors-search-box
         local-class='author-search-box'
         class='input-group'
     >
@@ -10,6 +11,7 @@
         />
         <span class='input-group-btn'>
             <button
+                data-test-project-contributors-search-button
                 local-class='authors-search-button'
                 class='btn btn-default'
                 type='submit'
@@ -32,6 +34,7 @@
     >
         <p>{{t 'app_components.project_contributors.search.unregistered_description'}}</p>
         <button
+            data-test-add-author-by-email-address-button
             class='btn btn-primary btn-small'
             {{action (mut this.showUnregisteredForm) true}}
         >
@@ -49,6 +52,7 @@
         <table class='table author-table'>
             {{#each this.results as |result|}}
                 <ProjectContributors::Search::Result
+                    data-test-project-contributors-search-user={{result.id}}
                     @user={{result}}
                     @contributors={{@contributors}}
                     @addContributor={{action (perform this.addContributor)}}
