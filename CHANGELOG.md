@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - Tests
             - added/improved test selectors to templates related to submit
             - improved submit acceptance tests to perform assertions in addition to taking snapshots
+            - improved update acceptance tests to perform assertions in addition to taking snapshots
 - Tests
     - added `ember-basic-dropdown-wormhole` div to test index.html 
 - Mirage
@@ -33,6 +34,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added custom `post` handler to fix `create` action
     - `node/contributors` nested resource
         - conditionally create bibliographic contributors when creating contributors
+    - Factories
+        - `collected-metadatum`
+            - allow manual setting of collection metadata
     - Serializers
         - `contributors` - serialize correct nested self link
 
