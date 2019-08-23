@@ -33,6 +33,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added custom `post` handler to fix `create` action
     - `node/contributors` nested resource
         - conditionally create bibliographic contributors when creating contributors
+    - Factories
+        - `collected-metadatum`
+            - allow manual setting of collection metadata
     - Serializers
         - `contributors` - serialize correct nested self link
 

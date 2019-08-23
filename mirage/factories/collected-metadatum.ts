@@ -8,24 +8,27 @@ export default Factory.extend<CollectedMetadatum>({
     id: guid('collected-metadatum'),
     afterCreate(collectedMetadatum, server) {
         guidAfterCreate(collectedMetadatum, server);
-        const collectedType = faker.random.arrayElement(collectedMetadatum.collection.collectedTypeChoices);
-        const issue = faker.random.arrayElement(collectedMetadatum.collection.issueChoices);
-        const programArea = faker.random.arrayElement(collectedMetadatum.collection.programAreaChoices);
-        const status = faker.random.arrayElement(collectedMetadatum.collection.statusChoices);
-        const volume = faker.random.arrayElement(collectedMetadatum.collection.volumeChoices);
-        collectedMetadatum.update({
-            collectedType,
-            issue,
-            programArea,
-            status,
-            volume,
-        });
+        if (!collectedMetadatum.collectedType) {
+            const collectedType = faker.random.arrayElement(collectedMetadatum.collection.collectedTypeChoices);
+            collectedMetadatum.update({ collectedType });
+        }
+        if (!collectedMetadatum.issue) {
+            const issue = faker.random.arrayElement(collectedMetadatum.collection.issueChoices);
+            collectedMetadatum.update({ issue });
+        }
+        if (!collectedMetadatum.programArea) {
+            const programArea = faker.random.arrayElement(collectedMetadatum.collection.programAreaChoices);
+            collectedMetadatum.update({ programArea });
+        }
+        if (!collectedMetadatum.status) {
+            const status = faker.random.arrayElement(collectedMetadatum.collection.statusChoices);
+            collectedMetadatum.update({ status });
+        }
+        if (!collectedMetadatum.volume) {
+            const volume = faker.random.arrayElement(collectedMetadatum.collection.volumeChoices);
+            collectedMetadatum.update({ volume });
+        }
     },
-    collectedType: faker.lorem.word,
-    issue: faker.lorem.word,
-    programArea: faker.lorem.word,
-    status: faker.lorem.word,
-    volume: faker.lorem.word,
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
