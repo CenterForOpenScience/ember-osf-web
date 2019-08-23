@@ -9,12 +9,9 @@ import template from './template';
 @layout(template)
 @tagName('')
 export default class SchemaChunk extends Component {
-    // Required parameters
-    changeset!: Changeset;
-    answerId!: string;
-    chunkId!: string;
-
     // Optional parameters
+    changeset: Changeset = defaultTo(this.changeset, {});
+    answerId: string = defaultTo(this.answerId, '');
     disabled: boolean = defaultTo(this.disabled, false);
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 }
