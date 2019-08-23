@@ -1,4 +1,4 @@
-<div data-test-item={{@manager.item.id}}>
+<li data-test-item={{@manager.item.id}}>
     {{input type='checkbox' change=(action @manager.onChange) checked=@manager.itemChecked disabled=@manager.isRoot}}
     <OsfButton 
         local-class='expand-button' 
@@ -14,9 +14,9 @@
             />
         {{/if}}
     </OsfButton>
-</div>
+</li>
 {{#if (and @manager.item.children @manager.isShowChildren)}}
-    <div local-class='children'>
+    <ul>
         {{#each @manager.item.children as |child|}}
             <Registries::HierarchicalList::ItemManager 
                 @item={{child}} 
@@ -26,5 +26,5 @@
                 <Registries::HierarchicalList::Item @manager={{childManager}} />
             </Registries::HierarchicalList::ItemManager>
         {{/each}}
-    </div>
+    </ul>
 {{/if}}

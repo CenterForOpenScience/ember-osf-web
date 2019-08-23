@@ -7,13 +7,16 @@ import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
+import { tagName } from '@ember-decorators/component';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
 import template from './template';
 
 @layout(template)
+@tagName('')
 export default class PartialRegistrationModalManagerComponent extends Component.extend({
     loadAllChildNodes: task(function *(this: PartialRegistrationModalManagerComponent) {
         let allChildNodesIncludingRoot = yield this.store.query('node', {
+            'page[size]': 100,
             filter: {
                 root: this.rootNode.id,
             },
@@ -24,11 +27,13 @@ export default class PartialRegistrationModalManagerComponent extends Component.
     }),
 }) implements HierarchicalListManager {
     @service store!: DS.Store;
-    nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
-    selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
     rootNode!: NodeModel;
     isOpen: boolean = defaultTo(this.isOpen, false);
     renderInPlace: boolean = defaultTo(this.renderInPlace, false);
+
+    // Private
+    nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
+    selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
 
     didReceiveAttrs() {
         this.loadAllChildNodes.perform();
@@ -41,7 +46,7 @@ export default class PartialRegistrationModalManagerComponent extends Component.
 
     @action
     clearAll() {
-        this.selectedNodes.removeObjects(this.selectedNodes.filter(item => item !== this.rootNode));
+        this.set('selectedNodes', [this.rootNode]);
     }
 
     @action

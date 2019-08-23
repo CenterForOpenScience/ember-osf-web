@@ -23,10 +23,14 @@
         {{#if @modalManager.loadAllChildNodes.isRunning}}
             <LoadingIndicator />
         {{else}}
-            <Registries::HierarchicalList::ItemManager @item={{@modalManager.rootNode}} @listManager={{@modalManager}} @isRoot={{true}} as
-                |itemManager|>
-                <Registries::HierarchicalList::Item @manager={{itemManager}} />
-            </Registries::HierarchicalList::ItemManager>
+            <ul>
+                <Registries::HierarchicalList::ItemManager
+                    @item={{@modalManager.rootNode}}
+                    @listManager={{@modalManager}}
+                    @isRoot={{true}} as |itemManager|>
+                    <Registries::HierarchicalList::Item @manager={{itemManager}} />
+                </Registries::HierarchicalList::ItemManager>
+            </ul>
         {{/if}}
     </dialog.main>
     <dialog.footer>

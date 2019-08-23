@@ -5,6 +5,7 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 
 import NodeModel from 'ember-osf-web/models/node';
 
+import { tagName } from '@ember-decorators/component';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
 import template from './template';
 
@@ -18,6 +19,7 @@ export interface HierarchicalListItemManager {
 }
 
 @layout(template)
+@tagName('')
 export default class HierarchicalListItemManagerComponent extends Component {
     listManager!: HierarchicalListManager;
     item!: NodeModel;

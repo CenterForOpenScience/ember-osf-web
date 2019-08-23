@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 
+import { tagName } from '@ember-decorators/component';
 import { layout } from 'ember-osf-web/decorators/component';
 
 import {
@@ -10,6 +11,7 @@ import { HierarchicalListManager } from 'osf-components/components/registries/hi
 import template from './template';
 
 @layout(template)
+@tagName('')
 export default class HierarchicalListItem extends Component {
     manager!: HierarchicalListItemManager;
     listManager!: HierarchicalListManager;
