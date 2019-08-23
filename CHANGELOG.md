@@ -5,9 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
 ### Added
 - Components
     - `schema-chunk` - yields different types of schema-chunk pieces
+    - `hierarchical-list`
+        - `hierarchical-list/item`
+        - `hieararchical-list/item-manager`
+        - related integration tests
+    - `partial-registration-modal` which implements `hierarchical-list`
+        - `partial-registration-modal/manager`
+        - related integration tests
 
 ### Changed
 - Components
@@ -26,9 +34,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource
+<<<<<<< HEAD
     - `searchCollections`
         - added ability to filter by collection metadata
         - added ability to sort collected items by dateModified
+=======
+    - `mirage/factories/node.ts`
+        - modified the factory to set `root` to self by default
+    - `mirage/views/utils/index.ts`
+        - modified filter funtion to filter by model id
+>>>>>>> add changelog
 - Packages
     - update to [ember-angle-bracket-invocation-polyfill@^2.0.2](https://github.com/rwjblue/ember-angle-bracket-invocation-polyfill/releases/tag/v2.0.2)
 
