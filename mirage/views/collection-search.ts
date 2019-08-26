@@ -41,6 +41,19 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
         collectedMetadata = collectedMetadata.filter((item: ModelInstance<CollectedMetadatum>) =>
             volume.any((value: string) => item.attrs.volume === value));
     }
+    if (request.queryParams.sort) {
+        switch (request.queryParams.sort) {
+        case 'modified':
+            collectedMetadata = collectedMetadata.sort((a, b) =>
+                (a.guid.dateModified > b.guid.dateModified ? 1 : -1));
+            break;
+        case '-modified':
+            collectedMetadata = collectedMetadata.sort((a, b) =>
+                (a.guid.dateModified < b.guid.dateModified ? 1 : -1));
+            break;
+        default:
+        }
+    }
     request.queryParams.embed = 'guid';
     const json = process(schema, request, this, collectedMetadata.map(m => this.serialize(m).data));
     return json;

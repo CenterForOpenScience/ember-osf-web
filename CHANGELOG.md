@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `onCreate` hook to perform additional operations after creating a child resource
     - `searchCollections`
         - added ability to filter by collection metadata
+        - added ability to sort collected items by dateModified
 - Packages
     - update to [ember-angle-bracket-invocation-polyfill@^2.0.2](https://github.com/rwjblue/ember-angle-bracket-invocation-polyfill/releases/tag/v2.0.2)
 
