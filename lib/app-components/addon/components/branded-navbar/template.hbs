@@ -1,62 +1,79 @@
-<div local-class="branded-nav-wrapper">
-    <nav class="navbar navbar-inverse navbar-fixed-top" local-class="branded-nav" id="navbarScope" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                {{#link-to brandRoute provider=theme.provider class="navbar-brand"}}
-                    <span class="navbar-image" local-class="navbar-image"></span>
-                    <span class="navbar-title">{{brandTitle}}</span>
+<div local-class='branded-nav-wrapper'>
+    <nav
+        local-class='branded-nav'
+        class='navbar navbar-inverse navbar-fixed-top'
+        id='navbarScope'
+        role='navigation'
+    >
+        <div class='container'>
+            <div class='navbar-header'>
+                {{#link-to @brandRoute provider=this.theme.provider class='navbar-brand'}}
+                    <span local-class='navbar-image' class='navbar-image'></span>
+                    <span class='navbar-title'>{{this.brandTitle}}</span>
                 {{/link-to}}
 
                 {{! Navigation toggle - XS screen }}
                 <a
-                    role="button"
-                    class="navbar-toggle collapsed"
-                    onclick={{action 'toggleSecondaryNavigation'}}
+                    role='button'
+                    class='navbar-toggle collapsed'
+                    onclick={{action this.toggleSecondaryNavigation}}
                     aria-label={{t 'navbar.toggle_secondary'}}
                 >
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class='icon-bar'></span>
+                    <span class='icon-bar'></span>
+                    <span class='icon-bar'></span>
                 </a>
             </div>
-            
+
             {{! Secondary nav links }}
-            {{#bs-collapse
-                classNames='navbar-collapse navbar-right'
+            <BsCollapse
                 local-class='secondary-navigation'
-                collapsed=(not showNavLinks)
-            }}
-                <ul class="nav navbar-nav" local-class="links">
+                @classNames='navbar-collapse navbar-right'
+                @collapsed={{not this.showNavLinks}}
+            >
+                <ul class='nav navbar-nav' local-class='links'>
                     <li>
-                        <a href={{myProjectsUrl}} onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=analytics}}>
+                        <a
+                            href={{this.myProjectsUrl}}
+                            onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=this.analytics}}
+                        >
                             {{t 'app_components.branded_navbar.my_osf_projects'}}
                         </a>
                     </li>
                     <li>
-                        {{#link-to 'provider.submit' click=(action 'click' 'link' (concat 'Navbar - Add ' objectType) target=analytics)}}
-                            <span role="button"> {{t addLinkKey}} </span>
+                        {{#link-to
+                            'provider.submit'
+                            click=(action 'click' 'link' (concat 'Navbar - Add ' @objectType) target=this.analytics)
+                        }}
+                            <span role='button'>{{t @addLinkKey}}</span>
                         {{/link-to}}
                     </li>
                     <li>
-                        {{#link-to 'provider.discover' click=(action 'click' 'link' 'Navbar - Search' target=analytics)}}
-                            <span role="button"> {{t 'navbar.search'}} </span>
+                        {{#link-to
+                            'provider.discover'
+                            click=(action 'click' 'link' 'Navbar - Search' target=this.analytics)
+                        }}
+                            <span role='button'>{{t 'navbar.search'}}</span>
                         {{/link-to}}
                     </li>
                     <li>
-                        <a href="https://cos.io/donate" onclick={{action 'click' 'link' 'Navbar - Donate' target=analytics}}>
+                        <a
+                            href='https://cos.io/donate'
+                            onclick={{action 'click' 'link' 'Navbar - Donate' target=this.analytics}}
+                        >
                             {{t 'navbar.donate'}}
                         </a>
                     </li>
-                    {{osf-navbar/auth-dropdown
-                        signupUrl=signupUrl
-                        loginAction=loginAction
-                        redirectUrl=redirectUrl
-                        onLinkClicked=(action (mut showNavLinks) false)
-                        headline=(t 'app_components.branded_navbar.on_the_osf')
-                        externalLink=true
-                    }}
+                    <OsfNavbar::AuthDropdown
+                        @signupUrl={{@signupUrl}}
+                        @loginAction={{@loginAction}}
+                        @redirectUrl={{@redirectUrl}}
+                        @onLinkClicked={{action (mut this.showNavLinks) false}}
+                        @headline={{t 'app_components.branded_navbar.on_the_osf'}}
+                        @externalLink={{true}}
+                    />
                 </ul>
-            {{/bs-collapse}}
+            </BsCollapse>
         </div>
     </nav>
 </div>
