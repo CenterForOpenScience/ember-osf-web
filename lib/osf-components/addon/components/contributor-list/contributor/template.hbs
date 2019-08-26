@@ -4,14 +4,14 @@
         TODO: switch to `{{#osf-link}}` invocation when <Link> is renamed
     --}}
     <a
-        data-test-contributor-name
+        data-test-contributor-name={{@contributor.users.id}}
         data-analytics-name='Contributor name'
         href={{this.contributorLink}}
     >
         {{~this.contributorName~}}
     </a>
 {{~else~}}
-    <span data-test-contributor-name>
+    <span data-test-contributor-name={{@contributor.users.id}}>
         {{~this.contributorName~}}
     </span>
 {{~/if~}}

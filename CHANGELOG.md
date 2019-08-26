@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `schema-chunk` - yields different types of schema-chunk pieces
 
 ### Changed
+- Components
+    - `project-contributors`
+        - added `onAddContributor` hook
+- Engines
+    - `collections`
+        - Tests
+            - added/improved test selectors to templates related to submit
+            - improved submit acceptance tests to perform assertions in addition to taking snapshots
+            - improved update acceptance tests to perform assertions in addition to taking snapshots
+- Tests
+    - added `ember-basic-dropdown-wormhole` div to test index.html 
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource
@@ -20,11 +31,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Engines
     - `collections`
         - fixed template lint and use angle brackets in submission templates
+        - `submit`
+            - reload bibliographicContributors when adding a contributor
 - Mirage
     - `osfNestedResource`
         - added custom `post` handler to fix `create` action
     - `node/contributors` nested resource
         - conditionally create bibliographic contributors when creating contributors
+    - Factories
+        - `collected-metadatum`
+            - allow manual setting of collection metadata
     - Serializers
         - `contributors` - serialize correct nested self link
 
