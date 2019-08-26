@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `collections`
         - Tests
             - added/improved test selectors to templates related to submit
+            - added/improved test selectors to templates related to discover
             - improved submit acceptance tests to perform assertions in addition to taking snapshots
             - improved update acceptance tests to perform assertions in addition to taking snapshots
 - Tests
