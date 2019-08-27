@@ -10,7 +10,7 @@ import template from './template';
 export interface HierarchicalListItemManager {
     listManager: HierarchicalListManager;
     item: NodeModel;
-    isShowChildren: boolean;
+    shouldShowChildren: boolean;
     isRoot: boolean;
     toggleShowChildren: () => void;
     onChange: (event: Event) => void;
@@ -21,7 +21,7 @@ export interface HierarchicalListItemManager {
 export default class HierarchicalListItemManagerComponent extends Component {
     listManager!: HierarchicalListManager;
     item!: NodeModel;
-    isShowChildren: boolean = true;
+    shouldShowChildren: boolean = true;
     isRoot: boolean = defaultTo(this.isRoot, false);
 
     @computed('listManager.selectedNodes.[]')
@@ -31,15 +31,15 @@ export default class HierarchicalListItemManagerComponent extends Component {
 
     @action
     toggleShowChildren() {
-        this.toggleProperty('isShowChildren');
+        this.toggleProperty('shouldShowChildren');
     }
 
     @action
     onChange(event: Event) {
         if (event) {
             this.listManager.onChange(event, this.item);
-            if (!this.isShowChildren) {
-                this.toggleProperty('isShowChildren');
+            if (!this.shouldShowChildren) {
+                this.toggleProperty('shouldShowChildren');
             }
         }
     }

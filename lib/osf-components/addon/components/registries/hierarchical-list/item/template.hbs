@@ -9,13 +9,13 @@
         {{@manager.item.title}}
         {{#if @manager.item.children}}
             <FaIcon 
-                @icon='caret-{{if @manager.isShowChildren 'up' 'down'}}' 
+                @icon='caret-{{if @manager.shouldShowChildren 'up' 'down'}}' 
                 @fixedWidth={{true}} 
             />
         {{/if}}
     </OsfButton>
 </li>
-{{#if (and @manager.item.children @manager.isShowChildren)}}
+{{#if (and @manager.item.children @manager.shouldShowChildren)}}
     <ul>
         {{#each @manager.item.children as |child|}}
             <Registries::HierarchicalList::ItemManager 
