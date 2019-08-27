@@ -4,7 +4,7 @@
         {{!BRANDING}}
         <div class='row m-v-md'>
             <div class='col-xs-12 text-center'>
-                {{!Provider Logo, if exists}}
+                {{!Provider Logo, if we are a provider}}
                 {{#if this.theme.isProvider}}
                     <div
                         data-test-provider-branding
@@ -18,7 +18,7 @@
                         <ProviderLogo @provider={{this.theme.provider}} />
                     </div>
                 {{/if}}
-                <div class={{if (or this.theme.isProvider this.providerLogo) 'col-xs-6 text-left'}}>
+                <div class={{if this.theme.isProvider 'col-xs-6 text-left'}}>
                     {{!REGISTRIES ONLY}}
                     <div class='registries-brand m-t-lg'></div>
                     {{!Discover Page Header text}}
