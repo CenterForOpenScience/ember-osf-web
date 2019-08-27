@@ -36,16 +36,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource
-<<<<<<< HEAD
     - `searchCollections`
         - added ability to filter by collection metadata
         - added ability to sort collected items by dateModified
-=======
     - `mirage/factories/node.ts`
         - modified the factory to set `root` to self by default
     - `mirage/views/utils/index.ts`
         - modified filter funtion to filter by model id
->>>>>>> add changelog
 - Packages
     - update to [ember-angle-bracket-invocation-polyfill@^2.0.2](https://github.com/rwjblue/ember-angle-bracket-invocation-polyfill/releases/tag/v2.0.2)
 
