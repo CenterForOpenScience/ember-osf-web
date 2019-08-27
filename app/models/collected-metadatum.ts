@@ -1,9 +1,8 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import { attr, belongsTo } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { computed as iComputed } from '@ember/object';
 import { alias as iAlias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
-import DS from 'ember-data';
 
 import tuple from 'ember-osf-web/utils/tuple';
 

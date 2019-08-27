@@ -178,8 +178,9 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @hasMany('identifier', { inverse: 'referent' })
     identifiers!: DS.PromiseManyArray<IdentifierModel>;
 
-    @hasMany('subject', { inverse: null })
-    subjects!: DS.PromiseManyArray<SubjectModel>;
+    @hasMany('subject', { inverse: null, async: false })
+    subjects!: SubjectModel[];
+
     // These are only computeds because maintaining separate flag values on
     // different classes would be a headache TODO: Improve.
 
