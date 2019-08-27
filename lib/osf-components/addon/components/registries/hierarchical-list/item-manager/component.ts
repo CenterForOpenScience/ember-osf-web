@@ -1,11 +1,9 @@
+import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
-
 import NodeModel from 'ember-osf-web/models/node';
-
-import { tagName } from '@ember-decorators/component';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
 import template from './template';
 

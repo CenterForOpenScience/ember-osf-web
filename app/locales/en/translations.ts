@@ -1377,7 +1377,7 @@ export default {
                 fork: 'Fork this registration',
             },
         },
-        partial_registration_modal: {
+        partialRegistrationModal: {
             title: 'Select Components',
             continueButton: 'Continue',
             cancelButton: 'Cancel',

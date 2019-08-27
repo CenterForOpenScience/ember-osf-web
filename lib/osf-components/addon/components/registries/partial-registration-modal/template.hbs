@@ -1,15 +1,15 @@
 <OsfDialog @isOpen={{@modalManager.isOpen}} @renderInPlace={{@modalManager.renderInPlace}} as |dialog|>
     <dialog.heading local-class='modal-title'>
-        {{t 'registries.partial_registration_modal.title'}}
+        {{t 'registries.partialRegistrationModal.title'}}
     </dialog.heading>
-    <dialog.main local-class='modal-body'>
+    <dialog.main>
         <OsfButton 
             @type=='link' 
             local-class='select-clear-button' 
             @onClick={{action @modalManager.selectAll}}
             data-test-select-all
         >
-            {{t 'registries.partial_registration_modal.selectAll'}}
+            {{t 'registries.partialRegistrationModal.selectAll'}}
         </OsfButton>
         |
         <OsfButton 
@@ -18,7 +18,7 @@
             @onClick={{action @modalManager.clearAll}}
             data-test-clear-all
         >
-            {{t 'registries.partial_registration_modal.clearAll'}}
+            {{t 'registries.partialRegistrationModal.clearAll'}}
         </OsfButton>
         {{#if @modalManager.loadAllChildNodes.isRunning}}
             <LoadingIndicator />
@@ -34,11 +34,11 @@
         {{/if}}
     </dialog.main>
     <dialog.footer>
-        <OsfButton @type='primary' local-class='modal-button-continue'>
-            {{t 'registries.partial_registration_modal.continueButton'}}
+        <OsfButton @type='primary'>
+            {{t 'registries.partialRegistrationModal.continueButton'}}
         </OsfButton>
-        <OsfButton @type='default' local-class='modal-button-cancel'>
-            {{t 'registries.partial_registration_modal.cancelButton'}}
+        <OsfButton @type='default'>
+            {{t 'registries.partialRegistrationModal.cancelButton'}}
         </OsfButton>
     </dialog.footer>
 </OsfDialog>

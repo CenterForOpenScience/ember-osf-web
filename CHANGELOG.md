@@ -12,10 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `hierarchical-list`
         - `hierarchical-list/item`
         - `hieararchical-list/item-manager`
-        - related integration tests
     - `partial-registration-modal` which implements `hierarchical-list`
         - `partial-registration-modal/manager`
-        - related integration tests
+- Tests
+    - Integration
+        - `hierarchical-list`
+        - `partial-registration-modal`
 
 ### Changed
 - Components
