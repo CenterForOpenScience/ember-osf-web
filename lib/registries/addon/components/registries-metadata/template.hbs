@@ -134,22 +134,32 @@
         </div>
 
         <div local-class='Field'>
-            <SubjectWidget::Manager @model={{this.registration}} as |subjectsManager|>
-                <EditableField
-                    data-analytics-scope='Subjects'
-                    @manager={{subjectsManager}}
-                    @title={{t 'registries.registration_metadata.subjects'}}
-                    @name='subjects'
-                    as |field|
+            <Subjects::Manager
+                @model={{this.registration}}
+                @provider={{this.registration.provider}}
+                as |subjectsManager|
+            >
+                <EditableField::SubjectFieldManager
+                    @subjectsManager={{subjectsManager}}
+                    @node={{this.registration}}
+                    as |subjectFieldManager|
                 >
-                    <field.edit>
-                        <SubjectWidget @manager={{subjectsManager}} />
-                    </field.edit>
-                    <field.display>
-                        <SubjectWidget::Display @manager={{subjectsManager}} />
-                    </field.display>
-                </EditableField>
-            </SubjectWidget::Manager>
+                    <EditableField
+                        data-analytics-scope='Subjects'
+                        @manager={{subjectFieldManager}}
+                        @title={{t 'registries.registration_metadata.subjects'}}
+                        @name='subjects'
+                        as |field|
+                    >
+                        <field.edit>
+                            <Subjects::Widget @manager={{subjectsManager}} />
+                        </field.edit>
+                        <field.display>
+                            <Subjects::Display @subjects={{subjectsManager.savedSubjects}} />
+                        </field.display>
+                    </EditableField>
+                </EditableField::SubjectFieldManager>
+            </Subjects::Manager>
         </div>
 
         <div local-class='Field'>

@@ -1,0 +1,11 @@
+{{yield (hash
+    shouldShowField=this.shouldShowField
+    userCanEdit=this.userCanEdit
+    startEditing=(action this.startEditing)
+    fieldIsEmpty=this.fieldIsEmpty
+    emptyFieldText=(t 'registries.registration_metadata.no_subjects')
+    inEditMode=this.inEditMode
+
+    save=@subjectsManager.saveChanges
+    cancel=@subjectsManager.discardChanges
+)}}
