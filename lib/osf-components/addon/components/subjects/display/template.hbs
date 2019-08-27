@@ -1,0 +1,25 @@
+{{#if @subjects}}
+    <ul local-class='subjects'>
+        {{#each @subjects as |subject|}}
+            <li local-class='subject-tag'>
+                {{subject.text}}
+
+                {{#if @removeSubject}}
+                    <OsfButton
+                        local-class='remove-button'
+                        @type='link'
+                        @onClick={{action @removeSubject subject}}
+                    >
+                        <FaIcon @icon='times' />
+                    </OsfButton>
+                {{/if}}
+            </li>
+        {{else}}
+            <span local-class='placeholder'>
+                {{t 'osf-components.subjects.display.placeholder'}}
+            </span>
+        {{/each}}
+    </ul>
+{{else}}
+    <LoadingIndicator @dark={{true}} />
+{{/if}}

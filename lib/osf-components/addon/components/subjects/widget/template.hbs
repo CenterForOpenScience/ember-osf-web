@@ -1,0 +1,30 @@
+<Subjects::Display
+    @subjects={{@manager.selectedSubjects}}
+    @removeSubject={{@manager.unselectSubject}}
+/>
+
+<div local-class='browser-menu'>
+    <OsfButton
+        @onClick={{action (mut this.searchMode) false}}
+        @type='link'
+        local-class='toggle-button {{unless this.searchMode 'active'}}'
+    >
+        {{t 'osf-components.subjects.browse.browse_all'}}
+    </OsfButton>
+
+    <OsfButton
+        @onClick={{action (mut this.searchMode) true}}
+        @type='link'
+        local-class='toggle-button {{if this.searchMode 'active'}}'
+    >
+        {{t 'osf-components.subjects.search.search_all'}}
+    </OsfButton>
+</div>
+
+{{#if this.searchMode}}
+    <div local-class='subjects-browser-search'>
+        <Subjects::Search @manager={{@manager}} />
+    </div>
+{{else}}
+    <Subjects::Browse @manager={{@manager}} />
+{{/if}}

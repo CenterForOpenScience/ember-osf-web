@@ -1,0 +1,17 @@
+<ul local-class='subjects-browser-list' ...attributes>
+    <Subjects::Browse::BrowseManager as |browserManager|>
+        {{#if @browserManager.loadingRootSubjects}}
+            <LoadingIndicator @dark={{true}} />
+        {{else}}
+            {{#each @manager.rootSubjects as |subject|}}
+                <Subjects::Browse::ItemManager
+                    @subject={{subject}}
+                    @subjectsManager={{@manager}}
+                    as |itemManager|
+                >
+                    <Subjects::Browse::Item @itemManager={{itemManager}} />
+                </Subjects::Browse::ItemManager>
+            {{/each}}
+        {{/if}}
+    </Subjects::Browse::BrowseManager>
+</ul>

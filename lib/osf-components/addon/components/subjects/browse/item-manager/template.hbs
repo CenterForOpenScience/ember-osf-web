@@ -1,0 +1,11 @@
+{{yield (hash
+    subject=this.subject
+    isSelected=this.isSelected
+
+    numChildren=this.numChildren
+    isLoadingChildren=this.loadChildren.isRunning
+    children=this.children
+
+    toggleSelected=(action this.toggleSelected)
+    loadChildren=(perform this.loadChildren)
+)}}

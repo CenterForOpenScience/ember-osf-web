@@ -1,0 +1,13 @@
+<Subjects::Manager
+    @model={{@model}}
+    @provider={{this.theme.provider}}
+    as |subjectsManager|
+>
+    <Subjects::Widget @manager={{subjectsManager}} />
+    <SubmitSectionButtons
+        @discard={{action subjectsManager.cancel}}
+        @continue={{action subjectsManager.save @continue}}
+        @continueDisabled={{v-get @model @valuePath 'isInvalid'}}
+        @continueButtonLabel={{t 'app_components.submit_section.continue'}}
+    />
+</Subjects::Manager>

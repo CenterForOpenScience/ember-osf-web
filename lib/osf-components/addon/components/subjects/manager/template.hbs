@@ -1,0 +1,12 @@
+{{yield (hash
+    selectedSubjects=this.selectedSubjects
+    savedSubjects=this.savedSubjects
+    isSaving=this.saveChanges.isRunning
+    hasChanged=this.hasChanged
+    provider=this.provider
+
+    selectSubject=(action this.selectSubject)
+    unselectSubject=(action this.unselectSubject)
+    saveChanges=(perform this.saveChanges)
+    discardChanges=(action this.discardChanges)
+)}}
