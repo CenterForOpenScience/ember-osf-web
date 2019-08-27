@@ -1,11 +1,16 @@
-<span class="active-filter {{facet}}" local-class="filter {{extraClass}}">
-    {{text}}
-    {{#unless hide}}
-        <span aria-label="{{ariaLabel}}">
+<span
+    data-test-active-filter={{@text}}
+    class='active-filter {{@facet}}'
+    local-class='filter {{@extraClass}}'
+>
+    {{@text}}
+    {{#unless @hide}}
+        <span aria-label={{@ariaLabel}}>
             <button
-                class="fa fa-times-circle"
-                local-class="removeActiveFilter"
-                {{action removeFilterItem}}
+                data-test-active-filter-remove-button
+                class='fa fa-times-circle'
+                local-class='removeActiveFilter'
+                {{action this.removeFilterItem}}
             ></button>
         </span>
     {{/unless}}

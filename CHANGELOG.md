@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `collections`
         - Tests
             - added/improved test selectors to templates related to submit
+            - added/improved test selectors to templates related to discover
             - improved submit acceptance tests to perform assertions in addition to taking snapshots
             - improved update acceptance tests to perform assertions in addition to taking snapshots
 - Tests
@@ -24,6 +25,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource
+    - `searchCollections`
+        - added ability to filter by collection metadata
+        - added ability to sort collected items by dateModified
 - Packages
     - update to [ember-angle-bracket-invocation-polyfill@^2.0.2](https://github.com/rwjblue/ember-angle-bracket-invocation-polyfill/releases/tag/v2.0.2)
 
@@ -31,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Engines
     - `collections`
         - fixed template lint and use angle brackets in submission templates
+        - fixed template lint and use angle brackets in discover templates
         - `submit`
             - reload bibliographicContributors when adding a contributor
 - Mirage
