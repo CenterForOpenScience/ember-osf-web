@@ -120,7 +120,7 @@ module('Integration | Component | osf-dialog', hooks => {
     });
 
     test('does not close on outside click', async assert => {
-        await render(hbs`<OsfDialog @renderInPlace={{true}} as |dialog|>
+        await render(hbs`<OsfDialog @renderInPlace={{true}} @closeOnOutsideClick={{false}} as |dialog|>
             <dialog.trigger>
                 <button test-open-dialog {{on 'click' dialog.open}}>Click me!</button>
             </dialog.trigger>
@@ -133,6 +133,6 @@ module('Integration | Component | osf-dialog', hooks => {
         assert.dom('[data-test-dialog]').exists('Dialog open');
 
         await untrackedClick('[data-test-dialog-background]');
-        assert.dom('[data-test-dialog]').doesNotExist('Dialog closed');
+        assert.dom('[data-test-dialog]').exists('Dialog still open');
     });
 });

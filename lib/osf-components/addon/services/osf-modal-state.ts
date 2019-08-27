@@ -19,6 +19,10 @@ export default class OsfModalState extends Service {
 
         // Update global state in another runloop to avoid "modified twice in one render" errors
         run.next(this, function() {
+            if (this.isDestroyed) {
+                // In tests, the service might be destroyed by now
+                return;
+            }
             const bodyElement = document.querySelector('body')!;
             bodyElement.classList.add('modal-open');
 
@@ -29,6 +33,10 @@ export default class OsfModalState extends Service {
     exitModalState() {
         // Update global state in another runloop to avoid "modified twice in one render" errors
         run.next(this, function() {
+            if (this.isDestroyed) {
+                // In tests, the service might be destroyed by now
+                return;
+            }
             const bodyElement = document.querySelector('body')!;
             bodyElement.classList.remove('modal-open');
 

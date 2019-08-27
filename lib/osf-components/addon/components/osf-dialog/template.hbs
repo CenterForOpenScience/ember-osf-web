@@ -5,8 +5,8 @@
 {{#if this.shouldBeOpen}}
     <script
         {{! These should be on <EmberWormhole> below, but we need Ember 3.11 for that }}
-        {{did-insert (action this.updateModalState)}}
-        {{will-destroy (action this.updateModalState)}}
+        {{did-insert (action this.updateModalState true)}}
+        {{will-destroy (action this.updateModalState false)}}
     ></script>
     <EmberWormhole
         @tagName='span'

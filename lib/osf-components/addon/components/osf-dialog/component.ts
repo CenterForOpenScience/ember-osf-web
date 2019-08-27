@@ -47,9 +47,9 @@ export default class OsfDialog extends Component {
     }
 
     @action
-    updateModalState() {
+    updateModalState(newModalState: boolean) {
         if (this.isModal) {
-            if (this.shouldBeOpen) {
+            if (newModalState) {
                 this.osfModalState.enterModalState();
             } else {
                 this.osfModalState.exitModalState();
@@ -70,6 +70,12 @@ export default class OsfDialog extends Component {
         // Close when `esc` is pressed
         if (event.keyCode === 27) {
             this.closeDialog();
+        }
+    }
+
+    willDestroy() {
+        if (this.shouldBeOpen && this.osfModalState.inModalState) {
+            this.osfModalState.exitModalState();
         }
     }
 }
