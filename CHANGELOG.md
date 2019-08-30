@@ -5,19 +5,62 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Added
+- Components
+    - `schema-chunk` - yields different types of schema-chunk pieces
+    - `hierarchical-list`
+        - `hierarchical-list/item`
+        - `hieararchical-list/item-manager`
+    - `partial-registration-modal` which implements `hierarchical-list`
+        - `partial-registration-modal/manager`
+- Tests
+    - Integration
+        - `hierarchical-list`
+        - `partial-registration-modal`
+
 ### Changed
+- Components
+    - `project-contributors`
+        - added `onAddContributor` hook
+- Engines
+    - `collections`
+        - Tests
+            - added/improved test selectors to templates related to submit
+            - added/improved test selectors to templates related to discover
+            - improved submit acceptance tests to perform assertions in addition to taking snapshots
+            - improved update acceptance tests to perform assertions in addition to taking snapshots
+            - improved discover acceptance tests to perform assertions in addition to taking snapshots
+- Tests
+    - added `ember-basic-dropdown-wormhole` div to test index.html 
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource
+    - `searchCollections`
+        - added ability to filter by collection metadata
+        - added ability to sort collected items by dateModified
+    - `mirage/factories/node.ts`
+        - modified the factory to set `root` to self by default
+    - `mirage/views/utils/index.ts`
+        - modified filter funtion to filter by model id
 - Packages
     - update to [ember-angle-bracket-invocation-polyfill@^2.0.2](https://github.com/rwjblue/ember-angle-bracket-invocation-polyfill/releases/tag/v2.0.2)
 
 ### Fixed
+- Engines
+    - `collections`
+        - fixed template lint and use angle brackets in submission templates
+        - fixed template lint and use angle brackets in discover templates
+        - `submit`
+            - reload bibliographicContributors when adding a contributor
 - Mirage
     - `osfNestedResource`
         - added custom `post` handler to fix `create` action
     - `node/contributors` nested resource
         - conditionally create bibliographic contributors when creating contributors
+    - Factories
+        - `collected-metadatum`
+            - allow manual setting of collection metadata
     - Serializers
         - `contributors` - serialize correct nested self link
 

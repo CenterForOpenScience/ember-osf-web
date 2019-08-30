@@ -1,24 +1,26 @@
-<ValidatedModelForm 
+<ValidatedModelForm
     @onSave={{action this.onSave}}
     @onError={{action this.onError}}
     @model={{this.node}}
     as |form|
 >
     <div class='col-md-6'>
-        <form.text 
+        <form.text
+            data-test-project-metadata-title
             @label={{t 'app_components.project_metadata.field_title_label'}}
             @valuePath='title'
         />
         <br>
-        <form.textarea 
+        <form.textarea
+            data-test-project-metadata-description
             @label={{t 'app_components.project_metadata.field_description_label'}}
             @valuePath='description'
         />
     </div>
-    
+
     <div class='col-md-6'>
         <LicensePicker
-            data-test-collections-license-picker
+            data-test-project-metadata-license-picker
             @node={{this.node}}
             @form={{form}}
         >
@@ -28,32 +30,36 @@
         <label>
             {{t 'app_components.project_metadata.field_tags_label'}}
             <form.custom
+                data-test-project-metadata-tags
                 @model={{this.node}}
                 @valuePath='tags'
             >
-                {{#tag-input
-                    tags=this.node.tags
-                    addTag=(action 'addTag')
-                    removeTagAtIndex=(action 'removeTagAtIndex')
-                    allowSpacesInTags=true
-                    placeholder=(t 'osf-components.tags-widget.add_tag')
-                    aria_label=(t 'file_detial.tags')
+                <TagInput
+                    data-test-project-metadata-tag-input
+                    @tags={{this.node.tags}}
+                    @addTag={{action this.addTag}}
+                    @removeTagAtIndex={{action this.removeTagAtIndex}}
+                    @allowSpacesInTags={{true}}
+                    @placeholder={{t 'osf-components.tags-widget.add_tag'}}
+                    @aria_label={{t 'file_detail.tags'}}
+                    @readOnly={{false}}
                     local-class='tagInput'
-                    readOnly=false
                     as |tag|
-                }}
+                >
                     <a
+                        data-test-project-metadata-tag={{tag}}
                         href='{{@searchUrl}}?q=(tags:"{{tag}}")'
                         onclick={{action 'click' 'link' 'Collections - Submit - Search by tag' target=this.analytics}}
                     >
                         {{tag}}
                     </a>
-                {{/tag-input}}
+                </TagInput>
             </form.custom>
         </label>
     </div>
     <div class='col-xs-12 text-right'>
         <OsfButton
+            data-test-project-metadata-discard-button
             @type='default'
             @disabled={{form.submitting}}
             @onClick={{perform this.reset}}
@@ -61,7 +67,7 @@
             {{t 'app_components.submit_section.discard'}}
         </OsfButton>
         <OsfButton
-            data-test-project-metadata-continue
+            data-test-project-metadata-save-button
             @type='primary'
             @buttonType='submit'
             @disabled={{form.submitting}}

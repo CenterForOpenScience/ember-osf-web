@@ -7,136 +7,197 @@
     <h1>{{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
 </div>
 <div local-class='body'>
-    {{#submit-sections
-        activeSection=this.activeSection
-        savedSections=this.savedSections
+    <SubmitSections
+        data-test-collections-submit-sections
+        @activeSection={{this.activeSection}}
+        @savedSections={{this.savedSections}}
         as |sections|
-    }}
-        {{#sections.section
-            section=this.sections.project
-            title=(t (concat this.i18nKeyPrefix 'project_select_title'))
-            continue=(action 'nextSection' this.sections.project)
-            editable=(not this.edit)
+    >
+        <sections.section
+            data-test-collections-submit-section='project'
+            @section={{this.sections.project}}
+            @title={{t (concat this.i18nKeyPrefix 'project_select_title')}}
+            @continue={{action this.nextSection this.sections.project}}
+            @editable={{not this.edit}}
             as |section|
-        }}
-            {{#section.active}}
-                {{collection-item-picker
-                    class='col-xs-12'
-                    collection=this.collection
-                    projectSelected=(action 'projectSelected')
-                    validationChanged=(action (mut this.isProjectSelectorValid))
-                }}
-            {{/section.active}}
-            {{#section.complete}}
+        >
+            <section.active>
+                <CollectionItemPicker
+                    @class='col-xs-12'
+                    @collection={{this.collection}}
+                    @projectSelected={{action this.projectSelected}}
+                    @validationChanged={{action (mut this.isProjectSelectorValid)}}
+                />
+            </section.active>
+            <section.complete>
                 <p>
-                    <em>{{t (concat this.i18nKeyPrefix 'project_select_project_label')}}</em>
-                    <span>{{this.collectionItem.title}}</span>
+                    <em data-test-project-complete-title-label>
+                        {{t (concat this.i18nKeyPrefix 'project_select_project_label')}}
+                    </em>
+                    <span data-test-project-complete-title-value>
+                        {{this.collectionItem.title}}
+                    </span>
                 </p>
-            {{/section.complete}}
-        {{/sections.section}}
+            </section.complete>
+        </sections.section>
 
-        {{#sections.section
-            section=this.sections.projectMetadata
-            tooltip=(t (concat this.i18nKeyPrefix 'closed_tooltip'))
-            title=(t (concat this.i18nKeyPrefix 'project_metadata_title'))
-            description=(t (concat this.i18nKeyPrefix 'project_metadata_description'))
+        <sections.section
+            data-test-collections-submit-section='projectMetadata'
+            @section={{this.sections.projectMetadata}}
+            @tooltip={{t (concat this.i18nKeyPrefix 'closed_tooltip')}}
+            @title={{t (concat this.i18nKeyPrefix 'project_metadata_title')}}
+            @description={{t (concat this.i18nKeyPrefix 'project_metadata_description')}}
             as |section|
-        }}
-            {{#section.active}}
+        >
+            <section.active>
                 {{#if this.collectionItem}}
-                    {{project-metadata
-                        node=this.collectionItem
-                        makePublicOnSave=true
-                        continue=(action 'nextSection')
-                    }}
+                    <ProjectMetadata
+                        @node={{this.collectionItem}}
+                        @makePublicOnSave={{true}}
+                        @continue={{action this.nextSection}}
+                    />
                 {{else}}
                     <div class='text-center'>
-                        {{fa-icon 'spinner' pulse=true size=2}}
+                        <FaIcon
+                            @icon='spinner'
+                            @pulse={{true}}
+                            @size={{2}}
+                        />
                     </div>
                 {{/if}}
-            {{/section.active}}
-            {{#section.complete}}
+            </section.active>
+            <section.complete>
                 <p>
-                    <em>{{t (concat this.i18nKeyPrefix 'project_metadata_title_label')}}</em>
-                    <span>{{this.collectionItem.title}}</span>
+                    <em data-test-project-metadata-complete-title-label>
+                        {{t (concat this.i18nKeyPrefix 'project_metadata_title_label')}}
+                    </em>
+                    <span data-test-project-metadata-complete-title-value>
+                        {{this.collectionItem.title}}
+                    </span>
                 </p>
                 <p>
-                    <em>{{t (concat this.i18nKeyPrefix 'project_metadata_description_label')}}</em>
-                    <span>{{this.collectionItem.description}}</span>
+                    <em data-test-project-metadata-complete-description-label>
+                        {{t (concat this.i18nKeyPrefix 'project_metadata_description_label')}}
+                    </em>
+                    <span data-test-project-metadata-complete-description-value>
+                        {{this.collectionItem.description}}
+                    </span>
                 </p>
                 <p>
-                    <em>{{t (concat this.i18nKeyPrefix 'project_metadata_license_label')}}</em>
-                    <span>{{this.collectionItem.license.name}}</span>
+                    <em data-test-project-metadata-complete-license-name-label>
+                        {{t (concat this.i18nKeyPrefix 'project_metadata_license_label')}}
+                    </em>
+                    <span data-test-project-metadata-complete-license-name-value>
+                        {{this.collectionItem.license.name}}
+                    </span>
                 </p>
                 <p>
-                    <em>{{t (concat this.i18nKeyPrefix 'project_metadata_tags_label')}}</em>
+                    <em data-test-project-metadata-complete-tags-label>
+                        {{t (concat this.i18nKeyPrefix 'project_metadata_tags_label')}}
+                    </em>
                     {{#each this.collectionItem.tags as |tag|}}
-                        <div local-class='subject'>{{tag}}</div>
+                        <div
+                            data-test-project-metadata-complete-tag={{tag}}
+                            local-class='subject'
+                        >
+                            {{tag}}
+                        </div>
                     {{/each}}
                 </p>
-            {{/section.complete}}
-        {{/sections.section}}
+            </section.complete>
+        </sections.section>
 
-        {{#sections.section
-            section=this.sections.projectContributors
-            tooltip=(t (concat this.i18nKeyPrefix 'closed_tooltip'))
-            title=(t (concat this.i18nKeyPrefix 'project_contributors_title'))
-            description=(t (concat this.i18nKeyPrefix 'project_contributors_description'))
+        <sections.section
+            data-test-collections-submit-section='projectContributors'
+            @section={{this.sections.projectContributors}}
+            @tooltip={{t (concat this.i18nKeyPrefix 'closed_tooltip')}}
+            @title={{t (concat this.i18nKeyPrefix 'project_contributors_title')}}
+            @description={{t (concat this.i18nKeyPrefix 'project_contributors_description')}}
             as |section|
-        }}
-            {{#section.active}}
+        >
+            <section.active>
                 <ProjectContributors
                     data-test-collection-project-contributors
                     @node={{this.collectionItem}}
                     @contributors={{this.collectionItem.contributors}}
-                    @discard={{action 'noop'}}
-                    @continue={{action 'nextSection'}}
+                    @discard={{action this.noop}}
+                    @onAddContributor={{action this.onAddContributor}}
+                    @continue={{action this.nextSection}}
                 />
-            {{/section.active}}
-            {{#section.complete}}
-                <p>{{contributor-list node=this.collectionItem shouldTruncate=false}}</p>
-            {{/section.complete}}
-        {{/sections.section}}
+            </section.active>
+            <section.complete>
+                <p>
+                    <ContributorList
+                        @node={{this.collectionItem}}
+                        @shouldTruncate={{false}}
+                    />
+                </p>
+            </section.complete>
+        </sections.section>
 
-        {{#sections.section
-            section=this.sections.collectionMetadata
-            tooltip=(t (concat this.i18nKeyPrefix 'closed_tooltip'))
-            title=(t (concat this.i18nKeyPrefix 'collection_metadata_title'))
+        <sections.section
+            data-test-collections-submit-section='collectionMetadata'
+            @section={{this.sections.collectionMetadata}}
+            @tooltip={{t (concat this.i18nKeyPrefix 'closed_tooltip')}}
+            @title={{t (concat this.i18nKeyPrefix 'collection_metadata_title')}}
             as |section|
-        }}
-            {{#section.active}}
+        >
+            <section.active>
                 <CollectionMetadata
                     data-test-collection-metadata
                     @collection={{this.collection}}
                     @collectedMetadatum={{this.collectedMetadatum}}
-                    @continue={{action 'nextSection'}}
+                    @continue={{action this.nextSection}}
                 />
-            {{/section.active}}
-            {{#section.complete}}
+            </section.active>
+            <section.complete>
                 {{#each this.choiceFields as |field|}}
-                    <p>
-                        <em>{{t field.label}}</em>
-                        <span>{{field.value}}</span>
+                    <p data-test-collection-metadata-complete-field={{field.name}}>
+                        <em data-test-collection-metadata-complete-field-label>
+                            {{t field.label}}
+                        </em>
+                        <span data-test-collection-metadata-complete-field-value>
+                            {{field.value}}
+                        </span>
                     </p>
                 {{/each}}
-            {{/section.complete}}
-        {{/sections.section}}
+            </section.complete>
+        </sections.section>
 
-        <section class='row' local-class='last-buttons'>
+        <section
+            data-test-collections-submit-section='buttons'
+            class='row'
+            local-class='last-buttons'
+        >
             <div class='col-xs-12 text-right'>
-                <button class='btn btn-default' {{action 'cancel'}}>
+                <button
+                    data-test-collections-submit-cancel-button
+                    class='btn btn-default'
+                    {{action this.cancel}}
+                >
                     {{t (concat this.i18nKeyPrefix 'cancel')}}
                 </button>
                 {{#if this.edit}}
-                    <button data-test-collection-update data-analytics-name='Update' class='btn btn-success' {{action (perform this.save)}}>
+                    <button
+                        data-test-collections-submit-update-button
+                        data-analytics-name='Update'
+                        class='btn btn-success'
+                        {{action (perform this.save)}}
+                    >
                         {{t (concat this.i18nKeyPrefix 'update' '_button')}}
                     </button>
                 {{else}}
-                    <button data-test-collection-submit data-analytics-name='Submit' class='btn btn-success' {{action this.setShowSubmitModal}} disabled={{not (eq this.activeSection this.sections.submit)}}>
+                    <button
+                        data-test-collections-submit-submit-button
+                        data-analytics-name='Submit'
+                        class='btn btn-success'
+                        {{action this.setShowSubmitModal}}
+                        disabled={{not (eq this.activeSection this.sections.submit)}}
+                    >
                         {{t (concat this.i18nKeyPrefix 'add' '_button')}}
                     </button>
                 {{/if}}
             </div>
         </section>
-    {{/submit-sections}}
+    </SubmitSections>
 </div>

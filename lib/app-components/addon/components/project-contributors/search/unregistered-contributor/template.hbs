@@ -1,37 +1,39 @@
-<h3>{{t 'app_components.project_contributors.search.unregistered_contributor.title'}}</h3>
-<label local-class="fullwidth">
+<h3>
+    {{t 'app_components.project_contributors.search.unregistered_contributor.title'}}
+</h3>
+<label local-class='fullwidth'>
     {{t 'app_components.project_contributors.search.unregistered_contributor.full_name'}}
-    {{validated-input/text
-        model=model
-        shouldShowMessages=didValidate
-        valuePath='fullName'
-        placeholder=(t 'app_components.project_contributors.search.unregistered_contributor.full_name')
-    }}
+    <ValidatedInput::Text
+        @model={{this.model}}
+        @shouldShowMessages={{this.didValidate}}
+        @valuePath='fullName'
+        @placeholder={{t 'app_components.project_contributors.search.unregistered_contributor.full_name'}}
+    />
 </label>
 <br>
-<label local-class="fullwidth">
+<label local-class='fullwidth'>
     {{t 'app_components.project_contributors.search.unregistered_contributor.email'}}
-    {{validated-input/text
-        model=model
-        shouldShowMessages=didValidate
-        valuePath='email'
-        placeholder=(t 'app_components.project_contributors.search.unregistered_contributor.email')
-    }}
+    <ValidatedInput::Text
+        @model={{this.model}}
+        @shouldShowMessages={{this.didValidate}}
+        @valuePath='email'
+        @placeholder={{t 'app_components.project_contributors.search.unregistered_contributor.email'}}
+    />
 </label>
-<p class="text-muted">
+<p class='text-muted'>
     {{t 'app_components.project_contributors.search.unregistered_contributor.paragraph'}}
 </p>
-<div class="pull-right text-right">
+<div class='pull-right text-right'>
     <button
-        class="btn btn-default"
-        {{action 'cancel'}}
+        class='btn btn-default'
+        {{action this.cancel}}
     >
         {{t 'app_components.project_contributors.search.unregistered_contributor.cancel'}}
     </button>
     <button
-        class="btn btn-success"
-        disabled={{and didValidate (v-get model 'isInvalid')}}
-        {{action (perform add)}}
+        class='btn btn-success'
+        disabled={{and this.didValidate (v-get this.model 'isInvalid')}}
+        {{action (perform this.add)}}
     >
         {{t 'app_components.project_contributors.search.unregistered_contributor.add'}}
     </button>
