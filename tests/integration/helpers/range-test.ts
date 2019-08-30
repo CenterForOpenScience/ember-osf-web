@@ -8,6 +8,6 @@ module('Integration | Helper | range', hooks => {
 
     test('it renders', async function(assert) {
         await render(hbs`{{#each (range 1 5) as | i | }}{{i}}{{/each}}`);
-        assert.dom(this.element).hasText('12345');
+        assert.dom(this.element).hasText('1234');
     });
 });
