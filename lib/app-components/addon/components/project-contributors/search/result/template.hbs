@@ -1,32 +1,41 @@
-<td class="p-v-xs">
+<td class='p-v-xs'>
     <img
-        class="m-l-xs"
-        src={{user.links.profile_image}}
-        alt="{{user.fullname}}"
-        height="30"
-        width="30"
+        class='m-l-xs'
+        src={{@user.links.profile_image}}
+        alt={{@user.fullname}}
+        height='30'
+        width='30'
     >
-    <a href={{user.links.html}} target="_blank" rel="noopener">
-        {{~user.fullName~}}
+    <a
+        data-test-project-contributors-search-user-name
+        href={{@user.links.html}} target='_blank' rel='noopener'>
+        {{~@user.fullName~}}
     </a>
-    {{#if isSelf}}
-        <span class="small">
+    {{#if this.isSelf}}
+        <span class='small'>
             {{t 'app_components.project_contributors.search.result.yourself'}}
         </span>
     {{/if}}
 </td>
-<td class="p-v-xs">
-    {{#if isContributor}}
+<td class='p-v-xs'>
+    {{#if this.isContributor}}
         <span
-            class="hint hint--left pull-right"
-            aria-label="{{t "components.preprint-form-authors.already_added"}}"
+            class='hint hint--left pull-right'
+            aria-label={{t 'components.preprint-form-authors.already_added'}}
         >
-            <button class="btn btn-default btn-small disabled disabled-checkmark">
-                {{fa-icon 'check' aria-hidden='true'}}
+            <button
+                data-test-project-contributors-is-contributor-button
+                class='btn btn-default btn-small disabled disabled-checkmark'
+            >
+                <FaIcon @icon='check' @aria-hidden='true' />
             </button>
         </span>
     {{else}}
-        <button class="btn btn-success btn-small pull-right" {{action addContributor user}}>
+        <button
+            data-test-project-contributors-add-contributor-button
+            class='btn btn-success btn-small pull-right'
+            {{action this.addContributor @user}}
+        >
             {{t 'app_components.project_contributors.search.result.add'}}
         </button>
     {{/if}}

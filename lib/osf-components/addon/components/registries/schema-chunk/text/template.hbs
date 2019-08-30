@@ -1,0 +1,12 @@
+<FormControls
+    @changeset={{@changeset}}
+    @disabled={{@disabled}}
+    @shouldShowMessages={{@shouldShowMessages}}
+    as |form|
+>
+    <form.text
+        data-test-text-input
+        @id={{@answerId}}
+        @valuePath={{@answerId}}
+    />
+</FormControls>

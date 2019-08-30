@@ -34,7 +34,7 @@ export default class SchemaBlockModel extends OsfModel implements SchemaBlock {
     @attr('string') displayText?: string;
     @attr('string') helpText?: string;
     @attr('boolean') required?: boolean;
-    @attr('number') index!: number;
+    @attr('number') index?: number;
 }
 
 declare module 'ember-data/types/registries/model' {
