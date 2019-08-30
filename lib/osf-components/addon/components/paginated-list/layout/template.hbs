@@ -6,7 +6,7 @@
             header=(component 'paginated-list/x-header')
         )}}
         {{#if this.loading}}
-            {{#each (range 1 this.placeholderCount)}}
+            {{#each (range 0 this.placeholderCount)}}
                 {{yield (hash
                     item=(component 'paginated-list/x-item')
                     doReload=(action @doReload)
