@@ -63,6 +63,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - allow manual setting of collection metadata
     - Serializers
         - `contributors` - serialize correct nested self link
+- Serializers
+    - `relatedCounts` were not populated for resources loaded via `store.pushPayload`,
+      which includes all embeds and results from `OsfModel.queryHasMany`
 
 ### Removed
 - Helpers

@@ -175,6 +175,34 @@ export default class OsfSerializer extends JSONAPISerializer {
         }
     }
 
+    // `normalize` is used for all resources no matter where they came from,
+    // unlike `normalizeSingleResponse` and `normalizeArrayResponse`, which
+    // are not used by `store.pushPayload`
+    normalize(modelClass: DS.Model, resourceHash: Resource) {
+        const normalizedHash = super.normalize(modelClass, resourceHash) as { data: Resource };
+
+        if (normalizedHash.data && normalizedHash.data.relationships) {
+            const relatedCounts = Object.entries(normalizedHash.data.relationships).reduce(
+                (acc: Record<string, number>, [relName, rel]: [string, any]) => {
+                    if (rel.links && rel.links.related && rel.links.related.meta) {
+                        const { count } = rel.links.related.meta;
+                        if (typeof count === 'number') {
+                            acc[camelize(relName)] = count;
+                        }
+                    }
+                    return acc;
+                },
+                {},
+            );
+
+            normalizedHash.data.attributes = {
+                ...(normalizedHash.data.attributes || {}),
+                relatedCounts,
+            };
+        }
+        return normalizedHash;
+    }
+
     normalizeSingleResponse(
         store: DS.Store,
         primaryModelClass: OsfModel,
@@ -192,21 +220,6 @@ export default class OsfSerializer extends JSONAPISerializer {
 
         if (documentHash.meta) {
             (documentHash.data.attributes!.apiMeta as {}) = documentHash.meta;
-        }
-
-        if (documentHash.data.relationships) {
-            documentHash.data.attributes!.relatedCounts = Object.entries(documentHash.data.relationships).reduce(
-                (acc: Record<string, number>, [relName, rel]: [string, any]) => {
-                    if (rel.links && rel.links.related && rel.links.related.meta) {
-                        const { count } = rel.links.related.meta;
-                        if (typeof count === 'number') {
-                            acc[camelize(relName)] = count;
-                        }
-                    }
-                    return acc;
-                },
-                {},
-            );
         }
 
         return documentHash;
