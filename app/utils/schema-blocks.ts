@@ -1,12 +1,12 @@
 import { assert } from '@ember/debug';
 import { SchemaBlock } from 'ember-osf-web/models/schema-block';
 
-export interface QuestionChunk {
+export interface SchemaBlockGroup {
   labelBlock?: SchemaBlock;
   inputBlock?: SchemaBlock;
   optionBlocks?: SchemaBlock[];
-  chunkId?: string;
-  answerId?: string;
+  schemaBlockGroupKey?: string;
+  registrationResponseKey?: string;
 }
 
 function isEmpty(input: string | undefined) {
@@ -38,20 +38,20 @@ export function getPages(blocks: SchemaBlock[]) {
     return pageArray;
 }
 
-export function getQuestionChunk(blocks: SchemaBlock[], id: string) {
-    const questionChunk: QuestionChunk = {};
-    let lastChunkIndex: number | undefined;
-    let consecutiveChunks = true;
-    const chunkBlocks = blocks.filter(block => block.chunkId === id);
-    chunkBlocks.forEach(chunkBlock => {
-        if (lastChunkIndex && chunkBlock.index && Math.abs(lastChunkIndex - chunkBlock.index) !== 1) {
-            consecutiveChunks = false;
+export function getSchemaBlockGroup(blocks: SchemaBlock[], key: string) {
+    const schemaBlockGroup: SchemaBlockGroup = {};
+    let lastGroupIndex: number | undefined;
+    let consecutiveGroup = true;
+    const groupBlocks = blocks.filter(block => block.schemaBlockGroupKey === key);
+    groupBlocks.forEach(groupBlock => {
+        if (lastGroupIndex && groupBlock.index && Math.abs(lastGroupIndex - groupBlock.index) !== 1) {
+            consecutiveGroup = false;
         }
-        lastChunkIndex = chunkBlock.index;
-        if (chunkBlock.chunkId === id) {
-            switch (chunkBlock.blockType) {
-            case 'question-title':
-                questionChunk.labelBlock = chunkBlock;
+        lastGroupIndex = groupBlock.index;
+        if (groupBlock.schemaBlockGroupKey === key) {
+            switch (groupBlock.blockType) {
+            case 'question-label':
+                schemaBlockGroup.labelBlock = groupBlock;
                 break;
             case 'long-text-input':
             case 'short-text-input':
@@ -59,24 +59,26 @@ export function getQuestionChunk(blocks: SchemaBlock[], id: string) {
             case 'contributors-input':
             case 'single-select-input':
             case 'multi-select-input':
-                assert('input block with no answerID!', !isEmpty(chunkBlock.answerId));
-                assert('input block with no chunkID!', !isEmpty(chunkBlock.chunkId));
-                assert('question with multiple input blocks!', !questionChunk.inputBlock);
-                if (questionChunk.chunkId) {
-                    assert('question with mismatched chunkID!', questionChunk.chunkId === chunkBlock.chunkId);
+                assert('input block with no schemaBlockGroupKey!', !isEmpty(groupBlock.schemaBlockGroupKey));
+                assert('input block with no registrationResponseKey!', !isEmpty(groupBlock.registrationResponseKey));
+                assert('question with multiple input blocks!', !schemaBlockGroup.inputBlock);
+                if (schemaBlockGroup.schemaBlockGroupKey) {
+                    assert('question with mismatched schemaBlockGroupKey!',
+                        schemaBlockGroup.schemaBlockGroupKey === groupBlock.schemaBlockGroupKey);
                 } else {
-                    questionChunk.chunkId = chunkBlock.chunkId;
+                    schemaBlockGroup.schemaBlockGroupKey = groupBlock.schemaBlockGroupKey;
                 }
-                questionChunk.inputBlock = chunkBlock;
-                questionChunk.answerId = chunkBlock.answerId;
+                schemaBlockGroup.inputBlock = groupBlock;
+                schemaBlockGroup.registrationResponseKey = groupBlock.registrationResponseKey;
                 break;
             case 'select-input-option':
-                if (questionChunk.inputBlock) {
-                    assert('question with mismatched chunkID!',
-                        !isEmpty(chunkBlock.chunkId) && questionChunk.chunkId === chunkBlock.chunkId);
-                    questionChunk.optionBlocks = [
-                        ...(questionChunk.optionBlocks || []),
-                        chunkBlock,
+                if (schemaBlockGroup.inputBlock) {
+                    assert('question with mismatched schemaBlockGroupKey!',
+                        !isEmpty(groupBlock.schemaBlockGroupKey) &&
+                        schemaBlockGroup.schemaBlockGroupKey === groupBlock.schemaBlockGroupKey);
+                    schemaBlockGroup.optionBlocks = [
+                        ...(schemaBlockGroup.optionBlocks || []),
+                        groupBlock,
                     ];
                 } else {
                     assert('select-option without a question!');
@@ -87,14 +89,14 @@ export function getQuestionChunk(blocks: SchemaBlock[], id: string) {
             }
         }
     });
-    assert('non-consecutive blocks used to create chunk', consecutiveChunks);
-    assert('question chunk with no input element',
-        questionChunk.inputBlock !== null && questionChunk.inputBlock !== undefined);
-    if ((questionChunk.inputBlock) &&
-        (questionChunk.inputBlock.blockType === 'single-select-input' ||
-        questionChunk.inputBlock.blockType === 'multi-select-input')) {
+    assert('non-consecutive blocks used to create group', consecutiveGroup);
+    assert('schema block group with no input element',
+        schemaBlockGroup.inputBlock !== null && schemaBlockGroup.inputBlock !== undefined);
+    if ((schemaBlockGroup.inputBlock) &&
+        (schemaBlockGroup.inputBlock.blockType === 'single-select-input' ||
+        schemaBlockGroup.inputBlock.blockType === 'multi-select-input')) {
         assert('single/multi select with no option',
-            questionChunk.optionBlocks && questionChunk.optionBlocks.length > 0);
+            schemaBlockGroup.optionBlocks && schemaBlockGroup.optionBlocks.length > 0);
     }
-    return questionChunk;
+    return schemaBlockGroup;
 }

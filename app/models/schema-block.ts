@@ -7,7 +7,7 @@ type SchemaBlockType =
     'section-heading' |
     'subsection-heading' |
     'paragraph' |
-    'question-title' |
+    'question-label' |
     'short-text-input' |
     'long-text-input' |
     'file-input' |
@@ -19,8 +19,8 @@ type SchemaBlockType =
 
 export interface SchemaBlock {
     blockType?: SchemaBlockType;
-    chunkId?: string;
-    answerId?: string;
+    schemaBlockGroupKey?: string;
+    registrationResponseKey?: string;
     displayText?: string;
     helpText?: string;
     required?: boolean;
@@ -29,8 +29,8 @@ export interface SchemaBlock {
 
 export default class SchemaBlockModel extends OsfModel implements SchemaBlock {
     @attr('string') blockType?: SchemaBlockType;
-    @attr('string') chunkId?: string;
-    @attr('string') answerId?: string;
+    @attr('string') schemaBlockGroupKey?: string;
+    @attr('string') registrationResponseKey?: string;
     @attr('string') displayText?: string;
     @attr('string') helpText?: string;
     @attr('boolean') required?: boolean;
