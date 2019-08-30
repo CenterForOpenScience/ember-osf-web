@@ -60,7 +60,7 @@ export function getSchemaBlockGroup(blocks: SchemaBlock[], key: string) {
             case 'single-select-input':
             case 'multi-select-input':
                 assert('input block with no schemaBlockGroupKey!', !isEmpty(groupBlock.schemaBlockGroupKey));
-                assert('input block with no schemaBlockGroupKey!', !isEmpty(groupBlock.schemaBlockGroupKey));
+                assert('input block with no registrationResponseKey!', !isEmpty(groupBlock.registrationResponseKey));
                 assert('question with multiple input blocks!', !schemaBlockGroup.inputBlock);
                 if (schemaBlockGroup.schemaBlockGroupKey) {
                     assert('question with mismatched schemaBlockGroupKey!',
@@ -69,7 +69,7 @@ export function getSchemaBlockGroup(blocks: SchemaBlock[], key: string) {
                     schemaBlockGroup.schemaBlockGroupKey = groupBlock.schemaBlockGroupKey;
                 }
                 schemaBlockGroup.inputBlock = groupBlock;
-                schemaBlockGroup.schemaBlockGroupKey = groupBlock.schemaBlockGroupKey;
+                schemaBlockGroup.registrationResponseKey = groupBlock.registrationResponseKey;
                 break;
             case 'select-input-option':
                 if (schemaBlockGroup.inputBlock) {
