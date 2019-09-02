@@ -1,4 +1,13 @@
-.subject-tag {
+.Subjects {
+    padding-left: 0;
+    margin-top: 10px;
+    border: 0;
+    width: 100%;
+    list-style: none;
+}
+
+.Subject {
+    display: inline-flex;
     background: $color-bg-blue-light;
     border-radius: 0;
     color: $color-text-black;
@@ -10,33 +19,16 @@
     padding: 5px 10px;
 }
 
-.subjects {
-    padding-left: 0;
-    margin-top: 10px;
-    border: 0;
-
-    li {
-        list-style: none;
-        display: inline-flex;
-    }
-}
-
-.placeholder {
+.Placeholder {
     border: 1px dotted $color-border-gray-light;
     padding: 4px 8px;
     font-style: italic;
     color: $color-text-gray-dark;
 }
 
-.remove-button {
+.RemoveButton.RemoveButton {
     border: 0;
     padding: 0;
-
-    &:hover,
-    &:active,
-    &:focus {
-        text-decoration: none;
-    }
 
     i {
         margin-left: 10px;

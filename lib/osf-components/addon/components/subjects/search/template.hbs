@@ -1,14 +1,35 @@
-<PowerSelect
-    @selected={{this.selectedSubject}}
-    @search={{perform this.querySubjects}}
-    @onchange={{action this.selectSubject}}
-    @selectedItemComponent='subjects/search/search-result'
-    @searchMessage={{t 'app_components.subject_widget.search_subjects'}}
-    @renderInPlace={{true}}
-    @searchField='text'
-    @options={{this.queryResults}}
-    @placeholder={{t 'general.search'}}
-    as |subject|
->
-    <Subjects::Search::SearchResult @subject={{subject}} />
-</PowerSelect>
+<div local-class='SearchWrapper'>
+    <FaIcon
+        local-class='SearchIcon'
+        @icon='search'
+        @fixedWidth={{true}}
+    />
+    {{input
+        name='search'
+        type='text'
+        value=this.userQuery
+        placeholder=(t 'osf-components.subjects.search.placeholder')
+        key-up=(action (perform this.doSearch))
+    }}
+</div>
+
+{{#if (or this.isLoading this.searchResults)}}
+    <ol
+        local-class='SearchResults'
+        inert={{this.isLoading}}
+    >
+        {{#each (range 0 this.resultCount) as |index|}}
+            <Subjects::Manager::Single
+                @subject={{get this.searchResults index}}
+                @subjectsManager={{@subjectsManager}}
+                as |singleSubjectManager|
+            >
+                <Subjects::Search::SearchResult
+                    @singleSubjectManager={{singleSubjectManager}}
+                />
+            </Subjects::Manager::Single>
+        {{else}}
+            {{t 'osf-components.subjects.search.no_results'}}
+        {{/each}}
+    </ol>
+{{/if}}

@@ -1,0 +1,8 @@
+<AnimatedContainer local-class='ExpandyContainer'>
+    {{#animated-if @isExpanded
+        use=this.expandListTransition
+        duration=200
+    }}
+        {{yield}}
+    {{/animated-if}}
+</AnimatedContainer>

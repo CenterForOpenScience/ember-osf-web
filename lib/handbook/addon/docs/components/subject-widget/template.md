@@ -1,4 +1,4 @@
-# subject picker
+# subject widget
 
 ## Parameters
 

@@ -2,11 +2,12 @@
     <demo.example @name='subject-widget.demo.hbs'>
         <Subjects::Manager
             @model={{this.model}}
+            @provider={{this.model.provider}}
             as |subjectsManager|
         >
             <Subjects::Widget
                 data-analytics-scope='Handbook'
-                @manager={{subjectsManager}}
+                @subjectsManager={{subjectsManager}}
             />
         </Subjects::Manager>
     </demo.example>

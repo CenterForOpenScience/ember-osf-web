@@ -1,10 +1,11 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { task } from 'ember-concurrency';
+import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
@@ -34,6 +35,10 @@ export interface SubjectManager {
     unselectSubject(subject: SubjectModel): void;
     saveChanges(): Promise<void>;
     discardChanges(): void;
+
+    subjectIsSaved(subject: SubjectModel): boolean;
+    subjectIsSelected(subject: SubjectModel): boolean;
+    subjectHasSelectedChild(parentSubject: SubjectModel): boolean;
 }
 
 @tagName('')
@@ -41,15 +46,20 @@ export interface SubjectManager {
 export default class SubjectManagerComponent extends Component.extend({
     initializeSubjects: task(function *(this: SubjectManagerComponent) {
         const { model } = this;
-        const savedSubjects = model.isNew ? model.subjects : yield this.model.loadAll('subjects');
+        const savedSubjects: SubjectModel[] = model.isNew ? model.subjects : yield model.loadAll('subjects');
+        const savedSubjectIds = new Set(savedSubjects.map(s => s.id));
         this.setProperties({
-            savedSubjects,
-            selectedSubjects: [...savedSubjects],
+            savedSubjectIds,
+            selectedSubjectIds: new Set(savedSubjectIds),
         });
-    }).on('didReceiveAttrs').restartable(),
+        this.incrementProperty('selectedSubjectsChanges');
+        this.incrementProperty('savedSubjectsChanges');
+    }).on('init'),
 
     saveChanges: task(function *(this: SubjectManagerComponent) {
-        this.model.set('subjects', this.selectedSubjects);
+        this.model.setProperties({
+            subjects: this.selectedSubjects,
+        });
 
         try {
             yield this.model.save();
@@ -57,7 +67,7 @@ export default class SubjectManagerComponent extends Component.extend({
             this.toast.error(this.i18n.t('registries.registration_metadata.save_subjects_error'));
             throw e;
         }
-        this.set('savedSubjects', [...this.selectedSubjects]);
+        yield this.initializeSubjects.perform();
     }).drop(),
 }) {
     // required
@@ -65,11 +75,17 @@ export default class SubjectManagerComponent extends Component.extend({
     provider!: ProviderModel;
 
     // private
-    @service toast!: Toast;
     @service i18n!: I18N;
+    @service toast!: Toast;
+    @service store!: DS.Store;
 
-    savedSubjects: SubjectModel[] = [];
-    selectedSubjects: SubjectModel[] = [];
+    savedSubjectIds = new Set<string>();
+    selectedSubjectIds = new Set<string>();
+
+    // incremented whenever 'savedSubjectIds' and `selectedSubjectIds` are modified.
+    // meant for computed properties to depend on, since they can't watch for changes to Sets.
+    savedSubjectsChanges: number = 0;
+    selectedSubjectsChanges: number = 0;
 
     @alias('save.isRunning')
     isSaving!: boolean;
@@ -77,37 +93,89 @@ export default class SubjectManagerComponent extends Component.extend({
     @alias('initializeSubjects.isRunning')
     loadingNodeSubjects!: boolean;
 
+    @computed('savedSubjectIds', 'savedSubjectsChanges')
+    get savedSubjects() {
+        return Array.from(this.savedSubjectIds).map(id => {
+            const subject = this.store.peekRecord('subject', id);
+            assert(`expected subject ${id} is not in the store!`, Boolean(subject));
+            return subject!;
+        });
+    }
+
+    @computed('selectedSubjectIds', 'selectedSubjectsChanges')
+    get selectedSubjects() {
+        return Array.from(this.selectedSubjectIds).map(id => {
+            const subject = this.store.peekRecord('subject', id);
+            assert(`selected subject ${id} is not in the store!`, Boolean(subject));
+            return subject!;
+        });
+    }
+
+    @computed('selectedSubjects.[]')
+    get parentIdsWithSelectedChildren() {
+        return new Set(
+            this.selectedSubjects
+                .map(s => s.belongsTo('parent').id())
+                .filter(Boolean),
+        );
+    }
+
     init() {
         super.init();
+
         assert('@model is required', Boolean(this.model));
         assert('@provider is required', Boolean(this.provider));
+    }
+
+    @action
+    subjectIsSelected(subject: SubjectModel) {
+        return this.selectedSubjectIds.has(subject.id);
+    }
+
+    @action
+    subjectIsSaved(subject: SubjectModel) {
+        return this.savedSubjectIds.has(subject.id);
+    }
+
+    @action
+    subjectHasSelectedChild(parentSubject: SubjectModel) {
+        return this.parentIdsWithSelectedChildren.has(parentSubject.id);
     }
 
     @action
     selectSubject(subject: SubjectModel) {
         assert('Cannot add while saving', !this.isSaving);
 
-        if (!this.selectedSubjects.includes(subject)) {
-            this.selectedSubjects.pushObject(subject);
+        this.selectedSubjectIds.add(subject.id);
+        this.incrementProperty('selectedSubjectsChanges');
 
-            if (subject.parent) {
-                this.selectSubject(subject.parent);
-            }
+        // assumes the parent is already loaded in the store, which at the moment is true
+        if (subject.parent) {
+            this.selectSubject(subject.parent);
         }
     }
 
     @action
     unselectSubject(subject: SubjectModel) {
         assert('Cannot remove while saving', !this.isSaving);
-        this.selectedSubjects.removeObject(subject);
 
-        const selectedChildren = this.selectedSubjects.filter(s => s.parent === subject);
-        selectedChildren.forEach(s => this.unselectSubject(s));
+        this.selectedSubjectIds.delete(subject.id);
+        this.incrementProperty('selectedSubjectsChanges');
+
+        if (this.subjectHasSelectedChild(subject)) {
+            this.selectedSubjects.forEach(s => {
+                if (s.parent === subject) {
+                    this.unselectSubject(s);
+                }
+            });
+        }
     }
 
     @action
     discardChanges() {
         assert('Cannot discard changes while saving', !this.isSaving);
-        this.set('selectedSubjects', [...this.savedSubjects]);
+
+        this.set('selectedSubjectIds', new Set(this.savedSubjectIds));
+        this.incrementProperty('selectedSubjectsChanges');
     }
 }

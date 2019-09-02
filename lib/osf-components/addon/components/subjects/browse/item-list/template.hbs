@@ -1,0 +1,12 @@
+<ul local-class='ItemList' ...attributes>
+    {{#each (range 0 this.itemCount) as |index|}}
+        <@ItemManager
+            @subject={{get @items index}}
+            as |itemManager|
+        >
+            <Subjects::Browse::Item
+                @singleSubjectManager={{itemManager}}
+            />
+        </@ItemManager>
+    {{/each}}
+</ul>

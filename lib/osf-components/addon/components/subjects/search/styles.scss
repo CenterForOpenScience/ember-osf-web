@@ -1,3 +1,29 @@
-.selected-subject {
-    margin: 15px 0;
+.SearchWrapper {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5em;
+    background-color: $color-bg-gray-light;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+
+    .Icon {
+        color: $color-text-blue-dark;
+        padding: 0 5px 0 10px;
+    }
+
+    input {
+        width: 100%;
+        padding: 0 1em;
+        border: 0;
+        background: transparent;
+    }
+
+    input:focus {
+        outline: none;
+    }
+}
+
+.SearchResults {
+    list-style: none;
 }

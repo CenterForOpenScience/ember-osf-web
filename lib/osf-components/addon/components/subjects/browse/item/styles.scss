@@ -1,38 +1,30 @@
-.children {
-    margin-left: 20px;
-    margin-top: 5px;
+.Item {
+    transition: filter 0.25s ease-out;
+    margin-top: 0.1em;
+    margin-bottom: 0.5em;
 }
 
-.subject-text {
+.ItemLabel.ItemLabel {
+    display: flex;
+    align-items: center;
     font-weight: normal;
+    margin: 0;
+    height: 1.6em;
+    padding: 0 0.5em;
 
     input {
-        margin-right: 4px;
+        margin-right: 0.5em;
+    }
+
+    &.with-selected-child input {
+        filter: invert(1) brightness(2);
     }
 }
 
-.expand-button {
-    border: 0;
+.ExpandButton.ExpandButton {
     padding: 0;
-    color: $color-text-black;
-
-    &:hover,
-    &:active,
-    &:focus {
-        color: $color-text-black;
-        text-decoration: none;
-        outline: none;
-    }
 }
 
-.More {
-    border: 0;
-    padding: 0;
-
-    &:hover,
-    &:active,
-    &:focus {
-        text-decoration: none;
-        outline: none;
-    }
+.Children {
+    padding-left: 1em;
 }

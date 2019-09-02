@@ -1615,14 +1615,15 @@ export default {
         },
         subjects: {
             browse: {
-                browse_all: 'Browse all subject areas',
+                browse_all: 'Browse all subjects',
             },
             search: {
-                search_all: 'Search subject areas',
-                placeholder: 'Search',
+                search_all: 'Search subjects',
+                placeholder: 'Type to search',
+                no_results: 'No matching subjects found. Try a less specific search.',
             },
             display: {
-                placeholder: 'Added subject areas will appear here',
+                placeholder: 'Your selections will appear here',
             },
         },
     },

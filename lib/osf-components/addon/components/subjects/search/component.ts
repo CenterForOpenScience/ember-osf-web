@@ -1,10 +1,10 @@
-import { action, computed } from '@ember-decorators/object';
+import { computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
-import Subject from 'ember-osf-web/models/subject';
+import SubjectModel from 'ember-osf-web/models/subject';
 import { SubjectManager } from 'osf-components/components/subjects/manager/component';
 
 import styles from './styles';
@@ -12,37 +12,42 @@ import template from './template';
 
 @layout(template, styles)
 export default class SearchSubjects extends Component.extend({
-    querySubjects: task(function *(this: SearchSubjects, text: string) {
-        yield timeout(500);
+    doSearch: task(function *(this: SearchSubjects) {
+        yield timeout(500); // debounce
 
-        const queryResults = yield this.manager.provider.queryHasMany('subjects', {
+        const provider = yield this.subjectsManager.provider;
+
+        const { userQuery } = this;
+        if (!userQuery) {
+            return undefined;
+        }
+        return yield provider.queryHasMany('subjects', {
             filter: {
-                text,
+                text: userQuery,
             },
             page: {
                 size: 150,
             },
             related_counts: 'children',
+            embed: 'parent',
         });
-
-        this.setProperties({ queryResults });
-        return queryResults;
     }).restartable(),
 }) {
-    queryResults!: QueryHasManyResult<Subject>;
-    manager!: SubjectManager;
-    selectedSubject!: Subject;
+    // required
+    subjectsManager!: SubjectManager;
 
-    @action
-    selectSubject(selectedSubject: Subject) {
-        this.setProperties({ selectedSubject });
-        if (!this.inModelSubjects) {
-            this.manager.selectSubject(selectedSubject);
-        }
-    }
+    // private
+    userQuery?: string;
 
-    @computed('manager.selectedSubjects.[]')
-    get inModelSubjects() {
-        return Boolean(this.manager.selectedSubjects.findBy('id', this.selectedSubject.id));
+    @alias('doSearch.isRunning')
+    isLoading!: boolean;
+
+    @alias('doSearch.lastSuccessful.value')
+    searchResults?: SubjectModel[];
+
+    @computed('searchResults.[]')
+    get resultCount() {
+        const { searchResults } = this;
+        return typeof searchResults === 'undefined' ? 10 : searchResults.length;
     }
 }

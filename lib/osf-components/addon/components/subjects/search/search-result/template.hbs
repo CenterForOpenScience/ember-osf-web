@@ -1,13 +1,27 @@
-{{#if this.selectedItem}}
-    <span local-class='selected-item'>{{this.selectedItem.text}}</span>
-{{else}}
-    <span local-class='Titles' ...attributes>
-        {{#each this.subjectAncestry as |ancestor|}}
-            <span local-class='AncestorTitle'>
-                {{ancestor.text}}
-            </span>
-            <span local-class='delimiter'>/</span>
-        {{/each}}
-        <strong>{{this.subject.text}}</strong>
-    </span>
-{{/if}}
+<li local-class='SearchResult' ...attributes>
+    {{#let (capture-id 'search-result') as |inputId|}}
+        {{input
+            id=inputId
+            type='checkbox'
+            change=@singleSubjectManager.toggleSelected
+            checked=@singleSubjectManager.isSelected
+        }}
+
+        <span local-class='Ancestry'>
+            {{#each this.subjectAncestry as |ancestor|}}
+                <span local-class='AncestorTitle'>
+                    {{ancestor.text}}
+                </span>
+                <span local-class='Delimiter'>/</span>
+            {{/each}}
+        </span>
+
+        <label local-class='Subject' for={{inputId}}>
+            {{#if this.subject}}
+                {{this.subject.text}}
+            {{else}}
+                {{random-text wordsPerSentence=7}}
+            {{/if}}
+        </label>
+    {{/let}}
+</li>

@@ -1,32 +1,44 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import { ItemManager } from 'osf-components/components/subjects/browse/item-manager/component';
+import { SingleSubjectManager } from 'osf-components/components/subjects/manager/single/component';
 
 import styles from './styles';
 import template from './template';
 
 @tagName('')
 @layout(template, styles)
-export default class ItemDisplay extends Component {
+export default class RenderItem extends Component {
     // required
-    itemManager!: ItemManager;
+    singleSubjectManager!: SingleSubjectManager;
 
     // private
     shouldShowChildren: boolean = false;
 
-    @action
-    toggleChildren() {
+    @computed('singleSubjectManager.subject')
+    get isPlaceholder() {
+        return typeof this.singleSubjectManager.subject === 'undefined';
+    }
+
+    ensureChildrenLoaded() {
         const {
             shouldShowChildren,
-            itemManager,
+            singleSubjectManager: {
+                children,
+                isLoadingChildren,
+            },
         } = this;
 
-        this.toggleProperty('shouldShowChildren');
-        if (shouldShowChildren && !itemManager.children) {
-            itemManager.loadChildren();
+        if (shouldShowChildren && !children && !isLoadingChildren) {
+            this.singleSubjectManager.loadChildren();
         }
+    }
+
+    @action
+    toggleChildren() {
+        this.toggleProperty('shouldShowChildren');
+        this.ensureChildrenLoaded();
     }
 }

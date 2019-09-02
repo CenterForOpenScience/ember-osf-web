@@ -7,15 +7,17 @@ import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 import { SubjectManager } from 'osf-components/components/subjects/manager/component';
 
 import template from './template';
 
 // SubjectBrowserManager is responsible for:
-// (1) root-level subjects in the given provider's chosen taxonomy
+// (1) loading root-level subjects in the given provider's chosen taxonomy
 export interface SubjectBrowserManager {
-    rootSubjects: SubjectModel[];
+    rootSubjects?: SubjectModel[];
+    isLoading: boolean;
 }
 
 // Law category has 117 (Jan 2018)
@@ -25,10 +27,9 @@ const subjectPageSize = 150;
 @layout(template)
 export default class SubjectBrowserManagerComponent extends Component.extend({
     loadRootSubjects: task(function *(this: SubjectBrowserManagerComponent) {
-        let rootSubjects: QueryHasManyResult<SubjectModel>;
-
         try {
-            rootSubjects = yield this.manager.provider.queryHasMany('subjects', {
+            const provider: ProviderModel = yield this.subjectsManager.provider;
+            const rootSubjects: QueryHasManyResult<SubjectModel> = yield provider.queryHasMany('subjects', {
                 filter: {
                     parent: 'null',
                 },
@@ -37,15 +38,14 @@ export default class SubjectBrowserManagerComponent extends Component.extend({
                 },
                 related_counts: 'children',
             });
+            this.setProperties({ rootSubjects });
         } catch (e) {
             throw e;
         }
-
-        this.setProperties({ rootSubjects });
-    }).on('didReceiveAttrs').restartable(),
+    }).on('init'),
 }) {
     // params
-    manager!: SubjectManager;
+    subjectsManager!: SubjectManager;
 
     // private
     @service store!: DS.Store;
@@ -56,8 +56,8 @@ export default class SubjectBrowserManagerComponent extends Component.extend({
         super.init();
 
         assert(
-            '@manager is required',
-            Boolean(this.manager),
+            '@subjectsManager is required',
+            Boolean(this.subjectsManager),
         );
     }
 }

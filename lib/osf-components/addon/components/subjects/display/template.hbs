@@ -1,12 +1,14 @@
-{{#if @subjects}}
-    <ul local-class='subjects'>
+{{#if this.isLoading}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    <ul local-class='Subjects'>
         {{#each @subjects as |subject|}}
-            <li local-class='subject-tag'>
+            <li local-class='Subject'>
                 {{subject.text}}
 
                 {{#if @removeSubject}}
                     <OsfButton
-                        local-class='remove-button'
+                        local-class='RemoveButton'
                         @type='link'
                         @onClick={{action @removeSubject subject}}
                     >
@@ -15,11 +17,9 @@
                 {{/if}}
             </li>
         {{else}}
-            <span local-class='placeholder'>
+            <span local-class='Placeholder'>
                 {{t 'osf-components.subjects.display.placeholder'}}
             </span>
         {{/each}}
     </ul>
-{{else}}
-    <LoadingIndicator @dark={{true}} />
 {{/if}}

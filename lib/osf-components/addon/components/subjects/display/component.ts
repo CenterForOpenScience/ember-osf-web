@@ -1,3 +1,4 @@
+import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -11,4 +12,9 @@ export default class SubjectDisplay extends Component {
     // optional
     subjects?: SubjectModel[];
     removeSubject?: (subject: SubjectModel) => void;
+
+    @computed('subjects')
+    get isLoading() {
+        return typeof this.subjects === 'undefined';
+    }
 }

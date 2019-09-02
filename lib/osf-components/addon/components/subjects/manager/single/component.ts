@@ -14,18 +14,21 @@ import { SubjectManager } from 'osf-components/components/subjects/manager/compo
 
 import template from './template';
 
-// ItemManager is responsible for:
+// SingleSubjectManager is responsible for:
 // (1) one given subject
 // (2) loading/providing that subject's children
 // (3) determining whether the given subject has been selected
-export interface ItemManager {
+export interface SingleSubjectManager {
     subject?: SubjectModel;
-
     isSelected: boolean;
-    numChildren: number;
+    isSaved: boolean;
+    hasSelectedChild: boolean;
 
+    numChildren: number;
     isLoadingChildren: boolean;
     children?: SubjectModel[];
+
+    ChildSubjectManager: unknown; // contextual component
 
     toggleSelected(): void;
     loadChildren(): void;
@@ -33,8 +36,8 @@ export interface ItemManager {
 
 @tagName('')
 @layout(template)
-export default class ItemManagerComponent extends Component.extend({
-    loadChildren: task(function *(this: ItemManagerComponent) {
+export default class SingleSubjectManagerComponent extends Component.extend({
+    loadChildren: task(function *(this: SingleSubjectManagerComponent) {
         const { subject } = this;
         if (subject) {
             const children = yield subject.queryHasMany('children', {
@@ -69,16 +72,31 @@ export default class ItemManagerComponent extends Component.extend({
         return !this.isPlaceholder && Boolean(this.numChildren);
     }
 
-    @computed('subject', 'subjectsManager.selectedSubjects.[]')
+    @computed('subject', 'subjectsManager.selectedSubjectsChanges')
+    get hasSelectedChild() {
+        const {
+            subject,
+            subjectsManager,
+        } = this;
+        return Boolean(subject && subjectsManager.subjectHasSelectedChild(subject));
+    }
+
+    @computed('subject', 'subjectsManager.selectedSubjectsChanges')
     get isSelected() {
         const {
             subject,
-            subjectsManager: {
-                selectedSubjects,
-            },
+            subjectsManager,
         } = this;
+        return Boolean(subject && subjectsManager.subjectIsSelected(subject));
+    }
 
-        return subject && selectedSubjects && selectedSubjects.includes(subject);
+    @computed('subject', 'subjectsManager.savedSubjectsChanges')
+    get isSaved() {
+        const {
+            subject,
+            subjectsManager,
+        } = this;
+        return Boolean(subject && subjectsManager.subjectIsSaved(subject));
     }
 
     @computed('subject')
@@ -101,6 +119,7 @@ export default class ItemManagerComponent extends Component.extend({
     }
 
     init() {
+        super.init();
         assert('@subjectsManager is required', Boolean(this.subjectsManager));
     }
 }

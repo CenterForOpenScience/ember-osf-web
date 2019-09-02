@@ -1,43 +1,46 @@
 <li
-    data-test-subject-id={{@itemManager.subject.id}}
+    local-class='Item'
     inert={{this.isPlaceholder}}
+    ...attributes
 >
-    <label local-class='subject-text'>
+    <label
+        data-test-subject={{@singleSubjectManager.subject.id}}
+        local-class='ItemLabel {{if @singleSubjectManager.hasSelectedChild 'with-selected-child'}}'
+    >
         {{input
             type='checkbox'
-            change=(action @manager.onChange @subject)
-            checked=@manager.selected
+            change=(action @singleSubjectManager.toggleSelected)
+            checked=@singleSubjectManager.isSelected
         }}
-        {{@subject.text}}
+        {{#if this.isPlaceholder}}
+            {{random-text wordsPerSentence=3}}
+        {{else}}
+            {{@singleSubjectManager.subject.text}}
+        {{/if}}
+
+        {{#if @singleSubjectManager.numChildren}}
+            <OsfButton
+                data-test-expand-children={{@singleSubjectManager.subject.id}}
+                local-class='ExpandButton'
+                @type='link'
+                @onClick={{action this.toggleChildren}}
+            >
+                <FaIcon
+                    @icon='chevron-{{if this.shouldShowChildren 'down' 'up'}}'
+                    @fixedWidth={{true}}
+                />
+            </OsfButton>
+        {{/if}}
     </label>
 
-    {{#if @itemManager.numChildren}}
-        <OsfButton
-            data-test-expand-children={{@subject.id}}
-            local-class='expand-button'
-            @type='link'
-            @onClick={{action this.toggleChildren}}
-        >
-            <FaIcon
-                @icon='chevron-{{if this.shouldShowChildren 'up' 'down'}}'
-                @fixedWidth={{true}}
+    {{#if @singleSubjectManager.numChildren}}
+        <Subjects::Browse::AnimatedExpand @isExpanded={{this.shouldShowChildren}}>
+            <Subjects::Browse::ItemList
+                local-class='Children'
+                @items={{@singleSubjectManager.children}}
+                @expectedNumItems={{@singleSubjectManager.numChildren}}
+                @ItemManager={{@singleSubjectManager.ChildSubjectManager}}
             />
-        </OsfButton>
-
-        {{#if this.shouldShowChildren}}
-            <ul local-class='children'>
-                {{#each (range this.numChildren) as |index|}}
-                    <Subjects::Browse::ItemManager
-                        @subjectsManager={{@manager}}
-                        @subject={{get @itemManager.children index}}
-                        as |itemManager|
-                    >
-                        <Subjects::Browse::Item
-                            @itemManager={{itemManager}}
-                        />
-                    </Subjects::Browse::ItemManager>
-                {{/each}}
-            </ul>
-        {{/if}}
+        </Subjects::Browse::AnimatedExpand>
     {{/if}}
 </li>

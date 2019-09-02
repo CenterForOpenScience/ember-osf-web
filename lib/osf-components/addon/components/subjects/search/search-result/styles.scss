@@ -1,7 +1,5 @@
-.Titles {
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
+.SearchResult {
+    padding: 0.2em 1em;
 }
 
 .AncestorTitle {
@@ -17,10 +15,6 @@
     }
 }
 
-.delimiter {
-    padding: 0 8px;
-}
-
-.selected-item {
-    padding-left: 5px;
+.Delimiter {
+    padding: 0 0.2em;
 }

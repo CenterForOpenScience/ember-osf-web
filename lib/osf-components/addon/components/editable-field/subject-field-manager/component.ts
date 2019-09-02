@@ -3,6 +3,7 @@ import { action, computed } from '@ember-decorators/object';
 import { alias, and } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { task } from 'ember-concurrency';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
@@ -14,7 +15,17 @@ import template from './template';
 
 @tagName('')
 @layout(template)
-export default class SubjectFieldManagerComponent extends Component {
+export default class SubjectFieldManagerComponent extends Component.extend({
+    save: task(function *(this: SubjectFieldManagerComponent) {
+        try {
+            yield this.subjectsManager.saveChanges();
+        } catch (e) {
+            // TODO
+            throw e;
+        }
+        this.set('requestedEditMode', false);
+    }).drop(),
+}) {
     // required
     node!: Node;
     subjectsManager!: SubjectManager;
@@ -25,8 +36,11 @@ export default class SubjectFieldManagerComponent extends Component {
 
     requestedEditMode: boolean = false;
 
-    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
-    @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
+    @alias('node.userHasAdminPermission')
+    userCanEdit!: boolean;
+
+    @and('userCanEdit', 'requestedEditMode')
+    inEditMode!: boolean;
 
     @computed('subjectsManager.savedSubjects.length')
     get fieldIsEmpty() {

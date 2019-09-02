@@ -1,6 +1,8 @@
 {{yield (hash
     subject=this.subject
     isSelected=this.isSelected
+    isSaved=this.isSaved
+    hasSelectedChild=this.hasSelectedChild
 
     numChildren=this.numChildren
     isLoadingChildren=this.loadChildren.isRunning
@@ -8,4 +10,9 @@
 
     toggleSelected=(action this.toggleSelected)
     loadChildren=(perform this.loadChildren)
+
+    ChildSubjectManager=(component
+        'subjects/manager/single'
+        subjectsManager=@subjectsManager
+    )
 )}}
