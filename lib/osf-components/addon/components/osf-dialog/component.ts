@@ -23,6 +23,7 @@ export default class OsfDialog extends Component {
     isModal: boolean = defaultTo(this.isModal, true);
     closeOnOutsideClick: boolean = defaultTo(this.closeOnOutsideClick, true);
     renderInPlace: boolean = defaultTo(this.renderInPlace, false);
+    fixedWidth: boolean = defaultTo(this.fixedWidth, false);
 
     // private
     hasTriggeredOpen: boolean = false;
