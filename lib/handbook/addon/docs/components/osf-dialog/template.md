@@ -14,6 +14,8 @@ This is a dialog box! Use it for dialog boxes and modal popup things.
 * `@closeOnOutsideClick` (optional; default `true`)
     * whether the dialog should close when the user clicks outside it
     * no effect when `@isModal` is `false`
+* `@fixedWidth` (optional; default `false`)
+    * whether to shrink width-wise to fit contents
 * `@renderInPlace` (optional; default `false`)
     * whether the dialog should be rendered in place (instead of wormhole'd to the app root)
     * forwarded to [ember-wormhole](https://github.com/yapplabs/ember-wormhole#can-i-render-in-place-ie-unwormhole)
