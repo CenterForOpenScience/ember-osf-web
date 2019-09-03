@@ -88,7 +88,6 @@
     "config",
     "tests",
     "mirage",
-    "app/packages",
     "types",
     "lib/analytics-page",
     "lib/collections",
