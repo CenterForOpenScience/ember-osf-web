@@ -68,5 +68,6 @@ export function getSchemaBlockGroup(blocks: SchemaBlock[], key: string) {
         assert('single/multi select with no option',
             schemaBlockGroup.optionBlocks && schemaBlockGroup.optionBlocks.length > 0);
     }
+    schemaBlockGroup.inputType = schemaBlockGroup.inputBlock!.blockType;
     return schemaBlockGroup;
 }

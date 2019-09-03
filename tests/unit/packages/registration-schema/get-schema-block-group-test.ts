@@ -20,6 +20,8 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
         assert.equal(result.registrationResponseKey, 'a1', 'has proper registrationResponseKey');
         assert.equal(result.schemaBlockGroupKey, 'q1', 'has proper schemaBlockGroupKey');
         assert.ok(!result.optionBlocks, 'has proper optionBlocks');
+        assert.equal(result.inputType, result.inputBlock!.blockType,
+            'group input type matches blockType of inputBlock');
     });
 
     test('Group multiple choice question as schema block group', assert => {
@@ -64,6 +66,8 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
         assert.equal(result.registrationResponseKey, 'testMultiAnswer', 'has proper registrationResponseKey');
         assert.equal(result.schemaBlockGroupKey, 'testMulti', 'has proper schemaBlockGroupKey');
         assert.equal(result.optionBlocks!.length, 3, 'has proper optionBlocks');
+        assert.equal(result.inputType, result.inputBlock!.blockType,
+            'group input type matches blockType of inputBlock');
     });
 
     test('Group single choice question as schema block group', assert => {
@@ -97,5 +101,7 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
         assert.equal(result.registrationResponseKey, 'testSingleAnswer', 'has proper registrationResponseKey');
         assert.equal(result.schemaBlockGroupKey, 'testSingle', 'has proper schemaBlockGroupKey');
         assert.equal(result.optionBlocks!.length, 2, 'has proper optionsBlocks');
+        assert.equal(result.inputType, result.inputBlock!.blockType,
+            'group input type matches blockType of inputBlock');
     });
 });
