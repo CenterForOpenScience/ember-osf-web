@@ -1,5 +1,5 @@
 import { attr } from '@ember-decorators/data';
-import { SchemaBlock, SchemaBlockType } from 'ember-osf-web/packages/registration-schema/schema-block';
+import { SchemaBlock, SchemaBlockType } from 'ember-osf-web/packages/registration-schema';
 import OsfModel from './osf-model';
 
 export default class SchemaBlockModel extends OsfModel implements SchemaBlock {

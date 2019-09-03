@@ -1,5 +1,4 @@
-import { getSchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/get-schema-block-group';
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema/schema-block';
+import { getSchemaBlockGroup, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import { module, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | get-schema-block-group', () => {

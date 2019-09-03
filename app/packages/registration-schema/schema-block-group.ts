@@ -1,4 +1,4 @@
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema/schema-block';
+import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
 export interface SchemaBlockGroup {
     labelBlock?: SchemaBlock;

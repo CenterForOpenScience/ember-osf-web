@@ -1,6 +1,5 @@
 import { assert } from '@ember/debug';
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema/schema-block';
-import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
+import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 
 function isEmpty(input: string | undefined) {
     if (input === undefined || input === null || input === '') {

@@ -1,5 +1,4 @@
-import { getPages } from 'ember-osf-web/packages/registration-schema/get-pages';
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema/schema-block';
+import { getPages, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import { module, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | get-pages', () => {

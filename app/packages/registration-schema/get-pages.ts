@@ -1,4 +1,4 @@
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema/schema-block';
+import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
 export function getPages(blocks: SchemaBlock[]) {
     const pageArray = blocks.reduce(
