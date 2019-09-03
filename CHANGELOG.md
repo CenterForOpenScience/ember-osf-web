@@ -67,6 +67,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `relatedCounts` were not populated for resources loaded via `store.pushPayload`,
       which includes all embeds and results from `OsfModel.queryHasMany`
 
+### Removed
+- Helpers
+    - `range` - ember-composable-helpers already provides a `range` that is better
+
 ## [19.8.0] - 2019-08-15
 ### Added
 - Components
