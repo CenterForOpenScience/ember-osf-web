@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components
     - `project-contributors`
         - added `onAddContributor` hook
+    - `osf-dialog`
+        - add `@fixedWidth` param to prevent shrinking to fit contents
 - Engines
     - `collections`
         - Tests
