@@ -49,6 +49,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - update to [ember-angle-bracket-invocation-polyfill@^2.0.2](https://github.com/rwjblue/ember-angle-bracket-invocation-polyfill/releases/tag/v2.0.2)
 
 ### Fixed
+- Components
+    - `osf-dialog`
+        - fixed buggy behavior with `@isOpen` -- make it actually DDAU
+        - fixed styles so it displays the same both in and out of the handbook
+        - clean up global state on destroy
 - Engines
     - `collections`
         - fixed template lint and use angle brackets in submission templates
