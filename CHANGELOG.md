@@ -25,6 +25,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `onAddContributor` hook
     - `osf-dialog`
         - add `@fixedWidth` param to prevent shrinking to fit contents
+    - `editable-field`
+        - use `osf-dialog` instead of `bs-modal`
+    - `node-category-picker`
+        - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
+    - `zoom-to-route`
+        - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
+    - `registries/registries-license-picker`
+        - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
+    - `registries/license-viewer`
+        - use `osf-dialog` instead of `bs-modal`
 - Engines
     - `collections`
         - Tests
