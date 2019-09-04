@@ -6,4 +6,8 @@
 
     border-top: 1px solid $color-border-gray;
     padding: 0.5rem 1.25rem;
+
+    & > button {
+        margin-left: 0.5rem;
+    }
 }
