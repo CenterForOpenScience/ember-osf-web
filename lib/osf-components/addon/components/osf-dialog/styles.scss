@@ -32,21 +32,39 @@
 }
 
 @media (max-width: 500px) {
+    $width: 95vw;
+
     .Dialog {
-        max-width: 95vw;
+        max-width: $width;
+    }
+
+    .Dialog.FixedWidth {
+        width: $width;
     }
 }
 
 @media (min-width: 501px) and (max-width: 991px) {
+    // at 501px, same as 95vw above
+    $width: calc(60vw + 175px);
+
     .Dialog {
-        // at 501px, same as 95vw above
-        max-width: calc(60vw + 175px);
+        max-width: $width;
+    }
+
+    .Dialog.FixedWidth {
+        width: $width;
     }
 }
 
 @media (min-width: 992px) {
+    // at 992px, same as (60vw + 175px) above
+    $width: calc(40vw + 373px);
+
     .Dialog {
-        // at 992px, same as (60vw + 175px) above
-        max-width: calc(40vw + 373px);
+        max-width: $width;
+    }
+
+    .Dialog.FixedWidth {
+        width: $width;
     }
 }
