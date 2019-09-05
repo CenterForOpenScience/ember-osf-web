@@ -1,0 +1,27 @@
+<li local-class='SearchResult' ...attributes>
+    {{#let (unique-id 'search-result') as |inputId|}}
+        {{input
+            id=inputId
+            type='checkbox'
+            change=@singleSubjectManager.toggleSelected
+            checked=@singleSubjectManager.isSelected
+        }}
+
+        <span local-class='Ancestry'>
+            {{#each this.subjectAncestry as |ancestor|}}
+                <span local-class='AncestorTitle'>
+                    {{ancestor.text}}
+                </span>
+                <span local-class='Delimiter'>/</span>
+            {{/each}}
+        </span>
+
+        <label local-class='Subject' for={{inputId}}>
+            {{#if this.subject}}
+                {{this.subject.text}}
+            {{else}}
+                {{random-text wordsPerSentence=7}}
+            {{/if}}
+        </label>
+    {{/let}}
+</li>
