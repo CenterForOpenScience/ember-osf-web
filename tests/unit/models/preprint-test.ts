@@ -17,12 +17,6 @@ module('Unit | Model | preprint', hooks => {
         assert.ok(hasAttr);
     });
 
-    test('it has an attribute: subjects', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('subjects') > -1;
-        assert.ok(hasAttr);
-    });
-
     test('it has an attribute: dateCreated', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
         const hasAttr = Object.keys(model.toJSON()).indexOf('dateCreated') > -1;
