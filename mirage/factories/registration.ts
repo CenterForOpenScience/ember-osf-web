@@ -24,6 +24,7 @@ export interface RegistrationTraits {
     withArbitraryState: Trait;
     withAffiliatedInstitutions: Trait;
     isPublic: Trait;
+    withSubjects: Trait;
 }
 
 const stateAttrs = {
@@ -129,7 +130,6 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     articleDoi: null,
     pendingWithdrawal: false,
     pendingEmbargoTerminationApproval: false,
-
     registeredFrom: association(),
 
     index(i) {
@@ -188,6 +188,17 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 faker.list.cycle(...Object.keys(stateAttrs))(registration.index);
             const attrsToUse = stateAttrs[arbitraryState as keyof typeof stateAttrs];
             registration.update(attrsToUse);
+        },
+    }),
+    withSubjects: trait<MirageRegistration>({
+        afterCreate(registration) {
+            const providerSubjects = registration.provider.subjects.models;
+            const subjectCount = faker.random.number({ min: 1, max: 6 });
+            const subjects = [];
+            for (let i = 0; i < subjectCount; i++) {
+                subjects.push(faker.random.arrayElement(providerSubjects));
+            }
+            registration.update({ subjects });
         },
     }),
 });
