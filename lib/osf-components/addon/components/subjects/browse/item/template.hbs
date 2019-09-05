@@ -1,0 +1,46 @@
+<li
+    local-class='Item'
+    inert={{this.isPlaceholder}}
+    ...attributes
+>
+    <label
+        data-test-subject={{@singleSubjectManager.subject.id}}
+        local-class='ItemLabel {{if @singleSubjectManager.hasSelectedChildren 'with-selected-child'}}'
+    >
+        {{input
+            type='checkbox'
+            change=(action @singleSubjectManager.toggleSelected)
+            checked=@singleSubjectManager.isSelected
+        }}
+        {{#if this.isPlaceholder}}
+            {{random-text wordsPerSentence=3}}
+        {{else}}
+            {{@singleSubjectManager.subject.text}}
+        {{/if}}
+
+        {{#if @singleSubjectManager.numChildren}}
+            <OsfButton
+                data-test-expand-children={{@singleSubjectManager.subject.id}}
+                local-class='ExpandButton'
+                @type='link'
+                @onClick={{action this.toggleChildren}}
+            >
+                <FaIcon
+                    @icon='chevron-{{if this.shouldShowChildren 'up' 'down'}}'
+                    @fixedWidth={{true}}
+                />
+            </OsfButton>
+        {{/if}}
+    </label>
+
+    {{#if @singleSubjectManager.numChildren}}
+        <Subjects::Browse::AnimatedExpand @isExpanded={{this.shouldShowChildren}}>
+            <Subjects::Browse::ItemList
+                local-class='Children'
+                @items={{@singleSubjectManager.children}}
+                @expectedNumItems={{@singleSubjectManager.numChildren}}
+                @ItemManager={{@singleSubjectManager.ChildSubjectManager}}
+            />
+        </Subjects::Browse::AnimatedExpand>
+    {{/if}}
+</li>
