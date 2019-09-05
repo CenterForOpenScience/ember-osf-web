@@ -3,7 +3,7 @@ import DS from 'ember-data';
 
 import LicenseModel from './license';
 import OsfModel from './osf-model';
-import TaxonomyModel from './taxonomy';
+import SubjectModel from './subject';
 
 /* eslint-disable camelcase */
 
@@ -35,11 +35,11 @@ export default abstract class ProviderModel extends OsfModel {
     @attr('boolean') allowCommenting!: boolean;
     @attr() assets?: Partial<Assets>; // TODO: camelize in transform
 
-    @hasMany('taxonomy')
-    taxonomies!: DS.PromiseManyArray<TaxonomyModel>;
+    @hasMany('subject', { inverse: null, async: false })
+    subjects!: DS.PromiseManyArray<SubjectModel>;
 
-    @hasMany('taxonomy')
-    highlightedTaxonomies!: DS.PromiseManyArray<TaxonomyModel>;
+    @hasMany('subject')
+    highlightedSubjects!: DS.PromiseManyArray<SubjectModel>;
 
     @hasMany('license', { inverse: null })
     licensesAcceptable!: DS.PromiseManyArray<LicenseModel>;
