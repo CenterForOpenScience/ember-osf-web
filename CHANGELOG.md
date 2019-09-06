@@ -4,6 +4,79 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.9.0] - 2019-09-06
+### Added
+- Components
+    - `schema-chunk` - yields different types of schema-chunk pieces
+    - `hierarchical-list`
+        - `hierarchical-list/item`
+        - `hieararchical-list/item-manager`
+    - `partial-registration-modal` which implements `hierarchical-list`
+        - `partial-registration-modal/manager`
+- Tests
+    - Integration
+        - `hierarchical-list`
+        - `partial-registration-modal`
+
+### Changed
+- Components
+    - `project-contributors`
+        - added `onAddContributor` hook
+    - `osf-dialog`
+        - add `@fixedWidth` param to prevent shrinking to fit contents
+- Engines
+    - `collections`
+        - Tests
+            - added/improved test selectors to templates related to submit
+            - added/improved test selectors to templates related to discover
+            - improved submit acceptance tests to perform assertions in addition to taking snapshots
+            - improved update acceptance tests to perform assertions in addition to taking snapshots
+            - improved discover acceptance tests to perform assertions in addition to taking snapshots
+- Tests
+    - added `ember-basic-dropdown-wormhole` div to test index.html 
+- Mirage
+    - `osfNestedResource`
+        - added `onCreate` hook to perform additional operations after creating a child resource
+    - `searchCollections`
+        - added ability to filter by collection metadata
+        - added ability to sort collected items by dateModified
+    - `mirage/factories/node.ts`
+        - modified the factory to set `root` to self by default
+    - `mirage/views/utils/index.ts`
+        - modified filter funtion to filter by model id
+- Packages
+    - update to [ember-angle-bracket-invocation-polyfill@^2.0.2](https://github.com/rwjblue/ember-angle-bracket-invocation-polyfill/releases/tag/v2.0.2)
+
+### Fixed
+- Components
+    - `osf-dialog`
+        - fixed buggy behavior with `@isOpen` -- make it actually DDAU
+        - fixed styles so it displays the same both in and out of the handbook
+        - clean up global state on destroy
+- Engines
+    - `collections`
+        - fixed template lint and use angle brackets in submission templates
+        - fixed template lint and use angle brackets in discover templates
+        - `submit`
+            - reload bibliographicContributors when adding a contributor
+- Mirage
+    - `osfNestedResource`
+        - added custom `post` handler to fix `create` action
+    - `node/contributors` nested resource
+        - conditionally create bibliographic contributors when creating contributors
+    - Factories
+        - `collected-metadatum`
+            - allow manual setting of collection metadata
+    - Serializers
+        - `contributors` - serialize correct nested self link
+- Serializers
+    - `relatedCounts` were not populated for resources loaded via `store.pushPayload`,
+      which includes all embeds and results from `OsfModel.queryHasMany`
+
+### Removed
+- Helpers
+    - `range` - ember-composable-helpers already provides a `range` that is better
+
 ## [19.8.0] - 2019-08-15
 ### Added
 - Components
@@ -1094,7 +1167,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.8.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.9.0...develop
+[19.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.9.0
 [19.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.8.0
 [19.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.1
 [19.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.0

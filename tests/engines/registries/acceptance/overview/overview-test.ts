@@ -63,6 +63,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
     hooks.beforeEach(function(this: OverviewTestContext) {
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
         const registration = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),

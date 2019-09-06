@@ -1,6 +1,7 @@
 import OsfAdapter from './osf-adapter';
 
 export default class SchemaBlockAdapter extends OsfAdapter {
+    parentRelationship = 'registrationSchema';
 }
 
 declare module 'ember-data/types/registries/adapter' {

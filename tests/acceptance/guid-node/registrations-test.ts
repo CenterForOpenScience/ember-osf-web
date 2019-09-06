@@ -97,6 +97,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         server.create('contributor', { node, users: contributorUser });
 
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
         const registrationSchemaName = 'Prereg Challenge';
         const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
@@ -144,6 +145,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         server.create('contributor', { node, users: contributorUser });
 
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
         const registrationSchema = server.schema.registrationSchemas.all().models[0];
 
@@ -186,6 +188,7 @@ module('Acceptance | guid-node/registrations', hooks => {
             currentUserPermissions: [Permission.Admin],
         });
 
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
 
         const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
@@ -238,6 +241,7 @@ module('Acceptance | guid-node/registrations', hooks => {
             currentUserPermissions: [Permission.Admin],
         });
 
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
 
         draftRegisterNodeMultiple(server, node, 12, { initiator });
@@ -271,6 +275,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
 
         const url = `/${node.id}/registrations`;
@@ -303,6 +308,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
 
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
 
         const url = `/${node.id}/registrations`;

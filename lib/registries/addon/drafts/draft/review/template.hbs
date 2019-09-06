@@ -2,4 +2,7 @@
 <section>
     <h1>{{t 'registries.drafts.draft.review.title'}}</h1>
     {{!-- Please verify the information on the registry before submitting. --}}
+    {{#each this.model.schemaBlocks as |block|}}
+        <p>{{block.blockType}} {{block.displayText}}</p>
+    {{/each}}
 </section>

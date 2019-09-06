@@ -19,10 +19,26 @@ import replication_recipe_post_completion from
     '../fixture-data/registration-schemas/replication-recipe-post-completion';
 import replication_recipe_pre_registration from
     '../fixture-data/registration-schemas/replication-recipe-pre-registration';
+import { ids } from './schema-blocks';
 
 export type MirageRegistrationSchema =
-    Pick<RegistrationSchema, 'id' | 'active' | 'name' | 'schemaVersion'> &
-    { schemaNoConflict: RegistrationSchema['schema'] };
+    Pick<RegistrationSchema, 'id' | 'active' | 'name' | 'schemaVersion' > &
+    {
+        schemaNoConflict: RegistrationSchema['schema'],
+        schemaBlockIds?: string[],
+    };
+
+const testSchema = {
+    id: 'testSchema',
+    active: true,
+    name: 'Test Schema',
+    schemaVersion: 801,
+    schemaBlockIds: ids,
+    schemaNoConflict: {
+        title: 'Fake title for testing',
+        pages: [],
+    },
+};
 
 export default [
     prereg_challenge,
@@ -33,6 +49,7 @@ export default [
     replication_recipe_post_completion,
     replication_recipe_pre_registration,
     pre_registration_in_social_psychology,
+    testSchema,
 ] as MirageRegistrationSchema[];
 
 /* eslint-enable camelcase */

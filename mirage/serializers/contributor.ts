@@ -8,6 +8,12 @@ import ApplicationSerializer from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class ContributorSerializer extends ApplicationSerializer<Contributor> {
+    buildNormalLinks(model: ModelInstance<Contributor>) {
+        return {
+            self: `${apiUrl}/v2/nodes/${model.node.id}/contributors/${model.id}`,
+        };
+    }
+
     buildRelationships(model: ModelInstance<Contributor>) {
         return {
             users: {

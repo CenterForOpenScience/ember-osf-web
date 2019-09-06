@@ -1,5 +1,5 @@
 
-import { classNames } from '@ember-decorators/component';
+import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -14,11 +14,11 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import template from './template';
 
 @layout(template)
-@classNames('row')
+@tagName('')
 export default class SearchResultNode extends Component.extend({
     didRender(...args: any[]) {
         this._super(...args);
-        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.element]);
     },
 }) {
     @service analytics!: Analytics;

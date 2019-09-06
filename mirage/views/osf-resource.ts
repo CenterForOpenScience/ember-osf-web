@@ -14,6 +14,7 @@ interface ResourceOptions extends ActionOptions<resourceAction> {
 
 interface NestedResourceOptions extends ResourceOptions {
     relatedModelName: keyof ModelRegistry;
+    onCreate?: (parent: ModelInstance, child: ModelInstance) => void;
 }
 
 type relationshipAction = 'related' | 'update' | 'add' | 'remove';
@@ -104,7 +105,7 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
 ) {
     const opts: NestedResourceOptions = Object.assign({
         path: `/${pluralize(underscore(parentModelName))}/:parentID/${underscore(relationshipName)}`,
-        relatedModelName: relationshipName,
+        relatedModelName: singularize(relationshipName),
         defaultSortKey: '-id',
     }, options);
     const mirageParentModelName = pluralize(camelize(parentModelName));
@@ -119,20 +120,31 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
                 .models
                 .filter((m: ModelInstance) => filter(m, request))
                 .map((model: ModelInstance) => this.serialize(model).data);
-            return process(schema, request, this, data, { defaultSortKey: opts.defaultSortKey });
+            return process(schema, request, this, data, opts);
         });
     }
 
     if (actions.includes('show')) {
         server.get(detailPath, function(schema, request) {
             const model = this.serialize(schema[mirageRelatedModelName].find(request.params.id)).data;
-            const data = process(schema, request, this, [model], options).data[0];
+            const data = process(schema, request, this, [model], opts).data[0];
             return { data };
         });
     }
 
     if (actions.includes('create')) {
-        server.post(opts.path, mirageRelatedModelName);
+        server.post(opts.path, function(schema, request) {
+            const attrs = this.normalizedRequestAttrs(opts.relatedModelName);
+            const child = schema[mirageRelatedModelName].create(attrs);
+            const parent = schema[mirageParentModelName].find(request.params.parentID);
+            parent[relationshipName].models.pushObject(child);
+            parent.save();
+            child.reload();
+            if (opts.onCreate) {
+                opts.onCreate(parent, child);
+            }
+            return child;
+        });
     }
 
     if (actions.includes('update')) {

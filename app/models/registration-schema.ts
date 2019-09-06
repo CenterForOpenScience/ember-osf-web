@@ -1,5 +1,4 @@
 import { attr, hasMany } from '@ember-decorators/data';
-import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 import SchemaBlock from './schema-block';
@@ -60,8 +59,8 @@ export default class RegistrationSchemaModel extends OsfModel {
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: Schema;
 
-    @hasMany('schema-block', { inverse: null })
-    schemaBlocks!: DS.PromiseManyArray<SchemaBlock>;
+    @hasMany('schema-block', { inverse: null, async: false })
+    schemaBlocks?: SchemaBlock[];
 }
 
 declare module 'ember-data/types/registries/model' {

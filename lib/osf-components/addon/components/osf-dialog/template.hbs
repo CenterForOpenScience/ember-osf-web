@@ -2,11 +2,11 @@
     trigger=(component 'osf-dialog/trigger')
     open=(action this.openDialog)
 )}}
-{{#if this.isOpen}}
+{{#if this.shouldBeOpen}}
     <script
         {{! These should be on <EmberWormhole> below, but we need Ember 3.11 for that }}
-        {{did-insert (action this.updateModalState)}}
-        {{will-destroy (action this.updateModalState)}}
+        {{did-insert (action this.updateModalState true)}}
+        {{will-destroy (action this.updateModalState false)}}
     ></script>
     <EmberWormhole
         @tagName='span'
@@ -20,7 +20,7 @@
         >
             <div
                 data-test-dialog
-                local-class='Dialog'
+                local-class='Dialog {{if this.fixedWidth 'FixedWidth'}}'
                 tabindex='0'
                 role='dialog'
                 aria-labelledby='osf-dialog-heading'
