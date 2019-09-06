@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [19.9.0] - 2019-09-06
 ### Added
 - Components
     - `schema-chunk` - yields different types of schema-chunk pieces
@@ -1168,7 +1169,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.8.0...HEAD
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.9.0...develop
+[19.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.9.0
 [19.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.8.0
 [19.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.1
 [19.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.0
