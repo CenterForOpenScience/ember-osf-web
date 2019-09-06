@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Ember Optional Features
+    - `template-only-glimmer-components`
+
+### Fixed
+- Components
+    - `home/support-section/support-item`
+        - s/this./@/ because this is template-only
+        - added splattributes because this is template-only
+    - `registries/registries-advisory-board`
+        - fixed template lint
+        - added splattributes because this is template-only
+    - `meetings/index/meetings-footer`
+        - added splattributes because this is template-only
+    - `registries/registries-advisory-board`
+        - added splattributes because this is template-only
+    - `registries/sharing-icons/popover`
+        - added splattributes because this is template-only
 
 ## [19.9.0] - 2019-09-06
 ### Added
