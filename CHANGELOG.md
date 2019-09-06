@@ -10,6 +10,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `template-only-glimmer-components`
 
 ### Changed
+- Models
+    - `taxonomy`
+        - renamed to `subject` and updated for new subjects-as-relationships architecture
+    - `node`
+        - changed `subjects` attribute into a hasMany relationship
+    - `preprint`
+        - changed `subjects` attribute into a hasMany relationship
+        - removed `uniqueSubjects` computed property
+    - `preprint-provider`
+        - changed `hasHighlightedSubjects` alias to use `highlighted_subjects` related link meta
+    - `provider`
+        - renamed `taxonomies` hasMany relationship to `subjects`
+        - renamed `highlightedTaxonomies` hasMany relationship to `highlightedSubjects`
+- Serializers
+    - `taxonomy`
+        - renamed to `subject`
+- Adapters
+    - `taxonomy`
+        - renamed to `subject`
 - Components
     - `editable-field`
         - use `osf-dialog` instead of `bs-modal`
@@ -21,6 +40,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
     - `registries/license-viewer`
         - use `osf-dialog` instead of `bs-modal`
+- Tests
+    - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
+    - Unit
+        - `adapters/taxonomy-test` renamed to `adapters/subject-test`
+        - `models/taxonomy-test` renamed to `models/subject-test`
+        - `serializers/taxonomy-test` renamed to `serializers/subject-test`
+        - `models/preprint-test`
+            - removed test for `subject` attribute
+- Config
+    - updated to use API version 2.15
+
+### Removed
+- Tests
+    - `taxonomy` FactoryGuy factory
 
 ### Fixed
 - Components
