@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Ember Optional Features
     - `template-only-glimmer-components`
 
+### Fixed
+- Components
+    - `home/support-section/support-item`
+        - s/this./@/ because this is template-only
+
 ## [19.9.0] - 2019-09-06
 ### Added
 - Components
