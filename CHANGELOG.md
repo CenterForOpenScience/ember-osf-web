@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components
     - `home/support-section/support-item`
         - s/this./@/ because this is template-only
+    - `registries/registries-advisory-board`
+        - fixed template lint
 
 ## [19.9.0] - 2019-09-06
 ### Added
