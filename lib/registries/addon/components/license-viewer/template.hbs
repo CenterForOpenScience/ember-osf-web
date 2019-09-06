@@ -1,23 +1,20 @@
-<OsfButton
-  data-analytics-name='View license'
-  local-class='LinkButton'
-  @type='link'
-  @onClick={{action (mut this.shouldShowLicense) true}}
->
-    {{@manager.registration.license.name}}
-</OsfButton>
+<OsfDialog as |dialog|>
+    <dialog.trigger>
+        <OsfButton
+            data-analytics-name='View license'
+            local-class='LinkButton'
+            @type='link'
+            @onClick={{dialog.open}}
+        >
+            {{@manager.registration.license.name}}
+        </OsfButton>
+    </dialog.trigger>
 
-<BsModal
-    @onHidden={{action (mut this.shouldShowLicense) false}}
-    @open={{this.shouldShowLicense}}
-    as |modal|
->
-    <modal.header>
-        <h4 class='modal-title'>
-            {{t 'registries.registration_metadata.license'}}
-        </h4>
-    </modal.header>
-    <modal.body>
+    <dialog.heading>
+        {{t 'registries.registration_metadata.license'}}
+    </dialog.heading>
+
+    <dialog.main>
         {{#if @manager.registration.license.url}}
             <p>
                 <OsfLink
@@ -29,5 +26,5 @@
             </p>
         {{/if}}
         <LicenseText @node={{@manager.registration}} />
-    </modal.body>
-</BsModal>
+    </dialog.main>
+</OsfDialog>
