@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Helpers
+    - `random-text`
+        - generates random text
+- Tests
+    - Integration
+        - `random-text`
 - Ember Optional Features
     - `template-only-glimmer-components`
 
