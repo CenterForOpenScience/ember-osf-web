@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Ember Optional Features
     - `template-only-glimmer-components`
+- Mirage
+    - Factories
+        - `subject`
+    - Serializers
+        - `subject`
+    - Views
+        - `provider-subjects`
 
 ### Changed
 - Models
@@ -48,6 +55,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `serializers/taxonomy-test` renamed to `serializers/subject-test`
         - `models/preprint-test`
             - removed test for `subject` attribute
+- Mirage
+    - Factories
+        - `node`
+            - removed `subjects` attribute
+        - `registration`
+            - added `widthSubjects` trait
+    - Serializers
+        - `registration-provider`
+            - added subjects related link
+        - `registration`
+            - added subjects self and related links
+    - Views
+        - `osf-resource`
+            - added self link patch handling
+    - Scenarios
+        - `registration`
+            - create some subjects
 - Config
     - updated to use API version 2.15
 
