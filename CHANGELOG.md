@@ -89,6 +89,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
     - `registries/license-viewer`
         - use `osf-dialog` instead of `bs-modal`
+    - `registries/registries-metadata`
+        - use `Subjects::Widget` and `Subjects::Display` (and related managers) for subjects editable field
 - Tests
     - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
     - Unit
