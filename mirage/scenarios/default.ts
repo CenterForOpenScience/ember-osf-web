@@ -58,6 +58,14 @@ function registrationScenario(
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
+    server.createList('subject', 10, 'withChildren');
+
+    const provider = server.schema.registrationProviders.find('osf');
+
+    provider.update({
+        subjects: server.schema.subjects.all().models,
+    });
+
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
 }
