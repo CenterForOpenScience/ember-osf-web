@@ -43,6 +43,7 @@ const App = Application.extend({
                     'i18n',
                     'ready',
                     'router',
+                    'session',
                     'store',
                     'toast',
                     'osf-modal-state',
