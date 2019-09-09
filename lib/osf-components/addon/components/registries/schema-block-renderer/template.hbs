@@ -1,0 +1,8 @@
+<SchemaBlockRenderer::Mapper as |renderers|>
+    {{#let (get renderers @block.blockType) as |Renderer|}}
+        <Renderer
+            @changeset={{@changeset}}
+            @schemaBlock={{@schemaBlock}}
+        />
+    {{/let}}
+</SchemaBlockRenderer::Mapper>
