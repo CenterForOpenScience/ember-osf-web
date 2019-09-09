@@ -32,6 +32,7 @@
     @isOpen={{@manager.inEditMode}}
     @onClose={{@manager.cancel}}
     @closeOnOutsideClick={{false}}
+    @fixedWidth={{@fixedWidth}}
     as |dialog|
 >
     <dialog.heading>
@@ -55,7 +56,7 @@
                 <OsfButton
                     data-test-discard-edits
                     data-analytics-name='Discard'
-                    @disabled={{@manager.save.isRunning}}
+                    @disabled={{@manager.isSaving}}
                     @onClick={{action @manager.cancel}}
                 >
                     {{t 'general.cancel'}}
@@ -66,7 +67,7 @@
                     data-test-save-edits
                     data-analytics-name='Save'
                     @type='primary'
-                    @disabled={{@manager.save.isRunning}}
+                    @disabled={{@manager.isSaving}}
                     @onClick={{action @manager.save}}
                 >
                     {{t 'general.save'}}
