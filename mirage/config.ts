@@ -11,6 +11,7 @@ import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
+import { getProviderSubjects } from './views/provider-subjects';
 import { forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
@@ -47,6 +48,8 @@ export default function(this: Server) {
 
     osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);
+    osfResource(this, 'subject', { only: ['show'] });
+    osfNestedResource(this, 'subject', 'children', { only: ['index'] });
     osfNestedResource(this, 'node', 'children');
     osfNestedResource(this, 'node', 'contributors', {
         defaultSortKey: 'index',
@@ -67,6 +70,10 @@ export default function(this: Server) {
     osfToManyRelationship(this, 'node', 'affiliatedInstitutions', {
         only: ['related', 'add', 'remove'],
         path: '/nodes/:parentID/relationships/institutions',
+    });
+
+    osfToManyRelationship(this, 'node', 'subjects', {
+        only: ['related', 'self'],
     });
 
     osfResource(this, 'registration', { except: ['show'] });
@@ -93,6 +100,10 @@ export default function(this: Server) {
     this.post('/registrations/:parentID/identifiers/', identifierCreate);
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
     this.get('/registrations/:guid/citation/:citationStyleID', getCitation);
+    osfToManyRelationship(this, 'registration', 'subjects', {
+        only: ['related', 'self'],
+    });
+    osfResource(this, 'subject', { only: ['show'] });
 
     osfNestedResource(this, 'comment', 'reports', {
         except: ['delete'],
@@ -150,6 +161,7 @@ export default function(this: Server) {
         path: '/providers/registrations/:parentID/licenses/',
         relatedModelName: 'license',
     });
+    this.get('/providers/registrations/:parentID/subjects/', getProviderSubjects);
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
