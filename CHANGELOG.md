@@ -41,6 +41,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Packages
     - `ember-animated`
     - `ember-element-helper` (`fix-engines` branch)
+- Handbook
+    - `Subjects::Widget` component to gallery
 
 ### Changed
 - Models
