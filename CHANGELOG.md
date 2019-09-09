@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Helpers
+    - `unique-id`
+        - generate a unique-enough string for use in a DOM element's `id`
+- Tests
+    - Integration
+        - `unique-id`
 - Ember Optional Features
     - `template-only-glimmer-components`
 - Mirage
