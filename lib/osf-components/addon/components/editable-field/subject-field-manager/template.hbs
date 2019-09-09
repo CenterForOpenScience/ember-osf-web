@@ -1,0 +1,13 @@
+{{yield (hash
+    save=(perform this.save)
+    cancel=(action this.cancel)
+    startEditing=(action this.startEditing)
+
+    shouldShowField=this.shouldShowField
+    userCanEdit=this.userCanEdit
+    fieldIsEmpty=this.fieldIsEmpty
+    inEditMode=this.inEditMode
+    isSaving=this.save.isRunning
+
+    emptyFieldText=(t 'registries.registration_metadata.no_subjects')
+)}}
