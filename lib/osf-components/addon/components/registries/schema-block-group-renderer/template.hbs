@@ -1,0 +1,11 @@
+<SchemaBlockRenderer
+    @schemaBlock=@schemaBlockGroup.labelBlock
+    @changeset=@changeset
+/>
+{{#if this.hasInputBlock}}
+    <SchemaBlockRenderer
+        @schemaBlock=@schemaBlockGroup.inputBlock
+        @changeset=@changeset
+        @options={{if this.hasMultipleOptions @schemaBlockGroup.options}}
+    />
+{{/if}}
