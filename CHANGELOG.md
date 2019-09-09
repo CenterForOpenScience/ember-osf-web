@@ -48,6 +48,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Components
     - `editable-field`
         - use `osf-dialog` instead of `bs-modal`
+        - pass `@fixedWidth` through to `OsfDialog`
+        - use `@manager.isSaving` to disable submit & cancel buttons
+        - `category-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `description-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `institutions-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `license-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `publication-doi-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `tags-manager`
+            - expose `isSaving` as alias for `save.isRunning`
     - `node-category-picker`
         - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
     - `zoom-to-route`
