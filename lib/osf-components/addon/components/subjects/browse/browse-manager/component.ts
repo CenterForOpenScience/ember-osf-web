@@ -1,0 +1,63 @@
+import { tagName } from '@ember-decorators/component';
+import { service } from '@ember-decorators/service';
+import Component from '@ember/component';
+import { assert } from '@ember/debug';
+import { task } from 'ember-concurrency';
+import DS from 'ember-data';
+
+import { layout } from 'ember-osf-web/decorators/component';
+import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import ProviderModel from 'ember-osf-web/models/provider';
+import SubjectModel from 'ember-osf-web/models/subject';
+import { SubjectManager } from 'osf-components/components/subjects/manager/component';
+
+import template from './template';
+
+// SubjectBrowserManager is responsible for:
+// (1) loading root-level subjects in the given provider's chosen taxonomy
+export interface SubjectBrowserManager {
+    rootSubjects?: SubjectModel[];
+    isLoading: boolean;
+}
+
+// Law category has 117 (Jan 2018)
+const subjectPageSize = 150;
+
+@tagName('')
+@layout(template)
+export default class SubjectBrowserManagerComponent extends Component.extend({
+    loadRootSubjects: task(function *(this: SubjectBrowserManagerComponent) {
+        try {
+            const provider: ProviderModel = yield this.subjectsManager.provider;
+            const rootSubjects: QueryHasManyResult<SubjectModel> = yield provider.queryHasMany('subjects', {
+                filter: {
+                    parent: 'null',
+                },
+                page: {
+                    size: subjectPageSize,
+                },
+                related_counts: 'children',
+            });
+            this.setProperties({ rootSubjects });
+        } catch (e) {
+            throw e;
+        }
+    }).on('init'),
+}) {
+    // params
+    subjectsManager!: SubjectManager;
+
+    // private
+    @service store!: DS.Store;
+
+    rootSubjects?: SubjectModel[];
+
+    init() {
+        super.init();
+
+        assert(
+            '@subjectsManager is required',
+            Boolean(this.subjectsManager),
+        );
+    }
+}

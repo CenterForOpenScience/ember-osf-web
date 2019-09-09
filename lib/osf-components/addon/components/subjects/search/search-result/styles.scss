@@ -1,0 +1,20 @@
+.SearchResult {
+    padding: 0.2em 1em;
+}
+
+.AncestorTitle {
+    max-width: 33%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 767px) {
+    .AncestorTitle {
+        max-width: 90%;
+    }
+}
+
+.Delimiter {
+    padding: 0 0.2em;
+}

@@ -11,6 +11,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - generates random text
     - `unique-id`
         - generate a unique-enough string for use in a DOM element's `id`
+- Components
+    - `subjects/`
+        - `browse`
+        - `browse/animated-expand`
+        - `browse/browse-manager`
+        - `browse/item-list`
+        - `browse/item`
+        - `display`
+        - `manager`
+        - `manager/single`
+        - `search`
+        - `search/search-result`
+        - `widget`
 - Tests
     - Integration
         - `unique-id`
@@ -24,6 +37,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `subject`
     - Views
         - `provider-subjects`
+- Packages
+    - `ember-animated`
+    - `ember-element-helper` (`fix-engines` branch)
 
 ### Changed
 - Models
