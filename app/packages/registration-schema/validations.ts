@@ -9,12 +9,12 @@ import { validateResponseFormat } from 'ember-osf-web/validators/validate-respon
 export function buildValidation(groups: SchemaBlockGroup[]) {
     const ret: ValidationObject<PageResponse> = {};
     groups.forEach((group: SchemaBlockGroup) => {
-        let validationForResponse: ValidatorFunction[] = [];
-        const responseKey = group.registrationResponseKey;
-        assert(`no response key for group ${group.schemaBlockGroupKey}`,
-            responseKey !== '' || responseKey !== undefined || responseKey !== null);
         // only validating groups with actual inputs and not groups that are headings/labels only
         if (group.inputBlock) {
+            let validationForResponse: ValidatorFunction[] = [];
+            const responseKey = group.registrationResponseKey;
+            assert(`no response key for group ${group.schemaBlockGroupKey}`,
+                responseKey !== '' || responseKey !== undefined || responseKey !== null);
             const { inputBlock } = group;
             switch (group.groupType) {
             case 'short-text-input':
