@@ -1,0 +1,30 @@
+.file-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 15px;
+
+    i,
+    .filename {
+        color: $color-text-blue-dark;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background-color: $color-bg-gray-light;
+    }
+
+    &.indent {
+        padding-left: 35px;
+    }
+}
+
+.name-container {
+    display: flex;
+    width: 75%;
+    align-items: center;
+
+    span {
+        padding-right: 10px;
+    }
+}

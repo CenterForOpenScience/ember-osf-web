@@ -6,6 +6,13 @@ import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createBibliographicContributor } from './views/contributor';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
+import {
+    folderFilesList,
+    nodeFileProviderList,
+    nodeFilesListForProvider,
+    uploadToFolder,
+    uploadToRoot,
+} from './views/file';
 import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
@@ -55,6 +62,12 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         onCreate: createBibliographicContributor,
     });
+
+    this.get('/nodes/:parentID/files', nodeFileProviderList); // Node file providers list
+    this.get('/nodes/:parentID/files/:fileProviderId', nodeFilesListForProvider); // Node files list for file provider
+    this.get('/nodes/:parentID/files/:fileProviderId/:folderId', folderFilesList); // Node folder detail view
+    this.put('/nodes/:parentID/files/:fileProviderId/upload', uploadToRoot); // Upload to file provider
+
     osfNestedResource(this, 'node', 'bibliographicContributors', {
         only: ['index'],
         relatedModelName: 'contributor',
@@ -176,6 +189,7 @@ export default function(this: Server) {
     this.namespace = '/wb';
     this.post('/files/:id/move', wb.moveFile);
     this.post('/files/:id/upload', wb.renameFile);
+    this.put('/files/:id/upload', uploadToFolder);
     this.del('/files/:id/delete', wb.deleteFile);
     this.get('/files/:id/download', wb.fileVersions);
 
