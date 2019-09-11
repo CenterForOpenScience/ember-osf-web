@@ -8,20 +8,25 @@ function isEmpty(input: string | undefined) {
     return false;
 }
 
-export function getSchemaBlockGroup(blocks: SchemaBlock[], key: string) {
-    const schemaBlockGroup: SchemaBlockGroup = {};
-    let lastGroupIndex: number | undefined;
-    let consecutiveGroup = true;
-    const groupBlocks = blocks.filter(block => block.schemaBlockGroupKey === key);
-    groupBlocks.forEach(groupBlock => {
-        if (lastGroupIndex && groupBlock.index && Math.abs(lastGroupIndex - groupBlock.index) !== 1) {
-            consecutiveGroup = false;
-        }
-        lastGroupIndex = groupBlock.index;
-        if (groupBlock.schemaBlockGroupKey === key) {
-            switch (groupBlock.blockType) {
+export function getSchemaBlockGroups(blocks: SchemaBlock[]) {
+    let currentGroupKey: string | null = null;
+    const groupKeysEncountered: string[] = [];
+    const responseKeysEncountered: string[] = [];
+    const allGroups = blocks.reduce((groups: SchemaBlockGroup[], block: SchemaBlock) => {
+        let schemaBlockGroup: SchemaBlockGroup = {};
+        if (block.schemaBlockGroupKey) {
+            const newGroupStart = (!currentGroupKey) || (currentGroupKey !== block.schemaBlockGroupKey);
+            if (newGroupStart) {
+                currentGroupKey = block.schemaBlockGroupKey;
+                assert('groupKey is used out of order', groupKeysEncountered.indexOf(block.schemaBlockGroupKey) < 0);
+                groupKeysEncountered.push(block.schemaBlockGroupKey);
+            } else if (currentGroupKey === block.schemaBlockGroupKey) {
+                schemaBlockGroup = groups[groups.length - 1];
+            }
+
+            switch (block.blockType) {
             case 'question-label':
-                schemaBlockGroup.labelBlock = groupBlock;
+                schemaBlockGroup.labelBlock = block;
                 break;
             case 'long-text-input':
             case 'short-text-input':
@@ -29,26 +34,30 @@ export function getSchemaBlockGroup(blocks: SchemaBlock[], key: string) {
             case 'contributors-input':
             case 'single-select-input':
             case 'multi-select-input':
-                assert('input block with no schemaBlockGroupKey!', !isEmpty(groupBlock.schemaBlockGroupKey));
-                assert('input block with no registrationResponseKey!', !isEmpty(groupBlock.registrationResponseKey));
+                assert('input block with no schemaBlockGroupKey!', !isEmpty(block.schemaBlockGroupKey));
+                assert('input block with no registrationResponseKey!', !isEmpty(block.registrationResponseKey));
                 assert('question with multiple input blocks!', !schemaBlockGroup.inputBlock);
+                assert('non-unique response key used',
+                    responseKeysEncountered.indexOf(block.registrationResponseKey!) < 0);
+                responseKeysEncountered.push(block.registrationResponseKey!);
                 if (schemaBlockGroup.schemaBlockGroupKey) {
                     assert('question with mismatched schemaBlockGroupKey!',
-                        schemaBlockGroup.schemaBlockGroupKey === groupBlock.schemaBlockGroupKey);
+                        schemaBlockGroup.schemaBlockGroupKey === block.schemaBlockGroupKey);
                 } else {
-                    schemaBlockGroup.schemaBlockGroupKey = groupBlock.schemaBlockGroupKey;
+                    schemaBlockGroup.schemaBlockGroupKey = block.schemaBlockGroupKey;
                 }
-                schemaBlockGroup.inputBlock = groupBlock;
-                schemaBlockGroup.registrationResponseKey = groupBlock.registrationResponseKey;
+                schemaBlockGroup.inputBlock = block;
+                schemaBlockGroup.registrationResponseKey = block.registrationResponseKey;
+                schemaBlockGroup.groupType = block.blockType;
                 break;
             case 'select-input-option':
                 if (schemaBlockGroup.inputBlock) {
                     assert('question with mismatched schemaBlockGroupKey!',
-                        !isEmpty(groupBlock.schemaBlockGroupKey) &&
-                        schemaBlockGroup.schemaBlockGroupKey === groupBlock.schemaBlockGroupKey);
+                        !isEmpty(block.schemaBlockGroupKey) &&
+                        schemaBlockGroup.schemaBlockGroupKey === block.schemaBlockGroupKey);
                     schemaBlockGroup.optionBlocks = [
                         ...(schemaBlockGroup.optionBlocks || []),
-                        groupBlock,
+                        block,
                     ];
                 } else {
                     assert('select-option without a question!');
@@ -57,17 +66,16 @@ export function getSchemaBlockGroup(blocks: SchemaBlock[], key: string) {
             default:
                 break;
             }
+            if (newGroupStart) {
+                groups.push(schemaBlockGroup);
+            }
+        } else {
+            currentGroupKey = null;
+            schemaBlockGroup.labelBlock = block;
+            schemaBlockGroup.groupType = block.blockType;
+            groups.push(schemaBlockGroup);
         }
-    });
-    assert('non-consecutive blocks used to create group', consecutiveGroup);
-    assert('schema block group with no input element',
-        schemaBlockGroup.inputBlock !== null && schemaBlockGroup.inputBlock !== undefined);
-    if ((schemaBlockGroup.inputBlock) &&
-        (schemaBlockGroup.inputBlock.blockType === 'single-select-input' ||
-        schemaBlockGroup.inputBlock.blockType === 'multi-select-input')) {
-        assert('single/multi select with no option',
-            schemaBlockGroup.optionBlocks && schemaBlockGroup.optionBlocks.length > 0);
-    }
-    schemaBlockGroup.inputType = schemaBlockGroup.inputBlock!.blockType;
-    return schemaBlockGroup;
+        return groups;
+    }, []);
+    return allGroups;
 }

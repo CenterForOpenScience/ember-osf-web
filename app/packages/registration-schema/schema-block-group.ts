@@ -7,4 +7,5 @@ export interface SchemaBlockGroup {
     optionBlocks?: SchemaBlock[];
     schemaBlockGroupKey?: string;
     registrationResponseKey?: string;
-}
+    groupType?: string;
+  }
