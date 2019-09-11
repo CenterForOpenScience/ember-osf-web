@@ -13,8 +13,7 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
         if (group.inputBlock) {
             let validationForResponse: ValidatorFunction[] = [];
             const responseKey = group.registrationResponseKey;
-            assert(`no response key for group ${group.schemaBlockGroupKey}`,
-                responseKey !== '' || responseKey !== undefined || responseKey !== null);
+            assert(`no response key for group ${group.schemaBlockGroupKey}`, Boolean(responseKey));
             const { inputBlock } = group;
             switch (group.groupType) {
             case 'short-text-input':
