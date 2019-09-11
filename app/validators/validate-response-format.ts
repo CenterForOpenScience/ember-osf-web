@@ -1,9 +1,8 @@
 import { isEmpty } from '@ember/utils';
 import ContributorModel from 'ember-osf-web/models/contributor';
 
-// tslint:disable-next-line: variable-name
-const isContributorModel = (_input: any) => {
-    if (_input instanceof ContributorModel) {
+const isContributorModel = (input: any) => {
+    if (input instanceof ContributorModel) {
         return true;
     }
     return false;
