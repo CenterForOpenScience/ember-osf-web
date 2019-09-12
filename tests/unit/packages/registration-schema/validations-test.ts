@@ -88,14 +88,14 @@ module('Unit | Packages | registration-schema | validations', () => {
             },
         ];
         const result = buildValidation(groups);
-        assert.equal(result[groups[1].registrationResponseKey!].response.length, 1,
+        assert.equal(result[groups[1].registrationResponseKey!].length, 1,
             'has 1 validation for required short text input');
-        assert.equal(result[groups[2].registrationResponseKey!].response.length, 2,
-            'has 2 validations for optional short text input');
-        assert.equal(result[groups[3].registrationResponseKey!].response.length, 1,
+        assert.equal(result[groups[2].registrationResponseKey!].length, 1,
+            'has 1 validations for optional short text input');
+        assert.equal(result[groups[3].registrationResponseKey!].length, 1,
             'has 1 validation for required long text input');
-        assert.equal(result[groups[4].registrationResponseKey!].response.length, 2,
-            'has 2 validations for optional long text input');
+        assert.equal(result[groups[4].registrationResponseKey!].length, 1,
+            'has 1 validations for optional long text input');
     });
 
     test('validate contributor inputs', assert => {
@@ -146,9 +146,9 @@ module('Unit | Packages | registration-schema | validations', () => {
             },
         ];
         const result = buildValidation(groups);
-        assert.equal(result[groups[1].registrationResponseKey!].response.length, 2,
+        assert.equal(result[groups[1].registrationResponseKey!].length, 2,
             'has 2 validation for required contributor input');
-        assert.equal(result[groups[2].registrationResponseKey!].response.length, 1,
+        assert.equal(result[groups[2].registrationResponseKey!].length, 1,
             'has 1 validations for optional contributor input');
     });
 
@@ -200,9 +200,9 @@ module('Unit | Packages | registration-schema | validations', () => {
             },
         ];
         const result = buildValidation(groups);
-        assert.equal(result[groups[1].registrationResponseKey!].response.length, 2,
+        assert.equal(result[groups[1].registrationResponseKey!].length, 2,
             'has 2 validation for required file input');
-        assert.equal(result[groups[2].registrationResponseKey!].response.length, 1,
+        assert.equal(result[groups[2].registrationResponseKey!].length, 1,
             'has 1 validations for optional file input');
     });
 
@@ -351,13 +351,13 @@ module('Unit | Packages | registration-schema | validations', () => {
             },
         ];
         const result = buildValidation(groups);
-        assert.equal(result[groups[1].registrationResponseKey!].response.length, 2,
+        assert.equal(result[groups[1].registrationResponseKey!].length, 2,
             'has 2 validation for required Single-Selector input');
-        assert.equal(result[groups[2].registrationResponseKey!].response.length, 1,
+        assert.equal(result[groups[2].registrationResponseKey!].length, 1,
             'has 1 validations for optional Single-Select input');
-        assert.equal(result[groups[3].registrationResponseKey!].response.length, 2,
+        assert.equal(result[groups[3].registrationResponseKey!].length, 2,
             'has 2 validation for required Multi-Select input');
-        assert.equal(result[groups[4].registrationResponseKey!].response.length, 1,
+        assert.equal(result[groups[4].registrationResponseKey!].length, 1,
             'has 1 validations for optional Multi-Select input');
     });
 });
