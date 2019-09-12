@@ -6,6 +6,8 @@ import { PageResponse } from 'ember-osf-web/packages/registration-schema';
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
 import { validateResponseFormat } from 'ember-osf-web/validators/validate-response-format';
 
+// TODO: find a way to use i18n to translate error messages
+
 export function buildValidation(groups: SchemaBlockGroup[]) {
     const ret: ValidationObject<PageResponse> = {};
     groups.forEach((group: SchemaBlockGroup) => {
@@ -30,7 +32,6 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
                     ];
                 } else {
                     validationForResponse = [
-                        validatePresence({ ignoreBlank: true }),
                         validateLength({
                             allowBlank: true,
                             allowNone: true,
@@ -89,8 +90,7 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
             default:
                 break;
             }
-            ret[responseKey!] = {};
-            ret[responseKey!].response = validationForResponse;
+            ret[responseKey!] = validationForResponse;
         }
     });
     return ret;
