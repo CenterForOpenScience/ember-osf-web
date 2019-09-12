@@ -1,6 +1,6 @@
-# Schema Chunks
+# SchemaBlockGroupRenderer
 
-To be used with registries submission.  Takes in a schema chunk and renders the components needed.
+To be used with Registries submission forms.  Given a schema group and a changeset will output a list of validated-inputs.
 
 ### Components
 
@@ -13,4 +13,6 @@ To be used with registries submission.  Takes in a schema chunk and renders the 
 - `textarea`: renders a `textarea` input
 
 ## Default
-{{docs/components/schema-chunk/-components/default}}
+{{docs/components/schema-block-group-renderer/-components/default
+    schemaGroups=this.schemaGroups
+}}
