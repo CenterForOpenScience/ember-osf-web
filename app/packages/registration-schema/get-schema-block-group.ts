@@ -69,10 +69,15 @@ export function getSchemaBlockGroups(blocks: SchemaBlock[]) {
             if (newGroupStart) {
                 groups.push(schemaBlockGroup);
             }
+            schemaBlockGroup.blocks = [
+                ...(schemaBlockGroup.blocks || []),
+                block,
+            ];
         } else {
             currentGroupKey = null;
             schemaBlockGroup.labelBlock = block;
             schemaBlockGroup.groupType = block.blockType;
+            schemaBlockGroup.blocks = [block];
             groups.push(schemaBlockGroup);
         }
         return groups;
