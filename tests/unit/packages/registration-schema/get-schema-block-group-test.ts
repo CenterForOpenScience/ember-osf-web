@@ -79,26 +79,31 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
         // section heading
         assert.ok(!result[0].registrationResponseKey, 'section heading has proper registrationResponseKey (none)');
         assert.ok(result[0].labelBlock, 'section heading has labelBlock');
+        assert.equal(result[0].blocks!.length, 1, 'section heading has proper blocks length (1)');
         // standalone text input
         assert.equal(result[1].registrationResponseKey, 'a1',
             'standalone text input has proper registrationResponseKey');
         assert.equal(result[1].schemaBlockGroupKey, 'q1',
             'standalone text input has proper schemaBlockGroupKey');
         assert.ok(!result[1].optionBlocks, 'standalone text input has proper optionBlocks (none)');
+        assert.equal(result[1].blocks!.length, 1, 'standalone text input has proper blocks length (1)');
         // subsection heading
         assert.ok(!result[2].registrationResponseKey, 'subsection heading has proper registrationResponseKey (none');
         assert.ok(result[2].labelBlock, 'subsection heading has labelBlock');
+        assert.equal(result[2].blocks!.length, 1, 'subsection heading has proper blocks length (1)');
         // multi select
         assert.equal(result[3].registrationResponseKey, 'testMultiAnswer',
             'multi select has proper registrationResponseKey');
         assert.equal(result[3].schemaBlockGroupKey, 'testMulti',
             'multi select has proper schemaBlockGroupKey');
         assert.equal(result[3].optionBlocks!.length, 3, 'multi select has proper optionBlocks');
+        assert.equal(result[3].blocks!.length, 5, 'multi select has proper blocks length (5)');
         // single select
         assert.equal(result[4].registrationResponseKey, 'testSingleAnswer',
             'single select has proper registrationResponseKey');
         assert.equal(result[4].schemaBlockGroupKey, 'testSingle',
             'single select has proper schemaBlockGroupKey');
         assert.equal(result[4].optionBlocks!.length, 2, 'single select has proper optionsBlocks');
+        assert.equal(result[4].blocks!.length, 4, 'single select has proper blocks length (4)');
     });
 });

@@ -8,4 +8,5 @@ export interface SchemaBlockGroup {
     schemaBlockGroupKey?: string;
     registrationResponseKey?: string;
     groupType?: string;
+    blocks?: SchemaBlock[];
   }

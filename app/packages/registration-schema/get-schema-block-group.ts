@@ -34,7 +34,6 @@ export function getSchemaBlockGroups(blocks: SchemaBlock[]) {
             case 'contributors-input':
             case 'single-select-input':
             case 'multi-select-input':
-                assert('input block with no schemaBlockGroupKey!', !isEmpty(block.schemaBlockGroupKey));
                 assert('input block with no registrationResponseKey!', !isEmpty(block.registrationResponseKey));
                 assert('question with multiple input blocks!', !schemaBlockGroup.inputBlock);
                 assert('non-unique response key used',
@@ -69,10 +68,15 @@ export function getSchemaBlockGroups(blocks: SchemaBlock[]) {
             if (newGroupStart) {
                 groups.push(schemaBlockGroup);
             }
+            schemaBlockGroup.blocks = [
+                ...(schemaBlockGroup.blocks || []),
+                block,
+            ];
         } else {
             currentGroupKey = null;
             schemaBlockGroup.labelBlock = block;
             schemaBlockGroup.groupType = block.blockType;
+            schemaBlockGroup.blocks = [block];
             groups.push(schemaBlockGroup);
         }
         return groups;
