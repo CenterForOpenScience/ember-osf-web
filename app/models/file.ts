@@ -56,7 +56,7 @@ export default class FileModel extends BaseFileItem {
 
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
     @belongsTo('node')
-    node!: DS.PromiseObject<NodeModel> & NodeModel;
+    target!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @belongsTo('user')
     user!: DS.PromiseObject<UserModel> & UserModel;

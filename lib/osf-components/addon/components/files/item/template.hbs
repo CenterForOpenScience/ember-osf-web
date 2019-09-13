@@ -1,0 +1,20 @@
+<div
+    data-test-file-browser-item
+    local-class='file-row {{if this.shouldIndent 'indent'}}'
+    {{on 'click' (action this.onClick)}}
+>
+    {{#if this.isCurrentFolder}}
+        <div data-test-current-folder local-cass='name-container'>
+            <FaIcon @icon='angle-left' @fixedWidth={{true}} />
+            <span local-class='filename'>{{this.item.itemName}}</span>
+        </div>
+    {{else}}
+        <div local-class='name-container'>
+            <FileIcon @item={{this.item}} />
+            <span data-test-file-name local-class='filename'>{{this.item.itemName}}</span>
+        </div>
+        <time data-test-file-date-modified>
+            {{this.date}}
+        </time>
+    {{/if}}
+</div>

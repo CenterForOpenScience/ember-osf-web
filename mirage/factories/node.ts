@@ -24,6 +24,7 @@ export interface NodeTraits {
     withLicense: Trait;
     withAffiliatedInstitutions: Trait;
     withManyAffiliatedInstitutions: Trait;
+    withFiles: Trait;
 }
 
 export default Factory.extend<MirageNode & NodeTraits>({
@@ -147,6 +148,16 @@ export default Factory.extend<MirageNode & NodeTraits>({
             server.createList('institution', 15, {
                 nodes: [node],
             });
+        },
+    }),
+
+    withFiles: trait<MirageNode>({
+        afterCreate(node, server) {
+            const count = faker.random.number({ min: 1, max: 5 });
+            const osfstorage = server.create('file-provider', { node });
+            const files = server.createList('file', count, { target: node });
+
+            osfstorage.update({ files });
         },
     }),
 

@@ -75,6 +75,7 @@ export default {
         warning: 'Warning',
         sort_asc: 'Sort ascending',
         sort_desc: 'Sort descending',
+        last_modified: 'Last modified',
         sort: 'Sort',
         asc_paren: '(asc)',
         desc_paren: '(desc)',
@@ -1612,6 +1613,10 @@ export default {
             'read-only-contributors-list': {
                 editContributorsOnYourProject: 'Edit contributors on your project',
             },
+        },
+        'files-widget': {
+            no_files: 'Drag and drop files here to upload files to this folder',
+            message: 'Only files from root project on OSF Storage are available to attach. To attach files from components or non "OSF Storage" addons, first add them to your root project files.',
         },
         subjects: {
             browse: {
