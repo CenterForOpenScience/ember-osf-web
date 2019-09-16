@@ -10,6 +10,7 @@ export interface NodeAttrs {
     rootId: ID | null;
     licenseId: ID | null;
     _anonymized: boolean;
+    fileProviderId: ID | null;
 }
 
 type MirageNode = Node & { attrs: NodeAttrs };
@@ -94,6 +95,14 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
                     related: {
                         href: `${apiUrl}/v2/nodes/${model.id}/identifiers/`,
                         meta: this.buildRelatedLinkMeta(model, 'identifiers'),
+                    },
+                },
+            },
+            files: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/files/`,
+                        meta: this.buildRelatedLinkMeta(model, 'files'),
                     },
                 },
             },
