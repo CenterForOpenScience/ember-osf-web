@@ -1,59 +1,34 @@
-import { run } from '@ember/runloop';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import DS from 'ember-data';
-import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
-import Node from 'ember-osf-web/models/node';
 import { setupTest } from 'ember-qunit';
-import test from 'ember-sinon-qunit/test-support/test';
 import { TestContext } from 'ember-test-helpers';
-import { module, skip } from 'qunit';
-import { Promise as EmberPromise } from 'rsvp';
+import { module, test } from 'qunit';
 
 module('Unit | Adapter | osf-adapter', hooks => {
     setupTest(hooks);
+    setupMirage(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
-        manualSetup(this);
+        this.store = this.owner.lookup('service:store');
     });
 
-    test('#buildURL appends a trailing slash if missing', function(assert) {
-        const url = 'http://localhost:8000/v2/users/me';
-        this.stub(DS.JSONAPIAdapter.prototype, 'buildURL').callsFake(() => url);
+    test('it exists', function(assert) {
         const adapter = this.owner.lookup('adapter:osf-adapter');
-        const user = FactoryGuy.make('user');
-        const result = adapter.buildURL(
-            'user',
-            'me',
-            user._internalModel.createSnapshot(),
-            'findRecord',
-        );
-        assert.notEqual(url, result);
-        assert.equal(result.slice(-1), '/');
+        assert.ok(adapter);
     });
 
-    test('#buildURL _only_ appends a trailing slash if missing', function(assert) {
-        const url = 'http://localhost:8000/v2/users/me/';
-        this.stub(DS.JSONAPIAdapter.prototype, 'buildURL').callsFake(() => url);
-        const adapter = this.owner.lookup('adapter:osf-adapter');
-        const user = FactoryGuy.make('user');
-        const result = adapter.buildURL(
-            'user',
-            'me',
-            user._internalModel.createSnapshot(),
-            'findRecord',
-        );
-        assert.equal(url, result);
-    });
-
-    test('#buildURL uses relationship links if available for delete, update, and find', function(assert) {
+    test('#buildURL uses relationship links if available for delete, update, and find', async function(assert) {
         const url = 'http://localhost:8000/v2/users/me/rel/';
         const adapter = this.owner.lookup('adapter:osf-adapter');
-        const user = FactoryGuy.make('user');
+        const mirageUser = server.create('user');
+        const user = await this.store.findRecord('user', mirageUser.id);
         user.set('links', { self: url });
 
         ['delete', 'update', 'find'].forEach(verb => {
             const result = adapter.buildURL(
                 'user',
                 'me',
+                // @ts-ignore -- Private API
                 user._internalModel.createSnapshot(),
                 `${verb}Record`,
             );
@@ -61,15 +36,17 @@ module('Unit | Adapter | osf-adapter', hooks => {
         });
     });
 
-    test('#buildURL uses snapshot.adapterOptions.url if available', function(assert) {
+    test('#buildURL uses snapshot.adapterOptions.url if available', async function(assert) {
         const url = 'http://localhost:8000/v2/users/me/rel/';
         const adapter = this.owner.lookup('adapter:osf-adapter');
-        const user = FactoryGuy.make('user');
+        const mirageUser = server.create('user');
+        const user = await this.store.findRecord('user', mirageUser.id);
         user.set('links', null);
 
         const result = adapter.buildURL(
             'user',
             'me',
+            // @ts-ignore -- Private API
             user._internalModel.createSnapshot({
                 adapterOptions: {
                     url,
@@ -80,49 +57,39 @@ module('Unit | Adapter | osf-adapter', hooks => {
         assert.equal(url, result);
     });
 
+    test('#buildURL appends a trailing slash if missing', async function(assert) {
+        const url = 'http://localhost:8000/v2/users/me';
+        const adapter = this.owner.lookup('adapter:osf-adapter');
+        const mirageUser = server.create('user');
+        const user = await this.store.findRecord('user', mirageUser.id);
+
+        const { buildURL: origBuildUrl } = DS.JSONAPIAdapter.prototype;
+        // Stub
+        DS.JSONAPIAdapter.prototype.buildURL = () => url;
+
+        const result = adapter.buildURL(
+            'user',
+            'me',
+            // @ts-ignore -- Private API
+            user._internalModel.createSnapshot(),
+            'findRecord',
+        );
+        assert.notEqual(url, result);
+        assert.equal(result.slice(-1), '/');
+
+        // Restore
+        if (typeof origBuildUrl === 'function') {
+            DS.JSONAPIAdapter.prototype.buildURL = origBuildUrl;
+        } else {
+            delete DS.JSONAPIAdapter.prototype.buildURL;
+        }
+    });
+
     test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
         const adapter = this.owner.lookup('adapter:osf-adapter');
         const opts = adapter.ajaxOptions(null, null, {
             isBulk: true,
         });
         assert.equal(opts.contentType, 'application/vnd.api+json; ext=bulk');
-    });
-
-    skip('#findRecord can embed(via include) data with findRecord', function(assert) {
-        const done = assert.async();
-        assert.expect(1);
-
-        run(() => {
-            this.inject.service('store');
-            const { store } = this;
-
-            const node: Node = FactoryGuy.make('node');
-            let children: Node[];
-
-            return EmberPromise
-                .all([
-                    store.createRecord('node', {
-                        title: 'Foo',
-                    }),
-                    store.createRecord('node', {
-                        title: 'Bar',
-                    }),
-                ])
-                .then(res => {
-                    children = res;
-                    return node.get('children').pushObjects(res);
-                })
-                .then(() => {
-                    node.set('title', 'Parent');
-                    return store.findRecord('node', node.id, { include: 'children' });
-                })
-                .then(res => {
-                    assert.equal(
-                        res.get('children').toArray()[0].get('title'),
-                        children[0].get('title'),
-                    );
-                })
-                .then(done);
-        });
     });
 });
