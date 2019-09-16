@@ -1,9 +1,9 @@
-import { getSchemaBlockGroup, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import { module, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | get-schema-block-group', () => {
-    test('Group stand alone input as question group', assert => {
-        const standAloneSchema: SchemaBlock[] = [
+    test('Get groups from a schema', assert => {
+        const testSchema: SchemaBlock[] = [
             {
                 blockType: 'section-heading',
                 displayText: 'Section in the First Page',
@@ -15,87 +15,95 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
                 registrationResponseKey: 'a1',
                 index: 1,
             },
-        ];
-        const result = getSchemaBlockGroup(standAloneSchema, 'q1');
-        assert.equal(result.registrationResponseKey, 'a1', 'has proper registrationResponseKey');
-        assert.equal(result.schemaBlockGroupKey, 'q1', 'has proper schemaBlockGroupKey');
-        assert.ok(!result.optionBlocks, 'has proper optionBlocks');
-    });
-
-    test('Group multiple choice question as schema block group', assert => {
-        const mulitSelectSchema: SchemaBlock[] = [
             {
-                blockType: 'section-heading',
-                displayText: 'Extraneous heading',
-                index: 0,
+                blockType: 'subsection-heading',
+                displayText: 'Subsection after first input',
+                index: 2,
             },
             {
                 blockType: 'question-label',
                 displayText: 'Multi Select',
                 schemaBlockGroupKey: 'testMulti',
-                index: 1,
+                index: 3,
             },
             {
                 blockType: 'multi-select-input',
                 schemaBlockGroupKey: 'testMulti',
                 registrationResponseKey: 'testMultiAnswer',
-                index: 2,
-            },
-            {
-                blockType: 'select-input-option',
-                schemaBlockGroupKey: 'testMulti',
-                displayText: 'Multi-option 1',
-                index: 3,
-            },
-            {
-                blockType: 'select-input-option',
-                schemaBlockGroupKey: 'testMulti',
-                displayText: 'Multi-option 2',
                 index: 4,
             },
             {
                 blockType: 'select-input-option',
                 schemaBlockGroupKey: 'testMulti',
-                displayText: 'Multi-option 3',
+                displayText: 'Multi-option 1',
                 index: 5,
             },
-        ];
-        const result = getSchemaBlockGroup(mulitSelectSchema, 'testMulti');
-        assert.equal(result.registrationResponseKey, 'testMultiAnswer', 'has proper registrationResponseKey');
-        assert.equal(result.schemaBlockGroupKey, 'testMulti', 'has proper schemaBlockGroupKey');
-        assert.equal(result.optionBlocks!.length, 3, 'has proper optionBlocks');
-    });
-
-    test('Group single choice question as schema block group', assert => {
-        const mulitSelectSchema: SchemaBlock[] = [
+            {
+                blockType: 'select-input-option',
+                schemaBlockGroupKey: 'testMulti',
+                displayText: 'Multi-option 2',
+                index: 6,
+            },
+            {
+                blockType: 'select-input-option',
+                schemaBlockGroupKey: 'testMulti',
+                displayText: 'Multi-option 3',
+                index: 7,
+            },
             {
                 blockType: 'question-label',
                 displayText: 'Single Select',
                 schemaBlockGroupKey: 'testSingle',
-                index: 0,
+                index: 8,
             },
             {
                 blockType: 'single-select-input',
                 schemaBlockGroupKey: 'testSingle',
                 registrationResponseKey: 'testSingleAnswer',
-                index: 1,
+                index: 9,
             },
             {
                 blockType: 'select-input-option',
                 schemaBlockGroupKey: 'testSingle',
                 displayText: 'single-option 1',
-                index: 2,
+                index: 10,
             },
             {
                 blockType: 'select-input-option',
                 schemaBlockGroupKey: 'testSingle',
                 displayText: 'single-option 2',
-                index: 3,
+                index: 11,
             },
         ];
-        const result = getSchemaBlockGroup(mulitSelectSchema, 'testSingle');
-        assert.equal(result.registrationResponseKey, 'testSingleAnswer', 'has proper registrationResponseKey');
-        assert.equal(result.schemaBlockGroupKey, 'testSingle', 'has proper schemaBlockGroupKey');
-        assert.equal(result.optionBlocks!.length, 2, 'has proper optionsBlocks');
+        const result = getSchemaBlockGroups(testSchema);
+        // section heading
+        assert.ok(!result[0].registrationResponseKey, 'section heading has proper registrationResponseKey (none)');
+        assert.ok(result[0].labelBlock, 'section heading has labelBlock');
+        assert.equal(result[0].blocks!.length, 1, 'section heading has proper blocks length (1)');
+        // standalone text input
+        assert.equal(result[1].registrationResponseKey, 'a1',
+            'standalone text input has proper registrationResponseKey');
+        assert.equal(result[1].schemaBlockGroupKey, 'q1',
+            'standalone text input has proper schemaBlockGroupKey');
+        assert.ok(!result[1].optionBlocks, 'standalone text input has proper optionBlocks (none)');
+        assert.equal(result[1].blocks!.length, 1, 'standalone text input has proper blocks length (1)');
+        // subsection heading
+        assert.ok(!result[2].registrationResponseKey, 'subsection heading has proper registrationResponseKey (none');
+        assert.ok(result[2].labelBlock, 'subsection heading has labelBlock');
+        assert.equal(result[2].blocks!.length, 1, 'subsection heading has proper blocks length (1)');
+        // multi select
+        assert.equal(result[3].registrationResponseKey, 'testMultiAnswer',
+            'multi select has proper registrationResponseKey');
+        assert.equal(result[3].schemaBlockGroupKey, 'testMulti',
+            'multi select has proper schemaBlockGroupKey');
+        assert.equal(result[3].optionBlocks!.length, 3, 'multi select has proper optionBlocks');
+        assert.equal(result[3].blocks!.length, 5, 'multi select has proper blocks length (5)');
+        // single select
+        assert.equal(result[4].registrationResponseKey, 'testSingleAnswer',
+            'single select has proper registrationResponseKey');
+        assert.equal(result[4].schemaBlockGroupKey, 'testSingle',
+            'single select has proper schemaBlockGroupKey');
+        assert.equal(result[4].optionBlocks!.length, 2, 'single select has proper optionsBlocks');
+        assert.equal(result[4].blocks!.length, 4, 'single select has proper blocks length (4)');
     });
 });

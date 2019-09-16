@@ -1,0 +1,55 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 15px;
+    font-weight: 700;
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.current-folder {
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.file-browser-list {
+    border: 1px solid $color-border-gray;
+
+    :global(.animated-container) {
+        overflow: hidden;
+    }
+
+    :global(.progress) {
+        margin-bottom: 0;
+        margin-top: 7px;
+    }
+
+    .uploading {
+        padding: 15px;
+    }
+}
+
+.files-list {
+    height: 420px;
+    overflow-y: scroll;
+}
+
+.column {
+    display: flex;
+    align-items: baseline;
+
+    .sort-by {
+        display: flex;
+    }
+}
+
+.load-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-text-blue-dark;
+
+    &:hover {
+        cursor: pointer;
+        background-color: $color-bg-gray-light;
+    }
+}

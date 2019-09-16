@@ -7,6 +7,7 @@
   "dependencies": {
     "@ember/render-modifiers": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
+    "ember-animated": "*",
     "ember-bootstrap": "*",
     "ember-changeset": "*",
     "ember-changeset-validations": "*",

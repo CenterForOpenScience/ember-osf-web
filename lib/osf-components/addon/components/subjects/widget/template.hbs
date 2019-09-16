@@ -6,6 +6,7 @@
 <div local-class='browser-menu'>
     <OsfButton
         data-test-browse-mode
+        data-analytics-name='Show browse'
         @type={{unless this.searchMode 'primary'}}
         @onClick={{action (mut this.searchMode) false}}
     >
@@ -14,6 +15,7 @@
 
     <OsfButton
         data-test-search-mode
+        data-analytics-name='Show search'
         @type={{if this.searchMode 'primary'}}
         @onClick={{action (mut this.searchMode) true}}
     >
@@ -22,7 +24,13 @@
 </div>
 
 {{#if this.searchMode}}
-    <Subjects::Search @subjectsManager={{@subjectsManager}} />
+    <Subjects::Search
+        data-analytics-scope='Search'
+        @subjectsManager={{@subjectsManager}}
+    />
 {{else}}
-    <Subjects::Browse @subjectsManager={{@subjectsManager}} />
+    <Subjects::Browse
+        data-analytics-scope='Browse'
+        @subjectsManager={{@subjectsManager}}
+    />
 {{/if}}

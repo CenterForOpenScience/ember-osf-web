@@ -147,7 +147,7 @@ module.exports = function(defaults) {
         test: 'vendor/ember/ember-template-compiler.js',
     });
 
-    if (mirageEnabled) {
+    if (mirageEnabled || !IS_PROD) {
         app.import('node_modules/seedrandom/seedrandom.min.js', {
             using: [{ transformation: 'amd', as: 'seedrandom' }],
         });

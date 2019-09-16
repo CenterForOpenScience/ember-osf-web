@@ -25,24 +25,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `search/search-result`
         - `widget`
     - `editable-field/subject-field-manager`
+    - `files/`
+        - `browse`
+        - `item`
+        - `list`
+        - `manager`
+        - `selected-list`
+        - `upload-zone`
+        - `widget`
 - Tests
     - Integration
         - `unique-id`
         - `random-text`
+        - `Files::Widget`
 - Ember Optional Features
     - `template-only-glimmer-components`
 - Mirage
     - Factories
         - `subject`
+        - `file-provider`
     - Serializers
         - `subject`
+        - `file-provider`
     - Views
         - `provider-subjects`
+        - `file`
+- Types
+    - `ember-animated`
 - Packages
     - `ember-animated`
     - `ember-element-helper` (`fix-engines` branch)
 - Handbook
     - `Subjects::Widget` component to gallery
+    - `Files::Widget` component to gallery
 
 ### Changed
 - Models
@@ -58,6 +73,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `provider`
         - renamed `taxonomies` hasMany relationship to `subjects`
         - renamed `highlightedTaxonomies` hasMany relationship to `highlightedSubjects`
+    - `file`
+        - rename `node` belongsTo relationship to `target`
 - Serializers
     - `taxonomy`
         - renamed to `subject`
@@ -89,6 +106,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
     - `registries/license-viewer`
         - use `osf-dialog` instead of `bs-modal`
+    - `file-icon`
+        - folders should always use folder icon
+    - `sort-button`
+        - suppress box-shadow when active
     - `registries/registries-metadata`
         - use `Subjects::Widget` and `Subjects::Display` (and related managers) for subjects editable field
 - Tests
@@ -103,21 +124,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Factories
         - `node`
             - removed `subjects` attribute
+            - added `withFiles` trait
         - `registration`
             - added `widthSubjects` trait
+        - `file`
+            - added `target` association
+            - addded `asFolder` trait
     - Serializers
         - `registration-provider`
             - added subjects related link
         - `registration`
             - added subjects self and related links
+        - `file`
+            - s/`node`/`target`/
+            - added folder links
+        - `node`
+            - added files link
     - Views
         - `osf-resource`
             - added self link patch handling
     - Scenarios
         - `registration`
             - create some subjects
+        - `handbook`
+            - create a file tree for the handbook
 - Config
     - updated to use API version 2.15
+- Packages
+    - upgrade to `ember-animated@0.8.1`
 
 ### Removed
 - Tests

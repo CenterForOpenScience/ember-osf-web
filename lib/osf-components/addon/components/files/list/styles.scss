@@ -1,0 +1,17 @@
+.placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 420px;
+    color: $color-text-gray-dark;
+}
+
+.list-container {
+    border-bottom: 1px solid $color-bg-gray-dark;
+
+    div:not(:first-of-type) {
+        border-top: 1px solid $color-bg-gray-dark;
+    }
+}
