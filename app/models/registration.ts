@@ -3,6 +3,7 @@ import { computed } from '@ember-decorators/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
+import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import CommentModel from './comment';
 import ContributorModel from './contributor';
 import InstitutionModel from './institution';
@@ -54,9 +55,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('object') registeredMeta!: RegistrationMetadata;
 
     // Write-only attributes
-    @attr('fixstring') draftRegistration?: string;
-    @attr('fixstring') registrationChoice?: 'immediate' | 'embargo';
-    @attr('date') liftEmbargo?: Date;
+    @attr('array') includedNodeIds?: string[];
 
     @computed(
         'withdrawn', 'embargoed', 'public', 'pendingRegistrationApproval',
@@ -101,6 +100,10 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
 
     @hasMany('institution', { inverse: 'registrations' })
     affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
+
+    // Write-only relationships
+    @belongsTo('draft-registration', { inverse: null })
+    draftRegistration!: DraftRegistrationModel;
 
     registrationStateMap(): Record<RegistrationState, boolean> {
         const {
