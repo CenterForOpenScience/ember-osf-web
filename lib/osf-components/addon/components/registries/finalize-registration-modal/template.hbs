@@ -1,0 +1,58 @@
+<OsfDialog
+    @isOpen={{this.manager.isOpen}}
+    @renderInPlace={{this.manager.renderInPlace}}
+as |dialog|>
+    <dialog.heading>
+        {{t 'registries.finalizeRegistrationModal.title'}}
+    </dialog.heading>
+    <dialog.main>
+        <div local-class='notice'>
+            {{t 'registries.finalizeRegistrationModal.notice'}}
+        </div>
+        <div>
+            <RadioButton
+                @value='immediate'
+                @groupValue={{this.groupValue}}
+                @changed={{action this.onChoiceChange}}
+            >
+                {{t 'registries.finalizeRegistrationModal.immediateOption'}}
+            </RadioButton>
+            {{#if (eq this.groupValue 'immediate')}}
+                <span local-class='create-doi-option'>
+                    <Input @type='checkbox' @checked={{this.manager.registration.createDoi}} />
+                    <label>
+                        {{t 'registries.finalizeRegistrationModal.createDoi'}}
+                    </label>
+                </span>
+            {{/if}}
+        </div>
+        <div>
+            <RadioButton
+                @value='embargo'
+                @groupValue={{this.groupValue}}
+                @changed={{action this.onChoiceChange}}
+            >
+                {{t 'registries.finalizeRegistrationModal.embargoOption'}}
+            </RadioButton>
+            {{#if (eq this.groupValue 'embargo')}}
+                <ValidatedInput::Date
+                    @value={{this.manager.registration.embargoEndDate}}
+                    @startDate={{this.embargoRangeStartDate}}
+                    @endDate={{this.embargoRangeEndDate}}
+                    @placeholder={{t 'registries.finalizeRegistrationModal.datePlaceholder'}}
+                />
+            {{/if}}
+        </div>
+    </dialog.main>
+    <dialog.footer>
+        <OsfButton
+            @type='primary'
+            @onClick={{action this.manager.submitRegistration}}
+            @disabled={{this.shouldDisableSubmitButton}}>
+            {{t 'registries.finalizeRegistrationModal.submit'}}
+        </OsfButton>
+        <OsfButton @type='default'>
+            {{t 'registries.finalizeRegistrationModal.back'}}
+        </OsfButton>
+    </dialog.footer>
+</OsfDialog>

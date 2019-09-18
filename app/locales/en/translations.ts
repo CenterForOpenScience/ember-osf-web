@@ -1388,6 +1388,29 @@ export default {
             selectAll: 'Select All',
             clearAll: 'Clear All',
         },
+        finalizeRegistrationModal: {
+            title: 'Almost done...',
+            notice: `Please keep in mind that:
+                <ul>
+                    <li>
+                        Registrations cannot be modified or deleted once completed.
+                    </li>
+                    <li>
+                        The content and version history of Wiki and OSF Storage will be copied to the registration.
+                    </li>
+                    <li>
+                        This project contains links to other projects.These links will be copied into your registration, but the
+                        projects that they link to will not be registered.If you wish to register the linked projects, they must be
+                        registered separately.Learn more about links.
+                    </li>
+                </ul>`,
+            immediateOption: 'Make registration public immediately',
+            embargoOption: 'Enter registration into embargo',
+            createDoi: 'Create DOI',
+            submit: 'Submit',
+            back: 'Back',
+            datePlaceholder: 'Choose embargo end date',
+        },
     },
     meetings: {
         index: {
