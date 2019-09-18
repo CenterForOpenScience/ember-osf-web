@@ -158,12 +158,13 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         schemaBlockGroupKey: 'q6',
         index: 22,
     },
-    {
-        id: 'SB24',
-        blockType: 'short-text-input',
-        schemaBlockGroupKey: 'q6',
-        index: 23,
-    },
+    // {
+    //     id: 'SB24',
+    //     blockType: 'short-text-input',
+    //     schemaBlockGroupKey: 'q6',
+    //     registrationResponseKey: 'page-one_short-text',
+    //     index: 23,
+    // },
 ];
 
 export const ids = exampleSchema.map(block => block.id);
