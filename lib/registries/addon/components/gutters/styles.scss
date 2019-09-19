@@ -61,7 +61,6 @@
     // Animate page slide ins/outs
     transition: transform 0.4s;
     min-width: 0;
-    background: $white;
 
     &.SlideRight {
         transform: translateX(100%);

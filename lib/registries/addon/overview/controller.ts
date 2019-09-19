@@ -1,14 +1,10 @@
-import { action, computed } from '@ember-decorators/object';
+import { computed } from '@ember-decorators/object';
 import { alias, not } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
-import Media from 'ember-responsive';
 
 import Registration from 'ember-osf-web/models/registration';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
-import CurrentUser from 'ember-osf-web/services/current-user';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 const {
@@ -20,14 +16,7 @@ const {
 const { OSF: { url: baseURL } } = config;
 
 export default class Overview extends Controller {
-    @service media!: Media;
-    @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
-
     model!: GuidRouteModel<Registration>;
-
-    sidenavGutterClosed = true;
-    metadataGutterClosed = true;
 
     supportEmail = supportEmail;
 
@@ -37,25 +26,6 @@ export default class Overview extends Controller {
     @computed('registration.id')
     get registrationURL() {
         return this.registration && pathJoin(baseURL, `${this.registration.id}`);
-    }
-
-    @computed('media.{isMobile,isTablet,isDesktop}')
-    get metadataGutterMode() {
-        if (this.media.isMobile) {
-            return 'page';
-        }
-        if (this.media.isTablet) {
-            return 'drawer';
-        }
-        return 'column';
-    }
-
-    @computed('media.{isMobile,isTablet,isDesktop}')
-    get sidenavGutterMode() {
-        if (this.media.isDesktop) {
-            return 'column';
-        }
-        return 'drawer';
     }
 
     @computed('registration.relatedCounts.comments')
@@ -72,21 +42,11 @@ export default class Overview extends Controller {
         + (this.registration.relatedCounts.linkedRegistrations || 0);
     }
 
-    @action
-    toggleSidenav() {
-        this.toggleProperty('sidenavGutterClosed');
-    }
-
-    @action
-    toggleMetadata() {
-        this.toggleProperty('metadataGutterClosed');
-    }
-
-    @action
-    toggleOverview() {
-        this.setProperties({
-            sidenavGutterClosed: true,
-            metadataGutterClosed: true,
-        });
+    @computed('registration.{}')
+    get shouldHideGutters() {
+        if (!this.registration) {
+            return undefined;
+        }
+        return this.registration.withdrawn || this.registration.archiving;
     }
 }
