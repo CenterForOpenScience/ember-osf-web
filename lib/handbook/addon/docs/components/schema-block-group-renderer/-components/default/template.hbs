@@ -1,10 +1,10 @@
 <DocsDemo as |demo|>
     <demo.example @name='schema-block-group-renderer.default.hbs'>
-
-        {{#each this.schemaGroups as |group|}}
-            Hello
+        {{#each @schemaBlockGroup as |group|}}
             <Registries::SchemaBlockGroupRenderer
-                schemaBlockGroup=group
+                @schemaBlockGroup={{group}}
+                @changeset={{@changeset}}
+                @node={{@node}}
             />
         {{/each}}
     </demo.example>

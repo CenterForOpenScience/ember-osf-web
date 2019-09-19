@@ -1,2 +1,16 @@
-<li data-test-registration-schema-single-select>
-</li>
+<FormControls
+    @changeset={{@changeset}}
+    @disabled={{@disabled}}
+    @shouldShowMessages={{@shouldShowMessages}}
+    as |form|
+>
+    <form.select
+        data-test-single-select-input
+        @id={{@schemaBlock.registrationResponseKey}}
+        @valuePath={{@schemaBlock.registrationResponseKey}}
+        @options={{@options}}
+        as |option|
+    >
+        {{option.displayText}}
+    </form.select>
+</FormControls>

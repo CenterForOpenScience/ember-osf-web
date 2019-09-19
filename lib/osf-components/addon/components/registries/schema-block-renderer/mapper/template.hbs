@@ -1,32 +1,32 @@
 {{yield (hash
     page-heading=(
         component
-        'registries/schema-group-renderer/page-heading'
+        'registries/schema-block-renderer/page-heading'
         schemaBlock=@schemaBlock
     )
     section-heading=(
         component
-        'registries/schema-group-renderer/section-heading'
+        'registries/schema-block-renderer/section-heading'
         schemaBlock=@schemaBlock
     )
     subsection-heading=(
         component
-        'registries/schema-group-renderer/subsection-heading'
+        'registries/schema-block-renderer/subsection-heading'
         schemaBlock=@schemaBlock
     )
     paragraph=(
         component
-        'registries/schema-group-renderer/paragraph'
+        'registries/schema-block-renderer/paragraph'
         schemaBlock=@schemaBlock
     )
-    label=(
+    question-label=(
         component
-        'registries/schema-group-renderer/label'
+        'registries/schema-block-renderer/label'
         schemaBlock=@schemaBlock
     )
     short-text-input=(
         component
-        'registries/schema-group-renderer/text'
+        'registries/schema-block-renderer/text'
         schemaBlock=@schemaBlock
         changeset=@changeset
         disabled=@disabled
@@ -34,7 +34,7 @@
     )
     long-text-input=(
         component
-        'registries/schema-group-renderer/textarea'
+        'registries/schema-block-renderer/textarea'
         schemaBlock=@schemaBlock
         changeset=@changeset
         disabled=@disabled
@@ -42,7 +42,7 @@
     )
     single-select-input=(
         component
-        'registries/schema-group-renderer/single-select-input'
+        'registries/schema-block-renderer/single-select-input'
         schemaBlock=@schemaBlock
         changeset=@changeset
         options=@options
@@ -51,11 +51,17 @@
     )
     multi-select-input=(
         component
-        'registries/schema-group-renderer/multi-select-input'
+        'registries/schema-block-renderer/multi-select-input'
         schemaBlock=@schemaBlock
         changeset=@changeset
         options=@options
         disabled=@disabled
         shouldShowMessages=@shouldShowMessages
+    )
+    contributor-list=(
+        component
+        'registries/schema-block-renderer/read-only-contributor-list'
+        schemaBlock=@schemaBlock
+        node=@node
     )
 )}}
