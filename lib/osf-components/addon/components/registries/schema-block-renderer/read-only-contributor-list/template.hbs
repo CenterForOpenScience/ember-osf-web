@@ -1,0 +1,15 @@
+<div data-test-read-only-contributors-list>
+    <ContributorList
+        @node={{@node}}
+        @shouldTruncate={{false}}
+        @shouldLinkUsers={{true}}
+    />
+</div>
+<div data-test-edit-contributors>
+    <OsfLink
+        data-test-to-contributors-page
+        @href={{concat @node.guid '/contributors/'}}
+    >
+        {{t 'osf-components.registries.read-only-contributors-list.editContributorsOnYourProject'}}
+    </OsfLink>
+</div>

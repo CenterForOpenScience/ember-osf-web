@@ -1,7 +1,9 @@
+import Changeset from 'ember-changeset';
+
 import Controller from '@ember/controller';
 
 export default class SchemaBlockGroupRendererController extends Controller {
-    schemaGroup = [
+    schemaBlockGroup = [
         {
             groupType: 'short-text-input',
             blocks: [
@@ -128,14 +130,32 @@ export default class SchemaBlockGroupRendererController extends Controller {
                     schemaBlockGroupKey: 'q4',
                     index: 15,
                 },
+            ],
+        },
+        {
+            groupType: 'contributor-list',
+            blocks: [
                 {
                     id: 'SB17',
-                    blockType: 'short-text-input',
-                    registrationResponseKey: 'page-one_multi-select-other',
+                    blockType: 'question-label',
+                    displayText: 'Contributors:',
                     schemaBlockGroupKey: 'q5',
                     index: 16,
+                },
+                {
+                    id: 'SB18',
+                    blockType: 'contributor-list',
+                    schemaBlockGroupKey: 'q5',
+                    index: 17,
                 },
             ],
         },
     ];
+    schemaChangeset = {
+        'page-one_short-text': '',
+        'page-one_long-text': '',
+        'page-one_single-select-two': '',
+        'page-one_multi-select': [],
+    };
+    groupChangeset = new Changeset(this.schemaChangeset);
 }
