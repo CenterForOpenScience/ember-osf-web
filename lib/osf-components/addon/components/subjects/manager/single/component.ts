@@ -10,6 +10,7 @@ import DS from 'ember-data';
 import { layout } from 'ember-osf-web/decorators/component';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import SubjectModel from 'ember-osf-web/models/subject';
+import Analytics from 'ember-osf-web/services/analytics';
 import { SubjectManager } from 'osf-components/components/subjects/manager/component';
 
 import template from './template';
@@ -57,6 +58,7 @@ export default class SingleSubjectManagerComponent extends Component.extend({
     subject?: SubjectModel;
 
     // private
+    @service analytics!: Analytics;
     @service store!: DS.Store;
 
     children?: QueryHasManyResult<SubjectModel>;
@@ -112,15 +114,30 @@ export default class SingleSubjectManagerComponent extends Component.extend({
     }
 
     @action
-    toggleSelected() {
+    toggleSelected(event: Event) {
         const { subject } = this;
+
         if (!subject) {
             return;
         }
 
+        const target = event.currentTarget as Element;
+
         if (this.isSelected) {
+            this.analytics.trackFromElement(target, {
+                name: 'Remove',
+                category: 'subject',
+                action: 'select',
+                extra: subject.text,
+            });
             this.subjectsManager.unselectSubject(subject);
         } else {
+            this.analytics.trackFromElement(target, {
+                name: 'Add',
+                category: 'subject',
+                action: 'select',
+                extra: subject.text,
+            });
             this.subjectsManager.selectSubject(subject);
         }
     }

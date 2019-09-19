@@ -21,10 +21,6 @@ export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidat
                 'validated-input/checkboxes expects valuePath to lead to a hasMany relation',
                 Boolean(this.model.hasMany(this.valuePath)),
             );
-        } else {
-            assert(
-                'validated-input/checkboxes expects a model to be passed in',
-            );
         }
     }
 }
