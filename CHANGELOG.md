@@ -171,6 +171,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added splattributes because this is template-only
     - `registries/sharing-icons/popover`
         - added splattributes because this is template-only
+- Handbook
+    - `osf-dialog` `demo-is-open` needs component file because it muts `isOpen`
 
 ## [19.9.0] - 2019-09-06
 ### Added
