@@ -110,6 +110,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - folders should always use folder icon
     - `sort-button`
         - suppress box-shadow when active
+    - `osf-dialog`
+        - darken background overlay
 - Tests
     - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
     - Unit
