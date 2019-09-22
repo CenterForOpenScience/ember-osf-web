@@ -149,7 +149,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `handbook`
             - create a file tree for the handbook
 - Config
-    - updated to use API version 2.15
+    - updated to use API version 2.16
 - Packages
     - upgrade to `ember-animated@0.8.1`
 
