@@ -8,31 +8,33 @@ import {
     SchemaBlock,
     SchemaBlockGroup,
 } from 'ember-osf-web/packages/registration-schema';
+import { PageResponse } from 'ember-osf-web/packages/registration-schema/page-response';
 
 export class PageManager {
-    changeSet?: ChangesetDef;
+    changeset?: ChangesetDef;
     schemaBlockGroups?: SchemaBlockGroup[];
     pageValidations?: any;
     pageResponses?: Record<string, ResponseValue>;
     pageHeadingText?: string;
 
-    constructor(pageSchemaBlocks: SchemaBlock[]) {
+    constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: PageResponse) {
         this.schemaBlockGroups = getSchemaBlockGroups(pageSchemaBlocks);
         this.pageHeadingText = this.schemaBlockGroups[0].labelBlock!.displayText;
         this.pageResponses = {};
         for (const group of this.schemaBlockGroups) {
             if (group.registrationResponseKey) {
-                this.pageResponses[group.registrationResponseKey] = null;
+                this.pageResponses[group.registrationResponseKey]
+                    = registrationResponses[group.registrationResponseKey];
             }
         }
         const validations = buildValidation(this.schemaBlockGroups);
-        this.changeSet = new Changeset(this.pageResponses, lookupValidator(validations), validations) as ChangesetDef;
+        this.changeset = new Changeset(this.pageResponses, lookupValidator(validations), validations) as ChangesetDef;
     }
 
     pageIsValid() {
-        if (this.changeSet) {
-            this.changeSet.validate();
-            return this.changeSet.isValid;
+        if (this.changeset) {
+            this.changeset.validate();
+            return this.changeset.isValid;
         }
         return false;
     }

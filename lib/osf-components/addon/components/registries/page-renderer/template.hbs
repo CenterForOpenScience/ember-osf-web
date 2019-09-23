@@ -1,0 +1,3 @@
+{{#each this.pageManager.schemaBlockGroups as |group|}}
+    <Registries::SchemaBlockGroupRenderer @schemaBlockGroup={{group}} @changeset={{this.pageManager.changeset}} />
+{{/each}}
