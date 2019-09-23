@@ -33,7 +33,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `selected-list`
         - `upload-zone`
         - `widget`
+- Validators
+    - `list` - apply a validator to a list
 - Tests
+    - Unit
+        - validators
+            - `validateList`
     - Integration
         - `unique-id`
         - `random-text`
