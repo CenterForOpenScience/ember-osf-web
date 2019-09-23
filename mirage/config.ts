@@ -40,7 +40,7 @@ export default function(this: Server) {
 
     osfResource(this, 'developer-app', { path: 'applications', except: ['create'] });
     this.post('/applications', createDeveloperApp);
-    this.post('/applications/:id/reset', resetClientSecret);
+    this.patch('/applications/:id', resetClientSecret);
 
     osfResource(this, 'file', { only: ['show', 'update'] });
 
