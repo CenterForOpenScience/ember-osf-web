@@ -9,14 +9,14 @@
         {{#each this.options as |option|}}
             {{yield (hash
                 option=option
-                checkboxId=(concat this.elementId '__' option.id)
+                checkboxId=(unique-id this.elementId)
                 checkbox=(component 'validated-input/checkboxes/x-checkbox'
                     relationArray=this.value
                     option=option
                     checkboxName=this.valuePath
                     ariaLabel=this.ariaLabel
                     disabled=this.disabled
-                    checkboxId=(concat this.elementId '__' option.id)
+                    checkboxId=(unique-id this.elementId)
                 )
             )}}
         {{/each}}

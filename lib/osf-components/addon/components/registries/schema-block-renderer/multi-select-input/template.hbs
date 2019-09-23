@@ -8,14 +8,14 @@
         data-test-multi-select-input
         @id={{@schemaBlock.registrationResponseKey}}
         @valuePath={{@schemaBlock.registrationResponseKey}}
-        @options={{@options}}
+        @options={{this.optionBlockValues}}
         as |cb|
     >
         <div data-test-multiple-select-option>
             {{cb.checkbox}}
             <label for={{cb.checkboxId}}>
                 <div data-test-scope-description>
-                    {{cb.option.displayText}}
+                    {{cb.option}}
                 </div>
             </label>
         </div>

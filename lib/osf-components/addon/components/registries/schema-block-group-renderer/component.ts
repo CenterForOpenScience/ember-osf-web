@@ -7,6 +7,8 @@ import Component from '@ember/component';
 import { layout } from 'ember-osf-web/decorators/component';
 import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 
+import { alias } from '@ember-decorators/object/computed';
+import Changeset from 'ember-changeset';
 import template from './template';
 
 @layout(template)
@@ -14,23 +16,14 @@ import template from './template';
 export default class SchemaBlockGroupRenderer extends Component {
     // Required parameters
     schemaBlockGroup!: SchemaBlockGroup;
-    // changeset!: Changeset;
+    changeset!: Changeset;
 
     // Optional params
     disabled: boolean = false;
     shouldShowMessages: boolean = true;
 
-    // Check that the chunk is a multiselect
-    @computed('schemaBlockGroup')
-    get hasMultipleOptions(): boolean {
-        return this.schemaBlockGroup.groupType === 'multi-select-input'
-            || this.schemaBlockGroup.groupType === 'single-select-input';
-    }
-
-    @computed('hasMultipleOptions')
-    get optionBlocks(): SchemaBlock[] {
-        return this.schemaBlockGroup.optionBlocks || [];
-    }
+    @alias('schemaBlockGroup.optionBlocks')
+    optionBlocks!: SchemaBlock[];
 
     @computed('schemaBlockGroup.blocks')
     get nonOptionBlocks(): SchemaBlock[] | undefined {

@@ -16,10 +16,20 @@ export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidat
 
     constructor(...args: any[]) {
         super(...args);
+        if (this.model && this.changeset) {
+            assert('validated-input/checkboxes cannot take both a model and a changeset', false);
+        }
         if (this.model) {
             assert(
-                'validated-input/checkboxes expects valuePath to lead to a hasMany relation',
+                'validated-input/checkboxes expects valuePath to lead to a hasMany relation for models',
                 Boolean(this.model.hasMany(this.valuePath)),
+            );
+        }
+        if (this.changeset) {
+            const valuePathArray = this.changeset.get(this.valuePath);
+            assert(
+                'validated-input/checkboxes expects valuePath to lead to a array attribute for changesets',
+                Boolean(valuePathArray instanceof Array),
             );
         }
     }
