@@ -1,14 +1,15 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
-
-// import Changeset from 'ember-changeset';
+import { assert } from '@ember/debug';
+import Changeset from 'ember-changeset';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import NodeModel from 'ember-osf-web/models/node';
 import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
+import defaultTo from 'ember-osf-web/utils/default-to';
 
-import { alias } from '@ember-decorators/object/computed';
-import Changeset from 'ember-changeset';
 import template from './template';
 
 @layout(template)
@@ -17,13 +18,21 @@ export default class SchemaBlockGroupRenderer extends Component {
     // Required parameters
     schemaBlockGroup!: SchemaBlockGroup;
     changeset!: Changeset;
+    node!: NodeModel;
 
     // Optional params
-    disabled: boolean = false;
-    shouldShowMessages: boolean = true;
+    disabled: boolean = defaultTo(this.disabled, false);
+    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 
     @alias('schemaBlockGroup.optionBlocks')
     optionBlocks!: SchemaBlock[];
+
+    init() {
+        super.init();
+        assert('A schema group is required to render schema groups', Boolean(this.schemaBlockGroup));
+        assert('A changeset is required to render schema groups', Boolean(this.changeset));
+        assert('A node is required to render schema groups', Boolean(this.node));
+    }
 
     @computed('schemaBlockGroup.blocks')
     get nonOptionBlocks(): SchemaBlock[] | undefined {

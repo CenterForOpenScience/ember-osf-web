@@ -22,6 +22,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
                     index: 2,
                 },
             ],
+            optionBlocks: [],
         },
         {
             groupType: 'long-text-input',
@@ -41,6 +42,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
                     index: 4,
                 },
             ],
+            optionBlocks: [],
         },
         {
             groupType: 'single-select-input',
@@ -149,13 +151,14 @@ export default class SchemaBlockGroupRendererController extends Controller {
                     index: 17,
                 },
             ],
+            optionBlocks: [],
         },
     ];
-    schemaChangeset = {
+    pageResponse = {
         'page-one_short-text': '',
         'page-one_long-text': '',
         'page-one_single-select-two': '',
         'page-one_multi-select': [],
     };
-    groupChangeset = new Changeset(this.schemaChangeset);
+    pageResponseChangeset = new Changeset(this.pageResponse);
 }
