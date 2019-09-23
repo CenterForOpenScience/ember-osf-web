@@ -13,7 +13,6 @@ import { PageResponse } from 'ember-osf-web/packages/registration-schema/page-re
 export class PageManager {
     changeset?: ChangesetDef;
     schemaBlockGroups?: SchemaBlockGroup[];
-    pageValidations?: any;
     pageResponses?: Record<string, ResponseValue>;
     pageHeadingText?: string;
 
