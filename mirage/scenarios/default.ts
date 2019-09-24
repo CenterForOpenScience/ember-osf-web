@@ -50,6 +50,11 @@ function registrationScenario(
     draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
 
     server.create('registration', { id: 'beefs' });
+    server.create('draft-registration', {
+        id: 'dcaf',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        initiator: currentUser,
+    });
 
     server.create('registration', {
         id: 'decaf',

@@ -89,6 +89,11 @@ export default function(this: Server) {
         only: ['related', 'self'],
     });
 
+    osfResource(this, 'draft-registration', {
+        only: ['index', 'show'],
+        path: '/draft_registrations',
+    });
+
     osfResource(this, 'registration', { except: ['show'] });
     this.get('/registrations/:id', registrationDetail);
     osfNestedResource(this, 'registration', 'children');
