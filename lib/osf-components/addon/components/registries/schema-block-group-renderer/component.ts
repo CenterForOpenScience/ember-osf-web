@@ -9,7 +9,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
 import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 import defaultTo from 'ember-osf-web/utils/default-to';
-
+import { uniqueId } from 'osf-components/helpers/unique-id';
 import template from './template';
 
 @layout(template)
@@ -32,6 +32,11 @@ export default class SchemaBlockGroupRenderer extends Component {
         assert('A schema group is required to render schema groups', Boolean(this.schemaBlockGroup));
         assert('A changeset is required to render schema groups', Boolean(this.changeset));
         assert('A node is required to render schema groups', Boolean(this.node));
+    }
+
+    @computed('schemaBlockGroup')
+    get uniqueID() {
+        return uniqueId([this.schemaBlockGroup.groupType]);
     }
 
     @computed('schemaBlockGroup.blocks')

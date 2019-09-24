@@ -6,11 +6,11 @@
 >
     <form.select
         data-test-single-select-input
-        @id={{@schemaBlock.registrationResponseKey}}
+        @id={{@uniqueID}}
         @valuePath={{@schemaBlock.registrationResponseKey}}
-        @options={{@optionBlocks}}
+        @options={{@this.optionBlockValues}}
         as |option|
     >
-        {{option.displayText}}
+        {{option}}
     </form.select>
 </FormControls>
