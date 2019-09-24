@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - generates random text
     - `unique-id`
         - generate a unique-enough string for use in a DOM element's `id`
+    - `has-validation-error`
+        - check if a list of validator results contains a validation error
 - Components
     - `subjects/`
         - `browse`
@@ -37,6 +39,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `list` - apply a validator to a list
 - Tests
     - Unit
+        - helpers
+            - `has-validation-error`
         - validators
             - `validateList`
     - Integration
