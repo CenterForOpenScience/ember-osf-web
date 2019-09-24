@@ -1,0 +1,58 @@
+<DocsDemo as |demo|>
+    <demo.example @name='validate-list.demo.hbs'>
+        <p>
+            changeset.list:
+            {{#if this.changeset.error.list.validation}}
+                <div local-class='ValidationError'>
+                    Validation Errors
+                </div>
+            {{else}}
+                <div local-class='ValidationSuccess'>
+                    Success
+                </div>
+            {{/if}}
+        </p>
+        <ul>
+            {{#each (range 0 this.changeset.list.length) as |index|}}
+                <li>
+                    <div>
+                        '{{get this.changeset.list index}}'
+                    </div>
+                    {{#if (has-validation-error (get this.listErrors index))}}
+                        <div local-class='ValidationError'>
+                            {{get this.listErrors index}}
+                        </div>
+                    {{else}}
+                        <div local-class='ValidationSuccess'>
+                            Success
+                        </div>
+                    {{/if}}
+                </li>
+            {{/each}}
+        </ul>
+
+        <OsfButton @onClick={{action (mut this.changeset.list) (array 'foo' 'bar' 'baz')}}>
+            All Present
+        </OsfButton>
+
+        <OsfButton @onClick={{action (mut this.changeset.list) (array 'foo' '' 'baz')}}>
+            One Missing
+        </OsfButton>
+
+        <OsfButton @onClick={{action (mut this.changeset.list) (array '' '' '')}}>
+            All Missing
+        </OsfButton>
+
+        <OsfButton @onClick={{action (mut this.changeset.list) (array)}}>
+            Empty
+        </OsfButton>
+    </demo.example>
+
+    <demo.snippet
+        @name='validate-list.demo.hbs'
+    />
+    <demo.snippet
+        @name='validate-list.component'
+        @label='component.ts'
+    />
+</DocsDemo>
