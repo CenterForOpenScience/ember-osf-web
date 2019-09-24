@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { tagName } from '@ember-decorators/component';
 import { layout } from 'ember-osf-web/decorators/component';
 
+import { assert } from '@ember/debug';
 import { PageManager } from 'ember-osf-web/packages/registration-schema/page-manager';
 import styles from './styles';
 import template from './template';
@@ -11,5 +12,10 @@ import template from './template';
 @tagName('')
 export default class PageRenderer extends Component {
     // Required param
-    pageManager?: PageManager;
+    pageManager!: PageManager;
+
+    constructor(...args: any[]) {
+        super(...args);
+        assert('A pageManger is needed for page-renderer', Boolean(this.pageManager));
+    }
 }
