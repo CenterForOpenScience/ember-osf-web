@@ -68,6 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `Subjects::Widget` component to gallery
     - `Files::Widget` component to gallery
     - `validateList` validator
+    - `has-validation-error` helper
 
 ### Changed
 - Models
