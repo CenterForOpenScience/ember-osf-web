@@ -148,6 +148,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - create some subjects
         - `handbook`
             - create a file tree for the handbook
+- Types
+    - `ember-changeset-validations`
+        - added `ValidatorFunction` and `ValidatorResult`
 - Config
     - updated to use API version 2.16
 - Packages
