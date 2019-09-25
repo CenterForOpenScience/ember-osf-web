@@ -4,7 +4,6 @@ import DS, { RelationshipsFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
-import { copy } from '@ember/object/internals';
 import BaseValidatedComponent from '../base-component';
 import styles from './styles';
 import template from './template';
@@ -16,7 +15,7 @@ export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidat
     // Additional required arguments
     options!: any[]; // Model instances that could be added to the hasMany
 
-    selectedOptions: any = [];
+    selectedOptions: unknown[] = [];
 
     constructor(...args: any[]) {
         super(...args);
@@ -40,7 +39,12 @@ export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidat
 
     didReceiveAttrs() {
         if (this.changeset) {
-            this.selectedOptions = copy(this.changeset.get(this.valuePath), true);
+            const values = this.changeset.get(this.valuePath) as unknown as unknown[];
+            assert(
+                'Validated-input/checkboxes expects the changeset value to be an array',
+                Array.isArray(values),
+            );
+            this.selectedOptions = values.slice();
         }
     }
 

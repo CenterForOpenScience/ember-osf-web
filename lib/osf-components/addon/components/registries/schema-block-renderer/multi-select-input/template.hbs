@@ -2,6 +2,7 @@
     @changeset={{@changeset}}
     @disabled={{@disabled}}
     @shouldShowMessages={{@shouldShowMessages}}
+    ...attributes
     as |form|
 >
     <form.checkboxes
@@ -11,7 +12,7 @@
         @options={{this.optionBlockValues}}
         as |cb|
     >
-        <div data-test-multiple-select-option>
+        <div data-test-multiple-select-option={{cb.option}}>
             {{cb.checkbox}}
             <label for={{cb.checkboxId}}>
                 <div data-test-scope-description>

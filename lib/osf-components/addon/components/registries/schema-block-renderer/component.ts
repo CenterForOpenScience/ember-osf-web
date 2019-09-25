@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import Changeset from 'ember-changeset';
 
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -18,4 +19,9 @@ export default class SchemaBlockRenderer extends Component {
     // Optional params
     disabled: boolean = defaultTo(this.disabled, false);
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+
+    didReceiveAttrs() {
+        assert('schema-block-renderer requires a schemaBlock to render', Boolean(this.schemaBlock));
+        assert('schema-block-renderer requires a changeset to render', Boolean(this.changeset));
+    }
 }

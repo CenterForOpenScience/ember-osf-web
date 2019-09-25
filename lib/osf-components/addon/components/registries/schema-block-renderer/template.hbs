@@ -1,4 +1,4 @@
-<Registries::SchemaBlockRenderer::Mapper as |renderers|>
+<Registries::SchemaBlockRenderer::Mapper ...attributes as |renderers|>
     {{#let (get renderers @schemaBlock.blockType) as |Renderer|}}
         <Renderer
             @changeset={{@changeset}}

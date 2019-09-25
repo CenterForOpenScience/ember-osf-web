@@ -2,13 +2,14 @@
     @changeset={{@changeset}}
     @disabled={{@disabled}}
     @shouldShowMessages={{@shouldShowMessages}}
+    ...attributes
     as |form|
 >
     <form.select
         data-test-single-select-input
         @id={{@uniqueID}}
         @valuePath={{@schemaBlock.registrationResponseKey}}
-        @options={{@this.optionBlockValues}}
+        @options={{this.optionBlockValues}}
         as |option|
     >
         {{option}}

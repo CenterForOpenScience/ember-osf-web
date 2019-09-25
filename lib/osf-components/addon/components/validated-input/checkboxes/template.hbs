@@ -7,19 +7,21 @@
 }}
     <div local-class='Checkboxes'>
         {{#each this.options as |option|}}
-            {{yield (hash
-                option=option
-                checkboxId=(unique-id this.elementId)
-                checkbox=(component 'validated-input/checkboxes/x-checkbox'
-                    relationArray=this.value
+            {{#let (unique-id this.elementId) as |checkboxId|}}
+                {{yield (hash
                     option=option
-                    checkboxName=this.valuePath
-                    ariaLabel=this.ariaLabel
-                    disabled=this.disabled
-                    checkboxId=(unique-id this.elementId)
-                    onCheck=(action this.onCheck)
-                )
-            )}}
+                    checkboxId=checkboxId
+                    checkbox=(component 'validated-input/checkboxes/x-checkbox'
+                        relationArray=this.value
+                        option=option
+                        checkboxName=this.valuePath
+                        ariaLabel=this.ariaLabel
+                        disabled=this.disabled
+                        checkboxId=checkboxId
+                        onCheck=(action this.onCheck)
+                    )
+                )}}
+            {{/let}}
         {{/each}}
     </div>
 {{/validated-input/x-input-wrapper}}

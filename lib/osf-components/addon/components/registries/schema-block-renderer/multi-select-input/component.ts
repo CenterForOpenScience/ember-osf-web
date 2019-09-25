@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 
 import { computed } from '@ember-decorators/object';
 import { layout } from 'ember-osf-web/decorators/component';
@@ -11,6 +12,10 @@ import template from './template';
 export default class MultiSelectInput extends Component {
     // Required param
     optionBlocks!: SchemaBlock[];
+
+    didReceiveAttrs() {
+        assert('multi-select-input requires optionBlocks to render', Boolean(this.optionBlocks));
+    }
 
     @computed('optionBlocks')
     get optionBlockValues() {
