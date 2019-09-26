@@ -1,0 +1,9 @@
+<@gutters.left-gutter as |leftGutter|>
+    {{yield (hash
+        leftNav=(component 'side-nav'
+            onLinkClicked=@toggleSidenav
+        )
+        leftGutterMode=leftGutter.mode
+        toggleSidenav=@toggleSidenav
+    )}}
+</@gutters.left-gutter>

@@ -41,12 +41,4 @@ export default class Overview extends Controller {
         return (this.registration.relatedCounts.linkedNodes || 0)
         + (this.registration.relatedCounts.linkedRegistrations || 0);
     }
-
-    @computed('registration.{}')
-    get shouldHideGutters() {
-        if (!this.registration) {
-            return undefined;
-        }
-        return this.registration.withdrawn || this.registration.archiving;
-    }
 }
