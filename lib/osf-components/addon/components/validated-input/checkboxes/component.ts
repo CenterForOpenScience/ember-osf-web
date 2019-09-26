@@ -19,9 +19,6 @@ export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidat
 
     constructor(...args: any[]) {
         super(...args);
-        if (this.model && this.changeset) {
-            assert('validated-input/checkboxes cannot take both a model and a changeset', false);
-        }
         if (this.model) {
             assert(
                 'validated-input/checkboxes expects valuePath to lead to a hasMany relation for models',
