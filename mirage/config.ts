@@ -5,7 +5,7 @@ import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createBibliographicContributor } from './views/contributor';
-import { createDeveloperApp, resetClientSecret } from './views/developer-app';
+import { createDeveloperApp, updateDeveloperApp } from './views/developer-app';
 import {
     folderFilesList,
     nodeFileProviderList,
@@ -40,7 +40,7 @@ export default function(this: Server) {
 
     osfResource(this, 'developer-app', { path: 'applications', except: ['create', 'update'] });
     this.post('/applications', createDeveloperApp);
-    this.patch('/applications/:id', resetClientSecret);
+    this.patch('/applications/:id', updateDeveloperApp);
 
     osfResource(this, 'file', { only: ['show', 'update'] });
 

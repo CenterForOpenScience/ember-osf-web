@@ -31,7 +31,6 @@ export default class DeveloperAppClientSecret extends Component {
     async resetSecret() {
         if (this.developerApp) {
             this.set('shouldShowSecret', false);
-            // TODO (EMB-407) When the API is updated, PATCH `clientSecret` to `null`
             this.developerApp.set('clientSecret', null);
             await this.developerApp.save();
             this.toast.success(this.i18n.t('settings.developer-apps.resetSecret.success'));

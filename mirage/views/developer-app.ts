@@ -9,9 +9,7 @@ export function createDeveloperApp(this: HandlerContext, schema: Schema) {
     return schema.developerApps.create(attrs);
 }
 
-export function resetClientSecret(this: HandlerContext, schema: Schema, request: Request) {
-    // server.put(opts.path, (schema: Schema, request: Request) => {
-    // });
+export function updateDeveloperApp(this: HandlerContext, schema: Schema, request: Request) {
     const developerApp = schema.developerApps.find(request.params.id);
     const { data: { attributes } } = JSON.parse(request.requestBody);
     if (attributes.client_secret === null) {
