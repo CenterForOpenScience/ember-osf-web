@@ -18,9 +18,9 @@
                     <div>
                         '{{get this.changeset.list index}}'
                     </div>
-                    {{#if (has-validation-error (get this.listErrors index))}}
+                    {{#if (has-validation-error (get this.listResults index))}}
                         <div local-class='ValidationError'>
-                            {{get this.listErrors index}}
+                            {{get this.listResults index}}
                         </div>
                     {{else}}
                         <div local-class='ValidationSuccess'>

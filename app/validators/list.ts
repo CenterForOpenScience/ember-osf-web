@@ -36,22 +36,14 @@ export default function validateList(validator: ValidatorFunction): ListValidato
     };
 }
 
-export function pivotErrors(errors?: Array<ValidatorResult | ValidatorResult[]>) {
-    const result: ValidatorResult[][] = [];
-    if (errors) {
-        // pivot errors table so that items are first dimension
-        // and errors for each item are second dimension
-        errors.forEach(error => {
-            if (Array.isArray(error)) {
-                error.forEach((itemError, index) => {
-                    if (result[index]) {
-                        result[index].push(itemError);
-                    } else {
-                        result[index] = [itemError];
-                    }
-                });
-            }
-        });
-    }
-    return result;
+/**
+ * Transpose a ValidatorResult table so that items are the first dimension and
+ * validator results for each item are the second dimension, excluding validator
+ * results that are not arrays (and thus aren't for individual list items).
+ */
+export function transposeResults(results?: Array<ValidatorResult | ValidatorResult[]>) {
+    const transposer = (acc: ValidatorResult[][], itemErrors: ValidatorResult[]) => (
+        Array.isArray(itemErrors) ? itemErrors.map((val, index) => [...(acc[index] || []), val]) : acc
+    );
+    return results ? results.reduce(transposer, []) : undefined;
 }
