@@ -2,24 +2,26 @@ import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
-import styles from './styles';
 import template from './template';
 
 @tagName('')
-@layout(template, styles)
-export default class RegistriesLayout extends Component {
+@layout(template)
+export default class OsfLayout extends Component {
     @service media!: Media;
 
     sidenavGutterClosed = true;
     metadataGutterClosed = true;
+    backgroundClass: string = this.backgroundClass;
 
-    hideLeftGutter: boolean = defaultTo(this.hideLeftGutter, true);
-    hideRightGutter: boolean = defaultTo(this.hideRightGutter, true);
+    init() {
+        super.init();
+        assert('@backgroundClass is required!', Boolean(this.backgroundClass));
+    }
 
     @computed('media.{isMobile,isTablet,isDesktop}')
     get metadataGutterMode() {
