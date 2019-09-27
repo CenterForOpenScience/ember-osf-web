@@ -37,7 +37,7 @@ export default function validateList(validator: ValidatorFunction): ListValidato
  * results that are not arrays (and thus aren't for individual list items).
  */
 export function transposeResults(results?: Array<ValidatorResult | ValidatorResult[]>) {
-    const transposer = (acc: ValidatorResult[][], itemErrors: ValidatorResult[]) =>
-        itemErrors.filter(Array.isArray).map((val, index) => [...(acc[index] || []), val]);
+    const transposer = (acc: ValidatorResult[][], validatorResults: ValidatorResult[]) =>
+        validatorResults.filter(Array.isArray).map((val, index) => [...(acc[index] || []), val]);
     return results ? results.reduce(transposer, []) : undefined;
 }
