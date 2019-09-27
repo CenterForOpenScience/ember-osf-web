@@ -5,7 +5,7 @@ import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
 
 export default class InstitutionalUserModel extends OsfModel {
-    @attr('string') department?: string;
+    @attr('fixstring') department?: string;
     @attr('number') publicProjectCount!: number;
     @attr('number') privateProjectCount!: number;
 
