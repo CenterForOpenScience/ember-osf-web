@@ -18,7 +18,7 @@ To be used with Registries submission forms.  Given a schema group, changeset an
 
 ## Default
 {{docs/components/schema-block-group-renderer/-components/default
-    schemaBlockGroup=this.schemaBlockGroup
+    schemaBlockGroups=this.schemaBlockGroups
     changeset=this.pageResponseChangeset
     node=this.model
 }}

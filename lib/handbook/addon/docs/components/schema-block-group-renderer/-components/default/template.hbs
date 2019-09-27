@@ -1,6 +1,6 @@
 <DocsDemo as |demo|>
     <demo.example @name='schema-block-group-renderer.default.hbs'>
-        {{#each @schemaBlockGroup as |group|}}
+        {{#each @schemaBlockGroups as |group|}}
             <Registries::SchemaBlockGroupRenderer
                 @schemaBlockGroup={{group}}
                 @changeset={{@changeset}}

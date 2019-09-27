@@ -11,7 +11,7 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
 
-    test('it renders a schema group 991', async function(assert) {
+    test('it renders a schema group', async function(assert) {
         const schemaBlocks: SchemaBlock[] = [
             {
                 blockType: 'page-heading',
@@ -150,7 +150,7 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
             },
         ];
 
-        const schemaBlockGroup = getSchemaBlockGroups(schemaBlocks);
+        const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
 
         const pageResponse = {
             'page-one_short-text': '',
@@ -169,10 +169,10 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
         });
 
         this.set('node', await reloadNode);
-        this.set('schemaBlockGroup', schemaBlockGroup);
+        this.set('schemaBlockGroups', schemaBlockGroups);
         this.set('pageResponseChangeset', pageResponseChangeset);
         await render(hbs`
-            {{#each this.schemaBlockGroup as |group|}}
+            {{#each this.schemaBlockGroups as |group|}}
                 <Registries::SchemaBlockGroupRenderer
                     @schemaBlockGroup={{group}}
                     @changeset={{this.pageResponseChangeset}}

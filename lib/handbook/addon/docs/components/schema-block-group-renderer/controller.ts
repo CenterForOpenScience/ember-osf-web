@@ -143,7 +143,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
         },
     ];
 
-    schemaBlockGroup = getSchemaBlockGroups(this.schemaBlocks);
+    schemaBlockGroups = getSchemaBlockGroups(this.schemaBlocks);
 
     pageResponse = {
         'page-one_short-text': '',
