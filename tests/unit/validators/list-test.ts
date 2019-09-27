@@ -9,10 +9,10 @@ interface ValidatorTestContext extends TestContext {
     listValidator: ListValidatorFunction;
 }
 
-function validateTrue(): ValidatorFunction {
+function validateTruthy(): ValidatorFunction {
     return (_: string, newValue: unknown) => {
         if (!newValue) {
-            return 'false!';
+            return 'Must be truthy';
         }
         return true;
     };
@@ -22,7 +22,7 @@ module('Unit | Validator | list', hooks => {
     setupTest(hooks);
 
     hooks.beforeEach(function(this: ValidatorTestContext) {
-        this.listValidator = validateList(validateTrue());
+        this.listValidator = validateList(validateTruthy());
     });
 
     test(
@@ -69,31 +69,31 @@ module('Unit | Validator | list', hooks => {
     test(
         'it returns validation errors when at least one element fails validation',
         function(this: ValidatorTestContext, assert) {
-            let newValue = [false];
+            let newValue = [0];
             assert.deepEqual(
                 this.listValidator('foo', newValue, undefined, { foo: newValue }, {}),
-                ['false!'],
+                ['Must be truthy'],
                 'single element list with validation error',
             );
 
-            newValue = [true, false, true];
+            newValue = [1, 0, 1];
             assert.deepEqual(
                 this.listValidator('foo', newValue, undefined, { foo: newValue }, {}),
-                [true, 'false!', true],
+                [true, 'Must be truthy', true],
                 'multiple element list with one validation error',
             );
 
-            newValue = [false, true, false];
+            newValue = [0, 1, 0];
             assert.deepEqual(
                 this.listValidator('foo', newValue, undefined, { foo: newValue }, {}),
-                ['false!', true, 'false!'],
+                ['Must be truthy', true, 'Must be truthy'],
                 'multiple element list with multiple validation errors',
             );
 
-            newValue = [false, false, false];
+            newValue = [0, 0, 0];
             assert.deepEqual(
                 this.listValidator('foo', newValue, undefined, { foo: newValue }, {}),
-                ['false!', 'false!', 'false!'],
+                ['Must be truthy', 'Must be truthy', 'Must be truthy'],
                 'multiple element list with all validation errors',
             );
         },
