@@ -43,7 +43,6 @@ module.exports = {
             asyncArrow: 'always',
         }],
         'no-underscore-dangle': 'off',
-        'linebreak-style': ['error', (process.platform === 'win32' ? 'windows' : 'unix')],
     },
     overrides: [
         {

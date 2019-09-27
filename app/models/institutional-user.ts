@@ -6,6 +6,7 @@ import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
 
 export default class InstitutionalUserModel extends OsfModel {
+    @attr('fixstring') userFullName!: string;
     @attr('fixstring') department?: string;
     @attr('number') publicProjectCount!: number;
     @attr('number') privateProjectCount!: number;
@@ -17,7 +18,6 @@ export default class InstitutionalUserModel extends OsfModel {
     user!: DS.PromiseObject<UserModel> & UserModel;
 }
 
-// DO NOT DELETE: this is how TypeScript knows how to look up your models.
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
         'institutional-user': InstitutionalUserModel;
