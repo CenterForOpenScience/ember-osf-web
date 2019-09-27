@@ -174,7 +174,7 @@ export default class SubjectManagerComponent extends Component.extend({
 
         if (this.subjectHasSelectedChildren(subject)) {
             this.selectedSubjects
-                .filterBy('parent', subject)
+                .filter(s => s.belongsTo('parent').id() === subject.id)
                 .forEach(s => this.unselectSubject(s));
         }
     }
