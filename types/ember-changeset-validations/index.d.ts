@@ -5,8 +5,8 @@ export type ValidatorResult = string | string[] | true;
 
 export type ValidatorFunction = (
     key: string,
-    newValue: undefined | unknown,
-    oldValue: undefined | unknown,
+    newValue: unknown,
+    oldValue: unknown,
     changes: Record<string, unknown>,
     content: Record<string, unknown>,
 ) => ValidatorResult;
