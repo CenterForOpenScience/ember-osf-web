@@ -21,18 +21,13 @@ export default function validateList(validator: ValidatorFunction): ListValidato
         if (!Array.isArray(newValue) || (typeof oldValue !== 'undefined' && !Array.isArray(oldValue))) {
             throw new Error('validateList can only be used for array properties');
         }
-        const results: ValidatorResult[] = [];
-        newValue.forEach((newItem, index) => {
-            const result = validator(
-                key,
-                newItem,
-                oldValue ? oldValue[index] : undefined,
-                changes,
-                content,
-            );
-            results.push(result);
-        });
-        return results.every(itemResult => itemResult === true) ? true : results;
+        return newValue.map((newItem, index) => validator(
+            key,
+            newItem,
+            oldValue ? oldValue[index] : undefined,
+            changes,
+            content,
+        ));
     };
 }
 
