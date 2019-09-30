@@ -17,7 +17,7 @@ $width-collapsed: 80px;
 }
 
 .Links {
-    border-bottom: $alto 1px solid;
+    border-bottom: $color-border-gray 1px solid;
     padding: 15px 10px;
     width: 100%;
 }
@@ -27,7 +27,7 @@ $width-collapsed: 80px;
 
     // Hides Expand/Collapse when not being hovered over
     &:not(:hover) h4 {
-        color: $white;
+        color: $color-text-white;
     }
 
     &:hover :global(.SideNav_LabelWrapper)::before {

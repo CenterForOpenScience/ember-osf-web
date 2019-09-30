@@ -16,7 +16,7 @@ export default class OsfLayout extends Component {
 
     sidenavGutterClosed = true;
     metadataGutterClosed = true;
-    backgroundClass: string = this.backgroundClass;
+    backgroundClass?: string;
 
     init() {
         super.init();
