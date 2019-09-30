@@ -16,7 +16,7 @@ export default class FinalizeRegisrationModalComponent extends Component {
     manager!: FinalizeRegistrationModalManager;
     groupValue: string = '';
     embargoRangeStartDate: Date = moment().add(3, 'days').toDate();
-    embargoRangeEndDate: Date = moment().add(3, 'years').toDate();
+    embargoRangeEndDate: Date = moment().add(4, 'years').toDate();
 
     @action
     onChoiceChange() {

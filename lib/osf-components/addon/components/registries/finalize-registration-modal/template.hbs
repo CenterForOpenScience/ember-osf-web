@@ -2,10 +2,10 @@
     @isOpen={{this.manager.isOpen}}
     @renderInPlace={{this.manager.renderInPlace}}
 as |dialog|>
-    <dialog.heading>
+    <dialog.heading data-test-finalize-heading>
         {{t 'registries.finalizeRegistrationModal.title'}}
     </dialog.heading>
-    <dialog.main>
+    <dialog.main data-test-finalize-main>
         <div local-class='notice'>
             {{t 'registries.finalizeRegistrationModal.notice'}}
         </div>
@@ -15,12 +15,14 @@ as |dialog|>
                 @groupValue={{this.groupValue}}
                 @changed={{action this.onChoiceChange}}
             >
-                {{t 'registries.finalizeRegistrationModal.immediateOption'}}
+                <span data-test-immediate-button>
+                    {{t 'registries.finalizeRegistrationModal.immediateOption'}}
+                </span>
             </RadioButton>
             {{#if (eq this.groupValue 'immediate')}}
                 <span local-class='create-doi-option'>
-                    <Input @type='checkbox' @checked={{this.manager.registration.createDoi}} />
-                    <label>
+                    <label data-test-create-doi-label>
+                        <Input @type='checkbox' @checked={{this.manager.registration.createDoi}} />
                         {{t 'registries.finalizeRegistrationModal.createDoi'}}
                     </label>
                 </span>
@@ -32,10 +34,13 @@ as |dialog|>
                 @groupValue={{this.groupValue}}
                 @changed={{action this.onChoiceChange}}
             >
-                {{t 'registries.finalizeRegistrationModal.embargoOption'}}
+                <span data-test-embargo-button>
+                    {{t 'registries.finalizeRegistrationModal.embargoOption'}}
+                </span>
             </RadioButton>
             {{#if (eq this.groupValue 'embargo')}}
                 <ValidatedInput::Date
+                    data-test-embargo-date-input
                     @value={{this.manager.registration.embargoEndDate}}
                     @startDate={{this.embargoRangeStartDate}}
                     @endDate={{this.embargoRangeEndDate}}
@@ -46,12 +51,15 @@ as |dialog|>
     </dialog.main>
     <dialog.footer>
         <OsfButton
+            data-test-submit-registration-button
             @type='primary'
             @onClick={{action this.manager.submitRegistration}}
             @disabled={{this.shouldDisableSubmitButton}}>
             {{t 'registries.finalizeRegistrationModal.submit'}}
         </OsfButton>
-        <OsfButton @type='default'>
+        <OsfButton
+            data-test-cancel-back-button
+            @type='default'>
             {{t 'registries.finalizeRegistrationModal.back'}}
         </OsfButton>
     </dialog.footer>
