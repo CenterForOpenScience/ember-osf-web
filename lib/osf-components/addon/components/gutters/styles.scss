@@ -10,8 +10,8 @@
         $border-side: 'right';
     }
 
-    border-#{$border-side}: $alto 1px solid;
-    background: $white;
+    border-#{$border-side}: $color-border-gray 1px solid;
+    background: $color-bg-white;
 
     // Animate Everything
     transition: all 0.4s;
@@ -39,7 +39,7 @@
 
         // Display a box shadow to either side when opened
         &[data-gutter-closed='false'] {
-            box-shadow: ($modifier * -5px) 0 5px -4px $primary-box-shadow;
+            box-shadow: ($modifier * -5px) 0 5px -4px $color-shadow-dark;
         }
 
         // Slide off the page when closed

@@ -1,4 +1,4 @@
-<@gutters.left-gutter as |leftGutter|>
+<@gutters.left-gutter ...attributes as |leftGutter|>
     {{yield (hash
         leftNav=(component 'side-nav'
             onLinkClicked=@toggleSidenav

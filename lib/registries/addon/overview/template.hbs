@@ -108,13 +108,11 @@
                 />
             </layout.leftNav>
 
-            <layout.main>
-                <div local-class='OverviewBody'>
-                    {{outlet}}
-                </div>
+            <layout.main local-class='OverviewBody'>
+                {{outlet}}
             </layout.main>
 
-            <layout.right as |right|>
+            <layout.right local-class='SideMetadata' as |right|>
                 {{#if (not-eq right.rightGutterMode 'column')}}
                     <h3 local-class='MetadataTitle'>
                         {{t 'registries.overview.metadata'}}

@@ -1,9 +1,9 @@
 {{yield (hash
     heading=(element 'div')
     sidenavGutterClosed=this.sidenavGutterClosed
-    toggleSidenav=this.toggleSidenav
+    toggleSidenav=(action this.toggleSidenav)
     metadataGutterClosed=this.metadataGutterClosed
-    toggleMetadata=this.toggleMetadata
+    toggleMetadata=(action this.toggleMetadata)
 )}}
 
 <div class={{this.backgroundClass}}>
@@ -15,10 +15,10 @@
         as |gutters|
     >
         {{yield (hash
-            leftNav=(component 'osf-layout/left-nav' gutters=gutters toggleSidenav=this.toggleSidenav)
-            left=(component 'osf-layout/left-column' gutters=gutters toggleSidenav=this.toggleSidenav)
+            leftNav=(component 'osf-layout/left-nav' gutters=gutters toggleSidenav=(action this.toggleSidenav))
+            left=(component 'osf-layout/left-column' gutters=gutters toggleSidenav=(action this.toggleSidenav))
             main=(component 'osf-layout/main-column' gutters=gutters)
-            right=(component 'osf-layout/right-column' gutters=gutters toggleMetadata=this.toggleMetadata)
+            right=(component 'osf-layout/right-column' gutters=gutters toggleMetadata=(action this.toggleMetadata))
         )}}
     </Gutters>
 </div>

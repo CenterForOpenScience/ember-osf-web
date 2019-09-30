@@ -1,0 +1,20 @@
+<DocsDemo as |demo|>
+    <demo.example @name='osf-layout.demo-three-column.hbs'>
+        <OsfLayout @backgroundClass={{local-class 'bg-class'}} as |layout|>
+            <layout.heading local-class='heading'>
+                Heading
+            </layout.heading>
+            <layout.left local-class='left'>
+                Left column
+            </layout.left>
+            <layout.main local-class='main'>
+                Main
+            </layout.main>
+            <layout.right local-class='right'>
+                Right column
+            </layout.right>
+        </OsfLayout>
+    </demo.example>
+
+    <demo.snippet @name='osf-layout.demo-three-column.hbs' />
+</DocsDemo>
