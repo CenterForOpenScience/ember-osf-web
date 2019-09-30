@@ -1,0 +1,14 @@
+<DocsDemo as |demo|>
+    <demo.example @name='schema-block-group-renderer.editable.hbs'>
+        {{#each @schemaBlockGroups as |group|}}
+            <Registries::SchemaBlockGroupRenderer
+                @schemaBlockGroup={{group}}
+                @changeset={{@changeset}}
+                @node={{@node}}
+                @blockStrategy={{component 'registries/schema-block-renderer/editable/mapper'}}
+            />
+        {{/each}}
+    </demo.example>
+
+    <demo.snippet @name='schema-block-group-renderer.editable.hbs' />
+</DocsDemo>

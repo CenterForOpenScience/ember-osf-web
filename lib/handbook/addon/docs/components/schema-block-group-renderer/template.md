@@ -16,9 +16,16 @@ To be used with Registries submission forms.  Given a schema group, changeset an
 - `read-only-contributor-list`: a list of contributors with an edit link going back to the project's contributors page
 
 
-## Default
-{{docs/components/schema-block-group-renderer/-components/default
+## Editable
+{{docs/components/schema-block-group-renderer/-components/editable
     schemaBlockGroups=this.schemaBlockGroups
     changeset=this.pageResponseChangeset
+    node=this.model
+}}
+
+## Read-only
+{{docs/components/schema-block-group-renderer/-components/read-only
+    schemaBlockGroups=this.schemaBlockGroups
+    registrationResponses=this.registrationResponses
     node=this.model
 }}

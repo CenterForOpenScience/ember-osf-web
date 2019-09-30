@@ -3,7 +3,6 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import Changeset from 'ember-changeset';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
@@ -17,8 +16,8 @@ import template from './template';
 export default class SchemaBlockGroupRenderer extends Component {
     // Required parameters
     schemaBlockGroup!: SchemaBlockGroup;
-    changeset!: Changeset;
     node!: NodeModel;
+    blockStrategy!: Component;
 
     // Optional params
     disabled: boolean = defaultTo(this.disabled, false);
@@ -29,8 +28,8 @@ export default class SchemaBlockGroupRenderer extends Component {
 
     didReceiveAttrs() {
         assert('A schema group is required to render schema groups', Boolean(this.schemaBlockGroup));
-        assert('A changeset is required to render schema groups', Boolean(this.changeset));
         assert('A node is required to render schema groups', Boolean(this.node));
+        assert('A blockStrategy is required to render schemaBlockGroupRenderer', Boolean(this.blockStrategy));
     }
 
     @computed('schemaBlockGroup')
