@@ -2,6 +2,7 @@ import { attr, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import DS from 'ember-data';
 
+import InstitutionalUserModel from './institutional-user';
 import NodeModel from './node';
 import OsfModel from './osf-model';
 import RegistrationModel from './registration';
@@ -21,6 +22,10 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
 
+    @hasMany('institutional-user')
+    institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
+
+    // TODO Might want to replace calls to `users` with `institutionalUsers.user`?
     @hasMany('user', { inverse: 'institutions' })
     users!: DS.PromiseManyArray<UserModel>;
 
