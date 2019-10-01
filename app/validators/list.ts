@@ -38,6 +38,6 @@ export default function validateList(validator: ValidatorFunction): ListValidato
  */
 export function transposeResults(results?: Array<ValidatorResult | ValidatorResult[]>) {
     const transposer = (acc: ValidatorResult[][], validatorResults: ValidatorResult[]) =>
-        validatorResults.filter(Array.isArray).map((val, index) => [...(acc[index] || []), val]);
-    return results ? results.reduce(transposer, []) : undefined;
+        validatorResults.map((val, index) => [...(acc[index] || []), val]);
+    return results ? results.filter(Array.isArray).reduce(transposer, []) : undefined;
 }
