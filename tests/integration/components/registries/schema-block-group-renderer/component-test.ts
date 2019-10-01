@@ -175,9 +175,12 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
             {{#each this.schemaBlockGroups as |group|}}
                 <Registries::SchemaBlockGroupRenderer
                     @schemaBlockGroup={{group}}
-                    @changeset={{this.pageResponseChangeset}}
                     @node={{this.node}}
-                    @mapper={{component 'registries/schema-block-renderer/editable/mapper'}}
+                    @renderStrategy={{
+                        component
+                        'registries/schema-block-renderer/editable/mapper'
+                        changeset=this.pageResponseChangeset
+                    }}
                 />
             {{/each}}
         `);

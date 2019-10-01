@@ -10,7 +10,7 @@ import template from './template';
 
 @layout(template)
 @tagName('')
-export default class BaseReadOnlyComponent extends Component {
+export default class ReadOnlyResponse extends Component {
     // Required param
     schemaBlock!: SchemaBlock;
     registrationResponses!: PageResponse;

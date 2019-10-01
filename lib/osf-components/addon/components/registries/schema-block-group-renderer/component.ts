@@ -3,7 +3,6 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import Changeset from 'ember-changeset';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
@@ -18,12 +17,11 @@ export default class SchemaBlockGroupRenderer extends Component {
     // Required parameters
     schemaBlockGroup!: SchemaBlockGroup;
     node!: NodeModel;
-    mapper!: Component;
+    renderStrategy!: Component;
 
     // Optional params
     disabled: boolean = defaultTo(this.disabled, false);
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
-    changeset: Changeset = defaultTo(this.changeset, {});
 
     @alias('schemaBlockGroup.optionBlocks')
     optionBlocks!: SchemaBlock[];
@@ -31,7 +29,7 @@ export default class SchemaBlockGroupRenderer extends Component {
     didReceiveAttrs() {
         assert('A schema group is required to render schema groups', Boolean(this.schemaBlockGroup));
         assert('A node is required to render schema groups', Boolean(this.node));
-        assert('A mapper is required to render schemaBlockGroupRenderer', Boolean(this.mapper));
+        assert('A renderStrategy is required to render schemaBlockGroupRenderer', Boolean(this.renderStrategy));
     }
 
     @computed('schemaBlockGroup')

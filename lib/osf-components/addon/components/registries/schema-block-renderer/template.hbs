@@ -1,15 +1,13 @@
-{{#let @mapper as |Mapper|}}
+{{#let @renderStrategy as |Mapper|}}
     <Mapper as |renderers|>
         {{#let (get renderers @schemaBlock.blockType) as |Renderer|}}
             <Renderer
-                @changeset={{@changeset}}
                 @schemaBlock={{@schemaBlock}}
                 @optionBlocks={{@optionBlocks}}
                 @node={{@node}}
                 @disabled={{this.disabled}}
                 @shouldShowMessages={{this.shouldShowMessages}}
                 @uniqueID={{@uniqueID}}
-                @registrationResponses={{@registrationResponses}}
             />
         {{/let}}
     </Mapper>

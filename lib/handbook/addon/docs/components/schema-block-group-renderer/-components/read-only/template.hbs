@@ -4,8 +4,11 @@
             <Registries::SchemaBlockGroupRenderer
                 @schemaBlockGroup={{group}}
                 @node={{@node}}
-                @mapper={{component 'registries/schema-block-renderer/read-only/mapper'}}
-                @registrationResponses={{@registrationResponses}}
+                @renderStrategy={{
+                    component
+                    'registries/schema-block-renderer/read-only/mapper'
+                    registrationResponses=@registrationResponses
+                }}
             />
         {{/each}}
     </demo.example>
