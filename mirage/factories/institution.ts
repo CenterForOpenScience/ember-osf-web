@@ -16,6 +16,10 @@ export default Factory.extend<Institution>({
             logo: randomGravatar(100),
         };
     },
+    afterCreate(institution, server) {
+        const count = faker.random.number({ min: 5, max: 25 });
+        server.createList('institutional-user', count, { institution });
+    },
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
