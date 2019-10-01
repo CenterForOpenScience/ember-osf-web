@@ -1,15 +1,20 @@
 import { tagName } from '@ember-decorators/component';
+import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import { getSchemaBlockGroups, PageResponse, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import {
+    getSchemaBlockGroups,
+    PageResponse,
+    SchemaBlock,
+    SchemaBlockGroup,
+} from 'ember-osf-web/packages/registration-schema';
 import template from './template';
 
 @layout(template)
 @tagName('')
-export default class SchemaBlockGroupRenderer extends Component {
+export default class ReviewFormRenderer extends Component {
     // Required parameters
     schemaBlocks!: SchemaBlock[];
     registrationResponses!: PageResponse;
@@ -25,8 +30,8 @@ export default class SchemaBlockGroupRenderer extends Component {
         );
     }
 
-    @computed('schemaBlocks')
-    get schemaBlockGroups() {
+    @computed('schemaBlocks.[]')
+    get schemaBlockGroups(): SchemaBlockGroup[] {
         return getSchemaBlockGroups(this.schemaBlocks);
     }
 }
