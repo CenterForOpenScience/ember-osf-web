@@ -13,21 +13,23 @@ export type ListValidatorFunction = (
  */
 export default function validateList(validator: ValidatorFunction): ListValidatorFunction {
     return (key, newValue, oldValue, changes, content) => {
-        if (typeof newValue === 'undefined') {
+        if ((typeof newValue !== 'undefined' && !Array.isArray(newValue)) ||
+            (typeof oldValue !== 'undefined' && !Array.isArray(oldValue))) {
+            throw new Error('validateList can only be used for array properties');
+        }
+        if (typeof newValue === 'undefined' || newValue.length === 0) {
             // This validator validates list elements.
             // If there is no list, there's nothing to validate!
             return true;
         }
-        if (!Array.isArray(newValue) || (typeof oldValue !== 'undefined' && !Array.isArray(oldValue))) {
-            throw new Error('validateList can only be used for array properties');
-        }
-        return newValue.map((newItem, index) => validator(
+        const results = newValue.map((newItem, index) => validator(
             key,
             newItem,
             oldValue ? oldValue[index] : undefined,
             changes,
             content,
         ));
+        return results.every(result => result === true) ? true : results;
     };
 }
 
