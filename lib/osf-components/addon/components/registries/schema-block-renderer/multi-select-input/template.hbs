@@ -1,0 +1,24 @@
+<FormControls
+    @changeset={{@changeset}}
+    @disabled={{@disabled}}
+    @shouldShowMessages={{@shouldShowMessages}}
+    ...attributes
+    as |form|
+>
+    <form.checkboxes
+        data-test-multi-select-input
+        @id={{@uniqueID}}
+        @valuePath={{@schemaBlock.registrationResponseKey}}
+        @options={{this.optionBlockValues}}
+        as |cb|
+    >
+        <div data-test-multiple-select-option={{cb.option}}>
+            {{cb.checkbox}}
+            <label for={{cb.checkboxId}}>
+                <div data-test-scope-description>
+                    {{cb.option}}
+                </div>
+            </label>
+        </div>
+    </form.checkboxes>
+</FormControls>

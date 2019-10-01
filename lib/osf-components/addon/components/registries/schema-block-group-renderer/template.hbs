@@ -1,0 +1,9 @@
+{{#each this.nonOptionBlocks as |block|}}
+    <Registries::SchemaBlockRenderer
+        @schemaBlock={{block}}
+        @changeset={{@changeset}}
+        @optionBlocks={{this.optionBlocks}}
+        @node={{@node}}
+        @uniqueID={{this.uniqueID}}
+    />
+{{/each}}
