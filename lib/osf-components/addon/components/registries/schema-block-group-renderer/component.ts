@@ -5,7 +5,6 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import NodeModel from 'ember-osf-web/models/node';
 import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { uniqueId } from 'osf-components/helpers/unique-id';
@@ -16,7 +15,6 @@ import template from './template';
 export default class SchemaBlockGroupRenderer extends Component {
     // Required parameters
     schemaBlockGroup!: SchemaBlockGroup;
-    node!: NodeModel;
     renderStrategy!: Component;
 
     // Optional params
@@ -28,7 +26,6 @@ export default class SchemaBlockGroupRenderer extends Component {
 
     didReceiveAttrs() {
         assert('A schema group is required to render schema groups', Boolean(this.schemaBlockGroup));
-        assert('A node is required to render schema groups', Boolean(this.node));
         assert('A renderStrategy is required to render schemaBlockGroupRenderer', Boolean(this.renderStrategy));
     }
 

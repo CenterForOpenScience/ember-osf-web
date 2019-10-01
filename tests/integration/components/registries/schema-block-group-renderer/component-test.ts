@@ -175,11 +175,11 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
             {{#each this.schemaBlockGroups as |group|}}
                 <Registries::SchemaBlockGroupRenderer
                     @schemaBlockGroup={{group}}
-                    @node={{this.node}}
                     @renderStrategy={{
                         component
                         'registries/schema-block-renderer/editable/mapper'
                         changeset=this.pageResponseChangeset
+                        node=this.node
                     }}
                 />
             {{/each}}
