@@ -1,11 +1,12 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-
-import defaultTo from 'ember-osf-web/utils/default-to';
+import Changeset from 'ember-changeset';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
+import defaultTo from 'ember-osf-web/utils/default-to';
+
 import template from './template';
 
 @layout(template)
@@ -13,14 +14,15 @@ import template from './template';
 export default class SchemaBlockRenderer extends Component {
     // Required params
     schemaBlock!: SchemaBlock;
-    blockStrategy!: Component;
+    mapper!: Component;
 
     // Optional params
     disabled: boolean = defaultTo(this.disabled, false);
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+    changeset: Changeset = defaultTo(this.changeset, {});
 
     didReceiveAttrs() {
         assert('schema-block-renderer requires a schemaBlock to render', Boolean(this.schemaBlock));
-        assert('schema-block-renderer requires a blockStrategy to render', Boolean(this.blockStrategy));
+        assert('schema-block-renderer requires a mapper to render', Boolean(this.mapper));
     }
 }

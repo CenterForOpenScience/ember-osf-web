@@ -1,5 +1,5 @@
-{{#let @blockStrategy as  |Strategy|}}
-    <Strategy as |renderers|>
+{{#let @mapper as |Mapper|}}
+    <Mapper as |renderers|>
         {{#let (get renderers @schemaBlock.blockType) as |Renderer|}}
             <Renderer
                 @changeset={{@changeset}}
@@ -12,5 +12,5 @@
                 @registrationResponses={{@registrationResponses}}
             />
         {{/let}}
-    </Strategy>
+    </Mapper>
 {{/let}}
