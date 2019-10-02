@@ -97,7 +97,9 @@ Router.map(function() {
     this.route('home', { path: '/' });
     this.route('dashboard');
     this.route('goodbye');
-    this.route('institutions');
+    this.route('institutions', function() {
+        this.route('dashboard', { path: '/:institution_id/dashboard' });
+    });
     this.route('quickfiles');
     this.route('register');
     this.route('settings', function() {

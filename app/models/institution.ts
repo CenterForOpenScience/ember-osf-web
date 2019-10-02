@@ -22,7 +22,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
 
-    @hasMany('institutional-user')
+    @hasMany('institutional-user', { inverse: 'institution' })
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
 
     // TODO Might want to replace calls to `users` with `institutionalUsers.user`?
