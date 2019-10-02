@@ -17,7 +17,7 @@ interface NestedResourceOptions extends ResourceOptions {
     onCreate?: (parent: ModelInstance, child: ModelInstance) => void;
 }
 
-type relationshipAction = 'related' | 'update' | 'add' | 'remove';
+type relationshipAction = 'self' | 'related' | 'update' | 'add' | 'remove';
 
 interface RelationshipOptions extends ActionOptions<relationshipAction> {
     defaultPageSize?: number;
@@ -46,10 +46,11 @@ function gatherResourceActions(opts: ResourceOptions) {
 }
 
 function gatherRelationshipActions(opts: RelationshipOptions) {
-    const actions: relationshipAction[] = ['related', 'update', 'add', 'remove'];
+    const actions: relationshipAction[] = ['self', 'related', 'update', 'add', 'remove'];
     return gatherActions(opts, actions);
 }
 
+// For top-level resources, e.g. `/v2/nodes/`
 export function osfResource(
     server: Server,
     modelName: keyof ModelRegistry,
@@ -97,6 +98,8 @@ export function osfResource(
     }
 }
 
+// For resources that are only accessible through a top-level resource's relationship,
+// e.g. `/v2/nodes/<node_id>/contributors/<contributor_id>` (there is no `/v2/contributors/<contributor_id>`)
 export function osfNestedResource<K extends keyof ModelRegistry>(
     server: Server,
     parentModelName: K,
@@ -157,6 +160,8 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     }
 }
 
+// For to-many relationships between top-level resources,
+// e.g. `/v2/nodes/<node_id>/affiliated_institutions/<id>` (but the institution lives at `/v2/institutions/<id>`)
 export function osfToManyRelationship<K extends keyof ModelRegistry>(
     server: Server,
     parentModelName: K,
@@ -211,6 +216,23 @@ export function osfToManyRelationship<K extends keyof ModelRegistry>(
                 [relatedIdsKey]: relateds.map((relatedModel: { id: string, type: string }) => relatedModel.id),
             });
             return { data: parentModel[relatedIdsKey].map((id: string) => ({ id, type: relateds[0].type })) };
+        });
+    }
+
+    if (actions.includes('self')) {
+        server.patch(opts.path, (schema: Schema, request: Request) => {
+            const { parentID } = request.params;
+            const parentModel = schema[mirageParentModelName].find(parentID);
+            const { data: relatedRefs } = JSON.parse(request.requestBody) as {
+                data: Array<Record<'id' | 'type', string>>,
+            };
+            const relatedIdsKey = `${singularize(relationshipName)}Ids`;
+
+            parentModel.update({
+                [relatedIdsKey]: relatedRefs.mapBy('id'),
+            });
+
+            return { data: relatedRefs };
         });
     }
 

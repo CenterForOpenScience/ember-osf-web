@@ -1,17 +1,17 @@
-<div local-class='container'>
-    {{#if (eq this.icon 'search')}}
-        <img data-test-icon-image src='/assets/images/new-home/search.svg' alt={{this.icon}}>
-    {{else if (eq this.icon 'pencil-alt')}}
-        <img data-test-icon-image src='/assets/images/new-home/pencil-alt.svg' alt={{this.icon}}>
-    {{else if (eq this.icon 'chart-area')}}
-        <img data-test-icon-image src='/assets/images/new-home/chart-area.svg' alt={{this.icon}}>
-    {{else if (eq this.icon 'file-alt')}}
-        <img data-test-icon-image src='/assets/images/new-home/file-alt.svg' alt={{this.icon}}>
+<div local-class='container' ...attributes>
+    {{#if (eq @icon 'search')}}
+        <img data-test-icon-image src='/assets/images/new-home/search.svg' alt={{@icon}}>
+    {{else if (eq @icon 'pencil-alt')}}
+        <img data-test-icon-image src='/assets/images/new-home/pencil-alt.svg' alt={{@icon}}>
+    {{else if (eq @icon 'chart-area')}}
+        <img data-test-icon-image src='/assets/images/new-home/chart-area.svg' alt={{@icon}}>
+    {{else if (eq @icon 'file-alt')}}
+        <img data-test-icon-image src='/assets/images/new-home/file-alt.svg' alt={{@icon}}>
     {{/if}}
     <h2 data-test-support-header>
-        {{this.header}}
+        {{@header}}
     </h2>
     <p data-test-support-description>
-        {{this.description}}
+        {{@description}}
     </p>
 </div>

@@ -1,0 +1,44 @@
+.selected-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0;
+
+    :global(.animated-container) {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+.info {
+    color: $color-text-gray-light;
+    font-size: small;
+    margin: 15px 0;
+}
+
+.selected-item {
+    display: flex;
+    align-items: baseline;
+    padding-right: 15px;
+
+    background: $color-bg-blue-light;
+    border-radius: 0;
+    color: $color-text-black;
+    cursor: default;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    margin-right: 5px;
+    margin-bottom: 4px;
+    padding: 5px 10px;
+
+    .unselect {
+        padding: 0;
+        padding-left: 6px;
+
+        &:hover,
+        &:active,
+        &:focus {
+            outline: none;
+            text-decoration: none;
+        }
+    }
+}

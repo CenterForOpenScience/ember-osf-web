@@ -28,52 +28,51 @@
     {{/if}}
 {{/if}}
 
-<BsModal
-    @open={{@manager.inEditMode}}
-    @onHidden={{@manager.cancel}}
-    @backdropClose={{false}}
-    as |modal|
+<OsfDialog
+    @isOpen={{@manager.inEditMode}}
+    @onClose={{@manager.cancel}}
+    @closeOnOutsideClick={{false}}
+    @fixedWidth={{@fixedWidth}}
+    as |dialog|
 >
-    <modal.header>
-        <h3 class='modal-title'>
-            {{#if @editHeader}}
-                {{@editHeader}}
-            {{else}}
-                {{t 'registries.registration_metadata.edit_field' field=@name}}
+    <dialog.heading>
+        {{#if @editHeader}}
+            {{@editHeader}}
+        {{else}}
+            {{t 'registries.registration_metadata.edit_field' field=@name}}
+        {{/if}}
+    </dialog.heading>
+
+    <dialog.main local-class='DialogMain'>
+        {{yield (hash
+            edit=(component 'editable-field/block')
+            manager=@manager
+        )}}
+    </dialog.main>
+
+    {{#unless @hasCustomButtons}}
+        <dialog.footer>
+            {{#if @manager.cancel}}
+                <OsfButton
+                    data-test-discard-edits
+                    data-analytics-name='Discard'
+                    @disabled={{@manager.isSaving}}
+                    @onClick={{action @manager.cancel}}
+                >
+                    {{t 'general.cancel'}}
+                </OsfButton>
             {{/if}}
-        </h3>
-    </modal.header>
-    <modal.body>
-        <div data-test-editable-view-modal>
-            {{yield (hash
-                edit=(component 'editable-field/block')
-                manager=@manager
-            )}}
-            {{#unless @hasCustomButtons}}
-                <div local-class='Controls'>
-                    {{#if @manager.cancel}}
-                        <OsfButton
-                            data-test-discard-edits
-                            data-analytics-name='Discard'
-                            @disabled={{@manager.save.isRunning}}
-                            @onClick={{action @manager.cancel}}
-                        >
-                            {{t 'general.cancel'}}
-                        </OsfButton>
-                    {{/if}}
-                    {{#if @manager.save}}
-                        <OsfButton
-                            data-test-save-edits
-                            data-analytics-name='Save'
-                            @type='primary'
-                            @disabled={{@manager.save.isRunning}}
-                            @onClick={{action @manager.save}}
-                        >
-                            {{t 'general.save'}}
-                        </OsfButton>
-                    {{/if}}
-                </div>
-            {{/unless}}
-        </div>
-    </modal.body>
-</BsModal>
+            {{#if @manager.save}}
+                <OsfButton
+                    data-test-save-edits
+                    data-analytics-name='Save'
+                    @type='primary'
+                    @disabled={{@manager.isSaving}}
+                    @onClick={{action @manager.save}}
+                >
+                    {{t 'general.save'}}
+                </OsfButton>
+            {{/if}}
+        </dialog.footer>
+    {{/unless}}
+</OsfDialog>

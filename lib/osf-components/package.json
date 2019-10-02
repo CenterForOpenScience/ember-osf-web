@@ -5,6 +5,7 @@
   ],
   "dependencies": {
     "ember-angle-bracket-invocation-polyfill": "*",
+    "ember-animated": "*",
     "ember-bootstrap": "*",
     "ember-bootstrap-datepicker": "*",
     "ember-cli-babel": "*",
@@ -18,6 +19,7 @@
     "ember-cp-validations": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
+    "ember-element-helper": "*",
     "ember-i18n": "*",
     "ember-i18n-inject": "*"
   }

@@ -1,0 +1,36 @@
+.Item {
+    transition: filter 0.25s ease-out;
+    margin: 0.3em 0;
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}
+
+.ItemLabel.ItemLabel {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    margin: 0;
+    height: 1.6em;
+    padding: 0 0.5em;
+
+    input {
+        margin-top: 0;
+        margin-right: 0.5em;
+        filter: grayscale(1) contrast(2);
+    }
+
+    &.with-selected-child input {
+        filter: invert(1) brightness(2) grayscale(1);
+    }
+}
+
+.ExpandButton.ExpandButton {
+    padding: 0;
+    margin-left: 5px;
+}
+
+.Children {
+    padding-left: 1em;
+}

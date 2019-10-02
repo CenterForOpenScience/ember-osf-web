@@ -1,0 +1,33 @@
+.Subjects {
+    padding-left: 0;
+    margin-top: 10px;
+    border: 0;
+    width: 100%;
+    list-style: none;
+}
+
+.Subject {
+    display: inline-flex;
+    background: $color-bg-blue-light;
+    border-radius: 0;
+    color: $color-text-black;
+    cursor: default;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    margin-right: 5px;
+    margin-bottom: 4px;
+    padding: 5px 10px;
+}
+
+.Placeholder {
+    border: 1px dotted $color-border-gray-light;
+    padding: 4px 8px;
+    font-style: italic;
+    color: $color-text-gray-dark;
+}
+
+.RemoveButton.RemoveButton {
+    border: 0;
+    padding: 0;
+    margin-left: 5px;
+}

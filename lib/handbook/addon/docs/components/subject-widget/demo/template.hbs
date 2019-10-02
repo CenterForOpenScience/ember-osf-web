@@ -1,0 +1,16 @@
+<DocsDemo as |demo|>
+    <demo.example @name='subject-widget.demo.hbs'>
+        <Subjects::Manager
+            @model={{@model}}
+            @provider={{@model.provider}}
+            as |subjectsManager|
+        >
+            <Subjects::Widget
+                data-analytics-scope='Handbook'
+                @subjectsManager={{subjectsManager}}
+            />
+        </Subjects::Manager>
+    </demo.example>
+
+    <demo.snippet @name='subject-widget.demo.hbs' />
+</DocsDemo>

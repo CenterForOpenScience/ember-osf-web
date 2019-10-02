@@ -4,6 +4,194 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.10.0] - 2019-10-02
+### Added
+- Models
+    - `institutional-user`
+- Helpers
+    - `random-text`
+        - generates random text
+    - `unique-id`
+        - generate a unique-enough string for use in a DOM element's `id`
+    - `has-validation-error`
+        - check if a list of validator results contains a validation error
+- Components
+    - `subjects/`
+        - `browse`
+        - `browse/animated-expand`
+        - `browse/browse-manager`
+        - `browse/item-list`
+        - `browse/item`
+        - `display`
+        - `manager`
+        - `manager/single`
+        - `search`
+        - `search/search-result`
+        - `widget`
+    - `editable-field/subject-field-manager`
+    - `files/`
+        - `browse`
+        - `item`
+        - `list`
+        - `manager`
+        - `selected-list`
+        - `upload-zone`
+        - `widget`
+- Validators
+    - `list` - apply a validator to a list
+- Tests
+    - Unit
+        - helpers
+            - `has-validation-error`
+        - validators
+            - `validateList`
+    - Integration
+        - `unique-id`
+        - `random-text`
+        - `Files::Widget`
+- Ember Optional Features
+    - `template-only-glimmer-components`
+- Mirage
+    - Factories
+        - `subject`
+        - `file-provider`
+    - Serializers
+        - `subject`
+        - `file-provider`
+    - Views
+        - `provider-subjects`
+        - `file`
+- Types
+    - `ember-animated`
+- Packages
+    - `ember-animated`
+    - `ember-element-helper` (`fix-engines` branch)
+- Handbook
+    - `Subjects::Widget` component to gallery
+    - `Files::Widget` component to gallery
+    - `validateList` validator
+    - `has-validation-error` helper
+
+### Changed
+- Models
+    - `taxonomy`
+        - renamed to `subject` and updated for new subjects-as-relationships architecture
+    - `node`
+        - changed `subjects` attribute into a hasMany relationship
+    - `preprint`
+        - changed `subjects` attribute into a hasMany relationship
+        - removed `uniqueSubjects` computed property
+    - `preprint-provider`
+        - changed `hasHighlightedSubjects` alias to use `highlighted_subjects` related link meta
+    - `provider`
+        - renamed `taxonomies` hasMany relationship to `subjects`
+        - renamed `highlightedTaxonomies` hasMany relationship to `highlightedSubjects`
+    - `file`
+        - rename `node` belongsTo relationship to `target`
+- Serializers
+    - `taxonomy`
+        - renamed to `subject`
+- Adapters
+    - `taxonomy`
+        - renamed to `subject`
+- Components
+    - `editable-field`
+        - use `osf-dialog` instead of `bs-modal`
+        - pass `@fixedWidth` through to `OsfDialog`
+        - use `@manager.isSaving` to disable submit & cancel buttons
+        - `category-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `description-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `institutions-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `license-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `publication-doi-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+        - `tags-manager`
+            - expose `isSaving` as alias for `save.isRunning`
+    - `node-category-picker`
+        - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
+    - `zoom-to-route`
+        - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
+    - `registries/registries-license-picker`
+        - remove `@renderInPlace={{true}}` from `PowerSelect` invocation
+    - `registries/license-viewer`
+        - use `osf-dialog` instead of `bs-modal`
+    - `file-icon`
+        - folders should always use folder icon
+    - `sort-button`
+        - suppress box-shadow when active
+    - `osf-dialog`
+        - darken background overlay
+    - `registries/registries-metadata`
+        - use `Subjects::Widget` and `Subjects::Display` (and related managers) for subjects editable field
+- Tests
+    - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
+    - Unit
+        - `adapters/taxonomy-test` renamed to `adapters/subject-test`
+        - `models/taxonomy-test` renamed to `models/subject-test`
+        - `serializers/taxonomy-test` renamed to `serializers/subject-test`
+        - `models/preprint-test`
+            - removed test for `subject` attribute
+- Mirage
+    - Factories
+        - `node`
+            - removed `subjects` attribute
+            - added `withFiles` trait
+        - `registration`
+            - added `widthSubjects` trait
+        - `file`
+            - added `target` association
+            - addded `asFolder` trait
+    - Serializers
+        - `registration-provider`
+            - added subjects related link
+        - `registration`
+            - added subjects self and related links
+        - `file`
+            - s/`node`/`target`/
+            - added folder links
+        - `node`
+            - added files link
+    - Views
+        - `osf-resource`
+            - added self link patch handling
+    - Scenarios
+        - `registration`
+            - create some subjects
+        - `handbook`
+            - create a file tree for the handbook
+- Types
+    - `ember-changeset-validations`
+        - added `ValidatorFunction` and `ValidatorResult`
+- Config
+    - updated to use API version 2.16
+- Packages
+    - upgrade to `ember-animated@0.8.1`
+
+### Removed
+- Tests
+    - `taxonomy` FactoryGuy factory
+
+### Fixed
+- Components
+    - `home/support-section/support-item`
+        - s/this./@/ because this is template-only
+        - added splattributes because this is template-only
+    - `registries/registries-advisory-board`
+        - fixed template lint
+        - added splattributes because this is template-only
+    - `meetings/index/meetings-footer`
+        - added splattributes because this is template-only
+    - `registries/registries-advisory-board`
+        - added splattributes because this is template-only
+    - `registries/sharing-icons/popover`
+        - added splattributes because this is template-only
+- Handbook
+    - `osf-dialog` `demo-is-open` needs component file because it muts `isOpen`
+
 ## [19.9.0] - 2019-09-06
 ### Added
 - Components
@@ -1167,7 +1355,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.9.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.10.0...develop
+[19.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.10.0
 [19.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.9.0
 [19.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.8.0
 [19.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.1

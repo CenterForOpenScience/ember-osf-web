@@ -2,7 +2,6 @@
     <div data-test-select-category>
         <PowerSelect
             @options={{this.categories}}
-            @renderInPlace={{true}}
             @selected={{@manager.selectedCategory}}
             @onchange={{action @manager.onSelect}}
             @disabled={{@manager.save.isRunning}}

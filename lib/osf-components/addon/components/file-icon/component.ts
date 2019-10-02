@@ -127,6 +127,10 @@ export default class FileIcon extends Component {
     get iconName(): string {
         // TODO: More icons!
 
+        if (this.item.isFolder) {
+            return 'folder';
+        }
+
         if (this.item.name) {
             return iconFromName(this.item.name);
         }
@@ -139,10 +143,6 @@ export default class FileIcon extends Component {
         if (this.item.isProvider) {
             // TODO provider-specific icons
             return 'hdd-o';
-        }
-
-        if (this.item.isFolder) {
-            return 'folder';
         }
 
         return iconFromName(defaultTo(this.item.itemName, ''));

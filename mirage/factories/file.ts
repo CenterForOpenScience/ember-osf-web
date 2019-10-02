@@ -1,9 +1,13 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 import File from 'ember-osf-web/models/file';
 
 import { guid, guidAfterCreate } from './utils';
 
-export default Factory.extend<File>({
+export interface FileTraits {
+    asFolder: Trait;
+}
+
+export default Factory.extend<File & FileTraits>({
     id: guid('file'),
     guid: guid('file'),
     afterCreate: guidAfterCreate,
@@ -46,6 +50,21 @@ export default Factory.extend<File>({
     size() {
         return faker.random.number(1000000000);
     },
+    target: association() as File['target'],
+
+    asFolder: trait<File>({
+        afterCreate(file) {
+            const name = file.name.split('.')[0];
+            const { parentFolder } = file;
+            const materializedPath = parentFolder ? `${parentFolder.materializedPath}${name}/` : `/${name}/`;
+
+            file.update({
+                name,
+                materializedPath,
+                kind: 'folder',
+            });
+        },
+    }),
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {

@@ -1,0 +1,26 @@
+<Subjects::Display
+    @subjects={{@subjectsManager.selectedSubjects}}
+    @removeSubject={{@subjectsManager.unselectSubject}}
+/>
+
+<BsTab
+    local-class='Tabs'
+    as |tab|
+>
+    <tab.pane
+        @title= {{t 'osf-components.subjects.browse.browse_all'}}
+    >
+        <Subjects::Browse
+            data-analytics-scope='Browse'
+            @subjectsManager={{@subjectsManager}}
+        />
+    </tab.pane>
+    <tab.pane
+        @title={{t 'osf-components.subjects.search.search_all'}}
+    >
+        <Subjects::Search
+            data-analytics-scope='Search'
+            @subjectsManager={{@subjectsManager}}
+        />
+    </tab.pane>
+</BsTab>

@@ -1,0 +1,9 @@
+<AnimatedContainer local-class='ExpandyContainer'>
+    <AnimatedIf
+        @predicate={{@isExpanded}}
+        @use={{this.expandListTransition}}
+        @duration=100
+    >
+        {{yield}}
+    </AnimatedIf>
+</AnimatedContainer>

@@ -6,11 +6,19 @@ import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createBibliographicContributor } from './views/contributor';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
+import {
+    folderFilesList,
+    nodeFileProviderList,
+    nodeFilesListForProvider,
+    uploadToFolder,
+    uploadToRoot,
+} from './views/file';
 import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
+import { getProviderSubjects } from './views/provider-subjects';
 import { forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
@@ -47,11 +55,19 @@ export default function(this: Server) {
 
     osfResource(this, 'node', { except: ['create'] });
     this.post('/nodes/', createNode);
+    osfResource(this, 'subject', { only: ['show'] });
+    osfNestedResource(this, 'subject', 'children', { only: ['index'] });
     osfNestedResource(this, 'node', 'children');
     osfNestedResource(this, 'node', 'contributors', {
         defaultSortKey: 'index',
         onCreate: createBibliographicContributor,
     });
+
+    this.get('/nodes/:parentID/files', nodeFileProviderList); // Node file providers list
+    this.get('/nodes/:parentID/files/:fileProviderId', nodeFilesListForProvider); // Node files list for file provider
+    this.get('/nodes/:parentID/files/:fileProviderId/:folderId', folderFilesList); // Node folder detail view
+    this.put('/nodes/:parentID/files/:fileProviderId/upload', uploadToRoot); // Upload to file provider
+
     osfNestedResource(this, 'node', 'bibliographicContributors', {
         only: ['index'],
         relatedModelName: 'contributor',
@@ -67,6 +83,15 @@ export default function(this: Server) {
     osfToManyRelationship(this, 'node', 'affiliatedInstitutions', {
         only: ['related', 'add', 'remove'],
         path: '/nodes/:parentID/relationships/institutions',
+    });
+
+    osfToManyRelationship(this, 'node', 'subjects', {
+        only: ['related', 'self'],
+    });
+
+    osfResource(this, 'draft-registration', {
+        only: ['index', 'show'],
+        path: '/draft_registrations',
     });
 
     osfResource(this, 'registration', { except: ['show'] });
@@ -93,6 +118,10 @@ export default function(this: Server) {
     this.post('/registrations/:parentID/identifiers/', identifierCreate);
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
     this.get('/registrations/:guid/citation/:citationStyleID', getCitation);
+    osfToManyRelationship(this, 'registration', 'subjects', {
+        only: ['related', 'self'],
+    });
+    osfResource(this, 'subject', { only: ['show'] });
 
     osfNestedResource(this, 'comment', 'reports', {
         except: ['delete'],
@@ -150,6 +179,7 @@ export default function(this: Server) {
         path: '/providers/registrations/:parentID/licenses/',
         relatedModelName: 'license',
     });
+    this.get('/providers/registrations/:parentID/subjects/', getProviderSubjects);
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
@@ -164,6 +194,7 @@ export default function(this: Server) {
     this.namespace = '/wb';
     this.post('/files/:id/move', wb.moveFile);
     this.post('/files/:id/upload', wb.renameFile);
+    this.put('/files/:id/upload', uploadToFolder);
     this.del('/files/:id/delete', wb.deleteFile);
     this.get('/files/:id/download', wb.fileVersions);
 

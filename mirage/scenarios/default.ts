@@ -1,6 +1,7 @@
 import { faker, ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import FileProvider from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
@@ -49,6 +50,11 @@ function registrationScenario(
     draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
 
     server.create('registration', { id: 'beefs' });
+    server.create('draft-registration', {
+        id: 'dcaf',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        initiator: currentUser,
+    });
 
     server.create('registration', {
         id: 'decaf',
@@ -57,6 +63,14 @@ function registrationScenario(
         linkedRegistrations: server.createList('registration', 2),
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
+
+    server.createList('subject', 10, 'withChildren');
+
+    const provider = server.schema.registrationProviders.find('osf');
+
+    provider.update({
+        subjects: server.schema.subjects.all().models,
+    });
 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
@@ -185,6 +199,37 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     const child = server.create('node', { parent, id: 'ezcuj1', title: faker.lorem.sentences(5) });
     const grandChild = server.create('node', { parent: child, root: parent, id: 'ezcuj2' });
     server.create('node', { parent: grandChild, root: parent, id: 'ezcuj3' });
+
+    // Files Widget
+    const fileWidgetNode = server.create('node',
+        { id: 'ogst', currentUserPermissions: Object.values(Permission) }, 'withFiles');
+
+    const folderA = server.create('file', { target: fileWidgetNode }, 'asFolder');
+
+    const fileProviders = fileWidgetNode.files.models as Array<ModelInstance<FileProvider>>;
+    const osfstorage = fileProviders[0];
+    const providerFiles = osfstorage.files.models;
+
+    osfstorage.update({
+        files: [...providerFiles, folderA],
+    });
+
+    server.createList('file', 15, { target: fileWidgetNode, parentFolder: folderA });
+    const folderB = server.create('file', { target: fileWidgetNode, parentFolder: folderA }, 'asFolder');
+
+    server.createList('file', 2, { target: fileWidgetNode, parentFolder: folderB });
+    const folderC = server.create('file', { target: fileWidgetNode, parentFolder: folderB }, 'asFolder');
+
+    server.createList('file', 3, { target: fileWidgetNode, parentFolder: folderC });
+    server.create('file', { target: fileWidgetNode, parentFolder: folderC }, 'asFolder');
+
+    // SubjectWidgets
+    server.createList('subject', 10, 'withChildren');
+    const provider = server.schema.registrationProviders.find('osf');
+    provider.update({
+        subjects: server.schema.subjects.all().models,
+    });
+    server.create('registration', { id: 'subj' }, 'withSubjects');
 }
 
 function settingsScenario(server: Server, currentUser: ModelInstance<User>) {

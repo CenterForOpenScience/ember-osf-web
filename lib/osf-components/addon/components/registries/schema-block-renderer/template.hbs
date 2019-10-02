@@ -1,0 +1,13 @@
+{{#let @renderStrategy as |Mapper|}}
+    <Mapper as |renderers|>
+        {{#let (get renderers @schemaBlock.blockType) as |Renderer|}}
+            <Renderer
+                @schemaBlock={{@schemaBlock}}
+                @optionBlocks={{@optionBlocks}}
+                @disabled={{this.disabled}}
+                @shouldShowMessages={{this.shouldShowMessages}}
+                @uniqueID={{@uniqueID}}
+            />
+        {{/let}}
+    </Mapper>
+{{/let}}

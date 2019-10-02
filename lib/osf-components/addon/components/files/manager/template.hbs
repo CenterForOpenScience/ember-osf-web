@@ -1,0 +1,16 @@
+{{yield (hash
+    canEdit=this.canEdit
+    loading=this.loading
+    currentFolder=this.currentFolder
+    displayedItems=this.displayedItems
+    selectedItems=this.selectedItems
+    fileProvider=this.fileProvider
+    hasMore=this.hasMore
+    loadingFolderItems=this.loadingFolderItems
+    unselectItem=(action this.unselectItem)
+    selectItem=(action this.selectItem)
+    goToFolder=(action this.goToFolder)
+    goToParentFolder=(action this.goToParentFolder)
+    addFile=(perform this.addFile)
+    loadMore=(perform this.loadMore)
+)}}

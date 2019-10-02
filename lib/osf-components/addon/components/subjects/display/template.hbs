@@ -1,0 +1,27 @@
+{{#if this.isLoading}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    <ul local-class='Subjects' data-analytics-scope='Display'>
+        {{#each @subjects as |subject|}}
+            <li local-class='Subject'>
+                {{subject.text}}
+
+                {{#if @removeSubject}}
+                    <OsfButton
+                        local-class='RemoveButton'
+                        data-analytics-name='Remove'
+                        data-analytics-extra={{subject.text}}
+                        @type='link'
+                        @onClick={{action @removeSubject subject}}
+                    >
+                        <FaIcon @icon='times' @fixedWidth={{true}} />
+                    </OsfButton>
+                {{/if}}
+            </li>
+        {{else}}
+            <span local-class='Placeholder'>
+                {{t 'osf-components.subjects.display.placeholder'}}
+            </span>
+        {{/each}}
+    </ul>
+{{/if}}
