@@ -4,20 +4,22 @@ import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { ChangesetDef } from 'ember-changeset/types';
-import { task, timeout } from 'ember-concurrency';
+import { task, TaskInstance, timeout } from 'ember-concurrency';
 
-import { layout } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import { getPages, PageManager, PageResponse } from 'ember-osf-web/packages/registration-schema';
+import { getPageParam } from 'ember-osf-web/utils/page-param';
 import template from './template';
 
 export interface DraftRegistrationManager {
     isValid: boolean;
     currentPageManager: PageManager;
     pageManagers: PageManager[];
+    currentPage: number;
 
     onInput(): void;
     submitDraftRegistration(): void;
@@ -27,8 +29,10 @@ export interface DraftRegistrationManager {
 @layout(template)
 export default class DraftRegistrationManagerComponent extends Component.extend({
     initializePageManagers: task(function *(this: DraftRegistrationManagerComponent) {
-        assert('@draftRegistration is required!', Boolean(this.draftRegistration));
-        assert('@registrationSchema is required!', Boolean(this.registrationSchema));
+        assert('TaskInstance<DraftRegistration> is required!', Boolean(this.modelTaskInstance));
+
+        const draftRegistration = yield this.modelTaskInstance;
+        this.setProperties({ draftRegistration });
 
         const registrationSchema = yield this.draftRegistration.registrationSchema;
         const blocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
@@ -46,6 +50,10 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
                 this.registrationResponses,
             ),
         );
+
+        if (pageManagers.length) {
+            this.updateRoute(pageManagers[0].pageHeadingText as string);
+        }
 
         this.setProperties({ pageManagers });
     }).on('init'),
@@ -75,19 +83,42 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
 
 }) {
     // Required
+    modelTaskInstance!: TaskInstance<DraftRegistration>;
+    @requiredAction updateRoute!: (headingText: string) => void;
+
+    // Private
     registrationSchema!: RegistrationSchema;
     draftRegistration!: DraftRegistration;
     currentPage!: number;
     lastPage!: number;
     registrationResponses: PageResponse = {};
 
-    pageManagers!: PageManager[];
+    pageManagers: PageManager[] = [];
 
     @alias('onInput') autoSaving!: boolean;
 
     @computed('currentPage', 'pageManagers.[]')
+    get nextPageParam() {
+        if (this.pageManagers.length && (this.lastPage !== this.currentPage)) {
+            const { pageHeadingText } = this.pageManagers[this.currentPage];
+            return getPageParam(this.currentPage + 1, pageHeadingText);
+        }
+        return '';
+    }
+
+    @computed('currentPage', 'pageManagers.[]')
+    get prevPageParam() {
+        if (this.pageManagers.length && (this.currentPage > 1)) {
+            const pageIndex = this.currentPage - 2;
+            const { pageHeadingText } = this.pageManagers[pageIndex];
+            return getPageParam(this.currentPage - 1, pageHeadingText);
+        }
+        return '';
+    }
+
+    @computed('currentPage', 'pageManagers.[]')
     get currentPageManager() {
-        if (this.pageManagers && this.pageManagers.length >= this.currentPage) {
+        if (this.pageManagers.length >= this.currentPage) {
             return this.pageManagers[this.currentPage - 1];
         }
         return undefined;

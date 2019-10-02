@@ -1,13 +1,13 @@
 import slugify from 'ember-osf-web/utils/slugify';
 
-export const DefaultPage = '1';
+export const DefaultPage = 1;
 
 export function getPageIndex(pageParam: string): number | undefined {
     const match = pageParam.match(/^\d+(?=-)/);
     return match ? +match[0] : undefined;
 }
 
-export function getDefaultParam(): string {
+export function getDefaultParam(): number {
     return DefaultPage;
 }
 

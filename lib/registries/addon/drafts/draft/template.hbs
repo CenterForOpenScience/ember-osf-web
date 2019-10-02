@@ -2,3 +2,49 @@
 <section>
     {{!-- Fill out this registration form. --}}
 </section>
+
+<Registries::DraftRegistrationManager
+    @currentPage={{this.model.pageIndex}}
+    @modelTaskInstance={{this.model.taskInstance}}
+    @updateRoute={{route-action 'updateRoute'}}
+    as |draftManager|
+>
+    <aside>
+        {{!-- Sidenav: page headings, validations --}}
+        {{draftManager.currentPageManager.pageHeadingText}}
+    </aside>
+    <section>
+        {{!-- <PageRenderer @currentPageManager={{draftManager.currentPageManager}}> --}}
+        {{!-- \/O\/ --}}
+        {{!-- </PageRenderer> --}}
+    </section>
+    <aside>
+        {{! navigate between pages}}
+        {{#if draftManager.nextPageParam}}
+            <OsfLink
+                @type='button'
+                @route='registries.drafts.draft'
+                @models={{array draftManager.draftId draftManager.nextPageParam}}
+            >
+                {{t 'registries.drafts.draft.form.next'}}
+            </OsfLink>
+        {{/if}}
+
+        {{#if draftManager.prevPageParam}}
+            <OsfLink
+                @type='button'
+                @route='registries.drafts.draft'
+                @models={{array draftManager.draftId draftManager.prevPageParam}}
+            >
+                {{t 'registries.drafts.draft.form.back'}}
+            </OsfLink>
+        {{/if}}
+
+        <OsfButton
+            data-test-save-draft
+            @onClick={{action draftManager.submitDraftRegistration}}
+        >
+            {{t 'registries.drafts.draft.form.save_draft'}}
+        </OsfButton>
+    </aside>
+</Registries::DraftRegistrationManager>
