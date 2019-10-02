@@ -146,10 +146,19 @@ export default class SchemaBlockGroupRendererController extends Controller {
     schemaBlockGroups = getSchemaBlockGroups(this.schemaBlocks);
 
     pageResponse = {
+        'page-one_single-select': '',
         'page-one_short-text': '',
         'page-one_long-text': '',
-        'page-one_single-select-two': '',
         'page-one_multi-select': [],
+        'page-one_single-select-two': '',
     };
     pageResponseChangeset = new Changeset(this.pageResponse);
+
+    registrationResponses = {
+        'page-one_single-select': 'tuna',
+        'page-one_short-text': 'Suicune',
+        'page-one_long-text': 'One is called a marsh, and one is called a swamp',
+        'page-one_multi-select': ['crocs', 'Nickelback'],
+        'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
+    };
 }
