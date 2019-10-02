@@ -57,6 +57,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `selected-list`
         - `upload-zone`
         - `widget`
+    - `registries/review-form-renderer`
+    - `schema-block-renderer/`
+        - `editable`
+        - `read-only`
 - Validators
     - `list` - apply a validator to a list
 - Tests
@@ -147,6 +151,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - darken background overlay
     - `registries/registries-metadata`
         - use `Subjects::Widget` and `Subjects::Display` (and related managers) for subjects editable field
+    - `schema-block-group-renderer`
+        - take in renderStrategy as mapper
+        - take variable for `registrationResponses`
+    - `schema-block-renderer`
+        - broke components into `editable` and `read-only` structures
 - Tests
     - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
     - Unit
@@ -155,6 +164,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `serializers/taxonomy-test` renamed to `serializers/subject-test`
         - `models/preprint-test`
             - removed test for `subject` attribute
+    - Integration
+        - `registries/schema-block-group-renderer` updated to include `renderStrategy`
 - Mirage
     - Factories
         - `node`
