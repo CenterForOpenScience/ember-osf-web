@@ -10,7 +10,7 @@ export default class SubjectModel extends OsfModel {
     @belongsTo('subject', { inverse: 'children', async: false })
     parent?: SubjectModel;
 
-    @hasMany('subject', { inverse: 'parent', async: false })
+    @hasMany('subject', { inverse: 'parent' })
     children!: DS.PromiseManyArray<SubjectModel>;
 }
 

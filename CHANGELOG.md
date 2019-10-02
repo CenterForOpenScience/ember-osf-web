@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - generates random text
     - `unique-id`
         - generate a unique-enough string for use in a DOM element's `id`
+    - `has-validation-error`
+        - check if a list of validator results contains a validation error
 - Components
     - `subjects/`
         - `browse`
@@ -35,7 +37,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `selected-list`
         - `upload-zone`
         - `widget`
+- Validators
+    - `list` - apply a validator to a list
 - Tests
+    - Unit
+        - helpers
+            - `has-validation-error`
+        - validators
+            - `validateList`
     - Integration
         - `unique-id`
         - `random-text`
@@ -60,6 +69,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Handbook
     - `Subjects::Widget` component to gallery
     - `Files::Widget` component to gallery
+    - `validateList` validator
+    - `has-validation-error` helper
 
 ### Changed
 - Models
@@ -114,6 +125,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - suppress box-shadow when active
     - `osf-dialog`
         - darken background overlay
+    - `registries/registries-metadata`
+        - use `Subjects::Widget` and `Subjects::Display` (and related managers) for subjects editable field
 - Tests
     - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
     - Unit
@@ -150,6 +163,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - create some subjects
         - `handbook`
             - create a file tree for the handbook
+- Types
+    - `ember-changeset-validations`
+        - added `ValidatorFunction` and `ValidatorResult`
 - Config
     - updated to use API version 2.16
 - Packages
