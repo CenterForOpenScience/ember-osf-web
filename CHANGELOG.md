@@ -125,6 +125,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - suppress box-shadow when active
     - `osf-dialog`
         - darken background overlay
+    - `registries/registries-metadata`
+        - use `Subjects::Widget` and `Subjects::Display` (and related managers) for subjects editable field
 - Tests
     - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
     - Unit
