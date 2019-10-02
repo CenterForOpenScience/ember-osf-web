@@ -5,7 +5,7 @@ import Institution from 'ember-osf-web/models/institution';
 import { randomGravatar } from '../utils';
 
 export interface InstitutionTraits {
-    institutionalUsers: Trait;
+    withInstitutionalUsers: Trait;
 }
 
 export default Factory.extend<Institution & InstitutionTraits>({
@@ -20,7 +20,7 @@ export default Factory.extend<Institution & InstitutionTraits>({
             logo: randomGravatar(100),
         };
     },
-    institutionalUsers: trait<Institution>({
+    withInstitutionalUsers: trait<Institution>({
         afterCreate(institution, server) {
             server.createList('institutional-user', 10, { institution });
         },
