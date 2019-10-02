@@ -29,7 +29,7 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
     valuePath!: AttributesFor<M> | RelationshipsFor<M>;
 
     // Optional arguments
-    changeset?: ChangesetDef & DS.Model;
+    changeset?: ChangesetDef & M;
     label?: string;
     ariaLabel?: string;
     placeholder?: string;
