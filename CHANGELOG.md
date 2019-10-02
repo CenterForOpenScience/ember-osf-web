@@ -5,7 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Mirage
+    - Factories
+        - `institutional-user`
+    - Serializers
+        - `institutional-user`
+- Routes
+    - `institution` 
+        - added `dashboard` nested route
 
+### Changed
+- Mirage
+    - Factories
+        - `institution`
+            - added `withInstitutionalUsers` trait
+- Routes
+    - `institution` 
+        - moved to `index` folder
+            
 ## [19.10.0] - 2019-10-02
 ### Added
 - Models
