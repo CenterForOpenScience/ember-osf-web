@@ -25,6 +25,7 @@ export default Factory.extend<Institution & InstitutionTraits>({
             server.createList('institutional-user', 10, { institution });
         },
     }),
+    currentUserIsAdmin: true,
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {

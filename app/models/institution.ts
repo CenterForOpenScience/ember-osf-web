@@ -21,6 +21,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') logoPath!: string;
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
+    @attr('boolean') currentUserIsAdmin!: boolean;
 
     @hasMany('institutional-user', { inverse: 'institution' })
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;

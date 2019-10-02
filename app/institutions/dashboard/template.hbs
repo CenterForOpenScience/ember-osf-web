@@ -1,3 +1,9 @@
 <div>
-    {{this.model.name}}
+    <img src='{{this.institution.assets.logo}}' alt='{{this.institution.name}}'>
+    {{this.institution.name}}
+    <ul>
+        {{#each this.institution.institutionalUsers as |user|}}
+            <li>{{user.fullName}}</li>
+        {{/each}}
+    </ul>
 </div>
