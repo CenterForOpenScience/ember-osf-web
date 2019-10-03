@@ -10,6 +10,7 @@ import UserModel from './user';
 
 /* eslint-disable camelcase */
 export interface Assets {
+    banner: string;
     logo: string;
     logo_rounded: string;
 }
