@@ -4,7 +4,6 @@ import { faker, ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { t } from 'ember-i18n/test-support';
-import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
@@ -433,23 +432,5 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         // @ts-ignore
         assert.deepEqual(reg.nodeLicense!.copyright_holders, ['Jane Doe', 'John Doe']);
-    });
-
-    test('overview: column layout', async assert => {
-        // 3-column layout
-        const publicReg = server.create('registration', {
-            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        });
-
-        await visit(`/${publicReg.id}/`);
-        await percySnapshot(assert);
-
-        // 1-column layout
-        const withdrawnReg = server.create('registration', {
-            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        }, 'isWithdrawn');
-
-        await visit(`/${withdrawnReg.id}/`);
-        await percySnapshot(assert);
     });
 });

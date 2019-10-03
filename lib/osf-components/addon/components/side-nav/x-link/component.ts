@@ -33,7 +33,7 @@ export default class XLink extends Component {
 
     @computed('isCollapsed')
     get wrapperClasses() {
-        return `Link ${this.isCollapsed ? 'Collapsed' : ''}`;
+        return `Link ${this.isButton ? 'Toggle' : ''} ${this.isCollapsed ? 'Collapsed' : ''}`;
     }
 
     didReceiveAttrs() {

@@ -21,24 +21,3 @@ $width-collapsed: 80px;
     padding: 15px 10px;
     width: 100%;
 }
-
-.Toggle {
-    margin: -1px 15px;
-
-    // Hides Expand/Collapse when not being hovered over
-    &:not(:hover) h4 {
-        color: $color-text-white;
-    }
-
-    &:hover :global(.SideNav_LabelWrapper)::before {
-        // Adjusts the white border to not cover the top gray line
-        top: 0 !important;
-        height: calc(1px + 100%) !important;
-    }
-
-    & > span {
-        align-items: center;
-        display: inline-flex;
-        justify-content: space-between;
-    }
-}
