@@ -157,7 +157,7 @@ function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
     for (const node of nodes.slice(4, 10)) {
         server.create('contributor', { node, users: currentUser, index: 11 });
     }
-    server.createList('institution', 20);
+    server.createList('institution', 20, 'withInstitutionalUsers');
 }
 
 function forksScenario(server: Server, currentUser: ModelInstance<User>) {
