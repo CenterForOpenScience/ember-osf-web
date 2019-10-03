@@ -1,6 +1,6 @@
 $sidenav-link-height: 40px;
 
-.Link {
+.Link.Link {
     align-items: center;
     display: inline-flex;
     height: $sidenav-link-height;
@@ -100,7 +100,7 @@ $sidenav-link-height: 40px;
     }
 }
 
-.Collapsed {
+.Collapsed.Collapsed {
     // Center icons when collapsed
     justify-content: center;
 
@@ -135,5 +135,20 @@ $sidenav-link-height: 40px;
 
     &:hover:not(:global(.active)) h4 {
         background: $color-bg-white;
+    }
+}
+
+.Toggle.Toggle {
+    margin: -1px 15px;
+
+    // Hides Expand/Collapse when not being hovered over
+    &:not(:hover) h4 {
+        color: $color-text-white;
+    }
+
+    &:hover .LabelWrapper::before {
+        // Adjusts the white border to not cover the top gray line
+        top: 0;
+        height: calc(1px + 100%);
     }
 }
