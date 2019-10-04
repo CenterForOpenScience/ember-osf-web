@@ -2,11 +2,13 @@ import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import { layout } from 'ember-osf-web/decorators/component';
 import moment from 'moment';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import {
     FinalizeRegistrationModalManager,
 } from 'osf-components/components/registries/finalize-registration-modal/manager/component';
+
 import styles from './styles';
 import template from './template';
 

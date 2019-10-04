@@ -18,9 +18,11 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         this.set('isOpen', false);
         await render(hbs`
             <Registries::FinalizeRegistrationModal::Manager
-                @registration={{this.model}} @isOpen={{this.isOpen}}
+                @registration={{this.model}}
+                @isOpen={{this.isOpen}}
                 @renderInPlace={{true}}
-            as |manager| >
+                as |manager|
+            >
                 <Registries::FinalizeRegistrationModal @manager={{manager}} />
             </Registries::FinalizeRegistrationModal::Manager>
         `);
@@ -65,7 +67,8 @@ module('Integration | Component | finalize-registration-modal', hooks => {
                 @registration={{this.model}}
                 @isOpen={{this.isOpen}}
                 @renderInPlace={{true}}
-            as |manager| >
+                as |manager|
+            >
                 <Registries::FinalizeRegistrationModal @manager={{manager}} />
             </Registries::FinalizeRegistrationModal::Manager>
         `);
@@ -77,7 +80,7 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         assert.dom('[data-test-submit-registration-button]').isDisabled();
         // Click embargo radio button
         await click('[data-test-embargo-button]');
-        // Check that the submit button is enabled
+        // Check that the submit button is disabled
         assert.dom('[data-test-submit-registration-button]').isDisabled();
         // Check that `embargoEndDate` of the registration model is null
         assert.equal(registrationModel.embargoEndDate, null);

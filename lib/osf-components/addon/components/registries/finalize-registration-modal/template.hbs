@@ -1,7 +1,8 @@
 <OsfDialog
     @isOpen={{this.manager.isOpen}}
     @renderInPlace={{this.manager.renderInPlace}}
-as |dialog|>
+    as |dialog|
+>
     <dialog.heading data-test-finalize-heading>
         {{t 'registries.finalizeRegistrationModal.title'}}
     </dialog.heading>
@@ -54,12 +55,14 @@ as |dialog|>
             data-test-submit-registration-button
             @type='primary'
             @onClick={{action this.manager.submitRegistration}}
-            @disabled={{this.shouldDisableSubmitButton}}>
+            @disabled={{this.shouldDisableSubmitButton}}
+        >
             {{t 'registries.finalizeRegistrationModal.submit'}}
         </OsfButton>
         <OsfButton
             data-test-cancel-back-button
-            @type='default'>
+            @type='default'
+        >
             {{t 'registries.finalizeRegistrationModal.back'}}
         </OsfButton>
     </dialog.footer>
