@@ -6,11 +6,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Mirage
+    - Factories
+        - `institutional-user`
+    - Serializers
+        - `institutional-user`
+- Routes
+    - `institution` 
+        - added `dashboard` nested route
+
+### Changed
+- Mirage
+    - Factories
+        - `institution`
+            - added `withInstitutionalUsers` trait
+- Routes
+    - `institution` 
+        - moved to `index` folder
+            
+## [19.10.0] - 2019-10-02
+### Added
+- Models
+    - `institutional-user`
 - Helpers
     - `random-text`
         - generates random text
     - `unique-id`
         - generate a unique-enough string for use in a DOM element's `id`
+    - `has-validation-error`
+        - check if a list of validator results contains a validation error
 - Components
     - `subjects/`
         - `browse`
@@ -33,7 +57,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `selected-list`
         - `upload-zone`
         - `widget`
+    - `registries/review-form-renderer`
+    - `schema-block-renderer/`
+        - `editable`
+        - `read-only`
+- Validators
+    - `list` - apply a validator to a list
 - Tests
+    - Unit
+        - helpers
+            - `has-validation-error`
+        - validators
+            - `validateList`
     - Integration
         - `unique-id`
         - `random-text`
@@ -58,6 +93,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Handbook
     - `Subjects::Widget` component to gallery
     - `Files::Widget` component to gallery
+    - `validateList` validator
+    - `has-validation-error` helper
 
 ### Changed
 - Models
@@ -110,6 +147,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - folders should always use folder icon
     - `sort-button`
         - suppress box-shadow when active
+    - `osf-dialog`
+        - darken background overlay
+    - `registries/registries-metadata`
+        - use `Subjects::Widget` and `Subjects::Display` (and related managers) for subjects editable field
+    - `schema-block-group-renderer`
+        - take in renderStrategy as mapper
+        - take variable for `registrationResponses`
+    - `schema-block-renderer`
+        - broke components into `editable` and `read-only` structures
 - Tests
     - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
     - Unit
@@ -118,6 +164,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `serializers/taxonomy-test` renamed to `serializers/subject-test`
         - `models/preprint-test`
             - removed test for `subject` attribute
+    - Integration
+        - `registries/schema-block-group-renderer` updated to include `renderStrategy`
 - Mirage
     - Factories
         - `node`
@@ -146,8 +194,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - create some subjects
         - `handbook`
             - create a file tree for the handbook
+- Types
+    - `ember-changeset-validations`
+        - added `ValidatorFunction` and `ValidatorResult`
 - Config
-    - updated to use API version 2.15
+    - updated to use API version 2.16
 - Packages
     - upgrade to `ember-animated@0.8.1`
 
@@ -169,6 +220,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added splattributes because this is template-only
     - `registries/sharing-icons/popover`
         - added splattributes because this is template-only
+- Handbook
+    - `osf-dialog` `demo-is-open` needs component file because it muts `isOpen`
 
 ## [19.9.0] - 2019-09-06
 ### Added
@@ -1333,7 +1386,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.9.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.10.0...develop
+[19.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.10.0
 [19.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.9.0
 [19.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.8.0
 [19.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.1

@@ -1,8 +1,8 @@
 <DocsDemo as |demo|>
     <demo.example @name='subject-widget.demo.hbs'>
         <Subjects::Manager
-            @model={{this.model}}
-            @provider={{this.model.provider}}
+            @model={{@model}}
+            @provider={{@model.provider}}
             as |subjectsManager|
         >
             <Subjects::Widget
