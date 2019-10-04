@@ -161,7 +161,7 @@ function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
     // NOTE: Some institutions are already created by this point
     server.createList('institution', 20);
     // Create a specific institution to test institutional dashboard with; should be ID 29 at this point
-    server.create('institution', 'withInstitutionalUsers');
+    server.create('institution', { id: 'has-users' }, 'withInstitutionalUsers');
 }
 
 function forksScenario(server: Server, currentUser: ModelInstance<User>) {
