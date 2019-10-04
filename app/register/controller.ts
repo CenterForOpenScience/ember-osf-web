@@ -73,9 +73,9 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
 
     setup({ queryParams }: { queryParams: RegisterQueryParams }) {
         if (queryParams.campaign) {
-            const matches = queryParams.campaign.match(/^(.*)-(.*)|(.*)$/);
-            if (matches && matches.length > 2) {
-                this.set('signUpCampaign', queryParams.campaign);
+            this.set('signUpCampaign', queryParams.campaign);
+            const matches = queryParams.campaign.match(/^(.*)-(.*)$/);
+            if (matches) {
                 const [, provider, type] = matches;
                 if (provider === 'osf') {
                     switch (type) {
