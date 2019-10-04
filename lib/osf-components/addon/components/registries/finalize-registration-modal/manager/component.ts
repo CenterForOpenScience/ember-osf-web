@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { layout } from 'ember-osf-web/decorators/component';
@@ -11,6 +11,7 @@ export interface FinalizeRegistrationModalManager {
     registration: RegistrationModel;
     isOpen: boolean;
     renderInPlace: boolean;
+    hasEmbargoEndDate: boolean;
     submitRegistration: () => void;
     setEmbargoEndDate: (embargoEndDate: Date | null) => void;
     setCreateDoi: (createDoi: boolean) => void;
@@ -28,6 +29,11 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
 
     didReceiveAttrs() {
         assert('finalize-registration-model::manager must have a registration', Boolean(this.registration));
+    }
+
+    @computed('registration.embargoEndDate')
+    get hasEmbargoEndDate() {
+        return this.registration.embargoEndDate instanceof Date;
     }
 
     @action

@@ -13,14 +13,14 @@
         <div>
             <RadioButton
                 @value='immediate'
-                @groupValue={{this.groupValue}}
+                @groupValue={{this.makePublicOption}}
                 @changed={{action this.onChoiceChange}}
             >
                 <span data-test-immediate-button>
                     {{t 'registries.finalizeRegistrationModal.immediateOption'}}
                 </span>
             </RadioButton>
-            {{#if (eq this.groupValue 'immediate')}}
+            {{#if (eq this.makePublicOption 'immediate')}}
                 <span local-class='create-doi-option'>
                     <label data-test-create-doi-label>
                         <Input @type='checkbox' @checked={{this.manager.registration.createDoi}} />
@@ -32,14 +32,14 @@
         <div>
             <RadioButton
                 @value='embargo'
-                @groupValue={{this.groupValue}}
+                @groupValue={{this.makePublicOption}}
                 @changed={{action this.onChoiceChange}}
             >
                 <span data-test-embargo-button>
                     {{t 'registries.finalizeRegistrationModal.embargoOption'}}
                 </span>
             </RadioButton>
-            {{#if (eq this.groupValue 'embargo')}}
+            {{#if (eq this.makePublicOption 'embargo')}}
                 <ValidatedInput::Date
                     data-test-embargo-date-input
                     @value={{this.manager.registration.embargoEndDate}}

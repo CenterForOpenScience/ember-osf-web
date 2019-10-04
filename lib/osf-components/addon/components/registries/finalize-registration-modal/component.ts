@@ -15,29 +15,25 @@ import template from './template';
 @layout(template, styles)
 @tagName('')
 export default class FinalizeRegisrationModalComponent extends Component {
+    // Required parameter
     manager!: FinalizeRegistrationModalManager;
-    groupValue: string = '';
+
+    // Private properties
+    makePublicOption: string = '';
     embargoRangeStartDate: Date = moment().add(3, 'days').toDate();
     embargoRangeEndDate: Date = moment().add(4, 'years').toDate();
 
     @action
     onChoiceChange() {
-        if (this.groupValue === 'immediate') {
+        if (this.makePublicOption === 'immediate') {
             this.manager.setEmbargoEndDate(null);
         } else {
             this.manager.setCreateDoi(false);
         }
     }
 
-    @computed('manager.registration.embargoEndDate', 'groupValue')
+    @computed('manager.hasEmbargoEndDate', 'makePublicOption')
     get shouldDisableSubmitButton() {
-        if (
-            (this.manager.registration.embargoEndDate === null && this.groupValue === 'embargo')
-            ||
-            this.groupValue === ''
-        ) {
-            return true;
-        }
-        return false;
+        return this.makePublicOption === '' || (this.makePublicOption === 'embargo' && !this.manager.hasEmbargoEndDate);
     }
 }
