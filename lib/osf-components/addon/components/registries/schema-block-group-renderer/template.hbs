@@ -1,8 +1,8 @@
 {{#each this.nonOptionBlocks as |block|}}
     <Registries::SchemaBlockRenderer
         @schemaBlock={{block}}
-        @changeset={{@changeset}}
-        @options={{this.optionBlocks}}
-        @node={{@node}}
+        @optionBlocks={{this.optionBlocks}}
+        @uniqueID={{this.uniqueID}}
+        @renderStrategy={{@renderStrategy}}
     />
 {{/each}}

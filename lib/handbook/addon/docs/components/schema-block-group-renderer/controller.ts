@@ -2,160 +2,163 @@ import Changeset from 'ember-changeset';
 
 import Controller from '@ember/controller';
 
+import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+
 export default class SchemaBlockGroupRendererController extends Controller {
-    schemaBlockGroup = [
+    schemaBlocks: SchemaBlock[] = [
         {
-            groupType: 'short-text-input',
-            blocks: [
-                {
-                    id: 'SB8',
-                    blockType: 'question-label',
-                    displayText: 'Which Pokemon is your favorite?',
-                    schemaBlockGroupKey: 'q1',
-                    index: 1,
-                },
-                {
-                    id: 'SB9',
-                    blockType: 'short-text-input',
-                    registrationResponseKey: 'page-one_short-text',
-                    schemaBlockGroupKey: 'q1',
-                    index: 2,
-                },
-            ],
+            blockType: 'page-heading',
+            displayText: 'Page heading',
+            index: 0,
         },
         {
-            groupType: 'long-text-input',
-            blocks: [
-                {
-                    id: 'SB10',
-                    blockType: 'question-label',
-                    displayText: 'What is the difference between a swamp and a marsh?',
-                    schemaBlockGroupKey: 'q2',
-                    index: 3,
-                },
-                {
-                    id: 'SB11',
-                    blockType: 'long-text-input',
-                    registrationResponseKey: 'page-one_long-text',
-                    schemaBlockGroupKey: 'q2',
-                    index: 4,
-                },
-            ],
+            blockType: 'section-heading',
+            displayText: 'First section',
+            index: 1,
         },
         {
-            groupType: 'single-select-input',
-            blocks: [
-                {
-                    id: 'SB19',
-                    blockType: 'question-label',
-                    displayText: 'If I had a super power it would be:',
-                    schemaBlockGroupKey: 'q3',
-                    index: 5,
-                },
-                {
-                    id: 'SB20',
-                    blockType: 'single-select-input',
-                    registrationResponseKey: 'page-one_single-select-two',
-                    schemaBlockGroupKey: 'q3',
-                    index: 6,
-                },
-            ],
-            optionBlocks: [
-                {
-                    id: 'SB21',
-                    blockType: 'select-input-option',
-                    displayText: 'Always be on the proper beat while doing the macarena',
-                    schemaBlockGroupKey: 'q3',
-                    index: 7,
-                },
-                {
-                    id: 'SB22',
-                    blockType: 'select-input-option',
-                    displayText: 'Remember who was in NSync and who was in Backstreet Boys',
-                    schemaBlockGroupKey: 'q3',
-                    index: 8,
-                },
-                {
-                    id: 'SB23',
-                    blockType: 'select-other-option',
-                    displayText: 'Other',
-                    schemaBlockGroupKey: 'q3',
-                    index: 9,
-                },
-                {
-                    id: 'SB24',
-                    blockType: 'short-text-input',
-                    schemaBlockGroupKey: 'q3',
-                    index: 10,
-                },
-            ],
+            blockType: 'subsection-heading',
+            displayText: 'Subsection',
+            index: 2,
         },
         {
-            groupType: 'multi-select-input',
-            blocks: [
-                {
-                    id: 'SB12',
-                    blockType: 'question-label',
-                    displayText: 'I never understood all the hate for:',
-                    schemaBlockGroupKey: 'q4',
-                    index: 11,
-                },
-                {
-                    id: 'SB13',
-                    blockType: 'multi-select-input',
-                    registrationResponseKey: 'page-one_multi-select',
-                    schemaBlockGroupKey: 'q4',
-                    index: 12,
-                },
-            ],
-            optionBlocks: [
-                {
-                    id: 'SB14',
-                    blockType: 'select-input-option',
-                    displayText: 'Nickelback',
-                    schemaBlockGroupKey: 'q4',
-                    index: 13,
-                },
-                {
-                    id: 'SB15',
-                    blockType: 'select-input-option',
-                    displayText: 'Crocs',
-                    schemaBlockGroupKey: 'q4',
-                    index: 14,
-                },
-                {
-                    id: 'SB16',
-                    blockType: 'select-other-option',
-                    displayText: 'Other:',
-                    schemaBlockGroupKey: 'q4',
-                    index: 15,
-                },
-            ],
+            blockType: 'question-label',
+            displayText: 'What do cats like more?',
+            schemaBlockGroupKey: 'q1',
+            index: 3,
         },
         {
-            groupType: 'contributor-list',
-            blocks: [
-                {
-                    id: 'SB17',
-                    blockType: 'question-label',
-                    displayText: 'Contributors:',
-                    schemaBlockGroupKey: 'q5',
-                    index: 16,
-                },
-                {
-                    id: 'SB18',
-                    blockType: 'contributor-list',
-                    schemaBlockGroupKey: 'q5',
-                    index: 17,
-                },
-            ],
+            blockType: 'single-select-input',
+            registrationResponseKey: 'page-one_single-select',
+            schemaBlockGroupKey: 'q1',
+            index: 4,
+        },
+        {
+            blockType: 'select-input-option',
+            displayText: 'tuna',
+            schemaBlockGroupKey: 'q1',
+            index: 5,
+        },
+        {
+            blockType: 'select-input-option',
+            displayText: 'chicken',
+            schemaBlockGroupKey: 'q1',
+            index: 6,
+        },
+        {
+            blockType: 'question-label',
+            displayText: 'Which Pokemon is your favorite?',
+            schemaBlockGroupKey: 'q2',
+            index: 7,
+        },
+        {
+            blockType: 'short-text-input',
+            registrationResponseKey: 'page-one_short-text',
+            schemaBlockGroupKey: 'q2',
+            index: 8,
+        },
+        {
+            blockType: 'question-label',
+            displayText: 'What is the difference between a swamp and a marsh?',
+            schemaBlockGroupKey: 'q3',
+            index: 9,
+        },
+        {
+            blockType: 'long-text-input',
+            registrationResponseKey: 'page-one_long-text',
+            schemaBlockGroupKey: 'q3',
+            index: 10,
+        },
+        {
+            blockType: 'question-label',
+            displayText: 'I never understood all the hate for:',
+            schemaBlockGroupKey: 'q4',
+            index: 11,
+        },
+        {
+            blockType: 'multi-select-input',
+            registrationResponseKey: 'page-one_multi-select',
+            schemaBlockGroupKey: 'q4',
+            index: 12,
+        },
+        {
+            blockType: 'select-input-option',
+            displayText: 'Nickelback',
+            schemaBlockGroupKey: 'q4',
+            index: 13,
+        },
+        {
+            blockType: 'select-input-option',
+            displayText: 'Crocs',
+            schemaBlockGroupKey: 'q4',
+            index: 14,
+        },
+        {
+            blockType: 'select-other-option',
+            displayText: 'Other:',
+            schemaBlockGroupKey: 'q4',
+            index: 15,
+        },
+        {
+            blockType: 'question-label',
+            displayText: 'If I had a super power it would be:',
+            schemaBlockGroupKey: 'q6',
+            index: 17,
+        },
+        {
+            blockType: 'single-select-input',
+            registrationResponseKey: 'page-one_single-select-two',
+            schemaBlockGroupKey: 'q6',
+            index: 18,
+        },
+        {
+            blockType: 'select-input-option',
+            displayText: 'Always be on the proper beat while doing the macarena',
+            schemaBlockGroupKey: 'q6',
+            index: 19,
+        },
+        {
+            blockType: 'select-input-option',
+            displayText: 'Remember who was in NSync and who was in Backstreet Boys',
+            schemaBlockGroupKey: 'q6',
+            index: 20,
+        },
+        {
+            blockType: 'select-other-option',
+            displayText: 'Other',
+            schemaBlockGroupKey: 'q6',
+            index: 21,
+        },
+        {
+            blockType: 'question-label',
+            displayText: 'Contributors:',
+            schemaBlockGroupKey: 'q5',
+            index: 22,
+        },
+        {
+            blockType: 'contributors-input',
+            registrationResponseKey: 'page-one_contributors-input',
+            schemaBlockGroupKey: 'q5',
+            index: 23,
         },
     ];
-    schemaChangeset = {
+
+    schemaBlockGroups = getSchemaBlockGroups(this.schemaBlocks);
+
+    pageResponse = {
+        'page-one_single-select': '',
         'page-one_short-text': '',
         'page-one_long-text': '',
-        'page-one_single-select-two': '',
         'page-one_multi-select': [],
+        'page-one_single-select-two': '',
     };
-    groupChangeset = new Changeset(this.schemaChangeset);
+    pageResponseChangeset = new Changeset(this.pageResponse);
+
+    registrationResponses = {
+        'page-one_single-select': 'tuna',
+        'page-one_short-text': 'Suicune',
+        'page-one_long-text': 'One is called a marsh, and one is called a swamp',
+        'page-one_multi-select': ['crocs', 'Nickelback'],
+        'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
+    };
 }

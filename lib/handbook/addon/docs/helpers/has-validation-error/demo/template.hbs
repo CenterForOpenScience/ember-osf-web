@@ -1,0 +1,39 @@
+<DocsDemo as |demo|>
+    <demo.example @name='has-validation-error.demo.hbs'>
+        {{this.errors}}
+
+        {{#if (has-validation-error this.errors)}}
+            <div local-class='HasError'>Has Error</div>
+        {{else}}
+            <div local-class='NoErrors'>No Errors</div>
+        {{/if}}
+
+        <OsfButton @onClick={{action (mut this.errors) (array true)}}>
+            No Errors (single)
+        </OsfButton>
+
+        <OsfButton @onClick={{action (mut this.errors) (array true true true)}}>
+            No Errors (multiple)
+        </OsfButton>
+
+        <OsfButton @onClick={{action (mut this.errors) (array 'Error')}}>
+            One Error
+        </OsfButton>
+
+        <OsfButton @onClick={{action (mut this.errors) (array 'Error1' 'Error2' 'Error3')}}>
+            All Errors
+        </OsfButton>
+
+        <OsfButton @onClick={{action (mut this.errors) (array true 'Error' true)}}>
+            Mixed
+        </OsfButton>
+
+        <OsfButton @onClick={{action (mut this.errors) (array)}}>
+            Empty
+        </OsfButton>
+    </demo.example>
+
+    <demo.snippet
+        @name='has-validation-error.demo.hbs'
+    />
+</DocsDemo>

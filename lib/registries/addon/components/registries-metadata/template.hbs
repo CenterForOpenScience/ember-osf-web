@@ -134,6 +134,36 @@
         </div>
 
         <div local-class='Field'>
+            <Subjects::Manager
+                @model={{this.registration}}
+                @provider={{this.registration.provider}}
+                as |subjectsManager|
+            >
+                <EditableField::SubjectFieldManager
+                    @subjectsManager={{subjectsManager}}
+                    @node={{this.registration}}
+                    as |subjectFieldManager|
+                >
+                    <EditableField
+                        data-analytics-scope='Subjects'
+                        @manager={{subjectFieldManager}}
+                        @title={{t 'registries.registration_metadata.subjects'}}
+                        @name='subjects'
+                        @fixedWidth={{true}}
+                        as |field|
+                    >
+                        <field.edit>
+                            <Subjects::Widget @subjectsManager={{subjectsManager}} />
+                        </field.edit>
+                        <field.display>
+                            <Subjects::Display @subjects={{subjectsManager.savedSubjects}} />
+                        </field.display>
+                    </EditableField>
+                </EditableField::SubjectFieldManager>
+            </Subjects::Manager>
+        </div>
+
+        <div local-class='Field'>
             <EditableField::InstitutionsManager @node={{this.registration}} as |institutionsManager|>
                 <EditableField
                     data-analytics-scope='Affiliated institutions'

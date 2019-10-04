@@ -195,10 +195,12 @@ export default class OsfSerializer extends JSONAPISerializer {
                 {},
             );
 
-            normalizedHash.data.attributes = {
-                ...(normalizedHash.data.attributes || {}),
-                relatedCounts,
-            };
+            if (Object.keys(relatedCounts).length !== 0) {
+                normalizedHash.data.attributes = {
+                    ...(normalizedHash.data.attributes || {}),
+                    relatedCounts,
+                };
+            }
         }
         return normalizedHash;
     }

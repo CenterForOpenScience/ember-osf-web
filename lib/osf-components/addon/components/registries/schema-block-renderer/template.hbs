@@ -1,12 +1,13 @@
-<Registries::SchemaBlockRenderer::Mapper as |renderers|>
-    {{#let (get renderers @schemaBlock.blockType) as |Renderer|}}
-        <Renderer
-            @changeset={{@changeset}}
-            @schemaBlock={{@schemaBlock}}
-            @options={{@options}}
-            @node={{@node}}
-            @disabled={{this.disabled}}
-            @shouldShowMessages={{this.shouldShowMessages}}
-        />
-    {{/let}}
-</Registries::SchemaBlockRenderer::Mapper>
+{{#let @renderStrategy as |Mapper|}}
+    <Mapper as |renderers|>
+        {{#let (get renderers @schemaBlock.blockType) as |Renderer|}}
+            <Renderer
+                @schemaBlock={{@schemaBlock}}
+                @optionBlocks={{@optionBlocks}}
+                @disabled={{this.disabled}}
+                @shouldShowMessages={{this.shouldShowMessages}}
+                @uniqueID={{@uniqueID}}
+            />
+        {{/let}}
+    </Mapper>
+{{/let}}

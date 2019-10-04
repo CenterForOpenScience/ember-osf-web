@@ -1,0 +1,13 @@
+<FormControls
+    @changeset={{@changeset}}
+    @disabled={{@disabled}}
+    @shouldShowMessages={{@shouldShowMessages}}
+    ...attributes
+    as |form|
+>
+    <form.textarea
+        data-test-textarea-input
+        @id={{@uniqueID}}
+        @valuePath={{@schemaBlock.registrationResponseKey}}
+    />
+</FormControls>
