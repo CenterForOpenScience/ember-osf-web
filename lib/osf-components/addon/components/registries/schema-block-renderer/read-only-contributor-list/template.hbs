@@ -1,10 +1,17 @@
 {{! template-lint-disable no-html-comments }}
 <div data-test-read-only-contributors-list ...attributes>
-    <ContributorList @node={{@node}} @shouldTruncate={{false}} @shouldLinkUsers={{true}} />
+    <ContributorList
+        @node={{@node}}
+        @shouldTruncate={{false}}
+        @shouldLinkUsers={{true}} 
+    />
 </div>
 <div data-test-edit-contributors>
     <!-- TODO: change link to a route when we emberize contributors page -->
-    <OsfLink data-test-to-contributors-page @href={{concat @node.guid '/contributors/'}}>
+    <OsfLink
+        data-test-to-contributors-page
+        @href={{concat @node.guid '/contributors/'}}
+    >
         {{t 'osf-components.registries.read-only-contributors-list.editContributorsOnYourProject'}}
     </OsfLink>
 </div>
