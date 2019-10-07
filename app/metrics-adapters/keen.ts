@@ -1,6 +1,6 @@
-import { service } from '@ember-decorators/service';
 import { getOwner } from '@ember/application';
 import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 import { TaskInstance } from 'ember-concurrency';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
