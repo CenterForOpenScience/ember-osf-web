@@ -1,4 +1,4 @@
-import { computed } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
 import { task } from 'ember-concurrency';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
