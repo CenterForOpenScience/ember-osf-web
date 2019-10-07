@@ -1,9 +1,10 @@
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import param from 'ember-osf-web/utils/param';
+
 import template from './template';
 
 @layout(template)

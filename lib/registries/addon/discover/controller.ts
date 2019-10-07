@@ -1,15 +1,16 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { getOwner } from '@ember/application';
 import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
 import I18N from 'ember-i18n/services/i18n';
+import QueryParams from 'ember-parachute';
+import { is, OrderedSet } from 'immutable';
+
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import scrollTo from 'ember-osf-web/utils/scroll-to';
-import QueryParams from 'ember-parachute';
-import { is, OrderedSet } from 'immutable';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
 import config from 'registries/config/environment';
 import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
@@ -18,6 +19,7 @@ import ShareSearch, {
     ShareTermsAggregation,
     ShareTermsFilter,
 } from 'registries/services/share-search';
+
 import styles from './styles';
 
 // Helper for Immutable.is as it doesn't like Native Arrays

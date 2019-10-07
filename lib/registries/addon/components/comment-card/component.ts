@@ -1,13 +1,11 @@
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { alias, not } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
-
 import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
-
-import { action, computed } from '@ember-decorators/object';
-import { alias, not } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Comment from 'ember-osf-web/models/comment';
@@ -17,6 +15,7 @@ import Registration from 'ember-osf-web/models/registration';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
+
 import styles from './styles';
 import template from './template';
 

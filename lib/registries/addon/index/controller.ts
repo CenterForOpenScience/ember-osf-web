@@ -1,15 +1,15 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
-import { Registry as Services } from '@ember/service';
+import { action } from '@ember/object';
+import { inject as service, Registry as Services } from '@ember/service';
 import { task } from 'ember-concurrency';
 import Store from 'ember-data/store';
+import RSVP from 'rsvp';
+
 import Analytics from 'ember-osf-web/services/analytics';
 import config from 'registries/config/environment';
 import { SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
 import ShareSearch, { ShareRegistration } from 'registries/services/share-search';
-import RSVP from 'rsvp';
 
 export default class Index extends Controller.extend({
     getRecentRegistrations: task(function *(this: Index) {

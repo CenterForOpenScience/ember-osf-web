@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-constructor, no-empty-function */
 import { layout, tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 import {
     Page,
@@ -12,6 +12,7 @@ import {
 } from 'ember-osf-web/models/registration-schema';
 import fixSpecialChar from 'ember-osf-web/utils/fix-special-char';
 import slugify from 'ember-osf-web/utils/slugify';
+
 import template from './template';
 
 function fixAnswerValue<T>(value: T) {

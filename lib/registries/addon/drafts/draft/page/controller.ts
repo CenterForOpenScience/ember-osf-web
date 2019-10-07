@@ -1,8 +1,8 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias, equal, not } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { alias, equal, not } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Registration from 'ember-osf-web/models/registration';

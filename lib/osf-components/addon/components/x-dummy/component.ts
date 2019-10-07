@@ -1,6 +1,6 @@
 import { attribute } from '@ember-decorators/component';
-import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 

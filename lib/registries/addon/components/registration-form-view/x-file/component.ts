@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
-import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
 
 import { Answerable } from '../component';
 

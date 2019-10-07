@@ -1,6 +1,6 @@
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
