@@ -1,9 +1,20 @@
-<div>
+<div class='container'>
     <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
-    {{this.institution.name}}
-    <ul>
-        {{#each this.institution.institutionalUsers as |user|}}
-            <li>{{user.fullName}}</li>
-        {{/each}}
-    </ul>
+    <PaginatedList local-class='table' @modelName='institution'>
+        <list.header local-class='header'>
+            <div>
+                {{t 'meetings.index.meetings-list.name'}}
+            </div>
+            <div>
+                {{t 'meetings.index.meetings-list.name'}}
+            </div>
+        </list.header>
+        <list.item local-class='item'>
+            <div></div>
+            <div></div>
+        </list.item>
+        <list.empty data-tests-meetings-list-empty local-class='empty'>
+            {{t 'meetings.index.meetings-list.empty'}}
+        </list.empty>
+    </PaginatedList>
 </div>
