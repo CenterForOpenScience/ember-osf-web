@@ -1,10 +1,11 @@
-import { action } from '@ember-decorators/object';
-import { bool } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { bool } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
+import { stripDiacritics } from 'ember-power-select/utils/group-utils';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Collection from 'ember-osf-web/models/collection';
@@ -12,7 +13,7 @@ import Node from 'ember-osf-web/models/node';
 import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import { stripDiacritics } from 'ember-power-select/utils/group-utils';
+
 import styles from './styles';
 import template from './template';
 

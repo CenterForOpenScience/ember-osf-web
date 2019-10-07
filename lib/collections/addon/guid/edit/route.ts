@@ -1,9 +1,11 @@
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import I18N from 'ember-i18n/services/i18n';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
+
 import requireAuth from 'ember-osf-web/decorators/require-auth';
+
 import EditController from './controller';
 
 @requireAuth()

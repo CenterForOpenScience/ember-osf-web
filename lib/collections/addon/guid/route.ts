@@ -1,7 +1,8 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { DS } from 'ember-data';
+
 import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';

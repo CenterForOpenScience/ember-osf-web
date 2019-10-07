@@ -1,6 +1,5 @@
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
-import { setProperties } from '@ember/object';
+import { computed, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
 import config from 'collections/config/environment';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';

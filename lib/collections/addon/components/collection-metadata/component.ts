@@ -1,6 +1,6 @@
-import { action, computed } from '@ember-decorators/object';
-import { mapBy } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { mapBy } from '@ember/object/computed';
 import { underscore } from '@ember/string';
 
 import CollectedMetadatum, { choiceFields } from 'ember-osf-web/models/collected-metadatum';

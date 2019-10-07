@@ -1,7 +1,9 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import { FacetContext } from '../../component';
 
 @tagName('span')

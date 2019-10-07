@@ -1,10 +1,9 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import EmberObject, { setProperties } from '@ember/object';
+import EmberObject, { action, computed, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';

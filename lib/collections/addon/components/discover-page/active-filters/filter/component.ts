@@ -1,9 +1,10 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import { FacetContext } from '../../component';
 import styles from './styles';
 import template from './template';

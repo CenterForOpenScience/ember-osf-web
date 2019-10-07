@@ -1,6 +1,7 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
+
 import Theme from 'ember-osf-web/services/theme';
 
 export default class Provider extends Route {

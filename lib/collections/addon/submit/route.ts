@@ -1,16 +1,18 @@
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { DS } from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
+
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
+
 import SubmissionController from './controller';
 
 interface TaskInstanceResult {
