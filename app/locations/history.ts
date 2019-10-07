@@ -1,6 +1,6 @@
-import { service } from '@ember-decorators/service';
 import { getOwner } from '@ember/application';
 import HistoryLocation from '@ember/routing/history-location';
+import { inject as service } from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
 
 import GuidLocationMixin from 'ember-osf-web/locations/guid-mixin';
