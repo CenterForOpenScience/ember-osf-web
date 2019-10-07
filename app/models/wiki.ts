@@ -1,8 +1,9 @@
-import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import NodeModel from './node';
 import OsfModel from './osf-model';
+
+const { attr, belongsTo } = DS;
 
 export default class WikiModel extends OsfModel {
     @attr('string') kind!: string;

@@ -1,5 +1,4 @@
-import { attr, hasMany } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import DS from 'ember-data';
 
@@ -8,6 +7,8 @@ import NodeModel from './node';
 import OsfModel, { OsfLinks } from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
+
+const { attr, hasMany } = DS;
 
 export interface InstitutionLinks extends OsfLinks {
     csv: string;

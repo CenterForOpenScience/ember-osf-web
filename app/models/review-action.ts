@@ -1,10 +1,11 @@
-import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 import PreprintModel from './preprint';
 import PreprintProviderModel from './preprint-provider';
 import UserModel from './user';
+
+const { attr, belongsTo } = DS;
 
 export default class ReviewActionModel extends OsfModel {
     @attr('string') actionTrigger!: string;

@@ -1,6 +1,8 @@
-import { attr } from '@ember-decorators/data';
+import DS from 'ember-data';
 
 import OsfModel from './osf-model';
+
+const { attr } = DS;
 
 export default class BannerModel extends OsfModel {
     @attr('date') startDate!: Date;

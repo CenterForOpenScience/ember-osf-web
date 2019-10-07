@@ -1,4 +1,4 @@
-import { computed } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { singularize } from 'ember-inflector';
 

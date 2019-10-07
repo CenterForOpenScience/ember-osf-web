@@ -1,6 +1,5 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 
 import ContributorModel from './contributor';
@@ -11,6 +10,8 @@ import OsfModel from './osf-model';
 import PreprintProviderModel from './preprint-provider';
 import ReviewActionModel from './review-action';
 import SubjectModel from './subject';
+
+const { attr, belongsTo, hasMany } = DS;
 
 export default class PreprintModel extends OsfModel {
     @attr('fixstring') title!: string;

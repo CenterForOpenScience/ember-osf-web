@@ -1,7 +1,5 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
-import { alias, bool, equal } from '@ember-decorators/object/computed';
-import { not } from '@ember/object/computed';
+import { computed } from '@ember/object';
+import { alias, bool, equal, not } from '@ember/object/computed';
 import { htmlSafe } from '@ember/string';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
@@ -25,6 +23,8 @@ import RegionModel from './region';
 import RegistrationModel from './registration';
 import SubjectModel from './subject';
 import WikiModel from './wiki';
+
+const { attr, belongsTo, hasMany } = DS;
 
 const Validations = buildValidations({
     title: [

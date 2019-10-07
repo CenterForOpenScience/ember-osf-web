@@ -1,8 +1,9 @@
-import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 import UserModel from './user';
+
+const { attr, belongsTo } = DS;
 
 export interface MeetingSubmissionLinks {
     download?: string;

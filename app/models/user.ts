@@ -1,5 +1,4 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import { alias } from '@ember-decorators/object/computed';
+import { alias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
@@ -13,6 +12,8 @@ import RegionModel from './region';
 import RegistrationModel from './registration';
 import UserEmailModel from './user-email';
 import UserSettingModel from './user-setting';
+
+const { attr, belongsTo, hasMany } = DS;
 
 const Validations = buildValidations({
     acceptedTermsOfService: [

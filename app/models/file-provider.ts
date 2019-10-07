@@ -1,4 +1,3 @@
-import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
@@ -9,6 +8,8 @@ import NodeModel from './node';
 export interface FileProviderLinks extends BaseFileLinks {
     storage_addons: Link; // eslint-disable-line camelcase
 }
+
+const { attr, belongsTo } = DS;
 
 export default class FileProviderModel extends BaseFileItem {
     @attr() links!: FileProviderLinks;

@@ -1,10 +1,9 @@
-import { attr } from '@ember-decorators/data';
 import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 
-const { Model } = DS;
+const { attr, Model } = DS;
 
 const { support: { supportEmail } } = config;
 

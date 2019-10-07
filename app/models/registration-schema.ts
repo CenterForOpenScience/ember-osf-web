@@ -1,7 +1,9 @@
-import { attr, hasMany } from '@ember-decorators/data';
+import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 import SchemaBlock from './schema-block';
+
+const { attr, hasMany } = DS;
 
 export interface AbstractQuestion {
     type: 'string' | 'multiselect' | 'osf-author-import' | 'osf-upload' | 'choose' | 'object';

@@ -1,9 +1,8 @@
-import { attr } from '@ember-decorators/data';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
 import DS, { RelationshipsFor } from 'ember-data';
@@ -31,7 +30,7 @@ import {
     ResourceCollectionDocument,
 } from 'osf-api';
 
-const { Model } = DS;
+const { attr, Model } = DS;
 
 export enum Permission {
     Read = 'read',

@@ -1,5 +1,5 @@
-import { attr } from '@ember-decorators/data';
 import { buildValidations, validator } from 'ember-cp-validations';
+import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
 import { Document as ApiResponseDocument } from 'osf-api';
@@ -7,6 +7,8 @@ import { Document as ApiResponseDocument } from 'osf-api';
 import getHref from 'ember-osf-web/utils/get-href';
 
 import OsfModel, { OsfLinks } from './osf-model';
+
+const { attr } = DS;
 
 const Validations = buildValidations({
     name: [

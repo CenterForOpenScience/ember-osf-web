@@ -1,4 +1,4 @@
-import { service } from '@ember-decorators/service';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
 import param from 'ember-osf-web/utils/param';
