@@ -127,7 +127,7 @@
     "ember-css-modules-reporter": "^1.2.0",
     "ember-css-modules-sass": "^1.0.1",
     "ember-css-modules-stylelint": "^1.2.0",
-    "ember-data": "~3.4.0",
+    "ember-data": "^3.13.1",
     "ember-decorators": "^3.0.0",
     "ember-diff-attrs": "^0.2.1",
     "ember-element-helper": "^0.2.0",
