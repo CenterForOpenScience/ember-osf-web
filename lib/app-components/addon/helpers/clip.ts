@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Helper from '@ember/component/helper';
+import { inject as service } from '@ember/service';
 import I18N from 'ember-i18n/services/i18n';
 
 export default class ClipHelper extends Helper {

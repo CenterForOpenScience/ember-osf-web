@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import I18N from 'ember-i18n/services/i18n';
 import Session from 'ember-simple-auth/services/session';
 
