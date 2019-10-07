@@ -1,6 +1,6 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import { task } from 'ember-concurrency';
 import moment from 'moment';

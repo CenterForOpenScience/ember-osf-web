@@ -1,8 +1,8 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';

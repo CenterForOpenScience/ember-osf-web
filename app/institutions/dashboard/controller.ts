@@ -1,5 +1,5 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import moment from 'moment';
 
 import Controller from '@ember/controller';

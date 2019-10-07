@@ -1,8 +1,8 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action, computed } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import { EmberLocation } from '@ember/routing/api';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';

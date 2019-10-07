@@ -1,7 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import Session from 'ember-simple-auth/services/session';
 
 import Analytics from 'ember-osf-web/services/analytics';

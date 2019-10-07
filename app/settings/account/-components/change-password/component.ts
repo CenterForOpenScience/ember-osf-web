@@ -1,6 +1,6 @@
-import { alias, not, or } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { alias, not, or } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';

@@ -1,6 +1,6 @@
-import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { ChartData, ChartOptions, Shape } from 'ember-cli-chart';
 import InstitutionModel, { Department } from 'ember-osf-web/models/institution';
 

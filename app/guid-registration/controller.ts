@@ -1,5 +1,5 @@
-import { computed } from '@ember-decorators/object';
 import Controller from '@ember/controller';
+import { computed } from '@ember/object';
 
 export default class GuidRegistrationController extends Controller {
     @computed('model.taskInstance.value')

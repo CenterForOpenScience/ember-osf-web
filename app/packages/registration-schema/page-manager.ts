@@ -1,6 +1,5 @@
-import { computed } from '@ember-decorators/object';
 import { assert } from '@ember/debug';
-import EmberObject from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import Changeset from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import { ChangesetDef } from 'ember-changeset/types';

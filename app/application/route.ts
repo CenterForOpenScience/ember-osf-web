@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 

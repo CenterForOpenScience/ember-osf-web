@@ -1,6 +1,6 @@
-import { service } from '@ember-decorators/service';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import CurrentUser from 'ember-osf-web/services/current-user';
 

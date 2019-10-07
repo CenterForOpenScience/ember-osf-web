@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { task, TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';

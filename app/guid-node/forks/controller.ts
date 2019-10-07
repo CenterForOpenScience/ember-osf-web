@@ -1,7 +1,7 @@
-import { action, computed } from '@ember-decorators/object';
-import { reads } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { reads } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import I18N from 'ember-i18n/services/i18n';

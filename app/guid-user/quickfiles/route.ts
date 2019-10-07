@@ -1,6 +1,6 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 
 import GuidUserQuickfilesController from 'ember-osf-web/guid-user/quickfiles/controller';

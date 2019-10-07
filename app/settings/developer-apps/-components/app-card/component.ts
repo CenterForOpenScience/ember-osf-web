@@ -1,8 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 

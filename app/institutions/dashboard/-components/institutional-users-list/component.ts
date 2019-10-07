@@ -1,7 +1,7 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import I18N from 'ember-i18n/services/i18n';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';

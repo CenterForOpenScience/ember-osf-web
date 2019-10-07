@@ -1,6 +1,6 @@
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import QueryParams from 'ember-parachute';

@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
 import MeetingSubmissionModel from 'ember-osf-web/models/meeting-submission';
 
