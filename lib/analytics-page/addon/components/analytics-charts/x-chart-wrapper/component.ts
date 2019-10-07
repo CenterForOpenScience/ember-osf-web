@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 import { task, TaskInstance } from 'ember-concurrency';
 import I18n from 'ember-i18n/services/i18n';
 import KeenDataviz from 'keen-dataviz';
