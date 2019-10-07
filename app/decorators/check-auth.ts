@@ -1,6 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { Registry as ServiceRegistry } from '@ember/service';
+import { inject as service, Registry as ServiceRegistry } from '@ember/service';
 import config from 'ember-get-config';
 import SessionService from 'ember-simple-auth/services/session';
 
