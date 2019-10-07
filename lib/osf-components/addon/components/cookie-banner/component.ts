@@ -26,7 +26,7 @@ export default class CookieBanner extends Component {
     showBanner = !this.session.isAuthenticated && !this.cookies.exists(consentCookie);
 
     @action
-    accept(this: CookieBanner) {
+    accept() {
         this.cookies.write(consentCookie, 1, {
             expires: moment().add(10, 'years').toDate(),
             path: '/',

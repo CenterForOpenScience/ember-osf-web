@@ -35,7 +35,7 @@ export default class Ready extends Service.extend(Evented) {
         }
     }).restartable();
 
-    getBlocker(this: Ready): Blocker {
+    getBlocker(): Blocker {
         if (get(this, 'isReady')) {
             return {
                 done: () => null,
@@ -52,7 +52,7 @@ export default class Ready extends Service.extend(Evented) {
         };
     }
 
-    ready(this: Ready) {
+    ready() {
         if (this.isReady) {
             return RSVP.resolve();
         }
@@ -63,7 +63,7 @@ export default class Ready extends Service.extend(Evented) {
         });
     }
 
-    reset(this: Ready): void {
+    reset(): void {
         // Invalidate all prior blockers
         get(this, 'blockers').clear();
         set(this, 'isReady', false);
@@ -80,7 +80,7 @@ export default class Ready extends Service.extend(Evented) {
         };
     }
 
-    private errorCallback(this: Ready) {
+    private errorCallback() {
         return (e: any) => {
             this.trigger(Events.Error, e);
         };

@@ -31,13 +31,13 @@ export default class ProjectMetadata extends Component {
     });
 
     @action
-    addTag(this: ProjectMetadata, tag: string) {
+    addTag(tag: string) {
         this.analytics.click('button', 'Collection - Submit - Add tag');
         this.node.set('tags', [...this.node.tags.slice(), tag].sort());
     }
 
     @action
-    removeTagAtIndex(this: ProjectMetadata, index: number) {
+    removeTagAtIndex(index: number) {
         this.analytics.click('button', 'Collections - Submit - Remove tag');
         this.node.set('tags', this.node.tags.slice().removeAt(index));
     }

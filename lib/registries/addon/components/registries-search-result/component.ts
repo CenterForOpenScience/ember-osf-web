@@ -42,12 +42,12 @@ export default class RegistriesSearchResult extends Component {
     }
 
     @computed('expanded')
-    get footerIcon(this: RegistriesSearchResult) {
+    get footerIcon() {
         return this.expanded ? 'caret-up' : 'caret-down';
     }
 
     @action
-    toggleExpanded(this: RegistriesSearchResult) {
+    toggleExpanded() {
         this.set('expanded', !this.expanded);
         this.analytics.track(
             'result',

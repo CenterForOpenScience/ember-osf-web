@@ -62,20 +62,20 @@ export default class GuidFile extends Controller {
     @alias('model.user') user!: User;
 
     @computed('currentUser', 'user.id')
-    get canEdit(this: GuidFile): boolean {
+    get canEdit(): boolean {
         const modelUserId = this.user.id;
 
         return !!modelUserId && modelUserId === this.currentUser.currentUserId;
     }
 
     @computed('revision', 'file.currentVersion')
-    get mfrVersion(this: GuidFile): number {
+    get mfrVersion(): number {
         return this.revision || this.file.currentVersion;
     }
 
     // TODO: get this from the model
     @computed('file.currentVersion')
-    get fileVersions(this: GuidFile): Promise<any> {
+    get fileVersions(): Promise<any> {
         return (async () => {
             const { data } = await $.getJSON(`${this.downloadLink}?revisions=&`);
             return data;
@@ -83,14 +83,14 @@ export default class GuidFile extends Controller {
     }
 
     @computed('file.name')
-    get isEditableFile(this: GuidFile): boolean {
+    get isEditableFile(): boolean {
         const filename = this.file.name;
         const mimeType = mime.lookup(filename);
         return !!mimeType && /^text\//.test(mimeType);
     }
 
     @computed('file.currentVersion')
-    get fileText(this: GuidFile) {
+    get fileText() {
         return Boolean(this.file) && this.file.getContents();
     }
 
@@ -101,7 +101,7 @@ export default class GuidFile extends Controller {
     }).restartable();
 
     @computed('allFiles.[]', 'filter', 'sort')
-    get files(this: GuidFile) {
+    get files() {
         let results: File[] = this.allFiles;
 
         if (this.filter) {
@@ -123,14 +123,14 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    download(this: GuidFile, version: number) {
+    download(version: number) {
         // To do: make this a link that looks like a button rather than calling this
         const url = `${this.downloadLink}?revision=${version}`;
         window.location.href = url;
     }
 
     @action
-    async delete(this: GuidFile) {
+    async delete() {
         this.set('deleteModalOpen', false);
 
         try {
@@ -145,7 +145,7 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    changeView(this: GuidFile, button: string) {
+    changeView(button: string) {
         const show = lookupTable[this.show][button];
 
         if (show) {
@@ -154,7 +154,7 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    async save(this: GuidFile, text: string) {
+    async save(text: string) {
         this.analytics.click('button', 'Quick Files - Save');
 
         try {
@@ -171,7 +171,7 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    versionChange(this: GuidFile, version: number) {
+    versionChange(version: number) {
         this.set('revision', +version);
     }
 }

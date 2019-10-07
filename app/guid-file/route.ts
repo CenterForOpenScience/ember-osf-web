@@ -40,7 +40,7 @@ export default class GuidFile extends Route {
         blocker.done();
     });
 
-    async model(this: GuidFile, params: { guid: string }) {
+    async model(params: { guid: string }) {
         try {
             const file = await this.store.findRecord('file', params.guid);
             const fileId = file.get('id');

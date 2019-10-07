@@ -155,7 +155,7 @@ export default class ConnectedEmails extends Component.extend({
     }
 
     @action
-    removeEmail(this: ConnectedEmails, email: UserEmail) {
+    removeEmail(email: UserEmail) {
         this.deleteEmail.perform(email);
     }
 

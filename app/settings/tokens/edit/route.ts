@@ -23,7 +23,7 @@ export default class SettingsTokensEditRoute extends Route.extend({
     @service router!: RouterService;
 
     // eslint-disable-next-line camelcase
-    model(this: SettingsTokensEditRoute, params: { token_id: string }) {
+    model(params: { token_id: string }) {
         return {
             id: params.token_id,
             taskInstance: this.modelTask.perform(params.token_id),

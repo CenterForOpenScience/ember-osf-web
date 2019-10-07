@@ -134,7 +134,7 @@ export default class CollectionItemPicker extends Component.extend({
     }
 
     @action
-    valueChanged(this: CollectionItemPicker, value?: Node): void {
+    valueChanged(value?: Node): void {
         if (value) {
             this.set('selected', value);
             this.projectSelected(value);

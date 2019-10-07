@@ -70,13 +70,13 @@ export default abstract class BaseDataComponent extends Component.extend({
     }
 
     @action
-    next(this: BaseDataComponent) {
+    next() {
         this.incrementProperty('page');
         this.loadItemsWrapperTask.perform({ reloading: false });
     }
 
     @action
-    previous(this: BaseDataComponent) {
+    previous() {
         this.decrementProperty('page');
         this.loadItemsWrapperTask.perform({ reloading: false });
     }

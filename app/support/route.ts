@@ -8,7 +8,7 @@ export default class Support extends Route {
     @service analytics!: Analytics;
 
     @action
-    didTransition(this: Support) {
+    didTransition() {
         this.analytics.trackPage();
     }
 }

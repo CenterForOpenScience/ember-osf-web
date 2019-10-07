@@ -26,7 +26,7 @@ export default class RegistriesHeader extends Component {
     }
 
     @action
-    toggleHelp(this: RegistriesHeader) {
+    toggleHelp() {
         this.set('showingHelp', !this.showingHelp);
     }
 

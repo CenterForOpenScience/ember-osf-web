@@ -64,13 +64,13 @@ export default class GuidNodeRegistrations extends Controller {
     }
 
     @action
-    changeTab(this: GuidNodeRegistrations, activeId: string) {
+    changeTab(activeId: string) {
         this.set('tab', activeId === 'registrations' ? undefined : activeId);
         this.analytics.click('tab', `Registrations tab - Change tab to: ${activeId}`);
     }
 
     @action
-    closeNewModal(this: GuidNodeRegistrations) {
+    closeNewModal() {
         this.set('newModalOpen', false);
         this.set('selectedSchema', this.defaultSchema);
     }
@@ -84,19 +84,19 @@ export default class GuidNodeRegistrations extends Controller {
     }
 
     @action
-    closePreregModal(this: GuidNodeRegistrations) {
+    closePreregModal() {
         this.set('preregModalOpen', false);
         this.set('selectedSchema', this.defaultSchema);
     }
 
     @action
-    schemaChanged(this: GuidNodeRegistrations, schema: RegistrationSchema) {
+    schemaChanged(schema: RegistrationSchema) {
         this.set('selectedSchema', schema);
         this.analytics.click('radio', `Registrations tab - Select schema: ${schema.name}`);
     }
 
     @action
-    async createDraft(this: GuidNodeRegistrations) {
+    async createDraft() {
         const branchedFrom = this.node!;
         assert('Check that the node exists', Boolean(branchedFrom));
 

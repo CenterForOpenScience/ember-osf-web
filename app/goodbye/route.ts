@@ -10,7 +10,7 @@ export default class Goodbye extends Route {
     @service analytics!: Analytics;
     @service session!: Session;
 
-    async beforeModel(this: Goodbye, transition: Transition) {
+    async beforeModel(transition: Transition) {
         await super.beforeModel(transition);
         const queryParams = this.session.isAuthenticated ? {} : { goodbye: true };
         this.transitionTo('home', { queryParams });

@@ -261,7 +261,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     }
 
     @action
-    onSearchOptionsUpdated(this: Discover, options: SearchOptions) {
+    onSearchOptionsUpdated(options: SearchOptions) {
         const sources: ShareTermsFilter[] = [];
         const registrationTypes: ShareTermsFilter[] = [];
         for (const filter of options.filters.values()) {
@@ -274,7 +274,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             }
         }
 
-        const changes = {} as Pick<typeof this, keyof typeof this>;
+        const changes = {} as Discover;
 
         if (!isEqual(this.sources, sources)) {
             changes.page = 1;
@@ -291,7 +291,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     }
 
     @action
-    changePage(this: Discover, page: number) {
+    changePage(page: number) {
         this.set('page', page);
 
         // Get the application owner by using
@@ -314,7 +314,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     }
 
     @action
-    setOrder(this: Discover, value: SearchOrder) {
+    setOrder(value: SearchOrder) {
         this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.i18n.t(value.display)}`);
         // Set page to 1 here to ensure page is always reset when changing the order/sorting of a search
         this.setProperties({ page: 1, sort: value });

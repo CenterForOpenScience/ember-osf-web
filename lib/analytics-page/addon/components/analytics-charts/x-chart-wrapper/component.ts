@@ -80,7 +80,7 @@ export default class ChartWrapper extends Component {
         }
     }
 
-    showOverlay(this: ChartWrapper, reason?: OverlayReason) {
+    showOverlay(reason?: OverlayReason) {
         this.set('keenError', (reason === OverlayReason.Error));
         this.set('loading', (reason === OverlayReason.Loading));
         this.set('overlayShown', true);
@@ -91,7 +91,7 @@ export default class ChartWrapper extends Component {
         });
     }
 
-    hideOverlay(this: ChartWrapper) {
+    hideOverlay() {
         this.set('overlayShown', false);
         this.clearSkeletonChart();
         this.chart.chartOptions({
@@ -101,7 +101,7 @@ export default class ChartWrapper extends Component {
         });
     }
 
-    initSkeletonChart(this: ChartWrapper) {
+    initSkeletonChart() {
         this.chartSpec.configureChart(this.chart, this.i18n);
         this.chart.chartOptions({
             data: {
@@ -132,7 +132,7 @@ export default class ChartWrapper extends Component {
         this.chart.render();
     }
 
-    clearSkeletonChart(this: ChartWrapper) {
+    clearSkeletonChart() {
         this.chart.chartOptions({
             data: {},
             pie: {},

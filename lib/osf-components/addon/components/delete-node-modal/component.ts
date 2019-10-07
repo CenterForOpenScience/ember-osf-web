@@ -14,11 +14,11 @@ export default class DeleteNodeModal extends Component {
     scientistInput: string = '';
 
     @computed('nodeType')
-    get nodeTypeKey(this: DeleteNodeModal): string {
+    get nodeTypeKey(): string {
         return `general.${this.nodeType}`;
     }
 
-    didReceiveAttrs(this: DeleteNodeModal) {
+    didReceiveAttrs() {
         this.set('scientistInput', '');
         this.set('scientistName', randomScientist());
     }

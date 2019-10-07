@@ -68,7 +68,7 @@ export default class SignUpForm extends Component.extend({
     }).restartable();
 
     @computed('userRegistration.password', 'strength.lastSuccessful.value.score')
-    get progress(this: SignUpForm): number {
+    get progress(): number {
         const { lastSuccessful } = this.strength;
         return this.userRegistration.password && lastSuccessful ? 1 + lastSuccessful.value.score : 0;
     }

@@ -36,7 +36,7 @@ export default class ZoomToRoute extends Component {
     }
 
     @action
-    selectRoute(this: ZoomToRoute, targetRoute: string) {
+    selectRoute(targetRoute: string) {
         this.setProperties({
             targetRoute,
             routeArgs: {},
@@ -44,7 +44,7 @@ export default class ZoomToRoute extends Component {
     }
 
     @action
-    zoom(this: ZoomToRoute): void {
+    zoom(): void {
         const routeArgs = this.routeParams.map(param => this.routeArgs[param]);
         this.router.transitionTo(this.targetRoute, ...routeArgs);
         this.set('showModal', false);

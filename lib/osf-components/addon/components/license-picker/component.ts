@@ -18,7 +18,7 @@ import template from './template';
 
 @layout(template, styles)
 export default class LicensePicker extends Component.extend({
-    didReceiveAttrs(this: LicensePicker, ...args: any[]) {
+    didReceiveAttrs(...args: any[]) {
         this._super(...args);
         this.get('queryLicenses').perform();
     },
@@ -60,7 +60,7 @@ export default class LicensePicker extends Component.extend({
     requiredFields!: string[];
 
     @action
-    changeLicense(this: LicensePicker, selected: License) {
+    changeLicense(selected: License) {
         this.node.setNodeLicenseDefaults(selected.requiredFields);
     }
 
@@ -68,7 +68,7 @@ export default class LicensePicker extends Component.extend({
      * Calling notifyPropertyChange doesn't trigger dirty attributes
      */
     @action
-    notify(this: LicensePicker) {
+    notify() {
         // TODO: find a better way to set propertyDidChange
         this.node.set('nodeLicense', { ...this.node.nodeLicense });
     }

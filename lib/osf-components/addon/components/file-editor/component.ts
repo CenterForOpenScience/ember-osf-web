@@ -38,12 +38,12 @@ export default class FileEditor extends Component {
     }
 
     @action
-    valueUpdated(this: FileEditor, newValue: string): void {
+    valueUpdated(newValue: string): void {
         this.set('unsavedText', newValue);
     }
 
     @action
-    revertText(this: FileEditor): void {
+    revertText(): void {
         const { fileText } = this;
         this.set('fileText', '');
         // Restore original text in next tick of the run loop to trigger re-render of ember-ace

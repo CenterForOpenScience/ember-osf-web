@@ -11,7 +11,7 @@ import Controller from './controller';
 export default class GuidNodeRegistrations extends Route {
     @service analytics!: Analytics;
 
-    model(this: GuidNodeRegistrations) {
+    model() {
         return this.modelFor('guid-node') as GuidRouteModel<Node>;
     }
 

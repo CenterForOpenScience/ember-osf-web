@@ -116,17 +116,17 @@ export default class SearchPaginator extends Component {
     @requiredAction pageChanged!: (page: number) => void;
 
     @action
-    setPage(this: SearchPaginator, page: number): void {
+    setPage(page: number): void {
         this.pageChanged(page);
     }
 
     @action
-    prevPage(this: SearchPaginator): void {
+    prevPage(): void {
         this.setPage(this.current - 1);
     }
 
     @action
-    nextPage(this: SearchPaginator): void {
+    nextPage(): void {
         this.setPage(this.current + 1);
     }
 }

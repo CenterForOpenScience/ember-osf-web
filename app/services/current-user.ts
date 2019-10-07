@@ -69,7 +69,7 @@ export default class CurrentUserService extends Service {
      * Return the currently logged-in user, or null if not logged in.
      */
     @computed('currentUserId')
-    get user(this: CurrentUserService): User | null {
+    get user(): User | null {
         if (this.currentUserId) {
             // The authenticator should have pushed the user into the store
             return this.store.peekRecord('user', this.currentUserId);
@@ -95,7 +95,7 @@ export default class CurrentUserService extends Service {
      * Invalidate the current session and cookie, then redirect to the given URL (or back to the current page).
      * Returns a promise that never resolves.
      */
-    async logout(this: CurrentUserService, nextUrl?: string) {
+    async logout(nextUrl?: string) {
         if (this.session.isAuthenticated) {
             await this.session.invalidate();
         }
@@ -108,7 +108,7 @@ export default class CurrentUserService extends Service {
         return new RSVP.Promise(() => { /* never resolve, just wait for the redirect */ });
     }
 
-    async checkShowTosConsentBanner(this: CurrentUserService) {
+    async checkShowTosConsentBanner() {
         const user = await this.user;
         if (user && !user.acceptedTermsOfService) {
             // Unset to avoid premature validation.

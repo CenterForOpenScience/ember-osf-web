@@ -8,7 +8,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 export default class Quickfiles extends Route {
     @service currentUser!: CurrentUser;
 
-    model(this: Quickfiles) {
+    model() {
         return this.currentUser.currentUserId;
     }
 

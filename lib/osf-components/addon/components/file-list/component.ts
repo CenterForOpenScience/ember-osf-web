@@ -46,7 +46,7 @@ export default class FileList extends Component {
     }
 
     @action
-    closeFilter(this: FileList) {
+    closeFilter() {
         this.setProperties({
             showFilterClicked: false,
             filter: '',

@@ -10,7 +10,7 @@ export default class Register extends Route {
     @service analytics!: Analytics;
     @service session!: Session;
 
-    async beforeModel(this: Register, transition: Transition) {
+    async beforeModel(transition: Transition) {
         await super.beforeModel(transition);
 
         if (this.session.isAuthenticated) {
@@ -23,7 +23,7 @@ export default class Register extends Route {
     }
 
     @action
-    didTransition(this: Register) {
+    didTransition() {
         this.analytics.trackPage();
     }
 }

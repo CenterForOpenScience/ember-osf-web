@@ -61,7 +61,7 @@ export default class UserQuickfiles extends Route.extend({
     }
 
     @action
-    didTransition(this: UserQuickfiles) {
+    didTransition() {
         window.addEventListener('dragover', preventDrop);
         window.addEventListener('drop', preventDrop);
 

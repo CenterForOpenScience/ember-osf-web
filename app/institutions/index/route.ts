@@ -14,7 +14,7 @@ export default class Institutions extends Route {
     }
 
     @action
-    didTransition(this: Institutions) {
+    didTransition() {
         this.analytics.trackPage();
     }
 }

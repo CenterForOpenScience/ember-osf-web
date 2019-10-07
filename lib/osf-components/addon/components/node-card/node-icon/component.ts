@@ -32,13 +32,13 @@ export default class NodeCardNodeIcon extends Component {
     category: string = defaultTo(this.category, '');
 
     @computed('category')
-    get iconType(this: NodeCardNodeIcon): string {
+    get iconType(): string {
         return iconMap[this.get('category')] || 'circle-o-notch';
     }
 
     @className('text-muted', '')
     @computed('category')
-    get isMuted(this: NodeCardNodeIcon): boolean {
+    get isMuted(): boolean {
         return ['registration', 'registeredComponent'].includes(this.get('category'));
     }
 }

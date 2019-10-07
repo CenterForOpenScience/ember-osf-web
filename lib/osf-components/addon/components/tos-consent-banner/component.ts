@@ -41,13 +41,13 @@ export default class TosConsentBanner extends Component {
         Object.assign(this, config.signUpPolicy);
     }
 
-    init(this: TosConsentBanner) {
+    init() {
         super.init();
         this.currentUser.checkShowTosConsentBanner();
     }
 
     @action
-    dismiss(this: TosConsentBanner) {
+    dismiss() {
         this.analytics.click('button', 'ToS Consent Banner - dismiss');
         this.set('didValidate', false);
         this.currentUser.set('showTosConsentBanner', false);

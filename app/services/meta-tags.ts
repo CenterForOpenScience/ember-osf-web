@@ -68,7 +68,7 @@ export default class MetaTags extends Service {
      * @param {MetaTagsData} metaTagsOverrides Data values to override defaults.
      * @return {MetaTagsDefs} Returns meta tag definitions.
      */
-    getMetaTags(this: MetaTags, metaTagsOverrides: MetaTagsData): MetaTagsDefs {
+    getMetaTags(metaTagsOverrides: MetaTagsData): MetaTagsDefs {
         // Default values.
         const metaTagsData: MetaTagsData = {
             type: 'article',
@@ -147,7 +147,7 @@ export default class MetaTags extends Service {
      * @param {MetaTagsData} metaTagsData Data values to use for meta tags.
      * @return {HeadTagDef[]} Returns head tag defintions.
      */
-    getHeadTags(this: MetaTags, metaTagsData: MetaTagsData): HeadTagDef[] {
+    getHeadTags(metaTagsData: MetaTagsData): HeadTagDef[] {
         const metaTagsDefs = this.getMetaTags(metaTagsData);
 
         // Morph MetaTagsDefs into an array of MetaTagAttrs.

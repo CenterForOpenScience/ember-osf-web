@@ -69,7 +69,7 @@ export default class OsfNavbar extends Component {
     }
 
     @action
-    onClickPrimaryDropdown(this: OsfNavbar) {
+    onClickPrimaryDropdown() {
         this.set('showNavLinks', false);
         this.analytics.click('button', 'Navbar - Dropdown Arrow');
     }

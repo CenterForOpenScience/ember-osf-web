@@ -69,12 +69,12 @@ export class AuthBase extends Component {
     }
 
     @action
-    login(this: NavbarAuthDropdown) {
+    login() {
         this.currentUser.login();
     }
 
     @action
-    logout(this: NavbarAuthDropdown) {
+    logout() {
         this.currentUser.logout(this.redirectUrl);
     }
 }

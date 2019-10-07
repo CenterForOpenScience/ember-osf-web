@@ -41,7 +41,7 @@ export default class SubmitSection extends Component {
     }
 
     @action
-    editSection(this: SubmitSection): void {
+    editSection(): void {
         this.set('activeSection', this.section);
     }
 }

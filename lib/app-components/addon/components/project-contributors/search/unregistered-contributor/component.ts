@@ -52,11 +52,11 @@ export default class UnregisteredContributor extends Component {
         this.closeForm();
     }).drop();
 
-    didReceiveAttrs(this: UnregisteredContributor) {
+    didReceiveAttrs() {
         this.reset();
     }
 
-    reset(this: UnregisteredContributor, rollback: boolean = true) {
+    reset(rollback: boolean = true) {
         if (this.model && rollback) {
             this.model.rollbackAttributes();
         }
@@ -71,7 +71,7 @@ export default class UnregisteredContributor extends Component {
     }
 
     @action
-    cancel(this: UnregisteredContributor) {
+    cancel() {
         this.reset();
         this.closeForm();
     }

@@ -61,14 +61,14 @@ export default class FileRenderer extends Component {
         return this.isLoading ? '' : `${renderUrl}?url=${encodeURIComponent(this.downloadUrl)}`;
     }
 
-    didReceiveAttrs(this: FileRenderer): void {
+    didReceiveAttrs(): void {
         if (this.download !== this.lastDownload) {
             this.set('lastDownload', this.download);
         }
     }
 
     @action
-    loaded(this: FileRenderer): void {
+    loaded(): void {
         if (this.isLoading) {
             // Run in next runloop to avoid double rendering
             next(this, () => this.set('isLoading', false));

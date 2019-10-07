@@ -16,7 +16,7 @@ export default class Dashboard extends Route {
     @service ready!: Ready;
     @service session!: Session;
 
-    async setupController(this: Dashboard, controller: DashboardController): Promise<void> {
+    async setupController(controller: DashboardController): Promise<void> {
         const blocker = this.get('ready').getBlocker();
 
         try {
@@ -28,7 +28,7 @@ export default class Dashboard extends Route {
     }
 
     @action
-    didTransition(this: Dashboard) {
+    didTransition() {
         this.analytics.trackPage();
     }
 }

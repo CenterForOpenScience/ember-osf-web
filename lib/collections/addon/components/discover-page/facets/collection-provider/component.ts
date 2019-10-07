@@ -26,7 +26,7 @@ interface ProviderHit {
 
 @layout(template, styles)
 export default class SearchFacetProvider extends Base.extend({
-    didReceiveAttrs(this: SearchFacetProvider, ...args: any[]) {
+    didReceiveAttrs(...args: any[]) {
         this._super(...args);
 
         const { context, filterChanged, theme } = this;

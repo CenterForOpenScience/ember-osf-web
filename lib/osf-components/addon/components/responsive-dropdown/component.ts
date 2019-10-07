@@ -33,7 +33,7 @@ export default class ResponsiveDropdown extends Component {
     }
 
     @action
-    closeDropdown(this: ResponsiveDropdown): void {
+    closeDropdown(): void {
         // Enable scroll in case a modal was used
         const bodyCls = document.querySelector('body')!.classList;
         if (bodyCls.contains('modal-open')) {
@@ -42,7 +42,7 @@ export default class ResponsiveDropdown extends Component {
     }
 
     @action
-    calculatePosition(this: ResponsiveDropdown, ...args: any[]): object {
+    calculatePosition(...args: any[]): object {
         // On Desktop
         const pos = calculatePosition(...args);
         if (!this.useOverlay) {

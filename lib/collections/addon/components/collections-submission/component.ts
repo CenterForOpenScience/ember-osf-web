@@ -130,7 +130,7 @@ export default class Submit extends Component {
     resetPageDirty!: () => void;
 
     @action
-    projectSelected(this: Submit, collectionItem: Node) {
+    projectSelected(collectionItem: Node) {
         collectionItem.set('collectable', true);
 
         this.setProperties({

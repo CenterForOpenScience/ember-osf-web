@@ -137,14 +137,15 @@ export default class UserQuickfiles extends Controller {
     });
 
     @computed('allFiles.[]', 'filter', 'sort')
-    get files(this: UserQuickfiles): File[] | null {
+    get files(): File[] | null {
         const filter: string = this.get('filter');
         const sort: string = this.get('sort');
 
-        let results = this.get('allFiles');
-        if (!results) {
+        const allFiles = this.get('allFiles');
+        if (!allFiles) {
             return null;
         }
+        let results = [...allFiles];
 
         if (filter) {
             const filterLowerCase = filter.toLowerCase();
@@ -165,14 +166,14 @@ export default class UserQuickfiles extends Controller {
     }
 
     @computed('currentUser.currentUserId', 'user.id')
-    get canEdit(this: UserQuickfiles): boolean {
+    get canEdit(): boolean {
         const user = this.get('user');
         const userId = user && user.get('id');
         return !!userId && userId === this.get('currentUser').get('currentUserId');
     }
 
     @action
-    async openFile(this: UserQuickfiles, file: File, show: string) {
+    async openFile(file: File, show: string) {
         const guid = file.get('guid') || await file.getGuid();
         this.transitionToRoute('guid-file', guid, { queryParams: { show } });
     }

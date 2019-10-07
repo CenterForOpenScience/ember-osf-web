@@ -174,7 +174,7 @@ export default class CommentCard extends Component.extend({
     }
 
     @action
-    more(this: CommentCard) {
+    more() {
         this.set('loadingMoreReplies', true);
         this.loadReplies.perform(true);
     }

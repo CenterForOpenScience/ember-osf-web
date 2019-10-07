@@ -112,7 +112,7 @@ export default class ProjectSelector extends Component.extend({
     }
 
     @action
-    valueChanged(this: ProjectSelector, value?: Node): void {
+    valueChanged(value?: Node): void {
         if (value) {
             this.set('selected', value);
 
@@ -125,7 +125,7 @@ export default class ProjectSelector extends Component.extend({
     }
 
     @action
-    changeState(this: ProjectSelector, projectSelectState: ProjectSelectState): void {
+    changeState(projectSelectState: ProjectSelectState): void {
         const selected = projectSelectState === ProjectSelectState.newProjectSelected ? this.newProject : null;
         this.setProperties({
             projectSelectState,
@@ -144,7 +144,7 @@ export default class ProjectSelector extends Component.extend({
     }
 
     @action
-    moveToNew(this: ProjectSelector) {
+    moveToNew() {
         this.moveToNewProject();
     }
 }

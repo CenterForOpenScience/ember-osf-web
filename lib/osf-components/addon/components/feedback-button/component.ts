@@ -98,24 +98,24 @@ export default class FeedbackButton extends Component {
         return this.state === DialogState.success;
     }
 
-    reset(this: FeedbackButton): void {
+    reset(): void {
         this.set('body', '');
         this.set('followup', false);
     }
 
     @action
-    showDialog(this: FeedbackButton) {
+    showDialog() {
         this.set('state', DialogState.active);
     }
 
     @action
-    hideDialog(this: FeedbackButton) {
+    hideDialog() {
         this.set('state', DialogState.empty);
         this.reset();
     }
 
     @action
-    submit(this: FeedbackButton) {
+    submit() {
         // Dismiss if no input
         if (!this.body) {
             this.set('state', DialogState.empty);

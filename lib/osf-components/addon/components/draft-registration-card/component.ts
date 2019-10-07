@@ -107,17 +107,17 @@ export default class DraftRegistrationCard extends Component {
     }
 
     @action
-    delete(this: DraftRegistrationCard) {
+    delete() {
         this.set('deleteModalOpen', true);
     }
 
     @action
-    cancelDelete(this: DraftRegistrationCard) {
+    cancelDelete() {
         this.set('deleteModalOpen', false);
     }
 
     @action
-    async confirmDelete(this: DraftRegistrationCard) {
+    async confirmDelete() {
         this.set('deleteModalOpen', false);
         await this.draftRegistration.destroyRecord();
         if (this.onDelete) {

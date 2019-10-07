@@ -11,7 +11,7 @@ export default class GuidNodeForks extends Route {
     @service analytics!: Analytics;
     @service ready!: Ready;
 
-    model(this: GuidNodeForks) {
+    model() {
         return this.modelFor('guid-node');
     }
 

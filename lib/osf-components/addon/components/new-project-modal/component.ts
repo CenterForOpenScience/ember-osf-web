@@ -120,7 +120,7 @@ export default class NewProjectModal extends Component.extend({
     }
 
     @action
-    selectInstitution(this: NewProjectModal, institution: Institution) {
+    selectInstitution(institution: Institution) {
         const selected = this.set('selectedInstitutions', this.selectedInstitutions.slice());
 
         if (selected.includes(institution)) {
@@ -131,23 +131,23 @@ export default class NewProjectModal extends Component.extend({
     }
 
     @action
-    selectAllInstitutions(this: NewProjectModal) {
+    selectAllInstitutions() {
         this.set('selectedInstitutions', this.institutions.slice());
     }
 
     @action
-    removeAllInstitutions(this: NewProjectModal) {
+    removeAllInstitutions() {
         this.set('selectedInstitutions', A([]));
     }
 
     @action
-    selectTemplateFrom(this: NewProjectModal, templateFrom: Node) {
+    selectTemplateFrom(templateFrom: Node) {
         this.set('templateFrom', templateFrom);
         this.analytics.click('button', 'New project - Select template from');
     }
 
     @action
-    selectRegion(this: NewProjectModal, region: Region) {
+    selectRegion(region: Region) {
         this.set('selectedRegion', region);
         this.analytics.click('button', 'New project - Select storage region');
     }

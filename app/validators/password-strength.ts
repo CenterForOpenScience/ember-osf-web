@@ -5,7 +5,7 @@ import BaseValidator from 'ember-cp-validations/validators/base';
 export default class PasswordStrength extends BaseValidator {
     @service passwordStrength!: PasswordStrengthService;
 
-    async validate(this: PasswordStrength, value: string = '', { min = 0 }) {
+    async validate(value: string = '', { min = 0 }) {
         const {
             feedback: {
                 warning,

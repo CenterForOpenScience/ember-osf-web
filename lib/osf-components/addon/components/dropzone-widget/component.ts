@@ -87,7 +87,7 @@ export default class DropzoneWidget extends Component.extend({
         }
     }
 
-    preventMultiple(this: DropzoneWidget) {
+    preventMultiple() {
         // Dropzone.js does not have an option for disabling selecting multiple files when clicking the "upload" button.
         // Therefore, we remove the "multiple" attribute for the hidden file input element, so that users cannot select
         // multiple files for upload in the first place.
@@ -97,7 +97,7 @@ export default class DropzoneWidget extends Component.extend({
         }
     }
 
-    loadDropzone(this: DropzoneWidget) {
+    loadDropzone() {
         function CustomDropzone(...args: any[]) {
             // @ts-ignore - Dropzone is a global
             Dropzone.call(this, ...args);

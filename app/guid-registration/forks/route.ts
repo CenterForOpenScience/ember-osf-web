@@ -11,7 +11,7 @@ export default class GuidRegistrationForks extends Route {
     @service analytics!: Analytics;
     @service ready!: Ready;
 
-    model(this: GuidRegistrationForks) {
+    model() {
         return this.modelFor('guid-registration');
     }
 

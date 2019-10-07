@@ -324,7 +324,7 @@ export default class DiscoverPage extends Component.extend({
     }
 
     @action
-    addFilter(this: DiscoverPage, type: keyof DiscoverPage, filterValue: string) {
+    addFilter(type: keyof DiscoverPage, filterValue: string) {
         // Ember-SHARE action. Used to add filter from the search results.
         this.set(type, encodeParams(getUniqueList([
             filterValue,
@@ -333,7 +333,7 @@ export default class DiscoverPage extends Component.extend({
     }
 
     @action
-    clearFilters(this: DiscoverPage) {
+    clearFilters() {
         this.analytics.track('button', 'click', 'Discover - Clear Filters');
 
         // Clear all of the activeFilters
@@ -365,7 +365,7 @@ export default class DiscoverPage extends Component.extend({
     }
 
     @action
-    selectSortOption(this: DiscoverPage, option: string) {
+    selectSortOption(option: string) {
         // Runs when sort option changed in dropdown
         this.set('sort', option);
         this.analytics.track('dropdown', 'select', `Sort by: ${option || 'relevance'}`);
@@ -394,7 +394,7 @@ export default class DiscoverPage extends Component.extend({
      * Closure action to update and search when the filter changes. Each component manages its own filters.
      */
     @action
-    filterChanged(this: DiscoverPage) {
+    filterChanged() {
         this.setProperties({
             ...this.facetContexts.reduce((acc, { component, queryParam }) => ({
                 ...acc,

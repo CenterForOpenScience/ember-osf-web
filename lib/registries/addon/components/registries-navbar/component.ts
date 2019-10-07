@@ -28,7 +28,7 @@ export default class RegistriesNavbar extends AuthBase {
     searchDropdownOpen: boolean = false;
 
     @action
-    _onSearch(this: RegistriesNavbar, query: string) {
+    _onSearch(query: string) {
         this.onSearch(query);
         this.set('searchDropdownOpen', false);
     }

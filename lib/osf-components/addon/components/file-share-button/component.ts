@@ -163,7 +163,7 @@ export default class FileShareButton extends Component {
     }
 
     @action
-    hidePopup(this: FileShareButton) {
+    hidePopup() {
         this.set('showPopup', false);
     }
 }

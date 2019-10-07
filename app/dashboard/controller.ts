@@ -127,12 +127,12 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    openModal(this: Dashboard) {
+    openModal() {
         this.set('modalOpen', true);
     }
 
     @action
-    closeModal(this: Dashboard) {
+    closeModal() {
         this.setProperties({
             modalOpen: false,
             newNode: null,
@@ -146,7 +146,7 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    projectCreated(this: Dashboard, newNode: Node) {
+    projectCreated(newNode: Node) {
         this.set('newNode', newNode);
         this.set('showNewNodeNavigation', true);
     }

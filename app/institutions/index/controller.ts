@@ -50,7 +50,7 @@ export default class Institutions extends Controller {
     }
 
     @action
-    sort(this: Institutions, sortOrder: 'title' | '-title') {
+    sort(sortOrder: 'title' | '-title') {
         this.set('sortOrder', sortOrder);
     }
 }

@@ -49,7 +49,7 @@ export default class RegistrationIsPublic extends Component.extend({
     closeDropdown!: () => void;
     showModal: boolean = defaultTo(this.showModal, false);
 
-    didReceiveAttrs(this: RegistrationIsPublic) {
+    didReceiveAttrs() {
         this.setProperties({
             scientistNameInput: '',
             scientistName: randomScientist(),
@@ -61,7 +61,7 @@ export default class RegistrationIsPublic extends Component.extend({
         'scientistNameInput',
         'scientistName',
     )
-    get submitDisabled(this: RegistrationIsPublic): boolean {
+    get submitDisabled(): boolean {
         return this.submitWithdrawal.isRunning ||
             (this.scientistNameInput !== this.scientistName);
     }

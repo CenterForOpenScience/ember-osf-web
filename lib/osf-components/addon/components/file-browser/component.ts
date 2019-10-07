@@ -179,7 +179,7 @@ export default class FileBrowser extends Component {
         }
     }
 
-    didInsertElement(this: FileBrowser) {
+    didInsertElement() {
         super.didInsertElement();
 
         const dismissPop = () => !this.isDestroyed && this.setProperties({ popupOpen: false });
@@ -214,7 +214,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    closeRename(this: FileBrowser) {
+    closeRename() {
         this.setProperties({
             renameValue: '',
             showRename: false,
@@ -222,7 +222,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    closeFilter(this: FileBrowser) {
+    closeFilter() {
         this.setProperties({
             showFilterClicked: false,
             filter: '',
@@ -262,7 +262,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    selectItem(this: FileBrowser, currentItem: File) {
+    selectItem(currentItem: File) {
         this.analytics.track('file', 'select', 'Quick Files - Select file');
 
         if (this.openOnSelect) {
@@ -296,7 +296,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    selectMultiple(this: FileBrowser, currentItem: File, toggle: boolean) {
+    selectMultiple(currentItem: File, toggle: boolean) {
         if (!this.multiple || !this.items) {
             return;
         }
@@ -358,14 +358,14 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    deleteItems(this: FileBrowser, multiple: boolean = false) {
+    deleteItems(multiple: boolean = false) {
         this.analytics.track('file', 'delete', 'Quick Files - Delete files');
         this.deleteFiles(multiple ? this.selectedItems.slice() : this.selectedItems.slice(0, 1));
         this.set('currentModal', modals.None);
     }
 
     @action
-    renameConflict(this: FileBrowser, conflict: string): void {
+    renameConflict(conflict: string): void {
         const { renameValue, conflictingItem } = this;
         const selectedItem = this.selectedItems.firstObject as unknown as File;
 
@@ -386,7 +386,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    rename(this: FileBrowser): void {
+    rename(): void {
         this.analytics.track('file', 'rename', 'Quick Files - Rename file');
 
         const { renameValue } = this;
@@ -422,7 +422,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    openSharePopup(this: FileBrowser) {
+    openSharePopup() {
         this.set('popupOpen', true);
 
         if (this.link) {
@@ -433,7 +433,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    closeMoveToProjectModal(this: FileBrowser) {
+    closeMoveToProjectModal() {
         this.setProperties({
             projectSelectState: ProjectSelectState.main,
             currentModal: modals.None,
@@ -442,17 +442,17 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    projectSelected(this: FileBrowser, node: Node) {
+    projectSelected(node: Node) {
         this.set('node', node);
     }
 
     @action
-    moveToNewProject(this: FileBrowser) {
+    moveToNewProject() {
         this.set('currentModal', modals.MoveToNew);
     }
 
     @action
-    afterStay(this: FileBrowser) {
+    afterStay() {
         this.set('currentModal', modals.None);
     }
 

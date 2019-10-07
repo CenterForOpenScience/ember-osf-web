@@ -76,7 +76,7 @@ export default class DeleteButton extends Component.extend({
     }
 
     @action
-    _show(this: DeleteButton) {
+    _show() {
         this.set('modalShown', true);
         if (this.hardConfirm) {
             this.setProperties({
@@ -87,7 +87,7 @@ export default class DeleteButton extends Component.extend({
     }
 
     @action
-    _cancel(this: DeleteButton) {
+    _cancel() {
         this.set('modalShown', false);
     }
 }
