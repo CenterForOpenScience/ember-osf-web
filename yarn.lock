@@ -1323,7 +1323,7 @@
   dependencies:
     "@types/ember" "*"
 
-"@types/ember-qunit@^3.4.6":
+"@types/ember-qunit@^3.4.7":
   version "3.4.7"
   resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-3.4.7.tgz#57dad9f01ff6136cdadf2a06b7089af91661d3b5"
   integrity sha512-1VK5oazKvIenJK9M1DwXncgnpk+G1B1O4N7+ABml+V7+EGVhqpxfS3FRi3Y27+luPCQ3Ya1M8Da76fO85DNLrQ==
