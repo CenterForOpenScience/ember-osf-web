@@ -57,7 +57,7 @@ function sendFeedback(body: string, {
         data: JSON.stringify(payload),
         dataType: 'json',
         method: 'POST',
-    });
+    }) as unknown as Promise<any>;
 }
 
 enum DialogState {
