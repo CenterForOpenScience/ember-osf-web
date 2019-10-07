@@ -26,7 +26,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 - Tests
-    - `taxonomy` FactoryGuy factory
     - unit, component tests using `FactoryGuy`
     - `FactoryGuy` factories
 - Packages
@@ -211,6 +210,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - updated to use API version 2.16
 - Packages
     - upgrade to `ember-animated@0.8.1`
+
+### Removed
+- Tests
+    - `taxonomy` FactoryGuy factory
 
 ### Fixed
 - Components
