@@ -1,8 +1,8 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias, bool } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { alias, bool } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
@@ -12,6 +12,7 @@ import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import styles from './styles';
 import template from './template';
 

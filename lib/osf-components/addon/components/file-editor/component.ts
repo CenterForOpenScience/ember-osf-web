@@ -1,10 +1,11 @@
 import { classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
 import { next } from '@ember/runloop';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import styles from './styles';
 import template from './template';
 

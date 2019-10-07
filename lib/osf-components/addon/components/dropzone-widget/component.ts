@@ -1,6 +1,6 @@
 import { className } from '@ember-decorators/component';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 import diffAttrs from 'ember-diff-attrs';
 import I18N from 'ember-i18n/services/i18n';
 import Session from 'ember-simple-auth/services/session';
@@ -10,6 +10,7 @@ import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import template from './template';
 
 /**

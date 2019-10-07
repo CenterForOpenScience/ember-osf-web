@@ -1,10 +1,10 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias, notEmpty } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { action, computed } from '@ember/object';
+import { alias, notEmpty } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';

@@ -1,10 +1,10 @@
 import { layout, tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { isArray } from '@ember/array';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { action, computed } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
 import CurrentUser from 'ember-osf-web/services/current-user';

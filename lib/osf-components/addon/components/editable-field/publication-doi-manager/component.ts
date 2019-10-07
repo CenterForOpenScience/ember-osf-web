@@ -1,9 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias, and, not } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import EmberObject from '@ember/object';
+import EmberObject, { action, computed } from '@ember/object';
+import { alias, and, not } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { buildValidations, Validations, validator } from 'ember-cp-validations';
 import I18N from 'ember-i18n/services/i18n';

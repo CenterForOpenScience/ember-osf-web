@@ -1,8 +1,8 @@
-import { action } from '@ember-decorators/object';
-import { bool } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { bool } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CurrentUser from 'ember-osf-web/services/current-user';

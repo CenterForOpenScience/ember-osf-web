@@ -1,8 +1,8 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias, overridableReads } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { alias, reads } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
@@ -112,7 +112,7 @@ export default class NewProjectModal extends Component.extend({
 
     @alias('currentUser.user') user!: User;
 
-    @overridableReads('institutions') selectedInstitutions!: Institution[];
+    @reads('institutions') selectedInstitutions!: Institution[];
 
     @computed()
     get storageI18nEnabled() {

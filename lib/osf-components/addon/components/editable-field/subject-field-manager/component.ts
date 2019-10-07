@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias, and } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { alias, and } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';

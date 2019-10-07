@@ -1,11 +1,12 @@
-import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
 import { next } from '@ember/runloop';
 import config from 'ember-get-config';
 import $ from 'jquery';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import template from './template';
 
 const { OSF: { renderUrl } } = config;

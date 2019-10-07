@@ -1,7 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 import ComputedProperty from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { task, Task } from 'ember-concurrency';
 
 import Analytics from 'ember-osf-web/services/analytics';

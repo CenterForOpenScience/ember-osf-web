@@ -1,5 +1,5 @@
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 import { TaskInstance } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';

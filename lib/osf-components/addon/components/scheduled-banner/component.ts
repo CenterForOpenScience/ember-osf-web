@@ -1,7 +1,7 @@
-import { computed } from '@ember-decorators/object';
-import { reads } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { reads } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
@@ -9,6 +9,7 @@ import DS from 'ember-data';
 import { layout } from 'ember-osf-web/decorators/component';
 import Banner from 'ember-osf-web/models/banner';
 import Analytics from 'ember-osf-web/services/analytics';
+
 import styles from './styles';
 import template from './template';
 

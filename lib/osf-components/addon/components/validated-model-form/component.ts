@@ -1,14 +1,12 @@
 import { layout } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { alias, or } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { set } from '@ember/object';
+import { action, set } from '@ember/object';
+import { alias, or } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { typeOf } from '@ember/utils';
 import Changeset from 'ember-changeset';
 import { ChangesetDef, ValidatorFunc } from 'ember-changeset/types';
-
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';

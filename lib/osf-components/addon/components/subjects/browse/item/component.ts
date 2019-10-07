@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { not } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { not } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { SingleSubjectManager } from 'osf-components/components/subjects/manager/single/component';

@@ -1,10 +1,10 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias, filterBy, not, notEmpty, or } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { next } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
@@ -22,6 +22,7 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import getHref from 'ember-osf-web/utils/get-href';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { ProjectSelectState } from 'osf-components/components/project-selector/component';
+
 import styles from './styles';
 import template from './template';
 
