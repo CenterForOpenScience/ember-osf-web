@@ -1,4 +1,4 @@
-import { service } from '@ember-decorators/service';
+import { inject as service } from '@ember/service';
 import PasswordStrengthService from 'ember-cli-password-strength/services/password-strength';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
