@@ -19,7 +19,8 @@ export interface FinalizeRegistrationModalManager {
 
 @layout(template)
 @tagName('')
-export default class FinalizeRegistrationModalManagerComponent extends Component {
+export default class FinalizeRegistrationModalManagerComponent extends Component
+    implements FinalizeRegistrationModalManager {
     // Required attrs
     registration!: RegistrationModel;
 
