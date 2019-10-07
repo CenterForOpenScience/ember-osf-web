@@ -1,8 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { assert, debug, runInDebug } from '@ember/debug';
+import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import { task, waitForQueue } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Metrics from 'ember-metrics/services/metrics';

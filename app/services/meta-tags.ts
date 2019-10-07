@@ -1,5 +1,4 @@
-import { service } from '@ember-decorators/service';
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';

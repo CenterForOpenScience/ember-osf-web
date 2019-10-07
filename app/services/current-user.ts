@@ -1,7 +1,6 @@
-import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
-import Service from '@ember/service';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import Service, { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
 import DS from 'ember-data';
 import config from 'ember-get-config';

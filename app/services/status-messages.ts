@@ -1,5 +1,4 @@
-import { service } from '@ember-decorators/service';
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
 
