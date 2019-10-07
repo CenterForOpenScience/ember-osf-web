@@ -1307,7 +1307,7 @@
   dependencies:
     "@types/jquery" "*"
 
-"@types/ember-data@^3.1.7":
+"@types/ember-data@^3.1.8":
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/@types/ember-data/-/ember-data-3.1.8.tgz#b12055c37b58721a948c5dc8b37384c304a7a622"
   integrity sha512-WbaQJUoRpjWFpAjxao6TE5wFrr61y1dU1g2IlOuLPLZcHh655FUOP6GGMWKmpSlH1qtbUFAVj90G5FWp3cynVA==
