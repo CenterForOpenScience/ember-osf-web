@@ -59,7 +59,7 @@
     "@types/ember__test-helpers": "^0.7.9",
     "@types/faker": "^4.1.5",
     "@types/js-md5": "^0.4.2",
-    "@types/qunit": "^2.5.4",
+    "@types/qunit": "^2.9.0",
     "@types/rsvp": "^4.0.2",
     "@types/sanitize-html": "^1.14.0",
     "@types/sinon": "^7.0.11",
