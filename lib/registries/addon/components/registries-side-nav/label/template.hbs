@@ -1,0 +1,13 @@
+<div local-class='LabelWrapper' ...attributes>
+    <span local-class='Label'>
+        {{@label}}
+    </span>
+
+    <span local-class='Count'>
+        {{#if this.hasCount}}
+            {{#unless this.isCollapsed}}
+                {{@count}}
+            {{/unless}}
+        {{/if}}
+    </span>
+</div>

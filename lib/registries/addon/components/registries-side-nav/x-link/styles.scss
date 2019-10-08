@@ -1,0 +1,56 @@
+$sidenav-link-height: 40px;
+$width-expanded: 205px;
+$width-collapsed: 80px;
+
+.Link {
+    transition: background 0.25s ease-out;
+    position: relative;
+    align-items: center;
+    display: inline-flex;
+    min-height: $sidenav-link-height;
+    height: auto;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 10px;
+    color: $primary-blue;
+    outline: 0 !important;
+
+    &:global(.active) {
+        color: #000;
+        box-shadow: -2px 1px 5px -2px #ddd;
+        border: #ddd 1px solid;
+        border-right: 0;
+        background: #fff;
+        width: $width-expanded + 1px;
+
+        .Count {
+            color: inherit;
+        }
+    }
+
+    &:hover {
+        background: rgb(21, 165, 235);
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+.Collapsed {
+    max-height: 0;
+    min-height: $sidenav-link-height;
+
+    &:global(.active) {
+        width: $width-collapsed + 1px;
+    }
+
+    &:not(:hover) span {
+        display: none;
+    }
+
+    &:hover {
+        max-height: 500px;
+        width: max-content;
+        max-width: 265px;
+        height: auto;
+    }
+}

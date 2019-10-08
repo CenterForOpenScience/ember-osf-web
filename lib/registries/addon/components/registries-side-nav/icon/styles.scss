@@ -1,0 +1,15 @@
+.Icon {
+    font-size: 20px;
+    margin-left: 10px;
+    left: 10px;
+
+    & .Collapsed {
+        margin-right: 0;
+    }
+}
+
+.Collapsed {
+    &:hover {
+        margin-right: 10px;
+    }
+}

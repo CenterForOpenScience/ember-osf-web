@@ -1,0 +1,29 @@
+$width-expanded: 205px;
+$width-collapsed: 80px;
+
+.SideNav {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: $width-expanded;
+    align-items: flex-start;
+    height: 100%;
+    margin-top: 10px;
+    margin-left: 10px;
+
+    &.Collapsed {
+        width: $width-collapsed;
+    }
+}
+
+.CollapseButton {
+    & span {
+        display: none;
+    }
+
+    &:hover span {
+        display: inline-flex;
+    }
+}

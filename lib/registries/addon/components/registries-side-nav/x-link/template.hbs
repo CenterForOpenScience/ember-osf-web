@@ -1,0 +1,41 @@
+{{#if this.isButton}}
+    <OsfButton
+        data-test-collapsed='{{this.isCollapsed}}'
+        class={{local-class this.wrapperClasses}}
+        @onClick={{@onClick}}
+        @type='link'
+        ...attributes
+    >
+        {{yield (hash
+            label=(component 'registries-side-nav/label'
+                label=@label
+                count=@count
+                isCollapsed=this.isCollapsed
+            )
+            icon=(component 'registries-side-nav/icon'
+                icon=@icon
+            )
+        )}}
+    </OsfButton>
+{{else}}
+    <OsfLink
+        data-test-collapsed='{{this.isCollapsed}}'
+        class={{local-class this.wrapperClasses}}
+        @models={{@models}}
+        @route={{@route}}
+        @href={{@href}}
+        @onClick={{@onClick}}
+        ...attributes
+    >
+        {{yield (hash
+            label=(component 'registries-side-nav/label'
+                label=@label
+                count=@count
+                isCollapsed=this.isCollapsed
+            )
+            icon=(component 'registries-side-nav/icon'
+                icon=@icon
+            )
+        )}}
+    </OsfLink>
+{{/if}}

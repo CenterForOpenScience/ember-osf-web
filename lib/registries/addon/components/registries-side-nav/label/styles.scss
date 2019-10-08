@@ -1,0 +1,17 @@
+.LabelWrapper {
+    justify-content: space-between;
+    display: inline-flex;
+    width: 100%;
+    padding-left: 30px;
+    height: 100%;
+}
+
+.Label {
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.Count {
+    color: $slate-gray;
+    font-weight: 700;
+}
