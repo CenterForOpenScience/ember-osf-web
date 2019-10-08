@@ -78,7 +78,7 @@
     "ember-angle-bracket-invocation-polyfill": "^2.0.2",
     "ember-animated": "^0.9.0",
     "ember-basic-dropdown": "^1.0.3",
-    "ember-bootstrap": "^1.2.2",
+    "ember-bootstrap": "^2.8.1",
     "ember-bootstrap-datepicker": "^2.0.9",
     "ember-browserify": "^1.2.0",
     "ember-changeset": "^2.1.2",
