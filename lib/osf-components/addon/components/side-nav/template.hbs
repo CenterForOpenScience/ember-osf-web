@@ -17,7 +17,6 @@
         {{#let (component 'side-nav/x-link') as |SideNavLink|}}
             <SideNavLink
                 data-analytics-name={{if this.isCollapsed 'Expand' 'Collapse'}}
-                class={{local-class 'Toggle'}}
                 @onClick={{action this.toggle}}
                 @isCollapsed={{this.isCollapsed}}
                 @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}

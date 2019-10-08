@@ -1,13 +1,13 @@
 $sidenav-link-height: 40px;
 
-.Link {
+.Link.Link {
     align-items: center;
     display: inline-flex;
     height: $sidenav-link-height;
     justify-content: space-between;
     width: 100%;
     padding: 5px 10px;
-    color: $primary-blue;
+    color: $color-text-blue-dark;
     outline: 0 !important;
 
     h4 {
@@ -22,13 +22,13 @@ $sidenav-link-height: 40px;
     &:hover,
     &:focus {
         text-decoration: none;
-        color: $secondary-blue;
+        color: $color-link-lighter;
     }
 
     &:global(.active) {
-        color: $midnight-blue;
-        background-color: $selected-blue;
-        border: $white 1px solid;
+        color: $color-text-gray-blue;
+        background-color: $color-bg-blue-lighter;
+        border: $color-border-white 1px solid;
         border-radius: 5px;
 
         .Count {
@@ -51,7 +51,7 @@ $sidenav-link-height: 40px;
 }
 
 .Count {
-    color: $slate-gray;
+    color: $color-text-slate-gray;
     font-weight: 700;
 }
 
@@ -70,7 +70,7 @@ $sidenav-link-height: 40px;
     // Arbitrary number, just needs to be > 1 to avoid
     // overlapping with text and < 100 so the border gets covered by the ::before
     z-index: 10;
-    
+
     background: $background-color;
 
     // Round the right corners of the h4 elements
@@ -80,7 +80,7 @@ $sidenav-link-height: 40px;
     &::before {
         position: absolute;
         z-index: 100;
-        border: solid 1px $white;
+        border: solid 1px $color-border-white;
         border-left: 0;
         border-right: 0;
         background: transparent;
@@ -94,13 +94,13 @@ $sidenav-link-height: 40px;
         left: -1px;
         height: calc(2px + 100%);
 
-        // Matches the width of the parent gutter 
+        // Matches the width of the parent gutter
         // Check the width of the .Collapse:hover .LabelWrapper below)
         width: 26px;
     }
 }
 
-.Collapsed {
+.Collapsed.Collapsed {
     // Center icons when collapsed
     justify-content: center;
 
@@ -113,8 +113,8 @@ $sidenav-link-height: 40px;
     }
 
     &:hover .LabelWrapper {
-        @include hover-poke-through($white);
-        border: $alto 1px solid;
+        @include hover-poke-through($color-border-white);
+        border: $color-border-gray 1px solid;
         border-left: 0;
         left: 28px;
         padding-right: 0;
@@ -130,10 +130,25 @@ $sidenav-link-height: 40px;
     }
 
     &:hover:global(.active) h4 {
-        background: $selected-blue;
+        background: $color-bg-blue-lighter;
     }
-    
+
     &:hover:not(:global(.active)) h4 {
-        background: $white;
+        background: $color-bg-white;
+    }
+}
+
+.Toggle.Toggle {
+    margin: -1px 15px;
+
+    // Hides Expand/Collapse when not being hovered over
+    &:not(:hover) h4 {
+        color: $color-text-white;
+    }
+
+    &:hover .LabelWrapper::before {
+        // Adjusts the white border to not cover the top gray line
+        top: 0;
+        height: calc(1px + 100%);
     }
 }
