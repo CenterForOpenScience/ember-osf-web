@@ -113,7 +113,8 @@
     "ember-cli-stylelint": "^2.1.0",
     "ember-cli-template-lint": "^0.7.6",
     "ember-cli-test-loader": "^2.2.0",
-    "ember-cli-typescript": "^1.4.3",
+    "ember-cli-typescript": "^3.0.0",
+    "ember-cli-typescript-blueprints": "^3.0.0",
     "ember-cli-uglify": "^3.0.0",
     "ember-click-outside": "^1.0.4",
     "ember-code-snippet": "^2.4.0",
@@ -202,7 +203,7 @@
     "tslint": "^5.16.0",
     "tslint-consistent-codestyle": "^1.11.1",
     "tslint-eslint-rules": "^5.0.0",
-    "typescript": "^3.4.5",
+    "typescript": "^3.6.3",
     "wicg-inert": "^2.1.0"
   },
   "resolutions": {
