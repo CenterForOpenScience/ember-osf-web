@@ -1,7 +1,8 @@
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import Institution from 'ember-osf-web/models/institution';
@@ -15,6 +16,7 @@ export default class Institutions extends Controller {
     page = 1;
     textValue: string = '';
 
+    @task
     trackFilter = task(function *(this: Institutions) {
         yield timeout(1000);
         this.analytics.track('list', 'filter', 'Institutions - Search');

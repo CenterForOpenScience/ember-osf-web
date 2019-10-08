@@ -3,7 +3,8 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { all, task, timeout } from 'ember-concurrency';
+import { all, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 
@@ -46,6 +47,7 @@ export default class Dashboard extends Controller {
     noteworthy!: QueryHasManyResult<Node>;
     popular!: QueryHasManyResult<Node>;
 
+    @task
     setupTask = task(function *(this: Dashboard) {
         this.set('filter', null);
 
@@ -53,21 +55,23 @@ export default class Dashboard extends Controller {
 
         yield all([
             institutions,
-            this.get('findNodes').perform(),
-            this.get('getPopularAndNoteworthy').perform(popularNode, 'popular'),
-            this.get('getPopularAndNoteworthy').perform(noteworthyNode, 'noteworthy'),
+            this.findNodes.perform(),
+            this.getPopularAndNoteworthy.perform(popularNode, 'popular'),
+            this.getPopularAndNoteworthy.perform(noteworthyNode, 'noteworthy'),
         ]);
 
         this.set('institutions', institutions.toArray());
     }).restartable();
 
+    @task
     filterNodes = task(function *(this: Dashboard, filter: string) {
         yield timeout(500);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Dashboard - Search projects');
-        yield this.get('findNodes').perform();
+        yield this.findNodes.perform();
     }).restartable();
 
+    @task
     findNodes = task(function *(this: Dashboard, more?: boolean) {
         const indicatorProperty = more ? 'loadingMore' : 'loading';
         this.set(indicatorProperty, true);
@@ -92,6 +96,7 @@ export default class Dashboard extends Controller {
         this.set('initialLoad', false);
     }).restartable();
 
+    @task
     getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
         try {
             const node: Node = yield this.store.findRecord('node', id);
@@ -116,14 +121,14 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    more(this: Dashboard) {
-        this.get('findNodes').perform(true);
+    more() {
+        this.findNodes.perform(true);
     }
 
     @action
-    sortProjects(this: Dashboard, sort: string) {
+    sortProjects(sort: string) {
         this.setProperties({ sort });
-        this.get('findNodes').perform();
+        this.findNodes.perform();
     }
 
     @action
@@ -141,8 +146,8 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    afterStay(this: Dashboard) {
-        this.get('findNodes').perform();
+    afterStay() {
+        this.findNodes.perform();
     }
 
     @action

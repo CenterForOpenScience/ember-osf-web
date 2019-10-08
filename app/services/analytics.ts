@@ -2,7 +2,8 @@ import { assert, debug, runInDebug } from '@ember/debug';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import Service, { inject as service } from '@ember/service';
-import { task, waitForQueue } from 'ember-concurrency';
+import { waitForQueue } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
 import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
@@ -155,6 +156,7 @@ export default class Analytics extends Service {
 
     rootElement?: Element;
 
+    @task
     trackPageTask = task(function *(
         this: Analytics,
         pagePublic: boolean | undefined,

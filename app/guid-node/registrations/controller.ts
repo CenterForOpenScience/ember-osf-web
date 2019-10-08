@@ -3,7 +3,7 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import Node from 'ember-osf-web/models/node';
@@ -35,6 +35,7 @@ export default class GuidNodeRegistrations extends Controller {
         terms: 'https://osf.io/4uxbj/',
     };
 
+    @task
     getRegistrationSchemas = task(function *(this: GuidNodeRegistrations) {
         let schemas = yield this.store.findAll('registration-schema',
             {
@@ -60,7 +61,7 @@ export default class GuidNodeRegistrations extends Controller {
 
     @computed('node.{id,root.id,root.userHasAdminPermission}')
     get isComponentRootAdmin() {
-        return this.node && this.node.id !== this.node.root.get('id') && this.node.root.get('userHasAdminPermission');
+        return this.node && this.node.id !== this.node.root.id && this.node.root.userHasAdminPermission;
     }
 
     @action

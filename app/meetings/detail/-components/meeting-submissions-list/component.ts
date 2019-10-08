@@ -1,16 +1,13 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
+
 import MeetingSubmissionModel from 'ember-osf-web/models/meeting-submission';
 
 @tagName('')
-export default class MeetingSubmissionsList extends Component.extend({
-    searchSubmissions: task(function *(this: MeetingSubmissionsList, search: string) {
-        yield timeout(500); // debounce
-        this.set('search', search);
-    }).restartable(),
-}) {
+export default class MeetingSubmissionsList extends Component {
     // Private properties
     search?: string;
     sort?: string;
@@ -26,6 +23,12 @@ export default class MeetingSubmissionsList extends Component.extend({
         }
         return query;
     }
+
+    @task
+    searchSubmissions = task(function *(this: MeetingSubmissionsList, search: string) {
+        yield timeout(500); // debounce
+        this.set('search', search);
+    }).restartable();
 
     @action
     sortSubmissions(sort: string) {
