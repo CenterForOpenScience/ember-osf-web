@@ -203,7 +203,7 @@
     "tslint": "^5.16.0",
     "tslint-consistent-codestyle": "^1.11.1",
     "tslint-eslint-rules": "^5.0.0",
-    "typescript": "^3.6.3",
+    "typescript": "~3.4.5",
     "wicg-inert": "^2.1.0"
   },
   "resolutions": {
