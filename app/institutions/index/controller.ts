@@ -16,11 +16,11 @@ export default class Institutions extends Controller {
     page = 1;
     textValue: string = '';
 
-    @task
+    @task({ restartable: true })
     trackFilter = task(function *(this: Institutions) {
         yield timeout(1000);
         this.analytics.track('list', 'filter', 'Institutions - Search');
-    }).restartable();
+    });
 
     @computed('model', 'textValue')
     get filtered(): Institution[] {

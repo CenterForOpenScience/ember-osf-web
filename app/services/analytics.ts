@@ -156,7 +156,7 @@ export default class Analytics extends Service {
 
     rootElement?: Element;
 
-    @task
+    @task({ restartable: true })
     trackPageTask = task(function *(
         this: Analytics,
         pagePublic: boolean | undefined,
@@ -217,7 +217,7 @@ export default class Analytics extends Service {
             pagePublic,
             ...eventParams,
         });
-    }).restartable();
+    });
 
     @action
     click(category: string, label: string, extraInfo?: string | object) {

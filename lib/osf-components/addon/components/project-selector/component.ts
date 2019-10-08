@@ -91,7 +91,7 @@ export default class ProjectSelector extends Component {
         });
     });
 
-    @task
+    @task({ restartable: true })
     findNodes = task(function *(this: ProjectSelector, filter?: string) {
         if (filter) {
             yield timeout(250);
@@ -107,7 +107,7 @@ export default class ProjectSelector extends Component {
         });
 
         return nodes;
-    }).restartable();
+    });
 
     didReceiveAttrs(this: ProjectSelector) {
         if (this.projectSelectState === ProjectSelectState.main) {

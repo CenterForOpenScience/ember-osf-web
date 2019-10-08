@@ -63,7 +63,7 @@ export default class LicenseManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task
+    @task({ restartable: true, on: 'didReceiveAttrs' })
     queryLicenses = task(function *(this: LicenseManagerComponent, name?: string) {
         if (this.licensesAcceptable && this.licensesAcceptable.length) {
             if (name) {
@@ -77,9 +77,9 @@ export default class LicenseManagerComponent extends Component {
             return licensesAcceptable;
         }
         return undefined;
-    }).on('didReceiveAttrs').restartable();
+    });
 
-    @task
+    @task({ on: 'init' })
     getAllProviderLicenses = task(function *(this: LicenseManagerComponent) {
         const provider = yield this.node.provider;
 
@@ -97,7 +97,7 @@ export default class LicenseManagerComponent extends Component {
             currentLicense: yield this.node.license,
             currentNodeLicense: { ...this.node.nodeLicense },
         });
-    }).on('init');
+    });
 
     @action
     startEditing() {

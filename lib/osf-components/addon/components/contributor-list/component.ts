@@ -40,7 +40,7 @@ export default class ContributorList extends Component {
     @alias('loadContributors.isRunning')
     isLoading!: boolean;
 
-    @task
+    @task({ restartable: true, on: 'didReceiveAttrs' })
     loadContributors = task(function *(this: ContributorList, more?: boolean) {
         if (!this.node || this.node.isAnonymous) {
             return;
@@ -70,7 +70,7 @@ export default class ContributorList extends Component {
         }
 
         blocker.done();
-    }).on('didReceiveAttrs').restartable();
+    });
 
     @computed('truncated')
     get truncateCount() {

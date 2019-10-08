@@ -51,7 +51,7 @@ export default class CitationViewer extends Component {
 
     selectedCitationStyle?: CitationStyle;
 
-    @task
+    @task({ on: 'init' })
     loadDefaultCitations = task(function *(this: CitationViewer) {
         const responses: SingleResourceDocument[] = yield all(
             defaultCitations.map(
@@ -62,9 +62,9 @@ export default class CitationViewer extends Component {
             ...defaultCitations[i],
             citation: r.data.attributes!.citation,
         }));
-    }).on('init');
+    });
 
-    @task
+    @task({ restartable: true })
     searchCitationStyles = task(function *(this: CitationViewer, query: string) {
         yield timeout(1000); // debounce
 
@@ -72,9 +72,9 @@ export default class CitationViewer extends Component {
             'filter[title,short_title]': query,
             'page[size]': 100,
         });
-    }).restartable();
+    });
 
-    @task
+    @task({ restartable: true })
     renderCitation = task(function *(this: CitationViewer, citationStyle: CitationStyle) {
         this.set('selectedCitationStyle', citationStyle);
 
@@ -82,5 +82,5 @@ export default class CitationViewer extends Component {
             url: citationUrl(this.citable, citationStyle.id),
         });
         return response.data.attributes!.citation;
-    }).restartable();
+    });
 }

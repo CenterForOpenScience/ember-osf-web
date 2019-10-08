@@ -60,7 +60,7 @@ export default class DoiManagerComponent extends Component {
         return `${doiUrlPrefix}${this.nodeDoi}`;
     }
 
-    @task
+    @task({ on: 'didReceiveAttrs' })
     loadIdentifiers = task(function *(this: DoiManagerComponent) {
         if (this.node) {
             const identifiers: Identifier[] = yield this.node.identifiers;
@@ -69,7 +69,7 @@ export default class DoiManagerComponent extends Component {
                 this.set('nodeDoi', doi.value);
             }
         }
-    }).on('didReceiveAttrs');
+    });
 
     @task
     requestDoi = task(function *(this: DoiManagerComponent) {

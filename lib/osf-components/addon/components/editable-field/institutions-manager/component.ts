@@ -67,7 +67,7 @@ export default class InstitutionsManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task
+    @task({ restartable: true, on: 'didReceiveAttrs' })
     loadNodeAffiliatedInstitutions = task(function *(this: InstitutionsManagerComponent) {
         if (this.node) {
             try {
@@ -83,7 +83,7 @@ export default class InstitutionsManagerComponent extends Component {
                 throw e;
             }
         }
-    }).on('didReceiveAttrs').restartable();
+    });
 
     @task
     save = task(function *(this: InstitutionsManagerComponent) {

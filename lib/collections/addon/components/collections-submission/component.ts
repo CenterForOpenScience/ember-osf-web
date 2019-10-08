@@ -57,7 +57,7 @@ export default class Submit extends Component {
     i18nKeyPrefix = 'collections.collections_submission.';
     showSubmitModal: boolean = false;
 
-    @task
+    @task({ drop: true })
     save = task(function *(this: Submit) {
         if (!this.collectionItem) {
             return;
@@ -101,7 +101,7 @@ export default class Submit extends Component {
                 error: e.errors[0].detail,
             }));
         }
-    }).drop();
+    });
 
     @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
     get choiceFields(): Array<{ label: string; value: string | undefined; }> {

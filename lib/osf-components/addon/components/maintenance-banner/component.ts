@@ -39,12 +39,12 @@ export default class MaintenanceBanner extends Component {
 
     maintenance?: MaintenanceData | null;
 
-    @task
+    @task({ restartable: true })
     getMaintenanceStatus = task(function *(this: MaintenanceBanner): IterableIterator<any> {
         const url: string = `${config.OSF.apiUrl}/v2/status/`;
         const data = yield this.currentUser.authenticatedAJAX({ url });
         this.set('maintenance', data.maintenance);
-    }).restartable();
+    });
 
     @computed('maintenance.start')
     get start(): string | undefined {

@@ -25,7 +25,7 @@ export default class Ready extends Service.extend(Evented) {
     lastId = 0;
     blockers = A();
 
-    @task
+    @task({ restartable: true })
     tryReady = task(function *(this: Ready) {
         // Waiting until `destroy` makes sure that everyone in `render` and `afterRender`
         // (e.g. components, jQuery plugins, etc.) has a chance to call `getBlocker`, and that
@@ -35,7 +35,7 @@ export default class Ready extends Service.extend(Evented) {
             set(this, 'isReady', true);
             this.trigger(Events.IsReady);
         }
-    }).restartable();
+    });
 
     getBlocker(): Blocker {
         if (get(this, 'isReady')) {

@@ -179,7 +179,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return max;
     }
 
-    @task
+    @task({ on: 'init' })
     getCountsAndAggs = task(function *(this: Discover) {
         const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
             size: 0,
@@ -211,9 +211,9 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         this.set('searchable', results.total);
         this.set('filterableSources', filterableSources);
-    }).on('init');
+    });
 
-    @task
+    @task({ restartable: true })
     doSearch = task(function *(this: Discover) {
         // Unless OSF is the only source, registration_type filters must be cleared
         if (!(this.sources.length === 1 && this.sources[0]!.value === 'OSF')) {
@@ -255,7 +255,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         this.set('results', A(results.results));
         this.set('totalResults', results.total);
-    }).restartable();
+    });
 
     setup() {
         this.doSearch.perform();

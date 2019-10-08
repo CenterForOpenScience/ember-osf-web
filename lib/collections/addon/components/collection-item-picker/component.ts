@@ -52,7 +52,7 @@ export default class CollectionItemPicker extends Component {
         yield this.get('findNodes').perform();
     });
 
-    @task
+    @task({ restartable: true })
     findNodes = task(function *(this: CollectionItemPicker, filter: string = '') {
         if (filter) {
             yield timeout(250);
@@ -112,7 +112,7 @@ export default class CollectionItemPicker extends Component {
         });
 
         return items;
-    }).restartable();
+    });
 
     /**
      * Passed into power-select component for customized searching.

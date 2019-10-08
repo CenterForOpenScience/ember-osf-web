@@ -26,7 +26,7 @@ export default class RegistrationIsPublic extends Component {
     closeDropdown!: () => void;
     showModal: boolean = defaultTo(this.showModal, false);
 
-    @task
+    @task({ drop: true })
     submitWithdrawal = task(function *(this: RegistrationIsPublic) {
         if (!this.registration) {
             return;
@@ -49,7 +49,7 @@ export default class RegistrationIsPublic extends Component {
         if (this.closeDropdown) {
             this.closeDropdown();
         }
-    }).drop();
+    });
 
     didReceiveAttrs() {
         this.setProperties({

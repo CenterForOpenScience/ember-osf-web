@@ -125,7 +125,7 @@ export default class FilesManagerComponent extends Component {
         return false;
     }
 
-    @task
+    @task({ restartable: true, on: 'didReceiveAttrs' })
     getRootItems = task(function *(this: FilesManagerComponent) {
         assert('@node is required', Boolean(this.node));
 
@@ -140,7 +140,7 @@ export default class FilesManagerComponent extends Component {
             rootFolder,
             currentFolder: rootFolder,
         });
-    }).on('didReceiveAttrs').restartable();
+    });
 
     @task
     loadMore = task(function *(this: FilesManagerComponent) {

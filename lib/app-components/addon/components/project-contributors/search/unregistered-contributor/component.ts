@@ -27,7 +27,7 @@ export default class UnregisteredContributor extends Component {
 
     @requiredAction closeForm!: () => void;
 
-    @task
+    @task({ drop: true })
     add = task(function *(this: UnregisteredContributor) {
         const { validations } = yield this.model!.validate();
         this.set('didValidate', true);
@@ -51,7 +51,7 @@ export default class UnregisteredContributor extends Component {
 
         this.reset(false);
         this.closeForm();
-    }).drop();
+    });
 
     didReceiveAttrs() {
         this.reset();

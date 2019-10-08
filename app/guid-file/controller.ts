@@ -95,12 +95,12 @@ export default class GuidFile extends Controller {
         return Boolean(this.file) && this.file.getContents();
     }
 
-    @task
+    @task({ restartable: true })
     updateFilter = task(function *(this: GuidFile, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Quick Files - Filter file browser');
-    }).restartable();
+    });
 
     @computed('allFiles.[]', 'filter', 'sort')
     get files() {

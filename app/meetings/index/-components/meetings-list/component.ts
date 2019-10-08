@@ -20,11 +20,11 @@ export default class MeetingsList extends Component {
         return query;
     }
 
-    @task
+    @task({ restartable: true })
     searchMeetings = task(function *(this: MeetingsList, search: string) {
         yield timeout(500); // debounce
         this.set('search', search);
-    }).restartable();
+    });
 
     @action
     sortMeetings(sort: string) {

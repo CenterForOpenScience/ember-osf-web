@@ -35,7 +35,7 @@ export default class PasswordStrengthBar extends Component {
 
     @alias('checkStrength.lastSuccessful.value') strength?: Strength;
 
-    @task
+    @task({ restartable: true })
     checkStrength = task(function *(this: PasswordStrengthBar, value: string) {
         if (!value) {
             return 0;
@@ -44,7 +44,7 @@ export default class PasswordStrengthBar extends Component {
         yield timeout(250);
 
         return yield this.passwordStrength.strength(value);
-    }).restartable();
+    });
 
     @computed('password', 'strength', 'strength.score')
     get progress() {

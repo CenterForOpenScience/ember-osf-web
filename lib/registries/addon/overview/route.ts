@@ -27,7 +27,7 @@ export default class Overview extends GuidRoute {
 
     headTags?: HeadTagDef[];
 
-    @task
+    @task({ restartable: true, cancelOn: 'deactivate' })
     setHeadTags = task(function *(this: Overview, model: any) {
         const blocker = this.ready.getBlocker();
 
@@ -78,7 +78,7 @@ export default class Overview extends GuidRoute {
         }
 
         blocker.done();
-    }).cancelOn('deactivate').restartable();
+    });
 
     modelName(): 'registration' {
         return 'registration';

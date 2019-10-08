@@ -62,7 +62,7 @@ export default class PublicationDoiManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task
+    @task({ restartable: true })
     save = task(function *(this: PublicationDoiManagerComponent) {
         const { validations } = yield this.validationNode.validate();
         this.set('didValidate', true);
@@ -83,7 +83,7 @@ export default class PublicationDoiManagerComponent extends Component {
         }
         this.set('requestedEditMode', false);
         this.toast.success(this.i18n.t('registries.registration_metadata.edit_pub_doi.success'));
-    }).restartable();
+    });
 
     didReceiveAttrs() {
         if (this.node) {

@@ -47,7 +47,7 @@ export default class Dashboard extends Controller {
     noteworthy!: QueryHasManyResult<Node>;
     popular!: QueryHasManyResult<Node>;
 
-    @task
+    @task({ restartable: true })
     setupTask = task(function *(this: Dashboard) {
         this.set('filter', null);
 
@@ -61,17 +61,17 @@ export default class Dashboard extends Controller {
         ]);
 
         this.set('institutions', institutions.toArray());
-    }).restartable();
+    });
 
-    @task
+    @task({ restartable: true })
     filterNodes = task(function *(this: Dashboard, filter: string) {
         yield timeout(500);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Dashboard - Search projects');
         yield this.findNodes.perform();
-    }).restartable();
+    });
 
-    @task
+    @task({ restartable: true })
     findNodes = task(function *(this: Dashboard, more?: boolean) {
         const indicatorProperty = more ? 'loadingMore' : 'loading';
         this.set(indicatorProperty, true);
@@ -94,7 +94,7 @@ export default class Dashboard extends Controller {
 
         this.set(indicatorProperty, false);
         this.set('initialLoad', false);
-    }).restartable();
+    });
 
     @task
     getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {

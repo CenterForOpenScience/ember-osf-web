@@ -17,7 +17,7 @@ export default class ContributorListContributor extends Component {
     contributorName?: string;
     contributorLink?: string;
 
-    @task
+    @task({ restartable: true, on: 'didReceiveAttrs' })
     loadUser = task(function *(this: ContributorListContributor) {
         const user = yield this.contributor.users;
 
@@ -30,5 +30,5 @@ export default class ContributorListContributor extends Component {
 
         const shouldLink = this.shouldLinkUser && !this.contributor.unregisteredContributor;
         this.set('contributorLink', shouldLink ? `/${user.id}` : undefined);
-    }).on('didReceiveAttrs').restartable();
+    });
 }

@@ -14,7 +14,7 @@ export default class RegistrationIsEmbargoed extends Component {
     @service i18n!: I18N;
     @service toast!: Toast;
 
-    @task
+    @task({ drop: true })
     endEmbargo = task(function *(this: RegistrationIsEmbargoed) {
         if (!this.registration) {
             return;
@@ -31,7 +31,7 @@ export default class RegistrationIsEmbargoed extends Component {
         this.toast.success(this.i18n.t('registries.overview.embargoed.action_success'));
 
         this.close();
-    }).drop();
+    });
 
     registration!: Registration;
     closeDropdown?: () => void;

@@ -37,7 +37,7 @@ export default class Search extends Component {
     @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;
     @alias('results.meta.total_pages') totalPages?: number;
 
-    @task
+    @task({ restartable: true })
     search = task(function *(this: Search, page?: number) {
         if (!this.query) {
             return undefined;
@@ -58,7 +58,7 @@ export default class Search extends Component {
         });
 
         return results;
-    }).restartable();
+    });
 
     @task
     addContributor = task(function *(this: Search, user: User) {

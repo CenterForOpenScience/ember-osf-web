@@ -31,7 +31,7 @@ export default class SearchSubjects extends Component {
         return typeof searchResults === 'undefined' ? 10 : searchResults.length;
     }
 
-    @task
+    @task({ restartable: true })
     doSearch = task(function *(this: SearchSubjects) {
         yield timeout(500); // debounce
 
@@ -51,5 +51,5 @@ export default class SearchSubjects extends Component {
             related_counts: 'children',
             embed: 'parent',
         });
-    }).restartable();
+    });
 }

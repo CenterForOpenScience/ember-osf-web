@@ -27,7 +27,7 @@ export default class AncestryDisplay extends Component {
 
     @alias('getAncestors.lastComplete.value') ancestry?: string[];
 
-    @task
+    @task({ restartable: true, on: 'didReceiveAttrs' })
     getAncestors = task(function *(this: AncestryDisplay) {
         if (!this.node || this.node.isRoot) {
             return [];
@@ -62,5 +62,5 @@ export default class AncestryDisplay extends Component {
             }
         }
         return ancestors;
-    }).on('didReceiveAttrs').restartable();
+    });
 }

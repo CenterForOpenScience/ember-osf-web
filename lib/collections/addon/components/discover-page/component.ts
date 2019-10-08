@@ -258,7 +258,7 @@ export default class DiscoverPage extends Component {
         return this.facetContexts.every(({ didInit }) => didInit);
     }
 
-    @task
+    @task({ keepLatest: true })
     loadPage = task(function *(this: DiscoverPage) {
         this.set('loading', true);
 
@@ -299,7 +299,7 @@ export default class DiscoverPage extends Component {
             // re-throw for error monitoring
             throw errorResponse;
         }
-    }).keepLatest();
+    });
 
     scrollToResults() {
         // Scrolls to top of search results

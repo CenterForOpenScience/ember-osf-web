@@ -30,12 +30,12 @@ export default class UserQuickfiles extends Controller {
     @alias('model.taskInstance.value.user') user!: User;
     @alias('model.taskInstance.value.files') allFiles!: File[];
 
-    @task
+    @task({ restartable: true })
     updateFilter = task(function *(this: UserQuickfiles, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Quick Files - Filter files');
-    }).restartable();
+    });
 
     @task
     createProject = task(function *(this: UserQuickfiles, node: Node) {

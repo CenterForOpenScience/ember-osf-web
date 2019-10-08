@@ -42,7 +42,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
 
     registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));
 
-    @task
+    @task({ on: 'init' })
     fetchRegistrationTypes = task(function *(this: RegistriesRegistrationTypeFacet): any {
         try {
             const metaschemas: RegistrationSchema[] = yield this.store.findAll('registration-schema');
@@ -61,7 +61,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
             this.toast.error(this.i18n.t('registries.facets.registration_type.registration_schema_error'));
             throw e;
         }
-    }).on('init');
+    });
 
     get title() {
         return this.i18n.t('registries.facets.registration_type.title');

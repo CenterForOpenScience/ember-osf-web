@@ -65,7 +65,7 @@ export default class DeleteButton extends Component {
         );
     }
 
-    @task
+    @task({ drop: true })
     _deleteTask = task(function *(this: DeleteButton) { // tslint:disable-line variable-name
         try {
             yield this.delete();
@@ -74,7 +74,7 @@ export default class DeleteButton extends Component {
             this.toast.error(this.errorMessage);
             throw e;
         }
-    }).drop();
+    });
 
     @action
     _show() {

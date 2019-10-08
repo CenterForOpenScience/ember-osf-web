@@ -29,9 +29,9 @@ export default class ScheduledBanners extends Component {
         return htmlSafe(`background-color: ${this.banner.color};`);
     }
 
-    @task
+    @task({ on: 'init' })
     loadBanner = task(function *(this: ScheduledBanners) {
         const banner = yield this.store.findRecord('banner', 'current');
         return banner.name ? banner : null;
-    }).on('init');
+    });
 }

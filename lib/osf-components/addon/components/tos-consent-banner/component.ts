@@ -23,7 +23,7 @@ export default class TosConsentBanner extends Component {
     didValidate = false;
     hasSubmitted = false;
 
-    @task
+    @task({ drop: true })
     saveUser = task(function *(this: TosConsentBanner) {
         const user = yield this.currentUser.user;
         const { validations } = yield user.validate();
@@ -35,7 +35,7 @@ export default class TosConsentBanner extends Component {
 
         yield user.save();
         this.currentUser.set('showTosConsentBanner', false);
-    }).drop();
+    });
 
     constructor(properties: object) {
         super(properties);

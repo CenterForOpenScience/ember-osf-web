@@ -79,7 +79,7 @@ export default class CommentCard extends Component {
         this.toast.success(this.i18n.t('registries.overview.comments.retract_report.success'));
     });
 
-    @task
+    @task({ restartable: true })
     loadReplies = task(function *(this: CommentCard, more: boolean = false) {
         if (!more) {
             const replies = yield this.comment.replies;
@@ -95,7 +95,7 @@ export default class CommentCard extends Component {
             this.replies.pushObjects(moreReplies);
             this.set('loadingMoreReplies', false);
         }
-    }).restartable();
+    });
 
     @computed('node')
     get currentUserCanComment() {

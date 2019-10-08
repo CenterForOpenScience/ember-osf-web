@@ -84,7 +84,7 @@ export default class VerifyEmailModal extends Component {
         }
     });
 
-    @task
+    @task({ drop: true })
     verifyTask = task(function *(this: VerifyEmailModal, emailAction: EmailActions) {
         const { userEmail } = this;
         if (!userEmail) {
@@ -129,7 +129,7 @@ export default class VerifyEmailModal extends Component {
             this.showMessage('error', errorKey, userEmail);
             throw e;
         }
-    }).drop();
+    });
 
     constructor(...args: any[]) {
         super(...args);

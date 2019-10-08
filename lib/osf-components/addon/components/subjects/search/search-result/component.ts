@@ -22,7 +22,7 @@ export default class SearchResult extends Component {
     @alias('loadAncestry.lastSuccessful.value')
     subjectAncestry?: SubjectModel[];
 
-    @task
+    @task({ on: 'didReceiveAttrs' })
     loadAncestry = task(function *(this: SearchResult) {
         const { subject } = this.singleSubjectManager;
         if (!subject) {
@@ -36,7 +36,7 @@ export default class SearchResult extends Component {
             nextParentRef = nextParent.belongsTo('parent');
         }
         return ancestors.reverse();
-    }).on('didReceiveAttrs');
+    });
 
     init() {
         super.init();

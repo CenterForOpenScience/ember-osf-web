@@ -56,14 +56,14 @@ export default class NewProjectModal extends Component {
         return this.features.isEnabled(storageI18n);
     }
 
-    @task
+    @task({ on: 'init' })
     initTask = task(function *(this: NewProjectModal) {
         if (this.storageI18nEnabled) {
             // not yielding so it runs in parallel
             this.get('getStorageRegionsTask').perform();
         }
         this.set('institutions', yield this.currentUser.user!.institutions);
-    }).on('init');
+    });
 
     @task
     getStorageRegionsTask = task(function *(this: NewProjectModal) {
@@ -85,14 +85,14 @@ export default class NewProjectModal extends Component {
         yield user.belongsTo('defaultRegion').reload();
     });
 
-    @task
+    @task({ restartable: true })
     searchUserNodesTask = task(function *(this: NewProjectModal, title: string) {
         yield timeout(500);
         const user: User = yield this.user;
         return yield user.queryHasMany('nodes', { filter: { title } });
-    }).restartable();
+    });
 
-    @task
+    @task({ drop: true })
     createNodeTask = task(function *(
         this: NewProjectModal,
         title: string,
@@ -124,7 +124,7 @@ export default class NewProjectModal extends Component {
         yield node.save();
 
         this.afterProjectCreated(node);
-    }).drop();
+    });
 
     @action
     selectInstitution(institution: Institution) {

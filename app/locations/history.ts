@@ -21,7 +21,7 @@ export default class FragmentHistoryLocation extends HistoryLocation.extend(Guid
     @service ready!: Ready;
     @service osfRouter!: OsfRouterService;
 
-    @task
+    @task({ restartable: true })
     scrollToFragment = task(function *(this: FragmentHistoryLocation, fragment: string) {
         yield this.ready.ready();
 
@@ -32,7 +32,7 @@ export default class FragmentHistoryLocation extends HistoryLocation.extend(Guid
         if (element) {
             scrollTo(getOwner(this), element);
         }
-    }).restartable();
+    });
 
     /**
      * `setURL` is called during in-app transitions that use `transitionTo`

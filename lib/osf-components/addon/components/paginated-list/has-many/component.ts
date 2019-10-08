@@ -61,13 +61,13 @@ export default class PaginatedHasMany extends BaseDataComponent {
         return model;
     });
 
-    @task
+    @task({ restartable: true })
     loadRelatedCountTask = task(function *(this: PaginatedHasMany, reloading: boolean) {
         const model = yield this.get('getModelTask').perform();
         if (reloading || typeof this.totalCount === 'undefined') {
             yield model.loadRelatedCount(this.relationshipName);
         }
-    }).restartable();
+    });
 
     @or('model', 'modelTaskInstance.value')
     modelInstance?: OsfModel;

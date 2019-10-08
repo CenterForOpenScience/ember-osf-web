@@ -30,7 +30,7 @@ export default class ConnectedEmails extends Component {
     alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
     unconfirmedQueryParams = { 'filter[primary]': false, 'filter[confirmed]': false };
 
-    @task
+    @task({ restartable: true })
     loadPrimaryEmail = task(function *(this: ConnectedEmails) {
         const { user } = this.currentUser;
 
@@ -46,7 +46,7 @@ export default class ConnectedEmails extends Component {
         } catch (e) {
             return this.i18n.t('settings.account.connected_emails.load_fail');
         }
-    }).restartable();
+    });
 
     @task
     deleteEmail = task(function *(this: ConnectedEmails, email: UserEmail) {

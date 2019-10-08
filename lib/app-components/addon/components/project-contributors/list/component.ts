@@ -48,29 +48,29 @@ export default class List extends Component {
     /**
      * Changes the contributor's permissions
      */
-    @task
+    @task({ enqueue: true })
     updatePermissions = task(function *(this: List, contributor: HighlightableContributor, permission: Permission) {
         this.analytics.track('option', 'select', 'Collections - Submit - Change Permission');
         contributor.setProperties({ permission });
 
         yield this.get('saveAndHighlight').perform(contributor);
-    }).enqueue();
+    });
 
     /**
      * Changes the contributor's bibliographic
      */
-    @task
+    @task({ enqueue: true })
     toggleBibliographic = task(function *(this: List, contributor: HighlightableContributor) {
         const actionName = `${contributor.toggleProperty('bibliographic') ? '' : 'de'}select`;
         this.analytics.track('checkbox', actionName, 'Collections - Submit - Update Bibliographic');
 
         yield this.get('saveAndHighlight').perform(contributor);
-    }).enqueue();
+    });
 
     /**
      * Changes the order of contributors for ember-sortable
      */
-    @task
+    @task({ drop: true })
     reorderContributors = task(function *(
         this: List,
         contributors: HighlightableContributor[],
@@ -83,7 +83,7 @@ export default class List extends Component {
         contributor.set('index', newIndex);
 
         yield this.get('saveAndHighlight').perform(contributor);
-    }).drop();
+    });
 
     /**
      * Saves the contributor and highlights the row with success/failure

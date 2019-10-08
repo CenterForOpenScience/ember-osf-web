@@ -94,7 +94,7 @@ export default class SubjectManagerComponent extends Component {
         );
     }
 
-    @task
+    @task({ on: 'init' })
     initializeSubjects = task(function *(this: SubjectManagerComponent) {
         const { model } = this;
         const savedSubjects: SubjectModel[] = model.isNew ? model.subjects : yield model.loadAll('subjects');
@@ -105,9 +105,9 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
-    }).on('init');
+    });
 
-    @task
+    @task({ drop: true })
     saveChanges = task(function *(this: SubjectManagerComponent) {
         const { selectedSubjects } = this;
 
@@ -125,7 +125,7 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
-    }).drop();
+    });
 
     init() {
         super.init();

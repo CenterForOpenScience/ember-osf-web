@@ -35,7 +35,7 @@ export default class SubjectFieldManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task
+    @task({ drop: true })
     save = task(function *(this: SubjectFieldManagerComponent) {
         try {
             yield this.subjectsManager.saveChanges();
@@ -44,7 +44,7 @@ export default class SubjectFieldManagerComponent extends Component {
             throw e;
         }
         this.set('requestedEditMode', false);
-    }).drop();
+    });
 
     @action
     startEditing() {

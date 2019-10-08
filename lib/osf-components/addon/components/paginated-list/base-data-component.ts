@@ -36,7 +36,7 @@ export default abstract class BaseDataComponent extends Component {
     // Will be performed with an options hash of type LoadItemsOptions
     abstract loadItemsTask: ComputedProperty<Task<void>>;
 
-    @task
+    @task({ restartable: true })
     loadItemsWrapperTask = task(function *(
         this: BaseDataComponent,
         { reloading }: LoadItemsOptions,
@@ -55,7 +55,7 @@ export default abstract class BaseDataComponent extends Component {
             blocker.errored(e);
             throw e;
         }
-    }).restartable();
+    });
 
     didReceiveAttrs() {
         this.set('page', 1);

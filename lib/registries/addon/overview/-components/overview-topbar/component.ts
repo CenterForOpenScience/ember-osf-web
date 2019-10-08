@@ -30,7 +30,7 @@ export default class OverviewTopbar extends Component {
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
 
-    @task
+    @task({ drop: true })
     forkRegistration = task(function *(this: OverviewTopbar, closeDropdown: () => void) {
         if (!this.registration) {
             return;
@@ -48,9 +48,9 @@ export default class OverviewTopbar extends Component {
         } finally {
             closeDropdown();
         }
-    }).drop();
+    });
 
-    @task
+    @task({ drop: true })
     bookmark = task(function *(this: OverviewTopbar) {
         if (!this.bookmarksCollection || !this.registration) {
             return;
@@ -80,9 +80,9 @@ export default class OverviewTopbar extends Component {
         this.toast.success(this.i18n.t(`registries.overview.bookmark.${op}.success`));
 
         this.toggleProperty('isBookmarked');
-    }).drop();
+    });
 
-    @task
+    @task({ on: 'init' })
     getBookmarksCollection = task(function *(this: OverviewTopbar) {
         const collections = yield this.store.findAll('collection', {
             adapterOptions: { 'filter[bookmarks]': 'true' },
@@ -98,7 +98,7 @@ export default class OverviewTopbar extends Component {
         const isBookmarked = Boolean(bookmarkedRegs.find((reg: RegistrationModel) => reg.id === this.registration.id));
 
         this.set('isBookmarked', isBookmarked);
-    }).on('init');
+    });
 
     @computed('registration.state')
     get isWithdrawn() {

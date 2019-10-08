@@ -40,7 +40,7 @@ export default class ChartWrapper extends Component {
     keenError: boolean = false;
     loading: boolean = false;
 
-    @task
+    @task({ restartable: true })
     loadKeen = task(function *(this: ChartWrapper) {
         this.showOverlay(OverlayReason.Loading);
         const node = yield this.nodeTaskInstance;
@@ -63,7 +63,7 @@ export default class ChartWrapper extends Component {
             this.showOverlay(OverlayReason.Error);
             throw e;
         }
-    }).restartable();
+    });
 
     didInsertElement() {
         this.chart = new KeenDataviz()
