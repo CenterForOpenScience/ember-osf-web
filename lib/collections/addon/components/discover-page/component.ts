@@ -5,7 +5,8 @@ import { assert } from '@ember/debug';
 import EmberObject, { action, computed, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
@@ -84,12 +85,7 @@ function emptyResults(): SearchQuery {
 }
 
 @layout(template, styles)
-export default class DiscoverPage extends Component.extend({
-    didInsertElement(this: DiscoverPage, ...args: any[]) {
-        this._super(...args);
-        this.set('firstLoad', true);
-    },
-}) {
+export default class DiscoverPage extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
@@ -262,6 +258,7 @@ export default class DiscoverPage extends Component.extend({
         return this.facetContexts.every(({ didInit }) => didInit);
     }
 
+    @task
     loadPage = task(function *(this: DiscoverPage) {
         this.set('loading', true);
 
@@ -309,17 +306,22 @@ export default class DiscoverPage extends Component.extend({
         this.$('html, body').scrollTop(this.$('.results-top').position().top);
     }
 
-    search(this: DiscoverPage): void {
+    search(): void {
         if (!this.firstLoad) {
             this.set('page', 1);
         }
 
-        this.get('loadPage').perform();
+        this.loadPage.perform();
     }
 
     trackDebouncedSearch() {
         // For use in tracking debounced search of registries in Keen and GA
         this.analytics.track('input', 'onkeyup', 'Discover - Search', this.q);
+    }
+
+    didInsertElement(...args: any[]) {
+        this._super(...args);
+        this.set('firstLoad', true);
     }
 
     @action
@@ -372,7 +374,7 @@ export default class DiscoverPage extends Component.extend({
     }
 
     @action
-    setLoadPage(this: DiscoverPage, pageNumber: number, scrollUp: boolean = true) {
+    setLoadPage(pageNumber: number, scrollUp: boolean = true) {
         // Adapted from PREPRINTS for pagination. When paginating, sets page and scrolls to top of results.
         this.set('page', pageNumber);
 
@@ -380,7 +382,7 @@ export default class DiscoverPage extends Component.extend({
             this.scrollToResults();
         }
 
-        this.get('loadPage').perform();
+        this.loadPage.perform();
     }
 
     @action

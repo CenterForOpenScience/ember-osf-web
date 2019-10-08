@@ -2,7 +2,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -56,6 +57,7 @@ export default class Submit extends Component {
     i18nKeyPrefix = 'collections.collections_submission.';
     showSubmitModal: boolean = false;
 
+    @task
     save = task(function *(this: Submit) {
         if (!this.collectionItem) {
             return;

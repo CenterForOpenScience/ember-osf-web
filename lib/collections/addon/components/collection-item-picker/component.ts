@@ -2,7 +2,8 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
@@ -22,14 +23,26 @@ function stripAndLower(text: string): string {
 }
 
 @layout(template, styles)
-export default class CollectionItemPicker extends Component.extend({
-    didReceiveAttrs(this: CollectionItemPicker) {
-        if (!this.get('initialLoad').hasStarted && this.collection) {
-            this.get('initialLoad').perform();
-        }
-    },
+export default class CollectionItemPicker extends Component {
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
 
-    initialLoad: task(function *(this: CollectionItemPicker) {
+    @requiredAction projectSelected!: (value: Node) => void;
+    @requiredAction validationChanged!: (isValid: boolean) => void;
+
+    collection: Collection = this.collection;
+    selected: Node | null = defaultTo(this.selected, null);
+    filter: string = '';
+    page: number = 1;
+    hasMore: boolean = false;
+    loadingMore: boolean = false;
+    items: Node[] = [];
+
+    @bool('selected') isValid!: boolean;
+
+    @task
+    initialLoad = task(function *(this: CollectionItemPicker) {
         this.setProperties({
             selected: null,
             filter: '',
@@ -37,9 +50,10 @@ export default class CollectionItemPicker extends Component.extend({
         });
 
         yield this.get('findNodes').perform();
-    }),
+    });
 
-    findNodes: task(function *(this: CollectionItemPicker, filter: string = '') {
+    @task
+    findNodes = task(function *(this: CollectionItemPicker, filter: string = '') {
         if (filter) {
             yield timeout(250);
         }
@@ -98,24 +112,7 @@ export default class CollectionItemPicker extends Component.extend({
         });
 
         return items;
-    }).restartable(),
-}) {
-    @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-
-    @requiredAction projectSelected!: (value: Node) => void;
-    @requiredAction validationChanged!: (isValid: boolean) => void;
-
-    collection: Collection = this.collection;
-    selected: Node | null = defaultTo(this.selected, null);
-    filter: string = '';
-    page: number = 1;
-    hasMore: boolean = false;
-    loadingMore: boolean = false;
-    items: Node[] = [];
-
-    @bool('selected') isValid!: boolean;
+    }).restartable();
 
     /**
      * Passed into power-select component for customized searching.
@@ -154,5 +151,11 @@ export default class CollectionItemPicker extends Component.extend({
     @action
     oninput(this: CollectionItemPicker, term: string): true | Promise<Node[]> {
         return !!term || this.get('findNodes').perform();
+    }
+
+    didReceiveAttrs() {
+        if (!this.initialLoad.hasStarted && this.collection) {
+            this.initialLoad.perform();
+        }
     }
 }
