@@ -26,7 +26,7 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
 
     // Optional parameters
     isOpen: boolean = defaultTo(this.isOpen, false);
-    renderInPlance: boolean = defaultTo(this.renderInPlance, false);
+    renderInPlace: boolean = defaultTo(this.renderInPlace, false);
 
     didReceiveAttrs() {
         assert('finalize-registration-model::manager must have a registration', Boolean(this.registration));
