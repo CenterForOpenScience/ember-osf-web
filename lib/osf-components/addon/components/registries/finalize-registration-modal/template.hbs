@@ -1,0 +1,69 @@
+<OsfDialog
+    @isOpen={{this.manager.isOpen}}
+    @renderInPlace={{this.manager.renderInPlace}}
+    as |dialog|
+>
+    <dialog.heading data-test-finalize-heading>
+        {{t 'registries.finalizeRegistrationModal.title'}}
+    </dialog.heading>
+    <dialog.main data-test-finalize-main>
+        <div local-class='notice'>
+            {{t 'registries.finalizeRegistrationModal.notice'}}
+        </div>
+        <div>
+            <RadioButton
+                @value='immediate'
+                @groupValue={{this.makePublicOption}}
+                @changed={{action this.onChoiceChange}}
+            >
+                <span data-test-immediate-button>
+                    {{t 'registries.finalizeRegistrationModal.immediateOption'}}
+                </span>
+            </RadioButton>
+            {{#if (eq this.makePublicOption 'immediate')}}
+                <span local-class='create-doi-option'>
+                    <label data-test-create-doi-label>
+                        <Input @type='checkbox' @checked={{this.manager.registration.createDoi}} />
+                        {{t 'registries.finalizeRegistrationModal.createDoi'}}
+                    </label>
+                </span>
+            {{/if}}
+        </div>
+        <div>
+            <RadioButton
+                @value='embargo'
+                @groupValue={{this.makePublicOption}}
+                @changed={{action this.onChoiceChange}}
+            >
+                <span data-test-embargo-button>
+                    {{t 'registries.finalizeRegistrationModal.embargoOption'}}
+                </span>
+            </RadioButton>
+            {{#if (eq this.makePublicOption 'embargo')}}
+                <ValidatedInput::Date
+                    data-test-embargo-date-input
+                    @value={{this.manager.registration.embargoEndDate}}
+                    @startDate={{this.embargoRangeStartDate}}
+                    @endDate={{this.embargoRangeEndDate}}
+                    @placeholder={{t 'registries.finalizeRegistrationModal.datePlaceholder'}}
+                />
+            {{/if}}
+        </div>
+    </dialog.main>
+    <dialog.footer>
+        <OsfButton
+            data-test-submit-registration-button
+            @type='primary'
+            @onClick={{action this.manager.submitRegistration}}
+            @disabled={{this.shouldDisableSubmitButton}}
+        >
+            {{t 'registries.finalizeRegistrationModal.submit'}}
+        </OsfButton>
+        <OsfButton
+            data-test-cancel-back-button
+            @type='default'
+        >
+            {{t 'registries.finalizeRegistrationModal.back'}}
+        </OsfButton>
+    </dialog.footer>
+</OsfDialog>
