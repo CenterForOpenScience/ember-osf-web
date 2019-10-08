@@ -1,0 +1,49 @@
+{{title (t 'registries.drafts.draft.form.title')}}
+
+<Registries::DraftRegistrationManager
+    @currentPage={{this.currentPage}}
+    @draftRegistration={{this.draftRegistration}}
+    @registrationSchema={{this.draftRegistration.registrationSchema}}
+    as |draftRegistrationManager|
+>
+    <RegistriesLayout as |layout|>
+        <layout.left as |left|>
+            {{#each draftRegistrationManager.pageManagers as |pageManager index|}}
+                {{#let (hash
+                    active=(eq draftRegistrationManager.currentPage index)
+                    visited=pageManager.pageIsVisited
+                    valid=pageManager.pageIsValid
+                ) as |ctx|}}
+                    <left.link
+                        data-analytics-name='Overview'
+                        @route='registries.overview.index'
+                        @models={{array this.model.id}}
+                        {{!-- Active: circle-o Valid: check-circle-o Invalid: exclamation-circle  Unvisited: circle --}}
+                        @icon={{if ctx.active 'circle-o' (if ctx.visited (if ctx.valid 'check-circle-o' 'exclamation-circle') 'circle') }}
+                        @label={{pageManager.pageHeadingText}}
+                        local-class={{if ctx.active 'Active' (if ctx.visited (if ctx.valid 'Valid' 'Invalid') 'Unvisited') }}
+                        class={{if ctx.active 'active'}}
+                        as |link|
+                    >
+                        <link.icon
+                            icon={{@icon}}
+                        />
+                        {{#unless this.isCollapsed}}
+                            <link.label
+                                label={{@label}}
+                            />
+                        {{/unless}}
+                    </left.link>
+                {{/let}}
+            {{/each}}
+        </layout.left>
+
+        <layout.main>
+            {{!-- Contents for this page based on PageBlocks go here  --}}
+        </layout.main>
+
+        <layout.right>
+            {{!-- Navigation elements go here  --}}
+        </layout.right>
+    </RegistriesLayout>
+</Registries::DraftRegistrationManager>
