@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import { DS } from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -27,6 +27,7 @@ export default class UnregisteredContributor extends Component {
 
     @requiredAction closeForm!: () => void;
 
+    @task
     add = task(function *(this: UnregisteredContributor) {
         const { validations } = yield this.model!.validate();
         this.set('didValidate', true);

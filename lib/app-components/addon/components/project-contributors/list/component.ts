@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -17,16 +18,7 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class List extends Component.extend({
-    loadContributors: task(function *(this: List) {
-        const contributors: QueryHasManyResult<Contributor> = yield this.node.queryHasMany(
-            'contributors',
-            { page: this.page },
-        );
-        this.set('contributors', this.contributors.concat(contributors));
-        this.set('hasMore', this.contributors && this.contributors.length < contributors.meta.total);
-    }),
-}) {
+export default class List extends Component {
     // Required parameters
     node: Node = this.node;
 
@@ -43,9 +35,20 @@ export default class List extends Component.extend({
     hasMore = false;
     page = 1;
 
+    @task
+    loadContributors = task(function *(this: List) {
+        const contributors: QueryHasManyResult<Contributor> = yield this.node.queryHasMany(
+            'contributors',
+            { page: this.page },
+        );
+        this.set('contributors', this.contributors.concat(contributors));
+        this.set('hasMore', this.contributors && this.contributors.length < contributors.meta.total);
+    });
+
     /**
      * Changes the contributor's permissions
      */
+    @task
     updatePermissions = task(function *(this: List, contributor: HighlightableContributor, permission: Permission) {
         this.analytics.track('option', 'select', 'Collections - Submit - Change Permission');
         contributor.setProperties({ permission });
@@ -56,6 +59,7 @@ export default class List extends Component.extend({
     /**
      * Changes the contributor's bibliographic
      */
+    @task
     toggleBibliographic = task(function *(this: List, contributor: HighlightableContributor) {
         const actionName = `${contributor.toggleProperty('bibliographic') ? '' : 'de'}select`;
         this.analytics.track('checkbox', actionName, 'Collections - Submit - Update Bibliographic');
@@ -66,6 +70,7 @@ export default class List extends Component.extend({
     /**
      * Changes the order of contributors for ember-sortable
      */
+    @task
     reorderContributors = task(function *(
         this: List,
         contributors: HighlightableContributor[],
@@ -83,6 +88,7 @@ export default class List extends Component.extend({
     /**
      * Saves the contributor and highlights the row with success/failure
      */
+    @task
     saveAndHighlight = task(function *(this: List, contributor: HighlightableContributor): IterableIterator<any> {
         let highlightClass: typeof contributor.highlightClass;
 
@@ -101,6 +107,7 @@ export default class List extends Component.extend({
     /**
      * Removes a contributor
      */
+    @task
     removeContributor = task(function *(this: List, contributor: Contributor) {
         this.analytics.track('button', 'click', 'Collections - Submit - Remove Contributor');
 
