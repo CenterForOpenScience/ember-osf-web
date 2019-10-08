@@ -2,7 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
@@ -16,17 +16,7 @@ import template from './template';
 
 @layout(template, styles)
 @tagName('span')
-export default class DeleteButton extends Component.extend({
-    _deleteTask: task(function *(this: DeleteButton) {
-        try {
-            yield this.delete();
-            this.set('modalShown', false);
-        } catch (e) {
-            this.toast.error(this.errorMessage);
-            throw e;
-        }
-    }).drop(),
-}) {
+export default class DeleteButton extends Component {
     @service analytics!: Analytics;
     @service i18n!: I18n;
     @service toast!: Toast;
@@ -74,6 +64,17 @@ export default class DeleteButton extends Component.extend({
             this.hardConfirm && (this.scientistName !== this.scientistInput)
         );
     }
+
+    @task
+    _deleteTask = task(function *(this: DeleteButton) { // tslint:disable-line variable-name
+        try {
+            yield this.delete();
+            this.set('modalShown', false);
+        } catch (e) {
+            this.toast.error(this.errorMessage);
+            throw e;
+        }
+    }).drop();
 
     @action
     _show() {

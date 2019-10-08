@@ -5,7 +5,7 @@ import { action, computed } from '@ember/object';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { next } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import { localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
@@ -103,6 +103,7 @@ export default class FileBrowser extends Component {
         acceptDirectories: false,
     };
 
+    @task
     moveToProject = task(function *(this: FileBrowser) {
         if (!this.node) {
             return;

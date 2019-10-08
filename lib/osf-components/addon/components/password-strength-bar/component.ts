@@ -3,7 +3,8 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import I18n from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -20,17 +21,7 @@ interface Strength {
 }
 
 @layout(template, styles)
-export default class PasswordStrengthBar extends Component.extend({
-    checkStrength: task(function *(this: PasswordStrengthBar, value: string) {
-        if (!value) {
-            return 0;
-        }
-
-        yield timeout(250);
-
-        return yield this.passwordStrength.strength(value);
-    }).restartable(),
-}) {
+export default class PasswordStrengthBar extends Component {
     // Required parameters
     password!: string;
 
@@ -43,6 +34,17 @@ export default class PasswordStrengthBar extends Component.extend({
     @service passwordStrength!: PasswordStrength;
 
     @alias('checkStrength.lastSuccessful.value') strength?: Strength;
+
+    @task
+    checkStrength = task(function *(this: PasswordStrengthBar, value: string) {
+        if (!value) {
+            return 0;
+        }
+
+        yield timeout(250);
+
+        return yield this.passwordStrength.strength(value);
+    }).restartable();
 
     @computed('password', 'strength', 'strength.score')
     get progress() {

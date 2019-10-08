@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import SubjectModel from 'ember-osf-web/models/subject';
@@ -11,8 +12,27 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class SearchSubjects extends Component.extend({
-    doSearch: task(function *(this: SearchSubjects) {
+export default class SearchSubjects extends Component {
+    // required
+    subjectsManager!: SubjectManager;
+
+    // private
+    userQuery?: string;
+
+    @alias('doSearch.isRunning')
+    isLoading!: boolean;
+
+    @alias('doSearch.lastSuccessful.value')
+    searchResults?: SubjectModel[];
+
+    @computed('searchResults.[]')
+    get resultCount() {
+        const { searchResults } = this;
+        return typeof searchResults === 'undefined' ? 10 : searchResults.length;
+    }
+
+    @task
+    doSearch = task(function *(this: SearchSubjects) {
         yield timeout(500); // debounce
 
         const provider = yield this.subjectsManager.provider;
@@ -31,23 +51,5 @@ export default class SearchSubjects extends Component.extend({
             related_counts: 'children',
             embed: 'parent',
         });
-    }).restartable(),
-}) {
-    // required
-    subjectsManager!: SubjectManager;
-
-    // private
-    userQuery?: string;
-
-    @alias('doSearch.isRunning')
-    isLoading!: boolean;
-
-    @alias('doSearch.lastSuccessful.value')
-    searchResults?: SubjectModel[];
-
-    @computed('searchResults.[]')
-    get resultCount() {
-        const { searchResults } = this;
-        return typeof searchResults === 'undefined' ? 10 : searchResults.length;
-    }
+    }).restartable();
 }

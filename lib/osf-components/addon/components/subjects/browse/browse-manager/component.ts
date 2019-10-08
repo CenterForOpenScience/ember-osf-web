@@ -2,7 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -25,8 +25,17 @@ const subjectPageSize = 150;
 
 @tagName('')
 @layout(template)
-export default class SubjectBrowserManagerComponent extends Component.extend({
-    loadRootSubjects: task(function *(this: SubjectBrowserManagerComponent) {
+export default class SubjectBrowserManagerComponent extends Component {
+    // params
+    subjectsManager!: SubjectManager;
+
+    // private
+    @service store!: DS.Store;
+
+    rootSubjects?: SubjectModel[];
+
+    @task
+    loadRootSubjects = task(function *(this: SubjectBrowserManagerComponent) {
         try {
             const provider: ProviderModel = yield this.subjectsManager.provider;
             const rootSubjects: QueryHasManyResult<SubjectModel> = yield provider.queryHasMany('subjects', {
@@ -42,15 +51,7 @@ export default class SubjectBrowserManagerComponent extends Component.extend({
         } catch (e) {
             throw e;
         }
-    }).on('init'),
-}) {
-    // params
-    subjectsManager!: SubjectManager;
-
-    // private
-    @service store!: DS.Store;
-
-    rootSubjects?: SubjectModel[];
+    }).on('init');
 
     init() {
         super.init();

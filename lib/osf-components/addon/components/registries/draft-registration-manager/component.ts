@@ -4,7 +4,8 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, TaskInstance, timeout } from 'ember-concurrency';
+import { TaskInstance, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -36,82 +37,7 @@ export interface DraftRegistrationManager {
 
 @tagName('')
 @layout(template)
-export default class DraftRegistrationManagerComponent extends Component.extend({
-    initializePageManagers: task(function *(this: DraftRegistrationManagerComponent) {
-        assert(
-            'TaskInstance<DraftRegistration> xor DraftRegistration is required!',
-            Boolean(this.draftRegistration || this.modelTaskInstance),
-        );
-
-        const draftRegistration = this.draftRegistration || (yield this.modelTaskInstance);
-        this.setProperties({ draftRegistration });
-
-        const registrationSchema = yield this.draftRegistration.registrationSchema;
-        const schemaBlocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
-        const pages = getPages(schemaBlocks);
-        const { registrationResponses } = this.draftRegistration;
-
-        this.setProperties({
-            lastPage: pages.length - 1,
-            registrationResponses: registrationResponses || {},
-        });
-
-        const pageManagers = pages.map(
-            pageSchemaBlocks => new PageManager(
-                pageSchemaBlocks,
-                this.registrationResponses || {},
-                this.node,
-            ),
-        );
-
-        if (!this.inReview) {
-            if (this.currentPage <= this.lastPage) {
-                if (this.updateRoute) {
-                    this.updateRoute(pageManagers[this.currentPage].pageHeadingText as string);
-                }
-            } else if (this.onPageNotFound) {
-                this.onPageNotFound();
-            }
-        }
-
-        this.setProperties({ pageManagers });
-    }).on('init'),
-
-    onInput: task(function *(this: DraftRegistrationManagerComponent) {
-        yield timeout(5000); // debounce
-
-        if (this.currentPageManager && this.currentPageManager.schemaBlockGroups) {
-            this.updateRegistrationResponses(this.currentPageManager);
-
-            this.draftRegistration.setProperties({
-                registrationResponses: this.registrationResponses,
-            });
-
-            try {
-                yield this.draftRegistration.save();
-            } catch (error) {
-                this.toast.error('Save failed');
-                throw error;
-            }
-        }
-    }).restartable(),
-
-    saveAllVisitedPages: task(function *(this: DraftRegistrationManagerComponent) {
-        if (this.pageManagers && this.pageManagers.length) {
-            this.pageManagers
-                .filter(pageManager => pageManager.isVisited)
-                .forEach(this.updateRegistrationResponses.bind(this));
-
-            const { registrationResponses } = this;
-
-            this.draftRegistration.setProperties({
-                registrationResponses,
-            });
-
-            yield this.draftRegistration.save();
-        }
-    }).restartable(),
-}) {
+export default class DraftRegistrationManagerComponent extends Component {
     // Required
     modelTaskInstance!: TaskInstance<DraftRegistration>;
     draftRegistration!: DraftRegistration;
@@ -173,6 +99,84 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     get lastSaveFailed() {
         return this.onInput.lastComplete ? this.onInput.lastComplete.isError : false;
     }
+
+    @task({ on: 'init' })
+    initializePageManagers = task(function *(this: DraftRegistrationManagerComponent) {
+        assert(
+            'TaskInstance<DraftRegistration> xor DraftRegistration is required!',
+            Boolean(this.draftRegistration || this.modelTaskInstance),
+        );
+
+        const draftRegistration = this.draftRegistration || (yield this.modelTaskInstance);
+        this.setProperties({ draftRegistration });
+
+        const registrationSchema = yield this.draftRegistration.registrationSchema;
+        const schemaBlocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
+        const pages = getPages(schemaBlocks);
+        const { registrationResponses } = this.draftRegistration;
+
+        this.setProperties({
+            lastPage: pages.length - 1,
+            registrationResponses: registrationResponses || {},
+        });
+
+        const pageManagers = pages.map(
+            pageSchemaBlocks => new PageManager(
+                pageSchemaBlocks,
+                this.registrationResponses || {},
+                this.node,
+            ),
+        );
+
+        if (!this.inReview) {
+            if (this.currentPage <= this.lastPage) {
+                if (this.updateRoute) {
+                    this.updateRoute(pageManagers[this.currentPage].pageHeadingText as string);
+                }
+            } else if (this.onPageNotFound) {
+                this.onPageNotFound();
+            }
+        }
+
+        this.setProperties({ pageManagers });
+    });
+
+    @task({ restartable: true })
+    onInput = task(function *(this: DraftRegistrationManagerComponent) {
+        yield timeout(5000); // debounce
+
+        if (this.currentPageManager && this.currentPageManager.schemaBlockGroups) {
+            this.updateRegistrationResponses(this.currentPageManager);
+
+            this.draftRegistration.setProperties({
+                registrationResponses: this.registrationResponses,
+            });
+
+            try {
+                yield this.draftRegistration.save();
+            } catch (error) {
+                this.toast.error('Save failed');
+                throw error;
+            }
+        }
+    });
+
+    @task({ restartable: true })
+    saveAllVisitedPages = task(function *(this: DraftRegistrationManagerComponent) {
+        if (this.pageManagers && this.pageManagers.length) {
+            this.pageManagers
+                .filter(pageManager => pageManager.isVisited)
+                .forEach(this.updateRegistrationResponses.bind(this));
+
+            const { registrationResponses } = this;
+
+            this.draftRegistration.setProperties({
+                registrationResponses,
+            });
+
+            yield this.draftRegistration.save();
+        }
+    });
 
     @action
     onPageChange(currentPage: number, inReview: boolean) {

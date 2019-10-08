@@ -2,7 +2,8 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 
@@ -18,13 +19,25 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class LicensePicker extends Component.extend({
-    didReceiveAttrs(...args: any[]) {
-        this._super(...args);
-        this.get('queryLicenses').perform();
-    },
+export default class LicensePicker extends Component {
+    @service analytics!: Analytics;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
+    @service theme!: Theme;
 
-    queryLicenses: task(function *(this: LicensePicker, name?: string) {
+    showText: boolean = false;
+    node: Node = this.node;
+    licensesAcceptable!: QueryHasManyResult<License>;
+    helpLink: string = 'https://openscience.zendesk.com/hc/en-us/articles/360019739014';
+
+    @alias('theme.provider') provider!: Provider;
+    @alias('node.license') selected!: License;
+
+    @sort('selected.requiredFields', (a: string, b: string) => +(a > b))
+    requiredFields!: string[];
+
+    @task
+    queryLicenses = task(function *(this: LicensePicker, name?: string) {
         if (name) {
             yield timeout(500);
         }
@@ -42,23 +55,7 @@ export default class LicensePicker extends Component.extend({
         this.node.notifyPropertyChange('license');
 
         return licensesAcceptable;
-    }).restartable(),
-}) {
-    @service analytics!: Analytics;
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-    @service theme!: Theme;
-
-    showText: boolean = false;
-    node: Node = this.node;
-    licensesAcceptable!: QueryHasManyResult<License>;
-    helpLink: string = 'https://openscience.zendesk.com/hc/en-us/articles/360019739014';
-
-    @alias('theme.provider') provider!: Provider;
-    @alias('node.license') selected!: License;
-
-    @sort('selected.requiredFields', (a: string, b: string) => +(a > b))
-    requiredFields!: string[];
+    }).restartable();
 
     @action
     changeLicense(selected: License) {
@@ -72,5 +69,10 @@ export default class LicensePicker extends Component.extend({
     notify() {
         // TODO: find a better way to set propertyDidChange
         this.node.set('nodeLicense', { ...this.node.nodeLicense });
+    }
+
+    didReceiveAttrs(...args: any[]) {
+        this._super(...args);
+        this.queryLicenses.perform();
     }
 }

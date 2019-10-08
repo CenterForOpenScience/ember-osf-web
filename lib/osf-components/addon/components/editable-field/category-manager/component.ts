@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
@@ -20,20 +20,7 @@ export interface CategoryManager {
 
 @tagName('')
 @layout(template)
-export default class CategoryManagerComponent extends Component.extend({
-    save: task(function *(this: CategoryManagerComponent) {
-        this.node.set('category', this.selectedCategory);
-        try {
-            yield this.node.save();
-        } catch (e) {
-            this.node.rollbackAttributes();
-            this.toast.error(this.i18n.t('registries.registration_metadata.edit_category.error'));
-            throw e;
-        }
-        this.set('inEditMode', false);
-        this.toast.success(this.i18n.t('registries.registration_metadata.edit_category.success'));
-    }),
-}) {
+export default class CategoryManagerComponent extends Component {
     // required
     node!: Node;
 
@@ -48,15 +35,29 @@ export default class CategoryManagerComponent extends Component.extend({
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
     @alias('node.category') category!: NodeCategory;
 
+    @computed('fieldIsEmpty', 'userCanEdit')
+    get shouldShowField() {
+        return this.userCanEdit || !this.fieldIsEmpty;
+    }
+
+    @task
+    save = task(function *(this: CategoryManagerComponent) {
+        this.node.set('category', this.selectedCategory);
+        try {
+            yield this.node.save();
+        } catch (e) {
+            this.node.rollbackAttributes();
+            this.toast.error(this.i18n.t('registries.registration_metadata.edit_category.error'));
+            throw e;
+        }
+        this.set('inEditMode', false);
+        this.toast.success(this.i18n.t('registries.registration_metadata.edit_category.success'));
+    });
+
     didReceiveAttrs() {
         if (this.node) {
             this.setProperties({ selectedCategory: this.node.category });
         }
-    }
-
-    @computed('fieldIsEmpty', 'userCanEdit')
-    get shouldShowField() {
-        return this.userCanEdit || !this.fieldIsEmpty;
     }
 
     @action

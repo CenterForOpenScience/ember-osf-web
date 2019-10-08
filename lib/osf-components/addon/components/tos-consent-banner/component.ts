@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
 
@@ -23,6 +23,7 @@ export default class TosConsentBanner extends Component {
     didValidate = false;
     hasSubmitted = false;
 
+    @task
     saveUser = task(function *(this: TosConsentBanner) {
         const user = yield this.currentUser.user;
         const { validations } = yield user.validate();

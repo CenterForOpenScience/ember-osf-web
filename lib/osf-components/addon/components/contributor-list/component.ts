@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 
@@ -19,8 +19,29 @@ import template from './template';
 
 @layout(template, styles)
 @tagName('span')
-export default class ContributorList extends Component.extend({
-    loadContributors: task(function *(this: ContributorList, more?: boolean) {
+export default class ContributorList extends Component {
+    // Required arguments
+    node?: Node;
+
+    // Optional arguments
+    shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
+    shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
+
+    // Private properties
+    @service i18n!: I18N;
+    @service store!: DS.Store;
+    @service ready!: Ready;
+
+    page = 1;
+    displayedContributors: Contributor[] = [];
+    totalContributors?: number;
+    shouldLoadAll: boolean = navigator.userAgent.includes('Prerender');
+
+    @alias('loadContributors.isRunning')
+    isLoading!: boolean;
+
+    @task
+    loadContributors = task(function *(this: ContributorList, more?: boolean) {
         if (!this.node || this.node.isAnonymous) {
             return;
         }
@@ -49,27 +70,7 @@ export default class ContributorList extends Component.extend({
         }
 
         blocker.done();
-    }).on('didReceiveAttrs').restartable(),
-}) {
-    // Required arguments
-    node?: Node;
-
-    // Optional arguments
-    shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
-    shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
-
-    // Private properties
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-    @service ready!: Ready;
-
-    page = 1;
-    displayedContributors: Contributor[] = [];
-    totalContributors?: number;
-    shouldLoadAll: boolean = navigator.userAgent.includes('Prerender');
-
-    @alias('loadContributors.isRunning')
-    isLoading!: boolean;
+    }).on('didReceiveAttrs').restartable();
 
     @computed('truncated')
     get truncateCount() {

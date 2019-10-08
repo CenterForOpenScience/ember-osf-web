@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import EmberObject, { action, computed } from '@ember/object';
 import { alias, and, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import { buildValidations, Validations, validator } from 'ember-cp-validations';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -35,8 +35,35 @@ const ValidatedModel = EmberObject.extend(DoiValidations);
 
 @tagName('')
 @layout(template)
-export default class PublicationDoiManagerComponent extends Component.extend({
-    save: task(function *(this: PublicationDoiManagerComponent) {
+export default class PublicationDoiManagerComponent extends Component {
+    // required
+    node!: Registration;
+
+    // private
+    @service i18n!: I18N;
+    @service toast!: Toast;
+
+    requestedEditMode: boolean = false;
+    validationNode!: Registration & Validations;
+    didValidate = false;
+
+    @not('didValidate') didNotValidate!: boolean;
+    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+    @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
+    @alias('node.category') category!: boolean;
+
+    @computed('node.articleDoi')
+    get fieldIsEmpty() {
+        return !this.node.articleDoi;
+    }
+
+    @computed('fieldIsEmpty', 'userCanEdit')
+    get shouldShowField() {
+        return this.userCanEdit || !this.fieldIsEmpty;
+    }
+
+    @task
+    save = task(function *(this: PublicationDoiManagerComponent) {
         const { validations } = yield this.validationNode.validate();
         this.set('didValidate', true);
 
@@ -56,23 +83,7 @@ export default class PublicationDoiManagerComponent extends Component.extend({
         }
         this.set('requestedEditMode', false);
         this.toast.success(this.i18n.t('registries.registration_metadata.edit_pub_doi.success'));
-    }).restartable(),
-}) {
-    // required
-    node!: Registration;
-
-    // private
-    @service i18n!: I18N;
-    @service toast!: Toast;
-
-    requestedEditMode: boolean = false;
-    validationNode!: Registration & Validations;
-    didValidate = false;
-
-    @not('didValidate') didNotValidate!: boolean;
-    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
-    @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
-    @alias('node.category') category!: boolean;
+    }).restartable();
 
     didReceiveAttrs() {
         if (this.node) {
@@ -80,16 +91,6 @@ export default class PublicationDoiManagerComponent extends Component.extend({
                 validationNode: ValidatedModel.create({ ...this.node }),
             });
         }
-    }
-
-    @computed('node.articleDoi')
-    get fieldIsEmpty() {
-        return !this.node.articleDoi;
-    }
-
-    @computed('fieldIsEmpty', 'userCanEdit')
-    get shouldShowField() {
-        return this.userCanEdit || !this.fieldIsEmpty;
     }
 
     @action

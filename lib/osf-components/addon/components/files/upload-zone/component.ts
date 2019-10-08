@@ -5,7 +5,7 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias, notEmpty } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -33,28 +33,7 @@ interface UploadResponse {
 /* eslint-enable camelcase */
 
 @layout(template)
-export default class UploadZone extends Component.extend({
-    success: task(function *(this: UploadZone, _: unknown, __: unknown, file: File, response: UploadResponse) {
-        this.analytics.trackFromElement(this.element, {
-            name: 'Upload file',
-            category: 'upload',
-            action: 'link',
-        });
-        const fileId = response.data.id;
-        yield this.filesManager.addFile(fileId.replace(/^.*\//, ''));
-
-        this.uploading.removeObject(file);
-    }),
-    preUpload: task(function *(this: UploadZone, _: unknown, __: unknown, file: File) {
-        let existingFile = this.filesManager.displayedItems.findBy('itemName', file.name);
-        if (!existingFile) {
-            [existingFile] = yield this.filesManager.currentFolder.queryHasMany('files', {
-                'filter[name][eq]': file.name,
-            });
-        }
-        this.setProperties({ existingFile });
-    }),
-}) {
+export default class UploadZone extends Component {
     @service toast!: Toast;
     @service analytics!: Analytics;
     @service i18n!: I18N;
@@ -77,10 +56,6 @@ export default class UploadZone extends Component.extend({
     @alias('filesManager.canEdit') canEdit!: boolean;
     @notEmpty('uploading') isUploading!: boolean;
 
-    didReceiveAttrs() {
-        assert('Files::UploadZone requires @filesManager!', Boolean(this.filesManager));
-    }
-
     @computed('canEdit', 'buttonClass')
     get clickable() {
         if (!this.buttonClass) {
@@ -95,6 +70,34 @@ export default class UploadZone extends Component.extend({
         const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
         const folder = inRootFolder ? fileProvider : currentFolder;
         return folder ? folder.links.upload : undefined;
+    }
+
+    @task
+    success = task(function *(this: UploadZone, _: unknown, __: unknown, file: File, response: UploadResponse) {
+        this.analytics.trackFromElement(this.element, {
+            name: 'Upload file',
+            category: 'upload',
+            action: 'link',
+        });
+        const fileId = response.data.id;
+        yield this.filesManager.addFile(fileId.replace(/^.*\//, ''));
+
+        this.uploading.removeObject(file);
+    });
+
+    @task
+    preUpload = task(function *(this: UploadZone, _: unknown, __: unknown, file: File) {
+        let existingFile = this.filesManager.displayedItems.findBy('itemName', file.name);
+        if (!existingFile) {
+            [existingFile] = yield this.filesManager.currentFolder.queryHasMany('files', {
+                'filter[name][eq]': file.name,
+            });
+        }
+        this.setProperties({ existingFile });
+    });
+
+    didReceiveAttrs() {
+        assert('Files::UploadZone requires @filesManager!', Boolean(this.filesManager));
     }
 
     @action

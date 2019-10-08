@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import Cookies from 'ember-cookies/services/cookies';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
@@ -32,18 +32,19 @@ const {
 
 @layout(template, styles)
 @localClassNames('MaintenanceBanner')
-export default class MaintenanceBanner extends Component.extend({
-    getMaintenanceStatus: task(function *(this: MaintenanceBanner): IterableIterator<any> {
-        const url: string = `${config.OSF.apiUrl}/v2/status/`;
-        const data = yield this.currentUser.authenticatedAJAX({ url });
-        this.set('maintenance', data.maintenance);
-    }).restartable(),
-}) {
+export default class MaintenanceBanner extends Component {
     @service analytics!: Analytics;
     @service cookies!: Cookies;
     @service currentUser!: CurrentUser;
 
     maintenance?: MaintenanceData | null;
+
+    @task
+    getMaintenanceStatus = task(function *(this: MaintenanceBanner): IterableIterator<any> {
+        const url: string = `${config.OSF.apiUrl}/v2/status/`;
+        const data = yield this.currentUser.authenticatedAJAX({ url });
+        this.set('maintenance', data.maintenance);
+    }).restartable();
 
     @computed('maintenance.start')
     get start(): string | undefined {
@@ -66,9 +67,9 @@ export default class MaintenanceBanner extends Component.extend({
         return this.maintenance && this.maintenance.level ? levelMap[this.maintenance.level - 1] : undefined;
     }
 
-    didReceiveAttrs(this: MaintenanceBanner): void {
+    didReceiveAttrs(): void {
         if (!this.cookies.exists(maintenanceCookie)) {
-            this.get('getMaintenanceStatus').perform();
+            this.getMaintenanceStatus.perform();
         }
     }
 

@@ -1,7 +1,8 @@
 import { assert } from '@ember/debug';
 import { defineProperty } from '@ember/object';
 import { or, reads } from '@ember/object/computed';
-import { task, TaskInstance } from 'ember-concurrency';
+import { TaskInstance } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import OsfModel from 'ember-osf-web/models/osf-model';
@@ -22,6 +23,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
     usePlaceholders: boolean = defaultTo(this.usePlaceholders, true);
 
     // Private properties
+    @task
     loadItemsTask = task(function *(this: PaginatedHasMany, { reloading }: LoadItemsOptions) {
         const model = yield this.get('getModelTask').perform();
         if (this.usePlaceholders) {
@@ -47,6 +49,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
         });
     });
 
+    @task
     getModelTask = task(function *(this: PaginatedHasMany) {
         let model = this.modelInstance;
         if (!model && this.modelTaskInstance) {
@@ -58,6 +61,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
         return model;
     });
 
+    @task
     loadRelatedCountTask = task(function *(this: PaginatedHasMany, reloading: boolean) {
         const model = yield this.get('getModelTask').perform();
         if (reloading || typeof this.totalCount === 'undefined') {

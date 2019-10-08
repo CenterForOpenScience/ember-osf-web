@@ -3,7 +3,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and, not, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -31,40 +32,7 @@ export interface LicenseManager {
 
 @tagName('')
 @layout(template)
-export default class LicenseManagerComponent extends Component.extend({
-    queryLicenses: task(function *(this: LicenseManagerComponent, name?: string) {
-        if (this.licensesAcceptable && this.licensesAcceptable.length) {
-            if (name) {
-                yield timeout(500);
-            }
-
-            const licensesAcceptable = this.licensesAcceptable
-                .filter(license => license.get('name').includes(name || ''));
-
-            this.setProperties({ licensesAcceptable });
-            return licensesAcceptable;
-        }
-        return undefined;
-    }).on('didReceiveAttrs').restartable(),
-    getAllProviderLicenses: task(function *(this: LicenseManagerComponent) {
-        const provider = yield this.node.provider;
-
-        if (!provider) {
-            return;
-        }
-
-        const providerLicenses: QueryHasManyResult<License> = yield provider
-            .queryHasMany('licensesAcceptable', {
-                page: { size: 20 },
-            });
-
-        this.setProperties({
-            licensesAcceptable: providerLicenses,
-            currentLicense: yield this.node.license,
-            currentNodeLicense: { ...this.node.nodeLicense },
-        });
-    }).on('init'),
-}) {
+export default class LicenseManagerComponent extends Component {
     // required
     node!: Registration;
 
@@ -94,6 +62,42 @@ export default class LicenseManagerComponent extends Component.extend({
     get shouldShowField() {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
+
+    @task
+    queryLicenses = task(function *(this: LicenseManagerComponent, name?: string) {
+        if (this.licensesAcceptable && this.licensesAcceptable.length) {
+            if (name) {
+                yield timeout(500);
+            }
+
+            const licensesAcceptable = this.licensesAcceptable
+                .filter(license => license.get('name').includes(name || ''));
+
+            this.setProperties({ licensesAcceptable });
+            return licensesAcceptable;
+        }
+        return undefined;
+    }).on('didReceiveAttrs').restartable();
+
+    @task
+    getAllProviderLicenses = task(function *(this: LicenseManagerComponent) {
+        const provider = yield this.node.provider;
+
+        if (!provider) {
+            return;
+        }
+
+        const providerLicenses: QueryHasManyResult<License> = yield provider
+            .queryHasMany('licensesAcceptable', {
+                page: { size: 20 },
+            });
+
+        this.setProperties({
+            licensesAcceptable: providerLicenses,
+            currentLicense: yield this.node.license,
+            currentNodeLicense: { ...this.node.nodeLicense },
+        });
+    }).on('init');
 
     @action
     startEditing() {

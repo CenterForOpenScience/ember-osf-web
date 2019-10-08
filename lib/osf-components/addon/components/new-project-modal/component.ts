@@ -3,7 +3,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
@@ -25,38 +26,74 @@ const {
 } = config;
 
 @layout(template, styles)
-export default class NewProjectModal extends Component.extend({
-    initTask: task(function *(this: NewProjectModal) {
+export default class NewProjectModal extends Component {
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
+    @service features!: Features;
+
+    // Required arguments
+    @requiredAction afterProjectCreated!: (newNode: Node) => void;
+
+    // Optional arguments
+    isPublic?: boolean;
+
+    // Private fields
+    nodeTitle?: string;
+    description?: string;
+    more: boolean = false;
+    templateFrom?: Node;
+    selectedRegion?: Region;
+    institutions: Institution[] = [];
+    regions: Region[] = [];
+
+    @alias('currentUser.user') user!: User;
+
+    @reads('institutions') selectedInstitutions!: Institution[];
+
+    @computed()
+    get storageI18nEnabled() {
+        return this.features.isEnabled(storageI18n);
+    }
+
+    @task
+    initTask = task(function *(this: NewProjectModal) {
         if (this.storageI18nEnabled) {
             // not yielding so it runs in parallel
             this.get('getStorageRegionsTask').perform();
         }
         this.set('institutions', yield this.currentUser.user!.institutions);
-    }).on('init'),
+    }).on('init');
 
-    getStorageRegionsTask: task(function *(this: NewProjectModal) {
+    @task
+    getStorageRegionsTask = task(function *(this: NewProjectModal) {
         const regions = yield this.store.findAll('region');
 
         this.setProperties({
             regions: regions.toArray(),
             selectedRegion: this.currentUser.user!.defaultRegion,
         });
-    }),
-    loadDefaultRegionTask: task(function *(this: NewProjectModal) {
+    });
+
+    @task
+    loadDefaultRegionTask = task(function *(this: NewProjectModal) {
         const { user } = this.currentUser;
         if (!user) {
             return;
         }
 
         yield user.belongsTo('defaultRegion').reload();
-    }),
-    searchUserNodesTask: task(function *(this: NewProjectModal, title: string) {
+    });
+
+    @task
+    searchUserNodesTask = task(function *(this: NewProjectModal, title: string) {
         yield timeout(500);
         const user: User = yield this.user;
         return yield user.queryHasMany('nodes', { filter: { title } });
-    }).restartable(),
+    }).restartable();
 
-    createNodeTask: task(function *(
+    @task
+    createNodeTask = task(function *(
         this: NewProjectModal,
         title: string,
         description: string,
@@ -87,37 +124,7 @@ export default class NewProjectModal extends Component.extend({
         yield node.save();
 
         this.afterProjectCreated(node);
-    }).drop(),
-
-}) {
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
-    @service features!: Features;
-
-    // Required arguments
-    @requiredAction afterProjectCreated!: (newNode: Node) => void;
-
-    // Optional arguments
-    isPublic?: boolean;
-
-    // Private fields
-    nodeTitle?: string;
-    description?: string;
-    more: boolean = false;
-    templateFrom?: Node;
-    selectedRegion?: Region;
-    institutions: Institution[] = [];
-    regions: Region[] = [];
-
-    @alias('currentUser.user') user!: User;
-
-    @reads('institutions') selectedInstitutions!: Institution[];
-
-    @computed()
-    get storageI18nEnabled() {
-        return this.features.isEnabled(storageI18n);
-    }
+    }).drop();
 
     @action
     selectInstitution(institution: Institution) {

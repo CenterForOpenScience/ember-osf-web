@@ -7,7 +7,7 @@ import { inject as service } from '@ember/service';
 import { typeOf } from '@ember/utils';
 import Changeset from 'ember-changeset';
 import { ChangesetDef, ValidatorFunc } from 'ember-changeset/types';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import Toast from 'ember-toastr/services/toast';
@@ -48,6 +48,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @alias('changeset.isDirty')
     isDirty!: boolean;
 
+    @task
     saveModelTask = task(function *(this: ValidatedModelForm<M>) {
         yield this.changeset.validate();
 

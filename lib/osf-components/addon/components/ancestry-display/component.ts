@@ -2,7 +2,8 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { allSettled, task } from 'ember-concurrency';
+import { allSettled } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -14,8 +15,20 @@ import template from './template';
 
 @tagName('')
 @layout(template, styles)
-export default class AncestryDisplay extends Component.extend({
-    getAncestors: task(function *(this: AncestryDisplay) {
+export default class AncestryDisplay extends Component {
+    @service i18n!: I18N;
+
+    // Required arguments
+    node!: NodeModel;
+
+    // Optional arguments
+    delimiter: string = defaultTo(this.delimiter, '/');
+    useLinks: boolean = defaultTo(this.useLinks, false);
+
+    @alias('getAncestors.lastComplete.value') ancestry?: string[];
+
+    @task
+    getAncestors = task(function *(this: AncestryDisplay) {
         if (!this.node || this.node.isRoot) {
             return [];
         }
@@ -49,16 +62,5 @@ export default class AncestryDisplay extends Component.extend({
             }
         }
         return ancestors;
-    }).on('didReceiveAttrs').restartable(),
-}) {
-    @service i18n!: I18N;
-
-    // Required arguments
-    node!: NodeModel;
-
-    // Optional arguments
-    delimiter: string = defaultTo(this.delimiter, '/');
-    useLinks: boolean = defaultTo(this.useLinks, false);
-
-    @alias('getAncestors.lastComplete.value') ancestry?: string[];
+    }).on('didReceiveAttrs').restartable();
 }
