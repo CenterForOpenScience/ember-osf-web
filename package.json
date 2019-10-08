@@ -127,7 +127,6 @@
     "ember-css-modules-sass": "^1.0.1",
     "ember-css-modules-stylelint": "^1.2.0",
     "ember-data": "~3.4.0",
-    "ember-data-factory-guy": "^3.7.0",
     "ember-decorators": "^3.0.0",
     "ember-diff-attrs": "^0.2.1",
     "ember-element-helper": "https://github.com/rwjblue/ember-element-helper#fix-engines",

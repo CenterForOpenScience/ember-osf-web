@@ -10,6 +10,7 @@ import UserModel from './user';
 
 /* eslint-disable camelcase */
 export interface Assets {
+    banner: string;
     logo: string;
     logo_rounded: string;
 }
@@ -21,6 +22,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') logoPath!: string;
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
+    @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
 
     @hasMany('institutional-user', { inverse: 'institution' })
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;

@@ -1,35 +1,29 @@
 import { render } from '@ember/test-helpers';
-import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
+import { ModelInstance } from 'ember-cli-mirage';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
+
+import User from 'ember-osf-web/models/user';
+
+interface ThisTestContext extends TestContext {
+    user: ModelInstance<User>;
+}
 
 module('Integration | Component | file-browser', hooks => {
     setupRenderingTest(hooks);
+    setupMirage(hooks);
 
-    hooks.beforeEach(function(this: TestContext) {
-        manualSetup(this);
+    hooks.beforeEach(function(this: ThisTestContext) {
+        const mirageUser = server.create('user');
+        this.user = mirageUser;
     });
 
-    test('test name\'s column width', async function(assert) {
-        this.set('user', FactoryGuy.make('user'));
-        this.set('display', ['header']);
-        await render(hbs`{{file-browser  user=user display=display}}`);
+    test('test name\'s column width', async function(this: ThisTestContext, assert) {
+        this.set('user', this.user);
+        await render(hbs`{{file-browser  user=user}}`);
         assert.dom('div[class*="column-labels-header"] > div:nth-child(1)').hasClass('col-xs-12');
-    });
-
-    skip('test name\'s column width (share-link-column)', async function(assert) {
-        this.set('user', FactoryGuy.make('user'));
-        this.set('display', ['header', 'share-link-column']);
-        await render(hbs`{{file-browser  user=user display=display}}`);
-        assert.equal(this.$('div:contains("Name")').html().split('col-xs-')[1].split(' ')[0], '11');
-    });
-
-    skip('test name\'s column width (default)', async function(assert) {
-        // Test default behavior
-        this.set('user', FactoryGuy.make('user'));
-        await render(hbs`{{file-browser user=user}}`);
-        assert.equal(this.$('div:contains("Name")').html().split('col-xs-')[1].split(' ')[0], '6');
     });
 });
