@@ -716,6 +716,17 @@ export default {
         contact_us: 'Contact us',
         title: 'Institutions',
         search_placeholder: 'Search institutions',
+        dashboard: {
+            select_default: 'All Departments',
+            users_list: {
+                name: 'Name',
+                department: 'Department',
+                projects: 'Projects',
+            },
+            users_connected_panel: 'SSO Users Connected',
+            projects_panel: 'Total Projects',
+            departments_panel: 'Departments',
+        },
     },
     registration: {
         project_alert: 'This registration is a frozen, non-editable version of <a class="link-solid" href="/{{projectId}}/">this project</a>',

@@ -1,20 +1,57 @@
 <div class='container'>
-    <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
-    <PaginatedList local-class='table' @modelName='institution'>
-        <list.header local-class='header'>
-            <div>
-                {{t 'meetings.index.meetings-list.name'}}
-            </div>
-            <div>
-                {{t 'meetings.index.meetings-list.name'}}
-            </div>
-        </list.header>
-        <list.item local-class='item'>
-            <div></div>
-            <div></div>
-        </list.item>
-        <list.empty data-tests-meetings-list-empty local-class='empty'>
-            {{t 'meetings.index.meetings-list.empty'}}
-        </list.empty>
-    </PaginatedList>
+    <div>
+        <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
+    </div>
+    <div>
+        <select>
+            <option selected>{{t 'institutions.dashboard.select_default'}}</option>
+        </select>
+    </div>
+    <div style='display: flex;'>
+        <div style='width: 75%;'>
+            <PaginatedList::All local-class='table' @modelName='institution'>
+                <list.header local-class='header'>
+                    <div>
+                        <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
+                    </div>
+                    <div>
+                        <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
+                    </div>
+                    <div>
+                        <strong>{{t 'institutions.dashboard.users_list.projects'}}</strong>
+                    </div>
+                    <div>
+                        <strong>{{t 'institutions.dashboard.users_list.projects'}}</strong>
+                    </div>
+                </list.header>
+                <list.item local-class='item'>
+                    <div>{{this.institution.name}}</div>
+                    <div>{{this.institution.name}}</div>
+                </list.item>
+                <list.empty local-class='empty'>
+                    {{t 'meetings.index.meetings-list.empty'}}
+                </list.empty>
+            </PaginatedList::All>
+        </div>
+        <div style='width: 25%;'>
+            <Panel as |panel|>
+                <panel.heading @title='SSO Users Connected' />
+                <panel.body>
+                    <p></p>
+                </panel.body>
+            </Panel>
+            <Panel as |panel|>
+                <panel.heading @title='Total Projects' />
+                <panel.body>
+                    <p></p>
+                </panel.body>
+            </Panel>
+            <Panel as |panel|>
+                <panel.heading @title='Departments' />
+                <panel.body>
+                    <p></p>
+                </panel.body>
+            </Panel>
+        </div>
+    </div>
 </div>
