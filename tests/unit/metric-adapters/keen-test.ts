@@ -1,15 +1,14 @@
 import Service from '@ember/service';
-import { make, setupFactoryGuy } from 'ember-data-factory-guy';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupTest } from 'ember-qunit';
 import sinonTest from 'ember-sinon-qunit/test-support/test';
 import { module, test } from 'qunit';
 
 import KeenAdapter from 'ember-osf-web/metrics-adapters/keen';
-import Node from 'ember-osf-web/models/node';
 
 module('Unit | Metrics Adapter | keen ', hooks => {
     setupTest(hooks);
-    setupFactoryGuy(hooks);
+    setupMirage(hooks);
 
     test('it exists', function(assert) {
         assert.ok(this.owner.lookup('metrics-adapter:keen') instanceof KeenAdapter);
@@ -17,11 +16,15 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
     sinonTest('trackPage - public node', async function(_) {
         const adapter = this.owner.lookup('metrics-adapter:keen') as KeenAdapter;
+        const store = this.owner.lookup('service:store');
 
         const trackPublic = this.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.stub(adapter, 'trackPrivateEvent');
 
-        this.stub(adapter, 'getCurrentNode').resolves(make('node', { public: true }) as Node);
+        const mirageNode = server.create('node', { public: true });
+        const node = await store.findRecord('node', mirageNode.id);
+
+        this.stub(adapter, 'getCurrentNode').resolves(node);
 
         await adapter.trackPage({ page: 'Foo', title: 'Bar' });
 
@@ -31,11 +34,15 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
     sinonTest('trackPage - private node', async function(_) {
         const adapter = this.owner.lookup('metrics-adapter:keen') as KeenAdapter;
+        const store = this.owner.lookup('service:store');
 
         const trackPublic = this.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.stub(adapter, 'trackPrivateEvent');
 
-        this.stub(adapter, 'getCurrentNode').resolves(make('node', { public: false }) as Node);
+        const mirageNode = server.create('node', { public: false });
+        const node = await store.findRecord('node', mirageNode.id);
+
+        this.stub(adapter, 'getCurrentNode').resolves(node);
 
         await adapter.trackPage({ page: 'Foo', title: 'Bar' });
 

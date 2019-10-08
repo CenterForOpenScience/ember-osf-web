@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Serializers
         - `institutional-user`
 - Routes
-    - `institution` 
+    - `institution`
         - added `dashboard` nested route
 
 ### Changed
@@ -21,9 +21,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `institution`
             - added `withInstitutionalUsers` trait
 - Routes
-    - `institution` 
+    - `institution`
         - moved to `index` folder
-            
+
+### Removed
+- Tests
+    - unit, component tests using `FactoryGuy`
+    - `FactoryGuy` factories
+- Packages
+    - `ember-data-factory-guy`
+- Types
+    - `FactoryGuy` types
+
 ## [19.10.0] - 2019-10-02
 ### Added
 - Models
@@ -252,7 +261,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - improved update acceptance tests to perform assertions in addition to taking snapshots
             - improved discover acceptance tests to perform assertions in addition to taking snapshots
 - Tests
-    - added `ember-basic-dropdown-wormhole` div to test index.html 
+    - added `ember-basic-dropdown-wormhole` div to test index.html
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource
