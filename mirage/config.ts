@@ -103,6 +103,10 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'children');
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
     this.post('/registrations/:id/forks', forkRegistration);
+    osfResource(this, 'draft-registration', {
+        only: ['index', 'show'],
+        path: '/draft_registrations',
+    });
 
     osfNestedResource(this, 'registration', 'contributors', { defaultSortKey: 'index' });
     osfNestedResource(this, 'registration', 'bibliographicContributors', {

@@ -5,6 +5,7 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { task, TaskInstance, timeout } from 'ember-concurrency';
 
+
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
@@ -27,6 +28,7 @@ export interface DraftRegistrationManager {
     schemaBlocks: SchemaBlock[];
     lastPage: number;
     initializing: boolean;
+
 
     onInput(): void;
     submitDraftRegistration(): void;
@@ -54,6 +56,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
             schemaBlocks,
             lastPage: pages.length - 1,
             registrationResponses: registrationResponses || {},
+
         });
 
         const pageManagers = pages.map(
