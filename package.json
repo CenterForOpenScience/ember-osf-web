@@ -167,7 +167,7 @@
     "ember-sinon": "^4.0.0",
     "ember-sinon-qunit": "^3.1.0",
     "ember-sortable": "^1.11.2",
-    "ember-source": "^3.13.2",
+    "ember-source": "^3.13.3",
     "ember-tag-input": "^1.2.2",
     "ember-template-compiler": "^1.9.0-alpha",
     "ember-toastr": "^1.7.2",
