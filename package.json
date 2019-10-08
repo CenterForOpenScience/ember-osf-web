@@ -133,7 +133,7 @@
     "ember-decorators": "^6.1.1",
     "ember-diff-attrs": "^0.2.1",
     "ember-element-helper": "^0.2.0",
-    "ember-engines": "https://github.com/cos-forks/ember-engines#v0.5.20+cos1",
+    "ember-engines": "^0.8.2",
     "ember-event-helpers": "^0.1.0",
     "ember-export-application-global": "^2.0.0",
     "ember-faker": "^1.2.1",
