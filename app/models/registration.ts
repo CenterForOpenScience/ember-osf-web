@@ -3,6 +3,7 @@ import { computed } from '@ember-decorators/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
+import { ResponseValue } from 'ember-osf-web/packages/registration-schema';
 import CommentModel from './comment';
 import ContributorModel from './contributor';
 import InstitutionModel from './institution';
@@ -10,6 +11,8 @@ import NodeModel from './node';
 import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import UserModel from './user';
+
+export type RegistrationResponses = Record<string, ResponseValue>;
 
 export enum RegistrationState {
     Embargoed = 'Embargoed',
@@ -52,6 +55,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') registrationSupplement?: string;
     @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
+    @attr('object') registrationResponses!: RegistrationResponses;
 
     // Write-only attributes
     @attr('fixstring') draftRegistration?: string;

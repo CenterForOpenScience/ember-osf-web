@@ -5,6 +5,8 @@ import { GUID_ALPHABET } from 'ember-osf-web/const/guid-alphabet';
 import Guid from 'ember-osf-web/models/guid';
 import { Answer, Question, RegistrationMetadata, Subquestion } from 'ember-osf-web/models/registration-schema';
 
+import { RegistrationResponses } from 'ember-osf-web/models/registration';
+import { getSchemaBlockGroups, SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 import { MirageRegistrationSchema } from './registration-schema';
 
 export function guid(referentType: string) {
@@ -78,6 +80,31 @@ function fakeAnswer(question: Question | Subquestion, answerIfRequired: boolean)
     return answer;
 }
 
+function fakeFileReference() {
+    const range = faker.random.number({ min: 1, max: 10 });
+    return Array.from({ length: range }, () => ({ id: faker.random.uuid(), name: faker.system.fileName() }));
+}
+
+function fakeContributorList() {
+    const range = faker.random.number({ min: 1, max: 10 });
+    return Array.from({ length: range }, () => faker.name.findName());
+}
+
+function fakeMultiSelectInputResponse(group: SchemaBlockGroup) {
+    let optionValues = group.optionBlocks!.map(item => item.displayText);
+    const range = faker.random.number({ min: 1, max: optionValues.length });
+    return Array.from({ length: range }, () => {
+        const randomValue = faker.random.arrayElement(optionValues);
+        optionValues = optionValues.filter(item => item !== randomValue);
+        return randomValue!;
+    });
+}
+
+function fakeSingleSelectInputResponse(group: SchemaBlockGroup) {
+    const optionValues = group.optionBlocks!.map(item => item.displayText);
+    return faker.random.arrayElement(optionValues)!;
+}
+
 /**
  * Create registration metadata with a random number of questions answered.
  *
@@ -113,4 +140,40 @@ export function createRegistrationMetadata(
             }));
     }
     return registrationMetadata;
+}
+
+/**
+ * Create registrationResponse according to schemaBlocks
+ */
+export function createRegistrationResponses(
+    registrationSchema: ModelInstance<MirageRegistrationSchema>,
+) {
+    const schemaBlocks = registrationSchema.schemaBlocks!;
+    const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
+    const registrationResponses = {} as RegistrationResponses;
+    for (const group of schemaBlockGroups) {
+        switch (group.groupType) {
+        default:
+            break;
+        case 'long-text-input':
+            registrationResponses[group.registrationResponseKey!] = faker.lorem.paragraph();
+            break;
+        case 'short-text-input':
+            registrationResponses[group.registrationResponseKey!] = faker.lorem.sentence();
+            break;
+        case 'file-input':
+            registrationResponses[group.registrationResponseKey!] = fakeFileReference();
+            break;
+        case 'contributors-input':
+            registrationResponses[group.registrationResponseKey!] = fakeContributorList();
+            break;
+        case 'single-select-input':
+            registrationResponses[group.registrationResponseKey!] = fakeSingleSelectInputResponse(group);
+            break;
+        case 'multi-select-input':
+            registrationResponses[group.registrationResponseKey!] = fakeMultiSelectInputResponse(group);
+            break;
+        }
+    }
+    return registrationResponses;
 }
