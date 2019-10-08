@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -26,48 +26,7 @@ enum AbuseCategories {
 }
 
 @layout(template, styles)
-export default class CommentCard extends Component.extend({
-    submitRetractReport: task(function *(this: CommentCard) {
-        const userReports: CommentReport[] = yield this.comment.reports;
-
-        const userReport: CommentReport | undefined = userReports.find(
-            (report: CommentReport) => (!report.isDeleted && (report.id !== null)),
-        );
-
-        if (!userReport) {
-            this.toast.error(this.i18n.t('registries.overview.comments.cannot_retract_report'));
-            return;
-        }
-
-        try {
-            this.comment.set('isAbuse', false);
-            yield userReport.destroyRecord();
-        } catch (e) {
-            this.toast.error(this.i18n.t('registries.overview.comments.retract_report.error'));
-            this.comment.rollbackAttributes();
-            userReport.rollbackAttributes();
-            throw e;
-        }
-
-        this.toast.success(this.i18n.t('registries.overview.comments.retract_report.success'));
-    }),
-    loadReplies: task(function *(this: CommentCard, more: boolean = false) {
-        if (!more) {
-            const replies = yield this.comment.replies;
-            if (!this.replies) {
-                this.set('replies', replies);
-            }
-        } else {
-            const moreReplies = yield this.comment.queryHasMany('replies', {
-                page: this.incrementProperty('page'),
-                embed: ['user'],
-            });
-
-            this.replies.pushObjects(moreReplies);
-            this.set('loadingMoreReplies', false);
-        }
-    }).restartable(),
-}) {
+export default class CommentCard extends Component {
     @service store!: DS.Store;
     @service ready!: Ready;
     @service i18n!: I18n;
@@ -93,6 +52,50 @@ export default class CommentCard extends Component.extend({
     @alias('comment.hasReport') currentUserHasReported!: boolean;
     @alias('comment.hasChildren') hasReplies!: boolean;
     @not('comment') loading!: boolean;
+
+    @task
+    submitRetractReport = task(function *(this: CommentCard) {
+        const userReports: CommentReport[] = yield this.comment.reports;
+
+        const userReport: CommentReport | undefined = userReports.find(
+            (report: CommentReport) => (!report.isDeleted && (report.id !== null)),
+        );
+
+        if (!userReport) {
+            this.toast.error(this.i18n.t('registries.overview.comments.cannot_retract_report'));
+            return;
+        }
+
+        try {
+            this.comment.set('isAbuse', false);
+            yield userReport.destroyRecord();
+        } catch (e) {
+            this.toast.error(this.i18n.t('registries.overview.comments.retract_report.error'));
+            this.comment.rollbackAttributes();
+            userReport.rollbackAttributes();
+            throw e;
+        }
+
+        this.toast.success(this.i18n.t('registries.overview.comments.retract_report.success'));
+    });
+
+    @task
+    loadReplies = task(function *(this: CommentCard, more: boolean = false) {
+        if (!more) {
+            const replies = yield this.comment.replies;
+            if (!this.replies) {
+                this.set('replies', replies);
+            }
+        } else {
+            const moreReplies = yield this.comment.queryHasMany('replies', {
+                page: this.incrementProperty('page'),
+                embed: ['user'],
+            });
+
+            this.replies.pushObjects(moreReplies);
+            this.set('loadingMoreReplies', false);
+        }
+    }).restartable();
 
     @computed('node')
     get currentUserCanComment() {

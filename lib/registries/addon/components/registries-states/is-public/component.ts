@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
@@ -14,8 +14,20 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class RegistrationIsPublic extends Component.extend({
-    submitWithdrawal: task(function *(this: RegistrationIsPublic) {
+export default class RegistrationIsPublic extends Component {
+    @service i18n!: I18N;
+    @service toast!: Toast;
+
+    registration!: Registration;
+
+    scientistName?: string;
+    scientistNameInput?: string = '';
+    withdrawalJustification?: string = '';
+    closeDropdown!: () => void;
+    showModal: boolean = defaultTo(this.showModal, false);
+
+    @task
+    submitWithdrawal = task(function *(this: RegistrationIsPublic) {
         if (!this.registration) {
             return;
         }
@@ -37,18 +49,7 @@ export default class RegistrationIsPublic extends Component.extend({
         if (this.closeDropdown) {
             this.closeDropdown();
         }
-    }).drop(),
-}) {
-    @service i18n!: I18N;
-    @service toast!: Toast;
-
-    registration!: Registration;
-
-    scientistName?: string;
-    scientistNameInput?: string = '';
-    withdrawalJustification?: string = '';
-    closeDropdown!: () => void;
-    showModal: boolean = defaultTo(this.showModal, false);
+    }).drop();
 
     didReceiveAttrs() {
         this.setProperties({

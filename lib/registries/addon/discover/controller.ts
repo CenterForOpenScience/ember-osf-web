@@ -3,7 +3,8 @@ import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import I18N from 'ember-i18n/services/i18n';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
@@ -145,40 +146,7 @@ const queryParams = {
 
 export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryParams);
 
-export default class Discover extends Controller.extend(discoverQueryParams.Mixin, {
-    getCountsAndAggs: task(function *(this: Discover) {
-        const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
-            size: 0,
-            modifiers: OrderedSet([
-                new ShareTermsAggregation('sources', 'sources'),
-            ]),
-        }));
-
-        const filterableSources: Array<{count: number, filter: SearchFilter}> = [];
-        /* eslint-disable camelcase */
-        const buckets = results.aggregations.sources.buckets as Array<{key: string, doc_count: number}>;
-        // NOTE: sourcesWhitelist is iterated over here to match it's order.
-        for (const source of config.sourcesWhitelist) {
-            const bucket = buckets.find(x => x.key === source.name);
-            if (!bucket) {
-                continue;
-            }
-
-            filterableSources.push({
-                count: bucket.doc_count,
-                filter: new ShareTermsFilter(
-                    'sources',
-                    bucket.key,
-                    source.display || source.name,
-                ),
-            });
-        }
-        /* eslint-enable camelcase */
-
-        this.set('searchable', results.total);
-        this.set('filterableSources', filterableSources);
-    }).on('init'),
-}) {
+export default class Discover extends Controller.extend(discoverQueryParams.Mixin) {
     @service i18n!: I18N;
     @service analytics!: Analytics;
     @service shareSearch!: ShareSearch;
@@ -211,6 +179,41 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return max;
     }
 
+    @task
+    getCountsAndAggs = task(function *(this: Discover) {
+        const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
+            size: 0,
+            modifiers: OrderedSet([
+                new ShareTermsAggregation('sources', 'sources'),
+            ]),
+        }));
+
+        const filterableSources: Array<{count: number, filter: SearchFilter}> = [];
+        /* eslint-disable camelcase */
+        const buckets = results.aggregations.sources.buckets as Array<{key: string, doc_count: number}>;
+        // NOTE: sourcesWhitelist is iterated over here to match it's order.
+        for (const source of config.sourcesWhitelist) {
+            const bucket = buckets.find(x => x.key === source.name);
+            if (!bucket) {
+                continue;
+            }
+
+            filterableSources.push({
+                count: bucket.doc_count,
+                filter: new ShareTermsFilter(
+                    'sources',
+                    bucket.key,
+                    source.display || source.name,
+                ),
+            });
+        }
+        /* eslint-enable camelcase */
+
+        this.set('searchable', results.total);
+        this.set('filterableSources', filterableSources);
+    }).on('init');
+
+    @task
     doSearch = task(function *(this: Discover) {
         // Unless OSF is the only source, registration_type filters must be cleared
         if (!(this.sources.length === 1 && this.sources[0]!.value === 'OSF')) {
@@ -254,12 +257,12 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         this.set('totalResults', results.total);
     }).restartable();
 
-    setup(this: Discover) {
-        this.get('doSearch').perform();
+    setup() {
+        this.doSearch.perform();
     }
 
-    queryParamsDidChange(this: Discover) {
-        this.get('doSearch').perform();
+    queryParamsDidChange() {
+        this.doSearch.perform();
     }
 
     @action
@@ -307,12 +310,12 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     }
 
     @action
-    onSearch(this: Discover, value: string) {
+    onSearch(value: string) {
         // Set page to 1 here to ensure page is always reset when updating a query
         this.setProperties({ page: 1, query: value });
         // If query or page don't actually change ember won't fire related events
         // So always kick off a doSearch task to allow forcing a "re-search"
-        this.get('doSearch').perform();
+        this.doSearch.perform();
     }
 
     @action
