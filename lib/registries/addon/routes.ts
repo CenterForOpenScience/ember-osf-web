@@ -11,11 +11,8 @@ export default buildRoutes(function() {
     });
 
     this.route('drafts', { path: '/registries/drafts' }, function() {
-        this.route('draft', { path: '/:id' }, function() {
-            this.route('metadata');
-            this.route('form');
-            this.route('review');
-        });
+        this.route('draft', { path: '/:id' });
+        this.route('draft', { path: '/:id/:page' });
     });
 
     this.route('overview', { path: '/:guid' } as any, function() {

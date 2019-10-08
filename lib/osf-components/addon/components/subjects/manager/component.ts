@@ -57,17 +57,22 @@ export default class SubjectManagerComponent extends Component.extend({
     }).on('init'),
 
     saveChanges: task(function *(this: SubjectManagerComponent) {
-        this.model.setProperties({
-            subjects: this.selectedSubjects,
-        });
+        const { selectedSubjects } = this;
 
         try {
-            yield this.model.save();
+            yield this.model.updateM2MRelationship('subjects', selectedSubjects);
         } catch (e) {
             this.toast.error(this.i18n.t('registries.registration_metadata.save_subjects_error'));
             throw e;
         }
-        yield this.initializeSubjects.perform();
+
+        const savedSubjectIds = new Set(selectedSubjects.map(s => s.id));
+        this.setProperties({
+            savedSubjectIds,
+            selectedSubjectIds: new Set(savedSubjectIds),
+        });
+        this.incrementProperty('selectedSubjectsChanges');
+        this.incrementProperty('savedSubjectsChanges');
     }).drop(),
 }) {
     // required
@@ -169,7 +174,7 @@ export default class SubjectManagerComponent extends Component.extend({
 
         if (this.subjectHasSelectedChildren(subject)) {
             this.selectedSubjects
-                .filterBy('parent', subject)
+                .filter(s => s.belongsTo('parent').id() === subject.id)
                 .forEach(s => this.unselectSubject(s));
         }
     }

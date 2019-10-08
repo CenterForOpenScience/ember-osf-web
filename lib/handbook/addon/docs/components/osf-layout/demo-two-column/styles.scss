@@ -1,0 +1,32 @@
+@mixin common {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.heading {
+    @include common;
+
+    background: #afd275;
+    padding: 30px;
+}
+
+.left {
+    @include common;
+
+    background: #7e685a;
+    padding: 30px;
+}
+
+.main {
+    @include common;
+
+    background: #c2cad0;
+}
+
+.bg-class {
+    background: #fff;
+}

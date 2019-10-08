@@ -1,0 +1,17 @@
+<DocsDemo as |demo|>
+    <demo.example @name='osf-layout.demo-two-column.hbs'>
+        <OsfLayout @backgroundClass={{local-class 'bg-class'}} as |layout|>
+            <layout.heading local-class='heading'>
+                Heading
+            </layout.heading>
+            <layout.left local-class='left'>
+                Left column
+            </layout.left>
+            <layout.main local-class='main'>
+                Main
+            </layout.main>
+        </OsfLayout>
+    </demo.example>
+
+    <demo.snippet @name='osf-layout.demo-two-column.hbs' />
+</DocsDemo>

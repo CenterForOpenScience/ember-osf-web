@@ -3,26 +3,24 @@
     @removeSubject={{@subjectsManager.unselectSubject}}
 />
 
-<div local-class='browser-menu'>
-    <OsfButton
-        data-test-browse-mode
-        @type={{unless this.searchMode 'primary'}}
-        @onClick={{action (mut this.searchMode) false}}
+<BsTab
+    local-class='Tabs'
+    as |tab|
+>
+    <tab.pane
+        @title= {{t 'osf-components.subjects.browse.browse_all'}}
     >
-        {{t 'osf-components.subjects.browse.browse_all'}}
-    </OsfButton>
-
-    <OsfButton
-        data-test-search-mode
-        @type={{if this.searchMode 'primary'}}
-        @onClick={{action (mut this.searchMode) true}}
+        <Subjects::Browse
+            data-analytics-scope='Browse'
+            @subjectsManager={{@subjectsManager}}
+        />
+    </tab.pane>
+    <tab.pane
+        @title={{t 'osf-components.subjects.search.search_all'}}
     >
-        {{t 'osf-components.subjects.search.search_all'}}
-    </OsfButton>
-</div>
-
-{{#if this.searchMode}}
-    <Subjects::Search @subjectsManager={{@subjectsManager}} />
-{{else}}
-    <Subjects::Browse @subjectsManager={{@subjectsManager}} />
-{{/if}}
+        <Subjects::Search
+            data-analytics-scope='Search'
+            @subjectsManager={{@subjectsManager}}
+        />
+    </tab.pane>
+</BsTab>

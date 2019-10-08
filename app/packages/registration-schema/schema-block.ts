@@ -14,6 +14,7 @@ export type SchemaBlockType =
     'select-other-option';
 
 export interface SchemaBlock {
+    id?: string;
     blockType?: SchemaBlockType;
     schemaBlockGroupKey?: string;
     registrationResponseKey?: string;

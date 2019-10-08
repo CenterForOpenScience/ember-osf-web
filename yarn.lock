@@ -6321,7 +6321,7 @@ ember-auto-import@^1.2.15:
     walk-sync "^0.3.3"
     webpack "~4.28"
 
-ember-auto-import@^1.2.19, ember-auto-import@^1.2.21:
+ember-auto-import@^1.2.19:
   version "1.2.21"
   resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-1.2.21.tgz#e02ded183844faba66c3f2af97028ef35175b837"
   integrity sha512-coHnqO3mRnlj/JAQSQBEqzX2wL8rH5YrfEJMzk1102X9MdSX1CWeaUYBcyjvI/pG8fHUhv+4VsD6rQuhTUyZUQ==
@@ -7521,18 +7521,6 @@ ember-css-modules@^1.0.3:
     postcss "^6.0.19"
     semver "^5.5.0"
     toposort "^1.0.6"
-
-ember-data-factory-guy@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/ember-data-factory-guy/-/ember-data-factory-guy-3.7.0.tgz#8681c77e5eb9ea995adf20dfde9bf6f5d7884962"
-  integrity sha512-WLINNYt8lk4UFYhcDiwFlsDkQlO5s9Gk2pp/goweLU3yRfIElGi8wKbpPoFTiiNFihxDPDOSm4D8FfKlRfD4nw==
-  dependencies:
-    broccoli-funnel "^2.0.1"
-    broccoli-merge-trees "^3.0.1"
-    ember-auto-import "^1.2.21"
-    ember-cli-babel "^7.4.0"
-    pretender "2.1.1"
-    whatwg-fetch "^3.0.0"
 
 ember-data@^2.18.0:
   version "2.18.2"

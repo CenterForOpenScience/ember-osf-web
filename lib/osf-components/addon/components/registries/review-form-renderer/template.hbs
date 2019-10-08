@@ -1,0 +1,11 @@
+{{#each this.schemaBlockGroups as |group|}}
+    <Registries::SchemaBlockGroupRenderer
+        @schemaBlockGroup={{group}}
+        @renderStrategy={{
+            component
+            'registries/schema-block-renderer/read-only/mapper'
+            registrationResponses=@registrationResponses
+            node=@node
+        }}
+    />
+{{/each}}

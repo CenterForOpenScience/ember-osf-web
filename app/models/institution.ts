@@ -2,6 +2,7 @@ import { attr, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import DS from 'ember-data';
 
+import InstitutionalUserModel from './institutional-user';
 import NodeModel from './node';
 import OsfModel from './osf-model';
 import RegistrationModel from './registration';
@@ -9,6 +10,7 @@ import UserModel from './user';
 
 /* eslint-disable camelcase */
 export interface Assets {
+    banner: string;
     logo: string;
     logo_rounded: string;
 }
@@ -20,7 +22,12 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') logoPath!: string;
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
+    @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
 
+    @hasMany('institutional-user', { inverse: 'institution' })
+    institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
+
+    // TODO Might want to replace calls to `users` with `institutionalUsers.user`?
     @hasMany('user', { inverse: 'institutions' })
     users!: DS.PromiseManyArray<UserModel>;
 

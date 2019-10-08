@@ -1,10 +1,14 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Institution from 'ember-osf-web/models/institution';
 
-import { randomGravatar } from '../utils';
+import { placekitten, randomGravatar } from '../utils';
 
-export default Factory.extend<Institution>({
+export interface InstitutionTraits {
+    withInstitutionalUsers: Trait;
+}
+
+export default Factory.extend<Institution & InstitutionTraits>({
     name() {
         return faker.company.companyName();
     },
@@ -13,9 +17,16 @@ export default Factory.extend<Institution>({
     },
     assets() {
         return {
+            banner: placekitten(512, 128),
             logo: randomGravatar(100),
         };
     },
+    withInstitutionalUsers: trait<Institution>({
+        afterCreate(institution, server) {
+            server.createList('institutional-user', 5, { institution });
+        },
+    }),
+    currentUserIsAdmin: true,
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
