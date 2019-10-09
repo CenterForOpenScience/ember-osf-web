@@ -34,7 +34,11 @@ export default abstract class BaseDataComponent extends Component {
     page: number = 1;
 
     // Will be performed with an options hash of type LoadItemsOptions
-    abstract loadItemsTask: ComputedProperty<Task<void>>;
+    //
+    // We must initialize this to itself because of task decorators (otherwise
+    // it ends up being undefined in child classes), but then we have to
+    // @ts-ignore because TS doesn't let us initialize abstract properties
+    abstract loadItemsTask: ComputedProperty<Task<void>> = this.loadItemsTask;
 
     @task({ restartable: true })
     loadItemsWrapperTask = task(function *(
