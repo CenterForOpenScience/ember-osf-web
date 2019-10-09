@@ -722,6 +722,8 @@ export default {
                 name: 'Name',
                 department: 'Department',
                 projects: 'Projects',
+                public_projects: 'Public Projects',
+                private_projects: 'Private Projects',
             },
             users_connected_panel: 'SSO Users Connected',
             projects_panel: 'Total Projects',

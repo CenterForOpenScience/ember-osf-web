@@ -17,13 +17,13 @@ export default Factory.extend<Institution & InstitutionTraits>({
     },
     assets() {
         return {
-            banner: placekitten(512, 128),
+            banner: placekitten(512, 80),
             logo: randomGravatar(100),
         };
     },
     withInstitutionalUsers: trait<Institution>({
         afterCreate(institution, server) {
-            server.createList('institutional-user', 5, { institution });
+            server.createList('institutional-user', 15, { institution });
         },
     }),
     currentUserIsAdmin: true,

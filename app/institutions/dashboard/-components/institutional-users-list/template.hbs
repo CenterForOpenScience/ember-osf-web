@@ -1,0 +1,64 @@
+<div local-class='select'>
+    <select onchange={{action this.onSelectChange value='target.value'}}>
+        <option selected>{{t 'institutions.dashboard.select_default'}}</option>
+        {{#each this.departments as |department|}}
+            <option value='{{department}}'>{{department}}</option>
+        {{/each}}
+    </select>
+</div>
+
+<ContentPlaceholders as |placeholder|>
+    <PaginatedList::HasMany
+            local-class='table'
+            @modelTaskInstance={{this.model.taskInstance}}
+            @relationshipName='institutionalUsers'
+            @query={{this.query}} as |list|
+    >
+        <list.header local-class='header'>
+            {{#let (component 'sort-button'
+                class=(local-class 'sort-button')
+                sortAction=(action this.sortInstitutionalUsers)
+                sort=this.sort
+            ) as |SortButton|}}
+                <div>
+                    <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
+                    <SortButton @sortBy='name' />
+                </div>
+                <div>
+                    <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
+                    <SortButton @sortBy='department' />
+                </div>
+                <div>
+                    <img src='/assets/images/institutions/open-lock.svg'
+                         alt={{t 'institutions.dashboard.users_list.public_projects'}}
+                    >
+                </div>
+                <div>
+                    <img src='/assets/images/institutions/closed-lock.svg'
+                         alt={{t 'institutions.dashboard.users_list.private_projects'}}
+                    >
+                </div>
+            {{/let}}
+        </list.header>
+        <list.item local-class='row' as |institutionalUser|>
+            {{#if institutionalUser}}
+                <div>
+                    <a href={{institutionalUser.user.links.html}}>
+                        {{institutionalUser.userFullName}}
+                    </a>
+                </div>
+                <div>{{institutionalUser.department}}</div>
+                <div>{{institutionalUser.publicProjectCount}}</div>
+                <div>{{institutionalUser.privateProjectCount}}</div>
+            {{else}}
+                <div>{{placeholder.text lines=1}}</div>
+                <div>{{placeholder.text lines=1}}</div>
+                <div>{{placeholder.text lines=1}}</div>
+                <div>{{placeholder.text lines=1}}</div>
+            {{/if}}
+        </list.item>
+        <list.empty local-class='empty'>
+            {{t 'meetings.index.meetings-list.empty'}}
+        </list.empty>
+    </PaginatedList::HasMany>
+</ContentPlaceholders>

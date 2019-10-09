@@ -1,39 +1,15 @@
+<section local-class='institutional-user-dashboard'>
+
+</section>
 <div class='container'>
-    <div>
+    <div local-class='banner'>
         <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
     </div>
-    <div>
-        <select>
-            <option selected>{{t 'institutions.dashboard.select_default'}}</option>
-        </select>
-    </div>
     <div style='display: flex;'>
-        <div style='width: 75%;'>
-            <PaginatedList::All local-class='table' @modelName='institution'>
-                <list.header local-class='header'>
-                    <div>
-                        <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
-                    </div>
-                    <div>
-                        <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
-                    </div>
-                    <div>
-                        <strong>{{t 'institutions.dashboard.users_list.projects'}}</strong>
-                    </div>
-                    <div>
-                        <strong>{{t 'institutions.dashboard.users_list.projects'}}</strong>
-                    </div>
-                </list.header>
-                <list.item local-class='item'>
-                    <div>{{this.institution.name}}</div>
-                    <div>{{this.institution.name}}</div>
-                </list.item>
-                <list.empty local-class='empty'>
-                    {{t 'meetings.index.meetings-list.empty'}}
-                </list.empty>
-            </PaginatedList::All>
+        <div style='width: 75%; padding-right: 15px;'>
+            <Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />
         </div>
-        <div style='width: 25%;'>
+        <div style='width: 25%; padding-top: 25px; padding-left: 15px;'>
             <Panel as |panel|>
                 <panel.heading @title='SSO Users Connected' />
                 <panel.body>

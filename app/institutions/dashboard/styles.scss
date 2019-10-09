@@ -1,9 +1,10 @@
-.table {
-    border-radius: 2px;
+.institutional-user-dashboard {
+    .panel {
+        border-radius: 2px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 }
 
-.header > div {
-    width: 25%;
-    background: #365063;
-    color: #fff;
+.banner {
+    padding: 15px 0;
 }

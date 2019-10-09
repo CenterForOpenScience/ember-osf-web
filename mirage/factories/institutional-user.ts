@@ -9,13 +9,14 @@ export default Factory.extend<InstitutionalUser>({
         return `${faker.name.firstName()} ${faker.name.lastName()}`;
     },
     department() {
-        return faker.name.jobTitle();
+        const departments = ['Architecture', 'Biology', 'Psychology'];
+        return departments[Math.floor(Math.random() * departments.length)];
     },
     publicProjectCount() {
-        return faker.random.number();
+        return faker.random.number({ min: 0, max: 99 });
     },
     privateProjectCount() {
-        return faker.random.number();
+        return faker.random.number({ min: 0, max: 99 });
     },
 });
 
