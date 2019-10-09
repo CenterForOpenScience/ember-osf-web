@@ -8617,13 +8617,12 @@ ember-page-title@^5.0.1:
     ember-cli-htmlbars "^3.0.1"
     ember-copy "^1.0.0"
 
-"ember-parachute@https://github.com/cos-forks/ember-parachute#v0.3.7+cos3":
-  version "0.3.7"
-  resolved "https://github.com/cos-forks/ember-parachute#71ebb10c8f626514d5b0de1f340fb911483ac2f3"
+ember-parachute@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ember-parachute/-/ember-parachute-1.0.2.tgz#f147f6b29df100d467acc1ddf13761aef92e95de"
+  integrity sha512-wpTn179au/BE2+p4z9mQRh2Cy/a5J038oPpY2Buja3gDO/Qh64ny3klr4dxMRQ5GePniglkWK/LW3qitcs902A==
   dependencies:
-    ember-assign-polyfill "^2.0.1"
-    ember-cli-babel "^6.0.0"
-    ember-getowner-polyfill "^2.0.1"
+    ember-cli-babel "^7.1.2"
 
 ember-percy@^1.5.0:
   version "1.6.0"

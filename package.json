@@ -156,7 +156,7 @@
     "ember-onbeforeunload": "^1.2.0",
     "ember-oo-modifiers": "^0.3.0",
     "ember-page-title": "^5.0.1",
-    "ember-parachute": "https://github.com/cos-forks/ember-parachute#v0.3.7+cos3",
+    "ember-parachute": "^1.0.2",
     "ember-percy": "^1.5.0",
     "ember-power-select": "^2.0.0",
     "ember-promise-helpers": "^1.0.4",
