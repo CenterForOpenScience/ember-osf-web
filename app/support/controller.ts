@@ -8,8 +8,8 @@ export default class Support extends Controller {
 
     helpUrl: string = config.OSF.helpUrl;
 
-    constructor() {
-        super();
+    constructor(...args: any[]) {
+        super(...args);
         Object.assign(this, config.support);
     }
 }

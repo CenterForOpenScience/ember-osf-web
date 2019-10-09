@@ -25,8 +25,8 @@ export default class StatusMessages extends Service {
     messages?: StatusMessage[];
     nextMessages: StatusMessage[];
 
-    constructor() {
-        super();
+    constructor(...args: any[]) {
+        super(...args);
         this.nextMessages = this.getCookieMessages();
     }
 

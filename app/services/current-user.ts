@@ -76,8 +76,8 @@ export default class CurrentUserService extends Service {
         return null;
     }
 
-    constructor() {
-        super();
+    constructor(...args: any[]) {
+        super(...args);
         this.session.on('invalidationSucceeded', this, this.logout);
     }
 
