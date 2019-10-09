@@ -6,7 +6,7 @@ import { assert } from '@ember/debug';
 import { layout } from 'ember-osf-web/decorators/component';
 import {
     getSchemaBlockGroups,
-    PageResponse,
+    RegistrationResponse,
     SchemaBlock,
     SchemaBlockGroup,
 } from 'ember-osf-web/packages/registration-schema';
@@ -17,7 +17,7 @@ import template from './template';
 export default class ReviewFormRenderer extends Component {
     // Required parameters
     schemaBlocks!: SchemaBlock[];
-    registrationResponses!: PageResponse;
+    registrationResponses!: RegistrationResponse;
 
     didReceiveAttrs() {
         assert(

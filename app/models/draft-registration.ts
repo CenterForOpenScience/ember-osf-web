@@ -1,7 +1,7 @@
 import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 
-import { PageResponse } from 'ember-osf-web/packages/registration-schema';
+import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
 import NodeModel from './node';
 import OsfModel from './osf-model';
@@ -11,7 +11,7 @@ import UserModel from './user';
 export default class DraftRegistrationModel extends OsfModel {
     @attr('fixstring') registrationSupplement!: string;
     @attr('object') registrationMetadata!: RegistrationMetadata;
-    @attr('object') registrationResponses!: PageResponse;
+    @attr('object') registrationResponses!: RegistrationResponse;
     @attr('date') datetimeInitiated!: Date;
     @attr('date') datetimeUpdated!: Date;
 

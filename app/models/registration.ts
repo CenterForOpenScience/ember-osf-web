@@ -4,7 +4,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
-import { PageResponse } from 'ember-osf-web/packages/registration-schema';
+import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
 import CommentModel from './comment';
 import ContributorModel from './contributor';
@@ -55,7 +55,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') registrationSupplement?: string;
     @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
-    @attr('object') registrationResponses!: PageResponse;
+    @attr('object') registrationResponses!: RegistrationResponse;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];

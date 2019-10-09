@@ -94,7 +94,7 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'draft-registration', {
-        only: ['index', 'show'],
+        only: ['index', 'show', 'update'],
         path: '/draft_registrations',
     });
 

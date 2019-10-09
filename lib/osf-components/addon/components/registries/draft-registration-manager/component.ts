@@ -3,7 +3,6 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { ChangesetDef } from 'ember-changeset/types';
 import { task, TaskInstance, timeout } from 'ember-concurrency';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -11,7 +10,7 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
-import { getPages, PageManager, PageResponse } from 'ember-osf-web/packages/registration-schema';
+import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
 import template from './template';
 
@@ -20,6 +19,10 @@ export interface DraftRegistrationManager {
     currentPageManager: PageManager;
     pageManagers: PageManager[];
     currentPage: number;
+    draftId: string;
+    nextPageParam: string;
+    prevPageParam: string;
+    autoSaving: boolean;
 
     onInput(): void;
     submitDraftRegistration(): void;
@@ -41,13 +44,13 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
 
         this.setProperties({
             lastPage: pages.length,
-            registrationResponses,
+            registrationResponses: registrationResponses || {},
         });
 
         const pageManagers = pages.map(
             pageSchemaBlocks => new PageManager(
                 pageSchemaBlocks,
-                this.registrationResponses,
+                this.registrationResponses || {},
             ),
         );
 
@@ -62,20 +65,26 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         yield timeout(500); // debounce
 
         if (this.currentPageManager && this.currentPageManager.schemaBlockGroups) {
-            const changeset = this.currentPageManager.changeSet! as ChangesetDef;
-            this.currentPageManager.schemaBlockGroups.forEach(({ registrationResponseKey }) => {
-                Object.assign(
-                    this.registrationResponses,
-                    { registrationResponseKey: changeset.get(registrationResponseKey!) },
-                );
-            });
-
+            const { changeset } = this.currentPageManager;
             const { registrationResponses } = this;
-            this.draftRegistration.setProperties({ registrationResponses });
+
+            this.currentPageManager.schemaBlockGroups
+                .mapBy('registrationResponseKey')
+                .filter(Boolean)
+                .forEach(registrationResponseKey => {
+                    Object.assign(
+                        registrationResponses,
+                        { [registrationResponseKey]: changeset.get(registrationResponseKey) },
+                    );
+                });
+
+            this.draftRegistration.setProperties({
+                registrationResponses,
+            });
 
             yield this.draftRegistration.save();
         }
-    }),
+    }).restartable(),
 
     submitDraftRegistration: task(function *(this: DraftRegistrationManagerComponent) {
         yield this.draftRegistration.save();
@@ -91,11 +100,11 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     draftRegistration!: DraftRegistration;
     currentPage!: number;
     lastPage!: number;
-    registrationResponses: PageResponse = {};
+    registrationResponses!: RegistrationResponse;
 
     pageManagers: PageManager[] = [];
 
-    @alias('onInput') autoSaving!: boolean;
+    @alias('onInput.isRunning') autoSaving!: boolean;
 
     @computed('currentPage', 'pageManagers.[]')
     get nextPageParam() {
@@ -125,7 +134,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     }
 
     @computed('pageManagers.{[],@each.pageIsValid}')
-    get isValid() {
-        return this.pageManagers.every(pageManager => Boolean(pageManager.pageIsValid));
+    get registrationResponsesIsValid() {
+        return this.pageManagers.every(pageManager => pageManager.pageIsValid);
     }
 }
