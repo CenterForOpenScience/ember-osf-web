@@ -1,4 +1,10 @@
+.select {
+    margin-bottom: 15px;
+}
+
 .table {
+    margin-bottom: 15px;
+
     ul {
         display: table;
         table-layout: fixed;
@@ -42,6 +48,7 @@
 
     & > div {
         padding: 15px;
+        text-transform: uppercase;
 
         &:nth-child(3),
         &:nth-child(4) {

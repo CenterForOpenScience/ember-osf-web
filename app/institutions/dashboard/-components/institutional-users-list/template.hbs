@@ -1,6 +1,6 @@
 <div local-class='select'>
     <select onchange={{action this.onSelectChange value='target.value'}}>
-        <option selected>{{t 'institutions.dashboard.select_default'}}</option>
+        <option value='' selected>{{t 'institutions.dashboard.select_default'}}</option>
         {{#each this.departments as |department|}}
             <option value='{{department}}'>{{department}}</option>
         {{/each}}
@@ -43,7 +43,7 @@
         <list.item local-class='row' as |institutionalUser|>
             {{#if institutionalUser}}
                 <div>
-                    <a href={{institutionalUser.user.links.html}}>
+                    <a href='#'>
                         {{institutionalUser.userFullName}}
                     </a>
                 </div>

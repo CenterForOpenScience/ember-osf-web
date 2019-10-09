@@ -1,19 +1,18 @@
 import { action, computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import InstitutionModel from 'ember-osf-web/models/institution';
 
 export default class InstitutionalUsersList extends Component {
-    model!: InstitutionModel;
+    @alias('model.taskInstance.value') institution!: InstitutionModel;
 
     // Private properties
     department?: string;
     sort = '-name';
 
-    @computed('modelInstance')
+    @computed('institution')
     get departments() {
-        // const departments = this.get('model').get('institutionalUsers').map(x => x.department);
-        // return new Set(departments);
-        return ['Biology', 'World'];
+        return this.institution ? this.institution.statSummary.departments.map((x: any) => x.name) : [];
     }
 
     @computed('department', 'sort')
