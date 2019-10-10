@@ -50,3 +50,27 @@
     justify-content: center;
     align-items: center;
 }
+
+.Valid {
+    color: rgb(69, 132, 70);
+}
+
+.Invalid {
+    color: rgb(191, 77, 77);
+}
+
+.Unvisited {
+    color: rgb(221, 221, 221);
+
+    &:hover span {
+        color: #fff;
+    }
+}
+
+.Active {
+    color: #000;
+}
+
+.UnvisitedDark {
+    color: rgb(122, 122, 122);
+}
