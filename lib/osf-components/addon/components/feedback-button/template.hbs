@@ -1,4 +1,4 @@
-<BsModal 
+<BsModal
     data-test-feedback-modal
     local-class='Modal'
     @open={{this.isOpen}}
@@ -24,7 +24,7 @@
             {{#if this.currentUser.currentUserId}}
                 <div class='checkbox'>
                     <label>
-                        {{input type='checkbox' checked=this.followup}}
+                        <Input @type='checkbox' @checked={{this.followup}} />
                         {{t 'feedback.follow_up_label'}}
                     </label>
                 </div>

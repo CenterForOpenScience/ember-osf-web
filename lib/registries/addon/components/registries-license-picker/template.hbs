@@ -42,12 +42,12 @@
                     <div class='form-group'>
                         <label>
                             {{t (concat 'app_components.license_picker.fields.' key)}}
-                            {{input
-                                (html-attributes data-test-required-field=key)
-                                class='form-control'
-                                value=(mut (get @manager.registration.nodeLicense key))
-                                placeholder=(t 'general.required')
-                            }}
+                            <Input
+                                data-test-required-field={{key}}
+                                @class='form-control'
+                                @value={{mut (get @manager.registration.nodeLicense key)}}
+                                @placeholder={{t 'general.required'}}
+                            />
                         </label>
                     </div>
                 {{/each}}

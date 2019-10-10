@@ -6,11 +6,11 @@
     <span>
         <FaIcon @icon={{this.icon}} @fixedWidth={{true}} />
     </span>
-    {{input
-        (html-attributes aria-label=@ariaLabel)
-        type='text'
-        enter=(action '_enter')
-        class=(local-class 'Input')
-        value=(mut this.value)
-    }}
+    <Input
+        aria-label={{@ariaLabel}}
+        @type='text'
+        @enter={{action '_enter'}}
+        @class={{local-class 'Input'}}
+        @value={{mut this.value}}
+    />
 </span>

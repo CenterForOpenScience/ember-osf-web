@@ -4,12 +4,12 @@
         {{#each providers as |provider index|}}
             <li>
                 <label>
-                    {{input
-                        (html-attributes data-test-source-filter-id=index)
-                        type='checkbox'
-                        change=(action 'providerChecked' provider.filter provider.checked)
-                        checked=provider.checked
-                    }}
+                    <Input
+                        data-test-source-filter-id={{index}}
+                        @type='checkbox'
+                        @change={{action 'providerChecked' provider.filter provider.checked}}
+                        @checked={{provider.checked}}
+                    />
                     {{provider.filter.display}}
                     <small>({{number-format provider.count}})</small>
                 </label>

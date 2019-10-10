@@ -34,13 +34,13 @@
             <br>
             <label for='nodeLicense-{{key}}'>{{t (concat 'app_components.license_picker.fields.' key)}}</label>
             <br>
-            {{input
-                class='form-control'
-                id=(concat 'nodeLicense-' key)
-                value=(mut (get this.node.nodeLicense key))
-                input=(action 'notify')
-                placeholder=(t 'general.required')
-            }}
+            <Input
+                @class='form-control'
+                @id={{concat 'nodeLicense-' key}}
+                @value={{mut (get this.node.nodeLicense key)}}
+                @input={{action 'notify'}}
+                @placeholder={{t 'general.required'}}
+            />
         {{/each}}
     </this.form.custom>
     <a role='button' onclick={{action (mut this.showText) (not this.showText)}}>

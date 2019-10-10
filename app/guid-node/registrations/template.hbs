@@ -177,10 +177,10 @@
                                     }}
                                 </ol>
                                 <label data-test-prereg-challenge-modal-consent-checkbox class='PreRegChallengeModal__consent'>
-                                    {{input
-                                        type='checkbox'
-                                        change=(action this.togglePreregConsent)
-                                    }}
+                                    <Input
+                                        @type='checkbox'
+                                        @change={{action this.togglePreregConsent}}
+                                    />
                                     {{t 'node.registrations.prereg_modal.consent'}}
                                 </label>
                             </div>

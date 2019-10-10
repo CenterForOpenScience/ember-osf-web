@@ -54,17 +54,15 @@
                                         />
                                     </div>
                                     <div class='col-xs-9 filter-input'>
-                                        {{input
-                                            (html-attributes
-                                                aria-label=(t 'institutions.search_placeholder')
-                                                data-test-institutions-filter='filter'
-                                            )
-                                            value=this.textValue
-                                            type='text'
-                                            class='form-control'
-                                            placeholder=(t 'institutions.search_placeholder')
-                                            keyPress=(perform this.trackFilter)
-                                        }}
+                                        <Input
+                                            data-test-institutions-filter='filter'
+                                            aria-label={{t 'institutions.search_placeholder'}}
+                                            @value={{this.textValue}}
+                                            @type='text'
+                                            @class='form-control'
+                                            @placeholder={{t 'institutions.search_placeholder'}}
+                                            @keyPress={{perform this.trackFilter}}
+                                        />
                                     </div>
                                 </div>
                                 <div data-test-institutions-list>

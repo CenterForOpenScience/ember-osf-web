@@ -33,12 +33,12 @@
             <p>{{t 'registries.overview.withdraw.random_scientist_x' x=this.scientistName}}</p>
             <div local-class='Container'>
                 <div>
-                    {{input
-                        class='form-control'
-                        required=true
-                        value=this.scientistNameInput
-                        type='text'
-                    }}
+                    <Input
+                        @class='form-control'
+                        @required={{true}}
+                        @value={{this.scientistNameInput}}
+                        @type='text'
+                    />
                 </div>
             </div>
         </div>
