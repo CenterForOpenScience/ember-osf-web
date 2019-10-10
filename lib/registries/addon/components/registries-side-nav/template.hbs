@@ -7,6 +7,8 @@
     <div local-class='Links'>
         {{yield (hash
             link=(component 'registries-side-nav/x-link'
+                route=@route
+                href=@href
                 onClick=@onLinkClicked
                 isCollapsed=this.isCollapsed
             )

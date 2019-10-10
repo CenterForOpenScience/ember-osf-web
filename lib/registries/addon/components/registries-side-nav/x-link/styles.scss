@@ -1,7 +1,3 @@
-$sidenav-link-height: 40px;
-$width-expanded: 205px;
-$width-collapsed: 80px;
-
 .Link {
     transition: background 0.25s ease-out;
     position: relative;
@@ -13,14 +9,13 @@ $width-collapsed: 80px;
     width: 100%;
     padding: 5px 10px;
     color: $primary-blue;
-    outline: 0 !important;
 
     &:global(.active) {
-        color: #000;
+        color: $black;
         box-shadow: -2px 1px 5px -2px #ddd;
-        border: #ddd 1px solid;
+        border: $alto 1px solid;
         border-right: 0;
-        background: #fff;
+        background: $white;
         width: $width-expanded + 1px;
 
         .Count {
@@ -29,16 +24,12 @@ $width-collapsed: 80px;
     }
 
     &:hover {
-        background: rgb(21, 165, 235);
-        color: #fff;
-        text-decoration: none;
+        background: $secondary-blue;
+        color: $white;
     }
 }
 
 .Collapsed {
-    max-height: 0;
-    min-height: $sidenav-link-height;
-
     &:global(.active) {
         width: $width-collapsed + 1px;
     }
@@ -48,8 +39,6 @@ $width-collapsed: 80px;
     }
 
     &:hover {
-        max-height: 500px;
-        width: max-content;
         max-width: 265px;
         height: auto;
     }

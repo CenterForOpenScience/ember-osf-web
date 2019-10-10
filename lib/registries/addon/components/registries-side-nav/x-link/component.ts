@@ -12,6 +12,7 @@ export default class XLink extends Component {
     href?: string;
     models?: any[];
     count?: number;
+    guid?: string;
     isCollapsed: boolean = defaultTo(this.isCollapsed, false);
 
     onClick?: () => void;
