@@ -20,13 +20,20 @@ export default class InstitutionalUsersList extends Component {
             departments = departments.concat(institutionDepartments);
         }
 
+        this.set('department', departments[0]);
+
         return departments;
+    }
+
+    @computed('department', 'departments')
+    get isDefaultDepartment() {
+        return this.department === this.get('departments')[0];
     }
 
     @computed('department', 'sort')
     get query() {
         const query = {} as Record<string, string>;
-        if (this.department) {
+        if (this.department && !this.get('isDefaultDepartment')) {
             query['filter[department]'] = this.department;
         }
         if (this.sort) {
@@ -36,12 +43,17 @@ export default class InstitutionalUsersList extends Component {
     }
 
     @action
-    onSelectChange(department: any) {
-        this.set('department', department.value);
+    onSelectChange(department: string) {
+        this.set('department', department);
     }
 
     @action
     sortInstitutionalUsers(sort: string) {
         this.set('sort', sort);
+    }
+
+    @action
+    getUserId(index: number) {
+        return 'abcd';
     }
 }

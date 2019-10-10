@@ -1,12 +1,11 @@
 <PowerSelect
         @options={{this.departments}}
-        @renderInPlace={{true}}
         @searchEnabled={{false}}
         @selected={{this.department}}
         @triggerClass={{local-class 'select'}}
         @onchange={{action 'onSelectChange'}} as |department|
 >
-    {{department.name}}
+    {{department}}
 </PowerSelect>
 
 <ContentPlaceholders as |placeholder|>
@@ -22,11 +21,11 @@
                 sortAction=(action this.sortInstitutionalUsers)
                 sort=this.sort
             ) as |SortButton|}}
-                <div>
+                <div data-test-institutional-users-list-header-name>
                     <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
                     <SortButton @sortBy='name' />
                 </div>
-                <div>
+                <div data-test-institutional-users-list-item-department>
                     <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
                     <SortButton @sortBy='department' />
                 </div>
@@ -44,10 +43,13 @@
         </list.header>
         <list.item local-class='row' as |institutionalUser|>
             {{#if institutionalUser}}
-                <div>
-                    <a href='#'>
+                <div data-test-institutional-users-list-item-name>
+                    <OsfLink
+                            @route='guid-user'
+                            @models={{array (get-relationship institutionalUser 'user')}}
+                    >
                         {{institutionalUser.userFullName}}
-                    </a>
+                    </OsfLink>
                 </div>
                 <div>{{institutionalUser.department}}</div>
                 <div>{{institutionalUser.publicProjectCount}}</div>

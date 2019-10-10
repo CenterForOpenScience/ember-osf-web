@@ -14,7 +14,7 @@ export default class InstitutionalUserModel extends OsfModel {
     @belongsTo('institution', { inverse: 'institutionalUsers' })
     institution!: DS.PromiseObject<InstitutionModel> & InstitutionModel;
 
-    @belongsTo('user')
+    @belongsTo('user', { async: false })
     user!: DS.PromiseObject<UserModel> & UserModel;
 }
 
