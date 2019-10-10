@@ -1,4 +1,4 @@
-<OsfButton 
+<OsfButton
     data-test-share-button
     data-analytics-scope='File share button'
     data-analytics-name='Open share popover'
@@ -18,7 +18,7 @@
             <BsTab @customTabs={{true}} as |tab|>
                 <BsNav @class='nav-justified' @type='tabs' as |nav|>
                     <nav.item data-test-share-tab @active={{bs-eq tab.activeId this.sharePaneId}}>
-                        <a 
+                        <a
                             data-test-share-pane-tab
                             role='tab'
                             {{action tab.select this.sharePaneId}}
@@ -41,8 +41,8 @@
                 </BsNav>
 
                 <div class='tab-content'>
-                    <tab.pane 
-                        @elementId={{this.sharePaneId}}
+                    <tab.pane
+                        @id={{this.sharePaneId}}
                         @title={{t 'general.share'}}
                         local-class='SharePane'
                     >
@@ -101,8 +101,8 @@
                         </div>
                     </tab.pane>
                     <tab.pane
-                        @elementId={{this.embedPaneId}}
-                        @title='Embed' 
+                        @id={{this.embedPaneId}}
+                        @title='Embed'
                         local-class='EmbedPane'
                     >
                         <br>
