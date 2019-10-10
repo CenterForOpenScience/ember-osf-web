@@ -1,6 +1,7 @@
 import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import translations from 'ember-osf-web/locales/en/translations';
 import InstitutionModel from 'ember-osf-web/models/institution';
 
 export default class InstitutionalUsersList extends Component {
@@ -12,7 +13,14 @@ export default class InstitutionalUsersList extends Component {
 
     @computed('institution')
     get departments() {
-        return this.institution ? this.institution.statSummary.departments.map((x: any) => x.name) : [];
+        let departments = [translations.institutions.dashboard.select_default];
+
+        if (this.institution) {
+            const institutionDepartments = this.institution.statSummary.departments.map((x: any) => x.name);
+            departments = departments.concat(institutionDepartments);
+        }
+
+        return departments;
     }
 
     @computed('department', 'sort')
@@ -28,8 +36,8 @@ export default class InstitutionalUsersList extends Component {
     }
 
     @action
-    onSelectChange(value: string) {
-        this.set('department', value);
+    onSelectChange(department: any) {
+        this.set('department', department.value);
     }
 
     @action

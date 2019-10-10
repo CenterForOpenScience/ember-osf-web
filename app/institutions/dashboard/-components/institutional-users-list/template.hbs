@@ -1,11 +1,13 @@
-<div local-class='select'>
-    <select onchange={{action this.onSelectChange value='target.value'}}>
-        <option value='' selected>{{t 'institutions.dashboard.select_default'}}</option>
-        {{#each this.departments as |department|}}
-            <option value='{{department}}'>{{department}}</option>
-        {{/each}}
-    </select>
-</div>
+<PowerSelect
+        @options={{this.departments}}
+        @renderInPlace={{true}}
+        @searchEnabled={{false}}
+        @selected={{this.department}}
+        @triggerClass={{local-class 'select'}}
+        @onchange={{action 'onSelectChange'}} as |department|
+>
+    {{department.name}}
+</PowerSelect>
 
 <ContentPlaceholders as |placeholder|>
     <PaginatedList::HasMany
