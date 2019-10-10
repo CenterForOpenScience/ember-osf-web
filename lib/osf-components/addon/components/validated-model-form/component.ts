@@ -77,8 +77,8 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         }
     });
 
-    constructor(...args: any[]) {
-        super(...args);
+    init() {
+        super.init();
 
         if (!this.model && this.modelName) {
             this.model = this.store.createRecord(this.modelName, this.modelProperties);

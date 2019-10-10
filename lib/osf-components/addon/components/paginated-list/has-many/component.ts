@@ -72,8 +72,8 @@ export default class PaginatedHasMany extends BaseDataComponent {
     @or('model', 'modelTaskInstance.value')
     modelInstance?: OsfModel;
 
-    constructor(...args: any[]) {
-        super(...args);
+    init() {
+        super.init();
 
         assert(
             'Must provide either `model` xor `modelTaskInstance` to {{paginated-list/has-many}}',

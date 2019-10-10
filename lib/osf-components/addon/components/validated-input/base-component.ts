@@ -91,8 +91,8 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
         }
     }
 
-    constructor(...args: any[]) {
-        super(...args);
+    init() {
+        super.init();
         if (this.changeset) {
             defineProperty(this, 'validation', oneWay(`changeset.data.validations.attrs.${this.valuePath}`));
             defineProperty(this, 'errors', oneWay(`changeset.error.${this.valuePath}.validation`));

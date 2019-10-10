@@ -35,8 +35,8 @@ export default class TagsWidget extends Component.extend({ styles }) {
     // private properties
     @service analytics!: Analytics;
 
-    constructor(properties: object) {
-        super(properties);
+    init() {
+        super.init();
         assert('tags-widget: You must pass in a taggable model', Boolean(this.taggable && 'tags' in this.taggable));
     }
 

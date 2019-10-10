@@ -21,8 +21,8 @@ export default class ValidatedRecaptcha<M extends DS.Model> extends BaseValidate
 
     gRecaptcha!: GRecaptcha;
 
-    constructor(...args: any[]) {
-        super(...args);
+    init() {
+        super.init();
         if (this.bindReset) {
             this.bindReset(this._reset.bind(this));
         }
