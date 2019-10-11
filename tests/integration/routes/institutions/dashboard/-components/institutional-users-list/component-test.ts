@@ -1,5 +1,7 @@
 import { click, render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { task } from 'ember-concurrency';
+import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-link-router-stub';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -11,11 +13,20 @@ module('Integration | routes | institutions | dashboard | -components | institut
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.register('service:router', OsfLinkRouterStub);
     });
 
     test('it renders and paginates', async function(assert) {
-        server.create('institution', { id: 'test' }, 'withInstitutionalUsers', 'withStatSummary');
-        const model = { taskInstance: this.store.findRecord('institution', 'test') };
+        server.create('institution', { id: 'testinstitution' }, 'withInstitutionalUsers', 'withStatSummary');
+
+        this.set('modelTask', task(function *(this: TestContext, institutionId: string) {
+            return yield this.get('store').findRecord('institution', institutionId);
+        }));
+
+        const model = {
+            taskInstance: this.get('modelTask').perform('testinstitution'),
+        };
+
         this.set('model', model);
         await render(hbs`<Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />`);
 

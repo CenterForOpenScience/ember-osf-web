@@ -15,10 +15,8 @@
         table-layout: fixed;
         width: 100%;
         border: 1px solid #eee;
-        border-radius: 2px;
         margin: 0;
         margin-bottom: 15px;
-        overflow: hidden;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
@@ -31,21 +29,6 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-    }
-}
-
-.sort-button {
-    display: inline;
-    padding-left: 4px;
-
-    button,
-    button:active,
-    button:focus,
-    button:focus:active,
-    button:hover {
-        padding-top: 0;
-        height: 1em;
-        margin-top: -10px;
     }
 }
 
@@ -62,6 +45,21 @@
             width: 64px;
             text-align: center;
         }
+    }
+}
+
+.sort-button {
+    display: inline;
+    padding-left: 4px;
+
+    button,
+    button:active,
+    button:focus,
+    button:focus:active,
+    button:hover {
+        padding-top: 0;
+        height: 1em;
+        margin-top: -10px;
     }
 }
 

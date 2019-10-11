@@ -1,10 +1,14 @@
-.institutional-user-dashboard {
-    .panel {
-        border-radius: 2px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-}
-
 .banner {
     padding: 15px 0;
+}
+
+.table-wrapper {
+    width: 75%;
+    padding-right: 15px;
+}
+
+.panel-wrapper {
+    width: 25%;
+    padding-top: 56px;
+    padding-left: 15px;
 }

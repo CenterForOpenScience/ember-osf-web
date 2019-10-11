@@ -5,9 +5,6 @@ import InstitutionalUser from 'ember-osf-web/models/institutional-user';
 export default Factory.extend<InstitutionalUser>({
     institution: association() as InstitutionalUser['institution'],
     user: association() as InstitutionalUser['user'],
-    userFullName() {
-        return `${faker.name.firstName()} ${faker.name.lastName()}`;
-    },
     department() {
         const departments = ['Architecture', 'Biology', 'Psychology'];
         return departments[Math.floor(Math.random() * departments.length)];
@@ -20,7 +17,11 @@ export default Factory.extend<InstitutionalUser>({
     },
     afterCreate(institutionalUser, server) {
         const user = server.create('user');
-        institutionalUser.update({ user });
+        institutionalUser.update({
+            user,
+            userFullName: user.fullName,
+            userGuid: user.id,
+        });
     },
 });
 

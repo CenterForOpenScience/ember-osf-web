@@ -8,26 +8,29 @@ export default class InstitutionalUsersList extends Component {
     @alias('model.taskInstance.value') institution!: InstitutionModel;
 
     // Private properties
+    defaultDepartment = translations.institutions.dashboard.select_default;
     department?: string;
     sort = '-userFullName';
 
     @computed('institution')
     get departments() {
-        let departments = [translations.institutions.dashboard.select_default];
+        let departments = [this.defaultDepartment];
 
         if (this.institution) {
             const institutionDepartments = this.institution.statSummary.departments.map((x: any) => x.name);
             departments = departments.concat(institutionDepartments);
         }
 
-        this.set('department', departments[0]);
+        if (!this.department) {
+            this.set('department', departments[0]);
+        }
 
         return departments;
     }
 
     @computed('department', 'departments')
     get isDefaultDepartment() {
-        return this.department === this.get('departments')[0];
+        return this.department === this.defaultDepartment;
     }
 
     @computed('department', 'sort')
